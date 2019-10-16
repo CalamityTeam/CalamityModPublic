@@ -2,9 +2,9 @@
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Patreon
+namespace CalamityMod.Projectiles
 {
     public class MadAlchemistsCocktailAlt : ModProjectile
     {
@@ -40,9 +40,9 @@ namespace CalamityMod.Projectiles.Patreon
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("CrushDepth"), 600);
-            target.AddBuff(mod.BuffType("GodSlayerInferno"), 600);
-            target.AddBuff(mod.BuffType("HolyLight"), 600);
+            target.AddBuff(ModContent.BuffType<CrushDepth>(), 600);
+            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 600);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 600);
             target.AddBuff(BuffID.Poisoned, 600);
             target.AddBuff(BuffID.OnFire, 600);
             target.AddBuff(BuffID.CursedInferno, 600);

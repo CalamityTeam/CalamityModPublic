@@ -2,7 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 
-namespace CalamityMod.Items.CalamityCustomThrowingDamage
+namespace CalamityMod.Items
 {
     public class CelestialReaper : CalamityDamageItem
     {
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.UseSound = SoundID.Item71;
             item.autoReuse = true;
             item.value = Item.buyPrice(platinum: 1); //sell price of 20 gold
-            item.shoot = mod.ProjectileType("CelestialReaperProjectile");
+            item.shoot = ModContent.ProjectileType<CelestialReaperProjectile>();
             item.shootSpeed = 20f;
             item.Calamity().rogue = true;
         }
@@ -39,7 +39,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
         {
             Vector2 velocity = new Vector2(speedX, speedY);
             float strikeValue = player.Calamity().StealthStrikeAvailable().ToInt(); //0 if false, 1 if true
-            int p = Projectile.NewProjectile(position, velocity, mod.ProjectileType("CelestialReaperProjectile"), damage, knockBack, player.whoAmI, strikeValue);
+            int p = Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<CelestialReaperProjectile>(), damage, knockBack, player.whoAmI, strikeValue);
             if (player.Calamity().StealthStrikeAvailable())
                 Main.projectile[p].Calamity().stealthStrike = true;
             return false;

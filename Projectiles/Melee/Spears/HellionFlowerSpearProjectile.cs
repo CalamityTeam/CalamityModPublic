@@ -2,9 +2,9 @@
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Melee.Spears
+namespace CalamityMod.Projectiles
 {
     public class HellionFlowerSpearProjectile : ModProjectile
     {
@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
                 if (projectile.localAI[0] == 0f && Main.myPlayer == projectile.owner)
                 {
                     projectile.localAI[0] = 1f;
-                    Projectile.NewProjectile(projectile.Center.X + projectile.velocity.X, projectile.Center.Y + projectile.velocity.Y, projectile.velocity.X * 2.4f, projectile.velocity.Y * 2.4f, mod.ProjectileType("HellionSpike"), (int)((double)projectile.damage * 0.8), projectile.knockBack * 0.85f, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center.X + projectile.velocity.X, projectile.Center.Y + projectile.velocity.Y, projectile.velocity.X * 2.4f, projectile.velocity.Y * 2.4f, ModContent.ProjectileType<HellionSpike>(), (int)((double)projectile.damage * 0.8), projectile.knockBack * 0.85f, projectile.owner, 0f, 0f);
                 }
             }
             else

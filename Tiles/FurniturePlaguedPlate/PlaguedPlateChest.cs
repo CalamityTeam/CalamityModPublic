@@ -5,10 +5,10 @@ using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.ID;
 using Terraria.Localization;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 using Terraria.ObjectData;
 
-namespace CalamityMod.Tiles.FurniturePlaguedPlate
+namespace CalamityMod.Tiles
 {
     public class PlaguedPlateChest : ModTile
     {
@@ -38,7 +38,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Containers };
             chest = "Plagued Plate Chest";
-            chestDrop = mod.ItemType("PlaguedPlateChest");
+            chestDrop = ModContent.ItemType<PlaguedPlateChest>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -186,7 +186,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
                 player.showItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : "Plagued Plate Chest";
                 if (player.showItemIconText == "Plagued Plate Chest")
                 {
-                    player.showItemIcon2 = mod.ItemType("PlaguedPlateChest");
+                    player.showItemIcon2 = ModContent.ItemType<PlaguedPlateChest>();
                     player.showItemIconText = "";
                 }
             }

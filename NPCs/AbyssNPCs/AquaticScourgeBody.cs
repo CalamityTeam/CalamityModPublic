@@ -4,9 +4,9 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.AbyssNPCs
+namespace CalamityMod.NPCs
 {
     public class AquaticScourgeBody : ModNPC
     {
@@ -114,7 +114,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
                 npc.HitEffect(0, 10.0);
                 npc.checkDead();
             }
-            if (!NPC.AnyNPCs(mod.NPCType("AquaticScourgeHead")))
+            if (!NPC.AnyNPCs(ModContent.NPCType<AquaticScourgeHead>()))
             {
                 npc.active = false;
             }
@@ -133,7 +133,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
                         float num942 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector104.X + (float)Main.rand.Next(-20, 21);
                         float num943 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector104.Y + (float)Main.rand.Next(-20, 21);
                         float num944 = (float)Math.Sqrt((double)(num942 * num942 + num943 * num943));
-                        int projectileType = mod.ProjectileType("SandTooth");
+                        int projectileType = ModContent.ProjectileType<SandTooth>();
                         int damage = Main.expertMode ? 25 : 30;
                         float num941 = CalamityWorld.bossRushActive ? 7.5f : 5f;
                         num944 = num941 / num944;

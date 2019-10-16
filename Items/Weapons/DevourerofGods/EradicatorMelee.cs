@@ -2,9 +2,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.DevourerofGods
+namespace CalamityMod.Items
 {
     public class EradicatorMelee : ModItem
     {
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.DevourerofGods
             item.height = 54;
             item.value = Item.buyPrice(1, 40, 0, 0);
             item.rare = 10;
-            item.shoot = mod.ProjectileType("EradicatorMeleeProjectile");
+            item.shoot = ModContent.ProjectileType<EradicatorMeleeProjectile>();
             item.shootSpeed = 12f;
             item.Calamity().postMoonLordRarity = 13;
         }

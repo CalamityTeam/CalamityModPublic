@@ -1,12 +1,12 @@
-﻿using CalamityMod.Items.Weapons;
+﻿using CalamityMod.Items;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Typeless
+namespace CalamityMod.Projectiles
 {
     public class NanoblackMain : ModProjectile
     {
@@ -143,7 +143,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         private void SpawnEnergyBlade()
         {
-            int bladeID = mod.ProjectileType("NanoblackSplit");
+            int bladeID = ModContent.ProjectileType<NanoblackSplit>();
             int bladeDamage = NanoblackReaperMelee.BaseDamage / 5;
             float bladeKB = 3f;
             float spin = (projectile.direction <= 0) ? -1f : 1f;

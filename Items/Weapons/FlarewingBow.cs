@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class FlarewingBow : ModItem
     {
@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Weapons
                 }
                 if (type == ProjectileID.WoodenArrowFriendly)
                 {
-                    int num123 = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, mod.ProjectileType("FlareBat"), (int)((double)damage * 1.5), knockBack, player.whoAmI, 0.0f, 0.0f);
+                    int num123 = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, ModContent.ProjectileType<FlareBat>(), (int)((double)damage * 1.5), knockBack, player.whoAmI, 0.0f, 0.0f);
                     Main.projectile[num123].noDropItem = true;
                 }
                 else

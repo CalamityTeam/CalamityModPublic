@@ -1,8 +1,8 @@
 ﻿using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Typeless
+namespace CalamityMod.Projectiles
 {
     public class BallisticPoisonCloud2 : ModProjectile
     {

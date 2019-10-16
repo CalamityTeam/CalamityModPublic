@@ -1,9 +1,9 @@
 ﻿using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Accessories
+namespace CalamityMod.Items
 {
     public class FeatherCrown : ModItem
     {
@@ -34,14 +34,14 @@ namespace CalamityMod.Items.Accessories
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.GoldCrown);
-            recipe.AddIngredient(mod.ItemType("AerialiteBar"), 6);
+            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 6);
             recipe.AddIngredient(ItemID.Feather, 8);
             recipe.AddTile(TileID.SkyMill);
             recipe.SetResult(this);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.PlatinumCrown);
-            recipe.AddIngredient(mod.ItemType("AerialiteBar"), 6);
+            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 6);
             recipe.AddIngredient(ItemID.Feather, 8);
             recipe.AddTile(TileID.SkyMill);
             recipe.SetResult(this);

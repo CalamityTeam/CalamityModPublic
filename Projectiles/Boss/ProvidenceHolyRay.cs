@@ -5,9 +5,9 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.Enums;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Boss
+namespace CalamityMod.Projectiles
 {
     public class ProvidenceHolyRay : ModProjectile
     {
@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.velocity = -Vector2.UnitY;
             }
 
-            if (Main.npc[(int)projectile.ai[1]].active && Main.npc[(int)projectile.ai[1]].type == mod.NPCType("Providence"))
+            if (Main.npc[(int)projectile.ai[1]].active && Main.npc[(int)projectile.ai[1]].type == ModContent.NPCType<Providence>())
             {
                 Vector2 value21 = new Vector2(27f, 59f);
                 Vector2 fireFrom = new Vector2(Main.npc[(int)projectile.ai[1]].Center.X, Main.npc[(int)projectile.ai[1]].Center.Y - 32f);
@@ -204,7 +204,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(mod.BuffType("HolyLight"), 300);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 300);
         }
     }
 }

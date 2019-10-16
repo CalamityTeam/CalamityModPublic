@@ -1,7 +1,7 @@
 using Terraria;
 using Terraria.ID;
 
-namespace CalamityMod.Items.CalamityCustomThrowingDamage
+namespace CalamityMod.Items
 {
     public class Malachite : CalamityDamageItem
     {
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.height = 58;
             item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;
-            item.shoot = mod.ProjectileType("Malachite");
+            item.shoot = ModContent.ProjectileType<Malachite>();
             item.shootSpeed = 10f;
             item.Calamity().rogue = true;
             item.Calamity().postMoonLordRarity = 17;
@@ -61,11 +61,11 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
         {
             if (player.altFunctionUse == 2)
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("MalachiteBolt"), (int)((double)damage * 1.75), knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<MalachiteBolt>(), (int)((double)damage * 1.75), knockBack, player.whoAmI, 0f, 0f);
             }
             else
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("Malachite"), damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Malachite>(), damage, knockBack, player.whoAmI, 0f, 0f);
             }
             return false;
         }

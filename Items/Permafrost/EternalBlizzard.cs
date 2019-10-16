@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Permafrost
+namespace CalamityMod.Items
 {
     public class EternalBlizzard : ModItem
     {
@@ -29,13 +29,13 @@ namespace CalamityMod.Items.Permafrost
             item.useAmmo = AmmoID.Arrow;
             item.UseSound = SoundID.Item5;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("IcicleArrow");
+            item.shoot = ModContent.ProjectileType<IcicleArrow>();
             item.shootSpeed = 11f;
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             if (type == ProjectileID.WoodenArrowFriendly)
-                type = mod.ProjectileType("IcicleArrow");
+                type = ModContent.ProjectileType<IcicleArrow>();
 
             return true;
         }

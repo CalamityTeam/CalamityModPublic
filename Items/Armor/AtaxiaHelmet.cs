@@ -1,9 +1,9 @@
 ﻿using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Armor
+namespace CalamityMod.Items
 {
     [AutoloadEquip(EquipType.Head)]
     public class AtaxiaHelmet : ModItem
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Armor
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == mod.ItemType("AtaxiaArmor") && legs.type == mod.ItemType("AtaxiaSubligar");
+            return body.type == ModContent.ItemType<AtaxiaArmor>() && legs.type == ModContent.ItemType<AtaxiaSubligar>();
         }
 
         public override void ArmorSetShadows(Player player)
@@ -46,13 +46,13 @@ namespace CalamityMod.Items.Armor
             modPlayer.chaosSpirit = true;
             if (player.whoAmI == Main.myPlayer)
             {
-                if (player.FindBuffIndex(mod.BuffType("ChaosSpirit")) == -1)
+                if (player.FindBuffIndex(ModContent.BuffType<ChaosSpirit>()) == -1)
                 {
-                    player.AddBuff(mod.BuffType("ChaosSpirit"), 3600, true);
+                    player.AddBuff(ModContent.BuffType<ChaosSpirit>(), 3600, true);
                 }
-                if (player.ownedProjectileCounts[mod.ProjectileType("ChaosSpirit")] < 1)
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<ChaosSpirit>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("ChaosSpirit"), (int)(190f * player.minionDamage), 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<ChaosSpirit>(), (int)(190f * player.minionDamage), 0f, Main.myPlayer, 0f, 0f);
                 }
             }
             player.minionDamage += 0.4f;

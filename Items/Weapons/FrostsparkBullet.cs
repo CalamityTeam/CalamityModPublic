@@ -1,7 +1,7 @@
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class FrostsparkBullet : ModItem
     {
@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Weapons
             item.knockBack = 1.25f;
             item.value = 600;
             item.rare = 3;
-            item.shoot = mod.ProjectileType("FrostsparkBullet");
+            item.shoot = ModContent.ProjectileType<FrostsparkBullet>();
             item.shootSpeed = 14f;
             item.ammo = 97;
         }

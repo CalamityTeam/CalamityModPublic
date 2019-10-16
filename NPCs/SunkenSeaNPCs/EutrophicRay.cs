@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.SunkenSeaNPCs
+namespace CalamityMod.NPCs
 {
     public class EutrophicRay : ModNPC
     {
@@ -32,7 +32,7 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
             npc.DeathSound = SoundID.NPCDeath55;
             npc.knockBackResist = 0f;
             banner = npc.type;
-            bannerItem = mod.ItemType("EutrophicRayBanner");
+            bannerItem = ModContent.ItemType<EutrophicRayBanner>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -195,7 +195,7 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
         {
             if (Main.rand.NextBool(3))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EutrophicShank"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EutrophicShank>());
             }
         }
 

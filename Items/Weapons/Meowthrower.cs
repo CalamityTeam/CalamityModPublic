@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class Meowthrower : ModItem
     {
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons
             item.value = Item.buyPrice(0, 12, 0, 0);
             item.rare = 4;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("MeowFire");
+            item.shoot = ModContent.ProjectileType<MeowFire>();
             item.shootSpeed = 5.5f;
             item.useAmmo = 23;
         }
@@ -51,10 +51,10 @@ namespace CalamityMod.Items.Weapons
                 switch (Main.rand.Next(3))
                 {
                     case 1:
-                        type = mod.ProjectileType("MeowFire");
+                        type = ModContent.ProjectileType<MeowFire>();
                         break;
                     case 2:
-                        type = mod.ProjectileType("MeowFire2");
+                        type = ModContent.ProjectileType<MeowFire2>();
                         break;
                     default:
                         break;

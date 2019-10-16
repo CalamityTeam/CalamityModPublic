@@ -1,7 +1,7 @@
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.FabsolStuff
+namespace CalamityMod.Items
 {
     public class PinkCandle : ModItem
     {
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.FabsolStuff
             item.consumable = true;
             item.value = Item.buyPrice(0, 50, 0, 0);
             item.rare = 6;
-            item.createTile = mod.TileType("PinkCandle");
+            item.createTile = ModContent.TileType<PinkCandle>();
         }
     }
 }

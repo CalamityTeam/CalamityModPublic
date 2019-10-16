@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles
@@ -37,19 +37,19 @@ namespace CalamityMod.Tiles
             Player player = Main.LocalPlayer;
             if (!player.dead && player.active)
             {
-                player.AddBuff(mod.BuffType("YellowDamageCandle"), 20);
+                player.AddBuff(ModContent.BuffType<YellowDamageCandle>(), 20);
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     for (int m = 0; m < 200; m++)
                     {
                         if (Main.npc[m].active && !Main.npc[m].friendly)
                         {
-                            Main.npc[m].buffImmune[mod.BuffType("YellowDamageCandle")] = false;
-                            if (Main.npc[m].type == mod.NPCType("CeaselessVoid") || Main.npc[m].type == mod.NPCType("EidolonWyrmHeadHuge"))
+                            Main.npc[m].buffImmune[ModContent.BuffType<YellowDamageCandle>()] = false;
+                            if (Main.npc[m].type == ModContent.NPCType<CeaselessVoid>() || Main.npc[m].type == ModContent.NPCType<EidolonWyrmHeadHuge>())
                             {
-                                Main.npc[m].buffImmune[mod.BuffType("YellowDamageCandle")] = true;
+                                Main.npc[m].buffImmune[ModContent.BuffType<YellowDamageCandle>()] = true;
                             }
-                            Main.npc[m].AddBuff(mod.BuffType("YellowDamageCandle"), 20, false);
+                            Main.npc[m].AddBuff(ModContent.BuffType<YellowDamageCandle>(), 20, false);
                         }
                     }
                 }
@@ -65,7 +65,7 @@ namespace CalamityMod.Tiles
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 16, 32, mod.ItemType("YellowCandle"));
+            Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<YellowCandle>());
         }
     }
 }

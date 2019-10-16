@@ -1,7 +1,7 @@
 ﻿using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Typeless
+namespace CalamityMod.Projectiles
 {
     public class StormBolt : ModProjectile
     {
@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Typeless
         {
             if (projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("StormMarkSummon"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<StormMarkSummon>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
             }
         }
     }

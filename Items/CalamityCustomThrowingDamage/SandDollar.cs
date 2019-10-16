@@ -1,7 +1,7 @@
 using Terraria;
 using Terraria.ID;
 
-namespace CalamityMod.Items.CalamityCustomThrowingDamage
+namespace CalamityMod.Items
 {
     public class SandDollar : CalamityDamageItem
     {
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.UseSound = SoundID.Item1;
             item.value = Item.buyPrice(0, 1, 0, 0);
             item.rare = 2;
-            item.shoot = mod.ProjectileType("SandDollarProj");
+            item.shoot = ModContent.ProjectileType<SandDollarProj>();
             item.shootSpeed = 14f;
             item.Calamity().rogue = true;
         }

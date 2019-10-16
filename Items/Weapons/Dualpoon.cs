@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class Dualpoon : ModItem
     {
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons
             item.UseSound = SoundID.Item10;
             item.autoReuse = true;
             item.shootSpeed = 20f;
-            item.shoot = mod.ProjectileType("Triploon");
+            item.shoot = ModContent.ProjectileType<Triploon>();
         }
 
         public override Vector2? HoldoutOffset()

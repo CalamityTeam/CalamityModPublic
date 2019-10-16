@@ -2,9 +2,9 @@ using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.FiniteUse
+namespace CalamityMod.Items
 {
     public class Bazooka : ModItem
     {
@@ -31,8 +31,8 @@ namespace CalamityMod.Items.Weapons.FiniteUse
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/BazookaFull");
             item.autoReuse = true;
             item.shootSpeed = 12f;
-            item.shoot = mod.ProjectileType("GrenadeRound");
-            item.useAmmo = mod.ItemType("GrenadeRounds");
+            item.shoot = ModContent.ProjectileType<GrenadeRound>();
+            item.useAmmo = ModContent.ItemType<GrenadeRounds>();
             if (CalamityPlayer.areThereAnyDamnBosses)
             {
                 item.Calamity().timesUsed = 2;

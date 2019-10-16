@@ -6,9 +6,9 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.AstrumDeus
+namespace CalamityMod.NPCs
 {
     [AutoloadBossHead]
     public class AstrumDeusHeadSpectral : ModNPC
@@ -73,7 +73,7 @@ namespace CalamityMod.NPCs.AstrumDeus
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/AstrumDeus");
             else
                 music = MusicID.Boss3;
-            bossBag = mod.ItemType("AstrumDeusBag");
+            bossBag = ModContent.ItemType<AstrumDeusBag>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -97,14 +97,14 @@ namespace CalamityMod.NPCs.AstrumDeus
         public override void AI()
         {
             CalamityGlobalNPC.astrumDeusHeadMain = npc.whoAmI;
-            colorChange = NPC.AnyNPCs(mod.NPCType("AstrumDeusHead"));
+            colorChange = NPC.AnyNPCs(ModContent.NPCType<AstrumDeusHead>());
             int astrumDeusTotalHP = 0;
             double mainDeusHPRatio = (double)npc.life / (double)npc.lifeMax;
             if (colorChange)
             {
                 for (int i = 0; i < 200; i++)
                 {
-                    if (Main.npc[i].type == mod.NPCType("AstrumDeusHead"))
+                    if (Main.npc[i].type == ModContent.NPCType<AstrumDeusHead>())
                     {
                         astrumDeusTotalHP += Main.npc[i].life;
                         if (deusHeadCount < 10)
@@ -182,11 +182,11 @@ namespace CalamityMod.NPCs.AstrumDeus
                         int lol;
                         if (num36 >= 0 && num36 < minLength)
                         {
-                            lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("AstrumDeusBodySpectral"), npc.whoAmI);
+                            lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<AstrumDeusBodySpectral>(), npc.whoAmI);
                         }
                         else
                         {
-                            lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("AstrumDeusTailSpectral"), npc.whoAmI);
+                            lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<AstrumDeusTailSpectral>(), npc.whoAmI);
                         }
                         if (num36 % 2 == 0)
                         {
@@ -454,11 +454,11 @@ namespace CalamityMod.NPCs.AstrumDeus
 
         public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            if (projectile.type == mod.ProjectileType("RainbowBoom") || ProjectileID.Sets.StardustDragon[projectile.type])
+            if (projectile.type == ModContent.ProjectileType<RainbowBoom>() || ProjectileID.Sets.StardustDragon[projectile.type])
             {
                 damage = (int)((double)damage * 0.1);
             }
-            else if (projectile.type == mod.ProjectileType("RainBolt") || projectile.type == mod.ProjectileType("AtlantisSpear2") || projectile.type == mod.ProjectileType("MalachiteBolt"))
+            else if (projectile.type == ModContent.ProjectileType<RainBolt>() || projectile.type == ModContent.ProjectileType<AtlantisSpear2>() || projectile.type == ModContent.ProjectileType<MalachiteBolt>())
             {
                 damage = (int)((double)damage * 0.2);
             }
@@ -466,19 +466,19 @@ namespace CalamityMod.NPCs.AstrumDeus
             {
                 damage = (int)((double)damage * 0.3);
             }
-            else if (projectile.type == mod.ProjectileType("SpikecragSpike"))
+            else if (projectile.type == ModContent.ProjectileType<SpikecragSpike>())
             {
                 damage = (int)((double)damage * 0.5);
             }
 
             if (projectile.penetrate == -1 && !projectile.minion)
             {
-                if (projectile.type == mod.ProjectileType("CosmicFire") || projectile.type == mod.ProjectileType("BigNuke"))
+                if (projectile.type == ModContent.ProjectileType<CosmicFire>() || projectile.type == ModContent.ProjectileType<BigNuke>())
                     damage = (int)((double)damage * 0.3);
                 else
                     damage = (int)((double)damage * 0.2);
             }
-            else if (projectile.penetrate > 1 && projectile.type != mod.ProjectileType("BrinySpout"))
+            else if (projectile.penetrate > 1 && projectile.type != ModContent.ProjectileType<BrinySpout>())
             {
                 damage /= projectile.penetrate;
             }
@@ -506,10 +506,10 @@ namespace CalamityMod.NPCs.AstrumDeus
                 }
                 for (int num623 = 0; num623 < 10; num623++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, mod.DustType("AstralOrange"), 0f, 0f, 100, default, 3f);
+                    int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 3f);
                     Main.dust[num624].noGravity = true;
                     Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, mod.DustType("AstralOrange"), 0f, 0f, 100, default, 2f);
+                    num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 2f);
                     Main.dust[num624].velocity *= 2f;
                 }
             }
@@ -517,15 +517,15 @@ namespace CalamityMod.NPCs.AstrumDeus
 
         public override void BossLoot(ref string name, ref int potionType)
         {
-            potionType = mod.ItemType("Stardust");
+            potionType = ModContent.ItemType<Stardust>();
         }
 
         public override bool SpecialNPCLoot()
         {
             int closestSegmentID = DropHelper.FindClosestWormSegment(npc,
-                mod.NPCType("AstrumDeusHeadSpectral"),
-                mod.NPCType("AstrumDeusBodySpectral"),
-                mod.NPCType("AstrumDeusTailSpectral"));
+                ModContent.NPCType<AstrumDeusHeadSpectral>(),
+                ModContent.NPCType<AstrumDeusBodySpectral>(),
+                ModContent.NPCType<AstrumDeusTailSpectral>());
             npc.position = Main.npc[closestSegmentID].position;
             return false;
         }
@@ -535,9 +535,9 @@ namespace CalamityMod.NPCs.AstrumDeus
             DropHelper.DropBags(npc);
 
             DropHelper.DropItem(npc, ItemID.GreaterHealingPotion, 8, 14);
-            DropHelper.DropItemChance(npc, mod.ItemType("AstrumDeusTrophy"), 10);
-            DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeAstrumDeus"), !CalamityWorld.downedStarGod);
-            DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeAstralInfection"), !CalamityWorld.downedStarGod);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<AstrumDeusTrophy>(), 10);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeAstrumDeus>(), !CalamityWorld.downedStarGod);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeAstralInfection>(), !CalamityWorld.downedStarGod);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedStarGod, 4, 2, 1);
 
             // Drop a large spray of all 4 lunar fragments
@@ -551,17 +551,17 @@ namespace CalamityMod.NPCs.AstrumDeus
             // All other drops are contained in the bag, so they only drop directly on Normal
             if (!Main.expertMode)
             {
-                DropHelper.DropItemSpray(npc, mod.ItemType("Stardust"), 50, 80, 5);
+                DropHelper.DropItemSpray(npc, ModContent.ItemType<Stardust>(), 50, 80, 5);
 
                 // Weapons
-                DropHelper.DropItemChance(npc, mod.ItemType("Starfall"), 5);
-                DropHelper.DropItemChance(npc, mod.ItemType("Quasar"), DropHelper.RareVariantDropRateInt);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Starfall>(), 5);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Quasar>(), DropHelper.RareVariantDropRateInt);
 
                 // Equipment
-                DropHelper.DropItemChance(npc, mod.ItemType("HideofAstrumDeus"), DropHelper.RareVariantDropRateInt);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<HideofAstrumDeus>(), DropHelper.RareVariantDropRateInt);
 
                 // Vanity
-                DropHelper.DropItemChance(npc, mod.ItemType("AstrumDeusMask"), 7);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<AstrumDeusMask>(), 7);
             }
 
             // Notify players that Astral Ore can be mined if Deus has never been killed yet
@@ -582,7 +582,7 @@ namespace CalamityMod.NPCs.AstrumDeus
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(mod.BuffType("AstralInfectionDebuff"), 240, true);
+            player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 240, true);
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

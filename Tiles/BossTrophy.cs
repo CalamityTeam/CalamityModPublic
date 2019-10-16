@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles
@@ -28,73 +28,73 @@ namespace CalamityMod.Tiles
             switch (frameX / 54)
             {
                 case 0:
-                    item = mod.ItemType("DesertScourgeTrophy");
+                    item = ModContent.ItemType<DesertScourgeTrophy>();
                     break;
                 case 1:
-                    item = mod.ItemType("PerforatorTrophy");
+                    item = ModContent.ItemType<PerforatorTrophy>();
                     break;
                 case 2:
-                    item = mod.ItemType("SlimeGodTrophy");
+                    item = ModContent.ItemType<SlimeGodTrophy>();
                     break;
                 case 3:
-                    item = mod.ItemType("CryogenTrophy");
+                    item = ModContent.ItemType<CryogenTrophy>();
                     break;
                 case 4:
-                    item = mod.ItemType("PlaguebringerGoliathTrophy");
+                    item = ModContent.ItemType<PlaguebringerGoliathTrophy>();
                     break;
                 case 5:
-                    item = mod.ItemType("LeviathanTrophy");
+                    item = ModContent.ItemType<LeviathanTrophy>();
                     break;
                 case 6:
-                    item = mod.ItemType("ProvidenceTrophy");
+                    item = ModContent.ItemType<ProvidenceTrophy>();
                     break;
                 case 7:
-                    item = mod.ItemType("CalamitasTrophy");
+                    item = ModContent.ItemType<CalamitasTrophy>();
                     break;
                 case 8:
-                    item = mod.ItemType("HiveMindTrophy");
+                    item = ModContent.ItemType<HiveMindTrophy>();
                     break;
                 case 9:
-                    item = mod.ItemType("CrabulonTrophy");
+                    item = ModContent.ItemType<CrabulonTrophy>();
                     break;
                 case 10:
-                    item = mod.ItemType("YharonTrophy");
+                    item = ModContent.ItemType<YharonTrophy>();
                     break;
                 case 11:
-                    item = mod.ItemType("SignusTrophy");
+                    item = ModContent.ItemType<SignusTrophy>();
                     break;
                 case 12:
-                    item = mod.ItemType("WeaverTrophy");
+                    item = ModContent.ItemType<WeaverTrophy>();
                     break;
                 case 13:
-                    item = mod.ItemType("CeaselessVoidTrophy");
+                    item = ModContent.ItemType<CeaselessVoidTrophy>();
                     break;
                 case 14:
-                    item = mod.ItemType("DevourerofGodsTrophy");
+                    item = ModContent.ItemType<DevourerofGodsTrophy>();
                     break;
                 case 15:
-                    item = mod.ItemType("CatastropheTrophy");
+                    item = ModContent.ItemType<CatastropheTrophy>();
                     break;
                 case 16:
-                    item = mod.ItemType("CataclysmTrophy");
+                    item = ModContent.ItemType<CataclysmTrophy>();
                     break;
                 case 17:
-                    item = mod.ItemType("PolterghastTrophy");
+                    item = ModContent.ItemType<PolterghastTrophy>();
                     break;
                 case 18:
-                    item = mod.ItemType("BumblebirbTrophy");
+                    item = ModContent.ItemType<BumblebirbTrophy>();
                     break;
                 case 19:
-                    item = mod.ItemType("AstrageldonTrophy");
+                    item = ModContent.ItemType<AstrageldonTrophy>();
                     break;
                 case 20:
-                    item = mod.ItemType("AstrumDeusTrophy");
+                    item = ModContent.ItemType<AstrumDeusTrophy>();
                     break;
                 case 21:
-                    item = mod.ItemType("BrimstoneElementalTrophy");
+                    item = ModContent.ItemType<BrimstoneElementalTrophy>();
                     break;
                 case 22:
-                    item = mod.ItemType("RavagerTrophy");
+                    item = ModContent.ItemType<RavagerTrophy>();
                     break;
             }
             if (item > 0)

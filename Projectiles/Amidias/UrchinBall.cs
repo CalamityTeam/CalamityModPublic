@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Amidias
+namespace CalamityMod.Projectiles
 {
     public class UrchinBall : ModProjectile
     {
@@ -63,7 +63,7 @@ namespace CalamityMod.Projectiles.Amidias
                 if (spike)
                 {
                     spike = false;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y, mod.ProjectileType("UrchinBallSpike"), (int)((double)projectile.damage * 0.5), 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y, ModContent.ProjectileType<UrchinBallSpike>(), (int)((double)projectile.damage * 0.5), 0f, Main.myPlayer, 0f, 0f);
                 }
                 projectile.usesLocalNPCImmunity = false;
                 float num693 = vector62.Length();

@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Astral
+namespace CalamityMod.Projectiles
 {
     public class HeavenfallenStardisk : ModProjectile
     {
@@ -44,13 +44,13 @@ namespace CalamityMod.Projectiles.Astral
 
             for (int i = 0; i < 2; i++)
             {
-                int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, mod.DustType("AstralBlue"), 0f, 0f, 100, default, 1f);
+                int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, ModContent.DustType<AstralBlue>(), 0f, 0f, 100, default, 1f);
                 Main.dust[num469].noGravity = true;
                 Main.dust[num469].velocity *= 0f;
             }
             for (int i = 0; i < 2; i++)
             {
-                int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, mod.DustType("AstralOrange"), 0f, 0f, 100, default, 1f);
+                int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 1f);
                 Main.dust[num469].noGravity = true;
                 Main.dust[num469].velocity *= 0f;
             }
@@ -138,7 +138,7 @@ namespace CalamityMod.Projectiles.Astral
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("AstralInfectionDebuff"), 180);
+            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 180);
         }
 
         public override void Kill(int timeLeft)
@@ -146,13 +146,13 @@ namespace CalamityMod.Projectiles.Astral
             Main.PlaySound(SoundID.Item10, projectile.position);
             for (int i = 0; i < 10; i++)
             {
-                int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, mod.DustType("AstralBlue"), 0f, 0f, 100, default, 1.5f);
+                int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, ModContent.DustType<AstralBlue>(), 0f, 0f, 100, default, 1.5f);
                 Main.dust[num469].noGravity = true;
                 Main.dust[num469].velocity *= 0f;
             }
             for (int i = 0; i < 10; i++)
             {
-                int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, mod.DustType("AstralOrange"), 0f, 0f, 100, default, 1.5f);
+                int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 1.5f);
                 Main.dust[num469].noGravity = true;
                 Main.dust[num469].velocity *= 0f;
             }
@@ -169,8 +169,8 @@ namespace CalamityMod.Projectiles.Astral
                     for (i = 0; i < 4; i++)
                     {
                         offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 2f), (float)(Math.Cos(offsetAngle) * 2f), mod.ProjectileType("HeavenfallenEnergy"), (int)((double)projectile.damage * 0.4), projectile.knockBack, projectile.owner, 0f, 0f);
-                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 2f), (float)(-Math.Cos(offsetAngle) * 2f), mod.ProjectileType("HeavenfallenEnergy"), (int)((double)projectile.damage * 0.4), projectile.knockBack, projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 2f), (float)(Math.Cos(offsetAngle) * 2f), ModContent.ProjectileType<HeavenfallenEnergy>(), (int)((double)projectile.damage * 0.4), projectile.knockBack, projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 2f), (float)(-Math.Cos(offsetAngle) * 2f), ModContent.ProjectileType<HeavenfallenEnergy>(), (int)((double)projectile.damage * 0.4), projectile.knockBack, projectile.owner, 0f, 0f);
                     }
                 }
             }

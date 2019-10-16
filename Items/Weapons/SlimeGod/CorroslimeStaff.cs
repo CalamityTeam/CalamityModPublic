@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.SlimeGod
+namespace CalamityMod.Items
 {
     public class CorroslimeStaff : ModItem
     {
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.SlimeGod
             item.rare = 4;
             item.UseSound = SoundID.Item44;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("Corroslime");
+            item.shoot = ModContent.ProjectileType<Corroslime>();
             item.shootSpeed = 10f;
             item.summon = true;
         }

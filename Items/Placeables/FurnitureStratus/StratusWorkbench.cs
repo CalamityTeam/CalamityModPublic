@@ -1,6 +1,6 @@
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Placeables.FurnitureStratus
+namespace CalamityMod.Items
 {
     public class StratusWorkbench : ModItem
     {
@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Placeables.FurnitureStratus
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = mod.TileType("StratusWorkbench");
+            item.createTile = ModContent.TileType<StratusWorkbench>();
         }
 
         public override void AddRecipes()

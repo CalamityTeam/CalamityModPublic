@@ -1,9 +1,9 @@
 ﻿using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.CalamityBiomeNPCs
+namespace CalamityMod.NPCs
 {
     public class Scryllar : ModNPC
     {
@@ -37,7 +37,7 @@ namespace CalamityMod.NPCs.CalamityBiomeNPCs
                 npc.value = Item.buyPrice(0, 0, 50, 0);
             }
             banner = npc.type;
-            bannerItem = mod.ItemType("ScryllarBanner");
+            bannerItem = ModContent.ItemType<ScryllarBanner>();
         }
 
         public override void AI()
@@ -247,7 +247,7 @@ namespace CalamityMod.NPCs.CalamityBiomeNPCs
         {
             if (CalamityWorld.revenge)
             {
-                player.AddBuff(mod.BuffType("Horror"), 180, true);
+                player.AddBuff(ModContent.BuffType<Horror>(), 180, true);
             }
         }
 
@@ -260,11 +260,11 @@ namespace CalamityMod.NPCs.CalamityBiomeNPCs
         {
             if (CalamityWorld.downedProvidence && Main.rand.NextBool(2))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Bloodstone"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Bloodstone>());
             }
             if (Main.hardMode && Main.rand.NextBool(3))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EssenceofChaos"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EssenceofChaos>());
             }
         }
 

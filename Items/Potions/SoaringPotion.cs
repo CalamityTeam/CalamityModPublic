@@ -1,8 +1,8 @@
 ﻿using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Potions
+namespace CalamityMod.Items
 {
     public class SoaringPotion : ModItem
     {
@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Potions
             item.useStyle = 2;
             item.UseSound = SoundID.Item3;
             item.consumable = true;
-            item.buffType = mod.BuffType("Soaring");
+            item.buffType = ModContent.BuffType<Soaring>();
             item.buffTime = 14400;
             item.value = Item.buyPrice(0, 2, 0, 0);
         }

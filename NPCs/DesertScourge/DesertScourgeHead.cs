@@ -7,9 +7,9 @@ using Terraria;
 using Terraria.GameContent.Events;
 using Terraria.ID;
 using Terraria.Localization;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.DesertScourge
+namespace CalamityMod.NPCs
 {
     [AutoloadBossHead]
     public class DesertScourgeHead : ModNPC
@@ -51,7 +51,7 @@ namespace CalamityMod.NPCs.DesertScourge
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
             npc.netAlways = true;
-            bossBag = mod.ItemType("DesertScourgeBag");
+            bossBag = ModContent.ItemType<DesertScourgeBag>();
             Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
             if (calamityModMusic != null)
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/DesertScourge");
@@ -114,11 +114,11 @@ namespace CalamityMod.NPCs.DesertScourge
                         int lol;
                         if (num36 >= 0 && num36 < minLength)
                         {
-                            lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("DesertScourgeBody"), npc.whoAmI);
+                            lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<DesertScourgeBody>(), npc.whoAmI);
                         }
                         else
                         {
-                            lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("DesertScourgeTail"), npc.whoAmI);
+                            lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<DesertScourgeTail>(), npc.whoAmI);
                         }
                         Main.npc[lol].realLife = npc.whoAmI;
                         Main.npc[lol].ai[2] = (float)npc.whoAmI;
@@ -430,9 +430,9 @@ namespace CalamityMod.NPCs.DesertScourge
         public override bool SpecialNPCLoot()
         {
             int closestSegmentID = DropHelper.FindClosestWormSegment(npc,
-                mod.NPCType("DesertScourgeHead"),
-                mod.NPCType("DesertScourgeBody"),
-                mod.NPCType("DesertScourgeTail"));
+                ModContent.NPCType<DesertScourgeHead>(),
+                ModContent.NPCType<DesertScourgeBody>(),
+                ModContent.NPCType<DesertScourgeTail>());
             npc.position = Main.npc[closestSegmentID].position;
             return false;
         }
@@ -442,38 +442,38 @@ namespace CalamityMod.NPCs.DesertScourge
             DropHelper.DropBags(npc);
 
             DropHelper.DropItem(npc, ItemID.LesserHealingPotion, 8, 14);
-            DropHelper.DropItemChance(npc, mod.ItemType("DesertScourgeTrophy"), 10);
-            DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeDesertScourge"), true, !CalamityWorld.downedDesertScourge);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<DesertScourgeTrophy>(), 10);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeDesertScourge>(), true, !CalamityWorld.downedDesertScourge);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedDesertScourge, 2, 0, 0);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
             if (!Main.expertMode)
             {
                 // Materials
-                DropHelper.DropItem(npc, mod.ItemType("VictoryShard"), 7, 14);
+                DropHelper.DropItem(npc, ModContent.ItemType<VictoryShard>(), 7, 14);
                 DropHelper.DropItem(npc, ItemID.Coral, 5, 9);
                 DropHelper.DropItem(npc, ItemID.Seashell, 5, 9);
                 DropHelper.DropItem(npc, ItemID.Starfish, 5, 9);
 
                 // Weapons
-                DropHelper.DropItemChance(npc, mod.ItemType("AquaticDischarge"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("Barinade"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("StormSpray"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("SeaboundStaff"), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<AquaticDischarge>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Barinade>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<StormSpray>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<SeaboundStaff>(), 4);
                 float f = Main.rand.NextFloat();
                 bool replaceWithRare = f <= DropHelper.RareVariantDropRateFloat; // 1/40 chance overall of getting Dune Hopper
                 if (f < 0.25f) // 1/4 chance of getting Scourge of the Desert OR Dune Hopper replacing it
                 {
-                    DropHelper.DropItemCondition(npc, mod.ItemType("ScourgeoftheDesert"), !replaceWithRare);
-                    DropHelper.DropItemCondition(npc, mod.ItemType("DuneHopper"), replaceWithRare);
+                    DropHelper.DropItemCondition(npc, ModContent.ItemType<ScourgeoftheDesert>(), !replaceWithRare);
+                    DropHelper.DropItemCondition(npc, ModContent.ItemType<DuneHopper>(), replaceWithRare);
                 }
 
                 // Equipment
-                DropHelper.DropItemChance(npc, mod.ItemType("AeroStone"), 10);
-                DropHelper.DropItemChance(npc, mod.ItemType("DeepDiver"), DropHelper.RareVariantDropRateInt);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<AeroStone>(), 10);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<DeepDiver>(), DropHelper.RareVariantDropRateInt);
 
                 // Vanity
-                DropHelper.DropItemChance(npc, mod.ItemType("DesertScourgeMask"), 7);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<DesertScourgeMask>(), 7);
 
                 // Fishing
                 DropHelper.DropItemChance(npc, ItemID.HighTestFishingLine, 15);

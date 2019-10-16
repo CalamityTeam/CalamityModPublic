@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.Astral
+namespace CalamityMod.Items
 {
     public class AstralBlade : ModItem
     {
@@ -41,14 +41,14 @@ namespace CalamityMod.Items.Weapons.Astral
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("AstralInfectionDebuff"), 120);
+            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120);
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             for (int i = 0; i < 3; i++)
             {
-                Dust d = CalamityGlobalItem.MeleeDustHelper(player, Main.rand.NextBool(2) ? mod.DustType("AstralOrange") : mod.DustType("AstralBlue"), 0.7f, 55, 110, -0.07f, 0.07f);
+                Dust d = CalamityGlobalItem.MeleeDustHelper(player, Main.rand.NextBool(2) ? ModContent.DustType<AstralOrange>() : ModContent.DustType<AstralBlue>(), 0.7f, 55, 110, -0.07f, 0.07f);
                 if (d != null)
                 {
                     d.customData = 0.03f;

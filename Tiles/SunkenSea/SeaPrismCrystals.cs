@@ -2,9 +2,9 @@ using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Tiles.SunkenSea
+namespace CalamityMod.Tiles
 {
     public class SeaPrismCrystals : ModTile
     {
@@ -21,7 +21,7 @@ namespace CalamityMod.Tiles.SunkenSea
             soundType = 2;
             soundStyle = 27;
             dustType = 67;
-            drop = mod.ItemType("PrismShard");
+            drop = ModContent.ItemType<PrismShard>();
             Main.tileSpelunker[Type] = true;
         }
 

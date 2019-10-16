@@ -1,6 +1,6 @@
-﻿using Terraria.ModLoader;
+﻿using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Placeables
+namespace CalamityMod.Items
 {
     public class AstralGrassWall : ModItem
     {
@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Placeables
 
         public override void SetDefaults()
         {
-            item.createWall = mod.WallType("AstralGrassWall");
+            item.createWall = ModContent.WallType<AstralGrassWall>();
             item.useStyle = 1;
             item.useTurn = true;
             item.useAnimation = 15;

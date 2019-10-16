@@ -1,9 +1,9 @@
 ﻿using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Armor
+namespace CalamityMod.Items
 {
     [AutoloadEquip(EquipType.Head)]
     public class ReaverHelm : ModItem
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Armor
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == mod.ItemType("ReaverScaleMail") && legs.type == mod.ItemType("ReaverCuisses");
+            return body.type == ModContent.ItemType<ReaverScaleMail>() && legs.type == ModContent.ItemType<ReaverCuisses>();
         }
 
         public override void ArmorSetShadows(Player player)

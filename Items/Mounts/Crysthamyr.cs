@@ -2,9 +2,9 @@
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Mounts
+namespace CalamityMod.Items
 {
     class Crysthamyr : ModMountData
     {
@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Mounts
         {
             mountData.spawnDust = 173;
             mountData.spawnDustNoGravity = true;
-            mountData.buff = mod.BuffType("GazeOfCrysthamyrBuff");
+            mountData.buff = ModContent.BuffType<GazeOfCrysthamyrBuff>();
             mountData.heightBoost = 36;
             mountData.fallDamage = 0f;
             mountData.runSpeed = 5f;

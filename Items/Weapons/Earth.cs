@@ -2,9 +2,9 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class Earth : ModItem
     {
@@ -81,7 +81,7 @@ namespace CalamityMod.Items.Weapons
                 num79 *= num80;
                 float speedX4 = num78;
                 float speedY5 = num79 + (float)Main.rand.Next(-180, 181) * 0.02f;
-                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, mod.ProjectileType("Earth"), (int)((float)item.damage * player.meleeDamage), knockback, player.whoAmI, 0f, (float)Main.rand.Next(10));
+                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<Earth>(), (int)((float)item.damage * player.meleeDamage), knockback, player.whoAmI, 0f, (float)Main.rand.Next(10));
             }
             if (target.type == NPCID.TargetDummy || !target.canGhostHeal)
             {

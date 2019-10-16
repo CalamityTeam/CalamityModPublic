@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class OpalStriker : ModItem
     {
@@ -28,14 +28,14 @@ namespace CalamityMod.Items.Weapons
             item.rare = 2;
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/OpalStrike");
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("OpalStrike");
+            item.shoot = ModContent.ProjectileType<OpalStrike>();
             item.shootSpeed = 6f;
             item.useAmmo = 97;
         }
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("OpalStrike"), damage, 0f, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<OpalStrike>(), damage, 0f, player.whoAmI, 0f, 0f);
             return false;
         }
 

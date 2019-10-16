@@ -4,9 +4,9 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.AbyssNPCs
+namespace CalamityMod.NPCs
 {
     public class Mauler : ModNPC
     {
@@ -39,7 +39,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
             npc.knockBackResist = 0f;
             npc.rarity = 2;
             banner = npc.type;
-            bannerItem = mod.ItemType("MaulerBanner");
+            bannerItem = ModContent.ItemType<MaulerBanner>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -216,7 +216,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
                         {
                             damage = 45;
                         }
-                        int beam = Projectile.NewProjectile(npc.Center.X + (npc.spriteDirection == 1 ? 60f : -60f), npc.Center.Y, num6, num7, mod.ProjectileType("SulphuricAcidMist"), damage, 0f, Main.myPlayer, 0f, 0f);
+                        int beam = Projectile.NewProjectile(npc.Center.X + (npc.spriteDirection == 1 ? 60f : -60f), npc.Center.Y, num6, num7, ModContent.ProjectileType<SulphuricAcidMist>(), damage, 0f, Main.myPlayer, 0f, 0f);
                     }
                 }
                 if (npc.velocity.Y == 0f)
@@ -290,7 +290,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
                 int damageBoom = npc.localAI[1] >= 255f ? 200 : 50;
                 for (iBoom = 0; iBoom < 25; iBoom++)
                 {
-                    int projectileType = Main.rand.NextBool(2) ? mod.ProjectileType("SulphuricAcidMist") : mod.ProjectileType("SulphuricAcidCannon");
+                    int projectileType = Main.rand.NextBool(2) ? ModContent.ProjectileType<SulphuricAcidMist>() : ModContent.ProjectileType<SulphuricAcidCannon>();
                     offsetAngleBoom = startAngleBoom + deltaAngleBoom * (iBoom + iBoom * iBoom) / 2f + 32f * iBoom;
                     int boom1 = Projectile.NewProjectile(valueBoom.X, valueBoom.Y, (float)(Math.Sin(offsetAngleBoom) * 6f), (float)(Math.Cos(offsetAngleBoom) * 6f), projectileType, damageBoom, 0f, Main.myPlayer, 0f, 0f);
                     int boom2 = Projectile.NewProjectile(valueBoom.X, valueBoom.Y, (float)(-Math.Sin(offsetAngleBoom) * 6f), (float)(-Math.Cos(offsetAngleBoom) * 6f), projectileType, damageBoom, 0f, Main.myPlayer, 0f, 0f);
@@ -338,8 +338,8 @@ namespace CalamityMod.NPCs.AbyssNPCs
             player.AddBuff(BuffID.Rabies, 300, true);
             if (CalamityWorld.revenge)
             {
-                player.AddBuff(mod.BuffType("MarkedforDeath"), 180);
-                player.AddBuff(mod.BuffType("Horror"), 180, true);
+                player.AddBuff(ModContent.BuffType<MarkedforDeath>(), 180);
+                player.AddBuff(ModContent.BuffType<Horror>(), 180, true);
             }
         }
 
@@ -349,7 +349,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
             {
                 if (Main.rand.NextBool(3))
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SulphuricAcidCannon"));
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<SulphuricAcidCannon>());
                 }
             }
             int item = Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.SharkFin, Main.rand.Next(2, 5), false, 0, false, false);
@@ -363,8 +363,8 @@ namespace CalamityMod.NPCs.AbyssNPCs
             {
                 return 0f;
             }
-            if (spawnInfo.player.Calamity().ZoneSulphur && spawnInfo.water && !NPC.AnyNPCs(mod.NPCType("Mauler")) &&
-                !NPC.AnyNPCs(mod.NPCType("AquaticScourgeHead")))
+            if (spawnInfo.player.Calamity().ZoneSulphur && spawnInfo.water && !NPC.AnyNPCs(ModContent.NPCType<Mauler>()) &&
+                !NPC.AnyNPCs(ModContent.NPCType<AquaticScourgeHead>()))
             {
                 if (!Main.hardMode)
                 {

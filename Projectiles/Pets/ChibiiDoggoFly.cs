@@ -2,9 +2,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Pets
+namespace CalamityMod.Projectiles
 {
     public class ChibiiDoggoFly : ModProjectile
     {
@@ -74,11 +74,11 @@ namespace CalamityMod.Projectiles.Pets
         public override bool PreAI()
         {
             //parent projectile might spawn more than one ChibiiDoggoFly sometimes
-            if (Main.player[projectile.owner].ownedProjectileCounts[mod.ProjectileType("ChibiiDoggoFly")] > 1)
+            if (Main.player[projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<ChibiiDoggoFly>()] > 1)
             {
                 projectile.hide = true;
                 projectile.Kill();
-                Main.player[projectile.owner].ownedProjectileCounts[mod.ProjectileType("ChibiiDoggoFly")]--;
+                Main.player[projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<ChibiiDoggoFly>()]--;
                 return false;
             }
 
@@ -94,7 +94,7 @@ namespace CalamityMod.Projectiles.Pets
 
             //basically slaved to parent's position
             //this projectile only exists because i fucking hate that tile collision desync i got when using full-sized flying sprites in ChibiiDoggo
-            if (Main.projectile[byUuid].active && Main.projectile[byUuid].type == mod.ProjectileType("ChibiiDoggo"))
+            if (Main.projectile[byUuid].active && Main.projectile[byUuid].type == ModContent.ProjectileType<ChibiiDoggo>())
             {
                 //projectile.position.X = Main.projectile[byUuid].position.X - 22;
                 //projectile.position.Y = Main.projectile[byUuid].position.Y;

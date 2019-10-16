@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class SoulHarvester : ModItem
     {
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons
             item.height = 64;
             item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;
-            item.shoot = mod.ProjectileType("SoulScythe");
+            item.shoot = ModContent.ProjectileType<SoulScythe>();
             item.shootSpeed = 18f;
         }
 
@@ -54,12 +54,12 @@ namespace CalamityMod.Items.Weapons
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("Plague"), 300);
+            target.AddBuff(ModContent.BuffType<Plague>(), 300);
             target.AddBuff(BuffID.CursedInferno, 300);
             if (target.life <= (target.lifeMax * 0.15f))
             {
                 Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 14);
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("HiveBombExplosion"), (int)((float)item.damage * player.meleeDamage), knockback, Main.myPlayer);
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<HiveBombExplosion>(), (int)((float)item.damage * player.meleeDamage), knockback, Main.myPlayer);
                 for (int num621 = 0; num621 < 30; num621++)
                 {
                     int num622 = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 89, 0f, 0f, 100, default, 2f);

@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Pets
+namespace CalamityMod.Items
 {
     public class RomajedaOrchid : ModItem
     {
@@ -22,8 +22,8 @@ namespace CalamityMod.Items.Pets
             item.width = 30;
             item.height = 30;
             item.value = Item.sellPrice(1, 0, 0, 0);
-            item.shoot = mod.ProjectileType("Kendra");
-            item.buffType = mod.BuffType("Kendra");
+            item.shoot = ModContent.ProjectileType<Kendra>();
+            item.buffType = ModContent.BuffType<Kendra>();
             item.rare = 5;
             item.UseSound = SoundID.Item44;
         }

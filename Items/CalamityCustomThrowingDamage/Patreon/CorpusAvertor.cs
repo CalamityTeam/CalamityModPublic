@@ -1,7 +1,7 @@
 using Terraria;
 using Terraria.ID;
 
-namespace CalamityMod.Items.CalamityCustomThrowingDamage.Patreon
+namespace CalamityMod.Items
 {
     public class CorpusAvertor : CalamityDamageItem
     {
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage.Patreon
             item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;
             item.Calamity().postMoonLordRarity = 21;
-            item.shoot = mod.ProjectileType("CorpusAvertor");
+            item.shoot = ModContent.ProjectileType<CorpusAvertor>();
             item.shootSpeed = 5f;
             item.Calamity().rogue = true;
         }

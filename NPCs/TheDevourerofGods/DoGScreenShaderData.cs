@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.Graphics.Shaders;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.TheDevourerofGods
+namespace CalamityMod.NPCs
 {
     public class DoGScreenShaderData : ScreenShaderData
     {

@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Magic
+namespace CalamityMod.Projectiles
 {
     public class ThunderstormShot : ModProjectile
     {
@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Magic
                 num16 = (float)num15 / num16;
                 num13 *= num16;
                 num14 *= num16;
-                Projectile.NewProjectile(x, y, num13, num14, mod.ProjectileType("ThunderstormShotSplit"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(x, y, num13, num14, ModContent.ProjectileType<ThunderstormShotSplit>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
             }
             projectile.position = projectile.Center;
             projectile.width = projectile.height = 36;

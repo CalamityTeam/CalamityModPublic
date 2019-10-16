@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.Astral
+namespace CalamityMod.Items
 {
     public class StellarCannon : ModItem
     {
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Astral
             item.rare = 7;
             item.UseSound = SoundID.Item92;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("AstralCannonProjectile");
+            item.shoot = ModContent.ProjectileType<AstralCannonProjectile>();
             item.shootSpeed = 2f;
         }
 

@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
 namespace CalamityMod.Tiles
 {
@@ -22,7 +22,7 @@ namespace CalamityMod.Tiles
             soundType = 21;
             mineResist = 10f;
             minPick = 190;
-            drop = mod.ItemType("Voidstone");
+            drop = ModContent.ItemType<Voidstone>();
             AddMapEntry(new Color(10, 10, 10));
         }
         int animationFrameWidth = 288;
@@ -234,7 +234,7 @@ namespace CalamityMod.Tiles
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            CustomTileFraming.FrameTileForCustomMerge(i, j, Type, mod.TileType("AbyssGravel"), false, false, false, false, resetFrame);
+            CustomTileFraming.FrameTileForCustomMerge(i, j, Type, ModContent.TileType<AbyssGravel>(), false, false, false, false, resetFrame);
             return false;
         }
 

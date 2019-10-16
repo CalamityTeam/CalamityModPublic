@@ -1,9 +1,9 @@
 ﻿using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.DesertScourge
+namespace CalamityMod.NPCs
 {
     public class DriedSeekerHead : ModNPC
     {
@@ -47,11 +47,11 @@ namespace CalamityMod.NPCs.DesertScourge
                     int lol;
                     if (num36 >= 0 && num36 < 3)
                     {
-                        lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("DriedSeekerBody"), npc.whoAmI);
+                        lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<DriedSeekerBody>(), npc.whoAmI);
                     }
                     else
                     {
-                        lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("DriedSeekerTail"), npc.whoAmI);
+                        lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<DriedSeekerTail>(), npc.whoAmI);
                     }
                     Main.npc[lol].realLife = npc.whoAmI;
                     Main.npc[lol].ai[2] = (float)npc.whoAmI;

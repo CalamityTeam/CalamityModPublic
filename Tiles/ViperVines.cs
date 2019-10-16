@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
 namespace CalamityMod.Tiles
 {
@@ -36,7 +36,7 @@ namespace CalamityMod.Tiles
             {
                 if (Main.tile[i, j + 1].active())
                 {
-                    if (Main.tile[i, j + 1].type == mod.TileType("ViperVines"))
+                    if (Main.tile[i, j + 1].type == ModContent.TileType<ViperVines>())
                     {
                         WorldGen.KillTile(i, j + 1, false, false, false);
                         if (!Main.tile[i, j + 1].active() && Main.netMode != NetmodeID.SinglePlayer)
@@ -52,7 +52,7 @@ namespace CalamityMod.Tiles
         {
             if (Main.tile[i, j + 1] != null)
             {
-                if (!Main.tile[i, j + 1].active() && Main.tile[i, j + 1].type != (ushort)mod.TileType("ViperVines"))
+                if (!Main.tile[i, j + 1].active() && Main.tile[i, j + 1].type != (ushort)ModContent.TileType<ViperVines>())
                 {
                     if (Main.tile[i, j + 1].liquid >= 128 && !Main.tile[i, j + 1].lava())
                     {
@@ -74,7 +74,7 @@ namespace CalamityMod.Tiles
                         {
                             int num53 = i;
                             int num54 = j + 1;
-                            Main.tile[num53, num54].type = (ushort)mod.TileType("ViperVines");
+                            Main.tile[num53, num54].type = (ushort)ModContent.TileType<ViperVines>();
                             Main.tile[num53, num54].frameX = (short)(WorldGen.genRand.Next(8) * 18);
                             Main.tile[num53, num54].frameY = (short)(4 * 18);
                             Main.tile[num53, num54 - 1].frameX = (short)(WorldGen.genRand.Next(12) * 18);

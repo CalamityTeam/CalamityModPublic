@@ -1,8 +1,8 @@
 ﻿using CalamityMod.CalPlayer;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Buffs.StatBuffs
+namespace CalamityMod.Buffs
 {
     public class SirenBobsAlt : ModBuff
     {
@@ -39,7 +39,7 @@ namespace CalamityMod.Buffs.StatBuffs
                 }
                 if (Main.myPlayer == player.whoAmI && player.wet && NPC.downedBoss3)
                 {
-                    player.AddBuff(mod.BuffType("SirenWaterSpeed"), 360);
+                    player.AddBuff(ModContent.BuffType<SirenWaterSpeed>(), 360);
                 }
             }
             else

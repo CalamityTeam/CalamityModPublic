@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.HiveMind
+namespace CalamityMod.Items
 {
     public class PerfectDark : ModItem
     {
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons.HiveMind
             item.height = 50;
             item.value = Item.buyPrice(0, 4, 0, 0);
             item.rare = 3;
-            item.shoot = mod.ProjectileType("DarkBall");
+            item.shoot = ModContent.ProjectileType<DarkBall>();
             item.shootSpeed = 5f;
         }
 

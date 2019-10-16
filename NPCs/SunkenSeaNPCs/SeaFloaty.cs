@@ -1,9 +1,9 @@
 ﻿using System.IO;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.SunkenSeaNPCs
+namespace CalamityMod.NPCs
 {
     public class SeaFloaty : ModNPC
     {
@@ -30,7 +30,7 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
             banner = npc.type;
-            bannerItem = mod.ItemType("SeaFloatyBanner");
+            bannerItem = ModContent.ItemType<SeaFloatyBanner>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)

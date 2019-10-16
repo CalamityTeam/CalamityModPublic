@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class PwnagehammerMelee : ModItem
     {
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons
             item.height = 68;
             item.value = Item.buyPrice(0, 48, 0, 0);
             item.rare = 6;
-            item.shoot = mod.ProjectileType("PwnagehammerMelee");
+            item.shoot = ModContent.ProjectileType<PwnagehammerMelee>();
             item.shootSpeed = 12f;
         }
 

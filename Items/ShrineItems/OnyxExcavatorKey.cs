@@ -1,8 +1,8 @@
 ﻿using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.ShrineItems
+namespace CalamityMod.Items
 {
     class OnyxExcavatorKey : ModItem
     {
@@ -25,7 +25,7 @@ namespace CalamityMod.Items.ShrineItems
             item.value = Item.buyPrice(0, 9, 0, 0);
             item.UseSound = SoundID.Item23;
             item.noMelee = true;
-            item.mountType = mod.MountType("OnyxExcavator");
+            item.mountType = ModContent.MountType<OnyxExcavator>();
         }
     }
 }

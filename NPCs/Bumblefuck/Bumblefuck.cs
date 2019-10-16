@@ -4,9 +4,9 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.Bumblefuck
+namespace CalamityMod.NPCs
 {
     [AutoloadBossHead]
     public class Bumblefuck : ModNPC
@@ -36,15 +36,15 @@ namespace CalamityMod.NPCs.Bumblefuck
             }
             npc.buffImmune[BuffID.Ichor] = false;
             npc.buffImmune[BuffID.CursedInferno] = false;
-            npc.buffImmune[mod.BuffType("ExoFreeze")] = false;
-            npc.buffImmune[mod.BuffType("AbyssalFlames")] = false;
-            npc.buffImmune[mod.BuffType("ArmorCrunch")] = false;
-            npc.buffImmune[mod.BuffType("DemonFlames")] = false;
-            npc.buffImmune[mod.BuffType("GodSlayerInferno")] = false;
-            npc.buffImmune[mod.BuffType("Nightwither")] = false;
-            npc.buffImmune[mod.BuffType("Shred")] = false;
-            npc.buffImmune[mod.BuffType("WhisperingDeath")] = false;
-            npc.buffImmune[mod.BuffType("SilvaStun")] = false;
+            npc.buffImmune[ModContent.BuffType<ExoFreeze>()] = false;
+            npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
+            npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
+            npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
+            npc.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = false;
+            npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
+            npc.buffImmune[ModContent.BuffType<Shred>()] = false;
+            npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
+            npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
             npc.boss = true;
             Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
             if (calamityModMusic != null)
@@ -56,7 +56,7 @@ namespace CalamityMod.NPCs.Bumblefuck
             npc.value = Item.buyPrice(0, 30, 0, 0);
             npc.HitSound = SoundID.NPCHit51;
             npc.DeathSound = SoundID.NPCDeath46;
-            bossBag = mod.ItemType("BumblebirbBag");
+            bossBag = ModContent.ItemType<BumblebirbBag>();
         }
 
         public override void AI()
@@ -182,17 +182,17 @@ namespace CalamityMod.NPCs.Bumblefuck
                             if (phase2)
                             {
                                 Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 102);
-                                Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)Main.rand.Next(-2, 3), -4f, mod.ProjectileType("RedLightningFeather"), damage, 0f, Main.myPlayer, 0f, 0f);
+                                Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)Main.rand.Next(-2, 3), -4f, ModContent.ProjectileType<RedLightningFeather>(), damage, 0f, Main.myPlayer, 0f, 0f);
                             }
                         }
-                        else if (NPC.CountNPCS(mod.NPCType("Bumblefuck2")) < num1305)
+                        else if (NPC.CountNPCS(ModContent.NPCType<Bumblefuck2>()) < num1305)
                         {
                             npc.ai[0] = 4f;
                             Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 102);
                             int featherAmt = phase2 ? 3 : 6;
                             for (int num186 = 0; num186 < featherAmt; num186++)
                             {
-                                Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)Main.rand.Next(-4, 5), -3f, mod.ProjectileType("RedLightningFeather"), damage, 0f, Main.myPlayer, 0f, 0f);
+                                Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)Main.rand.Next(-4, 5), -3f, ModContent.ProjectileType<RedLightningFeather>(), damage, 0f, Main.myPlayer, 0f, 0f);
                             }
                         }
                     }
@@ -515,7 +515,7 @@ namespace CalamityMod.NPCs.Bumblefuck
 
                                 npc.ai[3] += 1f;
                                 if (npc.ai[3] == (float)num1325)
-                                    NPC.NewNPC(num1321 * 16 + 8, num1322 * 16, mod.NPCType("Bumblefuck2"), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+                                    NPC.NewNPC(num1321 * 16 + 8, num1322 * 16, ModContent.NPCType<Bumblefuck2>(), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
                                 else if (npc.ai[3] == (float)(num1325 * 2))
                                 {
                                     npc.ai[0] = 0f;
@@ -523,7 +523,7 @@ namespace CalamityMod.NPCs.Bumblefuck
                                     npc.ai[2] = 0f;
                                     npc.ai[3] = 0f;
 
-                                    if (NPC.CountNPCS(mod.NPCType("Bumblefuck2")) < num1305 && Main.rand.Next(5) != 0)
+                                    if (NPC.CountNPCS(ModContent.NPCType<Bumblefuck2>()) < num1305 && Main.rand.Next(5) != 0)
                                         npc.ai[0] = 4f;
                                     else if (Collision.SolidCollision(npc.position, npc.width, npc.height))
                                         npc.ai[0] = 1f;
@@ -589,19 +589,19 @@ namespace CalamityMod.NPCs.Bumblefuck
         {
             DropHelper.DropBags(npc);
 
-            DropHelper.DropItemChance(npc, mod.ItemType("BumblebirbTrophy"), 10);
-            DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeBumblebirb"), true, !CalamityWorld.downedBumble);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<BumblebirbTrophy>(), 10);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeBumblebirb>(), true, !CalamityWorld.downedBumble);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedBumble, 5, 2, 1);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
             if (!Main.expertMode)
             {
                 // Materials
-                DropHelper.DropItemSpray(npc, mod.ItemType("EffulgentFeather"), 6, 11);
+                DropHelper.DropItemSpray(npc, ModContent.ItemType<EffulgentFeather>(), 6, 11);
 
                 // Weapons
-                DropHelper.DropItemFromSet(npc, mod.ItemType("GildedProboscis"), mod.ItemType("GoldenEagle"), mod.ItemType("RougeSlash"));
-                DropHelper.DropItemChance(npc, mod.ItemType("Swordsplosion"), DropHelper.RareVariantDropRateInt);
+                DropHelper.DropItemFromSet(npc, ModContent.ItemType<GildedProboscis>(), ModContent.ItemType<GoldenEagle>(), ModContent.ItemType<RougeSlash>());
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Swordsplosion>(), DropHelper.RareVariantDropRateInt);
             }
 
             // Mark Bumblebirb as dead

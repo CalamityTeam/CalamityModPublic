@@ -2,9 +2,9 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Accessories.Wings
+namespace CalamityMod.Items
 {
     [AutoloadEquip(EquipType.Wings)]
     public class StarlightWings : ModItem
@@ -31,10 +31,10 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            if ((player.armor[0].type == mod.ItemType("DaedalusHat") || player.armor[0].type == mod.ItemType("DaedalusHeadgear") ||
-                player.armor[0].type == mod.ItemType("DaedalusHelm") || player.armor[0].type == mod.ItemType("DaedalusHelmet") ||
-                player.armor[0].type == mod.ItemType("DaedalusVisor")) &&
-                player.armor[1].type == mod.ItemType("DaedalusBreastplate") && player.armor[2].type == mod.ItemType("DaedalusLeggings"))
+            if ((player.armor[0].type == ModContent.ItemType<DaedalusHat>() || player.armor[0].type == ModContent.ItemType<DaedalusHeadgear>() ||
+                player.armor[0].type == ModContent.ItemType<DaedalusHelm>() || player.armor[0].type == ModContent.ItemType<DaedalusHelmet>() ||
+                player.armor[0].type == ModContent.ItemType<DaedalusVisor>()) &&
+                player.armor[1].type == ModContent.ItemType<DaedalusBreastplate>() && player.armor[2].type == ModContent.ItemType<DaedalusLeggings>())
             {
                 player.allDamage += 0.05f;
                 player.Calamity().AllCritBoost(5);

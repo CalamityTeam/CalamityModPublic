@@ -1,8 +1,8 @@
 ﻿using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Crabulon
+namespace CalamityMod.Items
 {
     public class DecapoditaSprout : ModItem
     {
@@ -26,14 +26,14 @@ namespace CalamityMod.Items.Crabulon
 
         public override bool CanUseItem(Player player)
         {
-            return player.ZoneGlowshroom && !NPC.AnyNPCs(mod.NPCType("CrabulonIdle"));
+            return player.ZoneGlowshroom && !NPC.AnyNPCs(ModContent.NPCType<CrabulonIdle>());
         }
 
         public override bool UseItem(Player player)
         {
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                NPC.NewNPC((int)(player.position.X + (float)Main.rand.Next(-50, 51)), (int)(player.position.Y - 50f), mod.NPCType("CrabulonIdle"), 0, 0f, 0f, 0f, 0f, 255);
+                NPC.NewNPC((int)(player.position.X + (float)Main.rand.Next(-50, 51)), (int)(player.position.Y - 50f), ModContent.NPCType<CrabulonIdle>(), 0, 0f, 0f, 0f, 0f, 255);
                 Main.PlaySound(SoundID.Roar, player.position, 0);
             }
             return true;

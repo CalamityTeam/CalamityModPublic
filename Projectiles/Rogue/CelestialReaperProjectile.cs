@@ -1,10 +1,10 @@
-﻿using CalamityMod.Items.CalamityCustomThrowingDamage;
+﻿using CalamityMod.Items;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Rogue
+namespace CalamityMod.Projectiles
 {
     public class CelestialReaperProjectile : ModProjectile
     {
@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Rogue
                 framesNeeded /= 6f - projectile.penetrate + 1f; //1 is to prevent division by zero. The more hits, the more afterimages
                 if (projectile.timeLeft % (int)framesNeeded == 0f)
                 {
-                    Projectile.NewProjectile(projectile.Center, projectile.velocity, mod.ProjectileType("CelestialReaperAfterimage"), CelestialReaper.BaseDamage, 2f, projectile.owner);
+                    Projectile.NewProjectile(projectile.Center, projectile.velocity, ModContent.ProjectileType<CelestialReaperAfterimage>(), CelestialReaper.BaseDamage, 2f, projectile.owner);
                 }
             }
         }
@@ -63,7 +63,7 @@ namespace CalamityMod.Projectiles.Rogue
             for (float i = 0f; i < 7f; i += 1f)
             {
                 float angle = MathHelper.TwoPi * i / 7f;
-                Projectile.NewProjectile(projectile.Center, angle.ToRotationVector2() * 12f, mod.ProjectileType("CelestialReaperAfterimage"), CelestialReaper.BaseDamage, 2f, projectile.owner);
+                Projectile.NewProjectile(projectile.Center, angle.ToRotationVector2() * 12f, ModContent.ProjectileType<CelestialReaperAfterimage>(), CelestialReaper.BaseDamage, 2f, projectile.owner);
             }
         }
     }

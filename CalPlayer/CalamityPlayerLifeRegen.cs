@@ -1,11 +1,10 @@
-﻿using CalamityMod.Buffs.DoTDebuffs;
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
 namespace CalamityMod.CalPlayer
 {
@@ -321,7 +320,7 @@ namespace CalamityMod.CalPlayer
                         }
 
                         if (player.lavaTime <= 0)
-                            player.AddBuff(mod.BuffType("LethalLavaBurn"), 2, true);
+                            player.AddBuff(ModContent.BuffType<LethalLavaBurn>(), 2, true);
                     }
                 }
 

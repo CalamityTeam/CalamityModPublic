@@ -1,7 +1,7 @@
 using Terraria;
 using Terraria.ID;
 
-namespace CalamityMod.Items.CalamityCustomThrowingDamage
+namespace CalamityMod.Items
 {
     public class FrostyFlare : CalamityDamageItem
     {
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.knockBack = 2f;
             item.value = Item.buyPrice(0, 0, 5, 0);
             item.rare = 5;
-            item.shoot = mod.ProjectileType("FrostyFlare");
+            item.shoot = ModContent.ProjectileType<FrostyFlare>();
             item.shootSpeed = 22f;
             item.maxStack = 999;
             item.consumable = true;

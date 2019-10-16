@@ -1,6 +1,6 @@
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Placeables.FurnitureEutrophic
+namespace CalamityMod.Items
 {
     public class EutrophicCandelabra : ModItem
     {
@@ -19,14 +19,14 @@ namespace CalamityMod.Items.Placeables.FurnitureEutrophic
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = mod.TileType("EutrophicCandelabra");
+            item.createTile = ModContent.TileType<EutrophicCandelabra>();
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("Navystone"), 5);
-            recipe.AddIngredient(mod.ItemType("SeaPrism"), 3);
+            recipe.AddIngredient(ModContent.ItemType<Navystone>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 3);
             recipe.SetResult(this, 1);
             recipe.AddTile(null, "EutrophicCrafting");
             recipe.AddRecipe();

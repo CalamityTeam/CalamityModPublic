@@ -1,6 +1,6 @@
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Placeables
+namespace CalamityMod.Items
 {
     public class CinderplateWall : ModItem
     {
@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Placeables
             item.useTime = 7;
             item.useStyle = 1;
             item.consumable = true;
-            item.createWall = mod.WallType("CinderplateWall");
+            item.createWall = ModContent.WallType<CinderplateWall>();
         }
 
         public override void AddRecipes()

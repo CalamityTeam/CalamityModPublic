@@ -2,9 +2,9 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Typeless
+namespace CalamityMod.Projectiles
 {
     public class LunicBeam : ModProjectile
     {
@@ -207,7 +207,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("MarkedforDeath"), 300);
+            target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 300);
         }
 
         public override void Kill(int timeLeft)

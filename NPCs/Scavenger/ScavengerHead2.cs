@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.Scavenger
+namespace CalamityMod.NPCs
 {
     public class ScavengerHead2 : ModNPC
     {
@@ -143,7 +143,7 @@ namespace CalamityMod.NPCs.Scavenger
                 playerDistanceX *= totalPlayerDistance;
                 playerDistanceY *= totalPlayerDistance;
                 int nukeDamage = Main.expertMode ? 45 : 60;
-                int projectileType = mod.ProjectileType("ScavengerNuke");
+                int projectileType = ModContent.ProjectileType<ScavengerNuke>();
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, playerDistanceX, playerDistanceY, projectileType, nukeDamage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
@@ -173,7 +173,7 @@ namespace CalamityMod.NPCs.Scavenger
                 {
                     Main.PlaySound(SoundID.Item33, npc.position);
                     int num8 = 40;
-                    int num9 = mod.ProjectileType("ScavengerLaser");
+                    int num9 = ModContent.ProjectileType<ScavengerLaser>();
                     Projectile.NewProjectile(vector.X, vector.Y, num4, num5, num9, num8 + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
                 }
             }

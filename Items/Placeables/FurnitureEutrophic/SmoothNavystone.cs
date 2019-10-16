@@ -1,8 +1,8 @@
 ﻿using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 // If you are using c# 6, you can use: "using static Terraria.Localization.GameCulture;" which would mean you could just write "DisplayName.AddTranslation(German, "");"
 
-namespace CalamityMod.Items.Placeables.FurnitureEutrophic
+namespace CalamityMod.Items
 {
     public class SmoothNavystone : ModItem
     {
@@ -21,13 +21,13 @@ namespace CalamityMod.Items.Placeables.FurnitureEutrophic
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = mod.TileType("SmoothNavystone");
+            item.createTile = ModContent.TileType<SmoothNavystone>();
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("Navystone"), 1);
+            recipe.AddIngredient(ModContent.ItemType<Navystone>(), 1);
             recipe.SetResult(this);
             recipe.AddTile(TileID.WorkBenches);
             recipe.AddRecipe();

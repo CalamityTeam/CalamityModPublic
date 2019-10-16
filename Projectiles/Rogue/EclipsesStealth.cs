@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Rogue
+namespace CalamityMod.Projectiles
 {
     public class EclipsesStealth : ModProjectile
     {
@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Rogue
                         num16 = (float)num15 / num16;
                         num13 *= num16;
                         num14 *= num16;
-                        Projectile.NewProjectile(x, y, num13, num14, mod.ProjectileType("EclipsesSmol"), (int)((double)projectile.damage * 0.1 * Main.rand.Next(7, 10)), (int)((double)projectile.knockBack * 0.1 * Main.rand.Next(7, 10)), projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(x, y, num13, num14, ModContent.ProjectileType<EclipsesSmol>(), (int)((double)projectile.damage * 0.1 * Main.rand.Next(7, 10)), (int)((double)projectile.knockBack * 0.1 * Main.rand.Next(7, 10)), projectile.owner, 0f, 0f);
                     } //very complicated and painful
                 }
             }

@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Boss
+namespace CalamityMod.Projectiles
 {
     public class SkyFlareRevenge : ModProjectile
     {
@@ -68,7 +68,7 @@ namespace CalamityMod.Projectiles.Boss
             if (projectile.owner == Main.myPlayer)
             {
                 int num235 = 100;
-                int num236 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("InfernadoRevenge"), num235, 4f, Main.myPlayer, 16f, 50f);
+                int num236 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<InfernadoRevenge>(), num235, 4f, Main.myPlayer, 16f, 50f);
                 Main.projectile[num236].netUpdate = true;
             }
         }

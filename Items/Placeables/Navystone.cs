@@ -1,6 +1,6 @@
-﻿using Terraria.ModLoader;
+﻿using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Placeables
+namespace CalamityMod.Items
 {
     public class Navystone : ModItem
     {
@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Placeables
 
         public override void SetDefaults()
         {
-            item.createTile = mod.TileType("Navystone");
+            item.createTile = ModContent.TileType<Navystone>();
             item.useStyle = 1;
             item.useTurn = true;
             item.useAnimation = 15;
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Placeables
             recipe.SetResult(this);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("EutrophicPlatform"), 2);
+            recipe.AddIngredient(ModContent.ItemType<EutrophicPlatform>(), 2);
             recipe.SetResult(this);
             recipe.AddTile(null, "EutrophicCrafting");
             recipe.AddRecipe();

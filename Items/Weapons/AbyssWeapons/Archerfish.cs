@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.AbyssWeapons
+namespace CalamityMod.Items
 {
     public class Archerfish : ModItem
     {
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.AbyssWeapons
             item.rare = 3;
             item.UseSound = SoundID.Item11;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("Archerfish");
+            item.shoot = ModContent.ProjectileType<Archerfish>();
             item.shootSpeed = 11f;
             item.useAmmo = 97;
         }
@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Weapons.AbyssWeapons
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("Archerfish"), damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Archerfish>(), damage, knockBack, player.whoAmI, 0f, 0f);
             return false;
         }
     }

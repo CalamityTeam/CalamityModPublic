@@ -1,9 +1,9 @@
 ﻿
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Tiles.AstralSnow
+namespace CalamityMod.Tiles
 {
     public class AstralIceSmallPiles : ModTile
     {
@@ -13,7 +13,7 @@ namespace CalamityMod.Tiles.AstralSnow
             Main.tileNoFail[Type] = true;
             Main.tileObsidianKill[Type] = true;
 
-            dustType = mod.DustType("AstralBasic");
+            dustType = ModContent.DustType<AstralBasic>();
             AddMapEntry(new Color(79, 61, 97));
 
             base.SetDefaults();

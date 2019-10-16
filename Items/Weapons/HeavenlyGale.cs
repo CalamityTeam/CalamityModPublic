@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class HeavenlyGale : ModItem
     {
@@ -61,19 +61,19 @@ namespace CalamityMod.Items.Weapons
                     case 1:
                     case 2:
                     case 3:
-                        type = mod.ProjectileType("TealExoArrow");
+                        type = ModContent.ProjectileType<TealExoArrow>();
                         break;
                     case 4:
                     case 5:
                     case 6:
-                        type = mod.ProjectileType("OrangeExoArrow");
+                        type = ModContent.ProjectileType<OrangeExoArrow>();
                         break;
                     case 7:
                     case 8:
-                        type = mod.ProjectileType("BlueExoArrow");
+                        type = ModContent.ProjectileType<BlueExoArrow>();
                         break;
                     case 9:
-                        type = mod.ProjectileType("GreenExoArrow");
+                        type = ModContent.ProjectileType<GreenExoArrow>();
                         break;
                 }
                 Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);

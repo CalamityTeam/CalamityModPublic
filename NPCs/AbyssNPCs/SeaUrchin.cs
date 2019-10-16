@@ -2,9 +2,9 @@
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.AbyssNPCs
+namespace CalamityMod.NPCs
 {
     public class SeaUrchin : ModNPC
     {
@@ -28,7 +28,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
             npc.DeathSound = SoundID.NPCDeath15;
             npc.behindTiles = true;
             banner = npc.type;
-            bannerItem = mod.ItemType("SeaUrchinBanner");
+            bannerItem = ModContent.ItemType<SeaUrchinBanner>();
         }
 
         public override void AI()
@@ -323,7 +323,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("UrchinStinger"), Main.rand.Next(15, 26));
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<UrchinStinger>(), Main.rand.Next(15, 26));
         }
 
         public override void HitEffect(int hitDirection, double damage)

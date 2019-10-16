@@ -1,6 +1,6 @@
-﻿using Terraria.ModLoader;
+﻿using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Placeables
+namespace CalamityMod.Items
 {
     public class AstralDirt : ModItem
     {
@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Placeables
 
         public override void SetDefaults()
         {
-            item.createTile = mod.TileType("AstralDirt");
+            item.createTile = ModContent.TileType<AstralDirt>();
             item.useStyle = 1;
             item.useTurn = true;
             item.useAnimation = 15;
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Placeables
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddTile(18);
-            recipe.AddIngredient(mod.ItemType("AstralDirtWall"), 4);
+            recipe.AddIngredient(ModContent.ItemType<AstralDirtWall>(), 4);
             recipe.SetResult(this, 1);
             recipe.AddRecipe();
             base.AddRecipes();

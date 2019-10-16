@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Magic
+namespace CalamityMod.Projectiles
 {
     public class TerraOrb2 : ModProjectile
     {
@@ -79,7 +79,7 @@ namespace CalamityMod.Projectiles.Magic
                     num439 *= num440;
                     if (projectile.owner == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(value10.X, value10.Y, num438, num439, mod.ProjectileType("TerraBolt2"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(value10.X, value10.Y, num438, num439, ModContent.ProjectileType<TerraBolt2>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                     }
                 }
             }

@@ -1,7 +1,7 @@
 using Terraria;
 using Terraria.ID;
 
-namespace CalamityMod.Items.CalamityCustomThrowingDamage
+namespace CalamityMod.Items
 {
     public class Mycoroot : CalamityDamageItem
     {
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.height = 32;
             item.rare = 2;
             item.value = Item.buyPrice(0, 2, 0, 0);
-            item.shoot = mod.ProjectileType("Mycoroot");
+            item.shoot = ModContent.ProjectileType<Mycoroot>();
             item.shootSpeed = 20f;
             item.Calamity().rogue = true;
         }

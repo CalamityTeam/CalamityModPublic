@@ -2,9 +2,9 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.CalamityCustomThrowingDamage
+namespace CalamityMod.Items
 {
     public class EmpyreanKnivesThrown : CalamityDamageItem
     {
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.height = 20;
             item.value = Item.buyPrice(1, 80, 0, 0);
             item.rare = 10;
-            item.shoot = mod.ProjectileType("EmpyreanKnives");
+            item.shoot = ModContent.ProjectileType<EmpyreanKnives>();
             item.shootSpeed = 15f;
             item.Calamity().rogue = true;
             item.Calamity().postMoonLordRarity = 14;

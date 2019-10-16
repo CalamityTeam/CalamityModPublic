@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Patreon
+namespace CalamityMod.Projectiles
 {
     public class CorpusAvertor : ModProjectile
     {
@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Patreon
                     float mult = projectile.ai[0] / 80f; // Ranges from 0.25 to 0.5 to 0.75
                     velocity *= mult;
 
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, velocity.X, velocity.Y, mod.ProjectileType("CorpusAvertorClone"),
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, velocity.X, velocity.Y, ModContent.ProjectileType<CorpusAvertorClone>(),
                         (int)((float)projectile.damage * mult), projectile.knockBack * mult, projectile.owner, projectile.ai[0], projectile.melee ? 0f : 1f);
                 }
             }

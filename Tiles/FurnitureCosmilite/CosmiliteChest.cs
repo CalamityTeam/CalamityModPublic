@@ -5,10 +5,10 @@ using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.ID;
 using Terraria.Localization;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 using Terraria.ObjectData;
 
-namespace CalamityMod.Tiles.FurnitureCosmilite
+namespace CalamityMod.Tiles
 {
     public class CosmiliteChest : ModTile
     {
@@ -38,7 +38,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Containers };
             chest = "Cosmilite Chest";
-            chestDrop = mod.ItemType("CosmiliteChest");
+            chestDrop = ModContent.ItemType<CosmiliteChest>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -187,7 +187,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
                 player.showItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : "Cosmilite Chest";
                 if (player.showItemIconText == "Cosmilite Chest")
                 {
-                    player.showItemIcon2 = mod.ItemType("CosmiliteChest");
+                    player.showItemIcon2 = ModContent.ItemType<CosmiliteChest>();
                     player.showItemIconText = "";
                 }
             }

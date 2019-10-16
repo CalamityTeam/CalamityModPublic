@@ -2,9 +2,9 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class MolecularManipulator : ModItem
     {
@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons
             item.UseSound = SoundID.Item33;
             item.autoReuse = true;
             item.shootSpeed = 25f;
-            item.shoot = mod.ProjectileType("NullShot2");
+            item.shoot = ModContent.ProjectileType<NullShot2>();
             item.Calamity().postMoonLordRarity = 13;
         }
 
@@ -48,7 +48,7 @@ namespace CalamityMod.Items.Weapons
             {
                 player.KillMe(PlayerDeathReason.ByOther(10), 1000.0, 0, false);
             }
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("NullShot2"), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<NullShot2>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
             return false;
         }
 

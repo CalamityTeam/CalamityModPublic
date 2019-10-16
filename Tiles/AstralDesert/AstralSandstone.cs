@@ -2,9 +2,9 @@ using CalamityMod.Utilities;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Tiles.AstralDesert
+namespace CalamityMod.Tiles
 {
     public class AstralSandstone : ModTile
     {
@@ -17,8 +17,8 @@ namespace CalamityMod.Tiles.AstralDesert
             TileMerge.MergeDesertTiles(Type);
             TileMerge.MergeAstralTiles(Type);
 
-            dustType = mod.DustType("AstralBasic");
-            drop = mod.ItemType("AstralSandstone");
+            dustType = ModContent.DustType<AstralBasic>();
+            drop = ModContent.ItemType<AstralSandstone>();
 
             AddMapEntry(new Color(79, 61, 97));
 
@@ -27,7 +27,7 @@ namespace CalamityMod.Tiles.AstralDesert
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            CustomTileFraming.FrameTileForCustomMerge(i, j, Type, mod.TileType("HardenedAstralSand"), false, false, false, false, resetFrame);
+            CustomTileFraming.FrameTileForCustomMerge(i, j, Type, ModContent.TileType<HardenedAstralSand>(), false, false, false, false, resetFrame);
             return false;
         }
 

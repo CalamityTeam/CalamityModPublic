@@ -1,7 +1,7 @@
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.CalamityCustomThrowingDamage
+namespace CalamityMod.Items
 {
     public class WulfrumKnife : CalamityDamageItem
     {
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.maxStack = 999;
             item.value = 100;
             item.rare = 1;
-            item.shoot = mod.ProjectileType("WulfrumKnife");
+            item.shoot = ModContent.ProjectileType<WulfrumKnife>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;
         }

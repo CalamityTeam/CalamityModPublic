@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Ranged
+namespace CalamityMod.Projectiles
 {
     public class SicknessRound : ModProjectile
     {
@@ -69,18 +69,18 @@ namespace CalamityMod.Projectiles.Ranged
         {
             target.AddBuff(BuffID.Poisoned, 360);
             target.AddBuff(BuffID.Venom, 360);
-            target.AddBuff(mod.BuffType("Plague"), 360);
+            target.AddBuff(ModContent.BuffType<Plague>(), 360);
         }
 
         public override void Kill(int timeLeft)
         {
             if (projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("Sickness"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<Sickness>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                 for (int k = 0; k < 3; k++)
                 {
                     Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 107, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)Main.rand.Next(-35, 36) * 0.2f, (float)Main.rand.Next(-35, 36) * 0.2f, mod.ProjectileType("SicknessRound2"),
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)Main.rand.Next(-35, 36) * 0.2f, (float)Main.rand.Next(-35, 36) * 0.2f, ModContent.ProjectileType<SicknessRound2>(),
                     (int)((double)projectile.damage * 0.5), (float)(int)((double)projectile.knockBack * 0.5), Main.myPlayer, 0f, 0f);
                 }
             }

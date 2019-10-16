@@ -2,10 +2,10 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Enums;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 using Terraria.ObjectData;
 
-namespace CalamityMod.Tiles.FurnitureAncient
+namespace CalamityMod.Tiles
 {
     public class AncientChair : ModTile
     {
@@ -28,7 +28,7 @@ namespace CalamityMod.Tiles.FurnitureAncient
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Ancient Chair");
             AddMapEntry(new Color(191, 142, 111), name);
-            dustType = mod.DustType("Sparkle");
+            dustType = ModContent.DustType<Sparkle>();
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Chairs };
         }
@@ -47,7 +47,7 @@ namespace CalamityMod.Tiles.FurnitureAncient
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 16, 32, mod.ItemType("AncientChair"));
+            Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<AncientChair>());
         }
     }
 }

@@ -3,15 +3,15 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Ranged
+namespace CalamityModContent.Projectiles.Ranged
 {
     public class DrataliornusFlame : ModProjectile
     {
-        private int HolyLight { get { return mod.BuffType("HolyLight"); } }
-        private int DragonDust { get { return mod.ProjectileType("DragonDust"); } }
-        private int SkyFlareFriendly { get { return mod.ProjectileType("SkyFlareFriendly"); } }
+        private int HolyLight { get { return ModContent.BuffType<HolyFlames>(); } }
+        private int DragonDust { get { return ModContent.ProjectileType<DragonDust>(); } }
+        private int SkyFlareFriendly { get { return ModContent.ProjectileType<SkyFlareFriendly>(); } }
 
         public override void SetStaticDefaults()
         {
@@ -247,7 +247,7 @@ namespace CalamityMod.Projectiles.Ranged
                     Vector2 vector3 = target.Center + new Vector2(600, 0).RotatedBy(MathHelper.ToRadians(Main.rand.Next(360)));
                     Vector2 speed = target.Center - vector3;
                     speed /= 30f;
-                    Projectile.NewProjectile(vector3.X, vector3.Y, speed.X, speed.Y, mod.ProjectileType("DrataliornusExoArrow"), projectile.damage / 2, projectile.knockBack, projectile.owner);
+                    Projectile.NewProjectile(vector3.X, vector3.Y, speed.X, speed.Y, ModContent.ProjectileType<DrataliornusExoArrow>(), projectile.damage / 2, projectile.knockBack, projectile.owner);
 
                     Vector2 vel = new Vector2(Main.rand.Next(-400, 401), Main.rand.Next(500, 801));
                     Vector2 pos = target.Center - vel;

@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Patreon
+namespace CalamityMod.Projectiles
 {
     public class ThePackMissile : ModProjectile
     {
@@ -56,7 +56,7 @@ namespace CalamityMod.Projectiles.Patreon
                                 }
                                 speed.Normalize();
                                 speed *= (float)Main.rand.Next(30, 61) * 0.1f * 2f;
-                                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, speed.X, speed.Y, mod.ProjectileType("ThePackMinissile"), (int)((double)projectile.damage * 0.25), projectile.knockBack, projectile.owner, 0f, 0f);
+                                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, speed.X, speed.Y, ModContent.ProjectileType<ThePackMinissile>(), (int)((double)projectile.damage * 0.25), projectile.knockBack, projectile.owner, 0f, 0f);
                             }
                         }
                         Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);

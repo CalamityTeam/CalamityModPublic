@@ -1,8 +1,8 @@
 ﻿using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Astrageldon
+namespace CalamityMod.Items
 {
     public class AstralChunk : ModItem
     {
@@ -26,14 +26,14 @@ namespace CalamityMod.Items.Astrageldon
 
         public override bool CanUseItem(Player player)
         {
-            return !Main.dayTime && !NPC.AnyNPCs(mod.NPCType("Astrageldon"));
+            return !Main.dayTime && !NPC.AnyNPCs(ModContent.NPCType<Astrageldon>());
         }
 
         public override bool UseItem(Player player)
         {
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                int num = NPC.NewNPC((int)(player.position.X + (float)Main.rand.Next(-50, 50)), (int)(player.position.Y - 150f), mod.NPCType("Astrageldon"), 0, 0f, 0f, 0f, 0f, 255);
+                int num = NPC.NewNPC((int)(player.position.X + (float)Main.rand.Next(-50, 50)), (int)(player.position.Y - 150f), ModContent.NPCType<Astrageldon>(), 0, 0f, 0f, 0f, 0f, 255);
                 Main.PlaySound(SoundID.Roar, player.position, 0);
             }
             return true;

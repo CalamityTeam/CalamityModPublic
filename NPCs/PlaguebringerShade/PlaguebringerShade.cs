@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.PlaguebringerShade
+namespace CalamityMod.NPCs
 {
     public class PlaguebringerShade : ModNPC
     {
@@ -39,23 +39,23 @@ namespace CalamityMod.NPCs.PlaguebringerShade
             }
             npc.buffImmune[BuffID.Ichor] = false;
             npc.buffImmune[BuffID.CursedInferno] = false;
-            npc.buffImmune[mod.BuffType("MarkedforDeath")] = false;
+            npc.buffImmune[ModContent.BuffType<MarkedforDeath>()] = false;
             npc.buffImmune[BuffID.Daybreak] = false;
-            npc.buffImmune[mod.BuffType("AbyssalFlames")] = false;
-            npc.buffImmune[mod.BuffType("ArmorCrunch")] = false;
-            npc.buffImmune[mod.BuffType("DemonFlames")] = false;
-            npc.buffImmune[mod.BuffType("GodSlayerInferno")] = false;
-            npc.buffImmune[mod.BuffType("HolyLight")] = false;
-            npc.buffImmune[mod.BuffType("Nightwither")] = false;
-            npc.buffImmune[mod.BuffType("Shred")] = false;
-            npc.buffImmune[mod.BuffType("WhisperingDeath")] = false;
-            npc.buffImmune[mod.BuffType("SilvaStun")] = false;
+            npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
+            npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
+            npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
+            npc.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = false;
+            npc.buffImmune[ModContent.BuffType<HolyFlames>()] = false;
+            npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
+            npc.buffImmune[ModContent.BuffType<Shred>()] = false;
+            npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
+            npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = SoundID.NPCDeath14;
             banner = npc.type;
-            bannerItem = mod.ItemType("PlaguebringerBanner");
+            bannerItem = ModContent.ItemType<PlaguebringerBanner>();
         }
 
         public override void AI()
@@ -358,13 +358,13 @@ namespace CalamityMod.NPCs.PlaguebringerShade
                         int num1061;
                         if (Main.rand.NextBool(4))
                         {
-                            num1061 = mod.NPCType("PlagueBeeLargeG");
+                            num1061 = ModContent.NPCType<PlagueBeeLargeG>();
                         }
                         else
                         {
-                            num1061 = mod.NPCType("PlagueBeeG");
+                            num1061 = ModContent.NPCType<PlagueBeeG>();
                         }
-                        if (NPC.CountNPCS(mod.NPCType("PlagueBeeG")) < 3)
+                        if (NPC.CountNPCS(ModContent.NPCType<PlagueBeeG>()) < 3)
                         {
                             int num1062 = NPC.NewNPC((int)vector119.X, (int)vector119.Y, num1061, 0, 0f, 0f, 0f, 0f, 255);
                             Main.npc[num1062].velocity.X = (float)Main.rand.Next(-200, 201) * 0.005f;
@@ -475,11 +475,11 @@ namespace CalamityMod.NPCs.PlaguebringerShade
                         num1071 *= num1073;
                         num1072 *= num1073;
                         int num1074 = 26;
-                        int num1075 = mod.ProjectileType("PlagueStingerGoliathV2");
+                        int num1075 = ModContent.ProjectileType<PlagueStingerGoliathV2>();
                         if (Main.rand.NextBool(15))
                         {
                             num1074 = 33;
-                            num1075 = mod.ProjectileType("HiveBombGoliath");
+                            num1075 = ModContent.ProjectileType<HiveBombGoliath>();
                         }
                         Projectile.NewProjectile(vector121.X, vector121.Y, num1071, num1072, num1075, num1074, 0f, Main.myPlayer, 0f, 0f);
                     }
@@ -621,12 +621,12 @@ namespace CalamityMod.NPCs.PlaguebringerShade
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("PlagueCellCluster"), Main.rand.Next(8, 13));
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<PlagueCellCluster>(), Main.rand.Next(8, 13));
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(mod.BuffType("Plague"), 120, true);
+            player.AddBuff(ModContent.BuffType<Plague>(), 120, true);
         }
     }
 }

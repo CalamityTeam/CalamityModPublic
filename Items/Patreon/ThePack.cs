@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Patreon
+namespace CalamityMod.Items
 {
     public class ThePack : ModItem
     {
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Patreon
             item.UseSound = SoundID.Item11;
             item.autoReuse = true;
             item.shootSpeed = 24f;
-            item.shoot = mod.ProjectileType("ThePackMissile");
+            item.shoot = ModContent.ProjectileType<ThePackMissile>();
             item.useAmmo = 771;
         }
 
@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Patreon
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("ThePackMissile"), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<ThePackMissile>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
             return false;
         }
 

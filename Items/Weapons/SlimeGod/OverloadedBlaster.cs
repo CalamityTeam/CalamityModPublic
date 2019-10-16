@@ -1,8 +1,8 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
-namespace CalamityMod.Items.Weapons.SlimeGod
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+namespace CalamityMod.Items
 {
     public class OverloadedBlaster : ModItem
     {
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.SlimeGod
             item.UseSound = SoundID.Item9;
             item.autoReuse = true;
             item.shootSpeed = 6.5f;
-            item.shoot = mod.ProjectileType("SlimeBolt");
+            item.shoot = ModContent.ProjectileType<SlimeBolt>();
             item.useAmmo = 23;
         }
 

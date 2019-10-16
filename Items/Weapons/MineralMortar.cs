@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class MineralMortar : ModItem
     {
@@ -28,13 +28,13 @@ namespace CalamityMod.Items.Weapons
             item.UseSound = SoundID.Item11;
             item.autoReuse = true;
             item.shootSpeed = 14f;
-            item.shoot = mod.ProjectileType("OnyxSharkBomb");
+            item.shoot = ModContent.ProjectileType<OnyxSharkBomb>();
             item.useAmmo = 771;
         }
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("OnyxSharkBomb"), damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<OnyxSharkBomb>(), damage, knockBack, player.whoAmI, 0f, 0f);
             return false;
         }
 

@@ -1,12 +1,11 @@
-using CalamityMod.Utilities;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Providence
+namespace CalamityMod.Items
 {
     public class ProvidenceBag : ModItem
     {
-        public override int BossBagNPC => mod.NPCType("Providence");
+        public override int BossBagNPC => ModContent.NPCType<Providence>();
 
         public override void SetStaticDefaults()
         {
@@ -34,25 +33,25 @@ namespace CalamityMod.Items.Providence
             player.TryGettingDevArmor();
 
             // Materials
-            DropHelper.DropItem(player, mod.ItemType("UnholyEssence"), 25, 35);
-            DropHelper.DropItem(player, mod.ItemType("DivineGeode"), 15, 25);
+            DropHelper.DropItem(player, ModContent.ItemType<UnholyEssence>(), 25, 35);
+            DropHelper.DropItem(player, ModContent.ItemType<DivineGeode>(), 15, 25);
 
             // Weapons
-            DropHelper.DropItemChance(player, mod.ItemType("HolyCollider"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("SolarFlare"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("TelluricGlare"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("BlissfulBombardier"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("PurgeGuzzler"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("MoltenAmputator"), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<HolyCollider>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<SolarFlare>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<TelluricGlare>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<BlissfulBombardier>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<PurgeGuzzler>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<MoltenAmputator>(), 3);
 
             // Equipment
-            DropHelper.DropItemChance(player, mod.ItemType("SamuraiBadge"), DropHelper.RareVariantDropRateInt);
+            DropHelper.DropItemChance(player, ModContent.ItemType<SamuraiBadge>(), DropHelper.RareVariantDropRateInt);
 
             // Vanity
-            DropHelper.DropItemChance(player, mod.ItemType("ProvidenceMask"), 7);
+            DropHelper.DropItemChance(player, ModContent.ItemType<ProvidenceMask>(), 7);
 
             // Other
-            DropHelper.DropItem(player, mod.ItemType("RuneofCos"));
+            DropHelper.DropItem(player, ModContent.ItemType<RuneofCos>());
         }
     }
 }

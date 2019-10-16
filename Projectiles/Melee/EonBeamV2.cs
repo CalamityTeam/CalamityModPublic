@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Melee
+namespace CalamityMod.Projectiles
 {
     public class EonBeamV2 : ModProjectile
     {
@@ -60,10 +60,10 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("BrimstoneFlames"), 120);
-            target.AddBuff(mod.BuffType("GlacialState"), 120);
-            target.AddBuff(mod.BuffType("Plague"), 120);
-            target.AddBuff(mod.BuffType("HolyLight"), 120);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
+            target.AddBuff(ModContent.BuffType<Plague>(), 120);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
         }
     }
 }

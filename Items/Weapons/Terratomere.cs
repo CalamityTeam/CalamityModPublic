@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class Terratomere : ModItem
     {
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons
             item.height = 64;
             item.value = Item.buyPrice(1, 0, 0, 0);
             item.rare = 10;
-            item.shoot = mod.ProjectileType("TerratomereProjectile");
+            item.shoot = ModContent.ProjectileType<TerratomereProjectile>();
             item.shootSpeed = 20f;
         }
 
@@ -82,7 +82,7 @@ namespace CalamityMod.Items.Weapons
         {
             if (Main.rand.NextBool(3))
             {
-                target.AddBuff(mod.BuffType("GlacialState"), 300);
+                target.AddBuff(ModContent.BuffType<GlacialState>(), 300);
             }
             target.AddBuff(BuffID.CursedInferno, 600);
             target.AddBuff(BuffID.Frostburn, 600);

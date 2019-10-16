@@ -1,9 +1,9 @@
 ﻿using CalamityMod.CalPlayer;
 using System;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Melee
+namespace CalamityMod.Projectiles
 {
     public class DNA : ModProjectile
     {
@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Melee
                         int num48 = projectile.type;
                         if (projectile.ai[1] >= (float)(12 + Main.rand.Next(2)))
                         {
-                            num48 = mod.ProjectileType("DNA2");
+                            num48 = ModContent.ProjectileType<DNA2>();
                         }
                         int num49 = projectile.damage;
                         float num50 = projectile.knockBack;

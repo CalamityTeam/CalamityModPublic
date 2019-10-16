@@ -1,9 +1,9 @@
 using CalamityMod.Utilities;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Tiles.FurnitureStatigel
+namespace CalamityMod.Tiles
 {
     public class StatigelBlock : ModTile
     {
@@ -17,7 +17,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
             TileMerge.MergeDecorativeTiles(Type);
             TileMerge.MergeSmoothTiles(Type);
 
-            drop = mod.ItemType("StatigelBlock");
+            drop = ModContent.ItemType<StatigelBlock>();
             AddMapEntry(new Color(215, 74, 121));
         }
 

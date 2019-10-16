@@ -1,7 +1,7 @@
 using Terraria;
 using Terraria.ID;
 
-namespace CalamityMod.Items.CalamityCustomThrowingDamage
+namespace CalamityMod.Items
 {
     public class ScourgeoftheSeas : CalamityDamageItem
     {
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.height = 82;
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.rare = 5;
-            item.shoot = mod.ProjectileType("ScourgeoftheSeasProjectile");
+            item.shoot = ModContent.ProjectileType<ScourgeoftheSeasProjectile>();
             item.shootSpeed = 8f;
             item.Calamity().rogue = true;
         }
@@ -36,7 +36,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
         {
             if (player.Calamity().StealthStrikeAvailable())
             {
-                int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("ScourgeoftheSeasStealth"), damage, knockBack, player.whoAmI, 0f, 0f);
+                int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<ScourgeoftheSeasStealth>(), damage, knockBack, player.whoAmI, 0f, 0f);
                 Main.projectile[p].Calamity().stealthStrike = true;
             }
             else

@@ -2,9 +2,9 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class CelestialClaymore : ModItem
     {
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons
             item.height = 50;
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.rare = 5;
-            item.shoot = mod.ProjectileType("CosmicSpiritBomb1");
+            item.shoot = ModContent.ProjectileType<CosmicSpiritBomb1>();
             item.shootSpeed = 0.1f;
         }
 
@@ -76,13 +76,13 @@ namespace CalamityMod.Items.Weapons
                 switch (Main.rand.Next(3))
                 {
                     case 0:
-                        type = mod.ProjectileType("CosmicSpiritBomb1");
+                        type = ModContent.ProjectileType<CosmicSpiritBomb1>();
                         break;
                     case 1:
-                        type = mod.ProjectileType("CosmicSpiritBomb2");
+                        type = ModContent.ProjectileType<CosmicSpiritBomb2>();
                         break;
                     case 2:
-                        type = mod.ProjectileType("CosmicSpiritBomb3");
+                        type = ModContent.ProjectileType<CosmicSpiritBomb3>();
                         break;
                     default:
                         break;

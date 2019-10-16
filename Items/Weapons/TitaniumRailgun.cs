@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class TitaniumRailgun : ModItem
     {
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons
             item.UseSound = SoundID.Item72;
             item.autoReuse = true;
             item.shootSpeed = 6f;
-            item.shoot = mod.ProjectileType("TitRail");
+            item.shoot = ModContent.ProjectileType<TitRail>();
             item.useAmmo = 97;
         }
 
@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Weapons
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("TitRail"), damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<TitRail>(), damage, knockBack, player.whoAmI, 0f, 0f);
             return false;
         }
 

@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class TomeofFates : ModItem
     {
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons
             item.rare = 9;
             item.UseSound = SoundID.Item103;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("CosmicTentacle");
+            item.shoot = ModContent.ProjectileType<CosmicTentacle>();
             item.shootSpeed = 17f;
         }
 
@@ -75,11 +75,11 @@ namespace CalamityMod.Items.Weapons
             }
             if (projChoice == 0)
             {
-                Projectile.NewProjectile(vector2.X, vector2.Y, value2.X, value2.Y, mod.ProjectileType("BrimstoneTentacle"), (int)((double)num73 * 1.5f), num74, i, num92, num91);
+                Projectile.NewProjectile(vector2.X, vector2.Y, value2.X, value2.Y, ModContent.ProjectileType<BrimstoneTentacle>(), (int)((double)num73 * 1.5f), num74, i, num92, num91);
             }
             else
             {
-                Projectile.NewProjectile(vector2.X, vector2.Y, value2.X, value2.Y, mod.ProjectileType("CosmicTentacle"), num73, num74, i, num92, num91);
+                Projectile.NewProjectile(vector2.X, vector2.Y, value2.X, value2.Y, ModContent.ProjectileType<CosmicTentacle>(), num73, num74, i, num92, num91);
             }
             return false;
         }

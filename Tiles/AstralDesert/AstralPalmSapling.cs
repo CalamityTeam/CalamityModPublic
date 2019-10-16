@@ -4,10 +4,10 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 using Terraria.ObjectData;
 
-namespace CalamityMod.Tiles.AstralDesert
+namespace CalamityMod.Tiles
 {
     public class AstralPalmSapling : ModTile
     {
@@ -27,7 +27,7 @@ namespace CalamityMod.Tiles.AstralDesert
             TileObjectData.newTile.CoordinateHeights = new[] { 16, 18 };
             TileObjectData.newTile.CoordinateWidth = 16;
             TileObjectData.newTile.CoordinatePadding = 2;
-            TileObjectData.newTile.AnchorValidTiles = new[] { mod.TileType("AstralSand") };
+            TileObjectData.newTile.AnchorValidTiles = new[] { ModContent.TileType<AstralSand>() };
             TileObjectData.newTile.StyleHorizontal = true;
             TileObjectData.newTile.DrawFlipHorizontal = true;
             TileObjectData.newTile.WaterPlacement = LiquidPlacement.NotAllowed;
@@ -38,7 +38,7 @@ namespace CalamityMod.Tiles.AstralDesert
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Sapling");
             AddMapEntry(new Color(200, 200, 200), name);
-            dustType = mod.DustType("AstralBasic");
+            dustType = ModContent.DustType<AstralBasic>();
             adjTiles = new int[] { TileID.Saplings };
         }
 

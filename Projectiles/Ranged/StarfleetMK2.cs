@@ -2,9 +2,9 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Ranged
+namespace CalamityMod.Projectiles
 {
     public class StarfleetMK2 : ModProjectile
     {
@@ -99,13 +99,13 @@ namespace CalamityMod.Projectiles.Ranged
                         switch (Main.rand.Next(5))
                         {
                             case 0:
-                                type = mod.ProjectileType("PlasmaBlast");
+                                type = ModContent.ProjectileType<PlasmaBlast>();
                                 break;
                             case 1:
-                                type = mod.ProjectileType("AstralStar");
+                                type = ModContent.ProjectileType<AstralStar>();
                                 break;
                             case 2:
-                                type = mod.ProjectileType("GalacticaComet");
+                                type = ModContent.ProjectileType<GalacticaComet>();
                                 break;
                             case 3:
                                 break;

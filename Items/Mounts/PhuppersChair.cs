@@ -1,8 +1,8 @@
 ﻿using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Mounts
+namespace CalamityMod.Items
 {
     class PhuppersChair : ModMountData
     {
@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Mounts
         {
             mountData.spawnDust = 235;
             mountData.spawnDustNoGravity = true;
-            mountData.buff = mod.BuffType("BrimstoneMount");
+            mountData.buff = ModContent.BuffType<BrimstoneMount>();
             mountData.heightBoost = 12;
             mountData.flightTimeMax = int.MaxValue - 1;
             mountData.fatigueMax = int.MaxValue - 1;

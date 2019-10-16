@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class CatastropheClaymore : ModItem
     {
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons
             item.height = 56;
             item.value = Item.buyPrice(0, 48, 0, 0);
             item.rare = 6;
-            item.shoot = mod.ProjectileType("CalamityAura");
+            item.shoot = ModContent.ProjectileType<CalamityAura>();
             item.shootSpeed = 11f;
         }
 
@@ -37,13 +37,13 @@ namespace CalamityMod.Items.Weapons
             switch (Main.rand.Next(3))
             {
                 case 0:
-                    type = mod.ProjectileType("CalamityAura");
+                    type = ModContent.ProjectileType<CalamityAura>();
                     break;
                 case 1:
-                    type = mod.ProjectileType("CalamityAuraType2");
+                    type = ModContent.ProjectileType<CalamityAuraType2>();
                     break;
                 case 2:
-                    type = mod.ProjectileType("CalamityAuraType3");
+                    type = ModContent.ProjectileType<CalamityAuraType3>();
                     break;
                 default:
                     break;

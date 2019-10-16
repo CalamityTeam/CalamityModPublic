@@ -2,9 +2,9 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class SkyGlaze : ModItem
     {
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons
             item.rare = 1;
             item.UseSound = SoundID.Item102;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("StickyFeather");
+            item.shoot = ModContent.ProjectileType<StickyFeather>();
             item.shootSpeed = 15f;
         }
 

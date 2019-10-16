@@ -1,6 +1,6 @@
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Placeables.FurnitureSilva
+namespace CalamityMod.Items
 {
     public class SilvaWorkBench : ModItem
     {
@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Placeables.FurnitureSilva
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = mod.TileType("SilvaWorkBench");
+            item.createTile = ModContent.TileType<SilvaWorkBench>();
         }
 
         public override void AddRecipes()

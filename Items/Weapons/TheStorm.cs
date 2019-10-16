@@ -2,9 +2,9 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class TheStorm : ModItem
     {
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons
             item.rare = 10;
             item.UseSound = SoundID.Item122;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("Bolt");
+            item.shoot = ModContent.ProjectileType<Bolt>();
             item.shootSpeed = 28f;
             item.useAmmo = 40;
             item.Calamity().postMoonLordRarity = 13;
@@ -87,9 +87,9 @@ namespace CalamityMod.Items.Weapons
                 float speedY5 = num79 + (float)Main.rand.Next(-120, 121) * 0.02f;
                 if (type == ProjectileID.WoodenArrowFriendly)
                 {
-                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5 * 0.9f, mod.ProjectileType("Bolt"), num73, num74, i, 0f, 0f);
-                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5 * 0.8f, mod.ProjectileType("Bolt"), num73, num74, i, 0f, 0f);
-                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5 * 0.7f, mod.ProjectileType("Bolt"), num73, num74, i, 0f, 0f);
+                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5 * 0.9f, ModContent.ProjectileType<Bolt>(), num73, num74, i, 0f, 0f);
+                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5 * 0.8f, ModContent.ProjectileType<Bolt>(), num73, num74, i, 0f, 0f);
+                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5 * 0.7f, ModContent.ProjectileType<Bolt>(), num73, num74, i, 0f, 0f);
                 }
                 else
                 {

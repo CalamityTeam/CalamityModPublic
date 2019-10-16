@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Melee
+namespace CalamityMod.Projectiles
 {
     public class Earth3 : ModProjectile
     {
@@ -150,7 +150,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("HolyLight"), 600);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 600);
         }
     }
 }

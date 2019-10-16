@@ -2,9 +2,9 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Ranged
+namespace CalamityMod.Projectiles
 {
     public class Spyker : ModProjectile
     {
@@ -78,7 +78,7 @@ namespace CalamityMod.Projectiles.Ranged
                     }
                     value15.Normalize();
                     value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, mod.ProjectileType("Needler"), (int)((double)projectile.damage * 0.65), 0f, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<Needler>(), (int)((double)projectile.damage * 0.65), 0f, projectile.owner, 0f, 0f);
                 }
             }
             for (int num621 = 0; num621 < 3; num621++)

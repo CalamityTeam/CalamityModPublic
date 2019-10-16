@@ -2,9 +2,9 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class DraedonsExoblade : ModItem
     {
@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons
             item.height = 114;
             item.value = Item.buyPrice(2, 50, 0, 0);
             item.rare = 10;
-            item.shoot = mod.ProjectileType("Exobeam");
+            item.shoot = ModContent.ProjectileType<Exobeam>();
             item.shootSpeed = 19f;
             item.Calamity().postMoonLordRarity = 15;
         }
@@ -60,13 +60,13 @@ namespace CalamityMod.Items.Weapons
         {
             if (target.life <= (target.lifeMax * 0.05f))
             {
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("Exoboom"), (int)((float)item.damage * player.meleeDamage), knockback, Main.myPlayer);
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<Exoboom>(), (int)((float)item.damage * player.meleeDamage), knockback, Main.myPlayer);
             }
-            target.AddBuff(mod.BuffType("ExoFreeze"), 30);
-            target.AddBuff(mod.BuffType("BrimstoneFlames"), 120);
-            target.AddBuff(mod.BuffType("GlacialState"), 120);
-            target.AddBuff(mod.BuffType("Plague"), 120);
-            target.AddBuff(mod.BuffType("HolyLight"), 120);
+            target.AddBuff(ModContent.BuffType<ExoFreeze>(), 30);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
+            target.AddBuff(ModContent.BuffType<Plague>(), 120);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
             target.AddBuff(BuffID.CursedInferno, 120);
             target.AddBuff(BuffID.Frostburn, 120);
             target.AddBuff(BuffID.OnFire, 120);
@@ -97,12 +97,12 @@ namespace CalamityMod.Items.Weapons
             {
                 speedY = -15f;
             }
-            if (player.ownedProjectileCounts[mod.ProjectileType("Exocomet")] < 8)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<Exocomet>()] < 8)
             {
                 for (int comet = 0; comet < 2; comet++)
                 {
                     float ai1 = Main.rand.NextFloat() + 0.5f;
-                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, mod.ProjectileType("Exocomet"), (int)((float)item.damage * player.meleeDamage), knockback, player.whoAmI, 0f, ai1);
+                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, ModContent.ProjectileType<Exocomet>(), (int)((float)item.damage * player.meleeDamage), knockback, player.whoAmI, 0f, ai1);
                 }
             }
             if (target.type == NPCID.TargetDummy || !target.canGhostHeal)

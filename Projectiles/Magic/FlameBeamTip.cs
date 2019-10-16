@@ -1,8 +1,8 @@
 ﻿using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Magic
+namespace CalamityMod.Projectiles
 {
     public class FlameBeamTip : ModProjectile
     {
@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Magic
                         int num48 = projectile.type;
                         if (projectile.ai[1] >= (float)(15 + Main.rand.Next(3)))
                         {
-                            num48 = mod.ProjectileType("FlameBeamTip2");
+                            num48 = ModContent.ProjectileType<FlameBeamTip2>();
                         }
 
                         int number = Projectile.NewProjectile(projectile.position.X + projectile.velocity.X + (float)(projectile.width / 2), projectile.position.Y + projectile.velocity.Y + (float)(projectile.height / 2),

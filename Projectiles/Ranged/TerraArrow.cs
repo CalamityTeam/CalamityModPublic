@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Ranged
+namespace CalamityMod.Projectiles
 {
     public class TerraArrow : ModProjectile
     {
@@ -62,7 +62,7 @@ namespace CalamityMod.Projectiles.Ranged
                     }
                     value15.Normalize();
                     value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, mod.ProjectileType("TerraArrow2"), (int)((double)projectile.damage * 0.4), 0f, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<TerraArrow2>(), (int)((double)projectile.damage * 0.4), 0f, projectile.owner, 0f, 0f);
                 }
             }
         }

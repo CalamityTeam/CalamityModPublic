@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class FourSeasonsGalaxia : ModItem
     {
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons
             item.height = 70;
             item.value = Item.buyPrice(1, 80, 0, 0);
             item.rare = 10;
-            item.shoot = mod.ProjectileType("Galaxia");
+            item.shoot = ModContent.ProjectileType<Galaxia>();
             item.shootSpeed = 24f;
             item.Calamity().postMoonLordRarity = 14;
         }

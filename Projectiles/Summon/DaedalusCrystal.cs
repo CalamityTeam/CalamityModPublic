@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Summon
+namespace CalamityMod.Projectiles
 {
     public class DaedalusCrystal : ModProjectile
     {
@@ -35,7 +35,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-            bool flag64 = projectile.type == mod.ProjectileType("DaedalusCrystal");
+            bool flag64 = projectile.type == ModContent.ProjectileType<DaedalusCrystal>();
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
             if (!modPlayer.daedalusCrystal)
@@ -143,7 +143,7 @@ namespace CalamityMod.Projectiles.Summon
                     float num517 = num507;
                     num506 -= projectile.Center.X;
                     num507 -= projectile.Center.Y;
-                    int projectileType = mod.ProjectileType("DaedalusCrystalShot");
+                    int projectileType = ModContent.ProjectileType<DaedalusCrystalShot>();
                     float num403 = Main.rand.Next(10, 15); //modify the speed the projectile are shot.  Lower number = slower projectile.
                     Vector2 vector29 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
                     float num404 = num516 - vector29.X;

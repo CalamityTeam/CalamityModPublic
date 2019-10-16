@@ -1,6 +1,6 @@
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.FiniteUse
+namespace CalamityMod.Items
 {
     public class MagnumRounds : ModItem
     {
@@ -20,9 +20,9 @@ namespace CalamityMod.Items.Weapons.FiniteUse
             item.knockBack = 8f;
             item.value = 10000;
             item.rare = 8;
-            item.shoot = mod.ProjectileType("MagnumRound");
+            item.shoot = ModContent.ProjectileType<MagnumRound>();
             item.shootSpeed = 12f;
-            item.ammo = mod.ItemType("MagnumRounds");
+            item.ammo = ModContent.ItemType<MagnumRounds>();
         }
     }
 }

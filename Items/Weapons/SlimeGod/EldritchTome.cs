@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.SlimeGod
+namespace CalamityMod.Items
 {
     public class EldritchTome : ModItem
     {
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.SlimeGod
             item.rare = 4;
             item.UseSound = SoundID.Item103;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("EldritchTentacle");
+            item.shoot = ModContent.ProjectileType<EldritchTentacle>();
             item.shootSpeed = 12f;
         }
 
@@ -61,7 +61,7 @@ namespace CalamityMod.Items.Weapons.SlimeGod
             {
                 num92 *= -1f;
             }
-            Projectile.NewProjectile(vector2.X, vector2.Y, value2.X, value2.Y, mod.ProjectileType("EldritchTentacle"), num73, num74, i, num92, num91);
+            Projectile.NewProjectile(vector2.X, vector2.Y, value2.X, value2.Y, ModContent.ProjectileType<EldritchTentacle>(), num73, num74, i, num92, num91);
             return false;
         }
     }

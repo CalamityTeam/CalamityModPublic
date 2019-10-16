@@ -2,9 +2,9 @@ using CalamityMod.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Tiles.FurnitureAshen
+namespace CalamityMod.Tiles
 {
     public class SmoothBrimstoneSlag : ModTile
     {
@@ -22,7 +22,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
             soundType = 21;
             mineResist = 5f;
             minPick = 180;
-            drop = mod.ItemType("SmoothBrimstoneSlag");
+            drop = ModContent.ItemType<SmoothBrimstoneSlag>();
             AddMapEntry(new Color(61, 40, 61));
         }
 

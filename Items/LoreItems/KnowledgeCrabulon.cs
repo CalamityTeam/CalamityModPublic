@@ -1,7 +1,7 @@
 ﻿using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.LoreItems
+namespace CalamityMod.Items
 {
     public class KnowledgeCrabulon : ModItem
     {
@@ -32,7 +32,7 @@ namespace CalamityMod.Items.LoreItems
             {
                 if (Main.myPlayer == player.whoAmI)
                 {
-                    player.AddBuff(mod.BuffType("Mushy"), 2);
+                    player.AddBuff(ModContent.BuffType<Mushy>(), 2);
                 }
             }
         }

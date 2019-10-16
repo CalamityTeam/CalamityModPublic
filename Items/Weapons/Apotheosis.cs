@@ -2,9 +2,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class Apotheosis : ModItem
     {
@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons
             item.rare = 10;
             item.UseSound = SoundID.Item92;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("ApothMark");
+            item.shoot = ModContent.ProjectileType<ApothMark>();
             item.shootSpeed = 15;
             item.Calamity().postMoonLordRarity = 16;
         }

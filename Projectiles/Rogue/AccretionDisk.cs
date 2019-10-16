@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Rogue
+namespace CalamityMod.Projectiles
 {
     public class AccretionDisk : ModProjectile
     {
@@ -94,8 +94,8 @@ namespace CalamityMod.Projectiles.Rogue
                             for (i = 0; i < 4; i++)
                             {
                                 offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), mod.ProjectileType("AccretionDisk2"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-                                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), mod.ProjectileType("AccretionDisk2"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<AccretionDisk2>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<AccretionDisk2>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                             }
                         }
                     }
@@ -105,10 +105,10 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("BrimstoneFlames"), 120);
-            target.AddBuff(mod.BuffType("GlacialState"), 120);
-            target.AddBuff(mod.BuffType("Plague"), 120);
-            target.AddBuff(mod.BuffType("HolyLight"), 120);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
+            target.AddBuff(ModContent.BuffType<Plague>(), 120);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

@@ -4,9 +4,9 @@ using System;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Accessories
+namespace CalamityMod.Items
 {
     public class TheAmalgam : ModItem
     {
@@ -57,13 +57,13 @@ namespace CalamityMod.Items.Accessories
             modPlayer.fungalClump = true;
             if (player.whoAmI == Main.myPlayer)
             {
-                if (player.FindBuffIndex(mod.BuffType("FungalClump")) == -1)
+                if (player.FindBuffIndex(ModContent.BuffType<FungalClump>()) == -1)
                 {
-                    player.AddBuff(mod.BuffType("FungalClump"), 3600, true);
+                    player.AddBuff(ModContent.BuffType<FungalClump>(), 3600, true);
                 }
-                if (player.ownedProjectileCounts[mod.ProjectileType("FungalClump")] < 1)
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<FungalClump>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("FungalClump"), (int)(1000f * player.minionDamage), 1f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<FungalClump>(), (int)(1000f * player.minionDamage), 1f, Main.myPlayer, 0f, 0f);
                 }
             }
             player.allDamage += 0.15f;
@@ -84,7 +84,7 @@ namespace CalamityMod.Items.Accessories
             {
                 if (player.whoAmI == Main.myPlayer)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, mod.ProjectileType("PoisonousSeawater"), 2000, 0f, player.whoAmI, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<PoisonousSeawater>(), 2000, 0f, player.whoAmI, 0f, 0f);
                 }
             }
             if (player.immune)
@@ -106,7 +106,7 @@ namespace CalamityMod.Items.Accessories
                             num18 = (float)num17 / num18;
                             num15 *= num18;
                             num16 *= num18;
-                            int type = Main.rand.NextBool(2) ? mod.ProjectileType("AuraRain") : mod.ProjectileType("StandingFire");
+                            int type = Main.rand.NextBool(2) ? ModContent.ProjectileType<AuraRain>() : ModContent.ProjectileType<StandingFire>();
                             int num19 = Projectile.NewProjectile(x, y, num15, num16, type, 2000, 1f, player.whoAmI, 0f, 0f);
                             Main.projectile[num19].tileCollide = false;
                         }
@@ -173,7 +173,7 @@ namespace CalamityMod.Items.Accessories
                             spawn.X = spawn.X + i * 30 - (FireProjectiles * 15);
                             Vector2 velocity = baseVelocity.RotatedBy(MathHelper.ToRadians(-FireAngleSpread / 2 + (FireAngleSpread * i / (float)FireProjectiles)));
                             velocity.X = velocity.X + 3 * Main.rand.NextFloat() - 1.5f;
-                            int projectile = Projectile.NewProjectile(spawn.X, spawn.Y, velocity.X, velocity.Y, mod.ProjectileType("BrimstoneHellfireballFriendly2"), 2000, 5f, Main.myPlayer, 0f, 0f);
+                            int projectile = Projectile.NewProjectile(spawn.X, spawn.Y, velocity.X, velocity.Y, ModContent.ProjectileType<BrimstoneHellfireballFriendly2>(), 2000, 5f, Main.myPlayer, 0f, 0f);
                             Main.projectile[projectile].tileCollide = false;
                             Main.projectile[projectile].timeLeft = 50;
                         }

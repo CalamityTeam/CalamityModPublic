@@ -1,7 +1,7 @@
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.CalamityCustomThrowingDamage
+namespace CalamityMod.Items
 {
     public class ToothBall : CalamityDamageItem
     {
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.maxStack = 999;
             item.value = 1000;
             item.rare = 3;
-            item.shoot = mod.ProjectileType("ToothBallProjectile");
+            item.shoot = ModContent.ProjectileType<ToothBallProjectile>();
             item.shootSpeed = 16f;
             item.Calamity().rogue = true;
         }

@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Typeless
+namespace CalamityMod.Projectiles
 {
     public class TrueBattleSpawn : ModProjectile
     {
@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Typeless
 
             if (projectile.ai[1] >= 0)
             {
-                NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("CalamitasRun3"));
+                NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<CalamitasRun3>());
                 projectile.ai[1] = -30;
             }
         }

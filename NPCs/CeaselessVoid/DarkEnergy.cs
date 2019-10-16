@@ -4,9 +4,9 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.CeaselessVoid
+namespace CalamityMod.NPCs
 {
     public class DarkEnergy : ModNPC
     {
@@ -191,7 +191,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
         {
             if (CalamityWorld.revenge)
             {
-                player.AddBuff(mod.BuffType("Horror"), 300, true);
+                player.AddBuff(ModContent.BuffType<Horror>(), 300, true);
             }
         }
 

@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.AbyssWeapons
+namespace CalamityMod.Items
 {
     public class SulphuricAcidCannon : ModItem
     {
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.AbyssWeapons
             item.value = Item.buyPrice(1, 40, 0, 0);
             item.rare = 10;
             item.UseSound = SoundID.Item95;
-            item.shoot = mod.ProjectileType("SulphuricAcidCannon2");
+            item.shoot = ModContent.ProjectileType<SulphuricAcidCannon2>();
             item.shootSpeed = 16f;
             item.Calamity().postMoonLordRarity = 13;
         }

@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.AstralBiomeNPCs
+namespace CalamityMod.NPCs
 {
     public class Twinkler : ModNPC
     {
@@ -20,10 +20,10 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             npc.height = 5;
             aiType = NPCID.LightningBug;
             animationType = NPCID.LightningBug;
-            npc.catchItem = (short)mod.ItemType("TwinklerItem");
+            npc.catchItem = (short)ModContent.ItemType<TwinklerItem>();
             npc.friendly = true; // We have to add this and CanBeHitByItem/CanBeHitByProjectile because of reasons.
                                  //banner = npc.type;
-                                 //bannerItem = mod.ItemType("TwinklerBanner");
+                                 //bannerItem = ModContent.ItemType<TwinklerBanner>();
         }
 
 
@@ -43,7 +43,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             {
                 for (int i = 0; i < 6; i++)
                 {
-                    int dust = Dust.NewDust(npc.position, npc.width, npc.height, mod.DustType("AstralOrange"), 2 * hitDirection, -2f);
+                    int dust = Dust.NewDust(npc.position, npc.width, npc.height, ModContent.DustType<AstralOrange>(), 2 * hitDirection, -2f);
                     if (Main.rand.NextBool(2))
                     {
                         Main.dust[dust].noGravity = true;
@@ -107,7 +107,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             item.width = 26;
             item.height = 24;
             item.bait = 40;
-            item.makeNPC = (short)mod.NPCType("Twinkler");
+            item.makeNPC = (short)ModContent.NPCType<Twinkler>();
             item.rare = 2;
         }
     }

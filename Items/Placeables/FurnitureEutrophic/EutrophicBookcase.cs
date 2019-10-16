@@ -1,7 +1,7 @@
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Placeables.FurnitureEutrophic
+namespace CalamityMod.Items
 {
     public class EutrophicBookcase : ModItem
     {
@@ -20,13 +20,13 @@ namespace CalamityMod.Items.Placeables.FurnitureEutrophic
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = mod.TileType("EutrophicBookcase");
+            item.createTile = ModContent.TileType<EutrophicBookcase>();
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("Navystone"), 20);
+            recipe.AddIngredient(ModContent.ItemType<Navystone>(), 20);
             recipe.AddIngredient(ItemID.Book, 10);
             recipe.SetResult(this, 1);
             recipe.AddTile(null, "EutrophicCrafting");

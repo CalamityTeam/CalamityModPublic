@@ -2,9 +2,9 @@
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.NormalNPCs
+namespace CalamityMod.NPCs
 {
     public class ArmoredDiggerBody : ModNPC
     {
@@ -35,8 +35,8 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
             npc.netAlways = true;
             npc.dontCountMe = true;
-            banner = mod.NPCType("ArmoredDiggerHead");
-            bannerItem = mod.ItemType("ArmoredDiggerBanner");
+            banner = ModContent.NPCType<ArmoredDiggerHead>();
+            bannerItem = ModContent.ItemType<ArmoredDiggerBanner>();
         }
 
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)

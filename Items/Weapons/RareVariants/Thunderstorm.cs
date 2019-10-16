@@ -1,8 +1,8 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.RareVariants
+namespace CalamityMod.Items
 {
     public class Thunderstorm : ModItem
     {
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.RareVariants
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBlast");
             item.autoReuse = true;
             item.shootSpeed = 6f;
-            item.shoot = mod.ProjectileType("ThunderstormShot");
+            item.shoot = ModContent.ProjectileType<ThunderstormShot>();
             item.Calamity().postMoonLordRarity = 22;
         }
 

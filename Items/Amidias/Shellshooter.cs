@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Amidias
+namespace CalamityMod.Items
 {
     public class Shellshooter : ModItem
     {
@@ -28,14 +28,14 @@ namespace CalamityMod.Items.Amidias
             item.rare = 2;
             item.UseSound = SoundID.Item5;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("Shell");
+            item.shoot = ModContent.ProjectileType<Shell>();
             item.shootSpeed = 1.5f;
             item.useAmmo = 40;
         }
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("Shell"), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Shell>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
             return false;
         }
     }

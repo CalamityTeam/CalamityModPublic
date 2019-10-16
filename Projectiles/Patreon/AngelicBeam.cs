@@ -1,7 +1,7 @@
 ﻿using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Patreon
+namespace CalamityMod.Projectiles
 {
     public class AngelicBeam : ModProjectile
     {
@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Patreon
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("HolyLight"), 600);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 600);
         }
     }
 }

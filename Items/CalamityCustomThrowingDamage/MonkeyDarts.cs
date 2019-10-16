@@ -1,10 +1,10 @@
-﻿using CalamityMod.Projectiles.Rogue;
+﻿using CalamityMod.Projectiles;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.CalamityCustomThrowingDamage
+namespace CalamityMod.Items
 {
     public class MonkeyDarts : CalamityDamageItem
     {
@@ -32,7 +32,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.value = Item.buyPrice(0, 0, 1, 0);
             item.rare = 3;
             item.shootSpeed = 10.5f;
-            item.shoot = mod.ProjectileType("MonkeyDart");
+            item.shoot = ModContent.ProjectileType<MonkeyDart>();
             item.autoReuse = true;
             item.Calamity().rogue = true;
         }

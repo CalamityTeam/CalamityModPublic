@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class MagneticMeltdown : ModItem
     {
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons
             item.rare = 10;
             item.UseSound = SoundID.Item20;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("MagneticOrb");
+            item.shoot = ModContent.ProjectileType<MagneticOrb>();
             item.shootSpeed = 12f;
             item.Calamity().postMoonLordRarity = 14;
         }

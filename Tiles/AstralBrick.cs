@@ -2,7 +2,7 @@ using CalamityMod.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
 namespace CalamityMod.Tiles
 {
@@ -17,13 +17,13 @@ namespace CalamityMod.Tiles
             Main.tileBlockLight[Type] = true;
             soundType = 21;
             minPick = 150;
-            drop = mod.ItemType("AstralBrick");
+            drop = ModContent.ItemType<AstralBrick>();
             AddMapEntry(new Color(128, 128, 158));
         }
 
         public override bool CreateDust(int i, int j, ref int type)
         {
-            Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, mod.DustType("AstralBasic"), 0f, 0f, 1, new Color(255, 255, 255), 1f);
+            Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, ModContent.DustType<AstralBasic>(), 0f, 0f, 1, new Color(255, 255, 255), 1f);
             return false;
         }
 

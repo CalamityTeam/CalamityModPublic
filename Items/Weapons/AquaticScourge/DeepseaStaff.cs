@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.AquaticScourge
+namespace CalamityMod.Items
 {
     public class DeepseaStaff : ModItem
     {
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.AquaticScourge
             item.rare = 5;
             item.UseSound = SoundID.Item44;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("AquaticStar");
+            item.shoot = ModContent.ProjectileType<AquaticStar>();
             item.shootSpeed = 10f;
             item.summon = true;
         }

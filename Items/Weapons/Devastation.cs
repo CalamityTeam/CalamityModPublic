@@ -2,9 +2,9 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class Devastation : ModItem
     {
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons
             item.height = 72;
             item.value = Item.buyPrice(1, 20, 0, 0);
             item.rare = 10;
-            item.shoot = mod.ProjectileType("GalaxyBlast");
+            item.shoot = ModContent.ProjectileType<GalaxyBlast>();
             item.shootSpeed = 16f;
             item.Calamity().postMoonLordRarity = 12;
         }
@@ -39,13 +39,13 @@ namespace CalamityMod.Items.Weapons
             switch (Main.rand.Next(6))
             {
                 case 1:
-                    type = mod.ProjectileType("GalaxyBlast");
+                    type = ModContent.ProjectileType<GalaxyBlast>();
                     break;
                 case 2:
-                    type = mod.ProjectileType("GalaxyBlastType2");
+                    type = ModContent.ProjectileType<GalaxyBlastType2>();
                     break;
                 case 3:
-                    type = mod.ProjectileType("GalaxyBlastType3");
+                    type = ModContent.ProjectileType<GalaxyBlastType3>();
                     break;
                 default:
                     break;
@@ -93,9 +93,9 @@ namespace CalamityMod.Items.Weapons
                 num79 *= num80;
                 float speedX4 = num78 + (float)Main.rand.Next(-40, 41) * 0.02f;
                 float speedY5 = num79 + (float)Main.rand.Next(-40, 41) * 0.02f;
-                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, mod.ProjectileType("GalaxyBlast"), damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(5));
-                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, mod.ProjectileType("GalaxyBlastType2"), damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(3));
-                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, mod.ProjectileType("GalaxyBlastType3"), damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(1));
+                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<GalaxyBlast>(), damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(5));
+                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<GalaxyBlastType2>(), damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(3));
+                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<GalaxyBlastType3>(), damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(1));
             }
             return false;
         }

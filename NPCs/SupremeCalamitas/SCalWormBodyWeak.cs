@@ -2,9 +2,9 @@
 using System.IO;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.SupremeCalamitas
+namespace CalamityMod.NPCs
 {
     public class SCalWormBodyWeak : ModNPC
     {
@@ -81,10 +81,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 {
                     npc.localAI[0] = 0f;
                     int damage = Main.expertMode ? 150 : 200;
-                    Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 1f, 1f, mod.ProjectileType("BrimstoneBarrage"), damage, 0f, npc.target, 0f, 0f);
-                    Projectile.NewProjectile(npc.Center.X, npc.Center.Y, -1f, 1f, mod.ProjectileType("BrimstoneBarrage"), damage, 0f, npc.target, 0f, 0f);
-                    Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 1f, -1f, mod.ProjectileType("BrimstoneBarrage"), damage, 0f, npc.target, 0f, 0f);
-                    Projectile.NewProjectile(npc.Center.X, npc.Center.Y, -1f, -1f, mod.ProjectileType("BrimstoneBarrage"), damage, 0f, npc.target, 0f, 0f);
+                    Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 1f, 1f, ModContent.ProjectileType<BrimstoneBarrage>(), damage, 0f, npc.target, 0f, 0f);
+                    Projectile.NewProjectile(npc.Center.X, npc.Center.Y, -1f, 1f, ModContent.ProjectileType<BrimstoneBarrage>(), damage, 0f, npc.target, 0f, 0f);
+                    Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 1f, -1f, ModContent.ProjectileType<BrimstoneBarrage>(), damage, 0f, npc.target, 0f, 0f);
+                    Projectile.NewProjectile(npc.Center.X, npc.Center.Y, -1f, -1f, ModContent.ProjectileType<BrimstoneBarrage>(), damage, 0f, npc.target, 0f, 0f);
                     npc.netUpdate = true;
                 }
             }

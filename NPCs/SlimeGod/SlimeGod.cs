@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.SlimeGod
+namespace CalamityMod.NPCs
 {
     [AutoloadBossHead]
     public class SlimeGod : ModNPC
@@ -30,8 +30,8 @@ namespace CalamityMod.NPCs.SlimeGod
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
             aiType = -1;
-            npc.buffImmune[mod.BuffType("GlacialState")] = true;
-            npc.buffImmune[mod.BuffType("TemporalSadness")] = true;
+            npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
+            npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
             npc.knockBackResist = 0f;
             animationType = 50;
             npc.value = 0f;
@@ -43,7 +43,7 @@ namespace CalamityMod.NPCs.SlimeGod
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/SlimeGod");
             else
                 music = MusicID.Boss1;
-            bossBag = mod.ItemType("SlimeGodBag");
+            bossBag = ModContent.ItemType<SlimeGodBag>();
         }
 
         public override void AI()
@@ -61,8 +61,8 @@ namespace CalamityMod.NPCs.SlimeGod
             {
                 Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 1);
                 Vector2 spawnAt = vector + new Vector2(0f, (float)npc.height / 2f);
-                NPC.NewNPC((int)spawnAt.X - 30, (int)spawnAt.Y, mod.NPCType("SlimeGodSplit"));
-                NPC.NewNPC((int)spawnAt.X + 30, (int)spawnAt.Y, mod.NPCType("SlimeGodSplit"));
+                NPC.NewNPC((int)spawnAt.X - 30, (int)spawnAt.Y, ModContent.NPCType<SlimeGodSplit>());
+                NPC.NewNPC((int)spawnAt.X + 30, (int)spawnAt.Y, ModContent.NPCType<SlimeGodSplit>());
                 npc.active = false;
                 npc.netUpdate = true;
                 return;
@@ -103,7 +103,7 @@ namespace CalamityMod.NPCs.SlimeGod
                             num180 *= num183;
                             num182 *= num183;
                             int num184 = 24;
-                            int num185 = mod.ProjectileType("AbyssMine");
+                            int num185 = ModContent.ProjectileType<AbyssMine>();
                             value9.X += num180;
                             value9.Y += num182;
                             for (int num186 = 0; num186 < 3; num186++)
@@ -138,7 +138,7 @@ namespace CalamityMod.NPCs.SlimeGod
                         num180 *= num183;
                         num182 *= num183;
                         int num184 = expertMode ? 17 : 21;
-                        int num185 = mod.ProjectileType("AbyssBallVolley");
+                        int num185 = ModContent.ProjectileType<AbyssBallVolley>();
                         value9.X += num180;
                         value9.Y += num182;
                         for (int num186 = 0; num186 < 4; num186++)
@@ -506,7 +506,7 @@ namespace CalamityMod.NPCs.SlimeGod
                         {
                             int x = (int)(npc.position.X + (float)Main.rand.Next(npc.width - 32));
                             int y = (int)(npc.position.Y + (float)Main.rand.Next(npc.height - 32));
-                            int num663 = mod.NPCType("SlimeSpawnCorrupt");
+                            int num663 = ModContent.NPCType<SlimeSpawnCorrupt>();
                             int num664 = NPC.NewNPC(x, y, num663, 0, 0f, 0f, 0f, 0f, 255);
                             Main.npc[num664].SetDefaults(num663, -1f);
                             Main.npc[num664].velocity.X = (float)Main.rand.Next(-15, 16) * 0.1f;
@@ -532,10 +532,10 @@ namespace CalamityMod.NPCs.SlimeGod
         public override void NPCLoot()
         {
             bool otherSlimeGodsAlive =
-                NPC.AnyNPCs(mod.NPCType("SlimeGodCore")) ||
-                NPC.AnyNPCs(mod.NPCType("SlimeGodSplit")) ||
-                NPC.AnyNPCs(mod.NPCType("SlimeGodRun")) ||
-                NPC.AnyNPCs(mod.NPCType("SlimeGodRunSplit"));
+                NPC.AnyNPCs(ModContent.NPCType<SlimeGodCore>()) ||
+                NPC.AnyNPCs(ModContent.NPCType<SlimeGodSplit>()) ||
+                NPC.AnyNPCs(ModContent.NPCType<SlimeGodRun>()) ||
+                NPC.AnyNPCs(ModContent.NPCType<SlimeGodRunSplit>());
             if (!otherSlimeGodsAlive)
                 SlimeGodCore.DropSlimeGodLoot(npc);
         }

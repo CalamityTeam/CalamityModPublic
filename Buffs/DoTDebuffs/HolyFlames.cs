@@ -1,9 +1,9 @@
 ﻿using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Buffs.DoTDebuffs
+namespace CalamityMod.Buffs
 {
-    public class HolyLight : ModBuff
+    public class HolyFlames : ModBuff
     {
         public override void SetDefaults()
         {

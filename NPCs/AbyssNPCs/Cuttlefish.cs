@@ -5,9 +5,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.AbyssNPCs
+namespace CalamityMod.NPCs
 {
     public class Cuttlefish : ModNPC
     {
@@ -28,13 +28,13 @@ namespace CalamityMod.NPCs.AbyssNPCs
             npc.lifeMax = 55;
             npc.aiStyle = -1;
             aiType = -1;
-            npc.buffImmune[mod.BuffType("CrushDepth")] = true;
+            npc.buffImmune[ModContent.BuffType<CrushDepth>()] = true;
             npc.value = Item.buyPrice(0, 0, 1, 0);
             npc.HitSound = SoundID.NPCHit33;
             npc.DeathSound = SoundID.NPCDeath28;
             npc.knockBackResist = 0.3f;
             banner = npc.type;
-            bannerItem = mod.ItemType("CuttlefishBanner");
+            bannerItem = ModContent.ItemType<CuttlefishBanner>();
         }
 
         public override void AI()
@@ -293,7 +293,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
             player.AddBuff(BuffID.Darkness, 120, true);
             if (CalamityWorld.revenge)
             {
-                player.AddBuff(mod.BuffType("Horror"), 60, true);
+                player.AddBuff(ModContent.BuffType<Horror>(), 60, true);
             }
         }
 
@@ -314,14 +314,14 @@ namespace CalamityMod.NPCs.AbyssNPCs
         {
             if (Main.rand.NextBool(1000000) && CalamityWorld.revenge)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("HalibutCannon"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<HalibutCannon>());
             }
             if (Main.rand.NextBool(2))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CloakingGland"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CloakingGland>());
             }
             int inkBombDropRate = CalamityWorld.defiled ? DropHelper.DefiledDropRateInt : Main.expertMode ? 50 : 100;
-            DropHelper.DropItemChance(npc, mod.ItemType("InkBomb"), inkBombDropRate, 1, 1);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<InkBomb>(), inkBombDropRate, 1, 1);
         }
 
         public override void HitEffect(int hitDirection, double damage)

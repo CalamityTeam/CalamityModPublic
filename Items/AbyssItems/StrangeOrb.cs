@@ -1,8 +1,8 @@
 ﻿using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.AbyssItems
+namespace CalamityMod.Items
 {
     public class StrangeOrb : ModItem
     {
@@ -16,8 +16,8 @@ namespace CalamityMod.Items.AbyssItems
         public override void SetDefaults()
         {
             item.CloneDefaults(ItemID.WispinaBottle);
-            item.shoot = mod.ProjectileType("SirenYoung");
-            item.buffType = mod.BuffType("StrangeOrb");
+            item.shoot = ModContent.ProjectileType<SirenYoung>();
+            item.buffType = ModContent.BuffType<StrangeOrb>();
         }
 
         public override void UseStyle(Player player)

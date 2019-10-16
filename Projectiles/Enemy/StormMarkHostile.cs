@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Enemy
+namespace CalamityMod.Projectiles
 {
     public class StormMarkHostile : ModProjectile
     {
@@ -129,7 +129,7 @@ namespace CalamityMod.Projectiles.Enemy
                 {
                     num1137 = 25;
                 }
-                Projectile.NewProjectile(projectile.Center, Vector2.Zero, mod.ProjectileType("TornadoHostile"), num1137, 3f, projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<TornadoHostile>(), num1137, 3f, projectile.owner, 0f, 0f);
             }
             if (projectile.localAI[1] >= 120f)
             {

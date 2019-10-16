@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class BlushieStaff : ModItem
     {
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons
             item.value = Item.buyPrice(5, 0, 0, 0);
             item.rare = 10;
             item.UseSound = SoundID.Item1;
-            item.shoot = mod.ProjectileType("BlushieStaffProj");
+            item.shoot = ModContent.ProjectileType<BlushieStaffProj>();
             item.mana = 200;
             item.shootSpeed = 0f;
             item.Calamity().postMoonLordRarity = 19;

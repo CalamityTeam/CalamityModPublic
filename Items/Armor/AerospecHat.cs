@@ -1,9 +1,9 @@
 ﻿using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Armor
+namespace CalamityMod.Items
 {
     [AutoloadEquip(EquipType.Head)]
     public class AerospecHat : ModItem
@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Armor
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == mod.ItemType("AerospecBreastplate") && legs.type == mod.ItemType("AerospecLeggings");
+            return body.type == ModContent.ItemType<AerospecBreastplate>() && legs.type == ModContent.ItemType<AerospecLeggings>();
         }
 
         public override void ArmorSetShadows(Player player)

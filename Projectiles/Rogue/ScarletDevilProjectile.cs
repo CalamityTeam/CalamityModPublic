@@ -4,9 +4,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Rogue
+namespace CalamityMod.Projectiles
 {
     public class ScarletDevilProjectile : ModProjectile
     {
@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Rogue
                         Vector2 perturbedSpeed = new Vector2(-projectile.velocity.X / 3, -projectile.velocity.Y / 3).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
                         for (int j = 0; j < 2; j++)
                         {
-                            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, mod.ProjectileType("ScarletDevilBullet"), (int)((double)projectile.damage * 0.03), 0f, projectile.owner, 0f, 0f);
+                            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<ScarletDevilBullet>(), (int)((double)projectile.damage * 0.03), 0f, projectile.owner, 0f, 0f);
                             perturbedSpeed *= 1.05f;
                         }
                     }
@@ -78,7 +78,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = projectile.height = 150;
             projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("ScarletBlast"), (int)((double)projectile.damage * 0.0075), 0f, projectile.owner, 0f, 0f);
+            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ScarletBlast>(), (int)((double)projectile.damage * 0.0075), 0f, projectile.owner, 0f, 0f);
             if (target.type == NPCID.TargetDummy || !lifesteal)
             {
                 return;

@@ -2,9 +2,9 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.Leviathan
+namespace CalamityMod.Items
 {
     public class Greentide : ModItem
     {
@@ -90,7 +90,7 @@ namespace CalamityMod.Items.Weapons.Leviathan
                 num79 *= num80;
                 float speedX4 = num78;
                 float speedY5 = num79 + (float)Main.rand.Next(-180, 181) * 0.02f;
-                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, mod.ProjectileType("GreenWater"), (int)((float)item.damage * player.meleeDamage), num74, i, 0f, (float)Main.rand.Next(10));
+                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<GreenWater>(), (int)((float)item.damage * player.meleeDamage), num74, i, 0f, (float)Main.rand.Next(10));
             }
         }
 

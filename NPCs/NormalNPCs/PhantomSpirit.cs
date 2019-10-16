@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.NormalNPCs
+namespace CalamityMod.NPCs
 {
     public class PhantomSpirit : ModNPC
     {
@@ -32,7 +32,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.noGravity = true;
             npc.noTileCollide = true;
             banner = npc.type;
-            bannerItem = mod.ItemType("PhantomSpiritBanner");
+            bannerItem = ModContent.ItemType<PhantomSpiritBanner>();
         }
 
         public override void AI()
@@ -61,7 +61,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             if (CalamityWorld.revenge)
             {
-                player.AddBuff(mod.BuffType("MarkedforDeath"), 120);
+                player.AddBuff(ModContent.BuffType<MarkedforDeath>(), 120);
             }
         }
 
@@ -91,7 +91,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Phantoplasm"));
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Phantoplasm>());
         }
     }
 }

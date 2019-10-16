@@ -3,17 +3,17 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Mounts
+namespace CalamityMod.Items
 {
-    class Fab : ModMountData
+    class AlicornMount : ModMountData
     {
         public override void SetDefaults()
         {
             mountData.spawnDust = 234;
             mountData.spawnDustNoGravity = true;
-            mountData.buff = mod.BuffType("Fab");
+            mountData.buff = ModContent.BuffType<AlicornBuff>();
             mountData.heightBoost = 34;
             mountData.fallDamage = 0f; //0.5
             mountData.runSpeed = 7f; //12
@@ -63,7 +63,7 @@ namespace CalamityMod.Items.Mounts
             mountData.swimFrameStart = mountData.inAirFrameStart;
             if (Main.netMode != NetmodeID.Server)
             {
-                mountData.frontTextureExtra = mod.GetTexture("Items/Mounts/FabExtra");
+                mountData.frontTextureExtra = mod.GetTexture("Items/Mounts/AlicornMountExtra");
                 mountData.textureWidth = mountData.backTexture.Width;
                 mountData.textureHeight = mountData.backTexture.Height;
             }

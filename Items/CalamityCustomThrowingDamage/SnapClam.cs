@@ -1,7 +1,7 @@
 using Terraria;
 using Terraria.ID;
 
-namespace CalamityMod.Items.CalamityCustomThrowingDamage
+namespace CalamityMod.Items
 {
     public class SnapClam : CalamityDamageItem
     {
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.autoReuse = true;
             item.value = Item.buyPrice(0, 2, 0, 0);
             item.rare = 2;
-            item.shoot = mod.ProjectileType("SnapClamProj");
+            item.shoot = ModContent.ProjectileType<SnapClamProj>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;
         }

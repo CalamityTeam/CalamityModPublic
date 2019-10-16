@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.CalamityCustomThrowingDamage.Patreon
+namespace CalamityMod.Items
 {
     public class KelvinCatalyst : CalamityDamageItem
     {
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage.Patreon
             item.height = 20;
             item.value = Item.buyPrice(0, 48, 0, 0);
             item.rare = 6;
-            item.shoot = mod.ProjectileType("KelvinCatalyst");
+            item.shoot = ModContent.ProjectileType<KelvinCatalyst>();
             item.shootSpeed = 8f;
             item.Calamity().rogue = true;
             item.Calamity().postMoonLordRarity = 21;

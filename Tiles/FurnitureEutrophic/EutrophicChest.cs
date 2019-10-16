@@ -5,10 +5,10 @@ using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.ID;
 using Terraria.Localization;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 using Terraria.ObjectData;
 
-namespace CalamityMod.Tiles.FurnitureEutrophic
+namespace CalamityMod.Tiles
 {
     public class EutrophicChest : ModTile
     {
@@ -38,7 +38,7 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Containers };
             chest = "Eutrophic Chest";
-            chestDrop = mod.ItemType("EutrophicChest");
+            chestDrop = ModContent.ItemType<EutrophicChest>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -186,7 +186,7 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
                 player.showItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : "Eutrophic Chest";
                 if (player.showItemIconText == "Eutrophic Chest")
                 {
-                    player.showItemIcon2 = mod.ItemType("EutrophicChest");
+                    player.showItemIcon2 = ModContent.ItemType<EutrophicChest>();
                     player.showItemIconText = "";
                 }
             }

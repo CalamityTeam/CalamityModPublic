@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class MirrorBlade : ModItem
     {
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons
             item.value = Item.buyPrice(1, 40, 0, 0);
             item.rare = 10;
             item.shootSpeed = 9f;
-            item.shoot = mod.ProjectileType("MirrorBlast");
+            item.shoot = ModContent.ProjectileType<MirrorBlast>();
             item.Calamity().postMoonLordRarity = 13;
         }
 

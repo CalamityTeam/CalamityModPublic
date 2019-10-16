@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Permafrost
+namespace CalamityMod.Projectiles
 {
     public class ArcticBearPaw : ModProjectile
     {
@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Permafrost
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.Frostburn, 480);
-            target.AddBuff(mod.BuffType("GlacialState"), 60);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 60);
 
             if (Main.rand.NextBool(3))
                 target.AddBuff(BuffID.Confused, Main.rand.Next(60, 240));

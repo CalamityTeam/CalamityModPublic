@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Permafrost
+namespace CalamityMod.Items
 {
     public class ArcticBearPaw : ModItem
     {
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Permafrost
             item.rare = 5;
             item.UseSound = SoundID.Item8;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("ArcticBearPaw");
+            item.shoot = ModContent.ProjectileType<ArcticBearPaw>();
             item.shootSpeed = 27f;
         }
     }

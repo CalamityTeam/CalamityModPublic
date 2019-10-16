@@ -2,9 +2,9 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.AbyssNPCs
+namespace CalamityMod.NPCs
 {
     public class EidolonWyrmTail : ModNPC
     {
@@ -79,7 +79,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
                 npc.HitEffect(0, 10.0);
                 npc.checkDead();
             }
-            if (!NPC.AnyNPCs(mod.NPCType("EidolonWyrmHead")))
+            if (!NPC.AnyNPCs(ModContent.NPCType<EidolonWyrmHead>()))
             {
                 npc.active = false;
             }
@@ -181,7 +181,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             player.AddBuff(BuffID.Bleeding, 60, true);
-            player.AddBuff(mod.BuffType("CrushDepth"), 60, true);
+            player.AddBuff(ModContent.BuffType<CrushDepth>(), 60, true);
         }
     }
 }

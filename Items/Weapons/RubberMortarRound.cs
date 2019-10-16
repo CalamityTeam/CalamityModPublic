@@ -1,7 +1,7 @@
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class RubberMortarRound : ModItem
     {
@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Weapons
             item.value = 1000;
             item.rare = 5;
             item.ammo = 97;
-            item.shoot = mod.ProjectileType("RubberMortarRound");
+            item.shoot = ModContent.ProjectileType<RubberMortarRound>();
         }
 
         public override void AddRecipes()

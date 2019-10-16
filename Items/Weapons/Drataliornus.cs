@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class Drataliornus : ModItem
     {
@@ -29,7 +29,7 @@ Right click to fire two devastating barrages of five empowered fireballs.
             item.width = 64;
             item.height = 84;
             item.UseSound = SoundID.Item5;
-            item.shoot = mod.ProjectileType("Drataliornus");
+            item.shoot = ModContent.ProjectileType<Drataliornus>();
             item.value = Item.buyPrice(5, 0, 0, 0);
             item.rare = 10;
             item.noMelee = true;
@@ -79,12 +79,12 @@ Right click to fire two devastating barrages of five empowered fireballs.
                 {
                     float num8 = index1 - (num4 - 1) / 2;
                     Vector2 vector2_5 = spinningpoint.RotatedBy(num3 * num8, new Vector2());
-                    Projectile.NewProjectile(position.X + vector2_5.X, position.Y + vector2_5.Y, speedX, speedY, mod.ProjectileType("DrataliornusFlame"), damage, knockBack, player.whoAmI, 1f, 0f);
+                    Projectile.NewProjectile(position.X + vector2_5.X, position.Y + vector2_5.Y, speedX, speedY, ModContent.ProjectileType<DrataliornusFlame>(), damage, knockBack, player.whoAmI, 1f, 0f);
                 }
             }
             else
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("Drataliornus"), 0, 0f, player.whoAmI);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Drataliornus>(), 0, 0f, player.whoAmI);
             }
 
             return false;

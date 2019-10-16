@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Patreon
+namespace CalamityMod.Items
 {
     public class MadAlchemistsCocktailGlove : ModItem
     {
@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Patreon
             item.rare = 10;
             item.UseSound = SoundID.Item106;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("MadAlchemistsCocktailRed");
+            item.shoot = ModContent.ProjectileType<MadAlchemistsCocktailRed>();
             item.shootSpeed = 12f;
             item.Calamity().postMoonLordRarity = 21;
         }
@@ -57,7 +57,7 @@ namespace CalamityMod.Items.Patreon
         {
             if (player.altFunctionUse == 2)
             {
-                type = mod.ProjectileType("MadAlchemistsCocktailAlt");
+                type = ModContent.ProjectileType<MadAlchemistsCocktailAlt>();
                 Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)((float)BaseDamage * 1.5f * player.magicDamage), knockBack, player.whoAmI, 0f, 0f);
             }
             else
@@ -65,16 +65,16 @@ namespace CalamityMod.Items.Patreon
                 switch (FlaskType)
                 {
                     case 0:
-                        type = mod.ProjectileType("MadAlchemistsCocktailRed");
+                        type = ModContent.ProjectileType<MadAlchemistsCocktailRed>();
                         break;
                     case 1:
-                        type = mod.ProjectileType("MadAlchemistsCocktailBlue");
+                        type = ModContent.ProjectileType<MadAlchemistsCocktailBlue>();
                         break;
                     case 2:
-                        type = mod.ProjectileType("MadAlchemistsCocktailGreen");
+                        type = ModContent.ProjectileType<MadAlchemistsCocktailGreen>();
                         break;
                     case 3:
-                        type = mod.ProjectileType("MadAlchemistsCocktailPurple");
+                        type = ModContent.ProjectileType<MadAlchemistsCocktailPurple>();
                         break;
                     default:
                         break;

@@ -1,9 +1,9 @@
 ﻿using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Accessories
+namespace CalamityMod.Items
 {
     public class BadgeofBravery : ModItem
     {
@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Accessories
         public override void OnCraft(Recipe recipe)
         {
             if (Main.rand.NextBool(40))
-                recipe.createItem.type = mod.ItemType("SamuraiBadge");
+                recipe.createItem.type = ModContent.ItemType<SamuraiBadge>();
             else
                 recipe.createItem.type = item.type;
         }

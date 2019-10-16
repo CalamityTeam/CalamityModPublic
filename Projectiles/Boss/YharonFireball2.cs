@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Boss
+namespace CalamityMod.Projectiles
 {
     public class YharonFireball2 : ModProjectile
     {

@@ -4,26 +4,26 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Summon
+namespace CalamityMod.Projectiles
 {
-    public class CloudyWaifu : ModProjectile
+    public class SandElementalMinion : ModProjectile
     {
         public int dust = 3;
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Cloudy Waifu");
-            Main.projFrames[projectile.type] = 8;
+            DisplayName.SetDefault("Waifu");
+            Main.projFrames[projectile.type] = 12;
             ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 58;
-            projectile.height = 116;
+            projectile.width = 42;
+            projectile.height = 98;
             projectile.netImportant = true;
             projectile.friendly = true;
             projectile.ignoreWater = true;
@@ -43,10 +43,10 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-            bool flag64 = projectile.type == mod.ProjectileType("CloudyWaifu");
+            bool flag64 = projectile.type == ModContent.ProjectileType<SandElementalMinion>();
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            if (!modPlayer.cloudWaifu && !modPlayer.allWaifus)
+            if (!modPlayer.sandWaifu && !modPlayer.allWaifus)
             {
                 projectile.active = false;
                 return;
@@ -55,9 +55,9 @@ namespace CalamityMod.Projectiles.Summon
             {
                 if (player.dead)
                 {
-                    modPlayer.cWaifu = false;
+                    modPlayer.sWaifu = false;
                 }
-                if (modPlayer.cWaifu)
+                if (modPlayer.sWaifu)
                 {
                     projectile.timeLeft = 2;
                 }
@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles.Summon
                 int num501 = 50;
                 for (int num502 = 0; num502 < num501; num502++)
                 {
-                    int num503 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y + 16f), projectile.width, projectile.height - 16, 16, 0f, 0f, 0, default, 1f);
+                    int num503 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y + 16f), projectile.width, projectile.height - 16, 32, 0f, 0f, 0, default, 1f);
                     Main.dust[num503].velocity *= 2f;
                     Main.dust[num503].scale *= 1.15f;
                 }
@@ -86,17 +86,17 @@ namespace CalamityMod.Projectiles.Summon
             {
                 projectile.spriteDirection = -projectile.direction;
             }
-            float num633 = 500f; //700
+            float num633 = 700f; //700
             float num634 = 800f;
             float num635 = 1200f;
-            float num636 = 400f; //150
+            float num636 = 200f; //150
             float num = (float)Main.rand.Next(90, 111) * 0.01f;
             num *= Main.essScale;
-            Lighting.AddLight(projectile.Center, 0.25f * num, 0.55f * num, 0.75f * num);
+            Lighting.AddLight(projectile.Center, 0.7f * num, 0.6f * num, 0f * num);
             float num637 = 0.05f;
             for (int num638 = 0; num638 < 1000; num638++)
             {
-                bool flag23 = Main.projectile[num638].type == mod.ProjectileType("CloudyWaifu");
+                bool flag23 = Main.projectile[num638].type == ModContent.ProjectileType<SandElementalMinion>();
                 if (num638 != projectile.whoAmI && Main.projectile[num638].active && Main.projectile[num638].owner == projectile.owner && flag23 && Math.Abs(projectile.position.X - Main.projectile[num638].position.X) + Math.Abs(projectile.position.Y - Main.projectile[num638].position.Y) < (float)projectile.width)
                 {
                     if (projectile.position.X < Main.projectile[num638].position.X)
@@ -117,49 +117,24 @@ namespace CalamityMod.Projectiles.Summon
                     }
                 }
             }
-            bool flag24 = false;
-            if (projectile.ai[0] == 2f)
-            {
-                projectile.ai[1] += 1f;
-                projectile.extraUpdates = 2;
-                projectile.frameCounter++;
-                if (projectile.frameCounter > 48)
-                {
-                    projectile.frame++;
-                    projectile.frameCounter = 0;
-                }
-                if (projectile.frame > 7)
-                {
-                    projectile.frame = 0;
-                }
-                if (projectile.ai[1] > 30f)
-                {
-                    projectile.ai[1] = 1f;
-                    projectile.ai[0] = 0f;
-                    projectile.extraUpdates = 0;
-                    projectile.numUpdates = 0;
-                    projectile.netUpdate = true;
-                }
-                else
-                {
-                    flag24 = true;
-                }
-            }
-            if (flag24)
-            {
-                return;
-            }
             Vector2 vector46 = projectile.position;
             bool flag25 = false;
+            if (projectile.ai[0] != 1f)
+            {
+                projectile.tileCollide = false;
+            }
+            if (projectile.tileCollide && WorldGen.SolidTile(Framing.GetTileSafely((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16)))
+            {
+                projectile.tileCollide = false;
+            }
             if (player.HasMinionAttackTargetNPC)
             {
                 NPC npc = Main.npc[player.MinionAttackTargetNPC];
                 if (npc.CanBeChasedBy(projectile, false))
                 {
                     float num646 = Vector2.Distance(npc.Center, projectile.Center);
-                    if (((Vector2.Distance(projectile.Center, vector46) > num646 && num646 < num633) || !flag25) && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
+                    if ((Vector2.Distance(projectile.Center, vector46) > num646 && num646 < num633) || !flag25)
                     {
-                        num633 = num646;
                         vector46 = npc.Center;
                         flag25 = true;
                     }
@@ -185,11 +160,39 @@ namespace CalamityMod.Projectiles.Summon
             float num647 = num634;
             if (flag25)
             {
+                if (projectile.frame < 6)
+                {
+                    projectile.frame = 6;
+                }
+                projectile.frameCounter++;
+                if (projectile.frameCounter > 16)
+                {
+                    projectile.frame++;
+                    projectile.frameCounter = 0;
+                }
+                if (projectile.frame > 11)
+                {
+                    projectile.frame = 6;
+                }
                 num647 = num635;
+            }
+            else
+            {
+                projectile.frameCounter++;
+                if (projectile.frameCounter > 16)
+                {
+                    projectile.frame++;
+                    projectile.frameCounter = 0;
+                }
+                if (projectile.frame > 5)
+                {
+                    projectile.frame = 0;
+                }
             }
             if (Vector2.Distance(player.Center, projectile.Center) > num647)
             {
                 projectile.ai[0] = 1f;
+                projectile.tileCollide = false;
                 projectile.netUpdate = true;
             }
             if (flag25 && projectile.ai[0] == 0f)
@@ -197,7 +200,7 @@ namespace CalamityMod.Projectiles.Summon
                 Vector2 vector47 = vector46 - projectile.Center;
                 float num648 = vector47.Length();
                 vector47.Normalize();
-                if (num648 > 100f) //200
+                if (num648 > 200f)
                 {
                     float scaleFactor2 = 8f;
                     vector47 *= scaleFactor2;
@@ -220,10 +223,10 @@ namespace CalamityMod.Projectiles.Summon
                 float num650 = 6f; //6
                 if (flag26)
                 {
-                    num650 = 15f; //15
+                    num650 = 15f; //16
                 }
                 Vector2 center2 = projectile.Center;
-                Vector2 vector48 = player.Center - center2 + new Vector2(500f, -60f); //-60
+                Vector2 vector48 = player.Center - center2 + new Vector2(250f, -60f); //-60
                 float num651 = vector48.Length();
                 if (num651 > 200f && num650 < 8f) //200 and 8
                 {
@@ -248,40 +251,33 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 else if (projectile.velocity.X == 0f && projectile.velocity.Y == 0f)
                 {
-                    projectile.velocity.X = -0.15f;
-                    projectile.velocity.Y = -0.05f;
+                    projectile.velocity.X = -0.195f;
+                    projectile.velocity.Y = -0.095f;
                 }
-            }
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 16)
-            {
-                projectile.frame++;
-                projectile.frameCounter = 0;
-            }
-            if (projectile.frame > 7)
-            {
-                projectile.frame = 0;
             }
             if (projectile.ai[1] > 0f)
             {
                 projectile.ai[1] += (float)Main.rand.Next(1, 4);
             }
-            if (projectile.ai[1] > 40f)
+            if (projectile.ai[1] > 220f)
             {
                 projectile.ai[1] = 0f;
                 projectile.netUpdate = true;
             }
             if (projectile.ai[0] == 0f)
             {
-                if (projectile.ai[1] == 0f && flag25 && num633 < 500f)
+                float scaleFactor3 = 11f;
+                int num658 = ModContent.ProjectileType<SandBolt>();
+                if (flag25 && projectile.ai[1] == 0f)
                 {
                     projectile.ai[1] += 1f;
-                    if (Main.myPlayer == projectile.owner)
+                    if (Main.myPlayer == projectile.owner && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, vector46, 0, 0))
                     {
-                        projectile.ai[0] = 2f;
-                        Vector2 value20 = vector46 - projectile.Center;
-                        value20.Normalize();
-                        projectile.velocity = value20 * 8f;
+                        Vector2 value19 = vector46 - projectile.Center;
+                        value19.Normalize();
+                        value19 *= scaleFactor3;
+                        int num659 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value19.X, value19.Y, num658, projectile.damage, 0f, Main.myPlayer, 0f, 0f);
+                        Main.projectile[num659].timeLeft = 300;
                         projectile.netUpdate = true;
                     }
                 }

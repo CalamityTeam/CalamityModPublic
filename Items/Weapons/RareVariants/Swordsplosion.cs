@@ -2,9 +2,9 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.RareVariants
+namespace CalamityMod.Items
 {
     public class Swordsplosion : ModItem
     {
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.RareVariants
             item.height = 84;
             item.value = Item.buyPrice(1, 20, 0, 0);
             item.rare = 10;
-            item.shoot = mod.ProjectileType("EonBeam");
+            item.shoot = ModContent.ProjectileType<EonBeam>();
             item.shootSpeed = 16f;
             item.Calamity().postMoonLordRarity = 22;
         }
@@ -39,16 +39,16 @@ namespace CalamityMod.Items.Weapons.RareVariants
             switch (Main.rand.Next(4))
             {
                 case 0:
-                    type = mod.ProjectileType("EonBeam");
+                    type = ModContent.ProjectileType<EonBeam>();
                     break;
                 case 1:
-                    type = mod.ProjectileType("EonBeamV2");
+                    type = ModContent.ProjectileType<EonBeamV2>();
                     break;
                 case 2:
-                    type = mod.ProjectileType("EonBeamV3");
+                    type = ModContent.ProjectileType<EonBeamV3>();
                     break;
                 case 3:
-                    type = mod.ProjectileType("EonBeamV4");
+                    type = ModContent.ProjectileType<EonBeamV4>();
                     break;
             }
             float num72 = Main.rand.Next(22, 30);
@@ -102,10 +102,10 @@ namespace CalamityMod.Items.Weapons.RareVariants
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("HolyLight"), 480);
-            target.AddBuff(mod.BuffType("GlacialState"), 480);
-            target.AddBuff(mod.BuffType("BrimstoneFlames"), 480);
-            target.AddBuff(mod.BuffType("Plague"), 480);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 480);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 480);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 480);
+            target.AddBuff(ModContent.BuffType<Plague>(), 480);
         }
     }
 }

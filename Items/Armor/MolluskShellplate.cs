@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Armor
+namespace CalamityMod.Items
 {
     [AutoloadEquip(EquipType.Body)]
     public class MolluskShellplate : ModItem
@@ -33,8 +33,8 @@ namespace CalamityMod.Items.Armor
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("SeaPrism"), 25);
-            recipe.AddIngredient(mod.ItemType("MolluskHusk"), 15);
+            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 25);
+            recipe.AddIngredient(ModContent.ItemType<MolluskHusk>(), 15);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.Plaguebringer
+namespace CalamityMod.Items
 {
     public class TheHive : ModItem
     {
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Plaguebringer
             item.rare = 8;
             item.UseSound = SoundID.Item61;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("BeeRPG");
+            item.shoot = ModContent.ProjectileType<BeeRPG>();
             item.shootSpeed = 13f;
             item.useAmmo = 771;
         }
@@ -38,16 +38,16 @@ namespace CalamityMod.Items.Weapons.Plaguebringer
             switch (Main.rand.Next(4))
             {
                 case 0:
-                    type = mod.ProjectileType("GoliathRocket");
+                    type = ModContent.ProjectileType<GoliathRocket>();
                     break;
                 case 1:
-                    type = mod.ProjectileType("HiveMissile");
+                    type = ModContent.ProjectileType<HiveMissile>();
                     break;
                 case 2:
-                    type = mod.ProjectileType("HiveBomb");
+                    type = ModContent.ProjectileType<HiveBomb>();
                     break;
                 case 3:
-                    type = mod.ProjectileType("BeeRPG");
+                    type = ModContent.ProjectileType<BeeRPG>();
                     break;
                 default:
                     break;

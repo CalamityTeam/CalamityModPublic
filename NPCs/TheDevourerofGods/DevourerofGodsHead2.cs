@@ -3,9 +3,9 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.TheDevourerofGods
+namespace CalamityMod.NPCs
 {
     public class DevourerofGodsHead2 : ModNPC
     {
@@ -108,11 +108,11 @@ namespace CalamityMod.NPCs.TheDevourerofGods
                         int segment;
                         if (segmentSpawn >= 0 && segmentSpawn < minLength)
                         {
-                            segment = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("DevourerofGodsBody2"), npc.whoAmI);
+                            segment = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<DevourerofGodsBody2>(), npc.whoAmI);
                         }
                         else
                         {
-                            segment = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("DevourerofGodsTail2"), npc.whoAmI);
+                            segment = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<DevourerofGodsTail2>(), npc.whoAmI);
                         }
                         Main.npc[segment].realLife = npc.whoAmI;
                         Main.npc[segment].ai[2] = (float)npc.whoAmI;
@@ -132,7 +132,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
             {
                 for (int num569 = 0; num569 < 200; num569++)
                 {
-                    if (Main.npc[num569].active && (Main.npc[num569].type == mod.NPCType("DevourerofGodsHead2") || Main.npc[num569].type == mod.NPCType("DevourerofGodsBody2") || Main.npc[num569].type == mod.NPCType("DevourerofGodsTail2")))
+                    if (Main.npc[num569].active && (Main.npc[num569].type == ModContent.NPCType<DevourerofGodsHead2>() || Main.npc[num569].type == ModContent.NPCType<DevourerofGodsBody2>() || Main.npc[num569].type == ModContent.NPCType<DevourerofGodsTail2>()))
                     {
                         Main.npc[num569].active = false;
                     }
@@ -481,7 +481,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(mod.BuffType("GodSlayerInferno"), 180, true);
+            player.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 180, true);
             player.AddBuff(BuffID.Frostburn, 180, true);
             player.AddBuff(BuffID.Darkness, 180, true);
         }

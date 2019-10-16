@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Tools
+namespace CalamityMod.Items
 {
     public class AstralPickaxe : ModItem
     {
@@ -43,12 +43,12 @@ namespace CalamityMod.Items.Tools
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("AstralInfectionDebuff"), 120);
+            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120);
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
-            Dust d = CalamityGlobalItem.MeleeDustHelper(player, Main.rand.NextBool(2) ? mod.DustType("AstralOrange") : mod.DustType("AstralBlue"), 0.56f, 40, 65, -0.13f, 0.13f);
+            Dust d = CalamityGlobalItem.MeleeDustHelper(player, Main.rand.NextBool(2) ? ModContent.DustType<AstralOrange>() : ModContent.DustType<AstralBlue>(), 0.56f, 40, 65, -0.13f, 0.13f);
             if (d != null)
             {
                 d.customData = 0.02f;

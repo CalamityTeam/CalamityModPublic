@@ -1,9 +1,9 @@
 ﻿using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Buffs.MountBuffs
+namespace CalamityMod.Buffs
 {
-    class Fab : ModBuff
+    class AlicornBuff : ModBuff
     {
         public override void SetDefaults()
         {
@@ -15,7 +15,7 @@ namespace CalamityMod.Buffs.MountBuffs
 
         public override void Update(Player player, ref int buffIndex)
         {
-            player.mount.SetMount(ModContent.MountType<Items.Mounts.Fab>(), player);
+            player.mount.SetMount(ModContent.MountType<AlicornMount>(), player);
             player.buffTime[buffIndex] = 10;
             player.Calamity().fab = true;
         }

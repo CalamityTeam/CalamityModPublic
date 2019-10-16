@@ -1,8 +1,8 @@
 ﻿using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.FabsolStuff
+namespace CalamityMod.Items
 {
     public class OddMushroom : ModItem
     {
@@ -24,7 +24,7 @@ namespace CalamityMod.Items.FabsolStuff
             item.useStyle = 2;
             item.UseSound = SoundID.Item2;
             item.consumable = true;
-            item.buffType = mod.BuffType("Trippy");
+            item.buffType = ModContent.BuffType<Trippy>();
             item.buffTime = 216000;
             item.value = Item.buyPrice(1, 0, 0, 0);
         }

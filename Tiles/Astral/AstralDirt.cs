@@ -2,9 +2,9 @@ using CalamityMod.Utilities;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Tiles.Astral
+namespace CalamityMod.Tiles
 {
     public class AstralDirt : ModTile
     {
@@ -17,8 +17,8 @@ namespace CalamityMod.Tiles.Astral
             TileMerge.MergeAstralTiles(Type);
             TileMerge.MergeOreTiles(Type);
 
-            dustType = mod.DustType("AstralBasic");
-            drop = mod.ItemType("AstralDirt");
+            dustType = ModContent.DustType<AstralBasic>();
+            drop = ModContent.ItemType<AstralDirt>();
 
             AddMapEntry(new Color(65, 56, 83));
 
@@ -39,9 +39,9 @@ namespace CalamityMod.Tiles.Astral
             Tile down = Main.tile[i, j + 1];
             Tile left = Main.tile[i - 1, j];
             Tile right = Main.tile[i + 1, j];
-            if (WorldGen.genRand.Next(3) == 0 && (up.type == mod.TileType("AstralGrass") || down.type == mod.TileType("AstralGrass") || left.type == mod.TileType("AstralGrass") || right.type == mod.TileType("AstralGrass")))
+            if (WorldGen.genRand.Next(3) == 0 && (up.type == ModContent.TileType<AstralGrass>() || down.type == ModContent.TileType<AstralGrass>() || left.type == ModContent.TileType<AstralGrass>() || right.type == ModContent.TileType<AstralGrass>()))
             {
-                WorldGen.SpreadGrass(i, j, Type, mod.TileType("AstralGrass"), false);
+                WorldGen.SpreadGrass(i, j, Type, ModContent.TileType<AstralGrass>(), false);
             }
         }
 

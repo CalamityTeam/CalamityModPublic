@@ -1,8 +1,8 @@
 using CalamityMod.CalPlayer;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Accessories
+namespace CalamityMod.Items
 {
     public class WifeinaBottlewithBoobs : ModItem
     {
@@ -39,13 +39,13 @@ namespace CalamityMod.Items.Accessories
             modPlayer.sandBoobWaifu = true;
             if (player.whoAmI == Main.myPlayer)
             {
-                if (player.FindBuffIndex(mod.BuffType("DrewsSandyWaifu")) == -1)
+                if (player.FindBuffIndex(ModContent.BuffType<DrewsSandyWaifu>()) == -1)
                 {
-                    player.AddBuff(mod.BuffType("DrewsSandyWaifu"), 3600, true);
+                    player.AddBuff(ModContent.BuffType<DrewsSandyWaifu>(), 3600, true);
                 }
-                if (player.ownedProjectileCounts[mod.ProjectileType("DrewsSandyWaifu")] < 1)
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<DrewsSandyWaifu>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("DrewsSandyWaifu"), (int)(45f * player.minionDamage), 2f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<DrewsSandyWaifu>(), (int)(45f * player.minionDamage), 2f, Main.myPlayer, 0f, 0f);
                 }
             }
         }

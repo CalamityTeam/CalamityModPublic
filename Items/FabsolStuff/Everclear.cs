@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.FabsolStuff
+namespace CalamityMod.Items
 {
     public class Everclear : ModItem
     {
@@ -26,7 +26,7 @@ This is the most potent booze I have, be careful with it");
             item.useStyle = 2;
             item.UseSound = SoundID.Item3;
             item.consumable = true;
-            item.buffType = mod.BuffType("Everclear");
+            item.buffType = ModContent.BuffType<Everclear>();
             item.buffTime = 900; //15 seconds
             item.value = Item.buyPrice(0, 6, 60, 0);
         }

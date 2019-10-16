@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class AbyssBlade : ModItem
     {
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons
             item.height = 60;
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.rare = 7;
-            item.shoot = mod.ProjectileType("DepthOrb");
+            item.shoot = ModContent.ProjectileType<DepthOrb>();
             item.shootSpeed = 9f;
         }
 
@@ -57,7 +57,7 @@ namespace CalamityMod.Items.Weapons
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("CrushDepth"), 300);
+            target.AddBuff(ModContent.BuffType<CrushDepth>(), 300);
         }
     }
 }

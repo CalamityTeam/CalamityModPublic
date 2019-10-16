@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Magic
+namespace CalamityMod.Projectiles
 {
     public class FabRay : ModProjectile
     {
@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Magic
             if (projectile.localAI[1] >= 9f && projectile.owner == Main.myPlayer)
             {
                 projectile.localAI[1] = 0f;
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0.35f, projectile.velocity.Y * 0.35f, mod.ProjectileType("FabOrb"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0.35f, projectile.velocity.Y * 0.35f, ModContent.ProjectileType<FabOrb>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
             }
             projectile.localAI[0] += 1f;
             if (projectile.localAI[0] > 16f)

@@ -1,7 +1,7 @@
 ﻿using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Magic
+namespace CalamityMod.Projectiles
 {
     public class ShadeNimbus : ModProjectile
     {
@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Magic
                     {
                         int num414 = (int)(projectile.position.X + 14f + (float)Main.rand.Next(projectile.width - 28));
                         int num415 = (int)(projectile.position.Y + (float)projectile.height + 4f);
-                        Projectile.NewProjectile((float)num414, (float)num415, 0f, 5f, mod.ProjectileType("Shaderain"), projectile.damage, 0f, projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile((float)num414, (float)num415, 0f, 5f, ModContent.ProjectileType<Shaderain>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
                     }
                 }
             }

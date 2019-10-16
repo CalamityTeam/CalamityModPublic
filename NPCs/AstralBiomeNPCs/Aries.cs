@@ -3,9 +3,9 @@ using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.AstralBiomeNPCs
+namespace CalamityMod.NPCs
 {
     public class Aries : ModNPC
     {
@@ -32,7 +32,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             npc.value = Item.buyPrice(0, 0, 10, 0);
             npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstralEnemyDeath");
             banner = npc.type;
-            bannerItem = mod.ItemType("AriesBanner");
+            bannerItem = ModContent.ItemType<AriesBanner>();
             if (CalamityWorld.downedAstrageldon)
             {
                 npc.damage = 85;
@@ -44,7 +44,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 
         public override void FindFrame(int frameHeight)
         {
-            CalamityGlobalNPC.SpawnDustOnNPC(npc, 66, frameHeight, mod.DustType("AstralOrange"), new Rectangle(44, 18, 12, 12));
+            CalamityGlobalNPC.SpawnDustOnNPC(npc, 66, frameHeight, ModContent.DustType<AstralOrange>(), new Rectangle(44, 18, 12, 12));
             if (npc.velocity.Y == 0f)
             {
                 npc.frame.Y = 0;
@@ -86,7 +86,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
                 }
             }
 
-            CalamityGlobalNPC.DoHitDust(npc, hitDirection, mod.DustType("AstralOrange"), 1f, 4, 24);
+            CalamityGlobalNPC.DoHitDust(npc, hitDirection, ModContent.DustType<AstralOrange>(), 1f, 4, 24);
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
@@ -106,22 +106,22 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(mod.BuffType("AstralInfectionDebuff"), 120, true);
+            player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120, true);
         }
 
         public override void NPCLoot()
         {
             if (Main.rand.NextBool(2))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Stardust"), Main.rand.Next(1, 3));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Stardust>(), Main.rand.Next(1, 3));
             }
             if (Main.expertMode)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Stardust"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Stardust>());
             }
             if (CalamityWorld.downedAstrageldon && Main.rand.NextBool(7))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("StellarKnife"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<StellarKnife>());
             }
         }
     }

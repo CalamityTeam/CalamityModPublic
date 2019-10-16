@@ -1,7 +1,7 @@
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class AccelerationBullet : ModItem
     {
@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons
             item.knockBack = 1.25f;
             item.value = 250;
             item.rare = 1;
-            item.shoot = mod.ProjectileType("AccelerationBullet");
+            item.shoot = ModContent.ProjectileType<AccelerationBullet>();
             item.shootSpeed = 1f;
             item.ammo = 97;
         }

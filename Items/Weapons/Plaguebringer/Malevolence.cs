@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.Plaguebringer
+namespace CalamityMod.Items
 {
     public class Malevolence : ModItem
     {
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Plaguebringer
             item.UseSound = SoundID.Item97;
             item.autoReuse = true;
             item.shootSpeed = 12f;
-            item.shoot = mod.ProjectileType("PlagueArrow");
+            item.shoot = ModContent.ProjectileType<PlagueArrow>();
             item.useAmmo = 40;
         }
 
@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Weapons.Plaguebringer
             {
                 float SpeedX = speedX + (float)Main.rand.Next(-20, 21) * 0.05f;
                 float SpeedY = speedY + (float)Main.rand.Next(-20, 21) * 0.05f;
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, mod.ProjectileType("PlagueArrow"), damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<PlagueArrow>(), damage, knockBack, player.whoAmI, 0f, 0f);
             }
             return false;
         }

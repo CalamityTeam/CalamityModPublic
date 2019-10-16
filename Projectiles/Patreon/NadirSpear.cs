@@ -1,10 +1,10 @@
-﻿using CalamityMod.Items.Patreon;
+﻿using CalamityMod.Items;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Patreon
+namespace CalamityMod.Projectiles
 {
     public class NadirSpear : ModProjectile
     {
@@ -73,7 +73,7 @@ namespace CalamityMod.Projectiles.Patreon
                     Vector2 projPos = projectile.Center + projectile.velocity;
                     Vector2 projVel = projectile.velocity * 0.75f;
                     if (projectile.owner == Main.myPlayer)
-                        Projectile.NewProjectile(projPos, projVel, mod.ProjectileType("VoidEssence"), damage, kb, projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(projPos, projVel, ModContent.ProjectileType<VoidEssence>(), damage, kb, projectile.owner, 0f, 0f);
 
                     // Play a screaming soul sound effect (unused Shadowflame Hex Doll noise)
                     Main.PlaySound(SoundID.Item104, projectile.Center);

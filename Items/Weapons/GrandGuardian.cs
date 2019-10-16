@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class GrandGuardian : ModItem
     {
@@ -46,22 +46,22 @@ namespace CalamityMod.Items.Weapons
                 player.statLife += 4;
                 player.HealEffect(4);
             }
-            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("RainbowBoom"), (int)((float)item.damage * player.meleeDamage * 0.5f), 0f, player.whoAmI);
+            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<RainbowBoom>(), (int)((float)item.damage * player.meleeDamage * 0.5f), 0f, player.whoAmI);
             if (target.life <= (target.lifeMax * 0.5f))
             {
                 float randomSpeedX = (float)Main.rand.Next(9);
                 float randomSpeedY = (float)Main.rand.Next(6, 15);
-                Projectile.NewProjectile(player.Center.X, player.Center.Y, -randomSpeedX, -randomSpeedY, mod.ProjectileType("RainBolt"), (int)((float)item.damage * player.meleeDamage * 0.75f), knockback, player.whoAmI);
-                Projectile.NewProjectile(player.Center.X, player.Center.Y, randomSpeedX, -randomSpeedY, mod.ProjectileType("RainBolt"), (int)((float)item.damage * player.meleeDamage * 0.75f), knockback, player.whoAmI);
-                Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -randomSpeedY, mod.ProjectileType("RainBolt"), (int)((float)item.damage * player.meleeDamage * 0.75f), knockback, player.whoAmI);
+                Projectile.NewProjectile(player.Center.X, player.Center.Y, -randomSpeedX, -randomSpeedY, ModContent.ProjectileType<RainBolt>(), (int)((float)item.damage * player.meleeDamage * 0.75f), knockback, player.whoAmI);
+                Projectile.NewProjectile(player.Center.X, player.Center.Y, randomSpeedX, -randomSpeedY, ModContent.ProjectileType<RainBolt>(), (int)((float)item.damage * player.meleeDamage * 0.75f), knockback, player.whoAmI);
+                Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -randomSpeedY, ModContent.ProjectileType<RainBolt>(), (int)((float)item.damage * player.meleeDamage * 0.75f), knockback, player.whoAmI);
             }
             if (target.life <= 0)
             {
                 float randomSpeedX = (float)Main.rand.Next(9);
                 float randomSpeedY = (float)Main.rand.Next(6, 15);
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, -randomSpeedX, -randomSpeedY, mod.ProjectileType("RainHeal"), 0, 0f, player.whoAmI);
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, randomSpeedX, -randomSpeedY, mod.ProjectileType("RainHeal"), 0, 0f, player.whoAmI);
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, -randomSpeedY, mod.ProjectileType("RainHeal"), 0, 0f, player.whoAmI);
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, -randomSpeedX, -randomSpeedY, ModContent.ProjectileType<RainHeal>(), 0, 0f, player.whoAmI);
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, randomSpeedX, -randomSpeedY, ModContent.ProjectileType<RainHeal>(), 0, 0f, player.whoAmI);
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, -randomSpeedY, ModContent.ProjectileType<RainHeal>(), 0, 0f, player.whoAmI);
             }
         }
 

@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class SHPC : ModItem
     {
@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.UseSound = SoundID.Item92;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("SHPB");
+            item.shoot = ModContent.ProjectileType<SHPB>();
             item.shootSpeed = 20f;
             item.Calamity().postMoonLordRarity = 17;
         }
@@ -74,7 +74,7 @@ namespace CalamityMod.Items.Weapons
                 {
                     float SpeedX = speedX + (float)Main.rand.Next(-20, 21) * 0.05f;
                     float SpeedY = speedY + (float)Main.rand.Next(-20, 21) * 0.05f;
-                    Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, mod.ProjectileType("SHPL"), damage, knockBack * 0.5f, player.whoAmI, 0.0f, 0.0f);
+                    Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<SHPL>(), damage, knockBack * 0.5f, player.whoAmI, 0.0f, 0.0f);
                 }
                 return false;
             }
@@ -84,7 +84,7 @@ namespace CalamityMod.Items.Weapons
                 {
                     float SpeedX = speedX + (float)Main.rand.Next(-40, 41) * 0.05f;
                     float SpeedY = speedY + (float)Main.rand.Next(-40, 41) * 0.05f;
-                    Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, mod.ProjectileType("SHPB"), (int)((double)damage * 1.1), knockBack, player.whoAmI, 0.0f, 0.0f);
+                    Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<SHPB>(), (int)((double)damage * 1.1), knockBack, player.whoAmI, 0.0f, 0.0f);
                 }
                 return false;
             }

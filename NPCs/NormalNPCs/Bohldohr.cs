@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.NormalNPCs
+namespace CalamityMod.NPCs
 {
     public class Bohldohr : ModNPC
     {
@@ -29,7 +29,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.DeathSound = SoundID.NPCDeath35;
             npc.behindTiles = true;
             banner = npc.type;
-            bannerItem = mod.ItemType("BOHLDOHRBanner");
+            bannerItem = ModContent.ItemType<BOHLDOHRBanner>();
         }
 
         public override void AI()
@@ -341,7 +341,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             if (CalamityWorld.downedSCal)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("NO"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<NO>());
             }
         }
     }

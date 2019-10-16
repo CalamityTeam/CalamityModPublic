@@ -1,10 +1,11 @@
 ﻿using CalamityMod.CalPlayer;
+using CalamityMod.Projectiles;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Buffs.SummonBuffs
+namespace CalamityMod.Buffs
 {
-    public class FungalClump : ModBuff
+    public class FungalClumpBuff : ModBuff
     {
         public override void SetDefaults()
         {
@@ -17,7 +18,7 @@ namespace CalamityMod.Buffs.SummonBuffs
         public override void Update(Player player, ref int buffIndex)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            if (player.ownedProjectileCounts[mod.ProjectileType("FungalClump")] > 0)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<FungalClumpMinion>()] > 0)
             {
                 modPlayer.fClump = true;
             }

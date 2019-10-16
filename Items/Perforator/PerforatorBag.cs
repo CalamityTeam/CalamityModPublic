@@ -1,13 +1,12 @@
-using CalamityMod.Utilities;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Perforator
+namespace CalamityMod.Items
 {
     public class PerforatorBag : ModItem
     {
-        public override int BossBagNPC => mod.NPCType("PerforatorHive");
+        public override int BossBagNPC => ModContent.NPCType<PerforatorHive>();
 
         public override void SetStaticDefaults()
         {
@@ -35,25 +34,25 @@ namespace CalamityMod.Items.Perforator
             // Materials
             DropHelper.DropItem(player, ItemID.Vertebrae, 10, 20);
             DropHelper.DropItem(player, ItemID.CrimtaneBar, 9, 14);
-            DropHelper.DropItem(player, mod.ItemType("BloodSample"), 30, 40);
+            DropHelper.DropItem(player, ModContent.ItemType<BloodSample>(), 30, 40);
             DropHelper.DropItemCondition(player, ItemID.Ichor, Main.hardMode, 15, 30);
 
             // Weapons
-            DropHelper.DropItemChance(player, mod.ItemType("VeinBurster"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("BloodyRupture"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("SausageMaker"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("Aorta"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("Eviscerator"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("BloodBath"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("BloodClotStaff"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("ToothBall"), 3, 50, 75);
+            DropHelper.DropItemChance(player, ModContent.ItemType<VeinBurster>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<BloodyRupture>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<SausageMaker>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<Aorta>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<Eviscerator>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<BloodBath>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<BloodClotStaff>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<ToothBall>(), 3, 50, 75);
 
             // Equipment
-            DropHelper.DropItem(player, mod.ItemType("BloodyWormTooth"));
+            DropHelper.DropItem(player, ModContent.ItemType<BloodyWormTooth>());
 
             // Vanity
-            DropHelper.DropItemChance(player, mod.ItemType("PerforatorMask"), 7);
-            DropHelper.DropItemChance(player, mod.ItemType("BloodyVein"), 10);
+            DropHelper.DropItemChance(player, ModContent.ItemType<PerforatorMask>(), 7);
+            DropHelper.DropItemChance(player, ModContent.ItemType<BloodyVein>(), 10);
         }
     }
 }

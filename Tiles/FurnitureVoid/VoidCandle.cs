@@ -1,10 +1,10 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 using Terraria.ObjectData;
 
-namespace CalamityMod.Tiles.FurnitureVoid
+namespace CalamityMod.Tiles
 {
     class VoidCandle : ModTile
     {
@@ -23,7 +23,7 @@ namespace CalamityMod.Tiles.FurnitureVoid
             AddMapEntry(new Color(191, 142, 111), name);
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Torches };
-            drop = mod.ItemType("VoidCandle");
+            drop = ModContent.ItemType<VoidCandle>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)

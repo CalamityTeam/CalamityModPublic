@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Magic
+namespace CalamityMod.Projectiles
 {
     public class GhastlyBlast : ModProjectile
     {
@@ -134,7 +134,7 @@ namespace CalamityMod.Projectiles.Magic
                 if (projectile.ai[0] % 30f == 0f && projectile.ai[0] < 241f && Main.myPlayer == projectile.owner)
                 {
                     Vector2 vector144 = Vector2.UnitY.RotatedByRandom(6.2831854820251465) * 12f;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector144.X, vector144.Y, mod.ProjectileType("GhastlySubBlast"), projectile.damage, 0f, projectile.owner, 0f, (float)projectile.whoAmI);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector144.X, vector144.Y, ModContent.ProjectileType<GhastlySubBlast>(), projectile.damage, 0f, projectile.owner, 0f, (float)projectile.whoAmI);
                 }
                 Vector2 vector145 = projectile.Center;
                 float num1015 = 800f;
@@ -274,7 +274,7 @@ namespace CalamityMod.Projectiles.Magic
             {
                 for (int num105 = 0; num105 < 1000; num105 = num3 + 1)
                 {
-                    if (Main.projectile[num105].active && Main.projectile[num105].type == mod.ProjectileType("GhastlySubBlast") && Main.projectile[num105].ai[1] == (float)projectile.whoAmI)
+                    if (Main.projectile[num105].active && Main.projectile[num105].type == ModContent.ProjectileType<GhastlySubBlast>() && Main.projectile[num105].ai[1] == (float)projectile.whoAmI)
                     {
                         Main.projectile[num105].Kill();
                     }
@@ -302,7 +302,7 @@ namespace CalamityMod.Projectiles.Magic
                         vector5.Y *= -1f;
                     }
                     vector5 *= (float)Main.rand.Next(70, 101) * 0.1f;
-                    Projectile.NewProjectile(vector4.X, vector4.Y, vector5.X, vector5.Y, mod.ProjectileType("GhastlyExplosionShard"), (int)((double)projectile.damage * 0.8), projectile.knockBack * 0.8f, projectile.owner, (float)num108, 0f);
+                    Projectile.NewProjectile(vector4.X, vector4.Y, vector5.X, vector5.Y, ModContent.ProjectileType<GhastlyExplosionShard>(), (int)((double)projectile.damage * 0.8), projectile.knockBack * 0.8f, projectile.owner, (float)num108, 0f);
                     num3 = num110;
                 }
                 for (int num111 = 0; num111 < num107; num111 = num3 + 1)
@@ -319,7 +319,7 @@ namespace CalamityMod.Projectiles.Magic
                         vector7.Y *= -1f;
                     }
                     vector7 *= (float)Main.rand.Next(40, 81) * 0.1f;
-                    Projectile.NewProjectile(vector6.X, vector6.Y, vector7.X, vector7.Y, mod.ProjectileType("GhastlyExplosion"), (int)((double)projectile.damage * 0.8), projectile.knockBack * 0.8f, projectile.owner, (float)num109, 0f);
+                    Projectile.NewProjectile(vector6.X, vector6.Y, vector7.X, vector7.Y, ModContent.ProjectileType<GhastlyExplosion>(), (int)((double)projectile.damage * 0.8), projectile.knockBack * 0.8f, projectile.owner, (float)num109, 0f);
                     num3 = num111;
                 }
             }

@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class BlackHawkRemote : ModItem
     {
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons
             item.value = Item.buyPrice(0, 12, 0, 0);
             item.UseSound = SoundID.Item15; //phaseblade sound effect
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("BlackHawkSummon");
+            item.shoot = ModContent.ProjectileType<BlackHawkSummon>();
             item.shootSpeed = 10f;
             item.summon = true;
             item.rare = 4;

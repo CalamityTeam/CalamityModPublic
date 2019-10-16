@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Permafrost
+namespace CalamityMod.Projectiles
 {
     public class FrostyFlare : ModProjectile
     {
@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Permafrost
                     vel.X += Main.rand.Next(-50, 51);
                     vel.Normalize();
                     vel *= 30f;
-                    int p = Projectile.NewProjectile(pos, vel + projectile.velocity / 4f, mod.ProjectileType("FrostShardFriendly"), projectile.damage, projectile.knockBack, projectile.owner);
+                    int p = Projectile.NewProjectile(pos, vel + projectile.velocity / 4f, ModContent.ProjectileType<FrostShardFriendly>(), projectile.damage, projectile.knockBack, projectile.owner);
                     Main.projectile[p].minion = false;
                 }
 
@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles.Permafrost
                         vel.X += Main.rand.Next(-50, 51);
                         vel.Normalize();
                         vel *= 30f;
-                        int p = Projectile.NewProjectile(pos, vel + Main.npc[id].velocity, mod.ProjectileType("FrostShardFriendly"), projectile.damage, projectile.knockBack, projectile.owner);
+                        int p = Projectile.NewProjectile(pos, vel + Main.npc[id].velocity, ModContent.ProjectileType<FrostShardFriendly>(), projectile.damage, projectile.knockBack, projectile.owner);
                         Main.projectile[p].minion = false;
                     }
                 }
@@ -85,7 +85,7 @@ namespace CalamityMod.Projectiles.Permafrost
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.Frostburn, 300);
-            target.AddBuff(mod.BuffType("GlacialState"), 120);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
             target.immune[projectile.owner] = 0;
             projectile.ai[0] = 1f;
             projectile.ai[1] = target.whoAmI;

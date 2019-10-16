@@ -4,9 +4,9 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Melee
+namespace CalamityMod.Projectiles
 {
     public class ElementalExcaliburBeam : ModProjectile
     {
@@ -117,7 +117,7 @@ namespace CalamityMod.Projectiles.Melee
                             for (int i = 0; i < numProj + 1; i++)
                             {
                                 Vector2 perturbedSpeed = new Vector2(projectile.velocity.X, projectile.velocity.Y).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
-                                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X * 0.5f, perturbedSpeed.Y * 0.5f, mod.ProjectileType("ElementalExcaliburBeam"), (int)((double)projectile.damage * 0.5), projectile.knockBack * 0.5f, projectile.owner, 0f, 0f);
+                                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X * 0.5f, perturbedSpeed.Y * 0.5f, ModContent.ProjectileType<ElementalExcaliburBeam>(), (int)((double)projectile.damage * 0.5), projectile.knockBack * 0.5f, projectile.owner, 0f, 0f);
                             }
                         }
                         projectile.Kill();
@@ -258,7 +258,7 @@ namespace CalamityMod.Projectiles.Melee
                     {
                         projectile.localAI[1] = 1f;
                         if (Main.myPlayer == projectile.owner)
-                            Projectile.NewProjectile(projectile.Center.X + projectile.velocity.X, projectile.Center.Y + projectile.velocity.Y, projectile.velocity.X, projectile.velocity.Y, mod.ProjectileType("ElementalExcaliburBeam"), projectile.damage / 2, projectile.knockBack * 0.5f, projectile.owner, 10f, 0f);
+                            Projectile.NewProjectile(projectile.Center.X + projectile.velocity.X, projectile.Center.Y + projectile.velocity.Y, projectile.velocity.X, projectile.velocity.Y, ModContent.ProjectileType<ElementalExcaliburBeam>(), projectile.damage / 2, projectile.knockBack * 0.5f, projectile.owner, 10f, 0f);
                     }
 
                     break;
@@ -276,11 +276,11 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("ExoFreeze"), 60);
-            target.AddBuff(mod.BuffType("BrimstoneFlames"), 240);
-            target.AddBuff(mod.BuffType("GlacialState"), 240);
-            target.AddBuff(mod.BuffType("Plague"), 240);
-            target.AddBuff(mod.BuffType("HolyLight"), 240);
+            target.AddBuff(ModContent.BuffType<ExoFreeze>(), 60);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 240);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 240);
+            target.AddBuff(ModContent.BuffType<Plague>(), 240);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 240);
             target.AddBuff(BuffID.CursedInferno, 240);
             target.AddBuff(BuffID.Frostburn, 240);
             target.AddBuff(BuffID.OnFire, 240);
@@ -418,7 +418,7 @@ namespace CalamityMod.Projectiles.Melee
                         speedY *= dir * 150;
                         if (projectile.owner == Main.myPlayer)
                         {
-                            Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, mod.ProjectileType("ElementalExcaliburBeam"), (int)((double)projectile.damage * 0.2), 2f, projectile.owner, 5f, 0f);
+                            Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, ModContent.ProjectileType<ElementalExcaliburBeam>(), (int)((double)projectile.damage * 0.2), 2f, projectile.owner, 5f, 0f);
                         }
                     }
 

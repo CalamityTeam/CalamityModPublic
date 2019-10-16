@@ -1,11 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Magic
+namespace CalamityMod.Projectiles
 {
-    public class SoulPiercer : ModProjectile
+    public class SoulPiercerBeam : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles.Magic
                 speedY *= dir * 150;
                 if (projectile.owner == Main.myPlayer)
                 {
-                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, mod.ProjectileType("SoulPiercerBolt"), (int)((double)projectile.damage * 0.5), 0f, projectile.owner);
+                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, ModContent.ProjectileType<SoulPiercerBolt>(), (int)((double)projectile.damage * 0.5), 0f, projectile.owner);
                 }
             }
         }

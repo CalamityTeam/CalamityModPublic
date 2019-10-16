@@ -5,9 +5,9 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.Localization;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Pets
+namespace CalamityMod.Projectiles
 {
     public class ChibiiDoggo : ModProjectile
     {
@@ -190,8 +190,8 @@ namespace CalamityMod.Projectiles.Pets
                 projectile.hide = true;
                 //projectile.extraUpdates = 1;
 
-                if (player.ownedProjectileCounts[mod.ProjectileType("ChibiiDoggoFly")] <= 0)
-                    Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 0f, 0f, mod.ProjectileType("ChibiiDoggoFly"), 0, 0f, projectile.owner, (float)projectile.identity);
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<ChibiiDoggoFly>()] <= 0)
+                    Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 0f, 0f, ModContent.ProjectileType<ChibiiDoggoFly>(), 0, 0f, projectile.owner, (float)projectile.identity);
             }
 
             //companion cube lighting check and stab

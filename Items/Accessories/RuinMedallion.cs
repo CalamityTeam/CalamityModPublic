@@ -1,9 +1,9 @@
 ﻿using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Accessories
+namespace CalamityMod.Items
 {
     public class RuinMedallion : ModItem
     {
@@ -34,9 +34,9 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("CoinofDeceit"));
-            recipe.AddIngredient(mod.ItemType("UnholyCore"), 4);
-            recipe.AddIngredient(mod.ItemType("EssenceofChaos"), 2);
+            recipe.AddIngredient(ModContent.ItemType<CoinofDeceit>());
+            recipe.AddIngredient(ModContent.ItemType<UnholyCore>(), 4);
+            recipe.AddIngredient(ModContent.ItemType<EssenceofChaos>(), 2);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

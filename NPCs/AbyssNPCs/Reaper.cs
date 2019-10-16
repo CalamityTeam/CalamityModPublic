@@ -4,9 +4,9 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.AbyssNPCs
+namespace CalamityMod.NPCs
 {
     public class Reaper : ModNPC
     {
@@ -45,7 +45,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
             npc.knockBackResist = 0f;
             npc.rarity = 2;
             banner = npc.type;
-            bannerItem = mod.ItemType("ReaperSharkBanner");
+            bannerItem = ModContent.ItemType<ReaperSharkBanner>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -635,22 +635,22 @@ namespace CalamityMod.NPCs.AbyssNPCs
             player.AddBuff(BuffID.Darkness, 300, true);
             player.AddBuff(BuffID.Bleeding, 300, true);
             player.AddBuff(BuffID.Rabies, 300, true);
-            player.AddBuff(mod.BuffType("CrushDepth"), 300, true);
+            player.AddBuff(ModContent.BuffType<CrushDepth>(), 300, true);
             if (CalamityWorld.revenge)
             {
-                player.AddBuff(mod.BuffType("MarkedforDeath"), 120);
-                player.AddBuff(mod.BuffType("Horror"), 120, true);
+                player.AddBuff(ModContent.BuffType<MarkedforDeath>(), 120);
+                player.AddBuff(ModContent.BuffType<Horror>(), 120, true);
             }
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.player.Calamity().ZoneAbyssLayer3 && spawnInfo.water && !NPC.AnyNPCs(mod.NPCType("Reaper")) &&
-                !NPC.AnyNPCs(mod.NPCType("ColossalSquid")) && !NPC.AnyNPCs(mod.NPCType("EidolonWyrmHead")))
+            if (spawnInfo.player.Calamity().ZoneAbyssLayer3 && spawnInfo.water && !NPC.AnyNPCs(ModContent.NPCType<Reaper>()) &&
+                !NPC.AnyNPCs(ModContent.NPCType<ColossalSquid>()) && !NPC.AnyNPCs(ModContent.NPCType<EidolonWyrmHead>()))
             {
                 return SpawnCondition.CaveJellyfish.Chance * 0.6f;
             }
-            if (spawnInfo.player.Calamity().ZoneAbyssLayer4 && spawnInfo.water && !NPC.AnyNPCs(mod.NPCType("Reaper")))
+            if (spawnInfo.player.Calamity().ZoneAbyssLayer4 && spawnInfo.water && !NPC.AnyNPCs(ModContent.NPCType<Reaper>()))
             {
                 return SpawnCondition.CaveJellyfish.Chance * 1.2f;
             }
@@ -659,28 +659,28 @@ namespace CalamityMod.NPCs.AbyssNPCs
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Voidstone"), Main.rand.Next(40, 51));
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CloakingGland"), Main.rand.Next(2, 4));
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Voidstone>(), Main.rand.Next(40, 51));
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CloakingGland>(), Main.rand.Next(2, 4));
             if (Main.rand.NextBool(10000) && CalamityWorld.revenge)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("HalibutCannon"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<HalibutCannon>());
             }
             if (CalamityWorld.downedPolterghast)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ReaperTooth"), Main.rand.Next(3, 5));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<ReaperTooth>(), Main.rand.Next(3, 5));
                 if (Main.rand.NextBool(3))
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DeepSeaDumbbell"));
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DeepSeaDumbbell>());
                 }
                 if (Main.rand.NextBool(3))
                 {
                     if (Main.rand.NextBool(33))
                     {
-                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("TheReaper"));
+                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<TheReaper>());
                     }
                     else
                     {
-                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Valediction"));
+                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Valediction>());
                     }
                 }
             }
@@ -688,11 +688,11 @@ namespace CalamityMod.NPCs.AbyssNPCs
             {
                 if (Main.rand.NextBool(2))
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DepthCells"), Main.rand.Next(10, 18));
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DepthCells>(), Main.rand.Next(10, 18));
                 }
                 if (Main.expertMode && Main.rand.NextBool(2))
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DepthCells"), Main.rand.Next(4, 6));
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DepthCells>(), Main.rand.Next(4, 6));
                 }
             }
         }

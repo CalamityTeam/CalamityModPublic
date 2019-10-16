@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Ranged
+namespace CalamityMod.Projectiles
 {
     public class CorossiveFlames : ModProjectile
     {
@@ -92,7 +92,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.immune[projectile.owner] = 4;
-            target.AddBuff(mod.BuffType("Plague"), 300);
+            target.AddBuff(ModContent.BuffType<Plague>(), 300);
         }
     }
 }

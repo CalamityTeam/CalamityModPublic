@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.FabsolStuff
+namespace CalamityMod.Items
 {
     public class WhiteWine : ModItem
     {
@@ -27,14 +27,14 @@ I drank a full barrel of this stuff once in one night, I couldn't remember who I
             item.UseSound = SoundID.Item3;
             item.consumable = true;
             item.healMana = 400;
-            item.buffType = mod.BuffType("WhiteWine");
+            item.buffType = ModContent.BuffType<WhiteWine>();
             item.buffTime = 10800; //3 minutes
             item.value = Item.buyPrice(0, 16, 60, 0);
         }
 
         public override void OnConsumeItem(Player player)
         {
-            player.AddBuff(mod.BuffType("WhiteWine"), 10800);
+            player.AddBuff(ModContent.BuffType<WhiteWine>(), 10800);
         }
     }
 }

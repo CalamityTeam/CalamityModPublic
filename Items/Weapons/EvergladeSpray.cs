@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class EvergladeSpray : ModItem
     {
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons
             item.rare = 7;
             item.UseSound = SoundID.Item13;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("EvergladeSprayProjectile");
+            item.shoot = ModContent.ProjectileType<EvergladeSprayProjectile>();
             item.shootSpeed = 10f;
         }
 

@@ -2,9 +2,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.Perforator
+namespace CalamityMod.NPCs
 {
     [AutoloadBossHead]
     public class PerforatorHeadSmall : ModNPC
@@ -38,8 +38,8 @@ namespace CalamityMod.NPCs.Perforator
             aiType = -1;
             npc.knockBackResist = 0f;
             npc.alpha = 255;
-            npc.buffImmune[mod.BuffType("GlacialState")] = true;
-            npc.buffImmune[mod.BuffType("TemporalSadness")] = true;
+            npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
+            npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
             npc.behindTiles = true;
             npc.noGravity = true;
             npc.noTileCollide = true;
@@ -81,11 +81,11 @@ namespace CalamityMod.NPCs.Perforator
                     int lol;
                     if (num36 >= 0 && num36 < minLength)
                     {
-                        lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("PerforatorBodySmall"), npc.whoAmI);
+                        lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<PerforatorBodySmall>(), npc.whoAmI);
                     }
                     else
                     {
-                        lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("PerforatorTailSmall"), npc.whoAmI);
+                        lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<PerforatorTailSmall>(), npc.whoAmI);
                     }
                     Main.npc[lol].realLife = npc.whoAmI;
                     Main.npc[lol].ai[2] = (float)npc.whoAmI;
@@ -413,7 +413,7 @@ namespace CalamityMod.NPCs.Perforator
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BloodSample"), Main.rand.Next(2, 6));
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<BloodSample>(), Main.rand.Next(2, 6));
             Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Vertebrae, Main.rand.Next(1, 4));
             Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.CrimtaneBar, Main.rand.Next(1, 3));
         }
@@ -425,11 +425,11 @@ namespace CalamityMod.NPCs.Perforator
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(mod.BuffType("BurningBlood"), 180, true);
+            player.AddBuff(ModContent.BuffType<BurningBlood>(), 180, true);
             player.AddBuff(BuffID.Bleeding, 180, true);
             if (CalamityWorld.revenge)
             {
-                player.AddBuff(mod.BuffType("Horror"), 180, true);
+                player.AddBuff(ModContent.BuffType<Horror>(), 180, true);
             }
         }
     }

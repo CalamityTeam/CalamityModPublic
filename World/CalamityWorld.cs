@@ -9,7 +9,7 @@ using Terraria.GameContent.Events;
 using Terraria.GameContent.Generation;
 using Terraria.ID;
 using Terraria.Localization;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 using Terraria.ModLoader.IO;
 using Terraria.World.Generation;
 
@@ -584,19 +584,19 @@ namespace CalamityMod.World
 
         public override void TileCountsAvailable(int[] tileCounts)
         {
-            calamityTiles = tileCounts[mod.TileType("CharredOre")] + tileCounts[mod.TileType("BrimstoneSlag")];
-            sunkenSeaTiles = tileCounts[mod.TileType("EutrophicSand")] + tileCounts[mod.TileType("Navystone")] + tileCounts[mod.TileType("SeaPrism")];
-            abyssTiles = tileCounts[mod.TileType("AbyssGravel")];
-            sulphurTiles = tileCounts[mod.TileType("SulphurousSand")];
+            calamityTiles = tileCounts[ModContent.TileType<CharredOre>()] + tileCounts[ModContent.TileType<BrimstoneSlag>()];
+            sunkenSeaTiles = tileCounts[ModContent.TileType<EutrophicSand>()] + tileCounts[ModContent.TileType<Navystone>()] + tileCounts[ModContent.TileType<SeaPrism>()];
+            abyssTiles = tileCounts[ModContent.TileType<AbyssGravel>()];
+            sulphurTiles = tileCounts[ModContent.TileType<SulphurousSand>()];
 
             #region Astral Stuff
-            int astralDesertTiles = tileCounts[mod.TileType("AstralSand")] + tileCounts[mod.TileType("AstralSandstone")] + tileCounts[mod.TileType("HardenedAstralSand")];
-            int astralSnowTiles = tileCounts[mod.TileType("AstralIce")];
+            int astralDesertTiles = tileCounts[ModContent.TileType<AstralSand>()] + tileCounts[ModContent.TileType<AstralSandstone>()] + tileCounts[ModContent.TileType<HardenedAstralSand>()];
+            int astralSnowTiles = tileCounts[ModContent.TileType<AstralIce>()];
 
             Main.sandTiles += astralDesertTiles;
             Main.snowTiles += astralSnowTiles;
 
-            astralTiles = astralDesertTiles + astralSnowTiles + tileCounts[mod.TileType("AstralDirt")] + tileCounts[mod.TileType("AstralStone")] + tileCounts[mod.TileType("AstralGrass")] + tileCounts[mod.TileType("AstralOre")];
+            astralTiles = astralDesertTiles + astralSnowTiles + tileCounts[ModContent.TileType<AstralDirt>()] + tileCounts[ModContent.TileType<AstralStone>()] + tileCounts[ModContent.TileType<AstralGrass>()] + tileCounts[ModContent.TileType<AstralOre>()];
             #endregion
         }
         #endregion
@@ -827,9 +827,9 @@ namespace CalamityMod.World
                                 if (Main.player[playerIndex].active)
                                 {
                                     Player player = Main.player[playerIndex];
-                                    if (player.FindBuffIndex(mod.BuffType("ExtremeGravity")) > -1)
+                                    if (player.FindBuffIndex(ModContent.BuffType<ExtremeGravity>()) > -1)
                                     {
-                                        player.ClearBuff(mod.BuffType("ExtremeGravity"));
+                                        player.ClearBuff(ModContent.BuffType<ExtremeGravity>());
                                     }
                                 }
                             }
@@ -864,16 +864,16 @@ namespace CalamityMod.World
                                     break;
                                 case 6:
                                     ChangeTime(true);
-                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("ProfanedGuardianBoss"));
-                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("ProfanedGuardianBoss2"));
-                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("ProfanedGuardianBoss3"));
+                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<ProfanedGuardianBoss>());
+                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<ProfanedGuardianBoss2>());
+                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<ProfanedGuardianBoss3>());
                                     break;
                                 case 7:
                                     NPC.SpawnOnPlayer(closestPlayer, NPCID.EaterofWorldsHead);
                                     break;
                                 case 8:
                                     ChangeTime(false);
-                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("Astrageldon"));
+                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<Astrageldon>());
                                     break;
                                 case 9:
                                     ChangeTime(false);
@@ -886,13 +886,13 @@ namespace CalamityMod.World
                                     break;
                                 case 11:
                                     ChangeTime(true);
-                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("Bumblefuck"));
+                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<Bumblefuck>());
                                     break;
                                 case 12:
                                     NPC.SpawnWOF(Main.player[closestPlayer].position);
                                     break;
                                 case 13:
-                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("HiveMind"));
+                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<HiveMind>());
                                     break;
                                 case 14:
                                     ChangeTime(false);
@@ -900,15 +900,15 @@ namespace CalamityMod.World
                                     break;
                                 case 15:
                                     ChangeTime(true);
-                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("StormWeaverHead"));
+                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<StormWeaverHead>());
                                     break;
                                 case 16:
-                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("AquaticScourgeHead"));
+                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<AquaticScourgeHead>());
                                     break;
                                 case 17:
-                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("DesertScourgeHead"));
-                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("DesertScourgeHeadSmall"));
-                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("DesertScourgeHeadSmall"));
+                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<DesertScourgeHead>());
+                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<DesertScourgeHeadSmall>());
+                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<DesertScourgeHeadSmall>());
                                     break;
                                 case 18:
                                     int num1302 = NPC.NewNPC((int)Main.player[closestPlayer].Center.X, (int)Main.player[closestPlayer].Center.Y - 400, NPCID.CultistBoss, 0, 0f, 0f, 0f, 0f, 255);
@@ -924,28 +924,28 @@ namespace CalamityMod.World
                                             Main.npc[doom].netUpdate = true;
                                         }
                                     }
-                                    NPC.NewNPC((int)(Main.player[closestPlayer].position.X + (float)Main.rand.Next(-100, 101)), (int)(Main.player[closestPlayer].position.Y - 400f), mod.NPCType("CrabulonIdle"), 0, 0f, 0f, 0f, 0f, 255);
+                                    NPC.NewNPC((int)(Main.player[closestPlayer].position.X + (float)Main.rand.Next(-100, 101)), (int)(Main.player[closestPlayer].position.Y - 400f), ModContent.NPCType<CrabulonIdle>(), 0, 0f, 0f, 0f, 0f, 255);
                                     break;
                                 case 20:
                                     NPC.SpawnOnPlayer(closestPlayer, NPCID.Plantera);
                                     break;
                                 case 21:
-                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("CeaselessVoid"));
+                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<CeaselessVoid>());
                                     break;
                                 case 22:
-                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("PerforatorHive"));
+                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<PerforatorHive>());
                                     break;
                                 case 23:
-                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("Cryogen"));
+                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<Cryogen>());
                                     break;
                                 case 24:
-                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("BrimstoneElemental"));
+                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<BrimstoneElemental>());
                                     break;
                                 case 25:
-                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("CosmicWraith"));
+                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<CosmicWraith>());
                                     break;
                                 case 26:
-                                    NPC.NewNPC((int)(Main.player[closestPlayer].position.X + (float)Main.rand.Next(-100, 101)), (int)(Main.player[closestPlayer].position.Y - 400f), mod.NPCType("ScavengerBody"), 0, 0f, 0f, 0f, 0f, 255);
+                                    NPC.NewNPC((int)(Main.player[closestPlayer].position.X + (float)Main.rand.Next(-100, 101)), (int)(Main.player[closestPlayer].position.Y - 400f), ModContent.NPCType<ScavengerBody>(), 0, 0f, 0f, 0f, 0f, 255);
                                     break;
                                 case 27:
                                     NPC.NewNPC((int)(Main.player[closestPlayer].position.X + (float)Main.rand.Next(-100, 101)), (int)(Main.player[closestPlayer].position.Y - 400f), NPCID.DukeFishron, 0, 0f, 0f, 0f, 0f, 255);
@@ -957,43 +957,43 @@ namespace CalamityMod.World
                                     ChangeTime(false);
                                     for (int x = 0; x < 10; x++)
                                     {
-                                        NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("AstrumDeusHead"));
+                                        NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<AstrumDeusHead>());
                                     }
-                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("AstrumDeusHeadSpectral"));
+                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<AstrumDeusHeadSpectral>());
                                     break;
                                 case 30:
                                     ChangeTime(true);
-                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("Polterghast"));
+                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<Polterghast>());
                                     break;
                                 case 31:
-                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("PlaguebringerGoliath"));
+                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<PlaguebringerGoliath>());
                                     break;
                                 case 32:
                                     ChangeTime(false);
-                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("Calamitas"));
+                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<Calamitas>());
                                     break;
                                 case 33:
                                     ChangeTime(true);
-                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("Siren"));
+                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<Siren>());
                                     break;
                                 case 34:
-                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("SlimeGod"));
-                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("SlimeGodRun"));
-                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("SlimeGodCore"));
+                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<SlimeGod>());
+                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<SlimeGodRun>());
+                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<SlimeGodCore>());
                                     break;
                                 case 35:
                                     ChangeTime(true);
-                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("Providence"));
+                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<Providence>());
                                     break;
                                 case 36:
-                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("SupremeCalamitas"));
+                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<SupremeCalamitas>());
                                     break;
                                 case 37:
                                     ChangeTime(true);
-                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("Yharon"));
+                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<Yharon>());
                                     break;
                                 case 38:
-                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("DevourerofGodsHeadS"));
+                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<DevourerofGodsHeadS>());
                                     break;
                             }
                         }
@@ -1030,21 +1030,21 @@ namespace CalamityMod.World
                 {
                     if (DoGSecondStageCountdown == 21540)
                     {
-                        NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("CeaselessVoid"));
+                        NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<CeaselessVoid>());
                     }
                     if (DoGSecondStageCountdown == 14340)
                     {
-                        NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("StormWeaverHead"));
+                        NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<StormWeaverHead>());
                     }
                     if (DoGSecondStageCountdown == 7140)
                     {
-                        NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("CosmicWraith"));
+                        NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<CosmicWraith>());
                     }
                     if (DoGSecondStageCountdown <= 60)
                     {
-                        if (!NPC.AnyNPCs(mod.NPCType("DevourerofGodsHeadS")))
+                        if (!NPC.AnyNPCs(ModContent.NPCType<DevourerofGodsHeadS>()))
                         {
-                            NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("DevourerofGodsHeadS"));
+                            NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<DevourerofGodsHeadS>());
                             string key = "Mods.CalamityMod.EdgyBossText10";
                             Color messageColor = Color.Cyan;
                             if (Main.netMode == NetmodeID.SinglePlayer)
@@ -1104,8 +1104,8 @@ namespace CalamityMod.World
                     int chance = (int)spawnRate;
                     if (Main.rand.Next(chance) == 0)
                     {
-                        if (!NPC.AnyNPCs(mod.NPCType("ArmoredDiggerHead")) && Main.netMode != NetmodeID.MultiplayerClient)
-                            NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("ArmoredDiggerHead"));
+                        if (!NPC.AnyNPCs(ModContent.NPCType<ArmoredDiggerHead>()) && Main.netMode != NetmodeID.MultiplayerClient)
+                            NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<ArmoredDiggerHead>());
                     }
                 }
             }
@@ -1127,8 +1127,8 @@ namespace CalamityMod.World
             {
                 if (Main.player[closestPlayer].chaosState)
                 {
-                    if (!NPC.AnyNPCs(mod.NPCType("EidolonWyrmHeadHuge")) && Main.netMode != NetmodeID.MultiplayerClient)
-                        NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("EidolonWyrmHeadHuge"));
+                    if (!NPC.AnyNPCs(ModContent.NPCType<EidolonWyrmHeadHuge>()) && Main.netMode != NetmodeID.MultiplayerClient)
+                        NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<EidolonWyrmHeadHuge>());
                 }
             }
 
@@ -1188,7 +1188,7 @@ namespace CalamityMod.World
                             if (Main.player[closestPlayer].ZoneDesert)
                             {
                                 BossText();
-                                bossType = mod.NPCType("DesertScourgeHead");
+                                bossType = ModContent.NPCType<DesertScourgeHead>();
                                 bossSpawnCountdown = 3600;
                             }
 
@@ -1196,7 +1196,7 @@ namespace CalamityMod.World
                             if (Main.player[closestPlayer].ZoneCrimson)
                             {
                                 BossText();
-                                bossType = mod.NPCType("PerforatorHive");
+                                bossType = ModContent.NPCType<PerforatorHive>();
                                 bossSpawnCountdown = 3600;
                             }
 
@@ -1204,7 +1204,7 @@ namespace CalamityMod.World
                             if (Main.player[closestPlayer].ZoneCorrupt)
                             {
                                 BossText();
-                                bossType = mod.NPCType("HiveMind");
+                                bossType = ModContent.NPCType<HiveMind>();
                                 bossSpawnCountdown = 3600;
                             }
 
@@ -1212,7 +1212,7 @@ namespace CalamityMod.World
                             if (Main.player[closestPlayer].ZoneGlowshroom)
                             {
                                 BossText();
-                                bossType = mod.NPCType("CrabulonIdle");
+                                bossType = ModContent.NPCType<CrabulonIdle>();
                                 bossSpawnCountdown = 3600;
                             }
 
@@ -1262,7 +1262,7 @@ namespace CalamityMod.World
                                 if (Main.player[closestPlayer].ZoneSnow && Main.player[closestPlayer].ZoneOverworldHeight)
                                 {
                                     BossText();
-                                    bossType = mod.NPCType("Cryogen");
+                                    bossType = ModContent.NPCType<Cryogen>();
                                     bossSpawnCountdown = 3600;
                                 }
 
@@ -1270,7 +1270,7 @@ namespace CalamityMod.World
                                 if (!Main.dayTime && Main.player[closestPlayer].ZoneOverworldHeight)
                                 {
                                     BossText();
-                                    bossType = mod.NPCType("Calamitas");
+                                    bossType = ModContent.NPCType<Calamitas>();
                                     bossSpawnCountdown = 3600;
                                 }
 
@@ -1279,7 +1279,7 @@ namespace CalamityMod.World
                                     !Main.dayTime && Main.player[closestPlayer].ZoneOverworldHeight)
                                 {
                                     BossText();
-                                    bossType = mod.NPCType("Astrageldon");
+                                    bossType = ModContent.NPCType<Astrageldon>();
                                     bossSpawnCountdown = 3600;
                                 }
 
@@ -1287,7 +1287,7 @@ namespace CalamityMod.World
                                 if (Main.player[closestPlayer].ZoneJungle && NPC.downedGolemBoss && Main.player[closestPlayer].ZoneOverworldHeight)
                                 {
                                     BossText();
-                                    bossType = mod.NPCType("PlaguebringerGoliath");
+                                    bossType = ModContent.NPCType<PlaguebringerGoliath>();
                                     bossSpawnCountdown = 3600;
                                 }
 
@@ -1298,7 +1298,7 @@ namespace CalamityMod.World
                                         (Main.player[closestPlayer].ZoneHoly && Main.player[closestPlayer].ZoneOverworldHeight))
                                     {
                                         BossText();
-                                        bossType = mod.NPCType("ProfanedGuardianBoss");
+                                        bossType = ModContent.NPCType<ProfanedGuardianBoss>();
                                         bossSpawnCountdown = 3600;
                                     }
 
@@ -1306,7 +1306,7 @@ namespace CalamityMod.World
                                     if (Main.player[closestPlayer].ZoneJungle && Main.player[closestPlayer].ZoneOverworldHeight)
                                     {
                                         BossText();
-                                        bossType = mod.NPCType("Bumblefuck");
+                                        bossType = ModContent.NPCType<Bumblefuck>();
                                         bossSpawnCountdown = 3600;
                                     }
                             }
@@ -1377,54 +1377,54 @@ namespace CalamityMod.World
                                 break;
                         }
 
-                        if (bossType == mod.NPCType("DesertScourgeHead"))
+                        if (bossType == ModContent.NPCType<DesertScourgeHead>())
                         {
                             if (!Main.player[closestPlayer].ZoneDesert)
                                 canSpawn = false;
                         }
-                        else if (bossType == mod.NPCType("PerforatorHive"))
+                        else if (bossType == ModContent.NPCType<PerforatorHive>())
                         {
                             if (!Main.player[closestPlayer].ZoneCrimson)
                                 canSpawn = false;
                         }
-                        else if (bossType == mod.NPCType("HiveMind"))
+                        else if (bossType == ModContent.NPCType<HiveMind>())
                         {
                             if (!Main.player[closestPlayer].ZoneCorrupt)
                                 canSpawn = false;
                         }
-                        else if (bossType == mod.NPCType("CrabulonIdle"))
+                        else if (bossType == ModContent.NPCType<CrabulonIdle>())
                         {
                             if (!Main.player[closestPlayer].ZoneGlowshroom)
                                 canSpawn = false;
                         }
-                        else if (bossType == mod.NPCType("Cryogen"))
+                        else if (bossType == ModContent.NPCType<Cryogen>())
                         {
                             if (!Main.player[closestPlayer].ZoneSnow || !Main.player[closestPlayer].ZoneOverworldHeight)
                                 canSpawn = false;
                         }
-                        else if (bossType == mod.NPCType("Calamitas"))
+                        else if (bossType == ModContent.NPCType<Calamitas>())
                         {
                             if (Main.dayTime || !Main.player[closestPlayer].ZoneOverworldHeight)
                                 canSpawn = false;
                         }
-                        else if (bossType == mod.NPCType("Astrageldon"))
+                        else if (bossType == ModContent.NPCType<Astrageldon>())
                         {
                             if (!Main.player[closestPlayer].Calamity().ZoneAstral ||
                                     Main.dayTime || !Main.player[closestPlayer].ZoneOverworldHeight)
                                 canSpawn = false;
                         }
-                        else if (bossType == mod.NPCType("PlaguebringerGoliath"))
+                        else if (bossType == ModContent.NPCType<PlaguebringerGoliath>())
                         {
                             if (!Main.player[closestPlayer].ZoneJungle || !Main.player[closestPlayer].ZoneOverworldHeight)
                                 canSpawn = false;
                         }
-                        else if (bossType == mod.NPCType("ProfanedGuardianBoss"))
+                        else if (bossType == ModContent.NPCType<ProfanedGuardianBoss>())
                         {
                             if (!Main.player[closestPlayer].ZoneUnderworldHeight &&
                                         (!Main.player[closestPlayer].ZoneHoly || !Main.player[closestPlayer].ZoneOverworldHeight))
                                 canSpawn = false;
                         }
-                        else if (bossType == mod.NPCType("Bumblefuck"))
+                        else if (bossType == ModContent.NPCType<Bumblefuck>())
                         {
                             if (!Main.player[closestPlayer].ZoneJungle || !Main.player[closestPlayer].ZoneOverworldHeight)
                                 canSpawn = false;
@@ -1434,15 +1434,15 @@ namespace CalamityMod.World
                         {
                             if (bossType == NPCID.Spazmatism)
                                 NPC.SpawnOnPlayer(closestPlayer, NPCID.Retinazer);
-                            else if (bossType == mod.NPCType("ProfanedGuardianBoss"))
+                            else if (bossType == ModContent.NPCType<ProfanedGuardianBoss>())
                             {
-                                NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("ProfanedGuardianBoss2"));
-                                NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("ProfanedGuardianBoss3"));
+                                NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<ProfanedGuardianBoss2>());
+                                NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<ProfanedGuardianBoss3>());
                             }
-                            else if (bossType == mod.NPCType("DesertScourgeHead"))
+                            else if (bossType == ModContent.NPCType<DesertScourgeHead>())
                             {
-                                NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("DesertScourgeHeadSmall"));
-                                NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("DesertScourgeHeadSmall"));
+                                NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<DesertScourgeHeadSmall>());
+                                NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<DesertScourgeHeadSmall>());
                             }
                             if (bossType == NPCID.DukeFishron)
                                 NPC.NewNPC((int)Main.player[closestPlayer].Center.X - 300, (int)Main.player[closestPlayer].Center.Y - 300, bossType);

@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
 namespace CalamityMod.Tiles
 {
@@ -30,7 +30,7 @@ namespace CalamityMod.Tiles
         {
             if (closer)
             {
-                if (!NPC.AnyNPCs(mod.NPCType("SupremeCalamitas")))
+                if (!NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>()))
                 {
                     WorldGen.KillTile(i, j, false, false, false);
                     if (!Main.tile[i, j].active() && Main.netMode != 0)

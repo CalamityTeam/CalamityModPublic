@@ -2,9 +2,9 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Summon
+namespace CalamityMod.Projectiles
 {
     public class StormMarkSummon : ModProjectile
     {
@@ -130,7 +130,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.localAI[1] += 1f;
             if (projectile.localAI[1] == 60f && projectile.owner == Main.myPlayer)
             {
-                int storm = Projectile.NewProjectile(projectile.Center, Vector2.Zero, mod.ProjectileType("Tornado"), projectile.damage, 2f, projectile.owner, 1f, 0f);
+                int storm = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<Tornado>(), projectile.damage, 2f, projectile.owner, 1f, 0f);
                 Main.projectile[storm].minion = true;
                 Main.projectile[storm].melee = false;
             }

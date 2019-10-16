@@ -1,7 +1,7 @@
 using CalamityMod.Utilities;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
 namespace CalamityMod.Items
 {
@@ -35,7 +35,7 @@ namespace CalamityMod.Items
             DropHelper.DropItem(player, ItemID.AmethystStaff);
             DropHelper.DropItem(player, ItemID.ManaCrystal);
             DropHelper.DropItem(player, ItemID.SlimeStaff);
-            DropHelper.DropItem(player, mod.ItemType("WulfrumKnife"), 150);
+            DropHelper.DropItem(player, ModContent.ItemType<WulfrumKnife>(), 150);
 
             // Tools / Utility
             DropHelper.DropItem(player, ItemID.CopperHammer);
@@ -51,8 +51,8 @@ namespace CalamityMod.Items
             DropHelper.DropItem(player, ItemID.Chest, 3);
 
             // Difficulty items
-            DropHelper.DropItem(player, mod.ItemType("Death"));
-            DropHelper.DropItem(player, mod.ItemType("DefiledRune"));
+            DropHelper.DropItem(player, ModContent.ItemType<Death>());
+            DropHelper.DropItem(player, ModContent.ItemType<DefiledRune>());
 
             // Speedrun King Slime
             DropHelper.DropItem(player, ItemID.SlimeCrown);
@@ -60,7 +60,7 @@ namespace CalamityMod.Items
             // Music box (if music mod installed)
             Mod musicMod = ModLoader.GetMod("CalamityModMusic");
             if (musicMod != null)
-                DropHelper.DropItem(player, musicMod.ItemType("CalamityMusicbox"));
+                DropHelper.DropItem(player, musicModContent.ItemType<CalamityMusicbox>());
         }
     }
 }

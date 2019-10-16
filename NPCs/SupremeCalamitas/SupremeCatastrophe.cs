@@ -5,9 +5,9 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.SupremeCalamitas
+namespace CalamityMod.NPCs
 {
     [AutoloadBossHead]
     public class SupremeCatastrophe : ModNPC
@@ -155,14 +155,14 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     Vector2 vector85 = new Vector2(npc.Center.X, npc.Center.Y);
                     float num689 = 4f;
                     int num690 = expertMode ? 150 : 200; //600 500
-                    int num691 = mod.ProjectileType("BrimstoneHellblast2");
+                    int num691 = ModContent.ProjectileType<BrimstoneHellblast2>();
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         int num695 = Projectile.NewProjectile(vector85.X, vector85.Y, num689, 0f, num691, num690, 0f, Main.myPlayer, 0f, 0f);
                     }
                 }
                 npc.ai[2] += 1f;
-                if (!NPC.AnyNPCs(mod.NPCType("SupremeCataclysm")))
+                if (!NPC.AnyNPCs(ModContent.NPCType<SupremeCataclysm>()))
                 {
                     npc.ai[2] += 2f;
                 }
@@ -182,8 +182,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         for (i = 0; i < 8; i++)
                         {
                             offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                            Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)(Math.Sin(offsetAngle) * num689), (float)(Math.Cos(offsetAngle) * num689), mod.ProjectileType("BrimstoneBarrage"), num690, 0f, Main.myPlayer, 0f, 1f);
-                            Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)(-Math.Sin(offsetAngle) * num689), (float)(-Math.Cos(offsetAngle) * num689), mod.ProjectileType("BrimstoneBarrage"), num690, 0f, Main.myPlayer, 0f, 1f);
+                            Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)(Math.Sin(offsetAngle) * num689), (float)(Math.Cos(offsetAngle) * num689), ModContent.ProjectileType<BrimstoneBarrage>(), num690, 0f, Main.myPlayer, 0f, 1f);
+                            Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)(-Math.Sin(offsetAngle) * num689), (float)(-Math.Cos(offsetAngle) * num689), ModContent.ProjectileType<BrimstoneBarrage>(), num690, 0f, Main.myPlayer, 0f, 1f);
                         }
                     }
                     for (int dust = 0; dust <= 5; dust++)
@@ -196,7 +196,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            if (projectile.type == mod.ProjectileType("AngryChicken"))
+            if (projectile.type == ModContent.ProjectileType<SonOfYharon>())
             {
                 damage /= 2;
             }

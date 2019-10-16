@@ -1,14 +1,15 @@
+using CalamityMod.NPCs;
 using CalamityMod.Utilities;
 using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Cryogen
+namespace CalamityMod.Items
 {
     public class CryogenBag : ModItem
     {
-        public override int BossBagNPC => mod.NPCType("Cryogen");
+        public override int BossBagNPC => ModContent.NPCType<Cryogen>();
 
         public override void SetStaticDefaults()
         {
@@ -37,27 +38,27 @@ namespace CalamityMod.Items.Cryogen
 
             // Materials
             DropHelper.DropItem(player, ItemID.SoulofMight, 25, 40);
-            DropHelper.DropItem(player, mod.ItemType("CryoBar"), 20, 40);
-            DropHelper.DropItem(player, mod.ItemType("EssenceofEleum"), 5, 9);
+            DropHelper.DropItem(player, ModContent.ItemType<CryoBar>(), 20, 40);
+            DropHelper.DropItem(player, ModContent.ItemType<EssenceofEleum>(), 5, 9);
             DropHelper.DropItem(player, ItemID.FrostCore);
 
             // Weapons
-            DropHelper.DropItemChance(player, mod.ItemType("Avalanche"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("GlacialCrusher"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("EffluviumBow"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("BittercoldStaff"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("SnowstormStaff"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("Icebreaker"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("IceStar"), 3, 150, 200);
+            DropHelper.DropItemChance(player, ModContent.ItemType<Avalanche>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<GlacialCrusher>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<EffluviumBow>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<BittercoldStaff>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<SnowstormStaff>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<Icebreaker>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<IceStar>(), 3, 150, 200);
 
             // Equipment
-            DropHelper.DropItem(player, mod.ItemType("SoulofCryogen"));
-            DropHelper.DropItemCondition(player, mod.ItemType("FrostFlare"), CalamityWorld.revenge);
-            DropHelper.DropItemChance(player, mod.ItemType("CryoStone"), 10);
-            DropHelper.DropItemChance(player, mod.ItemType("Regenator"), DropHelper.RareVariantDropRateInt);
+            DropHelper.DropItem(player, ModContent.ItemType<SoulofCryogen>());
+            DropHelper.DropItemCondition(player, ModContent.ItemType<FrostFlare>(), CalamityWorld.revenge);
+            DropHelper.DropItemChance(player, ModContent.ItemType<CryoStone>(), 10);
+            DropHelper.DropItemChance(player, ModContent.ItemType<Regenator>(), DropHelper.RareVariantDropRateInt);
 
             // Vanity
-            DropHelper.DropItemChance(player, mod.ItemType("CryogenMask"), 7);
+            DropHelper.DropItemChance(player, ModContent.ItemType<CryogenMask>(), 7);
 
             // Other
             DropHelper.DropItemChance(player, ItemID.FrozenKey, 5);

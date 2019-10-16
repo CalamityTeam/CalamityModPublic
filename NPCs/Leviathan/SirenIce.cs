@@ -2,9 +2,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.Leviathan
+namespace CalamityMod.NPCs
 {
     public class SirenIce : ModNPC
     {
@@ -42,7 +42,7 @@ namespace CalamityMod.NPCs.Leviathan
             }
             Player player = Main.player[npc.target];
             int num989 = (int)npc.ai[0];
-            if (Main.npc[num989].active && Main.npc[num989].type == mod.NPCType("Siren"))
+            if (Main.npc[num989].active && Main.npc[num989].type == ModContent.NPCType<Siren>())
             {
                 npc.rotation = Main.npc[num989].rotation;
                 npc.spriteDirection = Main.npc[num989].direction;
@@ -61,7 +61,7 @@ namespace CalamityMod.NPCs.Leviathan
 
         public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            if (projectile.type != mod.ProjectileType("FlakKraken"))
+            if (projectile.type != ModContent.ProjectileType<FlakKraken>())
             {
                 if (projectile.penetrate == -1 && !projectile.minion)
                 {

@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.CalamityCustomThrowingDamage
+namespace CalamityMod.Items
 {
     public class SeafoamBomb : CalamityDamageItem
     {
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.autoReuse = true;
             item.value = Item.buyPrice(0, 2, 0, 0);
             item.rare = 2;
-            item.shoot = mod.ProjectileType("SeafoamBomb");
+            item.shoot = ModContent.ProjectileType<SeafoamBomb>();
             item.shootSpeed = 8f;
             item.Calamity().rogue = true;
         }

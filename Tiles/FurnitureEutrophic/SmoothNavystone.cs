@@ -2,9 +2,9 @@ using CalamityMod.Utilities;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Tiles.FurnitureEutrophic
+namespace CalamityMod.Tiles
 {
     public class SmoothNavystone : ModTile
     {
@@ -22,7 +22,7 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
             TileID.Sets.ChecksForMerge[Type] = true;
             soundType = 21;
             minPick = 55;
-            drop = mod.ItemType("SmoothNavystone");
+            drop = ModContent.ItemType<SmoothNavystone>();
             AddMapEntry(new Color(39, 48, 53));
         }
 

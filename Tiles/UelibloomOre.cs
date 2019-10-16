@@ -2,7 +2,7 @@ using CalamityMod.Utilities;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
 namespace CalamityMod.Tiles
 {
@@ -16,8 +16,8 @@ namespace CalamityMod.Tiles
 
             TileMerge.MergeGeneralTiles(Type);
 
-            dustType = mod.DustType("TCESparkle");
-            drop = mod.ItemType("UelibloomOre");
+            dustType = ModContent.DustType<TCESparkle>();
+            drop = ModContent.ItemType<UelibloomOre>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Uelibloom Ore");
             AddMapEntry(new Color(0, 255, 0), name);

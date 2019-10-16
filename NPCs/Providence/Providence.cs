@@ -7,9 +7,9 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.Providence
+namespace CalamityMod.NPCs
 {
     [AutoloadBossHead]
     public class Providence : ModNPC
@@ -59,14 +59,14 @@ namespace CalamityMod.NPCs.Providence
             }
             npc.buffImmune[BuffID.Ichor] = false;
             npc.buffImmune[BuffID.CursedInferno] = false;
-            npc.buffImmune[mod.BuffType("AbyssalFlames")] = false;
-            npc.buffImmune[mod.BuffType("ArmorCrunch")] = false;
-            npc.buffImmune[mod.BuffType("DemonFlames")] = false;
-            npc.buffImmune[mod.BuffType("GodSlayerInferno")] = false;
-            npc.buffImmune[mod.BuffType("Nightwither")] = false;
-            npc.buffImmune[mod.BuffType("Shred")] = false;
-            npc.buffImmune[mod.BuffType("WhisperingDeath")] = false;
-            npc.buffImmune[mod.BuffType("SilvaStun")] = false;
+            npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
+            npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
+            npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
+            npc.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = false;
+            npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
+            npc.buffImmune[ModContent.BuffType<Shred>()] = false;
+            npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
+            npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.netAlways = true;
@@ -79,7 +79,7 @@ namespace CalamityMod.NPCs.Providence
                 music = MusicID.LunarBoss;
             npc.HitSound = SoundID.NPCHit44;
             npc.DeathSound = SoundID.NPCDeath46;
-            bossBag = mod.ItemType("ProvidenceBag");
+            bossBag = ModContent.ItemType<ProvidenceBag>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -154,7 +154,7 @@ namespace CalamityMod.NPCs.Providence
             if (Vector2.Distance(player.Center, vector) > 2800f)
             {
                 if (!player.dead && player.active)
-                    player.AddBuff(mod.BuffType("HolyInferno"), 2);
+                    player.AddBuff(ModContent.BuffType<HolyInferno>(), 2);
             }
 
             // Count the remaining Guardians, healer especially because it allows the boss to heal
@@ -300,9 +300,9 @@ namespace CalamityMod.NPCs.Providence
                         bossLife = (float)npc.life;
                         int x = (int)(npc.position.X + (float)Main.rand.Next(npc.width - 32));
                         int y = (int)(npc.position.Y + (float)Main.rand.Next(npc.height - 32));
-                        NPC.NewNPC(x - 100, y - 100, mod.NPCType("ProvSpawnDefense"), 0, 0f, 0f, 0f, 0f, 255);
-                        NPC.NewNPC(x + 100, y - 100, mod.NPCType("ProvSpawnHealer"), 0, 0f, 0f, 0f, 0f, 255);
-                        NPC.NewNPC(x, y + 100, mod.NPCType("ProvSpawnOffense"), 0, 0f, 0f, 0f, 0f, 255);
+                        NPC.NewNPC(x - 100, y - 100, ModContent.NPCType<ProvSpawnDefense>(), 0, 0f, 0f, 0f, 0f, 255);
+                        NPC.NewNPC(x + 100, y - 100, ModContent.NPCType<ProvSpawnHealer>(), 0, 0f, 0f, 0f, 0f, 255);
+                        NPC.NewNPC(x, y + 100, ModContent.NPCType<ProvSpawnOffense>(), 0, 0f, 0f, 0f, 0f, 255);
                     }
                 }
             }
@@ -631,7 +631,7 @@ namespace CalamityMod.NPCs.Providence
                         num858 *= num859;
 
                         int holyDamage = expertMode ? 52 : 65;
-                        Projectile.NewProjectile(vector.X, vector.Y, num857, num858, mod.ProjectileType("HolyBlast"), holyDamage, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile(vector.X, vector.Y, num857, num858, ModContent.ProjectileType<HolyBlast>(), holyDamage, 0f, Main.myPlayer, 0f, 0f);
                     }
                 }
                 else if (npc.ai[3] < 0f)
@@ -674,7 +674,7 @@ namespace CalamityMod.NPCs.Providence
                         num865 += expertMode ? 4f : 3f;
 
                         int fireDamage = expertMode ? 48 : 60;
-                        Projectile.NewProjectile(vector113.X, vector113.Y, npc.velocity.X * 0.25f, num865, mod.ProjectileType("HolyFire"), fireDamage, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile(vector113.X, vector113.Y, npc.velocity.X * 0.25f, num865, ModContent.ProjectileType<HolyFire>(), fireDamage, 0f, Main.myPlayer, 0f, 0f);
                     }
                 }
 
@@ -723,9 +723,9 @@ namespace CalamityMod.NPCs.Providence
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         if (Main.rand.NextBool(4) && !CalamityWorld.death && !CalamityWorld.bossRushActive)
-                            Projectile.NewProjectile(vector114.X, vector114.Y, num866, num867, mod.ProjectileType("HolyLight"), 0, 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(vector114.X, vector114.Y, num866, num867, ModContent.ProjectileType<HolyLight>(), 0, 0f, Main.myPlayer, 0f, 0f);
                         else
-                            Projectile.NewProjectile(vector114.X, vector114.Y, num866, num867, mod.ProjectileType("HolyBurnOrb"), 0, 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(vector114.X, vector114.Y, num866, num867, ModContent.ProjectileType<HolyBurnOrb>(), 0, 0f, Main.myPlayer, 0f, 0f);
                     }
                 }
 
@@ -754,7 +754,7 @@ namespace CalamityMod.NPCs.Providence
                         if (!player2.dead && player2.active && Vector2.Distance(player2.Center, vector) < 2800f && !inLiquid)
                         {
                             Main.PlaySound(SoundID.Item20, player2.position);
-                            player2.AddBuff(mod.BuffType("ExtremeGravity"), 3000, true);
+                            player2.AddBuff(ModContent.BuffType<ExtremeGravity>(), 3000, true);
 
                             for (int num621 = 0; num621 < 40; num621++)
                             {
@@ -825,7 +825,7 @@ namespace CalamityMod.NPCs.Providence
                         num858 *= num859;
 
                         int holyDamage = expertMode ? 42 : 55;
-                        Projectile.NewProjectile(vector.X, vector.Y, num857 * 0.1f, num858, mod.ProjectileType("MoltenBlast"), holyDamage, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile(vector.X, vector.Y, num857 * 0.1f, num858, ModContent.ProjectileType<MoltenBlast>(), holyDamage, 0f, Main.myPlayer, 0f, 0f);
                     }
                 }
                 else if (npc.ai[3] < 0f)
@@ -868,7 +868,7 @@ namespace CalamityMod.NPCs.Providence
                         num865 += expertMode ? 4f : 3f;
 
                         int fireDamage = expertMode ? 48 : 60;
-                        Projectile.NewProjectile(vector113.X, vector113.Y, npc.velocity.X * 0.25f, num865, mod.ProjectileType("HolyBomb"), fireDamage, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile(vector113.X, vector113.Y, npc.velocity.X * 0.25f, num865, ModContent.ProjectileType<HolyBomb>(), fireDamage, 0f, Main.myPlayer, 0f, 0f);
                     }
                 }
 
@@ -915,9 +915,9 @@ namespace CalamityMod.NPCs.Providence
                         vector93.Y += num744 * 3f;
 
                         int num746 = expertMode ? 52 : 65;
-                        int num747 = mod.ProjectileType("HolyShot");
+                        int num747 = ModContent.ProjectileType<HolyShot>();
                         Projectile.NewProjectile(vector93.X, vector93.Y, num743, num744, num747, num746, 0f, Main.myPlayer, 0f, 0f);
-                        Projectile.NewProjectile(player.position.X + (float)Main.rand.Next(-1000, 1000), player.position.Y + (float)Main.rand.Next(-100, 100), 0f, 0f, mod.ProjectileType("HolySpear"), num746, 0f, Main.myPlayer, (float)Main.rand.Next(2), 0f);
+                        Projectile.NewProjectile(player.position.X + (float)Main.rand.Next(-1000, 1000), player.position.Y + (float)Main.rand.Next(-100, 100), 0f, 0f, ModContent.ProjectileType<HolySpear>(), num746, 0f, Main.myPlayer, (float)Main.rand.Next(2), 0f);
                     }
                 }
 
@@ -945,7 +945,7 @@ namespace CalamityMod.NPCs.Providence
                     if (npc.ai[1] >= 60f)
                     {
                         int damage = expertMode ? 57 : 70;
-                        Projectile.NewProjectile(player.Center.X, player.Center.Y - 360f, 0f, 0f, mod.ProjectileType("ProvidenceCrystal"), damage, 0f, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(player.Center.X, player.Center.Y - 360f, 0f, 0f, ModContent.ProjectileType<ProvidenceCrystal>(), damage, 0f, player.whoAmI, 0f, 0f);
                         npc.ai[0] = -1f;
                     }
                 }
@@ -1008,10 +1008,10 @@ namespace CalamityMod.NPCs.Providence
                                 num1225 = 1f;
 
                             vector200 = vector200.RotatedBy((double)(-(double)num1225 * 6.28318548f / 6f), default);
-                            Projectile.NewProjectile(vector.X, vector.Y - 32f, vector200.X, vector200.Y, mod.ProjectileType("ProvidenceHolyRay"), 100, 0f, Main.myPlayer, num1225 * 6.28318548f / rotation, (float)npc.whoAmI);
+                            Projectile.NewProjectile(vector.X, vector.Y - 32f, vector200.X, vector200.Y, ModContent.ProjectileType<ProvidenceHolyRay>(), 100, 0f, Main.myPlayer, num1225 * 6.28318548f / rotation, (float)npc.whoAmI);
 
                             if (revenge)
-                                Projectile.NewProjectile(vector.X, vector.Y - 32f, -vector200.X, -vector200.Y, mod.ProjectileType("ProvidenceHolyRay"), 100, 0f, Main.myPlayer, -num1225 * 6.28318548f / rotation, (float)npc.whoAmI);
+                                Projectile.NewProjectile(vector.X, vector.Y - 32f, -vector200.X, -vector200.Y, ModContent.ProjectileType<ProvidenceHolyRay>(), 100, 0f, Main.myPlayer, -num1225 * 6.28318548f / rotation, (float)npc.whoAmI);
 
                             npc.ai[3] = (vector200.ToRotation() + 9.424778f) * num1225;
                             npc.netUpdate = true;
@@ -1055,36 +1055,36 @@ namespace CalamityMod.NPCs.Providence
         public override void NPCLoot()
         {
             DropHelper.DropBags(npc);
-            DropHelper.DropItemChance(npc, mod.ItemType("ProvidenceTrophy"), 10);
-            DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeProvidence"), true, !CalamityWorld.downedProvidence);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<ProvidenceTrophy>(), 10);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeProvidence>(), true, !CalamityWorld.downedProvidence);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedProvidence, 5, 2, 1);
 
-            DropHelper.DropItemCondition(npc, mod.ItemType("ElysianWings"), biomeType != 2);
-            DropHelper.DropItemCondition(npc, mod.ItemType("ElysianAegis"), biomeType == 2);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<ElysianWings>(), biomeType != 2);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<ElysianAegis>(), biomeType == 2);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
             if (!Main.expertMode)
             {
                 // Materials
-                DropHelper.DropItemSpray(npc, mod.ItemType("UnholyEssence"), 20, 30);
-                DropHelper.DropItemSpray(npc, mod.ItemType("DivineGeode"), 10, 15);
+                DropHelper.DropItemSpray(npc, ModContent.ItemType<UnholyEssence>(), 20, 30);
+                DropHelper.DropItemSpray(npc, ModContent.ItemType<DivineGeode>(), 10, 15);
 
                 // Weapons
-                DropHelper.DropItemChance(npc, mod.ItemType("HolyCollider"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("SolarFlare"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("TelluricGlare"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("BlissfulBombardier"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("PurgeGuzzler"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("MoltenAmputator"), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<HolyCollider>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<SolarFlare>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<TelluricGlare>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<BlissfulBombardier>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<PurgeGuzzler>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<MoltenAmputator>(), 4);
 
                 // Equipment
-                DropHelper.DropItemChance(npc, mod.ItemType("SamuraiBadge"), 40);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<SamuraiBadge>(), 40);
 
                 // Vanity
-                DropHelper.DropItemChance(npc, mod.ItemType("ProvidenceMask"), 7);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<ProvidenceMask>(), 7);
 
                 // Other
-                DropHelper.DropItem(npc, mod.ItemType("RuneofCos"));
+                DropHelper.DropItem(npc, ModContent.ItemType<RuneofCos>());
             }
 
             if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -1100,7 +1100,7 @@ namespace CalamityMod.NPCs.Providence
                 string key3 = "Mods.CalamityMod.TreeOreText";
                 Color messageColor3 = Color.LightGreen;
 
-                WorldGenerationMethods.SpawnOre(mod.TileType("UelibloomOre"), 15E-05, .4f, .8f);
+                WorldGenerationMethods.SpawnOre(ModContent.TileType<UelibloomOre>(), 15E-05, .4f, .8f);
 
                 if (Main.netMode == NetmodeID.SinglePlayer)
                 {
@@ -1131,7 +1131,7 @@ namespace CalamityMod.NPCs.Providence
                     if ((x == tileCenterX - halfBox || x == tileCenterX + halfBox || y == tileCenterY - halfBox || y == tileCenterY + halfBox)
                         && !Main.tile[x, y].active())
                     {
-                        Main.tile[x, y].type = (ushort)mod.TileType("ProfanedRock");
+                        Main.tile[x, y].type = (ushort)ModContent.TileType<ProfanedRock>();
                         Main.tile[x, y].active(true);
                     }
                     Main.tile[x, y].lava(false);

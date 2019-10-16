@@ -1,9 +1,9 @@
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.RareVariants
+namespace CalamityMod.Items
 {
     public class ThornBlossom : ModItem
     {
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.RareVariants
             item.rare = 9;
             item.UseSound = SoundID.Item109;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("BeamingBolt");
+            item.shoot = ModContent.ProjectileType<BeamingBolt>();
             item.shootSpeed = 20f;
             item.Calamity().postMoonLordRarity = 22;
         }

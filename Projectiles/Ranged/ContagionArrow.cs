@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Ranged
+namespace CalamityMod.Projectiles
 {
     public class ContagionArrow : ModProjectile
     {
@@ -36,9 +36,9 @@ namespace CalamityMod.Projectiles.Ranged
             addBallTimer--;
             if (addBallTimer <= 0)
             {
-                if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].ownedProjectileCounts[mod.ProjectileType("ContagionBall")] < 100)
+                if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<ContagionBall>()] < 100)
                 {
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("ContagionBall"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ContagionBall>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                 }
                 addBallTimer = 10;
             }
@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("Plague"), 600);
+            target.AddBuff(ModContent.BuffType<Plague>(), 600);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

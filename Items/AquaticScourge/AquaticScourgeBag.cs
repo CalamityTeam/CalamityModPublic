@@ -1,13 +1,14 @@
+using CalamityMod.NPCs;
 using CalamityMod.Utilities;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.AquaticScourge
+namespace CalamityMod.Items
 {
     public class AquaticScourgeBag : ModItem
     {
-        public override int BossBagNPC => mod.NPCType("AquaticScourgeHead");
+        public override int BossBagNPC => ModContent.NPCType<AquaticScourgeHead>();
 
         public override void SetStaticDefaults()
         {
@@ -36,21 +37,21 @@ namespace CalamityMod.Items.AquaticScourge
 
             // Materials (Souls of Sight are Hardmode only)
             DropHelper.DropItemCondition(player, ItemID.SoulofSight, Main.hardMode, 25, 40);
-            DropHelper.DropItem(player, mod.ItemType("VictoryShard"), 15, 25);
+            DropHelper.DropItem(player, ModContent.ItemType<VictoryShard>(), 15, 25);
             DropHelper.DropItem(player, ItemID.Coral, 7, 11);
             DropHelper.DropItem(player, ItemID.Seashell, 7, 11);
             DropHelper.DropItem(player, ItemID.Starfish, 7, 11);
 
             // Weapons (Hardmode only)
-            DropHelper.DropItemCondition(player, mod.ItemType("SubmarineShocker"), Main.hardMode, 3, 1, 1);
-            DropHelper.DropItemCondition(player, mod.ItemType("Barinautical"), Main.hardMode, 3, 1, 1);
-            DropHelper.DropItemCondition(player, mod.ItemType("Downpour"), Main.hardMode, 3, 1, 1);
-            DropHelper.DropItemCondition(player, mod.ItemType("DeepseaStaff"), Main.hardMode, 3, 1, 1);
-            DropHelper.DropItemCondition(player, mod.ItemType("ScourgeoftheSeas"), Main.hardMode, 3, 1, 1);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<SubmarineShocker>(), Main.hardMode, 3, 1, 1);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<Barinautical>(), Main.hardMode, 3, 1, 1);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<Downpour>(), Main.hardMode, 3, 1, 1);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<DeepseaStaff>(), Main.hardMode, 3, 1, 1);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<ScourgeoftheSeas>(), Main.hardMode, 3, 1, 1);
 
             // Equipment (Emblem is Hardmode only)
-            DropHelper.DropItemCondition(player, mod.ItemType("AquaticEmblem"), Main.hardMode);
-            DropHelper.DropItemChance(player, mod.ItemType("AeroStone"), 8);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<AquaticEmblem>(), Main.hardMode);
+            DropHelper.DropItemChance(player, ModContent.ItemType<AeroStone>(), 8);
 
             // Vanity
             // there is no Aquatic Scourge mask yet

@@ -2,9 +2,9 @@
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Melee
+namespace CalamityMod.Projectiles
 {
     public class Earth : ModProjectile
     {
@@ -109,15 +109,15 @@ namespace CalamityMod.Projectiles.Melee
                 int projChoice = Main.rand.Next(3);
                 if (projChoice == 0)
                 {
-                    projChoice = mod.ProjectileType("Earth2");
+                    projChoice = ModContent.ProjectileType<Earth2>();
                 }
                 else if (projChoice == 1)
                 {
-                    projChoice = mod.ProjectileType("Earth3");
+                    projChoice = ModContent.ProjectileType<Earth3>();
                 }
                 else
                 {
-                    projChoice = mod.ProjectileType("Earth4");
+                    projChoice = ModContent.ProjectileType<Earth4>();
                 }
                 offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
                 Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), projChoice, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);

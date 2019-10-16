@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Astral
+namespace CalamityMod.Projectiles
 {
     public class HeavenfallenEnergy : ModProjectile
     {
@@ -31,11 +31,11 @@ namespace CalamityMod.Projectiles.Astral
             {
                 if (projectile.ai[0] % 4 == 0)
                 {
-                    coolDust = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width - num154 * 2, projectile.height - num154 * 2, mod.DustType("AstralBlue"), 0f, 0f, 100, default, 1.5f);
+                    coolDust = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width - num154 * 2, projectile.height - num154 * 2, ModContent.DustType<AstralBlue>(), 0f, 0f, 100, default, 1.5f);
                 }
                 else
                 {
-                    coolDust = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width - num154 * 2, projectile.height - num154 * 2, mod.DustType("AstralOrange"), 0f, 0f, 100, default, 1.5f);
+                    coolDust = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width - num154 * 2, projectile.height - num154 * 2, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 1.5f);
                 }
                 Main.dust[coolDust].noGravity = true;
                 Main.dust[coolDust].velocity *= 0.1f;
@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Astral
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("AstralInfectionDebuff"), 180);
+            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 180);
         }
     }
 }

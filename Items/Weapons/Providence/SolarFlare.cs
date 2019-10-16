@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.Providence
+namespace CalamityMod.Items
 {
     public class SolarFlare : ModItem
     {
@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Weapons.Providence
             item.value = Item.buyPrice(1, 20, 0, 0);
             item.rare = 10;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("SolarFlareYoyo");
+            item.shoot = ModContent.ProjectileType<SolarFlareYoyo>();
             item.Calamity().postMoonLordRarity = 12;
         }
     }

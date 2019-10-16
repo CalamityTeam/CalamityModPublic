@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.AbyssNPCs
+namespace CalamityMod.NPCs
 {
     public class ChaoticPuffer : ModNPC
     {
@@ -32,12 +32,12 @@ namespace CalamityMod.NPCs.AbyssNPCs
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
-            npc.buffImmune[mod.BuffType("CrushDepth")] = true;
+            npc.buffImmune[ModContent.BuffType<CrushDepth>()] = true;
             npc.value = Item.buyPrice(0, 0, 30, 0);
             npc.HitSound = SoundID.NPCHit23;
             npc.DeathSound = SoundID.NPCDeath28;
             banner = npc.type;
-            bannerItem = mod.ItemType("ChaoticPufferBanner");
+            bannerItem = ModContent.ItemType<ChaoticPufferBanner>();
         }
 
         public override void AI()
@@ -117,7 +117,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
             if (Main.netMode != NetmodeID.MultiplayerClient && puffedUp)
             {
                 int damageBoom = 100;
-                int projectileType = mod.ProjectileType("PufferExplosion");
+                int projectileType = ModContent.ProjectileType<PufferExplosion>();
                 int boom = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0, 0, projectileType, damageBoom, 0f, Main.myPlayer, 0f, 0f);
             }
             npc.netUpdate = true;
@@ -212,17 +212,17 @@ namespace CalamityMod.NPCs.AbyssNPCs
         {
             if (Main.rand.NextBool(1000000) && CalamityWorld.revenge)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("HalibutCannon"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<HalibutCannon>());
             }
             if (NPC.downedGolemBoss)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ChaoticOre"), Main.rand.Next(10, 27));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<ChaoticOre>(), Main.rand.Next(10, 27));
             }
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(mod.BuffType("BrimstoneFlames"), 300);
+            player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
 
             if (puffedUp)
             {

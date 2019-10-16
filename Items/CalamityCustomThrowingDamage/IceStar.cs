@@ -1,8 +1,8 @@
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 using Terraria;
 
-namespace CalamityMod.Items.CalamityCustomThrowingDamage
+namespace CalamityMod.Items
 {
     public class IceStar : CalamityDamageItem
     {
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.maxStack = 999;
             item.value = Item.sellPrice(0, 0, 1, 20);
             item.rare = 5;
-            item.shoot = mod.ProjectileType("IceStarProjectile");
+            item.shoot = ModContent.ProjectileType<IceStarProjectile>();
             item.shootSpeed = 14f;
             item.Calamity().rogue = true;
         }

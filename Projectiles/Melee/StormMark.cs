@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Melee
+namespace CalamityMod.Projectiles
 {
     public class StormMark : ModProjectile
     {
@@ -128,7 +128,7 @@ namespace CalamityMod.Projectiles.Melee
             if (projectile.localAI[1] == 60f && projectile.owner == Main.myPlayer)
             {
                 int num1137 = 100;
-                Projectile.NewProjectile(projectile.Center, Vector2.Zero, mod.ProjectileType("Tornado"), num1137, 3f, projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<Tornado>(), num1137, 3f, projectile.owner, 0f, 0f);
             }
             if (projectile.localAI[1] >= 120f)
             {

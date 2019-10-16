@@ -1,9 +1,9 @@
 ﻿using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.NormalNPCs
+namespace CalamityMod.NPCs
 {
     public class HeatSpirit : ModNPC
     {
@@ -26,7 +26,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.HitSound = SoundID.NPCHit52;
             npc.DeathSound = SoundID.NPCDeath55;
             banner = npc.type;
-            bannerItem = mod.ItemType("HeatSpiritBanner");
+            bannerItem = ModContent.ItemType<HeatSpiritBanner>();
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -71,7 +71,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             player.AddBuff(BuffID.OnFire, 120, true);
-            player.AddBuff(mod.BuffType("BrimstoneFlames"), 120, true);
+            player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120, true);
         }
 
         public override void HitEffect(int hitDirection, double damage)
@@ -93,7 +93,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             if (Main.rand.NextBool(4))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EssenceofChaos"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EssenceofChaos>());
             }
         }
     }

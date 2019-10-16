@@ -2,9 +2,9 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Melee.Spears
+namespace CalamityMod.Projectiles
 {
     public class StreamGouge : ModProjectile
     {
@@ -56,7 +56,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
                 {
                     projectile.localAI[0] = 1f;
                     Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y,
-                        mod.ProjectileType("EssenceBeam"), projectile.damage * 4, projectile.knockBack, projectile.owner, 0f, 0f);
+                        ModContent.ProjectileType<EssenceBeam>(), projectile.damage * 4, projectile.knockBack, projectile.owner, 0f, 0f);
                 }
             }
             else
@@ -82,7 +82,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("GodSlayerInferno"), 300);
+            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
         }
     }
 }

@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class AirSpinner : ModItem
     {
@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Weapons
             item.value = Item.buyPrice(0, 4, 0, 0);
             item.rare = 3;
             item.autoReuse = false;
-            item.shoot = mod.ProjectileType("AirSpinnerProjectile");
+            item.shoot = ModContent.ProjectileType<AirSpinnerProjectile>();
         }
 
         public override void AddRecipes()

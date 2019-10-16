@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Magic
+namespace CalamityMod.Projectiles
 {
     public class AetherBeam : ModProjectile
     {
@@ -124,8 +124,8 @@ namespace CalamityMod.Projectiles.Magic
                     for (i = 0; i < 4; i++)
                     {
                         offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                        int proj1 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), mod.ProjectileType("AetherBeam"), projectile.damage, projectile.knockBack, projectile.owner, projectile.ai[0], 1f);
-                        int proj2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), mod.ProjectileType("AetherBeam"), projectile.damage, projectile.knockBack, projectile.owner, projectile.ai[0], 1f);
+                        int proj1 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<AetherBeam>(), projectile.damage, projectile.knockBack, projectile.owner, projectile.ai[0], 1f);
+                        int proj2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<AetherBeam>(), projectile.damage, projectile.knockBack, projectile.owner, projectile.ai[0], 1f);
                     }
                 }
             }

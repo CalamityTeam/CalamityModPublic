@@ -2,9 +2,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Shrines
+namespace CalamityMod.Projectiles
 {
     public class GladiatorSword : ModProjectile
     {
@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Shrines
 
         public override void AI()
         {
-            bool flag64 = projectile.type == mod.ProjectileType("GladiatorSword");
+            bool flag64 = projectile.type == ModContent.ProjectileType<GladiatorSword>();
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
             if (!modPlayer.gladiatorSword)

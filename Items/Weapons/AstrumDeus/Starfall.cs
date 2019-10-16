@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.AstrumDeus
+namespace CalamityMod.Items
 {
     public class Starfall : ModItem
     {
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.AstrumDeus
             item.value = Item.buyPrice(0, 95, 0, 0);
             item.UseSound = SoundID.Item105;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("AstralStarMagic");
+            item.shoot = ModContent.ProjectileType<AstralStarMagic>();
             item.shootSpeed = 12f;
         }
 

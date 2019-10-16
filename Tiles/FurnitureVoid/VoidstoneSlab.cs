@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Tiles.FurnitureVoid
+namespace CalamityMod.Tiles
 {
     public class VoidstoneSlab : ModTile
     {
@@ -15,7 +15,7 @@ namespace CalamityMod.Tiles.FurnitureVoid
             soundType = 21;
             mineResist = 7f;
             minPick = 190;
-            drop = mod.ItemType("VoidstoneSlab");
+            drop = ModContent.ItemType<VoidstoneSlab>();
             AddMapEntry(new Color(27, 24, 31));
             animationFrameHeight = 270;
         }
@@ -91,7 +91,7 @@ namespace CalamityMod.Tiles.FurnitureVoid
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            if (Main.tile[i, j].type == mod.TileType("VoidstoneSlab"))
+            if (Main.tile[i, j].type == ModContent.TileType<VoidstoneSlab>())
             {
                 int xPos = Main.tile[i, j].frameX;
                 int yPos = Main.tile[i, j].frameY;

@@ -1,10 +1,10 @@
-﻿using CalamityMod.Items.Patreon;
+﻿using CalamityMod.Items;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Patreon
+namespace CalamityMod.Projectiles
 {
     public class AtaraxiaSide : ModProjectile
     {
@@ -73,7 +73,7 @@ namespace CalamityMod.Projectiles.Patreon
 
             // Individual split projectiles deal 7.5% of the weapon's base damage per hit.
             int numSplits = 6;
-            int splitID = mod.ProjectileType("AtaraxiaSplit");
+            int splitID = ModContent.ProjectileType<AtaraxiaSplit>();
             int damage = (int)(0.075f * Ataraxia.BaseDamage);
             float angleVariance = MathHelper.TwoPi / (float)numSplits;
             Vector2 projVec = new Vector2(4.5f, 0f).RotatedByRandom(MathHelper.TwoPi);

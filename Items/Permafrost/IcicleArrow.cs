@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Permafrost
+namespace CalamityMod.Items
 {
     public class IcicleArrow : ModItem
     {
@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Permafrost
             item.knockBack = 2.5f;
             item.value = Item.buyPrice(0, 0, 0, 15);
             item.rare = 3;
-            item.shoot = mod.ProjectileType("IcicleArrow");
+            item.shoot = ModContent.ProjectileType<IcicleArrow>();
             item.shootSpeed = 1.0f;
             item.ammo = AmmoID.Arrow;
             item.maxStack = 999;

@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.AbyssWeapons
+namespace CalamityMod.Items
 {
     public class BlackAnurian : ModItem
     {
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.AbyssWeapons
             item.UseSound = SoundID.Item111;
             item.autoReuse = true;
             item.shootSpeed = 8f;
-            item.shoot = mod.ProjectileType("BlackAnurian");
+            item.shoot = ModContent.ProjectileType<BlackAnurian>();
         }
 
         public override Vector2? HoldoutOffset()
@@ -45,7 +45,7 @@ namespace CalamityMod.Items.Weapons.AbyssWeapons
             {
                 float SpeedX = speedX + (float)Main.rand.Next(-25, 26) * 0.05f;
                 float SpeedY = speedY + (float)Main.rand.Next(-25, 26) * 0.05f;
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, mod.ProjectileType("BlackAnurianPlankton"), (int)((double)damage * 0.5), knockBack, player.whoAmI, 0.0f, 0.0f);
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<BlackAnurianPlankton>(), (int)((double)damage * 0.5), knockBack, player.whoAmI, 0.0f, 0.0f);
             }
             Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)((double)damage * 0.5), knockBack, player.whoAmI, 0.0f, 0.0f);
             return false;

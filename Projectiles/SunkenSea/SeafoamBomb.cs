@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.SunkenSea
+namespace CalamityMod.Projectiles
 {
     public class SeafoamBomb : ModProjectile
     {
@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.SunkenSea
             projectile.localNPCHitCooldown = 10;
             projectile.Damage();
             Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 14);
-            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("SeafoamBubble"), (int)((double)projectile.damage * 0.4), 0f, projectile.owner, 0f, 0f);
+            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<SeafoamBubble>(), (int)((double)projectile.damage * 0.4), 0f, projectile.owner, 0f, 0f);
             for (int num625 = 0; num625 < 3; num625++)
             {
                 float scaleFactor10 = 0.33f;

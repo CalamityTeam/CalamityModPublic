@@ -1,6 +1,6 @@
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Placeables.FurnitureProfaned
+namespace CalamityMod.Items
 {
     public class RunicProfanedBrickWall : ModItem
     {
@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Placeables.FurnitureProfaned
             item.useTime = 7;
             item.useStyle = 1;
             item.consumable = true;
-            item.createWall = mod.WallType("RunicProfanedBrickWall");
+            item.createWall = ModContent.WallType<RunicProfanedBrickWall>();
         }
 
         public override void AddRecipes()

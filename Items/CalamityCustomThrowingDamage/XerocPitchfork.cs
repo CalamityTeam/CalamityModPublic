@@ -1,7 +1,7 @@
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.CalamityCustomThrowingDamage
+namespace CalamityMod.Items
 {
     public class XerocPitchfork : CalamityDamageItem
     {
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.maxStack = 999;
             item.value = 10000;
             item.rare = 9;
-            item.shoot = mod.ProjectileType("XerocPitchforkProjectile");
+            item.shoot = ModContent.ProjectileType<XerocPitchforkProjectile>();
             item.shootSpeed = 16f;
             item.Calamity().rogue = true;
         }

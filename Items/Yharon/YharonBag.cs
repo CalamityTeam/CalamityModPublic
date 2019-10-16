@@ -1,13 +1,12 @@
-using CalamityMod.Utilities;
 using CalamityMod.World;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Yharon
+namespace CalamityMod.Items
 {
     public class YharonBag : ModItem
     {
-        public override int BossBagNPC => mod.NPCType("Yharon");
+        public override int BossBagNPC => ModContent.NPCType<Yharon>();
 
         public override void SetStaticDefaults()
         {
@@ -37,21 +36,21 @@ namespace CalamityMod.Items.Yharon
             // Materials
 
             // Weapons
-            DropHelper.DropItemChance(player, mod.ItemType("DragonRage"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("TheBurningSky"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("DragonsBreath"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("ChickenCannon"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("PhoenixFlameBarrage"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("AngryChickenStaff"), 3); // Yharon Kindle Staff
-            DropHelper.DropItemChance(player, mod.ItemType("ProfanedTrident"), 3); // Infernal Spear
+            DropHelper.DropItemChance(player, ModContent.ItemType<DragonRage>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<TheBurningSky>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<DragonsBreath>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<ChickenCannon>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<PhoenixFlameBarrage>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<AngryChickenStaff>(), 3); // Yharon Kindle Staff
+            DropHelper.DropItemChance(player, ModContent.ItemType<ProfanedTrident>(), 3); // Infernal Spear
 
             // Equipment
-            DropHelper.DropItem(player, mod.ItemType("YharimsGift"));
+            DropHelper.DropItem(player, ModContent.ItemType<YharimsGift>());
 
             // Vanity
-            DropHelper.DropItemChance(player, mod.ItemType("YharonMask"), 7);
-            DropHelper.DropItemChance(player, mod.ItemType("ForgottenDragonEgg"), 10);
-            DropHelper.DropItemCondition(player, mod.ItemType("FoxDrive"), CalamityWorld.revenge);
+            DropHelper.DropItemChance(player, ModContent.ItemType<YharonMask>(), 7);
+            DropHelper.DropItemChance(player, ModContent.ItemType<ForgottenDragonEgg>(), 10);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<FoxDrive>(), CalamityWorld.revenge);
         }
     }
 }

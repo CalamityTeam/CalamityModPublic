@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.SunkenSea
+namespace CalamityMod.Items
 {
     public class ShellfishStaff : ModItem
     {
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.SunkenSea
             item.rare = 5;
             item.UseSound = SoundID.Item44;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("Shellfish");
+            item.shoot = ModContent.ProjectileType<Shellfish>();
             item.shootSpeed = 10f;
             item.summon = true;
         }

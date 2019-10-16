@@ -1,7 +1,7 @@
 using Terraria;
 using Terraria.ID;
 
-namespace CalamityMod.Items.CalamityCustomThrowingDamage.RareVariants
+namespace CalamityMod.Items
 {
     public class DuneHopper : CalamityDamageItem
     {
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage.RareVariants
             item.height = 44;
             item.value = Item.buyPrice(0, 2, 0, 0);
             item.rare = 2;
-            item.shoot = mod.ProjectileType("ScourgeoftheDesert2");
+            item.shoot = ModContent.ProjectileType<ScourgeoftheDesert2>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;
             item.Calamity().postMoonLordRarity = 22;

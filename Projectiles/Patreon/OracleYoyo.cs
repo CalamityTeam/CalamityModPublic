@@ -1,10 +1,10 @@
-﻿using CalamityMod.Items.Patreon;
+﻿using CalamityMod.Items;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Patreon
+namespace CalamityMod.Projectiles
 {
     public class OracleYoyo : ModProjectile
     {
@@ -206,7 +206,7 @@ namespace CalamityMod.Projectiles.Patreon
             Main.PlaySound(SoundID.Item92, (int)projectile.Center.X, (int)projectile.Center.Y);
 
             int numOrbs = 3;
-            int orbID = mod.ProjectileType("Orbacle");
+            int orbID = ModContent.ProjectileType<Orbacle>();
             int orbDamage = Oracle.BaseDamage * 3;
             float orbKB = 8f;
             float angleVariance = MathHelper.TwoPi / (float)numOrbs;

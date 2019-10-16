@@ -1,8 +1,8 @@
 ﻿using CalamityMod.CalPlayer;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Armor
+namespace CalamityMod.Items
 {
     [AutoloadEquip(EquipType.Head)]
     public class DemonshadeHelm : ModItem
@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Armor
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == mod.ItemType("DemonshadeBreastplate") && legs.type == mod.ItemType("DemonshadeGreaves");
+            return body.type == ModContent.ItemType<DemonshadeBreastplate>() && legs.type == ModContent.ItemType<DemonshadeGreaves>();
         }
 
         public override void ArmorSetShadows(Player player)
@@ -47,13 +47,13 @@ namespace CalamityMod.Items.Armor
             if (player.whoAmI == Main.myPlayer && !modPlayer.chibii)
             {
                 modPlayer.redDevil = true;
-                if (player.FindBuffIndex(mod.BuffType("RedDevil")) == -1)
+                if (player.FindBuffIndex(ModContent.BuffType<RedDevil>()) == -1)
                 {
-                    player.AddBuff(mod.BuffType("RedDevil"), 3600, true);
+                    player.AddBuff(ModContent.BuffType<RedDevil>(), 3600, true);
                 }
-                if (player.ownedProjectileCounts[mod.ProjectileType("RedDevil")] < 1)
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<RedDevil>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("RedDevil"), 10000, 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<RedDevil>(), 10000, 0f, Main.myPlayer, 0f, 0f);
                 }
             }
             player.minionDamage += 1f;

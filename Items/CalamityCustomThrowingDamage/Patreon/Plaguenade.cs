@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.CalamityCustomThrowingDamage.Patreon
+namespace CalamityMod.Items
 {
     public class Plaguenade : CalamityDamageItem
     {
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage.Patreon
             item.height = 28;
             item.value = Item.buyPrice(0, 1, 0, 0);
             item.rare = 8;
-            item.shoot = mod.ProjectileType("Plaguenade");
+            item.shoot = ModContent.ProjectileType<Plaguenade>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;
             item.Calamity().postMoonLordRarity = 21;

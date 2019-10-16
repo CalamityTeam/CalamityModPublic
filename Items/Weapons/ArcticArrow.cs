@@ -1,8 +1,8 @@
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 using Terraria;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class ArcticArrow : ModItem
     {
@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Weapons
             item.knockBack = 1.5f;
             item.value = Item.sellPrice(0, 0, 0, 24);
             item.rare = 3;
-            item.shoot = mod.ProjectileType("ArcticArrow");
+            item.shoot = ModContent.ProjectileType<ArcticArrow>();
             item.shootSpeed = 13f;
             item.ammo = 40;
         }

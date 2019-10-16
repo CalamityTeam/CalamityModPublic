@@ -4,9 +4,9 @@ using Terraria;
 using Terraria.GameContent.Events;
 using Terraria.ID;
 using Terraria.Localization;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.TownNPCs
+namespace CalamityMod.NPCs
 {
     [AutoloadHead]
     public class DILF : ModNPC
@@ -128,39 +128,39 @@ namespace CalamityMod.NPCs.TownNPCs
 
         public override void SetupShop(Chest shop, ref int nextSlot)
         {
-            shop.item[nextSlot].SetDefaults(mod.ItemType("ColdheartIcicle"));
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<ColdheartIcicle>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(mod.ItemType("AbsoluteZero"));
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<AbsoluteZero>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(mod.ItemType("FrostbiteBlaster"));
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<FrostbiteBlaster>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(mod.ItemType("EternalBlizzard"));
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<EternalBlizzard>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(mod.ItemType("WintersFury"));
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<WintersFury>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(mod.ItemType("ArcticBearPaw"));
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<ArcticBearPaw>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(mod.ItemType("IcicleTrident"));
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<IcicleTrident>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(mod.ItemType("FrostyFlare"));
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<FrostyFlare>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(mod.ItemType("CryogenicStaff"));
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<CryogenicStaff>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(mod.ItemType("PermafrostsConcoction"));
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<PermafrostsConcoction>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(mod.ItemType("IcyBullet"));
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<IcyBullet>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(mod.ItemType("IcicleArrow"));
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<IcicleArrow>());
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ItemID.SuperManaPotion);
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(mod.ItemType("DeliciousMeat"));
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<DeliciousMeat>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(mod.ItemType("EnchantedMetal"));
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<EnchantedMetal>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(mod.ItemType("BearEye"));
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<BearEye>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(mod.ItemType("Popo"));
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Popo>());
             nextSlot++;
         }
 
@@ -178,7 +178,7 @@ namespace CalamityMod.NPCs.TownNPCs
 
         public override void TownNPCAttackProj(ref int projType, ref int attackDelay)
         {
-            projType = mod.ProjectileType("DarkIce");
+            projType = ModContent.ProjectileType<DarkIce>();
             attackDelay = 1;
         }
 

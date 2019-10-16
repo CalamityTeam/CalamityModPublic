@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class PlagueKeeper : ModItem
     {
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons
             item.height = 90;
             item.value = Item.buyPrice(1, 20, 0, 0);
             item.rare = 10;
-            item.shoot = mod.ProjectileType("PlagueBeeDust");
+            item.shoot = ModContent.ProjectileType<PlagueBeeDust>();
             item.shootSpeed = 9f;
             item.Calamity().postMoonLordRarity = 12;
         }
@@ -46,7 +46,7 @@ namespace CalamityMod.Items.Weapons
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("Plague"), 300);
+            target.AddBuff(ModContent.BuffType<Plague>(), 300);
             for (int i = 0; i < 3; i++)
             {
                 int bee = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, player.beeType(),

@@ -2,9 +2,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Summon
+namespace CalamityMod.Projectiles
 {
     public class BrittleStar : ModProjectile
     {
@@ -61,10 +61,10 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.damage = damage2;
             }
             projectile.rotation += projectile.velocity.X * 0.04f;
-            bool flag64 = projectile.type == mod.ProjectileType("BrittleStar");
+            bool flag64 = projectile.type == ModContent.ProjectileType<BrittleStar>();
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            player.AddBuff(mod.BuffType("BrittleStar"), 3600);
+            player.AddBuff(ModContent.BuffType<BrittleStar>(), 3600);
             if (flag64)
             {
                 if (player.dead)

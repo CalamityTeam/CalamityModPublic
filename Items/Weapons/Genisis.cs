@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class Genisis : ModItem
     {
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons
             item.UseSound = SoundID.Item33;
             item.autoReuse = true;
             item.shootSpeed = 6f;
-            item.shoot = mod.ProjectileType("BigBeamofDeath");
+            item.shoot = ModContent.ProjectileType<BigBeamofDeath>();
             item.Calamity().postMoonLordRarity = 12;
         }
 

@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.Polterghast
+namespace CalamityMod.Items
 {
     public class DaemonsFlame : ModItem
     {
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Polterghast
             item.ranged = true;
             item.channel = true;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("DaemonsFlame");
+            item.shoot = ModContent.ProjectileType<DaemonsFlame>();
             item.shootSpeed = 20f;
             item.useAmmo = 40;
             item.Calamity().postMoonLordRarity = 13;
@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Weapons.Polterghast
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("DaemonsFlame"), damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<DaemonsFlame>(), damage, knockBack, player.whoAmI, 0f, 0f);
             return false;
         }
     }

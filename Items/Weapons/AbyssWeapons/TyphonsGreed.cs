@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.AbyssWeapons
+namespace CalamityMod.Items
 {
     public class TyphonsGreed : ModItem
     {
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.AbyssWeapons
             item.UseSound = SoundID.DD2_SkyDragonsFurySwing;
             item.autoReuse = true;
             item.channel = true;
-            item.shoot = mod.ProjectileType("TyphonsGreedStaff");
+            item.shoot = ModContent.ProjectileType<TyphonsGreedStaff>();
             item.shootSpeed = 24f;
         }
 

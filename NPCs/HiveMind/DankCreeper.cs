@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.HiveMind
+namespace CalamityMod.NPCs
 {
     public class DankCreeper : ModNPC
     {
@@ -86,7 +86,7 @@ namespace CalamityMod.NPCs.HiveMind
         {
             if (CalamityWorld.revenge)
             {
-                player.AddBuff(mod.BuffType("MarkedforDeath"), 120);
+                player.AddBuff(ModContent.BuffType<MarkedforDeath>(), 120);
             }
         }
 
@@ -112,7 +112,7 @@ namespace CalamityMod.NPCs.HiveMind
         {
             if (Main.expertMode && Main.netMode != NetmodeID.MultiplayerClient)
             {
-                Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, 0f, mod.ProjectileType("ShadeNimbusHostile"), 14, 0f, Main.myPlayer, 0f, 0f);
+                Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, 0f, ModContent.ProjectileType<ShadeNimbusHostile>(), 14, 0f, Main.myPlayer, 0f, 0f);
             }
         }
     }

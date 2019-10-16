@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class MagnaCannon : ModItem
     {
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons
             item.UseSound = SoundID.Item117;
             item.autoReuse = true;
             item.shootSpeed = 12f;
-            item.shoot = mod.ProjectileType("MagnaBlast");
+            item.shoot = ModContent.ProjectileType<MagnaBlast>();
         }
 
         public override Vector2? HoldoutOffset()

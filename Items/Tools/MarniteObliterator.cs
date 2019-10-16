@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Tools
+namespace CalamityMod.Items
 {
     public class MarniteObliterator : ModItem
     {
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Tools
             item.rare = 2;
             item.UseSound = SoundID.Item23;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("MarniteObliterator");
+            item.shoot = ModContent.ProjectileType<MarniteObliterator>();
             item.shootSpeed = 40f;
         }
 

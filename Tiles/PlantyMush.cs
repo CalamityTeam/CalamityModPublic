@@ -2,7 +2,7 @@ using CalamityMod.Utilities;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
 namespace CalamityMod.Tiles
 {
@@ -18,7 +18,7 @@ namespace CalamityMod.Tiles
             TileMerge.MergeAbyssTiles(Type);
 
             dustType = 2;
-            drop = mod.ItemType("PlantyMush");
+            drop = ModContent.ItemType<PlantyMush>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Planty Mush");
             AddMapEntry(new Color(0, 120, 0), name);
@@ -48,11 +48,11 @@ namespace CalamityMod.Tiles
             int num8 = WorldGen.genRand.Next((int)Main.rockLayer, (int)(Main.rockLayer + (double)Main.maxTilesY * 0.143));
             if (Main.tile[i, j + 1] != null)
             {
-                if (!Main.tile[i, j + 1].active() && Main.tile[i, j + 1].type != (ushort)mod.TileType("ViperVines"))
+                if (!Main.tile[i, j + 1].active() && Main.tile[i, j + 1].type != (ushort)ModContent.TileType<ViperVines>())
                 {
                     if (Main.tile[i, j + 1].liquid == 255 &&
-                        (Main.tile[i, j + 1].wall == (ushort)mod.WallType("MossyGravelWall") ||
-                        Main.tile[i, j + 1].wall == (ushort)mod.WallType("AbyssGravelWall")) &&
+                        (Main.tile[i, j + 1].wall == (ushort)ModContent.WallType<MossyGravelWall>() ||
+                        Main.tile[i, j + 1].wall == (ushort)ModContent.WallType<AbyssGravelWall>()) &&
                         !Main.tile[i, j + 1].lava())
                     {
                         bool flag13 = false;
@@ -73,7 +73,7 @@ namespace CalamityMod.Tiles
                         {
                             int num53 = i;
                             int num54 = j + 1;
-                            Main.tile[num53, num54].type = (ushort)mod.TileType("ViperVines");
+                            Main.tile[num53, num54].type = (ushort)ModContent.TileType<ViperVines>();
                             Main.tile[num53, num54].active(true);
                             WorldGen.SquareTileFrame(num53, num54, true);
                             if (Main.netMode == 2)
@@ -88,7 +88,7 @@ namespace CalamityMod.Tiles
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            CustomTileFraming.FrameTileForCustomMerge(i, j, Type, mod.TileType("AbyssGravel"), false, false, false, false, resetFrame);
+            CustomTileFraming.FrameTileForCustomMerge(i, j, Type, ModContent.TileType<AbyssGravel>(), false, false, false, false, resetFrame);
             return false;
         }
     }

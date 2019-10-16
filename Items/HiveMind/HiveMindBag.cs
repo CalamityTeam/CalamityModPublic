@@ -1,13 +1,12 @@
-using CalamityMod.Utilities;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.HiveMind
+namespace CalamityMod.Items
 {
     public class HiveMindBag : ModItem
     {
-        public override int BossBagNPC => mod.NPCType("HiveMindP2");
+        public override int BossBagNPC => ModContent.NPCType<HiveMindP2>();
 
         public override void SetStaticDefaults()
         {
@@ -35,23 +34,23 @@ namespace CalamityMod.Items.HiveMind
             // Materials
             DropHelper.DropItem(player, ItemID.RottenChunk, 10, 20);
             DropHelper.DropItem(player, ItemID.DemoniteBar, 9, 14);
-            DropHelper.DropItem(player, mod.ItemType("TrueShadowScale"), 30, 40);
+            DropHelper.DropItem(player, ModContent.ItemType<TrueShadowScale>(), 30, 40);
             DropHelper.DropItemCondition(player, ItemID.CursedFlame, Main.hardMode, 15, 30);
 
             // Weapons
-            DropHelper.DropItemChance(player, mod.ItemType("PerfectDark"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("LeechingDagger"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("Shadethrower"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("ShadowdropStaff"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("ShaderainStaff"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("DankStaff"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("RotBall"), 3, 50, 75);
+            DropHelper.DropItemChance(player, ModContent.ItemType<PerfectDark>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<LeechingDagger>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<Shadethrower>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<ShadowdropStaff>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<ShaderainStaff>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<DankStaff>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<RotBall>(), 3, 50, 75);
 
             // Equipment
-            DropHelper.DropItem(player, mod.ItemType("RottenBrain"));
+            DropHelper.DropItem(player, ModContent.ItemType<RottenBrain>());
 
             // Vanity
-            DropHelper.DropItemChance(player, mod.ItemType("HiveMindMask"), 7);
+            DropHelper.DropItemChance(player, ModContent.ItemType<HiveMindMask>(), 7);
         }
     }
 }

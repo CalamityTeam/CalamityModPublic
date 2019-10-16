@@ -1,8 +1,8 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.Yharon
+namespace CalamityMod.Items
 {
     public class AngryChickenStaff : ModItem
     {
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Yharon
             item.rare = 10;
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/FlareSound");
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("AngryChicken");
+            item.shoot = ModContent.ProjectileType<SonOfYharon>();
             item.shootSpeed = 10f;
             item.summon = true;
             item.Calamity().postMoonLordRarity = 14;

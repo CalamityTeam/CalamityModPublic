@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Magic
+namespace CalamityMod.Projectiles
 {
     public class LiquidBlade : ModProjectile
     {
@@ -147,7 +147,7 @@ namespace CalamityMod.Projectiles.Magic
             }
             if (projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, mod.ProjectileType("LiquidBlade2"), (int)((double)projectile.damage * 0.75), 1f, projectile.owner);
+                Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, ModContent.ProjectileType<LiquidBlade2>(), (int)((double)projectile.damage * 0.75), 1f, projectile.owner);
             }
             target.AddBuff(BuffID.Ichor, 600);
             target.AddBuff(BuffID.Frostburn, 600);

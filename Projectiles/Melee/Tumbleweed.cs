@@ -2,9 +2,9 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Melee
+namespace CalamityMod.Projectiles
 {
     public class Tumbleweed : ModProjectile
     {
@@ -159,7 +159,7 @@ namespace CalamityMod.Projectiles.Melee
             }
             if (projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y, mod.ProjectileType("TumbleweedRolling"), projectile.damage, projectile.knockBack, Main.myPlayer, 0f, 0f);
+                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y, ModContent.ProjectileType<TumbleweedRolling>(), projectile.damage, projectile.knockBack, Main.myPlayer, 0f, 0f);
             }
             projectile.Kill();
         }

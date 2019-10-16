@@ -1,10 +1,11 @@
 ﻿using CalamityMod.CalPlayer;
+using CalamityMod.Projectiles;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Calamitas
+namespace CalamityMod.Items
 {
     public class CalamityRing : ModItem
     {
@@ -59,7 +60,7 @@ namespace CalamityMod.Items.Calamitas
                             num18 = (float)num17 / num18;
                             num15 *= num18;
                             num16 *= num18;
-                            int num19 = Projectile.NewProjectile(x, y, num15, num16, mod.ProjectileType("StandingFire"), 30, 5f, player.whoAmI, 0f, 0f);
+                            int num19 = Projectile.NewProjectile(x, y, num15, num16, ModContent.ProjectileType<StandingFire>(), 30, 5f, player.whoAmI, 0f, 0f);
                             Main.projectile[num19].ai[1] = player.position.Y;
                         }
                     }

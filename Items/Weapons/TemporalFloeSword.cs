@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class TemporalFloeSword : ModItem
     {
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons
             item.height = 58;
             item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;
-            item.shoot = mod.ProjectileType("TemporalFloeSwordProjectile");
+            item.shoot = ModContent.ProjectileType<TemporalFloeSwordProjectile>();
             item.shootSpeed = 16f;
         }
 
@@ -55,7 +55,7 @@ namespace CalamityMod.Items.Weapons
         {
             if (Main.rand.NextBool(3))
             {
-                target.AddBuff(mod.BuffType("GlacialState"), 120);
+                target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
             }
             target.AddBuff(BuffID.Frostburn, 600);
         }

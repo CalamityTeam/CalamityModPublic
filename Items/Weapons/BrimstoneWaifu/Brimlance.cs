@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.BrimstoneWaifu
+namespace CalamityMod.Items
 {
     public class Brimlance : ModItem
     {
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.BrimstoneWaifu
             item.height = 56;
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.rare = 5;
-            item.shoot = mod.ProjectileType("Brimlance");
+            item.shoot = ModContent.ProjectileType<Brimlance>();
             item.shootSpeed = 12f;
         }
     }

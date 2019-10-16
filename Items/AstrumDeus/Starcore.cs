@@ -1,8 +1,8 @@
 ﻿using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.AstrumDeus
+namespace CalamityMod.Items
 {
     public class Starcore : ModItem
     {
@@ -27,16 +27,16 @@ namespace CalamityMod.Items.AstrumDeus
 
         public override bool CanUseItem(Player player)
         {
-            return !Main.dayTime && !NPC.AnyNPCs(mod.NPCType("AstrumDeusHead")) && !NPC.AnyNPCs(mod.NPCType("AstrumDeusHeadSpectral"));
+            return !Main.dayTime && !NPC.AnyNPCs(ModContent.NPCType<AstrumDeusHead>()) && !NPC.AnyNPCs(ModContent.NPCType<AstrumDeusHeadSpectral>());
         }
 
         public override bool UseItem(Player player)
         {
             for (int x = 0; x < 10; x++)
             {
-                NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("AstrumDeusHead"));
+                NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<AstrumDeusHead>());
             }
-            NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("AstrumDeusHeadSpectral"));
+            NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<AstrumDeusHeadSpectral>());
             Main.PlaySound(SoundID.Roar, player.position, 0);
             return true;
         }

@@ -2,9 +2,9 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Magic
+namespace CalamityMod.Projectiles
 {
     public class AsteroidMolten : ModProjectile
     {
@@ -115,7 +115,7 @@ namespace CalamityMod.Projectiles.Magic
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             Player player = Main.player[projectile.owner];
-            player.AddBuff(mod.BuffType("Molten"), 360);
+            player.AddBuff(ModContent.BuffType<Molten>(), 360);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

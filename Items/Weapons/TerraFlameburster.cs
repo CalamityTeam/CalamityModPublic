@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class TerraFlameburster : ModItem
     {
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons
             item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("TerraFireGreen");
+            item.shoot = ModContent.ProjectileType<TerraFireGreen>();
             item.shootSpeed = 7.5f;
             item.useAmmo = 23;
         }

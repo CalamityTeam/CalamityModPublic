@@ -2,9 +2,9 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.Perforators
+namespace CalamityMod.Items
 {
     public class BloodBath : ModItem
     {
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Perforators
             item.rare = 3;
             item.UseSound = SoundID.Item21;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("BloodBeam");
+            item.shoot = ModContent.ProjectileType<BloodBeam>();
             item.shootSpeed = 9f;
         }
 

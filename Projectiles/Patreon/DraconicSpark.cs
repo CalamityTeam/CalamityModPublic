@@ -2,9 +2,9 @@
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Patreon
+namespace CalamityMod.Projectiles
 {
     public class DraconicSpark : ModProjectile
     {
@@ -86,9 +86,9 @@ namespace CalamityMod.Projectiles.Patreon
             if (projectile.ai[0] == 0f)
                 target.AddBuff(BuffID.Daybreak, 180);
             else if (projectile.ai[0] == 1f)
-                target.AddBuff(mod.BuffType("AbyssalFlames"), 180);
+                target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 180);
             else if (projectile.ai[0] == 2f)
-                target.AddBuff(mod.BuffType("HolyLight"), 180);
+                target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
         }
 
         // Pure dust projectile, but dust used depends on AI variables

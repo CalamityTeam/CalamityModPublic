@@ -2,9 +2,9 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Patreon
+namespace CalamityMod.Items
 {
     public class TheLastMourning : ModItem
     {
@@ -69,7 +69,7 @@ namespace CalamityMod.Items.Patreon
             num5 = speed / num5;
             num3 *= num5;
             num4 *= num5;
-            Projectile.NewProjectile((float)num, (float)num2, num3, num4, mod.ProjectileType("MourningSkull"), (int)((float)item.damage * player.meleeDamage * 1.5f), knockback, player.whoAmI, (float)target.whoAmI, 0f);
+            Projectile.NewProjectile((float)num, (float)num2, num3, num4, ModContent.ProjectileType<MourningSkull>(), (int)((float)item.damage * player.meleeDamage * 1.5f), knockback, player.whoAmI, (float)target.whoAmI, 0f);
             CalamityGlobalItem.HorsemansBladeOnHit(player, target.whoAmI, (int)(item.damage * player.meleeDamage * 1.5f), knockback, true);
         }
 

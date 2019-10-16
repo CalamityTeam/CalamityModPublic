@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class WrathoftheAncients : ModItem
     {
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons
             item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("GranitePulse");
+            item.shoot = ModContent.ProjectileType<GranitePulse>();
             item.shootSpeed = 9f;
         }
 
@@ -60,7 +60,7 @@ namespace CalamityMod.Items.Weapons
             num79 = 0f;
             vector2.X = (float)Main.mouseX + Main.screenPosition.X;
             vector2.Y = (float)Main.mouseY + Main.screenPosition.Y;
-            Projectile.NewProjectile(vector2.X, vector2.Y, num78, num79, mod.ProjectileType("GranitePulse"), num73, num74, i, 0f, 0f);
+            Projectile.NewProjectile(vector2.X, vector2.Y, num78, num79, ModContent.ProjectileType<GranitePulse>(), num73, num74, i, 0f, 0f);
             return false;
         }
     }

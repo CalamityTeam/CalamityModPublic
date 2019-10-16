@@ -1,9 +1,9 @@
 ﻿
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Ammo
+namespace CalamityMod.Items
 {
     public class AstralSolution : ModItem
     {
@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Ammo
         public override void SetDefaults()
         {
             item.ammo = AmmoID.Solution;
-            item.shoot = mod.ProjectileType("AstralSpray") - ProjectileID.PureSpray;
+            item.shoot = ModContent.ProjectileType<AstralSpray>() - ProjectileID.PureSpray;
             item.width = 10;
             item.height = 12;
             item.value = Item.buyPrice(0, 0, 5, 0);

@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Patreon
+namespace CalamityMod.Projectiles
 {
     public class MelterAmp : ModProjectile
     {
@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Patreon
 
         public override void AI()
         {
-            bool flag64 = projectile.type == mod.ProjectileType("MelterAmp");
+            bool flag64 = projectile.type == ModContent.ProjectileType<MelterAmp>();
             Player player = Main.player[projectile.owner];
             if (flag64)
             {
@@ -39,12 +39,12 @@ namespace CalamityMod.Projectiles.Patreon
                     projectile.active = false;
                     return;
                 }
-                if (player.ownedProjectileCounts[mod.ProjectileType("MelterAmp")] > 1)
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<MelterAmp>()] > 1)
                 {
                     projectile.active = false;
                     return;
                 }
-                if (!player.inventory[player.selectedItem].magic || player.inventory[player.selectedItem].shoot != mod.ProjectileType("MelterNote1"))
+                if (!player.inventory[player.selectedItem].magic || player.inventory[player.selectedItem].shoot != ModContent.ProjectileType<MelterNote1>())
                 {
                     projectile.active = false;
                     return;
@@ -90,13 +90,13 @@ namespace CalamityMod.Projectiles.Patreon
                 if (note == 0)
                 {
                     Damage = (int)(projectile.damage * 1.5f);
-                    type = mod.ProjectileType("MelterNote1");
+                    type = ModContent.ProjectileType<MelterNote1>();
                 }
                 else
                 {
                     VelocityX *= 1.5f;
                     VelocityY *= 1.5f;
-                    type = mod.ProjectileType("MelterNote2");
+                    type = ModContent.ProjectileType<MelterNote2>();
                 }
                 Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, VelocityX, VelocityY, type, Damage, projectile.knockBack, projectile.owner, 0.0f, 0.0f);
             }

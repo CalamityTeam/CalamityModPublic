@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.SunkenSea
+namespace CalamityMod.Items
 {
     public class EutrophicShank : ModItem
     {
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.SunkenSea
             item.autoReuse = true;
             item.value = Item.buyPrice(0, 2, 0, 0);
             item.rare = 2;
-            item.shoot = mod.ProjectileType("EutrophicSpark");
+            item.shoot = ModContent.ProjectileType<EutrophicSpark>();
             item.shootSpeed = 3f;
         }
 

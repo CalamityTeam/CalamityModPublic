@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Ranged
+namespace CalamityMod.Projectiles
 {
     public class VanquisherArrow : ModProjectile
     {
@@ -35,7 +35,7 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 if (projectile.owner == Main.myPlayer)
                 {
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f, mod.ProjectileType("VanquisherArrow2"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f, ModContent.ProjectileType<VanquisherArrow2>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                 }
                 projCount = 18;
             }
@@ -67,7 +67,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("GodSlayerInferno"), 300);
+            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
         }
     }
 }

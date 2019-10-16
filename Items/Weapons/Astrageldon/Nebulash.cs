@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.Astrageldon
+namespace CalamityMod.Items
 {
     public class Nebulash : ModItem
     {
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Astrageldon
             item.UseSound = SoundID.Item117;
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.shootSpeed = 24f;
-            item.shoot = mod.ProjectileType("Nebulash");
+            item.shoot = ModContent.ProjectileType<Nebulash>();
         }
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

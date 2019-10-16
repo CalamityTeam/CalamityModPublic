@@ -1,8 +1,8 @@
 ﻿using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.ProfanedGuardian
+namespace CalamityMod.Items
 {
     public class ProfanedShard : ModItem
     {
@@ -28,12 +28,12 @@ namespace CalamityMod.Items.ProfanedGuardian
 
         public override bool CanUseItem(Player player)
         {
-            return !NPC.AnyNPCs(mod.NPCType("ProfanedGuardianBoss")) && Main.dayTime && (player.ZoneHoly || player.ZoneUnderworldHeight);
+            return !NPC.AnyNPCs(ModContent.NPCType<ProfanedGuardianBoss>()) && Main.dayTime && (player.ZoneHoly || player.ZoneUnderworldHeight);
         }
 
         public override bool UseItem(Player player)
         {
-            NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("ProfanedGuardianBoss"));
+            NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<ProfanedGuardianBoss>());
             Main.PlaySound(SoundID.Roar, player.position, 0);
             return true;
         }

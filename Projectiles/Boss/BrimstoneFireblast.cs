@@ -2,9 +2,9 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Boss
+namespace CalamityMod.Projectiles
 {
     public class BrimstoneFireblast : ModProjectile
     {
@@ -84,8 +84,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(mod.BuffType("AbyssalFlames"), 240);
-            target.AddBuff(mod.BuffType("VulnerabilityHex"), 180, true);
+            target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 240);
+            target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 180, true);
         }
 
         public override void Kill(int timeLeft)
@@ -101,8 +101,8 @@ namespace CalamityMod.Projectiles.Boss
                 for (i = 0; i < 30; i++)
                 {
                     offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), mod.ProjectileType("BrimstoneBarrage"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 1f);
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), mod.ProjectileType("BrimstoneBarrage"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 1f);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<BrimstoneBarrage>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 1f);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<BrimstoneBarrage>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 1f);
                 }
             }
             for (int num193 = 0; num193 < 2; num193++)

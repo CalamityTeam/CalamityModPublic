@@ -1,8 +1,8 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.SunkenSea
+namespace CalamityMod.Items
 {
     public class ClamorRifle : ModItem
     {
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons.SunkenSea
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBolt");
             item.autoReuse = true;
             item.rare = 5;
-            item.shoot = mod.ProjectileType("ClamorRifleProj");
+            item.shoot = ModContent.ProjectileType<ClamorRifleProj>();
             item.shootSpeed = 15f;
             item.useAmmo = 97;
         }
@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Weapons.SunkenSea
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("ClamorRifleProj"), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<ClamorRifleProj>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
             return false;
         }
     }

@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.FabsolStuff
+namespace CalamityMod.Items
 {
     public class Moonshine : ModItem
     {
@@ -26,7 +26,7 @@ This stuff is pretty strong but I'm sure you can handle it");
             item.useStyle = 2;
             item.UseSound = SoundID.Item3;
             item.consumable = true;
-            item.buffType = mod.BuffType("Moonshine");
+            item.buffType = ModContent.BuffType<Moonshine>();
             item.buffTime = 18000; //5 minutes
             item.value = Item.buyPrice(0, 3, 30, 0);
         }

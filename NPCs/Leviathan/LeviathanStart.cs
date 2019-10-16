@@ -1,9 +1,9 @@
 ﻿using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.Leviathan
+namespace CalamityMod.NPCs
 {
     public class LeviathanStart : ModNPC
     {
@@ -57,9 +57,9 @@ namespace CalamityMod.NPCs.Leviathan
         {
             if (spawnInfo.playerSafe ||
                 NPC.AnyNPCs(NPCID.DukeFishron) ||
-                NPC.AnyNPCs(mod.NPCType("LeviathanStart")) ||
-                NPC.AnyNPCs(mod.NPCType("Siren")) ||
-                NPC.AnyNPCs(mod.NPCType("Leviathan")) ||
+                NPC.AnyNPCs(ModContent.NPCType<LeviathanStart>()) ||
+                NPC.AnyNPCs(ModContent.NPCType<Siren>()) ||
+                NPC.AnyNPCs(ModContent.NPCType<Leviathan>()) ||
                 spawnInfo.player.Calamity().ZoneSulphur)
             {
                 return 0f;
@@ -85,7 +85,7 @@ namespace CalamityMod.NPCs.Leviathan
         {
             if (CalamityWorld.revenge && Main.rand.NextBool(4))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, Main.rand.NextBool(2) ? mod.ItemType("SirensHeart") : mod.ItemType("SirensHeartAlt"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, Main.rand.NextBool(2) ? ModContent.ItemType<SirensHeart>() : ModContent.ItemType<SirensHeartAlt>());
             }
         }
 
@@ -106,7 +106,7 @@ namespace CalamityMod.NPCs.Leviathan
                 }
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    NPC.NewNPC((int)npc.Center.X, (int)npc.position.Y + npc.height, mod.NPCType("Siren"), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+                    NPC.NewNPC((int)npc.Center.X, (int)npc.position.Y + npc.height, ModContent.NPCType<Siren>(), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
                 }
             }
         }

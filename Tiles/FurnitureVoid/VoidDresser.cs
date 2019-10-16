@@ -5,10 +5,10 @@ using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.ID;
 using Terraria.Localization;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 using Terraria.ObjectData;
 
-namespace CalamityMod.Tiles.FurnitureVoid
+namespace CalamityMod.Tiles
 {
     public class VoidDresser : ModTile
     {
@@ -38,7 +38,7 @@ namespace CalamityMod.Tiles.FurnitureVoid
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Dressers };
             dresser = "Void Dresser";
-            dresserDrop = mod.ItemType("VoidDresser");
+            dresserDrop = ModContent.ItemType<VoidDresser>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -178,7 +178,7 @@ namespace CalamityMod.Tiles.FurnitureVoid
                 }
                 if (player.showItemIconText == chest)
                 {
-                    player.showItemIcon2 = mod.ItemType("VoidDresser");
+                    player.showItemIcon2 = ModContent.ItemType<VoidDresser>();
                     player.showItemIconText = "";
                 }
             }
@@ -220,7 +220,7 @@ namespace CalamityMod.Tiles.FurnitureVoid
                 }
                 if (player.showItemIconText == chest)
                 {
-                    player.showItemIcon2 = mod.ItemType("VoidDresser");
+                    player.showItemIcon2 = ModContent.ItemType<VoidDresser>();
                     player.showItemIconText = "";
                 }
             }

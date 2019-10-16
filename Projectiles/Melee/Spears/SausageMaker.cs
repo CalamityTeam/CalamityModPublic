@@ -1,8 +1,8 @@
 ﻿using System;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Melee.Spears
+namespace CalamityMod.Projectiles
 {
     public class SausageMaker : ModProjectile
     {
@@ -72,7 +72,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
             {
                 for (int i = 0; i < 2; i++)
                 {
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 1.2f, projectile.velocity.Y * 1.2f, mod.ProjectileType("Blood2"), projectile.damage / 2, projectile.knockBack * 0.5f, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 1.2f, projectile.velocity.Y * 1.2f, ModContent.ProjectileType<Blood2>(), projectile.damage / 2, projectile.knockBack * 0.5f, projectile.owner, 0f, 0f);
                 }
             }
         }

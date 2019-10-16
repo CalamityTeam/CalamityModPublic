@@ -5,10 +5,10 @@ using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.ID;
 using Terraria.Localization;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 using Terraria.ObjectData;
 
-namespace CalamityMod.Tiles.FurnitureStratus
+namespace CalamityMod.Tiles
 {
     public class StratusChest : ModTile
     {
@@ -38,7 +38,7 @@ namespace CalamityMod.Tiles.FurnitureStratus
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Containers };
             chest = "Stratus Chest";
-            chestDrop = mod.ItemType("StratusChest");
+            chestDrop = ModContent.ItemType<StratusChest>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -187,7 +187,7 @@ namespace CalamityMod.Tiles.FurnitureStratus
                 player.showItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : "Stratus Chest";
                 if (player.showItemIconText == "Stratus Chest")
                 {
-                    player.showItemIcon2 = mod.ItemType("StratusChest");
+                    player.showItemIcon2 = ModContent.ItemType<StratusChest>();
                     player.showItemIconText = "";
                 }
             }

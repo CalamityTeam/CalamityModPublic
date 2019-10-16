@@ -2,9 +2,9 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.AbyssNPCs
+namespace CalamityMod.NPCs
 {
     public class EidolonWyrmBodyAlt : ModNPC
     {
@@ -79,7 +79,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
                 npc.HitEffect(0, 10.0);
                 npc.checkDead();
             }
-            if (!NPC.AnyNPCs(mod.NPCType("EidolonWyrmHead")))
+            if (!NPC.AnyNPCs(ModContent.NPCType<EidolonWyrmHead>()))
             {
                 npc.active = false;
             }
@@ -180,9 +180,9 @@ namespace CalamityMod.NPCs.AbyssNPCs
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(mod.BuffType("CrushDepth"), 500, true);
-            player.AddBuff(mod.BuffType("Horror"), 200, true);
-            player.AddBuff(mod.BuffType("MarkedforDeath"), 200);
+            player.AddBuff(ModContent.BuffType<CrushDepth>(), 500, true);
+            player.AddBuff(ModContent.BuffType<Horror>(), 200, true);
+            player.AddBuff(ModContent.BuffType<MarkedforDeath>(), 200);
         }
     }
 }

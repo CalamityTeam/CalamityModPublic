@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Boss
+namespace CalamityMod.Projectiles
 {
     public class MoltenBlast : ModProjectile
     {
@@ -114,7 +114,7 @@ namespace CalamityMod.Projectiles.Boss
                     }
                     value15.Normalize();
                     value15 *= (float)Main.rand.Next(70, 121) * 0.1f; //70 101
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, mod.ProjectileType("MoltenBlob"), projectile.damage, 0f, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<MoltenBlob>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
                 }
             }
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 20);
@@ -135,7 +135,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(mod.BuffType("HolyLight"), 180);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
         }
     }
 }

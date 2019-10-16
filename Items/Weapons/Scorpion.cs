@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class Scorpion : ModItem
     {
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons
             item.UseSound = SoundID.Item11;
             item.autoReuse = true;
             item.shootSpeed = 20f;
-            item.shoot = mod.ProjectileType("MiniRocket");
+            item.shoot = ModContent.ProjectileType<MiniRocket>();
             item.useAmmo = 771;
         }
 
@@ -57,12 +57,12 @@ namespace CalamityMod.Items.Weapons
         {
             if (player.altFunctionUse == 2)
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("BigNuke"), (int)((double)damage * 3.0), knockBack, player.whoAmI, 0.0f, 0.0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<BigNuke>(), (int)((double)damage * 3.0), knockBack, player.whoAmI, 0.0f, 0.0f);
                 return false;
             }
             else
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("MiniRocket"), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<MiniRocket>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
                 return false;
             }
         }

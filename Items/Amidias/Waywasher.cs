@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Amidias
+namespace CalamityMod.Items
 {
     public class Waywasher : ModItem
     {
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Amidias
             item.rare = 2;
             item.UseSound = SoundID.Item8;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("WaywasherProj");
+            item.shoot = ModContent.ProjectileType<WaywasherProj>();
             item.shootSpeed = 12f;
         }
 
@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Amidias
         {
             float SpeedX = speedX + (float)Main.rand.Next(-20, 21) * 0.05f;
             float SpeedY = speedY + (float)Main.rand.Next(-20, 21) * 0.05f;
-            Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, mod.ProjectileType("WaywasherProj"), damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<WaywasherProj>(), damage, knockBack, player.whoAmI, 0f, 0f);
             return false;
         }
 

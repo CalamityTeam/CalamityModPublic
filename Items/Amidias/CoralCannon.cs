@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Amidias
+namespace CalamityMod.Items
 {
     public class CoralCannon : ModItem
     {
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Amidias
             item.rare = 2;
             item.UseSound = SoundID.Item61;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("SmallCoral");
+            item.shoot = ModContent.ProjectileType<SmallCoral>();
             item.shootSpeed = 10f;
         }
 
@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Amidias
         {
             if (Main.rand.NextBool(5))
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("BigCoral"), (int)((double)damage * 2.0), knockBack * 2f, player.whoAmI, 0.0f, 0.0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<BigCoral>(), (int)((double)damage * 2.0), knockBack * 2f, player.whoAmI, 0.0f, 0.0f);
             }
             else
             {

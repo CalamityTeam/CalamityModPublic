@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.CalamityCustomThrowingDamage
+namespace CalamityMod.Items
 {
     public class ShatteredSun : CalamityDamageItem
     {
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.autoReuse = true;
             item.value = Item.buyPrice(1, 20, 0, 0);
             item.rare = 10;
-            item.shoot = mod.ProjectileType("ShatteredSun");
+            item.shoot = ModContent.ProjectileType<ShatteredSun>();
             item.shootSpeed = 25f;
             item.Calamity().rogue = true;
             item.Calamity().postMoonLordRarity = 12;

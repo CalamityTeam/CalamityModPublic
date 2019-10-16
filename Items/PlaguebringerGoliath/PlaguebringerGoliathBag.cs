@@ -1,13 +1,12 @@
-using CalamityMod.Utilities;
 using CalamityMod.World;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.PlaguebringerGoliath
+namespace CalamityMod.Items
 {
     public class PlaguebringerGoliathBag : ModItem
     {
-        public override int BossBagNPC => mod.NPCType("PlaguebringerGoliath");
+        public override int BossBagNPC => ModContent.NPCType<PlaguebringerGoliath>();
 
         public override void SetStaticDefaults()
         {
@@ -35,26 +34,26 @@ namespace CalamityMod.Items.PlaguebringerGoliath
             player.TryGettingDevArmor();
 
             // Materials
-            DropHelper.DropItem(player, mod.ItemType("PlagueCellCluster"), 13, 17);
+            DropHelper.DropItem(player, ModContent.ItemType<PlagueCellCluster>(), 13, 17);
 
             // Weapons
-            DropHelper.DropItemChance(player, mod.ItemType("VirulentKatana"), 3); // Virulence
-            DropHelper.DropItemChance(player, mod.ItemType("DiseasedPike"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("ThePlaguebringer"), 3); // Pandemic
-            DropHelper.DropItemChance(player, mod.ItemType("Malevolence"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("PestilentDefiler"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("TheHive"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("MepheticSprayer"), 3); // Blight Spewer
-            DropHelper.DropItemChance(player, mod.ItemType("PlagueStaff"), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<VirulentKatana>(), 3); // Virulence
+            DropHelper.DropItemChance(player, ModContent.ItemType<DiseasedPike>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<ThePlaguebringer>(), 3); // Pandemic
+            DropHelper.DropItemChance(player, ModContent.ItemType<Malevolence>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<PestilentDefiler>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<TheHive>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<MepheticSprayer>(), 3); // Blight Spewer
+            DropHelper.DropItemChance(player, ModContent.ItemType<PlagueStaff>(), 3);
             float malachiteChance = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : DropHelper.LegendaryDropRateFloat;
-            DropHelper.DropItemCondition(player, mod.ItemType("Malachite"), CalamityWorld.revenge, malachiteChance);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<Malachite>(), CalamityWorld.revenge, malachiteChance);
 
             // Equipment
-            DropHelper.DropItem(player, mod.ItemType("ToxicHeart"));
-            DropHelper.DropItemChance(player, mod.ItemType("BloomStone"), 10);
+            DropHelper.DropItem(player, ModContent.ItemType<ToxicHeart>());
+            DropHelper.DropItemChance(player, ModContent.ItemType<BloomStone>(), 10);
 
             // Vanity
-            DropHelper.DropItemChance(player, mod.ItemType("PlaguebringerGoliathMask"), 7);
+            DropHelper.DropItemChance(player, ModContent.ItemType<PlaguebringerGoliathMask>(), 7);
         }
     }
 }

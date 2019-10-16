@@ -1,6 +1,6 @@
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Placeables.FurniturePlaguedPlate
+namespace CalamityMod.Items
 {
     public class PlaguedPlateBed : ModItem
     {
@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Placeables.FurniturePlaguedPlate
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = mod.TileType("PlaguedPlateBed");
+            item.createTile = ModContent.TileType<PlaguedPlateBed>();
         }
 
         public override void AddRecipes()

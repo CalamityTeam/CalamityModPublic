@@ -5,9 +5,9 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.Polterghast
+namespace CalamityMod.NPCs
 {
     public class PolterghastHook : ModNPC
     {
@@ -130,7 +130,7 @@ namespace CalamityMod.NPCs.Polterghast
                     {
                         float num151 = CalamityWorld.bossRushActive ? 7.5f : 5f;
                         int num152 = Main.expertMode ? 48 : 60;
-                        int num153 = mod.ProjectileType("PhantomHookShot");
+                        int num153 = ModContent.ProjectileType<PhantomHookShot>();
                         num149 = num151 / num149;
                         num147 *= num149;
                         num148 *= num149;
@@ -362,7 +362,7 @@ namespace CalamityMod.NPCs.Polterghast
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             if (CalamityWorld.revenge)
-                player.AddBuff(mod.BuffType("Horror"), 180, true);
+                player.AddBuff(ModContent.BuffType<Horror>(), 180, true);
         }
 
         public override void HitEffect(int hitDirection, double damage)

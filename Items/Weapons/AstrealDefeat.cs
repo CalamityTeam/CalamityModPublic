@@ -2,9 +2,9 @@ using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class AstrealDefeat : ModItem
     {
@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons
             item.rare = 10;
             item.UseSound = SoundID.Item102;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("AstrealArrow");
+            item.shoot = ModContent.ProjectileType<AstrealArrow>();
             item.shootSpeed = 1f;
             item.useAmmo = 40;
         }
@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Weapons
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("AstrealArrow"), (int)(double)damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<AstrealArrow>(), (int)(double)damage, knockBack, player.whoAmI, 0f, 0f);
             return false;
         }
 

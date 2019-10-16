@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Rogue
+namespace CalamityMod.Projectiles
 {
     public class GacruxianHome : ModProjectile
     {
@@ -34,11 +34,11 @@ namespace CalamityMod.Projectiles.Rogue
             stealthTrailTimer--;
             if (Main.rand.NextBool(4))
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, mod.DustType("AstralOrange"), projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, ModContent.DustType<AstralOrange>(), projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             }
             if (stealthTrailTimer == 0 && projectile.owner == Main.myPlayer)
             {
-                int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0f, projectile.velocity.Y * 0f, mod.ProjectileType("UltimusCleaverDust"), (int)((double)projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
+                int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0f, projectile.velocity.Y * 0f, ModContent.ProjectileType<UltimusCleaverDust>(), (int)((double)projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
                 Main.projectile[proj].Calamity().forceRogue = true;
 				Main.projectile[proj].localNPCHitCooldown = 10;
 				Main.projectile[proj].penetrate = 3;
@@ -83,7 +83,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             for (int i = 0; i <= 10; i++)
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, mod.DustType("AstralOrange"), projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
+                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, ModContent.DustType<AstralOrange>(), projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
             }
         }
     }

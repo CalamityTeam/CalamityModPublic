@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class AegisBlade : ModItem
     {
@@ -48,7 +48,7 @@ namespace CalamityMod.Items.Weapons
                 item.useTime = 20;
                 item.useAnimation = 20;
                 item.UseSound = SoundID.Item73;
-                item.shoot = mod.ProjectileType("AegisBeam");
+                item.shoot = ModContent.ProjectileType<AegisBeam>();
             }
             else
             {
@@ -63,7 +63,7 @@ namespace CalamityMod.Items.Weapons
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("AegisBeam"), damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<AegisBeam>(), damage, knockBack, player.whoAmI, 0f, 0f);
             return false;
         }
 
@@ -77,7 +77,7 @@ namespace CalamityMod.Items.Weapons
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("AegisBlast"), (int)((float)item.damage * player.meleeDamage), knockback, Main.myPlayer);
+            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<AegisBlast>(), (int)((float)item.damage * player.meleeDamage), knockback, Main.myPlayer);
         }
     }
 }

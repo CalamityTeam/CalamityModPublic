@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.Polterghast
+namespace CalamityMod.Items
 {
     public class TerrorBlade : ModItem
     {
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Polterghast
             item.height = 80;
             item.value = Item.buyPrice(1, 40, 0, 0);
             item.rare = 10;
-            item.shoot = mod.ProjectileType("TerrorBeam");
+            item.shoot = ModContent.ProjectileType<TerrorBeam>();
             item.shootSpeed = 20f;
             item.Calamity().postMoonLordRarity = 13;
         }

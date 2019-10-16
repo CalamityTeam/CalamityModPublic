@@ -1,8 +1,8 @@
 ﻿using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Pets
+namespace CalamityMod.Items
 {
     public class FoxDrive : ModItem
     {
@@ -15,8 +15,8 @@ namespace CalamityMod.Items.Pets
         public override void SetDefaults()
         {
             item.CloneDefaults(ItemID.ZephyrFish);
-            item.shoot = mod.ProjectileType("Fox");
-            item.buffType = mod.BuffType("Fox");
+            item.shoot = ModContent.ProjectileType<Fox>();
+            item.buffType = ModContent.BuffType<Fox>();
             item.rare = 9;
             item.expert = true;
         }

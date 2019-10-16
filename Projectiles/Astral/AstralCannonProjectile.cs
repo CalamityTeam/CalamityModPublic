@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Astral
+namespace CalamityMod.Projectiles
 {
     public class AstralCannonProjectile : ModProjectile
     {
@@ -73,7 +73,7 @@ namespace CalamityMod.Projectiles.Astral
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("AstralInfectionDebuff"), 300);
+            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 300);
         }
 
         public override void Kill(int timeLeft)
@@ -90,14 +90,14 @@ namespace CalamityMod.Projectiles.Astral
             Main.PlaySound(29, (int)projectile.Center.X, (int)projectile.Center.Y, 103, 1f, 0f);
             for (int num193 = 0; num193 < 2; num193++)
             {
-                Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, mod.DustType("AstralOrange"), 0f, 0f, 50, default, 1f);
+                Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 50, default, 1f);
             }
             for (int num194 = 0; num194 < 20; num194++)
             {
-                int num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, mod.DustType("AstralOrange"), 0f, 0f, 0, default, 1.5f);
+                int num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 0, default, 1.5f);
                 Main.dust[num195].noGravity = true;
                 Main.dust[num195].velocity *= 3f;
-                num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, mod.DustType("AstralBlue"), 0f, 0f, 50, default, 1f);
+                num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, ModContent.DustType<AstralBlue>(), 0f, 0f, 50, default, 1f);
                 Main.dust[num195].velocity *= 2f;
                 Main.dust[num195].noGravity = true;
             }

@@ -2,11 +2,11 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Summon
+namespace CalamityMod.Projectiles
 {
-    public class FungalClump : ModProjectile
+    public class FungalClumpMinion : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -35,7 +35,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-            bool flag64 = projectile.type == mod.ProjectileType("FungalClump");
+            bool flag64 = projectile.type == ModContent.ProjectileType<FungalClumpMinion>();
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
             if (!modPlayer.fungalClump)
@@ -101,7 +101,7 @@ namespace CalamityMod.Projectiles.Summon
             }
             Main.player[Main.myPlayer].lifeSteal -= num;
             int num2 = projectile.owner;
-            Projectile.NewProjectile(target.position.X, target.position.Y, 0f, 0f, mod.ProjectileType("FungalHeal"), 0, 0f, projectile.owner, (float)num2, num);
+            Projectile.NewProjectile(target.position.X, target.position.Y, 0f, 0f, ModContent.ProjectileType<FungalHeal>(), 0, 0f, projectile.owner, (float)num2, num);
         }
     }
 }

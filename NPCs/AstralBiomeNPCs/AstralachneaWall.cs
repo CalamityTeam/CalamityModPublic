@@ -4,9 +4,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.AstralBiomeNPCs
+namespace CalamityMod.NPCs
 {
     public class AstralachneaWall : ModNPC
     {
@@ -41,8 +41,8 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             npc.buffImmune[31] = false;
             npc.timeLeft = NPC.activeTime * 2;
             animationType = NPCID.BlackRecluseWall;
-            banner = mod.NPCType("AstralachneaGround");
-            bannerItem = mod.ItemType("AstralachneaBanner");
+            banner = ModContent.NPCType<AstralachneaGround>();
+            bannerItem = ModContent.ItemType<AstralachneaBanner>();
             if (CalamityWorld.downedAstrageldon)
             {
                 npc.damage = 90;
@@ -53,7 +53,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 
         public override void AI()
         {
-            CalamityGlobalNPC.DoSpiderWallAI(npc, mod.NPCType("AstralachneaGround"), 2.4f, 0.1f);
+            CalamityGlobalNPC.DoSpiderWallAI(npc, ModContent.NPCType<AstralachneaGround>(), 2.4f, 0.1f);
         }
 
         public override void FindFrame(int frameHeight)
@@ -77,8 +77,8 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
                     rect2 = new Rectangle(16, 44, 16, 10);
                     break;
             }
-            Dust d = CalamityGlobalNPC.SpawnDustOnNPC(npc, 80, frameHeight, mod.DustType("AstralOrange"), rect, Vector2.Zero, 0.225f, true);
-            Dust d2 = CalamityGlobalNPC.SpawnDustOnNPC(npc, 80, frameHeight, mod.DustType("AstralOrange"), rect2, Vector2.Zero, 0.225f, true);
+            Dust d = CalamityGlobalNPC.SpawnDustOnNPC(npc, 80, frameHeight, ModContent.DustType<AstralOrange>(), rect, Vector2.Zero, 0.225f, true);
+            Dust d2 = CalamityGlobalNPC.SpawnDustOnNPC(npc, 80, frameHeight, ModContent.DustType<AstralOrange>(), rect2, Vector2.Zero, 0.225f, true);
             if (d != null)
             {
                 d.customData = 0.04f;
@@ -108,7 +108,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
                 }
             }
 
-            CalamityGlobalNPC.DoHitDust(npc, hitDirection, (Main.rand.Next(0, Math.Max(0, npc.life)) == 0) ? 5 : mod.DustType("AstralEnemy"), 1f, 4, 22);
+            CalamityGlobalNPC.DoHitDust(npc, hitDirection, (Main.rand.Next(0, Math.Max(0, npc.life)) == 0) ? 5 : ModContent.DustType<AstralEnemy>(), 1f, 4, 22);
 
             //if dead do gores
             if (npc.life <= 0)
@@ -128,19 +128,19 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(mod.BuffType("AstralInfectionDebuff"), 120, true);
+            player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120, true);
         }
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Stardust"), Main.rand.Next(2, 4));
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Stardust>(), Main.rand.Next(2, 4));
             if (Main.expertMode)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Stardust"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Stardust>());
             }
             if (CalamityWorld.downedAstrageldon && Main.rand.NextBool(7))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("AstralachneaStaff"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<AstralachneaStaff>());
             }
         }
     }

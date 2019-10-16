@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Tiles.FurnitureAshen
+namespace CalamityMod.Tiles
 {
     public class AshenSlab : ModTile
     {
@@ -12,7 +12,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = false;
             Main.tileBlockLight[Type] = true;
-            drop = mod.ItemType("AshenSlab");
+            drop = ModContent.ItemType<AshenSlab>();
             soundType = 21;
             mineResist = 5f;
             minPick = 180;

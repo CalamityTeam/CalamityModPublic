@@ -1,8 +1,8 @@
 ﻿using CalamityMod.CalPlayer;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Buffs.SummonBuffs
+namespace CalamityMod.Buffs
 {
     public class SlimeGod : ModBuff
     {
@@ -17,11 +17,11 @@ namespace CalamityMod.Buffs.SummonBuffs
         public override void Update(Player player, ref int buffIndex)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            if (player.ownedProjectileCounts[mod.ProjectileType("SlimeGodAlt")] > 0)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<SlimeGodAlt>()] > 0)
             {
                 modPlayer.sGod = true;
             }
-            else if (player.ownedProjectileCounts[mod.ProjectileType("SlimeGod")] > 0)
+            else if (player.ownedProjectileCounts[ModContent.ProjectileType<SlimeGod>()] > 0)
             {
                 modPlayer.sGod = true;
             }

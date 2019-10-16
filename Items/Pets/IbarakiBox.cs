@@ -1,8 +1,8 @@
 ﻿using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Pets
+namespace CalamityMod.Items
 {
     public class IbarakiBox : ModItem
     {
@@ -27,8 +27,8 @@ namespace CalamityMod.Items.Pets
             item.height = 30;
             item.UseSound = SoundID.Item3;
             item.value = Item.buyPrice(0, 5, 0, 0);
-            item.shoot = mod.ProjectileType("ThirdSage");
-            item.buffType = mod.BuffType("ThirdSageBuff");
+            item.shoot = ModContent.ProjectileType<ThirdSage>();
+            item.buffType = ModContent.BuffType<ThirdSageBuff>();
             item.rare = 5;
         }
 

@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Magic
+namespace CalamityMod.Projectiles
 {
     public class Purge : ModProjectile
     {
@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Magic
             Player player = Main.player[projectile.owner];
             float num = 1.57079637f;
             Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
-            if (projectile.type == mod.ProjectileType("Purge"))
+            if (projectile.type == ModContent.ProjectileType<Purge>())
             {
                 projectile.ai[0] += 1f;
                 int num2 = 0;
@@ -98,7 +98,7 @@ namespace CalamityMod.Projectiles.Magic
                             projectile.netUpdate = true;
                         }
                         projectile.velocity = vector3;
-                        int num6 = mod.ProjectileType("PurgeLaser");
+                        int num6 = ModContent.ProjectileType<PurgeLaser>();
                         float scaleFactor2 = 14f;
                         int num7 = 7;
                         for (int j = 0; j < 3; j++)

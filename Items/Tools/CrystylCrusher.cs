@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Tools
+namespace CalamityMod.Items
 {
     public class CrystylCrusher : ModItem
     {
@@ -54,7 +54,7 @@ namespace CalamityMod.Items.Tools
             if (player.altFunctionUse == 2)
             {
                 item.pick = 0;
-                item.shoot = mod.ProjectileType("CrystalDust");
+                item.shoot = ModContent.ProjectileType<CrystalDust>();
                 item.shootSpeed = PowderSpeed;
                 item.tileBoost = 0;
             }

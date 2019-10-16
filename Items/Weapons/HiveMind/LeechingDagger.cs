@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.HiveMind
+namespace CalamityMod.Items
 {
     public class LeechingDagger : ModItem
     {
@@ -54,7 +54,7 @@ namespace CalamityMod.Items.Weapons.HiveMind
         {
             if (target.life <= 0)
             {
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("Leech"), (int)((float)item.damage * player.meleeDamage), knockback, Main.myPlayer);
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<Leech>(), (int)((float)item.damage * player.meleeDamage), knockback, Main.myPlayer);
             }
         }
     }

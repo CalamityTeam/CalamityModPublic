@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.CalamityCustomThrowingDamage.Patreon
+namespace CalamityMod.Items
 {
     public class TimeBolt : CalamityDamageItem
     {
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage.Patreon
             item.value = Item.buyPrice(1, 40, 0, 0);
             item.rare = 10;
             item.Calamity().postMoonLordRarity = 21;
-            item.shoot = mod.ProjectileType("TimeBolt");
+            item.shoot = ModContent.ProjectileType<TimeBolt>();
             item.shootSpeed = 16f;
             item.Calamity().rogue = true;
         }

@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.NormalNPCs
+namespace CalamityMod.NPCs
 {
     public class ProfanedEnergyLantern : ModNPC
     {
@@ -163,7 +163,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                             num191 = num196 / num191;
                             num189 *= num191;
                             num190 *= num191;
-                            int num9 = mod.ProjectileType("HolyBomb");
+                            int num9 = ModContent.ProjectileType<HolyBomb>();
                             Projectile.NewProjectile(npc.Center.X, npc.Center.Y, num189, num190, num9, 40, 0f, Main.myPlayer, 0f, 0f);
                             npc.localAI[1] = 0f;
                             return;

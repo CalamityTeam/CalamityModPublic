@@ -2,9 +2,9 @@
 
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Typeless
+namespace CalamityMod.Projectiles
 {
     public class AstralFallingSand : ModProjectile
     {
@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Typeless
                 if (Main.tile[tileX, tileY].type == TileID.MinecartTrack)
                     return;
 
-                WorldGen.PlaceTile(tileX, tileY, mod.TileType("AstralSand"), false, true);
+                WorldGen.PlaceTile(tileX, tileY, ModContent.TileType<AstralSand>(), false, true);
                 WorldGen.SquareTileFrame(tileX, tileY);
             }
         }

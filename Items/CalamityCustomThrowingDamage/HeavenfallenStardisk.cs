@@ -1,7 +1,7 @@
 using Terraria;
 using Terraria.ID;
 
-namespace CalamityMod.Items.CalamityCustomThrowingDamage
+namespace CalamityMod.Items
 {
     public class HeavenfallenStardisk : CalamityDamageItem
     {
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.autoReuse = true;
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.rare = 7;
-            item.shoot = mod.ProjectileType("HeavenfallenStardisk");
+            item.shoot = ModContent.ProjectileType<HeavenfallenStardisk>();
             item.shootSpeed = 10f;
             item.Calamity().rogue = true;
         }

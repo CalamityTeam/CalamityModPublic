@@ -7,7 +7,7 @@ using System.Linq;
 using Terraria;
 using Terraria.GameContent.Events;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
 namespace CalamityMod.UI
 {
@@ -114,44 +114,44 @@ namespace CalamityMod.UI
             OneToMany[NPCID.MoonLordHand] = MoonLord;
             OneToMany[NPCID.MoonLordCore] = MoonLord;
 
-            int[] StarWorm = new int[] { mod.NPCType("AstrumDeusHeadSpectral"), mod.NPCType("AstrumDeusHead") };
-            OneToMany[mod.NPCType("AstrumDeusHeadSpectral")] = StarWorm;
-            OneToMany[mod.NPCType("AstrumDeusHead")] = StarWorm;
+            int[] StarWorm = new int[] { ModContent.NPCType<AstrumDeusHeadSpectral>(), ModContent.NPCType<AstrumDeusHead>() };
+            OneToMany[ModContent.NPCType<AstrumDeusHeadSpectral>()] = StarWorm;
+            OneToMany[ModContent.NPCType<AstrumDeusHead>()] = StarWorm;
 
-            int[] Cal = new int[] { mod.NPCType("CalamitasRun3"), mod.NPCType("CalamitasRun"), mod.NPCType("CalamitasRun2") };
-            OneToMany[mod.NPCType("CalamitasRun3")] = Cal;
-            OneToMany[mod.NPCType("CalamitasRun")] = Cal;
-            OneToMany[mod.NPCType("CalamitasRun2")] = Cal;
+            int[] Cal = new int[] { ModContent.NPCType<CalamitasRun3>(), ModContent.NPCType<CalamitasRun>(), ModContent.NPCType<CalamitasRun2>() };
+            OneToMany[ModContent.NPCType<CalamitasRun3>()] = Cal;
+            OneToMany[ModContent.NPCType<CalamitasRun>()] = Cal;
+            OneToMany[ModContent.NPCType<CalamitasRun2>()] = Cal;
 
-            int[] Void = new int[] { mod.NPCType("CeaselessVoid"), mod.NPCType("DarkEnergy"), mod.NPCType("DarkEnergy2"), mod.NPCType("DarkEnergy3") };
-            OneToMany[mod.NPCType("CeaselessVoid")] = Void;
-            OneToMany[mod.NPCType("DarkEnergy")] = Void;
-            OneToMany[mod.NPCType("DarkEnergy2")] = Void;
-            OneToMany[mod.NPCType("DarkEnergy3")] = Void;
+            int[] Void = new int[] { ModContent.NPCType<CeaselessVoid>(), ModContent.NPCType<DarkEnergy>(), ModContent.NPCType<DarkEnergy2>(), ModContent.NPCType<DarkEnergy3>() };
+            OneToMany[ModContent.NPCType<CeaselessVoid>()] = Void;
+            OneToMany[ModContent.NPCType<DarkEnergy>()] = Void;
+            OneToMany[ModContent.NPCType<DarkEnergy2>()] = Void;
+            OneToMany[ModContent.NPCType<DarkEnergy3>()] = Void;
 
-            int[] Perfs = new int[] { mod.NPCType("PerforatorHive"), mod.NPCType("PerforatorHeadSmall"), mod.NPCType("PerforatorHeadMedium"),
-                mod.NPCType("PerforatorHeadLarge") };
-            OneToMany[mod.NPCType("PerforatorHive")] = Perfs;
-            OneToMany[mod.NPCType("PerforatorHeadSmall")] = Perfs;
-            OneToMany[mod.NPCType("PerforatorHeadMedium")] = Perfs;
-            OneToMany[mod.NPCType("PerforatorHeadLarge")] = Perfs;
+            int[] Perfs = new int[] { ModContent.NPCType<PerforatorHive>(), ModContent.NPCType<PerforatorHeadSmall>(), ModContent.NPCType<PerforatorHeadMedium>(),
+                ModContent.NPCType<PerforatorHeadLarge>() };
+            OneToMany[ModContent.NPCType<PerforatorHive>()] = Perfs;
+            OneToMany[ModContent.NPCType<PerforatorHeadSmall>()] = Perfs;
+            OneToMany[ModContent.NPCType<PerforatorHeadMedium>()] = Perfs;
+            OneToMany[ModContent.NPCType<PerforatorHeadLarge>()] = Perfs;
 
-            int[] Rav = new int[] { mod.NPCType("ScavengerBody"), mod.NPCType("ScavengerClawRight"), mod.NPCType("ScavengerClawLeft"),
-                mod.NPCType("ScavengerLegRight"), mod.NPCType("ScavengerLegLeft"), mod.NPCType("ScavengerHead") };
-            OneToMany[mod.NPCType("ScavengerBody")] = Rav;
-            OneToMany[mod.NPCType("ScavengerClawRight")] = Rav;
-            OneToMany[mod.NPCType("ScavengerClawLeft")] = Rav;
-            OneToMany[mod.NPCType("ScavengerLegRight")] = Rav;
-            OneToMany[mod.NPCType("ScavengerLegLeft")] = Rav;
-            OneToMany[mod.NPCType("ScavengerHead")] = Rav;
+            int[] Rav = new int[] { ModContent.NPCType<ScavengerBody>(), ModContent.NPCType<ScavengerClawRight>(), ModContent.NPCType<ScavengerClawLeft>(),
+                ModContent.NPCType<ScavengerLegRight>(), ModContent.NPCType<ScavengerLegLeft>(), ModContent.NPCType<ScavengerHead>() };
+            OneToMany[ModContent.NPCType<ScavengerBody>()] = Rav;
+            OneToMany[ModContent.NPCType<ScavengerClawRight>()] = Rav;
+            OneToMany[ModContent.NPCType<ScavengerClawLeft>()] = Rav;
+            OneToMany[ModContent.NPCType<ScavengerLegRight>()] = Rav;
+            OneToMany[ModContent.NPCType<ScavengerLegLeft>()] = Rav;
+            OneToMany[ModContent.NPCType<ScavengerHead>()] = Rav;
 
-            int[] Slimes = new int[] { mod.NPCType("SlimeGodCore"), mod.NPCType("SlimeGod"), mod.NPCType("SlimeGodSplit"),
-                mod.NPCType("SlimeGodRun"), mod.NPCType("SlimeGodRunSplit") };
-            OneToMany[mod.NPCType("SlimeGodCore")] = Slimes;
-            OneToMany[mod.NPCType("SlimeGod")] = Slimes;
-            OneToMany[mod.NPCType("SlimeGodSplit")] = Slimes;
-            OneToMany[mod.NPCType("SlimeGodRun")] = Slimes;
-            OneToMany[mod.NPCType("SlimeGodRunSplit")] = Slimes;
+            int[] Slimes = new int[] { ModContent.NPCType<SlimeGodCore>(), ModContent.NPCType<SlimeGod>(), ModContent.NPCType<SlimeGodSplit>(),
+                ModContent.NPCType<SlimeGodRun>(), ModContent.NPCType<SlimeGodRunSplit>() };
+            OneToMany[ModContent.NPCType<SlimeGodCore>()] = Slimes;
+            OneToMany[ModContent.NPCType<SlimeGod>()] = Slimes;
+            OneToMany[ModContent.NPCType<SlimeGodSplit>()] = Slimes;
+            OneToMany[ModContent.NPCType<SlimeGodRun>()] = Slimes;
+            OneToMany[ModContent.NPCType<SlimeGodRunSplit>()] = Slimes;
 
             SetupExclusionList();
             SetupMinibossHPBarList();

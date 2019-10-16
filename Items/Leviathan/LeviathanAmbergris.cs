@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Leviathan
+namespace CalamityMod.Items
 {
     public class LeviathanAmbergris : ModItem
     {
@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Leviathan
             {
                 if (player.whoAmI == Main.myPlayer)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, mod.ProjectileType("PoisonousSeawater"), 50, 5f, player.whoAmI, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<PoisonousSeawater>(), 50, 5f, player.whoAmI, 0f, 0f);
                 }
             }
             int seaCounter = 0;

@@ -1,8 +1,8 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.AbyssWeapons
+namespace CalamityMod.Items
 {
     public class EidolicWail : ModItem
     {
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.AbyssWeapons
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/WyrmScream");
             item.autoReuse = true;
             item.shootSpeed = 5f;
-            item.shoot = mod.ProjectileType("EidolicWail");
+            item.shoot = ModContent.ProjectileType<EidolicWail>();
             item.Calamity().postMoonLordRarity = 13;
         }
 

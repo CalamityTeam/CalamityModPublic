@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class FulgurationHalberd : ModItem
     {
@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Weapons
                 item.noUseGraphic = true;
                 item.useStyle = 5;
                 item.autoReuse = false;
-                item.shoot = mod.ProjectileType("FulgurationHalberd");
+                item.shoot = ModContent.ProjectileType<FulgurationHalberd>();
             }
             else
             {
@@ -59,13 +59,13 @@ namespace CalamityMod.Items.Weapons
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("FulgurationHalberd"), damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<FulgurationHalberd>(), damage, knockBack, player.whoAmI, 0f, 0f);
             return false;
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("BurningBlood"), 300);
+            target.AddBuff(ModContent.BuffType<BurningBlood>(), 300);
         }
 
         public override void AddRecipes()

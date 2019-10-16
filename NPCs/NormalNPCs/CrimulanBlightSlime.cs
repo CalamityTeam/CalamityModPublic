@@ -1,8 +1,8 @@
 ﻿using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.NormalNPCs
+namespace CalamityMod.NPCs
 {
     public class CrimulanBlightSlime : ModNPC
     {
@@ -31,7 +31,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.DeathSound = SoundID.NPCDeath1;
             npc.buffImmune[24] = true;
             banner = npc.type;
-            bannerItem = mod.ItemType("CrimulanBlightSlimeBanner");
+            bannerItem = ModContent.ItemType<CrimulanBlightSlimeBanner>();
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -66,11 +66,11 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EbonianGel"), Main.rand.Next(15, 17));
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EbonianGel>(), Main.rand.Next(15, 17));
             Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Gel, Main.rand.Next(10, 15));
             if (Main.rand.NextBool(100) && NPC.downedBoss3)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Carnage"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Carnage>());
             }
         }
     }

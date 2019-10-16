@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class GleamingMagnolia : ModItem
     {
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons
             item.rare = 5;
             item.UseSound = SoundID.Item109;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("GleamingBolt");
+            item.shoot = ModContent.ProjectileType<GleamingBolt>();
             item.shootSpeed = 14f;
         }
 

@@ -1,13 +1,12 @@
-using CalamityMod.Utilities;
 using CalamityMod.World;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Scavenger
+namespace CalamityMod.Items
 {
     public class RavagerBag : ModItem
     {
-        public override int BossBagNPC => mod.NPCType("ScavengerBody");
+        public override int BossBagNPC => ModContent.NPCType<ScavengerBody>();
 
         public override void SetStaticDefaults()
         {
@@ -39,30 +38,30 @@ namespace CalamityMod.Items.Scavenger
             int barMax = CalamityWorld.downedProvidence ? 12 : 3;
             int coreMin = CalamityWorld.downedProvidence ? 2 : 1;
             int coreMax = CalamityWorld.downedProvidence ? 4 : 3;
-            DropHelper.DropItemCondition(player, mod.ItemType("Bloodstone"), CalamityWorld.downedProvidence, 60, 70);
-            DropHelper.DropItem(player, mod.ItemType("VerstaltiteBar"), barMin, barMax);
-            DropHelper.DropItem(player, mod.ItemType("DraedonBar"), barMin, barMax);
-            DropHelper.DropItem(player, mod.ItemType("CruptixBar"), barMin, barMax);
-            DropHelper.DropItem(player, mod.ItemType("CoreofCinder"), coreMin, coreMax);
-            DropHelper.DropItem(player, mod.ItemType("CoreofEleum"), coreMin, coreMax);
-            DropHelper.DropItem(player, mod.ItemType("CoreofChaos"), coreMin, coreMax);
-            DropHelper.DropItemCondition(player, mod.ItemType("BarofLife"), CalamityWorld.downedProvidence);
-            DropHelper.DropItemCondition(player, mod.ItemType("CoreofCalamity"), CalamityWorld.downedProvidence, 0.5f);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 60, 70);
+            DropHelper.DropItem(player, ModContent.ItemType<VerstaltiteBar>(), barMin, barMax);
+            DropHelper.DropItem(player, ModContent.ItemType<DraedonBar>(), barMin, barMax);
+            DropHelper.DropItem(player, ModContent.ItemType<CruptixBar>(), barMin, barMax);
+            DropHelper.DropItem(player, ModContent.ItemType<CoreofCinder>(), coreMin, coreMax);
+            DropHelper.DropItem(player, ModContent.ItemType<CoreofEleum>(), coreMin, coreMax);
+            DropHelper.DropItem(player, ModContent.ItemType<CoreofChaos>(), coreMin, coreMax);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<BarofLife>(), CalamityWorld.downedProvidence);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<CoreofCalamity>(), CalamityWorld.downedProvidence, 0.5f);
 
             // Weapons
             DropHelper.DropItemFromSet(player,
-                mod.ItemType("UltimusCleaver"),
-                mod.ItemType("RealmRavager"),
-                mod.ItemType("Hematemesis"),
-                mod.ItemType("SpikecragStaff"),
-                mod.ItemType("CraniumSmasher"));
-            DropHelper.DropItemFromSetChance(player, 0.05f, mod.ItemType("CorpusAvertorMelee"), mod.ItemType("CorpusAvertor"));
+                ModContent.ItemType<UltimusCleaver>(),
+                ModContent.ItemType<RealmRavager>(),
+                ModContent.ItemType<Hematemesis>(),
+                ModContent.ItemType<SpikecragStaff>(),
+                ModContent.ItemType<CraniumSmasher>());
+            DropHelper.DropItemFromSetChance(player, 0.05f, ModContent.ItemType<CorpusAvertorMelee>(), ModContent.ItemType<CorpusAvertor>());
 
             // Equipment
-            DropHelper.DropItemChance(player, mod.ItemType("BloodPact"), 0.5f);
-            DropHelper.DropItemChance(player, mod.ItemType("FleshTotem"), 0.5f);
-            DropHelper.DropItemCondition(player, mod.ItemType("BloodflareCore"), CalamityWorld.downedProvidence);
-            DropHelper.DropItemCondition(player, mod.ItemType("InfernalBlood"), CalamityWorld.revenge);
+            DropHelper.DropItemChance(player, ModContent.ItemType<BloodPact>(), 0.5f);
+            DropHelper.DropItemChance(player, ModContent.ItemType<FleshTotem>(), 0.5f);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<BloodflareCore>(), CalamityWorld.downedProvidence);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<InfernalBlood>(), CalamityWorld.revenge);
 
             // Vanity
             // there is no Ravager mask yet

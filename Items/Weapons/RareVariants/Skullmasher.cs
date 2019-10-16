@@ -1,8 +1,8 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.RareVariants
+namespace CalamityMod.Items
 {
     public class Skullmasher : ModItem
     {
@@ -46,7 +46,7 @@ namespace CalamityMod.Items.Weapons.RareVariants
             {
                 float SpeedX = speedX + (float)Main.rand.Next(-15, 16) * 0.05f;
                 float SpeedY = speedY + (float)Main.rand.Next(-15, 16) * 0.05f;
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, mod.ProjectileType("AMR"), damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<AMR>(), damage, knockBack, player.whoAmI, 0f, 0f);
             }
             return false;
         }

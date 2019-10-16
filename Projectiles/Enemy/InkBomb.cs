@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Enemy
+namespace CalamityMod.Projectiles
 {
     public class InkBomb : ModProjectile
     {
@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Enemy
                     Vector2 vector15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
                     vector15.Normalize();
                     vector15 *= (float)Main.rand.Next(50, 401) * 0.01f;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector15.X, vector15.Y, mod.ProjectileType("InkPoisonCloud") + Main.rand.Next(3), (int)((double)projectile.damage * 0.66), 1f, projectile.owner, 0f, (float)Main.rand.Next(-45, 1));
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector15.X, vector15.Y, ModContent.ProjectileType<InkPoisonCloud>() + Main.rand.Next(3), (int)((double)projectile.damage * 0.66), 1f, projectile.owner, 0f, (float)Main.rand.Next(-45, 1));
                     num3 = num321;
                 }
             }

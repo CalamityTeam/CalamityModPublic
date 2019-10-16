@@ -1,14 +1,13 @@
-using CalamityMod.Utilities;
 using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Leviathan
+namespace CalamityMod.Items
 {
     public class LeviathanBag : ModItem
     {
-        public override int BossBagNPC => mod.NPCType("Siren");
+        public override int BossBagNPC => ModContent.NPCType<Siren>();
 
         public override void SetStaticDefaults()
         {
@@ -38,23 +37,23 @@ namespace CalamityMod.Items.Leviathan
                 player.TryGettingDevArmor();
 
             // Weapons
-            DropHelper.DropItemCondition(player, mod.ItemType("Greentide"), Main.hardMode, 3, 1, 1);
-            DropHelper.DropItemCondition(player, mod.ItemType("Leviatitan"), Main.hardMode, 3, 1, 1);
-            DropHelper.DropItemCondition(player, mod.ItemType("SirensSong"), Main.hardMode, 3, 1, 1);
-            DropHelper.DropItemCondition(player, mod.ItemType("Atlantis"), Main.hardMode, 3, 1, 1);
-            DropHelper.DropItemCondition(player, mod.ItemType("BrackishFlask"), Main.hardMode, 3, 1, 1);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<Greentide>(), Main.hardMode, 3, 1, 1);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<Leviatitan>(), Main.hardMode, 3, 1, 1);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<SirensSong>(), Main.hardMode, 3, 1, 1);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<Atlantis>(), Main.hardMode, 3, 1, 1);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<BrackishFlask>(), Main.hardMode, 3, 1, 1);
 
             // Equipment
-            DropHelper.DropItemCondition(player, mod.ItemType("LeviathanAmbergris"), Main.hardMode);
-            DropHelper.DropItemCondition(player, mod.ItemType("LureofEnthrallment"), Main.hardMode, 3, 1, 1);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<LeviathanAmbergris>(), Main.hardMode);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<LureofEnthrallment>(), Main.hardMode, 3, 1, 1);
             float communityChance = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : DropHelper.LegendaryDropRateFloat;
-            DropHelper.DropItemCondition(player, mod.ItemType("TheCommunity"), CalamityWorld.revenge, communityChance);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<TheCommunity>(), CalamityWorld.revenge, communityChance);
 
             // Vanity
-            DropHelper.DropItemChance(player, mod.ItemType("LeviathanMask"), 7);
+            DropHelper.DropItemChance(player, ModContent.ItemType<LeviathanMask>(), 7);
 
             // Fishing
-            DropHelper.DropItem(player, mod.ItemType("EnchantedPearl"));
+            DropHelper.DropItem(player, ModContent.ItemType<EnchantedPearl>());
             DropHelper.DropItemChance(player, ItemID.HotlineFishingHook, 10);
             DropHelper.DropItemChance(player, ItemID.BottomlessBucket, 10);
             DropHelper.DropItemChance(player, ItemID.SuperAbsorbantSponge, 10);
@@ -63,7 +62,7 @@ namespace CalamityMod.Items.Leviathan
             DropHelper.DropItemChance(player, ItemID.CratePotion, 5, 5, 8);
 
             // Other
-            DropHelper.DropItemCondition(player, mod.ItemType("IOU"), !Main.hardMode);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<IOU>(), !Main.hardMode);
         }
     }
 }

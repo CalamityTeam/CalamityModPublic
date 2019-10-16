@@ -1,7 +1,7 @@
 using Terraria;
 using Terraria.ID;
 
-namespace CalamityMod.Items.CalamityCustomThrowingDamage.Patreon
+namespace CalamityMod.Items
 {
     public class DeepSeaDumbbell : CalamityDamageItem
     {
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage.Patreon
             item.height = 24;
             item.value = Item.buyPrice(1, 40, 0, 0);
             item.rare = 10;
-            item.shoot = mod.ProjectileType("DeepSeaDumbbell1");
+            item.shoot = ModContent.ProjectileType<DeepSeaDumbbell1>();
             item.shootSpeed = 20f;
             item.Calamity().rogue = true;
             item.Calamity().postMoonLordRarity = 21;

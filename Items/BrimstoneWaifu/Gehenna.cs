@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.BrimstoneWaifu
+namespace CalamityMod.Items
 {
     public class Gehenna : ModItem
     {
@@ -52,7 +52,7 @@ namespace CalamityMod.Items.BrimstoneWaifu
                             spawn.X = spawn.X + i * 30 - (FireProjectiles * 15);
                             Vector2 velocity = baseVelocity.RotatedBy(MathHelper.ToRadians(-FireAngleSpread / 2 + (FireAngleSpread * i / (float)FireProjectiles)));
                             velocity.X = velocity.X + 3 * Main.rand.NextFloat() - 1.5f;
-                            int projectile = Projectile.NewProjectile(spawn.X, spawn.Y, velocity.X, velocity.Y, mod.ProjectileType("BrimstoneHellfireballFriendly2"), 54, 5f, Main.myPlayer, 0f, 0f);
+                            int projectile = Projectile.NewProjectile(spawn.X, spawn.Y, velocity.X, velocity.Y, ModContent.ProjectileType<BrimstoneHellfireballFriendly2>(), 54, 5f, Main.myPlayer, 0f, 0f);
                             Main.projectile[projectile].tileCollide = false;
                             Main.projectile[projectile].timeLeft = 50;
                         }

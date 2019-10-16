@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.AbyssNPCs
+namespace CalamityMod.NPCs
 {
     public class OarfishBody : ModNPC
     {
@@ -35,8 +35,8 @@ namespace CalamityMod.NPCs.AbyssNPCs
             npc.netAlways = true;
             npc.dontCountMe = true;
             npc.chaseable = false;
-            banner = mod.NPCType("OarfishHead");
-            bannerItem = mod.ItemType("OarfishBanner");
+            banner = ModContent.NPCType<OarfishHead>();
+            bannerItem = ModContent.ItemType<OarfishBanner>();
         }
 
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
@@ -78,7 +78,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
                 npc.HitEffect(0, 10.0);
                 npc.checkDead();
             }
-            if (!NPC.AnyNPCs(mod.NPCType("OarfishHead")))
+            if (!NPC.AnyNPCs(ModContent.NPCType<OarfishHead>()))
             {
                 npc.active = false;
             }

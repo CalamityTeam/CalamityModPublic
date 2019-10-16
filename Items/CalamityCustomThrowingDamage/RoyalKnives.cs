@@ -2,9 +2,9 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.CalamityCustomThrowingDamage
+namespace CalamityMod.Items
 {
     public class RoyalKnives : CalamityDamageItem
     {
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.height = 20;
             item.value = Item.buyPrice(5, 0, 0, 0);
             item.rare = 10;
-            item.shoot = mod.ProjectileType("RoyalKnife");
+            item.shoot = ModContent.ProjectileType<RoyalKnife>();
             item.shootSpeed = 9f;
             item.Calamity().rogue = true;
             item.Calamity().postMoonLordRarity = 16;
@@ -90,7 +90,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
                 num149 *= num80;
                 float x4 = vector2.X;
                 float y4 = vector2.Y;
-                Projectile.NewProjectile(x4, y4, num148, num149, mod.ProjectileType("RoyalKnife"), damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(x4, y4, num148, num149, ModContent.ProjectileType<RoyalKnife>(), damage, knockBack, player.whoAmI, 0f, 0f);
             }
             return false;
         }

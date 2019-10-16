@@ -1,8 +1,8 @@
 using CalamityMod.CalPlayer;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.ShrineItems
+namespace CalamityMod.Items
 {
     public class GladiatorsLocket : ModItem
     {
@@ -38,14 +38,14 @@ namespace CalamityMod.Items.ShrineItems
             modPlayer.gladiatorSword = true;
             if (player.whoAmI == Main.myPlayer)
             {
-                if (player.FindBuffIndex(mod.BuffType("GladiatorSwords")) == -1)
+                if (player.FindBuffIndex(ModContent.BuffType<GladiatorSwords>()) == -1)
                 {
-                    player.AddBuff(mod.BuffType("GladiatorSwords"), 3600, true);
+                    player.AddBuff(ModContent.BuffType<GladiatorSwords>(), 3600, true);
                 }
-                if (player.ownedProjectileCounts[mod.ProjectileType("GladiatorSword")] < 1)
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<GladiatorSword>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, mod.ProjectileType("GladiatorSword"), (int)(20f * player.minionDamage), 6f, Main.myPlayer, 0f, 0f);
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, mod.ProjectileType("GladiatorSword2"), (int)(20f * player.minionDamage), 6f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<GladiatorSword>(), (int)(20f * player.minionDamage), 6f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<GladiatorSword2>(), (int)(20f * player.minionDamage), 6f, Main.myPlayer, 0f, 0f);
                 }
             }
         }

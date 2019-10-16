@@ -1,8 +1,8 @@
 ﻿using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.NormalNPCs
+namespace CalamityMod.NPCs
 {
     public class PlaguedTortoise : ModNPC
     {
@@ -35,11 +35,11 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.buffImmune[39] = true;
             npc.buffImmune[24] = true;
             npc.buffImmune[20] = true;
-            npc.buffImmune[mod.BuffType("BrimstoneFlames")] = true;
-            npc.buffImmune[mod.BuffType("HolyLight")] = true;
-            npc.buffImmune[mod.BuffType("Plague")] = true;
+            npc.buffImmune[ModContent.BuffType<BrimstoneFlames>()] = true;
+            npc.buffImmune[ModContent.BuffType<HolyFlames>()] = true;
+            npc.buffImmune[ModContent.BuffType<Plague>()] = true;
             banner = npc.type;
-            bannerItem = mod.ItemType("PlagueshellBanner");
+            bannerItem = ModContent.ItemType<PlagueshellBanner>();
         }
 
         public override void HitEffect(int hitDirection, double damage)
@@ -68,12 +68,12 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(mod.BuffType("Plague"), 300, true);
+            player.AddBuff(ModContent.BuffType<Plague>(), 300, true);
         }
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("PlagueCellCluster"), Main.rand.Next(3, 5));
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<PlagueCellCluster>(), Main.rand.Next(3, 5));
         }
     }
 }

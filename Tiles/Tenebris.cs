@@ -3,7 +3,7 @@ using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
 namespace CalamityMod.Tiles
 {
@@ -19,7 +19,7 @@ namespace CalamityMod.Tiles
             TileMerge.MergeAbyssTiles(Type);
 
             dustType = 44;
-            drop = mod.ItemType("Tenebris");
+            drop = ModContent.ItemType<Tenebris>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Tenebris");
             AddMapEntry(new Color(0, 100, 100), name);
@@ -75,9 +75,9 @@ namespace CalamityMod.Tiles
                 {
                     if (Main.tile[i, j].active())
                     {
-                        if (Main.tile[i, j].type == mod.TileType("PlantyMush") && WorldGen.genRand.Next(5) == 0 && !Main.tile[i, j].lava())
+                        if (Main.tile[i, j].type == ModContent.TileType<PlantyMush>() && WorldGen.genRand.Next(5) == 0 && !Main.tile[i, j].lava())
                         {
-                            Main.tile[i, j].type = (ushort)mod.TileType("Tenebris");
+                            Main.tile[i, j].type = (ushort)ModContent.TileType<Tenebris>();
                             WorldGen.SquareTileFrame(i, j, true);
                             if (Main.netMode == 2)
                             {
@@ -91,7 +91,7 @@ namespace CalamityMod.Tiles
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            CustomTileFraming.FrameTileForCustomMerge(i, j, Type, mod.TileType("AbyssGravel"), false, false, false, false, resetFrame);
+            CustomTileFraming.FrameTileForCustomMerge(i, j, Type, ModContent.TileType<AbyssGravel>(), false, false, false, false, resetFrame);
             return false;
         }
     }

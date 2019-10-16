@@ -2,9 +2,9 @@
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.SunkenSeaNPCs
+namespace CalamityMod.NPCs
 {
     public class SeaSerpent1 : ModNPC
     {
@@ -40,7 +40,7 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
             npc.DeathSound = SoundID.NPCDeath1;
             npc.netAlways = true;
             banner = npc.type;
-            bannerItem = mod.ItemType("SeaSerpentBanner");
+            bannerItem = ModContent.ItemType<SeaSerpentBanner>();
         }
 
         public override void AI()
@@ -65,19 +65,19 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
                         int lol = 0;
                         if (segment == 0 || segment == 1 || segment == 4 || segment == 5)
                         {
-                            lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("SeaSerpent2"), npc.whoAmI);
+                            lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<SeaSerpent2>(), npc.whoAmI);
                         }
                         else if (segment == 2 || segment == 3 || segment == 6)
                         {
-                            lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("SeaSerpent3"), npc.whoAmI);
+                            lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<SeaSerpent3>(), npc.whoAmI);
                         }
                         else if (segment == 7)
                         {
-                            lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("SeaSerpent4"), npc.whoAmI);
+                            lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<SeaSerpent4>(), npc.whoAmI);
                         }
                         else if (segment == 8)
                         {
-                            lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("SeaSerpent5"), npc.whoAmI);
+                            lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<SeaSerpent5>(), npc.whoAmI);
                         }
                         Main.npc[lol].realLife = npc.whoAmI;
                         Main.npc[lol].ai[2] = (float)npc.whoAmI;
@@ -106,7 +106,7 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
             {
                 npc.alpha = 0;
             }
-            if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 5600f || !NPC.AnyNPCs(mod.NPCType("SeaSerpent5")))
+            if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 5600f || !NPC.AnyNPCs(ModContent.NPCType<SeaSerpent5>()))
             {
                 npc.active = false;
             }
@@ -315,7 +315,7 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             if (Main.hardMode && spawnInfo.player.Calamity().ZoneSunkenSea && spawnInfo.water &&
-                !NPC.AnyNPCs(mod.NPCType("SeaSerpent1")) && !spawnInfo.player.Calamity().clamity && !spawnInfo.playerSafe)
+                !NPC.AnyNPCs(ModContent.NPCType<SeaSerpent1>()) && !spawnInfo.player.Calamity().clamity && !spawnInfo.playerSafe)
             {
                 return SpawnCondition.CaveJellyfish.Chance * 0.3f;
             }
@@ -326,7 +326,7 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
         {
             if (Main.rand.NextBool(4))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Serpentine"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Serpentine>());
             }
         }
 

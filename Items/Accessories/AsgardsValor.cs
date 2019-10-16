@@ -1,9 +1,9 @@
 ﻿using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Accessories
+namespace CalamityMod.Items
 {
     [AutoloadEquip(EquipType.Shield)]
     public class AsgardsValor : ModItem
@@ -47,9 +47,9 @@ namespace CalamityMod.Items.Accessories
             player.buffImmune[35] = true;
             player.buffImmune[23] = true;
             player.buffImmune[22] = true;
-            player.buffImmune[mod.BuffType("BrimstoneFlames")] = true;
-            player.buffImmune[mod.BuffType("HolyLight")] = true;
-            player.buffImmune[mod.BuffType("GlacialState")] = true;
+            player.buffImmune[ModContent.BuffType<BrimstoneFlames>()] = true;
+            player.buffImmune[ModContent.BuffType<HolyFlames>()] = true;
+            player.buffImmune[ModContent.BuffType<GlacialState>()] = true;
             player.statLifeMax2 += 20;
             if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
             { player.endurance += 0.1f; }

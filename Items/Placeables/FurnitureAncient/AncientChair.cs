@@ -1,6 +1,6 @@
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Placeables.FurnitureAncient
+namespace CalamityMod.Items
 {
     public class AncientChair : ModItem
     {
@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAncient
             item.rare = 3;
             item.consumable = true;
             item.value = 0;
-            item.createTile = mod.TileType("AncientChair");
+            item.createTile = ModContent.TileType<AncientChair>();
         }
 
         public override void AddRecipes()

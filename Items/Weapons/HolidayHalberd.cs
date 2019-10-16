@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class HolidayHalberd : ModItem
     {
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons
             item.height = 72;
             item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;
-            item.shoot = mod.ProjectileType("RedBall");
+            item.shoot = ModContent.ProjectileType<RedBall>();
             item.shootSpeed = 12f;
         }
 
@@ -56,7 +56,7 @@ namespace CalamityMod.Items.Weapons
         {
             if (Main.rand.NextBool(3))
             {
-                type = mod.ProjectileType("GreenBall");
+                type = ModContent.ProjectileType<GreenBall>();
             }
             Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, Main.myPlayer);
             return false;

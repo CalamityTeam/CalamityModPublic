@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class TheWand : ModItem
     {
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons
             item.height = 36;
             item.value = Item.buyPrice(2, 50, 0, 0);
             item.rare = 10;
-            item.shoot = mod.ProjectileType("SparkInfernal");
+            item.shoot = ModContent.ProjectileType<SparkInfernal>();
             item.shootSpeed = 24f;
             item.Calamity().postMoonLordRarity = 15;
         }

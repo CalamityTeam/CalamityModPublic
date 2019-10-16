@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class Waraxe : ModItem
     {
@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons
         {
             if (crit)
             {
-                target.AddBuff(mod.BuffType("WarCleave"), 900);
+                target.AddBuff(ModContent.BuffType<WarCleave>(), 900);
             }
         }
     }

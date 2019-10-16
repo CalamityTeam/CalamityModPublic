@@ -4,10 +4,10 @@ using System;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 using Terraria.ObjectData;
 
-namespace CalamityMod.Tiles.FurnitureAshen
+namespace CalamityMod.Tiles
 {
     public class AshenMonolith : ModTile
     {
@@ -35,7 +35,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
             ModTranslation name = CreateMapEntryName();
             AddMapEntry(new Color(191, 142, 111), name);
             name.SetDefault("Ashen Monolith");
-            dustType = mod.DustType("Pixel");
+            dustType = ModContent.DustType<Pixel>();
             adjTiles = new int[] { TileID.GrandfatherClocks };
         }
         int animationFrameWidth = 36;
@@ -125,7 +125,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 48, 32, mod.ItemType("AshenMonolith"));
+            Item.NewItem(i * 16, j * 16, 48, 32, ModContent.ItemType<AshenMonolith>());
         }
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)

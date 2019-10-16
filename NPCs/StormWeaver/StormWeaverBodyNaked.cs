@@ -4,9 +4,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.StormWeaver
+namespace CalamityMod.NPCs
 {
     public class StormWeaverBodyNaked : ModNPC
     {
@@ -291,13 +291,13 @@ namespace CalamityMod.NPCs.StormWeaver
                     Main.dust[num624].velocity *= 2f;
                 }
             }
-            if (NPC.CountNPCS(mod.NPCType("StasisProbeNaked")) < 3)
+            if (NPC.CountNPCS(ModContent.NPCType<StasisProbeNaked>()) < 3)
             {
                 spawn--;
                 if (npc.life > 0 && Main.netMode != NetmodeID.MultiplayerClient && spawn <= 0)
                 {
                     spawn = 14;
-                    int num660 = NPC.NewNPC((int)(npc.position.X + (float)(npc.width / 2)), (int)(npc.position.Y + (float)npc.height), mod.NPCType("StasisProbeNaked"), 0, 0f, 0f, 0f, 0f, 255);
+                    int num660 = NPC.NewNPC((int)(npc.position.X + (float)(npc.width / 2)), (int)(npc.position.Y + (float)npc.height), ModContent.NPCType<StasisProbeNaked>(), 0, 0f, 0f, 0f, 0f, 255);
                     if (Main.netMode == NetmodeID.Server)
                     {
                         NetMessage.SendData(23, -1, -1, null, num660, 0f, 0f, 0f, 0, 0, 0);

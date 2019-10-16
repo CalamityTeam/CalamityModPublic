@@ -1,10 +1,10 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 using Terraria.ObjectData;
 
-namespace CalamityMod.Tiles.FurnitureProfaned
+namespace CalamityMod.Tiles
 {
     public class ProfanedBed : ModTile
     {
@@ -27,7 +27,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
         public override bool CreateDust(int i, int j, ref int type)
         {
             Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, 246, 0f, 0f, 1, new Color(255, 255, 255), 1f);
-            Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, mod.DustType("ProfanedTileRock"), 0f, 0f, 1, new Color(255, 255, 255), 1f);
+            Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, ModContent.DustType<ProfanedTileRock>(), 0f, 0f, 1, new Color(255, 255, 255), 1f);
             return false;
         }
 
@@ -43,7 +43,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 64, 32, mod.ItemType("ProfanedBed"));
+            Item.NewItem(i * 16, j * 16, 64, 32, ModContent.ItemType<ProfanedBed>());
         }
 
         public override bool NewRightClick(int i, int j)
@@ -76,7 +76,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
             Player player = Main.LocalPlayer;
             player.noThrow = 2;
             player.showItemIcon = true;
-            player.showItemIcon2 = mod.ItemType("ProfanedBed");
+            player.showItemIcon2 = ModContent.ItemType<ProfanedBed>();
         }
     }
 }

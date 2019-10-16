@@ -2,7 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 
-namespace CalamityMod.Items.CalamityCustomThrowingDamage
+namespace CalamityMod.Items
 {
     public class BouncingEyeball : CalamityDamageItem
     {
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.Calamity().rogue = true;
             item.noUseGraphic = true;
             item.UseSound = SoundID.Item1;
-            item.shoot = mod.ProjectileType("BouncingEyeballProjectile");
+            item.shoot = ModContent.ProjectileType<BouncingEyeballProjectile>();
             item.shootSpeed = 10f;
             item.autoReuse = true;
         }
@@ -42,14 +42,14 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             if (player.Calamity().StealthStrikeAvailable())
             {
                 initialVelocity *= 2f;
-                int p = Projectile.NewProjectile(position, initialVelocity, mod.ProjectileType("BouncingEyeballProjectileStealthStrike"), damage, knockBack, player.whoAmI);
+                int p = Projectile.NewProjectile(position, initialVelocity, ModContent.ProjectileType<BouncingEyeballProjectileStealthStrike>(), damage, knockBack, player.whoAmI);
                 Main.projectile[p].Calamity().stealthStrike = true;
             }
             else
             {
                 initialVelocity *= Main.rand.NextFloat(0.85f, 1.3f);
                 initialVelocity = initialVelocity.RotatedByRandom(MathHelper.ToRadians(10f)); //random spread
-                Projectile.NewProjectile(position, initialVelocity, mod.ProjectileType("BouncingEyeballProjectile"), damage, knockBack, player.whoAmI);
+                Projectile.NewProjectile(position, initialVelocity, ModContent.ProjectileType<BouncingEyeballProjectile>(), damage, knockBack, player.whoAmI);
             }
             return false;
         }

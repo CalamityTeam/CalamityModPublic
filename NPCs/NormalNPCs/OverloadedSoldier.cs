@@ -1,9 +1,9 @@
 ﻿using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.NormalNPCs
+namespace CalamityMod.NPCs
 {
     public class OverloadedSoldier : ModNPC
     {
@@ -28,7 +28,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.HitSound = SoundID.NPCHit2;
             npc.DeathSound = SoundID.NPCDeath2;
             banner = npc.type;
-            bannerItem = mod.ItemType("OverloadedSoldierBanner");
+            bannerItem = ModContent.ItemType<OverloadedSoldierBanner>();
         }
 
         public override void AI()
@@ -50,7 +50,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             if (CalamityWorld.revenge)
             {
-                player.AddBuff(mod.BuffType("MarkedforDeath"), 120);
+                player.AddBuff(ModContent.BuffType<MarkedforDeath>(), 120);
             }
         }
 
@@ -71,10 +71,10 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("AncientBoneDust"));
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<AncientBoneDust>());
             if (NPC.downedMoonlord)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Phantoplasm"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Phantoplasm>());
             }
         }
     }

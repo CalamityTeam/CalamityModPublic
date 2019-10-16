@@ -1,10 +1,10 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 using Terraria.ObjectData;
 
-namespace CalamityMod.Tiles.FurnitureVoid
+namespace CalamityMod.Tiles
 {
     class VoidLamp : ModTile
     {
@@ -38,7 +38,7 @@ namespace CalamityMod.Tiles.FurnitureVoid
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 16, 32, mod.ItemType("VoidLamp"));
+            Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<VoidLamp>());
         }
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)

@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Melee
+namespace CalamityMod.Projectiles
 {
     public class TriactisOPHammerMelee : ModProjectile
     {
@@ -115,7 +115,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             if (projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("MageHammerBoom"), (int)((double)projectile.damage * 0.25), projectile.knockBack, projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<MageHammerBoom>(), (int)((double)projectile.damage * 0.25), projectile.knockBack, projectile.owner, 0f, 0f);
             }
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
             for (int num621 = 0; num621 < 40; num621++)

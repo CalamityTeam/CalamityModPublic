@@ -2,9 +2,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.DevourerofGods
+namespace CalamityMod.Items
 {
     public class Excelsus : ModItem
     {
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.DevourerofGods
             item.height = 94;
             item.value = Item.buyPrice(1, 40, 0, 0);
             item.rare = 10;
-            item.shoot = mod.ProjectileType("Excelsus");
+            item.shoot = ModContent.ProjectileType<Excelsus>();
             item.shootSpeed = 12f;
             item.Calamity().postMoonLordRarity = 13;
         }
@@ -50,13 +50,13 @@ namespace CalamityMod.Items.Weapons.DevourerofGods
                 switch (index)
                 {
                     case 0:
-                        type = mod.ProjectileType("Excelsus");
+                        type = ModContent.ProjectileType<Excelsus>();
                         break;
                     case 1:
-                        type = mod.ProjectileType("ExcelsusBlue");
+                        type = ModContent.ProjectileType<ExcelsusBlue>();
                         break;
                     case 2:
-                        type = mod.ProjectileType("ExcelsusPink");
+                        type = ModContent.ProjectileType<ExcelsusPink>();
                         break;
                 }
                 Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
@@ -66,7 +66,7 @@ namespace CalamityMod.Items.Weapons.DevourerofGods
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("LaserFountain"), 0, 0, Main.myPlayer);
+            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<LaserFountain>(), 0, 0, Main.myPlayer);
         }
     }
 }

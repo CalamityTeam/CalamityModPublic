@@ -2,9 +2,9 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Melee
+namespace CalamityMod.Projectiles
 {
     public class SpatialSpear2 : ModProjectile
     {
@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Melee
                     for (int i = 0; i < numProj + 1; i++)
                     {
                         Vector2 perturbedSpeed = new Vector2(projectile.velocity.X, projectile.velocity.Y).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
-                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X * 0.5f, perturbedSpeed.Y * 0.5f, mod.ProjectileType("SpatialSpear3"), (int)((double)projectile.damage * 0.5), projectile.knockBack * 0.5f, projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X * 0.5f, perturbedSpeed.Y * 0.5f, ModContent.ProjectileType<SpatialSpear3>(), (int)((double)projectile.damage * 0.5), projectile.knockBack * 0.5f, projectile.owner, 0f, 0f);
                     }
                 }
             }
@@ -80,10 +80,10 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("BrimstoneFlames"), 120);
-            target.AddBuff(mod.BuffType("GlacialState"), 120);
-            target.AddBuff(mod.BuffType("Plague"), 120);
-            target.AddBuff(mod.BuffType("HolyLight"), 120);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
+            target.AddBuff(ModContent.BuffType<Plague>(), 120);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
         }
 
         public override void Kill(int timeLeft)

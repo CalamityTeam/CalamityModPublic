@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Ranged
+namespace CalamityMod.Projectiles
 {
     public class HyperiusBullet : ModProjectile
     {
@@ -92,7 +92,7 @@ namespace CalamityMod.Projectiles.Ranged
             }
             if (projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, mod.ProjectileType("OMGWTH"), (int)((double)projectile.damage * 0.8), 1f, projectile.owner);
+                Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, ModContent.ProjectileType<OMGWTH>(), (int)((double)projectile.damage * 0.8), 1f, projectile.owner);
             }
         }
     }

@@ -1,6 +1,6 @@
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Placeables.FurnitureAshen
+namespace CalamityMod.Items
 {
     public class AshenBasin : ModItem
     {
@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAshen
             item.rare = 3;
             item.value = 0;
             item.consumable = true;
-            item.createTile = mod.TileType("AshenBasin");
+            item.createTile = ModContent.TileType<AshenBasin>();
         }
 
         public override void AddRecipes()

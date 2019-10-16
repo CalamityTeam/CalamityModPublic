@@ -1,9 +1,9 @@
 ﻿using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.SupremeCalamitas
+namespace CalamityMod.Items
 {
     public class EyeofExtinction : ModItem
     {
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.SupremeCalamitas
 
         public override bool CanUseItem(Player player)
         {
-            return !NPC.AnyNPCs(mod.NPCType("SupremeCalamitas")) && CalamityWorld.downedBossAny;
+            return !NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>()) && CalamityWorld.downedBossAny;
         }
 
         public override bool UseItem(Player player)
@@ -43,7 +43,7 @@ namespace CalamityMod.Items.SupremeCalamitas
                 {
                     if (Main.tile[i, j] != null)
                     {
-                        if (Main.tile[i, j].type == mod.TileType("ArenaTile"))
+                        if (Main.tile[i, j].type == ModContent.TileType<ArenaTile>())
                         {
                             WorldGen.KillTile(i, j, false, false, false);
                             if (Main.netMode == NetmodeID.Server)
@@ -58,7 +58,7 @@ namespace CalamityMod.Items.SupremeCalamitas
                     }
                 }
             }
-            NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("SupremeCalamitas"));
+            NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<SupremeCalamitas>());
             Main.PlaySound(SoundID.Roar, player.position, 0);
             return true;
         }

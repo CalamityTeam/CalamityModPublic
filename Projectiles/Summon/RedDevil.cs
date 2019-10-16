@@ -4,9 +4,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Summon
+namespace CalamityMod.Projectiles
 {
     public class RedDevil : ModProjectile
     {
@@ -35,7 +35,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-            bool flag64 = projectile.type == mod.ProjectileType("RedDevil");
+            bool flag64 = projectile.type == ModContent.ProjectileType<RedDevil>();
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
             if (!modPlayer.redDevil)
@@ -90,7 +90,7 @@ namespace CalamityMod.Projectiles.Summon
             float num637 = 0.05f;
             for (int num638 = 0; num638 < 1000; num638++)
             {
-                bool flag23 = Main.projectile[num638].type == mod.ProjectileType("RedDevil");
+                bool flag23 = Main.projectile[num638].type == ModContent.ProjectileType<RedDevil>();
                 if (num638 != projectile.whoAmI && Main.projectile[num638].active && Main.projectile[num638].owner == projectile.owner && flag23 && Math.Abs(projectile.position.X - Main.projectile[num638].position.X) + Math.Abs(projectile.position.Y - Main.projectile[num638].position.Y) < (float)projectile.width)
                 {
                     if (projectile.position.X < Main.projectile[num638].position.X)

@@ -8,9 +8,9 @@ using Terraria.Enums;
 using Terraria.GameContent.Shaders;
 using Terraria.Graphics.Effects;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Magic
+namespace CalamityMod.Projectiles
 {
     public class YharimsCrystalBeam : ModProjectile
     {
@@ -116,7 +116,7 @@ namespace CalamityMod.Projectiles.Magic
             {
                 projectile.velocity = -Vector2.UnitY;
             }
-            if (projectile.type != mod.ProjectileType("YharimsCrystalBeam") || !Main.projectile[(int)projectile.ai[1]].active || Main.projectile[(int)projectile.ai[1]].type != mod.ProjectileType("YharimsCrystal"))
+            if (projectile.type != ModContent.ProjectileType<YharimsCrystalBeam>() || !Main.projectile[(int)projectile.ai[1]].active || Main.projectile[(int)projectile.ai[1]].type != ModContent.ProjectileType<YharimsCrystal>())
             {
                 projectile.Kill();
                 return;

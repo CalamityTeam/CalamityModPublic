@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.Scavenger
+namespace CalamityMod.NPCs
 {
     public class FlamePillar : ModNPC
     {
@@ -101,7 +101,7 @@ namespace CalamityMod.NPCs.Scavenger
                         {
                             Vector2 shootFromVector = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
                             int damage = 45;
-                            Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, SpeedX, SpeedY, mod.ProjectileType("RavagerFlame"), damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, SpeedX, SpeedY, ModContent.ProjectileType<RavagerFlame>(), damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
                         }
                         npc.localAI[0] = 0f;
                         npc.netUpdate = true;

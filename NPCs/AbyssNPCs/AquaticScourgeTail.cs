@@ -1,11 +1,10 @@
-﻿using CalamityMod.World;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System.IO;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.AbyssNPCs
+namespace CalamityMod.NPCs
 {
     public class AquaticScourgeTail : ModNPC
     {
@@ -113,7 +112,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
                 npc.HitEffect(0, 10.0);
                 npc.checkDead();
             }
-            if (!NPC.AnyNPCs(mod.NPCType("AquaticScourgeHead")))
+            if (!NPC.AnyNPCs(ModContent.NPCType<AquaticScourgeHead>()))
             {
                 npc.active = false;
             }

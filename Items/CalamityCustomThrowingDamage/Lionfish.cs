@@ -1,7 +1,7 @@
 using Terraria;
 using Terraria.ID;
 
-namespace CalamityMod.Items.CalamityCustomThrowingDamage
+namespace CalamityMod.Items
 {
     public class Lionfish : CalamityDamageItem
     {
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.height = 40;
             item.value = Item.buyPrice(0, 4, 0, 0);
             item.rare = 3;
-            item.shoot = mod.ProjectileType("Lionfish");
+            item.shoot = ModContent.ProjectileType<Lionfish>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;
         }

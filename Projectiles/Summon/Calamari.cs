@@ -4,9 +4,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Summon
+namespace CalamityMod.Projectiles
 {
     public class Calamari : ModProjectile
     {
@@ -71,10 +71,10 @@ namespace CalamityMod.Projectiles.Summon
             {
                 projectile.frame = 0;
             }
-            bool flag64 = projectile.type == mod.ProjectileType("Calamari");
+            bool flag64 = projectile.type == ModContent.ProjectileType<Calamari>();
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            player.AddBuff(mod.BuffType("Calamari"), 3600);
+            player.AddBuff(ModContent.BuffType<Calamari>(), 3600);
             if (flag64)
             {
                 if (player.dead)
@@ -132,7 +132,7 @@ namespace CalamityMod.Projectiles.Summon
             for (int num534 = 0; num534 < 1000; num534 = num3 + 1)
             {
                 if (num534 != projectile.whoAmI && Main.projectile[num534].active && Main.projectile[num534].owner == projectile.owner &&
-                    Main.projectile[num534].type == mod.ProjectileType("Calamari") &&
+                    Main.projectile[num534].type == ModContent.ProjectileType<Calamari>() &&
                     Math.Abs(projectile.position.X - Main.projectile[num534].position.X) + Math.Abs(projectile.position.Y - Main.projectile[num534].position.Y) < (float)projectile.width)
                 {
                     if (projectile.position.X < Main.projectile[num534].position.X)
@@ -323,7 +323,7 @@ namespace CalamityMod.Projectiles.Summon
             if (projectile.ai[0] == 0f)
             {
                 float scaleFactor4 = 9f;
-                int num28 = mod.ProjectileType("CalamariInk");
+                int num28 = ModContent.ProjectileType<CalamariInk>();
                 if (flag)
                 {
                     if (Math.Abs((vector - projectile.Center).ToRotation() - 1.57079637f) > 0.7853982f)

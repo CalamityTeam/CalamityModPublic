@@ -3,11 +3,11 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Pets
+namespace CalamityMod.Projectiles
 {
-    public class Kendra : ModProjectile
+    public class KendraPet : ModProjectile
     {
         private int chosenIdle = 0;
         private int idleTimer = 0;

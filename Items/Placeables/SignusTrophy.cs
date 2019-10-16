@@ -1,6 +1,6 @@
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Placeables
+namespace CalamityMod.Items
 {
     public class SignusTrophy : ModItem
     {
@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Placeables
             item.consumable = true;
             item.value = 50000;
             item.rare = 1;
-            item.createTile = mod.TileType("BossTrophy");
+            item.createTile = ModContent.TileType<BossTrophy>();
             item.placeStyle = 11;
         }
     }

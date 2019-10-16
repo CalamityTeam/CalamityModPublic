@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class Purge : ModItem
     {
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons
             item.value = Item.buyPrice(0, 95, 0, 0);
             item.rare = 9;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("Purge");
+            item.shoot = ModContent.ProjectileType<Purge>();
             item.shootSpeed = 24f;
         }
 
@@ -46,7 +46,7 @@ namespace CalamityMod.Items.Weapons
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("Purge"), damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Purge>(), damage, knockBack, player.whoAmI, 0f, 0f);
             return false;
         }
     }

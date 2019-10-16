@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class TerraRay : ModItem
     {
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons
             item.rare = 8;
             item.UseSound = SoundID.Item60;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("TerraRay");
+            item.shoot = ModContent.ProjectileType<TerraRay>();
             item.shootSpeed = 6f;
         }
 

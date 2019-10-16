@@ -4,9 +4,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Astral
+namespace CalamityMod.Projectiles
 {
     public class RadiantStar2 : ModProjectile
     {
@@ -108,7 +108,7 @@ namespace CalamityMod.Projectiles.Astral
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("AstralInfectionDebuff"), 120);
+            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -121,7 +121,7 @@ namespace CalamityMod.Projectiles.Astral
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, mod.DustType("AstralBlue"), projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
+                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, ModContent.DustType<AstralBlue>(), projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
             }
         }
     }

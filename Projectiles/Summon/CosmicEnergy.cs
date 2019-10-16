@@ -3,11 +3,11 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Summon
+namespace CalamityMod.Projectiles
 {
-    public class CosmicEnergy : ModProjectile
+    public class CosmicEnergySpiral : ModProjectile
     {
         private bool justSpawned = true;
 
@@ -51,10 +51,10 @@ namespace CalamityMod.Projectiles.Summon
                     Main.player[projectile.owner].minionDamage);
                 projectile.damage = damage2;
             }
-            bool flag64 = projectile.type == mod.ProjectileType("CosmicEnergy");
+            bool flag64 = projectile.type == ModContent.ProjectileType<CosmicEnergySpiral>();
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            player.AddBuff(mod.BuffType("CosmicEnergy"), 3600);
+            player.AddBuff(ModContent.BuffType<CosmicEnergy>(), 3600);
             if (flag64)
             {
                 if (player.dead)
@@ -73,7 +73,7 @@ namespace CalamityMod.Projectiles.Summon
             float num637 = 0.05f;
             for (int num638 = 0; num638 < 1000; num638++)
             {
-                bool flag23 = Main.projectile[num638].type == mod.ProjectileType("CosmicEnergy");
+                bool flag23 = Main.projectile[num638].type == ModContent.ProjectileType<CosmicEnergySpiral>();
                 if (num638 != projectile.whoAmI && Main.projectile[num638].active && Main.projectile[num638].owner == projectile.owner && flag23 && Math.Abs(projectile.position.X - Main.projectile[num638].position.X) + Math.Abs(projectile.position.Y - Main.projectile[num638].position.Y) < (float)projectile.width)
                 {
                     if (projectile.position.X < Main.projectile[num638].position.X)
@@ -248,7 +248,7 @@ namespace CalamityMod.Projectiles.Summon
                         }
                         value15.Normalize();
                         value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, mod.ProjectileType("CosmicBlast"), (int)((double)projectile.damage * 0.5), 2f, projectile.owner, (float)target, 0f);
+                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<CosmicBlast>(), (int)((double)projectile.damage * 0.5), 2f, projectile.owner, (float)target, 0f);
                     }
                     float num403 = 15f;
                     Vector2 vector29 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
@@ -258,7 +258,7 @@ namespace CalamityMod.Projectiles.Summon
                     num406 = num403 / num406;
                     num404 *= num406;
                     num405 *= num406;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num404, num405, mod.ProjectileType("CosmicBlastBig"), projectile.damage, 3f, projectile.owner, (float)target, 0f);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num404, num405, ModContent.ProjectileType<CosmicBlastBig>(), projectile.damage, 3f, projectile.owner, (float)target, 0f);
                     projectile.ai[0] = 100f;
                 }
             }

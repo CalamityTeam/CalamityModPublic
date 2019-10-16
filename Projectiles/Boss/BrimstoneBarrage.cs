@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Boss
+namespace CalamityMod.Projectiles
 {
     public class BrimstoneBarrage : ModProjectile
     {
@@ -56,10 +56,10 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(mod.BuffType("AbyssalFlames"), 180);
+            target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 180);
 
             if (projectile.ai[0] == 0f)
-                target.AddBuff(mod.BuffType("VulnerabilityHex"), 120, true);
+                target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 120, true);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

@@ -6,9 +6,9 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.Localization;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.TheDevourerofGods
+namespace CalamityMod.NPCs
 {
     [AutoloadBossHead]
     public class DevourerofGodsHead : ModNPC
@@ -129,7 +129,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
                     if (spawnDoGCountdown == 0 && Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         for (int i = 0; i < 2; i++)
-                            NPC.SpawnOnPlayer(npc.FindClosestPlayer(), mod.NPCType("DevourerofGodsHead2"));
+                            NPC.SpawnOnPlayer(npc.FindClosestPlayer(), ModContent.NPCType<DevourerofGodsHead2>());
                     }
                 }
             }
@@ -146,7 +146,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
                 {
                     spawnDoGCountdown--;
                     if (spawnDoGCountdown == 0 && Main.netMode != NetmodeID.MultiplayerClient)
-                        NPC.SpawnOnPlayer(npc.FindClosestPlayer(), mod.NPCType("DevourerofGodsHead2"));
+                        NPC.SpawnOnPlayer(npc.FindClosestPlayer(), ModContent.NPCType<DevourerofGodsHead2>());
                 }
             }
 
@@ -179,9 +179,9 @@ namespace CalamityMod.NPCs.TheDevourerofGods
                     {
                         int segment;
                         if (segmentSpawn >= 0 && segmentSpawn < minLength)
-                            segment = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("DevourerofGodsBody"), npc.whoAmI);
+                            segment = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<DevourerofGodsBody>(), npc.whoAmI);
                         else
-                            segment = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("DevourerofGodsTail"), npc.whoAmI);
+                            segment = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<DevourerofGodsTail>(), npc.whoAmI);
 
                         Main.npc[segment].realLife = npc.whoAmI;
                         Main.npc[segment].ai[2] = (float)npc.whoAmI;
@@ -207,7 +207,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
                 {
                     for (int a = 0; a < 200; a++)
                     {
-                        if (Main.npc[a].type == mod.NPCType("DevourerofGodsHead") || Main.npc[a].type == mod.NPCType("DevourerofGodsBody") || Main.npc[a].type == mod.NPCType("DevourerofGodsTail"))
+                        if (Main.npc[a].type == ModContent.NPCType<DevourerofGodsHead>() || Main.npc[a].type == ModContent.NPCType<DevourerofGodsBody>() || Main.npc[a].type == ModContent.NPCType<DevourerofGodsTail>())
                             Main.npc[a].active = false;
                     }
                 }
@@ -242,7 +242,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
                 if (Main.netMode != NetmodeID.Server)
                 {
                     if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active && Vector2.Distance(Main.player[Main.myPlayer].Center, vector) < 5600f)
-                        Main.player[Main.myPlayer].AddBuff(mod.BuffType("Warped"), 2);
+                        Main.player[Main.myPlayer].AddBuff(ModContent.BuffType<Warped>(), 2);
                 }
 
                 // Flying movement
@@ -452,7 +452,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
                 if (Main.netMode != NetmodeID.Server)
                 {
                     if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active && Vector2.Distance(Main.player[Main.myPlayer].Center, vector) < 5600f)
-                        Main.player[Main.myPlayer].AddBuff(mod.BuffType("ExtremeGrav"), 2);
+                        Main.player[Main.myPlayer].AddBuff(ModContent.BuffType<ExtremeGrav>(), 2);
                 }
 
                 phaseSwitch += 1;
@@ -766,8 +766,8 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(mod.BuffType("GodSlayerInferno"), 300, true);
-            player.AddBuff(mod.BuffType("WhisperingDeath"), 420, true);
+            player.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300, true);
+            player.AddBuff(ModContent.BuffType<WhisperingDeath>(), 420, true);
             if (CalamityWorld.death)
             {
                 player.KillMe(PlayerDeathReason.ByOther(10), 1000.0, 0, false);

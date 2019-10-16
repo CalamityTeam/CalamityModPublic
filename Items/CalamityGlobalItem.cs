@@ -8,7 +8,7 @@ using System.IO;
 using System.Linq;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 using Terraria.ModLoader.IO;
 
 namespace CalamityMod.Items
@@ -137,20 +137,20 @@ namespace CalamityMod.Items
 
                 if (player.whoAmI == Main.myPlayer)
                 {
-                    if (item.melee && item.type != mod.ItemType("Murasama"))
-                        Projectile.NewProjectile(position.X, position.Y, speedX * 0.5f, speedY * 0.5f, mod.ProjectileType("LuxorsGiftMelee"), (int)(newDamage * 0.6), 0f, player.whoAmI, 0f, 0f);
+                    if (item.melee && item.type != ModContent.ItemType<Murasama>())
+                        Projectile.NewProjectile(position.X, position.Y, speedX * 0.5f, speedY * 0.5f, ModContent.ProjectileType<LuxorsGiftMelee>(), (int)(newDamage * 0.6), 0f, player.whoAmI, 0f, 0f);
 
                     else if (rogue)
-                        Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("LuxorsGiftRogue"), (int)(newDamage * 0.5), 0f, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<LuxorsGiftRogue>(), (int)(newDamage * 0.5), 0f, player.whoAmI, 0f, 0f);
 
                     else if (item.ranged)
-                        Projectile.NewProjectile(position.X, position.Y, speedX * 1.5f, speedY * 1.5f, mod.ProjectileType("LuxorsGiftRanged"), (int)(newDamage * 0.4), 0f, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position.X, position.Y, speedX * 1.5f, speedY * 1.5f, ModContent.ProjectileType<LuxorsGiftRanged>(), (int)(newDamage * 0.4), 0f, player.whoAmI, 0f, 0f);
 
                     else if (item.magic)
-                        Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("LuxorsGiftMagic"), (int)(newDamage * 0.8), 0f, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<LuxorsGiftMagic>(), (int)(newDamage * 0.8), 0f, player.whoAmI, 0f, 0f);
 
-                    else if (item.summon && player.ownedProjectileCounts[mod.ProjectileType("LuxorsGiftSummon")] < 1)
-                        Projectile.NewProjectile(position.X, position.Y, 0f, 0f, mod.ProjectileType("LuxorsGiftSummon"), damage, 0f, player.whoAmI, 0f, 0f);
+                    else if (item.summon && player.ownedProjectileCounts[ModContent.ProjectileType<LuxorsGiftSummon>()] < 1)
+                        Projectile.NewProjectile(position.X, position.Y, 0f, 0f, ModContent.ProjectileType<LuxorsGiftSummon>(), damage, 0f, player.whoAmI, 0f, 0f);
                 }
             }
             if (player.Calamity().eArtifact && item.ranged && !rogue)
@@ -164,7 +164,7 @@ namespace CalamityMod.Items
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("GhostlyBolt"), (int)((double)damage * (player.Calamity().auricSet ? 4.2 : 2.6)), 1f, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<GhostlyBolt>(), (int)((double)damage * (player.Calamity().auricSet ? 4.2 : 2.6)), 1f, player.whoAmI, 0f, 0f);
                     }
                 }
             }
@@ -174,7 +174,7 @@ namespace CalamityMod.Items
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("BloodBomb"), (int)((double)damage * (player.Calamity().auricSet ? 2.2 : 1.6)), 2f, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<BloodBomb>(), (int)((double)damage * (player.Calamity().auricSet ? 2.2 : 1.6)), 2f, player.whoAmI, 0f, 0f);
                     }
                 }
             }
@@ -203,7 +203,7 @@ namespace CalamityMod.Items
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(position.X, position.Y, speedX * 1.25f, speedY * 1.25f, mod.ProjectileType("ChaosFlare"), (int)((double)damage * 0.25), 2f, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position.X, position.Y, speedX * 1.25f, speedY * 1.25f, ModContent.ProjectileType<ChaosFlare>(), (int)((double)damage * 0.25), 2f, player.whoAmI, 0f, 0f);
                     }
                 }
             }
@@ -213,7 +213,7 @@ namespace CalamityMod.Items
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(position.X, position.Y, speedX * 1.25f, speedY * 1.25f, mod.ProjectileType("GodSlayerShrapnelRound"), (int)((double)damage * (player.Calamity().auricSet ? 3.2 : 2.1)), 2f, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position.X, position.Y, speedX * 1.25f, speedY * 1.25f, ModContent.ProjectileType<GodSlayerShrapnelRound>(), (int)((double)damage * (player.Calamity().auricSet ? 3.2 : 2.1)), 2f, player.whoAmI, 0f, 0f);
                     }
                 }
             }
@@ -233,8 +233,8 @@ namespace CalamityMod.Items
                         {
                             Vector2 vector2 = new Vector2(player.Center.X, player.Center.Y);
                             offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                            Projectile.NewProjectile(vector2.X, vector2.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), mod.ProjectileType("ChaosFlare2"), (int)((double)damage * 0.5), 1.25f, player.whoAmI, 0f, 0f);
-                            Projectile.NewProjectile(vector2.X, vector2.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), mod.ProjectileType("ChaosFlare2"), (int)((double)damage * 0.5), 1.25f, player.whoAmI, 0f, 0f);
+                            Projectile.NewProjectile(vector2.X, vector2.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<ChaosFlare2>(), (int)((double)damage * 0.5), 1.25f, player.whoAmI, 0f, 0f);
+                            Projectile.NewProjectile(vector2.X, vector2.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<ChaosFlare2>(), (int)((double)damage * 0.5), 1.25f, player.whoAmI, 0f, 0f);
                         }
                     }
                 }
@@ -245,7 +245,7 @@ namespace CalamityMod.Items
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(position.X, position.Y, speedX * 1.25f, speedY * 1.25f, mod.ProjectileType("MiniRocket"), (int)((double)damage * 1.3), 2f, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position.X, position.Y, speedX * 1.25f, speedY * 1.25f, ModContent.ProjectileType<MiniRocket>(), (int)((double)damage * 1.3), 2f, player.whoAmI, 0f, 0f);
                     }
                 }
             }
@@ -256,7 +256,7 @@ namespace CalamityMod.Items
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(position.X, position.Y, speedX * 1.25f, speedY * 1.25f, mod.ProjectileType("Seashell"), damage * 2, 1f, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position.X, position.Y, speedX * 1.25f, speedY * 1.25f, ModContent.ProjectileType<Seashell>(), damage * 2, 1f, player.whoAmI, 0f, 0f);
                     }
                 }
             }
@@ -336,7 +336,7 @@ namespace CalamityMod.Items
             if (item.type == ItemID.Heart || item.type == ItemID.CandyApple || item.type == ItemID.CandyCane)
             {
                 bool boostedHeart = player.Calamity().photosynthesis;
-                if (NPC.AnyNPCs(mod.NPCType("SupremeCalamitas")))
+                if (NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>()))
                 {
                     player.statLife -= boostedHeart ? 5 : 10;
                     if (Main.myPlayer == player.whoAmI)
@@ -398,19 +398,19 @@ namespace CalamityMod.Items
                 }
                 return true;
             }
-            if ((item.type == ItemID.RegenerationPotion || item.type == ItemID.LifeforcePotion) && player.FindBuffIndex(mod.BuffType("Cadence")) > -1)
+            if ((item.type == ItemID.RegenerationPotion || item.type == ItemID.LifeforcePotion) && player.FindBuffIndex(ModContent.BuffType<Cadence>()) > -1)
             {
                 return false;
             }
-            if (item.type == mod.ItemType("CrumblingPotion") && player.FindBuffIndex(mod.BuffType("ArmorShattering")) > -1)
+            if (item.type == ModContent.ItemType<CrumblingPotion>() && player.FindBuffIndex(ModContent.BuffType<ArmorShattering>()) > -1)
             {
                 return false;
             }
-            if (item.type == ItemID.WrathPotion && player.FindBuffIndex(mod.BuffType("HolyWrathBuff")) > -1)
+            if (item.type == ItemID.WrathPotion && player.FindBuffIndex(ModContent.BuffType<HolyWrathBuff>()) > -1)
             {
                 return false;
             }
-            if (item.type == ItemID.RagePotion && player.FindBuffIndex(mod.BuffType("ProfanedRageBuff")) > -1)
+            if (item.type == ItemID.RagePotion && player.FindBuffIndex(ModContent.BuffType<ProfanedRageBuff>()) > -1)
             {
                 return false;
             }
@@ -420,7 +420,7 @@ namespace CalamityMod.Items
             }
             if (item.type == ItemID.MagicMirror || item.type == ItemID.IceMirror || item.type == ItemID.CellPhone || item.type == ItemID.RecallPotion)
             {
-                return !NPC.AnyNPCs(mod.NPCType("SupremeCalamitas"));
+                return !NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>());
             }
             if (item.type == ItemID.RodofDiscord)
             {
@@ -457,19 +457,19 @@ namespace CalamityMod.Items
                         tt2.overrideColor = new Color(255, 0, 255);
                         break;
                     case 17: //Legendary Weapons
-                        if (item.type == mod.ItemType("Malachite"))
+                        if (item.type == ModContent.ItemType<Malachite>())
                             tt2.overrideColor = new Color(Main.DiscoR, 203, 103);
-                        if (item.type == mod.ItemType("AegisBlade") || item.type == mod.ItemType("YharimsCrystal"))
+                        if (item.type == ModContent.ItemType<AegisBlade>() || item.type == ModContent.ItemType<YharimsCrystal>())
                             tt2.overrideColor = new Color(255, Main.DiscoG, 53);
-                        if (item.type == mod.ItemType("BrinyBaron"))
+                        if (item.type == ModContent.ItemType<BrinyBaron>())
                             tt2.overrideColor = new Color(53, Main.DiscoG, 255);
-                        if (item.type == mod.ItemType("CosmicDischarge"))
+                        if (item.type == ModContent.ItemType<CosmicDischarge>())
                             tt2.overrideColor = new Color(150, Main.DiscoG, 255);
-                        if (item.type == mod.ItemType("BlossomFlux"))
+                        if (item.type == ModContent.ItemType<BlossomFlux>())
                             tt2.overrideColor = new Color(Main.DiscoR, 203, 103);
-                        if (item.type == mod.ItemType("SHPC"))
+                        if (item.type == ModContent.ItemType<SHPC>())
                             tt2.overrideColor = new Color(255, Main.DiscoG, 155);
-                        if (item.type == mod.ItemType("Vesuvius"))
+                        if (item.type == ModContent.ItemType<Vesuvius>())
                             tt2.overrideColor = new Color(255, Main.DiscoG, 0);
                         break;
                     case 18: //Fabstaff
@@ -1704,69 +1704,69 @@ namespace CalamityMod.Items
                 {
                     // King Slime
                     case ItemID.KingSlimeBossBag:
-                        DropHelper.DropItemCondition(player, mod.ItemType("CrownJewel"), CalamityWorld.revenge);
+                        DropHelper.DropItemCondition(player, ModContent.ItemType<CrownJewel>(), CalamityWorld.revenge);
                         break;
 
                     // Eye of Cthulhu
                     case ItemID.EyeOfCthulhuBossBag:
-                        DropHelper.DropItem(player, mod.ItemType("VictoryShard"), 3, 5);
-                        DropHelper.DropItemChance(player, mod.ItemType("TeardropCleaver"), 3);
-                        DropHelper.DropItemCondition(player, mod.ItemType("CounterScarf"), CalamityWorld.revenge);
+                        DropHelper.DropItem(player, ModContent.ItemType<VictoryShard>(), 3, 5);
+                        DropHelper.DropItemChance(player, ModContent.ItemType<TeardropCleaver>(), 3);
+                        DropHelper.DropItemCondition(player, ModContent.ItemType<CounterScarf>(), CalamityWorld.revenge);
                         break;
 
                     // Skeletron
                     case ItemID.SkeletronBossBag:
-                        DropHelper.DropItemChance(player, mod.ItemType("ClothiersWrath"), DropHelper.RareVariantDropRateInt);
+                        DropHelper.DropItemChance(player, ModContent.ItemType<ClothiersWrath>(), DropHelper.RareVariantDropRateInt);
                         break;
 
                     // Wall of Flesh
                     case ItemID.WallOfFleshBossBag:
-                        DropHelper.DropItemChance(player, mod.ItemType("Meowthrower"), 3);
-                        DropHelper.DropItemChance(player, mod.ItemType("BlackHawkRemote"), 3);
-                        DropHelper.DropItemChance(player, mod.ItemType("BlastBarrel"), 3);
-                        DropHelper.DropItemChance(player, mod.ItemType("RogueEmblem"), 4);
+                        DropHelper.DropItemChance(player, ModContent.ItemType<Meowthrower>(), 3);
+                        DropHelper.DropItemChance(player, ModContent.ItemType<BlackHawkRemote>(), 3);
+                        DropHelper.DropItemChance(player, ModContent.ItemType<BlastBarrel>(), 3);
+                        DropHelper.DropItemChance(player, ModContent.ItemType<RogueEmblem>(), 4);
                         DropHelper.DropItemFromSetChance(player, 5, ItemID.CorruptionKey, ItemID.CrimsonKey);
-                        DropHelper.DropItem(player, mod.ItemType("MLGRune")); // Demon Trophy
+                        DropHelper.DropItem(player, ModContent.ItemType<MLGRune>()); // Demon Trophy
                         break;
 
                     // Destroyer
                     case ItemID.DestroyerBossBag:
                         float shpcChance = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : DropHelper.LegendaryDropRateFloat;
-                        DropHelper.DropItemCondition(player, mod.ItemType("SHPC"), CalamityWorld.revenge, shpcChance);
+                        DropHelper.DropItemCondition(player, ModContent.ItemType<SHPC>(), CalamityWorld.revenge, shpcChance);
                         break;
 
                     // Plantera
                     case ItemID.PlanteraBossBag:
-                        DropHelper.DropItem(player, mod.ItemType("LivingShard"), 8, 11);
+                        DropHelper.DropItem(player, ModContent.ItemType<LivingShard>(), 8, 11);
                         float bFluxChance = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : DropHelper.LegendaryDropRateFloat;
-                        DropHelper.DropItemCondition(player, mod.ItemType("BlossomFlux"), CalamityWorld.revenge, bFluxChance);
+                        DropHelper.DropItemCondition(player, ModContent.ItemType<BlossomFlux>(), CalamityWorld.revenge, bFluxChance);
                         DropHelper.DropItemChance(player, ItemID.JungleKey, 5);
                         break;
 
                     // Golem
                     case ItemID.GolemBossBag:
                         float aegisChance = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : DropHelper.LegendaryDropRateFloat;
-                        DropHelper.DropItemCondition(player, mod.ItemType("AegisBlade"), CalamityWorld.revenge, aegisChance);
+                        DropHelper.DropItemCondition(player, ModContent.ItemType<AegisBlade>(), CalamityWorld.revenge, aegisChance);
                         break;
 
                     // Duke Fishron
                     case ItemID.FishronBossBag:
                         float baronChance = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : DropHelper.LegendaryDropRateFloat;
-                        DropHelper.DropItemCondition(player, mod.ItemType("BrinyBaron"), CalamityWorld.revenge, baronChance);
+                        DropHelper.DropItemCondition(player, ModContent.ItemType<BrinyBaron>(), CalamityWorld.revenge, baronChance);
                         break;
 
                     // Betsy
                     case ItemID.BossBagBetsy:
                         float vesuviusChance = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : DropHelper.LegendaryDropRateFloat;
-                        DropHelper.DropItemCondition(player, mod.ItemType("Vesuvius"), CalamityWorld.revenge, vesuviusChance);
+                        DropHelper.DropItemCondition(player, ModContent.ItemType<Vesuvius>(), CalamityWorld.revenge, vesuviusChance);
                         break;
 
                     // Moon Lord
                     case ItemID.MoonLordBossBag:
-                        DropHelper.DropItem(player, mod.ItemType("MLGRune2")); // Celestial Onion
-                        DropHelper.DropItemChance(player, mod.ItemType("UtensilPoker"), 8);
-                        DropHelper.DropItemChance(player, mod.ItemType("GrandDad"), DropHelper.RareVariantDropRateInt);
-                        DropHelper.DropItemChance(player, mod.ItemType("Infinity"), DropHelper.RareVariantDropRateInt);
+                        DropHelper.DropItem(player, ModContent.ItemType<MLGRune2>()); // Celestial Onion
+                        DropHelper.DropItemChance(player, ModContent.ItemType<UtensilPoker>(), 8);
+                        DropHelper.DropItemChance(player, ModContent.ItemType<GrandDad>(), DropHelper.RareVariantDropRateInt);
+                        DropHelper.DropItemChance(player, ModContent.ItemType<Infinity>(), DropHelper.RareVariantDropRateInt);
                         break;
                 }
             }
@@ -2379,7 +2379,7 @@ namespace CalamityMod.Items
         #region Goblin Money Theft (PostReforge)
         public override void PostReforge(Item item)
         {
-            if (NPC.AnyNPCs(mod.NPCType("Bandit")))
+            if (NPC.AnyNPCs(ModContent.NPCType<Bandit>()))
             {
                 int value = item.value;
                 ItemLoader.ReforgePrice(item, ref value, ref Main.LocalPlayer.discount);

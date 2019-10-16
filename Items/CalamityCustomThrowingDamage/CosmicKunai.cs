@@ -1,7 +1,7 @@
 using Terraria;
 using Terraria.ID;
 
-namespace CalamityMod.Items.CalamityCustomThrowingDamage
+namespace CalamityMod.Items
 {
     public class CosmicKunai : CalamityDamageItem
     {
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.height = 48;
             item.value = Item.buyPrice(1, 40, 0, 0);
             item.rare = 10;
-            item.shoot = mod.ProjectileType("CosmicKunai");
+            item.shoot = ModContent.ProjectileType<CosmicKunai>();
             item.shootSpeed = 28f;
             item.rare = 9;
             item.Calamity().rogue = true;

@@ -4,9 +4,9 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.CosmicWraith
+namespace CalamityMod.NPCs
 {
     public class CosmicLantern : ModNPC
     {
@@ -103,7 +103,7 @@ namespace CalamityMod.NPCs.CosmicWraith
         {
             if (CalamityWorld.revenge)
             {
-                player.AddBuff(mod.BuffType("MarkedforDeath"), 180);
+                player.AddBuff(ModContent.BuffType<MarkedforDeath>(), 180);
             }
         }
 

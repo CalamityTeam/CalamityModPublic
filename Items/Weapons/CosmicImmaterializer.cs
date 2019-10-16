@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class CosmicImmaterializer : ModItem
     {
@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons
             item.rare = 10;
             item.UseSound = SoundID.Item60;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("CosmicEnergy");
+            item.shoot = ModContent.ProjectileType<CosmicEnergySpiral>();
             item.shootSpeed = 10f;
             item.summon = true;
             item.Calamity().postMoonLordRarity = 15;
@@ -45,7 +45,7 @@ namespace CalamityMod.Items.Weapons
             for (int i = 0; i < Main.maxProjectiles; i++)
             {
                 Projectile p = Main.projectile[i];
-                if (p.active && p.type == mod.ProjectileType("CosmicEnergy") && p.owner == player.whoAmI)
+                if (p.active && p.type == ModContent.ProjectileType<CosmicEnergySpiral>() && p.owner == player.whoAmI)
                 {
                     return false;
                 }

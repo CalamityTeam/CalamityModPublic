@@ -2,9 +2,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class ElementalExcalibur : ModItem
     {
@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons
             item.height = 92;
             item.value = Item.buyPrice(5, 0, 0, 0);
             item.rare = 10;
-            item.shoot = mod.ProjectileType("ElementalExcaliburBeam");
+            item.shoot = ModContent.ProjectileType<ElementalExcaliburBeam>();
             item.shootSpeed = 12f;
             item.Calamity().postMoonLordRarity = 20;
         }
@@ -110,11 +110,11 @@ namespace CalamityMod.Items.Weapons
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("ExoFreeze"), 60);
-            target.AddBuff(mod.BuffType("BrimstoneFlames"), 240);
-            target.AddBuff(mod.BuffType("GlacialState"), 240);
-            target.AddBuff(mod.BuffType("Plague"), 240);
-            target.AddBuff(mod.BuffType("HolyLight"), 240);
+            target.AddBuff(ModContent.BuffType<ExoFreeze>(), 60);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 240);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 240);
+            target.AddBuff(ModContent.BuffType<Plague>(), 240);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 240);
             target.AddBuff(BuffID.CursedInferno, 240);
             target.AddBuff(BuffID.Frostburn, 240);
             target.AddBuff(BuffID.OnFire, 240);

@@ -2,9 +2,9 @@
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.AbyssNPCs
+namespace CalamityMod.NPCs
 {
     public class BoxJellyfish : ModNPC
     {
@@ -25,12 +25,12 @@ namespace CalamityMod.NPCs.AbyssNPCs
             npc.alpha = 20;
             npc.aiStyle = -1;
             aiType = -1;
-            npc.buffImmune[mod.BuffType("CrushDepth")] = true;
+            npc.buffImmune[ModContent.BuffType<CrushDepth>()] = true;
             npc.value = Item.buyPrice(0, 0, 0, 80);
             npc.HitSound = SoundID.NPCHit25;
             npc.DeathSound = SoundID.NPCDeath28;
             banner = npc.type;
-            bannerItem = mod.ItemType("BoxJellyfishBanner");
+            bannerItem = ModContent.ItemType<BoxJellyfishBanner>();
         }
 
         public override void AI()

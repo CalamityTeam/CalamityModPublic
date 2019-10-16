@@ -2,9 +2,9 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.HiveMind
+namespace CalamityMod.Items
 {
     public class ShadowdropStaff : ModItem
     {
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.HiveMind
             item.rare = 3;
             item.UseSound = SoundID.Item66;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("AuraRain");
+            item.shoot = ModContent.ProjectileType<AuraRain>();
             item.shootSpeed = 8f;
         }
 
@@ -90,7 +90,7 @@ namespace CalamityMod.Items.Weapons.HiveMind
                 num79 *= num80;
                 float speedX4 = num78 + (float)Main.rand.Next(-120, 121) * 0.02f;
                 float speedY5 = num79 + (float)Main.rand.Next(-120, 121) * 0.02f;
-                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, mod.ProjectileType("AuraRain"), damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(10));
+                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<AuraRain>(), damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(10));
             }
             return false;
         }

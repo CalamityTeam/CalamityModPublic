@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.RareVariants
+namespace CalamityMod.Items
 {
     public class PearlGod : ModItem
     {
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.RareVariants
             item.UseSound = SoundID.Item41;
             item.autoReuse = true;
             item.shootSpeed = 24f;
-            item.shoot = mod.ProjectileType("ShockblastRound");
+            item.shoot = ModContent.ProjectileType<ShockblastRound>();
             item.useAmmo = 97;
             item.Calamity().postMoonLordRarity = 22;
         }
@@ -44,9 +44,9 @@ namespace CalamityMod.Items.Weapons.RareVariants
             for (int index = 0; index < 2; ++index)
             {
                 float speedMult = (float)(index + 1) * 0.15f;
-                Projectile.NewProjectile(position.X, position.Y, speedX * speedMult, speedY * speedMult, mod.ProjectileType("FrostsparkBullet"), (int)((double)damage * 0.75), knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX * speedMult, speedY * speedMult, ModContent.ProjectileType<FrostsparkBullet>(), (int)((double)damage * 0.75), knockBack, player.whoAmI, 0f, 0f);
             }
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("ShockblastRound"), damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<ShockblastRound>(), damage, knockBack, player.whoAmI, 0f, 0f);
             return false;
         }
     }

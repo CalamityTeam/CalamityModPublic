@@ -2,9 +2,9 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.Yharon
+namespace CalamityMod.Items
 {
     public class PhoenixFlameBarrage : ModItem
     {
@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Yharon
             item.rare = 10;
             item.UseSound = SoundID.Item20;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("HolyFlame");
+            item.shoot = ModContent.ProjectileType<HolyFlame>();
             item.shootSpeed = 30f;
             item.Calamity().postMoonLordRarity = 14;
         }

@@ -4,9 +4,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Astral
+namespace CalamityMod.Projectiles
 {
     public class Quasar : ModProjectile
     {
@@ -81,10 +81,10 @@ namespace CalamityMod.Projectiles.Astral
                         }
                         speed.Normalize();
                         speed *= (float)Main.rand.Next(30, 61) * 0.1f * 2.5f;
-                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, speed.X, speed.Y, mod.ProjectileType("Quasar2"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, speed.X, speed.Y, ModContent.ProjectileType<Quasar2>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                     }
                     Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("RadiantExplosion"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<RadiantExplosion>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                     projectile.active = false;
                 }
             }
@@ -92,7 +92,7 @@ namespace CalamityMod.Projectiles.Astral
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("AstralInfectionDebuff"), 180);
+            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 180);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -106,7 +106,7 @@ namespace CalamityMod.Projectiles.Astral
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 27);
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, mod.DustType("AstralBlue"), projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
+                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, ModContent.DustType<AstralBlue>(), projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
             }
         }
     }

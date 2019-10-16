@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Boss
+namespace CalamityMod.Projectiles
 {
     public class Shadowflamethrower : ModProjectile
     {
@@ -69,11 +69,11 @@ namespace CalamityMod.Projectiles.Boss
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
             if (Main.rand.NextBool(6))
-                target.AddBuff(mod.BuffType("Shadowflame"), 240, true);
+                target.AddBuff(ModContent.BuffType<ShadowflameFireball>(), 240, true);
             else if (Main.rand.NextBool(4))
-                target.AddBuff(mod.BuffType("Shadowflame"), 150, true);
+                target.AddBuff(ModContent.BuffType<ShadowflameFireball>(), 150, true);
             else if (Main.rand.NextBool(2))
-                target.AddBuff(mod.BuffType("Shadowflame"), 90, true);
+                target.AddBuff(ModContent.BuffType<ShadowflameFireball>(), 90, true);
         }
     }
 }

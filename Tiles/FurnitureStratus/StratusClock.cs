@@ -2,10 +2,10 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 using Terraria.ObjectData;
 
-namespace CalamityMod.Tiles.FurnitureStratus
+namespace CalamityMod.Tiles
 {
     public class StratusClock : ModTile
     {
@@ -31,7 +31,7 @@ namespace CalamityMod.Tiles.FurnitureStratus
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Stratus Clock");
             AddMapEntry(new Color(191, 142, 111), name);
-            dustType = mod.DustType("Pixel");
+            dustType = ModContent.DustType<Pixel>();
             adjTiles = new int[] { TileID.GrandfatherClocks };
         }
 
@@ -113,7 +113,7 @@ namespace CalamityMod.Tiles.FurnitureStratus
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 48, 32, mod.ItemType("StratusClock"));
+            Item.NewItem(i * 16, j * 16, 48, 32, ModContent.ItemType<StratusClock>());
         }
     }
 }

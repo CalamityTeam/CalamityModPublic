@@ -1,7 +1,7 @@
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.CalamityCustomThrowingDamage
+namespace CalamityMod.Items
 {
     public class GelDart : CalamityDamageItem
     {
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.maxStack = 999;
             item.value = 1000;
             item.rare = 4;
-            item.shoot = mod.ProjectileType("GelDartProjectile");
+            item.shoot = ModContent.ProjectileType<GelDartProjectile>();
             item.shootSpeed = 14f;
             item.Calamity().rogue = true;
         }

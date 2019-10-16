@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Melee.Spears
+namespace CalamityMod.Projectiles
 {
     public class Brimlance : ModProjectile
     {
@@ -78,7 +78,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
                 int num251 = Main.rand.Next(2, 5);
                 if (projectile.owner == Main.myPlayer)
                 {
-                    Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("BrimlanceHellfireExplosion"), (int)((double)projectile.damage * 0.75), knockback, Main.myPlayer);
+                    Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<BrimlanceHellfireExplosion>(), (int)((double)projectile.damage * 0.75), knockback, Main.myPlayer);
                     for (int num252 = 0; num252 < num251; num252++)
                     {
                         Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
@@ -88,7 +88,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
                         }
                         value15.Normalize();
                         value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-                        Projectile.NewProjectile(target.Center.X, target.Center.Y, value15.X, value15.Y, mod.ProjectileType("BrimlanceStandingFire"), (int)((double)projectile.damage * 0.5), 0f, projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(target.Center.X, target.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<BrimlanceStandingFire>(), (int)((double)projectile.damage * 0.5), 0f, projectile.owner, 0f, 0f);
                     }
                 }
             }

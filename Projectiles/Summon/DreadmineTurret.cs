@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Summon
+namespace CalamityMod.Projectiles
 {
     public class DreadmineTurret : ModProjectile
     {
@@ -63,7 +63,7 @@ namespace CalamityMod.Projectiles.Summon
                 int num = 0;
                 for (int i = 0; i < 1000; i++)
                 {
-                    if (Main.projectile[i].active && Main.projectile[i].owner == Main.myPlayer && Main.projectile[i].type == mod.ProjectileType("Dreadmine"))
+                    if (Main.projectile[i].active && Main.projectile[i].owner == Main.myPlayer && Main.projectile[i].type == ModContent.ProjectileType<Dreadmine>())
                     {
                         num++;
                     }
@@ -109,7 +109,7 @@ namespace CalamityMod.Projectiles.Summon
                                     for (int k = 0; k < 1000; k++)
                                     {
                                         if (Main.projectile[k].active && Main.projectile[k].owner == Main.myPlayer &&
-                                            Main.projectile[k].type == mod.ProjectileType("Dreadmine") && (center - Main.projectile[k].Center).Length() < 48f)
+                                            Main.projectile[k].type == ModContent.ProjectileType<Dreadmine>() && (center - Main.projectile[k].Center).Length() < 48f)
                                         {
                                             flag = false;
                                             break;
@@ -117,7 +117,7 @@ namespace CalamityMod.Projectiles.Summon
                                     }
                                     if (flag && Main.myPlayer == projectile.owner)
                                     {
-                                        Projectile.NewProjectile(center.X, center.Y, 0f, 0f, mod.ProjectileType("Dreadmine"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                                        Projectile.NewProjectile(center.X, center.Y, 0f, 0f, ModContent.ProjectileType<Dreadmine>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                                     }
                                 }
                             }

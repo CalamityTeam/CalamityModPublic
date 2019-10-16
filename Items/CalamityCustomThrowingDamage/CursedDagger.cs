@@ -1,7 +1,7 @@
 using Terraria;
 using Terraria.ID;
 
-namespace CalamityMod.Items.CalamityCustomThrowingDamage
+namespace CalamityMod.Items
 {
     public class CursedDagger : CalamityDamageItem
     {
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.height = 34;
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.rare = 5;
-            item.shoot = mod.ProjectileType("CursedDagger");
+            item.shoot = ModContent.ProjectileType<CursedDagger>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;
         }

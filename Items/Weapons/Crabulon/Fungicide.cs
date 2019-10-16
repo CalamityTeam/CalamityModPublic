@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.Crabulon
+namespace CalamityMod.Items
 {
     public class Fungicide : ModItem
     {
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Crabulon
             item.rare = 2;
             item.UseSound = SoundID.Item61;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("FungiOrb");
+            item.shoot = ModContent.ProjectileType<FungiOrb>();
             item.shootSpeed = 14f;
             item.useAmmo = 97;
         }
@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Weapons.Crabulon
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("FungiOrb"), damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<FungiOrb>(), damage, knockBack, player.whoAmI, 0f, 0f);
             return false;
         }
     }

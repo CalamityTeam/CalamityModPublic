@@ -1,8 +1,8 @@
 using CalamityMod.CalPlayer;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Crabulon
+namespace CalamityMod.Items
 {
     public class FungalClump : ModItem
     {
@@ -39,13 +39,13 @@ namespace CalamityMod.Items.Crabulon
             modPlayer.fungalClump = true;
             if (player.whoAmI == Main.myPlayer)
             {
-                if (player.FindBuffIndex(mod.BuffType("FungalClump")) == -1)
+                if (player.FindBuffIndex(ModContent.BuffType<FungalClump>()) == -1)
                 {
-                    player.AddBuff(mod.BuffType("FungalClump"), 3600, true);
+                    player.AddBuff(ModContent.BuffType<FungalClump>(), 3600, true);
                 }
-                if (player.ownedProjectileCounts[mod.ProjectileType("FungalClump")] < 1)
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<FungalClump>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("FungalClump"), (int)(10f * player.minionDamage), 1f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<FungalClump>(), (int)(10f * player.minionDamage), 1f, Main.myPlayer, 0f, 0f);
                 }
             }
         }

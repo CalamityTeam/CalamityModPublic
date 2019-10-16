@@ -2,9 +2,9 @@
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Ranged
+namespace CalamityMod.Projectiles
 {
     public class DaemonsFlame : ModProjectile
     {
@@ -133,7 +133,7 @@ namespace CalamityMod.Projectiles.Ranged
                     }
                     float speedY = vector2.Y;
                     Vector2 vector3 = vector19 + Utils.RandomVector2(Main.rand, -15f, 15f);
-                    Projectile.NewProjectile(vector3.X, vector3.Y, vector2.X, vector2.Y, mod.ProjectileType("DaemonsFlameArrow"), weaponDamage2, weaponKnockback2, projectile.owner, 0.0f, speedY);
+                    Projectile.NewProjectile(vector3.X, vector3.Y, vector2.X, vector2.Y, ModContent.ProjectileType<DaemonsFlameArrow>(), weaponDamage2, weaponKnockback2, projectile.owner, 0.0f, speedY);
                 }
                 else
                 {

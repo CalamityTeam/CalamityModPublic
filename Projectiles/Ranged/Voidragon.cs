@@ -2,9 +2,9 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Ranged
+namespace CalamityMod.Projectiles
 {
     public class Voidragon : ModProjectile
     {
@@ -102,7 +102,7 @@ namespace CalamityMod.Projectiles.Ranged
         {
             if (projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("PlasmaExplosion"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 1f);
+                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<PlasmaExplosion>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 1f);
             }
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 10);
             for (int k = 0; k < 5; k++)

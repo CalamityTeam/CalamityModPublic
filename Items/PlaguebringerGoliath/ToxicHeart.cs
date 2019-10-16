@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.PlaguebringerGoliath
+namespace CalamityMod.Items
 {
     public class ToxicHeart : ModItem
     {
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.PlaguebringerGoliath
         {
             int plagueCounter = 0;
             Lighting.AddLight((int)(player.Center.X / 16f), (int)(player.Center.Y / 16f), 0.05f, 1f, 0.1f);
-            int num = mod.BuffType("Plague");
+            int num = ModContent.BuffType<Plague>();
             float num2 = 300f;
             bool flag = plagueCounter % 60 == 0;
             int num3 = 30;

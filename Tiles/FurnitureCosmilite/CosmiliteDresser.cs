@@ -5,10 +5,10 @@ using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.ID;
 using Terraria.Localization;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 using Terraria.ObjectData;
 
-namespace CalamityMod.Tiles.FurnitureCosmilite
+namespace CalamityMod.Tiles
 {
     public class CosmiliteDresser : ModTile
     {
@@ -37,7 +37,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Dressers };
             dresser = "Cosmilite Dresser";
-            dresserDrop = mod.ItemType("CosmiliteDresser");
+            dresserDrop = ModContent.ItemType<CosmiliteDresser>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -178,7 +178,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
                 }
                 if (player.showItemIconText == chest)
                 {
-                    player.showItemIcon2 = mod.ItemType("CosmiliteDresser");
+                    player.showItemIcon2 = ModContent.ItemType<CosmiliteDresser>();
                     player.showItemIconText = "";
                 }
             }
@@ -220,7 +220,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
                 }
                 if (player.showItemIconText == chest)
                 {
-                    player.showItemIcon2 = mod.ItemType("CosmiliteDresser");
+                    player.showItemIcon2 = ModContent.ItemType<CosmiliteDresser>();
                     player.showItemIconText = "";
                 }
             }

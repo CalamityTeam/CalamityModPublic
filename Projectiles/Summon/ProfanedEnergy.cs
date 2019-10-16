@@ -2,9 +2,9 @@
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Summon
+namespace CalamityMod.Projectiles
 {
     public class ProfanedEnergy : ModProjectile
     {
@@ -138,11 +138,11 @@ namespace CalamityMod.Projectiles.Summon
                     int projectileType = Main.rand.Next(2);
                     if (projectileType == 0)
                     {
-                        projectileType = mod.ProjectileType("FlameBlast");
+                        projectileType = ModContent.ProjectileType<FlameBlast>();
                     }
                     else
                     {
-                        projectileType = mod.ProjectileType("FlameBurst");
+                        projectileType = ModContent.ProjectileType<FlameBurst>();
                     }
                     float num403 = Main.rand.Next(20, 30); //modify the speed the projectile are shot.  Lower number = slower projectile.
                     Vector2 vector29 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);

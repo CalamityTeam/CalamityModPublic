@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.AbyssWeapons
+namespace CalamityMod.Items
 {
     public class BallOFugu : ModItem
     {
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.AbyssWeapons
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.channel = true;
-            item.shoot = mod.ProjectileType("BallOFugu");
+            item.shoot = ModContent.ProjectileType<BallOFugu>();
             item.shootSpeed = 12f;
         }
     }

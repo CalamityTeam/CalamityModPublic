@@ -2,9 +2,9 @@
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Patreon
+namespace CalamityMod.Projectiles
 {
     public class MadAlchemistsCocktailPurple : ModProjectile
     {
@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Patreon
                     Vector2 value17 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
                     value17.Normalize();
                     value17 *= (float)Main.rand.Next(10, 201) * 0.01f;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value17.X, value17.Y, mod.ProjectileType("MadAlchemistsCocktailShrapnel"), projectile.damage / 3, 0f, projectile.owner, 0f, (float)Main.rand.Next(-45, 1));
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value17.X, value17.Y, ModContent.ProjectileType<MadAlchemistsCocktailShrapnel>(), projectile.damage / 3, 0f, projectile.owner, 0f, (float)Main.rand.Next(-45, 1));
                 }
             }
         }

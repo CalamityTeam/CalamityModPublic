@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Astral
+namespace CalamityMod.Projectiles
 {
     public class AstralachneaFang : ModProjectile
     {
@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Astral
 
         public override void AI()
         {
-            int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, mod.DustType("AstralOrange"), 0f, 0f, 100, default, 1f);
+            int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 1f);
             Main.dust[num469].noGravity = true;
             Main.dust[num469].velocity *= 0f;
             if (projectile.velocity.X < 0f)
@@ -80,17 +80,17 @@ namespace CalamityMod.Projectiles.Astral
             Main.PlaySound(SoundID.Item10, projectile.position);
             for (int k = 0; k < 3; k++)
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, mod.DustType("AstralOrange"), 0f, 0f);
+                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f);
             }
             for (int k = 0; k < 3; k++)
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, mod.DustType("AstralBlue"), 0f, 0f);
+                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, ModContent.DustType<AstralBlue>(), 0f, 0f);
             }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("AstralInfectionDebuff"), 180);
+            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 180);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Melee
+namespace CalamityMod.Projectiles
 {
     public class BrinyTyphoonBubble : ModProjectile
     {
@@ -137,7 +137,7 @@ namespace CalamityMod.Projectiles.Melee
                         break;
                     }
                 }
-                int num335 = Projectile.NewProjectile((float)(num331 * 16 + 8), (float)(num330 * 16 - 24), 0f, 0f, mod.ProjectileType("BrinySpout"), projectile.damage, 6f, Main.myPlayer, 16f, 25f);
+                int num335 = Projectile.NewProjectile((float)(num331 * 16 + 8), (float)(num330 * 16 - 24), 0f, 0f, ModContent.ProjectileType<BrinySpout>(), projectile.damage, 6f, Main.myPlayer, 16f, 25f);
                 Main.projectile[num335].netUpdate = true;
             }
         }

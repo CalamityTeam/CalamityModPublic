@@ -5,9 +5,9 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.AbyssNPCs
+namespace CalamityMod.NPCs
 {
     public class LuminousCorvina : ModNPC
     {
@@ -30,13 +30,13 @@ namespace CalamityMod.NPCs.AbyssNPCs
             npc.lifeMax = 800;
             npc.aiStyle = -1;
             aiType = -1;
-            npc.buffImmune[mod.BuffType("CrushDepth")] = true;
+            npc.buffImmune[ModContent.BuffType<CrushDepth>()] = true;
             npc.value = Item.buyPrice(0, 0, 15, 0);
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
             npc.knockBackResist = 0.85f;
             banner = npc.type;
-            bannerItem = mod.ItemType("LuminousCorvinaBanner");
+            bannerItem = ModContent.ItemType<LuminousCorvinaBanner>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -87,7 +87,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
                             {
                                 if (!Main.player[npc.target].dead && Main.player[npc.target].active)
                                 {
-                                    Main.player[npc.target].AddBuff(mod.BuffType("FishAlert"), 360, true);
+                                    Main.player[npc.target].AddBuff(ModContent.BuffType<FishAlert>(), 360, true);
                                 }
                             }
                         }
@@ -265,7 +265,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(mod.BuffType("CrushDepth"), 180, true);
+            player.AddBuff(ModContent.BuffType<CrushDepth>(), 180, true);
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -279,24 +279,24 @@ namespace CalamityMod.NPCs.AbyssNPCs
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Voidstone"), Main.rand.Next(8, 16));
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Voidstone>(), Main.rand.Next(8, 16));
             if (Main.rand.NextBool(1000000) && CalamityWorld.revenge)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("HalibutCannon"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<HalibutCannon>());
             }
             if (NPC.downedPlantBoss || CalamityWorld.downedCalamitas)
             {
                 if (Main.rand.NextBool(2))
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Lumenite"));
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Lumenite>());
                 }
                 if (Main.rand.NextBool(2))
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DepthCells"), Main.rand.Next(1, 3));
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DepthCells>(), Main.rand.Next(1, 3));
                 }
                 if (Main.expertMode && Main.rand.NextBool(2))
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DepthCells"));
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DepthCells>());
                 }
             }
         }

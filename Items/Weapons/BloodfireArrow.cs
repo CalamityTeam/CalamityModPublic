@@ -1,7 +1,7 @@
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class BloodfireArrow : ModItem
     {
@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Weapons
             item.consumable = true;
             item.knockBack = 3.5f;
             item.value = 2000;
-            item.shoot = mod.ProjectileType("BloodfireArrow");
+            item.shoot = ModContent.ProjectileType<BloodfireArrow>();
             item.shootSpeed = 10f;
             item.ammo = 40;
             item.Calamity().postMoonLordRarity = 13;

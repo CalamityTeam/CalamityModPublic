@@ -2,9 +2,9 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Melee
+namespace CalamityMod.Projectiles
 {
     public class ProfanedSword : ModProjectile
     {
@@ -56,8 +56,8 @@ namespace CalamityMod.Projectiles.Melee
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.immune[projectile.owner] = 6;
-            target.AddBuff(mod.BuffType("BrimstoneFlames"), 180);
-            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("BrimlanceHellfireExplosion"), (int)((double)projectile.damage * 0.5), knockback, Main.myPlayer);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
+            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<BrimlanceHellfireExplosion>(), (int)((double)projectile.damage * 0.5), knockback, Main.myPlayer);
         }
     }
 }

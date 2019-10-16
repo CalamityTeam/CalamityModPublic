@@ -2,9 +2,9 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Ranged
+namespace CalamityMod.Projectiles
 {
     public class SulphuricAcidCannon2 : ModProjectile
     {
@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Ranged
                     Vector2 vector15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
                     vector15.Normalize();
                     vector15 *= (float)Main.rand.Next(50, 401) * 0.01f;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector15.X, vector15.Y, mod.ProjectileType("SulphuricAcidMist2"), (int)(250f * Main.player[projectile.owner].rangedDamage), 1f, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector15.X, vector15.Y, ModContent.ProjectileType<SulphuricAcidMist2>(), (int)(250f * Main.player[projectile.owner].rangedDamage), 1f, projectile.owner, 0f, 0f);
                 }
                 else
                     counter += 1f;

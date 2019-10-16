@@ -2,7 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 
-namespace CalamityMod.Items.CalamityCustomThrowingDamage
+namespace CalamityMod.Items
 {
     public class BlastBarrel : CalamityDamageItem
     {
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.autoReuse = true;
             item.value = Item.buyPrice(0, 12, 0, 0); //2 gold 40 silver sellprice
             item.rare = 4;
-            item.shoot = mod.ProjectileType("BlastBarrelProjectile");
+            item.shoot = ModContent.ProjectileType<BlastBarrelProjectile>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;
         }

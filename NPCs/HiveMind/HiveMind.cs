@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework;
 using System.IO;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.HiveMind
+namespace CalamityMod.NPCs
 {
     [AutoloadBossHead]
     public class HiveMind : ModNPC
@@ -30,8 +30,8 @@ namespace CalamityMod.NPCs.HiveMind
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
             aiType = -1;
-            npc.buffImmune[mod.BuffType("GlacialState")] = true;
-            npc.buffImmune[mod.BuffType("TemporalSadness")] = true;
+            npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
+            npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
             npc.knockBackResist = 0f;
             npc.boss = true;
             npc.value = 0f;
@@ -108,7 +108,7 @@ namespace CalamityMod.NPCs.HiveMind
                     if (npc.localAI[1] >= 600f)
                     {
                         npc.localAI[1] = 0f;
-                        NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("HiveBlob"), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+                        NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<HiveBlob>(), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
                     }
                 }
                 if (npc.localAI[0] == 0f)
@@ -116,7 +116,7 @@ namespace CalamityMod.NPCs.HiveMind
                     npc.localAI[0] = 1f;
                     for (int num723 = 0; num723 < 5; num723++)
                     {
-                        NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("HiveBlob"), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+                        NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<HiveBlob>(), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
                     }
                 }
             }
@@ -126,7 +126,7 @@ namespace CalamityMod.NPCs.HiveMind
             {
                 for (int num569 = 0; num569 < 200; num569++)
                 {
-                    if (Main.npc[num569].active && Main.npc[num569].type == mod.NPCType("DankCreeper"))
+                    if (Main.npc[num569].active && Main.npc[num569].type == ModContent.NPCType<DankCreeper>())
                     {
                         flag100 = true;
                         num568++;
@@ -158,10 +158,10 @@ namespace CalamityMod.NPCs.HiveMind
                         {
                             int x = (int)(npc.position.X + (float)Main.rand.Next(npc.width - 32));
                             int y = (int)(npc.position.Y + (float)Main.rand.Next(npc.height - 32));
-                            int num663 = mod.NPCType("HiveBlob");
+                            int num663 = ModContent.NPCType<HiveBlob>();
                             if (Main.rand.NextBool(3) || npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
                             {
-                                num663 = mod.NPCType("DankCreeper");
+                                num663 = ModContent.NPCType<DankCreeper>();
                             }
                             int num664 = NPC.NewNPC(x, y, num663, 0, 0f, 0f, 0f, 0f, 255);
                             Main.npc[num664].SetDefaults(num663, -1f);
@@ -298,9 +298,9 @@ namespace CalamityMod.NPCs.HiveMind
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/HiveMindGores/HiveMindGore4"), 1f);
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    if (NPC.CountNPCS(mod.NPCType("HiveMindP2")) < 1)
+                    if (NPC.CountNPCS(ModContent.NPCType<HiveMindP2>()) < 1)
                     {
-                        NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("HiveMindP2"), npc.whoAmI, 0f, 0f, 0f, 0f, npc.target);
+                        NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<HiveMindP2>(), npc.whoAmI, 0f, 0f, 0f, 0f, npc.target);
                         Main.PlaySound(15, (int)npc.Center.X, (int)npc.Center.Y, 0);
                     }
                 }
@@ -326,7 +326,7 @@ namespace CalamityMod.NPCs.HiveMind
         {
             if (CalamityWorld.revenge)
             {
-                player.AddBuff(mod.BuffType("Horror"), 300, true);
+                player.AddBuff(ModContent.BuffType<Horror>(), 300, true);
             }
         }
     }

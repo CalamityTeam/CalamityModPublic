@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.Calamitas
+namespace CalamityMod.Items
 {
     public class BrimstoneFlamesprayer : ModItem
     {
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Calamitas
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.rare = 7;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("BrimstoneFireFriendly");
+            item.shoot = ModContent.ProjectileType<BrimstoneFireFriendly>();
             item.shootSpeed = 8.5f;
             item.useAmmo = 23;
         }

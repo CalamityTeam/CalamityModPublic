@@ -2,9 +2,9 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Typeless
+namespace CalamityMod.Projectiles
 {
     public class NebulaStar : ModProjectile
     {
@@ -180,7 +180,7 @@ namespace CalamityMod.Projectiles.Typeless
                 Vector2 value10 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
                 value10.Normalize();
                 value10 *= 0.3f;
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value10.X, value10.Y, mod.ProjectileType("NebulaDust"), projectile.damage, 0f, projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value10.X, value10.Y, ModContent.ProjectileType<NebulaDust>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
             }
         }
 

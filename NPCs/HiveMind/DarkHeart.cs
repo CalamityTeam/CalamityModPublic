@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.HiveMind
+namespace CalamityMod.NPCs
 {
     public class DarkHeart : ModNPC
     {
@@ -112,7 +112,7 @@ namespace CalamityMod.NPCs.HiveMind
                     int num1169 = (int)(npc.position.X + 10f + (float)Main.rand.Next(npc.width - 20));
                     int num1170 = (int)(npc.position.Y + (float)npc.height + 4f);
                     int num184 = Main.expertMode ? 14 : 18;
-                    Projectile.NewProjectile((float)num1169, (float)num1170, 0f, 5f, mod.ProjectileType("ShaderainHostile"), num184, 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile((float)num1169, (float)num1170, 0f, 5f, ModContent.ProjectileType<ShaderainHostile>(), num184, 0f, Main.myPlayer, 0f, 0f);
                 }
             }
         }

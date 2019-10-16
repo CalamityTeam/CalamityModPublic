@@ -1,7 +1,7 @@
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Placeables.FurniturePlaguedPlate
+namespace CalamityMod.Items
 {
     public class PlaguedPlateSink : ModItem
     {
@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Placeables.FurniturePlaguedPlate
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = mod.TileType("PlaguedPlateSink");
+            item.createTile = ModContent.TileType<PlaguedPlateSink>();
         }
 
         public override void AddRecipes()

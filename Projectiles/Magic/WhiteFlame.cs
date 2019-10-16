@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Magic
+namespace CalamityMod.Projectiles
 {
     public class WhiteFlame : ModProjectile
     {
@@ -49,14 +49,14 @@ namespace CalamityMod.Projectiles.Magic
                     }
                     value15.Normalize();
                     value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-                    Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), value15.X, value15.Y, mod.ProjectileType("WhiteFlame2"), (int)(double)projectile.damage, 0f, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), value15.X, value15.Y, ModContent.ProjectileType<WhiteFlame2>(), (int)(double)projectile.damage, 0f, projectile.owner, 0f, 0f);
                 }
             }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("HolyLight"), 360);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 360);
         }
     }
 }

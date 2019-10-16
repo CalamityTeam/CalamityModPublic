@@ -1,7 +1,7 @@
 ﻿using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Melee
+namespace CalamityMod.Projectiles
 {
     public class LaserFountain : ModProjectile
     {
@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 if (projectile.owner == Main.myPlayer)
                 {
-                    int projectile1 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, SpeedX, SpeedY, mod.ProjectileType("NebulaShot"), (int)(350f * Main.player[projectile.owner].meleeDamage), projectile.knockBack, projectile.owner, 0f, 0f);
+                    int projectile1 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, SpeedX, SpeedY, ModContent.ProjectileType<NebulaShot>(), (int)(350f * Main.player[projectile.owner].meleeDamage), projectile.knockBack, projectile.owner, 0f, 0f);
                     Main.projectile[projectile1].Calamity().forceMelee = true;
                     Main.projectile[projectile1].aiStyle = 1;
                 }

@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Boss
+namespace CalamityMod.Projectiles
 {
     public class HolyFire : ModProjectile
     {
@@ -71,16 +71,16 @@ namespace CalamityMod.Projectiles.Boss
             {
                 if (projectile.owner == Main.myPlayer)
                 {
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0.01f, 0f, mod.ProjectileType("HolyFire2"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, -0.01f, 0f, mod.ProjectileType("HolyFire2"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0.01f, 0f, ModContent.ProjectileType<HolyFire2>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, -0.01f, 0f, ModContent.ProjectileType<HolyFire2>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                 }
             }
             else
             {
                 if (projectile.owner == Main.myPlayer)
                 {
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0.05f, 0f, mod.ProjectileType("HolyFire2"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, -0.05f, 0f, mod.ProjectileType("HolyFire2"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0.05f, 0f, ModContent.ProjectileType<HolyFire2>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, -0.05f, 0f, ModContent.ProjectileType<HolyFire2>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                 }
             }
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 20);
@@ -109,7 +109,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(mod.BuffType("HolyLight"), 120);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
         }
     }
 }

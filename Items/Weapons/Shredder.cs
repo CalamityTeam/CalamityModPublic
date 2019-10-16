@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class Shredder : ModItem
     {
@@ -67,7 +67,7 @@ namespace CalamityMod.Items.Weapons
                 {
                     float SpeedX = speedX + (float)Main.rand.Next(-30, 31) * 0.05f;
                     float SpeedY = speedY + (float)Main.rand.Next(-30, 31) * 0.05f;
-                    int shot = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, mod.ProjectileType("ChargedBlast"), damage, knockBack, player.whoAmI, 0f, 0f);
+                    int shot = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<ChargedBlast>(), damage, knockBack, player.whoAmI, 0f, 0f);
                     Main.projectile[shot].timeLeft = 180;
                 }
                 return false;

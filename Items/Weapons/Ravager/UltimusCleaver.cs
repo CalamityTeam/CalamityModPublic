@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.Ravager
+namespace CalamityMod.Items
 {
     public class UltimusCleaver : ModItem
     {
@@ -96,7 +96,7 @@ namespace CalamityMod.Items.Weapons.Ravager
                     num342 *= (float)player.direction;
                     num341 *= player.gravDir;
                     Projectile.NewProjectile((float)(hitbox.X + hitbox.Width / 2) + num342, (float)(hitbox.Y + hitbox.Height / 2) + num341,
-                        (float)player.direction * num340, num339 * player.gravDir, mod.ProjectileType("UltimusCleaverDust"), (int)((float)item.damage * 0.1f * player.meleeDamage), 0f, player.whoAmI, 0f, 0f);
+                        (float)player.direction * num340, num339 * player.gravDir, ModContent.ProjectileType<UltimusCleaverDust>(), (int)((float)item.damage * 0.1f * player.meleeDamage), 0f, player.whoAmI, 0f, 0f);
                 }
             }
         }

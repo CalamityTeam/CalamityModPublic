@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Fishing
+namespace CalamityMod.Items
 {
     public class AstrophageItem : ModItem
     {
@@ -15,8 +15,8 @@ namespace CalamityMod.Items.Fishing
         public override void SetDefaults()
         {
             item.CloneDefaults(ItemID.ZephyrFish);
-            item.shoot = mod.ProjectileType("Astrophage");
-            item.buffType = mod.BuffType("AstrophageBuff");
+            item.shoot = ModContent.ProjectileType<Astrophage>();
+            item.buffType = ModContent.BuffType<AstrophageBuff>();
             item.rare = 5;
         }
 

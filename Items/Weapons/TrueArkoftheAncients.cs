@@ -2,9 +2,9 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class TrueArkoftheAncients : ModItem
     {
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons
             item.height = 60;
             item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;
-            item.shoot = mod.ProjectileType("EonBeam");
+            item.shoot = ModContent.ProjectileType<EonBeam>();
             item.shootSpeed = 12f;
         }
 
@@ -38,10 +38,10 @@ namespace CalamityMod.Items.Weapons
             switch (Main.rand.Next(2))
             {
                 case 0:
-                    type = mod.ProjectileType("EonBeam");
+                    type = ModContent.ProjectileType<EonBeam>();
                     break;
                 case 1:
-                    type = mod.ProjectileType("EonBeamV2");
+                    type = ModContent.ProjectileType<EonBeamV2>();
                     break;
             }
             Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, Main.myPlayer);
@@ -95,7 +95,7 @@ namespace CalamityMod.Items.Weapons
                 float speedY5 = num79 + (float)Main.rand.Next(-160, 161) * 0.02f;
                 int proj = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, 92, damage / 3, num74, i, 0f, (float)Main.rand.Next(10));
                 Main.projectile[proj].Calamity().forceMelee = true;
-                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, mod.ProjectileType("TerraBall"), damage / 3, num74, i, 0f, (float)Main.rand.Next(5));
+                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<TerraBall>(), damage / 3, num74, i, 0f, (float)Main.rand.Next(5));
             }
             return false;
         }
@@ -138,7 +138,7 @@ namespace CalamityMod.Items.Weapons
         {
             if (Main.rand.NextBool(2))
             {
-                target.AddBuff(mod.BuffType("HolyLight"), 300);
+                target.AddBuff(ModContent.BuffType<HolyFlames>(), 300);
             }
         }
     }

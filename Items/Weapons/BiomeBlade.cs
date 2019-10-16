@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class BiomeBlade : ModItem
     {
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons
             item.height = 42;
             item.value = Item.buyPrice(0, 12, 0, 0);
             item.rare = 4;
-            item.shoot = mod.ProjectileType("BiomeOrb");
+            item.shoot = ModContent.ProjectileType<BiomeOrb>();
             item.shootSpeed = 12f;
         }
 

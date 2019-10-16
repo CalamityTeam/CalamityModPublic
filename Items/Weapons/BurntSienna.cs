@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class BurntSienna : ModItem
     {
@@ -37,9 +37,9 @@ namespace CalamityMod.Items.Weapons
             {
                 float randomSpeedX = (float)Main.rand.Next(3);
                 float randomSpeedY = (float)Main.rand.Next(3, 5);
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, -randomSpeedX, -randomSpeedY, mod.ProjectileType("BurntSienna"), 0, 0f, player.whoAmI);
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, randomSpeedX, -randomSpeedY, mod.ProjectileType("BurntSienna"), 0, 0f, player.whoAmI);
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, -randomSpeedY, mod.ProjectileType("BurntSienna"), 0, 0f, player.whoAmI);
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, -randomSpeedX, -randomSpeedY, ModContent.ProjectileType<BurntSienna>(), 0, 0f, player.whoAmI);
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, randomSpeedX, -randomSpeedY, ModContent.ProjectileType<BurntSienna>(), 0, 0f, player.whoAmI);
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, -randomSpeedY, ModContent.ProjectileType<BurntSienna>(), 0, 0f, player.whoAmI);
             }
         }
 

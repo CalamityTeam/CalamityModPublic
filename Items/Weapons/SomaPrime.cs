@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class SomaPrime : ModItem
     {
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons
             item.rare = 10;
             item.UseSound = SoundID.Item40;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("SlashRound");
+            item.shoot = ModContent.ProjectileType<SlashRound>();
             item.shootSpeed = 30f;
             item.useAmmo = 97;
             item.Calamity().postMoonLordRarity = 16;
@@ -57,7 +57,7 @@ namespace CalamityMod.Items.Weapons
             {
                 float SpeedX = speedX + (float)Main.rand.Next(-10, 11) * 0.05f;
                 float SpeedY = speedY + (float)Main.rand.Next(-10, 11) * 0.05f;
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, mod.ProjectileType("SlashRound"), damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<SlashRound>(), damage, knockBack, player.whoAmI, 0f, 0f);
             }
             return false;
         }

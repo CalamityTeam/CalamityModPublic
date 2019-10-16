@@ -1,9 +1,9 @@
 ﻿using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.BrimstoneWaifu
+namespace CalamityMod.Items
 {
     public class CharredIdol : ModItem
     {
@@ -29,12 +29,12 @@ namespace CalamityMod.Items.BrimstoneWaifu
         public override bool CanUseItem(Player player)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            return modPlayer.ZoneCalamity && !NPC.AnyNPCs(mod.NPCType("BrimstoneElemental"));
+            return modPlayer.ZoneCalamity && !NPC.AnyNPCs(ModContent.NPCType<BrimstoneElemental>());
         }
 
         public override bool UseItem(Player player)
         {
-            NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("BrimstoneElemental"));
+            NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<BrimstoneElemental>());
             Main.PlaySound(SoundID.Roar, player.position, 0);
             return true;
         }

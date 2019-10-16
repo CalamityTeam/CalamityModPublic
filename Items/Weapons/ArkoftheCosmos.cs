@@ -2,9 +2,9 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class ArkoftheCosmos : ModItem
     {
@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons
             item.height = 102;
             item.value = Item.buyPrice(2, 50, 0, 0);
             item.rare = 10;
-            item.shoot = mod.ProjectileType("EonBeam");
+            item.shoot = ModContent.ProjectileType<EonBeam>();
             item.shootSpeed = 28f;
             item.Calamity().postMoonLordRarity = 15;
         }
@@ -42,16 +42,16 @@ namespace CalamityMod.Items.Weapons
             switch (Main.rand.Next(4))
             {
                 case 0:
-                    type = mod.ProjectileType("EonBeam");
+                    type = ModContent.ProjectileType<EonBeam>();
                     break;
                 case 1:
-                    type = mod.ProjectileType("EonBeamV2");
+                    type = ModContent.ProjectileType<EonBeamV2>();
                     break;
                 case 2:
-                    type = mod.ProjectileType("EonBeamV3");
+                    type = ModContent.ProjectileType<EonBeamV3>();
                     break;
                 case 3:
-                    type = mod.ProjectileType("EonBeamV4");
+                    type = ModContent.ProjectileType<EonBeamV4>();
                     break;
             }
             int projectile = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, Main.myPlayer);
@@ -91,7 +91,7 @@ namespace CalamityMod.Items.Weapons
                 num79 *= num80;
                 float speedX4 = num78 + (float)Main.rand.Next(-360, 361) * 0.02f;
                 float speedY5 = num79 + (float)Main.rand.Next(-360, 361) * 0.02f;
-                int projectileFire = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, mod.ProjectileType("Galaxia2"), damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(3));
+                int projectileFire = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<Galaxia2>(), damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(3));
                 Main.projectile[projectileFire].timeLeft = 80;
             }
             return false;

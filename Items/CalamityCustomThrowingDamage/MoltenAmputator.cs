@@ -1,7 +1,7 @@
 using Terraria;
 using Terraria.ID;
 
-namespace CalamityMod.Items.CalamityCustomThrowingDamage
+namespace CalamityMod.Items
 {
     public class MoltenAmputator : CalamityDamageItem
     {
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.height = 60;
             item.value = Item.buyPrice(1, 20, 0, 0);
             item.rare = 10;
-            item.shoot = mod.ProjectileType("MoltenAmputator");
+            item.shoot = ModContent.ProjectileType<MoltenAmputator>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;
             item.Calamity().postMoonLordRarity = 12;

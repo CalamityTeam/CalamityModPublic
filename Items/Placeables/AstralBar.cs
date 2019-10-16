@@ -1,9 +1,9 @@
 ﻿
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Placeables
+namespace CalamityMod.Items
 {
     public class AstralBar : ModItem
     {
@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Placeables
 
         public override void SetDefaults()
         {
-            item.createTile = mod.TileType("AstralBar");
+            item.createTile = ModContent.TileType<AstralBar>();
             item.useStyle = 1;
             item.useTurn = true;
             item.useAnimation = 15;
@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Placeables
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "Stardust", 3);
-            recipe.AddIngredient(mod.ItemType("AstralOre"), 2);
+            recipe.AddIngredient(ModContent.ItemType<AstralOre>(), 2);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

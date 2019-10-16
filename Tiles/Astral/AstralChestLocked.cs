@@ -6,10 +6,10 @@ using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.ID;
 using Terraria.Localization;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 using Terraria.ObjectData;
 
-namespace CalamityMod.Tiles.Astral
+namespace CalamityMod.Tiles
 {
     public class AstralChestLocked : ModTile
     {
@@ -39,11 +39,11 @@ namespace CalamityMod.Tiles.Astral
             name = CreateMapEntryName(Name + "_Locked"); // With multiple map entries, you need unique translation keys.
             name.SetDefault("Locked Astral Chest");
             AddMapEntry(new Color(174, 129, 92), name, MapChestName);
-            dustType = mod.DustType("AstralBasic");
+            dustType = ModContent.DustType<AstralBasic>();
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Containers };
             chest = "Astral Chest";
-            chestDrop = mod.ItemType("AstralChest");
+            chestDrop = ModContent.ItemType<AstralChest>();
         }
 
         public override ushort GetMapOption(int i, int j) => (ushort)(Main.tile[i, j].frameX / 36);
@@ -224,7 +224,7 @@ namespace CalamityMod.Tiles.Astral
                 player.showItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : "Astral Chest";
                 if (player.showItemIconText == "Astral Chest")
                 {
-                    player.showItemIcon2 = mod.ItemType("AstralChest");
+                    player.showItemIcon2 = ModContent.ItemType<AstralChest>();
                     player.showItemIconText = "";
                 }
             }

@@ -2,9 +2,9 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class RelicofRuin : ModItem
     {
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons
             item.rare = 5;
             item.UseSound = SoundID.Item84;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("ForbiddenAxeBlade");
+            item.shoot = ModContent.ProjectileType<ForbiddenAxeBlade>();
             item.shootSpeed = 30f;
         }
 

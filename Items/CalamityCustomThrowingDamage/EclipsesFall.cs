@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.CalamityCustomThrowingDamage
+namespace CalamityMod.Items
 {
     public class EclipsesFall : CalamityDamageItem
     {
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.value = Item.buyPrice(1, 80, 0, 0);
             item.rare = 10;
             item.Calamity().postMoonLordRarity = 14;
-            item.shoot = mod.ProjectileType("EclipsesFallMain");
+            item.shoot = ModContent.ProjectileType<EclipsesFallMain>();
             item.shootSpeed = 15f;
             item.Calamity().rogue = true;
         }
@@ -38,7 +38,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
         {
             if (player.Calamity().StealthStrikeAvailable())
             {
-                int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("EclipsesStealth"), damage, knockBack, player.whoAmI, 0f, 0f);
+                int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<EclipsesStealth>(), damage, knockBack, player.whoAmI, 0f, 0f);
                 Main.projectile[p].Calamity().stealthStrike = true;
             }
             else
@@ -52,8 +52,8 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.DayBreak, 1);
-            recipe.AddIngredient(mod.ItemType("DarksunFragment"), 15);
-            recipe.AddIngredient(mod.ItemType("CoreofCinder"), 6);
+            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 15);
+            recipe.AddIngredient(ModContent.ItemType<CoreofCinder>(), 6);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

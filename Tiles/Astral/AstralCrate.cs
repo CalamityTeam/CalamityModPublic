@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 using Terraria.ObjectData;
 
-namespace CalamityMod.Tiles.Astral
+namespace CalamityMod.Tiles
 {
     public class AstralCrate : ModTile
     {
@@ -22,18 +22,18 @@ namespace CalamityMod.Tiles.Astral
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Astral Crate");
             AddMapEntry(new Color(47, 66, 90), name);
-            dustType = mod.DustType("AstralBlue");
+            dustType = ModContent.DustType<AstralBlue>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)
         {
             if (Main.rand.NextBool(2))
             {
-                type = mod.DustType("AstralOrange");
+                type = ModContent.DustType<AstralOrange>();
             }
             else
             {
-                type = mod.DustType("AstralBlue");
+                type = ModContent.DustType<AstralBlue>();
             }
             return true;
         }
@@ -45,7 +45,7 @@ namespace CalamityMod.Tiles.Astral
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 16, 32, mod.ItemType("AstralCrate"));
+            Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<AstralCrate>());
         }
     }
 }

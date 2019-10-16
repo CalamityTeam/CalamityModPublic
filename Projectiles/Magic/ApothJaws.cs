@@ -1,8 +1,8 @@
 using System;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Magic
+namespace CalamityMod.Projectiles
 {
     public class ApothJaws : ModProjectile
     {
@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Magic
                 double angle = (double)Main.rand.Next(360) * Math.PI / 180;
                 float offsetX = projectile.position.X + (float)Main.rand.Next((int)projectile.width);
                 float offsetY = projectile.position.Y + (float)Main.rand.Next((int)projectile.height);
-                Projectile.NewProjectile(offsetX, offsetY, 14 * (float)Math.Cos(angle), 14 * (float)Math.Sin(angle), mod.ProjectileType("ApothChloro"), projectile.damage, projectile.knockBack / 2, Main.myPlayer);
+                Projectile.NewProjectile(offsetX, offsetY, 14 * (float)Math.Cos(angle), 14 * (float)Math.Sin(angle), ModContent.ProjectileType<ApothChloro>(), projectile.damage, projectile.knockBack / 2, Main.myPlayer);
             }
             if (projectile.timeLeft < 30)
                 projectile.alpha = projectile.alpha + 6;
@@ -66,12 +66,12 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("GodSlayerInferno"), 600, true);
-            target.AddBuff(mod.BuffType("DemonFlames"), 600, true);
-            target.AddBuff(mod.BuffType("ArmorCrunch"), 600, true);
+            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 600, true);
+            target.AddBuff(ModContent.BuffType<DemonFlames>(), 600, true);
+            target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 600, true);
             if (Main.rand.NextBool(30))
             {
-                target.AddBuff(mod.BuffType("ExoFreeze"), 120, true);
+                target.AddBuff(ModContent.BuffType<ExoFreeze>(), 120, true);
             }
         }
     }

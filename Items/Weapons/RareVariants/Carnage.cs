@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.RareVariants
+namespace CalamityMod.Items
 {
     public class Carnage : ModItem
     {
@@ -76,7 +76,7 @@ namespace CalamityMod.Items.Weapons.RareVariants
                     }
                     value15.Normalize();
                     value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-                    Projectile.NewProjectile(target.Center.X, target.Center.Y, value15.X, value15.Y, mod.ProjectileType("Blood"), (int)((float)item.damage * player.meleeDamage), knockback, player.whoAmI, 0f, 0f);
+                    Projectile.NewProjectile(target.Center.X, target.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<Blood>(), (int)((float)item.damage * player.meleeDamage), knockback, player.whoAmI, 0f, 0f);
                 }
             }
         }

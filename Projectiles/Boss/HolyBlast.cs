@@ -2,9 +2,9 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Boss
+namespace CalamityMod.Projectiles
 {
     public class HolyBlast : ModProjectile
     {
@@ -96,8 +96,8 @@ namespace CalamityMod.Projectiles.Boss
                 for (i = 0; i < 4; i++)
                 {
                     offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                    Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), mod.ProjectileType("HolyFire2"), projectile.damage, 0f, Main.myPlayer, 0f, 0f);
-                    Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), mod.ProjectileType("HolyFire2"), projectile.damage, 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<HolyFire2>(), projectile.damage, 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<HolyFire2>(), projectile.damage, 0f, Main.myPlayer, 0f, 0f);
                 }
             }
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 20);
@@ -118,7 +118,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(mod.BuffType("HolyLight"), 240);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 240);
         }
     }
 }

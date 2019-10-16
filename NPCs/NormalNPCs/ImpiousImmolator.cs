@@ -3,9 +3,9 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.NormalNPCs
+namespace CalamityMod.NPCs
 {
     public class ImpiousImmolator : ModNPC
     {
@@ -39,7 +39,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.DeathSound = SoundID.NPCDeath7;
             npc.knockBackResist = 0.2f;
             banner = npc.type;
-            bannerItem = mod.ItemType("ImpiousImmolatorBanner");
+            bannerItem = ModContent.ItemType<ImpiousImmolatorBanner>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -140,7 +140,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                             {
                                 damage = 42;
                             }
-                            int beam = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, num6, num7, mod.ProjectileType("FlameBurstHostile"), damage, 0f, Main.myPlayer, 0f, 0f);
+                            int beam = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, num6, num7, ModContent.ProjectileType<FlameBurstHostile>(), damage, 0f, Main.myPlayer, 0f, 0f);
                             Main.projectile[beam].tileCollide = true;
                         }
                     }
@@ -261,15 +261,15 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             player.AddBuff(BuffID.OnFire, 180, true);
-            player.AddBuff(mod.BuffType("HolyLight"), 180, true);
+            player.AddBuff(ModContent.BuffType<HolyFlames>(), 180, true);
         }
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("UnholyEssence"), Main.rand.Next(2, 5));
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<UnholyEssence>(), Main.rand.Next(2, 5));
             if (Main.rand.NextBool(15))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EnergyStaff"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EnergyStaff>());
             }
         }
 

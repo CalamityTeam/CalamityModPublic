@@ -1,8 +1,8 @@
 ﻿using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Patreon
+namespace CalamityMod.Items
 {
     public class ForgottenDragonEgg : ModItem
     {
@@ -15,8 +15,8 @@ namespace CalamityMod.Items.Patreon
         public override void SetDefaults()
         {
             item.CloneDefaults(ItemID.ZephyrFish);
-            item.shoot = mod.ProjectileType("Akato");
-            item.buffType = mod.BuffType("AkatoYharonBuff");
+            item.shoot = ModContent.ProjectileType<Akato>();
+            item.buffType = ModContent.BuffType<AkatoYharonBuff>();
             item.rare = 10;
             item.Calamity().postMoonLordRarity = 21;
         }

@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Summon
+namespace CalamityMod.Projectiles
 {
     public class Cosmilamp : ModProjectile
     {
@@ -67,10 +67,10 @@ namespace CalamityMod.Projectiles.Summon
             Main.dust[num1262].velocity *= 0.1f;
             Main.dust[num1262].scale = 0.7f;
             Main.dust[num1262].noGravity = true;
-            bool flag64 = projectile.type == mod.ProjectileType("Cosmilamp");
+            bool flag64 = projectile.type == ModContent.ProjectileType<Cosmilamp>();
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            player.AddBuff(mod.BuffType("Cosmilamp"), 3600);
+            player.AddBuff(ModContent.BuffType<Cosmilamp>(), 3600);
             if (flag64)
             {
                 if (player.dead)
@@ -86,7 +86,7 @@ namespace CalamityMod.Projectiles.Summon
             for (int num534 = 0; num534 < 1000; num534 = num3 + 1)
             {
                 if (num534 != projectile.whoAmI && Main.projectile[num534].active && Main.projectile[num534].owner == projectile.owner &&
-                    Main.projectile[num534].type == mod.ProjectileType("Cosmilamp") &&
+                    Main.projectile[num534].type == ModContent.ProjectileType<Cosmilamp>() &&
                     Math.Abs(projectile.position.X - Main.projectile[num534].position.X) + Math.Abs(projectile.position.Y - Main.projectile[num534].position.Y) < (float)projectile.width)
                 {
                     if (projectile.position.X < Main.projectile[num534].position.X)

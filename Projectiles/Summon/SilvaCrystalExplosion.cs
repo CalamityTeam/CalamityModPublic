@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Summon
+namespace CalamityMod.Projectiles
 {
     public class SilvaCrystalExplosion : ModProjectile
     {
@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             Color newColor2 = Main.hslToRgb(projectile.ai[0], 1f, 0.5f);
             int num978 = (int)projectile.ai[1];
-            if (num978 < 0 || num978 >= 1000 || (!Main.projectile[num978].active && Main.projectile[num978].type != mod.ProjectileType("SilvaCrystal")))
+            if (num978 < 0 || num978 >= 1000 || (!Main.projectile[num978].active && Main.projectile[num978].type != ModContent.ProjectileType<SilvaCrystal>()))
             {
                 projectile.ai[1] = -1f;
             }

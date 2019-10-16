@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.SunkenSea
+namespace CalamityMod.Projectiles
 {
     public class ClamCrusherFlail : ModProjectile
     {
@@ -193,11 +193,11 @@ namespace CalamityMod.Projectiles.SunkenSea
             {
                 if (target.rarity != 2)
                 {
-                    target.AddBuff(mod.BuffType("SilvaStun"), 60);
+                    target.AddBuff(ModContent.BuffType<SilvaStun>(), 60);
                 }
                 else if (projectile.ai[1] >= 45f && (projectile.ai[0] != 1f || projectile.ai[0] != 2f))
                 {
-                    target.AddBuff(mod.BuffType("SilvaStun"), 30);
+                    target.AddBuff(ModContent.BuffType<SilvaStun>(), 30);
                 }
             }
             projectile.ai[0] = 1f;

@@ -1,7 +1,7 @@
 using Terraria;
 using Terraria.ID;
 
-namespace CalamityMod.Items.CalamityCustomThrowingDamage
+namespace CalamityMod.Items
 {
     public class GhoulishGouger : CalamityDamageItem
     {
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.height = 60;
             item.value = Item.buyPrice(1, 40, 0, 0);
             item.rare = 10;
-            item.shoot = mod.ProjectileType("GhoulishGouger");
+            item.shoot = ModContent.ProjectileType<GhoulishGouger>();
             item.shootSpeed = 20f;
             item.Calamity().rogue = true;
             item.Calamity().postMoonLordRarity = 13;

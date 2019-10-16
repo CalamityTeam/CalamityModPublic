@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class SDFMG : ModItem
     {
@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Weapons
             float SpeedY = speedY + (float)Main.rand.Next(-5, 6) * 0.05f;
             if (Main.rand.NextBool(5))
             {
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, mod.ProjectileType("FishronRPG"), damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<FishronRPG>(), damage, knockBack, player.whoAmI, 0f, 0f);
             }
             Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
             return false;

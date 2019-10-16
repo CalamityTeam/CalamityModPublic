@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.Providence
+namespace CalamityMod.Items
 {
     public class TelluricGlare : ModItem
     {
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Providence
             item.rare = 10;
             item.UseSound = SoundID.Item5;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("TelluricGlare");
+            item.shoot = ModContent.ProjectileType<TelluricGlare>();
             item.shootSpeed = 12f;
             item.useAmmo = 40;
             item.Calamity().postMoonLordRarity = 12;
@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Providence
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("TelluricGlare"), damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<TelluricGlare>(), damage, knockBack, player.whoAmI, 0f, 0f);
             return false;
         }
     }

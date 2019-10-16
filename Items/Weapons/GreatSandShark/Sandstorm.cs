@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.GreatSandShark
+namespace CalamityMod.Items
 {
     public class Sandstorm : ModItem
     {
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.GreatSandShark
             item.UseSound = SoundID.Item11;
             item.autoReuse = true;
             item.shootSpeed = 12f;
-            item.shoot = mod.ProjectileType("SandstormBullet");
+            item.shoot = ModContent.ProjectileType<SandstormBullet>();
             item.useAmmo = AmmoID.Sand;
         }
 
@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Weapons.GreatSandShark
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("SandstormBullet"), damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<SandstormBullet>(), damage, knockBack, player.whoAmI, 0f, 0f);
             return false;
         }
 

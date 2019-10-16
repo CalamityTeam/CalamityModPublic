@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.SunkenSea
+namespace CalamityMod.Projectiles
 {
     public class Aquashard : ModProjectile
     {
@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.SunkenSea
                     }
                     value15.Normalize();
                     value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, mod.ProjectileType("AquashardSplit"), (int)((double)projectile.damage * 0.5), 0f, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<AquashardSplit>(), (int)((double)projectile.damage * 0.5), 0f, projectile.owner, 0f, 0f);
                 }
             }
         }

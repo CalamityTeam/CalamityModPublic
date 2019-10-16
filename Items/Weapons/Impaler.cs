@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class Impaler : ModItem
     {
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons
             item.rare = 8;
             item.UseSound = SoundID.Item5;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("FlamingStake");
+            item.shoot = ModContent.ProjectileType<FlamingStake>();
             item.shootSpeed = 10f;
             item.useAmmo = 1836;
         }
@@ -46,11 +46,11 @@ namespace CalamityMod.Items.Weapons
             float SpeedY = speedY + (float)Main.rand.Next(-2, 3) * 0.05f;
             if (Main.rand.NextBool(3))
             {
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, mod.ProjectileType("ExplodingStake"), damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<ExplodingStake>(), damage, knockBack, player.whoAmI, 0f, 0f);
             }
             else
             {
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, mod.ProjectileType("FlamingStake"), damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<FlamingStake>(), damage, knockBack, player.whoAmI, 0f, 0f);
             }
             return false;
         }

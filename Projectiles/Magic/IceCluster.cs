@@ -2,9 +2,9 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Magic
+namespace CalamityMod.Projectiles
 {
     public class IceCluster : ModProjectile
     {
@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Magic
                 if (projectile.ai[0] % 30f == 0f && Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     Vector2 vector80 = projectile.rotation.ToRotationVector2();
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector80.X, vector80.Y, mod.ProjectileType("IceCluster"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector80.X, vector80.Y, ModContent.ProjectileType<IceCluster>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                 }
                 Lighting.AddLight(projectile.Center, 0.3f, 0.75f, 0.9f);
             }
@@ -112,11 +112,11 @@ namespace CalamityMod.Projectiles.Magic
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.immune[projectile.owner] = 5;
-            target.AddBuff(mod.BuffType("GlacialState"), 120);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
             Vector2 vector80 = projectile.rotation.ToRotationVector2();
             if (projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector80.X, vector80.Y, mod.ProjectileType("IceCluster"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector80.X, vector80.Y, ModContent.ProjectileType<IceCluster>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
             }
         }
     }

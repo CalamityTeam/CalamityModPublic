@@ -4,9 +4,9 @@ using System;
 using Terraria;
 using Terraria.Enums;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Melee
+namespace CalamityMod.Projectiles
 {
     public class Nebulash : ModProjectile
     {
@@ -94,7 +94,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 for (int num51 = 0; num51 < 2; num51++)
                 {
-                    Dust dust = Main.dust[Dust.NewDust(projectile.position + projectile.velocity * 2f, projectile.width, projectile.height, mod.DustType("AstralOrange"), 0f, 0f, 100, new Color(255, 200, 0), 2f)];
+                    Dust dust = Main.dust[Dust.NewDust(projectile.position + projectile.velocity * 2f, projectile.width, projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, new Color(255, 200, 0), 2f)];
                     dust.noGravity = true;
                     dust.velocity *= 2f;
                     dust.velocity += projectile.localAI[0].ToRotationVector2();
@@ -215,10 +215,10 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("AstralInfectionDebuff"), 120);
+            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120);
             if (projectile.localAI[1] <= 0f && projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("Nebudust"), damage, knockback, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<Nebudust>(), damage, knockback, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
             }
             projectile.localAI[1] = 4f;
         }

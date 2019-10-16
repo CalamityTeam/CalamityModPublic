@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.Astral
+namespace CalamityMod.Items
 {
     public class HivePod : ModItem
     {
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Astral
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.rare = 7;
             item.UseSound = SoundID.Item78;
-            item.shoot = mod.ProjectileType("Hive");
+            item.shoot = ModContent.ProjectileType<Hive>();
         }
 
         public override bool AltFunctionUse(Player player)

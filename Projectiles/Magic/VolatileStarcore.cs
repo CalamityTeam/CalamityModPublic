@@ -1,10 +1,10 @@
-﻿using CalamityMod.Items.Weapons;
+﻿using CalamityMod.Items;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Magic
+namespace CalamityMod.Projectiles
 {
     public class VolatileStarcore : ModProjectile
     {
@@ -95,7 +95,7 @@ namespace CalamityMod.Projectiles.Magic
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.Daybreak, 900);
-            target.AddBuff(mod.BuffType("Irradiated"), 900);
+            target.AddBuff(ModContent.BuffType<Irradiated>(), 900);
         }
 
         public override void Kill(int timeLeft)
@@ -104,7 +104,7 @@ namespace CalamityMod.Projectiles.Magic
                 return;
 
             // Spawn a Helium Flash on impact
-            int type = mod.ProjectileType("HeliumFlashBlast");
+            int type = ModContent.ProjectileType<HeliumFlashBlast>();
             int damage = HeliumFlash.BaseDamage;
             float kb = 9.5f;
             Projectile.NewProjectile(projectile.Center, Vector2.Zero, type, damage, kb, projectile.owner, 0f, 0f);

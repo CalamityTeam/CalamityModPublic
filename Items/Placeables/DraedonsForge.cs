@@ -1,7 +1,7 @@
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Placeables
+namespace CalamityMod.Items
 {
     public class DraedonsForge : ModItem
     {
@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Placeables
             item.consumable = true;
             item.value = 5000000;
             item.rare = 10;
-            item.createTile = mod.TileType("DraedonsForge");
+            item.createTile = ModContent.TileType<DraedonsForge>();
             item.Calamity().postMoonLordRarity = 20;
         }
 

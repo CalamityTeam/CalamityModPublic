@@ -1,8 +1,8 @@
 ﻿using CalamityMod.CalPlayer;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.BrimstoneWaifu
+namespace CalamityMod.Items
 {
     public class RoseStone : ModItem
     {
@@ -43,13 +43,13 @@ namespace CalamityMod.Items.BrimstoneWaifu
             modPlayer.brimstoneWaifu = true;
             if (player.whoAmI == Main.myPlayer)
             {
-                if (player.FindBuffIndex(mod.BuffType("BrimstoneWaifu")) == -1)
+                if (player.FindBuffIndex(ModContent.BuffType<BrimstoneWaifu>()) == -1)
                 {
-                    player.AddBuff(mod.BuffType("BrimstoneWaifu"), 3600, true);
+                    player.AddBuff(ModContent.BuffType<BrimstoneWaifu>(), 3600, true);
                 }
-                if (player.ownedProjectileCounts[mod.ProjectileType("BigBustyRose")] < 1)
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<BigBustyRose>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("BigBustyRose"), (int)(45f * player.minionDamage), 2f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<BigBustyRose>(), (int)(45f * player.minionDamage), 2f, Main.myPlayer, 0f, 0f);
                 }
             }
         }

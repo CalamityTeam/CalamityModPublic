@@ -4,9 +4,9 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Patreon
+namespace CalamityMod.Projectiles
 {
     public class TimeBolt : ModProjectile
     {
@@ -293,7 +293,7 @@ namespace CalamityMod.Projectiles.Patreon
                 Main.dust[dust].scale = 0.3f;
             }
 
-            int buffType = mod.BuffType("TimeSlow");
+            int buffType = ModContent.BuffType<TimeSlow>();
             int damage = projectile.damage / 2;
 
             for (int i = 0; i < 200; i++)

@@ -1,13 +1,14 @@
+using CalamityMod.NPCs;
 using CalamityMod.Utilities;
 using CalamityMod.World;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Bumblefuck
+namespace CalamityMod.Items
 {
     public class BumblebirbBag : ModItem
     {
-        public override int BossBagNPC => mod.NPCType("Bumblefuck");
+        public override int BossBagNPC => ModContent.NPCType<Bumblefuck>();
 
         public override void SetStaticDefaults()
         {
@@ -35,14 +36,14 @@ namespace CalamityMod.Items.Bumblefuck
             player.TryGettingDevArmor();
 
             // Materials
-            DropHelper.DropItem(player, mod.ItemType("EffulgentFeather"), 9, 14);
+            DropHelper.DropItem(player, ModContent.ItemType<EffulgentFeather>(), 9, 14);
 
             // Weapons
-            DropHelper.DropItemFromSet(player, mod.ItemType("GildedProboscis"), mod.ItemType("GoldenEagle"), mod.ItemType("RougeSlash"));
-            DropHelper.DropItemChance(player, mod.ItemType("Swordsplosion"), DropHelper.RareVariantDropRateInt);
+            DropHelper.DropItemFromSet(player, ModContent.ItemType<GildedProboscis>(), ModContent.ItemType<GoldenEagle>(), ModContent.ItemType<RougeSlash>());
+            DropHelper.DropItemChance(player, ModContent.ItemType<Swordsplosion>(), DropHelper.RareVariantDropRateInt);
 
             // Equipment
-            DropHelper.DropItemCondition(player, mod.ItemType("RedLightningContainer"), CalamityWorld.revenge);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<RedLightningContainer>(), CalamityWorld.revenge);
         }
     }
 }

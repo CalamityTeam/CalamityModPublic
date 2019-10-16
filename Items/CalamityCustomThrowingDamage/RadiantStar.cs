@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.CalamityCustomThrowingDamage
+namespace CalamityMod.Items
 {
     public class RadiantStar : CalamityDamageItem
     {
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.height = 48;
             item.value = Item.buyPrice(0, 95, 0, 0);
             item.rare = 9;
-            item.shoot = mod.ProjectileType("RadiantStar");
+            item.shoot = ModContent.ProjectileType<RadiantStar>();
             item.shootSpeed = 20f;
             item.Calamity().rogue = true;
         }

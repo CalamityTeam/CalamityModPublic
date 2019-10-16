@@ -1,6 +1,6 @@
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Placeables.FurnitureSilva
+namespace CalamityMod.Items
 {
     public class SilvaCandle : ModItem
     {
@@ -19,14 +19,14 @@ namespace CalamityMod.Items.Placeables.FurnitureSilva
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = mod.TileType("SilvaCandle");
+            item.createTile = ModContent.TileType<SilvaCandle>();
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "SilvaCrystal", 4);
-            recipe.AddIngredient(mod.ItemType("EffulgentFeather"));
+            recipe.AddIngredient(ModContent.ItemType<EffulgentFeather>());
             recipe.SetResult(this);
             recipe.AddTile(null, "SilvaBasin");
             recipe.AddRecipe();

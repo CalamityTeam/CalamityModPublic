@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class DraconicDestruction : ModItem
     {
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons
             item.height = 94;
             item.value = Item.buyPrice(5, 0, 0, 0);
             item.rare = 10;
-            item.shoot = mod.ProjectileType("DracoBeam");
+            item.shoot = ModContent.ProjectileType<DracoBeam>();
             item.shootSpeed = 14f;
             item.Calamity().postMoonLordRarity = 16;
         }

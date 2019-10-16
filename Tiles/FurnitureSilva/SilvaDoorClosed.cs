@@ -3,10 +3,10 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 using Terraria.ObjectData;
 
-namespace CalamityMod.Tiles.FurnitureSilva
+namespace CalamityMod.Tiles
 {
     public class SilvaDoorClosed : ModTile
     {
@@ -43,12 +43,12 @@ namespace CalamityMod.Tiles.FurnitureSilva
             AddMapEntry(new Color(191, 142, 111), name);
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.ClosedDoor };
-            openDoorID = mod.TileType("SilvaDoorOpen");
+            openDoorID = ModContent.TileType<SilvaDoorOpen>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)
         {
-            Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, mod.DustType("SilvaTileGold"), 0f, 0f, 1, new Color(255, 255, 255), 1f);
+            Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, ModContent.DustType<SilvaTileGold>(), 0f, 0f, 1, new Color(255, 255, 255), 1f);
             Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, 157, 0f, 0f, 1, new Color(255, 255, 255), 1f);
             return false;
         }
@@ -65,7 +65,7 @@ namespace CalamityMod.Tiles.FurnitureSilva
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 16, 48, mod.ItemType("SilvaDoor"));
+            Item.NewItem(i * 16, j * 16, 16, 48, ModContent.ItemType<SilvaDoor>());
         }
 
         public override void MouseOver(int i, int j)
@@ -73,7 +73,7 @@ namespace CalamityMod.Tiles.FurnitureSilva
             Player player = Main.LocalPlayer;
             player.noThrow = 2;
             player.showItemIcon = true;
-            player.showItemIcon2 = mod.ItemType("SilvaDoor");
+            player.showItemIcon2 = ModContent.ItemType<SilvaDoor>();
         }
     }
 }

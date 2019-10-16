@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Permafrost
+namespace CalamityMod.Items
 {
     public class IcicleTrident : ModItem
     {
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Permafrost
             item.rare = 5;
             item.UseSound = SoundID.Item8;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("TridentIcicle");
+            item.shoot = ModContent.ProjectileType<TridentIcicle>();
             item.shootSpeed = 12f;
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

@@ -2,9 +2,9 @@ using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.FiniteUse
+namespace CalamityMod.Items
 {
     public class Hydra : ModItem
     {
@@ -31,8 +31,8 @@ namespace CalamityMod.Items.Weapons.FiniteUse
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/Hydra");
             item.autoReuse = true;
             item.shootSpeed = 12f;
-            item.shoot = mod.ProjectileType("ExplosiveShellBullet");
-            item.useAmmo = mod.ItemType("ExplosiveShells");
+            item.shoot = ModContent.ProjectileType<ExplosiveShellBullet>();
+            item.useAmmo = ModContent.ItemType<ExplosiveShells>();
             if (CalamityPlayer.areThereAnyDamnBosses)
             {
                 item.Calamity().timesUsed = 1;

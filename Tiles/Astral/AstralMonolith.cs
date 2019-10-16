@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Tiles.Astral
+namespace CalamityMod.Tiles
 {
     public class AstralMonolith : ModTile
     {
@@ -21,7 +21,7 @@ namespace CalamityMod.Tiles.Astral
             TileMerge.MergeTile(Type, TileID.LivingWood);
             TileMerge.MergeTile(Type, TileID.LivingMahogany);
 
-            drop = mod.ItemType("AstralMonolith");
+            drop = ModContent.ItemType<AstralMonolith>();
             AddMapEntry(new Color(45, 36, 63));
             animationFrameHeight = 270;
         }
@@ -29,7 +29,7 @@ namespace CalamityMod.Tiles.Astral
 
         public override bool CreateDust(int i, int j, ref int type)
         {
-            Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, mod.DustType("AstralBasic"), 0f, 0f, 1, new Color(255, 255, 255), 1f);
+            Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, ModContent.DustType<AstralBasic>(), 0f, 0f, 1, new Color(255, 255, 255), 1f);
             return false;
         }
 
@@ -70,7 +70,7 @@ namespace CalamityMod.Tiles.Astral
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            CustomTileFraming.FrameTileForCustomMerge(i, j, Type, mod.TileType("AstralDirt"), false, false, false, false, resetFrame);
+            CustomTileFraming.FrameTileForCustomMerge(i, j, Type, ModContent.TileType<AstralDirt>(), false, false, false, false, resetFrame);
             return false;
         }
 

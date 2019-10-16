@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class TriactisTruePaladinianMageHammerofMightMelee : ModItem
     {
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons
             item.height = 160;
             item.value = Item.buyPrice(5, 0, 0, 0);
             item.rare = 10;
-            item.shoot = mod.ProjectileType("TriactisOPHammerMelee");
+            item.shoot = ModContent.ProjectileType<TriactisOPHammerMelee>();
             item.shootSpeed = 25f;
             item.Calamity().postMoonLordRarity = 16;
         }

@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class ElementalEruption : ModItem
     {
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons
             item.value = Item.buyPrice(1, 20, 0, 0);
             item.rare = 10;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("TerraFireGreen2");
+            item.shoot = ModContent.ProjectileType<TerraFireGreen2>();
             item.shootSpeed = 10f;
             item.useAmmo = 23;
             item.Calamity().postMoonLordRarity = 12;

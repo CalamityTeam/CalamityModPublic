@@ -5,9 +5,9 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Boss
+namespace CalamityMod.Projectiles
 {
     public class Flare : ModProjectile
     {
@@ -170,7 +170,7 @@ namespace CalamityMod.Projectiles.Boss
                     }
                 }
                 int num235 = Main.expertMode ? 85 : 100;
-                int num236 = Projectile.NewProjectile((float)(num232 * 16 + 8), (float)(num231 * 16 - 24), 0f, 0f, mod.ProjectileType("Flarenado"), num235, 4f, Main.myPlayer, 11f, 8f + (revenge ? 2f : 0f));
+                int num236 = Projectile.NewProjectile((float)(num232 * 16 + 8), (float)(num231 * 16 - 24), 0f, 0f, ModContent.ProjectileType<Flarenado>(), num235, 4f, Main.myPlayer, 11f, 8f + (revenge ? 2f : 0f));
                 Main.projectile[num236].netUpdate = true;
             }
         }

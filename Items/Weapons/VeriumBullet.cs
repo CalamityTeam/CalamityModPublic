@@ -1,7 +1,7 @@
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class VeriumBullet : ModItem
     {
@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons
             item.knockBack = 1.25f;
             item.value = 500;
             item.rare = 3;
-            item.shoot = mod.ProjectileType("VeriumBullet");
+            item.shoot = ModContent.ProjectileType<VeriumBullet>();
             item.shootSpeed = 16f;
             item.ammo = 97;
         }

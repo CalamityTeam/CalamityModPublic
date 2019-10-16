@@ -1,10 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 using Terraria.ObjectData;
 
-namespace CalamityMod.Tiles.SunkenSea
+namespace CalamityMod.Tiles
 {
     public class BrainCoral : ModTile
     {
@@ -42,7 +42,7 @@ namespace CalamityMod.Tiles.SunkenSea
                             if (Main.tile[i, tileLocationY].liquid == 255 && Main.tile[i, tileLocationY - 1].liquid == 255 && Main.tile[i, tileLocationY - 2].liquid == 255)
                             {
                                 if (Main.netMode != NetmodeID.MultiplayerClient)
-                                    Projectile.NewProjectile((float)(i * 16 + 16), (float)(tileLocationY * 16 + 16), 0f, -0.1f, mod.ProjectileType("CoralBubble"), 0, 0f, Main.myPlayer, 0f, 0f);
+                                    Projectile.NewProjectile((float)(i * 16 + 16), (float)(tileLocationY * 16 + 16), 0f, -0.1f, ModContent.ProjectileType<CoralBubble>(), 0, 0f, Main.myPlayer, 0f, 0f);
                             }
                         }
                     }

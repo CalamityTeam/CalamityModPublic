@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.RareVariants
+namespace CalamityMod.Items
 {
     public class Cryophobia : ModItem
     {
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.RareVariants
             item.UseSound = SoundID.Item117;
             item.autoReuse = true;
             item.shootSpeed = 12f;
-            item.shoot = mod.ProjectileType("CryoBlast");
+            item.shoot = ModContent.ProjectileType<CryoBlast>();
             item.Calamity().postMoonLordRarity = 22;
         }
 

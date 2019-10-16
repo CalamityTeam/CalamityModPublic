@@ -1,7 +1,7 @@
 ﻿using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.BrimstoneWaifu
+namespace CalamityMod.Items
 {
     [AutoloadEquip(EquipType.Head)]
     public class Abaddon : ModItem
@@ -23,7 +23,7 @@ namespace CalamityMod.Items.BrimstoneWaifu
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.buffImmune[mod.BuffType("BrimstoneFlames")] = true;
+            player.buffImmune[ModContent.BuffType<BrimstoneFlames>()] = true;
         }
     }
 }

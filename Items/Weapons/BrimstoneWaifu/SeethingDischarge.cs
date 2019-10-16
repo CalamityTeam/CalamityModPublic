@@ -1,8 +1,8 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.BrimstoneWaifu
+namespace CalamityMod.Items
 {
     public class SeethingDischarge : ModItem
     {
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.BrimstoneWaifu
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.rare = 5;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("SeethingDischargeBrimstoneBarrage");
+            item.shoot = ModContent.ProjectileType<SeethingDischargeBrimstoneBarrage>();
             item.shootSpeed = 6f;
         }
 
@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Weapons.BrimstoneWaifu
             float SpeedX3 = speedX + 0f * 0.05f;
             float SpeedY3 = speedY + 0f * 0.05f;
             Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
-            Projectile.NewProjectile(position.X, position.Y, SpeedX2, SpeedY2, mod.ProjectileType("SeethingDischargeBrimstoneHellblast"), damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, SpeedX2, SpeedY2, ModContent.ProjectileType<SeethingDischargeBrimstoneHellblast>(), damage, knockBack, player.whoAmI, 0f, 0f);
             Projectile.NewProjectile(position.X, position.Y, SpeedX3, SpeedY3, type, damage, knockBack, player.whoAmI, 0f, 0f);
             return false;
         }

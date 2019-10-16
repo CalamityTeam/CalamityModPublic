@@ -1,9 +1,9 @@
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Patreon
+namespace CalamityMod.Items
 {
     public class DarkSpark : ModItem
     {
@@ -33,14 +33,14 @@ namespace CalamityMod.Items.Patreon
             item.knockBack = 0f;
             item.value = Item.buyPrice(1, 40, 0, 0);
             item.rare = 10;
-            item.shoot = mod.ProjectileType("DarkSpark");
+            item.shoot = ModContent.ProjectileType<DarkSpark>();
             item.shootSpeed = 30f;
             item.Calamity().postMoonLordRarity = 21;
         }
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("DarkSpark"), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<DarkSpark>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
             return false;
         }
 

@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Yharon
+namespace CalamityMod.Items
 {
     public class YharimsGift : ModItem
     {
@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Yharon
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        int projectile1 = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, mod.ProjectileType("DragonDust"), 350, 5f, player.whoAmI, 0f, 0f);
+                        int projectile1 = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<DragonDust>(), 350, 5f, player.whoAmI, 0f, 0f);
                         Main.projectile[projectile1].timeLeft = 60;
                     }
                     dragonTimer = 60;
@@ -68,7 +68,7 @@ namespace CalamityMod.Items.Yharon
                             num18 = (float)num17 / num18;
                             num15 *= num18;
                             num16 *= num18;
-                            int num19 = Projectile.NewProjectile(x, y, num15, num16, mod.ProjectileType("SkyFlareFriendly"), 750, 9f, player.whoAmI, 0f, 0f);
+                            int num19 = Projectile.NewProjectile(x, y, num15, num16, ModContent.ProjectileType<SkyFlareFriendly>(), 750, 9f, player.whoAmI, 0f, 0f);
                             Main.projectile[num19].ai[1] = player.position.Y;
                             Main.projectile[num19].hostile = false;
                             Main.projectile[num19].friendly = true;

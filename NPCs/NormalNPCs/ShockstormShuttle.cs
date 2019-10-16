@@ -2,9 +2,9 @@
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.NormalNPCs
+namespace CalamityMod.NPCs
 {
     public class ShockstormShuttle : ModNPC
     {
@@ -31,7 +31,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.noGravity = true;
             npc.noTileCollide = true;
             banner = npc.type;
-            bannerItem = mod.ItemType("ShockstormShuttleBanner");
+            bannerItem = ModContent.ItemType<ShockstormShuttleBanner>();
         }
 
         public override void AI()
@@ -572,7 +572,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.MartianConduitPlating, Main.rand.Next(10, 30));
             if (Main.rand.NextBool(3))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EssenceofCinder"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EssenceofCinder>());
             }
         }
     }

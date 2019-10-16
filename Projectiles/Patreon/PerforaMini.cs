@@ -2,9 +2,9 @@
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Patreon
+namespace CalamityMod.Projectiles
 {
     public class PerforaMini : ModProjectile
     {
@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Patreon
             }
 
             //Delete the projectile if the player doesnt have the buff or is very far away (dunno if this needs to be deleted)
-            if (!player.HasBuff(mod.BuffType("BloodBound")) || playerdistance >= 4000f)
+            if (!player.HasBuff(ModContent.BuffType<BloodBound>()) || playerdistance >= 4000f)
             {
                 projectile.Kill();
             }

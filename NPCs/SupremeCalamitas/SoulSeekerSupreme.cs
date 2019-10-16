@@ -4,9 +4,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.SupremeCalamitas
+namespace CalamityMod.NPCs
 {
     public class SoulSeekerSupreme : ModNPC
     {
@@ -68,7 +68,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     int damage = expertMode ? 150 : 200; //600 500
-                    Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X, direction.Y, mod.ProjectileType("BrimstoneBarrage"), damage, 1f, npc.target);
+                    Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X, direction.Y, ModContent.ProjectileType<BrimstoneBarrage>(), damage, 1f, npc.target);
                 }
                 timer = 0;
             }
@@ -79,7 +79,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 return false;
             }
             Player player = Main.player[npc.target];
-            NPC parent = Main.npc[NPC.FindFirstNPC(mod.NPCType("SupremeCalamitas"))];
+            NPC parent = Main.npc[NPC.FindFirstNPC(ModContent.NPCType<SupremeCalamitas>())];
             double deg = (double)npc.ai[1];
             double rad = deg * (Math.PI / 180);
             double dist = 300;

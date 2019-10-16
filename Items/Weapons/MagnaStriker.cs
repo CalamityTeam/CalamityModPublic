@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class MagnaStriker : ModItem
     {
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons
             item.rare = 8;
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/OpalStrike");
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("OpalStrike");
+            item.shoot = ModContent.ProjectileType<OpalStrike>();
             item.shootSpeed = 15f;
             item.useAmmo = 97;
         }
@@ -44,11 +44,11 @@ namespace CalamityMod.Items.Weapons
             int randomProj = Main.rand.Next(2);
             if (randomProj == 0)
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("OpalStrike"), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<OpalStrike>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
             }
             else
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("MagnaStrike"), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<MagnaStrike>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
             }
             return false;
         }

@@ -1,8 +1,8 @@
 using CalamityMod.World;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class Murasama : ModItem
     {
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons
             item.height = 78;
             item.value = Item.buyPrice(2, 50, 0, 0);
             item.rare = 10;
-            item.shoot = mod.ProjectileType("Murasama");
+            item.shoot = ModContent.ProjectileType<Murasama>();
             item.shootSpeed = 24f;
             item.Calamity().postMoonLordRarity = 15;
         }

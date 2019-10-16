@@ -6,9 +6,9 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.CosmicWraith
+namespace CalamityMod.NPCs
 {
     [AutoloadBossHead]
     public class CosmicWraith : ModNPC
@@ -68,15 +68,15 @@ namespace CalamityMod.NPCs.CosmicWraith
             }
             npc.buffImmune[BuffID.Ichor] = false;
             npc.buffImmune[BuffID.CursedInferno] = false;
-            npc.buffImmune[mod.BuffType("ExoFreeze")] = false;
-            npc.buffImmune[mod.BuffType("AbyssalFlames")] = false;
-            npc.buffImmune[mod.BuffType("ArmorCrunch")] = false;
-            npc.buffImmune[mod.BuffType("DemonFlames")] = false;
-            npc.buffImmune[mod.BuffType("GodSlayerInferno")] = false;
-            npc.buffImmune[mod.BuffType("Nightwither")] = false;
-            npc.buffImmune[mod.BuffType("Shred")] = false;
-            npc.buffImmune[mod.BuffType("WhisperingDeath")] = false;
-            npc.buffImmune[mod.BuffType("SilvaStun")] = false;
+            npc.buffImmune[ModContent.BuffType<ExoFreeze>()] = false;
+            npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
+            npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
+            npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
+            npc.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = false;
+            npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
+            npc.buffImmune[ModContent.BuffType<Shred>()] = false;
+            npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
+            npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.netAlways = true;
@@ -288,12 +288,12 @@ namespace CalamityMod.NPCs.CosmicWraith
                     Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 122);
                     if (Main.netMode != NetmodeID.MultiplayerClient && revenge)
                     {
-                        int num660 = NPC.NewNPC((int)(Main.player[npc.target].position.X + 750f), (int)Main.player[npc.target].position.Y, mod.NPCType("SignusBomb"), 0, 0f, 0f, 0f, 0f, 255);
+                        int num660 = NPC.NewNPC((int)(Main.player[npc.target].position.X + 750f), (int)Main.player[npc.target].position.Y, ModContent.NPCType<SignusBomb>(), 0, 0f, 0f, 0f, 0f, 255);
                         if (Main.netMode == NetmodeID.Server)
                         {
                             NetMessage.SendData(23, -1, -1, null, num660, 0f, 0f, 0f, 0, 0, 0);
                         }
-                        int num661 = NPC.NewNPC((int)(Main.player[npc.target].position.X - 750f), (int)Main.player[npc.target].position.Y, mod.NPCType("SignusBomb"), 0, 0f, 0f, 0f, 0f, 255);
+                        int num661 = NPC.NewNPC((int)(Main.player[npc.target].position.X - 750f), (int)Main.player[npc.target].position.Y, ModContent.NPCType<SignusBomb>(), 0, 0f, 0f, 0f, 0f, 255);
                         if (Main.netMode == NetmodeID.Server)
                         {
                             NetMessage.SendData(23, -1, -1, null, num661, 0f, 0f, 0f, 0, 0, 0);
@@ -403,7 +403,7 @@ namespace CalamityMod.NPCs.CosmicWraith
                         num1071 *= num1073;
                         num1072 *= num1073;
                         int num1074 = expertMode ? 48 : 60; //projectile damage
-                        int num1075 = mod.ProjectileType("SignusScythe"); //projectile type
+                        int num1075 = ModContent.ProjectileType<SignusScythe>(); //projectile type
                         Projectile.NewProjectile(vector121.X, vector121.Y, num1071, num1072, num1075, num1074, 0f, Main.myPlayer, 0f, (float)(npc.target + 1));
                     }
                 }
@@ -468,16 +468,16 @@ namespace CalamityMod.NPCs.CosmicWraith
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    if (NPC.CountNPCS(mod.NPCType("CosmicLantern")) < 5)
+                    if (NPC.CountNPCS(ModContent.NPCType<CosmicLantern>()) < 5)
                     {
                         for (int x = 0; x < 5; x++)
                         {
-                            int num660 = NPC.NewNPC((int)(Main.player[npc.target].position.X + (float)spawnX), (int)(Main.player[npc.target].position.Y + (float)spawnY), mod.NPCType("CosmicLantern"), 0, 0f, 0f, 0f, 0f, 255);
+                            int num660 = NPC.NewNPC((int)(Main.player[npc.target].position.X + (float)spawnX), (int)(Main.player[npc.target].position.Y + (float)spawnY), ModContent.NPCType<CosmicLantern>(), 0, 0f, 0f, 0f, 0f, 255);
                             if (Main.netMode == NetmodeID.Server)
                             {
                                 NetMessage.SendData(23, -1, -1, null, num660, 0f, 0f, 0f, 0, 0, 0);
                             }
-                            int num661 = NPC.NewNPC((int)(Main.player[npc.target].position.X - (float)spawnX), (int)(Main.player[npc.target].position.Y + (float)spawnY), mod.NPCType("CosmicLantern"), 0, 0f, 0f, 0f, 0f, 255);
+                            int num661 = NPC.NewNPC((int)(Main.player[npc.target].position.X - (float)spawnX), (int)(Main.player[npc.target].position.Y + (float)spawnY), ModContent.NPCType<CosmicLantern>(), 0, 0f, 0f, 0f, 0f, 255);
                             if (Main.netMode == NetmodeID.Server)
                             {
                                 NetMessage.SendData(23, -1, -1, null, num661, 0f, 0f, 0f, 0, 0, 0);
@@ -570,7 +570,7 @@ namespace CalamityMod.NPCs.CosmicWraith
                             Main.PlaySound(SoundID.Item73, npc.position);
                             int damage = expertMode ? 60 : 70;
                             Vector2 vector173 = Vector2.Normalize(player.Center - vectorCenter) * (float)(npc.width + 20) / 2f + vectorCenter;
-                            int projectile = Projectile.NewProjectile((int)vector173.X, (int)vector173.Y, (float)(npc.direction * 2), 4f, mod.ProjectileType("EssenceDust"), damage, 0f, Main.myPlayer, 0f, 0f);
+                            int projectile = Projectile.NewProjectile((int)vector173.X, (int)vector173.Y, (float)(npc.direction * 2), 4f, ModContent.ProjectileType<EssenceDust>(), damage, 0f, Main.myPlayer, 0f, 0f);
                             Main.projectile[projectile].timeLeft = 60;
                             Main.projectile[projectile].velocity.X = 0f;
                             Main.projectile[projectile].velocity.Y = 0f;
@@ -729,18 +729,18 @@ namespace CalamityMod.NPCs.CosmicWraith
             if (CalamityWorld.DoGSecondStageCountdown <= 0)
             {
                 // Materials
-                DropHelper.DropItem(npc, mod.ItemType("TwistingNether"), true, 2, 3);
+                DropHelper.DropItem(npc, ModContent.ItemType<TwistingNether>(), true, 2, 3);
 
                 // Weapons
-                DropHelper.DropItemChance(npc, mod.ItemType("Cosmilamp"), 3);
-                DropHelper.DropItemChance(npc, mod.ItemType("CosmicKunai"), 3);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Cosmilamp>(), 3);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<CosmicKunai>(), 3);
 
                 // Vanity
-                DropHelper.DropItemChance(npc, mod.ItemType("SignusTrophy"), 10);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<SignusTrophy>(), 10);
 
                 // Other
                 bool lastSentinelKilled = CalamityWorld.downedSentinel1 && CalamityWorld.downedSentinel2 && !CalamityWorld.downedSentinel3;
-                DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeSentinels"), true, lastSentinelKilled);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeSentinels>(), true, lastSentinelKilled);
                 DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedSentinel3, 5, 2, 1);
             }
 
@@ -811,10 +811,10 @@ namespace CalamityMod.NPCs.CosmicWraith
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(mod.BuffType("WhisperingDeath"), 420, true);
+            player.AddBuff(ModContent.BuffType<WhisperingDeath>(), 420, true);
             if (CalamityWorld.revenge)
             {
-                player.AddBuff(mod.BuffType("Horror"), 300, true);
+                player.AddBuff(ModContent.BuffType<Horror>(), 300, true);
             }
         }
     }

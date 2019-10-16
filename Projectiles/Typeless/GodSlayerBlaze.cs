@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Typeless
+namespace CalamityMod.Projectiles
 {
     public class GodSlayerBlaze : ModProjectile
     {
@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.ai[0] += 4f;
             int num462 = 0;
             float scale = 0.7f;
-            int dustType = Main.rand.NextBool(2) ? mod.DustType("AstralOrange") : mod.DustType("AstralBlue");
+            int dustType = Main.rand.NextBool(2) ? ModContent.DustType<AstralOrange>() : ModContent.DustType<AstralBlue>();
             if (projectile.ai[1] == 0f)
             {
                 scale = 1.5f;
@@ -76,9 +76,9 @@ namespace CalamityMod.Projectiles.Typeless
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             if (projectile.ai[1] == 1f)
-                target.AddBuff(mod.BuffType("AstralInfectionDebuff"), 300);
+                target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 300);
             else
-                target.AddBuff(mod.BuffType("GodSlayerInferno"), 300);
+                target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
         }
     }
 }

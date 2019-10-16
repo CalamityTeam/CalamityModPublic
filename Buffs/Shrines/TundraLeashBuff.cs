@@ -1,8 +1,8 @@
-﻿using CalamityMod.Items.Mounts;
+﻿using CalamityMod.Items;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Buffs.Shrines
+namespace CalamityMod.Buffs
 {
     class TundraLeashBuff : ModBuff
     {
@@ -16,7 +16,7 @@ namespace CalamityMod.Buffs.Shrines
 
         public override void Update(Player player, ref int buffIndex)
         {
-            player.mount.SetMount(ModContent.MountType<AngryDog>(), player);
+            player.mount.SetMount(ModContent.MountType<AngryDogMount>(), player);
             player.buffTime[buffIndex] = 10;
             player.Calamity().angryDog = true;
         }

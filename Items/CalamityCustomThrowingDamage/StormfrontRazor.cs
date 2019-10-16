@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.CalamityCustomThrowingDamage
+namespace CalamityMod.Items
 {
     public class StormfrontRazor : CalamityDamageItem
     {
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.damage = 50;
             item.crit += 8;
             item.knockBack = 7f;
-            item.shoot = mod.ProjectileType("Stormfrontproj");
+            item.shoot = ModContent.ProjectileType<Stormfrontproj>();
             item.shootSpeed = 7f;
             item.Calamity().rogue = true;
         }
@@ -52,13 +52,13 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
         {
             if (player.Calamity().StealthStrikeAvailable())
             {
-                int p = Projectile.NewProjectile(position, new Vector2(speedX * 1.6f, speedY * 1.6f), mod.ProjectileType("Stormfrontproj"), damage, knockBack, player.whoAmI, 0, 40f);
+                int p = Projectile.NewProjectile(position, new Vector2(speedX * 1.6f, speedY * 1.6f), ModContent.ProjectileType<Stormfrontproj>(), damage, knockBack, player.whoAmI, 0, 40f);
                 Main.projectile[p].Calamity().stealthStrike = true;
                 return false;
             }
             else
             {
-                Projectile.NewProjectile(position, new Vector2(speedX, speedY), mod.ProjectileType("Stormfrontproj"), damage, knockBack, player.whoAmI, 0, 1);
+                Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<Stormfrontproj>(), damage, knockBack, player.whoAmI, 0, 1);
                 return false;
             }
         }

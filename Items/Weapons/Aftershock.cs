@@ -2,9 +2,9 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class Aftershock : ModItem
     {
@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("ArmorCrunch"), 120);
+            target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 120);
             float num72 = item.shootSpeed;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num78 = (float)Main.mouseX - Main.screenPosition.X - vector2.X;
@@ -74,7 +74,7 @@ namespace CalamityMod.Items.Weapons
             num79 *= num80;
             float speedX4 = num78;
             float speedY5 = num79 + (float)Main.rand.Next(-10, 11) * 0.02f;
-            Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, mod.ProjectileType("Aftershock"), (int)((float)item.damage * player.meleeDamage), knockback, player.whoAmI, 0f, (float)Main.rand.Next(10));
+            Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<Aftershock>(), (int)((float)item.damage * player.meleeDamage), knockback, player.whoAmI, 0f, (float)Main.rand.Next(10));
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

@@ -3,9 +3,9 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.NormalNPCs
+namespace CalamityMod.NPCs
 {
     public class CrawlerEmerald : ModNPC
     {
@@ -32,7 +32,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.HitSound = SoundID.NPCHit33;
             npc.DeathSound = SoundID.NPCDeath36;
             banner = npc.type;
-            bannerItem = mod.ItemType("EmeraldCrawlerBanner");
+            bannerItem = ModContent.ItemType<EmeraldCrawlerBanner>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)

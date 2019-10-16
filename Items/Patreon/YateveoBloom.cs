@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Patreon
+namespace CalamityMod.Items
 {
     public class YateveoBloom : ModItem
     {
@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Patreon
             item.Calamity().postMoonLordRarity = 21;
             item.value = Item.buyPrice(0, 2, 0, 0);
 
-            item.shoot = mod.ProjectileType("YateveoBloom");
+            item.shoot = ModContent.ProjectileType<YateveoBloom>();
             item.shootSpeed = ShootSpeed;
         }
 
@@ -73,9 +73,9 @@ namespace CalamityMod.Items.Patreon
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             if (player.altFunctionUse == 2)
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("YateveoBloomSpear"), damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<YateveoBloomSpear>(), damage, knockBack, player.whoAmI, 0f, 0f);
             else
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("YateveoBloom"), damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<YateveoBloom>(), damage, knockBack, player.whoAmI, 0f, 0f);
             return false;
         }
 

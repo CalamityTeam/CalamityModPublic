@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.Leviathan
+namespace CalamityMod.Items
 {
     public class Atlantis : ModItem
     {
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Leviathan
             item.rare = 7;
             item.UseSound = SoundID.Item34;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("AtlantisSpear");
+            item.shoot = ModContent.ProjectileType<AtlantisSpear>();
             item.shootSpeed = 32f;
         }
 

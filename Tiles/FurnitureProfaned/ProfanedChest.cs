@@ -5,10 +5,10 @@ using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.ID;
 using Terraria.Localization;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 using Terraria.ObjectData;
 
-namespace CalamityMod.Tiles.FurnitureProfaned
+namespace CalamityMod.Tiles
 {
     public class ProfanedChest : ModTile
     {
@@ -38,13 +38,13 @@ namespace CalamityMod.Tiles.FurnitureProfaned
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Containers };
             chest = "Profaned Chest";
-            chestDrop = mod.ItemType("ProfanedChest");
+            chestDrop = ModContent.ItemType<ProfanedChest>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)
         {
             Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, 246, 0f, 0f, 1, new Color(255, 255, 255), 1f);
-            Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, mod.DustType("ProfanedTileRock"), 0f, 0f, 1, new Color(255, 255, 255), 1f);
+            Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, ModContent.DustType<ProfanedTileRock>(), 0f, 0f, 1, new Color(255, 255, 255), 1f);
             return false;
         }
 
@@ -187,7 +187,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
                 player.showItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : "Profaned Chest";
                 if (player.showItemIconText == "Profaned Chest")
                 {
-                    player.showItemIcon2 = mod.ItemType("ProfanedChest");
+                    player.showItemIcon2 = ModContent.ItemType<ProfanedChest>();
                     player.showItemIconText = "";
                 }
             }

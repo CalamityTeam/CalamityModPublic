@@ -1,9 +1,9 @@
 ﻿using CalamityMod.NPCs;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.SummonsAndClimateChange
+namespace CalamityMod.Items
 {
     public class Daylight : ModItem
     {

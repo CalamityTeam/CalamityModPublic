@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.Cryogen
+namespace CalamityMod.Items
 {
     public class GlacialCrusher : ModItem
     {
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Cryogen
             item.height = 58;
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.rare = 5;
-            item.shoot = mod.ProjectileType("Iceberg");
+            item.shoot = ModContent.ProjectileType<Iceberg>();
             item.shootSpeed = 3f;
         }
 
@@ -54,7 +54,7 @@ namespace CalamityMod.Items.Weapons.Cryogen
 
         public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
         {
-            if (target.buffImmune[mod.BuffType("GlacialState")])
+            if (target.buffImmune[ModContent.BuffType<GlacialState>()])
             {
                 damage *= 2;
                 knockBack *= 2f;

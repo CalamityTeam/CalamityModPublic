@@ -1,14 +1,15 @@
+using CalamityMod.NPCs;
 using CalamityMod.Utilities;
 using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.BrimstoneWaifu
+namespace CalamityMod.Items
 {
     public class BrimstoneWaifuBag : ModItem
     {
-        public override int BossBagNPC => mod.NPCType("BrimstoneElemental");
+        public override int BossBagNPC => ModContent.NPCType<BrimstoneElemental>();
 
         public override void SetStaticDefaults()
         {
@@ -37,21 +38,21 @@ namespace CalamityMod.Items.BrimstoneWaifu
 
             // Materials
             DropHelper.DropItem(player, ItemID.SoulofFright, 25, 40);
-            DropHelper.DropItem(player, mod.ItemType("EssenceofChaos"), 5, 9);
-            DropHelper.DropItemCondition(player, mod.ItemType("Bloodstone"), CalamityWorld.downedProvidence, 25, 35);
+            DropHelper.DropItem(player, ModContent.ItemType<EssenceofChaos>(), 5, 9);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 25, 35);
 
             // Weapons
-            DropHelper.DropItemChance(player, mod.ItemType("Brimlance"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("SeethingDischarge"), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<Brimlance>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<SeethingDischarge>(), 3);
 
             // Equipment
-            DropHelper.DropItem(player, mod.ItemType("Abaddon"));
-            DropHelper.DropItem(player, mod.ItemType("Gehenna"));
-            DropHelper.DropItemChance(player, mod.ItemType("RoseStone"), 10);
-            DropHelper.DropItemCondition(player, mod.ItemType("Brimrose"), CalamityWorld.revenge && CalamityWorld.downedProvidence);
+            DropHelper.DropItem(player, ModContent.ItemType<Abaddon>());
+            DropHelper.DropItem(player, ModContent.ItemType<Gehenna>());
+            DropHelper.DropItemChance(player, ModContent.ItemType<RoseStone>(), 10);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<Brimrose>(), CalamityWorld.revenge && CalamityWorld.downedProvidence);
 
             // Vanity
-            DropHelper.DropItemCondition(player, mod.ItemType("CharredRelic"), CalamityWorld.revenge);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<CharredRelic>(), CalamityWorld.revenge);
         }
     }
 }

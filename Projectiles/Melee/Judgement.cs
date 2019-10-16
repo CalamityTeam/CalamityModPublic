@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Melee
+namespace CalamityMod.Projectiles
 {
     public class Judgement : ModProjectile
     {
@@ -40,8 +40,8 @@ namespace CalamityMod.Projectiles.Melee
                     for (i = 0; i < 1; i++)
                     {
                         offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                        int projectile1 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), mod.ProjectileType("WhiteOrb"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-                        int projectile2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), mod.ProjectileType("WhiteOrb"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                        int projectile1 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<WhiteOrb>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                        int projectile2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<WhiteOrb>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                         Main.projectile[projectile1].velocity.X *= 0.1f;
                         Main.projectile[projectile1].velocity.Y *= 0.1f;
                         Main.projectile[projectile2].velocity.X *= 0.1f;
@@ -98,7 +98,7 @@ namespace CalamityMod.Projectiles.Melee
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 122);
             if (projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y - 100, 0f, 0f, mod.ProjectileType("WhiteBoltAura"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y - 100, 0f, 0f, ModContent.ProjectileType<WhiteBoltAura>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
             }
         }
     }

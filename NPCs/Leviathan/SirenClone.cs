@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.Leviathan
+namespace CalamityMod.NPCs
 {
     public class SirenClone : ModNPC
     {
@@ -69,7 +69,7 @@ namespace CalamityMod.NPCs.Leviathan
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     int damage = Main.expertMode ? 26 : 32;
-                    Projectile.NewProjectile(center.X, center.Y, direction.X, direction.Y, mod.ProjectileType("WaterSpear"), damage, 0f, npc.target);
+                    Projectile.NewProjectile(center.X, center.Y, direction.X, direction.Y, ModContent.ProjectileType<WaterSpear>(), damage, 0f, npc.target);
                 }
             }
         }

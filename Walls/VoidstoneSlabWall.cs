@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
 namespace CalamityMod.Walls
 {
@@ -10,8 +10,8 @@ namespace CalamityMod.Walls
         public override void SetDefaults()
         {
             Main.wallHouse[Type] = true;
-            dustType = mod.DustType("Sparkle");
-            drop = mod.ItemType("VoidstoneSlabWall");
+            dustType = ModContent.DustType<Sparkle>();
+            drop = ModContent.ItemType<VoidstoneSlabWall>();
             AddMapEntry(new Color(19, 17, 22));
         }
 

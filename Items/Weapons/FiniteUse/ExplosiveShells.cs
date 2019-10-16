@@ -1,6 +1,6 @@
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.FiniteUse
+namespace CalamityMod.Items
 {
     public class ExplosiveShells : ModItem
     {
@@ -19,9 +19,9 @@ namespace CalamityMod.Items.Weapons.FiniteUse
             item.knockBack = 10f;
             item.value = 15000;
             item.rare = 8;
-            item.shoot = mod.ProjectileType("ExplosiveShellBullet");
+            item.shoot = ModContent.ProjectileType<ExplosiveShellBullet>();
             item.shootSpeed = 12f;
-            item.ammo = mod.ItemType("ExplosiveShells");
+            item.ammo = ModContent.ItemType<ExplosiveShells>();
         }
     }
 }

@@ -1,9 +1,9 @@
 ﻿using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.DesertScourge
+namespace CalamityMod.Items
 {
     public class DriedSeafood : ModItem
     {
@@ -28,16 +28,16 @@ namespace CalamityMod.Items.DesertScourge
 
         public override bool CanUseItem(Player player)
         {
-            return player.ZoneDesert && !NPC.AnyNPCs(mod.NPCType("DesertScourgeHead"));
+            return player.ZoneDesert && !NPC.AnyNPCs(ModContent.NPCType<DesertScourgeHead>());
         }
 
         public override bool UseItem(Player player)
         {
-            NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("DesertScourgeHead"));
+            NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<DesertScourgeHead>());
             if (CalamityWorld.revenge)
             {
-                NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("DesertScourgeHeadSmall"));
-                NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("DesertScourgeHeadSmall"));
+                NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<DesertScourgeHeadSmall>());
+                NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<DesertScourgeHeadSmall>());
             }
             Main.PlaySound(SoundID.Roar, player.position, 0);
             return true;

@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class FrigidflashBolt : ModItem
     {
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons
             item.rare = 5;
             item.UseSound = SoundID.Item21;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("FrigidflashBoltProjectile");
+            item.shoot = ModContent.ProjectileType<FrigidflashBoltProjectile>();
             item.shootSpeed = 6.5f;
         }
 

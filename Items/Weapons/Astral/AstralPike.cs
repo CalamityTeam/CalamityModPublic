@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.Astral
+namespace CalamityMod.Items
 {
     public class AstralPike : ModItem
     {
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Astral
             item.height = 50;
             item.value = Item.buyPrice(0, 95, 0, 0);
             item.rare = 9;
-            item.shoot = mod.ProjectileType("AstralPike");
+            item.shoot = ModContent.ProjectileType<AstralPike>();
             item.shootSpeed = 13f;
         }
 

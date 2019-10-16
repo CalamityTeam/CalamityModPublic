@@ -2,9 +2,9 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.Polterghast
+namespace CalamityMod.Items
 {
     public class BansheeHook : ModItem
     {
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Polterghast
             item.height = 16;
             item.value = Item.buyPrice(1, 40, 0, 0);
             item.rare = 10;
-            item.shoot = mod.ProjectileType("BansheeHook");
+            item.shoot = ModContent.ProjectileType<BansheeHook>();
             item.shootSpeed = 42f;
             item.Calamity().postMoonLordRarity = 13;
         }
@@ -71,7 +71,7 @@ namespace CalamityMod.Items.Weapons.Polterghast
             num83 *= num84;
             float ai4 = Main.rand.NextFloat() * item.shootSpeed * 0.75f * (float)player.direction;
             Vector2 velocity = new Vector2(num82, num83);
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("BansheeHook"), damage, knockBack, player.whoAmI, ai4, 0.0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<BansheeHook>(), damage, knockBack, player.whoAmI, ai4, 0.0f);
             return false;
         }
     }

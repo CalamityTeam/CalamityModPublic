@@ -1,7 +1,7 @@
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class AcidBullet : ModItem
     {
@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Weapons
             item.knockBack = 1.5f;
             item.value = 1250;
             item.rare = 8;
-            item.shoot = mod.ProjectileType("AcidBullet");
+            item.shoot = ModContent.ProjectileType<AcidBullet>();
             item.shootSpeed = 10f;
             item.ammo = 97;
         }

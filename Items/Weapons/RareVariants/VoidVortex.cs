@@ -2,9 +2,9 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.RareVariants
+namespace CalamityMod.Items
 {
     public class VoidVortex : ModItem
     {
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.RareVariants
             item.rare = 10;
             item.UseSound = SoundID.Item20;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("Climax2");
+            item.shoot = ModContent.ProjectileType<Climax2>();
             item.shootSpeed = 12f;
             item.Calamity().postMoonLordRarity = 22;
         }

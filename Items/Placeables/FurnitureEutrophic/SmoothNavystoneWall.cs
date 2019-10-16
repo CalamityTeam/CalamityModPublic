@@ -1,6 +1,6 @@
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Placeables.FurnitureEutrophic
+namespace CalamityMod.Items
 {
     public class SmoothNavystoneWall : ModItem
     {
@@ -19,13 +19,13 @@ namespace CalamityMod.Items.Placeables.FurnitureEutrophic
             item.useTime = 7;
             item.useStyle = 1;
             item.consumable = true;
-            item.createWall = mod.WallType("SmoothNavystoneWall");
+            item.createWall = ModContent.WallType<SmoothNavystoneWall>();
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("SmoothNavystone"));
+            recipe.AddIngredient(ModContent.ItemType<SmoothNavystone>());
             recipe.SetResult(this, 4);
             recipe.AddTile(18);
             recipe.AddRecipe();

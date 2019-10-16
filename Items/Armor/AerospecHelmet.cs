@@ -1,9 +1,9 @@
 ﻿using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Armor
+namespace CalamityMod.Items
 {
     [AutoloadEquip(EquipType.Head)]
     public class AerospecHelmet : ModItem
@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Armor
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == mod.ItemType("AerospecBreastplate") && legs.type == mod.ItemType("AerospecLeggings");
+            return body.type == ModContent.ItemType<AerospecBreastplate>() && legs.type == ModContent.ItemType<AerospecLeggings>();
         }
 
         public override void ArmorSetShadows(Player player)
@@ -45,13 +45,13 @@ namespace CalamityMod.Items.Armor
             player.noFallDmg = true;
             if (player.whoAmI == Main.myPlayer)
             {
-                if (player.FindBuffIndex(mod.BuffType("Valkyrie")) == -1)
+                if (player.FindBuffIndex(ModContent.BuffType<Valkyrie>()) == -1)
                 {
-                    player.AddBuff(mod.BuffType("Valkyrie"), 3600, true);
+                    player.AddBuff(ModContent.BuffType<Valkyrie>(), 3600, true);
                 }
-                if (player.ownedProjectileCounts[mod.ProjectileType("Valkyrie")] < 1)
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<Valkyrie>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("Valkyrie"), (int)(25f * player.minionDamage), 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<Valkyrie>(), (int)(25f * player.minionDamage), 0f, Main.myPlayer, 0f, 0f);
                 }
             }
             player.minionDamage += 0.16f;

@@ -2,9 +2,9 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class ArkoftheAncients : ModItem
     {
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons
             item.height = 50;
             item.value = Item.buyPrice(0, 48, 0, 0);
             item.rare = 6;
-            item.shoot = mod.ProjectileType("EonBeam");
+            item.shoot = ModContent.ProjectileType<EonBeam>();
             item.shootSpeed = 12f;
         }
 
@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Weapons
             switch (Main.rand.Next(2))
             {
                 case 0:
-                    type = mod.ProjectileType("EonBeam");
+                    type = ModContent.ProjectileType<EonBeam>();
                     break;
                 case 1:
                     type = 173;
@@ -144,7 +144,7 @@ namespace CalamityMod.Items.Weapons
         {
             if (Main.rand.NextBool(2))
             {
-                target.AddBuff(mod.BuffType("HolyLight"), 300);
+                target.AddBuff(ModContent.BuffType<HolyFlames>(), 300);
             }
         }
     }

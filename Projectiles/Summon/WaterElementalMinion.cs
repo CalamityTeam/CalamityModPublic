@@ -3,11 +3,11 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Summon
+namespace CalamityMod.Projectiles
 {
-    public class SirenLure : ModProjectile
+    public class WaterElementalMinion : ModProjectile
     {
         public int dust = 3;
 
@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-            bool flag64 = projectile.type == mod.ProjectileType("SirenLure");
+            bool flag64 = projectile.type == ModContent.ProjectileType<WaterElementalMinion>();
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
             if (!modPlayer.sirenWaifu && !modPlayer.allWaifus)
@@ -159,14 +159,14 @@ namespace CalamityMod.Projectiles.Summon
                     {
                         projectile.spriteDirection = -1;
                     }
-                    int projectileType = mod.ProjectileType("WaterSpearFriendly");
+                    int projectileType = ModContent.ProjectileType<WaterSpearFriendly>();
                     if (Main.rand.NextBool(9))
                     {
-                        projectileType = mod.ProjectileType("FrostMistFriendly");
+                        projectileType = ModContent.ProjectileType<FrostMistFriendly>();
                     }
                     else if (Main.rand.NextBool(9))
                     {
-                        projectileType = mod.ProjectileType("SirenSongFriendly");
+                        projectileType = ModContent.ProjectileType<SirenSongFriendly>();
                     }
                     float num403 = Main.rand.Next(12, 20);
                     Vector2 vector29 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);

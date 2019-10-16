@@ -2,9 +2,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.HiveMind
+namespace CalamityMod.NPCs
 {
     public class HiveCyst : ModNPC
     {
@@ -40,7 +40,7 @@ namespace CalamityMod.NPCs.HiveMind
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.playerSafe || NPC.AnyNPCs(mod.NPCType("HiveCyst")) || NPC.AnyNPCs(mod.NPCType("HiveMind")) || NPC.AnyNPCs(mod.NPCType("HiveMindP2")))
+            if (spawnInfo.playerSafe || NPC.AnyNPCs(ModContent.NPCType<HiveCyst>()) || NPC.AnyNPCs(ModContent.NPCType<HiveMind>()) || NPC.AnyNPCs(ModContent.NPCType<HiveMindP2>()))
             {
                 return 0f;
             }
@@ -69,10 +69,10 @@ namespace CalamityMod.NPCs.HiveMind
                 {
                     Dust.NewDust(npc.position, npc.width, npc.height, 14, hitDirection, -1f, 0, default, 1f);
                 }
-                if (Main.netMode != NetmodeID.MultiplayerClient && NPC.CountNPCS(mod.NPCType("HiveMind")) < 1)
+                if (Main.netMode != NetmodeID.MultiplayerClient && NPC.CountNPCS(ModContent.NPCType<HiveMind>()) < 1)
                 {
                     Vector2 spawnAt = npc.Center + new Vector2(0f, (float)npc.height / 2f);
-                    NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, mod.NPCType("HiveMind"));
+                    NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<HiveMind>());
                 }
             }
         }

@@ -1,13 +1,14 @@
+using CalamityMod.NPCs;
 using CalamityMod.Utilities;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.DesertScourge
+namespace CalamityMod.Items
 {
     public class DesertScourgeBag : ModItem
     {
-        public override int BossBagNPC => mod.NPCType("DesertScourgeHead");
+        public override int BossBagNPC => ModContent.NPCType<DesertScourgeHead>();
 
         public override void SetStaticDefaults()
         {
@@ -33,31 +34,31 @@ namespace CalamityMod.Items.DesertScourge
         public override void OpenBossBag(Player player)
         {
             // Materials
-            DropHelper.DropItem(player, mod.ItemType("VictoryShard"), 10, 16);
+            DropHelper.DropItem(player, ModContent.ItemType<VictoryShard>(), 10, 16);
             DropHelper.DropItem(player, ItemID.Coral, 7, 11);
             DropHelper.DropItem(player, ItemID.Seashell, 7, 11);
             DropHelper.DropItem(player, ItemID.Starfish, 7, 11);
 
             // Weapons
-            DropHelper.DropItemChance(player, mod.ItemType("AquaticDischarge"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("Barinade"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("StormSpray"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("SeaboundStaff"), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<AquaticDischarge>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<Barinade>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<StormSpray>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<SeaboundStaff>(), 3);
             float f = Main.rand.NextFloat();
             bool replaceWithRare = f <= DropHelper.RareVariantDropRateFloat; // 1/40 chance overall of getting Dune Hopper
             if (f < 0.3333f) // 1/3 chance of getting Scourge of the Desert OR Dune Hopper replacing it
             {
-                DropHelper.DropItemCondition(player, mod.ItemType("ScourgeoftheDesert"), !replaceWithRare);
-                DropHelper.DropItemCondition(player, mod.ItemType("DuneHopper"), replaceWithRare);
+                DropHelper.DropItemCondition(player, ModContent.ItemType<ScourgeoftheDesert>(), !replaceWithRare);
+                DropHelper.DropItemCondition(player, ModContent.ItemType<DuneHopper>(), replaceWithRare);
             }
 
             // Equipment
-            DropHelper.DropItem(player, mod.ItemType("OceanCrest"));
-            DropHelper.DropItemChance(player, mod.ItemType("AeroStone"), 9);
-            DropHelper.DropItemChance(player, mod.ItemType("DeepDiver"), DropHelper.RareVariantDropRateInt);
+            DropHelper.DropItem(player, ModContent.ItemType<OceanCrest>());
+            DropHelper.DropItemChance(player, ModContent.ItemType<AeroStone>(), 9);
+            DropHelper.DropItemChance(player, ModContent.ItemType<DeepDiver>(), DropHelper.RareVariantDropRateInt);
 
             // Vanity
-            DropHelper.DropItemChance(player, mod.ItemType("DesertScourgeMask"), 7);
+            DropHelper.DropItemChance(player, ModContent.ItemType<DesertScourgeMask>(), 7);
 
             // Fishing
             DropHelper.DropItemChance(player, ItemID.HighTestFishingLine, 12);

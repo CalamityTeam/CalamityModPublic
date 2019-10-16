@@ -2,9 +2,9 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Magic
+namespace CalamityMod.Projectiles
 {
     public class MagneticOrb : ModProjectile
     {
@@ -103,7 +103,7 @@ namespace CalamityMod.Projectiles.Magic
                     num446 = num443 / num446;
                     num444 *= num446;
                     num445 *= num446;
-                    Projectile.NewProjectile(vector33.X, vector33.Y, num444, num445, mod.ProjectileType("MagneticBeam"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(vector33.X, vector33.Y, num444, num445, ModContent.ProjectileType<MagneticBeam>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                     return;
                 }
             }

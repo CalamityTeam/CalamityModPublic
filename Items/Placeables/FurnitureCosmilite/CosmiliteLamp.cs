@@ -1,7 +1,7 @@
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Placeables.FurnitureCosmilite
+namespace CalamityMod.Items
 {
     public class CosmiliteLamp : ModItem
     {
@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Placeables.FurnitureCosmilite
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = mod.TileType("CosmiliteLamp");
+            item.createTile = ModContent.TileType<CosmiliteLamp>();
         }
 
         public override void AddRecipes()

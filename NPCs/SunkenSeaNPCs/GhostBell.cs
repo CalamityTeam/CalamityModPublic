@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.SunkenSeaNPCs
+namespace CalamityMod.NPCs
 {
     public class GhostBell : ModNPC
     {
@@ -33,7 +33,7 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
             npc.HitSound = SoundID.NPCHit25;
             npc.DeathSound = SoundID.NPCDeath28;
             banner = npc.type;
-            bannerItem = mod.ItemType("GhostBellBanner");
+            bannerItem = ModContent.ItemType<GhostBellBanner>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)

@@ -1,7 +1,7 @@
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class EnergyStaff : ModItem
     {
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons
             item.value = Item.buyPrice(1, 20, 0, 0);
             item.rare = 10;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("ProfanedEnergy");
+            item.shoot = ModContent.ProjectileType<ProfanedEnergy>();
             item.Calamity().postMoonLordRarity = 12;
         }
 

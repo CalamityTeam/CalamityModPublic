@@ -1,9 +1,9 @@
 using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.Leviathan
+namespace CalamityMod.Items
 {
     public class LureofEnthrallment : ModItem
     {
@@ -39,13 +39,13 @@ namespace CalamityMod.Items.Weapons.Leviathan
             modPlayer.sirenWaifu = true;
             if (player.whoAmI == Main.myPlayer)
             {
-                if (player.FindBuffIndex(mod.BuffType("SirenLure")) == -1)
+                if (player.FindBuffIndex(ModContent.BuffType<SirenLure>()) == -1)
                 {
-                    player.AddBuff(mod.BuffType("SirenLure"), 3600, true);
+                    player.AddBuff(ModContent.BuffType<SirenLure>(), 3600, true);
                 }
-                if (player.ownedProjectileCounts[mod.ProjectileType("SirenLure")] < 1)
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<SirenLure>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("SirenLure"), (int)(65f * player.minionDamage), 2f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<SirenLure>(), (int)(65f * player.minionDamage), 2f, Main.myPlayer, 0f, 0f);
                 }
             }
         }

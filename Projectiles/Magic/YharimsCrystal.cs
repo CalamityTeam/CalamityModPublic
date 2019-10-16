@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Magic
+namespace CalamityMod.Projectiles
 {
     public class YharimsCrystal : ModProjectile
     {
@@ -117,7 +117,7 @@ namespace CalamityMod.Projectiles.Magic
                         int num29 = projectile.damage;
                         for (int l = 0; l < 7; l++)
                         {
-                            Projectile.NewProjectile(center3.X, center3.Y, vector12.X, vector12.Y, mod.ProjectileType("YharimsCrystalBeam"), num29, projectile.knockBack, projectile.owner, (float)l, (float)projectile.whoAmI);
+                            Projectile.NewProjectile(center3.X, center3.Y, vector12.X, vector12.Y, ModContent.ProjectileType<YharimsCrystalBeam>(), num29, projectile.knockBack, projectile.owner, (float)l, (float)projectile.whoAmI);
                         }
                         projectile.netUpdate = true;
                     }

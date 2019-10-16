@@ -1,7 +1,7 @@
 ﻿using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Typeless
+namespace CalamityMod.Projectiles
 {
     public class SparkInfernal : ModProjectile
     {
@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void Kill(int timeLeft)
         {
-            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("InfernadoMarkFriendly"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<InfernadoMarkFriendly>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
         }
     }
 }

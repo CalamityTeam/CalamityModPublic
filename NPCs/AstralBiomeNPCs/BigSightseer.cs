@@ -4,9 +4,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.AstralBiomeNPCs
+namespace CalamityMod.NPCs
 {
     public class BigSightseer : ModNPC
     {
@@ -34,7 +34,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             npc.value = Item.buyPrice(0, 0, 20, 0);
             npc.aiStyle = -1;
             banner = npc.type;
-            bannerItem = mod.ItemType("BigSightseerBanner");
+            bannerItem = ModContent.ItemType<BigSightseerBanner>();
             if (CalamityWorld.downedAstrageldon)
             {
                 npc.damage = 85;
@@ -58,7 +58,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             }
 
             //DO DUST
-            Dust d = CalamityGlobalNPC.SpawnDustOnNPC(npc, 118, frameHeight, mod.DustType("AstralOrange"), new Rectangle(70, 18, 48, 18), Vector2.Zero, 0.45f, true);
+            Dust d = CalamityGlobalNPC.SpawnDustOnNPC(npc, 118, frameHeight, ModContent.DustType<AstralOrange>(), new Rectangle(70, 18, 48, 18), Vector2.Zero, 0.45f, true);
             if (d != null)
             {
                 d.customData = 0.04f;
@@ -89,13 +89,13 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
                 {
                     npc.ai[1] = 0f;
 
-                    int n = NPC.NewNPC((int)spawnPoint.X, (int)spawnPoint.Y, mod.NPCType("AstralSeekerSpit"));
+                    int n = NPC.NewNPC((int)spawnPoint.X, (int)spawnPoint.Y, ModContent.NPCType<AstralSeekerSpit>());
                     Main.npc[n].Center = spawnPoint;
                     Main.npc[n].velocity = vector * 10f;
                 }
                 else if (npc.ai[1] >= 140f) //oozin dust at the "mouth"
                 {
-                    int dustType = Main.rand.NextBool(2) ? mod.DustType("AstralOrange") : mod.DustType("AstralBlue");
+                    int dustType = Main.rand.NextBool(2) ? ModContent.DustType<AstralOrange>() : ModContent.DustType<AstralBlue>();
                     int d = Dust.NewDust(spawnPoint - new Vector2(5), 10, 10, dustType);
                     Main.dust[d].velocity = npc.velocity * 0.3f;
                     Main.dust[d].customData = true;
@@ -122,7 +122,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
                 }
             }
 
-            CalamityGlobalNPC.DoHitDust(npc, hitDirection, (Main.rand.Next(0, Math.Max(0, npc.life)) == 0) ? 5 : mod.DustType("AstralEnemy"), 1f, 4, 22);
+            CalamityGlobalNPC.DoHitDust(npc, hitDirection, (Main.rand.Next(0, Math.Max(0, npc.life)) == 0) ? 5 : ModContent.DustType<AstralEnemy>(), 1f, 4, 22);
 
             //if dead do gores
             if (npc.life <= 0)
@@ -152,15 +152,15 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(mod.BuffType("AstralInfectionDebuff"), 120, true);
+            player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120, true);
         }
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Stardust"), Main.rand.Next(2, 4));
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Stardust>(), Main.rand.Next(2, 4));
             if (Main.expertMode)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Stardust"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Stardust>());
             }
         }
     }
@@ -201,8 +201,8 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             float pulse = (float)Math.Sin(npc.ai[0]);
             float radius = 5.8f;
             Vector2 offset = angle.ToRotationVector2() * pulse * radius;
-            Dust pink = Dust.NewDustPerfect(npc.Center + offset, mod.DustType("AstralOrange"), Vector2.Zero);
-            Dust blue = Dust.NewDustPerfect(npc.Center - offset, mod.DustType("AstralBlue"), Vector2.Zero);
+            Dust pink = Dust.NewDustPerfect(npc.Center + offset, ModContent.DustType<AstralOrange>(), Vector2.Zero);
+            Dust blue = Dust.NewDustPerfect(npc.Center - offset, ModContent.DustType<AstralBlue>(), Vector2.Zero);
 
             //kill on tile collide
             if (Collision.SolidCollision(npc.position, npc.width, npc.height))
@@ -241,7 +241,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(mod.BuffType("AstralInfectionDebuff"), 120, true);
+            player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120, true);
         }
 
         private void DoKillDust()
@@ -252,7 +252,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             for (int i = 0; i < numDust; i++)
             {
                 Vector2 vel = (angle + Main.rand.NextFloat(-0.04f, 0.04f)).ToRotationVector2();
-                int dustType = Main.rand.NextBool(2) ? mod.DustType("AstralOrange") : mod.DustType("AstralBlue");
+                int dustType = Main.rand.NextBool(2) ? ModContent.DustType<AstralOrange>() : ModContent.DustType<AstralBlue>();
                 Dust d = Dust.NewDustPerfect(npc.Center, dustType, vel * Main.rand.NextFloat(1.8f, 2.2f));
                 d.customData = npc;
 

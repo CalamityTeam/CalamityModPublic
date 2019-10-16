@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class UltraLiquidator : ModItem
     {
@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons
             item.rare = 10;
             item.UseSound = SoundID.Item9;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("LiquidBlade");
+            item.shoot = ModContent.ProjectileType<LiquidBlade>();
             item.shootSpeed = 16f;
             item.Calamity().postMoonLordRarity = 12;
         }

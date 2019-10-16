@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.TheDevourerofGods
+namespace CalamityMod.Items
 {
     public class CosmicWorm : ModItem
     {
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.TheDevourerofGods
 
         public override bool CanUseItem(Player player)
         {
-            return !NPC.AnyNPCs(mod.NPCType("DevourerofGodsHead")) && !NPC.AnyNPCs(mod.NPCType("DevourerofGodsHeadS")) && CalamityWorld.DoGSecondStageCountdown <= 0 && CalamityWorld.downedBossAny;
+            return !NPC.AnyNPCs(ModContent.NPCType<DevourerofGodsHead>()) && !NPC.AnyNPCs(ModContent.NPCType<DevourerofGodsHeadS>()) && CalamityWorld.DoGSecondStageCountdown <= 0 && CalamityWorld.downedBossAny;
         }
 
         public override bool UseItem(Player player)
@@ -44,7 +44,7 @@ namespace CalamityMod.Items.TheDevourerofGods
             {
                 NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
             }
-            NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("DevourerofGodsHead"));
+            NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<DevourerofGodsHead>());
             Main.PlaySound(SoundID.Roar, player.position, 0);
             return true;
         }

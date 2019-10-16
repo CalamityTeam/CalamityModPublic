@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class NightsStabber : ModItem
     {
@@ -66,7 +66,7 @@ namespace CalamityMod.Items.Weapons
             {
                 for (int i = 0; i <= 2; i++)
                 {
-                    Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("NightStabber"), (int)((float)item.damage * player.meleeDamage), knockback, Main.myPlayer);
+                    Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<NightStabber>(), (int)((float)item.damage * player.meleeDamage), knockback, Main.myPlayer);
                 }
             }
         }

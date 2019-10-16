@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class HalleysInferno : ModItem
     {
@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons
             item.rare = 10;
             item.Calamity().postMoonLordRarity = 13;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("HalleysComet");
+            item.shoot = ModContent.ProjectileType<HalleysComet>();
             item.shootSpeed = 14.6f;
             item.useAmmo = 23;
         }
@@ -52,8 +52,8 @@ namespace CalamityMod.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("RuinousSoul"), 4);
-            recipe.AddIngredient(mod.ItemType("ExodiumClusterOre"), 12);
+            recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 4);
+            recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 12);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

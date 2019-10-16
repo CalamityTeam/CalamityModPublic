@@ -1,9 +1,9 @@
 using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Armor
+namespace CalamityMod.Items
 {
     [AutoloadEquip(EquipType.Head)]
     public class MolluskShellmet : ModItem
@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Armor
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == mod.ItemType("MolluskShellplate") && legs.type == mod.ItemType("MolluskShelleggings");
+            return body.type == ModContent.ItemType<MolluskShellplate>() && legs.type == ModContent.ItemType<MolluskShelleggings>();
         }
 
         public override void UpdateArmorSet(Player player)
@@ -47,13 +47,13 @@ namespace CalamityMod.Items.Armor
             player.maxMinions += 4;
             if (player.whoAmI == Main.myPlayer)
             {
-                if (player.FindBuffIndex(mod.BuffType("Shellfish")) == -1)
+                if (player.FindBuffIndex(ModContent.BuffType<Shellfish>()) == -1)
                 {
-                    player.AddBuff(mod.BuffType("Shellfish"), 3600, true);
+                    player.AddBuff(ModContent.BuffType<Shellfish>(), 3600, true);
                 }
-                if (player.ownedProjectileCounts[mod.ProjectileType("Shellfish")] < 2)
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<Shellfish>()] < 2)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("Shellfish"), (int)((double)1500 * player.minionDamage), 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<Shellfish>(), (int)((double)1500 * player.minionDamage), 0f, Main.myPlayer, 0f, 0f);
                 }
             }
             player.Calamity().wearingRogueArmor = true;
@@ -62,8 +62,8 @@ namespace CalamityMod.Items.Armor
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("SeaPrism"), 15);
-            recipe.AddIngredient(mod.ItemType("MolluskHusk"), 6);
+            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 15);
+            recipe.AddIngredient(ModContent.ItemType<MolluskHusk>(), 6);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

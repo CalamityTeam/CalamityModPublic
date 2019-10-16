@@ -5,9 +5,9 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.SunkenSeaNPCs
+namespace CalamityMod.NPCs
 {
     public class PrismTurtle : ModNPC
     {
@@ -35,7 +35,7 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
             npc.DeathSound = SoundID.NPCDeath27;
             npc.knockBackResist = 0.15f;
             banner = npc.type;
-            bannerItem = mod.ItemType("PrismTurtleBanner");
+            bannerItem = ModContent.ItemType<PrismTurtleBanner>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -265,7 +265,7 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
         {
             if (CalamityWorld.downedDesertScourge)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("PrismShard"), Main.rand.Next(1, 4));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<PrismShard>(), Main.rand.Next(1, 4));
             }
         }
 

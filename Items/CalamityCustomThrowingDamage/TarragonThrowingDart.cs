@@ -1,7 +1,7 @@
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.CalamityCustomThrowingDamage
+namespace CalamityMod.Items
 {
     public class TarragonThrowingDart : CalamityDamageItem
     {
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.height = 34;
             item.maxStack = 999;
             item.value = 25000;
-            item.shoot = mod.ProjectileType("TarragonThrowingDartProjectile");
+            item.shoot = ModContent.ProjectileType<TarragonThrowingDartProjectile>();
             item.shootSpeed = 24f;
             item.Calamity().rogue = true;
             item.Calamity().postMoonLordRarity = 12;

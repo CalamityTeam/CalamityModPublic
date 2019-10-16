@@ -4,9 +4,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Summon
+namespace CalamityMod.Projectiles
 {
     public class Sandnado : ModProjectile
     {
@@ -61,10 +61,10 @@ namespace CalamityMod.Projectiles.Summon
                     Main.player[projectile.owner].minionDamage);
                 projectile.damage = damage2;
             }
-            bool flag64 = projectile.type == mod.ProjectileType("Sandnado");
+            bool flag64 = projectile.type == ModContent.ProjectileType<Sandnado>();
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            player.AddBuff(mod.BuffType("Sandnado"), 3600);
+            player.AddBuff(ModContent.BuffType<Sandnado>(), 3600);
             if (flag64)
             {
                 if (player.dead)
@@ -272,7 +272,7 @@ namespace CalamityMod.Projectiles.Summon
             if (projectile.ai[0] == 0f)
             {
                 float scaleFactor4 = 14f;
-                int num28 = mod.ProjectileType("MiniSandShark");
+                int num28 = ModContent.ProjectileType<MiniSandShark>();
                 if (flag)
                 {
                     if (!Collision.SolidCollision(projectile.position, projectile.width, projectile.height))

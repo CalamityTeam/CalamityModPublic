@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.SunkenSea
+namespace CalamityMod.Items
 {
     public class Poseidon : ModItem
     {
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.SunkenSea
             item.UseSound = SoundID.Item84;
             item.rare = 5;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("PoseidonTyphoon");
+            item.shoot = ModContent.ProjectileType<PoseidonTyphoon>();
             item.shootSpeed = 10f;
         }
     }

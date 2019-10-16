@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Placeables.FurnitureAbyss
+namespace CalamityMod.Items
 {
     public class AbyssTorch : ModItem
     {
@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAbyss
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = mod.TileType("AbyssTorch");
+            item.createTile = ModContent.TileType<AbyssTorch>();
             item.flame = false;
             item.value = 500;
         }
@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAbyss
         {
             if (Main.rand.Next(player.itemAnimation > 0 ? 40 : 80) == 0)
             {
-                Dust.NewDust(new Vector2(player.itemLocation.X + 16f * player.direction, player.itemLocation.Y - 14f * player.gravDir), 4, 4, mod.DustType("Sparkle"));
+                Dust.NewDust(new Vector2(player.itemLocation.X + 16f * player.direction, player.itemLocation.Y - 14f * player.gravDir), 4, 4, ModContent.DustType<Sparkle>());
             }
             Vector2 position = player.RotatedRelativePoint(new Vector2(player.itemLocation.X + 12f * player.direction + player.velocity.X, player.itemLocation.Y - 14f + player.velocity.Y), true);
             Lighting.AddLight(position, 1f, 1f, 1f);

@@ -7,9 +7,9 @@ using Terraria.Enums;
 using Terraria.GameContent.Shaders;
 using Terraria.Graphics.Effects;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Patreon
+namespace CalamityMod.Projectiles
 {
     public class DarkSparkBeam : ModProjectile
     {
@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Patreon
             {
                 projectile.velocity = -Vector2.UnitY;
             }
-            if (projectile.type != mod.ProjectileType("DarkSparkBeam") || !Main.projectile[(int)projectile.ai[1]].active || Main.projectile[(int)projectile.ai[1]].type != mod.ProjectileType("DarkSpark"))
+            if (projectile.type != ModContent.ProjectileType<DarkSparkBeam>() || !Main.projectile[(int)projectile.ai[1]].active || Main.projectile[(int)projectile.ai[1]].type != ModContent.ProjectileType<DarkSpark>())
             {
                 projectile.Kill();
                 return;

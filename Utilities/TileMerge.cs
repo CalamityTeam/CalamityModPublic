@@ -1,6 +1,6 @@
 ﻿using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
 namespace CalamityMod.Utilities
 {
@@ -39,12 +39,12 @@ namespace CalamityMod.Utilities
             MergeTile(type, TileID.Crimstone);
             MergeTile(type, TileID.Pearlstone);
             //Calam general tiles
-            MergeTile(type, mod.TileType("AstralDirt"));
-            MergeTile(type, mod.TileType("AstralStone"));
-            MergeTile(type, mod.TileType("Navystone"));
-            MergeTile(type, mod.TileType("EutrophicSand"));
-            MergeTile(type, mod.TileType("AbyssGravel"));
-            MergeTile(type, mod.TileType("Voidstone"));
+            MergeTile(type, ModContent.TileType<AstralDirt>());
+            MergeTile(type, ModContent.TileType<AstralStone>());
+            MergeTile(type, ModContent.TileType<Navystone>());
+            MergeTile(type, ModContent.TileType<EutrophicSand>());
+            MergeTile(type, ModContent.TileType<AbyssGravel>());
+            MergeTile(type, ModContent.TileType<Voidstone>());
         }
 
         public static void MergeOreTiles(int type)
@@ -69,14 +69,14 @@ namespace CalamityMod.Utilities
             MergeTile(type, TileID.Titanium);
             MergeTile(type, TileID.LunarOre);
             //Calam Ores
-            MergeTile(type, mod.TileType("AerialiteOre"));
-            MergeTile(type, mod.TileType("CryonicOre"));
-            MergeTile(type, mod.TileType("PerennialOre"));
-            MergeTile(type, mod.TileType("CharredOre"));
-            MergeTile(type, mod.TileType("ChaoticOre"));
-            MergeTile(type, mod.TileType("AstralOre"));
-            MergeTile(type, mod.TileType("UelibloomOre"));
-            MergeTile(type, mod.TileType("AuricOre"));
+            MergeTile(type, ModContent.TileType<AerialiteOre>());
+            MergeTile(type, ModContent.TileType<CryonicOre>());
+            MergeTile(type, ModContent.TileType<PerennialOre>());
+            MergeTile(type, ModContent.TileType<CharredOre>());
+            MergeTile(type, ModContent.TileType<ChaoticOre>());
+            MergeTile(type, ModContent.TileType<AstralOre>());
+            MergeTile(type, ModContent.TileType<UelibloomOre>());
+            MergeTile(type, ModContent.TileType<AuricOre>());
         }
 
         /// <summary>
@@ -105,13 +105,13 @@ namespace CalamityMod.Utilities
             MergeTile(type, TileID.FossilOre);
             MergeTile(type, TileID.DesertFossil);
             //Calam desert tiles
-            MergeTile(type, mod.TileType("AstralSand"));
-            MergeTile(type, mod.TileType("HardenedAstralSand"));
-            MergeTile(type, mod.TileType("AstralSandstone"));
+            MergeTile(type, ModContent.TileType<AstralSand>());
+            MergeTile(type, ModContent.TileType<HardenedAstralSand>());
+            MergeTile(type, ModContent.TileType<AstralSandstone>());
             //Sunken Sea tiles
-            MergeTile(type, mod.TileType("EutrophicSand"));
-            MergeTile(type, mod.TileType("Navystone"));
-            MergeTile(type, mod.TileType("SeaPrism"));
+            MergeTile(type, ModContent.TileType<EutrophicSand>());
+            MergeTile(type, ModContent.TileType<Navystone>());
+            MergeTile(type, ModContent.TileType<SeaPrism>());
         }
 
         /// <summary>
@@ -129,7 +129,7 @@ namespace CalamityMod.Utilities
             MergeTile(type, TileID.FleshIce);
             MergeTile(type, TileID.HallowedIce);
             //Calam snow tiles
-            MergeTile(type, mod.TileType("AstralIce"));
+            MergeTile(type, ModContent.TileType<AstralIce>());
         }
 
         /// <summary>
@@ -146,7 +146,7 @@ namespace CalamityMod.Utilities
             MergeTile(type, TileID.ObsidianBrick);
             MergeTile(type, TileID.HellstoneBrick);
             //Crag tiles
-            MergeTile(type, mod.TileType("BrimstoneSlag"));
+            MergeTile(type, ModContent.TileType<BrimstoneSlag>());
         }
 
         /// <summary>
@@ -157,13 +157,13 @@ namespace CalamityMod.Utilities
         {
             Mod mod = ModContent.GetInstance<CalamityMod>();
             //Sulphurous Sea
-            MergeTile(type, mod.TileType("SulphurousSand"));
+            MergeTile(type, ModContent.TileType<SulphurousSand>());
             //Abyss
-            MergeTile(type, mod.TileType("AbyssGravel"));
-            MergeTile(type, mod.TileType("Voidstone"));
-            MergeTile(type, mod.TileType("PlantyMush"));
-            MergeTile(type, mod.TileType("Tenebris"));
-            MergeTile(type, mod.TileType("ChaoticOre"));
+            MergeTile(type, ModContent.TileType<AbyssGravel>());
+            MergeTile(type, ModContent.TileType<Voidstone>());
+            MergeTile(type, ModContent.TileType<PlantyMush>());
+            MergeTile(type, ModContent.TileType<Tenebris>());
+            MergeTile(type, ModContent.TileType<ChaoticOre>());
         }
 
         /// <summary>
@@ -174,15 +174,15 @@ namespace CalamityMod.Utilities
         {
             Mod mod = ModContent.GetInstance<CalamityMod>();
             //Astral
-            MergeTile(type, mod.TileType("AstralDirt"));
-            MergeTile(type, mod.TileType("AstralStone"));
-            MergeTile(type, mod.TileType("AstralMonolith"));
+            MergeTile(type, ModContent.TileType<AstralDirt>());
+            MergeTile(type, ModContent.TileType<AstralStone>());
+            MergeTile(type, ModContent.TileType<AstralMonolith>());
             //Astral Desert
-            MergeTile(type, mod.TileType("AstralSand"));
-            MergeTile(type, mod.TileType("HardenedAstralSand"));
-            MergeTile(type, mod.TileType("AstralSandstone"));
+            MergeTile(type, ModContent.TileType<AstralSand>());
+            MergeTile(type, ModContent.TileType<HardenedAstralSand>());
+            MergeTile(type, ModContent.TileType<AstralSandstone>());
             //Astral Snow
-            MergeTile(type, mod.TileType("AstralIce"));
+            MergeTile(type, ModContent.TileType<AstralIce>());
         }
 
         /// <summary>
@@ -196,10 +196,10 @@ namespace CalamityMod.Utilities
             MergeTile(type, TileID.MarbleBlock);
             MergeTile(type, TileID.GraniteBlock);
             //Calam
-            MergeTile(type, mod.TileType("SmoothNavystone"));
-            MergeTile(type, mod.TileType("SmoothBrimstoneSlag"));
-            MergeTile(type, mod.TileType("SmoothAbyssGravel"));
-            MergeTile(type, mod.TileType("SmoothVoidstone"));
+            MergeTile(type, ModContent.TileType<SmoothNavystone>());
+            MergeTile(type, ModContent.TileType<SmoothBrimstoneSlag>());
+            MergeTile(type, ModContent.TileType<SmoothAbyssGravel>());
+            MergeTile(type, ModContent.TileType<SmoothVoidstone>());
         }
 
         /// <summary>
@@ -212,14 +212,14 @@ namespace CalamityMod.Utilities
             //Vanilla decor
             Main.tileBrick[type] = true;
             //Calam
-            MergeTile(type, mod.TileType("CryonicBrick"));
-            MergeTile(type, mod.TileType("PerennialBrick"));
-            MergeTile(type, mod.TileType("UelibloomBrick"));
-            MergeTile(type, mod.TileType("OccultStone"));
-            MergeTile(type, mod.TileType("ProfanedSlab"));
-            MergeTile(type, mod.TileType("RunicProfanedBrick"));
-            MergeTile(type, mod.TileType("AshenSlab"));
-            MergeTile(type, mod.TileType("VoidstoneSlab"));
+            MergeTile(type, ModContent.TileType<CryonicBrick>());
+            MergeTile(type, ModContent.TileType<PerennialBrick>());
+            MergeTile(type, ModContent.TileType<UelibloomBrick>());
+            MergeTile(type, ModContent.TileType<OccultStone>());
+            MergeTile(type, ModContent.TileType<ProfanedSlab>());
+            MergeTile(type, ModContent.TileType<RunicProfanedBrick>());
+            MergeTile(type, ModContent.TileType<AshenSlab>());
+            MergeTile(type, ModContent.TileType<VoidstoneSlab>());
         }
     }
 }

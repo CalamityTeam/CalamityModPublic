@@ -2,9 +2,9 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Permafrost
+namespace CalamityMod.Items
 {
     public class WintersFury : ModItem
     {
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Permafrost
             item.UseSound = SoundID.Item9;
             item.scale = 0.9f;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("Icicle");
+            item.shoot = ModContent.ProjectileType<Icicle>();
             item.shootSpeed = 12f;
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -42,14 +42,14 @@ namespace CalamityMod.Items.Permafrost
                 speed.Normalize();
                 speed *= 15f;
                 speed.Y -= Math.Abs(speed.X) * 0.2f;
-                int p = Projectile.NewProjectile(position, speed, mod.ProjectileType("FrostShardFriendly"), damage, knockBack, player.whoAmI);
+                int p = Projectile.NewProjectile(position, speed, ModContent.ProjectileType<FrostShardFriendly>(), damage, knockBack, player.whoAmI);
                 Main.projectile[p].minion = false;
                 Main.projectile[p].magic = true;
             }
             if (Main.rand.NextBool(3))
             {
                 Main.PlaySound(SoundID.Item1, position);
-                Projectile.NewProjectile(position.X, position.Y, speedX * 1.2f, speedY * 1.2f, mod.ProjectileType("Snowball"), damage, knockBack * 2f, player.whoAmI);
+                Projectile.NewProjectile(position.X, position.Y, speedX * 1.2f, speedY * 1.2f, ModContent.ProjectileType<Snowball>(), damage, knockBack * 2f, player.whoAmI);
             }
             speedX += Main.rand.Next(-40, 41) * 0.05f;
             speedY += Main.rand.Next(-40, 41) * 0.05f;

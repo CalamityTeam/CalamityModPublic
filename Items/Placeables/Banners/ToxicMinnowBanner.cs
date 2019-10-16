@@ -1,7 +1,7 @@
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Placeables.Banners
+namespace CalamityMod.Items
 {
     public class ToxicMinnowBanner : ModItem
     {
@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Placeables.Banners
             item.consumable = true;
             item.rare = 1;
             item.value = Item.buyPrice(0, 0, 10, 0);
-            item.createTile = mod.TileType("MonsterBanner");
+            item.createTile = ModContent.TileType<MonsterBanner>();
             item.placeStyle = 17;
         }
     }

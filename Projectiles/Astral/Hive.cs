@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Astral
+namespace CalamityMod.Projectiles
 {
     public class Hive : ModProjectile
     {
@@ -105,7 +105,7 @@ namespace CalamityMod.Projectiles.Astral
                 {
                     float velocityX = Main.rand.NextFloat(-0.4f, 0.4f);
                     float velocityY = Main.rand.NextFloat(-0.3f, -0.5f);
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, velocityX, velocityY, mod.ProjectileType("Hiveling"), projectile.damage, projectile.knockBack, projectile.owner, (float)target, 0f);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, velocityX, velocityY, ModContent.ProjectileType<Hiveling>(), projectile.damage, projectile.knockBack, projectile.owner, (float)target, 0f);
                 }
             }
         }

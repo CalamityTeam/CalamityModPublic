@@ -1,14 +1,15 @@
+using CalamityMod.NPCs;
 using CalamityMod.Utilities;
 using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Crabulon
+namespace CalamityMod.Items
 {
     public class CrabulonBag : ModItem
     {
-        public override int BossBagNPC => mod.NPCType("CrabulonIdle");
+        public override int BossBagNPC => ModContent.NPCType<CrabulonIdle>();
 
         public override void SetStaticDefaults()
         {
@@ -38,17 +39,17 @@ namespace CalamityMod.Items.Crabulon
             DropHelper.DropItem(player, ItemID.MushroomGrassSeeds, 5, 10);
 
             // Weapons
-            DropHelper.DropItemChance(player, mod.ItemType("MycelialClaws"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("Fungicide"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("HyphaeRod"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("Mycoroot"), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<MycelialClaws>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<Fungicide>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<HyphaeRod>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<Mycoroot>(), 3);
 
             // Equipment
-            DropHelper.DropItem(player, mod.ItemType("FungalClump"));
-            DropHelper.DropItemCondition(player, mod.ItemType("MushroomPlasmaRoot"), CalamityWorld.revenge);
+            DropHelper.DropItem(player, ModContent.ItemType<FungalClump>());
+            DropHelper.DropItemCondition(player, ModContent.ItemType<MushroomPlasmaRoot>(), CalamityWorld.revenge);
 
             // Vanity
-            DropHelper.DropItemChance(player, mod.ItemType("CrabulonMask"), 7);
+            DropHelper.DropItemChance(player, ModContent.ItemType<CrabulonMask>(), 7);
         }
     }
 }

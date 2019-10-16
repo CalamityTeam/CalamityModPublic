@@ -1,9 +1,9 @@
 ﻿using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Polterghast
+namespace CalamityMod.Items
 {
     public class NecroplasmicBeacon : ModItem
     {
@@ -28,12 +28,12 @@ namespace CalamityMod.Items.Polterghast
 
         public override bool CanUseItem(Player player)
         {
-            return player.ZoneDungeon && !NPC.AnyNPCs(mod.NPCType("Polterghast")) && CalamityWorld.downedBossAny;
+            return player.ZoneDungeon && !NPC.AnyNPCs(ModContent.NPCType<Polterghast>()) && CalamityWorld.downedBossAny;
         }
 
         public override bool UseItem(Player player)
         {
-            NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("Polterghast"));
+            NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Polterghast>());
             Main.PlaySound(SoundID.Roar, player.position, 0);
             return true;
         }

@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Melee
+namespace CalamityMod.Projectiles
 {
     public class AegisFlame : ModProjectile
     {
@@ -86,7 +86,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             if (projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("AegisBlast2"), (int)((double)damage * 0.75), knockback, Main.myPlayer);
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<AegisBlast2>(), (int)((double)damage * 0.75), knockback, Main.myPlayer);
             }
         }
 

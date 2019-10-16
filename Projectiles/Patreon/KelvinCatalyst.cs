@@ -4,9 +4,9 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Patreon
+namespace CalamityMod.Projectiles
 {
     public class KelvinCatalyst : ModProjectile
     {
@@ -154,10 +154,10 @@ namespace CalamityMod.Projectiles.Patreon
                     offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
 
                     Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 4f), (float)(Math.Cos(offsetAngle) * 4f),
-                        mod.ProjectileType("KelvinCatalystStar"), projectile.damage / 6, projectile.knockBack * 0.5f, projectile.owner, 0f, 0f);
+                        ModContent.ProjectileType<KelvinCatalystStar>(), projectile.damage / 6, projectile.knockBack * 0.5f, projectile.owner, 0f, 0f);
 
                     Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 4f), (float)(-Math.Cos(offsetAngle) * 4f),
-                        mod.ProjectileType("KelvinCatalystStar"), projectile.damage / 6, projectile.knockBack * 0.5f, projectile.owner, 0f, 0f);
+                        ModContent.ProjectileType<KelvinCatalystStar>(), projectile.damage / 6, projectile.knockBack * 0.5f, projectile.owner, 0f, 0f);
                 }
             }
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 30);

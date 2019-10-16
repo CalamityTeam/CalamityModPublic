@@ -2,9 +2,9 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Accessories.Wings
+namespace CalamityMod.Items
 {
     [AutoloadEquip(EquipType.Wings)]
     public class XerocWings : ModItem
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            if (player.armor[0].type == mod.ItemType("XerocMask") && player.armor[1].type == mod.ItemType("XerocPlateMail") && player.armor[2].type == mod.ItemType("XerocCuisses"))
+            if (player.armor[0].type == ModContent.ItemType<XerocMask>() && player.armor[1].type == ModContent.ItemType<XerocPlateMail>() && player.armor[2].type == ModContent.ItemType<XerocCuisses>())
             {
                 player.Calamity().throwingDamage += 0.05f;
                 player.Calamity().throwingCrit += 5;

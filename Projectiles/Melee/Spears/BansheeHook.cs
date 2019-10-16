@@ -2,9 +2,9 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Melee.Spears
+namespace CalamityMod.Projectiles
 {
     public class BansheeHook : ModProjectile
     {
@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
                     {
                         projectile.localAI[0] = 1f;
                         Projectile.NewProjectile(projectile.Center.X + (projectile.velocity.X * 0.5f), projectile.Center.Y + (projectile.velocity.Y * 0.5f),
-                                                 projectile.velocity.X * 0.8f, projectile.velocity.Y * 0.8f, mod.ProjectileType("BansheeHookScythe"), (int)((double)projectile.damage * 1.75), projectile.knockBack * 0.85f, projectile.owner, 0f, 0f);
+                                                 projectile.velocity.X * 0.8f, projectile.velocity.Y * 0.8f, ModContent.ProjectileType<BansheeHookScythe>(), (int)((double)projectile.damage * 1.75), projectile.knockBack * 0.85f, projectile.owner, 0f, 0f);
                     }
                 }
                 projectile.spriteDirection = projectile.direction = player.direction;
@@ -144,7 +144,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
         {
             if (projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("BansheeHookBoom"), (int)((double)damage * 0.25), 10f, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<BansheeHookBoom>(), (int)((double)damage * 0.25), 10f, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
             }
         }
     }

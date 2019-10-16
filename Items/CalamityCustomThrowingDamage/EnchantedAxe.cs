@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.CalamityCustomThrowingDamage
+namespace CalamityMod.Items
 {
     public class EnchantedAxe : CalamityDamageItem
     {
@@ -32,7 +32,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.value = 1000;
             item.rare = 3;
             item.value = Item.buyPrice(0, 4, 0, 0);
-            item.shoot = mod.ProjectileType("EnchantedAxe");
+            item.shoot = ModContent.ProjectileType<EnchantedAxe>();
             item.shootSpeed = 30f;
             item.Calamity().rogue = true;
         }
@@ -51,17 +51,17 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("IronFrancisca"), 100);
+            recipe.AddIngredient(ModContent.ItemType<IronFrancisca>(), 100);
             recipe.AddIngredient(ItemID.FallenStar, 5);
-            recipe.AddIngredient(mod.ItemType("VictoryShard"), 10);
+            recipe.AddIngredient(ModContent.ItemType<VictoryShard>(), 10);
             recipe.AddIngredient(ItemID.Bone, 30);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this, 1);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("LeadTomahawk"), 100);
+            recipe.AddIngredient(ModContent.ItemType<LeadTomahawk>(), 100);
             recipe.AddIngredient(ItemID.FallenStar, 5);
-            recipe.AddIngredient(mod.ItemType("VictoryShard"), 10);
+            recipe.AddIngredient(ModContent.ItemType<VictoryShard>(), 10);
             recipe.AddIngredient(ItemID.Bone, 30);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this, 1);

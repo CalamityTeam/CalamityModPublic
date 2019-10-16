@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Rogue
+namespace CalamityMod.Projectiles
 {
     public class InkBombProjectile : ModProjectile
     {
@@ -56,13 +56,13 @@ namespace CalamityMod.Projectiles.Rogue
                 switch (projType)
                 {
                     case 0:
-                        inkType = mod.ProjectileType("InkCloud");
+                        inkType = ModContent.ProjectileType<InkCloud>();
                         break;
                     case 1:
-                        inkType = mod.ProjectileType("InkCloud2");
+                        inkType = ModContent.ProjectileType<InkCloud2>();
                         break;
                     default:
-                        inkType = mod.ProjectileType("InkCloud3");
+                        inkType = ModContent.ProjectileType<InkCloud3>();
                         break;
                 }
                 int inkID = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, Main.rand.NextFloat(-2f, 2f), Main.rand.NextFloat(-2f, 2f), inkType, 22, 7, Main.myPlayer);

@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.CalamityCustomThrowingDamage
+namespace CalamityMod.Items
 {
     public class ThrowingBrick : CalamityDamageItem
     {
@@ -17,7 +17,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
         {
             item.damage = 20;
             item.shootSpeed = 12f;
-            item.shoot = mod.ProjectileType("Brick");
+            item.shoot = ModContent.ProjectileType<Brick>();
             item.width = 26;
             item.height = 20;
             item.useTime = 20;
@@ -39,7 +39,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             //Check if stealth is full
             if (player.Calamity().StealthStrikeAvailable())
             {
-                int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("Brick"), damage, knockBack, player.whoAmI, 1);
+                int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Brick>(), damage, knockBack, player.whoAmI, 1);
                 Main.projectile[p].Calamity().stealthStrike = true;
                 return false;
             }

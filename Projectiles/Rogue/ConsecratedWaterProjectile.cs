@@ -1,10 +1,10 @@
-﻿using CalamityMod.Items.CalamityCustomThrowingDamage;
+﻿using CalamityMod.Items;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Rogue
+namespace CalamityMod.Projectiles
 {
     public class ConsecratedWaterProjectile : ModProjectile
     {
@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Rogue
             //normal
             if (projectile.ai[1] == 0f)
             {
-                Projectile.NewProjectile(projectile.Bottom, Vector2.Zero, mod.ProjectileType("BlueFlamePillar"), ConsecratedWater.BaseDamage, 2f, projectile.owner);
+                Projectile.NewProjectile(projectile.Bottom, Vector2.Zero, ModContent.ProjectileType<BlueFlamePillar>(), ConsecratedWater.BaseDamage, 2f, projectile.owner);
             }
             //stealth strike
             else if (projectile.ai[1] == 1f)
@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Rogue
                 //3 pillars instead of 1
                 for (float i = -1f; i <= 1f; i += 1f)
                 {
-                    Projectile.NewProjectile(projectile.Bottom + i * Main.rand.NextFloat(56f, 108f) * Vector2.UnitX, Vector2.Zero, mod.ProjectileType("BlueFlamePillar"), ConsecratedWater.BaseDamage, 2f, projectile.owner);
+                    Projectile.NewProjectile(projectile.Bottom + i * Main.rand.NextFloat(56f, 108f) * Vector2.UnitX, Vector2.Zero, ModContent.ProjectileType<BlueFlamePillar>(), ConsecratedWater.BaseDamage, 2f, projectile.owner);
                 }
             }
         }

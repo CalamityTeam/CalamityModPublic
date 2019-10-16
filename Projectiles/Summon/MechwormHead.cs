@@ -4,9 +4,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Summon
+namespace CalamityMod.Projectiles
 {
     public class MechwormHead : ModProjectile
     {
@@ -63,7 +63,7 @@ namespace CalamityMod.Projectiles.Summon
                 playerMinionSlots = player9.maxMinions;
             }
             CalamityPlayer modPlayer = player9.Calamity();
-            player9.AddBuff(mod.BuffType("Mechworm"), 3600);
+            player9.AddBuff(ModContent.BuffType<Mechworm>(), 3600);
             if ((int)Main.time % 120 == 0)
             {
                 projectile.netUpdate = true;

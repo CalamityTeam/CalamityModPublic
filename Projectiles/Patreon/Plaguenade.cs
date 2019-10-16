@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Patreon
+namespace CalamityMod.Projectiles
 {
     public class Plaguenade : ModProjectile
     {
@@ -76,7 +76,7 @@ namespace CalamityMod.Projectiles.Patreon
                 {
                     float speedX = (float)Main.rand.Next(-35, 36) * 0.02f;
                     float speedY = (float)Main.rand.Next(-35, 36) * 0.02f;
-                    Projectile.NewProjectile(projectile.position.X, projectile.position.Y, speedX, speedY, mod.ProjectileType("PlagueBee"), Main.player[projectile.owner].beeDamage(projectile.damage), Main.player[projectile.owner].beeKB(0f), Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(projectile.position.X, projectile.position.Y, speedX, speedY, ModContent.ProjectileType<PlaguenadeBee>(), Main.player[projectile.owner].beeDamage(projectile.damage), Main.player[projectile.owner].beeKB(0f), Main.myPlayer, 0f, 0f);
                     num3 = num639;
                 }
             }
@@ -146,7 +146,7 @@ namespace CalamityMod.Projectiles.Patreon
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("Plague"), 600);
+            target.AddBuff(ModContent.BuffType<Plague>(), 600);
         }
     }
 }

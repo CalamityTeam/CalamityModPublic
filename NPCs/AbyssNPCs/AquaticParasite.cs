@@ -2,9 +2,9 @@
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.AbyssNPCs
+namespace CalamityMod.NPCs
 {
     public class AquaticParasite : ModNPC
     {
@@ -31,7 +31,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
             banner = npc.type;
-            bannerItem = mod.ItemType("AquaticParasiteBanner");
+            bannerItem = ModContent.ItemType<AquaticParasiteBanner>();
         }
 
         public override void AI()

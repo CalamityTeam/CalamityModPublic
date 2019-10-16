@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Summon
+namespace CalamityMod.Projectiles
 {
     public class SolarPixie : ModProjectile
     {
@@ -34,10 +34,10 @@ namespace CalamityMod.Projectiles.Summon
         public override void AI()
         {
             Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.25f / 255f, (255 - projectile.alpha) * 0.25f / 255f, (255 - projectile.alpha) * 0f / 255f);
-            bool flag64 = projectile.type == mod.ProjectileType("SolarPixie");
+            bool flag64 = projectile.type == ModContent.ProjectileType<SolarPixie>();
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            player.AddBuff(mod.BuffType("SolarSpirit"), 3600);
+            player.AddBuff(ModContent.BuffType<SolarSpirit>(), 3600);
             if (flag64)
             {
                 if (player.dead)

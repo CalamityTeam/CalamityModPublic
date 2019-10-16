@@ -2,7 +2,7 @@ using CalamityMod.Utilities;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
 namespace CalamityMod.Tiles
 {
@@ -20,7 +20,7 @@ namespace CalamityMod.Tiles
             TileMerge.MergeGeneralTiles(Type);
 
             dustType = 55;
-            drop = mod.ItemType("AuricOre");
+            drop = ModContent.ItemType<AuricOre>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Auric Ore");
             AddMapEntry(new Color(255, 200, 0), name);

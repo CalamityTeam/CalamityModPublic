@@ -2,9 +2,9 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.Cryogen
+namespace CalamityMod.Items
 {
     public class Avalanche : ModItem
     {
@@ -74,7 +74,7 @@ namespace CalamityMod.Items.Weapons.Cryogen
                 }
                 num80 = (float)Math.Sqrt((double)(num78 * num78 + num79 * num79));
                 num80 = num72 / num80;
-                Projectile.NewProjectile(vector2.X, vector2.Y, 0f, 0f, mod.ProjectileType("IceBombFriendly"), (int)((float)item.damage * player.meleeDamage), num74, i, 0f, (float)Main.rand.Next(3));
+                Projectile.NewProjectile(vector2.X, vector2.Y, 0f, 0f, ModContent.ProjectileType<IceBombFriendly>(), (int)((float)item.damage * player.meleeDamage), num74, i, 0f, (float)Main.rand.Next(3));
             }
         }
 

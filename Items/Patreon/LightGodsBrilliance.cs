@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Patreon
+namespace CalamityMod.Items
 {
     public class LightGodsBrilliance : ModItem
     {
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Patreon
             item.rare = 10;
             item.UseSound = SoundID.Item9;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("LightBead");
+            item.shoot = ModContent.ProjectileType<LightBead>();
             item.shootSpeed = 25f;
             item.Calamity().postMoonLordRarity = 21;
         }
@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Patreon
             }
             if (Main.rand.NextBool(3))
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("LightBall"), (int)((double)damage * 2.0), knockBack, player.whoAmI, 0.0f, 0.0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<LightBall>(), (int)((double)damage * 2.0), knockBack, player.whoAmI, 0.0f, 0.0f);
             }
 
             return false;

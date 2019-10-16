@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class BarracudaGun : ModItem
     {
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons
             item.UseSound = SoundID.Item10;
             item.autoReuse = true;
             item.shootSpeed = 15f;
-            item.shoot = mod.ProjectileType("MechanicalBarracuda");
+            item.shoot = ModContent.ProjectileType<MechanicalBarracuda>();
         }
 
         public override Vector2? HoldoutOffset()

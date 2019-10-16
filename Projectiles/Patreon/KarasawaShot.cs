@@ -2,9 +2,9 @@
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Patreon
+namespace CalamityMod.Projectiles
 {
     public class KarasawaShot : ModProjectile
     {
@@ -138,7 +138,7 @@ namespace CalamityMod.Projectiles.Patreon
         {
             target.AddBuff(BuffID.OnFire, 600);
             target.AddBuff(BuffID.Confused, 300);
-            target.AddBuff(mod.BuffType("Irradiated"), 300);
+            target.AddBuff(ModContent.BuffType<Irradiated>(), 300);
         }
 
         public override void Kill(int timeLeft)

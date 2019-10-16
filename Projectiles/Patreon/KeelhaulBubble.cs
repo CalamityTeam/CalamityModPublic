@@ -1,7 +1,7 @@
 ﻿using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Patreon
+namespace CalamityMod.Projectiles
 {
     public class KeelhaulBubble : ModProjectile
     {
@@ -21,8 +21,8 @@ namespace CalamityMod.Projectiles.Patreon
 
         public override void Kill(int timeLeft)
         {
-            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y - 80f, 0f, 0f, mod.ProjectileType("KeelhaulGeyserBottom"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y - 80f, 0f, 0f, mod.ProjectileType("KeelhaulGeyserTop"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y - 80f, 0f, 0f, ModContent.ProjectileType<KeelhaulGeyserBottom>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y - 80f, 0f, 0f, ModContent.ProjectileType<KeelhaulGeyserTop>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
         }
     }
 }

@@ -2,9 +2,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.SunkenSea
+namespace CalamityMod.Projectiles
 {
     public class Shellfish : ModProjectile
     {
@@ -56,10 +56,10 @@ namespace CalamityMod.Projectiles.SunkenSea
                 }
                 spawnDust = false;
             }
-            bool flag64 = projectile.type == mod.ProjectileType("Shellfish");
+            bool flag64 = projectile.type == ModContent.ProjectileType<Shellfish>();
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            player.AddBuff(mod.BuffType("Shellfish"), 3600);
+            player.AddBuff(ModContent.BuffType<Shellfish>(), 3600);
             if (flag64)
             {
                 if (player.dead)
@@ -467,12 +467,12 @@ namespace CalamityMod.Projectiles.SunkenSea
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.buffImmune[mod.BuffType("ShellfishEating")] = false;
-            if (target.type == mod.NPCType("CeaselessVoid") || target.type == mod.NPCType("EidolonWyrmHeadHuge"))
+            target.buffImmune[ModContent.BuffType<ShellfishEating>()] = false;
+            if (target.type == ModContent.NPCType<CeaselessVoid>() || target.type == ModContent.NPCType<EidolonWyrmHeadHuge>())
             {
-                target.buffImmune[mod.BuffType("ShellfishEating")] = true;
+                target.buffImmune[ModContent.BuffType<ShellfishEating>()] = true;
             }
-            target.AddBuff(mod.BuffType("ShellfishEating"), 600000);
+            target.AddBuff(ModContent.BuffType<ShellfishEating>(), 600000);
         }
     }
 }

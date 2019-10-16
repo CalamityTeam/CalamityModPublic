@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
 namespace CalamityMod.Projectiles
 {
@@ -497,12 +497,12 @@ namespace CalamityMod.Projectiles
 
             if (projectile.type == ProjectileID.NettleBurstRight || projectile.type == ProjectileID.NettleBurstLeft || projectile.type == ProjectileID.NettleBurstEnd)
             {
-                if (Main.player[projectile.owner].inventory[Main.player[projectile.owner].selectedItem].type == mod.ItemType("ThornBlossom"))
+                if (Main.player[projectile.owner].inventory[Main.player[projectile.owner].selectedItem].type == ModContent.ItemType<ThornBlossom>())
                     projectile.penetrate = 1;
             }
             else if (projectile.type == ProjectileID.VilethornBase || projectile.type == ProjectileID.VilethornTip)
             {
-                if (Main.player[projectile.owner].inventory[Main.player[projectile.owner].selectedItem].type == mod.ItemType("FeralthornClaymore"))
+                if (Main.player[projectile.owner].inventory[Main.player[projectile.owner].selectedItem].type == ModContent.ItemType<FeralthornClaymore>())
                 {
                     projectile.melee = true;
                     projectile.magic = false;
@@ -553,8 +553,8 @@ namespace CalamityMod.Projectiles
                 {
                     if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].ownedProjectileCounts[ProjectileID.Mushroom] < 30)
                     {
-                        if (projectile.type == mod.ProjectileType("Nebulash") || projectile.type == mod.ProjectileType("CosmicDischarge") ||
-                            projectile.type == mod.ProjectileType("Mourningstar") || projectile.type == ProjectileID.SolarWhipSword)
+                        if (projectile.type == ModContent.ProjectileType<Nebulash>() || projectile.type == ModContent.ProjectileType<CosmicDischarge>() ||
+                            projectile.type == ModContent.ProjectileType<Mourningstar>() || projectile.type == ProjectileID.SolarWhipSword)
                         {
                             Vector2 vector24 = Main.OffsetsPlayerOnhand[Main.player[projectile.owner].bodyFrame.Y / 56] * 2f;
                             if (Main.player[projectile.owner].direction != 1)
@@ -579,26 +579,26 @@ namespace CalamityMod.Projectiles
                 }
             }
 
-            if (Main.player[projectile.owner].Calamity().nanotech && rogue && projectile.friendly && projectile.type != mod.ProjectileType("MoonSigil") && projectile.type != mod.ProjectileType("DragonShit"))
+            if (Main.player[projectile.owner].Calamity().nanotech && rogue && projectile.friendly && projectile.type != ModContent.ProjectileType<MoonSigil>() && projectile.type != ModContent.ProjectileType<DragonShit>())
             {
                 if (counter % 30 == 0)
                 {
-                    if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].ownedProjectileCounts[mod.ProjectileType("Nanotech")] < 30)
+                    if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<Nanotech>()] < 30)
                     {
-                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("Nanotech"),
+                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<Nanotech>(),
                             (int)((double)projectile.damage * 0.15), 0f, projectile.owner, 0f, 0f);
                     }
                 }
             }
 
-            if (Main.player[projectile.owner].Calamity().dragonScales && rogue && projectile.friendly && projectile.type != mod.ProjectileType("Nanotech"))
+            if (Main.player[projectile.owner].Calamity().dragonScales && rogue && projectile.friendly && projectile.type != ModContent.ProjectileType<Nanotech>())
             {
                 if (counter % 50 == 0)
                 {
-                    if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].ownedProjectileCounts[mod.ProjectileType("DragonShit")] < 15)
+                    if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<DragonShit>()] < 15)
                     {
                         //spawn a dust that does 1/5th of the original damage
-                        int projectileID = Projectile.NewProjectile(projectile.Center, Vector2.One.RotatedByRandom(MathHelper.TwoPi), mod.ProjectileType("DragonShit"),
+                        int projectileID = Projectile.NewProjectile(projectile.Center, Vector2.One.RotatedByRandom(MathHelper.TwoPi), ModContent.ProjectileType<DragonShit>(),
                             (int)((double)projectile.damage * 0.2), 0f, projectile.owner, 0f, 0f);
                     }
                 }
@@ -654,7 +654,7 @@ namespace CalamityMod.Projectiles
                     //Summon moon sigils infrequently
                     if (Main.rand.NextBool(300))
                     {
-                        Projectile.NewProjectile(projectile.position, Vector2.Zero, mod.ProjectileType("MoonSigil"), (int)((double)projectile.damage * 0.05), 0);
+                        Projectile.NewProjectile(projectile.position, Vector2.Zero, ModContent.ProjectileType<MoonSigil>(), (int)((double)projectile.damage * 0.05), 0);
                     }
                 }
             }
@@ -696,7 +696,7 @@ namespace CalamityMod.Projectiles
         {
             if (projectile.owner == Main.myPlayer)
             {
-                if (projectile.Calamity().rogue && projectile.Calamity().stealthStrike && Main.player[projectile.owner].Calamity().dragonScales && CalamityUtils.CountProjectiles(mod.ProjectileType("InfernadoFriendly")) < 2)
+                if (projectile.Calamity().rogue && projectile.Calamity().stealthStrike && Main.player[projectile.owner].Calamity().dragonScales && CalamityUtils.CountProjectiles(ModContent.ProjectileType<InfernadoFriendly>()) < 2)
                 {
                     int projTileX = (int)(projectile.Center.X / 16f);
                     int projTileY = (int)(projectile.Center.Y / 16f);
@@ -726,7 +726,7 @@ namespace CalamityMod.Projectiles
                             break;
                         }
                     }
-                    int projectileIndex = Projectile.NewProjectile((float)(projTileX * 16 + 8), (float)(projTileY * 16 - 24), 0f, 0f, mod.ProjectileType("InfernadoFriendly"), 420, 15f, Main.myPlayer, 16f, 16f);
+                    int projectileIndex = Projectile.NewProjectile((float)(projTileX * 16 + 8), (float)(projTileY * 16 - 24), 0f, 0f, ModContent.ProjectileType<InfernadoFriendly>(), 420, 15f, Main.myPlayer, 16f, 16f);
                     Main.projectile[projectileIndex].Calamity().forceRogue = true;
                     Main.projectile[projectileIndex].netUpdate = true;
                 }
@@ -754,14 +754,14 @@ namespace CalamityMod.Projectiles
 
                 if (Main.player[projectile.owner].Calamity().alchFlask &&
                     (projectile.magic || rogue || projectile.melee || projectile.minion || projectile.ranged || projectile.sentry || CalamityMod.projectileMinionList.Contains(projectile.type)) &&
-                    Main.player[projectile.owner].ownedProjectileCounts[mod.ProjectileType("PlagueSeeker")] < 6)
+                    Main.player[projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<PlagueSeeker>()] < 6)
                 {
                     int newDamage = (int)((double)projectile.damage * 0.25);
                     if (newDamage > 30)
                     {
                         newDamage = 30;
                     }
-                    int plague = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("PlagueSeeker"), newDamage, 0f, projectile.owner, 0f, 0f);
+                    int plague = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<PlagueSeeker>(), newDamage, 0f, projectile.owner, 0f, 0f);
                     Main.projectile[plague].melee = false;
                 }
 
@@ -772,7 +772,7 @@ namespace CalamityMod.Projectiles
                     {
                         newDamage = 30;
                     }
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("ReaverBlast"), newDamage, 0f, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ReaverBlast>(), newDamage, 0f, projectile.owner, 0f, 0f);
                 }
 
                 if (Main.player[projectile.owner].Calamity().auricSet && target.canGhostHeal)
@@ -807,7 +807,7 @@ namespace CalamityMod.Projectiles
                             }
                         }
                     }
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("AuricOrb"), 0, 0f, projectile.owner, (float)num14, num12);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<AuricOrb>(), 0, 0f, projectile.owner, (float)num14, num12);
                 }
                 else if (Main.player[projectile.owner].Calamity().silvaSet && target.canGhostHeal)
                 {
@@ -841,7 +841,7 @@ namespace CalamityMod.Projectiles
                             }
                         }
                     }
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("SilvaOrb"), 0, 0f, projectile.owner, (float)num14, num12);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<SilvaOrb>(), 0, 0f, projectile.owner, (float)num14, num12);
                 }
 
                 if (projectile.magic)
@@ -971,7 +971,7 @@ namespace CalamityMod.Projectiles
                         num10 = num7 / num10;
                         num8 *= num10;
                         num9 *= num10;
-                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num8, num9, mod.ProjectileType("AtaxiaOrb"), (int)((double)num * 1.25), 0f, projectile.owner, (float)num6, 0f);
+                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num8, num9, ModContent.ProjectileType<AtaxiaOrb>(), (int)((double)num * 1.25), 0f, projectile.owner, (float)num6, 0f);
                         if (target.canGhostHeal)
                         {
                             float num11 = 0.1f; //0.2
@@ -1004,7 +1004,7 @@ namespace CalamityMod.Projectiles
                                     }
                                 }
                             }
-                            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("AtaxiaHealOrb"), 0, 0f, projectile.owner, (float)num14, num12);
+                            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<AtaxiaHealOrb>(), 0, 0f, projectile.owner, (float)num14, num12);
                         }
                     }
                     else if (Main.player[projectile.owner].Calamity().xerocSet && Main.player[projectile.owner].Calamity().xerocDmg <= 0)
@@ -1054,7 +1054,7 @@ namespace CalamityMod.Projectiles
                         num10 = num7 / num10;
                         num8 *= num10;
                         num9 *= num10;
-                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num8, num9, mod.ProjectileType("XerocOrb"), (int)((double)num * 1.25), 0f, projectile.owner, (float)num6, 0f);
+                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num8, num9, ModContent.ProjectileType<XerocOrb>(), (int)((double)num * 1.25), 0f, projectile.owner, (float)num6, 0f);
                         if (target.canGhostHeal)
                         {
                             float num11 = 0.1f;
@@ -1087,7 +1087,7 @@ namespace CalamityMod.Projectiles
                                     }
                                 }
                             }
-                            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("XerocHealOrb"), 0, 0f, projectile.owner, (float)num14, num12);
+                            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<XerocHealOrb>(), 0, 0f, projectile.owner, (float)num14, num12);
                         }
                     }
                     else if (Main.player[projectile.owner].Calamity().godSlayerMage && Main.player[projectile.owner].Calamity().godSlayerDmg <= 0)
@@ -1137,7 +1137,7 @@ namespace CalamityMod.Projectiles
                         num10 = num7 / num10;
                         num8 *= num10;
                         num9 *= num10;
-                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num8, num9, mod.ProjectileType("GodSlayerOrb"),
+                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num8, num9, ModContent.ProjectileType<GodSlayerOrb>(),
                             (int)((double)num * (Main.player[projectile.owner].Calamity().auricSet ? 2.0 : 1.5)), 0f, projectile.owner, (float)num6, 0f);
                         if (target.canGhostHeal)
                         {
@@ -1171,41 +1171,41 @@ namespace CalamityMod.Projectiles
                                     }
                                 }
                             }
-                            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("GodSlayerHealOrb"), 0, 0f, projectile.owner, (float)num14, num12);
+                            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<GodSlayerHealOrb>(), 0, 0f, projectile.owner, (float)num14, num12);
                         }
                     }
                 }
                 else if (projectile.melee)
                 {
-                    if (Main.player[projectile.owner].Calamity().ataxiaGeyser && Main.player[projectile.owner].ownedProjectileCounts[mod.ProjectileType("ChaosGeyser")] < 3)
+                    if (Main.player[projectile.owner].Calamity().ataxiaGeyser && Main.player[projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<ChaosGeyser>()] < 3)
                     {
                         int newDamage = (int)((double)projectile.damage * 0.15);
                         if (newDamage > 35)
                         {
                             newDamage = 35;
                         }
-                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("ChaosGeyser"), newDamage, 0f, projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ChaosGeyser>(), newDamage, 0f, projectile.owner, 0f, 0f);
                     }
-                    else if (Main.player[projectile.owner].Calamity().xerocSet && Main.player[projectile.owner].ownedProjectileCounts[mod.ProjectileType("XerocBlast")] < 3)
+                    else if (Main.player[projectile.owner].Calamity().xerocSet && Main.player[projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<XerocBlast>()] < 3)
                     {
                         int newDamage = (int)((double)projectile.damage * 0.2);
                         if (newDamage > 40)
                         {
                             newDamage = 40;
                         }
-                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("XerocBlast"), newDamage, 0f, projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<XerocBlast>(), newDamage, 0f, projectile.owner, 0f, 0f);
                     }
                 }
                 else if (projectile.ranged)
                 {
-                    if (Main.player[projectile.owner].Calamity().xerocSet && Main.player[projectile.owner].ownedProjectileCounts[mod.ProjectileType("XerocFire")] < 3)
+                    if (Main.player[projectile.owner].Calamity().xerocSet && Main.player[projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<XerocFire>()] < 3)
                     {
                         int newDamage = (int)((double)projectile.damage * 0.15);
                         if (newDamage > 40)
                         {
                             newDamage = 40;
                         }
-                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("XerocFire"), newDamage, 0f, projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<XerocFire>(), newDamage, 0f, projectile.owner, 0f, 0f);
                     }
                 }
                 else if (rogue)
@@ -1257,7 +1257,7 @@ namespace CalamityMod.Projectiles
                         num10 = num7 / num10;
                         num8 *= num10;
                         num9 *= num10;
-                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num8, num9, mod.ProjectileType("XerocStar"), (int)((double)num * 1.6), 0f, projectile.owner, (float)num6, 0f);
+                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num8, num9, ModContent.ProjectileType<XerocStar>(), (int)((double)num * 1.6), 0f, projectile.owner, (float)num6, 0f);
                     }
 
                     if (Main.player[projectile.owner].Calamity().featherCrown && stealthStrike)
@@ -1267,7 +1267,7 @@ namespace CalamityMod.Projectiles
                             Vector2 pos = new Vector2(target.position.X + (float)target.width * 0.5f + (float)Main.rand.Next(-201, 201), Main.screenPosition.Y - 600f - Main.rand.Next(50));
                             float speedX = (target.position.X - pos.X) / 30f;
                             float speedY = (target.position.Y - pos.Y) * 8;
-                            int feather = Projectile.NewProjectile(pos.X, pos.Y, speedX, speedY, mod.ProjectileType("StickyFeather"), 15, 3, projectile.owner, 0f, (float)Main.rand.Next(15));
+                            int feather = Projectile.NewProjectile(pos.X, pos.Y, speedX, speedY, ModContent.ProjectileType<StickyFeather>(), 15, 3, projectile.owner, 0f, (float)Main.rand.Next(15));
                             Main.projectile[feather].magic = false;
                             Main.projectile[feather].Calamity().rogue = true;
                         }
@@ -1289,12 +1289,12 @@ namespace CalamityMod.Projectiles
                 {
                     if (Main.player[projectile.owner].Calamity().pArtifact)
                     {
-                        target.AddBuff(mod.BuffType("HolyLight"), 300);
+                        target.AddBuff(ModContent.BuffType<HolyFlames>(), 300);
                     }
 
                     if (Main.player[projectile.owner].Calamity().tearMinions)
                     {
-                        target.AddBuff(mod.BuffType("TemporalSadness"), 60);
+                        target.AddBuff(ModContent.BuffType<TemporalSadness>(), 60);
                     }
 
                     if (Main.player[projectile.owner].Calamity().shadowMinions)
@@ -1350,7 +1350,7 @@ namespace CalamityMod.Projectiles
                         num10 = num7 / num10;
                         num8 *= num10;
                         num9 *= num10;
-                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num8, num9, mod.ProjectileType("GodSlayerPhantom"), (int)((double)num * 2.0), 0f, projectile.owner, 0f, ai1);
+                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num8, num9, ModContent.ProjectileType<GodSlayerPhantom>(), (int)((double)num * 2.0), 0f, projectile.owner, 0f, ai1);
                     }
                     else if (Main.player[projectile.owner].Calamity().xerocSet && Main.player[projectile.owner].Calamity().xerocDmg <= 0)
                     {
@@ -1399,7 +1399,7 @@ namespace CalamityMod.Projectiles
                         num10 = num7 / num10;
                         num8 *= num10;
                         num9 *= num10;
-                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num8, num9, mod.ProjectileType("XerocBubble"), (int)((double)num * 1.2), 0f, projectile.owner, (float)num6, 0f);
+                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num8, num9, ModContent.ProjectileType<XerocBubble>(), (int)((double)num * 1.2), 0f, projectile.owner, (float)num6, 0f);
                     }
                 }
             }
@@ -1586,7 +1586,7 @@ namespace CalamityMod.Projectiles
                             {
                                 newDamage = 65;
                             }
-                            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, mod.ProjectileType("TarraEnergy"), newDamage, 0f, projectile.owner, 0f, 0f);
+                            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<TarraEnergy>(), newDamage, 0f, projectile.owner, 0f, 0f);
                         }
                     }
                 }

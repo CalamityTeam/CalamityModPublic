@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class TrueTyrantYharimsUltisword : ModItem
     {
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons
             item.height = 102;
             item.value = Item.buyPrice(1, 20, 0, 0);
             item.rare = 10;
-            item.shoot = mod.ProjectileType("BlazingPhantomBlade");
+            item.shoot = ModContent.ProjectileType<BlazingPhantomBlade>();
             item.shootSpeed = 12f;
             item.Calamity().postMoonLordRarity = 12;
         }
@@ -40,13 +40,13 @@ namespace CalamityMod.Items.Weapons
             switch (Main.rand.Next(3))
             {
                 case 0:
-                    type = mod.ProjectileType("BlazingPhantomBlade");
+                    type = ModContent.ProjectileType<BlazingPhantomBlade>();
                     break;
                 case 1:
-                    type = mod.ProjectileType("HyperBlade");
+                    type = ModContent.ProjectileType<HyperBlade>();
                     break;
                 case 2:
-                    type = mod.ProjectileType("SunlightBlade");
+                    type = ModContent.ProjectileType<SunlightBlade>();
                     break;
                 default:
                     break;
@@ -76,12 +76,12 @@ namespace CalamityMod.Items.Weapons
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            player.AddBuff(mod.BuffType("TyrantsFury"), 300);
+            player.AddBuff(ModContent.BuffType<TyrantsFury>(), 300);
             target.AddBuff(BuffID.OnFire, 300);
             target.AddBuff(BuffID.Venom, 300);
             target.AddBuff(BuffID.CursedInferno, 300);
-            target.AddBuff(mod.BuffType("BrimstoneFlames"), 300);
-            target.AddBuff(mod.BuffType("HolyLight"), 300);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 300);
         }
     }
 }

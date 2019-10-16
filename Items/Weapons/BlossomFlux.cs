@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class BlossomFlux : ModItem
     {
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons
             item.rare = 7;
             item.UseSound = SoundID.Item5;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("LeafArrow");
+            item.shoot = ModContent.ProjectileType<LeafArrow>();
             item.shootSpeed = 10f;
             item.useAmmo = 40;
             item.Calamity().postMoonLordRarity = 17;
@@ -62,11 +62,11 @@ namespace CalamityMod.Items.Weapons
         {
             if (player.altFunctionUse == 2)
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("SporeBomb"), (int)((double)damage * 6.0), knockBack * 60f, player.whoAmI, 0.0f, 0.0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<SporeBomb>(), (int)((double)damage * 6.0), knockBack * 60f, player.whoAmI, 0.0f, 0.0f);
             }
             else
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("LeafArrow"), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<LeafArrow>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
             }
             return false;
         }

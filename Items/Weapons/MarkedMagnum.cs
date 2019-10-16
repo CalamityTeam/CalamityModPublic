@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class MarkedMagnum : ModItem
     {
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons
             item.UseSound = SoundID.Item33;
             item.autoReuse = false;
             item.shootSpeed = 12f;
-            item.shoot = mod.ProjectileType("MarkRound");
+            item.shoot = ModContent.ProjectileType<MarkRound>();
         }
 
         public override Vector2? HoldoutOffset()

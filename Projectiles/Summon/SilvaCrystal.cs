@@ -4,9 +4,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Summon
+namespace CalamityMod.Projectiles
 {
     public class SilvaCrystal : ModProjectile
     {
@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Summon
                     Main.player[projectile.owner].minionDamage);
                 projectile.damage = damage2;
             }
-            bool flag64 = projectile.type == mod.ProjectileType("SilvaCrystal");
+            bool flag64 = projectile.type == ModContent.ProjectileType<SilvaCrystal>();
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
             if (!modPlayer.silvaSummon)
@@ -195,7 +195,7 @@ namespace CalamityMod.Projectiles.Summon
                                 vector156 = projectile.Center + vector155.RotatedByRandom(0.78539818525314331) * (Main.rand.NextFloat() * 0.5f + 0.75f);
                             }
                             float x4 = Main.rgbToHsl(new Color(Main.DiscoR, 203, 103)).X;
-                            Projectile.NewProjectile(vector156.X, vector156.Y, 0f, 0f, mod.ProjectileType("SilvaCrystalExplosion"), projectile.damage, projectile.knockBack, projectile.owner, x4, (float)projectile.whoAmI);
+                            Projectile.NewProjectile(vector156.X, vector156.Y, 0f, 0f, ModContent.ProjectileType<SilvaCrystalExplosion>(), projectile.damage, projectile.knockBack, projectile.owner, x4, (float)projectile.whoAmI);
                             num31 = num1083;
                         }
                         return;

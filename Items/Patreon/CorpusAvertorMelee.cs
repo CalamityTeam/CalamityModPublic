@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Patreon
+namespace CalamityMod.Items
 {
     public class CorpusAvertorMelee : ModItem
     {
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Patreon
             item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;
             item.Calamity().postMoonLordRarity = 21;
-            item.shoot = mod.ProjectileType("CorpusAvertor");
+            item.shoot = ModContent.ProjectileType<CorpusAvertor>();
             item.shootSpeed = 5f;
             item.melee = true;
         }

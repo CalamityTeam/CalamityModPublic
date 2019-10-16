@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Melee
+namespace CalamityMod.Projectiles
 {
     public class BallOFugu : ModProjectile
     {
@@ -92,7 +92,7 @@ namespace CalamityMod.Projectiles.Melee
                 vector63.Normalize();
                 vector63 *= (float)Main.rand.Next(45, 65) * 0.1f;
                 vector63 = vector63.RotatedBy((Main.rand.NextDouble() - 0.5) * 1.5707963705062866, default);
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector63.X, vector63.Y, mod.ProjectileType("UrchinSpikeFugu"), (int)((double)projectile.damage * 0.6), projectile.knockBack * 0.2f, projectile.owner, -10f, 0f);
+                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector63.X, vector63.Y, ModContent.ProjectileType<UrchinSpikeFugu>(), (int)((double)projectile.damage * 0.6), projectile.knockBack * 0.2f, projectile.owner, -10f, 0f);
             }
         }
 

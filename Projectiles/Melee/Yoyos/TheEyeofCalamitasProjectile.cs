@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Melee.Yoyos
+namespace CalamityMod.Projectiles
 {
     public class TheEyeofCalamitasProjectile : ModProjectile
     {
@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                     num439 *= num440;
                     if (projectile.owner == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(value10.X, value10.Y, num438, num439, mod.ProjectileType("BrimstoneLaserFriendly"), (int)((double)projectile.damage * 0.25), projectile.knockBack, projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(value10.X, value10.Y, num438, num439, ModContent.ProjectileType<BrimstoneLaserFriendly>(), (int)((double)projectile.damage * 0.25), projectile.knockBack, projectile.owner, 0f, 0f);
                     }
                 }
             }
@@ -78,7 +78,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("BrimstoneFlames"), 300);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

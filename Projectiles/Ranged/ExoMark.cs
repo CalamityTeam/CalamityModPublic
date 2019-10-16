@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Ranged
+namespace CalamityMod.Projectiles
 {
     public class ExoMark : ModProjectile
     {
@@ -123,7 +123,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.localAI[1] += 1f;
             if (projectile.localAI[1] == 60f && projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(projectile.Center, Vector2.Zero, mod.ProjectileType("ExoTornado"), projectile.damage, 2f, projectile.owner, 1f, 0f);
+                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<ExoTornado>(), projectile.damage, 2f, projectile.owner, 1f, 0f);
             }
             if (projectile.localAI[1] >= 120f)
             {

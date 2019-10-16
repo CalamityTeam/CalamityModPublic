@@ -5,10 +5,10 @@ using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.ID;
 using Terraria.Localization;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 using Terraria.ObjectData;
 
-namespace CalamityMod.Tiles.FurnitureAshen
+namespace CalamityMod.Tiles
 {
     public class AshenChest : ModTile
     {
@@ -41,7 +41,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Containers };
             chest = "Ashen Chest";
-            chestDrop = mod.ItemType("AshenChest");
+            chestDrop = ModContent.ItemType<AshenChest>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -236,9 +236,9 @@ namespace CalamityMod.Tiles.FurnitureAshen
                 player.showItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : "Ashen Chest";
                 if (player.showItemIconText == "Ashen Chest")
                 {
-                    player.showItemIcon2 = mod.ItemType("AshenChest");
+                    player.showItemIcon2 = ModContent.ItemType<AshenChest>();
                     if (Main.tile[left, top].frameX / 36 == 1)
-                        player.showItemIcon2 = mod.ItemType("BrimstoneKey");
+                        player.showItemIcon2 = ModContent.ItemType<BrimstoneKey>();
                     player.showItemIconText = "";
                 }
             }

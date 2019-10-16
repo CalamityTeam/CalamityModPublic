@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class HellfireFlamberge : ModItem
     {
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons
             item.height = 60;
             item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;
-            item.shoot = mod.ProjectileType("ChaosFlameSmall");
+            item.shoot = ModContent.ProjectileType<ChaosFlameSmall>();
             item.shootSpeed = 20f;
         }
 
@@ -42,13 +42,13 @@ namespace CalamityMod.Items.Weapons
                 switch (index)
                 {
                     case 0:
-                        type = mod.ProjectileType("ChaosFlameSmall");
+                        type = ModContent.ProjectileType<ChaosFlameSmall>();
                         break;
                     case 1:
-                        type = mod.ProjectileType("ChaosFlameMedium");
+                        type = ModContent.ProjectileType<ChaosFlameMedium>();
                         break;
                     case 2:
-                        type = mod.ProjectileType("ChaosFlameLarge");
+                        type = ModContent.ProjectileType<ChaosFlameLarge>();
                         break;
                     default:
                         break;

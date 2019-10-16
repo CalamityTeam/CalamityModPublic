@@ -4,9 +4,9 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.DesertScourge
+namespace CalamityMod.NPCs
 {
     public class DesertScourgeBody : ModNPC
     {
@@ -104,7 +104,7 @@ namespace CalamityMod.NPCs.DesertScourge
                         float num942 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector104.X + (float)Main.rand.Next(-20, 21);
                         float num943 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector104.Y + (float)Main.rand.Next(-20, 21);
                         float num944 = (float)Math.Sqrt((double)(num942 * num942 + num943 * num943));
-                        int projectileType = mod.ProjectileType("SandBlast");
+                        int projectileType = ModContent.ProjectileType<SandBlast>();
                         int damage = 12;
                         float num941 = CalamityWorld.bossRushActive ? 12f : 6f;
                         num944 = num941 / num944;
@@ -135,12 +135,12 @@ namespace CalamityMod.NPCs.DesertScourge
         public override void HitEffect(int hitDirection, double damage)
         {
             int wormCount = 5;
-            if (npc.life <= (npc.lifeMax * 0.75f) && NPC.CountNPCS(mod.NPCType("DriedSeekerHead")) < wormCount)
+            if (npc.life <= (npc.lifeMax * 0.75f) && NPC.CountNPCS(ModContent.NPCType<DriedSeekerHead>()) < wormCount)
             {
                 if (Main.rand.NextBool(10) && Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     Vector2 spawnAt = npc.Center + new Vector2(0f, (float)npc.height / 2f);
-                    int seeker = NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, mod.NPCType("DriedSeekerHead"));
+                    int seeker = NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<DriedSeekerHead>());
                     if (Main.netMode == NetmodeID.Server && seeker < 200)
                     {
                         NetMessage.SendData(23, -1, -1, null, seeker, 0f, 0f, 0f, 0, 0, 0);

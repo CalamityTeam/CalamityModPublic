@@ -1,7 +1,7 @@
 using Terraria;
 using Terraria.ID;
 
-namespace CalamityMod.Items.CalamityCustomThrowingDamage
+namespace CalamityMod.Items
 {
     public class CrushsawCrasher : CalamityDamageItem
     {
@@ -24,14 +24,14 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.height = 22;
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.rare = 7;
-            item.shoot = mod.ProjectileType("Crushax");
+            item.shoot = ModContent.ProjectileType<Crushax>();
             item.shootSpeed = 11f;
             item.Calamity().rogue = true;
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("BrimstoneFlames"), 300);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
         }
     }
 }

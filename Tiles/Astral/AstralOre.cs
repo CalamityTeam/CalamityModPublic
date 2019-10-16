@@ -4,9 +4,9 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Tiles.Astral
+namespace CalamityMod.Tiles
 {
     public class AstralOre : ModTile
     {
@@ -24,7 +24,7 @@ namespace CalamityMod.Tiles.Astral
 
             minPick = 200;
             dustType = 173;
-            drop = mod.ItemType("AstralOre");
+            drop = ModContent.ItemType<AstralOre>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Astral Ore");
             AddMapEntry(new Color(255, 153, 255), name);
@@ -72,13 +72,13 @@ namespace CalamityMod.Tiles.Astral
 
         public override void FloorVisuals(Player player)
         {
-            player.AddBuff(mod.BuffType("AstralInfectionDebuff"), 1);
+            player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 1);
             base.FloorVisuals(player);
         }
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            CustomTileFraming.FrameTileForCustomMerge(i, j, Type, mod.TileType("AstralDirt"), false, false, false, false, resetFrame);
+            CustomTileFraming.FrameTileForCustomMerge(i, j, Type, ModContent.TileType<AstralDirt>(), false, false, false, false, resetFrame);
             return false;
         }
     }

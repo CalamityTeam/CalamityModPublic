@@ -7,9 +7,9 @@ using System.Threading;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.Astrageldon
+namespace CalamityMod.NPCs
 {
     [AutoloadBossHead]
     public class Astrageldon : ModNPC
@@ -41,18 +41,18 @@ namespace CalamityMod.NPCs.Astrageldon
                 npc.buffImmune[k] = true;
             }
             npc.buffImmune[BuffID.Ichor] = false;
-            npc.buffImmune[mod.BuffType("MarkedforDeath")] = false;
+            npc.buffImmune[ModContent.BuffType<MarkedforDeath>()] = false;
             npc.buffImmune[BuffID.CursedInferno] = false;
             npc.buffImmune[BuffID.Daybreak] = false;
-            npc.buffImmune[mod.BuffType("AbyssalFlames")] = false;
-            npc.buffImmune[mod.BuffType("ArmorCrunch")] = false;
-            npc.buffImmune[mod.BuffType("DemonFlames")] = false;
-            npc.buffImmune[mod.BuffType("HolyLight")] = false;
-            npc.buffImmune[mod.BuffType("Nightwither")] = false;
-            npc.buffImmune[mod.BuffType("Plague")] = false;
-            npc.buffImmune[mod.BuffType("Shred")] = false;
-            npc.buffImmune[mod.BuffType("WhisperingDeath")] = false;
-            npc.buffImmune[mod.BuffType("SilvaStun")] = false;
+            npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
+            npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
+            npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
+            npc.buffImmune[ModContent.BuffType<HolyFlames>()] = false;
+            npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
+            npc.buffImmune[ModContent.BuffType<Plague>()] = false;
+            npc.buffImmune[ModContent.BuffType<Shred>()] = false;
+            npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
+            npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
             npc.boss = true;
             npc.DeathSound = SoundID.NPCDeath14;
             Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
@@ -60,7 +60,7 @@ namespace CalamityMod.NPCs.Astrageldon
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Astrageldon");
             else
                 music = MusicID.Boss3;
-            bossBag = mod.ItemType("AstrageldonBag");
+            bossBag = ModContent.ItemType<AstrageldonBag>();
             if (NPC.downedMoonlord && CalamityWorld.revenge)
             {
                 npc.value = Item.buyPrice(0, 35, 0, 0);
@@ -297,25 +297,25 @@ namespace CalamityMod.NPCs.Astrageldon
         {
             DropHelper.DropBags(npc);
 
-            DropHelper.DropItemChance(npc, mod.ItemType("AstrageldonTrophy"), 10);
-            DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeAstrumAureus"), true, !CalamityWorld.downedAstrageldon);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<AstrageldonTrophy>(), 10);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeAstrumAureus>(), true, !CalamityWorld.downedAstrageldon);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedAstrageldon, 4, 2, 1);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
             if (!Main.expertMode)
             {
                 // Materials
-                DropHelper.DropItemSpray(npc, mod.ItemType("Stardust"), 20, 30);
+                DropHelper.DropItemSpray(npc, ModContent.ItemType<Stardust>(), 20, 30);
                 DropHelper.DropItemSpray(npc, ItemID.FallenStar, 25, 40);
 
                 // Weapons
-                DropHelper.DropItemChance(npc, mod.ItemType("Nebulash"), 5);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Nebulash>(), 5);
 
                 // Vanity
-                DropHelper.DropItemChance(npc, mod.ItemType("AureusMask"), 7);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<AureusMask>(), 7);
 
                 // Other
-                DropHelper.DropItem(npc, mod.ItemType("AstralJelly"), 9, 12);
+                DropHelper.DropItem(npc, ModContent.ItemType<AstralJelly>(), 9, 12);
                 DropHelper.DropItemChance(npc, ItemID.HallowedKey, 5);
             }
 
@@ -389,10 +389,10 @@ namespace CalamityMod.NPCs.Astrageldon
                 }
                 for (int num623 = 0; num623 < 100; num623++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, mod.DustType("AstralOrange"), 0f, 0f, 100, default, 3f);
+                    int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 3f);
                     Main.dust[num624].noGravity = true;
                     Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, mod.DustType("AstralOrange"), 0f, 0f, 100, default, 2f);
+                    num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 2f);
                     Main.dust[num624].velocity *= 2f;
                 }
             }
@@ -406,7 +406,7 @@ namespace CalamityMod.NPCs.Astrageldon
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(mod.BuffType("AstralInfectionDebuff"), 240, true);
+            player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 240, true);
         }
     }
 }

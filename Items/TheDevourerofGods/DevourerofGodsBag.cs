@@ -1,15 +1,14 @@
-using CalamityMod.Utilities;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.TheDevourerofGods
+namespace CalamityMod.Items
 {
     public class DevourerofGodsBag : ModItem
     {
-        public override int BossBagNPC => mod.NPCType("DevourerofGodsHeadS");
+        public override int BossBagNPC => ModContent.NPCType<DevourerofGodsHeadS>();
 
         public override void SetStaticDefaults()
         {
@@ -43,30 +42,30 @@ namespace CalamityMod.Items.TheDevourerofGods
             player.TryGettingDevArmor();
 
             // Materials
-            DropHelper.DropItem(player, mod.ItemType("CosmiliteBar"), 30, 39);
-            DropHelper.DropItem(player, mod.ItemType("CosmiliteBrick"), 200, 320);
+            DropHelper.DropItem(player, ModContent.ItemType<CosmiliteBar>(), 30, 39);
+            DropHelper.DropItem(player, ModContent.ItemType<CosmiliteBrick>(), 200, 320);
 
             // Weapons
-            DropHelper.DropItemChance(player, mod.ItemType("Excelsus"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("EradicatorMelee"), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<Excelsus>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<EradicatorMelee>(), 3);
             float dischargeChance = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : DropHelper.LegendaryDropRateFloat;
-            DropHelper.DropItemCondition(player, mod.ItemType("CosmicDischarge"), CalamityWorld.revenge, dischargeChance);
-            DropHelper.DropItemChance(player, mod.ItemType("TheObliterator"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("Deathwind"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("Skullmasher"), DropHelper.RareVariantDropRateInt);
-            DropHelper.DropItemChance(player, mod.ItemType("Norfleet"), DropHelper.RareVariantDropRateInt);
-            DropHelper.DropItemChance(player, mod.ItemType("DeathhailStaff"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("StaffoftheMechworm"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("Eradicator"), 3);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<CosmicDischarge>(), CalamityWorld.revenge, dischargeChance);
+            DropHelper.DropItemChance(player, ModContent.ItemType<TheObliterator>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<Deathwind>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<Skullmasher>(), DropHelper.RareVariantDropRateInt);
+            DropHelper.DropItemChance(player, ModContent.ItemType<Norfleet>(), DropHelper.RareVariantDropRateInt);
+            DropHelper.DropItemChance(player, ModContent.ItemType<DeathhailStaff>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<StaffoftheMechworm>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<Eradicator>(), 3);
 
             // Equipment
-            DropHelper.DropItem(player, mod.ItemType("NebulousCore"));
+            DropHelper.DropItem(player, ModContent.ItemType<NebulousCore>());
             bool vodka = player.Calamity().fabsolVodka;
-            DropHelper.DropItemCondition(player, mod.ItemType("Fabsol"), CalamityWorld.revenge && vodka);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<Fabsol>(), CalamityWorld.revenge && vodka);
 
             // Vanity
-            DropHelper.DropItemChance(player, mod.ItemType("DevourerofGodsMask"), 7);
-            DropHelper.DropItemCondition(player, mod.ItemType("CosmicPlushie"), CalamityWorld.death && player.difficulty == 2);
+            DropHelper.DropItemChance(player, ModContent.ItemType<DevourerofGodsMask>(), 7);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<CosmicPlushie>(), CalamityWorld.death && player.difficulty == 2);
         }
     }
 }

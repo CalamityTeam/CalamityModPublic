@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Patreon
+namespace CalamityMod.Projectiles
 {
     public class RoxSlam : ModProjectile
     {
@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Patreon
                 //Bounce
                 player.velocity.Y = -18f;
                 //Spawns the shockwave
-                Projectile.NewProjectile(projectile.position.X + 25, projectile.position.Y + 25, 0f, 0f, mod.ProjectileType("RoxShockwave"), 300, 12, projectile.owner);
+                Projectile.NewProjectile(projectile.position.X + 25, projectile.position.Y + 25, 0f, 0f, ModContent.ProjectileType<RoxShockwave>(), 300, 12, projectile.owner);
                 Main.PlaySound(2, projectile.position, 14);
                 projectile.Kill();
                 //Pretty things

@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Ranged
+namespace CalamityMod.Projectiles
 {
     public class Contagion : ModProjectile
     {
@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Ranged
             Player player = Main.player[projectile.owner];
             float num = 1.57079637f;
             Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
-            if (projectile.type == mod.ProjectileType("Contagion"))
+            if (projectile.type == ModContent.ProjectileType<Contagion>())
             {
                 projectile.ai[0] += 1f;
                 int num2 = 0;
@@ -107,7 +107,7 @@ namespace CalamityMod.Projectiles.Ranged
                             projectile.netUpdate = true;
                         }
                         projectile.velocity = vector3;
-                        int num6 = mod.ProjectileType("ContagionArrow");
+                        int num6 = ModContent.ProjectileType<ContagionArrow>();
                         float scaleFactor2 = 14f;
                         int num7 = 7;
                         value2 = projectile.Center + new Vector2((float)Main.rand.Next(-num7, num7 + 1), (float)Main.rand.Next(-num7, num7 + 1));

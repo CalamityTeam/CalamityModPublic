@@ -4,9 +4,9 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.Astrageldon
+namespace CalamityMod.NPCs
 {
     public class AstrageldonSlime : ModNPC
     {
@@ -71,7 +71,7 @@ namespace CalamityMod.NPCs.Astrageldon
                 int num;
                 for (int num245 = 0; num245 < 10; num245 = num + 1)
                 {
-                    int dust = Dust.NewDust(npc.position, npc.width, npc.height, mod.DustType("AstralOrange"), npc.velocity.X, npc.velocity.Y, 255, default, 0.8f);
+                    int dust = Dust.NewDust(npc.position, npc.width, npc.height, ModContent.DustType<AstralOrange>(), npc.velocity.X, npc.velocity.Y, 255, default, 0.8f);
                     Main.dust[dust].noGravity = true;
                     Main.dust[dust].velocity *= 0.5f;
                     num = num245;
@@ -139,7 +139,7 @@ namespace CalamityMod.NPCs.Astrageldon
                 int num;
                 for (int num1449 = 0; num1449 < 20; num1449 = num + 1)
                 {
-                    int num1450 = Dust.NewDust(npc.position, npc.width, npc.height, mod.DustType("AstralOrange"), 0f, 0f, 100, Color.Transparent, 0.6f);
+                    int num1450 = Dust.NewDust(npc.position, npc.width, npc.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, Color.Transparent, 0.6f);
                     Dust dust = Main.dust[num1450];
                     dust.velocity *= 3f;
                     Main.dust[num1450].noGravity = true;
@@ -153,7 +153,7 @@ namespace CalamityMod.NPCs.Astrageldon
                 Main.PlaySound(SoundID.Item8, npc.Center);
                 for (int num1451 = 0; num1451 < 20; num1451 = num + 1)
                 {
-                    int num1452 = Dust.NewDust(npc.position, npc.width, npc.height, mod.DustType("AstralOrange"), 0f, 0f, 100, Color.Transparent, 0.6f);
+                    int num1452 = Dust.NewDust(npc.position, npc.width, npc.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, Color.Transparent, 0.6f);
                     Dust dust = Main.dust[num1452];
                     dust.velocity *= 3f;
                     Main.dust[num1452].noGravity = true;
@@ -238,7 +238,7 @@ namespace CalamityMod.NPCs.Astrageldon
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(mod.BuffType("AstralInfectionDebuff"), 120, true);
+            player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120, true);
         }
 
         public override bool CheckDead()
@@ -252,7 +252,7 @@ namespace CalamityMod.NPCs.Astrageldon
             npc.position.Y = npc.position.Y - (float)(npc.height / 2);
             for (int num621 = 0; num621 < 15; num621++)
             {
-                int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, mod.DustType("AstralOrange"), 0f, 0f, 100, default, 1f);
+                int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 1f);
                 Main.dust[num622].velocity *= 3f;
                 if (Main.rand.NextBool(2))
                 {
@@ -266,7 +266,7 @@ namespace CalamityMod.NPCs.Astrageldon
                 int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 2f);
                 Main.dust[num624].noGravity = true;
                 Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, mod.DustType("AstralOrange"), 0f, 0f, 100, default, 1f);
+                num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 1f);
                 Main.dust[num624].velocity *= 2f;
                 Main.dust[num624].noGravity = true;
             }

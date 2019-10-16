@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Boss
+namespace CalamityMod.Projectiles
 {
     public class YharonFireball : ModProjectile
     {
@@ -84,12 +84,12 @@ namespace CalamityMod.Projectiles.Boss
             {
                 for (int x = 0; x < 3; x++)
                 {
-                    Projectile.NewProjectile((int)projectile.Center.X, (int)projectile.Center.Y, speedX, -50f, mod.ProjectileType("YharonFireball2"), projectile.damage, 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile((int)projectile.Center.X, (int)projectile.Center.Y, speedX, -50f, ModContent.ProjectileType<YharonFireball2>(), projectile.damage, 0f, Main.myPlayer, 0f, 0f);
                     speedX += 3f;
                 }
                 for (int x = 0; x < 2; x++)
                 {
-                    Projectile.NewProjectile((int)projectile.Center.X, (int)projectile.Center.Y, speedX2, -75f, mod.ProjectileType("YharonFireball2"), projectile.damage, 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile((int)projectile.Center.X, (int)projectile.Center.Y, speedX2, -75f, ModContent.ProjectileType<YharonFireball2>(), projectile.damage, 0f, Main.myPlayer, 0f, 0f);
                     speedX2 += 10f;
                 }
             }

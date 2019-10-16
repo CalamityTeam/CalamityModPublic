@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Patreon
+namespace CalamityMod.Projectiles
 {
     public class DeepSeaDumbbell1 : ModProjectile
     {
@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Patreon
 
             if (projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(projectile.position.X, projectile.position.Y, projectile.velocity.X, projectile.velocity.Y, mod.ProjectileType("DeepSeaDumbbell2"),
+                Projectile.NewProjectile(projectile.position.X, projectile.position.Y, projectile.velocity.X, projectile.velocity.Y, ModContent.ProjectileType<DeepSeaDumbbell2>(),
                         (int)((double)projectile.damage * 0.75), projectile.knockBack * 0.75f, Main.myPlayer, 0f, 0f);
 
                 float num628 = (float)Main.rand.Next(-35, 36) * 0.01f;
@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Patreon
                         num629 *= -10f;
                     }
 
-                    Projectile.NewProjectile(projectile.position.X, projectile.position.Y, num628, num629, mod.ProjectileType("DeepSeaDumbbellWeight"),
+                    Projectile.NewProjectile(projectile.position.X, projectile.position.Y, num628, num629, ModContent.ProjectileType<DeepSeaDumbbellWeight>(),
                         (int)((double)projectile.damage * 0.25), projectile.knockBack * 0.25f, Main.myPlayer, 0f, 0f);
 
                     num3 = num627;
@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles.Patreon
             if (target.defense > 0)
                 target.defense -= 15;
 
-            target.AddBuff(mod.BuffType("CrushDepth"), 600);
+            target.AddBuff(ModContent.BuffType<CrushDepth>(), 600);
 
             Main.PlaySound(4, (int)projectile.position.X, (int)projectile.position.Y, 43, 1f, 0f);
 
@@ -83,7 +83,7 @@ namespace CalamityMod.Projectiles.Patreon
 
             if (projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(projectile.position.X, projectile.position.Y, projectile.velocity.X, projectile.velocity.Y, mod.ProjectileType("DeepSeaDumbbell2"),
+                Projectile.NewProjectile(projectile.position.X, projectile.position.Y, projectile.velocity.X, projectile.velocity.Y, ModContent.ProjectileType<DeepSeaDumbbell2>(),
                         (int)((double)projectile.damage * 0.75), projectile.knockBack * 0.75f, Main.myPlayer, 0f, 0f);
 
                 float num628 = (float)Main.rand.Next(-35, 36) * 0.01f;
@@ -102,7 +102,7 @@ namespace CalamityMod.Projectiles.Patreon
                         num629 *= -10f;
                     }
 
-                    Projectile.NewProjectile(projectile.position.X, projectile.position.Y, num628, num629, mod.ProjectileType("DeepSeaDumbbellWeight"),
+                    Projectile.NewProjectile(projectile.position.X, projectile.position.Y, num628, num629, ModContent.ProjectileType<DeepSeaDumbbellWeight>(),
                         (int)((double)projectile.damage * 0.25), projectile.knockBack * 0.25f, Main.myPlayer, 0f, 0f);
 
                     num3 = num627;

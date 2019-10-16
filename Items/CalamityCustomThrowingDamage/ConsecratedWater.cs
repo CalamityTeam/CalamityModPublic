@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.CalamityCustomThrowingDamage
+namespace CalamityMod.Items
 {
     public class ConsecratedWater : CalamityDamageItem
     {
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.UseSound = SoundID.Item106;
             item.autoReuse = true;
             item.value = Item.buyPrice(gold: 48); //sell price of 9 gold 60 silver
-            item.shoot = mod.ProjectileType("ConsecratedWaterProjectile");
+            item.shoot = ModContent.ProjectileType<ConsecratedWaterProjectile>();
             item.shootSpeed = 15f;
             item.Calamity().rogue = true;
         }
@@ -39,7 +39,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
         {
             Vector2 velocity = new Vector2(speedX, speedY);
             float strikeValue = player.Calamity().StealthStrikeAvailable().ToInt(); //0 if false, 1 if true
-            int p = Projectile.NewProjectile(position, velocity, mod.ProjectileType("ConsecratedWaterProjectile"), damage, knockBack, player.whoAmI, ai1: strikeValue);
+            int p = Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<ConsecratedWaterProjectile>(), damage, knockBack, player.whoAmI, ai1: strikeValue);
             if (player.Calamity().StealthStrikeAvailable())
                 Main.projectile[p].Calamity().stealthStrike = true;
             return false;

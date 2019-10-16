@@ -1,10 +1,10 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 using Terraria.ObjectData;
 
-namespace CalamityMod.Tiles.FurnitureStatigel
+namespace CalamityMod.Tiles
 {
     public class StatigelPlatform : ModTile
     {
@@ -28,8 +28,8 @@ namespace CalamityMod.Tiles.FurnitureStatigel
             TileObjectData.newTile.LavaDeath = true;
             TileObjectData.addTile(Type);
             AddMapEntry(new Color(191, 142, 111));
-            dustType = mod.DustType("Sparkle");
-            drop = mod.ItemType("StatigelPlatform");
+            dustType = ModContent.DustType<Sparkle>();
+            drop = ModContent.ItemType<StatigelPlatform>();
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Platforms };
         }

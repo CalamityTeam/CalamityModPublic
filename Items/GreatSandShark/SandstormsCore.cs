@@ -1,8 +1,8 @@
 ﻿using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.GreatSandShark
+namespace CalamityMod.Items
 {
     public class SandstormsCore : ModItem
     {
@@ -26,12 +26,12 @@ namespace CalamityMod.Items.GreatSandShark
 
         public override bool CanUseItem(Player player)
         {
-            return player.ZoneDesert && !NPC.AnyNPCs(mod.NPCType("GreatSandShark"));
+            return player.ZoneDesert && !NPC.AnyNPCs(ModContent.NPCType<GreatSandShark>());
         }
 
         public override bool UseItem(Player player)
         {
-            NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("GreatSandShark"));
+            NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<GreatSandShark>());
             Main.PlaySound(SoundID.Roar, player.position, 0);
             return true;
         }

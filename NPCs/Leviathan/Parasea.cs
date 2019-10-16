@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.Leviathan
+namespace CalamityMod.NPCs
 {
     public class Parasea : ModNPC
     {
@@ -35,7 +35,7 @@ namespace CalamityMod.NPCs.Leviathan
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
             banner = npc.type;
-            bannerItem = mod.ItemType("ParaseaBanner");
+            bannerItem = ModContent.ItemType<ParaseaBanner>();
         }
 
         public override void AI()

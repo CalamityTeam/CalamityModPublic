@@ -1,9 +1,9 @@
 ﻿using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Accessories
+namespace CalamityMod.Items
 {
     public class AlchemicalFlask : ModItem
     {
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.alchFlask = true;
-            player.buffImmune[mod.BuffType("Plague")] = true;
+            player.buffImmune[ModContent.BuffType<Plague>()] = true;
         }
 
         public override void AddRecipes()

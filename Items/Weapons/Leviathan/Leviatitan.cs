@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.Leviathan
+namespace CalamityMod.Items
 {
     public class Leviatitan : ModItem
     {
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Leviathan
             item.rare = 7;
             item.UseSound = SoundID.Item92;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("AquaBlast");
+            item.shoot = ModContent.ProjectileType<AquaBlast>();
             item.shootSpeed = 18f;
         }
 
@@ -53,11 +53,11 @@ namespace CalamityMod.Items.Weapons.Leviathan
             float SpeedY = speedY + (float)Main.rand.Next(-10, 11) * 0.05f;
             if (Main.rand.NextBool(3))
             {
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, mod.ProjectileType("AquaBlastToxic"), (int)((double)damage * 1.5), knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<AquaBlastToxic>(), (int)((double)damage * 1.5), knockBack, player.whoAmI, 0f, 0f);
             }
             else
             {
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, mod.ProjectileType("AquaBlast"), damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<AquaBlast>(), damage, knockBack, player.whoAmI, 0f, 0f);
             }
             return false;
         }

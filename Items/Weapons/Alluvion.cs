@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class Alluvion : ModItem
     {
@@ -57,7 +57,7 @@ namespace CalamityMod.Items.Weapons
                 {
                     if (Main.rand.NextBool(12))
                     {
-                        type = mod.ProjectileType("TorrentialArrow");
+                        type = ModContent.ProjectileType<TorrentialArrow>();
                     }
                     if (Main.rand.NextBool(25))
                     {
@@ -65,7 +65,7 @@ namespace CalamityMod.Items.Weapons
                     }
                     if (Main.rand.NextBool(100))
                     {
-                        type = mod.ProjectileType("TyphoonArrow");
+                        type = ModContent.ProjectileType<TyphoonArrow>();
                     }
                     int num121 = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
                     Main.projectile[num121].Calamity().forceRanged = true;

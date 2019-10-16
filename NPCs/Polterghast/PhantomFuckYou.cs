@@ -5,9 +5,9 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.Polterghast
+namespace CalamityMod.NPCs
 {
     public class PhantomFuckYou : ModNPC
     {
@@ -87,7 +87,7 @@ namespace CalamityMod.NPCs.Polterghast
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     int damage = expertMode ? 62 : 75;
-                    Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X * 0.05f, direction.Y * 0.05f, mod.ProjectileType("PhantomMine"), damage, 1f, npc.target);
+                    Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X * 0.05f, direction.Y * 0.05f, ModContent.ProjectileType<PhantomMine>(), damage, 1f, npc.target);
                 }
 
                 timer = 0;

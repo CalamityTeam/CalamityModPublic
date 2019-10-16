@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Ranged
+namespace CalamityMod.Projectiles
 {
     public class AMR : ModProjectile
     {
@@ -53,11 +53,11 @@ namespace CalamityMod.Projectiles.Ranged
                     speedY *= dir * 150;
                     if (projectile.owner == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, mod.ProjectileType("AMR2"), (int)((double)projectile.damage * 0.1), 1f, projectile.owner);
+                        Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, ModContent.ProjectileType<AMR2>(), (int)((double)projectile.damage * 0.1), 1f, projectile.owner);
                     }
                 }
             }
-            target.AddBuff(mod.BuffType("MarkedforDeath"), 600);
+            target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 600);
             if (target.defense > 50)
             {
                 target.defense -= 50;

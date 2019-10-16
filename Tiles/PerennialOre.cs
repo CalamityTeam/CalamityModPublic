@@ -1,7 +1,7 @@
 using CalamityMod.Utilities;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
 namespace CalamityMod.Tiles
 {
@@ -17,8 +17,8 @@ namespace CalamityMod.Tiles
 
             TileMerge.MergeGeneralTiles(Type);
 
-            dustType = mod.DustType("CESparkle");
-            drop = mod.ItemType("PerennialOre");
+            dustType = ModContent.DustType<CESparkle>();
+            drop = ModContent.ItemType<PerennialOre>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Perennial Ore");
             AddMapEntry(new Color(200, 250, 100), name);

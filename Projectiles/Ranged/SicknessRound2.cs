@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Ranged
+namespace CalamityMod.Projectiles
 {
     public class SicknessRound2 : ModProjectile
     {
@@ -69,14 +69,14 @@ namespace CalamityMod.Projectiles.Ranged
         {
             target.AddBuff(BuffID.Poisoned, 180);
             target.AddBuff(BuffID.Venom, 180);
-            target.AddBuff(mod.BuffType("Plague"), 180);
+            target.AddBuff(ModContent.BuffType<Plague>(), 180);
         }
 
         public override void Kill(int timeLeft)
         {
             if (projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("Sickness"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<Sickness>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
             }
         }
     }

@@ -1,6 +1,6 @@
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Placeables.FurnitureAbyss
+namespace CalamityMod.Items
 {
     public class AbyssLamp : ModItem
     {
@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAbyss
             item.useStyle = 1;
             item.consumable = true;
             item.value = 0;
-            item.createTile = mod.TileType("AbyssLamp");
+            item.createTile = ModContent.TileType<AbyssLamp>();
         }
 
         public override void AddRecipes()

@@ -1,6 +1,6 @@
 using Terraria.ID;
 
-namespace CalamityMod.Items.CalamityCustomThrowingDamage
+namespace CalamityMod.Items
 {
     public class UrchinStinger : CalamityDamageItem
     {
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.maxStack = 999;
             item.value = 200;
             item.rare = 1;
-            item.shoot = mod.ProjectileType("UrchinStinger");
+            item.shoot = ModContent.ProjectileType<UrchinStinger>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;
         }

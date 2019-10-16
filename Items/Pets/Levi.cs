@@ -1,8 +1,8 @@
 ﻿using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Pets
+namespace CalamityMod.Items
 {
     public class Levi : ModItem
     {
@@ -15,8 +15,8 @@ namespace CalamityMod.Items.Pets
         public override void SetDefaults()
         {
             item.CloneDefaults(ItemID.ZephyrFish);
-            item.shoot = mod.ProjectileType("Levi");
-            item.buffType = mod.BuffType("Levi");
+            item.shoot = ModContent.ProjectileType<Levi>();
+            item.buffType = ModContent.BuffType<Levi>();
             item.rare = 10;
         }
 

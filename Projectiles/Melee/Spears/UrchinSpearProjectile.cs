@@ -1,9 +1,9 @@
 ﻿using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Melee.Spears
+namespace CalamityMod.Projectiles
 {
     public class UrchinSpearProjectile : ModProjectile
     {
@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
                 {
                     projectile.localAI[0] = 1f;
                     Projectile.NewProjectile(projectile.Center.X + projectile.velocity.X, projectile.Center.Y + projectile.velocity.Y,
-                        projectile.velocity.X * 1.6f, projectile.velocity.Y * 1.6f, mod.ProjectileType("UrchinSpikeFugu"), (int)((double)projectile.damage * 0.5), projectile.knockBack * 0.5f, projectile.owner, 0f, 0f);
+                        projectile.velocity.X * 1.6f, projectile.velocity.Y * 1.6f, ModContent.ProjectileType<UrchinSpikeFugu>(), (int)((double)projectile.damage * 0.5), projectile.knockBack * 0.5f, projectile.owner, 0f, 0f);
                 }
             }
             else

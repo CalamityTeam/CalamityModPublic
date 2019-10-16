@@ -1,8 +1,8 @@
 ﻿using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Perforator
+namespace CalamityMod.Items
 {
     public class BloodyWormFood : ModItem
     {
@@ -26,12 +26,12 @@ namespace CalamityMod.Items.Perforator
 
         public override bool CanUseItem(Player player)
         {
-            return player.ZoneCrimson && !NPC.AnyNPCs(mod.NPCType("PerforatorHive"));
+            return player.ZoneCrimson && !NPC.AnyNPCs(ModContent.NPCType<PerforatorHive>());
         }
 
         public override bool UseItem(Player player)
         {
-            NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("PerforatorHive"));
+            NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<PerforatorHive>());
             Main.PlaySound(SoundID.Roar, player.position, 0);
             return true;
         }

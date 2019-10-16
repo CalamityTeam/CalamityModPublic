@@ -2,9 +2,9 @@ using CalamityMod.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Tiles.FurniturePlaguedPlate
+namespace CalamityMod.Tiles
 {
     public class PlaguedPlate : ModTile
     {
@@ -15,7 +15,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
             soundType = 21;
             mineResist = 3f;
             minPick = 210;
-            drop = mod.ItemType("PlaguedPlate");
+            drop = ModContent.ItemType<PlaguedPlate>();
             AddMapEntry(new Color(51, 99, 75));
         }
 

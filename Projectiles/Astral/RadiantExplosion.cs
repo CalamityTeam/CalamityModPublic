@@ -2,9 +2,9 @@
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Astral
+namespace CalamityMod.Projectiles
 {
     public class RadiantExplosion : ModProjectile
     {
@@ -32,13 +32,13 @@ namespace CalamityMod.Projectiles.Astral
             {
                 for (int i = 0; i < 5; i++)
                 {
-                    int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, mod.DustType("AstralBlue"), 0f, 0f, 100, default, 1.5f);
+                    int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, ModContent.DustType<AstralBlue>(), 0f, 0f, 100, default, 1.5f);
                     Main.dust[num469].noGravity = true;
                     Main.dust[num469].velocity *= 0f;
                 }
                 for (int i = 0; i < 5; i++)
                 {
-                    int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, mod.DustType("AstralOrange"), 0f, 0f, 100, default, 1.5f);
+                    int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 1.5f);
                     Main.dust[num469].noGravity = true;
                     Main.dust[num469].velocity *= 0f;
                 }
@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Astral
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("AstralInfectionDebuff"), 120);
+            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120);
             for (int n = 0; n < 3; n++)
             {
                 float x = target.position.X + (float)Main.rand.Next(-400, 400);
@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Astral
                 int projectileType = Main.rand.Next(3);
                 if (projectileType == 0)
                 {
-                    projectileType = mod.ProjectileType("AstralStar");
+                    projectileType = ModContent.ProjectileType<AstralStar>();
                 }
                 else if (projectileType == 1)
                 {

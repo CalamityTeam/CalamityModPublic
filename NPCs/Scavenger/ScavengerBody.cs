@@ -6,9 +6,9 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.Scavenger
+namespace CalamityMod.NPCs
 {
     [AutoloadBossHead]
     public class ScavengerBody : ModNPC
@@ -49,15 +49,15 @@ namespace CalamityMod.NPCs.Scavenger
             npc.buffImmune[BuffID.Ichor] = false;
             npc.buffImmune[BuffID.CursedInferno] = false;
             npc.buffImmune[BuffID.Daybreak] = false;
-            npc.buffImmune[mod.BuffType("AbyssalFlames")] = false;
-            npc.buffImmune[mod.BuffType("ArmorCrunch")] = false;
-            npc.buffImmune[mod.BuffType("DemonFlames")] = false;
-            npc.buffImmune[mod.BuffType("GodSlayerInferno")] = false;
-            npc.buffImmune[mod.BuffType("HolyLight")] = false;
-            npc.buffImmune[mod.BuffType("Nightwither")] = false;
-            npc.buffImmune[mod.BuffType("Shred")] = false;
-            npc.buffImmune[mod.BuffType("WhisperingDeath")] = false;
-            npc.buffImmune[mod.BuffType("SilvaStun")] = false;
+            npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
+            npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
+            npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
+            npc.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = false;
+            npc.buffImmune[ModContent.BuffType<HolyFlames>()] = false;
+            npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
+            npc.buffImmune[ModContent.BuffType<Shred>()] = false;
+            npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
+            npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
             npc.boss = true;
             npc.alpha = 255;
             npc.HitSound = SoundID.NPCHit41;
@@ -67,7 +67,7 @@ namespace CalamityMod.NPCs.Scavenger
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Ravager");
             else
                 music = MusicID.Boss4;
-            bossBag = mod.ItemType("RavagerBag");
+            bossBag = ModContent.ItemType<RavagerBag>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -109,11 +109,11 @@ namespace CalamityMod.NPCs.Scavenger
             if (npc.localAI[0] == 0f && Main.netMode != NetmodeID.MultiplayerClient)
             {
                 npc.localAI[0] = 1f;
-                NPC.NewNPC((int)npc.Center.X - 70, (int)npc.Center.Y + 88, mod.NPCType("ScavengerLegLeft"), 0, 0f, 0f, 0f, 0f, 255);
-                NPC.NewNPC((int)npc.Center.X + 70, (int)npc.Center.Y + 88, mod.NPCType("ScavengerLegRight"), 0, 0f, 0f, 0f, 0f, 255);
-                NPC.NewNPC((int)npc.Center.X - 120, (int)npc.Center.Y + 50, mod.NPCType("ScavengerClawLeft"), 0, 0f, 0f, 0f, 0f, 255);
-                NPC.NewNPC((int)npc.Center.X + 120, (int)npc.Center.Y + 50, mod.NPCType("ScavengerClawRight"), 0, 0f, 0f, 0f, 0f, 255);
-                NPC.NewNPC((int)npc.Center.X + 1, (int)npc.Center.Y - 20, mod.NPCType("ScavengerHead"), 0, 0f, 0f, 0f, 0f, 255);
+                NPC.NewNPC((int)npc.Center.X - 70, (int)npc.Center.Y + 88, ModContent.NPCType<ScavengerLegLeft>(), 0, 0f, 0f, 0f, 0f, 255);
+                NPC.NewNPC((int)npc.Center.X + 70, (int)npc.Center.Y + 88, ModContent.NPCType<ScavengerLegRight>(), 0, 0f, 0f, 0f, 0f, 255);
+                NPC.NewNPC((int)npc.Center.X - 120, (int)npc.Center.Y + 50, ModContent.NPCType<ScavengerClawLeft>(), 0, 0f, 0f, 0f, 0f, 255);
+                NPC.NewNPC((int)npc.Center.X + 120, (int)npc.Center.Y + 50, ModContent.NPCType<ScavengerClawRight>(), 0, 0f, 0f, 0f, 0f, 255);
+                NPC.NewNPC((int)npc.Center.X + 1, (int)npc.Center.Y - 20, ModContent.NPCType<ScavengerHead>(), 0, 0f, 0f, 0f, 0f, 255);
             }
 
             if (npc.target >= 0 && Main.player[npc.target].dead)
@@ -140,15 +140,15 @@ namespace CalamityMod.NPCs.Scavenger
 
             for (int num619 = 0; num619 < 200; num619++)
             {
-                if (Main.npc[num619].active && Main.npc[num619].type == mod.NPCType("ScavengerHead"))
+                if (Main.npc[num619].active && Main.npc[num619].type == ModContent.NPCType<ScavengerHead>())
                     headActive = true;
-                if (Main.npc[num619].active && Main.npc[num619].type == mod.NPCType("ScavengerClawRight"))
+                if (Main.npc[num619].active && Main.npc[num619].type == ModContent.NPCType<ScavengerClawRight>())
                     rightClawActive = true;
-                if (Main.npc[num619].active && Main.npc[num619].type == mod.NPCType("ScavengerClawLeft"))
+                if (Main.npc[num619].active && Main.npc[num619].type == ModContent.NPCType<ScavengerClawLeft>())
                     leftClawActive = true;
-                if (Main.npc[num619].active && Main.npc[num619].type == mod.NPCType("ScavengerLegRight"))
+                if (Main.npc[num619].active && Main.npc[num619].type == ModContent.NPCType<ScavengerLegRight>())
                     rightLegActive = true;
-                if (Main.npc[num619].active && Main.npc[num619].type == mod.NPCType("ScavengerLegLeft"))
+                if (Main.npc[num619].active && Main.npc[num619].type == ModContent.NPCType<ScavengerLegLeft>())
                     leftLegActive = true;
             }
 
@@ -164,7 +164,7 @@ namespace CalamityMod.NPCs.Scavenger
                 if (Main.netMode != NetmodeID.Server)
                 {
                     if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
-                        Main.player[Main.myPlayer].AddBuff(mod.BuffType("WeakPetrification"), 2);
+                        Main.player[Main.myPlayer].AddBuff(ModContent.BuffType<WeakPetrification>(), 2);
                 }
             }
 
@@ -419,16 +419,16 @@ namespace CalamityMod.NPCs.Scavenger
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        if (NPC.CountNPCS(mod.NPCType("RockPillar")) < 2)
+                        if (NPC.CountNPCS(ModContent.NPCType<RockPillar>()) < 2)
                         {
-                            NPC.NewNPC((int)npc.Center.X - 360, (int)npc.Center.Y - 10, mod.NPCType("RockPillar"), 0, 0f, 0f, 0f, 0f, 255);
-                            NPC.NewNPC((int)npc.Center.X + 360, (int)npc.Center.Y - 10, mod.NPCType("RockPillar"), 0, 0f, 0f, 0f, 0f, 255);
+                            NPC.NewNPC((int)npc.Center.X - 360, (int)npc.Center.Y - 10, ModContent.NPCType<RockPillar>(), 0, 0f, 0f, 0f, 0f, 255);
+                            NPC.NewNPC((int)npc.Center.X + 360, (int)npc.Center.Y - 10, ModContent.NPCType<RockPillar>(), 0, 0f, 0f, 0f, 0f, 255);
                         }
 
-                        if (NPC.CountNPCS(mod.NPCType("FlamePillar")) < 2)
+                        if (NPC.CountNPCS(ModContent.NPCType<FlamePillar>()) < 2)
                         {
-                            NPC.NewNPC((int)Main.player[npc.target].Center.X - 180, (int)Main.player[npc.target].Center.Y - 10, mod.NPCType("FlamePillar"), 0, 0f, 0f, 0f, 0f, 255);
-                            NPC.NewNPC((int)Main.player[npc.target].Center.X + 180, (int)Main.player[npc.target].Center.Y - 10, mod.NPCType("FlamePillar"), 0, 0f, 0f, 0f, 0f, 255);
+                            NPC.NewNPC((int)Main.player[npc.target].Center.X - 180, (int)Main.player[npc.target].Center.Y - 10, ModContent.NPCType<FlamePillar>(), 0, 0f, 0f, 0f, 0f, 255);
+                            NPC.NewNPC((int)Main.player[npc.target].Center.X + 180, (int)Main.player[npc.target].Center.Y - 10, ModContent.NPCType<FlamePillar>(), 0, 0f, 0f, 0f, 0f, 255);
                         }
                     }
 
@@ -532,7 +532,7 @@ namespace CalamityMod.NPCs.Scavenger
             Main.spriteBatch.Draw(mod.GetTexture("NPCs/Scavenger/ScavengerLegLeft"), new Vector2(center.X - Main.screenPosition.X - 112f, center.Y - Main.screenPosition.Y + 20f), //72
                 new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, 0, mod.GetTexture("NPCs/Scavenger/ScavengerLegLeft").Width, mod.GetTexture("NPCs/Scavenger/ScavengerLegLeft").Height)),
                 color2, 0f, default, 1f, SpriteEffects.None, 0f);
-            if (NPC.CountNPCS(mod.NPCType("ScavengerHead")) > 0)
+            if (NPC.CountNPCS(ModContent.NPCType<ScavengerHead>()) > 0)
             {
                 Main.spriteBatch.Draw(mod.GetTexture("NPCs/Scavenger/ScavengerHead"), new Vector2(center.X - Main.screenPosition.X - 70f, center.Y - Main.screenPosition.Y - 75f),
                     new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, 0, mod.GetTexture("NPCs/Scavenger/ScavengerHead").Width, mod.GetTexture("NPCs/Scavenger/ScavengerHead").Height)),
@@ -578,7 +578,7 @@ namespace CalamityMod.NPCs.Scavenger
         {
             if (CalamityWorld.revenge)
             {
-                player.AddBuff(mod.BuffType("Horror"), 600, true);
+                player.AddBuff(ModContent.BuffType<Horror>(), 600, true);
             }
         }
 
@@ -592,8 +592,8 @@ namespace CalamityMod.NPCs.Scavenger
         {
             DropHelper.DropBags(npc);
 
-            DropHelper.DropItemChance(npc, mod.ItemType("RavagerTrophy"), 10);
-            DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeRavager"), true, !CalamityWorld.downedScavenger);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<RavagerTrophy>(), 10);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeRavager>(), true, !CalamityWorld.downedScavenger);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedScavenger, 4, 2, 1);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
@@ -604,27 +604,27 @@ namespace CalamityMod.NPCs.Scavenger
                 int barMax = CalamityWorld.downedProvidence ? 10 : 3;
                 int coreMin = CalamityWorld.downedProvidence ? 1 : 1;
                 int coreMax = CalamityWorld.downedProvidence ? 3 : 2;
-                DropHelper.DropItemCondition(npc, mod.ItemType("Bloodstone"), CalamityWorld.downedProvidence, 50, 60);
-                DropHelper.DropItem(npc, mod.ItemType("VerstaltiteBar"), barMin, barMax);
-                DropHelper.DropItem(npc, mod.ItemType("DraedonBar"), barMin, barMax);
-                DropHelper.DropItem(npc, mod.ItemType("CruptixBar"), barMin, barMax);
-                DropHelper.DropItem(npc, mod.ItemType("CoreofCinder"), coreMin, coreMax);
-                DropHelper.DropItem(npc, mod.ItemType("CoreofEleum"), coreMin, coreMax);
-                DropHelper.DropItem(npc, mod.ItemType("CoreofChaos"), coreMin, coreMax);
-                DropHelper.DropItemCondition(npc, mod.ItemType("BarofLife"), CalamityWorld.downedProvidence, 2, 1, 1);
-                DropHelper.DropItemCondition(npc, mod.ItemType("CoreofCalamity"), CalamityWorld.downedProvidence, 3, 1, 1);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 50, 60);
+                DropHelper.DropItem(npc, ModContent.ItemType<VerstaltiteBar>(), barMin, barMax);
+                DropHelper.DropItem(npc, ModContent.ItemType<DraedonBar>(), barMin, barMax);
+                DropHelper.DropItem(npc, ModContent.ItemType<CruptixBar>(), barMin, barMax);
+                DropHelper.DropItem(npc, ModContent.ItemType<CoreofCinder>(), coreMin, coreMax);
+                DropHelper.DropItem(npc, ModContent.ItemType<CoreofEleum>(), coreMin, coreMax);
+                DropHelper.DropItem(npc, ModContent.ItemType<CoreofChaos>(), coreMin, coreMax);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<BarofLife>(), CalamityWorld.downedProvidence, 2, 1, 1);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<CoreofCalamity>(), CalamityWorld.downedProvidence, 3, 1, 1);
 
                 // Weapons
                 DropHelper.DropItemFromSet(npc,
-                    mod.ItemType("UltimusCleaver"),
-                    mod.ItemType("RealmRavager"),
-                    mod.ItemType("Hematemesis"),
-                    mod.ItemType("SpikecragStaff"),
-                    mod.ItemType("CraniumSmasher"));
+                    ModContent.ItemType<UltimusCleaver>(),
+                    ModContent.ItemType<RealmRavager>(),
+                    ModContent.ItemType<Hematemesis>(),
+                    ModContent.ItemType<SpikecragStaff>(),
+                    ModContent.ItemType<CraniumSmasher>());
 
                 // Equipment
-                DropHelper.DropItemChance(npc, mod.ItemType("BloodPact"), 3);
-                DropHelper.DropItemChance(npc, mod.ItemType("FleshTotem"), 3);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<BloodPact>(), 3);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<FleshTotem>(), 3);
             }
 
             // Mark Ravager as dead

@@ -1,19 +1,20 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Buffs;
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Mounts
+namespace CalamityMod.Items
 {
-    class AngryDog : ModMountData
+    class AngryDogMount : ModMountData
     {
         public override void SetDefaults()
         {
             mountData.spawnDust = 192;
             mountData.spawnDustNoGravity = true;
-            mountData.buff = mod.BuffType("TundraLeashBuff");
+            mountData.buff = ModContent.BuffType<TundraLeashBuff>();
             mountData.heightBoost = 36; //8
             mountData.fallDamage = 0.3f;
             mountData.runSpeed = 6.5f;

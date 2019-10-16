@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.SunkenSea
+namespace CalamityMod.Items
 {
     public class Whirlpool : ModItem
     {
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Weapons.SunkenSea
             item.useStyle = 5;
             item.useAnimation = 25;
             item.useTime = 25;
-            item.shoot = mod.ProjectileType("WhirlpoolProjectile");
+            item.shoot = ModContent.ProjectileType<WhirlpoolProjectile>();
             item.shootSpeed = 18f;
             item.UseSound = SoundID.Item1;
             ItemID.Sets.Yoyo[item.type] = true;

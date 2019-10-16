@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Patreon
+namespace CalamityMod.Items
 {
     public class Karasawa : ModItem
     {
@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Patreon
             item.rare = 10;
             item.Calamity().postMoonLordRarity = 21;
 
-            item.shoot = mod.ProjectileType("KarasawaShot");
+            item.shoot = ModContent.ProjectileType<KarasawaShot>();
             item.shootSpeed = 1f;
             item.useAmmo = AmmoID.Bullet;
         }
@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Patreon
                 velocity.Normalize();
                 velocity *= 5f;
             }
-            Projectile.NewProjectile(position.X, position.Y, velocity.X, velocity.Y, mod.ProjectileType("KarasawaShot"), damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<KarasawaShot>(), damage, knockBack, player.whoAmI, 0f, 0f);
 
             // Consume 5 ammo per shot
             CalamityGlobalItem.ConsumeAdditionalAmmo(player, item, 5);

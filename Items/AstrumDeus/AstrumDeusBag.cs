@@ -1,12 +1,13 @@
+using CalamityMod.NPCs;
 using CalamityMod.Utilities;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.AstrumDeus
+namespace CalamityMod.Items
 {
     public class AstrumDeusBag : ModItem
     {
-        public override int BossBagNPC => mod.NPCType("AstrumDeusHeadSpectral");
+        public override int BossBagNPC => ModContent.NPCType<AstrumDeusHeadSpectral>();
 
         public override void SetStaticDefaults()
         {
@@ -34,20 +35,20 @@ namespace CalamityMod.Items.AstrumDeus
             player.TryGettingDevArmor();
 
             // Materials
-            DropHelper.DropItem(player, mod.ItemType("Stardust"), 60, 90);
+            DropHelper.DropItem(player, ModContent.ItemType<Stardust>(), 60, 90);
 
             // Weapons
-            DropHelper.DropItemChance(player, mod.ItemType("Starfall"), 4);
-            DropHelper.DropItemChance(player, mod.ItemType("Quasar"), DropHelper.RareVariantDropRateInt);
+            DropHelper.DropItemChance(player, ModContent.ItemType<Starfall>(), 4);
+            DropHelper.DropItemChance(player, ModContent.ItemType<Quasar>(), DropHelper.RareVariantDropRateInt);
 
             // Equipment
             float f = Main.rand.NextFloat();
             bool replaceWithRare = f <= DropHelper.RareVariantDropRateFloat; // 1/40 chance of getting Hide of Astrum Deus
-            DropHelper.DropItemCondition(player, mod.ItemType("AstralBulwark"), !replaceWithRare);
-            DropHelper.DropItemCondition(player, mod.ItemType("HideofAstrumDeus"), replaceWithRare);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<AstralBulwark>(), !replaceWithRare);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<HideofAstrumDeus>(), replaceWithRare);
 
             // Vanity
-            DropHelper.DropItemChance(player, mod.ItemType("AstrumDeusMask"), 7);
+            DropHelper.DropItemChance(player, ModContent.ItemType<AstrumDeusMask>(), 7);
         }
     }
 }

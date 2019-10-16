@@ -6,9 +6,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.SlimeGod
+namespace CalamityMod.NPCs
 {
     [AutoloadBossHead]
     public class SlimeGodCore : ModNPC
@@ -32,8 +32,8 @@ namespace CalamityMod.NPCs.SlimeGod
             NPCID.Sets.TrailingMode[npc.type] = 1;
             npc.aiStyle = -1;
             aiType = -1;
-            npc.buffImmune[mod.BuffType("GlacialState")] = true;
-            npc.buffImmune[mod.BuffType("TemporalSadness")] = true;
+            npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
+            npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
             npc.knockBackResist = 0f;
             npc.value = Item.buyPrice(0, 8, 0, 0);
             npc.alpha = 80;
@@ -48,7 +48,7 @@ namespace CalamityMod.NPCs.SlimeGod
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/SlimeGod");
             else
                 music = MusicID.Boss1;
-            bossBag = mod.ItemType("SlimeGodBag");
+            bossBag = ModContent.ItemType<SlimeGodBag>();
         }
 
         public override void AI()
@@ -98,8 +98,8 @@ namespace CalamityMod.NPCs.SlimeGod
                     {
                         for (int x = 0; x < 200; x++)
                         {
-                            if (Main.npc[x].type == mod.NPCType("SlimeGod") || Main.npc[x].type == mod.NPCType("SlimeGodSplit") ||
-                                Main.npc[x].type == mod.NPCType("SlimeGodRun") || Main.npc[x].type == mod.NPCType("SlimeGodRunSplit"))
+                            if (Main.npc[x].type == ModContent.NPCType<SlimeGod>() || Main.npc[x].type == ModContent.NPCType<SlimeGodSplit>() ||
+                                Main.npc[x].type == ModContent.NPCType<SlimeGodRun>() || Main.npc[x].type == ModContent.NPCType<SlimeGodRunSplit>())
                             {
                                 Main.npc[x].active = false;
                                 Main.npc[x].netUpdate = true;
@@ -145,11 +145,11 @@ namespace CalamityMod.NPCs.SlimeGod
                                 int num185 = Main.rand.Next(2);
                                 if (num185 == 0)
                                 {
-                                    num185 = mod.ProjectileType("AbyssMine");
+                                    num185 = ModContent.ProjectileType<AbyssMine>();
                                 }
                                 else
                                 {
-                                    num185 = mod.ProjectileType("AbyssMine2");
+                                    num185 = ModContent.ProjectileType<AbyssMine2>();
                                     num184 = 22;
                                 }
                                 value9.X += num180;
@@ -187,11 +187,11 @@ namespace CalamityMod.NPCs.SlimeGod
                             int num185 = Main.rand.Next(2);
                             if (num185 == 0)
                             {
-                                num185 = mod.ProjectileType("AbyssBallVolley");
+                                num185 = ModContent.ProjectileType<AbyssBallVolley>();
                             }
                             else
                             {
-                                num185 = mod.ProjectileType("AbyssBallVolley2");
+                                num185 = ModContent.ProjectileType<AbyssBallVolley2>();
                                 num184 = expertMode ? 16 : 19;
                             }
                             value9.X += num180;
@@ -320,10 +320,10 @@ namespace CalamityMod.NPCs.SlimeGod
         public override void NPCLoot()
         {
             bool otherSlimeGodsAlive =
-                NPC.AnyNPCs(mod.NPCType("SlimeGod")) ||
-                NPC.AnyNPCs(mod.NPCType("SlimeGodSplit")) ||
-                NPC.AnyNPCs(mod.NPCType("SlimeGodRun")) ||
-                NPC.AnyNPCs(mod.NPCType("SlimeGodRunSplit"));
+                NPC.AnyNPCs(ModContent.NPCType<SlimeGod>()) ||
+                NPC.AnyNPCs(ModContent.NPCType<SlimeGodSplit>()) ||
+                NPC.AnyNPCs(ModContent.NPCType<SlimeGodRun>()) ||
+                NPC.AnyNPCs(ModContent.NPCType<SlimeGodRunSplit>());
             if (!otherSlimeGodsAlive)
                 DropSlimeGodLoot(npc);
         }
@@ -334,15 +334,15 @@ namespace CalamityMod.NPCs.SlimeGod
             CalamityMod mod = ModContent.GetInstance<CalamityMod>();
             DropHelper.DropBags(npc);
 
-            DropHelper.DropItemChance(npc, mod.ItemType("SlimeGodTrophy"), 10);
-            DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeSlimeGod"), true, !CalamityWorld.downedSlimeGod);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<SlimeGodTrophy>(), 10);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeSlimeGod>(), true, !CalamityWorld.downedSlimeGod);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedSlimeGod, 3, 1, 0);
 
             // Purified Jam is once per player, but drops for all players.
             CalamityPlayer mp = Main.player[Player.FindClosest(npc.position, npc.width, npc.height)].Calamity();
             if (!mp.revJamDrop)
             {
-                DropHelper.DropItemCondition(npc, mod.ItemType("PurifiedJam"), true, CalamityWorld.revenge && !CalamityWorld.downedSlimeGod, 6, 8);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<PurifiedJam>(), true, CalamityWorld.revenge && !CalamityWorld.downedSlimeGod, 6, 8);
                 mp.revJamDrop = true;
             }
 
@@ -353,21 +353,21 @@ namespace CalamityMod.NPCs.SlimeGod
             if (!Main.expertMode)
             {
                 // Materials
-                DropHelper.DropItemSpray(npc, mod.ItemType("PurifiedGel"), 25, 40);
+                DropHelper.DropItemSpray(npc, ModContent.ItemType<PurifiedGel>(), 25, 40);
 
                 // Weapons
-                DropHelper.DropItemChance(npc, mod.ItemType("OverloadedBlaster"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("AbyssalTome"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("EldritchTome"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("CorroslimeStaff"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("CrimslimeStaff"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("GelDart"), 4, 80, 100);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<OverloadedBlaster>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<AbyssalTome>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<EldritchTome>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<CorroslimeStaff>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<CrimslimeStaff>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<GelDart>(), 4, 80, 100);
 
                 // Vanity
-                DropHelper.DropItemFromSetChance(npc, 7, mod.ItemType("SlimeGodMask"), mod.ItemType("SlimeGodMask2"));
+                DropHelper.DropItemFromSetChance(npc, 7, ModContent.ItemType<SlimeGodMask>(), ModContent.ItemType<SlimeGodMask2>());
 
                 // Other
-                DropHelper.DropItem(npc, mod.ItemType("StaticRefiner"));
+                DropHelper.DropItem(npc, ModContent.ItemType<StaticRefiner>());
             }
 
             // Mark the Slime God as dead
@@ -420,8 +420,8 @@ namespace CalamityMod.NPCs.SlimeGod
             player.AddBuff(BuffID.VortexDebuff, 240, true);
             if (CalamityWorld.revenge)
             {
-                player.AddBuff(mod.BuffType("Horror"), 120, true);
-                player.AddBuff(mod.BuffType("MarkedforDeath"), 120);
+                player.AddBuff(ModContent.BuffType<Horror>(), 120, true);
+                player.AddBuff(ModContent.BuffType<MarkedforDeath>(), 120);
             }
         }
     }

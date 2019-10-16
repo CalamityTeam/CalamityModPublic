@@ -1,9 +1,9 @@
 ﻿using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Yharon
+namespace CalamityMod.Items
 {
     public class ChickenEgg : ModItem
     {
@@ -28,12 +28,12 @@ namespace CalamityMod.Items.Yharon
 
         public override bool CanUseItem(Player player)
         {
-            return player.ZoneJungle && !NPC.AnyNPCs(mod.NPCType("Yharon")) && CalamityWorld.downedBossAny;
+            return player.ZoneJungle && !NPC.AnyNPCs(ModContent.NPCType<Yharon>()) && CalamityWorld.downedBossAny;
         }
 
         public override bool UseItem(Player player)
         {
-            NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("Yharon"));
+            NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Yharon>());
             Main.PlaySound(SoundID.Roar, player.position, 0);
             return true;
         }

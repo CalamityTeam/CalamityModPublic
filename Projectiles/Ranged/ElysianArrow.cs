@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Ranged
+namespace CalamityMod.Projectiles
 {
     public class ElysianArrow : ModProjectile
     {
@@ -120,14 +120,14 @@ namespace CalamityMod.Projectiles.Ranged
             num16 *= num18;
             if (projectile.owner == Main.myPlayer)
             {
-                int num19 = Projectile.NewProjectile(x, y, num15, num16, mod.ProjectileType("SkyFlareFriendly"), projectile.damage, 5f, projectile.owner, 0f, 0f);
+                int num19 = Projectile.NewProjectile(x, y, num15, num16, ModContent.ProjectileType<SkyFlareFriendly>(), projectile.damage, 5f, projectile.owner, 0f, 0f);
                 Main.projectile[num19].ai[1] = projectile.position.Y;
             }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("HolyLight"), 360);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 360);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

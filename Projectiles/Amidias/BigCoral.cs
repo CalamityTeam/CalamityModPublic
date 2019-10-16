@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Amidias
+namespace CalamityMod.Projectiles
 {
     public class BigCoral : ModProjectile
     {
@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Amidias
         {
             if (target.rarity != 2 && !target.boss)
             {
-                target.AddBuff(mod.BuffType("SilvaStun"), 15);
+                target.AddBuff(ModContent.BuffType<SilvaStun>(), 15);
             }
         }
     }

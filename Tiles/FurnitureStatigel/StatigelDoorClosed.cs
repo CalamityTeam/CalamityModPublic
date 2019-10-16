@@ -3,10 +3,10 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 using Terraria.ObjectData;
 
-namespace CalamityMod.Tiles.FurnitureStatigel
+namespace CalamityMod.Tiles
 {
     public class StatigelDoorClosed : ModTile
     {
@@ -42,7 +42,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
             AddMapEntry(new Color(191, 142, 111), name);
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.ClosedDoor };
-            openDoorID = mod.TileType("StatigelDoorOpen");
+            openDoorID = ModContent.TileType<StatigelDoorOpen>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -63,7 +63,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 16, 48, mod.ItemType("StatigelDoor"));
+            Item.NewItem(i * 16, j * 16, 16, 48, ModContent.ItemType<StatigelDoor>());
         }
 
         public override void MouseOver(int i, int j)
@@ -71,7 +71,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
             Player player = Main.LocalPlayer;
             player.noThrow = 2;
             player.showItemIcon = true;
-            player.showItemIcon2 = mod.ItemType("StatigelDoor");
+            player.showItemIcon2 = ModContent.ItemType<StatigelDoor>();
         }
     }
 }

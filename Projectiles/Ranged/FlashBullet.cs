@@ -2,9 +2,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Ranged
+namespace CalamityMod.Projectiles
 {
     public class FlashBullet : ModProjectile
     {
@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Ranged
             Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 93);
             if (projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("Flash"), (int)((double)projectile.damage * 0.25), 0f, projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<Flash>(), (int)((double)projectile.damage * 0.25), 0f, projectile.owner, 0f, 0f);
             }
             for (int k = 0; k < 5; k++)
             {

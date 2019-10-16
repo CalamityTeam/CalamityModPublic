@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Melee.Yoyos
+namespace CalamityMod.Projectiles
 {
     public class AirSpinnerProjectile : ModProjectile
     {
@@ -73,7 +73,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                     num439 *= num440;
                     if (projectile.owner == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(value10.X, value10.Y, num438, num439, mod.ProjectileType("Feather"), projectile.damage / 4, 0f, projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(value10.X, value10.Y, num438, num439, ModContent.ProjectileType<Feather>(), projectile.damage / 4, 0f, projectile.owner, 0f, 0f);
                     }
                 }
             }

@@ -1,8 +1,8 @@
 ﻿using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Cryogen
+namespace CalamityMod.Items
 {
     public class CryoKey : ModItem
     {
@@ -26,12 +26,12 @@ namespace CalamityMod.Items.Cryogen
 
         public override bool CanUseItem(Player player)
         {
-            return player.ZoneSnow && !NPC.AnyNPCs(mod.NPCType("Cryogen"));
+            return player.ZoneSnow && !NPC.AnyNPCs(ModContent.NPCType<Cryogen>());
         }
 
         public override bool UseItem(Player player)
         {
-            NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("Cryogen"));
+            NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Cryogen>());
             Main.PlaySound(SoundID.Roar, player.position, 0);
             return true;
         }

@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Ranged
+namespace CalamityMod.Projectiles
 {
     public class ChargedBlast : ModProjectile
     {
@@ -102,7 +102,7 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 for (int k = 0; k < projectiles; k++)
                 {
-                    Projectile.NewProjectile(projectile.position.X, projectile.position.Y, (float)Main.rand.Next(-10, 11) * 2f, (float)Main.rand.Next(-10, 11) * 2f, mod.ProjectileType("ChargedBlast2"),
+                    Projectile.NewProjectile(projectile.position.X, projectile.position.Y, (float)Main.rand.Next(-10, 11) * 2f, (float)Main.rand.Next(-10, 11) * 2f, ModContent.ProjectileType<ChargedBlast2>(),
                     (int)((double)projectile.damage * 0.85), (float)(int)((double)projectile.knockBack * 0.5), Main.myPlayer, 0f, 0f);
                 }
             }

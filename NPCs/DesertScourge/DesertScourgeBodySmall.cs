@@ -2,9 +2,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.DesertScourge
+namespace CalamityMod.NPCs
 {
     public class DesertScourgeBodySmall : ModNPC
     {
@@ -29,7 +29,7 @@ namespace CalamityMod.NPCs.DesertScourge
             aiType = -1;
             npc.knockBackResist = 0f;
             npc.alpha = 255;
-            npc.buffImmune[mod.BuffType("GlacialState")] = true;
+            npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
             npc.behindTiles = true;
             npc.noGravity = true;
             npc.noTileCollide = true;

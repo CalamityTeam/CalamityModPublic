@@ -2,9 +2,9 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Astral
+namespace CalamityMod.Projectiles
 {
     public class AstralScytheProjectile : ModProjectile
     {
@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Astral
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("AstralInfectionDebuff"), 120);
+            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120);
         }
 
         public override void Kill(int timeLeft)
@@ -62,7 +62,7 @@ namespace CalamityMod.Projectiles.Astral
                 Vector2 off = angleVec * distance;
                 off.Y *= (float)projectile.height / projectile.width;
                 Vector2 pos = projectile.Center + off;
-                Dust d = Dust.NewDustPerfect(pos, mod.DustType("AstralBlue"), angleVec * Main.rand.NextFloat(2f, 4f));
+                Dust d = Dust.NewDustPerfect(pos, ModContent.DustType<AstralBlue>(), angleVec * Main.rand.NextFloat(2f, 4f));
                 d.customData = true;
             }
         }

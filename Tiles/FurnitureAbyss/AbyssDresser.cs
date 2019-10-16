@@ -5,10 +5,10 @@ using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.ID;
 using Terraria.Localization;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 using Terraria.ObjectData;
 
-namespace CalamityMod.Tiles.FurnitureAbyss
+namespace CalamityMod.Tiles
 {
     public class AbyssDresser : ModTile
     {
@@ -38,7 +38,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Dressers };
             dresser = "Abyss Dresser";
-            dresserDrop = mod.ItemType("AbyssDresser");
+            dresserDrop = ModContent.ItemType<AbyssDresser>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -178,7 +178,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
                 }
                 if (player.showItemIconText == chest)
                 {
-                    player.showItemIcon2 = mod.ItemType("AbyssDresser");
+                    player.showItemIcon2 = ModContent.ItemType<AbyssDresser>();
                     player.showItemIconText = "";
                 }
             }
@@ -220,7 +220,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
                 }
                 if (player.showItemIconText == chest)
                 {
-                    player.showItemIcon2 = mod.ItemType("AbyssDresser");
+                    player.showItemIcon2 = ModContent.ItemType<AbyssDresser>();
                     player.showItemIconText = "";
                 }
             }

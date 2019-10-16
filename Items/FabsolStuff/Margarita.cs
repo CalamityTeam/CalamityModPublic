@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.FabsolStuff
+namespace CalamityMod.Items
 {
     public class Margarita : ModItem
     {
@@ -30,7 +30,7 @@ One of the best drinks ever created, enjoy it while it lasts");
             item.consumable = true;
             item.potion = true;
             item.healLife = 200;
-            item.buffType = mod.BuffType("Margarita");
+            item.buffType = ModContent.BuffType<Margarita>();
             item.buffTime = 10800;
             item.value = Item.buyPrice(0, 23, 30, 0);
         }
@@ -58,7 +58,7 @@ One of the best drinks ever created, enjoy it while it lasts");
                 player.HealEffect(200, true);
                 player.ManaEffect(200);
             }
-            player.AddBuff(mod.BuffType("Margarita"), 10800);
+            player.AddBuff(ModContent.BuffType<Margarita>(), 10800);
         }
 
         // Zeroes out the hardcoded healing function from having a healLife value. The item still heals in the UseItem hook.

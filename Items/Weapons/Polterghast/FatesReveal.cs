@@ -2,9 +2,9 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.Polterghast
+namespace CalamityMod.Items
 {
     public class FatesReveal : ModItem
     {
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Polterghast
             item.rare = 10;
             item.UseSound = SoundID.Item20;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("FatesReveal");
+            item.shoot = ModContent.ProjectileType<FatesReveal>();
             item.shootSpeed = 1f;
             item.Calamity().postMoonLordRarity = 13;
         }

@@ -4,9 +4,9 @@ using System;
 using Terraria;
 using Terraria.Enums;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Melee
+namespace CalamityMod.Projectiles
 {
     public class CosmicDischarge : ModProjectile
     {
@@ -224,14 +224,14 @@ namespace CalamityMod.Projectiles.Melee
             target.AddBuff(BuffID.Frostburn, 300);
             if (Main.rand.NextBool(3))
             {
-                target.AddBuff(mod.BuffType("GlacialState"), 120);
+                target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
             }
             if (projectile.localAI[1] <= 0f && projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("CosmicIceBurst"), damage, 10f, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<CosmicIceBurst>(), damage, 10f, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
             }
             projectile.localAI[1] = 4f;
-            player.AddBuff(mod.BuffType("CosmicFreeze"), 300);
+            player.AddBuff(ModContent.BuffType<CosmicFreeze>(), 300);
         }
     }
 }

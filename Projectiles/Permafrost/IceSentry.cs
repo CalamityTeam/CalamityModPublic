@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Permafrost
+namespace CalamityMod.Projectiles
 {
     public class IceSentry : ModProjectile
     {
@@ -72,7 +72,7 @@ namespace CalamityMod.Projectiles.Permafrost
                         Vector2 speed = new Vector2(Main.rand.Next(-1000, 1001), Main.rand.Next(-1000, 1001));
                         speed.Normalize();
                         speed *= 15f;
-                        Projectile.NewProjectile(projectile.Center + speed, speed, mod.ProjectileType("FrostShardFriendly"), projectile.damage / 2, projectile.knockBack / 2, Main.myPlayer);
+                        Projectile.NewProjectile(projectile.Center + speed, speed, ModContent.ProjectileType<FrostShardFriendly>(), projectile.damage / 2, projectile.knockBack / 2, Main.myPlayer);
                     }
                 }
             }
@@ -114,7 +114,7 @@ namespace CalamityMod.Projectiles.Permafrost
                             speed *= 8f;
                             if (projectile.ai[1] >= 300f)
                                 speed = speed.RotatedBy(MathHelper.ToRadians(Main.rand.Next(-5, 6))) * 1.5f + npc.velocity / 2f;
-                            int p = Projectile.NewProjectile(projectile.Center, speed + npc.velocity / 2f, mod.ProjectileType("FrostBoltProjectile"), projectile.damage, projectile.knockBack, projectile.owner);
+                            int p = Projectile.NewProjectile(projectile.Center, speed + npc.velocity / 2f, ModContent.ProjectileType<FrostBoltProjectile>(), projectile.damage, projectile.knockBack, projectile.owner);
                             if (p != 1000)
                             {
                                 Main.projectile[p].magic = false;

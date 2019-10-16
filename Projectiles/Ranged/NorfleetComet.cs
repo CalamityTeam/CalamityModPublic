@@ -2,9 +2,9 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Ranged
+namespace CalamityMod.Projectiles
 {
     public class NorfleetComet : ModProjectile
     {
@@ -100,7 +100,7 @@ namespace CalamityMod.Projectiles.Ranged
         {
             if (projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("NorfleetExplosion"), (int)((double)projectile.damage * 0.3), projectile.knockBack * 0.1f, projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<NorfleetExplosion>(), (int)((double)projectile.damage * 0.3), projectile.knockBack * 0.1f, projectile.owner, 0f, 0f);
             }
             Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 10);
             projectile.position = projectile.Center;

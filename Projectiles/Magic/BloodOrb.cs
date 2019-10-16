@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Magic
+namespace CalamityMod.Projectiles
 {
     public class BloodOrb : ModProjectile
     {
@@ -77,7 +77,7 @@ namespace CalamityMod.Projectiles.Magic
                     num440 = num437 / num440;
                     num438 *= num440;
                     num439 *= num440;
-                    Projectile.NewProjectile(value10.X, value10.Y, num438, num439, mod.ProjectileType("BloodBolt"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(value10.X, value10.Y, num438, num439, ModContent.ProjectileType<BloodBolt>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                 }
             }
         }

@@ -6,9 +6,9 @@ using System.IO;
 using Terraria;
 using Terraria.GameContent.Events;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.GreatSandShark
+namespace CalamityMod.NPCs
 {
     public class GreatSandShark : ModNPC
     {
@@ -46,25 +46,25 @@ namespace CalamityMod.NPCs.GreatSandShark
                 npc.buffImmune[k] = true;
             }
             npc.buffImmune[BuffID.Ichor] = false;
-            npc.buffImmune[mod.BuffType("MarkedforDeath")] = false;
+            npc.buffImmune[ModContent.BuffType<MarkedforDeath>()] = false;
             npc.buffImmune[BuffID.CursedInferno] = false;
             npc.buffImmune[BuffID.Daybreak] = false;
-            npc.buffImmune[mod.BuffType("AbyssalFlames")] = false;
-            npc.buffImmune[mod.BuffType("ArmorCrunch")] = false;
-            npc.buffImmune[mod.BuffType("DemonFlames")] = false;
-            npc.buffImmune[mod.BuffType("HolyLight")] = false;
-            npc.buffImmune[mod.BuffType("Nightwither")] = false;
-            npc.buffImmune[mod.BuffType("Plague")] = false;
-            npc.buffImmune[mod.BuffType("Shred")] = false;
-            npc.buffImmune[mod.BuffType("WhisperingDeath")] = false;
-            npc.buffImmune[mod.BuffType("SilvaStun")] = false;
+            npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
+            npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
+            npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
+            npc.buffImmune[ModContent.BuffType<HolyFlames>()] = false;
+            npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
+            npc.buffImmune[ModContent.BuffType<Plague>()] = false;
+            npc.buffImmune[ModContent.BuffType<Shred>()] = false;
+            npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
+            npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
             npc.behindTiles = true;
             npc.netAlways = true;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
             npc.timeLeft = NPC.activeTime * 30;
             banner = npc.type;
-            bannerItem = mod.ItemType("GreatSandSharkBanner");
+            bannerItem = ModContent.ItemType<GreatSandSharkBanner>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -468,7 +468,7 @@ namespace CalamityMod.NPCs.GreatSandShark
                                 int spawnX = (int)(npc.width / 2);
                                 for (int sand = 0; sand < 5; sand++)
                                     Projectile.NewProjectile(npc.Center.X + (float)Main.rand.Next(-spawnX, spawnX), npc.Center.Y,
-                                        (float)Main.rand.Next(-3, 4), (float)Main.rand.Next(-12, -6), mod.ProjectileType("GreatSandBlast"), 40, 0f, Main.myPlayer, 0f, 0f);
+                                        (float)Main.rand.Next(-3, 4), (float)Main.rand.Next(-12, -6), ModContent.ProjectileType<GreatSandBlast>(), 40, 0f, Main.myPlayer, 0f, 0f);
                             }
                             npc.ai[2] = -30f;
                             Vector2 vector261 = npc.DirectionTo(vector260 + new Vector2(0f, -80f));
@@ -671,10 +671,10 @@ namespace CalamityMod.NPCs.GreatSandShark
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrandScale"));
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<GrandScale>());
             if (Main.expertMode && Main.rand.NextBool(3))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrandScale"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<GrandScale>());
             }
         }
 

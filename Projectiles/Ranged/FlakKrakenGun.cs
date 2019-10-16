@@ -2,9 +2,9 @@
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Ranged
+namespace CalamityMod.Projectiles
 {
     public class FlakKrakenGun : ModProjectile
     {
@@ -108,7 +108,7 @@ namespace CalamityMod.Projectiles.Ranged
                         }
                         vector2 += new Vector2(num78, num79);
                         int num29 = projectile.damage;
-                        Projectile.NewProjectile(vector2.X, vector2.Y, 0f, 0f, mod.ProjectileType("FlakKraken"), num29, projectile.knockBack, projectile.owner, 0f, (float)projectile.whoAmI);
+                        Projectile.NewProjectile(vector2.X, vector2.Y, 0f, 0f, ModContent.ProjectileType<FlakKraken>(), num29, projectile.knockBack, projectile.owner, 0f, (float)projectile.whoAmI);
                         projectile.netUpdate = true;
                     }
                 }

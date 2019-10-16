@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.CalamityCustomThrowingDamage
+namespace CalamityMod.Items
 {
     public class ScarletDevil : CalamityDamageItem
     {
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.autoReuse = true;
             item.value = Item.buyPrice(5, 0, 0, 0);
             item.rare = 8;
-            item.shoot = mod.ProjectileType("ScarletDevilProjectile");
+            item.shoot = ModContent.ProjectileType<ScarletDevilProjectile>();
             item.shootSpeed = 30f;
             item.Calamity().rogue = true;
             item.Calamity().postMoonLordRarity = 16;

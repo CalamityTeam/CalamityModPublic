@@ -4,9 +4,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.AbyssNPCs
+namespace CalamityMod.NPCs
 {
     public class MirageJelly : ModNPC
     {
@@ -32,12 +32,12 @@ namespace CalamityMod.NPCs.AbyssNPCs
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
-            npc.buffImmune[mod.BuffType("CrushDepth")] = true;
+            npc.buffImmune[ModContent.BuffType<CrushDepth>()] = true;
             npc.value = Item.buyPrice(0, 0, 25, 0);
             npc.HitSound = SoundID.NPCHit25;
             npc.DeathSound = SoundID.NPCDeath28;
             banner = npc.type;
-            bannerItem = mod.ItemType("MirageJellyBanner");
+            bannerItem = ModContent.ItemType<MirageJellyBanner>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -191,47 +191,47 @@ namespace CalamityMod.NPCs.AbyssNPCs
         {
             if (Main.rand.NextBool(1000000) && CalamityWorld.revenge)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("HalibutCannon"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<HalibutCannon>());
             }
             if (NPC.downedPlantBoss || CalamityWorld.downedCalamitas)
             {
                 if (Main.rand.NextBool(2))
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DepthCells"), Main.rand.Next(5, 8));
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DepthCells>(), Main.rand.Next(5, 8));
                 }
                 if (Main.expertMode && Main.rand.NextBool(2))
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DepthCells"), Main.rand.Next(5, 8));
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DepthCells>(), Main.rand.Next(5, 8));
                 }
             }
             if (Main.expertMode)
             {
                 if (Main.rand.NextBool(5))
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("VitalJelly"));
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<VitalJelly>());
                 }
                 if (Main.rand.NextBool(5))
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("LifeJelly"));
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<LifeJelly>());
                 }
                 if (Main.rand.NextBool(5))
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ManaJelly"));
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<ManaJelly>());
                 }
             }
             else
             {
                 if (Main.rand.NextBool(7))
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("VitalJelly"));
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<VitalJelly>());
                 }
                 if (Main.rand.NextBool(7))
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("LifeJelly"));
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<LifeJelly>());
                 }
                 if (Main.rand.NextBool(7))
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ManaJelly"));
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<ManaJelly>());
                 }
             }
         }

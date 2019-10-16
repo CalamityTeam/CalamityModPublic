@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Magic
+namespace CalamityMod.Projectiles
 {
     public class InfernadoMarkFriendly : ModProjectile
     {
@@ -132,7 +132,7 @@ namespace CalamityMod.Projectiles.Magic
                         break;
                     }
                 }
-                int num236 = Projectile.NewProjectile((float)(num232 * 16 + 8), (float)(num231 * 16 - 24), 0f, 0f, mod.ProjectileType("InfernadoFriendly"), 390, 15f, Main.myPlayer, 16f, 16f);
+                int num236 = Projectile.NewProjectile((float)(num232 * 16 + 8), (float)(num231 * 16 - 24), 0f, 0f, ModContent.ProjectileType<InfernadoFriendly>(), 390, 15f, Main.myPlayer, 16f, 16f);
                 Main.projectile[num236].netUpdate = true;
             }
         }

@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class TyrantYharimsUltisword : ModItem
     {
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons
             item.height = 88;
             item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;
-            item.shoot = mod.ProjectileType("BlazingPhantomBlade");
+            item.shoot = ModContent.ProjectileType<BlazingPhantomBlade>();
             item.shootSpeed = 12f;
         }
 
@@ -66,7 +66,7 @@ namespace CalamityMod.Items.Weapons
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            player.AddBuff(mod.BuffType("TyrantsFury"), 180);
+            player.AddBuff(ModContent.BuffType<TyrantsFury>(), 180);
             target.AddBuff(BuffID.OnFire, 300);
             target.AddBuff(BuffID.Venom, 300);
             target.AddBuff(BuffID.CursedInferno, 300);

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.GameContent.Events;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
 namespace CalamityMod.NPCs
 {
@@ -123,7 +123,7 @@ namespace CalamityMod.NPCs
             bool phase2 = lifeRatio < 0.5f || CalamityWorld.death || CalamityWorld.bossRushActive;
 
             // Spawn crystal in phase 2
-            if (phase2 && !NPC.AnyNPCs(mod.NPCType("KingSlimeJewel")))
+            if (phase2 && !NPC.AnyNPCs(ModContent.NPCType<KingSlimeJewel>()))
             {
                 Vector2 vector = npc.Center + new Vector2(-40f, (float)(-(float)npc.height / 2));
                 for (int num621 = 0; num621 < 20; num621++)
@@ -138,7 +138,7 @@ namespace CalamityMod.NPCs
                     }
                 }
                 Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 38);
-                NPC.NewNPC((int)vector.X, (int)vector.Y, mod.NPCType("KingSlimeJewel"));
+                NPC.NewNPC((int)vector.X, (int)vector.Y, ModContent.NPCType<KingSlimeJewel>());
             }
 
             // Set up health value for spawning slimes
@@ -2074,7 +2074,7 @@ namespace CalamityMod.NPCs
                                 num183 = num179 / num183;
                                 num180 += (float)Main.rand.Next(-120, 121);
                                 num180 *= num183;
-                                Projectile.NewProjectile(value9.X, value9.Y, num180, -5f, mod.ProjectileType("BloodGeyser"), 12, 0f, Main.myPlayer, 0f, 0f);
+                                Projectile.NewProjectile(value9.X, value9.Y, num180, -5f, ModContent.ProjectileType<BloodGeyser>(), 12, 0f, Main.myPlayer, 0f, 0f);
                             }
                         }
 
@@ -4362,7 +4362,7 @@ namespace CalamityMod.NPCs
                                 if (phase3 || calamityGlobalNPC.newAI[2] > 0f)
                                 {
                                     damage += 4;
-                                    projectileType = mod.ProjectileType("DestroyerHomingLaser");
+                                    projectileType = ModContent.ProjectileType<DestroyerHomingLaser>();
                                 }
                                 else if (phase2)
                                 {
@@ -4386,7 +4386,7 @@ namespace CalamityMod.NPCs
 
                             // Shoot projectile and set timeLeft if not a homing laser/metal scrap so lasers don't last for too long
                             int proj = Projectile.NewProjectile(vector.X, vector.Y, num6, num7, projectileType, damage, 0f, Main.myPlayer, 0f, 0f);
-                            if (projectileType != mod.ProjectileType("DestroyerHomingLaser") && projectileType != ProjectileID.SaucerScrap)
+                            if (projectileType != ModContent.ProjectileType<DestroyerHomingLaser>() && projectileType != ProjectileID.SaucerScrap)
                                 Main.projectile[proj].timeLeft = 300;
 
                             npc.netUpdate = true;
@@ -5268,7 +5268,7 @@ namespace CalamityMod.NPCs
 
                                     float num353 = 6f;
                                     int num354 = 30;
-                                    int num355 = mod.ProjectileType("ScavengerLaser");
+                                    int num355 = ModContent.ProjectileType<ScavengerLaser>();
 
                                     vector34 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
                                     num349 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector34.X;
@@ -5806,7 +5806,7 @@ namespace CalamityMod.NPCs
                                 float num446 = CalamityWorld.bossRushActive ? 9f : 6f;
 
                                 int num447 = 33;
-                                int num448 = mod.ProjectileType("Shadowflamethrower");
+                                int num448 = ModContent.ProjectileType<Shadowflamethrower>();
 
                                 vector46 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
                                 num443 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector46.X;
@@ -6087,7 +6087,7 @@ namespace CalamityMod.NPCs
                             {
                                 float num430 = 16f;
                                 int num431 = 31;
-                                int num432 = mod.ProjectileType("Shadowflame");
+                                int num432 = ModContent.ProjectileType<Shadowflame>();
 
                                 float num429 = (float)Math.Sqrt((double)(num427 * num427 + num428 * num428));
                                 num429 = num430 / num429;
@@ -8292,7 +8292,7 @@ namespace CalamityMod.NPCs
                         {
                             offsetAngle = startAngle + deltaAngle * i;
                             float ai0 = (float)Main.rand.Next(3);
-                            Projectile.NewProjectile(vector93.X, vector93.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), mod.ProjectileType("SporeGasPlantera"), damage, 0f, Main.myPlayer, ai0, 0f);
+                            Projectile.NewProjectile(vector93.X, vector93.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), ModContent.ProjectileType<SporeGasPlantera>(), damage, 0f, Main.myPlayer, ai0, 0f);
                         }
 
                         calamityGlobalNPC.newAI[0] = 0f;

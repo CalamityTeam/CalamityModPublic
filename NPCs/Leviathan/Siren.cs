@@ -5,9 +5,9 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.Leviathan
+namespace CalamityMod.NPCs
 {
     [AutoloadBossHead]
     public class Siren : ModNPC
@@ -44,19 +44,19 @@ namespace CalamityMod.NPCs.Leviathan
                 npc.buffImmune[k] = true;
             }
             npc.buffImmune[BuffID.Ichor] = false;
-            npc.buffImmune[mod.BuffType("MarkedforDeath")] = false;
+            npc.buffImmune[ModContent.BuffType<MarkedforDeath>()] = false;
             npc.buffImmune[BuffID.CursedInferno] = false;
             npc.buffImmune[BuffID.Daybreak] = false;
-            npc.buffImmune[mod.BuffType("AbyssalFlames")] = false;
-            npc.buffImmune[mod.BuffType("ArmorCrunch")] = false;
-            npc.buffImmune[mod.BuffType("DemonFlames")] = false;
-            npc.buffImmune[mod.BuffType("GodSlayerInferno")] = false;
-            npc.buffImmune[mod.BuffType("HolyLight")] = false;
-            npc.buffImmune[mod.BuffType("Nightwither")] = false;
-            npc.buffImmune[mod.BuffType("Plague")] = false;
-            npc.buffImmune[mod.BuffType("Shred")] = false;
-            npc.buffImmune[mod.BuffType("WhisperingDeath")] = false;
-            npc.buffImmune[mod.BuffType("SilvaStun")] = false;
+            npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
+            npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
+            npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
+            npc.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = false;
+            npc.buffImmune[ModContent.BuffType<HolyFlames>()] = false;
+            npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
+            npc.buffImmune[ModContent.BuffType<Plague>()] = false;
+            npc.buffImmune[ModContent.BuffType<Shred>()] = false;
+            npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
+            npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit1;
@@ -66,7 +66,7 @@ namespace CalamityMod.NPCs.Leviathan
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Siren");
             else
                 music = MusicID.Boss3;
-            bossBag = mod.ItemType("LeviathanBag");
+            bossBag = ModContent.ItemType<LeviathanBag>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -125,7 +125,7 @@ namespace CalamityMod.NPCs.Leviathan
                     if (!spawnedLevi)
                     {
                         if (revenge)
-                            NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y - 200, mod.NPCType("SirenClone"));
+                            NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y - 200, ModContent.NPCType<SirenClone>());
 
                         Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
                         if (calamityModMusic != null)
@@ -133,7 +133,7 @@ namespace CalamityMod.NPCs.Leviathan
                         else
                             music = MusicID.Boss3;
 
-                        NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("Leviathan"));
+                        NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Leviathan>());
                         spawnedLevi = true;
                     }
                 }
@@ -143,7 +143,7 @@ namespace CalamityMod.NPCs.Leviathan
                 {
                     if (!secondClone)
                     {
-                        NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y - 200, mod.NPCType("SirenClone"));
+                        NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y - 200, ModContent.NPCType<SirenClone>());
                         secondClone = true;
                     }
                 }
@@ -152,7 +152,7 @@ namespace CalamityMod.NPCs.Leviathan
             // Ice Shield
             if (npc.ai[3] == 0f && npc.localAI[1] == 0f && Main.netMode != NetmodeID.MultiplayerClient)
             {
-                int num6 = NPC.NewNPC((int)vector.X, (int)vector.Y, mod.NPCType("SirenIce"), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+                int num6 = NPC.NewNPC((int)vector.X, (int)vector.Y, ModContent.NPCType<SirenIce>(), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
                 npc.ai[3] = (float)(num6 + 1);
                 npc.localAI[1] = -1f;
                 npc.netUpdate = true;
@@ -161,7 +161,7 @@ namespace CalamityMod.NPCs.Leviathan
             }
 
             int num7 = (int)npc.ai[3] - 1;
-            if (num7 != -1 && Main.npc[num7].active && Main.npc[num7].type == mod.NPCType("SirenIce"))
+            if (num7 != -1 && Main.npc[num7].active && Main.npc[num7].type == ModContent.NPCType<SirenIce>())
                 npc.dontTakeDamage = true;
             else
             {
@@ -428,20 +428,20 @@ namespace CalamityMod.NPCs.Leviathan
                         num1072 *= num1073;
 
                         int num1074 = expertMode ? 26 : 32;
-                        int num1075 = mod.ProjectileType("WaterSpear");
+                        int num1075 = ModContent.ProjectileType<WaterSpear>();
                         switch (Main.rand.Next(6))
                         {
                             case 0:
-                                num1075 = mod.ProjectileType("SirenSong");
+                                num1075 = ModContent.ProjectileType<SirenSong>();
                                 break;
                             case 1:
-                                num1075 = mod.ProjectileType("FrostMist");
+                                num1075 = ModContent.ProjectileType<FrostMist>();
                                 break;
                             case 2:
                             case 3:
                             case 4:
                             case 5:
-                                num1075 = mod.ProjectileType("WaterSpear");
+                                num1075 = ModContent.ProjectileType<WaterSpear>();
                                 break;
                         }
                         if (isNotOcean)
@@ -572,7 +572,7 @@ namespace CalamityMod.NPCs.Leviathan
                     {
                         for (int x = 0; x < 200; x++)
                         {
-                            if (Main.npc[x].type == mod.NPCType("Leviathan"))
+                            if (Main.npc[x].type == ModContent.NPCType<Leviathan>())
                             {
                                 Main.npc[x].active = false;
                                 Main.npc[x].netUpdate = true;
@@ -815,7 +815,7 @@ namespace CalamityMod.NPCs.Leviathan
         // Anahita runs the same loot code as the Leviathan, but only if she dies last.
         public override void NPCLoot()
         {
-            if (!NPC.AnyNPCs(mod.NPCType("Leviathan")))
+            if (!NPC.AnyNPCs(ModContent.NPCType<Leviathan>()))
                 Leviathan.DropSirenLeviLoot(npc);
         }
 

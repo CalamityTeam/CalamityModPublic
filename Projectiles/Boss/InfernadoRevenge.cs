@@ -5,9 +5,9 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.DataStructures;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Boss
+namespace CalamityMod.Projectiles
 {
     public class InfernadoRevenge : ModProjectile
     {

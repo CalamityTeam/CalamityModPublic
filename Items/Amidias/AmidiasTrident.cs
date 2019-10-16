@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Amidias
+namespace CalamityMod.Items
 {
     public class AmidiasTrident : ModItem
     {
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Amidias
             item.height = 44;
             item.value = Item.buyPrice(0, 2, 0, 0);
             item.rare = 2;
-            item.shoot = mod.ProjectileType("AmidiasTridentProj");
+            item.shoot = ModContent.ProjectileType<AmidiasTridentProj>();
             item.shootSpeed = 6f;
         }
 

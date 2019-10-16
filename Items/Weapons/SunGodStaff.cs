@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class SunGodStaff : ModItem
     {
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons
             item.rare = 6;
             item.UseSound = SoundID.Item44;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("SolarGod");
+            item.shoot = ModContent.ProjectileType<SolarGod>();
             item.summon = true;
         }
 
@@ -52,7 +52,7 @@ namespace CalamityMod.Items.Weapons
             for (int x = 0; x < 1000; x++)
             {
                 Projectile projectile = Main.projectile[x];
-                if (projectile.active && projectile.owner == player.whoAmI && projectile.type == mod.ProjectileType("SolarGod"))
+                if (projectile.active && projectile.owner == player.whoAmI && projectile.type == ModContent.ProjectileType<SolarGod>())
                 {
                     projectile.Kill();
                 }

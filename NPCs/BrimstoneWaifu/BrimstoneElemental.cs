@@ -7,9 +7,9 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.BrimstoneWaifu
+namespace CalamityMod.NPCs
 {
     [AutoloadBossHead]
     public class BrimstoneElemental : ModNPC
@@ -46,19 +46,19 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
                 npc.buffImmune[k] = true;
             }
             npc.buffImmune[BuffID.Ichor] = false;
-            npc.buffImmune[mod.BuffType("MarkedforDeath")] = false;
+            npc.buffImmune[ModContent.BuffType<MarkedforDeath>()] = false;
             npc.buffImmune[BuffID.CursedInferno] = false;
             npc.buffImmune[BuffID.Daybreak] = false;
-            npc.buffImmune[mod.BuffType("AbyssalFlames")] = false;
-            npc.buffImmune[mod.BuffType("ArmorCrunch")] = false;
-            npc.buffImmune[mod.BuffType("DemonFlames")] = false;
-            npc.buffImmune[mod.BuffType("GodSlayerInferno")] = false;
-            npc.buffImmune[mod.BuffType("HolyLight")] = false;
-            npc.buffImmune[mod.BuffType("Nightwither")] = false;
-            npc.buffImmune[mod.BuffType("Plague")] = false;
-            npc.buffImmune[mod.BuffType("Shred")] = false;
-            npc.buffImmune[mod.BuffType("WhisperingDeath")] = false;
-            npc.buffImmune[mod.BuffType("SilvaStun")] = false;
+            npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
+            npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
+            npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
+            npc.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = false;
+            npc.buffImmune[ModContent.BuffType<HolyFlames>()] = false;
+            npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
+            npc.buffImmune[ModContent.BuffType<Plague>()] = false;
+            npc.buffImmune[ModContent.BuffType<Shred>()] = false;
+            npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
+            npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
             npc.boss = true;
             npc.noGravity = true;
             npc.noTileCollide = true;
@@ -70,7 +70,7 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/LeftAlone");
             else
                 music = MusicID.Boss4;
-            bossBag = mod.ItemType("BrimstoneWaifuBag");
+            bossBag = ModContent.ItemType<BrimstoneWaifuBag>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -214,9 +214,9 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
                 npc.alpha += 2;
                 if (npc.alpha >= 255)
                 {
-                    if (Main.netMode != NetmodeID.MultiplayerClient && NPC.CountNPCS(mod.NPCType("Brimling")) < 2 && revenge)
+                    if (Main.netMode != NetmodeID.MultiplayerClient && NPC.CountNPCS(ModContent.NPCType<Brimling>()) < 2 && revenge)
                     {
-                        NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("Brimling"), 0, 0f, 0f, 0f, 0f, 255);
+                        NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<Brimling>(), 0, 0f, 0f, 0f, 0f, 255);
                     }
                     Main.PlaySound(SoundID.Item8, npc.Center);
                     npc.alpha = 255;
@@ -313,7 +313,7 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
                         for (int i = 0; i < numProj; i++)
                         {
                             offsetAngle = startAngle + deltaAngle * i;
-                            Projectile.NewProjectile(vector93.X, vector93.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), mod.ProjectileType("BrimstoneBarrage"), damage + (provy ? 30 : 0), 0f, Main.myPlayer, 1f, 0f);
+                            Projectile.NewProjectile(vector93.X, vector93.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), ModContent.ProjectileType<BrimstoneBarrage>(), damage + (provy ? 30 : 0), 0f, Main.myPlayer, 1f, 0f);
                         }
 
                         float relativeSpeedX = player.position.X + (float)player.width * 0.5f - shootFromVector.X;
@@ -325,7 +325,7 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
                         shootFromVector.X += relativeSpeedX * 3f;
                         shootFromVector.Y += relativeSpeedY * 3f;
                         int projectileDamage = expertMode ? 28 : 35;
-                        int projectileType = mod.ProjectileType("BrimstoneHellfireball");
+                        int projectileType = ModContent.ProjectileType<BrimstoneHellfireball>();
                         int projectileShot = Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, relativeSpeedX, relativeSpeedY, projectileType, projectileDamage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
                         Main.projectile[projectileShot].timeLeft = 240;
                     }
@@ -414,7 +414,7 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
                         num182 *= num183;
 
                         int num184 = expertMode ? 25 : 30;
-                        int num185 = mod.ProjectileType("BrimstoneHellblast");
+                        int num185 = ModContent.ProjectileType<BrimstoneHellblast>();
                         shootFromVector.X += num180;
                         shootFromVector.Y += num182;
 
@@ -444,8 +444,8 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
                         for (i = 0; i < 6; i++)
                         {
                             offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i; // Used to be 32
-                            Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, (float)(Math.Sin(offsetAngle) * velocity), (float)(Math.Cos(offsetAngle) * velocity), mod.ProjectileType("BrimstoneBarrage"), num184 + (provy ? 30 : 0), 0f, Main.myPlayer, 1f, 0f);
-                            Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, (float)(-Math.Sin(offsetAngle) * velocity), (float)(-Math.Cos(offsetAngle) * velocity), mod.ProjectileType("BrimstoneBarrage"), num184 + (provy ? 30 : 0), 0f, Main.myPlayer, 1f, 0f);
+                            Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, (float)(Math.Sin(offsetAngle) * velocity), (float)(Math.Cos(offsetAngle) * velocity), ModContent.ProjectileType<BrimstoneBarrage>(), num184 + (provy ? 30 : 0), 0f, Main.myPlayer, 1f, 0f);
+                            Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, (float)(-Math.Sin(offsetAngle) * velocity), (float)(-Math.Cos(offsetAngle) * velocity), ModContent.ProjectileType<BrimstoneBarrage>(), num184 + (provy ? 30 : 0), 0f, Main.myPlayer, 1f, 0f);
                         }
                     }
                 }
@@ -472,7 +472,7 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
         {
             if (CalamityWorld.revenge)
             {
-                player.AddBuff(mod.BuffType("Horror"), 300, true);
+                player.AddBuff(ModContent.BuffType<Horror>(), 300, true);
             }
         }
 
@@ -535,7 +535,7 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
             // redo the rest of this drop code later
             if (Main.rand.NextBool(10))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BrimstoneElementalTrophy"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<BrimstoneElementalTrophy>());
             }
             if (CalamityWorld.armageddon)
             {
@@ -552,31 +552,31 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
             {
                 if (CalamityWorld.downedProvidence)
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Bloodstone"), Main.rand.Next(20, 31));
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Bloodstone>(), Main.rand.Next(20, 31));
                 }
                 if (Main.rand.NextBool(10))
                 {
-                    npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("RoseStone"), 1, true);
+                    npc.DropItemInstanced(npc.position, npc.Size, ModContent.ItemType<RoseStone>(), 1, true);
                 }
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.SoulofFright, Main.rand.Next(20, 41));
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EssenceofChaos"), Main.rand.Next(4, 9));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EssenceofChaos>(), Main.rand.Next(4, 9));
                 switch (Main.rand.Next(3))
                 {
                     case 0:
-                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Abaddon"));
+                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Abaddon>());
                         break;
                     case 1:
-                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Brimlance"));
+                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Brimlance>());
                         break;
                     case 2:
-                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SeethingDischarge"));
+                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<SeethingDischarge>());
                         break;
                 }
             }
 
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedBrimstoneElemental, 4, 2, 1);
-            DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeBrimstoneCrag"), true, !CalamityWorld.downedBrimstoneElemental);
-            DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeBrimstoneElemental"), true, !CalamityWorld.downedBrimstoneElemental);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeBrimstoneCrag>(), true, !CalamityWorld.downedBrimstoneElemental);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeBrimstoneElemental>(), true, !CalamityWorld.downedBrimstoneElemental);
 
             // if prime hasn't been killed and this is the first time killing brimmy, do the message
             string key = "Mods.CalamityMod.SteelSkullBossText";

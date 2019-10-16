@@ -2,9 +2,9 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class HellwingStaff : ModItem
     {
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons
             item.rare = 3;
             item.UseSound = SoundID.Item43;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("FlamePillar");
+            item.shoot = ModContent.ProjectileType<FlamePillar>();
             item.shootSpeed = 9f;
         }
 
@@ -101,7 +101,7 @@ namespace CalamityMod.Items.Weapons
                 num79 *= num80;
                 float speedX4 = num78 + (float)Main.rand.Next(-40, 41) * 0.02f;
                 float speedY5 = num79 + (float)Main.rand.Next(-40, 41) * 0.02f;
-                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, mod.ProjectileType("FlamePillar"), damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<FlamePillar>(), damage, knockBack, player.whoAmI, 0f, 0f);
             }
             return false;
         }

@@ -2,9 +2,9 @@
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Magic
+namespace CalamityMod.Projectiles
 {
     public class GhastlyVisage : ModProjectile
     {
@@ -143,7 +143,7 @@ namespace CalamityMod.Projectiles.Magic
             }
             if (flag15 && Main.myPlayer == projectile.owner)
             {
-                int num42 = mod.ProjectileType("GhastlyBlast");
+                int num42 = ModContent.ProjectileType<GhastlyBlast>();
                 float scaleFactor11 = 6f;
                 int weaponDamage2 = player.GetWeaponDamage(player.inventory[player.selectedItem]);
                 float weaponKnockback2 = player.inventory[player.selectedItem].knockBack;

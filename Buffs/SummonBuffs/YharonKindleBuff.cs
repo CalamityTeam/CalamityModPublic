@@ -1,15 +1,16 @@
 ﻿using CalamityMod.CalPlayer;
+using CalamityMod.Projectiles;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Buffs.SummonBuffs
+namespace CalamityMod.Buffs
 {
-    public class SirenLure : ModBuff
+    public class YharonKindleBuff : ModBuff
     {
         public override void SetDefaults()
         {
-            DisplayName.SetDefault("Siren");
-            Description.SetDefault("The siren will protect you");
+            DisplayName.SetDefault("Son of Yharon");
+            Description.SetDefault("The Son of Yharon will protect you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
         }
@@ -17,11 +18,11 @@ namespace CalamityMod.Buffs.SummonBuffs
         public override void Update(Player player, ref int buffIndex)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            if (player.ownedProjectileCounts[mod.ProjectileType("SirenLure")] > 0)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<SonOfYharon>()] > 0)
             {
-                modPlayer.slWaifu = true;
+                modPlayer.aChicken = true;
             }
-            if (!modPlayer.slWaifu)
+            if (!modPlayer.aChicken)
             {
                 player.DelBuff(buffIndex);
                 buffIndex--;

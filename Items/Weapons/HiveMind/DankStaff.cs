@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.HiveMind
+namespace CalamityMod.Items
 {
     public class DankStaff : ModItem
     {
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.HiveMind
             item.rare = 3;
             item.UseSound = SoundID.Item44;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("DankCreeper");
+            item.shoot = ModContent.ProjectileType<DankCreeper>();
             item.shootSpeed = 10f;
             item.summon = true;
         }

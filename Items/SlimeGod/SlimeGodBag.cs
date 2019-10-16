@@ -1,14 +1,13 @@
-using CalamityMod.Utilities;
 using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.SlimeGod
+namespace CalamityMod.Items
 {
     public class SlimeGodBag : ModItem
     {
-        public override int BossBagNPC => mod.NPCType("SlimeGodRun");
+        public override int BossBagNPC => ModContent.NPCType<SlimeGodRun>();
 
         public override void SetStaticDefaults()
         {
@@ -35,25 +34,25 @@ namespace CalamityMod.Items.SlimeGod
         {
             // Materials
             DropHelper.DropItem(player, ItemID.Gel, 30, 60);
-            DropHelper.DropItem(player, mod.ItemType("PurifiedGel"), 30, 50);
+            DropHelper.DropItem(player, ModContent.ItemType<PurifiedGel>(), 30, 50);
 
             // Weapons
-            DropHelper.DropItemChance(player, mod.ItemType("OverloadedBlaster"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("AbyssalTome"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("EldritchTome"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("CorroslimeStaff"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("CrimslimeStaff"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("GelDart"), 3, 100, 125);
+            DropHelper.DropItemChance(player, ModContent.ItemType<OverloadedBlaster>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<AbyssalTome>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<EldritchTome>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<CorroslimeStaff>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<CrimslimeStaff>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<GelDart>(), 3, 100, 125);
 
             // Equipment
-            DropHelper.DropItem(player, mod.ItemType("ManaOverloader"));
-            DropHelper.DropItemCondition(player, mod.ItemType("ElectrolyteGelPack"), CalamityWorld.revenge);
+            DropHelper.DropItem(player, ModContent.ItemType<ManaOverloader>());
+            DropHelper.DropItemCondition(player, ModContent.ItemType<ElectrolyteGelPack>(), CalamityWorld.revenge);
 
             // Vanity
-            DropHelper.DropItemFromSetChance(player, 7, mod.ItemType("SlimeGodMask"), mod.ItemType("SlimeGodMask2"));
+            DropHelper.DropItemFromSetChance(player, 7, ModContent.ItemType<SlimeGodMask>(), ModContent.ItemType<SlimeGodMask2>());
 
             // Other
-            DropHelper.DropItem(player, mod.ItemType("StaticRefiner"));
+            DropHelper.DropItem(player, ModContent.ItemType<StaticRefiner>());
         }
     }
 }

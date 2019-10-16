@@ -2,9 +2,9 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Accessories.Wings
+namespace CalamityMod.Items
 {
     [AutoloadEquip(EquipType.Wings)]
     public class HadarianWings : ModItem
@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            if (player.armor[0].type == mod.ItemType("AstralHelm") && player.armor[1].type == mod.ItemType("AstralBreastplate") && player.armor[2].type == mod.ItemType("AstralLeggings"))
+            if (player.armor[0].type == ModContent.ItemType<AstralHelm>() && player.armor[1].type == ModContent.ItemType<AstralBreastplate>() && player.armor[2].type == ModContent.ItemType<AstralLeggings>())
             {
                 player.moveSpeed += 0.2f;
                 player.jumpSpeedBoost += 0.4f;
@@ -56,7 +56,7 @@ namespace CalamityMod.Items.Accessories.Wings
                     {
                         num59 = -40;
                     }
-                    int num60 = Dust.NewDust(new Vector2(player.position.X + (float)(player.width / 2) + (float)num59, player.position.Y + (float)(player.height / 2) - 15f), 30, 30, mod.DustType("AstralOrange"), 0f, 0f, 100, default, 1.75f);
+                    int num60 = Dust.NewDust(new Vector2(player.position.X + (float)(player.width / 2) + (float)num59, player.position.Y + (float)(player.height / 2) - 15f), 30, 30, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 1.75f);
                     Main.dust[num60].noGravity = true;
                     Main.dust[num60].velocity *= 0.3f;
                     if (Main.rand.NextBool(10))

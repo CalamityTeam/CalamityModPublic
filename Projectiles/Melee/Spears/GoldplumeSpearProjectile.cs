@@ -1,8 +1,8 @@
 ﻿using System;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Melee.Spears
+namespace CalamityMod.Projectiles
 {
     public class GoldplumeSpearProjectile : ModProjectile
     {
@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
                 if (Main.myPlayer == projectile.owner)
                 {
                     Projectile.NewProjectile(projectile.Center.X + projectile.velocity.X, projectile.Center.Y + projectile.velocity.Y,
-                        projectile.velocity.X, projectile.velocity.Y, mod.ProjectileType("Feather"), (int)((double)projectile.damage * 0.2), 0f, projectile.owner, 0f, 0f);
+                        projectile.velocity.X, projectile.velocity.Y, ModContent.ProjectileType<Feather>(), (int)((double)projectile.damage * 0.2), 0f, projectile.owner, 0f, 0f);
                 }
             }
             if (Main.player[projectile.owner].itemAnimation < Main.player[projectile.owner].itemAnimationMax / 3)

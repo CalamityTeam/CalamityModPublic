@@ -1,8 +1,8 @@
 ﻿using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.DevourerMunsters
+namespace CalamityMod.Items
 {
     public class RuneofCos : ModItem
     {
@@ -25,14 +25,14 @@ namespace CalamityMod.Items.DevourerMunsters
             item.rare = 9;
             item.UseSound = SoundID.Item44;
             item.consumable = false;
-            item.shoot = mod.ProjectileType("VoidSpawn");
+            item.shoot = ModContent.ProjectileType<VoidSpawn>();
             item.Calamity().postMoonLordRarity = 13;
         }
 
         public override bool CanUseItem(Player player)
         {
             return (player.ZoneSkyHeight || player.ZoneUnderworldHeight || player.ZoneDungeon) &&
-                !NPC.AnyNPCs(mod.NPCType("StormWeaverHead")) && !NPC.AnyNPCs(mod.NPCType("StormWeaverHeadNaked")) && !NPC.AnyNPCs(mod.NPCType("CeaselessVoid")) && !NPC.AnyNPCs(mod.NPCType("CosmicWraith"));
+                !NPC.AnyNPCs(ModContent.NPCType<StormWeaverHead>()) && !NPC.AnyNPCs(ModContent.NPCType<StormWeaverHeadNaked>()) && !NPC.AnyNPCs(ModContent.NPCType<CeaselessVoid>()) && !NPC.AnyNPCs(ModContent.NPCType<CosmicWraith>());
         }
 
         public override bool UseItem(Player player)
@@ -41,17 +41,17 @@ namespace CalamityMod.Items.DevourerMunsters
             {
                 for (int num662 = 0; num662 < 2; num662++)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, mod.ProjectileType("DarkEnergySpawn"), 0, 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<DarkEnergySpawn>(), 0, 0f, Main.myPlayer, 0f, 0f);
                 }
-                NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("CeaselessVoid"));
+                NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<CeaselessVoid>());
             }
             else if (player.ZoneUnderworldHeight)
             {
-                NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("CosmicWraith"));
+                NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<CosmicWraith>());
             }
             else if (player.ZoneSkyHeight)
             {
-                NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("StormWeaverHead"));
+                NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<StormWeaverHead>());
             }
             Main.PlaySound(SoundID.Roar, player.position, 0);
             return true;

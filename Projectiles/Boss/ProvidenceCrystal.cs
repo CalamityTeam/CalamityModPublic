@@ -4,9 +4,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Boss
+namespace CalamityMod.Projectiles
 {
     public class ProvidenceCrystal : ModProjectile
     {
@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Boss
         public override void AI()
         {
             Player player = Main.player[projectile.owner];
-            if (player.dead || NPC.CountNPCS(mod.NPCType("Providence")) < 1)
+            if (player.dead || NPC.CountNPCS(ModContent.NPCType<Providence>()) < 1)
             {
                 projectile.active = false;
                 projectile.netUpdate = true;
@@ -96,7 +96,7 @@ namespace CalamityMod.Projectiles.Boss
                     for (int num1083 = 0; num1083 < 14; num1083++)
                     {
                         float x4 = Main.rgbToHsl(new Color(255, 200, Main.DiscoB)).X;
-                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, speedX, speedY, mod.ProjectileType("ProvidenceCrystalShard"), projectile.damage, projectile.knockBack, projectile.owner, x4, (float)projectile.whoAmI);
+                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, speedX, speedY, ModContent.ProjectileType<ProvidenceCrystalShard>(), projectile.damage, projectile.knockBack, projectile.owner, x4, (float)projectile.whoAmI);
                         speedX += 3f; // -21, -18, -15, -12, -9, -6, -3, 0, 3, 6, 9, 12, 15, 18, 21
                     }
                 }

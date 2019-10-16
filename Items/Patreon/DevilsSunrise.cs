@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Patreon
+namespace CalamityMod.Items
 {
     public class DevilsSunrise : ModItem
     {
@@ -34,14 +34,14 @@ namespace CalamityMod.Items.Patreon
             item.Calamity().postMoonLordRarity = 21;
             item.value = Item.buyPrice(1, 40, 0, 0);
 
-            item.shoot = mod.ProjectileType("DevilsSunrise");
+            item.shoot = ModContent.ProjectileType<DevilsSunrise>();
             item.shootSpeed = 24f;
         }
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("DevilsSunrise"), damage, knockBack, player.whoAmI, 0f, 0f);
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("DevilsSunriseCyclone"), damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<DevilsSunrise>(), damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<DevilsSunriseCyclone>(), damage, knockBack, player.whoAmI, 0f, 0f);
             return false;
         }
 

@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Melee
+namespace CalamityMod.Projectiles
 {
     public class Galaxia : ModProjectile
     {
@@ -160,20 +160,20 @@ namespace CalamityMod.Projectiles.Melee
             }
             if (jungle)
             {
-                target.AddBuff(mod.BuffType("Plague"), 1200);
+                target.AddBuff(ModContent.BuffType<Plague>(), 1200);
                 player.AddBuff(BuffID.Thorns, 600);
                 int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y, 206, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                 Main.projectile[proj].Calamity().forceMelee = true;
             }
             else if (snow)
             {
-                target.AddBuff(mod.BuffType("GlacialState"), 1200);
+                target.AddBuff(ModContent.BuffType<GlacialState>(), 1200);
                 player.AddBuff(BuffID.Warmth, 600);
                 Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y, 118, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
             }
             else if (beach)
             {
-                target.AddBuff(mod.BuffType("CrushDepth"), 1200);
+                target.AddBuff(ModContent.BuffType<CrushDepth>(), 1200);
                 player.AddBuff(BuffID.Wet, 600);
                 int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f, 405, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                 Main.projectile[proj].Calamity().forceMelee = true;
@@ -202,28 +202,28 @@ namespace CalamityMod.Projectiles.Melee
             }
             else if (desert)
             {
-                target.AddBuff(mod.BuffType("HolyLight"), 1200);
+                target.AddBuff(ModContent.BuffType<HolyFlames>(), 1200);
                 player.AddBuff(BuffID.Endurance, 600);
                 int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y, 661, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                 Main.projectile[proj].Calamity().forceMelee = true;
             }
             else if (glow)
             {
-                target.AddBuff(mod.BuffType("TemporalSadness"), 1200);
+                target.AddBuff(ModContent.BuffType<TemporalSadness>(), 1200);
                 player.AddBuff(BuffID.Spelunker, 600);
                 int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y, 131, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                 Main.projectile[proj].Calamity().forceMelee = true;
             }
             else if (hell)
             {
-                target.AddBuff(mod.BuffType("BrimstoneFlames"), 1200);
+                target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 1200);
                 player.AddBuff(BuffID.Inferno, 600);
                 int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y, 15, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                 Main.projectile[proj].Calamity().forceMelee = true;
             }
             else if (holy)
             {
-                target.AddBuff(mod.BuffType("HolyLight"), 1200);
+                target.AddBuff(ModContent.BuffType<HolyFlames>(), 1200);
                 player.AddBuff(BuffID.Heartreach, 600);
                 int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y, 644, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                 Main.projectile[proj].Calamity().forceMelee = true;
@@ -254,7 +254,7 @@ namespace CalamityMod.Projectiles.Melee
             }
             else
             {
-                target.AddBuff(mod.BuffType("ArmorCrunch"), 1200);
+                target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 1200);
                 player.AddBuff(BuffID.DryadsWard, 600);
                 int ball = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y, 604, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                 Main.projectile[ball].penetrate = 1;

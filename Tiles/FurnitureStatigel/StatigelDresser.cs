@@ -5,10 +5,10 @@ using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.ID;
 using Terraria.Localization;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 using Terraria.ObjectData;
 
-namespace CalamityMod.Tiles.FurnitureStatigel
+namespace CalamityMod.Tiles
 {
     public class StatigelDresser : ModTile
     {
@@ -37,7 +37,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Dressers };
             dresser = "Statigel Dresser";
-            dresserDrop = mod.ItemType("StatigelDresser");
+            dresserDrop = ModContent.ItemType<StatigelDresser>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -177,7 +177,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
                 }
                 if (player.showItemIconText == chest)
                 {
-                    player.showItemIcon2 = mod.ItemType("StatigelDresser");
+                    player.showItemIcon2 = ModContent.ItemType<StatigelDresser>();
                     player.showItemIconText = "";
                 }
             }
@@ -219,7 +219,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
                 }
                 if (player.showItemIconText == chest)
                 {
-                    player.showItemIcon2 = mod.ItemType("StatigelDresser");
+                    player.showItemIcon2 = ModContent.ItemType<StatigelDresser>();
                     player.showItemIconText = "";
                 }
             }

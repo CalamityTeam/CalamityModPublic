@@ -1,8 +1,8 @@
 ﻿using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.SlimeGod
+namespace CalamityMod.Items
 {
     public class OverloadedSludge : ModItem
     {
@@ -27,15 +27,15 @@ namespace CalamityMod.Items.SlimeGod
 
         public override bool CanUseItem(Player player)
         {
-            return !NPC.AnyNPCs(mod.NPCType("SlimeGodCore")) && !NPC.AnyNPCs(mod.NPCType("SlimeGod")) &&
-                !NPC.AnyNPCs(mod.NPCType("SlimeGodSplit")) && !NPC.AnyNPCs(mod.NPCType("SlimeGodRun")) && !NPC.AnyNPCs(mod.NPCType("SlimeGodRunSplit"));
+            return !NPC.AnyNPCs(ModContent.NPCType<SlimeGodCore>()) && !NPC.AnyNPCs(ModContent.NPCType<SlimeGod>()) &&
+                !NPC.AnyNPCs(ModContent.NPCType<SlimeGodSplit>()) && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodRun>()) && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodRunSplit>());
         }
 
         public override bool UseItem(Player player)
         {
-            NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("SlimeGod"));
-            NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("SlimeGodRun"));
-            NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("SlimeGodCore"));
+            NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<SlimeGod>());
+            NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<SlimeGodRun>());
+            NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<SlimeGodCore>());
             Main.PlaySound(SoundID.Roar, player.position, 0);
             return true;
         }

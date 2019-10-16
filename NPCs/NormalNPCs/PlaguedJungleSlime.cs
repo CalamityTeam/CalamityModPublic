@@ -2,9 +2,9 @@
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.NormalNPCs
+namespace CalamityMod.NPCs
 {
     public class PlaguedJungleSlime : ModNPC
     {
@@ -41,11 +41,11 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.buffImmune[39] = true;
             npc.buffImmune[24] = true;
             npc.buffImmune[20] = true;
-            npc.buffImmune[mod.BuffType("BrimstoneFlames")] = true;
-            npc.buffImmune[mod.BuffType("HolyLight")] = true;
-            npc.buffImmune[mod.BuffType("Plague")] = true;
+            npc.buffImmune[ModContent.BuffType<BrimstoneFlames>()] = true;
+            npc.buffImmune[ModContent.BuffType<HolyFlames>()] = true;
+            npc.buffImmune[ModContent.BuffType<Plague>()] = true;
             banner = npc.type;
-            bannerItem = mod.ItemType("PestilentSlimeBanner");
+            bannerItem = ModContent.ItemType<PestilentSlimeBanner>();
         }
 
         public override void AI()
@@ -77,7 +77,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                             vector4.Y *= 1f + (float)Main.rand.Next(-50, 51) * 0.005f;
                             vector4.Normalize();
                             vector4 *= 4f + (float)Main.rand.Next(-50, 51) * 0.01f;
-                            Projectile.NewProjectile(vector3.X, vector3.Y, vector4.X, vector4.Y, mod.ProjectileType("PlagueStingerGoliathV2"), 25, 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(vector3.X, vector3.Y, vector4.X, vector4.Y, ModContent.ProjectileType<PlagueStingerGoliathV2>(), 25, 0f, Main.myPlayer, 0f, 0f);
                             spikeTimer = 30f;
                         }
                     }
@@ -98,7 +98,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                         num14 *= num16;
                         num15 *= num16;
                         spikeTimer = 50f;
-                        Projectile.NewProjectile(vector3.X, vector3.Y, num14, num15, mod.ProjectileType("PlagueStingerGoliathV2"), 22, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile(vector3.X, vector3.Y, num14, num15, ModContent.ProjectileType<PlagueStingerGoliathV2>(), 22, 0f, Main.myPlayer, 0f, 0f);
                     }
                 }
             }
@@ -130,12 +130,12 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("PlagueCellCluster"), Main.rand.Next(1, 3));
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<PlagueCellCluster>(), Main.rand.Next(1, 3));
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(mod.BuffType("Plague"), 300, true);
+            player.AddBuff(ModContent.BuffType<Plague>(), 300, true);
         }
     }
 }

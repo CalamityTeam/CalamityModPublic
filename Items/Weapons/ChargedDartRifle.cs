@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class ChargedDartRifle : ModItem
     {
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon");
             item.autoReuse = true;
             item.shootSpeed = 22f;
-            item.shoot = mod.ProjectileType("ChargedBlast");
+            item.shoot = ModContent.ProjectileType<ChargedBlast>();
             item.useAmmo = 283;
         }
 
@@ -47,12 +47,12 @@ namespace CalamityMod.Items.Weapons
         {
             if (player.altFunctionUse == 2)
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("ChargedBlast3"), (int)((double)damage * 0.85), knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<ChargedBlast3>(), (int)((double)damage * 0.85), knockBack, player.whoAmI, 0f, 0f);
                 return false;
             }
             else
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("ChargedBlast"), damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<ChargedBlast>(), damage, knockBack, player.whoAmI, 0f, 0f);
                 return false;
             }
         }

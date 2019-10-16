@@ -3,10 +3,10 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 using Terraria.ObjectData;
 
-namespace CalamityMod.Tiles.FurnitureStratus
+namespace CalamityMod.Tiles
 {
     public class StratusChandelier : ModTile
     {
@@ -62,7 +62,7 @@ namespace CalamityMod.Tiles.FurnitureStratus
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 48, 48, mod.ItemType("StratusChandelier"));
+            Item.NewItem(i * 16, j * 16, 48, 48, ModContent.ItemType<StratusChandelier>());
         }
 
         public override void HitWire(int i, int j)

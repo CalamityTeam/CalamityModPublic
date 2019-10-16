@@ -1,10 +1,10 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 using Terraria.ObjectData;
 
-namespace CalamityMod.Tiles.FurnitureAshen
+namespace CalamityMod.Tiles
 {
     public class AshenPlatform : ModTile
     {
@@ -29,8 +29,8 @@ namespace CalamityMod.Tiles.FurnitureAshen
             TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
             AddMapEntry(new Color(191, 142, 111));
-            dustType = mod.DustType("Sparkle");
-            drop = mod.ItemType("AshenPlatform");
+            dustType = ModContent.DustType<Sparkle>();
+            drop = ModContent.ItemType<AshenPlatform>();
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Platforms };
         }

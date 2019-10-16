@@ -1,7 +1,7 @@
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Placeables.FurnitureAncient
+namespace CalamityMod.Items
 {
     public class AncientSink : ModItem
     {
@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAncient
             item.rare = 3;
             item.consumable = true;
             item.value = 0;
-            item.createTile = mod.TileType("AncientSink");
+            item.createTile = ModContent.TileType<AncientSink>();
         }
 
         public override void AddRecipes()

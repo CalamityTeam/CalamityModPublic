@@ -2,9 +2,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.DevourerofGods
+namespace CalamityMod.Items
 {
     public class Deathwind : ModItem
     {
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.DevourerofGods
             item.rare = 10;
             item.UseSound = SoundID.Item5;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("NebulaShot");
+            item.shoot = ModContent.ProjectileType<NebulaShot>();
             item.shootSpeed = 20f;
             item.useAmmo = 40;
             item.Calamity().postMoonLordRarity = 13;
@@ -51,7 +51,7 @@ namespace CalamityMod.Items.Weapons.DevourerofGods
                 float SpeedY = speedY + (float)Main.rand.Next(-20, 21) * 0.05f;
                 if (type == ProjectileID.WoodenArrowFriendly)
                 {
-                    Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, mod.ProjectileType("NebulaShot"), damage, knockBack, player.whoAmI, 0f, 0f);
+                    Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<NebulaShot>(), damage, knockBack, player.whoAmI, 0f, 0f);
                 }
                 else
                 {

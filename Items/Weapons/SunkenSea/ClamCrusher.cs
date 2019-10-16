@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.SunkenSea
+namespace CalamityMod.Items
 {
     public class ClamCrusher : ModItem
     {
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.SunkenSea
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.channel = true;
-            item.shoot = mod.ProjectileType("ClamCrusherFlail");
+            item.shoot = ModContent.ProjectileType<ClamCrusherFlail>();
             item.shootSpeed = 18f;
         }
     }

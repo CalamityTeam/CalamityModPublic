@@ -1,10 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
-using CalamityMod.Utilities;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class Omniblade : ModItem
     {
@@ -40,7 +39,7 @@ namespace CalamityMod.Items.Weapons
         {
             if (Main.rand.NextBool(5))
             {
-                target.AddBuff(mod.BuffType("WhisperingDeath"), 360);
+                target.AddBuff(ModContent.BuffType<WhisperingDeath>(), 360);
             }
         }
 

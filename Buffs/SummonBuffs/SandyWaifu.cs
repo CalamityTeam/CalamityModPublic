@@ -1,8 +1,8 @@
 ﻿using CalamityMod.CalPlayer;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Buffs.SummonBuffs
+namespace CalamityMod.Buffs
 {
     public class SandyWaifu : ModBuff
     {
@@ -17,7 +17,7 @@ namespace CalamityMod.Buffs.SummonBuffs
         public override void Update(Player player, ref int buffIndex)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            if (player.ownedProjectileCounts[mod.ProjectileType("SandyWaifu")] > 0)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<SandyWaifu>()] > 0)
             {
                 modPlayer.sWaifu = true;
             }

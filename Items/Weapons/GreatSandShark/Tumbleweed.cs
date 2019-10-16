@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.GreatSandShark
+namespace CalamityMod.Items
 {
     public class Tumbleweed : ModItem
     {
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.GreatSandShark
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.channel = true;
-            item.shoot = mod.ProjectileType("Tumbleweed");
+            item.shoot = ModContent.ProjectileType<Tumbleweed>();
             item.shootSpeed = 12f;
         }
 

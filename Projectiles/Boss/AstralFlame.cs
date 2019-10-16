@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Boss
+namespace CalamityMod.Projectiles
 {
     public class AstralFlame : ModProjectile
     {
@@ -62,7 +62,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.ai[0] += 1f;
             if (projectile.ai[0] > 15f)
             {
-                int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, mod.DustType("AstralOrange"), 0f, 0f, 100, default, 0.8f);
+                int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 0.8f);
                 Main.dust[num469].noGravity = true;
                 Main.dust[num469].velocity *= 0f;
             }
@@ -99,7 +99,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(mod.BuffType("AstralInfectionDebuff"), 180);
+            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 180);
         }
 
         public override void Kill(int timeLeft)
@@ -111,11 +111,11 @@ namespace CalamityMod.Projectiles.Boss
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
             for (int num193 = 0; num193 < 2; num193++)
             {
-                Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, mod.DustType("AstralOrange"), 0f, 0f, 50, default, 1f);
+                Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 50, default, 1f);
             }
             for (int num194 = 0; num194 < 20; num194++)
             {
-                int num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, mod.DustType("AstralOrange"), 0f, 0f, 0, default, 1.5f);
+                int num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 0, default, 1.5f);
                 Main.dust[num195].noGravity = true;
                 Main.dust[num195].velocity *= 3f;
                 num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 173, 0f, 0f, 50, default, 1f);

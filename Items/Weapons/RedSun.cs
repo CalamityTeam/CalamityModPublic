@@ -2,9 +2,9 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class RedSun : ModItem
     {
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons
             item.height = 72;
             item.value = Item.buyPrice(5, 0, 0, 0);
             item.rare = 10;
-            item.shoot = mod.ProjectileType("SolarFlare");
+            item.shoot = ModContent.ProjectileType<SolarFlare>();
             item.shootSpeed = 15f;
             item.Calamity().postMoonLordRarity = 16;
         }
@@ -94,7 +94,7 @@ namespace CalamityMod.Items.Weapons
                 num79 *= num80;
                 float speedX4 = num78 + (float)Main.rand.Next(-1000, 1001) * 0.02f;
                 float speedY5 = num79 + (float)Main.rand.Next(-1000, 1001) * 0.02f;
-                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, mod.ProjectileType("SolarFlare"), (int)((double)damage * 0.7), knockBack, player.whoAmI, 0f, (float)Main.rand.Next(10));
+                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<SolarFlare>(), (int)((double)damage * 0.7), knockBack, player.whoAmI, 0f, (float)Main.rand.Next(10));
             }
             return false;
         }
@@ -109,7 +109,7 @@ namespace CalamityMod.Items.Weapons
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("HolyLight"), 600);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 600);
         }
     }
 }

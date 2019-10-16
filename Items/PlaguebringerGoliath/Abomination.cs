@@ -1,8 +1,8 @@
 ﻿using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.PlaguebringerGoliath
+namespace CalamityMod.Items
 {
     public class Abomination : ModItem
     {
@@ -27,12 +27,12 @@ namespace CalamityMod.Items.PlaguebringerGoliath
 
         public override bool CanUseItem(Player player)
         {
-            return player.ZoneJungle && !NPC.AnyNPCs(mod.NPCType("PlaguebringerGoliath"));
+            return player.ZoneJungle && !NPC.AnyNPCs(ModContent.NPCType<PlaguebringerGoliath>());
         }
 
         public override bool UseItem(Player player)
         {
-            NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("PlaguebringerGoliath"));
+            NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<PlaguebringerGoliath>());
             Main.PlaySound(SoundID.Roar, player.position, 0);
             return true;
         }

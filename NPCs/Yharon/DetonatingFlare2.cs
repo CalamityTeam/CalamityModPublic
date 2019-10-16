@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.Yharon
+namespace CalamityMod.NPCs
 {
     public class DetonatingFlare2 : ModNPC
     {
@@ -87,7 +87,7 @@ namespace CalamityMod.NPCs.Yharon
         {
             if (CalamityWorld.revenge)
             {
-                player.AddBuff(mod.BuffType("MarkedforDeath"), 300);
+                player.AddBuff(ModContent.BuffType<MarkedforDeath>(), 300);
             }
         }
 

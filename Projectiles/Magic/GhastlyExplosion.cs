@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Magic
+namespace CalamityMod.Projectiles
 {
     public class GhastlyExplosion : ModProjectile
     {
@@ -83,7 +83,7 @@ namespace CalamityMod.Projectiles.Magic
                     }
                     vector8.Normalize();
                     vector8 *= (float)Main.rand.Next(70, 101) * 0.1f;
-                    Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), vector8.X, vector8.Y, mod.ProjectileType("GhastlyExplosionShard"), (int)((double)projectile.damage * 0.9), projectile.knockBack * 0.8f, projectile.owner, projectile.ai[0], 0f);
+                    Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), vector8.X, vector8.Y, ModContent.ProjectileType<GhastlyExplosionShard>(), (int)((double)projectile.damage * 0.9), projectile.knockBack * 0.8f, projectile.owner, projectile.ai[0], 0f);
                     num3 = num119;
                 }
             }

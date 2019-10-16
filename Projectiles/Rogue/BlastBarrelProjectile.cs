@@ -1,12 +1,12 @@
-﻿using CalamityMod.Items.CalamityCustomThrowingDamage;
+﻿using CalamityMod.Items;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Rogue
+namespace CalamityMod.Projectiles
 {
     public class BlastBarrelProjectile : ModProjectile
     {
@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.Rogue
                 {
                     Vector2 shrapnelVelocity = (Vector2.UnitY * (-16f + Main.rand.NextFloat(-3, 12f))).RotatedByRandom((double)MathHelper.ToRadians(30f));
                     Projectile.NewProjectile(projectile.Center, projectile.velocity + shrapnelVelocity,
-                        mod.ProjectileType("BarrelShrapnel"), BlastBarrel.BaseDamage, 3f, projectile.owner);
+                        ModContent.ProjectileType<BarrelShrapnel>(), BlastBarrel.BaseDamage, 3f, projectile.owner);
                 }
                 else
                 {

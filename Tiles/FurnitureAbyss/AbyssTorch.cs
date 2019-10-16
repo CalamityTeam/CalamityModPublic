@@ -4,10 +4,10 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 using Terraria.ObjectData;
 
-namespace CalamityMod.Tiles.FurnitureAbyss
+namespace CalamityMod.Tiles
 {
     public class AbyssTorch : ModTile
     {
@@ -41,7 +41,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
             name.SetDefault("Abyss Torch");
             AddMapEntry(new Color(253, 221, 3), name);
             disableSmartCursor = true;
-            drop = mod.ItemType("AbyssTorch");
+            drop = ModContent.ItemType<AbyssTorch>();
             adjTiles = new int[] { TileID.Torches };
             torch = true;
         }

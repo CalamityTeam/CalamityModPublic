@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Melee
+namespace CalamityMod.Projectiles
 {
     public class Earth4 : ModProjectile
     {
@@ -106,7 +106,7 @@ namespace CalamityMod.Projectiles.Melee
             }
             Main.player[Main.myPlayer].lifeSteal -= num * 1.5f;
             int num2 = projectile.owner;
-            Projectile.NewProjectile(target.position.X, target.position.Y, 0f, 0f, mod.ProjectileType("EarthHealOrb"), 0, 0f, projectile.owner, (float)num2, num);
+            Projectile.NewProjectile(target.position.X, target.position.Y, 0f, 0f, ModContent.ProjectileType<EarthHealOrb>(), 0, 0f, projectile.owner, (float)num2, num);
         }
     }
 }

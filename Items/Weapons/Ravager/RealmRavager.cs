@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.Ravager
+namespace CalamityMod.Items
 {
     public class RealmRavager : ModItem
     {
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Ravager
             item.UseSound = SoundID.Item38;
             item.autoReuse = true;
             item.shootSpeed = 30f;
-            item.shoot = mod.ProjectileType("RealmRavagerBullet");
+            item.shoot = ModContent.ProjectileType<RealmRavagerBullet>();
             item.useAmmo = 97;
         }
 
@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Weapons.Ravager
             {
                 float SpeedX = speedX + (float)Main.rand.Next(-75, 76) * 0.05f;
                 float SpeedY = speedY + (float)Main.rand.Next(-75, 76) * 0.05f;
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, mod.ProjectileType("RealmRavagerBullet"), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<RealmRavagerBullet>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
             }
             return false;
         }

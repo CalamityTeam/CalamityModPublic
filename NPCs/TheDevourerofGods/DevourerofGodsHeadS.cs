@@ -7,9 +7,9 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.Localization;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.TheDevourerofGods
+namespace CalamityMod.NPCs
 {
     [AutoloadBossHead]
     public class DevourerofGodsHeadS : ModNPC
@@ -64,7 +64,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/UniversalCollapse");
             else
                 music = MusicID.LunarBoss;
-            bossBag = mod.ItemType("DevourerofGodsBag");
+            bossBag = ModContent.ItemType<DevourerofGodsBag>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -211,9 +211,9 @@ namespace CalamityMod.NPCs.TheDevourerofGods
                     {
                         int segment;
                         if (segmentSpawn >= 0 && segmentSpawn < minLength)
-                            segment = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("DevourerofGodsBodyS"), npc.whoAmI);
+                            segment = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<DevourerofGodsBodyS>(), npc.whoAmI);
                         else
-                            segment = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("DevourerofGodsTailS"), npc.whoAmI);
+                            segment = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<DevourerofGodsTailS>(), npc.whoAmI);
 
                         Main.npc[segment].realLife = npc.whoAmI;
                         Main.npc[segment].ai[2] = (float)npc.whoAmI;
@@ -239,7 +239,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
                             float num430 = 16f;
-                            int num432 = mod.ProjectileType("DoGFire");
+                            int num432 = ModContent.ProjectileType<DoGFire>();
 
                             float num429 = (float)Math.Sqrt((double)(num427 * num427 + num428 * num428));
                             num429 = num430 / num429;
@@ -274,8 +274,8 @@ namespace CalamityMod.NPCs.TheDevourerofGods
                         // Side walls
                         for (int x = 0; x < totalShots; x++)
                         {
-                            Projectile.NewProjectile(Main.player[npc.target].position.X + 1000f, targetPosY + (float)shotSpacing[0], -speed, 0f, mod.ProjectileType("DoGDeath"), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
-                            Projectile.NewProjectile(Main.player[npc.target].position.X - 1000f, targetPosY + (float)shotSpacing[0], speed, 0f, mod.ProjectileType("DoGDeath"), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(Main.player[npc.target].position.X + 1000f, targetPosY + (float)shotSpacing[0], -speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(Main.player[npc.target].position.X - 1000f, targetPosY + (float)shotSpacing[0], speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
                             shotSpacing[0] -= spacingVar;
                         }
 
@@ -283,8 +283,8 @@ namespace CalamityMod.NPCs.TheDevourerofGods
                         {
                             for (int x = 0; x < 10; x++)
                             {
-                                Projectile.NewProjectile(Main.player[npc.target].position.X + 1000f, targetPosY + (float)shotSpacing[3], -speed, 0f, mod.ProjectileType("DoGDeath"), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
-                                Projectile.NewProjectile(Main.player[npc.target].position.X - 1000f, targetPosY + (float)shotSpacing[3], speed, 0f, mod.ProjectileType("DoGDeath"), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+                                Projectile.NewProjectile(Main.player[npc.target].position.X + 1000f, targetPosY + (float)shotSpacing[3], -speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+                                Projectile.NewProjectile(Main.player[npc.target].position.X - 1000f, targetPosY + (float)shotSpacing[3], speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
                                 shotSpacing[3] -= Main.rand.NextBool(2) ? 180 : 200;
                             }
                             shotSpacing[3] = 1050;
@@ -294,7 +294,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
                         // Lower wall
                         for (int x = 0; x < totalShots; x++)
                         {
-                            Projectile.NewProjectile(Main.player[npc.target].position.X + (float)shotSpacing[1], Main.player[npc.target].position.Y + 1000f, 0f, -speed, mod.ProjectileType("DoGDeath"), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(Main.player[npc.target].position.X + (float)shotSpacing[1], Main.player[npc.target].position.Y + 1000f, 0f, -speed, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
                             shotSpacing[1] -= spacingVar;
                         }
                         shotSpacing[1] = 1050;
@@ -307,7 +307,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 
                             for (int x = 0; x < 40; x++)
                             {
-                                Projectile.NewProjectile(Main.player[npc.target].position.X + (float)shotSpacing[2], Main.player[npc.target].position.Y - 1000f, 0f, speed, mod.ProjectileType("DoGDeath"), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+                                Projectile.NewProjectile(Main.player[npc.target].position.X + (float)shotSpacing[2], Main.player[npc.target].position.Y - 1000f, 0f, speed, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
                                 shotSpacing[2] -= spacingVar;
                             }
                             shotSpacing[2] = 2100;
@@ -316,7 +316,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
                         {
                             for (int x = 0; x < totalShots; x++)
                             {
-                                Projectile.NewProjectile(Main.player[npc.target].position.X + (float)shotSpacing[2], Main.player[npc.target].position.Y - 1000f, 0f, speed, mod.ProjectileType("DoGDeath"), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+                                Projectile.NewProjectile(Main.player[npc.target].position.X + (float)shotSpacing[2], Main.player[npc.target].position.Y - 1000f, 0f, speed, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
                                 shotSpacing[2] -= spacingVar;
                             }
                             shotSpacing[2] = 1050;
@@ -326,7 +326,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
             }
 
             // Despawn
-            if (!NPC.AnyNPCs(mod.NPCType("DevourerofGodsTailS")))
+            if (!NPC.AnyNPCs(ModContent.NPCType<DevourerofGodsTailS>()))
                 npc.active = false;
 
             float fallSpeed = 16f;
@@ -343,7 +343,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
                 {
                     for (int a = 0; a < 200; a++)
                     {
-                        if (Main.npc[a].type == mod.NPCType("DevourerofGodsHeadS") || Main.npc[a].type == mod.NPCType("DevourerofGodsBodyS") || Main.npc[a].type == mod.NPCType("DevourerofGodsTailS"))
+                        if (Main.npc[a].type == ModContent.NPCType<DevourerofGodsHeadS>() || Main.npc[a].type == ModContent.NPCType<DevourerofGodsBodyS>() || Main.npc[a].type == ModContent.NPCType<DevourerofGodsTailS>())
                             Main.npc[a].active = false;
                     }
                 }
@@ -379,7 +379,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
                 if (Main.netMode != NetmodeID.Server)
                 {
                     if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active && Vector2.Distance(Main.player[Main.myPlayer].Center, vector) < 5600f)
-                        Main.player[Main.myPlayer].AddBuff(mod.BuffType("Warped"), 2);
+                        Main.player[Main.myPlayer].AddBuff(ModContent.BuffType<Warped>(), 2);
                 }
 
                 phaseSwitch += 1;
@@ -600,7 +600,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
                 if (Main.netMode != NetmodeID.Server)
                 {
                     if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active && Vector2.Distance(Main.player[Main.myPlayer].Center, vector) < 5600f)
-                        Main.player[Main.myPlayer].AddBuff(mod.BuffType("ExtremeGrav"), 2);
+                        Main.player[Main.myPlayer].AddBuff(ModContent.BuffType<ExtremeGrav>(), 2);
                 }
 
                 phaseSwitch += 1;
@@ -826,15 +826,15 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 
         public override void BossLoot(ref string name, ref int potionType)
         {
-            potionType = mod.ItemType("CosmiliteBrick");
+            potionType = ModContent.ItemType<CosmiliteBrick>();
         }
 
         public override bool SpecialNPCLoot()
         {
             int closestSegmentID = DropHelper.FindClosestWormSegment(npc,
-                mod.NPCType("DevourerofGodsHeadS"),
-                mod.NPCType("DevourerofGodsBodyS"),
-                mod.NPCType("DevourerofGodsTailS"));
+                ModContent.NPCType<DevourerofGodsHeadS>(),
+                ModContent.NPCType<DevourerofGodsBodyS>(),
+                ModContent.NPCType<DevourerofGodsTailS>());
             npc.position = Main.npc[closestSegmentID].position;
             return false;
         }
@@ -843,31 +843,31 @@ namespace CalamityMod.NPCs.TheDevourerofGods
         {
             DropHelper.DropBags(npc);
 
-            DropHelper.DropItem(npc, mod.ItemType("SupremeHealingPotion"), 8, 14);
-            DropHelper.DropItemChance(npc, mod.ItemType("DevourerofGodsTrophy"), 10);
-            DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeDevourerofGods"), true, !CalamityWorld.downedDoG);
+            DropHelper.DropItem(npc, ModContent.ItemType<SupremeHealingPotion>(), 8, 14);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<DevourerofGodsTrophy>(), 10);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeDevourerofGods>(), true, !CalamityWorld.downedDoG);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedDoG, 6, 3, 2);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
             if (!Main.expertMode)
             {
                 // Materials
-                DropHelper.DropItem(npc, mod.ItemType("CosmiliteBar"), 25, 35);
-                DropHelper.DropItem(npc, mod.ItemType("CosmiliteBrick"), 150, 250);
+                DropHelper.DropItem(npc, ModContent.ItemType<CosmiliteBar>(), 25, 35);
+                DropHelper.DropItem(npc, ModContent.ItemType<CosmiliteBrick>(), 150, 250);
 
                 // Weapons
-                DropHelper.DropItemChance(npc, mod.ItemType("Excelsus"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("EradicatorMelee"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("TheObliterator"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("Deathwind"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("Skullmasher"), DropHelper.RareVariantDropRateInt);
-                DropHelper.DropItemChance(npc, mod.ItemType("Norfleet"), DropHelper.RareVariantDropRateInt);
-                DropHelper.DropItemChance(npc, mod.ItemType("DeathhailStaff"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("StaffoftheMechworm"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("Eradicator"), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.Excelsus>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<EradicatorMelee>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<TheObliterator>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Deathwind>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Skullmasher>(), DropHelper.RareVariantDropRateInt);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Norfleet>(), DropHelper.RareVariantDropRateInt);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<DeathhailStaff>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<StaffoftheMechworm>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Eradicator>(), 4);
 
                 // Vanity
-                DropHelper.DropItemChance(npc, mod.ItemType("DevourerofGodsMask"), 7);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<DevourerofGodsMask>(), 7);
             }
 
             // If DoG has not been killed yet, notify players that the holiday moons are buffed
@@ -1020,8 +1020,8 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(mod.BuffType("GodSlayerInferno"), 300, true);
-            player.AddBuff(mod.BuffType("WhisperingDeath"), 420, true);
+            player.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300, true);
+            player.AddBuff(ModContent.BuffType<WhisperingDeath>(), 420, true);
             if ((CalamityWorld.death || CalamityWorld.bossRushActive) && npc.alpha <= 0)
             {
                 player.KillMe(PlayerDeathReason.ByOther(10), 1000.0, 0, false);

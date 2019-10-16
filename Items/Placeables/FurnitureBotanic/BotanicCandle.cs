@@ -1,7 +1,7 @@
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Placeables.FurnitureBotanic
+namespace CalamityMod.Items
 {
     public class BotanicCandle : ModItem
     {
@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Placeables.FurnitureBotanic
             item.useStyle = 1;
             item.value = 0;
             item.consumable = true;
-            item.createTile = mod.TileType("BotanicCandle");
+            item.createTile = ModContent.TileType<BotanicCandle>();
         }
 
         public override void AddRecipes()

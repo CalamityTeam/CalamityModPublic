@@ -1,13 +1,12 @@
-using CalamityMod.Utilities;
 using CalamityMod.World;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Polterghast
+namespace CalamityMod.Items
 {
     public class PolterghastBag : ModItem
     {
-        public override int BossBagNPC => mod.NPCType("Polterghast");
+        public override int BossBagNPC => ModContent.NPCType<Polterghast>();
 
         public override void SetStaticDefaults()
         {
@@ -35,20 +34,20 @@ namespace CalamityMod.Items.Polterghast
             player.TryGettingDevArmor();
 
             // Materials
-            DropHelper.DropItem(player, mod.ItemType("RuinousSoul"), 6, 10);
+            DropHelper.DropItem(player, ModContent.ItemType<RuinousSoul>(), 6, 10);
 
             // Weapons
-            DropHelper.DropItemChance(player, mod.ItemType("TerrorBlade"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("BansheeHook"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("DaemonsFlame"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("FatesReveal"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("GhastlyVisage"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("EtherealSubjugator"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("GhoulishGouger"), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<TerrorBlade>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<BansheeHook>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<DaemonsFlame>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<FatesReveal>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<GhastlyVisage>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<EtherealSubjugator>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<GhoulishGouger>(), 3);
 
             // Equipment
-            DropHelper.DropItem(player, mod.ItemType("Affliction"));
-            DropHelper.DropItemCondition(player, mod.ItemType("Ectoheart"), CalamityWorld.revenge);
+            DropHelper.DropItem(player, ModContent.ItemType<Affliction>());
+            DropHelper.DropItemCondition(player, ModContent.ItemType<Ectoheart>(), CalamityWorld.revenge);
 
             // Vanity
             // there is no Polterghast mask yet

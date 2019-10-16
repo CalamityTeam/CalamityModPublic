@@ -1,6 +1,6 @@
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Placeables.FurnitureAshen
+namespace CalamityMod.Items
 {
     public class AshenChair : ModItem
     {
@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAshen
             item.useStyle = 1;
             item.consumable = true;
             item.value = 0;
-            item.createTile = mod.TileType("AshenChair");
+            item.createTile = ModContent.TileType<AshenChair>();
         }
 
         public override void AddRecipes()

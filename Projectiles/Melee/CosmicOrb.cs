@@ -2,9 +2,9 @@
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Melee
+namespace CalamityMod.Projectiles
 {
     public class CosmicOrb : ModProjectile
     {
@@ -92,7 +92,7 @@ namespace CalamityMod.Projectiles.Melee
                     num439 *= num440;
                     if (projectile.owner == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(value10.X, value10.Y, num438, num439, mod.ProjectileType("CosmicBolt"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(value10.X, value10.Y, num438, num439, ModContent.ProjectileType<CosmicBolt>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                     }
                 }
             }

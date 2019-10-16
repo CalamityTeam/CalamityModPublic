@@ -2,9 +2,9 @@ using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.FiniteUse
+namespace CalamityMod.Items
 {
     public class LightningHawk : ModItem
     {
@@ -32,8 +32,8 @@ namespace CalamityMod.Items.Weapons.FiniteUse
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/Magnum");
             item.autoReuse = true;
             item.shootSpeed = 12f;
-            item.shoot = mod.ProjectileType("MagnumRound");
-            item.useAmmo = mod.ItemType("MagnumRounds");
+            item.shoot = ModContent.ProjectileType<MagnumRound>();
+            item.useAmmo = ModContent.ItemType<MagnumRounds>();
             if (CalamityPlayer.areThereAnyDamnBosses)
             {
                 item.Calamity().timesUsed = 3;

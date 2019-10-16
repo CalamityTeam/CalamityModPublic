@@ -4,9 +4,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Summon
+namespace CalamityMod.Projectiles
 {
     public class Herring : ModProjectile
     {
@@ -79,10 +79,10 @@ namespace CalamityMod.Projectiles.Summon
             float num634 = 800f;
             float num635 = 1200f;
             float num636 = 150f;
-            bool flag64 = projectile.type == mod.ProjectileType("Herring");
+            bool flag64 = projectile.type == ModContent.ProjectileType<Herring>();
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            player.AddBuff(mod.BuffType("Herring"), 3600);
+            player.AddBuff(ModContent.BuffType<Herring>(), 3600);
             if (flag64)
             {
                 if (player.dead)
@@ -97,7 +97,7 @@ namespace CalamityMod.Projectiles.Summon
             float num637 = 0.05f;
             for (int num638 = 0; num638 < 1000; num638++)
             {
-                bool flag23 = Main.projectile[num638].type == mod.ProjectileType("Herring");
+                bool flag23 = Main.projectile[num638].type == ModContent.ProjectileType<Herring>();
                 if (num638 != projectile.whoAmI && Main.projectile[num638].active && Main.projectile[num638].owner == projectile.owner &&
                     flag23 && Math.Abs(projectile.position.X - Main.projectile[num638].position.X) + Math.Abs(projectile.position.Y - Main.projectile[num638].position.Y) < (float)projectile.width)
                 {

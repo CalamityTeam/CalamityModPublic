@@ -1,11 +1,11 @@
-﻿using CalamityMod.Items.Patreon;
+﻿using CalamityMod.Items;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Patreon
+namespace CalamityMod.Projectiles
 {
     public class VoidEssence : ModProjectile
     {
@@ -200,7 +200,7 @@ namespace CalamityMod.Projectiles.Patreon
             ai1 *= Main.rand.NextBool() ? -1f : 1f;
 
             if (projectile.owner == Main.myPlayer)
-                Projectile.NewProjectile(projectile.Center, tentacleVelocity, mod.ProjectileType("VoidTentacle"), damage, kb, projectile.owner, ai0, ai1);
+                Projectile.NewProjectile(projectile.Center, tentacleVelocity, ModContent.ProjectileType<VoidTentacle>(), damage, kb, projectile.owner, ai0, ai1);
         }
     }
 }

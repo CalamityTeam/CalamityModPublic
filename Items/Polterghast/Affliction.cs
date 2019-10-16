@@ -1,8 +1,8 @@
 ﻿using CalamityMod.CalPlayer;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Polterghast
+namespace CalamityMod.Items
 {
     public class Affliction : ModItem
     {
@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Polterghast
                 int myPlayer = Main.myPlayer;
                 if (Main.player[myPlayer].team == player.team && player.team != 0)
                 {
-                    Main.player[myPlayer].AddBuff(mod.BuffType("Afflicted"), 20, true);
+                    Main.player[myPlayer].AddBuff(ModContent.BuffType<Afflicted>(), 20, true);
                 }
             }
         }

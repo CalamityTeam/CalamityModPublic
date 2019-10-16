@@ -1,10 +1,10 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 using Terraria.ObjectData;
 
-namespace CalamityMod.Tiles.FurnitureStratus
+namespace CalamityMod.Tiles
 {
     public class StratusBed : ModTile
     {
@@ -43,7 +43,7 @@ namespace CalamityMod.Tiles.FurnitureStratus
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 64, 32, mod.ItemType("StratusBed"));
+            Item.NewItem(i * 16, j * 16, 64, 32, ModContent.ItemType<StratusBed>());
         }
 
         public override bool NewRightClick(int i, int j)
@@ -76,7 +76,7 @@ namespace CalamityMod.Tiles.FurnitureStratus
             Player player = Main.LocalPlayer;
             player.noThrow = 2;
             player.showItemIcon = true;
-            player.showItemIcon2 = mod.ItemType("StratusBed");
+            player.showItemIcon2 = ModContent.ItemType<StratusBed>();
         }
     }
 }

@@ -1,7 +1,7 @@
 using Terraria;
 using Terraria.ID;
 
-namespace CalamityMod.Items.CalamityCustomThrowingDamage.RareVariants
+namespace CalamityMod.Items
 {
     public class TheReaper : CalamityDamageItem
     {
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage.RareVariants
             item.height = 64;
             item.value = Item.buyPrice(1, 40, 0, 0);
             item.rare = 10;
-            item.shoot = mod.ProjectileType("Valediction2");
+            item.shoot = ModContent.ProjectileType<Valediction2>();
             item.shootSpeed = 20f;
             item.Calamity().rogue = true;
             item.Calamity().postMoonLordRarity = 22;

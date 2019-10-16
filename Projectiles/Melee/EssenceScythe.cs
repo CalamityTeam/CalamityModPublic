@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Melee
+namespace CalamityMod.Projectiles
 {
     public class EssenceScythe : ModProjectile
     {
@@ -104,12 +104,12 @@ namespace CalamityMod.Projectiles.Melee
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.immune[projectile.owner] = 2;
-            target.AddBuff(mod.BuffType("GodSlayerInferno"), 300);
+            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
             if (target.life <= 0)
             {
                 if (projectile.owner == Main.myPlayer)
                 {
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f, mod.ProjectileType("EssenceFlame"), 0, 0, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f, ModContent.ProjectileType<EssenceFlame>(), 0, 0, projectile.owner, 0f, 0f);
                 }
             }
         }

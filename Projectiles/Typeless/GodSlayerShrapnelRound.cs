@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Typeless
+namespace CalamityMod.Projectiles
 {
     public class GodSlayerShrapnelRound : ModProjectile
     {
@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Typeless
                     }
                     value15.Normalize();
                     value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-                    Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), value15.X, value15.Y, mod.ProjectileType("GodSlayerShrapnel"), (int)((double)projectile.damage * 0.3), 0f, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), value15.X, value15.Y, ModContent.ProjectileType<GodSlayerShrapnel>(), (int)((double)projectile.damage * 0.3), 0f, projectile.owner, 0f, 0f);
                 }
             }
         }

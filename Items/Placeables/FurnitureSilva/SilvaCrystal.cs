@@ -1,7 +1,7 @@
 ﻿using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Placeables.FurnitureSilva
+namespace CalamityMod.Items
 {
     public class SilvaCrystal : ModItem
     {
@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Placeables.FurnitureSilva
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = mod.TileType("SilvaCrystal");
+            item.createTile = ModContent.TileType<SilvaCrystal>();
         }
 
         public override void AddRecipes()
@@ -28,22 +28,22 @@ namespace CalamityMod.Items.Placeables.FurnitureSilva
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.CrystalBlock, 200);
             recipe.AddIngredient(ItemID.GoldBar, 25);
-            recipe.AddIngredient(mod.ItemType("DarksunFragment"));
-            recipe.AddIngredient(mod.ItemType("EffulgentFeather"), 5);
-            recipe.AddIngredient(mod.ItemType("CosmiliteBar"), 5);
-            recipe.AddIngredient(mod.ItemType("NightmareFuel"));
-            recipe.AddIngredient(mod.ItemType("EndothermicEnergy"));
+            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>());
+            recipe.AddIngredient(ModContent.ItemType<EffulgentFeather>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>());
+            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>());
             recipe.SetResult(this, 400);
             recipe.AddTile(null, "DraedonsForge");
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.CrystalBlock, 200);
             recipe.AddIngredient(ItemID.PlatinumBar, 25);
-            recipe.AddIngredient(mod.ItemType("DarksunFragment"));
-            recipe.AddIngredient(mod.ItemType("EffulgentFeather"), 5);
-            recipe.AddIngredient(mod.ItemType("CosmiliteBar"), 5);
-            recipe.AddIngredient(mod.ItemType("NightmareFuel"));
-            recipe.AddIngredient(mod.ItemType("EndothermicEnergy"));
+            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>());
+            recipe.AddIngredient(ModContent.ItemType<EffulgentFeather>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>());
+            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>());
             recipe.SetResult(this, 400);
             recipe.AddTile(null, "DraedonsForge");
             recipe.AddRecipe();

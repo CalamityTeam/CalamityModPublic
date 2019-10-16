@@ -2,9 +2,9 @@
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Boss
+namespace CalamityMod.Projectiles
 {
     public class HolyBomb : ModProjectile
     {
@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
                 if (projectile.owner == Main.myPlayer)
                 {
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, -2f, mod.ProjectileType("HolyFlare"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, -2f, ModContent.ProjectileType<HolyFlare>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                 }
                 flareShootTimer = 60;
             }
@@ -115,7 +115,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(mod.BuffType("HolyLight"), 180);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
         }
     }
 }

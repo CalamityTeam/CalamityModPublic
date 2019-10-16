@@ -2,9 +2,9 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Amidias
+namespace CalamityMod.Items
 {
     public class MagicalConch : ModItem
     {
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Amidias
             item.rare = 2;
             item.UseSound = SoundID.Item44;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("HermitCrab");
+            item.shoot = ModContent.ProjectileType<HermitCrab>();
             item.shootSpeed = 10f;
             item.summon = true;
         }
@@ -62,7 +62,7 @@ namespace CalamityMod.Items.Amidias
             num79 = 0f;
             vector2.X = (float)Main.mouseX + Main.screenPosition.X;
             vector2.Y = (float)Main.mouseY + Main.screenPosition.Y;
-            Projectile.NewProjectile(vector2.X, vector2.Y, num78, num79, mod.ProjectileType("HermitCrab"), num73, num74, i, 0f, 0f);
+            Projectile.NewProjectile(vector2.X, vector2.Y, num78, num79, ModContent.ProjectileType<HermitCrab>(), num73, num74, i, 0f, 0f);
             return false;
         }
     }

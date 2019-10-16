@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.Plaguebringer
+namespace CalamityMod.Items
 {
     public class VirulentKatana : ModItem
     {
@@ -27,13 +27,13 @@ namespace CalamityMod.Items.Weapons.Plaguebringer
             item.height = 62;
             item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;
-            item.shoot = mod.ProjectileType("PlagueDust");
+            item.shoot = ModContent.ProjectileType<PlagueDust>();
             item.shootSpeed = 9f;
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("Plague"), 240);
+            target.AddBuff(ModContent.BuffType<Plague>(), 240);
         }
     }
 }

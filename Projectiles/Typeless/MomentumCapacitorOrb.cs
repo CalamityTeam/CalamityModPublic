@@ -1,11 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Typeless
+namespace CalamityMod.Projectiles
 {
     public class MomentumCapacitorOrb : ModProjectile
     {
@@ -47,7 +44,7 @@ namespace CalamityMod.Projectiles.Typeless
             }
             for (int k = 0; k < Main.projectile.Length; k++)
             {
-                if (Main.projectile[k].type == mod.ProjectileType("SlickCaneProjectile")) continue;
+                if (Main.projectile[k].type == ModContent.ProjectileType<SlickCaneProjectile>()) continue;
                 if (Main.projectile[k].owner == projectile.owner && Main.projectile[k].Calamity().rogue && 
                     !Main.projectile[k].Calamity().momentumCapacitatorBoost && Main.projectile[k].friendly)
                 {

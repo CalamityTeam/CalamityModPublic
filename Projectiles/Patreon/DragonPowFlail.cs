@@ -1,12 +1,12 @@
-﻿using CalamityMod.Items.Patreon;
+﻿using CalamityMod.Items;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Patreon
+namespace CalamityMod.Projectiles
 {
     public class DragonPowFlail : ModProjectile
     {
@@ -123,7 +123,7 @@ namespace CalamityMod.Projectiles.Patreon
 
             if (projectile.ai[1] % 4 == 0)
             {
-                int type = mod.ProjectileType("DraconicSpark");
+                int type = ModContent.ProjectileType<DraconicSpark>();
                 int damage = DragonPow.BaseDamage / 8;
                 float kb = 3f;
                 float speed = DragonPow.SparkSpeed;
@@ -140,8 +140,8 @@ namespace CalamityMod.Projectiles.Patreon
         {
             // Inflicts Daybroken, Abyssal Flames and Holy Flames for 8 seconds on-hit
             target.AddBuff(BuffID.Daybreak, 480);
-            target.AddBuff(mod.BuffType("AbyssalFlames"), 480);
-            target.AddBuff(mod.BuffType("HolyLight"), 480);
+            target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 480);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 480);
 
             projectile.ai[0] = 1f;
             projectile.netUpdate = true;
@@ -195,7 +195,7 @@ namespace CalamityMod.Projectiles.Patreon
 
         private void Waterfalls(NPC target, int damage, float knockback, bool crit)
         {
-            int type = mod.ProjectileType("OceanBeam");
+            int type = ModContent.ProjectileType<OceanBeam>();
             int numWaterfalls = 12;
             int waterfallDamage = DragonPow.BaseDamage / 6;
             float waterfallKB = 0f;

@@ -2,10 +2,10 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 using Terraria.ObjectData;
 
-namespace CalamityMod.Tiles.FurnitureAbyss
+namespace CalamityMod.Tiles
 {
     public class AbyssClock : ModTile
     {
@@ -113,7 +113,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 48, 32, mod.ItemType("AbyssClock"));
+            Item.NewItem(i * 16, j * 16, 48, 32, ModContent.ItemType<AbyssClock>());
         }
     }
 }

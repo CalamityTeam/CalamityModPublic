@@ -5,10 +5,10 @@ using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.ID;
 using Terraria.Localization;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 using Terraria.ObjectData;
 
-namespace CalamityMod.Tiles.FurnitureSilva
+namespace CalamityMod.Tiles
 {
     public class SilvaChest : ModTile
     {
@@ -38,12 +38,12 @@ namespace CalamityMod.Tiles.FurnitureSilva
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Containers };
             chest = "Silva Chest";
-            chestDrop = mod.ItemType("SilvaChest");
+            chestDrop = ModContent.ItemType<SilvaChest>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)
         {
-            Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, mod.DustType("SilvaTileGold"), 0f, 0f, 1, new Color(255, 255, 255), 1f);
+            Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, ModContent.DustType<SilvaTileGold>(), 0f, 0f, 1, new Color(255, 255, 255), 1f);
             Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, 157, 0f, 0f, 1, new Color(255, 255, 255), 1f);
             return false;
         }
@@ -187,7 +187,7 @@ namespace CalamityMod.Tiles.FurnitureSilva
                 player.showItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : "Silva Chest";
                 if (player.showItemIconText == "Silva Chest")
                 {
-                    player.showItemIcon2 = mod.ItemType("SilvaChest");
+                    player.showItemIcon2 = ModContent.ItemType<SilvaChest>();
                     player.showItemIconText = "";
                 }
             }

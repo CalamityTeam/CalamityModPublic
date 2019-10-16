@@ -1,7 +1,7 @@
 using Terraria;
 using Terraria.ID;
 
-namespace CalamityMod.Items.CalamityCustomThrowingDamage
+namespace CalamityMod.Items
 {
     public class CraniumSmasher : CalamityDamageItem
     {
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.UseSound = SoundID.Item1;
             item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;
-            item.shoot = mod.ProjectileType("CraniumSmasher");
+            item.shoot = ModContent.ProjectileType<CraniumSmasher>();
             item.shootSpeed = 20f;
             item.Calamity().rogue = true;
         }
@@ -36,11 +36,11 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             if (Main.rand.Next(0, 5) == 0)
             {
                 damage = (int)(damage * 1.25f);
-                type = mod.ProjectileType("CraniumSmasherExplosive");
+                type = ModContent.ProjectileType<CraniumSmasherExplosive>();
             }
             else
             {
-                type = mod.ProjectileType("CraniumSmasher");
+                type = ModContent.ProjectileType<CraniumSmasher>();
             }
             Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
             return false;

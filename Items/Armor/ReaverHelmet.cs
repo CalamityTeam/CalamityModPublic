@@ -1,9 +1,9 @@
 ﻿using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Armor
+namespace CalamityMod.Items
 {
     [AutoloadEquip(EquipType.Head)]
     public class ReaverHelmet : ModItem
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Armor
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == mod.ItemType("ReaverScaleMail") && legs.type == mod.ItemType("ReaverCuisses");
+            return body.type == ModContent.ItemType<ReaverScaleMail>() && legs.type == ModContent.ItemType<ReaverCuisses>();
         }
 
         public override void ArmorSetShadows(Player player)
@@ -43,13 +43,13 @@ namespace CalamityMod.Items.Armor
             modPlayer.reaverOrb = true;
             if (player.whoAmI == Main.myPlayer)
             {
-                if (player.FindBuffIndex(mod.BuffType("ReaverOrb")) == -1)
+                if (player.FindBuffIndex(ModContent.BuffType<ReaverOrb>()) == -1)
                 {
-                    player.AddBuff(mod.BuffType("ReaverOrb"), 3600, true);
+                    player.AddBuff(ModContent.BuffType<ReaverOrb>(), 3600, true);
                 }
-                if (player.ownedProjectileCounts[mod.ProjectileType("ReaverOrb")] < 1)
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<ReaverOrb>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("ReaverOrb"), (int)(80f * player.minionDamage), 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<ReaverOrb>(), (int)(80f * player.minionDamage), 0f, Main.myPlayer, 0f, 0f);
                 }
             }
             player.minionDamage += 0.16f;

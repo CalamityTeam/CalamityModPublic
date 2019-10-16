@@ -2,7 +2,7 @@ using CalamityMod.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
 namespace CalamityMod.Tiles
 {
@@ -18,12 +18,12 @@ namespace CalamityMod.Tiles
 
             TileMerge.MergeGeneralTiles(Type);
             TileMerge.MergeHellTiles(Type);
-            TileMerge.MergeTile(Type, mod.TileType("CharredOre"));
+            TileMerge.MergeTile(Type, ModContent.TileType<CharredOre>());
 
             soundType = 21;
             mineResist = 3f;
             minPick = 180;
-            drop = mod.ItemType("BrimstoneSlag");
+            drop = ModContent.ItemType<BrimstoneSlag>();
             AddMapEntry(new Color(53, 33, 56));
         }
 

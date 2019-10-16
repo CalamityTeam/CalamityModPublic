@@ -1,7 +1,7 @@
 ﻿using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Buffs.PetBuffs
+namespace CalamityMod.Buffs
 {
     public class BloodBound : ModBuff
     {
@@ -17,10 +17,10 @@ namespace CalamityMod.Buffs.PetBuffs
         {
             player.buffTime[buffIndex] = 18000;
             player.Calamity().perfmini = true;
-            bool PetProjectileNotSpawned = player.ownedProjectileCounts[mod.ProjectileType("PerforaMini")] <= 0;
+            bool PetProjectileNotSpawned = player.ownedProjectileCounts[ModContent.ProjectileType<PerforaMini>()] <= 0;
             if (PetProjectileNotSpawned && player.whoAmI == Main.myPlayer)
             {
-                Projectile.NewProjectile(player.position.X + (player.width / 2), player.position.Y + (player.height / 2), 0f, 0f, mod.ProjectileType("PerforaMini"), 0, 0f, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(player.position.X + (player.width / 2), player.position.Y + (player.height / 2), 0f, 0f, ModContent.ProjectileType<PerforaMini>(), 0, 0f, player.whoAmI, 0f, 0f);
             }
         }
     }

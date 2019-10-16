@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items
 {
     public class SparkSpreader : ModItem
     {
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons
             item.value = Item.buyPrice(0, 1, 0, 0);
             item.rare = 1;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("SparkSpreaderFire");
+            item.shoot = ModContent.ProjectileType<SparkSpreaderFire>();
             item.shootSpeed = 5f;
             item.useAmmo = 23;
         }

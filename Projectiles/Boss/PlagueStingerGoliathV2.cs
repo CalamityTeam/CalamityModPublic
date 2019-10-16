@@ -2,9 +2,9 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Boss
+namespace CalamityMod.Projectiles
 {
     public class PlagueStingerGoliathV2 : ModProjectile
     {
@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("Plague"), 180);
+            target.AddBuff(ModContent.BuffType<Plague>(), 180);
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -59,7 +59,7 @@ namespace CalamityMod.Projectiles.Boss
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
             if (projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("PlagueExplosion"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<PlagueExplosion>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
             }
         }
     }

@@ -1,9 +1,9 @@
 ﻿using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.TheDevourerofGods
+namespace CalamityMod.Items
 {
     public class NebulousCore : ModItem
     {
@@ -45,7 +45,7 @@ namespace CalamityMod.Items.TheDevourerofGods
                 int num = 0;
                 for (int i = 0; i < 1000; i++)
                 {
-                    if (Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].type == mod.ProjectileType("NebulaStar"))
+                    if (Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].type == ModContent.ProjectileType<NebulaStar>())
                     {
                         num++;
                     }
@@ -89,7 +89,7 @@ namespace CalamityMod.Items.TheDevourerofGods
                                 {
                                     for (int k = 0; k < 1000; k++)
                                     {
-                                        if (Main.projectile[k].active && Main.projectile[k].owner == player.whoAmI && Main.projectile[k].type == mod.ProjectileType("NebulaStar") && (center - Main.projectile[k].Center).Length() < 48f)
+                                        if (Main.projectile[k].active && Main.projectile[k].owner == player.whoAmI && Main.projectile[k].type == ModContent.ProjectileType<NebulaStar>() && (center - Main.projectile[k].Center).Length() < 48f)
                                         {
                                             flag = false;
                                             break;
@@ -97,7 +97,7 @@ namespace CalamityMod.Items.TheDevourerofGods
                                     }
                                     if (flag && Main.myPlayer == player.whoAmI)
                                     {
-                                        Projectile.NewProjectile(center.X, center.Y, 0f, 0f, mod.ProjectileType("NebulaStar"), damage, knockBack, player.whoAmI, 0f, 0f);
+                                        Projectile.NewProjectile(center.X, center.Y, 0f, 0f, ModContent.ProjectileType<NebulaStar>(), damage, knockBack, player.whoAmI, 0f, 0f);
                                         return;
                                     }
                                 }

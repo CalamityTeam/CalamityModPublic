@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Permafrost
+namespace CalamityMod.Items
 {
     public class ColdheartIcicle : ModItem
     {
@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Permafrost
         {
             damage = 1;
             crit = false;
-            if (target.type != NPCID.TargetDummy && target.type != mod.NPCType("Providence"))
+            if (target.type != NPCID.TargetDummy && target.type != ModContent.NPCType<Providence>())
                 target.life -= target.lifeMax * 2 / 100;
             target.checkDead();
         }

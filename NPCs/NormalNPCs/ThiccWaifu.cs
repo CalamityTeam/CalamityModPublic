@@ -5,9 +5,9 @@ using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.NormalNPCs
+namespace CalamityMod.NPCs
 {
     public class ThiccWaifu : ModNPC
     {
@@ -42,7 +42,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.noTileCollide = true;
             npc.rarity = 2;
             banner = npc.type;
-            bannerItem = mod.ItemType("CloudElementalBanner");
+            bannerItem = ModContent.ItemType<CloudElementalBanner>();
         }
 
         public override void AI()
@@ -116,7 +116,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                     }
                     foreach (Point current2 in list4)
                     {
-                        Projectile.NewProjectile((float)(current2.X * 16), (float)(current2.Y * 16), 0f, 0f, mod.ProjectileType("StormMarkHostile"), 0, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile((float)(current2.X * 16), (float)(current2.Y * 16), 0f, 0f, ModContent.ProjectileType<StormMarkHostile>(), 0, 0f, Main.myPlayer, 0f, 0f);
                     }
                 }
                 new Vector2(0.9f, 2f);
@@ -126,7 +126,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                     for (int num1472 = 0; num1472 < 1000; num1472++)
                     {
                         Projectile projectile9 = Main.projectile[num1472];
-                        if (projectile9.active && projectile9.type == mod.ProjectileType("StormMarkHostile"))
+                        if (projectile9.active && projectile9.type == ModContent.ProjectileType<StormMarkHostile>())
                         {
                             list5.Add(projectile9.Center);
                         }
@@ -297,25 +297,25 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EssenceofCinder"), Main.rand.Next(2, 4));
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EssenceofCinder>(), Main.rand.Next(2, 4));
             if (Main.rand.NextBool(100) && CalamityWorld.downedProvidence)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Thunderstorm"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Thunderstorm>());
             }
             if (Main.expertMode)
             {
                 if (Main.rand.NextBool(3))
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EyeoftheStorm"));
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EyeoftheStorm>());
                 }
             }
             else if (Main.rand.NextBool(4))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EyeoftheStorm"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EyeoftheStorm>());
             }
             if (Main.rand.NextBool(5))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("StormSaber"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<StormSaber>());
             }
         }
     }

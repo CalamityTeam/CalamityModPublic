@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.Yharon
+namespace CalamityMod.Items
 {
     public class DragonRage : ModItem
     {
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Yharon
             item.height = 82;
             item.value = Item.buyPrice(1, 80, 0, 0);
             item.rare = 10;
-            item.shoot = mod.ProjectileType("DragonRage");
+            item.shoot = ModContent.ProjectileType<DragonRage>();
             item.shootSpeed = 14f;
             item.Calamity().postMoonLordRarity = 14;
         }

@@ -1,8 +1,8 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.FabsolStuff
+namespace CalamityMod.Items
 {
     public class RedWine : ModItem
     {
@@ -37,7 +37,7 @@ Too dry for my taste");
 
         public override bool UseItem(Player player)
         {
-            player.AddBuff(mod.BuffType("RedWine"), 900);
+            player.AddBuff(ModContent.BuffType<RedWine>(), 900);
             return true;
         }
     }

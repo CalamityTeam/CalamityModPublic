@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
 namespace CalamityMod.Walls
 {
@@ -9,7 +9,7 @@ namespace CalamityMod.Walls
         public override void SetDefaults()
         {
             Main.wallHouse[Type] = true;
-            drop = mod.ItemType("ChaoticBrickWall");
+            drop = ModContent.ItemType<ChaoticBrickWall>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Chaotic Brick Wall");
             AddMapEntry(new Color(255, 0, 0), name);

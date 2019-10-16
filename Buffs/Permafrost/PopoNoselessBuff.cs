@@ -1,10 +1,10 @@
 ﻿using CalamityMod.CalPlayer;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Buffs.Permafrost
+namespace CalamityMod.Buffs
 {
-    public class PopoNoseless : ModBuff
+    public class PopoNoselessBuff : ModBuff
     {
         public override void SetDefaults()
         {

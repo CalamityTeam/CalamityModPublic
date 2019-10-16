@@ -1,9 +1,9 @@
 ﻿using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Armor
+namespace CalamityMod.Items
 {
     [AutoloadEquip(EquipType.Head)]
     public class VictideHelmet : ModItem
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Armor
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == mod.ItemType("VictideBreastplate") && legs.type == mod.ItemType("VictideLeggings");
+            return body.type == ModContent.ItemType<VictideBreastplate>() && legs.type == ModContent.ItemType<VictideLeggings>();
         }
 
         public override void UpdateArmorSet(Player player)
@@ -41,13 +41,13 @@ namespace CalamityMod.Items.Armor
             modPlayer.urchin = true;
             if (player.whoAmI == Main.myPlayer)
             {
-                if (player.FindBuffIndex(mod.BuffType("Urchin")) == -1)
+                if (player.FindBuffIndex(ModContent.BuffType<Urchin>()) == -1)
                 {
-                    player.AddBuff(mod.BuffType("Urchin"), 3600, true);
+                    player.AddBuff(ModContent.BuffType<Urchin>(), 3600, true);
                 }
-                if (player.ownedProjectileCounts[mod.ProjectileType("Urchin")] < 1)
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<Urchin>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("Urchin"), (int)(7f * player.minionDamage), 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<Urchin>(), (int)(7f * player.minionDamage), 0f, Main.myPlayer, 0f, 0f);
                 }
             }
             player.ignoreWater = true;

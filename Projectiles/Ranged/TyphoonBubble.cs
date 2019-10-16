@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Ranged
+namespace CalamityMod.Projectiles
 {
     public class TyphoonBubble : ModProjectile
     {
@@ -110,7 +110,7 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 if (projectile.ai[1] < 1f)
                 {
-                    int num230 = Projectile.NewProjectile(projectile.Center.X - (float)(projectile.direction * 30), projectile.Center.Y - 4f, (float)-(float)projectile.direction * 0.01f, 0f, mod.ProjectileType("WaterSpout"), projectile.damage, 3f, projectile.owner, 16f, 8f);
+                    int num230 = Projectile.NewProjectile(projectile.Center.X - (float)(projectile.direction * 30), projectile.Center.Y - 4f, (float)-(float)projectile.direction * 0.01f, 0f, ModContent.ProjectileType<WaterSpout>(), projectile.damage, 3f, projectile.owner, 16f, 8f);
                     Main.projectile[num230].netUpdate = true;
                 }
             }

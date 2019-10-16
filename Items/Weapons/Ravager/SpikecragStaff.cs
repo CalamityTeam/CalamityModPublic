@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Weapons.Ravager
+namespace CalamityMod.Items
 {
     public class SpikecragStaff : ModItem
     {
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Ravager
             item.autoReuse = true;
             item.shootSpeed = 20f;
             item.UseSound = SoundID.Item78;
-            item.shoot = mod.ProjectileType("Spikecrag");
+            item.shoot = ModContent.ProjectileType<Spikecrag>();
         }
 
         public override bool AltFunctionUse(Player player)

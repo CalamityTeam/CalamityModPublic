@@ -2,7 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 
-namespace CalamityMod.Items.CalamityCustomThrowingDamage
+namespace CalamityMod.Items
 {
     public class Glaive : CalamityDamageItem
     {
@@ -37,7 +37,7 @@ Stealth strikes are super fast and pierce infinitely");
             item.maxStack = 3;
 
             item.shootSpeed = Speed;
-            item.shoot = mod.ProjectileType("GlaiveProj");
+            item.shoot = ModContent.ProjectileType<GlaiveProj>();
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

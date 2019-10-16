@@ -4,9 +4,9 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.AbyssNPCs
+namespace CalamityMod.NPCs
 {
     public class MorayEel : ModNPC
     {
@@ -28,13 +28,13 @@ namespace CalamityMod.NPCs.AbyssNPCs
             npc.lifeMax = 180;
             npc.aiStyle = -1;
             aiType = -1;
-            npc.buffImmune[mod.BuffType("CrushDepth")] = true;
+            npc.buffImmune[ModContent.BuffType<CrushDepth>()] = true;
             npc.value = Item.buyPrice(0, 0, 1, 0);
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
             npc.knockBackResist = 0.75f;
             banner = npc.type;
-            bannerItem = mod.ItemType("MorayEelBanner");
+            bannerItem = ModContent.ItemType<MorayEelBanner>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)

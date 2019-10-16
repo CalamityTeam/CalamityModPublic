@@ -2,9 +2,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Rogue
+namespace CalamityMod.Projectiles
 {
     public class EnchantedAxe : ModProjectile
     {
@@ -93,7 +93,7 @@ namespace CalamityMod.Projectiles.Rogue
                     }
                     newAxeVelocity.Normalize();
                     newAxeVelocity *= 30f;
-                    int p = Projectile.NewProjectile(projectile.position, newAxeVelocity, mod.ProjectileType("EnchantedAxe2"), 15, 2, projectile.owner, 0, 0);
+                    int p = Projectile.NewProjectile(projectile.position, newAxeVelocity, ModContent.ProjectileType<EnchantedAxe2>(), 15, 2, projectile.owner, 0, 0);
                     Main.projectile[p].Calamity().stealthStrike = projectile.Calamity().stealthStrike;
                     summonAxe = false;
                 }
@@ -103,14 +103,14 @@ namespace CalamityMod.Projectiles.Rogue
                 if (projectile.timeLeft % 5 == 1 && projectile.Calamity().stealthStrike)
                 {
                     float axeSpeed = 15f;
-                    Projectile.NewProjectile(projectile.position, new Vector2(1f, 0f) * axeSpeed, mod.ProjectileType("EnchantedAxe2"), 20, 2, projectile.owner, 0, 0);
-                    Projectile.NewProjectile(projectile.position, new Vector2(0f, 1f) * axeSpeed, mod.ProjectileType("EnchantedAxe2"), 20, 2, projectile.owner, 0, 0);
-                    Projectile.NewProjectile(projectile.position, new Vector2(-1f, 0f) * axeSpeed, mod.ProjectileType("EnchantedAxe2"), 20, 2, projectile.owner, 0, 0);
-                    Projectile.NewProjectile(projectile.position, new Vector2(0f, -1f) * axeSpeed, mod.ProjectileType("EnchantedAxe2"), 20, 2, projectile.owner, 0, 0);
-                    Projectile.NewProjectile(projectile.position, Vector2.Normalize(new Vector2(1f, 1f)) * axeSpeed, mod.ProjectileType("EnchantedAxe2"), 20, 2, projectile.owner, 0, 0);
-                    Projectile.NewProjectile(projectile.position, Vector2.Normalize(new Vector2(1f, -1f)) * axeSpeed, mod.ProjectileType("EnchantedAxe2"), 20, 2, projectile.owner, 0, 0);
-                    Projectile.NewProjectile(projectile.position, Vector2.Normalize(new Vector2(-1f, -1f)) * axeSpeed, mod.ProjectileType("EnchantedAxe2"), 20, 2, projectile.owner, 0, 0);
-                    Projectile.NewProjectile(projectile.position, Vector2.Normalize(new Vector2(-1f, 1f)) * axeSpeed, mod.ProjectileType("EnchantedAxe2"), 20, 2, projectile.owner, 0, 0);
+                    Projectile.NewProjectile(projectile.position, new Vector2(1f, 0f) * axeSpeed, ModContent.ProjectileType<EnchantedAxe2>(), 20, 2, projectile.owner, 0, 0);
+                    Projectile.NewProjectile(projectile.position, new Vector2(0f, 1f) * axeSpeed, ModContent.ProjectileType<EnchantedAxe2>(), 20, 2, projectile.owner, 0, 0);
+                    Projectile.NewProjectile(projectile.position, new Vector2(-1f, 0f) * axeSpeed, ModContent.ProjectileType<EnchantedAxe2>(), 20, 2, projectile.owner, 0, 0);
+                    Projectile.NewProjectile(projectile.position, new Vector2(0f, -1f) * axeSpeed, ModContent.ProjectileType<EnchantedAxe2>(), 20, 2, projectile.owner, 0, 0);
+                    Projectile.NewProjectile(projectile.position, Vector2.Normalize(new Vector2(1f, 1f)) * axeSpeed, ModContent.ProjectileType<EnchantedAxe2>(), 20, 2, projectile.owner, 0, 0);
+                    Projectile.NewProjectile(projectile.position, Vector2.Normalize(new Vector2(1f, -1f)) * axeSpeed, ModContent.ProjectileType<EnchantedAxe2>(), 20, 2, projectile.owner, 0, 0);
+                    Projectile.NewProjectile(projectile.position, Vector2.Normalize(new Vector2(-1f, -1f)) * axeSpeed, ModContent.ProjectileType<EnchantedAxe2>(), 20, 2, projectile.owner, 0, 0);
+                    Projectile.NewProjectile(projectile.position, Vector2.Normalize(new Vector2(-1f, 1f)) * axeSpeed, ModContent.ProjectileType<EnchantedAxe2>(), 20, 2, projectile.owner, 0, 0);
                 }
             }
 

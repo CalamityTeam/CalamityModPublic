@@ -1,9 +1,9 @@
 using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Items.Armor
+namespace CalamityMod.Items
 {
     [AutoloadEquip(EquipType.Body)]
     public class OmegaBlueChestplate : ModItem
@@ -37,10 +37,10 @@ No positive life regen");
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("ReaperTooth"), 16);
-            recipe.AddIngredient(mod.ItemType("Lumenite"), 8);
-            recipe.AddIngredient(mod.ItemType("Tenebris"), 8);
-            recipe.AddIngredient(mod.ItemType("RuinousSoul"), 4);
+            recipe.AddIngredient(ModContent.ItemType<ReaperTooth>(), 16);
+            recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 8);
+            recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 8);
+            recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 4);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

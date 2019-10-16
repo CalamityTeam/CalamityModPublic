@@ -4,9 +4,9 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.NPCs.TheDevourerofGods
+namespace CalamityMod.NPCs
 {
     public class DevourerofGodsBody : ModNPC
     {
@@ -141,7 +141,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 npc.localAI[0] += expertMode ? 2f : 1f;
-                int projectileType = mod.ProjectileType("DoGNebulaShot");
+                int projectileType = ModContent.ProjectileType<DoGNebulaShot>();
                 int damage = expertMode ? 58 : 70;
                 float num941 = 5f;
                 if (npc.localAI[0] >= (float)Main.rand.Next(1400, 16000))
@@ -269,8 +269,8 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(mod.BuffType("GodSlayerInferno"), 240, true);
-            player.AddBuff(mod.BuffType("WhisperingDeath"), 300, true);
+            player.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 240, true);
+            player.AddBuff(ModContent.BuffType<WhisperingDeath>(), 300, true);
             player.AddBuff(BuffID.Frostburn, 240, true);
             player.AddBuff(BuffID.Darkness, 240, true);
         }
