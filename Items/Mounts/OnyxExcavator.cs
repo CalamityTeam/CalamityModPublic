@@ -138,11 +138,11 @@ namespace CalamityMod.Items.Mounts
                             {
                                 if (tile != null && tile.active() && tile.type != (ushort)mod.TileType("AbyssGravel") &&
                                     tile.type != (ushort)mod.TileType("Voidstone") && (tile.type != TileID.Hellstone || Main.hardMode) &&
-                                    (tile.type != TileID.LihzahrdBrick || NPC.downedGolemBoss) && tile.type != TileID.BlueDungeonBrick &&
-                                    tile.type != TileID.GreenDungeonBrick && tile.type != TileID.PinkDungeonBrick && tile.type != TileID.DemonAltar &&
-                                    (tile.type != (ushort)mod.TileType("AstralOre") || CalamityWorld.downedStarGod) &&
+                                    (tile.type != TileID.LihzahrdBrick || NPC.downedGolemBoss) && (tile.type != TileID.BlueDungeonBrick || NPC.downedBoss3) &&
+                                    (tile.type != TileID.GreenDungeonBrick || NPC.downedBoss3) && (tile.type != TileID.PinkDungeonBrick || NPC.downedBoss3) &&
+									tile.type != TileID.DemonAltar && (tile.type != (ushort)mod.TileType("AstralOre") || CalamityWorld.downedStarGod) &&
                                     ((tile.type != (ushort)mod.TileType("Tenebris") && tile.type != (ushort)mod.TileType("PlantyMush")) || NPC.downedPlantBoss || CalamityWorld.downedCalamitas) &&
-                                    (!player.Calamity().ZoneSunkenSea || CalamityWorld.downedDesertScourge) &&
+                                    (!player.Calamity().ZoneSunkenSea || CalamityWorld.downedDesertScourge) && tile.type != (ushort)mod.TileType("ArenaTile") &&
                                     (Main.tileValue[tile.type] < tileValueLimit || tile.type == TileID.Heart || tile.type == TileID.LifeFruit) &&
                                     !player.noBuilding && tile.type != TileID.ElderCrystalStand && tile.type != TileID.Containers)
                                 {

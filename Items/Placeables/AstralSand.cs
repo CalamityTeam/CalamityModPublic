@@ -21,6 +21,9 @@ namespace CalamityMod.Items.Placeables
             item.width = 16;
             item.height = 16;
             item.maxStack = 999;
+            item.shoot = mod.ProjectileType("AstralFallingSand");
+            item.shootSpeed = 8f;
+            item.ammo = 169;
         }
     }
 }

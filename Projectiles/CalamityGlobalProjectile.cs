@@ -522,6 +522,8 @@ namespace CalamityMod.Projectiles
             }
             else if (projectile.type == ProjectileID.FallingStar && Main.player[projectile.owner].inventory[Main.player[projectile.owner].selectedItem].type == ItemID.StarCannon)
                 projectile.ranged = true;
+            else if (projectile.type == mod.ProjectileType("AstralFallingSand") && Main.player[projectile.owner].inventory[Main.player[projectile.owner].selectedItem].type == ItemID.Sandgun)
+                forceRanged = true;
             else if (projectile.type == ProjectileID.SoulDrain)
                 projectile.magic = true;
 
