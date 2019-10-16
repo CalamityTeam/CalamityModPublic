@@ -162,6 +162,9 @@ namespace CalamityMod.NPCs.TownNPCs
             nextSlot++;
             shop.item[nextSlot].SetDefaults(mod.ItemType("Popo"));
             nextSlot++;
+            shop.item[nextSlot].SetDefaults(mod.ItemType("CryoKey"));
+            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 15, 0, 0);
+            nextSlot++;
         }
 
 		// Make this Town NPC teleport to the King and/or Queen statue when triggered.
