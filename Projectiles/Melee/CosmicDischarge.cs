@@ -222,6 +222,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             Player player = Main.player[projectile.owner];
             target.AddBuff(BuffID.Frostburn, 300);
+            target.AddBuff(mod.BuffType("Nightwither"), 300);
             if (Main.rand.NextBool(3))
             {
                 target.AddBuff(mod.BuffType("GlacialState"), 120);
