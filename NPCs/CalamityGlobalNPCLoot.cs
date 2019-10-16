@@ -189,6 +189,7 @@ namespace CalamityMod.NPCs
             }
             else if (npc.type == NPCID.Golem)
             {
+				DropHelper.DropItem(npc, mod.ItemType("EssenceofCinder"), 5, 10);
                 DropHelper.DropItemCondition(npc, ItemID.Picksaw, true, !NPC.downedGolemBoss);
                 DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeGolem"), true, !NPC.downedGolemBoss);
                 DropHelper.DropResidentEvilAmmo(npc, NPC.downedGolemBoss, 4, 2, 1);
