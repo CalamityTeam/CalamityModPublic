@@ -511,7 +511,7 @@ namespace CalamityMod.NPCs
 
             // Apply DR to vanilla NPCs. No vanilla NPCs have DR except in Rev+.
             // This also applies DR to other mods' NPCs who have set up their NPCs to have DR in Rev+.
-            if (CalamityWorld.revenge)
+            if (CalamityWorld.revenge && CalamityMod.DRValues.ContainsKey(npc.type))
             {
                 CalamityMod.DRValues.TryGetValue(npc.type, out float revDR);
                 DR = revDR;
@@ -1131,7 +1131,7 @@ namespace CalamityMod.NPCs
         #region Strike NPC
         public override bool StrikeNPC(NPC npc, ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
         {
-            // TODO -- move this to Destroyer's Rev+ AI; either set his DR or modify npc.takenDamageMultiplier
+            // TODO -- move this to Destroyer's Rev+ AI by setting his DR to 99% unbreakable
             if (npc.type == NPCID.TheDestroyer || npc.type == NPCID.TheDestroyerBody || npc.type == NPCID.TheDestroyerTail)
             {
                 if ((newAI[1] < 480f || newAI[2] > 0f) && (CalamityWorld.revenge || CalamityWorld.bossRushActive))
@@ -1185,7 +1185,7 @@ namespace CalamityMod.NPCs
             damage = ApplyDR(npc, damage);
 
             // Add Yellow Candle damage if the NPC isn't supposed to be "near invincible"
-            if (yellowCandle && DR < 0.99f && npc.takenDamageMultiplier > 0.05f)
+            if (yellowCandle && DR < 0.99f)
                 damage += yellowCandleDamage;
 
             // Cancel out vanilla defense math by reversing the calculation vanilla is about to perform.
@@ -1208,7 +1208,7 @@ namespace CalamityMod.NPCs
 
             // If the NPC currently has unbreakable DR, it cannot be reduced by any means.
             // If custom DR is enabled, use that instead of normal DR.
-            float effectiveDR = unbreakableDR ? DR : (customDR ? CustomDRMath(npc, DR) : DefaultDRMath(npc, DR));
+            float effectiveDR = unbreakableDR ? DR : customDR ? CustomDRMath(npc, DR) : DefaultDRMath(npc, DR);
 
             // DR floor is 0%. Nothing can have negative DR.
             if (effectiveDR <= 0f)
