@@ -1,5 +1,5 @@
 ﻿using CalamityMod.CalPlayer;
-using Terraria;
+using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
@@ -45,9 +45,9 @@ namespace CalamityMod.Items
             player.noFallDmg = true;
             if (player.whoAmI == Main.myPlayer)
             {
-                if (player.FindBuffIndex(ModContent.BuffType<Valkyrie>()) == -1)
+                if (player.FindBuffIndex(ModContent.BuffType<ValkyrieBuff>()) == -1)
                 {
-                    player.AddBuff(ModContent.BuffType<Valkyrie>(), 3600, true);
+                    player.AddBuff(ModContent.BuffType<ValkyrieBuff>(), 3600, true);
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<Valkyrie>()] < 1)
                 {

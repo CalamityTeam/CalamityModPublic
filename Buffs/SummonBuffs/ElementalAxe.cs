@@ -1,5 +1,5 @@
 ﻿using CalamityMod.CalPlayer;
-using Terraria;
+using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
 using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
 namespace CalamityMod.Buffs
@@ -17,7 +17,7 @@ namespace CalamityMod.Buffs
         public override void Update(Player player, ref int buffIndex)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<ElementalAxe>()] > 0)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.ElementalAxe>()] > 0)
             {
                 modPlayer.eAxe = true;
             }

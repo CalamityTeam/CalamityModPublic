@@ -1,5 +1,5 @@
 ﻿using CalamityMod.CalPlayer;
-using Terraria;
+using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
 using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
 namespace CalamityMod.Buffs
@@ -21,7 +21,7 @@ namespace CalamityMod.Buffs
             {
                 modPlayer.sGod = true;
             }
-            else if (player.ownedProjectileCounts[ModContent.ProjectileType<SlimeGod>()] > 0)
+            else if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.SlimeGod>()] > 0)
             {
                 modPlayer.sGod = true;
             }

@@ -1,4 +1,4 @@
-using Terraria;
+using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
@@ -40,7 +40,7 @@ namespace CalamityMod.Items
             {
                 for (int i = 0; i < 200; i++)
                 {
-                    if (Main.npc[i].type == ModContent.NPCType<SuperDummy>())
+                    if (Main.npc[i].type == ModContent.NPCType<NPCs.SuperDummy>())
                     {
                         Main.npc[i].life = 0;
                         Main.npc[i].lifeRegen = 0;
@@ -52,7 +52,7 @@ namespace CalamityMod.Items
             {
                 int x = (int)Main.MouseWorld.X - 9;
                 int y = (int)Main.MouseWorld.Y - 20;
-                NPC.NewNPC(x, y, ModContent.NPCType<SuperDummy>());
+                NPC.NewNPC(x, y, ModContent.NPCType<NPCs.SuperDummy>());
             }
             return true;
         }

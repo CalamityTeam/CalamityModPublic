@@ -1,7 +1,7 @@
 ﻿using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using System;
-using Terraria;
+using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
 using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
 namespace CalamityMod.Items
@@ -64,13 +64,13 @@ namespace CalamityMod.Items
             }
             if (player.whoAmI == Main.myPlayer)
             {
-                if (player.FindBuffIndex(ModContent.BuffType<SilvaCrystal>()) == -1)
+                if (player.FindBuffIndex(ModContent.BuffType<Buffs.SilvaCrystal>()) == -1)
                 {
-                    player.AddBuff(ModContent.BuffType<SilvaCrystal>(), 3600, true);
+                    player.AddBuff(ModContent.BuffType<Buffs.SilvaCrystal>(), 3600, true);
                 }
-                if (player.ownedProjectileCounts[ModContent.ProjectileType<SilvaCrystal>()] < 1)
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.SilvaCrystal>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<SilvaCrystal>(), (int)(3000f * player.minionDamage), 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<Projectiles.SilvaCrystal>(), (int)(3000f * player.minionDamage), 0f, Main.myPlayer, 0f, 0f);
                 }
                 if (player.FindBuffIndex(ModContent.BuffType<Mechworm>()) == -1)
                 {

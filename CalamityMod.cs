@@ -5,14 +5,14 @@ using CalamityMod.MiscModSupport;
 using CalamityMod.NPCs;
 using CalamityMod.Skies;
 using CalamityMod.UI;
-using CalamityMod.Utilities;
+
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Terraria;
+using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
 using Terraria.DataStructures;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;

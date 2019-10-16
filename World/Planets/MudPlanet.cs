@@ -1,6 +1,6 @@
 ﻿
 using Microsoft.Xna.Framework;
-using Terraria;
+using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
 using Terraria.GameContent.Generation;
 using Terraria.ID;
 using Terraria.World.Generation;

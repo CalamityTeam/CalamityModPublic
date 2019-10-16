@@ -1,5 +1,5 @@
 ﻿using CalamityMod.CalPlayer;
-using Terraria;
+using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
@@ -46,13 +46,13 @@ namespace CalamityMod.Items
             modPlayer.chaosSpirit = true;
             if (player.whoAmI == Main.myPlayer)
             {
-                if (player.FindBuffIndex(ModContent.BuffType<ChaosSpirit>()) == -1)
+                if (player.FindBuffIndex(ModContent.BuffType<Buffs.ChaosSpirit>()) == -1)
                 {
-                    player.AddBuff(ModContent.BuffType<ChaosSpirit>(), 3600, true);
+                    player.AddBuff(ModContent.BuffType<Buffs.ChaosSpirit>(), 3600, true);
                 }
-                if (player.ownedProjectileCounts[ModContent.ProjectileType<ChaosSpirit>()] < 1)
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.ChaosSpirit>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<ChaosSpirit>(), (int)(190f * player.minionDamage), 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<Projectiles.ChaosSpirit>(), (int)(190f * player.minionDamage), 0f, Main.myPlayer, 0f, 0f);
                 }
             }
             player.minionDamage += 0.4f;

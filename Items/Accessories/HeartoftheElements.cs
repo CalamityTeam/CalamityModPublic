@@ -1,6 +1,6 @@
 ﻿using CalamityMod.CalPlayer;
 using CalamityMod.World;
-using Terraria;
+using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
@@ -62,9 +62,9 @@ namespace CalamityMod.Items
                 player.allDamage += 0.08f;
                 int damage = NPC.downedMoonlord ? 150 : 90;
                 float damageMult = CalamityWorld.downedDoG ? 2f : 1f;
-                if (player.ownedProjectileCounts[ModContent.ProjectileType<BigBustyRose>()] > 1 || player.ownedProjectileCounts[ModContent.ProjectileType<SirenLure>()] > 1 ||
-                    player.ownedProjectileCounts[ModContent.ProjectileType<DrewsSandyWaifu>()] > 1 || player.ownedProjectileCounts[ModContent.ProjectileType<SandyWaifu>()] > 1 ||
-                    player.ownedProjectileCounts[ModContent.ProjectileType<CloudyWaifu>()] > 1)
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<BrimstoneElementalMinion>()] > 1 || player.ownedProjectileCounts[ModContent.ProjectileType<WaterElementalMinion>()] > 1 ||
+                    player.ownedProjectileCounts[ModContent.ProjectileType<SandElementalHealer>()] > 1 || player.ownedProjectileCounts[ModContent.ProjectileType<SandElementalMinion>()] > 1 ||
+                    player.ownedProjectileCounts[ModContent.ProjectileType<CloudElementalMinion>()] > 1)
                 {
                     player.ClearBuff(ModContent.BuffType<HotE>());
                 }
@@ -72,25 +72,25 @@ namespace CalamityMod.Items
                 {
                     player.AddBuff(ModContent.BuffType<HotE>(), 3600, true);
                 }
-                if (player.ownedProjectileCounts[ModContent.ProjectileType<BigBustyRose>()] < 1)
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<BrimstoneElementalMinion>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<BigBustyRose>(), (int)((float)damage * damageMult * player.minionDamage), 2f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<BrimstoneElementalMinion>(), (int)((float)damage * damageMult * player.minionDamage), 2f, Main.myPlayer, 0f, 0f);
                 }
-                if (player.ownedProjectileCounts[ModContent.ProjectileType<SirenLure>()] < 1)
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<WaterElementalMinion>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<SirenLure>(), (int)((float)damage * damageMult * player.minionDamage), 2f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<WaterElementalMinion>(), (int)((float)damage * damageMult * player.minionDamage), 2f, Main.myPlayer, 0f, 0f);
                 }
-                if (player.ownedProjectileCounts[ModContent.ProjectileType<DrewsSandyWaifu>()] < 1)
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<SandElementalHealer>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<DrewsSandyWaifu>(), (int)((float)damage * damageMult * player.minionDamage), 2f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<SandElementalHealer>(), (int)((float)damage * damageMult * player.minionDamage), 2f, Main.myPlayer, 0f, 0f);
                 }
-                if (player.ownedProjectileCounts[ModContent.ProjectileType<SandyWaifu>()] < 1)
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<SandElementalMinion>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<SandyWaifu>(), (int)((float)damage * damageMult * player.minionDamage), 2f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<SandElementalMinion>(), (int)((float)damage * damageMult * player.minionDamage), 2f, Main.myPlayer, 0f, 0f);
                 }
-                if (player.ownedProjectileCounts[ModContent.ProjectileType<CloudyWaifu>()] < 1)
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<CloudElementalMinion>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<CloudyWaifu>(), (int)((float)damage * damageMult * player.minionDamage), 2f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<CloudElementalMinion>(), (int)((float)damage * damageMult * player.minionDamage), 2f, Main.myPlayer, 0f, 0f);
                 }
             }
             else
@@ -103,9 +103,9 @@ namespace CalamityMod.Items
                 player.statManaMax2 += 60;
                 player.manaCost *= 0.93f;
                 player.allDamage += 0.1f;
-                if (player.ownedProjectileCounts[ModContent.ProjectileType<BigBustyRose>()] > 0 || player.ownedProjectileCounts[ModContent.ProjectileType<SirenLure>()] > 0 ||
-                    player.ownedProjectileCounts[ModContent.ProjectileType<DrewsSandyWaifu>()] > 0 || player.ownedProjectileCounts[ModContent.ProjectileType<SandyWaifu>()] > 0 ||
-                    player.ownedProjectileCounts[ModContent.ProjectileType<CloudyWaifu>()] > 0)
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<BrimstoneElementalMinion>()] > 0 || player.ownedProjectileCounts[ModContent.ProjectileType<WaterElementalMinion>()] > 0 ||
+                    player.ownedProjectileCounts[ModContent.ProjectileType<SandElementalHealer>()] > 0 || player.ownedProjectileCounts[ModContent.ProjectileType<SandElementalMinion>()] > 0 ||
+                    player.ownedProjectileCounts[ModContent.ProjectileType<CloudElementalMinion>()] > 0)
                 {
                     player.ClearBuff(ModContent.BuffType<HotE>());
                 }

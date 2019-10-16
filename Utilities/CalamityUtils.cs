@@ -6,7 +6,7 @@ using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Linq;
-using Terraria;
+using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
 
 namespace CalamityMod
 {

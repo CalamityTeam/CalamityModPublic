@@ -1,5 +1,5 @@
 using CalamityMod.CalPlayer;
-using Terraria;
+using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
 using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
 namespace CalamityMod.Items
@@ -41,9 +41,9 @@ namespace CalamityMod.Items
                 {
                     player.AddBuff(ModContent.BuffType<CloudyWaifu>(), 3600, true);
                 }
-                if (player.ownedProjectileCounts[ModContent.ProjectileType<CloudyWaifu>()] < 1)
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<CloudElementalMinion>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<CloudyWaifu>(), (int)(45f * player.minionDamage), 2f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<CloudElementalMinion>(), (int)(45f * player.minionDamage), 2f, Main.myPlayer, 0f, 0f);
                 }
             }
         }

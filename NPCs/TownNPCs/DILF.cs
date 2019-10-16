@@ -1,6 +1,6 @@
 using CalamityMod.World;
 using System.Collections.Generic;
-using Terraria;
+using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
 using Terraria.GameContent.Events;
 using Terraria.ID;
 using Terraria.Localization;

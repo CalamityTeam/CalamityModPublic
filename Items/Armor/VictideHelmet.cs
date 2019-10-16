@@ -1,5 +1,5 @@
 ﻿using CalamityMod.CalPlayer;
-using Terraria;
+using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
@@ -41,9 +41,9 @@ namespace CalamityMod.Items
             modPlayer.urchin = true;
             if (player.whoAmI == Main.myPlayer)
             {
-                if (player.FindBuffIndex(ModContent.BuffType<Urchin>()) == -1)
+                if (player.FindBuffIndex(ModContent.BuffType<UrchinBuff>()) == -1)
                 {
-                    player.AddBuff(ModContent.BuffType<Urchin>(), 3600, true);
+                    player.AddBuff(ModContent.BuffType<UrchinBuff>(), 3600, true);
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<Urchin>()] < 1)
                 {

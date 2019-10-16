@@ -1,5 +1,5 @@
 ﻿using CalamityMod.CalPlayer;
-using Terraria;
+using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
 using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
 namespace CalamityMod.Items
@@ -47,13 +47,13 @@ namespace CalamityMod.Items
             if (player.whoAmI == Main.myPlayer && !modPlayer.chibii)
             {
                 modPlayer.redDevil = true;
-                if (player.FindBuffIndex(ModContent.BuffType<RedDevil>()) == -1)
+                if (player.FindBuffIndex(ModContent.BuffType<Buffs.RedDevil>()) == -1)
                 {
-                    player.AddBuff(ModContent.BuffType<RedDevil>(), 3600, true);
+                    player.AddBuff(ModContent.BuffType<Buffs.RedDevil>(), 3600, true);
                 }
-                if (player.ownedProjectileCounts[ModContent.ProjectileType<RedDevil>()] < 1)
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.RedDevil>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<RedDevil>(), 10000, 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<Projectiles.RedDevil>(), 10000, 0f, Main.myPlayer, 0f, 0f);
                 }
             }
             player.minionDamage += 1f;

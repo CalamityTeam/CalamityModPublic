@@ -1,4 +1,4 @@
-﻿namespace CalamityMod.Utilities
+﻿namespace CalamityMod
 {
     public enum ConvertType
     {

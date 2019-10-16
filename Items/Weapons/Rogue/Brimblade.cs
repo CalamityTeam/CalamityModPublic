@@ -1,0 +1,44 @@
+using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
+using Terraria.ID;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+
+namespace CalamityMod.Items
+{
+    public class Brimblade : RogueWeapon
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Brimblade");
+            Tooltip.SetDefault("Throws a blade that splits on enemy hits");
+        }
+
+        public override void SafeSetDefaults()
+        {
+            item.width = 26;
+            item.damage = 32;
+            item.noMelee = true;
+            item.noUseGraphic = true;
+            item.autoReuse = true;
+            item.useAnimation = 18;
+            item.useStyle = 1;
+            item.useTime = 18;
+            item.knockBack = 6.5f;
+            item.UseSound = SoundID.Item1;
+            item.height = 26;
+            item.value = Item.buyPrice(0, 48, 0, 0);
+            item.rare = 6;
+            item.shoot = ModContent.ProjectileType<Projectiles.Brimblade>();
+            item.shootSpeed = 12f;
+            item.Calamity().rogue = true;
+        }
+
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(null, "UnholyCore", 4);
+            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
+    }
+}
