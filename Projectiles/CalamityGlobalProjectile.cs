@@ -1,5 +1,6 @@
 using CalamityMod.Utilities;
 using CalamityMod.World;
+using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -381,6 +382,7 @@ namespace CalamityMod.Projectiles
         #region AI
         public override void AI(Projectile projectile)
         {
+
             if (defDamage == 0)
                 defDamage = projectile.damage;
 
@@ -655,9 +657,9 @@ namespace CalamityMod.Projectiles
                 if (Main.player[projectile.owner].Calamity().moonCrown)
                 {
                     //Summon moon sigils infrequently
-                    if (Main.rand.NextBool(300))
+                    if (Main.rand.NextBool(300) && projectile.type != ModContent.ProjectileType<MoonSigil>()) 
                     {
-                        Projectile.NewProjectile(projectile.position, Vector2.Zero, mod.ProjectileType("MoonSigil"), (int)((double)projectile.damage * 0.05), 0);
+                        Projectile.NewProjectile(projectile.position, Vector2.Zero, ModContent.ProjectileType<MoonSigil>(), (int)(projectile.damage * 0.05), 0,projectile.owner);
                     }
                 }
             }
@@ -1262,29 +1264,33 @@ namespace CalamityMod.Projectiles
                         num9 *= num10;
                         Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num8, num9, mod.ProjectileType("XerocStar"), (int)((double)num * 1.6), 0f, projectile.owner, (float)num6, 0f);
                     }
-
-                    if (Main.player[projectile.owner].Calamity().featherCrown && stealthStrike)
+                    Player playerC = Main.player[projectile.owner];
+                    if (playerC.Calamity().featherCrown && stealthStrike && playerC.Calamity().featherCrownCooldown <= 0)
                     {
                         for (int i = 0; i < 10; i++)
                         {
-                            Vector2 pos = new Vector2(target.position.X + (float)target.width * 0.5f + (float)Main.rand.Next(-201, 201), Main.screenPosition.Y - 600f - Main.rand.Next(50));
-                            float speedX = (target.position.X - pos.X) / 30f;
-                            float speedY = (target.position.Y - pos.Y) * 8;
+                            Vector2 pos = new Vector2(target.Center.X + (float)target.width * 0.5f + (float)Main.rand.Next(-201, 201), Main.screenPosition.Y - 600f - Main.rand.Next(50));
+                            float speedX = (target.Center.X - pos.X) / 30f;
+                            float speedY = (target.Center.Y - pos.Y) * 8;
                             int feather = Projectile.NewProjectile(pos.X, pos.Y, speedX, speedY, mod.ProjectileType("StickyFeather"), 15, 3, projectile.owner, 0f, (float)Main.rand.Next(15));
                             Main.projectile[feather].magic = false;
                             Main.projectile[feather].Calamity().rogue = true;
+                            playerC.Calamity().featherCrownCooldown = 15;
                         }
                     }
 
-                    if (Main.player[projectile.owner].Calamity().moonCrown && stealthStrike)
+                    
+                    if (playerC.Calamity().moonCrown && stealthStrike && playerC.Calamity().moonCrownCooldown <= 0)
                     {
                         for (int i = 0; i < 20; i++)
                         {
-                            Vector2 pos = new Vector2(target.position.X + (float)target.width * 0.5f + (float)Main.rand.Next(-201, 201), Main.screenPosition.Y - 600f - Main.rand.Next(50));
-                            Vector2 velocity = (target.position - pos) / 10f;
-                            int flare = Projectile.NewProjectile(pos, velocity, ProjectileID.LunarFlare, 50, 3, projectile.owner);
+                            Vector2 pos = new Vector2(target.Center.X + (float)target.width * 0.5f + (float)Main.rand.Next(-201, 201), Main.screenPosition.Y - 600f - Main.rand.Next(50));
+                            Vector2 velocity = (target.Center - pos) / 10f;
+                            float AI1 = (float)Main.rand.Next(3);
+                            int flare = Projectile.NewProjectile(pos, velocity, ProjectileID.LunarFlare, 50, 3, projectile.owner,0f,AI1);
                             Main.projectile[flare].magic = false;
-                            Main.projectile[flare].Calamity().rogue = true;
+                            Main.projectile[flare].Calamity().forceRogue = true;
+                            playerC.Calamity().moonCrownCooldown = 15;
                         }
                     }
                 }

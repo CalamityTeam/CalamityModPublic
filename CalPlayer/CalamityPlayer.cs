@@ -311,6 +311,8 @@ namespace CalamityMod.CalPlayer
         public bool eclipseMirrorCooldown = false;
         public bool featherCrown = false;
         public bool moonCrown = false;
+        public int featherCrownCooldown = 0;
+        public int moonCrownCooldown = 0;
         public bool dragonScales = false;
         public bool gloveOfPrecision = false;
         public bool gloveOfRecklessness = false;
@@ -1264,6 +1266,8 @@ namespace CalamityMod.CalPlayer
             inkBombCooldown = false;
             abyssalMirrorCooldown = false;
             eclipseMirrorCooldown = false;
+            moonCrownCooldown = 0;
+            featherCrownCooldown = 0;
             #endregion
 
             #region Rogue
@@ -3083,6 +3087,10 @@ namespace CalamityMod.CalPlayer
                 bloodflareMageCooldown--;
             if (tarraMageHealCooldown > 0)
                 tarraMageHealCooldown--;
+            if (featherCrownCooldown > 0)
+                featherCrownCooldown--;
+            if (moonCrownCooldown > 0)
+                moonCrownCooldown--;
             if (ataxiaDmg > 0f)
                 ataxiaDmg -= 1.5f;
             if (ataxiaDmg < 0f)

@@ -5,8 +5,10 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.CalamityCustomThrowingDamage
 {
+    
     public class Kylie : CalamityDamageItem
     {
+        public static float Speed = 11f;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Kylie");
@@ -15,7 +17,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 
         public override void SafeSetDefaults()
         {
-            item.damage = 40;
+            item.damage = 70;
             item.knockBack = 12;
             item.thrown = true;
             item.crit = 16;
@@ -27,7 +29,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.height = 46;
             item.useStyle = 1;
             item.UseSound = SoundID.Item1;
-            item.shootSpeed = 11f;
+            item.shootSpeed = Speed;
             item.shoot = mod.ProjectileType("KylieBoomerang");
             item.noMelee = true;
             item.noUseGraphic = true;

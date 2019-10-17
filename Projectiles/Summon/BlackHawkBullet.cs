@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.height = 4;
             projectile.light = 0.5f;
             projectile.alpha = 255;
-            projectile.extraUpdates = 2;
+            projectile.extraUpdates = 3;
             projectile.scale = 1.18f;
             projectile.friendly = true;
             projectile.minion = true;

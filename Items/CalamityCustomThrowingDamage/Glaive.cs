@@ -6,7 +6,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 {
     public class Glaive : CalamityDamageItem
     {
-        public static int BaseDamage = 50;
+        public static int BaseDamage = 45;
         public static float Knockback = 3f;
         public static float Speed = 10f;
         public static float StealthSpeedMult = 1.8f;
