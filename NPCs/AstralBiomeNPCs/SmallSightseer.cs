@@ -19,7 +19,7 @@ namespace CalamityMod.NPCs
             Main.npcFrameCount[npc.type] = 4;
 
             if (!Main.dedServ)
-                glowmask = mod.GetTexture("NPCs/AstralBiomeNPCs/SmallSightseerGlow");
+                glowmask = ModContent.GetTexture("CalamityMod/NPCs/AstralBiomeNPCs/SmallSightseerGlow");
         }
 
         public override void SetDefaults()

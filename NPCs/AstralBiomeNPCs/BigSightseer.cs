@@ -19,7 +19,7 @@ namespace CalamityMod.NPCs
             DisplayName.SetDefault("Big Sightseer");
             Main.npcFrameCount[npc.type] = 4;
             if (!Main.dedServ)
-                glowmask = mod.GetTexture("NPCs/AstralBiomeNPCs/BigSightseerGlow");
+                glowmask = ModContent.GetTexture("CalamityMod/NPCs/AstralBiomeNPCs/BigSightseerGlow");
         }
 
         public override void SetDefaults()

@@ -62,7 +62,7 @@ namespace CalamityMod.NPCs
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/AstrumAureus");
             else
                 music = MusicID.Boss3;
-            bossBag = ModContent.ItemType<AstrumAureusBag>();
+            bossBag = ModContent.ItemType<AstrageldonBag>();
             if (NPC.downedMoonlord && CalamityWorld.revenge)
             {
                 npc.value = Item.buyPrice(0, 35, 0, 0);
@@ -215,33 +215,33 @@ namespace CalamityMod.NPCs
             if (npc.ai[0] == 0f)
             {
                 NPCTexture = Main.npcTexture[npc.type];
-                GlowMaskTexture = mod.GetTexture("NPCs/AstrumAureus/AstrumAureusGlow");
+                GlowMaskTexture = ModContent.GetTexture("CalamityMod/NPCs/AstrumAureus/AstrumAureusGlow");
             }
             else if (npc.ai[0] == 1f) //nothing special done here
             {
-                NPCTexture = mod.GetTexture("NPCs/AstrumAureus/AstrumAureusRecharge");
+                NPCTexture = ModContent.GetTexture("CalamityMod/NPCs/AstrumAureus/AstrumAureusRecharge");
             }
             else if (npc.ai[0] == 2f) //nothing special done here
             {
-                NPCTexture = mod.GetTexture("NPCs/AstrumAureus/AstrumAureusWalk");
-                GlowMaskTexture = mod.GetTexture("NPCs/AstrumAureus/AstrumAureusWalkGlow");
+                NPCTexture = ModContent.GetTexture("CalamityMod/NPCs/AstrumAureus/AstrumAureusWalk");
+                GlowMaskTexture = ModContent.GetTexture("CalamityMod/NPCs/AstrumAureus/AstrumAureusWalkGlow");
             }
             else if (npc.ai[0] == 3f || npc.ai[0] == 4f) //needs to have an in-air frame
             {
                 if (npc.velocity.Y == 0f && npc.ai[1] >= 0f && npc.ai[0] == 3f) //idle before jump
                 {
                     NPCTexture = Main.npcTexture[npc.type]; //idle frames
-                    GlowMaskTexture = mod.GetTexture("NPCs/AstrumAureus/AstrumAureusGlow");
+                    GlowMaskTexture = ModContent.GetTexture("CalamityMod/NPCs/AstrumAureus/AstrumAureusGlow");
                 }
                 else if (npc.velocity.Y <= 0f || npc.ai[1] < 0f) //jump frames if flying upward or if about to jump
                 {
-                    NPCTexture = mod.GetTexture("NPCs/AstrumAureus/AstrumAureusJump");
-                    GlowMaskTexture = mod.GetTexture("NPCs/AstrumAureus/AstrumAureusJumpGlow");
+                    NPCTexture = ModContent.GetTexture("CalamityMod/NPCs/AstrumAureus/AstrumAureusJump");
+                    GlowMaskTexture = ModContent.GetTexture("CalamityMod/NPCs/AstrumAureus/AstrumAureusJumpGlow");
                 }
                 else //stomping
                 {
-                    NPCTexture = mod.GetTexture("NPCs/AstrumAureus/AstrumAureusStomp");
-                    GlowMaskTexture = mod.GetTexture("NPCs/AstrumAureus/AstrumAureusStompGlow");
+                    NPCTexture = ModContent.GetTexture("CalamityMod/NPCs/AstrumAureus/AstrumAureusStomp");
+                    GlowMaskTexture = ModContent.GetTexture("CalamityMod/NPCs/AstrumAureus/AstrumAureusStompGlow");
                 }
             }
             else if (npc.ai[0] >= 5f) //needs to have an in-air frame
@@ -249,12 +249,12 @@ namespace CalamityMod.NPCs
                 if (npc.velocity.Y == 0f) //idle before teleport
                 {
                     NPCTexture = Main.npcTexture[npc.type]; //idle frames
-                    GlowMaskTexture = mod.GetTexture("NPCs/AstrumAureus/AstrumAureusGlow");
+                    GlowMaskTexture = ModContent.GetTexture("CalamityMod/NPCs/AstrumAureus/AstrumAureusGlow");
                 }
                 else //in-air frames
                 {
-                    NPCTexture = mod.GetTexture("NPCs/AstrumAureus/AstrumAureusJump");
-                    GlowMaskTexture = mod.GetTexture("NPCs/AstrumAureus/AstrumAureusJumpGlow");
+                    NPCTexture = ModContent.GetTexture("CalamityMod/NPCs/AstrumAureus/AstrumAureusJump");
+                    GlowMaskTexture = ModContent.GetTexture("CalamityMod/NPCs/AstrumAureus/AstrumAureusJumpGlow");
                 }
             }
 
@@ -299,9 +299,9 @@ namespace CalamityMod.NPCs
         {
             DropHelper.DropBags(npc);
 
-            DropHelper.DropItemChance(npc, ModContent.ItemType<AstrumAureusTrophy>(), 10);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeAstrumAureus>(), true, !CalamityWorld.downedAstrumAureus);
-            DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedAstrumAureus, 4, 2, 1);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<AstrageldonTrophy>(), 10);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeAstrumAureus>(), true, !CalamityWorld.downedAstrageldon);
+            DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedAstrageldon, 4, 2, 1);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
             if (!Main.expertMode)
@@ -336,7 +336,7 @@ namespace CalamityMod.NPCs
             ThreadPool.QueueUserWorkItem(WorldGenerationMethods.AstralMeteorThreadWrapper);
 
             // If Astrum Aureus has not yet been killed, notify players of new Astral enemy drops
-            if (!CalamityWorld.downedAstrumAureus)
+            if (!CalamityWorld.downedAstrageldon)
             {
                 string key = "Mods.CalamityMod.AureusBossText";
                 string key2 = "Mods.CalamityMod.AureusBossText2";
@@ -355,7 +355,7 @@ namespace CalamityMod.NPCs
             }
 
             // Mark Astrum Aureus as dead
-            CalamityWorld.downedAstrumAureus = true;
+            CalamityWorld.downedAstrageldon = true;
             CalamityMod.UpdateServerBoolean();
         }
 

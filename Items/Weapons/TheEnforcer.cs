@@ -39,7 +39,7 @@ namespace CalamityMod.Items
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
             Vector2 origin = new Vector2(50f, 48f);
-            spriteBatch.Draw(mod.GetTexture("Items/Weapons/TheEnforcerGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/Weapons/TheEnforcerGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)

@@ -63,7 +63,7 @@ namespace CalamityMod.Items
             mountData.swimFrameStart = mountData.inAirFrameStart;
             if (Main.netMode != NetmodeID.Server)
             {
-                mountData.frontTextureExtra = mod.GetTexture("Items/Mounts/AlicornMountExtra");
+                mountData.frontTextureExtra = ModContent.GetTexture("CalamityMod/Items/Mounts/AlicornMountExtra");
                 mountData.textureWidth = mountData.backTexture.Width;
                 mountData.textureHeight = mountData.backTexture.Height;
             }

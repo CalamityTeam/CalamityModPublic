@@ -19,7 +19,7 @@ namespace CalamityMod.NPCs
         {
             DisplayName.SetDefault("Hadarian");
             if (!Main.dedServ)
-                glowmask = mod.GetTexture("NPCs/AstralBiomeNPCs/HadarianGlow");
+                glowmask = ModContent.GetTexture("CalamityMod/NPCs/AstralBiomeNPCs/HadarianGlow");
             Main.npcFrameCount[npc.type] = 7;
         }
 

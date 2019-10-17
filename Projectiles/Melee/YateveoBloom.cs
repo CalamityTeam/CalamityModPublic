@@ -187,7 +187,7 @@ namespace CalamityMod.Projectiles
         {
             Vector2 mountedCenter = Main.player[projectile.owner].MountedCenter;
             Color transparent = Microsoft.Xna.Framework.Color.Transparent;
-            Texture2D texture2D2 = mod.GetTexture("ExtraTextures/Chains/YateveoBloomChain");
+            Texture2D texture2D2 = ModContent.GetTexture("CalamityMod/ExtraTextures/Chains/YateveoBloomChain");
             Vector2 vector17 = projectile.Center;
             Rectangle? sourceRectangle = null;
             Vector2 origin = new Vector2((float)texture2D2.Width * 0.5f, (float)texture2D2.Height * 0.5f);

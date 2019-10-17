@@ -106,7 +106,7 @@ namespace CalamityMod.Projectiles
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Vector2 origin = new Vector2(11f, 23f);
-            spriteBatch.Draw(mod.GetTexture("Projectiles/Typeless/GodKillerGlow"), projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Typeless/GodKillerGlow"), projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
         }
 
         public override void Kill(int timeLeft)

@@ -19,7 +19,7 @@ namespace CalamityMod.NPCs
             DisplayName.SetDefault("Mantis");
             Main.npcFrameCount[npc.type] = 14;
             if (!Main.dedServ)
-                glowmask = mod.GetTexture("NPCs/AstralBiomeNPCs/MantisGlow");
+                glowmask = ModContent.GetTexture("CalamityMod/NPCs/AstralBiomeNPCs/MantisGlow");
         }
 
         public override void SetDefaults()

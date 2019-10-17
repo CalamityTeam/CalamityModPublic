@@ -1643,11 +1643,11 @@ namespace CalamityMod.CalPlayer
         {
             if (ZoneSulphur)
             {
-                return mod.GetTexture("Backgrounds/MapBackgrounds/SulphurBG");
+                return ModContent.GetTexture("CalamityMod/Backgrounds/MapBackgrounds/SulphurBG");
             }
             if (ZoneAstral)
             {
-                return mod.GetTexture("Backgrounds/MapBackgrounds/AstralBG");
+                return ModContent.GetTexture("CalamityMod/Backgrounds/MapBackgrounds/AstralBG");
             }
             return null;
         }
@@ -2702,14 +2702,14 @@ namespace CalamityMod.CalPlayer
                 (starBeamRye ? 50 : 0);
             if (Main.netMode != NetmodeID.Server && player.whoAmI == Main.myPlayer)
             {
-                Texture2D rain3 = mod.GetTexture("ExtraTextures/Rain3");
-                Texture2D rainOriginal = mod.GetTexture("ExtraTextures/RainOriginal");
-                Texture2D mana2 = mod.GetTexture("ExtraTextures/Mana2");
-                Texture2D mana3 = mod.GetTexture("ExtraTextures/Mana3");
-                Texture2D mana4 = mod.GetTexture("ExtraTextures/Mana4");
-                Texture2D manaOriginal = mod.GetTexture("ExtraTextures/ManaOriginal");
-                Texture2D carpetAuric = mod.GetTexture("ExtraTextures/AuricCarpet");
-                Texture2D carpetOriginal = mod.GetTexture("ExtraTextures/Carpet");
+                Texture2D rain3 = ModContent.GetTexture("CalamityMod/ExtraTextures/Rain3");
+                Texture2D rainOriginal = ModContent.GetTexture("CalamityMod/ExtraTextures/RainOriginal");
+                Texture2D mana2 = ModContent.GetTexture("CalamityMod/ExtraTextures/Mana2");
+                Texture2D mana3 = ModContent.GetTexture("CalamityMod/ExtraTextures/Mana3");
+                Texture2D mana4 = ModContent.GetTexture("CalamityMod/ExtraTextures/Mana4");
+                Texture2D manaOriginal = ModContent.GetTexture("CalamityMod/ExtraTextures/ManaOriginal");
+                Texture2D carpetAuric = ModContent.GetTexture("CalamityMod/ExtraTextures/AuricCarpet");
+                Texture2D carpetOriginal = ModContent.GetTexture("CalamityMod/ExtraTextures/Carpet");
                 int totalManaBoost =
                     (pHeart ? 1 : 0) +
                     (eCore ? 1 : 0) +
@@ -8941,7 +8941,7 @@ namespace CalamityMod.CalPlayer
             CalamityPlayer modPlayer = drawPlayer.Calamity();
             if (modPlayer.sirenIce)
             {
-                Texture2D texture = mod.GetTexture("ExtraTextures/IceShield");
+                Texture2D texture = ModContent.GetTexture("CalamityMod/ExtraTextures/IceShield");
                 int drawX = (int)(drawInfo.position.X + drawPlayer.width / 2f - Main.screenPosition.X);
                 int drawY = (int)(drawInfo.position.Y + drawPlayer.height / 2f - Main.screenPosition.Y); //4
                 DrawData data = new DrawData(texture, new Vector2(drawX, drawY), null, Color.Cyan, 0f, new Vector2(texture.Width / 2f, texture.Height / 2f), 1f, SpriteEffects.None, 0);
@@ -8949,7 +8949,7 @@ namespace CalamityMod.CalPlayer
             }
             if (modPlayer.amidiasBlessing)
             {
-                Texture2D texture = mod.GetTexture("ExtraTextures/AmidiasBubble");
+                Texture2D texture = ModContent.GetTexture("CalamityMod/ExtraTextures/AmidiasBubble");
                 int drawX = (int)(drawInfo.position.X + drawPlayer.width / 2f - Main.screenPosition.X);
                 int drawY = (int)(drawInfo.position.Y + drawPlayer.height / 2f - Main.screenPosition.Y); //4
                 DrawData data = new DrawData(texture, new Vector2(drawX, drawY), null, Color.White, 0f, new Vector2(texture.Width / 2f, texture.Height / 2f), 1f, SpriteEffects.None, 0);
@@ -8993,11 +8993,11 @@ namespace CalamityMod.CalPlayer
 
                 if (item.type == ModContent.ItemType<DeathhailStaff>() || item.type == ModContent.ItemType<Vesuvius>() || item.type == ModContent.ItemType<SoulPiercer>())
                 {
-                    Texture2D texture = mod.GetTexture("Items/Weapons/DevourerofGods/DeathhailStaffGlow");
+                    Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Weapons/DevourerofGods/DeathhailStaffGlow");
                     if (item.type == ModContent.ItemType<Vesuvius>())
-                        texture = mod.GetTexture("Items/Weapons/VesuviusGlow");
+                        texture = ModContent.GetTexture("CalamityMod/Items/Weapons/VesuviusGlow");
                     else if (item.type == ModContent.ItemType<SoulPiercer>())
-                        texture = mod.GetTexture("Items/Weapons/SoulPiercerGlow");
+                        texture = ModContent.GetTexture("CalamityMod/Items/Weapons/SoulPiercerGlow");
 
                     float num104 = drawPlayer.itemRotation + 0.785f * (float)drawPlayer.direction;
                     int num105 = 0;
@@ -9039,21 +9039,21 @@ namespace CalamityMod.CalPlayer
                 else if (item.type == ModContent.ItemType<Deathwind>() || item.type == ModContent.ItemType<Apotheosis>() || item.type == ModContent.ItemType<CleansingBlaze>() ||
                 item.type == ModContent.ItemType<SubsumingVortex>())
                 {
-                    Texture2D texture = mod.GetTexture("Items/Weapons/DevourerofGods/DeathwindGlow");
+                    Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Weapons/DevourerofGods/DeathwindGlow");
                     int offsetX = 10;
                     if (item.type == ModContent.ItemType<Apotheosis>())
                     {
-                        texture = mod.GetTexture("Items/Weapons/ApotheosisGlow");
+                        texture = ModContent.GetTexture("CalamityMod/Items/Weapons/ApotheosisGlow");
                         offsetX = 6;
                     }
                     else if (item.type == ModContent.ItemType<CleansingBlaze>())
                     {
-                        texture = mod.GetTexture("Items/Weapons/CleansingBlazeGlow");
+                        texture = ModContent.GetTexture("CalamityMod/Items/Weapons/CleansingBlazeGlow");
                         offsetX = 37;
                     }
                     else if (item.type == ModContent.ItemType<SubsumingVortex>())
                     {
-                        texture = mod.GetTexture("Items/Weapons/SubsumingVortexGlow");
+                        texture = ModContent.GetTexture("CalamityMod/Items/Weapons/SubsumingVortexGlow");
                         offsetX = 9;
                     }
 
@@ -9082,13 +9082,13 @@ namespace CalamityMod.CalPlayer
                 else if (item.type == ModContent.ItemType<Excelsus>() || item.type == ModContent.ItemType<EssenceFlayer>() || item.type == ModContent.ItemType<TheEnforcer>() ||
                 item.type == ModContent.ItemType<ElementalExcalibur>())
                 {
-                    Texture2D texture = mod.GetTexture("Items/Weapons/ExcelsusGlow");
+                    Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Weapons/ExcelsusGlow");
                     if (item.type == ModContent.ItemType<EssenceFlayer>())
-                        texture = mod.GetTexture("Items/Weapons/EssenceFlayerGlow");
+                        texture = ModContent.GetTexture("CalamityMod/Items/Weapons/EssenceFlayerGlow");
                     else if (item.type == ModContent.ItemType<TheEnforcer>())
-                        texture = mod.GetTexture("Items/Weapons/TheEnforcerGlow");
+                        texture = ModContent.GetTexture("CalamityMod/Items/Weapons/TheEnforcerGlow");
                     else if (item.type == ModContent.ItemType<ElementalExcalibur>())
-                        texture = mod.GetTexture("Items/Weapons/ElementalExcaliburGlow");
+                        texture = ModContent.GetTexture("CalamityMod/Items/Weapons/ElementalExcaliburGlow");
 
                     float yOffset = drawPlayer.gravDir == -1f ? 0f : (float)Main.itemTexture[item.type].Height;
 
@@ -9160,17 +9160,17 @@ namespace CalamityMod.CalPlayer
             }
             if (CalamityWorld.ironHeart && !Main.gameMenu)
             {
-                Texture2D ironHeart = mod.GetTexture("ExtraTextures/IronHeart");
+                Texture2D ironHeart = ModContent.GetTexture("CalamityMod/ExtraTextures/IronHeart");
                 Main.heartTexture = Main.heart2Texture = ironHeart;
             }
             else
             {
-                Texture2D heart3 = mod.GetTexture("ExtraTextures/Heart3");
-                Texture2D heart4 = mod.GetTexture("ExtraTextures/Heart4");
-                Texture2D heart5 = mod.GetTexture("ExtraTextures/Heart5");
-                Texture2D heart6 = mod.GetTexture("ExtraTextures/Heart6");
-                Texture2D heartOriginal = mod.GetTexture("ExtraTextures/HeartOriginal");
-                Texture2D heartOriginal2 = mod.GetTexture("ExtraTextures/HeartOriginal2");
+                Texture2D heart3 = ModContent.GetTexture("CalamityMod/ExtraTextures/Heart3");
+                Texture2D heart4 = ModContent.GetTexture("CalamityMod/ExtraTextures/Heart4");
+                Texture2D heart5 = ModContent.GetTexture("CalamityMod/ExtraTextures/Heart5");
+                Texture2D heart6 = ModContent.GetTexture("CalamityMod/ExtraTextures/Heart6");
+                Texture2D heartOriginal = ModContent.GetTexture("CalamityMod/ExtraTextures/HeartOriginal");
+                Texture2D heartOriginal2 = ModContent.GetTexture("CalamityMod/ExtraTextures/HeartOriginal2");
 
                 int totalFruit =
                     (mFruit ? 1 : 0) +

@@ -106,7 +106,7 @@ namespace CalamityMod.NPCs
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             Mod mod = ModLoader.GetMod("CalamityMod");
-            Texture2D texture = mod.GetTexture("NPCs/Perforator/PerforatorBodyLargeAlt");
+            Texture2D texture = ModContent.GetTexture("CalamityMod/NPCs/Perforator/PerforatorBodyLargeAlt");
             CalamityMod.DrawTexture(spriteBatch, npc.localAI[3] == 1f ? texture : Main.npcTexture[npc.type], 0, npc, drawColor);
             return false;
         }

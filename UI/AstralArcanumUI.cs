@@ -30,7 +30,7 @@ namespace CalamityMod.UI
 
         public static void Load(Mod mod)
         {
-            CircleTextures = mod.GetTexture("ExtraTextures/UI/AstralArcanumCircles");
+            CircleTextures = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/AstralArcanumCircles");
             CircleNames = new string[]
             {
                 "Underworld",

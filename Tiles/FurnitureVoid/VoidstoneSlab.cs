@@ -153,7 +153,7 @@ namespace CalamityMod.Tiles
                 }
                 yOffset *= 270;
                 yPos += yOffset;
-                Texture2D glowmask = mod.GetTexture("Tiles/FurnitureVoid/VoidstoneSlab_Glowmask");
+                Texture2D glowmask = ModContent.GetTexture("CalamityMod/Tiles/FurnitureVoid/VoidstoneSlab_Glowmask");
                 Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
                 Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
                 Color drawColour = GetDrawColour(i, j, new Color(75, 75, 75, 75));

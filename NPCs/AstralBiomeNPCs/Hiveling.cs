@@ -16,7 +16,7 @@ namespace CalamityMod.NPCs
         {
             DisplayName.SetDefault("Hiveling");
             if (!Main.dedServ)
-                glowmask = mod.GetTexture("NPCs/AstralBiomeNPCs/HivelingGlow");
+                glowmask = ModContent.GetTexture("CalamityMod/NPCs/AstralBiomeNPCs/HivelingGlow");
             Main.npcFrameCount[npc.type] = 4;
         }
 

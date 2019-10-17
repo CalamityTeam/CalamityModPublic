@@ -220,7 +220,7 @@ namespace CalamityMod.Projectiles
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Vector2 origin = new Vector2(21f, 25f);
-            spriteBatch.Draw(mod.GetTexture("Projectiles/Summon/MechwormHeadGlow"), projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Summon/MechwormHeadGlow"), projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
         }
     }
 }

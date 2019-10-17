@@ -55,8 +55,8 @@ namespace CalamityMod.Items
             mountData.swimFrameStart = mountData.inAirFrameStart;
             if (Main.netMode != NetmodeID.Server)
             {
-                mountData.backTextureExtra = mod.GetTexture("Items/Mounts/OnyxExcavatorExtra");
-                mountData.frontTextureExtra = mod.GetTexture("Items/Mounts/OnyxExcavatorExtra2");
+                mountData.backTextureExtra = ModContent.GetTexture("CalamityMod/Items/Mounts/OnyxExcavatorExtra");
+                mountData.frontTextureExtra = ModContent.GetTexture("CalamityMod/Items/Mounts/OnyxExcavatorExtra2");
                 mountData.textureWidth = mountData.backTexture.Width;
                 mountData.textureHeight = mountData.backTexture.Height;
             }

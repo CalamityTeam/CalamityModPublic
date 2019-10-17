@@ -186,7 +186,7 @@ namespace CalamityMod.Projectiles
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Vector2 origin = new Vector2(17f, 17f);
-            spriteBatch.Draw(mod.GetTexture("Projectiles/Typeless/NebulaStarGlow"), projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, origin, projectile.scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Typeless/NebulaStarGlow"), projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, origin, projectile.scale, SpriteEffects.None, 0f);
         }
     }
 }

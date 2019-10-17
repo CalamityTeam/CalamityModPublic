@@ -46,7 +46,7 @@ namespace CalamityMod.Tiles
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
             Tile tile = Main.tile[i, j];
-            Texture2D sprite = mod.GetTexture("Tiles/BrimstoneSlag_Glowmask");
+            Texture2D sprite = ModContent.GetTexture("CalamityMod/Tiles/BrimstoneSlag_Glowmask");
             int frameXOffset = i % 2 * subsheetWidth;
             int frameYOffset = j % 2 * subsheetHeight;
             Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);

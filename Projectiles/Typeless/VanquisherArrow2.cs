@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles
                 byte a2 = (byte)(100f * ((float)b2 / 255f));
                 color = new Color((int)b2, (int)b2, (int)b2, (int)a2);
             }
-            spriteBatch.Draw(mod.GetTexture("Projectiles/Typeless/VanquisherArrow2Glow"), projectile.Center - Main.screenPosition, null, color, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Typeless/VanquisherArrow2Glow"), projectile.Center - Main.screenPosition, null, color, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
         }*/
 
         public override Color? GetAlpha(Color lightColor)

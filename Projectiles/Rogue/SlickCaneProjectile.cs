@@ -80,7 +80,7 @@ namespace CalamityMod.Projectiles
         {
             Color color25 = Lighting.GetColor((int)((double)projectile.position.X + (double)projectile.width * 0.5) / 16, (int)(((double)projectile.position.Y + (double)projectile.height * 0.5) / 16.0));
             Vector2 vector53 = projectile.position + new Vector2((float)projectile.width, (float)projectile.height) / 2f + Vector2.UnitY * projectile.gfxOffY - Main.screenPosition;
-            Texture2D texture2D31 = (projectile.spriteDirection == -1) ? mod.GetTexture("Projectiles/Rogue/SlickCaneProjectileAlt") : Main.projectileTexture[projectile.type];
+            Texture2D texture2D31 = (projectile.spriteDirection == -1) ? ModContent.GetTexture("CalamityMod/Projectiles/Rogue/SlickCaneProjectileAlt") : Main.projectileTexture[projectile.type];
             Color alpha4 = projectile.GetAlpha(color25);
             Vector2 origin8 = new Vector2((float)texture2D31.Width, (float)texture2D31.Height) / 2f;
             origin8 = new Vector2((projectile.spriteDirection == 1) ? ((float)texture2D31.Width - -8f) : -8f, -8f); //-8 -8

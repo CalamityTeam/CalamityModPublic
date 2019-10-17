@@ -341,9 +341,9 @@ namespace CalamityMod.NPCs
                     bossCenterX = Main.npc[CalamityGlobalNPC.ghostBoss].Center.X - center.X;
                     bossCenterY = Main.npc[CalamityGlobalNPC.ghostBoss].Center.Y - center.Y;
                     Color color2 = new Color(100, 100, 100, 0);
-                    Main.spriteBatch.Draw(mod.GetTexture("NPCs/Polterghast/PolterghastChain"), new Vector2(center.X - Main.screenPosition.X, center.Y - Main.screenPosition.Y),
-                        new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, 0, mod.GetTexture("NPCs/Polterghast/PolterghastChain").Width, chainWidth)), color2, rotation2,
-                        new Vector2((float)mod.GetTexture("NPCs/Polterghast/PolterghastChain").Width * 0.5f, (float)mod.GetTexture("NPCs/Polterghast/PolterghastChain").Height * 0.5f), 1f, SpriteEffects.None, 0f);
+                    Main.spriteBatch.Draw(ModContent.GetTexture("CalamityMod/NPCs/Polterghast/PolterghastChain"), new Vector2(center.X - Main.screenPosition.X, center.Y - Main.screenPosition.Y),
+                        new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, 0, ModContent.GetTexture("CalamityMod/NPCs/Polterghast/PolterghastChain").Width, chainWidth)), color2, rotation2,
+                        new Vector2((float)ModContent.GetTexture("CalamityMod/NPCs/Polterghast/PolterghastChain").Width * 0.5f, (float)ModContent.GetTexture("CalamityMod/NPCs/Polterghast/PolterghastChain").Height * 0.5f), 1f, SpriteEffects.None, 0f);
                 }
             }
             return true;

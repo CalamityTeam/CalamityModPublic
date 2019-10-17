@@ -156,7 +156,7 @@ namespace CalamityMod.NPCs
             Color color24 = lightColor;
             color24 = npc.GetAlpha(color24);
             Color color25 = Lighting.GetColor((int)((double)npc.position.X + (double)npc.width * 0.5) / 16, (int)(((double)npc.position.Y + (double)npc.height * 0.5) / 16.0));
-            Texture2D texture2D3 = mod.GetTexture("NPCs/HiveMind/HiveMindP2");
+            Texture2D texture2D3 = ModContent.GetTexture("CalamityMod/NPCs/HiveMind/HiveMindP2");
             int num156 = Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type];
             int y3 = num156 * (int)npc.frameCounter;
             Rectangle rectangle = new Rectangle(0, y3, texture2D3.Width, num156);

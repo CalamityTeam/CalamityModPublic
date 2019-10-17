@@ -127,19 +127,19 @@ namespace CalamityMod.Projectiles
                 case 0:
                     break;
                 case 1:
-                    texture = mod.GetTexture("Projectiles/Magic/AsteroidMolten2");
+                    texture = ModContent.GetTexture("CalamityMod/Projectiles/Magic/AsteroidMolten2");
                     break;
                 case 2:
-                    texture = mod.GetTexture("Projectiles/Magic/AsteroidMolten3");
+                    texture = ModContent.GetTexture("CalamityMod/Projectiles/Magic/AsteroidMolten3");
                     break;
                 case 3:
-                    texture = mod.GetTexture("Projectiles/Magic/AsteroidMolten4");
+                    texture = ModContent.GetTexture("CalamityMod/Projectiles/Magic/AsteroidMolten4");
                     break;
                 case 4:
-                    texture = mod.GetTexture("Projectiles/Magic/AsteroidMolten5");
+                    texture = ModContent.GetTexture("CalamityMod/Projectiles/Magic/AsteroidMolten5");
                     break;
                 case 5:
-                    texture = mod.GetTexture("Projectiles/Magic/AsteroidMolten6");
+                    texture = ModContent.GetTexture("CalamityMod/Projectiles/Magic/AsteroidMolten6");
                     break;
                 default:
                     break;
@@ -150,24 +150,24 @@ namespace CalamityMod.Projectiles
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D texture = mod.GetTexture("Projectiles/Magic/AsteroidMoltenGlow");
+            Texture2D texture = ModContent.GetTexture("CalamityMod/Projectiles/Magic/AsteroidMoltenGlow");
             switch ((int)projectile.ai[0])
             {
                 case 0:
                     break;
                 case 1:
-                    texture = mod.GetTexture("Projectiles/Magic/AsteroidMoltenGlow2");
+                    texture = ModContent.GetTexture("CalamityMod/Projectiles/Magic/AsteroidMoltenGlow2");
                     break;
                 case 2:
-                    texture = mod.GetTexture("Projectiles/Magic/AsteroidMoltenGlow3");
+                    texture = ModContent.GetTexture("CalamityMod/Projectiles/Magic/AsteroidMoltenGlow3");
                     break;
                 case 3:
-                    texture = mod.GetTexture("Projectiles/Magic/AsteroidMoltenGlow4");
+                    texture = ModContent.GetTexture("CalamityMod/Projectiles/Magic/AsteroidMoltenGlow4");
                     break;
                 case 4:
                     return;
                 case 5:
-                    texture = mod.GetTexture("Projectiles/Magic/AsteroidMoltenGlow6");
+                    texture = ModContent.GetTexture("CalamityMod/Projectiles/Magic/AsteroidMoltenGlow6");
                     break;
                 default:
                     break;

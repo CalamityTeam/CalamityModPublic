@@ -508,7 +508,7 @@ namespace CalamityMod.Tiles
             int yDrawPos = Main.tile[i, j].frameY + (uniqueAnimationFrameY * animationFrameHeight);
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
-            Texture2D glowmask = mod.GetTexture("Tiles/FurnitureAshen/AshenSlab_Glowmask");
+            Texture2D glowmask = ModContent.GetTexture("CalamityMod/Tiles/FurnitureAshen/AshenSlab_Glowmask");
             Color drawColour = GetDrawColour(i, j, new Color(64, 64, 64, 64));
             Tile trackTile = Main.tile[i, j];
             double num6 = Main.time * 0.08;

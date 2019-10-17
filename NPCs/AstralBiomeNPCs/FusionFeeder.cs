@@ -18,7 +18,7 @@ namespace CalamityMod.NPCs
         {
             DisplayName.SetDefault("Fusion Feeder");
             if (!Main.dedServ)
-                glowmask = mod.GetTexture("NPCs/AstralBiomeNPCs/FusionFeederGlow");
+                glowmask = ModContent.GetTexture("CalamityMod/NPCs/AstralBiomeNPCs/FusionFeederGlow");
             Main.npcFrameCount[npc.type] = 4;
         }
 

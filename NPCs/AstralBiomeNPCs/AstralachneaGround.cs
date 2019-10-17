@@ -21,7 +21,7 @@ namespace CalamityMod.NPCs
             Main.npcFrameCount[npc.type] = 5;
 
             if (!Main.dedServ)
-                glowmask = mod.GetTexture("NPCs/AstralBiomeNPCs/AstralachneaGroundGlow");
+                glowmask = ModContent.GetTexture("CalamityMod/NPCs/AstralBiomeNPCs/AstralachneaGroundGlow");
 
             base.SetStaticDefaults();
         }

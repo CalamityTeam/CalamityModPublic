@@ -861,7 +861,7 @@ namespace CalamityMod.NPCs
             if (drawAltTexture)
             {
                 Mod mod = ModLoader.GetMod("CalamityMod");
-                Texture2D texture = mod.GetTexture("NPCs/Cryogen/Cryogen2");
+                Texture2D texture = ModContent.GetTexture("CalamityMod/NPCs/Cryogen/Cryogen2");
                 CalamityMod.DrawTexture(spriteBatch, texture, 0, npc, drawColor);
                 return false;
             }

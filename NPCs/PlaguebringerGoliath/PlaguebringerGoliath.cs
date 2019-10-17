@@ -937,7 +937,7 @@ namespace CalamityMod.NPCs
             Texture2D texture = Main.npcTexture[npc.type];
             if (charging)
             {
-                texture = mod.GetTexture("NPCs/PlaguebringerGoliath/PlaguebringerGoliathChargeTex");
+                texture = ModContent.GetTexture("CalamityMod/NPCs/PlaguebringerGoliath/PlaguebringerGoliathChargeTex");
             }
             else
             {
@@ -947,7 +947,7 @@ namespace CalamityMod.NPCs
                 }
                 else
                 {
-                    texture = mod.GetTexture("NPCs/PlaguebringerGoliath/PlaguebringerGoliathAltTex");
+                    texture = ModContent.GetTexture("CalamityMod/NPCs/PlaguebringerGoliath/PlaguebringerGoliathAltTex");
                 }
             }
             SpriteEffects spriteEffects = SpriteEffects.None;

@@ -1160,20 +1160,20 @@ namespace CalamityMod.NPCs
             if (npc.ai[0] == 2f || npc.ai[0] == 5f)
             {
                 if (!useDefenseFrames)
-                    texture = mod.GetTexture("NPCs/Providence/ProvidenceDefense");
+                    texture = ModContent.GetTexture("CalamityMod/NPCs/Providence/ProvidenceDefense");
                 else
-                    texture = mod.GetTexture("NPCs/Providence/ProvidenceDefenseAlt");
+                    texture = ModContent.GetTexture("CalamityMod/NPCs/Providence/ProvidenceDefenseAlt");
             }
             else
             {
                 if (frameUsed == 0)
                     texture = Main.npcTexture[npc.type];
                 else if (frameUsed == 1)
-                    texture = mod.GetTexture("NPCs/Providence/ProvidenceAlt");
+                    texture = ModContent.GetTexture("CalamityMod/NPCs/Providence/ProvidenceAlt");
                 else if (frameUsed == 2)
-                    texture = mod.GetTexture("NPCs/Providence/ProvidenceAttack");
+                    texture = ModContent.GetTexture("CalamityMod/NPCs/Providence/ProvidenceAttack");
                 else
-                    texture = mod.GetTexture("NPCs/Providence/ProvidenceAttackAlt");
+                    texture = ModContent.GetTexture("CalamityMod/NPCs/Providence/ProvidenceAttackAlt");
             }
 
             CalamityMod.DrawTexture(spriteBatch, texture, 0, npc, drawColor);

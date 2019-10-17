@@ -131,7 +131,7 @@ namespace CalamityMod.Tiles
             frameY *= 90;
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
-            Texture2D eyeSheet = mod.GetTexture("Tiles/FurnitureAshen/AshenMonolith_Eye");
+            Texture2D eyeSheet = ModContent.GetTexture("CalamityMod/Tiles/FurnitureAshen/AshenMonolith_Eye");
             spriteBatch.Draw
             (
                 eyeSheet,

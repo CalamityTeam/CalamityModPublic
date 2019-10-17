@@ -173,7 +173,7 @@ namespace CalamityMod.Projectiles
             int num214 = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
             int y6 = num214 * projectile.frame;
             Vector2 origin = new Vector2(9f, 10f);
-            spriteBatch.Draw(mod.GetTexture("Projectiles/Melee/ScourgeoftheCosmosMiniGlow"), projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, num214)), Color.White, projectile.rotation, origin, projectile.scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Melee/ScourgeoftheCosmosMiniGlow"), projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, num214)), Color.White, projectile.rotation, origin, projectile.scale, SpriteEffects.None, 0f);
         }
     }
 }

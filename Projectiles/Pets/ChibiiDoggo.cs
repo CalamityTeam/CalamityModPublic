@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles
             if (projectile.spriteDirection == -1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
             Color color25 = Lighting.GetColor((int)(projectile.Center.X / 16), (int)(projectile.Center.Y / 16));
-            Texture2D texture2D3 = mod.GetTexture("Projectiles/Pets/ChibiiDoggoMonochrome");
+            Texture2D texture2D3 = ModContent.GetTexture("CalamityMod/Projectiles/Pets/ChibiiDoggoMonochrome");
             int num156 = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
             int y3 = num156 * projectile.frame;
             Rectangle rectangle = new Rectangle(0, y3, texture2D3.Width, num156);

@@ -76,10 +76,10 @@ namespace CalamityMod.Projectiles
                 case 0:
                     break;
                 case 1:
-                    texture = mod.GetTexture("Projectiles/Boss/SporeGasPlantera2");
+                    texture = ModContent.GetTexture("CalamityMod/Projectiles/Boss/SporeGasPlantera2");
                     break;
                 case 2:
-                    texture = mod.GetTexture("Projectiles/Boss/SporeGasPlantera3");
+                    texture = ModContent.GetTexture("CalamityMod/Projectiles/Boss/SporeGasPlantera3");
                     break;
                 default:
                     break;

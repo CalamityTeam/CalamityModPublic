@@ -29,7 +29,7 @@ namespace CalamityMod.Items
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
             Vector2 origin = new Vector2(18f, 20f); //18, 17
-            spriteBatch.Draw(mod.GetTexture("Items/TreasureBags/DevourerofGodsBagGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/TreasureBags/DevourerofGodsBagGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
         }
 
         public override bool CanRightClick()

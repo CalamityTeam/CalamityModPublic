@@ -675,7 +675,7 @@ namespace CalamityMod.NPCs
             float offsetY = npc.gfxOffY;
             if (npc.ai[0] == 4f)
             {
-                NPCTexture = mod.GetTexture("NPCs/CosmicWraith/CosmicWraithAlt2");
+                NPCTexture = ModContent.GetTexture("CalamityMod/NPCs/CosmicWraith/CosmicWraithAlt2");
                 int height = 564;
                 int width = 176;
                 Vector2 vector = new Vector2((float)(width / 2), (float)(height / frameCount / 2));
@@ -699,7 +699,7 @@ namespace CalamityMod.NPCs
             }
             else if (npc.ai[0] == 3f)
             {
-                NPCTexture = mod.GetTexture("NPCs/CosmicWraith/CosmicWraithAlt");
+                NPCTexture = ModContent.GetTexture("CalamityMod/NPCs/CosmicWraith/CosmicWraithAlt");
             }
             else
             {

@@ -182,7 +182,7 @@ namespace CalamityMod.Projectiles
             if (projectile.spriteDirection == -1)
                 eff = SpriteEffects.FlipHorizontally;
             Vector2 origin = new Vector2(fWidthOverTwo, fHeightOverTwo);
-            spriteBatch.Draw(mod.GetTexture("Projectiles/Typeless/NanoblackSplitGlow"),
+            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Typeless/NanoblackSplitGlow"),
                 projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation,
                 origin, projectile.scale, eff, 0f);
         }

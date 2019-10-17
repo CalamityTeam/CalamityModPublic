@@ -142,8 +142,8 @@ namespace CalamityMod.Projectiles
                 return false;
             }
             Texture2D texture2D19 = Main.projectileTexture[projectile.type];
-            Texture2D texture2D20 = mod.GetTexture("ExtraTextures/Lasers/ProvidenceHolyRayMid");
-            Texture2D texture2D21 = mod.GetTexture("ExtraTextures/Lasers/ProvidenceHolyRayEnd");
+            Texture2D texture2D20 = ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/ProvidenceHolyRayMid");
+            Texture2D texture2D21 = ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/ProvidenceHolyRayEnd");
             float num223 = projectile.localAI[1]; //length of laser
             Color color44 = new Color(255, 255, 255, 0) * 0.9f;
             SpriteBatch arg_ABD8_0 = Main.spriteBatch;

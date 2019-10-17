@@ -714,13 +714,13 @@ namespace CalamityMod.NPCs
                 switch (frameUsed)
                 {
                     case 0:
-                        texture = mod.GetTexture("NPCs/Leviathan/SirenAlt");
+                        texture = ModContent.GetTexture("CalamityMod/NPCs/Leviathan/SirenAlt");
                         break;
                     case 1:
-                        texture = mod.GetTexture("NPCs/Leviathan/SirenAltSinging");
+                        texture = ModContent.GetTexture("CalamityMod/NPCs/Leviathan/SirenAltSinging");
                         break;
                     case 2:
-                        texture = mod.GetTexture("NPCs/Leviathan/SirenAltStabbing");
+                        texture = ModContent.GetTexture("CalamityMod/NPCs/Leviathan/SirenAltStabbing");
                         break;
                 }
             }
@@ -732,10 +732,10 @@ namespace CalamityMod.NPCs
                         texture = Main.npcTexture[npc.type];
                         break;
                     case 1:
-                        texture = mod.GetTexture("NPCs/Leviathan/SirenSinging");
+                        texture = ModContent.GetTexture("CalamityMod/NPCs/Leviathan/SirenSinging");
                         break;
                     case 2:
-                        texture = mod.GetTexture("NPCs/Leviathan/SirenStabbing");
+                        texture = ModContent.GetTexture("CalamityMod/NPCs/Leviathan/SirenStabbing");
                         break;
                 }
             }

@@ -2267,7 +2267,7 @@ namespace CalamityMod.NPCs
             Texture2D texture = Main.npcTexture[npc.type];
             if (npc.ai[0] > 1f)
             {
-                texture = mod.GetTexture("NPCs/SupremeCalamitas/SupremeCalamitas2");
+                texture = ModContent.GetTexture("CalamityMod/NPCs/SupremeCalamitas/SupremeCalamitas2");
             }
             else
             {

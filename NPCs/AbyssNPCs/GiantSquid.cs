@@ -216,10 +216,10 @@ namespace CalamityMod.NPCs
             Vector2 center = new Vector2(npc.Center.X, npc.Center.Y);
             Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
             Vector2 vector = center - Main.screenPosition;
-            vector -= new Vector2((float)mod.GetTexture("NPCs/AbyssNPCs/GiantSquidGlow").Width, (float)(mod.GetTexture("NPCs/AbyssNPCs/GiantSquidGlow").Height / Main.npcFrameCount[npc.type])) * 1f / 2f;
+            vector -= new Vector2((float)ModContent.GetTexture("CalamityMod/NPCs/AbyssNPCs/GiantSquidGlow").Width, (float)(ModContent.GetTexture("CalamityMod/NPCs/AbyssNPCs/GiantSquidGlow").Height / Main.npcFrameCount[npc.type])) * 1f / 2f;
             vector += vector11 * 1f + new Vector2(0f, 0f + 4f + npc.gfxOffY);
             Color color = new Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.Cyan);
-            Main.spriteBatch.Draw(mod.GetTexture("NPCs/AbyssNPCs/GiantSquidGlow"), vector,
+            Main.spriteBatch.Draw(ModContent.GetTexture("CalamityMod/NPCs/AbyssNPCs/GiantSquidGlow"), vector,
                 new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, vector11, 1f, spriteEffects, 0f);
         }
 

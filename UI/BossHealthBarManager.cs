@@ -57,9 +57,9 @@ namespace CalamityMod.UI
 
             if (!Main.dedServ)
             {
-                BossMainHPBar = mod.GetTexture("ExtraTextures/UI/BossHPMainBar");
-                BossComboHPBar = mod.GetTexture("ExtraTextures/UI/BossHPComboBar");
-                BossSeperatorBar = mod.GetTexture("ExtraTextures/UI/BossHPSeperatorBar");
+                BossMainHPBar = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/BossHPMainBar");
+                BossComboHPBar = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/BossHPComboBar");
+                BossSeperatorBar = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/BossHPSeperatorBar");
 
                 PlatformID id = Environment.OSVersion.Platform;
                 if (id == PlatformID.Win32NT && !Environment.Is64BitProcess)

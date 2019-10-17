@@ -28,7 +28,7 @@ namespace CalamityMod.Walls
 
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            Texture2D sprite = mod.GetTexture("Walls/CryonicBrickWall");
+            Texture2D sprite = ModContent.GetTexture("CalamityMod/Walls/CryonicBrickWall");
             Color lightColor = GetWallColour(i, j);
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             zero -= new Vector2(8, 8);

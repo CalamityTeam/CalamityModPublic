@@ -27,7 +27,7 @@ namespace CalamityMod.NPCs
             Main.npcFrameCount[npc.type] = 8;
 
             if (!Main.dedServ)
-                glowmask = mod.GetTexture("NPCs/AstralBiomeNPCs/NovaGlow");
+                glowmask = ModContent.GetTexture("CalamityMod/NPCs/AstralBiomeNPCs/NovaGlow");
         }
 
         public override void SetDefaults()

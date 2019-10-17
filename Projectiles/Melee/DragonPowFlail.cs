@@ -224,7 +224,7 @@ namespace CalamityMod.Projectiles
             Player owner = Main.player[projectile.owner];
             Vector2 mountedCenter = owner.MountedCenter;
             Color transparent = Color.Transparent;
-            Texture2D chainTex = mod.GetTexture("ExtraTextures/Chains/DragonPowChain");
+            Texture2D chainTex = ModContent.GetTexture("CalamityMod/ExtraTextures/Chains/DragonPowChain");
             Vector2 chainDrawPos = projectile.Center;
 
             Rectangle? sourceRectangle = null;

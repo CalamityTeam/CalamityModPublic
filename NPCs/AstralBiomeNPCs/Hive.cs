@@ -17,7 +17,7 @@ namespace CalamityMod.NPCs
         {
             DisplayName.SetDefault("Hive");
             if (!Main.dedServ)
-                glowmask = mod.GetTexture("NPCs/AstralBiomeNPCs/HiveGlow");
+                glowmask = ModContent.GetTexture("CalamityMod/NPCs/AstralBiomeNPCs/HiveGlow");
             Main.npcFrameCount[npc.type] = 6;
         }
 

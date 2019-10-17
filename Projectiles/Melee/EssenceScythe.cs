@@ -93,7 +93,7 @@ namespace CalamityMod.Projectiles
             if (projectile.spriteDirection == -1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            spriteBatch.Draw(mod.GetTexture("Projectiles/Melee/EssenceScytheGlow"), projectile.Center - Main.screenPosition, null, color, projectile.rotation, origin, 1f, spriteEffects, 0f);
+            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Melee/EssenceScytheGlow"), projectile.Center - Main.screenPosition, null, color, projectile.rotation, origin, 1f, spriteEffects, 0f);
         }
 
         public override Color? GetAlpha(Color lightColor)

@@ -87,7 +87,7 @@ namespace CalamityMod.Projectiles
                 color = new Color(255, 255, 255, 100);
             }
             Vector2 origin = new Vector2(39f, 46f);
-            spriteBatch.Draw(mod.GetTexture("Projectiles/Melee/ExcelsusPinkGlow"), projectile.Center - Main.screenPosition, null, color, projectile.rotation, origin, projectile.scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Melee/ExcelsusPinkGlow"), projectile.Center - Main.screenPosition, null, color, projectile.rotation, origin, projectile.scale, SpriteEffects.None, 0f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
