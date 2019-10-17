@@ -40,7 +40,7 @@ namespace CalamityMod.NPCs
             npc.DeathSound = SoundID.NPCDeath1;
             npc.netAlways = true;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.SeaSerpentBanner>();
+            bannerItem = ModContent.ItemType<SeaSerpentBanner>();
         }
 
         public override void AI()
@@ -326,7 +326,7 @@ namespace CalamityMod.NPCs
         {
             if (Main.rand.NextBool(4))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Serpentine>());
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Serpentine>());
             }
         }
 

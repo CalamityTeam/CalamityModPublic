@@ -17,7 +17,7 @@ namespace CalamityMod.Items
         {
             item.damage = 20;
             item.shootSpeed = 12f;
-            item.shoot = ModContent.ProjectileType<Projectiles.Brick>();
+            item.shoot = ModContent.ProjectileType<Brick>();
             item.width = 26;
             item.height = 20;
             item.useTime = 20;
@@ -39,7 +39,7 @@ namespace CalamityMod.Items
             //Check if stealth is full
             if (player.Calamity().StealthStrikeAvailable())
             {
-                int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.Brick>(), damage, knockBack, player.whoAmI, 1);
+                int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Brick>(), damage, knockBack, player.whoAmI, 1);
                 Main.projectile[p].Calamity().stealthStrike = true;
                 return false;
             }

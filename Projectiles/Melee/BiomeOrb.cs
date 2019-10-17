@@ -102,15 +102,15 @@ namespace CalamityMod.Projectiles
             bool hell = player.ZoneUnderworldHeight;
             if (jungle)
             {
-                target.AddBuff(ModContent.BuffType<Buffs.Plague>(), 180);
+                target.AddBuff(ModContent.BuffType<Plague>(), 180);
             }
             else if (snow)
             {
-                target.AddBuff(ModContent.BuffType<Buffs.GlacialState>(), 180);
+                target.AddBuff(ModContent.BuffType<GlacialState>(), 180);
             }
             else if (beach)
             {
-                target.AddBuff(ModContent.BuffType<Buffs.CrushDepth>(), 180);
+                target.AddBuff(ModContent.BuffType<CrushDepth>(), 180);
             }
             else if (dungeon)
             {
@@ -118,19 +118,19 @@ namespace CalamityMod.Projectiles
             }
             else if (desert)
             {
-                target.AddBuff(ModContent.BuffType<Buffs.HolyFlames>(), 180);
+                target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
             }
             else if (glow)
             {
-                target.AddBuff(ModContent.BuffType<Buffs.TemporalSadness>(), 180);
+                target.AddBuff(ModContent.BuffType<TemporalSadness>(), 180);
             }
             else if (hell)
             {
-                target.AddBuff(ModContent.BuffType<Buffs.BrimstoneFlames>(), 180);
+                target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
             }
             else
             {
-                target.AddBuff(ModContent.BuffType<Buffs.ArmorCrunch>(), 180);
+                target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 180);
             }
         }
     }

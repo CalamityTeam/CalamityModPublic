@@ -29,7 +29,7 @@ namespace CalamityMod.Items
             item.height = 44;
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.rare = 5;
-            item.shoot = ModContent.ProjectileType<Projectiles.HeartRapierProjectile>();
+            item.shoot = ModContent.ProjectileType<HeartRapierProjectile>();
             item.shootSpeed = 5f;
         }
 

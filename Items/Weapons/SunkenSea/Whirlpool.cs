@@ -26,7 +26,7 @@ namespace CalamityMod.Items
             item.useStyle = 5;
             item.useAnimation = 25;
             item.useTime = 25;
-            item.shoot = ModContent.ProjectileType<Projectiles.WhirlpoolProjectile>();
+            item.shoot = ModContent.ProjectileType<WhirlpoolProjectile>();
             item.shootSpeed = 18f;
             item.UseSound = SoundID.Item1;
             ItemID.Sets.Yoyo[item.type] = true;

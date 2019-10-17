@@ -32,7 +32,7 @@ namespace CalamityMod.Items
             item.UseSound = SoundID.Item33;
             item.autoReuse = true;
             item.shootSpeed = 25f;
-            item.shoot = ModContent.ProjectileType<Projectiles.NullShot2>();
+            item.shoot = ModContent.ProjectileType<NullShot2>();
             item.Calamity().postMoonLordRarity = 13;
         }
 
@@ -41,14 +41,14 @@ namespace CalamityMod.Items
             return new Vector2(-5, 0);
         }
 
-        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             player.statLife -= 5;
             if (player.statLife <= 0)
             {
                 player.KillMe(PlayerDeathReason.ByOther(10), 1000.0, 0, false);
             }
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.NullShot2>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<NullShot2>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
             return false;
         }
 

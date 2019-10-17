@@ -32,12 +32,12 @@ namespace CalamityMod.Items
             item.rare = 10;
             item.UseSound = SoundID.Item20;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.HolyFlame>();
+            item.shoot = ModContent.ProjectileType<HolyFlame>();
             item.shootSpeed = 30f;
             item.Calamity().postMoonLordRarity = 14;
         }
 
-        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             float num72 = item.shootSpeed;
             player.itemTime = item.useTime;

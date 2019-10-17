@@ -28,7 +28,7 @@ namespace CalamityMod.Items
             item.height = 62;
             item.value = Item.buyPrice(0, 12, 0, 0);
             item.rare = 4;
-            item.shoot = ModContent.ProjectileType<Projectiles.GelWave>();
+            item.shoot = ModContent.ProjectileType<GelWave>();
             item.shootSpeed = 9f;
         }
 

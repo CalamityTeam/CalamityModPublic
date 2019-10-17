@@ -32,7 +32,7 @@ namespace CalamityMod.NPCs
             npc.DeathSound = SoundID.NPCDeath1;
             animationType = NPCID.BlueSlime;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.AstralSlimeBanner>();
+            bannerItem = ModContent.ItemType<AstralSlimeBanner>();
             if (CalamityWorld.downedAstrageldon)
             {
                 npc.damage = 65;
@@ -74,7 +74,7 @@ namespace CalamityMod.NPCs
         {
             int oreMin = Main.expertMode ? 11 : 8;
             int oreMax = Main.expertMode ? 16 : 12;
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.AstralOre>(), CalamityWorld.downedStarGod, oreMin, oreMax);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<AstralOre>(), CalamityWorld.downedStarGod, oreMin, oreMax);
         }
     }
 }

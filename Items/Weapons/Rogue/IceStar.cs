@@ -31,7 +31,7 @@ namespace CalamityMod.Items
             item.maxStack = 999;
             item.value = Item.sellPrice(0, 0, 1, 20);
             item.rare = 5;
-            item.shoot = ModContent.ProjectileType<Projectiles.IceStarProjectile>();
+            item.shoot = ModContent.ProjectileType<IceStarProjectile>();
             item.shootSpeed = 14f;
             item.Calamity().rogue = true;
         }

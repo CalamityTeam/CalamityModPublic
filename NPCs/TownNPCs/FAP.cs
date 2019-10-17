@@ -51,7 +51,7 @@ namespace CalamityMod.NPCs
                 {
                     for (int j = 0; j < player.inventory.Length; j++)
                     {
-                        if (player.inventory[j].type == ModContent.ItemType<Items.FabsolsVodka>())
+                        if (player.inventory[j].type == ModContent.ItemType<FabsolsVodka>())
                         {
                             return Main.hardMode;
                         }
@@ -275,7 +275,7 @@ namespace CalamityMod.NPCs
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 10, 0, 0);
             nextSlot++;
 
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.FabsolsVodka>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<FabsolsVodka>());
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 15, 0, 0);
             nextSlot++;
 
@@ -325,23 +325,23 @@ namespace CalamityMod.NPCs
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 35, 0, 0);
             nextSlot++;
 
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.BlueCandle>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<BlueCandle>());
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(2, 0, 0, 0);
             nextSlot++;
 
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.PinkCandle>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<PinkCandle>());
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(2, 0, 0, 0);
             nextSlot++;
 
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.PurpleCandle>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<PurpleCandle>());
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(2, 0, 0, 0);
             nextSlot++;
 
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.YellowCandle>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<YellowCandle>());
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(2, 0, 0, 0);
             nextSlot++;
 
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.OddMushroom>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<OddMushroom>());
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(3, 0, 0, 0);
             nextSlot++;
         }

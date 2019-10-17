@@ -30,7 +30,7 @@ namespace CalamityMod.NPCs
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.SeaFloatyBanner>();
+            bannerItem = ModContent.ItemType<SeaFloatyBanner>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)

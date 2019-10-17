@@ -79,7 +79,7 @@ Right click to fire two devastating barrages of five empowered fireballs.
                 {
                     float num8 = index1 - (num4 - 1) / 2;
                     Vector2 vector2_5 = spinningpoint.RotatedBy(num3 * num8, new Vector2());
-                    Projectile.NewProjectile(position.X + vector2_5.X, position.Y + vector2_5.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.DrataliornusFlame>(), damage, knockBack, player.whoAmI, 1f, 0f);
+                    Projectile.NewProjectile(position.X + vector2_5.X, position.Y + vector2_5.Y, speedX, speedY, ModContent.ProjectileType<DrataliornusFlame>(), damage, knockBack, player.whoAmI, 1f, 0f);
                 }
             }
             else

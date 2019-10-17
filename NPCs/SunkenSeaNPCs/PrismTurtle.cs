@@ -35,7 +35,7 @@ namespace CalamityMod.NPCs
             npc.DeathSound = SoundID.NPCDeath27;
             npc.knockBackResist = 0.15f;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.PrismTurtleBanner>();
+            bannerItem = ModContent.ItemType<PrismTurtleBanner>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -238,7 +238,7 @@ namespace CalamityMod.NPCs
             Vector2 vector = center - Main.screenPosition;
             vector -= new Vector2((float)mod.GetTexture("NPCs/SunkenSeaNPCs/PrismTurtleGlow").Width, (float)(mod.GetTexture("NPCs/SunkenSeaNPCs/PrismTurtleGlow").Height / Main.npcFrameCount[npc.type])) * 1f / 2f;
             vector += vector11 * 1f + new Vector2(0f, 0f + 4f + npc.gfxOffY);
-            Microsoft.Xna.Framework.Color color = new Microsoft.Xna.Framework.Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.Blue);
+            Color color = new Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.Blue);
             Main.spriteBatch.Draw(mod.GetTexture("NPCs/SunkenSeaNPCs/PrismTurtleGlow"), vector,
                 new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, vector11, 1f, spriteEffects, 0f);
         }
@@ -265,7 +265,7 @@ namespace CalamityMod.NPCs
         {
             if (CalamityWorld.downedDesertScourge)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.PrismShard>(), Main.rand.Next(1, 4));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<PrismShard>(), Main.rand.Next(1, 4));
             }
         }
 

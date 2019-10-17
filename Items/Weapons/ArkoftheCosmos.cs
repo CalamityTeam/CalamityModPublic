@@ -32,7 +32,7 @@ namespace CalamityMod.Items
             item.height = 102;
             item.value = Item.buyPrice(2, 50, 0, 0);
             item.rare = 10;
-            item.shoot = ModContent.ProjectileType<Projectiles.EonBeam>();
+            item.shoot = ModContent.ProjectileType<EonBeam>();
             item.shootSpeed = 28f;
             item.Calamity().postMoonLordRarity = 15;
         }
@@ -42,16 +42,16 @@ namespace CalamityMod.Items
             switch (Main.rand.Next(4))
             {
                 case 0:
-                    type = ModContent.ProjectileType<Projectiles.EonBeam>();
+                    type = ModContent.ProjectileType<EonBeam>();
                     break;
                 case 1:
-                    type = ModContent.ProjectileType<Projectiles.EonBeamV2>();
+                    type = ModContent.ProjectileType<EonBeamV2>();
                     break;
                 case 2:
-                    type = ModContent.ProjectileType<Projectiles.EonBeamV3>();
+                    type = ModContent.ProjectileType<EonBeamV3>();
                     break;
                 case 3:
-                    type = ModContent.ProjectileType<Projectiles.EonBeamV4>();
+                    type = ModContent.ProjectileType<EonBeamV4>();
                     break;
             }
             int projectile = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, Main.myPlayer);
@@ -91,7 +91,7 @@ namespace CalamityMod.Items
                 num79 *= num80;
                 float speedX4 = num78 + (float)Main.rand.Next(-360, 361) * 0.02f;
                 float speedY5 = num79 + (float)Main.rand.Next(-360, 361) * 0.02f;
-                int projectileFire = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<Projectiles.Galaxia2>(), damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(3));
+                int projectileFire = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<Galaxia2>(), damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(3));
                 Main.projectile[projectileFire].timeLeft = 80;
             }
             return false;

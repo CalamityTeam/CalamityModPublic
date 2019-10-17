@@ -31,7 +31,7 @@ namespace CalamityMod.Items
             item.autoReuse = true;
             item.value = Item.buyPrice(0, 12, 0, 0); //2 gold 40 silver sellprice
             item.rare = 4;
-            item.shoot = ModContent.ProjectileType<Projectiles.BlastBarrelProjectile>();
+            item.shoot = ModContent.ProjectileType<BlastBarrelProjectile>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;
         }

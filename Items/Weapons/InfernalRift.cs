@@ -32,7 +32,7 @@ namespace CalamityMod.Items
             item.rare = 5;
             item.UseSound = SoundID.Item9;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.InfernalBlade>();
+            item.shoot = ModContent.ProjectileType<InfernalBlade>();
             item.shootSpeed = 16f;
         }
 
@@ -47,7 +47,7 @@ namespace CalamityMod.Items
             recipe.AddRecipe();
         }
 
-        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num72 = item.shootSpeed;

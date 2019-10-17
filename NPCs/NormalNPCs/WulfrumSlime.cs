@@ -30,7 +30,7 @@ namespace CalamityMod.NPCs
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.WulfrumSlimeBanner>();
+            bannerItem = ModContent.ItemType<WulfrumSlimeBanner>();
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -59,10 +59,10 @@ namespace CalamityMod.NPCs
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.WulfrumShard>());
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<WulfrumShard>());
             if (Main.expertMode && Main.rand.NextBool(2))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.WulfrumShard>());
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<WulfrumShard>());
             }
         }
     }

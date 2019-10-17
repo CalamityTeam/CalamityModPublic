@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles
             bool flag64 = projectile.type == ModContent.ProjectileType<CosmicEnergySpiral>();
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            player.AddBuff(ModContent.BuffType<Buffs.CosmicEnergy>(), 3600);
+            player.AddBuff(ModContent.BuffType<CosmicEnergy>(), 3600);
             if (flag64)
             {
                 if (player.dead)

@@ -139,7 +139,7 @@ namespace CalamityMod.Projectiles
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Microsoft.Xna.Framework.Color color25 = Lighting.GetColor((int)((double)projectile.position.X + (double)projectile.width * 0.5) / 16, (int)(((double)projectile.position.Y + (double)projectile.height * 0.5) / 16.0));
+            Color color25 = Lighting.GetColor((int)((double)projectile.position.X + (double)projectile.width * 0.5) / 16, (int)(((double)projectile.position.Y + (double)projectile.height * 0.5) / 16.0));
             SpriteEffects spriteEffects = SpriteEffects.None;
             if (projectile.spriteDirection == -1)
             {
@@ -147,10 +147,10 @@ namespace CalamityMod.Projectiles
             }
             Vector2 vector38 = projectile.position + new Vector2((float)projectile.width, (float)projectile.height) / 2f + Vector2.UnitY * projectile.gfxOffY - Main.screenPosition;
             Texture2D texture2D27 = Main.projectileTexture[projectile.type];
-            Microsoft.Xna.Framework.Rectangle rectangle11 = texture2D27.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame);
-            Microsoft.Xna.Framework.Color alpha5 = projectile.GetAlpha(color25);
+            Rectangle rectangle11 = texture2D27.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame);
+            Color alpha5 = projectile.GetAlpha(color25);
             Vector2 origin7 = rectangle11.Size() / 2f;
-            Microsoft.Xna.Framework.Color color47 = Main.hslToRgb(0.25f, 1f, 1f).MultiplyRGBA(new Microsoft.Xna.Framework.Color(255, 255, 255, 0));
+            Color color47 = Main.hslToRgb(0.25f, 1f, 1f).MultiplyRGBA(new Color(255, 255, 255, 0));
             Main.spriteBatch.Draw(texture2D27, vector38, new Microsoft.Xna.Framework.Rectangle?(rectangle11), color47, 0f, origin7, new Vector2(1f, 5f) * projectile.scale * 2f, spriteEffects, 0f);
             Main.spriteBatch.Draw(texture2D27, vector38, new Microsoft.Xna.Framework.Rectangle?(rectangle11), alpha5, projectile.rotation, origin7, projectile.scale, spriteEffects, 0f);
             Main.spriteBatch.Draw(texture2D27, vector38, new Microsoft.Xna.Framework.Rectangle?(rectangle11), alpha5, 0f, origin7, new Vector2(1f, 8f) * projectile.scale, spriteEffects, 0f);

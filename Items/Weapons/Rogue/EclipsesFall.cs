@@ -30,7 +30,7 @@ namespace CalamityMod.Items
             item.value = Item.buyPrice(1, 80, 0, 0);
             item.rare = 10;
             item.Calamity().postMoonLordRarity = 14;
-            item.shoot = ModContent.ProjectileType<Projectiles.EclipsesFallMain>();
+            item.shoot = ModContent.ProjectileType<EclipsesFallMain>();
             item.shootSpeed = 15f;
             item.Calamity().rogue = true;
         }
@@ -39,7 +39,7 @@ namespace CalamityMod.Items
         {
             if (player.Calamity().StealthStrikeAvailable())
             {
-                int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.EclipsesStealth>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<EclipsesStealth>(), damage, knockBack, player.whoAmI, 0f, 0f);
                 Main.projectile[p].Calamity().stealthStrike = true;
             }
             else

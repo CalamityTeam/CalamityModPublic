@@ -33,7 +33,7 @@ namespace CalamityMod.NPCs
             npc.HitSound = SoundID.NPCHit25;
             npc.DeathSound = SoundID.NPCDeath28;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.GhostBellBanner>();
+            bannerItem = ModContent.ItemType<GhostBellBanner>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -133,7 +133,7 @@ namespace CalamityMod.NPCs
             Vector2 vector = center - Main.screenPosition;
             vector -= new Vector2((float)mod.GetTexture("NPCs/SunkenSeaNPCs/GhostBellGlow").Width, (float)(mod.GetTexture("NPCs/SunkenSeaNPCs/GhostBellGlow").Height / Main.npcFrameCount[npc.type])) * 1f / 2f;
             vector += vector11 * 1f + new Vector2(0f, 0f + 4f + npc.gfxOffY);
-            Microsoft.Xna.Framework.Color color = new Microsoft.Xna.Framework.Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.LightBlue);
+            Color color = new Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.LightBlue);
             Main.spriteBatch.Draw(mod.GetTexture("NPCs/SunkenSeaNPCs/GhostBellGlow"), vector,
                 new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, vector11, 1f, spriteEffects, 0f);
         }

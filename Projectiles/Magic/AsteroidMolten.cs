@@ -99,7 +99,7 @@ namespace CalamityMod.Projectiles
             }
             for (int num341 = 0; num341 < 5; num341++)
             {
-                int num342 = Utils.SelectRandom<int>(Main.rand, new int[]
+                int num342 = Utils.SelectRandom(Main.rand, new int[]
                 {
                     244,
                     259,
@@ -115,7 +115,7 @@ namespace CalamityMod.Projectiles
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             Player player = Main.player[projectile.owner];
-            player.AddBuff(ModContent.BuffType<Buffs.Molten>(), 360);
+            player.AddBuff(ModContent.BuffType<Molten>(), 360);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

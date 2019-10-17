@@ -28,7 +28,7 @@ namespace CalamityMod.Items
             item.height = 28;
             item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;
-            item.shoot = ModContent.ProjectileType<Projectiles.OPHammerMelee>();
+            item.shoot = ModContent.ProjectileType<OPHammerMelee>();
             item.shootSpeed = 14f;
         }
 

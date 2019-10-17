@@ -28,7 +28,7 @@ namespace CalamityMod.Items
             item.height = 78;
             item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;
-            item.shoot = ModContent.ProjectileType<Projectiles.Oathblade>();
+            item.shoot = ModContent.ProjectileType<Oathblade>();
             item.shootSpeed = 3f;
         }
 

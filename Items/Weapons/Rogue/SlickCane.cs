@@ -31,7 +31,7 @@ namespace CalamityMod.Items
             item.autoReuse = true;
             item.value = Item.buyPrice(0, 12, 0, 0);
             item.rare = 4;
-            item.shoot = ModContent.ProjectileType<Projectiles.SlickCaneProjectile>();
+            item.shoot = ModContent.ProjectileType<SlickCaneProjectile>();
             item.shootSpeed = 42f;
         }
 

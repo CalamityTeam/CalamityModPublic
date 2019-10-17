@@ -282,7 +282,7 @@ namespace CalamityMod.Projectiles
                 }
                 int num106 = Main.rand.Next(5, 9);
                 int num107 = Main.rand.Next(5, 9);
-                int num108 = Utils.SelectRandom<int>(Main.rand, new int[]
+                int num108 = Utils.SelectRandom(Main.rand, new int[]
                 {
                     60,
                     180

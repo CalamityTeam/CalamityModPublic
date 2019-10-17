@@ -147,7 +147,7 @@ namespace CalamityMod.NPCs
             Vector2 vector = center - Main.screenPosition;
             vector -= new Vector2((float)mod.GetTexture("NPCs/AbyssNPCs/EidolonWyrmTailGlowHuge").Width, (float)(mod.GetTexture("NPCs/AbyssNPCs/EidolonWyrmTailGlowHuge").Height / Main.npcFrameCount[npc.type])) * 1f / 2f;
             vector += vector11 * 1f + new Vector2(0f, 0f + 4f + npc.gfxOffY);
-            Microsoft.Xna.Framework.Color color = new Microsoft.Xna.Framework.Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.LightYellow);
+            Color color = new Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.LightYellow);
             Main.spriteBatch.Draw(mod.GetTexture("NPCs/AbyssNPCs/EidolonWyrmTailGlowHuge"), vector,
                 new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, vector11, 1f, spriteEffects, 0f);
         }

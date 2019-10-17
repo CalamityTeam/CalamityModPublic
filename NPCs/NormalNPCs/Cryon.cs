@@ -29,7 +29,7 @@ namespace CalamityMod.NPCs
             npc.HitSound = SoundID.NPCHit5;
             npc.DeathSound = SoundID.NPCDeath7;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.CryonBanner>();
+            bannerItem = ModContent.ItemType<CryonBanner>();
         }
 
         public override void AI()
@@ -374,7 +374,7 @@ namespace CalamityMod.NPCs
         {
             if (Main.rand.NextBool(2))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.EssenceofEleum>());
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EssenceofEleum>());
             }
         }
     }

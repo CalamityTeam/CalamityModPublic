@@ -29,7 +29,7 @@ namespace CalamityMod.Items
             item.rare = 7;
             item.UseSound = SoundID.Item34;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.AtlantisSpear>();
+            item.shoot = ModContent.ProjectileType<AtlantisSpear>();
             item.shootSpeed = 32f;
         }
 

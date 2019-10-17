@@ -138,7 +138,7 @@ namespace CalamityMod.Projectiles
         {
             target.AddBuff(BuffID.OnFire, 600);
             target.AddBuff(BuffID.Confused, 300);
-            target.AddBuff(ModContent.BuffType<Buffs.Irradiated>(), 300);
+            target.AddBuff(ModContent.BuffType<Irradiated>(), 300);
         }
 
         public override void Kill(int timeLeft)

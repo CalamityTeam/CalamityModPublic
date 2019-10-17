@@ -50,7 +50,7 @@ namespace CalamityMod.Items
             return true;
         }
 
-        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
 
             if (player.altFunctionUse == 2)
@@ -86,9 +86,9 @@ namespace CalamityMod.Items
                 //If left click, do the same as above but spawn Charged Blasts instead
                 Vector2 num7 = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(rotation));
                 Vector2 num8 = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(-rotation));
-                int shot1 = Projectile.NewProjectile(position.X, position.Y, num7.X, num7.Y, ModContent.ProjectileType<Projectiles.ChargedBlast>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                int shot1 = Projectile.NewProjectile(position.X, position.Y, num7.X, num7.Y, ModContent.ProjectileType<ChargedBlast>(), damage, knockBack, player.whoAmI, 0f, 0f);
                 Main.projectile[shot1].timeLeft = 180;
-                int shot2 = Projectile.NewProjectile(position.X, position.Y, num8.X, num8.Y, ModContent.ProjectileType<Projectiles.ChargedBlast>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                int shot2 = Projectile.NewProjectile(position.X, position.Y, num8.X, num8.Y, ModContent.ProjectileType<ChargedBlast>(), damage, knockBack, player.whoAmI, 0f, 0f);
                 Main.projectile[shot2].timeLeft = 180;
                 if (limit)
                 {

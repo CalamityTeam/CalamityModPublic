@@ -46,7 +46,7 @@ namespace CalamityMod.NPCs
             npc.DeathSound = SoundID.NPCDeath1;
             npc.netAlways = true;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.AquaticSeekerBanner>();
+            bannerItem = ModContent.ItemType<AquaticSeekerBanner>();
         }
 
         public override void AI()

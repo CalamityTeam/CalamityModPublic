@@ -23,7 +23,7 @@ namespace CalamityMod.Items
             item.useAnimation = 38;
             item.useStyle = 1;
             item.knockBack = 2;
-            item.shoot = ModContent.ProjectileType<Projectiles.EutrophicScimitarProj>();
+            item.shoot = ModContent.ProjectileType<EutrophicScimitarProj>();
             item.shootSpeed = 17;
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.rare = 5;

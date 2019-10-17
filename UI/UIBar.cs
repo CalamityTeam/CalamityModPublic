@@ -58,8 +58,8 @@ namespace CalamityMod.UI
                 backPanel.Height.Set(50f, 0f);
                 ((UIPanel)backPanel).BackgroundColor = new Color(73, 94, 171);
 
-                backPanel.OnMouseDown += new UIElement.MouseEvent(DragStart);
-                backPanel.OnMouseUp += new UIElement.MouseEvent(DragEnd);
+                backPanel.OnMouseDown += new MouseEvent(DragStart);
+                backPanel.OnMouseUp += new MouseEvent(DragEnd);
 
                 barPanel = new UIPanel();
                 ((UIPanel)barPanel).SetPadding(0);
@@ -74,8 +74,8 @@ namespace CalamityMod.UI
             {
                 backPanel.Left.Set(posX, 0f);
                 backPanel.Top.Set(posY, 0f);
-                backPanel.OnMouseDown += new UIElement.MouseEvent(DragStart);
-                backPanel.OnMouseUp += new UIElement.MouseEvent(DragEnd);
+                backPanel.OnMouseDown += new MouseEvent(DragStart);
+                backPanel.OnMouseUp += new MouseEvent(DragEnd);
 
                 barPanel.Left.Set(barOffset, 0f);
                 barPanel.Top.Set(0f, 0f);

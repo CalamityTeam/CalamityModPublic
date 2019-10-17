@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles
             double newDamageMult = 1.0 - ((double)projectile.timeLeft / 300.0);
             damage = (int)((double)damage * newDamageMult);
             knockback = 0f;
-            if (crit || target.buffImmune[ModContent.BuffType<Buffs.GlacialState>()])
+            if (crit || target.buffImmune[ModContent.BuffType<GlacialState>()])
                 damage *= 2;
         }
 
@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles
         {
             int debuffDuration = 300 - projectile.timeLeft;
             if (projectile.timeLeft < 270)
-                target.AddBuff(ModContent.BuffType<Buffs.GlacialState>(), debuffDuration);
+                target.AddBuff(ModContent.BuffType<GlacialState>(), debuffDuration);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

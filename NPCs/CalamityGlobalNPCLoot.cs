@@ -47,7 +47,7 @@ namespace CalamityMod.NPCs
 
             // Mechanical Bosses' combined lore item
             bool mechLore = !NPC.downedMechBossAny && (lastTwinStanding || npc.type == NPCID.TheDestroyer || npc.type == NPCID.SkeletronPrime);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.KnowledgeMechs>(), true, mechLore);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeMechs>(), true, mechLore);
 
             if (npc.type == NPCID.KingSlime)
             {
@@ -61,40 +61,40 @@ namespace CalamityMod.NPCs
             }
             else if (npc.type == NPCID.EyeofCthulhu)
             {
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.KnowledgeEyeofCthulhu>(), true, !NPC.downedBoss1);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeEyeofCthulhu>(), true, !NPC.downedBoss1);
                 DropHelper.DropResidentEvilAmmo(npc, NPC.downedBoss1, 2, 0, 0);
             }
             else if ((npc.boss && (npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.EaterofWorldsBody || npc.type == NPCID.EaterofWorldsTail)) || npc.type == NPCID.BrainofCthulhu)
             {
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.KnowledgeCorruption>(), true, !WorldGen.crimson && !NPC.downedBoss2);
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.KnowledgeEaterofWorlds>(), true, !WorldGen.crimson && !NPC.downedBoss2);
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.KnowledgeCrimson>(), true, WorldGen.crimson && !NPC.downedBoss2);
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.KnowledgeBrainofCthulhu>(), true, WorldGen.crimson && !NPC.downedBoss2);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeCorruption>(), true, !WorldGen.crimson && !NPC.downedBoss2);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeEaterofWorlds>(), true, !WorldGen.crimson && !NPC.downedBoss2);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeCrimson>(), true, WorldGen.crimson && !NPC.downedBoss2);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeBrainofCthulhu>(), true, WorldGen.crimson && !NPC.downedBoss2);
                 DropHelper.DropResidentEvilAmmo(npc, NPC.downedBoss2, 2, 0, 0);
             }
             else if (npc.type == NPCID.QueenBee)
             {
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.KnowledgeQueenBee>(), true, !NPC.downedQueenBee);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeQueenBee>(), true, !NPC.downedQueenBee);
                 DropHelper.DropResidentEvilAmmo(npc, NPC.downedQueenBee, 2, 0, 0);
             }
             else if (npc.type == NPCID.SkeletronHead)
             {
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.ClothiersWrath>(), !Main.expertMode, DropHelper.RareVariantDropRateInt, 1, 1);
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.KnowledgeSkeletron>(), true, !NPC.downedBoss3);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<ClothiersWrath>(), !Main.expertMode, DropHelper.RareVariantDropRateInt, 1, 1);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeSkeletron>(), true, !NPC.downedBoss3);
                 DropHelper.DropResidentEvilAmmo(npc, NPC.downedBoss3, 3, 1, 0);
             }
             else if (npc.type == NPCID.WallofFlesh)
             {
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.MLGRune>(), !Main.expertMode); // Demon Trophy
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.Meowthrower>(), !Main.expertMode, 5, 1, 1);
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.BlackHawkRemote>(), !Main.expertMode, 5, 1, 1);
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.BlastBarrel>(), !Main.expertMode, 5, 1, 1);
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.RogueEmblem>(), !Main.expertMode, 8, 1, 1);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.IbarakiBox>(), !Main.hardMode, Main.hardMode ? 0.1f : 1f); // 100% chance on first kill, 10% chance afterwards
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<MLGRune>(), !Main.expertMode); // Demon Trophy
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<Meowthrower>(), !Main.expertMode, 5, 1, 1);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<BlackHawkRemote>(), !Main.expertMode, 5, 1, 1);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<BlastBarrel>(), !Main.expertMode, 5, 1, 1);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<RogueEmblem>(), !Main.expertMode, 8, 1, 1);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<IbarakiBox>(), !Main.hardMode, Main.hardMode ? 0.1f : 1f); // 100% chance on first kill, 10% chance afterwards
                 DropHelper.DropItemFromSetCondition(npc, !Main.expertMode, 5, ItemID.CorruptionKey, ItemID.CrimsonKey);
 
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.KnowledgeUnderworld>(), true, !Main.hardMode);
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.KnowledgeWallofFlesh>(), true, !Main.hardMode);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeUnderworld>(), true, !Main.hardMode);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeWallofFlesh>(), true, !Main.hardMode);
                 DropHelper.DropResidentEvilAmmo(npc, Main.hardMode, 3, 1, 0);
 
                 // First kill text (this is not a loot function)
@@ -114,18 +114,18 @@ namespace CalamityMod.NPCs
             }
             else if (lastTwinStanding)
             {
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.KnowledgeTwins>(), true, !NPC.downedMechBoss2);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeTwins>(), true, !NPC.downedMechBoss2);
                 DropHelper.DropResidentEvilAmmo(npc, NPC.downedMechBoss2, 4, 2, 1);
             }
             else if (npc.type == NPCID.TheDestroyer)
             {
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.KnowledgeDestroyer>(), true, !NPC.downedMechBoss1);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeDestroyer>(), true, !NPC.downedMechBoss1);
                 DropHelper.DropResidentEvilAmmo(npc, NPC.downedMechBoss1, 4, 2, 1);
             }
             else if (npc.type == NPCID.SkeletronPrime)
             {
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.KnowledgeSkeletronPrime>(), true, !NPC.downedMechBoss3);
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.GoldBurdenBreaker>(), true, npc.ai[1] == 2f && CalamityWorld.revenge);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeSkeletronPrime>(), true, !NPC.downedMechBoss3);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<GoldBurdenBreaker>(), true, npc.ai[1] == 2f && CalamityWorld.revenge);
                 DropHelper.DropResidentEvilAmmo(npc, NPC.downedMechBoss3, 4, 2, 1);
 
                 // If neither Prime nor Brimmy have been killed, show this text (not a loot function)
@@ -146,7 +146,7 @@ namespace CalamityMod.NPCs
             else if (npc.type == NPCID.Plantera)
             {
                 DropHelper.DropItemCondition(npc, ItemID.JungleKey, !Main.expertMode, 5, 1, 1);
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.KnowledgePlantera>(), true, !NPC.downedPlantBoss);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgePlantera>(), true, !NPC.downedPlantBoss);
                 DropHelper.DropResidentEvilAmmo(npc, NPC.downedPlantBoss, 4, 2, 1);
 
                 // Spawn Perennial Ore if Plantera has never been killed
@@ -192,7 +192,7 @@ namespace CalamityMod.NPCs
             else if (npc.type == NPCID.Golem)
             {
                 DropHelper.DropItemCondition(npc, ItemID.Picksaw, true, !NPC.downedGolemBoss);
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.KnowledgeGolem>(), true, !NPC.downedGolemBoss);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeGolem>(), true, !NPC.downedGolemBoss);
                 DropHelper.DropResidentEvilAmmo(npc, NPC.downedGolemBoss, 4, 2, 1);
 
                 // If Golem has never been killed, send messages about PBG and Ravager
@@ -225,16 +225,16 @@ namespace CalamityMod.NPCs
             }
             else if (npc.type == NPCID.DukeFishron)
             {
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.KnowledgeDukeFishron>(), true, !NPC.downedFishron);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeDukeFishron>(), true, !NPC.downedFishron);
                 DropHelper.DropResidentEvilAmmo(npc, NPC.downedPlantBoss, 4, 2, 1);
             }
             else if (npc.type == NPCID.CultistBoss)
             {
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.KnowledgeLunaticCultist>(), true, !NPC.downedAncientCultist);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeLunaticCultist>(), true, !NPC.downedAncientCultist);
                 DropHelper.DropResidentEvilAmmo(npc, NPC.downedAncientCultist, 4, 2, 1);
 
                 // Blood Moon lore item
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.KnowledgeBloodMoon>(), true, Main.bloodMoon);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeBloodMoon>(), true, Main.bloodMoon);
 
                 // Deus text (this is not a loot function)
                 if (!NPC.downedAncientCultist)
@@ -254,11 +254,11 @@ namespace CalamityMod.NPCs
             }
             else if (npc.type == NPCID.MoonLordCore)
             {
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.MLGRune2>(), true, !Main.expertMode);
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.UtensilPoker>(), !Main.expertMode, 9, 1, 1);
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.GrandDad>(), !Main.expertMode, DropHelper.RareVariantDropRateInt, 1, 1);
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.Infinity>(), !Main.expertMode, DropHelper.RareVariantDropRateInt, 1, 1);
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.KnowledgeMoonLord>(), true, !NPC.downedMoonlord);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<MLGRune2>(), true, !Main.expertMode);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<UtensilPoker>(), !Main.expertMode, 9, 1, 1);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<GrandDad>(), !Main.expertMode, DropHelper.RareVariantDropRateInt, 1, 1);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<Infinity>(), !Main.expertMode, DropHelper.RareVariantDropRateInt, 1, 1);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeMoonLord>(), true, !NPC.downedMoonlord);
                 DropHelper.DropResidentEvilAmmo(npc, NPC.downedMoonlord, 5, 2, 1);
 
                 string key = "Mods.CalamityMod.MoonBossText";
@@ -469,7 +469,7 @@ namespace CalamityMod.NPCs
             }
             else if (npc.type == ModContent.NPCType<DevourerofGodsHeadS>())
             {
-                DropHelper.DropItem(npc, ModContent.ItemType<Items.Rock>(), true);
+                DropHelper.DropItem(npc, ModContent.ItemType<Rock>(), true);
                 CalamityWorld.bossRushStage = 0;
                 DespawnProj();
                 CalamityWorld.bossRushActive = false;
@@ -716,27 +716,27 @@ namespace CalamityMod.NPCs
             switch (npc.type)
             {
                 case NPCID.BloodZombie:
-                    DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.Carnage>(), NPC.downedBoss3 && !npc.SpawnedFromStatue, 200, 1, 1);
+                    DropHelper.DropItemCondition(npc, ModContent.ItemType<Carnage>(), NPC.downedBoss3 && !npc.SpawnedFromStatue, 200, 1, 1);
                     break;
 
                 case NPCID.TacticalSkeleton:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<Items.TrueConferenceCall>(), 200);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<TrueConferenceCall>(), 200);
                     break;
 
                 case NPCID.DesertBeast:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<Items.EvilSmasher>(), 200);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<EvilSmasher>(), 200);
                     break;
 
                 case NPCID.DungeonSpirit:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<Items.PearlGod>(), 200);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<PearlGod>(), 200);
                     break;
 
                 case NPCID.RuneWizard:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<Items.EyeofMagnus>(), 10);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<EyeofMagnus>(), 10);
                     break;
 
                 case NPCID.Mimic:
-                    DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.TheBee>(), !npc.SpawnedFromStatue, 100, 1, 1);
+                    DropHelper.DropItemCondition(npc, ModContent.ItemType<TheBee>(), !npc.SpawnedFromStatue, 100, 1, 1);
                     break;
 
                 default:
@@ -1264,11 +1264,11 @@ namespace CalamityMod.NPCs
             {
                 if (Main.player[Player.FindClosest(npc.position, npc.width, npc.height)].Calamity().bloodflareSet)
                 {
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<Items.BloodOrb>(), 2); // 50% chance of 1 orb with Bloodflare
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<BloodOrb>(), 2); // 50% chance of 1 orb with Bloodflare
                 }
 
                 // 1/12 chance to get a Blood Orb with or without Bloodflare
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.BloodOrb>(), 12);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<BloodOrb>(), 12);
             }
         }
         #endregion
@@ -1280,16 +1280,16 @@ namespace CalamityMod.NPCs
             {
                 case NPCID.Drippler:
                     int eyeballDropRate = CalamityWorld.defiled ? DropHelper.DefiledDropRateInt : 300;
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<Items.BouncingEyeball>(), eyeballDropRate, 1, 1);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<BouncingEyeball>(), eyeballDropRate, 1, 1);
                     break;
 					
                 case NPCID.PossessedArmor:
                     int amuletDropRate = CalamityWorld.defiled ? DropHelper.DefiledDropRateInt : Main.expertMode ? 150 : 200;
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<Items.PsychoticAmulet>(), amuletDropRate, 1, 1);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<PsychoticAmulet>(), amuletDropRate, 1, 1);
                     break;
 
                 case NPCID.SeaSnail:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<Items.SeaShell>(), Main.expertMode ? 2 : 3);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<SeaShell>(), Main.expertMode ? 2 : 3);
                     break;
 
                 case NPCID.GreekSkeleton:
@@ -1303,147 +1303,147 @@ namespace CalamityMod.NPCs
                     int tortoiseDropRate = Main.expertMode ? 5 : 7;
                     float shellRoll = Main.rand.NextFloat();
                     bool fabledShell = shellRoll < 0.005f; // Exact 1/200 chance for rare regardless of difficulty
-                    DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.GiantTortoiseShell>(), !fabledShell, tortoiseDropRate, 1, 1);
-                    DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.FabledTortoiseShell>(), fabledShell, tortoiseDropRate, 1, 1);
+                    DropHelper.DropItemCondition(npc, ModContent.ItemType<GiantTortoiseShell>(), !fabledShell, tortoiseDropRate, 1, 1);
+                    DropHelper.DropItemCondition(npc, ModContent.ItemType<FabledTortoiseShell>(), fabledShell, tortoiseDropRate, 1, 1);
                     break;
 
                 case NPCID.GiantShelly:
                 case NPCID.GiantShelly2:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<Items.GiantShell>(), Main.expertMode ? 5 : 7);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<GiantShell>(), Main.expertMode ? 5 : 7);
                     break;
 
                 case NPCID.AnomuraFungus:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<Items.FungalCarapace>(), Main.expertMode ? 5 : 7);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<FungalCarapace>(), Main.expertMode ? 5 : 7);
                     break;
 
                 case NPCID.Crawdad:
                 case NPCID.Crawdad2:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<Items.CrawCarapace>(), Main.expertMode ? 5 : 7);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<CrawCarapace>(), Main.expertMode ? 5 : 7);
                     break;
 
                 case NPCID.GreenJellyfish:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<Items.VitalJelly>(), Main.expertMode ? 5 : 7);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<VitalJelly>(), Main.expertMode ? 5 : 7);
                     break;
 
                 case NPCID.PinkJellyfish:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<Items.LifeJelly>(), Main.expertMode ? 5 : 7);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<LifeJelly>(), Main.expertMode ? 5 : 7);
                     break;
 
                 case NPCID.BlueJellyfish:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<Items.ManaJelly>(), Main.expertMode ? 5 : 7);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<ManaJelly>(), Main.expertMode ? 5 : 7);
                     break;
 
                 case NPCID.DarkCaster:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<Items.AncientShiv>(), Main.expertMode ? 20 : 25);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<AncientShiv>(), Main.expertMode ? 20 : 25);
                     break;
 
                 case NPCID.BigMimicHallow:
                 case NPCID.BigMimicCorruption:
                 case NPCID.BigMimicCrimson:
                 case NPCID.BigMimicJungle: // arguably unnecessary
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<Items.CelestialClaymore>(), Main.expertMode ? 5 : 7);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<CelestialClaymore>(), Main.expertMode ? 5 : 7);
                     break;
 
                 case NPCID.Clinger:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<Items.CursedDagger>(), Main.expertMode ? 20 : 25);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<CursedDagger>(), Main.expertMode ? 20 : 25);
                     break;
 
                 case NPCID.Shark:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<Items.DepthBlade>(), Main.expertMode ? 10 : 15);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<DepthBlade>(), Main.expertMode ? 10 : 15);
                     DropHelper.DropItemChance(npc, ItemID.SharkToothNecklace, Main.expertMode ? 20 : 30);
                     break;
 
                 case NPCID.PresentMimic:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<Items.HolidayHalberd>(), Main.expertMode ? 5 : 7);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<HolidayHalberd>(), Main.expertMode ? 5 : 7);
                     break;
 
                 case NPCID.IchorSticker:
                     int spearDropRate = Main.expertMode ? 20 : 25;
                     float spearRoll = Main.rand.NextFloat();
                     bool spearOfDestiny = spearRoll < 0.005f; // Exact 1/200 chance for rare regardless of difficulty
-                    DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.IchorSpear>(), !spearOfDestiny, spearDropRate, 1, 1);
-                    DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.SpearofDestiny>(), spearOfDestiny, spearDropRate, 1, 1);
+                    DropHelper.DropItemCondition(npc, ModContent.ItemType<IchorSpear>(), !spearOfDestiny, spearDropRate, 1, 1);
+                    DropHelper.DropItemCondition(npc, ModContent.ItemType<SpearofDestiny>(), spearOfDestiny, spearDropRate, 1, 1);
                     break;
 
                 case NPCID.Harpy:
                     int glazeDropRate = CalamityWorld.defiled ? 20 : Main.expertMode ? 60 : 80;
-                    DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.SkyGlaze>(), NPC.downedBoss1, glazeDropRate, 1, 1);
+                    DropHelper.DropItemCondition(npc, ModContent.ItemType<SkyGlaze>(), NPC.downedBoss1, glazeDropRate, 1, 1);
                     break;
 
                 case NPCID.Antlion:
                 case NPCID.WalkingAntlion:
                 case NPCID.FlyingAntlion:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<Items.MandibleClaws>(), Main.expertMode ? 30 : 40);
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<Items.MandibleBow>(), Main.expertMode ? 30 : 40);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<MandibleClaws>(), Main.expertMode ? 30 : 40);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<MandibleBow>(), Main.expertMode ? 30 : 40);
                     break;
 
                 case NPCID.TombCrawlerHead:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<Items.BurntSienna>(), Main.expertMode ? 15 : 20);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<BurntSienna>(), Main.expertMode ? 15 : 20);
                     break;
 
                 case NPCID.DuneSplicerHead:
-                    DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.Terracotta>(), NPC.downedPlantBoss, Main.expertMode ? 20 : 30, 1, 1);
+                    DropHelper.DropItemCondition(npc, ModContent.ItemType<Terracotta>(), NPC.downedPlantBoss, Main.expertMode ? 20 : 30, 1, 1);
                     break;
 
                 case NPCID.MartianSaucerCore:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<Items.NullificationRifle>(), Main.expertMode ? 5 : 7);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<NullificationRifle>(), Main.expertMode ? 5 : 7);
                     break;
 
                 case NPCID.Demon:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<Items.DemonicBoneAsh>(), Main.expertMode ? 2 : 3);
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<Items.BladecrestOathsword>(), Main.expertMode ? 20 : 25);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<DemonicBoneAsh>(), Main.expertMode ? 2 : 3);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<BladecrestOathsword>(), Main.expertMode ? 20 : 25);
                     break;
 
                 case NPCID.BoneSerpentHead:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<Items.DemonicBoneAsh>(), Main.expertMode ? 2 : 3);
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<Items.OldLordOathsword>(), Main.expertMode ? 10 : 15);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<DemonicBoneAsh>(), Main.expertMode ? 2 : 3);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<OldLordOathsword>(), Main.expertMode ? 10 : 15);
                     break;
 
                 case NPCID.Tim:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<Items.PlasmaRod>(), Main.expertMode ? 2 : 3);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<PlasmaRod>(), Main.expertMode ? 2 : 3);
                     break;
 
                 case NPCID.GoblinSorcerer:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<Items.PlasmaRod>(), Main.expertMode ? 20 : 25);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<PlasmaRod>(), Main.expertMode ? 20 : 25);
                     break;
 
                 case NPCID.PirateDeadeye:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<Items.ProporsePistol>(), Main.expertMode ? 20 : 25);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<ProporsePistol>(), Main.expertMode ? 20 : 25);
                     break;
 
                 case NPCID.PirateCrossbower:
                     int crossbowDropRate = Main.expertMode ? 20 : 25;
                     float arbalestRoll = Main.rand.NextFloat();
                     bool arbalest = arbalestRoll < 0.005f; // Exact 1/200 chance for rare regardless of difficulty
-                    DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.RaidersGlory>(), !arbalest, crossbowDropRate, 1, 1);
-                    DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.Arbalest>(), arbalest, crossbowDropRate, 1, 1);
+                    DropHelper.DropItemCondition(npc, ModContent.ItemType<RaidersGlory>(), !arbalest, crossbowDropRate, 1, 1);
+                    DropHelper.DropItemCondition(npc, ModContent.ItemType<Arbalest>(), arbalest, crossbowDropRate, 1, 1);
                     break;
 
                 case NPCID.GoblinSummoner:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<Items.TheFirstShadowflame>(), Main.expertMode ? 5 : 7);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<TheFirstShadowflame>(), Main.expertMode ? 5 : 7);
                     break;
 
                 case NPCID.SandElemental:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<Items.WifeinaBottle>(), Main.expertMode ? 5 : 7);
-                    DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.WifeinaBottlewithBoobs>(), Main.expertMode, 20, 1, 1);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<WifeinaBottle>(), Main.expertMode ? 5 : 7);
+                    DropHelper.DropItemCondition(npc, ModContent.ItemType<WifeinaBottlewithBoobs>(), Main.expertMode, 20, 1, 1);
                     break;
 
                 case NPCID.GoblinWarrior:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<Items.Warblade>(), Main.expertMode ? 15 : 20);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<Warblade>(), Main.expertMode ? 15 : 20);
                     break;
 
                 case NPCID.MartianWalker:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<Items.Wingman>(), Main.expertMode ? 5 : 7);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<Wingman>(), Main.expertMode ? 5 : 7);
                     break;
 
                 case NPCID.GiantCursedSkull:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<Items.WrathoftheAncients>(), Main.expertMode ? 20 : 25);
-                    DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.Keelhaul>(), CalamityWorld.downedLeviathan, 10, 1, 1);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<WrathoftheAncients>(), Main.expertMode ? 20 : 25);
+                    DropHelper.DropItemCondition(npc, ModContent.ItemType<Keelhaul>(), CalamityWorld.downedLeviathan, 10, 1, 1);
                     break;
 
                 case NPCID.Necromancer:
                 case NPCID.NecromancerArmored:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<Items.WrathoftheAncients>(), Main.expertMode ? 20 : 25);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<WrathoftheAncients>(), Main.expertMode ? 20 : 25);
                     break;
 
                 default:
@@ -1454,14 +1454,14 @@ namespace CalamityMod.NPCs
             if (CalamityMod.mossHornetList.Contains(npc.type))
             {
                 int needlerDropRate = Main.expertMode ? 20 : 25;
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.Needler>(), needlerDropRate);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Needler>(), needlerDropRate);
             }
 
             // Every type of Skeleton counts for the Waraxe and Ancient Bone Dust
             if (CalamityMod.skeletonList.Contains(npc.type))
             {
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.Waraxe>(), !Main.hardMode, Main.expertMode ? 15 : 20, 1, 1);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.AncientBoneDust>(), Main.expertMode ? 4 : 5);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<Waraxe>(), !Main.hardMode, Main.expertMode ? 15 : 20, 1, 1);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<AncientBoneDust>(), Main.expertMode ? 4 : 5);
             }
         }
         #endregion
@@ -1472,90 +1472,90 @@ namespace CalamityMod.NPCs
             switch (npc.type)
             {
                 case NPCID.Vulture:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<Items.DesertFeather>(), 2, 1, Main.expertMode ? 2 : 1);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<DesertFeather>(), 2, 1, Main.expertMode ? 2 : 1);
                     break;
 
                 case NPCID.RedDevil:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<Items.EssenceofChaos>(), Main.expertMode ? 1f : 0.5f);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<EssenceofChaos>(), Main.expertMode ? 1f : 0.5f);
                     break;
 
                 case NPCID.WyvernHead:
-                    DropHelper.DropItem(npc, ModContent.ItemType<Items.EssenceofCinder>(), 1, Main.expertMode ? 2 : 1);
+                    DropHelper.DropItem(npc, ModContent.ItemType<EssenceofCinder>(), 1, Main.expertMode ? 2 : 1);
                     break;
 
                 case NPCID.AngryNimbus:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<Items.EssenceofCinder>(), Main.expertMode ? 2 : 3);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<EssenceofCinder>(), Main.expertMode ? 2 : 3);
                     break;
 
                 case NPCID.IcyMerman:
                 case NPCID.IceTortoise:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<Items.EssenceofEleum>(), Main.expertMode ? 2 : 3);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<EssenceofEleum>(), Main.expertMode ? 2 : 3);
                     break;
 
                 case NPCID.IceGolem:
-                    DropHelper.DropItem(npc, ModContent.ItemType<Items.EssenceofEleum>(), 1, 2);
+                    DropHelper.DropItem(npc, ModContent.ItemType<EssenceofEleum>(), 1, 2);
                     break;
 
                 case NPCID.Plantera:
-                    DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.LivingShard>(), !Main.expertMode, 6, 9);
+                    DropHelper.DropItemCondition(npc, ModContent.ItemType<LivingShard>(), !Main.expertMode, 6, 9);
                     break;
 
                 case NPCID.NebulaBrain:
                 case NPCID.NebulaSoldier:
                 case NPCID.NebulaHeadcrab:
                 case NPCID.NebulaBeast:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<Items.MeldBlob>(), 4, Main.expertMode ? 2 : 1, Main.expertMode ? 3 : 2);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<MeldBlob>(), 4, Main.expertMode ? 2 : 1, Main.expertMode ? 3 : 2);
                     break;
 
                 case NPCID.DungeonGuardian:
-                    DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.GoldBurdenBreaker>(), Main.hardMode);
+                    DropHelper.DropItemCondition(npc, ModContent.ItemType<GoldBurdenBreaker>(), Main.hardMode);
                     break;
 
                 case NPCID.CultistBoss:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<Items.StardustStaff>(), Main.expertMode ? 3 : 5);
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<Items.ThornBlossom>(), DropHelper.RareVariantDropRateInt);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<StardustStaff>(), Main.expertMode ? 3 : 5);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<ThornBlossom>(), DropHelper.RareVariantDropRateInt);
                     break;
 
                 case NPCID.EyeofCthulhu:
-                    DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.VictoryShard>(), !Main.expertMode, 2, 4);
-                    DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.TeardropCleaver>(), !Main.expertMode, 5, 1, 1);
+                    DropHelper.DropItemCondition(npc, ModContent.ItemType<VictoryShard>(), !Main.expertMode, 2, 4);
+                    DropHelper.DropItemCondition(npc, ModContent.ItemType<TeardropCleaver>(), !Main.expertMode, 5, 1, 1);
                     break;
 
                 case NPCID.DevourerHead:
                 case NPCID.SeekerHead:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<Items.FetidEssence>(), Main.expertMode ? 2 : 3);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<FetidEssence>(), Main.expertMode ? 2 : 3);
                     break;
 
                 case NPCID.FaceMonster:
                 case NPCID.Herpling:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<Items.BloodlettingEssence>(), Main.expertMode ? 4 : 5);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<BloodlettingEssence>(), Main.expertMode ? 4 : 5);
                     break;
 
                 case NPCID.ManEater:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<Items.ManeaterBulb>(), Main.expertMode ? 2 : 3);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<ManeaterBulb>(), Main.expertMode ? 2 : 3);
                     break;
 
                 case NPCID.AngryTrapper:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<Items.TrapperBulb>(), Main.expertMode ? 4 : 5);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<TrapperBulb>(), Main.expertMode ? 4 : 5);
                     break;
 
                 case NPCID.MotherSlime:
                 case NPCID.CorruptSlime:
                 case NPCID.Crimslime:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<Items.MurkySludge>(), Main.expertMode ? 3 : 4);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<MurkySludge>(), Main.expertMode ? 3 : 4);
                     break;
 
                 case NPCID.Moth:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<Items.GypsyPowder>(), Main.expertMode ? 1f : 0.5f);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<GypsyPowder>(), Main.expertMode ? 1f : 0.5f);
                     break;
 
                 case NPCID.Derpling:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<Items.BeetleJuice>(), Main.expertMode ? 4 : 5);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<BeetleJuice>(), Main.expertMode ? 4 : 5);
                     break;
 
                 case NPCID.SpikedJungleSlime:
                 case NPCID.Arapaima:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<Items.MurkyPaste>(), Main.expertMode ? 4 : 5);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<MurkyPaste>(), Main.expertMode ? 4 : 5);
                     break;
 
                 default:
@@ -1565,7 +1565,7 @@ namespace CalamityMod.NPCs
             // All hardmode dungeon enemies drop Ectoblood
             if (CalamityMod.dungeonEnemyBuffList.Contains(npc.type))
             {
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.Ectoblood>(), 2, 1, Main.expertMode ? 3 : 1);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Ectoblood>(), 2, 1, Main.expertMode ? 3 : 1);
             }
         }
         #endregion
@@ -1583,15 +1583,15 @@ namespace CalamityMod.NPCs
             // Nightmare Fuel, Endothermic Energy and Darksun Fragments
             if (npc.type == NPCID.Pumpking)
             {
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.NightmareFuel>(), CalamityWorld.downedDoG, 10, 20);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<NightmareFuel>(), CalamityWorld.downedDoG, 10, 20);
             }
             else if (npc.type == NPCID.IceQueen)
             {
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.EndothermicEnergy>(), CalamityWorld.downedDoG, 20, 40);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<EndothermicEnergy>(), CalamityWorld.downedDoG, 20, 40);
             }
             else if (npc.type == NPCID.Mothron && CalamityWorld.buffedEclipse)
             {
-                DropHelper.DropItem(npc, ModContent.ItemType<Items.DarksunFragment>(), 10, 20);
+                DropHelper.DropItem(npc, ModContent.ItemType<DarksunFragment>(), 10, 20);
 
                 // Mark a buffed Mothron as killed (allowing access to Yharon P2)
                 CalamityWorld.downedBuffedMothron = true;

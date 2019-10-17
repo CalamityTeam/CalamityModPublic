@@ -25,7 +25,7 @@ namespace CalamityMod.Items
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.rare = 5;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.ShimmersparkProjectile>();
+            item.shoot = ModContent.ProjectileType<ShimmersparkProjectile>();
         }
 
         public override void AddRecipes()

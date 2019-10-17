@@ -31,7 +31,7 @@ namespace CalamityMod.Items
             item.rare = 3;
             item.UseSound = SoundID.Item21;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.BloodBeam>();
+            item.shoot = ModContent.ProjectileType<BloodBeam>();
             item.shootSpeed = 9f;
         }
 
@@ -46,7 +46,7 @@ namespace CalamityMod.Items
             recipe.AddRecipe();
         }
 
-        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             float num72 = item.shootSpeed;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);

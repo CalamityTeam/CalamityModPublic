@@ -62,7 +62,7 @@ namespace CalamityMod.NPCs
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Astrageldon");
             else
                 music = MusicID.Boss3;
-            bossBag = ModContent.ItemType<Items.AstrageldonBag>();
+            bossBag = ModContent.ItemType<AstrageldonBag>();
             if (NPC.downedMoonlord && CalamityWorld.revenge)
             {
                 npc.value = Item.buyPrice(0, 35, 0, 0);
@@ -260,7 +260,7 @@ namespace CalamityMod.NPCs
 
             Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
             int frameCount = Main.npcFrameCount[npc.type];
-            Microsoft.Xna.Framework.Rectangle frame = npc.frame;
+            Rectangle frame = npc.frame;
             float scale = npc.scale;
             float rotation = npc.rotation;
             float offsetY = npc.gfxOffY;
@@ -282,7 +282,7 @@ namespace CalamityMod.NPCs
                 Vector2 vector = center - Main.screenPosition;
                 vector -= new Vector2((float)GlowMaskTexture.Width, (float)(GlowMaskTexture.Height / Main.npcFrameCount[npc.type])) * 1f / 2f;
                 vector += vector11 * 1f + new Vector2(0f, 0f + 4f + offsetY);
-                Microsoft.Xna.Framework.Color color = new Microsoft.Xna.Framework.Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.Gold);
+                Color color = new Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.Gold);
 
                 Main.spriteBatch.Draw(GlowMaskTexture, vector,
                     new Microsoft.Xna.Framework.Rectangle?(frame), color, rotation, vector11, 1f, spriteEffects, 0f);
@@ -299,25 +299,25 @@ namespace CalamityMod.NPCs
         {
             DropHelper.DropBags(npc);
 
-            DropHelper.DropItemChance(npc, ModContent.ItemType<Items.AstrageldonTrophy>(), 10);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.KnowledgeAstrumAureus>(), true, !CalamityWorld.downedAstrageldon);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<AstrageldonTrophy>(), 10);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeAstrumAureus>(), true, !CalamityWorld.downedAstrageldon);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedAstrageldon, 4, 2, 1);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
             if (!Main.expertMode)
             {
                 // Materials
-                DropHelper.DropItemSpray(npc, ModContent.ItemType<Items.Stardust>(), 20, 30);
+                DropHelper.DropItemSpray(npc, ModContent.ItemType<Stardust>(), 20, 30);
                 DropHelper.DropItemSpray(npc, ItemID.FallenStar, 25, 40);
 
                 // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.Nebulash>(), 5);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Nebulash>(), 5);
 
                 // Vanity
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.AureusMask>(), 7);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<AureusMask>(), 7);
 
                 // Other
-                DropHelper.DropItem(npc, ModContent.ItemType<Items.AstralJelly>(), 9, 12);
+                DropHelper.DropItem(npc, ModContent.ItemType<AstralJelly>(), 9, 12);
                 DropHelper.DropItemChance(npc, ItemID.HallowedKey, 5);
             }
 

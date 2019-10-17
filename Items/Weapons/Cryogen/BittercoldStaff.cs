@@ -31,7 +31,7 @@ namespace CalamityMod.Items
             item.rare = 5;
             item.UseSound = SoundID.Item46;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.IceSpike>();
+            item.shoot = ModContent.ProjectileType<IceSpike>();
             item.shootSpeed = 10f;
         }
 
@@ -44,7 +44,7 @@ namespace CalamityMod.Items
             recipe.AddRecipe();
         }
 
-        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             int i = Main.myPlayer;
@@ -80,7 +80,7 @@ namespace CalamityMod.Items
                 num133 *= num80;
                 float x2 = vector2.X;
                 float y2 = vector2.Y;
-                Projectile.NewProjectile(x2, y2, num132, num133, ModContent.ProjectileType<Projectiles.IceSpike>(), num73, num74, i, 0f, 0f);
+                Projectile.NewProjectile(x2, y2, num132, num133, ModContent.ProjectileType<IceSpike>(), num73, num74, i, 0f, 0f);
             }
             return false;
         }

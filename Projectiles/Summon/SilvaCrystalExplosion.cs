@@ -134,13 +134,13 @@ namespace CalamityMod.Projectiles
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Microsoft.Xna.Framework.Color color25 = Lighting.GetColor((int)((double)projectile.position.X + (double)projectile.width * 0.5) / 16, (int)(((double)projectile.position.Y + (double)projectile.height * 0.5) / 16.0));
+            Color color25 = Lighting.GetColor((int)((double)projectile.position.X + (double)projectile.width * 0.5) / 16, (int)(((double)projectile.position.Y + (double)projectile.height * 0.5) / 16.0));
             Vector2 vector59 = projectile.position + new Vector2((float)projectile.width, (float)projectile.height) / 2f + Vector2.UnitY * projectile.gfxOffY - Main.screenPosition;
             Texture2D texture2D34 = Main.projectileTexture[projectile.type];
-            Microsoft.Xna.Framework.Rectangle rectangle17 = texture2D34.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame);
-            Microsoft.Xna.Framework.Color alpha5 = projectile.GetAlpha(color25);
+            Rectangle rectangle17 = texture2D34.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame);
+            Color alpha5 = projectile.GetAlpha(color25);
             Vector2 origin11 = rectangle17.Size() / 2f;
-            Microsoft.Xna.Framework.Color color60 = Main.hslToRgb(projectile.ai[0], 1f, 0.5f).MultiplyRGBA(new Microsoft.Xna.Framework.Color(255, 255, 255, 0));
+            Color color60 = Main.hslToRgb(projectile.ai[0], 1f, 0.5f).MultiplyRGBA(new Color(255, 255, 255, 0));
             Main.spriteBatch.Draw(texture2D34, vector59, new Microsoft.Xna.Framework.Rectangle?(rectangle17), color60, projectile.rotation, origin11, projectile.scale * 2f, SpriteEffects.None, 0f);
             Main.spriteBatch.Draw(texture2D34, vector59, new Microsoft.Xna.Framework.Rectangle?(rectangle17), color60, 0f, origin11, projectile.scale * 2f, SpriteEffects.None, 0f);
             if (projectile.ai[1] != -1f && projectile.Opacity > 0.3f)

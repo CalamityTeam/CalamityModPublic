@@ -29,7 +29,7 @@ namespace CalamityMod.Items
             item.rare = 2;
             item.UseSound = SoundID.Item13;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.WaterStream>();
+            item.shoot = ModContent.ProjectileType<WaterStream>();
             item.shootSpeed = 10f;
         }
 

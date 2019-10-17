@@ -28,7 +28,7 @@ namespace CalamityMod.Items
             item.rare = 7;
             item.UseSound = SoundID.Item92;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.AstralCannonProjectile>();
+            item.shoot = ModContent.ProjectileType<AstralCannonProjectile>();
             item.shootSpeed = 2f;
         }
 

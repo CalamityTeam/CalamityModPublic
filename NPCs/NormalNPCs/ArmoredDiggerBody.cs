@@ -36,7 +36,7 @@ namespace CalamityMod.NPCs
             npc.netAlways = true;
             npc.dontCountMe = true;
             banner = ModContent.NPCType<ArmoredDiggerHead>();
-            bannerItem = ModContent.ItemType<Items.ArmoredDiggerBanner>();
+            bannerItem = ModContent.ItemType<ArmoredDiggerBanner>();
         }
 
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)

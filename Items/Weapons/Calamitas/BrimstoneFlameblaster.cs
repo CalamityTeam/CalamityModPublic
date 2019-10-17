@@ -27,7 +27,7 @@ namespace CalamityMod.Items
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.rare = 7;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.BrimstoneBallFriendly>();
+            item.shoot = ModContent.ProjectileType<BrimstoneBallFriendly>();
             item.shootSpeed = 10f;
             item.useAmmo = 23;
         }

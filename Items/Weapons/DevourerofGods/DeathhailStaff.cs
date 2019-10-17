@@ -33,7 +33,7 @@ namespace CalamityMod.Items
             item.rare = 10;
             item.UseSound = SoundID.Item12;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.MagicNebulaShot>();
+            item.shoot = ModContent.ProjectileType<MagicNebulaShot>();
             item.shootSpeed = 18f;
             item.Calamity().postMoonLordRarity = 13;
         }
@@ -44,7 +44,7 @@ namespace CalamityMod.Items
             spriteBatch.Draw(mod.GetTexture("Items/Weapons/DevourerofGods/DeathhailStaffGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
         }
 
-        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             int i = Main.myPlayer;
             float num72 = item.shootSpeed;

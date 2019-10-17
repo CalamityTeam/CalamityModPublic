@@ -51,7 +51,7 @@ namespace CalamityMod.NPCs
             npc.netAlways = true;
             npc.rarity = 2;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.EidolonWyrmJuvenileBanner>();
+            bannerItem = ModContent.ItemType<EidolonWyrmJuvenileBanner>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -460,7 +460,7 @@ namespace CalamityMod.NPCs
             Vector2 vector = center - Main.screenPosition;
             vector -= new Vector2((float)mod.GetTexture("NPCs/AbyssNPCs/EidolonWyrmHeadGlow").Width, (float)(mod.GetTexture("NPCs/AbyssNPCs/EidolonWyrmHeadGlow").Height / Main.npcFrameCount[npc.type])) * 1f / 2f;
             vector += vector11 * 1f + new Vector2(0f, 0f + 4f + npc.gfxOffY);
-            Microsoft.Xna.Framework.Color color = new Microsoft.Xna.Framework.Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.LightYellow);
+            Color color = new Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.LightYellow);
             Main.spriteBatch.Draw(mod.GetTexture("NPCs/AbyssNPCs/EidolonWyrmHeadGlow"), vector,
                 new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, vector11, 1f, spriteEffects, 0f);
         }
@@ -481,18 +481,18 @@ namespace CalamityMod.NPCs
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Voidstone>(), Main.rand.Next(30, 41));
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Voidstone>(), Main.rand.Next(30, 41));
             Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.BlueLunaticHood);
             Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.BlueLunaticRobe);
             if (Main.rand.NextBool(10000) && CalamityWorld.revenge)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.HalibutCannon>());
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<HalibutCannon>());
             }
             if (CalamityWorld.downedPolterghast)
             {
                 if (Main.rand.NextBool(3))
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.SoulEdge>());
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<SoulEdge>());
                 }
                 if (Main.rand.NextBool(3))
                 {
@@ -502,10 +502,10 @@ namespace CalamityMod.NPCs
             if (NPC.downedPlantBoss || CalamityWorld.downedCalamitas)
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Ectoplasm, Main.rand.Next(8, 13));
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Lumenite>(), Main.rand.Next(6, 9));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Lumenite>(), Main.rand.Next(6, 9));
                 if (Main.expertMode && Main.rand.NextBool(2))
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Lumenite>(), Main.rand.Next(2, 4));
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Lumenite>(), Main.rand.Next(2, 4));
                 }
             }
         }

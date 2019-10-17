@@ -29,7 +29,7 @@ namespace CalamityMod.Items
             item.rare = 10;
             item.UseSound = SoundID.Item20;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.MagneticOrb>();
+            item.shoot = ModContent.ProjectileType<MagneticOrb>();
             item.shootSpeed = 12f;
             item.Calamity().postMoonLordRarity = 14;
         }

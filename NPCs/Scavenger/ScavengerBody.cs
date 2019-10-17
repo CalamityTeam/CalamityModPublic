@@ -67,7 +67,7 @@ namespace CalamityMod.NPCs
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Ravager");
             else
                 music = MusicID.Boss4;
-            bossBag = ModContent.ItemType<Items.RavagerBag>();
+            bossBag = ModContent.ItemType<RavagerBag>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -522,20 +522,20 @@ namespace CalamityMod.NPCs
             Vector2 vector = center - Main.screenPosition;
             vector -= new Vector2((float)mod.GetTexture("NPCs/Scavenger/ScavengerBodyGlow").Width, (float)(mod.GetTexture("NPCs/Scavenger/ScavengerBodyGlow").Height / Main.npcFrameCount[npc.type])) * 1f / 2f;
             vector += vector11 * 1f + new Vector2(0f, 0f + 4f + npc.gfxOffY);
-            Microsoft.Xna.Framework.Color color = new Microsoft.Xna.Framework.Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.Blue);
+            Color color = new Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.Blue);
             Main.spriteBatch.Draw(mod.GetTexture("NPCs/Scavenger/ScavengerBodyGlow"), vector,
                 new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, vector11, 1f, spriteEffects, 0f);
-            Microsoft.Xna.Framework.Color color2 = Lighting.GetColor((int)center.X / 16, (int)(center.Y / 16f));
+            Color color2 = Lighting.GetColor((int)center.X / 16, (int)(center.Y / 16f));
             Main.spriteBatch.Draw(mod.GetTexture("NPCs/Scavenger/ScavengerLegRight"), new Vector2(center.X - Main.screenPosition.X + 28f, center.Y - Main.screenPosition.Y + 20f), //72
-                new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, 0, mod.GetTexture("NPCs/Scavenger/ScavengerLegRight").Width, mod.GetTexture("NPCs/Scavenger/ScavengerLegRight").Height)),
+                new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, 0, mod.GetTexture("NPCs/Scavenger/ScavengerLegRight").Width, mod.GetTexture("NPCs/Scavenger/ScavengerLegRight").Height)),
                 color2, 0f, default, 1f, SpriteEffects.None, 0f);
             Main.spriteBatch.Draw(mod.GetTexture("NPCs/Scavenger/ScavengerLegLeft"), new Vector2(center.X - Main.screenPosition.X - 112f, center.Y - Main.screenPosition.Y + 20f), //72
-                new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, 0, mod.GetTexture("NPCs/Scavenger/ScavengerLegLeft").Width, mod.GetTexture("NPCs/Scavenger/ScavengerLegLeft").Height)),
+                new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, 0, mod.GetTexture("NPCs/Scavenger/ScavengerLegLeft").Width, mod.GetTexture("NPCs/Scavenger/ScavengerLegLeft").Height)),
                 color2, 0f, default, 1f, SpriteEffects.None, 0f);
             if (NPC.CountNPCS(ModContent.NPCType<ScavengerHead>()) > 0)
             {
                 Main.spriteBatch.Draw(mod.GetTexture("NPCs/Scavenger/ScavengerHead"), new Vector2(center.X - Main.screenPosition.X - 70f, center.Y - Main.screenPosition.Y - 75f),
-                    new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, 0, mod.GetTexture("NPCs/Scavenger/ScavengerHead").Width, mod.GetTexture("NPCs/Scavenger/ScavengerHead").Height)),
+                    new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, 0, mod.GetTexture("NPCs/Scavenger/ScavengerHead").Width, mod.GetTexture("NPCs/Scavenger/ScavengerHead").Height)),
                     color2, 0f, default, 1f, SpriteEffects.None, 0f);
             }
         }
@@ -592,8 +592,8 @@ namespace CalamityMod.NPCs
         {
             DropHelper.DropBags(npc);
 
-            DropHelper.DropItemChance(npc, ModContent.ItemType<Items.RavagerTrophy>(), 10);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.KnowledgeRavager>(), true, !CalamityWorld.downedScavenger);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<RavagerTrophy>(), 10);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeRavager>(), true, !CalamityWorld.downedScavenger);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedScavenger, 4, 2, 1);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
@@ -604,27 +604,27 @@ namespace CalamityMod.NPCs
                 int barMax = CalamityWorld.downedProvidence ? 10 : 3;
                 int coreMin = CalamityWorld.downedProvidence ? 1 : 1;
                 int coreMax = CalamityWorld.downedProvidence ? 3 : 2;
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.Bloodstone>(), CalamityWorld.downedProvidence, 50, 60);
-                DropHelper.DropItem(npc, ModContent.ItemType<Items.VerstaltiteBar>(), barMin, barMax);
-                DropHelper.DropItem(npc, ModContent.ItemType<Items.DraedonBar>(), barMin, barMax);
-                DropHelper.DropItem(npc, ModContent.ItemType<Items.CruptixBar>(), barMin, barMax);
-                DropHelper.DropItem(npc, ModContent.ItemType<Items.CoreofCinder>(), coreMin, coreMax);
-                DropHelper.DropItem(npc, ModContent.ItemType<Items.CoreofEleum>(), coreMin, coreMax);
-                DropHelper.DropItem(npc, ModContent.ItemType<Items.CoreofChaos>(), coreMin, coreMax);
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.BarofLife>(), CalamityWorld.downedProvidence, 2, 1, 1);
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.CoreofCalamity>(), CalamityWorld.downedProvidence, 3, 1, 1);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 50, 60);
+                DropHelper.DropItem(npc, ModContent.ItemType<VerstaltiteBar>(), barMin, barMax);
+                DropHelper.DropItem(npc, ModContent.ItemType<DraedonBar>(), barMin, barMax);
+                DropHelper.DropItem(npc, ModContent.ItemType<CruptixBar>(), barMin, barMax);
+                DropHelper.DropItem(npc, ModContent.ItemType<CoreofCinder>(), coreMin, coreMax);
+                DropHelper.DropItem(npc, ModContent.ItemType<CoreofEleum>(), coreMin, coreMax);
+                DropHelper.DropItem(npc, ModContent.ItemType<CoreofChaos>(), coreMin, coreMax);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<BarofLife>(), CalamityWorld.downedProvidence, 2, 1, 1);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<CoreofCalamity>(), CalamityWorld.downedProvidence, 3, 1, 1);
 
                 // Weapons
                 DropHelper.DropItemFromSet(npc,
-                    ModContent.ItemType<Items.UltimusCleaver>(),
-                    ModContent.ItemType<Items.RealmRavager>(),
-                    ModContent.ItemType<Items.Hematemesis>(),
-                    ModContent.ItemType<Items.SpikecragStaff>(),
+                    ModContent.ItemType<UltimusCleaver>(),
+                    ModContent.ItemType<RealmRavager>(),
+                    ModContent.ItemType<Hematemesis>(),
+                    ModContent.ItemType<SpikecragStaff>(),
                     ModContent.ItemType<Items.CraniumSmasher>());
 
                 // Equipment
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.BloodPact>(), 3);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.FleshTotem>(), 3);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<BloodPact>(), 3);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<FleshTotem>(), 3);
             }
 
             // Mark Ravager as dead

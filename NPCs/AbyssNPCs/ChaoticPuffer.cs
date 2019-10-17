@@ -40,7 +40,7 @@ namespace CalamityMod.NPCs
             npc.HitSound = SoundID.NPCHit23;
             npc.DeathSound = SoundID.NPCDeath28;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.ChaoticPufferBanner>();
+            bannerItem = ModContent.ItemType<ChaoticPufferBanner>();
         }
 
         public override void AI()
@@ -139,7 +139,7 @@ namespace CalamityMod.NPCs
             Vector2 vector = center - Main.screenPosition;
             vector -= new Vector2((float)mod.GetTexture("NPCs/AbyssNPCs/ChaoticPufferGlow").Width, (float)(mod.GetTexture("NPCs/AbyssNPCs/ChaoticPufferGlow").Height / Main.npcFrameCount[npc.type])) * 1f / 2f;
             vector += vector11 * 1f + new Vector2(0f, 0f + 4f + npc.gfxOffY);
-            Microsoft.Xna.Framework.Color color = new Microsoft.Xna.Framework.Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.Yellow);
+            Color color = new Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.Yellow);
             Main.spriteBatch.Draw(mod.GetTexture("NPCs/AbyssNPCs/ChaoticPufferGlow"), vector,
                 new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, vector11, 1f, spriteEffects, 0f);
         }
@@ -215,11 +215,11 @@ namespace CalamityMod.NPCs
         {
             if (Main.rand.NextBool(1000000) && CalamityWorld.revenge)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.HalibutCannon>());
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<HalibutCannon>());
             }
             if (NPC.downedGolemBoss)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.ChaoticOre>(), Main.rand.Next(10, 27));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<ChaoticOre>(), Main.rand.Next(10, 27));
             }
         }
 

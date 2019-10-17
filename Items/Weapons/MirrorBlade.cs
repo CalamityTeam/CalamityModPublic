@@ -31,7 +31,7 @@ namespace CalamityMod.Items
             item.value = Item.buyPrice(1, 40, 0, 0);
             item.rare = 10;
             item.shootSpeed = 9f;
-            item.shoot = ModContent.ProjectileType<Projectiles.MirrorBlast>();
+            item.shoot = ModContent.ProjectileType<MirrorBlast>();
             item.Calamity().postMoonLordRarity = 13;
         }
 

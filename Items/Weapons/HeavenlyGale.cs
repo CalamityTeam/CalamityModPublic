@@ -61,19 +61,19 @@ namespace CalamityMod.Items
                     case 1:
                     case 2:
                     case 3:
-                        type = ModContent.ProjectileType<Projectiles.TealExoArrow>();
+                        type = ModContent.ProjectileType<TealExoArrow>();
                         break;
                     case 4:
                     case 5:
                     case 6:
-                        type = ModContent.ProjectileType<Projectiles.OrangeExoArrow>();
+                        type = ModContent.ProjectileType<OrangeExoArrow>();
                         break;
                     case 7:
                     case 8:
-                        type = ModContent.ProjectileType<Projectiles.BlueExoArrow>();
+                        type = ModContent.ProjectileType<BlueExoArrow>();
                         break;
                     case 9:
-                        type = ModContent.ProjectileType<Projectiles.GreenExoArrow>();
+                        type = ModContent.ProjectileType<GreenExoArrow>();
                         break;
                 }
                 Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);

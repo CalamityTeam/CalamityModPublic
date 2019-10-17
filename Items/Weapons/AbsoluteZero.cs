@@ -27,7 +27,7 @@ namespace CalamityMod.Items
             item.rare = 5;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.DarkIceZero>();
+            item.shoot = ModContent.ProjectileType<DarkIceZero>();
             item.shootSpeed = 3f;
         }
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
@@ -35,7 +35,7 @@ namespace CalamityMod.Items
             target.AddBuff(BuffID.Frostburn, 600);
             target.AddBuff(ModContent.BuffType<GlacialState>(), 300);
 
-            int p = Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<Projectiles.DarkIceZero>(), damage, knockBack * 3f, player.whoAmI);
+            int p = Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<DarkIceZero>(), damage, knockBack * 3f, player.whoAmI);
             Main.projectile[p].Kill();
         }
     }

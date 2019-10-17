@@ -22,7 +22,7 @@ namespace CalamityMod.Tiles
             soundType = 21;
             Main.tileValue[Type] = 760;
             Main.tileSpelunker[Type] = true;
-            drop = ModContent.ItemType<Items.ExodiumClusterOre>();
+            drop = ModContent.ItemType<ExodiumClusterOre>();
             base.SetDefaults();
         }
 

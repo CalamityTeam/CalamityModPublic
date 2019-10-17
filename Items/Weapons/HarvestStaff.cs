@@ -29,7 +29,7 @@ namespace CalamityMod.Items
             item.rare = 2;
             item.UseSound = SoundID.Item20;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.FlamingPumpkin>();
+            item.shoot = ModContent.ProjectileType<FlamingPumpkin>();
             item.shootSpeed = 10f;
             item.scale = 0.9f;
         }

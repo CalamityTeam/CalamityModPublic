@@ -29,7 +29,7 @@ namespace CalamityMod.Items
             item.rare = 10;
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/FlareSound");
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.SonOfYharon>();
+            item.shoot = ModContent.ProjectileType<SonOfYharon>();
             item.shootSpeed = 10f;
             item.summon = true;
             item.Calamity().postMoonLordRarity = 14;

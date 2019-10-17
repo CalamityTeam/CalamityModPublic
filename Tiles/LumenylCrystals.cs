@@ -20,7 +20,7 @@ namespace CalamityMod.Tiles
             soundType = 2;
             soundStyle = 27;
             dustType = 67;
-            drop = ModContent.ItemType<Items.Lumenite>();
+            drop = ModContent.ItemType<Lumenite>();
             Main.tileSpelunker[Type] = true;
         }
 

@@ -32,7 +32,7 @@ namespace CalamityMod.Items
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon");
             item.autoReuse = true;
             item.shootSpeed = 12f;
-            item.shoot = ModContent.ProjectileType<Projectiles.AetherBeam>();
+            item.shoot = ModContent.ProjectileType<AetherBeam>();
             item.Calamity().postMoonLordRarity = 13;
         }
 
@@ -63,7 +63,7 @@ namespace CalamityMod.Items
             return base.CanUseItem(player);
         }
 
-        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             float ai0 = player.altFunctionUse == 2 ? 1f : 0f;
             Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, ai0, 0f);

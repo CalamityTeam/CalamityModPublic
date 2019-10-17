@@ -2108,7 +2108,7 @@ namespace CalamityMod.NPCs
         #region Loot
         public override void BossLoot(ref string name, ref int potionType)
         {
-            potionType = ModContent.ItemType<Items.OmegaHealingPotion>();
+            potionType = ModContent.ItemType<OmegaHealingPotion>();
         }
 
         // If SCal is killed too quickly, cancel all drops and chastise the player
@@ -2143,36 +2143,36 @@ namespace CalamityMod.NPCs
             // Materials
             int essenceMin = Main.expertMode ? 30 : 20;
             int essenceMax = Main.expertMode ? 40 : 30;
-            DropHelper.DropItem(npc, ModContent.ItemType<Items.CalamitousEssence>(), true, essenceMin, essenceMax);
+            DropHelper.DropItem(npc, ModContent.ItemType<CalamitousEssence>(), true, essenceMin, essenceMax);
 
             // Weapons
             // All non-hybrid weapons are listed twice so that the drop rates are actually equal between each unique weapon
             DropHelper.DropItemFromSetCondition(npc, Main.expertMode,
-                ModContent.ItemType<Items.Animus>(), ModContent.ItemType<Items.Animus>(),
-                ModContent.ItemType<Items.Azathoth>(), ModContent.ItemType<Items.Azathoth>(),
+                ModContent.ItemType<Animus>(), ModContent.ItemType<Animus>(),
+                ModContent.ItemType<Azathoth>(), ModContent.ItemType<Azathoth>(),
                 ModContent.ItemType<Items.Contagion>(), ModContent.ItemType<Items.Contagion>(),
-                ModContent.ItemType<Items.CrystylCrusher>(), ModContent.ItemType<Items.CrystylCrusher>(),
-                ModContent.ItemType<Items.DraconicDestruction>(), ModContent.ItemType<Items.DraconicDestruction>(),
+                ModContent.ItemType<CrystylCrusher>(), ModContent.ItemType<CrystylCrusher>(),
+                ModContent.ItemType<DraconicDestruction>(), ModContent.ItemType<DraconicDestruction>(),
                 ModContent.ItemType<Items.Earth>(), ModContent.ItemType<Items.Earth>(),
-                ModContent.ItemType<Items.Fabstaff>(), ModContent.ItemType<Items.Fabstaff>(),
-                ModContent.ItemType<Items.RoyalKnivesMelee>(), ModContent.ItemType<Items.RoyalKnives>(), // Illustrious Knives
-                ModContent.ItemType<Items.NanoblackReaperMelee>(), ModContent.ItemType<Items.NanoblackReaperRogue>(),
-                ModContent.ItemType<Items.RedSun>(), ModContent.ItemType<Items.RedSun>(),
-                ModContent.ItemType<Items.ScarletDevil>(), ModContent.ItemType<Items.ScarletDevil>(),
-                ModContent.ItemType<Items.SomaPrime>(), ModContent.ItemType<Items.SomaPrime>(),
-                ModContent.ItemType<Items.BlushieStaff>(), ModContent.ItemType<Items.BlushieStaff>(), // Staff of Blushie
-                ModContent.ItemType<Items.Svantechnical>(), ModContent.ItemType<Items.Svantechnical>(),
+                ModContent.ItemType<Fabstaff>(), ModContent.ItemType<Fabstaff>(),
+                ModContent.ItemType<RoyalKnivesMelee>(), ModContent.ItemType<RoyalKnives>(), // Illustrious Knives
+                ModContent.ItemType<NanoblackReaperMelee>(), ModContent.ItemType<NanoblackReaperRogue>(),
+                ModContent.ItemType<RedSun>(), ModContent.ItemType<RedSun>(),
+                ModContent.ItemType<ScarletDevil>(), ModContent.ItemType<ScarletDevil>(),
+                ModContent.ItemType<SomaPrime>(), ModContent.ItemType<SomaPrime>(),
+                ModContent.ItemType<BlushieStaff>(), ModContent.ItemType<BlushieStaff>(), // Staff of Blushie
+                ModContent.ItemType<Svantechnical>(), ModContent.ItemType<Svantechnical>(),
                 ModContent.ItemType<Items.Judgement>(), ModContent.ItemType<Items.Judgement>(), // The Dance of Light
-                ModContent.ItemType<Items.TriactisTruePaladinianMageHammerofMightMelee>(), ModContent.ItemType<Items.TriactisTruePaladinianMageHammerofMight>(),
-                ModContent.ItemType<Items.Megafleet>(), ModContent.ItemType<Items.Megafleet>() // Voidragon
+                ModContent.ItemType<TriactisTruePaladinianMageHammerofMightMelee>(), ModContent.ItemType<TriactisTruePaladinianMageHammerofMight>(),
+                ModContent.ItemType<Megafleet>(), ModContent.ItemType<Megafleet>() // Voidragon
             );
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.Vehemenc>(), CalamityWorld.revenge);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<Vehemenc>(), CalamityWorld.revenge);
 
             // Vanity
             DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.Levi>(), CalamityWorld.death);
 
             // Other
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.KnowledgeCalamitas>(), true, !CalamityWorld.downedSCal);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeCalamitas>(), true, !CalamityWorld.downedSCal);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedSCal, 6, 3, 2);
 
             // Mark Supreme Calamitas as dead
@@ -2202,7 +2202,7 @@ namespace CalamityMod.NPCs
                         break;
                     case 3: // Three deaths exactly rewards Lul
                         key = "Mods.CalamityMod.SupremeBossText19";
-                        DropHelper.DropItem(npc, ModContent.ItemType<Items.CheatTestThing>());
+                        DropHelper.DropItem(npc, ModContent.ItemType<CheatTestThing>());
                         break;
                     default: // Four or more deaths: Lul is permanently missed
                         key = "Mods.CalamityMod.SupremeBossText10";
@@ -2273,11 +2273,11 @@ namespace CalamityMod.NPCs
             }
             Color newColor = willCharge ? new Color(100, 0, 0, 0) : drawColor;
             SpriteEffects spriteEffects = SpriteEffects.None;
-            Microsoft.Xna.Framework.Color color24 = npc.GetAlpha(newColor);
-            Microsoft.Xna.Framework.Color color25 = Lighting.GetColor((int)((double)npc.position.X + (double)npc.width * 0.5) / 16, (int)(((double)npc.position.Y + (double)npc.height * 0.5) / 16.0));
+            Color color24 = npc.GetAlpha(newColor);
+            Color color25 = Lighting.GetColor((int)((double)npc.position.X + (double)npc.width * 0.5) / 16, (int)(((double)npc.position.Y + (double)npc.height * 0.5) / 16.0));
             int num156 = Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type];
             int y3 = num156 * (int)npc.frameCounter;
-            Microsoft.Xna.Framework.Rectangle rectangle = new Microsoft.Xna.Framework.Rectangle(0, y3, texture.Width, num156);
+            Rectangle rectangle = new Rectangle(0, y3, texture.Width, num156);
             Vector2 origin2 = rectangle.Size() / 2f;
             int num157 = 8;
             int num158 = 2;
@@ -2286,7 +2286,7 @@ namespace CalamityMod.NPCs
             int num161 = num159;
             while (((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157)) && Lighting.NotRetro)
             {
-                Microsoft.Xna.Framework.Color color26 = npc.GetAlpha(color25);
+                Color color26 = npc.GetAlpha(color25);
                 {
                     goto IL_6899;
                 }

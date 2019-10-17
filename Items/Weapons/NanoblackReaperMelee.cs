@@ -37,7 +37,7 @@ namespace CalamityMod.Items
             item.Calamity().postMoonLordRarity = 16;
             item.value = Item.buyPrice(5, 0, 0, 0);
 
-            item.shoot = ModContent.ProjectileType<Projectiles.NanoblackMain>();
+            item.shoot = ModContent.ProjectileType<NanoblackMain>();
             item.shootSpeed = Speed;
         }
 

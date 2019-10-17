@@ -124,7 +124,7 @@ namespace CalamityMod.NPCs
                 PossibleDialogs.Add("You think I can get away with looting from ghosts? It ain't like they can pick things up.");
             }
             if (Main.LocalPlayer.InventoryHas(ModContent.ItemType<Items.Valediction>()) ||
-                Main.LocalPlayer.InventoryHas(ModContent.ItemType<Items.TheReaper>()))
+                Main.LocalPlayer.InventoryHas(ModContent.ItemType<TheReaper>()))
             {
                 PossibleDialogs.Add("Oh man, did you rip that off a shark!? Now that's a weapon!");
             }
@@ -202,29 +202,29 @@ namespace CalamityMod.NPCs
 
         public override void SetupShop(Chest shop, ref int nextSlot)
         {
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Cinquedea>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Cinquedea>());
 			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 9, 0, 0);
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Glaive>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Glaive>());
 			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 3, 0, 0);
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Kylie>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Kylie>());
 			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 9, 0, 0);
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.MonkeyDarts>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<MonkeyDarts>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.OldDie>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<OldDie>());
 			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 40, 0, 0);
 			nextSlot++;
 			if (Main.hardMode)
 			{
-				shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.SlickCane>());
+				shop.item[nextSlot].SetDefaults(ModContent.ItemType<SlickCane>());
 			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 25, 0, 0);
 				nextSlot++;
 			}
 			if (NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3)
 			{
-				shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.MomentumCapacitor>());
+				shop.item[nextSlot].SetDefaults(ModContent.ItemType<MomentumCapacitor>());
 				shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 60, 0, 0);
 				nextSlot++;
 			}
@@ -237,9 +237,9 @@ namespace CalamityMod.NPCs
 			}*/
 			if (NPC.downedPlantBoss)
 			{
-				shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.GloveOfPrecicion>());
+				shop.item[nextSlot].SetDefaults(ModContent.ItemType<GloveOfPrecicion>());
 				nextSlot++;
-				shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.GloveOfRecklessness>());
+				shop.item[nextSlot].SetDefaults(ModContent.ItemType<GloveOfRecklessness>());
 				nextSlot++;
 				/*shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.DeepWounder>());
 				nextSlot++;*/
@@ -252,7 +252,7 @@ namespace CalamityMod.NPCs
 			}*/
 			if (NPC.downedMoonlord)
 			{
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.CelestialReaper>());
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<CelestialReaper>());
 				shop.item[nextSlot].shopCustomPrice = Item.buyPrice(2, 0, 0, 0);
 				nextSlot++;
             }
@@ -264,7 +264,7 @@ namespace CalamityMod.NPCs
 			}*/
             if (CalamityWorld.buffedEclipse && !CalamityWorld.dragonScalesBought)
             {
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.DragonScales>());
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<DragonScales>());
 				shop.item[nextSlot].shopCustomPrice = Item.buyPrice(40, 0, 0, 0);
 				nextSlot++;
             }

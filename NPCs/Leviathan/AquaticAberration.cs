@@ -35,7 +35,7 @@ namespace CalamityMod.NPCs
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.AquaticAberrationBanner>();
+            bannerItem = ModContent.ItemType<AquaticAberrationBanner>();
         }
 
         public override void FindFrame(int frameHeight)

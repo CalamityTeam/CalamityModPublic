@@ -38,7 +38,7 @@ namespace CalamityMod.Items
             return new Vector2(-5, 0);
         }
 
-        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             int num6 = Main.rand.Next(1, 3);
             for (int index = 0; index < num6; ++index)
@@ -53,7 +53,7 @@ namespace CalamityMod.Items
                         type = 9;
                         break;
                     case 2:
-                        type = ModContent.ProjectileType<Projectiles.AstralStar>();
+                        type = ModContent.ProjectileType<AstralStar>();
                         break;
                 }
                 int star = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);

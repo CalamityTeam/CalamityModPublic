@@ -39,7 +39,7 @@ namespace CalamityMod.NPCs
             }
             npc.netAlways = true;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.ArmoredDiggerBanner>();
+            bannerItem = ModContent.ItemType<ArmoredDiggerBanner>();
         }
 
         public override void AI()
@@ -411,13 +411,13 @@ namespace CalamityMod.NPCs
         {
             if (Main.rand.NextBool(40))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.LeadWizard>());
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<LeadWizard>());
             }
             if (Main.rand.NextBool(3))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.DraedonsRemote>());
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DraedonsRemote>());
             }
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.DemonicBoneAsh>(), Main.rand.Next(2, 5));
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DemonicBoneAsh>(), Main.rand.Next(2, 5));
         }
     }
 }

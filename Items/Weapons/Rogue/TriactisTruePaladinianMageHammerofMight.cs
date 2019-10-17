@@ -27,7 +27,7 @@ namespace CalamityMod.Items
             item.height = 160;
             item.value = Item.buyPrice(5, 0, 0, 0);
             item.rare = 10;
-            item.shoot = ModContent.ProjectileType<Projectiles.TriactisOPHammer>();
+            item.shoot = ModContent.ProjectileType<TriactisOPHammer>();
             item.shootSpeed = 25f;
             item.Calamity().rogue = true;
             item.Calamity().postMoonLordRarity = 16;

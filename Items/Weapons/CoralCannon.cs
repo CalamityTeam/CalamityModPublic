@@ -29,7 +29,7 @@ namespace CalamityMod.Items
             item.rare = 2;
             item.UseSound = SoundID.Item61;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.SmallCoral>();
+            item.shoot = ModContent.ProjectileType<SmallCoral>();
             item.shootSpeed = 10f;
         }
 
@@ -38,11 +38,11 @@ namespace CalamityMod.Items
             return new Vector2(-10, 0);
         }
 
-        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             if (Main.rand.NextBool(5))
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.BigCoral>(), (int)((double)damage * 2.0), knockBack * 2f, player.whoAmI, 0.0f, 0.0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<BigCoral>(), (int)((double)damage * 2.0), knockBack * 2f, player.whoAmI, 0.0f, 0.0f);
             }
             else
             {

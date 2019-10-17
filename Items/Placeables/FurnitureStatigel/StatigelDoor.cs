@@ -19,7 +19,7 @@ namespace CalamityMod.Items
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles.StatigelDoorClosed>();
+            item.createTile = ModContent.TileType<StatigelDoorClosed>();
         }
 
         public override void AddRecipes()

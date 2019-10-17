@@ -39,7 +39,7 @@ namespace CalamityMod.NPCs
             npc.buffImmune[ModContent.BuffType<HolyFlames>()] = true;
             npc.buffImmune[ModContent.BuffType<Plague>()] = true;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.PlagueshellBanner>();
+            bannerItem = ModContent.ItemType<PlagueshellBanner>();
         }
 
         public override void HitEffect(int hitDirection, double damage)
@@ -73,7 +73,7 @@ namespace CalamityMod.NPCs
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.PlagueCellCluster>(), Main.rand.Next(3, 5));
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<PlagueCellCluster>(), Main.rand.Next(3, 5));
         }
     }
 }

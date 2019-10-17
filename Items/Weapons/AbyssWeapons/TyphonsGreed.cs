@@ -29,7 +29,7 @@ namespace CalamityMod.Items
             item.UseSound = SoundID.DD2_SkyDragonsFurySwing;
             item.autoReuse = true;
             item.channel = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.TyphonsGreedStaff>();
+            item.shoot = ModContent.ProjectileType<TyphonsGreedStaff>();
             item.shootSpeed = 24f;
         }
 

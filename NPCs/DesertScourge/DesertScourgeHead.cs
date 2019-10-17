@@ -51,7 +51,7 @@ namespace CalamityMod.NPCs
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
             npc.netAlways = true;
-            bossBag = ModContent.ItemType<Items.DesertScourgeBag>();
+            bossBag = ModContent.ItemType<DesertScourgeBag>();
             Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
             if (calamityModMusic != null)
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/DesertScourge");
@@ -442,38 +442,38 @@ namespace CalamityMod.NPCs
             DropHelper.DropBags(npc);
 
             DropHelper.DropItem(npc, ItemID.LesserHealingPotion, 8, 14);
-            DropHelper.DropItemChance(npc, ModContent.ItemType<Items.DesertScourgeTrophy>(), 10);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.KnowledgeDesertScourge>(), true, !CalamityWorld.downedDesertScourge);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<DesertScourgeTrophy>(), 10);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeDesertScourge>(), true, !CalamityWorld.downedDesertScourge);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedDesertScourge, 2, 0, 0);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
             if (!Main.expertMode)
             {
                 // Materials
-                DropHelper.DropItem(npc, ModContent.ItemType<Items.VictoryShard>(), 7, 14);
+                DropHelper.DropItem(npc, ModContent.ItemType<VictoryShard>(), 7, 14);
                 DropHelper.DropItem(npc, ItemID.Coral, 5, 9);
                 DropHelper.DropItem(npc, ItemID.Seashell, 5, 9);
                 DropHelper.DropItem(npc, ItemID.Starfish, 5, 9);
 
                 // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.AquaticDischarge>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.Barinade>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.StormSpray>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.SeaboundStaff>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<AquaticDischarge>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Barinade>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<StormSpray>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<SeaboundStaff>(), 4);
                 float f = Main.rand.NextFloat();
                 bool replaceWithRare = f <= DropHelper.RareVariantDropRateFloat; // 1/40 chance overall of getting Dune Hopper
                 if (f < 0.25f) // 1/4 chance of getting Scourge of the Desert OR Dune Hopper replacing it
                 {
                     DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.ScourgeoftheDesert>(), !replaceWithRare);
-                    DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.DuneHopper>(), replaceWithRare);
+                    DropHelper.DropItemCondition(npc, ModContent.ItemType<DuneHopper>(), replaceWithRare);
                 }
 
                 // Equipment
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.AeroStone>(), 10);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.DeepDiver>(), DropHelper.RareVariantDropRateInt);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<AeroStone>(), 10);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<DeepDiver>(), DropHelper.RareVariantDropRateInt);
 
                 // Vanity
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.DesertScourgeMask>(), 7);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<DesertScourgeMask>(), 7);
 
                 // Fishing
                 DropHelper.DropItemChance(npc, ItemID.HighTestFishingLine, 15);

@@ -38,7 +38,7 @@ namespace CalamityMod.Items
             item.Calamity().postMoonLordRarity = 14;
             item.value = Item.buyPrice(1, 80, 0, 0);
 
-            item.shoot = ModContent.ProjectileType<Projectiles.VolatileStarcore>();
+            item.shoot = ModContent.ProjectileType<VolatileStarcore>();
             item.shootSpeed = Speed;
         }
 

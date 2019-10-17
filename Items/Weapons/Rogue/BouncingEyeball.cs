@@ -28,7 +28,7 @@ namespace CalamityMod.Items
             item.Calamity().rogue = true;
             item.noUseGraphic = true;
             item.UseSound = SoundID.Item1;
-            item.shoot = ModContent.ProjectileType<Projectiles.BouncingEyeballProjectile>();
+            item.shoot = ModContent.ProjectileType<BouncingEyeballProjectile>();
             item.shootSpeed = 10f;
             item.autoReuse = true;
         }
@@ -43,14 +43,14 @@ namespace CalamityMod.Items
             if (player.Calamity().StealthStrikeAvailable())
             {
                 initialVelocity *= 2f;
-                int p = Projectile.NewProjectile(position, initialVelocity, ModContent.ProjectileType<Projectiles.BouncingEyeballProjectileStealthStrike>(), damage, knockBack, player.whoAmI);
+                int p = Projectile.NewProjectile(position, initialVelocity, ModContent.ProjectileType<BouncingEyeballProjectileStealthStrike>(), damage, knockBack, player.whoAmI);
                 Main.projectile[p].Calamity().stealthStrike = true;
             }
             else
             {
                 initialVelocity *= Main.rand.NextFloat(0.85f, 1.3f);
                 initialVelocity = initialVelocity.RotatedByRandom(MathHelper.ToRadians(10f)); //random spread
-                Projectile.NewProjectile(position, initialVelocity, ModContent.ProjectileType<Projectiles.BouncingEyeballProjectile>(), damage, knockBack, player.whoAmI);
+                Projectile.NewProjectile(position, initialVelocity, ModContent.ProjectileType<BouncingEyeballProjectile>(), damage, knockBack, player.whoAmI);
             }
             return false;
         }

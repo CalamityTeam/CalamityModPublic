@@ -30,11 +30,11 @@ namespace CalamityMod.Items
             item.value = Item.buyPrice(0, 95, 0, 0);
             item.UseSound = SoundID.Item105;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.AstralStarMagic>();
+            item.shoot = ModContent.ProjectileType<AstralStarMagic>();
             item.shootSpeed = 12f;
         }
 
-        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             float num72 = item.shootSpeed;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);

@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<Buffs.Plague>(), 180);
+            target.AddBuff(ModContent.BuffType<Plague>(), 180);
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles
             Vector2 vector = center - Main.screenPosition;
             vector -= new Vector2((float)mod.GetTexture("Projectiles/Boss/PlagueStingerGoliathGlow").Width, (float)(mod.GetTexture("Projectiles/Boss/PlagueStingerGoliathGlow").Height / Main.projFrames[projectile.type])) * 1f / 2f;
             vector += vector11 * 1f + new Vector2(0f, 0f + 4f + projectile.gfxOffY);
-            Microsoft.Xna.Framework.Color color = new Microsoft.Xna.Framework.Color(127 - projectile.alpha, 127 - projectile.alpha, 127 - projectile.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.Red);
+            Color color = new Color(127 - projectile.alpha, 127 - projectile.alpha, 127 - projectile.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.Red);
             Main.spriteBatch.Draw(mod.GetTexture("Projectiles/Boss/PlagueStingerGoliathGlow"), vector,
                 null, color, projectile.rotation, vector11, 1f, spriteEffects, 0f);
         }

@@ -27,7 +27,7 @@ namespace CalamityMod.Items
             item.value = Item.buyPrice(0, 12, 0, 0);
             item.UseSound = SoundID.Item15; //phaseblade sound effect
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.BlackHawkSummon>();
+            item.shoot = ModContent.ProjectileType<BlackHawkSummon>();
             item.shootSpeed = 10f;
             item.summon = true;
             item.rare = 4;

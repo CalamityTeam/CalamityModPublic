@@ -36,7 +36,7 @@ namespace CalamityMod.NPCs
             npc.buffImmune[31] = false;
             animationType = NPCID.GiantFlyingFox;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.StellarCulexBanner>();
+            bannerItem = ModContent.ItemType<StellarCulexBanner>();
             if (CalamityWorld.downedAstrageldon)
             {
                 npc.damage = 90;
@@ -112,11 +112,11 @@ namespace CalamityMod.NPCs
         {
             if (Main.rand.NextBool(2))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Stardust>(), Main.rand.Next(1, 3));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Stardust>(), Main.rand.Next(1, 3));
             }
             if (Main.expertMode)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Stardust>());
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Stardust>());
             }
         }
     }

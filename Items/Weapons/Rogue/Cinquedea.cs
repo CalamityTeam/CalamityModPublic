@@ -33,7 +33,7 @@ namespace CalamityMod.Items
             item.UseSound = SoundID.Item1;
             item.noMelee = true;
             item.noUseGraphic = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.CinquedeaProj>();
+            item.shoot = ModContent.ProjectileType<CinquedeaProj>();
             item.shootSpeed = Speed;
             item.value = Item.buyPrice(0, 4, 0, 0);
             item.Calamity().rogue = true;
@@ -43,7 +43,7 @@ namespace CalamityMod.Items
         {
             if (player.Calamity().StealthStrikeAvailable())
             {
-                int p = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<Projectiles.CinquedeaProj>(), damage, knockBack, player.whoAmI, 0f, 1f);
+                int p = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<CinquedeaProj>(), damage, knockBack, player.whoAmI, 0f, 1f);
                 Main.projectile[p].Calamity().stealthStrike = true;
                 return false;
             }

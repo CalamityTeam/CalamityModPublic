@@ -66,7 +66,7 @@ namespace CalamityMod.NPCs
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Siren");
             else
                 music = MusicID.Boss3;
-            bossBag = ModContent.ItemType<Items.LeviathanBag>();
+            bossBag = ModContent.ItemType<LeviathanBag>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -745,7 +745,7 @@ namespace CalamityMod.NPCs
             {
                 int width = 106;
                 Vector2 vector = new Vector2((float)(width / 2), (float)(texture.Height / Main.npcFrameCount[npc.type] / 2));
-                Microsoft.Xna.Framework.Rectangle frame = new Rectangle(0, 0, width, texture.Height / Main.npcFrameCount[npc.type]);
+                Rectangle frame = new Rectangle(0, 0, width, texture.Height / Main.npcFrameCount[npc.type]);
                 frame.Y = 146 * (int)(npc.frameCounter / 12.0); // 1 to 6
                 if (frame.Y >= 146 * 6 || npc.ai[0] == 4f)
                     frame.Y = 0;
@@ -763,7 +763,7 @@ namespace CalamityMod.NPCs
                 return false;
             }
 
-            Microsoft.Xna.Framework.Rectangle frame2 = npc.frame;
+            Rectangle frame2 = npc.frame;
             Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
             Main.spriteBatch.Draw(texture,
                 new Vector2(npc.position.X - Main.screenPosition.X + (float)(npc.width / 2) - (float)Main.npcTexture[npc.type].Width * npc.scale / 2f + vector11.X * npc.scale,

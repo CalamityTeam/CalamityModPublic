@@ -27,7 +27,7 @@ namespace CalamityMod.Items
             item.maxStack = 999;
             item.value = 10000;
             item.rare = 9;
-            item.shoot = ModContent.ProjectileType<Projectiles.XerocPitchforkProjectile>();
+            item.shoot = ModContent.ProjectileType<XerocPitchforkProjectile>();
             item.shootSpeed = 16f;
             item.Calamity().rogue = true;
         }

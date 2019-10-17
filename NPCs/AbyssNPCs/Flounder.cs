@@ -33,7 +33,7 @@ namespace CalamityMod.NPCs
             npc.DeathSound = SoundID.NPCDeath53;
             npc.knockBackResist = 0.35f;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.FlounderBanner>();
+            bannerItem = ModContent.ItemType<FlounderBanner>();
         }
 
         public override void AI()
@@ -281,7 +281,7 @@ namespace CalamityMod.NPCs
         {
             if (Main.rand.NextBool(2))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.CloakingGland>());
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CloakingGland>());
             }
         }
 

@@ -11860,7 +11860,7 @@ namespace CalamityMod.NPCs
                         float scaleFactor8 = 1f + Main.rand.NextFloat() * 2f;
                         float num1166 = 1f + Main.rand.NextFloat();
                         float fadeIn = 0.4f + Main.rand.NextFloat();
-                        int num1167 = Utils.SelectRandom<int>(Main.rand, new int[]
+                        int num1167 = Utils.SelectRandom(Main.rand, new int[]
                         {
                             31,
                             229
@@ -12652,9 +12652,9 @@ namespace CalamityMod.NPCs
                 Vector2 vector184 = vector183 + new Vector2(num1177 * 370f, 150f);
 
                 if (vector183.X > vector184.X)
-                    Utils.Swap<float>(ref vector183.X, ref vector184.X);
+                    Utils.Swap(ref vector183.X, ref vector184.X);
                 if (vector183.Y > vector184.Y)
-                    Utils.Swap<float>(ref vector183.Y, ref vector184.Y);
+                    Utils.Swap(ref vector183.Y, ref vector184.Y);
 
                 Vector2 value15 = Vector2.Clamp(npc.Center + npc.velocity, vector183, vector184);
                 if (value15 != npc.Center + npc.velocity)

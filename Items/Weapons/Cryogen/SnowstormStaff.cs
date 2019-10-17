@@ -28,7 +28,7 @@ namespace CalamityMod.Items
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.rare = 5;
             item.UseSound = SoundID.Item46;
-            item.shoot = ModContent.ProjectileType<Projectiles.Snowflake>();
+            item.shoot = ModContent.ProjectileType<Snowflake>();
             item.shootSpeed = 7f;
         }
 

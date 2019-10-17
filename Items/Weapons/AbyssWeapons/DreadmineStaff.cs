@@ -27,7 +27,7 @@ namespace CalamityMod.Items
             item.rare = 7;
             item.UseSound = SoundID.Item113;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.DreadmineTurret>();
+            item.shoot = ModContent.ProjectileType<DreadmineTurret>();
             item.shootSpeed = 10f;
             item.summon = true;
             item.sentry = true;

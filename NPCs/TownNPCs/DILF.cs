@@ -128,25 +128,25 @@ namespace CalamityMod.NPCs
 
         public override void SetupShop(Chest shop, ref int nextSlot)
         {
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.ColdheartIcicle>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<ColdheartIcicle>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.AbsoluteZero>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<AbsoluteZero>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.FrostbiteBlaster>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<FrostbiteBlaster>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.EternalBlizzard>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<EternalBlizzard>());
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.WintersFury>());
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.ArcticBearPaw>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.IcicleTrident>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<IcicleTrident>());
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.FrostyFlare>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.CryogenicStaff>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<CryogenicStaff>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.PermafrostsConcoction>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<PermafrostsConcoction>());
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.IcyBullet>());
             nextSlot++;
@@ -154,13 +154,13 @@ namespace CalamityMod.NPCs
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ItemID.SuperManaPotion);
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.DeliciousMeat>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<DeliciousMeat>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.EnchantedMetal>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<EnchantedMetal>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.BearEye>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<BearEye>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Popo>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Popo>());
             nextSlot++;
             shop.item[nextSlot].SetDefaults(mod.ItemType("CryoKey"));
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 15, 0, 0);

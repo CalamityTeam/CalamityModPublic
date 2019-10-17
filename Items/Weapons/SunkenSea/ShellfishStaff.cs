@@ -29,7 +29,7 @@ namespace CalamityMod.Items
             item.rare = 5;
             item.UseSound = SoundID.Item44;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.Shellfish>();
+            item.shoot = ModContent.ProjectileType<Shellfish>();
             item.shootSpeed = 10f;
             item.summon = true;
         }

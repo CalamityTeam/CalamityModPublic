@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles
         {
             if (!target.friendly && target.rarity != 2 && !CalamityPlayer.areThereAnyDamnBosses)
             {
-                target.AddBuff(ModContent.BuffType<Buffs.SilvaStun>(), 300);
+                target.AddBuff(ModContent.BuffType<SilvaStun>(), 300);
             }
         }
     }

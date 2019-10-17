@@ -36,7 +36,7 @@ namespace CalamityMod.NPCs
             npc.dontCountMe = true;
             npc.chaseable = false;
             banner = ModContent.NPCType<OarfishHead>();
-            bannerItem = ModContent.ItemType<Items.OarfishBanner>();
+            bannerItem = ModContent.ItemType<OarfishBanner>();
         }
 
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)

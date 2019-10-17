@@ -31,7 +31,7 @@ namespace CalamityMod.NPCs
             npc.DeathSound = SoundID.NPCDeath1;
             npc.buffImmune[24] = true;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.EbonianBlightSlimeBanner>();
+            bannerItem = ModContent.ItemType<EbonianBlightSlimeBanner>();
         }
 
         public override void HitEffect(int hitDirection, double damage)
@@ -66,7 +66,7 @@ namespace CalamityMod.NPCs
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.EbonianGel>(), Main.rand.Next(15, 17));
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EbonianGel>(), Main.rand.Next(15, 17));
             Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Gel, Main.rand.Next(10, 15));
         }
     }

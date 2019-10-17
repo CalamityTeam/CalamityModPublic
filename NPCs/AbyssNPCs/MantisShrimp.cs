@@ -27,7 +27,7 @@ namespace CalamityMod.NPCs
             npc.DeathSound = SoundID.NPCDeath1;
             npc.buffImmune[189] = true;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.MantisShrimpBanner>();
+            bannerItem = ModContent.ItemType<MantisShrimpBanner>();
         }
 
         public override void AI()
@@ -103,7 +103,7 @@ namespace CalamityMod.NPCs
         {
             if (Main.rand.NextBool(5) && NPC.downedPlantBoss)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.MantisClaws>());
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MantisClaws>());
             }
         }
 

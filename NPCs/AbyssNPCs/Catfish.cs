@@ -35,7 +35,7 @@ namespace CalamityMod.NPCs
             npc.DeathSound = SoundID.NPCDeath40;
             npc.knockBackResist = 0.8f;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.CatfishBanner>();
+            bannerItem = ModContent.ItemType<CatfishBanner>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)

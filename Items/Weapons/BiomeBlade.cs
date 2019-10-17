@@ -28,7 +28,7 @@ namespace CalamityMod.Items
             item.height = 42;
             item.value = Item.buyPrice(0, 12, 0, 0);
             item.rare = 4;
-            item.shoot = ModContent.ProjectileType<Projectiles.BiomeOrb>();
+            item.shoot = ModContent.ProjectileType<BiomeOrb>();
             item.shootSpeed = 12f;
         }
 

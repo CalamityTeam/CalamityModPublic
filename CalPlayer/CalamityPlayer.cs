@@ -6952,11 +6952,11 @@ namespace CalamityMod.CalPlayer
                 }
                 else if (player.cratePotion && Main.rand.NextBool(5))
                 {
-                    caughtType = ModContent.ItemType<Items.AstralCrate>();
+                    caughtType = ModContent.ItemType<AstralCrate>();
                 }
                 else if (!player.cratePotion && Main.rand.NextBool(10))
                 {
-                    caughtType = ModContent.ItemType<Items.AstralCrate>();
+                    caughtType = ModContent.ItemType<AstralCrate>();
                 }
                 else if (Main.rand.NextBool(15))
                 {
@@ -6995,7 +6995,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (abyssPosX && liquidType == 0 && power < 40)
                 {
-                    caughtType = ModContent.ItemType<Items.PlantyMush>();
+                    caughtType = ModContent.ItemType<PlantyMush>();
                 }
                 return;
             }
@@ -7024,7 +7024,7 @@ namespace CalamityMod.CalPlayer
                 {
                     if (abyssPosX && liquidType == 0 && Main.rand.NextBool(15) && power < 80)
                     {
-                        caughtType = ModContent.ItemType<Items.PlantyMush>();
+                        caughtType = ModContent.ItemType<PlantyMush>();
                     }
                     if (power >= 60)
                     {
@@ -9007,7 +9007,7 @@ namespace CalamityMod.CalPlayer
 
                     DrawData data = new DrawData(texture,
                         new Vector2((float)(int)(vector.X - Main.screenPosition.X + zero3.X + (float)num105), (float)(int)(vector.Y - Main.screenPosition.Y + 0f)),
-                        new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, 0, Main.itemTexture[item.type].Width, Main.itemTexture[item.type].Height)),
+                        new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, 0, Main.itemTexture[item.type].Width, Main.itemTexture[item.type].Height)),
                         Color.White,
                         num104,
                         zero3,
@@ -9050,7 +9050,7 @@ namespace CalamityMod.CalPlayer
 
                     DrawData data = new DrawData(texture,
                         new Vector2((float)(int)(vector.X - Main.screenPosition.X + vector13.X), (float)(int)(vector.Y - Main.screenPosition.Y + vector13.Y)),
-                        new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, 0, Main.itemTexture[item.type].Width, Main.itemTexture[item.type].Height)),
+                        new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, 0, Main.itemTexture[item.type].Width, Main.itemTexture[item.type].Height)),
                         Color.White,
                         drawPlayer.itemRotation,
                         origin4,
@@ -9076,7 +9076,7 @@ namespace CalamityMod.CalPlayer
 
                     DrawData data = new DrawData(texture,
                         new Vector2((float)(int)(vector.X - Main.screenPosition.X), (float)(int)(vector.Y - Main.screenPosition.Y)),
-                        new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, 0, Main.itemTexture[item.type].Width, Main.itemTexture[item.type].Height)),
+                        new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, 0, Main.itemTexture[item.type].Width, Main.itemTexture[item.type].Height)),
                         Color.White,
                         drawPlayer.itemRotation,
                         new Vector2((float)Main.itemTexture[item.type].Width * 0.5f - (float)Main.itemTexture[item.type].Width * 0.5f * (float)drawPlayer.direction, yOffset) + Vector2.Zero,

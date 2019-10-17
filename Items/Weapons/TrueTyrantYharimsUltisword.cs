@@ -30,7 +30,7 @@ namespace CalamityMod.Items
             item.height = 102;
             item.value = Item.buyPrice(1, 20, 0, 0);
             item.rare = 10;
-            item.shoot = ModContent.ProjectileType<Projectiles.BlazingPhantomBlade>();
+            item.shoot = ModContent.ProjectileType<BlazingPhantomBlade>();
             item.shootSpeed = 12f;
             item.Calamity().postMoonLordRarity = 12;
         }
@@ -40,13 +40,13 @@ namespace CalamityMod.Items
             switch (Main.rand.Next(3))
             {
                 case 0:
-                    type = ModContent.ProjectileType<Projectiles.BlazingPhantomBlade>();
+                    type = ModContent.ProjectileType<BlazingPhantomBlade>();
                     break;
                 case 1:
-                    type = ModContent.ProjectileType<Projectiles.HyperBlade>();
+                    type = ModContent.ProjectileType<HyperBlade>();
                     break;
                 case 2:
-                    type = ModContent.ProjectileType<Projectiles.SunlightBlade>();
+                    type = ModContent.ProjectileType<SunlightBlade>();
                     break;
                 default:
                     break;

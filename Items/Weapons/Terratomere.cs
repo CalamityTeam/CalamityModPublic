@@ -30,11 +30,11 @@ namespace CalamityMod.Items
             item.height = 64;
             item.value = Item.buyPrice(1, 0, 0, 0);
             item.rare = 10;
-            item.shoot = ModContent.ProjectileType<Projectiles.TerratomereProjectile>();
+            item.shoot = ModContent.ProjectileType<TerratomereProjectile>();
             item.shootSpeed = 20f;
         }
 
-        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             int num6 = Main.rand.Next(4, 6);
             for (int index = 0; index < num6; ++index)

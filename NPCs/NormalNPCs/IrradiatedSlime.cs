@@ -30,7 +30,7 @@ namespace CalamityMod.NPCs
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.IrradiatedSlimeBanner>();
+            bannerItem = ModContent.ItemType<IrradiatedSlimeBanner>();
         }
 
         public override void AI()
@@ -85,7 +85,7 @@ namespace CalamityMod.NPCs
         {
             if (Main.rand.NextBool(10))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.LeadCore>());
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<LeadCore>());
             }
         }
     }

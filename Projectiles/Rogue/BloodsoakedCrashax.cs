@@ -91,7 +91,7 @@ namespace CalamityMod.Projectiles
                 grind = 10;
             }
             Player player = Main.player[projectile.owner];
-            target.AddBuff(ModContent.BuffType<Buffs.BrimstoneFlames>(), 300);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
             if (projectile.ai[1] == 1f && projectile.owner == Main.myPlayer && grind >= 1) //stealth strike attack
             {
                 int stealth = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<Blood>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);

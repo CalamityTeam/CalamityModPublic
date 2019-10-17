@@ -29,7 +29,7 @@ namespace CalamityMod.Items
             item.rare = 2;
             item.UseSound = SoundID.Item109;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.ManaBolt>();
+            item.shoot = ModContent.ProjectileType<ManaBolt>();
             item.shootSpeed = 10f;
         }
 

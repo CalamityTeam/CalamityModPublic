@@ -34,7 +34,7 @@ namespace CalamityMod.Items
             item.rare = 10;
             item.UseSound = SoundID.Item60;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.CosmicEnergySpiral>();
+            item.shoot = ModContent.ProjectileType<CosmicEnergySpiral>();
             item.shootSpeed = 10f;
             item.summon = true;
             item.Calamity().postMoonLordRarity = 15;
@@ -45,7 +45,7 @@ namespace CalamityMod.Items
             for (int i = 0; i < Main.maxProjectiles; i++)
             {
                 Projectile p = Main.projectile[i];
-                if (p.active && p.type == ModContent.ProjectileType<Projectiles.CosmicEnergySpiral>() && p.owner == player.whoAmI)
+                if (p.active && p.type == ModContent.ProjectileType<CosmicEnergySpiral>() && p.owner == player.whoAmI)
                 {
                     return false;
                 }
@@ -53,7 +53,7 @@ namespace CalamityMod.Items
             return true;
         }
 
-        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             CalamityPlayer modPlayer = player.Calamity();
             bool hasSummonerSet = modPlayer.tarraSummon || modPlayer.bloodflareSummon || modPlayer.godSlayerSummon || modPlayer.silvaSummon;

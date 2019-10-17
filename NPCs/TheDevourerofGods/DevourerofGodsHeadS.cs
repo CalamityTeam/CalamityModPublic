@@ -64,7 +64,7 @@ namespace CalamityMod.NPCs
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/UniversalCollapse");
             else
                 music = MusicID.LunarBoss;
-            bossBag = ModContent.ItemType<Items.DevourerofGodsBag>();
+            bossBag = ModContent.ItemType<DevourerofGodsBag>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -826,7 +826,7 @@ namespace CalamityMod.NPCs
 
         public override void BossLoot(ref string name, ref int potionType)
         {
-            potionType = ModContent.ItemType<Items.CosmiliteBrick>();
+            potionType = ModContent.ItemType<CosmiliteBrick>();
         }
 
         public override bool SpecialNPCLoot()
@@ -843,31 +843,31 @@ namespace CalamityMod.NPCs
         {
             DropHelper.DropBags(npc);
 
-            DropHelper.DropItem(npc, ModContent.ItemType<Items.SupremeHealingPotion>(), 8, 14);
-            DropHelper.DropItemChance(npc, ModContent.ItemType<Items.DevourerofGodsTrophy>(), 10);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.KnowledgeDevourerofGods>(), true, !CalamityWorld.downedDoG);
+            DropHelper.DropItem(npc, ModContent.ItemType<SupremeHealingPotion>(), 8, 14);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<DevourerofGodsTrophy>(), 10);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeDevourerofGods>(), true, !CalamityWorld.downedDoG);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedDoG, 6, 3, 2);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
             if (!Main.expertMode)
             {
                 // Materials
-                DropHelper.DropItem(npc, ModContent.ItemType<Items.CosmiliteBar>(), 25, 35);
-                DropHelper.DropItem(npc, ModContent.ItemType<Items.CosmiliteBrick>(), 150, 250);
+                DropHelper.DropItem(npc, ModContent.ItemType<CosmiliteBar>(), 25, 35);
+                DropHelper.DropItem(npc, ModContent.ItemType<CosmiliteBrick>(), 150, 250);
 
                 // Weapons
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Items.Excelsus>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.EradicatorMelee>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<EradicatorMelee>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Items.TheObliterator>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.Deathwind>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.Skullmasher>(), DropHelper.RareVariantDropRateInt);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Deathwind>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Skullmasher>(), DropHelper.RareVariantDropRateInt);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Items.Norfleet>(), DropHelper.RareVariantDropRateInt);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.DeathhailStaff>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.StaffoftheMechworm>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.Eradicator>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<DeathhailStaff>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<StaffoftheMechworm>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Eradicator>(), 4);
 
                 // Vanity
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.DevourerofGodsMask>(), 7);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<DevourerofGodsMask>(), 7);
             }
 
             // If DoG has not been killed yet, notify players that the holiday moons are buffed

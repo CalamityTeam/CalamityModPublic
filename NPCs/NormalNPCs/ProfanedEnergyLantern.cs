@@ -209,9 +209,9 @@ namespace CalamityMod.NPCs
                         drawPositionX = Main.npc[CalamityGlobalNPC.energyFlame].Center.X - center.X;
                         drawPositionY = Main.npc[CalamityGlobalNPC.energyFlame].Center.Y - center.Y;
                         drawPositionY -= 10f;
-                        Microsoft.Xna.Framework.Color color = Lighting.GetColor((int)center.X / 16, (int)(center.Y / 16f));
+                        Color color = Lighting.GetColor((int)center.X / 16, (int)(center.Y / 16f));
                         Main.spriteBatch.Draw(mod.GetTexture("NPCs/NormalNPCs/ProfanedEnergySegment"), new Vector2(center.X - Main.screenPosition.X, center.Y - Main.screenPosition.Y),
-                            new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, 0, mod.GetTexture("NPCs/NormalNPCs/ProfanedEnergySegment").Width, mod.GetTexture("NPCs/NormalNPCs/ProfanedEnergySegment").Height)), color, rotation,
+                            new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, 0, mod.GetTexture("NPCs/NormalNPCs/ProfanedEnergySegment").Width, mod.GetTexture("NPCs/NormalNPCs/ProfanedEnergySegment").Height)), color, rotation,
                             new Vector2((float)mod.GetTexture("NPCs/NormalNPCs/ProfanedEnergySegment").Width * 0.5f, (float)mod.GetTexture("NPCs/NormalNPCs/ProfanedEnergySegment").Height * 0.5f), 1f, SpriteEffects.None, 0f);
                     }
                 }

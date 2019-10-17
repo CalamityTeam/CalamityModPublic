@@ -46,7 +46,7 @@ namespace CalamityMod.NPCs
             npc.DeathSound = SoundID.NPCDeath23;
             npc.rarity = 2;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.ColossalSquidBanner>();
+            bannerItem = ModContent.ItemType<ColossalSquidBanner>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -496,7 +496,7 @@ namespace CalamityMod.NPCs
         {
             if (npc.ai[0] == 5f)
             {
-                Microsoft.Xna.Framework.Color color = Lighting.GetColor((int)((double)npc.position.X + (double)npc.width * 0.5) / 16,
+                Color color = Lighting.GetColor((int)((double)npc.position.X + (double)npc.width * 0.5) / 16,
                     (int)(((double)npc.position.Y + (double)npc.height * 0.5) / 16.0));
                 SpriteEffects spriteEffects = SpriteEffects.None;
                 if (npc.spriteDirection == 1)
@@ -558,24 +558,24 @@ namespace CalamityMod.NPCs
             Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.BlackInk, Main.rand.Next(3, 6));
             if (Main.rand.NextBool(10000) && CalamityWorld.revenge)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.HalibutCannon>());
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<HalibutCannon>());
             }
             if (CalamityWorld.downedPolterghast)
             {
                 if (Main.rand.NextBool(3))
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.CalamarisLament>());
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CalamarisLament>());
                 }
             }
             if (NPC.downedPlantBoss || CalamityWorld.downedCalamitas)
             {
                 if (Main.rand.NextBool(2))
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.DepthCells>(), Main.rand.Next(26, 39));
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DepthCells>(), Main.rand.Next(26, 39));
                 }
                 if (Main.expertMode && Main.rand.NextBool(2))
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.DepthCells>(), Main.rand.Next(5, 8));
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DepthCells>(), Main.rand.Next(5, 8));
                 }
             }
         }

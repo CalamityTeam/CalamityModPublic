@@ -28,11 +28,11 @@ namespace CalamityMod.Items
             item.height = 60;
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.rare = 5;
-            item.shoot = ModContent.ProjectileType<Projectiles.StarCrystal>();
+            item.shoot = ModContent.ProjectileType<StarCrystal>();
             item.shootSpeed = 16f;
         }
 
-        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)((double)damage * 0.6), knockBack, player.whoAmI, 0f, 0f);
             return false;

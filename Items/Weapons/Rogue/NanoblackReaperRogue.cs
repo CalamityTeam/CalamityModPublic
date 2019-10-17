@@ -37,7 +37,7 @@ namespace CalamityMod.Items
             item.value = Item.buyPrice(5, 0, 0, 0);
 
             item.Calamity().rogue = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.NanoblackMain>();
+            item.shoot = ModContent.ProjectileType<NanoblackMain>();
             item.shootSpeed = Speed;
         }
 

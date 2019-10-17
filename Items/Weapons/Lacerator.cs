@@ -26,7 +26,7 @@ namespace CalamityMod.Items
             item.value = Item.buyPrice(1, 40, 0, 0);
             item.rare = 10;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.LaceratorProjectile>();
+            item.shoot = ModContent.ProjectileType<LaceratorProjectile>();
             item.Calamity().postMoonLordRarity = 13;
         }
 

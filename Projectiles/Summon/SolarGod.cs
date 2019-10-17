@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles
             bool flag64 = projectile.type == ModContent.ProjectileType<SolarGod>();
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            player.AddBuff(ModContent.BuffType<Buffs.SolarSpiritGod>(), 3600);
+            player.AddBuff(ModContent.BuffType<SolarSpiritGod>(), 3600);
             if (flag64)
             {
                 if (player.dead)

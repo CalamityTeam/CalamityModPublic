@@ -677,7 +677,7 @@ namespace CalamityMod.NPCs
                 int height = 564;
                 int width = 176;
                 Vector2 vector = new Vector2((float)(width / 2), (float)(height / frameCount / 2));
-                Microsoft.Xna.Framework.Rectangle frame = new Rectangle(0, 0, width, height / frameCount);
+                Rectangle frame = new Rectangle(0, 0, width, height / frameCount);
                 frame.Y = 94 * (int)(npc.frameCounter / 12.0); //1 to 6
                 if (frame.Y >= 94 * 6)
                 {
@@ -703,7 +703,7 @@ namespace CalamityMod.NPCs
             {
                 NPCTexture = Main.npcTexture[npc.type];
             }
-            Microsoft.Xna.Framework.Rectangle frame2 = npc.frame;
+            Rectangle frame2 = npc.frame;
             Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / frameCount / 2));
             Main.spriteBatch.Draw(NPCTexture,
                 new Vector2(npc.position.X - Main.screenPosition.X + (float)(npc.width / 2) - (float)Main.npcTexture[npc.type].Width * scale / 2f + vector11.X * scale,
@@ -729,18 +729,18 @@ namespace CalamityMod.NPCs
             if (CalamityWorld.DoGSecondStageCountdown <= 0)
             {
                 // Materials
-                DropHelper.DropItem(npc, ModContent.ItemType<Items.TwistingNether>(), true, 2, 3);
+                DropHelper.DropItem(npc, ModContent.ItemType<TwistingNether>(), true, 2, 3);
 
                 // Weapons
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Items.Cosmilamp>(), 3);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Items.CosmicKunai>(), 3);
 
                 // Vanity
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.SignusTrophy>(), 10);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<SignusTrophy>(), 10);
 
                 // Other
                 bool lastSentinelKilled = CalamityWorld.downedSentinel1 && CalamityWorld.downedSentinel2 && !CalamityWorld.downedSentinel3;
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.KnowledgeSentinels>(), true, lastSentinelKilled);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeSentinels>(), true, lastSentinelKilled);
                 DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedSentinel3, 5, 2, 1);
             }
 

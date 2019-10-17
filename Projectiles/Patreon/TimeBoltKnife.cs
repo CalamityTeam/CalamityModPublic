@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles
                 projectile.localAI[0] += 1f;
                 if (projectile.localAI[0] > 7f)
                 {
-                    int dustType = Utils.SelectRandom<int>(Main.rand, new int[]
+                    int dustType = Utils.SelectRandom(Main.rand, new int[]
                     {
                         226,
                         229
@@ -148,7 +148,7 @@ namespace CalamityMod.Projectiles
 
                 if (Main.rand.NextBool(3))
                 {
-                    int dustType = Utils.SelectRandom<int>(Main.rand, new int[]
+                    int dustType = Utils.SelectRandom(Main.rand, new int[]
                     {
                         226,
                         229
@@ -190,7 +190,7 @@ namespace CalamityMod.Projectiles
 
                 projectile.localAI[0] += 1f;
 
-                int dustType = Utils.SelectRandom<int>(Main.rand, new int[]
+                int dustType = Utils.SelectRandom(Main.rand, new int[]
                 {
                     226,
                     229
@@ -279,7 +279,7 @@ namespace CalamityMod.Projectiles
             for (int i = 0; i < numDust; i++)
             {
                 dustOffset = dustOffset.RotatedBy(angleIncrement);
-                int dustType = Utils.SelectRandom<int>(Main.rand, new int[]
+                int dustType = Utils.SelectRandom(Main.rand, new int[]
     {
                     226,
                     229
@@ -293,7 +293,7 @@ namespace CalamityMod.Projectiles
                 Main.dust[dust].scale = 0.3f;
             }
 
-            int buffType = ModContent.BuffType<Buffs.TimeSlow>();
+            int buffType = ModContent.BuffType<TimeSlow>();
             int damage = projectile.damage / 2;
 
             for (int i = 0; i < 200; i++)

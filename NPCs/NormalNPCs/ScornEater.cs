@@ -36,7 +36,7 @@ namespace CalamityMod.NPCs
             npc.HitSound = SoundID.NPCHit23;
             npc.DeathSound = SoundID.NPCDeath26;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.ScornEaterBanner>();
+            bannerItem = ModContent.ItemType<ScornEaterBanner>();
         }
 
         public override void AI()
@@ -181,7 +181,7 @@ namespace CalamityMod.NPCs
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.UnholyEssence>(), Main.rand.Next(2, 5));
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<UnholyEssence>(), Main.rand.Next(2, 5));
         }
     }
 }

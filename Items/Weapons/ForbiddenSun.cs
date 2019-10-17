@@ -27,7 +27,7 @@ namespace CalamityMod.Items
             item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.ForbiddenSunProjectile>();
+            item.shoot = ModContent.ProjectileType<ForbiddenSunProjectile>();
             item.shootSpeed = 9f;
         }
 

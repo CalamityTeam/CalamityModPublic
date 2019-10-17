@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles
             }
 
             //Delete the projectile if the player doesnt have the buff or is very far away (dunno if this needs to be deleted)
-            if (!player.HasBuff(ModContent.BuffType<Buffs.BloodBound>()) || playerdistance >= 4000f)
+            if (!player.HasBuff(ModContent.BuffType<BloodBound>()) || playerdistance >= 4000f)
             {
                 projectile.Kill();
             }

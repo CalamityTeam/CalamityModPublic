@@ -31,13 +31,13 @@ namespace CalamityMod.Items
             item.UseSound = SoundID.Item1;
             item.useTurn = true;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.DNA>();
+            item.shoot = ModContent.ProjectileType<DNA>();
             item.shootSpeed = 32f;
             item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;
         }
 
-        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             player.statLife -= 5;
             if (player.lifeRegen > 0)

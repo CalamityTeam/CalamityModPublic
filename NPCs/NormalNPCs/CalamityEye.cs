@@ -27,7 +27,7 @@ namespace CalamityMod.NPCs
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.CalamityEyeBanner>();
+            bannerItem = ModContent.ItemType<CalamityEyeBanner>();
         }
 
         public override void HitEffect(int hitDirection, double damage)
@@ -64,7 +64,7 @@ namespace CalamityMod.NPCs
         {
             if (Main.rand.NextBool(2))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.BlightedLens>());
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<BlightedLens>());
             }
             if (Main.rand.NextBool(2))
             {

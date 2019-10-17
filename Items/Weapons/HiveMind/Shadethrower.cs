@@ -28,7 +28,7 @@ namespace CalamityMod.Items
             item.value = Item.buyPrice(0, 4, 0, 0);
             item.rare = 3;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.ShadeFire>();
+            item.shoot = ModContent.ProjectileType<ShadeFire>();
             item.shootSpeed = 5.5f;
             item.useAmmo = 23;
         }

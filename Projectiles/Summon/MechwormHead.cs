@@ -63,7 +63,7 @@ namespace CalamityMod.Projectiles
                 playerMinionSlots = player9.maxMinions;
             }
             CalamityPlayer modPlayer = player9.Calamity();
-            player9.AddBuff(ModContent.BuffType<Buffs.Mechworm>(), 3600);
+            player9.AddBuff(ModContent.BuffType<Mechworm>(), 3600);
             if ((int)Main.time % 120 == 0)
             {
                 projectile.netUpdate = true;

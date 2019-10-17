@@ -34,7 +34,7 @@ namespace CalamityMod.NPCs
             npc.DeathSound = SoundID.NPCDeath1;
             npc.knockBackResist = 0.75f;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.MorayEelBanner>();
+            bannerItem = ModContent.ItemType<MorayEelBanner>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -238,7 +238,7 @@ namespace CalamityMod.NPCs
             Vector2 vector = center - Main.screenPosition;
             vector -= new Vector2((float)mod.GetTexture("NPCs/AbyssNPCs/MorayEelGlow").Width, (float)(mod.GetTexture("NPCs/AbyssNPCs/MorayEelGlow").Height / Main.npcFrameCount[npc.type])) * 1f / 2f;
             vector += vector11 * 1f + new Vector2(0f, 0f + 4f + npc.gfxOffY);
-            Microsoft.Xna.Framework.Color color = new Microsoft.Xna.Framework.Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.Gold);
+            Color color = new Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.Gold);
             Main.spriteBatch.Draw(mod.GetTexture("NPCs/AbyssNPCs/MorayEelGlow"), vector,
                 new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, vector11, 1f, spriteEffects, 0f);
         }

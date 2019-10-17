@@ -32,7 +32,7 @@ namespace CalamityMod.NPCs
             npc.noGravity = true;
             npc.noTileCollide = true;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.PhantomSpiritBanner>();
+            bannerItem = ModContent.ItemType<PhantomSpiritBanner>();
         }
 
         public override void AI()
@@ -91,7 +91,7 @@ namespace CalamityMod.NPCs
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Phantoplasm>());
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Phantoplasm>());
         }
     }
 }

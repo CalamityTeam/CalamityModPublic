@@ -29,7 +29,7 @@ namespace CalamityMod.Items
             item.rare = 10;
             item.UseSound = SoundID.Item40;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.SlashRound>();
+            item.shoot = ModContent.ProjectileType<SlashRound>();
             item.shootSpeed = 30f;
             item.useAmmo = 97;
             item.Calamity().postMoonLordRarity = 16;
@@ -57,7 +57,7 @@ namespace CalamityMod.Items
             {
                 float SpeedX = speedX + (float)Main.rand.Next(-10, 11) * 0.05f;
                 float SpeedY = speedY + (float)Main.rand.Next(-10, 11) * 0.05f;
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<Projectiles.SlashRound>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<SlashRound>(), damage, knockBack, player.whoAmI, 0f, 0f);
             }
             return false;
         }

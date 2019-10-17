@@ -32,7 +32,7 @@ namespace CalamityMod.NPCs
             npc.HitSound = SoundID.NPCHit33;
             npc.DeathSound = SoundID.NPCDeath36;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.CrystalCrawlerBanner>();
+            bannerItem = ModContent.ItemType<CrystalCrawlerBanner>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -267,7 +267,7 @@ namespace CalamityMod.NPCs
             Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.CrystalShard, Main.rand.Next(2, 5));
             if (Main.rand.NextBool(5))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.CrystalBlade>());
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CrystalBlade>());
             }
         }
     }

@@ -35,7 +35,7 @@ namespace CalamityMod.NPCs
             npc.HitSound = SoundID.NPCHit4;
             npc.knockBackResist = 0.05f;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.ClamBanner>();
+            bannerItem = ModContent.ItemType<ClamBanner>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -216,10 +216,10 @@ namespace CalamityMod.NPCs
         }
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Navystone>(), Main.rand.Next(8, 13));
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Navystone>(), Main.rand.Next(8, 13));
             if (Main.rand.NextBool(2) && Main.hardMode)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.MolluskHusk>());
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MolluskHusk>());
             }
         }
     }

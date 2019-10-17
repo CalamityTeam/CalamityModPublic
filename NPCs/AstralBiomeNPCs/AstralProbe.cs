@@ -30,7 +30,7 @@ namespace CalamityMod.NPCs
             npc.noTileCollide = true;
             npc.DeathSound = SoundID.NPCDeath14;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.AstralProbeBanner>();
+            bannerItem = ModContent.ItemType<AstralProbeBanner>();
             if (CalamityWorld.downedAstrageldon)
             {
                 npc.damage = 30;
@@ -291,11 +291,11 @@ namespace CalamityMod.NPCs
         {
             if (Main.rand.NextBool(2))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Stardust>(), Main.rand.Next(1, 3));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Stardust>(), Main.rand.Next(1, 3));
             }
             if (Main.expertMode)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Stardust>());
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Stardust>());
             }
         }
 

@@ -86,7 +86,7 @@ namespace CalamityMod.Projectiles
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.Frostburn, 300);
-            target.AddBuff(ModContent.BuffType<Buffs.GlacialState>(), 120);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
             target.immune[projectile.owner] = 0;
             projectile.ai[0] = 1f;
             projectile.ai[1] = target.whoAmI;

@@ -48,7 +48,7 @@ namespace CalamityMod.NPCs
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/SlimeGod");
             else
                 music = MusicID.Boss1;
-            bossBag = ModContent.ItemType<Items.SlimeGodBag>();
+            bossBag = ModContent.ItemType<SlimeGodBag>();
         }
 
         public override void AI()
@@ -275,12 +275,12 @@ namespace CalamityMod.NPCs
             {
                 spriteEffects = SpriteEffects.FlipHorizontally;
             }
-            Microsoft.Xna.Framework.Color color24 = npc.GetAlpha(drawColor);
-            Microsoft.Xna.Framework.Color color25 = Lighting.GetColor((int)((double)npc.position.X + (double)npc.width * 0.5) / 16, (int)(((double)npc.position.Y + (double)npc.height * 0.5) / 16.0));
+            Color color24 = npc.GetAlpha(drawColor);
+            Color color25 = Lighting.GetColor((int)((double)npc.position.X + (double)npc.width * 0.5) / 16, (int)(((double)npc.position.Y + (double)npc.height * 0.5) / 16.0));
             Texture2D texture2D3 = Main.npcTexture[npc.type];
             int num156 = Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type];
             int y3 = num156 * (int)npc.frameCounter;
-            Microsoft.Xna.Framework.Rectangle rectangle = new Microsoft.Xna.Framework.Rectangle(0, y3, texture2D3.Width, num156);
+            Rectangle rectangle = new Rectangle(0, y3, texture2D3.Width, num156);
             Vector2 origin2 = rectangle.Size() / 2f;
             int num157 = 8;
             int num158 = 2;
@@ -290,7 +290,7 @@ namespace CalamityMod.NPCs
             spriteBatch.Draw(texture2D3, npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, color24, npc.rotation, npc.frame.Size() / 2, npc.scale, spriteEffects, 0);
             while (((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157)) && Lighting.NotRetro)
             {
-                Microsoft.Xna.Framework.Color color26 = npc.GetAlpha(color25);
+                Color color26 = npc.GetAlpha(color25);
                 {
                     goto IL_6899;
                 }
@@ -334,15 +334,15 @@ namespace CalamityMod.NPCs
             CalamityMod mod = ModContent.GetInstance<CalamityMod>();
             DropHelper.DropBags(npc);
 
-            DropHelper.DropItemChance(npc, ModContent.ItemType<Items.SlimeGodTrophy>(), 10);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.KnowledgeSlimeGod>(), true, !CalamityWorld.downedSlimeGod);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<SlimeGodTrophy>(), 10);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeSlimeGod>(), true, !CalamityWorld.downedSlimeGod);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedSlimeGod, 3, 1, 0);
 
             // Purified Jam is once per player, but drops for all players.
             CalamityPlayer mp = Main.player[Player.FindClosest(npc.position, npc.width, npc.height)].Calamity();
             if (!mp.revJamDrop)
             {
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.PurifiedJam>(), true, CalamityWorld.revenge && !CalamityWorld.downedSlimeGod, 6, 8);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<PurifiedJam>(), true, CalamityWorld.revenge && !CalamityWorld.downedSlimeGod, 6, 8);
                 mp.revJamDrop = true;
             }
 
@@ -353,21 +353,21 @@ namespace CalamityMod.NPCs
             if (!Main.expertMode)
             {
                 // Materials
-                DropHelper.DropItemSpray(npc, ModContent.ItemType<Items.PurifiedGel>(), 25, 40);
+                DropHelper.DropItemSpray(npc, ModContent.ItemType<PurifiedGel>(), 25, 40);
 
                 // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.OverloadedBlaster>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.AbyssalTome>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.EldritchTome>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.CorroslimeStaff>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.CrimslimeStaff>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.GelDart>(), 4, 80, 100);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<OverloadedBlaster>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<AbyssalTome>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<EldritchTome>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<CorroslimeStaff>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<CrimslimeStaff>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<GelDart>(), 4, 80, 100);
 
                 // Vanity
-                DropHelper.DropItemFromSetChance(npc, 7, ModContent.ItemType<Items.SlimeGodMask>(), ModContent.ItemType<Items.SlimeGodMask2>());
+                DropHelper.DropItemFromSetChance(npc, 7, ModContent.ItemType<SlimeGodMask>(), ModContent.ItemType<SlimeGodMask2>());
 
                 // Other
-                DropHelper.DropItem(npc, ModContent.ItemType<Items.StaticRefiner>());
+                DropHelper.DropItem(npc, ModContent.ItemType<StaticRefiner>());
             }
 
             // Mark the Slime God as dead

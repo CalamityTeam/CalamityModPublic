@@ -31,7 +31,7 @@ namespace CalamityMod.Items
             item.UseSound = SoundID.Item106;
             item.autoReuse = true;
             item.value = Item.buyPrice(gold: 48); //sell price of 9 gold 60 silver
-            item.shoot = ModContent.ProjectileType<Projectiles.ConsecratedWaterProjectile>();
+            item.shoot = ModContent.ProjectileType<ConsecratedWaterProjectile>();
             item.shootSpeed = 15f;
             item.Calamity().rogue = true;
         }
@@ -39,7 +39,7 @@ namespace CalamityMod.Items
         {
             Vector2 velocity = new Vector2(speedX, speedY);
             float strikeValue = player.Calamity().StealthStrikeAvailable().ToInt(); //0 if false, 1 if true
-            int p = Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<Projectiles.ConsecratedWaterProjectile>(), damage, knockBack, player.whoAmI, ai1: strikeValue);
+            int p = Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<ConsecratedWaterProjectile>(), damage, knockBack, player.whoAmI, ai1: strikeValue);
             if (player.Calamity().StealthStrikeAvailable())
                 Main.projectile[p].Calamity().stealthStrike = true;
             return false;

@@ -28,7 +28,7 @@ namespace CalamityMod.NPCs
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.PiggyBanner>();
+            bannerItem = ModContent.ItemType<PiggyBanner>();
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)

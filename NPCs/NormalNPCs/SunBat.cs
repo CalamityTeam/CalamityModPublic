@@ -27,7 +27,7 @@ namespace CalamityMod.NPCs
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath4;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.SunBatBanner>();
+            bannerItem = ModContent.ItemType<SunBatBanner>();
         }
 
         public override void FindFrame(int frameHeight)
@@ -78,7 +78,7 @@ namespace CalamityMod.NPCs
         {
             if (Main.rand.NextBool(3))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.EssenceofCinder>());
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EssenceofCinder>());
             }
         }
     }

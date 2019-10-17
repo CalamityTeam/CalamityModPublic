@@ -30,7 +30,7 @@ namespace CalamityMod.Items
             item.height = 100;
             item.value = Item.buyPrice(1, 80, 0, 0);
             item.rare = 10;
-            item.shoot = ModContent.ProjectileType<Projectiles.EssenceFireball>();
+            item.shoot = ModContent.ProjectileType<EssenceFireball>();
             item.shootSpeed = 24f;
             item.Calamity().postMoonLordRarity = 14;
         }
@@ -85,7 +85,7 @@ namespace CalamityMod.Items
                 }
                 num80 = (float)Math.Sqrt((double)(num78 * num78 + num79 * num79));
                 num80 = num72 / num80;
-                Projectile.NewProjectile(vector2.X, vector2.Y, 0f, 0f, ModContent.ProjectileType<Projectiles.EssenceFlame2>(), (int)((float)item.damage * player.meleeDamage * 0.25f), num74, i, 0f, (float)Main.rand.Next(3));
+                Projectile.NewProjectile(vector2.X, vector2.Y, 0f, 0f, ModContent.ProjectileType<EssenceFlame2>(), (int)((float)item.damage * player.meleeDamage * 0.25f), num74, i, 0f, (float)Main.rand.Next(3));
             }
         }
 

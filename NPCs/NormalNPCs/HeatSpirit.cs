@@ -26,7 +26,7 @@ namespace CalamityMod.NPCs
             npc.HitSound = SoundID.NPCHit52;
             npc.DeathSound = SoundID.NPCDeath55;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.HeatSpiritBanner>();
+            bannerItem = ModContent.ItemType<HeatSpiritBanner>();
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -93,7 +93,7 @@ namespace CalamityMod.NPCs
         {
             if (Main.rand.NextBool(4))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.EssenceofChaos>());
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EssenceofChaos>());
             }
         }
     }

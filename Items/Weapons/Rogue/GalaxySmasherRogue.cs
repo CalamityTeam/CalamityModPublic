@@ -36,7 +36,7 @@ namespace CalamityMod.Items
             item.value = Item.buyPrice(1, 80, 0, 0);
 
             item.Calamity().rogue = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.GalaxySmasherHammer>();
+            item.shoot = ModContent.ProjectileType<GalaxySmasherHammer>();
             item.shootSpeed = Speed;
         }
 

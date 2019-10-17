@@ -81,7 +81,7 @@ namespace CalamityMod.NPCs
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/PlaguebringerGoliath");
             else
                 music = MusicID.Boss3;
-            bossBag = ModContent.ItemType<Items.PlaguebringerGoliathBag>();
+            bossBag = ModContent.ItemType<PlaguebringerGoliathBag>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -953,11 +953,11 @@ namespace CalamityMod.NPCs
             {
                 spriteEffects = SpriteEffects.FlipHorizontally;
             }
-            Microsoft.Xna.Framework.Color color24 = npc.GetAlpha(drawColor);
-            Microsoft.Xna.Framework.Color color25 = Lighting.GetColor((int)((double)npc.position.X + (double)npc.width * 0.5) / 16, (int)(((double)npc.position.Y + (double)npc.height * 0.5) / 16.0));
+            Color color24 = npc.GetAlpha(drawColor);
+            Color color25 = Lighting.GetColor((int)((double)npc.position.X + (double)npc.width * 0.5) / 16, (int)(((double)npc.position.Y + (double)npc.height * 0.5) / 16.0));
             int num156 = Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type];
             int y3 = num156 * (int)npc.frameCounter;
-            Microsoft.Xna.Framework.Rectangle rectangle = new Microsoft.Xna.Framework.Rectangle(0, y3, texture.Width, num156);
+            Rectangle rectangle = new Rectangle(0, y3, texture.Width, num156);
             Vector2 origin2 = rectangle.Size() / 2f;
             int num157 = 8;
             int num158 = 2;
@@ -966,7 +966,7 @@ namespace CalamityMod.NPCs
             int num161 = num159;
             while (((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157)) && Lighting.NotRetro)
             {
-                Microsoft.Xna.Framework.Color color26 = npc.GetAlpha(color25);
+                Color color26 = npc.GetAlpha(color25);
                 {
                     goto IL_6899;
                 }
@@ -1017,31 +1017,31 @@ namespace CalamityMod.NPCs
         {
             DropHelper.DropBags(npc);
 
-            DropHelper.DropItemChance(npc, ModContent.ItemType<Items.PlaguebringerGoliathTrophy>(), 10);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.KnowledgePlaguebringerGoliath>(), true, !CalamityWorld.downedPlaguebringer);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<PlaguebringerGoliathTrophy>(), 10);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgePlaguebringerGoliath>(), true, !CalamityWorld.downedPlaguebringer);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedPlaguebringer, 4, 2, 1);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
             if (!Main.expertMode)
             {
                 // Materials
-                DropHelper.DropItemSpray(npc, ModContent.ItemType<Items.PlagueCellCluster>(), 10, 14);
+                DropHelper.DropItemSpray(npc, ModContent.ItemType<PlagueCellCluster>(), 10, 14);
 
                 // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.VirulentKatana>(), 4); // Virulence
+                DropHelper.DropItemChance(npc, ModContent.ItemType<VirulentKatana>(), 4); // Virulence
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Items.DiseasedPike>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Items.ThePlaguebringer>(), 4); // Pandemic
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.Malevolence>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.PestilentDefiler>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.TheHive>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.MepheticSprayer>(), 4); // Blight Spewer
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.PlagueStaff>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Malevolence>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<PestilentDefiler>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<TheHive>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<MepheticSprayer>(), 4); // Blight Spewer
+                DropHelper.DropItemChance(npc, ModContent.ItemType<PlagueStaff>(), 4);
 
                 // Equipment
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.BloomStone>(), 10);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<BloomStone>(), 10);
 
                 // Vanity
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.PlaguebringerGoliathMask>(), 7);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<PlaguebringerGoliathMask>(), 7);
             }
 
             // Mark PBG as dead

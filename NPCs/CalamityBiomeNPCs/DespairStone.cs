@@ -38,7 +38,7 @@ namespace CalamityMod.NPCs
                 npc.value = Item.buyPrice(0, 0, 50, 0);
             }
             banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.DespairStoneBanner>();
+            bannerItem = ModContent.ItemType<DespairStoneBanner>();
         }
 
         public override void AI()
@@ -343,11 +343,11 @@ namespace CalamityMod.NPCs
         {
             if (CalamityWorld.downedProvidence && Main.rand.NextBool(2))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Bloodstone>());
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Bloodstone>());
             }
             if (Main.hardMode && Main.rand.NextBool(3))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.EssenceofChaos>());
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EssenceofChaos>());
             }
         }
 

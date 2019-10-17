@@ -31,7 +31,7 @@ namespace CalamityMod.Items
             item.UseSound = SoundID.Item11;
             item.autoReuse = true;
             item.shootSpeed = 24f;
-            item.shoot = ModContent.ProjectileType<Projectiles.ThePackMissile>();
+            item.shoot = ModContent.ProjectileType<ThePackMissile>();
             item.useAmmo = 771;
         }
 
@@ -40,9 +40,9 @@ namespace CalamityMod.Items
             return new Vector2(-40, 0);
         }
 
-        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.ThePackMissile>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<ThePackMissile>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
             return false;
         }
 

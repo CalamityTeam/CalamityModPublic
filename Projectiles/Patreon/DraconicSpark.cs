@@ -86,9 +86,9 @@ namespace CalamityMod.Projectiles
             if (projectile.ai[0] == 0f)
                 target.AddBuff(BuffID.Daybreak, 180);
             else if (projectile.ai[0] == 1f)
-                target.AddBuff(ModContent.BuffType<Buffs.AbyssalFlames>(), 180);
+                target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 180);
             else if (projectile.ai[0] == 2f)
-                target.AddBuff(ModContent.BuffType<Buffs.HolyFlames>(), 180);
+                target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
         }
 
         // Pure dust projectile, but dust used depends on AI variables

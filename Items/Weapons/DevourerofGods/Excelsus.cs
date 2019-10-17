@@ -41,7 +41,7 @@ namespace CalamityMod.Items
             spriteBatch.Draw(mod.GetTexture("Items/Weapons/DevourerofGods/ExcelsusGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
         }
 
-        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             for (int index = 0; index < 3; ++index)
             {
@@ -53,10 +53,10 @@ namespace CalamityMod.Items
                         type = ModContent.ProjectileType<Projectiles.Excelsus>();
                         break;
                     case 1:
-                        type = ModContent.ProjectileType<Projectiles.ExcelsusBlue>();
+                        type = ModContent.ProjectileType<ExcelsusBlue>();
                         break;
                     case 2:
-                        type = ModContent.ProjectileType<Projectiles.ExcelsusPink>();
+                        type = ModContent.ProjectileType<ExcelsusPink>();
                         break;
                 }
                 Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
@@ -66,7 +66,7 @@ namespace CalamityMod.Items
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<Projectiles.LaserFountain>(), 0, 0, Main.myPlayer);
+            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<LaserFountain>(), 0, 0, Main.myPlayer);
         }
     }
 }

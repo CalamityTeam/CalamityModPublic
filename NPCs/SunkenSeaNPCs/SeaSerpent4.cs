@@ -36,7 +36,7 @@ namespace CalamityMod.NPCs
             npc.dontCountMe = true;
             npc.chaseable = false;
             banner = ModContent.NPCType<SeaSerpent1>();
-            bannerItem = ModContent.ItemType<Items.SeaSerpentBanner>();
+            bannerItem = ModContent.ItemType<SeaSerpentBanner>();
         }
 
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)

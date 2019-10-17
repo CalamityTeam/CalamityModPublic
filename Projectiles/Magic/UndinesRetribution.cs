@@ -119,7 +119,7 @@ namespace CalamityMod.Projectiles
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<Buffs.CrushDepth>(), 180);
+            target.AddBuff(ModContent.BuffType<CrushDepth>(), 180);
         }
 
         public override void Kill(int timeLeft)

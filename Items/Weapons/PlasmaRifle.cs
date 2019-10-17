@@ -31,7 +31,7 @@ namespace CalamityMod.Items
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBlast");
             item.autoReuse = true;
             item.shootSpeed = 12f;
-            item.shoot = ModContent.ProjectileType<Projectiles.PlasmaShot>();
+            item.shoot = ModContent.ProjectileType<PlasmaShot>();
             item.Calamity().postMoonLordRarity = 12;
         }
 
@@ -64,15 +64,15 @@ namespace CalamityMod.Items
             return base.CanUseItem(player);
         }
 
-        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             if (player.altFunctionUse == 2)
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.PlasmaBolt>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<PlasmaBolt>(), damage, knockBack, player.whoAmI, 0f, 0f);
             }
             else
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.PlasmaShot>(), (int)(damage * 0.75f), knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<PlasmaShot>(), (int)(damage * 0.75f), knockBack, player.whoAmI, 0f, 0f);
             }
             return false;
         }

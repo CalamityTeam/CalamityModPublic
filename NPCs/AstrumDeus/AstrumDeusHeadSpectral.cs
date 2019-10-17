@@ -76,7 +76,7 @@ namespace CalamityMod.NPCs
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/AstrumDeus");
             else
                 music = MusicID.Boss3;
-            bossBag = ModContent.ItemType<Items.AstrumDeusBag>();
+            bossBag = ModContent.ItemType<AstrumDeusBag>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -408,12 +408,12 @@ namespace CalamityMod.NPCs
             Color lightColor = new Color(250, 150, Main.DiscoB, npc.alpha);
             Color newColor = colorChange ? lightColor : drawColor;
             SpriteEffects spriteEffects = SpriteEffects.None;
-            Microsoft.Xna.Framework.Color color24 = npc.GetAlpha(newColor);
-            Microsoft.Xna.Framework.Color color25 = Lighting.GetColor((int)((double)npc.position.X + (double)npc.width * 0.5) / 16, (int)(((double)npc.position.Y + (double)npc.height * 0.5) / 16.0));
+            Color color24 = npc.GetAlpha(newColor);
+            Color color25 = Lighting.GetColor((int)((double)npc.position.X + (double)npc.width * 0.5) / 16, (int)(((double)npc.position.Y + (double)npc.height * 0.5) / 16.0));
             Texture2D texture2D3 = Main.npcTexture[npc.type];
             int num156 = Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type];
             int y3 = num156 * (int)npc.frameCounter;
-            Microsoft.Xna.Framework.Rectangle rectangle = new Microsoft.Xna.Framework.Rectangle(0, y3, texture2D3.Width, num156);
+            Rectangle rectangle = new Rectangle(0, y3, texture2D3.Width, num156);
             Vector2 origin2 = rectangle.Size() / 2f;
             int num157 = 8;
             int num158 = 2;
@@ -422,7 +422,7 @@ namespace CalamityMod.NPCs
             int num161 = num159;
             while (((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157)) && Lighting.NotRetro)
             {
-                Microsoft.Xna.Framework.Color color26 = npc.GetAlpha(color25);
+                Color color26 = npc.GetAlpha(color25);
                 {
                     goto IL_6899;
                 }
@@ -520,7 +520,7 @@ namespace CalamityMod.NPCs
 
         public override void BossLoot(ref string name, ref int potionType)
         {
-            potionType = ModContent.ItemType<Items.Stardust>();
+            potionType = ModContent.ItemType<Stardust>();
         }
 
         public override bool SpecialNPCLoot()
@@ -538,9 +538,9 @@ namespace CalamityMod.NPCs
             DropHelper.DropBags(npc);
 
             DropHelper.DropItem(npc, ItemID.GreaterHealingPotion, 8, 14);
-            DropHelper.DropItemChance(npc, ModContent.ItemType<Items.AstrumDeusTrophy>(), 10);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.KnowledgeAstrumDeus>(), !CalamityWorld.downedStarGod);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.KnowledgeAstralInfection>(), !CalamityWorld.downedStarGod);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<AstrumDeusTrophy>(), 10);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeAstrumDeus>(), !CalamityWorld.downedStarGod);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeAstralInfection>(), !CalamityWorld.downedStarGod);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedStarGod, 4, 2, 1);
 
             // Drop a large spray of all 4 lunar fragments
@@ -554,17 +554,17 @@ namespace CalamityMod.NPCs
             // All other drops are contained in the bag, so they only drop directly on Normal
             if (!Main.expertMode)
             {
-                DropHelper.DropItemSpray(npc, ModContent.ItemType<Items.Stardust>(), 50, 80, 5);
+                DropHelper.DropItemSpray(npc, ModContent.ItemType<Stardust>(), 50, 80, 5);
 
                 // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.Starfall>(), 5);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Starfall>(), 5);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Items.Quasar>(), DropHelper.RareVariantDropRateInt);
 
                 // Equipment
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.HideofAstrumDeus>(), DropHelper.RareVariantDropRateInt);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<HideofAstrumDeus>(), DropHelper.RareVariantDropRateInt);
 
                 // Vanity
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.AstrumDeusMask>(), 7);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<AstrumDeusMask>(), 7);
             }
 
             // Notify players that Astral Ore can be mined if Deus has never been killed yet

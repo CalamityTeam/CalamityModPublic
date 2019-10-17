@@ -28,11 +28,11 @@ namespace CalamityMod.Items
             item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.GranitePulse>();
+            item.shoot = ModContent.ProjectileType<GranitePulse>();
             item.shootSpeed = 9f;
         }
 
-        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             int i = Main.myPlayer;
             float num72 = item.shootSpeed;
@@ -60,7 +60,7 @@ namespace CalamityMod.Items
             num79 = 0f;
             vector2.X = (float)Main.mouseX + Main.screenPosition.X;
             vector2.Y = (float)Main.mouseY + Main.screenPosition.Y;
-            Projectile.NewProjectile(vector2.X, vector2.Y, num78, num79, ModContent.ProjectileType<Projectiles.GranitePulse>(), num73, num74, i, 0f, 0f);
+            Projectile.NewProjectile(vector2.X, vector2.Y, num78, num79, ModContent.ProjectileType<GranitePulse>(), num73, num74, i, 0f, 0f);
             return false;
         }
     }

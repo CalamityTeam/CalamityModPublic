@@ -28,7 +28,7 @@ namespace CalamityMod.NPCs
             npc.HitSound = SoundID.NPCHit2;
             npc.DeathSound = SoundID.NPCDeath36;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.PhantomDebrisBanner>();
+            bannerItem = ModContent.ItemType<PhantomDebrisBanner>();
         }
 
         public override void FindFrame(int frameHeight)
@@ -118,10 +118,10 @@ namespace CalamityMod.NPCs
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.AncientBoneDust>());
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<AncientBoneDust>());
             if (NPC.downedMoonlord)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Phantoplasm>());
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Phantoplasm>());
             }
         }
     }

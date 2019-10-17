@@ -31,7 +31,7 @@ namespace CalamityMod.NPCs
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.CryoSlimeBanner>();
+            bannerItem = ModContent.ItemType<CryoSlimeBanner>();
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -63,7 +63,7 @@ namespace CalamityMod.NPCs
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.CryonicOre>(), Main.rand.Next(10, 27));
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CryonicOre>(), Main.rand.Next(10, 27));
         }
     }
 }

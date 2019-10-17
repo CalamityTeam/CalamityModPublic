@@ -31,7 +31,7 @@ namespace CalamityMod.Items
             item.rare = 10;
             item.UseSound = SoundID.Item73;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.SoulPiercerBeam>();
+            item.shoot = ModContent.ProjectileType<SoulPiercerBeam>();
             item.shootSpeed = 6f;
             item.Calamity().postMoonLordRarity = 14;
         }

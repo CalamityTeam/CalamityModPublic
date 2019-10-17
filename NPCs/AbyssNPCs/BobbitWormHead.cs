@@ -34,7 +34,7 @@ namespace CalamityMod.NPCs
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.BobbitWormBanner>();
+            bannerItem = ModContent.ItemType<BobbitWormBanner>();
         }
 
         public override void AI()
@@ -214,9 +214,9 @@ namespace CalamityMod.NPCs
                     drawPositionX = Main.npc[CalamityGlobalNPC.bobbitWormBottom].Center.X - center.X;
                     drawPositionY = Main.npc[CalamityGlobalNPC.bobbitWormBottom].Center.Y - center.Y;
                     drawPositionY += 4f;
-                    Microsoft.Xna.Framework.Color color = Lighting.GetColor((int)center.X / 16, (int)(center.Y / 16f));
+                    Color color = Lighting.GetColor((int)center.X / 16, (int)(center.Y / 16f));
                     Main.spriteBatch.Draw(mod.GetTexture("NPCs/AbyssNPCs/BobbitWormSegment"), new Vector2(center.X - Main.screenPosition.X, center.Y - Main.screenPosition.Y),
-                        new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, 0, mod.GetTexture("NPCs/AbyssNPCs/BobbitWormSegment").Width, mod.GetTexture("NPCs/AbyssNPCs/BobbitWormSegment").Height)), color, rotation,
+                        new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, 0, mod.GetTexture("NPCs/AbyssNPCs/BobbitWormSegment").Width, mod.GetTexture("NPCs/AbyssNPCs/BobbitWormSegment").Height)), color, rotation,
                         new Vector2((float)mod.GetTexture("NPCs/AbyssNPCs/BobbitWormSegment").Width * 0.5f, (float)mod.GetTexture("NPCs/AbyssNPCs/BobbitWormSegment").Height * 0.5f), 1f, SpriteEffects.None, 0f);
                 }
             }
@@ -238,17 +238,17 @@ namespace CalamityMod.NPCs
         {
             if (Main.rand.NextBool(1000000) && CalamityWorld.revenge)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.HalibutCannon>());
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<HalibutCannon>());
             }
             if (NPC.downedPlantBoss || CalamityWorld.downedCalamitas)
             {
                 if (Main.rand.NextBool(2))
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.DepthCells>(), Main.rand.Next(5, 8));
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DepthCells>(), Main.rand.Next(5, 8));
                 }
                 if (Main.expertMode && Main.rand.NextBool(2))
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.DepthCells>(), Main.rand.Next(2, 4));
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DepthCells>(), Main.rand.Next(2, 4));
                 }
             }
         }

@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles
             Vector2 value7 = new Vector2(10f, 20f);
             float num31 = 1f;
             int num32 = 3 * projectile.MaxUpdates;
-            int num33 = Utils.SelectRandom<int>(Main.rand, new int[]
+            int num33 = Utils.SelectRandom(Main.rand, new int[]
             {
                 56,
                 92,
@@ -220,7 +220,7 @@ namespace CalamityMod.Projectiles
 
         public override void Kill(int timeLeft)
         {
-            int num47 = Utils.SelectRandom<int>(Main.rand, new int[]
+            int num47 = Utils.SelectRandom(Main.rand, new int[]
             {
                 56,
                 92,
@@ -248,7 +248,7 @@ namespace CalamityMod.Projectiles
             int num3;
             for (int num53 = 0; num53 < 40; num53 = num3 + 1)
             {
-                num47 = Utils.SelectRandom<int>(Main.rand, new int[]
+                num47 = Utils.SelectRandom(Main.rand, new int[]
                 {
                     56,
                     92,

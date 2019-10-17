@@ -30,7 +30,7 @@ namespace CalamityMod.Items
             item.value = Item.buyPrice(2, 50, 0, 0);
             item.rare = 10;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.Vortex>();
+            item.shoot = ModContent.ProjectileType<Vortex>();
             item.shootSpeed = 9f;
             item.Calamity().postMoonLordRarity = 15;
         }
@@ -41,7 +41,7 @@ namespace CalamityMod.Items
             spriteBatch.Draw(mod.GetTexture("Items/Weapons/SubsumingVortexGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
         }
 
-        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             int num6 = 3;
             for (int index = 0; index < num6; ++index)

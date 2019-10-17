@@ -63,8 +63,8 @@ namespace CalamityMod.Items
             for (i = 0; i < 4; i++)
             {
                 offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<Projectiles.HolyColliderHolyFire>(), (int)((double)((float)item.damage * player.meleeDamage) * 0.3), knockback, Main.myPlayer);
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<Projectiles.HolyColliderHolyFire>(), (int)((double)((float)item.damage * player.meleeDamage) * 0.3), knockback, Main.myPlayer);
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<HolyColliderHolyFire>(), (int)((double)((float)item.damage * player.meleeDamage) * 0.3), knockback, Main.myPlayer);
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<HolyColliderHolyFire>(), (int)((double)((float)item.damage * player.meleeDamage) * 0.3), knockback, Main.myPlayer);
             }
         }
     }

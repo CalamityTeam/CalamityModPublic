@@ -39,7 +39,7 @@ namespace CalamityMod.NPCs
             npc.HitSound = mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AngryDogHit");
             npc.DeathSound = SoundID.NPCDeath5;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.AngryDogBanner>();
+            bannerItem = ModContent.ItemType<AngryDogBanner>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -656,7 +656,7 @@ namespace CalamityMod.NPCs
             }
             if (Main.rand.NextBool(100))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Cryophobia>());
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Cryophobia>());
             }
         }
     }

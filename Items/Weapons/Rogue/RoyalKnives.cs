@@ -29,13 +29,13 @@ namespace CalamityMod.Items
             item.height = 20;
             item.value = Item.buyPrice(5, 0, 0, 0);
             item.rare = 10;
-            item.shoot = ModContent.ProjectileType<Projectiles.IllustriousKnife>();
+            item.shoot = ModContent.ProjectileType<IllustriousKnife>();
             item.shootSpeed = 9f;
             item.Calamity().rogue = true;
             item.Calamity().postMoonLordRarity = 16;
         }
 
-        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             float num72 = item.shootSpeed;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
@@ -90,7 +90,7 @@ namespace CalamityMod.Items
                 num149 *= num80;
                 float x4 = vector2.X;
                 float y4 = vector2.Y;
-                Projectile.NewProjectile(x4, y4, num148, num149, ModContent.ProjectileType<Projectiles.IllustriousKnife>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(x4, y4, num148, num149, ModContent.ProjectileType<IllustriousKnife>(), damage, knockBack, player.whoAmI, 0f, 0f);
             }
             return false;
         }

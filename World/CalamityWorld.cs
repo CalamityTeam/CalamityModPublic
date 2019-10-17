@@ -596,7 +596,7 @@ namespace CalamityMod.World
             Main.sandTiles += astralDesertTiles;
             Main.snowTiles += astralSnowTiles;
 
-            astralTiles = astralDesertTiles + astralSnowTiles + tileCounts[ModContent.TileType<Tiles.AstralDirt>()] + tileCounts[ModContent.TileType<Tiles.AstralStone>()] + tileCounts[ModContent.TileType<Tiles.AstralGrass>()] + tileCounts[ModContent.TileType<Tiles.AstralOre>()];
+            astralTiles = astralDesertTiles + astralSnowTiles + tileCounts[ModContent.TileType<Tiles.AstralDirt>()] + tileCounts[ModContent.TileType<Tiles.AstralStone>()] + tileCounts[ModContent.TileType<AstralGrass>()] + tileCounts[ModContent.TileType<Tiles.AstralOre>()];
             #endregion
         }
         #endregion

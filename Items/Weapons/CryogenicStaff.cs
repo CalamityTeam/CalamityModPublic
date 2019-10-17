@@ -30,7 +30,7 @@ Fire rate and range increase the longer it targets an enemy");
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.rare = 5;
             item.UseSound = SoundID.Item78;
-            item.shoot = ModContent.ProjectileType<Projectiles.IceSentry>();
+            item.shoot = ModContent.ProjectileType<IceSentry>();
         }
 
         public override bool AltFunctionUse(Player player)

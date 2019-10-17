@@ -48,11 +48,11 @@ namespace CalamityMod.Projectiles
             SpriteEffects spriteEffects = SpriteEffects.None;
             if (projectile.spriteDirection == -1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
-            Microsoft.Xna.Framework.Color color25 = Lighting.GetColor((int)(projectile.Center.X / 16), (int)(projectile.Center.Y / 16));
+            Color color25 = Lighting.GetColor((int)(projectile.Center.X / 16), (int)(projectile.Center.Y / 16));
             Texture2D texture2D3 = mod.GetTexture("Projectiles/Pets/ChibiiDoggoMonochrome");
             int num156 = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
             int y3 = num156 * projectile.frame;
-            Microsoft.Xna.Framework.Rectangle rectangle = new Microsoft.Xna.Framework.Rectangle(0, y3, texture2D3.Width, num156);
+            Rectangle rectangle = new Rectangle(0, y3, texture2D3.Width, num156);
             Vector2 origin2 = rectangle.Size() / 2f;
             int num157 = 8;
             int num158 = 2;
@@ -62,7 +62,7 @@ namespace CalamityMod.Projectiles
             int num161 = num159;
             while ((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157))
             {
-                Microsoft.Xna.Framework.Color color26 = color25;
+                Color color26 = color25;
                 color26 = projectile.GetAlpha(color26);
                 goto IL_6899;
                 IL_6881:

@@ -29,7 +29,7 @@ namespace CalamityMod.NPCs
             npc.HitSound = SoundID.NPCHit52;
             npc.DeathSound = SoundID.NPCDeath55;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.ProfanedEnergyBanner>();
+            bannerItem = ModContent.ItemType<ProfanedEnergyBanner>();
         }
 
         public override void AI()
@@ -78,7 +78,7 @@ namespace CalamityMod.NPCs
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.UnholyEssence>(), Main.rand.Next(2, 5));
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<UnholyEssence>(), Main.rand.Next(2, 5));
         }
     }
 }

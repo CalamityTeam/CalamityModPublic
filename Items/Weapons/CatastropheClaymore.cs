@@ -28,7 +28,7 @@ namespace CalamityMod.Items
             item.height = 56;
             item.value = Item.buyPrice(0, 48, 0, 0);
             item.rare = 6;
-            item.shoot = ModContent.ProjectileType<Projectiles.CalamityAura>();
+            item.shoot = ModContent.ProjectileType<CalamityAura>();
             item.shootSpeed = 11f;
         }
 
@@ -37,13 +37,13 @@ namespace CalamityMod.Items
             switch (Main.rand.Next(3))
             {
                 case 0:
-                    type = ModContent.ProjectileType<Projectiles.CalamityAura>();
+                    type = ModContent.ProjectileType<CalamityAura>();
                     break;
                 case 1:
-                    type = ModContent.ProjectileType<Projectiles.CalamityAuraType2>();
+                    type = ModContent.ProjectileType<CalamityAuraType2>();
                     break;
                 case 2:
-                    type = ModContent.ProjectileType<Projectiles.CalamityAuraType3>();
+                    type = ModContent.ProjectileType<CalamityAuraType3>();
                     break;
                 default:
                     break;

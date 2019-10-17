@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles
                 player.statLife += 1;
                 player.HealEffect(1);
             }
-            target.AddBuff(ModContent.BuffType<Buffs.BrimstoneFlames>(), 360);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 360);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

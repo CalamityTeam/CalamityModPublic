@@ -498,12 +498,12 @@ namespace CalamityMod.Projectiles
 
             if (projectile.type == ProjectileID.NettleBurstRight || projectile.type == ProjectileID.NettleBurstLeft || projectile.type == ProjectileID.NettleBurstEnd)
             {
-                if (Main.player[projectile.owner].inventory[Main.player[projectile.owner].selectedItem].type == ModContent.ItemType<Items.ThornBlossom>())
+                if (Main.player[projectile.owner].inventory[Main.player[projectile.owner].selectedItem].type == ModContent.ItemType<ThornBlossom>())
                     projectile.penetrate = 1;
             }
             else if (projectile.type == ProjectileID.VilethornBase || projectile.type == ProjectileID.VilethornTip)
             {
-                if (Main.player[projectile.owner].inventory[Main.player[projectile.owner].selectedItem].type == ModContent.ItemType<Items.FeralthornClaymore>())
+                if (Main.player[projectile.owner].inventory[Main.player[projectile.owner].selectedItem].type == ModContent.ItemType<FeralthornClaymore>())
                 {
                     projectile.melee = true;
                     projectile.magic = false;
@@ -1291,12 +1291,12 @@ namespace CalamityMod.Projectiles
                 {
                     if (Main.player[projectile.owner].Calamity().pArtifact)
                     {
-                        target.AddBuff(ModContent.BuffType<Buffs.HolyFlames>(), 300);
+                        target.AddBuff(ModContent.BuffType<HolyFlames>(), 300);
                     }
 
                     if (Main.player[projectile.owner].Calamity().tearMinions)
                     {
-                        target.AddBuff(ModContent.BuffType<Buffs.TemporalSadness>(), 60);
+                        target.AddBuff(ModContent.BuffType<TemporalSadness>(), 60);
                     }
 
                     if (Main.player[projectile.owner].Calamity().shadowMinions)
@@ -1459,8 +1459,8 @@ namespace CalamityMod.Projectiles
                 }
                 float num66 = 0f;
                 Vector2 vector11 = new Vector2((float)(texture.Width / 2), (float)(texture.Height / Main.projFrames[projectile.type] / 2));
-                Microsoft.Xna.Framework.Color color9 = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, 0);
-                Microsoft.Xna.Framework.Color alpha15 = projectile.GetAlpha(color9);
+                Color color9 = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, 0);
+                Color alpha15 = projectile.GetAlpha(color9);
                 float num212 = 0.99f;
                 alpha15.R = (byte)((float)alpha15.R * num212);
                 alpha15.G = (byte)((float)alpha15.G * num212);
@@ -1493,7 +1493,7 @@ namespace CalamityMod.Projectiles
                     position9.Y -= (float)(projectile.height / 2);
                     Main.spriteBatch.Draw(texture,
                         new Vector2(position9.X - Main.screenPosition.X + (float)(projectile.width / 2) - (float)texture.Width * projectile.scale / 2f + vector11.X * projectile.scale, position9.Y - Main.screenPosition.Y + (float)projectile.height - (float)texture.Height * projectile.scale / (float)Main.projFrames[projectile.type] + 4f + vector11.Y * projectile.scale + num66 + projectile.gfxOffY),
-                        new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y, texture.Width, frames)), alpha15, projectile.rotation, vector11, projectile.scale, spriteEffects, 0f);
+                        new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y, texture.Width, frames)), alpha15, projectile.rotation, vector11, projectile.scale, spriteEffects, 0f);
                 }
             }
             return true;
@@ -1507,7 +1507,7 @@ namespace CalamityMod.Projectiles
             int frameHeight = texture.Height / Main.projFrames[projectile.type];
             int frameY = frameHeight * projectile.frame;
 
-            Microsoft.Xna.Framework.Rectangle rectangle = new Microsoft.Xna.Framework.Rectangle(0, frameY, texture.Width, frameHeight);
+            Rectangle rectangle = new Rectangle(0, frameY, texture.Width, frameHeight);
 
             SpriteEffects spriteEffects = SpriteEffects.None;
             if (projectile.spriteDirection == -1)
@@ -1527,12 +1527,12 @@ namespace CalamityMod.Projectiles
                         break;
 
                     case 1:
-                        Microsoft.Xna.Framework.Color color25 = Lighting.GetColor((int)(projectile.Center.X / 16), (int)(projectile.Center.Y / 16));
+                        Color color25 = Lighting.GetColor((int)(projectile.Center.X / 16), (int)(projectile.Center.Y / 16));
                         int num157 = 8;
                         int num161 = 1;
                         while (num161 < num157)
                         {
-                            Microsoft.Xna.Framework.Color color26 = color25;
+                            Color color26 = color25;
                             color26 = projectile.GetAlpha(color26);
                             goto IL_6899;
                             IL_6881:
@@ -1550,7 +1550,7 @@ namespace CalamityMod.Projectiles
                         break;
                 }
             }
-            Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, frameY, texture.Width, frameHeight)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)texture.Width / 2f, (float)frameHeight / 2f), projectile.scale, spriteEffects, 0f);
+            Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, frameY, texture.Width, frameHeight)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)texture.Width / 2f, (float)frameHeight / 2f), projectile.scale, spriteEffects, 0f);
         }
         #endregion
 

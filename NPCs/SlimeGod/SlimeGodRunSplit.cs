@@ -46,7 +46,7 @@ namespace CalamityMod.NPCs
                 music = MusicID.Boss1;
             npc.aiStyle = -1;
             aiType = -1;
-            bossBag = ModContent.ItemType<Items.SlimeGodBag>();
+            bossBag = ModContent.ItemType<SlimeGodBag>();
         }
 
         public override void AI()

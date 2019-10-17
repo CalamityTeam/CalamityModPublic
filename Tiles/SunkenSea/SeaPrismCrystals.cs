@@ -21,7 +21,7 @@ namespace CalamityMod.Tiles
             soundType = 2;
             soundStyle = 27;
             dustType = 67;
-            drop = ModContent.ItemType<Items.PrismShard>();
+            drop = ModContent.ItemType<PrismShard>();
             Main.tileSpelunker[Type] = true;
         }
 

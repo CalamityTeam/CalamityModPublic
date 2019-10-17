@@ -92,7 +92,7 @@ namespace CalamityMod.Projectiles
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.immune[projectile.owner] = 4;
-            target.AddBuff(ModContent.BuffType<Buffs.Plague>(), 300);
+            target.AddBuff(ModContent.BuffType<Plague>(), 300);
         }
     }
 }

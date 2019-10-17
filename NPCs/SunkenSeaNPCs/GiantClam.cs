@@ -48,7 +48,7 @@ namespace CalamityMod.NPCs
             npc.knockBackResist = 0f;
             npc.rarity = 2;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.GiantClamBanner>();
+            bannerItem = ModContent.ItemType<GiantClamBanner>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -389,7 +389,7 @@ namespace CalamityMod.NPCs
             Vector2 vector = center - Main.screenPosition;
             vector -= new Vector2((float)mod.GetTexture("NPCs/SunkenSeaNPCs/GiantClamGlow").Width, (float)(mod.GetTexture("NPCs/SunkenSeaNPCs/GiantClamGlow").Height / Main.npcFrameCount[npc.type])) * 1f / 2f;
             vector += vector11 * 1f + new Vector2(0f, 0f + 4f + npc.gfxOffY);
-            Microsoft.Xna.Framework.Color color = new Microsoft.Xna.Framework.Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.LightBlue);
+            Color color = new Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.LightBlue);
             Main.spriteBatch.Draw(mod.GetTexture("NPCs/SunkenSeaNPCs/GiantClamGlow"), vector,
                 new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, vector11, 1f, spriteEffects, 0f);
         }
@@ -404,20 +404,20 @@ namespace CalamityMod.NPCs
             }
 
             // Materials
-            DropHelper.DropItem(npc, ModContent.ItemType<Items.Navystone>(), 25, 35);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.MolluskHusk>(), Main.hardMode, 6, 11);
+            DropHelper.DropItem(npc, ModContent.ItemType<Navystone>(), 25, 35);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<MolluskHusk>(), Main.hardMode, 6, 11);
 
             // Weapons
             DropHelper.DropItemFromSetCondition(npc, Main.hardMode,
-                ModContent.ItemType<Items.ClamCrusher>(),
-                ModContent.ItemType<Items.ClamorRifle>(),
-                ModContent.ItemType<Items.Poseidon>(),
-                ModContent.ItemType<Items.ShellfishStaff>()
+                ModContent.ItemType<ClamCrusher>(),
+                ModContent.ItemType<ClamorRifle>(),
+                ModContent.ItemType<Poseidon>(),
+                ModContent.ItemType<ShellfishStaff>()
             );
 
             // Equipment
-            DropHelper.DropItemChance(npc, ModContent.ItemType<Items.GiantPearl>(), 3);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.AmidiasPendant>(), CalamityWorld.revenge, 0.5f);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<GiantPearl>(), 3);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<AmidiasPendant>(), CalamityWorld.revenge, 0.5f);
 
             // Mark Giant Clam as dead
             CalamityWorld.downedCLAM = true;

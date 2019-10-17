@@ -29,7 +29,7 @@ namespace CalamityMod.Items
             item.rare = 4;
             item.UseSound = SoundID.Item72;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.NightRay>();
+            item.shoot = ModContent.ProjectileType<NightRay>();
             item.shootSpeed = 6f;
         }
 

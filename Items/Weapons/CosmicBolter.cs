@@ -28,7 +28,7 @@ namespace CalamityMod.Items
             item.rare = 8;
             item.UseSound = SoundID.Item75;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.LunarBolt2>();
+            item.shoot = ModContent.ProjectileType<LunarBolt2>();
             item.shootSpeed = 10f;
             item.useAmmo = 40;
         }
@@ -50,7 +50,7 @@ namespace CalamityMod.Items
                 {
                     value9 -= vector7;
                 }
-                int num121 = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.LunarBolt2>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                int num121 = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, ModContent.ProjectileType<LunarBolt2>(), damage, knockBack, player.whoAmI, 0f, 0f);
                 Main.projectile[num121].noDropItem = true;
             }
             return false;

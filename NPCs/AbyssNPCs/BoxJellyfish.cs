@@ -30,7 +30,7 @@ namespace CalamityMod.NPCs
             npc.HitSound = SoundID.NPCHit25;
             npc.DeathSound = SoundID.NPCDeath28;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.BoxJellyfishBanner>();
+            bannerItem = ModContent.ItemType<BoxJellyfishBanner>();
         }
 
         public override void AI()

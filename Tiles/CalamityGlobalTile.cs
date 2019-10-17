@@ -336,7 +336,7 @@ namespace CalamityMod.Tiles
                         }
                         else if (num9 == 2) //stew
                         {
-                            Item.NewItem(i * 16, j * 16, 16, 16, ModContent.ItemType<Items.SunkenStew>(), 1, false, 0, false, false);
+                            Item.NewItem(i * 16, j * 16, 16, 16, ModContent.ItemType<SunkenStew>(), 1, false, 0, false, false);
                         }
                         else if (num9 == 3) //sticky dynamite
                         {

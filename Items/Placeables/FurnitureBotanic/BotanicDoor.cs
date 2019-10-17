@@ -20,7 +20,7 @@ namespace CalamityMod.Items
             item.useStyle = 1;
             item.value = 0;
             item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles.BotanicDoorClosed>();
+            item.createTile = ModContent.TileType<BotanicDoorClosed>();
         }
 
         public override void AddRecipes()

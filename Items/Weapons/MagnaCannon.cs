@@ -30,7 +30,7 @@ namespace CalamityMod.Items
             item.UseSound = SoundID.Item117;
             item.autoReuse = true;
             item.shootSpeed = 12f;
-            item.shoot = ModContent.ProjectileType<Projectiles.MagnaBlast>();
+            item.shoot = ModContent.ProjectileType<MagnaBlast>();
         }
 
         public override Vector2? HoldoutOffset()
@@ -38,7 +38,7 @@ namespace CalamityMod.Items
             return new Vector2(-10, 0);
         }
 
-        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             for (int index = 0; index < 3; ++index)
             {

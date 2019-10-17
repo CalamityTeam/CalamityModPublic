@@ -42,7 +42,7 @@ namespace CalamityMod.NPCs
             npc.HitSound = SoundID.NPCHit4;
             npc.rarity = 2;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.EarthElementalBanner>();
+            bannerItem = ModContent.ItemType<EarthElementalBanner>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -81,11 +81,11 @@ namespace CalamityMod.NPCs
         {
             if (Main.rand.NextBool(3))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.AridArtifact>());
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<AridArtifact>());
             }
             if (Main.rand.NextBool(4))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.SlagMagnum>());
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<SlagMagnum>());
             }
             if (Main.rand.NextBool(4))
             {

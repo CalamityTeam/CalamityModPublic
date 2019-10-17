@@ -31,7 +31,7 @@ namespace CalamityMod.Items
             item.rare = 9;
             item.UseSound = SoundID.Item103;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.CosmicTentacle>();
+            item.shoot = ModContent.ProjectileType<CosmicTentacle>();
             item.shootSpeed = 17f;
         }
 
@@ -75,11 +75,11 @@ namespace CalamityMod.Items
             }
             if (projChoice == 0)
             {
-                Projectile.NewProjectile(vector2.X, vector2.Y, value2.X, value2.Y, ModContent.ProjectileType<Projectiles.BrimstoneTentacle>(), (int)((double)num73 * 1.5f), num74, i, num92, num91);
+                Projectile.NewProjectile(vector2.X, vector2.Y, value2.X, value2.Y, ModContent.ProjectileType<BrimstoneTentacle>(), (int)((double)num73 * 1.5f), num74, i, num92, num91);
             }
             else
             {
-                Projectile.NewProjectile(vector2.X, vector2.Y, value2.X, value2.Y, ModContent.ProjectileType<Projectiles.CosmicTentacle>(), num73, num74, i, num92, num91);
+                Projectile.NewProjectile(vector2.X, vector2.Y, value2.X, value2.Y, ModContent.ProjectileType<CosmicTentacle>(), num73, num74, i, num92, num91);
             }
             return false;
         }

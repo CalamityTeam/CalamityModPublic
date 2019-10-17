@@ -27,7 +27,7 @@ namespace CalamityMod.Items
             item.height = 38;
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.rare = 7;
-            item.shoot = ModContent.ProjectileType<Projectiles.MangroveChakramProjectileMelee>();
+            item.shoot = ModContent.ProjectileType<MangroveChakramProjectileMelee>();
             item.shootSpeed = 16f;
         }
 

@@ -30,7 +30,7 @@ namespace CalamityMod.Items
             item.rare = 10;
             item.UseSound = SoundID.Item5;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.NebulaShot>();
+            item.shoot = ModContent.ProjectileType<NebulaShot>();
             item.shootSpeed = 20f;
             item.useAmmo = 40;
             item.Calamity().postMoonLordRarity = 13;
@@ -51,7 +51,7 @@ namespace CalamityMod.Items
                 float SpeedY = speedY + (float)Main.rand.Next(-20, 21) * 0.05f;
                 if (type == ProjectileID.WoodenArrowFriendly)
                 {
-                    Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<Projectiles.NebulaShot>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                    Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<NebulaShot>(), damage, knockBack, player.whoAmI, 0f, 0f);
                 }
                 else
                 {

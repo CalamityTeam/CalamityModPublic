@@ -28,14 +28,14 @@ namespace CalamityMod.Items
             item.rare = 8;
             item.UseSound = SoundID.Item5;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.BallistaGreatArrow>();
+            item.shoot = ModContent.ProjectileType<BallistaGreatArrow>();
             item.shootSpeed = 20f;
             item.useAmmo = 40;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.BallistaGreatArrow>(), damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<BallistaGreatArrow>(), damage, knockBack, player.whoAmI, 0f, 0f);
             return false;
         }
 

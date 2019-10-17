@@ -70,7 +70,7 @@ namespace CalamityMod.NPCs
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Cryogen");
             else
                 music = MusicID.FrostMoon;
-            bossBag = ModContent.ItemType<Items.CryogenBag>();
+            bossBag = ModContent.ItemType<CryogenBag>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -965,33 +965,33 @@ namespace CalamityMod.NPCs
         {
             DropHelper.DropBags(npc);
 
-            DropHelper.DropItemChance(npc, ModContent.ItemType<Items.CryogenTrophy>(), 10);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.KnowledgeCryogen>(), true, !CalamityWorld.downedCryogen);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<CryogenTrophy>(), 10);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeCryogen>(), true, !CalamityWorld.downedCryogen);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedCryogen, 4, 2, 1);
 
             if (!Main.expertMode)
             {
                 // Materials
                 DropHelper.DropItem(npc, ItemID.SoulofMight, 20, 40);
-                DropHelper.DropItem(npc, ModContent.ItemType<Items.CryoBar>(), 15, 25);
-                DropHelper.DropItemSpray(npc, ModContent.ItemType<Items.EssenceofEleum>(), 4, 8);
+                DropHelper.DropItem(npc, ModContent.ItemType<CryoBar>(), 15, 25);
+                DropHelper.DropItemSpray(npc, ModContent.ItemType<EssenceofEleum>(), 4, 8);
                 DropHelper.DropItem(npc, ItemID.FrostCore);
 
                 // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.Avalanche>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.GlacialCrusher>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.EffluviumBow>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.BittercoldStaff>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.SnowstormStaff>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Avalanche>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<GlacialCrusher>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<EffluviumBow>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<BittercoldStaff>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<SnowstormStaff>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Items.Icebreaker>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.IceStar>(), 4, 100, 150);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<IceStar>(), 4, 100, 150);
 
                 // Equipment
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.CryoStone>(), 10);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.Regenator>(), DropHelper.RareVariantDropRateInt);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<CryoStone>(), 10);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Regenator>(), DropHelper.RareVariantDropRateInt);
 
                 // Vanity
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.CryogenMask>(), 7);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<CryogenMask>(), 7);
 
                 // Other
                 DropHelper.DropItemChance(npc, ItemID.FrozenKey, 5);

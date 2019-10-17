@@ -30,7 +30,7 @@ namespace CalamityMod.NPCs
             npc.DeathSound = SoundID.NPCDeath27;
             npc.noGravity = false;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.SandTortoiseBanner>();
+            bannerItem = ModContent.ItemType<SandTortoiseBanner>();
         }
 
         public override void HitEffect(int hitDirection, double damage)

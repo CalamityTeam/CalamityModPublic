@@ -28,7 +28,7 @@ namespace CalamityMod.Items
             item.rare = 8;
             item.UseSound = SoundID.Item8;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.TearsofHeavenProjectile>();
+            item.shoot = ModContent.ProjectileType<TearsofHeavenProjectile>();
             item.shootSpeed = 5.5f;
         }
 

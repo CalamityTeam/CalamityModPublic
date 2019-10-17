@@ -31,7 +31,7 @@ namespace CalamityMod.NPCs
             npc.DeathSound = SoundID.NPCDeath18;
             npc.rarity = 2;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.CnidrionBanner>();
+            bannerItem = ModContent.ItemType<CnidrionBanner>();
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -290,13 +290,13 @@ namespace CalamityMod.NPCs
             Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Coral, Main.rand.Next(1, 4));
             Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Starfish, Main.rand.Next(1, 4));
             Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Seashell, Main.rand.Next(1, 4));
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.VictoryShard>(), Main.rand.Next(1, 4));
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<VictoryShard>(), Main.rand.Next(1, 4));
             if (Main.rand.NextBool(4))
             {
                 if (Main.rand.NextBool(25))
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.TheTransformer>());
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<TheTransformer>());
                 else
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.AmidiasSpark>());
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<AmidiasSpark>());
             }
         }
     }

@@ -28,7 +28,7 @@ namespace CalamityMod.Items
             item.rare = 7;
             item.UseSound = SoundID.Item13;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.EvergladeSprayProjectile>();
+            item.shoot = ModContent.ProjectileType<EvergladeSprayProjectile>();
             item.shootSpeed = 10f;
         }
 

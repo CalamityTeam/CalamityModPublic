@@ -333,7 +333,7 @@ namespace CalamityMod.NPCs
                 for (int j = 0; j < 1000; j++)
                 {
                     if (Main.projectile[j].active &&
-                        (Main.projectile[j].type == ModContent.ProjectileType<Projectiles.Lionfish>() || Main.projectile[j].type == ModContent.ProjectileType<SulphuricAcidCannon2>()) &&
+                        (Main.projectile[j].type == ModContent.ProjectileType<Lionfish>() || Main.projectile[j].type == ModContent.ProjectileType<SulphuricAcidCannon2>()) &&
                         Main.projectile[j].ai[0] == 1f && Main.projectile[j].ai[1] == npc.whoAmI)
                     {
                         projectileCount++;
@@ -2957,8 +2957,8 @@ namespace CalamityMod.NPCs
 
                 float num66 = 0f;
                 Vector2 vector11 = new Vector2(Main.npcTexture[npc.type].Width / 2, Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2);
-                Microsoft.Xna.Framework.Color color9 = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, 0);
-                Microsoft.Xna.Framework.Color alpha15 = npc.GetAlpha(color9);
+                Color color9 = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, 0);
+                Color alpha15 = npc.GetAlpha(color9);
                 float num212 = 0.99f;
                 alpha15.R = (byte)(alpha15.R * num212);
                 alpha15.G = (byte)(alpha15.G * num212);
@@ -3051,7 +3051,7 @@ namespace CalamityMod.NPCs
                     spriteBatch.Draw(texture2D3, npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, npc.GetAlpha(drawColor), npc.rotation, npc.frame.Size() / 2, npc.scale, spriteEffects, 0);
 
                     spriteBatch.Draw(Main.BoneEyesTexture, npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY),
-                        npc.frame, new Microsoft.Xna.Framework.Color(200, 200, 200, 0), npc.rotation, npc.frame.Size() / 2, npc.scale, spriteEffects, 0);
+                        npc.frame, new Color(200, 200, 200, 0), npc.rotation, npc.frame.Size() / 2, npc.scale, spriteEffects, 0);
                 }
             }
         }

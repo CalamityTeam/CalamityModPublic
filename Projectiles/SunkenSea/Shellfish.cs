@@ -59,7 +59,7 @@ namespace CalamityMod.Projectiles
             bool flag64 = projectile.type == ModContent.ProjectileType<Shellfish>();
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            player.AddBuff(ModContent.BuffType<Buffs.ShellfishBuff>(), 3600);
+            player.AddBuff(ModContent.BuffType<ShellfishBuff>(), 3600);
             if (flag64)
             {
                 if (player.dead)
@@ -467,8 +467,8 @@ namespace CalamityMod.Projectiles
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.buffImmune[ModContent.BuffType<Buffs.ShellfishEating>()] = target.Calamity().DR >= 0.99f;
-            target.AddBuff(ModContent.BuffType<Buffs.ShellfishEating>(), 600000);
+            target.buffImmune[ModContent.BuffType<ShellfishEating>()] = target.Calamity().DR >= 0.99f;
+            target.AddBuff(ModContent.BuffType<ShellfishEating>(), 600000);
         }
     }
 }

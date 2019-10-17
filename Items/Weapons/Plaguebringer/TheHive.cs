@@ -28,7 +28,7 @@ namespace CalamityMod.Items
             item.rare = 8;
             item.UseSound = SoundID.Item61;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.BeeRPG>();
+            item.shoot = ModContent.ProjectileType<BeeRPG>();
             item.shootSpeed = 13f;
             item.useAmmo = 771;
         }
@@ -38,16 +38,16 @@ namespace CalamityMod.Items
             switch (Main.rand.Next(4))
             {
                 case 0:
-                    type = ModContent.ProjectileType<Projectiles.GoliathRocket>();
+                    type = ModContent.ProjectileType<GoliathRocket>();
                     break;
                 case 1:
-                    type = ModContent.ProjectileType<Projectiles.HiveMissile>();
+                    type = ModContent.ProjectileType<HiveMissile>();
                     break;
                 case 2:
-                    type = ModContent.ProjectileType<Projectiles.HiveBomb>();
+                    type = ModContent.ProjectileType<HiveBomb>();
                     break;
                 case 3:
-                    type = ModContent.ProjectileType<Projectiles.BeeRPG>();
+                    type = ModContent.ProjectileType<BeeRPG>();
                     break;
                 default:
                     break;

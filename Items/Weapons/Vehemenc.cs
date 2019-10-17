@@ -34,13 +34,13 @@ namespace CalamityMod.Items
             item.rare = 10;
             item.UseSound = SoundID.Item73;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.Vehemence>();
+            item.shoot = ModContent.ProjectileType<Vehemence>();
             item.shootSpeed = 16f;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.Vehemence>(), damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Vehemence>(), damage, knockBack, player.whoAmI, 0f, 0f);
             player.AddBuff(BuffID.ManaSickness, 600, true);
             return false;
         }

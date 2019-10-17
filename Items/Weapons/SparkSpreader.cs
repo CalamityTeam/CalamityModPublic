@@ -28,7 +28,7 @@ namespace CalamityMod.Items
             item.value = Item.buyPrice(0, 1, 0, 0);
             item.rare = 1;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.SparkSpreaderFire>();
+            item.shoot = ModContent.ProjectileType<SparkSpreaderFire>();
             item.shootSpeed = 5f;
             item.useAmmo = 23;
         }

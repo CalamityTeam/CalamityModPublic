@@ -35,7 +35,7 @@ namespace CalamityMod.Items
             item.height = 92;
             item.value = Item.buyPrice(5, 0, 0, 0);
             item.rare = 10;
-            item.shoot = ModContent.ProjectileType<Projectiles.ElementalExcaliburBeam>();
+            item.shoot = ModContent.ProjectileType<ElementalExcaliburBeam>();
             item.shootSpeed = 12f;
             item.Calamity().postMoonLordRarity = 20;
         }
@@ -46,7 +46,7 @@ namespace CalamityMod.Items
             spriteBatch.Draw(mod.GetTexture("Items/Weapons/ElementalExcaliburGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
         }
 
-        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, (float)BeamType, 0f);
 

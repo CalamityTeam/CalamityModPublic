@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles
             switch (CalamityMod.CurrentSeason)
             {
                 case Season.Spring:
-                    dustType = Utils.SelectRandom<int>(Main.rand, new int[]
+                    dustType = Utils.SelectRandom(Main.rand, new int[]
                     {
                         74,
                         157,
@@ -66,7 +66,7 @@ namespace CalamityMod.Projectiles
                     });
                     break;
                 case Season.Summer:
-                    dustType = Utils.SelectRandom<int>(Main.rand, new int[]
+                    dustType = Utils.SelectRandom(Main.rand, new int[]
                     {
                         247,
                         228,
@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles
                     });
                     break;
                 case Season.Fall:
-                    dustType = Utils.SelectRandom<int>(Main.rand, new int[]
+                    dustType = Utils.SelectRandom(Main.rand, new int[]
                     {
                         6,
                         259,
@@ -82,7 +82,7 @@ namespace CalamityMod.Projectiles
                     });
                     break;
                 case Season.Winter:
-                    dustType = Utils.SelectRandom<int>(Main.rand, new int[]
+                    dustType = Utils.SelectRandom(Main.rand, new int[]
                     {
                         67,
                         229,
@@ -142,7 +142,7 @@ namespace CalamityMod.Projectiles
             switch (CalamityMod.CurrentSeason)
             {
                 case Season.Spring:
-                    dustType = Utils.SelectRandom<int>(Main.rand, new int[]
+                    dustType = Utils.SelectRandom(Main.rand, new int[]
                     {
                         245,
                         157,
@@ -150,7 +150,7 @@ namespace CalamityMod.Projectiles
                     });
                     break;
                 case Season.Summer:
-                    dustType = Utils.SelectRandom<int>(Main.rand, new int[]
+                    dustType = Utils.SelectRandom(Main.rand, new int[]
                     {
                         247,
                         228,
@@ -158,7 +158,7 @@ namespace CalamityMod.Projectiles
                     });
                     break;
                 case Season.Fall:
-                    dustType = Utils.SelectRandom<int>(Main.rand, new int[]
+                    dustType = Utils.SelectRandom(Main.rand, new int[]
                     {
                         6,
                         259,
@@ -166,7 +166,7 @@ namespace CalamityMod.Projectiles
                     });
                     break;
                 case Season.Winter:
-                    dustType = Utils.SelectRandom<int>(Main.rand, new int[]
+                    dustType = Utils.SelectRandom(Main.rand, new int[]
                     {
                         67,
                         229,
@@ -193,7 +193,7 @@ namespace CalamityMod.Projectiles
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            int buff = Main.dayTime ? BuffID.Daybreak : ModContent.BuffType<Buffs.Nightwither>();
+            int buff = Main.dayTime ? BuffID.Daybreak : ModContent.BuffType<Nightwither>();
             target.AddBuff(buff, 300);
         }
     }

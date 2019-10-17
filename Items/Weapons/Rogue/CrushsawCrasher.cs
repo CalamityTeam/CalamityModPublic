@@ -25,7 +25,7 @@ namespace CalamityMod.Items
             item.height = 22;
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.rare = 7;
-            item.shoot = ModContent.ProjectileType<Projectiles.Crushax>();
+            item.shoot = ModContent.ProjectileType<Crushax>();
             item.shootSpeed = 11f;
             item.Calamity().rogue = true;
         }

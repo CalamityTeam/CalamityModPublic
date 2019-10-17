@@ -28,7 +28,7 @@ namespace CalamityMod.Items
             item.height = 60;
             item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;
-            item.shoot = ModContent.ProjectileType<Projectiles.ChaosFlameSmall>();
+            item.shoot = ModContent.ProjectileType<ChaosFlameSmall>();
             item.shootSpeed = 20f;
         }
 
@@ -42,13 +42,13 @@ namespace CalamityMod.Items
                 switch (index)
                 {
                     case 0:
-                        type = ModContent.ProjectileType<Projectiles.ChaosFlameSmall>();
+                        type = ModContent.ProjectileType<ChaosFlameSmall>();
                         break;
                     case 1:
-                        type = ModContent.ProjectileType<Projectiles.ChaosFlameMedium>();
+                        type = ModContent.ProjectileType<ChaosFlameMedium>();
                         break;
                     case 2:
-                        type = ModContent.ProjectileType<Projectiles.ChaosFlameLarge>();
+                        type = ModContent.ProjectileType<ChaosFlameLarge>();
                         break;
                     default:
                         break;

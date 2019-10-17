@@ -53,7 +53,7 @@ namespace CalamityMod.NPCs
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
             npc.netAlways = true;
-            bossBag = ModContent.ItemType<Items.AquaticScourgeBag>();
+            bossBag = ModContent.ItemType<AquaticScourgeBag>();
             if (Main.expertMode)
             {
                 npc.scale = 1.15f;
@@ -546,7 +546,7 @@ namespace CalamityMod.NPCs
 
         public override void BossLoot(ref string name, ref int potionType)
         {
-            potionType = ModContent.ItemType<Items.SulphurousSand>();
+            potionType = ModContent.ItemType<SulphurousSand>();
         }
 
         public override bool SpecialNPCLoot()
@@ -566,8 +566,8 @@ namespace CalamityMod.NPCs
 
             DropHelper.DropItem(npc, ItemID.GreaterHealingPotion, 8, 14);
             // there is no Aquatic Scourge trophy yet
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.KnowledgeAquaticScourge>(), true, !CalamityWorld.downedAquaticScourge);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.KnowledgeSulphurSea>(), true, !CalamityWorld.downedAquaticScourge);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeAquaticScourge>(), true, !CalamityWorld.downedAquaticScourge);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeSulphurSea>(), true, !CalamityWorld.downedAquaticScourge);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedAquaticScourge, 4, 2, 1);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
@@ -575,19 +575,19 @@ namespace CalamityMod.NPCs
             {
                 // Materials
                 DropHelper.DropItemCondition(npc, ItemID.SoulofSight, Main.hardMode, 20, 40);
-                DropHelper.DropItem(npc, ModContent.ItemType<Items.VictoryShard>(), 11, 20);
+                DropHelper.DropItem(npc, ModContent.ItemType<VictoryShard>(), 11, 20);
                 DropHelper.DropItem(npc, ItemID.Coral, 5, 9);
                 DropHelper.DropItem(npc, ItemID.Seashell, 5, 9);
                 DropHelper.DropItem(npc, ItemID.Starfish, 5, 9);
 
                 // Weapons (Hardmode only)
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.SubmarineShocker>(), Main.hardMode, 4, 1, 1);
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.Barinautical>(), Main.hardMode, 4, 1, 1);
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.Downpour>(), Main.hardMode, 4, 1, 1);
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.DeepseaStaff>(), Main.hardMode, 4, 1, 1);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<SubmarineShocker>(), Main.hardMode, 4, 1, 1);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<Barinautical>(), Main.hardMode, 4, 1, 1);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<Downpour>(), Main.hardMode, 4, 1, 1);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<DeepseaStaff>(), Main.hardMode, 4, 1, 1);
 
                 // Equipment
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.AeroStone>(), 9);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<AeroStone>(), 9);
 
                 // Vanity
                 // there is no Aquatic Scourge mask yet

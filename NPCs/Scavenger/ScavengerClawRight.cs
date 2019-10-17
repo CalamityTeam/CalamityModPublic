@@ -286,9 +286,9 @@ namespace CalamityMod.NPCs
                     drawPositionY = Main.npc[CalamityGlobalNPC.scavenger].Center.Y - center.Y;
                     drawPositionY += 30f;
                     drawPositionX += 70f;
-                    Microsoft.Xna.Framework.Color color = Lighting.GetColor((int)center.X / 16, (int)(center.Y / 16f));
+                    Color color = Lighting.GetColor((int)center.X / 16, (int)(center.Y / 16f));
                     Main.spriteBatch.Draw(mod.GetTexture("NPCs/Scavenger/ScavengerChain"), new Vector2(center.X - Main.screenPosition.X, center.Y - Main.screenPosition.Y),
-                        new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, 0, mod.GetTexture("NPCs/Scavenger/ScavengerChain").Width, mod.GetTexture("NPCs/Scavenger/ScavengerChain").Height)), color, rotation,
+                        new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, 0, mod.GetTexture("NPCs/Scavenger/ScavengerChain").Width, mod.GetTexture("NPCs/Scavenger/ScavengerChain").Height)), color, rotation,
                         new Vector2((float)mod.GetTexture("NPCs/Scavenger/ScavengerChain").Width * 0.5f, (float)mod.GetTexture("NPCs/Scavenger/ScavengerChain").Height * 0.5f), 1f, SpriteEffects.None, 0f);
                 }
             }

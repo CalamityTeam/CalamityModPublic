@@ -32,7 +32,7 @@ namespace CalamityMod.NPCs
             npc.DeathSound = SoundID.NPCDeath55;
             npc.knockBackResist = 0f;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.EutrophicRayBanner>();
+            bannerItem = ModContent.ItemType<EutrophicRayBanner>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -168,7 +168,7 @@ namespace CalamityMod.NPCs
             Vector2 vector = center - Main.screenPosition;
             vector -= new Vector2((float)mod.GetTexture("NPCs/SunkenSeaNPCs/EutrophicRayGlow").Width, (float)(mod.GetTexture("NPCs/SunkenSeaNPCs/EutrophicRayGlow").Height / Main.npcFrameCount[npc.type])) * 1f / 2f;
             vector += vector11 * 1f + new Vector2(0f, 0f + 4f + npc.gfxOffY);
-            Microsoft.Xna.Framework.Color color = new Microsoft.Xna.Framework.Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.LightBlue);
+            Color color = new Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.LightBlue);
             Main.spriteBatch.Draw(mod.GetTexture("NPCs/SunkenSeaNPCs/EutrophicRayGlow"), vector,
                 new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, vector11, 1f, spriteEffects, 0f);
         }
@@ -195,7 +195,7 @@ namespace CalamityMod.NPCs
         {
             if (Main.rand.NextBool(3))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.EutrophicShank>());
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EutrophicShank>());
             }
         }
 

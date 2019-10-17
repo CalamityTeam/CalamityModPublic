@@ -89,7 +89,7 @@ namespace CalamityMod.NPCs
             }
             npc.HitSound = SoundID.NPCHit56;
             npc.DeathSound = SoundID.NPCDeath60;
-            bossBag = ModContent.ItemType<Items.YharonBag>();
+            bossBag = ModContent.ItemType<YharonBag>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -2671,11 +2671,11 @@ namespace CalamityMod.NPCs
                 spriteEffects = SpriteEffects.FlipHorizontally;
             }
             Texture2D texture = Main.npcTexture[npc.type];
-            Microsoft.Xna.Framework.Rectangle frame6 = npc.frame;
-            Microsoft.Xna.Framework.Color color9 = Lighting.GetColor((int)((double)npc.position.X + (double)npc.width * 0.5) / 16, (int)(((double)npc.position.Y + (double)npc.height * 0.5) / 16.0));
+            Rectangle frame6 = npc.frame;
+            Color color9 = Lighting.GetColor((int)((double)npc.position.X + (double)npc.width * 0.5) / 16, (int)(((double)npc.position.Y + (double)npc.height * 0.5) / 16.0));
             int num156 = texture.Height / Main.npcFrameCount[npc.type];
             int y3 = num156 * (int)npc.frameCounter;
-            Microsoft.Xna.Framework.Rectangle rectangle = new Microsoft.Xna.Framework.Rectangle(0, y3, texture.Width, num156);
+            Rectangle rectangle = new Rectangle(0, y3, texture.Width, num156);
             Vector2 origin2 = rectangle.Size() / 2f;
             int num157 = 8;
             int num158 = 2;
@@ -2690,7 +2690,7 @@ namespace CalamityMod.NPCs
                 {
                     color9 = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, 0);
                 }
-                Microsoft.Xna.Framework.Color alpha16 = npc.GetAlpha(color9);
+                Color alpha16 = npc.GetAlpha(color9);
                 while (drawAfterImage2 && ((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157)))
                 {
                     goto IL_6899;
@@ -2712,7 +2712,7 @@ namespace CalamityMod.NPCs
                 Main.spriteBatch.Draw(texture, npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(frame6), npc.GetAlpha(color9), npc.rotation, npc.frame.Size() / 2, npc.scale, spriteEffects2, 0);
                 return false;
             }
-            Microsoft.Xna.Framework.Color alpha15 = npc.GetAlpha(color9);
+            Color alpha15 = npc.GetAlpha(color9);
             bool drawAfterImage = (npc.ai[0] == 1f || npc.ai[0] == 5f || npc.ai[0] == 7f || npc.ai[0] == 8f || npc.ai[0] == 11f || npc.ai[0] == 12f ||
                 npc.ai[0] == 14f || npc.ai[0] == 15f || npc.ai[0] == 18f || npc.ai[0] == 19f || npc.ai[0] == 22f) && Lighting.NotRetro;
             while (drawAfterImage && ((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157)))
@@ -2769,16 +2769,16 @@ namespace CalamityMod.NPCs
             {
                 // Weapons
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Items.DragonRage>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.TheBurningSky>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.DragonsBreath>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.ChickenCannon>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.PhoenixFlameBarrage>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.AngryChickenStaff>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.ProfanedTrident>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<TheBurningSky>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<DragonsBreath>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<ChickenCannon>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<PhoenixFlameBarrage>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<AngryChickenStaff>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<ProfanedTrident>(), 4);
 
                 // Vanity
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.YharonMask>(), 7);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.ForgottenDragonEgg>(), 10);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<YharonMask>(), 7);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<ForgottenDragonEgg>(), 10);
             }
 
             // These drops only occur in Phase 2 (where you actually kill Yharon)
@@ -2787,21 +2787,21 @@ namespace CalamityMod.NPCs
                 // Materials
                 int soulFragMin = Main.expertMode ? 22 : 15;
                 int soulFragMax = Main.expertMode ? 28 : 22;
-                DropHelper.DropItem(npc, ModContent.ItemType<Items.HellcasterFragment>(), true, soulFragMin, soulFragMax);
+                DropHelper.DropItem(npc, ModContent.ItemType<HellcasterFragment>(), true, soulFragMin, soulFragMax);
 
                 // Equipment
-                DropHelper.DropItem(npc, ModContent.ItemType<Items.DrewsWings>());
+                DropHelper.DropItem(npc, ModContent.ItemType<DrewsWings>());
 
                 // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.VoidVortex>(), DropHelper.RareVariantDropRateInt);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<VoidVortex>(), DropHelper.RareVariantDropRateInt);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Items.YharimsCrystal>(), DropHelper.LegendaryDropRateInt);
 
                 // Vanity
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.YharonTrophy>(), 10);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<YharonTrophy>(), 10);
 
                 // Other
-                DropHelper.DropItem(npc, ModContent.ItemType<Items.BossRush>());
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.KnowledgeYharon>(), true, !CalamityWorld.downedYharon);
+                DropHelper.DropItem(npc, ModContent.ItemType<BossRush>());
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeYharon>(), true, !CalamityWorld.downedYharon);
                 DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedYharon, 6, 3, 2);
 
                 // If Yharon has not been killed yet, notify players of Auric Ore
@@ -2825,7 +2825,7 @@ namespace CalamityMod.NPCs
 
         public override void BossLoot(ref string name, ref int potionType)
         {
-            potionType = ModContent.ItemType<Items.OmegaHealingPotion>();
+            potionType = ModContent.ItemType<OmegaHealingPotion>();
         }
         #endregion
 

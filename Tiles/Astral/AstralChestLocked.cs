@@ -28,7 +28,7 @@ namespace CalamityMod.Tiles
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Containers };
             chest = "Astral Chest";
-            chestDrop = ModContent.ItemType<Items.AstralChest>();
+            chestDrop = ModContent.ItemType<AstralChest>();
         }
 
         public override ushort GetMapOption(int i, int j) => (ushort)(Main.tile[i, j].frameX / 36);

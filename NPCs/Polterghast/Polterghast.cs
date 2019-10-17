@@ -69,7 +69,7 @@ namespace CalamityMod.NPCs
                 music = MusicID.Plantera;
             npc.HitSound = SoundID.NPCHit7;
             npc.DeathSound = SoundID.NPCDeath39;
-            bossBag = ModContent.ItemType<Items.PolterghastBag>();
+            bossBag = ModContent.ItemType<PolterghastBag>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -679,23 +679,23 @@ namespace CalamityMod.NPCs
         {
             DropHelper.DropBags(npc);
 
-            DropHelper.DropItemChance(npc, ModContent.ItemType<Items.PolterghastTrophy>(), 10);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.KnowledgePolterghast>(), true, !CalamityWorld.downedPolterghast);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<PolterghastTrophy>(), 10);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgePolterghast>(), true, !CalamityWorld.downedPolterghast);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedPolterghast, 6, 3, 2);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
             if (!Main.expertMode)
             {
                 // Materials
-                DropHelper.DropItem(npc, ModContent.ItemType<Items.RuinousSoul>(), 5, 8);
+                DropHelper.DropItem(npc, ModContent.ItemType<RuinousSoul>(), 5, 8);
 
                 // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.TerrorBlade>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<TerrorBlade>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Items.BansheeHook>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Items.DaemonsFlame>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Items.FatesReveal>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Items.GhastlyVisage>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.EtherealSubjugator>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<EtherealSubjugator>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Items.GhoulishGouger>(), 4);
             }
 

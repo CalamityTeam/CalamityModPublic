@@ -37,7 +37,7 @@ namespace CalamityMod.Items
             item.useAnimation = 45;
             item.useTime = 45;
 
-            item.shoot = ModContent.ProjectileType<Projectiles.Rox1>();
+            item.shoot = ModContent.ProjectileType<Rox1>();
             item.shootSpeed = 10f;
 
             item.value = Item.buyPrice(0, 36, 0, 0);
@@ -76,7 +76,7 @@ namespace CalamityMod.Items
                 Main.PlaySound(2, player.position, 70);
             }
             // Resets the weapon usage if the alt fire collides with the ground
-            if (RoxAlt && player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.RoxSlam>()] <= 0)
+            if (RoxAlt && player.ownedProjectileCounts[ModContent.ProjectileType<RoxSlam>()] <= 0)
             {
                 player.itemAnimation = 0;
                 player.itemTime = 0;
@@ -85,7 +85,7 @@ namespace CalamityMod.Items
                 Didrefresh = false;
             }
             // Controls what happens when the alt fire is active
-            if (RoxAlt && player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.RoxSlam>()] > 0)
+            if (RoxAlt && player.ownedProjectileCounts[ModContent.ProjectileType<RoxSlam>()] > 0)
             {
                 if (player.mount.Active)
                 {
@@ -226,7 +226,7 @@ namespace CalamityMod.Items
                 {
                     positionx = position.X - 8;
                 }
-                Projectile.NewProjectile(positionx, positiony, player.velocity.X, player.velocity.Y, ModContent.ProjectileType<Projectiles.RoxSlam>(), 0, 0, player.whoAmI, cooldown);
+                Projectile.NewProjectile(positionx, positiony, player.velocity.X, player.velocity.Y, ModContent.ProjectileType<RoxSlam>(), 0, 0, player.whoAmI, cooldown);
                 //Resets the cooldown after shooting
                 if (Roxcooldown >= 600)
                 {
@@ -243,7 +243,7 @@ namespace CalamityMod.Items
                     //Else shoot the spread of rock shards
                     int rotation = Main.rand.Next(-10, 11);
                     Vector2 pertubedspeed = new Vector2(speedX / 2, -10f * player.gravDir).RotatedBy(MathHelper.ToRadians(rotation));
-                    Projectile.NewProjectile(position.X, position.Y, pertubedspeed.X, pertubedspeed.Y, ModContent.ProjectileType<Projectiles.Rox1>(), (int)((double)damage * 0.5), 1f, player.whoAmI, Main.rand.Next(3));
+                    Projectile.NewProjectile(position.X, position.Y, pertubedspeed.X, pertubedspeed.Y, ModContent.ProjectileType<Rox1>(), (int)((double)damage * 0.5), 1f, player.whoAmI, Main.rand.Next(3));
                 }
                 RoxCanAlt = 0;
 

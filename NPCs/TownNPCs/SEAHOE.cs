@@ -243,21 +243,21 @@ namespace CalamityMod.NPCs
 
         public override void SetupShop(Chest shop, ref int nextSlot)
         {
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Shellshooter>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Shellshooter>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.SnapClam>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<SnapClam>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.SandDollar>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<SandDollar>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Waywasher>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Waywasher>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.CoralCannon>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<CoralCannon>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.UrchinFlail>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<UrchinFlail>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.AmidiasTrident>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<AmidiasTrident>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.MagicalConch>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<MagicalConch>());
             nextSlot++;
             if (CalamityWorld.downedDesertScourge)
             {

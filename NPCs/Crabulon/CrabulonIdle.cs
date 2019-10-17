@@ -47,7 +47,7 @@ namespace CalamityMod.NPCs
             npc.value = Item.buyPrice(0, 4, 0, 0);
             npc.HitSound = SoundID.NPCHit45;
             npc.DeathSound = SoundID.NPCDeath1;
-            bossBag = ModContent.ItemType<Items.CrabulonBag>();
+            bossBag = ModContent.ItemType<CrabulonBag>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -482,8 +482,8 @@ namespace CalamityMod.NPCs
         {
             DropHelper.DropBags(npc);
 
-            DropHelper.DropItemChance(npc, ModContent.ItemType<Items.CrabulonTrophy>(), 10);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.KnowledgeCrabulon>(), true, !CalamityWorld.downedCrabulon);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<CrabulonTrophy>(), 10);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeCrabulon>(), true, !CalamityWorld.downedCrabulon);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedCrabulon, 2, 0, 0);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
@@ -494,13 +494,13 @@ namespace CalamityMod.NPCs
                 DropHelper.DropItem(npc, ItemID.MushroomGrassSeeds, 3, 6);
 
                 // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.MycelialClaws>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.Fungicide>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.HyphaeRod>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<MycelialClaws>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Fungicide>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<HyphaeRod>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Items.Mycoroot>(), 4);
 
                 // Vanity
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.CrabulonMask>(), 7);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<CrabulonMask>(), 7);
             }
 
             // Mark Crabulon as dead

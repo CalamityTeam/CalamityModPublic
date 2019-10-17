@@ -24,11 +24,11 @@ namespace CalamityMod.World
             }
         }
 
-        private class Cluster : List<SunkenSea.Hub>
+        private class Cluster : List<Hub>
         {
         }
 
-        private class ClusterGroup : List<SunkenSea.Cluster>
+        private class ClusterGroup : List<Cluster>
         {
             public int Width;
 
@@ -179,12 +179,12 @@ namespace CalamityMod.World
                 }
                 foreach (List<Point> current3 in list)
                 {
-                    SunkenSea.Cluster cluster = new SunkenSea.Cluster();
+                    Cluster cluster = new Cluster();
                     if (current3.Count > 0)
                     {
                         foreach (Point current4 in current3)
                         {
-                            cluster.Add(new SunkenSea.Hub((float)current4.X + (WorldGen.genRand.NextFloat() - 0.5f) * 0.5f, (float)current4.Y + (WorldGen.genRand.NextFloat() - 0.5f) * 0.5f));
+                            cluster.Add(new Hub((float)current4.X + (WorldGen.genRand.NextFloat() - 0.5f) * 0.5f, (float)current4.Y + (WorldGen.genRand.NextFloat() - 0.5f) * 0.5f));
                         }
                         base.Add(cluster);
                     }
@@ -192,7 +192,7 @@ namespace CalamityMod.World
             }
         }
 
-        private static void PlaceClusters(SunkenSea.ClusterGroup clusters, Point start, Vector2 scale) //Places tile/wall clusters in Sunken Sea area
+        private static void PlaceClusters(ClusterGroup clusters, Point start, Vector2 scale) //Places tile/wall clusters in Sunken Sea area
         {
             Mod mod = ModLoader.GetMod("CalamityMod");
             int num = (int)(scale.X * (float)clusters.Width);
@@ -212,11 +212,11 @@ namespace CalamityMod.World
                     float num8 = (new Vector2((float)i, (float)j) / value * 2f - Vector2.One).Length();
                     for (int k = 0; k < clusters.Count; k++)
                     {
-                        SunkenSea.Cluster cluster = clusters[k];
+                        Cluster cluster = clusters[k];
                         if (Math.Abs(cluster[0].Position.X - vector.X) <= 10f && Math.Abs(cluster[0].Position.Y - vector.Y) <= 10f)
                         {
                             float num9 = 0f;
-                            foreach (SunkenSea.Hub current in cluster)
+                            foreach (Hub current in cluster)
                             {
                                 num9 += 1f / Vector2.DistanceSquared(current.Position, vector);
                             }
@@ -299,7 +299,7 @@ namespace CalamityMod.World
             }
         }
 
-        private static void AddTileVariance(SunkenSea.ClusterGroup clusters, Point start, Vector2 scale, float size) /*Adds tile variation to the generated tile clusters and generates open areas with sea prism ore;
+        private static void AddTileVariance(ClusterGroup clusters, Point start, Vector2 scale, float size) /*Adds tile variation to the generated tile clusters and generates open areas with sea prism ore;
             Generates sea prism crystals on prism ore and occasionally on navystone*/
         {
             Mod mod = ModLoader.GetMod("CalamityMod");
@@ -496,12 +496,12 @@ namespace CalamityMod.World
                                 if (tile2.slope() == 0 && !tile2.halfBrick())
                                 {
                                     Tile tile3 = Main.tile[num5 + (flag3 ? -1 : 1), num6];
-                                    tile3.type = (ushort)ModContent.TileType<Tiles.SeaPrismCrystals>();
-                                    if (Main.tile[num5 - 1, num6].type == ModContent.TileType<Tiles.SeaPrismCrystals>())
+                                    tile3.type = (ushort)ModContent.TileType<SeaPrismCrystals>();
+                                    if (Main.tile[num5 - 1, num6].type == ModContent.TileType<SeaPrismCrystals>())
                                     {
                                         Main.tile[num5 - 1, num6].frameY = (short)(2 * 18);
                                     }
-                                    else if (Main.tile[num5 + 1, num6].type == ModContent.TileType<Tiles.SeaPrismCrystals>())
+                                    else if (Main.tile[num5 + 1, num6].type == ModContent.TileType<SeaPrismCrystals>())
                                     {
                                         Main.tile[num5 + 1, num6].frameY = (short)(3 * 18);
                                     }
@@ -514,12 +514,12 @@ namespace CalamityMod.World
                                 if (tile2.slope() == 0 && !tile2.halfBrick())
                                 {
                                     Tile tile3 = Main.tile[num5, num6 + (flag ? -1 : 1)];
-                                    tile3.type = (ushort)ModContent.TileType<Tiles.SeaPrismCrystals>();
-                                    if (Main.tile[num5, num6 - 1].type == ModContent.TileType<Tiles.SeaPrismCrystals>())
+                                    tile3.type = (ushort)ModContent.TileType<SeaPrismCrystals>();
+                                    if (Main.tile[num5, num6 - 1].type == ModContent.TileType<SeaPrismCrystals>())
                                     {
                                         Main.tile[num5, num6 - 1].frameY = (short)(0 * 18);
                                     }
-                                    else if (Main.tile[num5, num6 + 1].type == ModContent.TileType<Tiles.SeaPrismCrystals>())
+                                    else if (Main.tile[num5, num6 + 1].type == ModContent.TileType<SeaPrismCrystals>())
                                     {
                                         Main.tile[num5, num6 + 1].frameY = (short)(1 * 18);
                                     }
@@ -535,35 +535,35 @@ namespace CalamityMod.World
                         {
                             if (WorldGen.genRand.Next(5) == 0)
                             {
-                                WorldGenerationMethods.PlaceTit(num5, num6, (ushort)ModContent.TileType<Tiles.SunkenSeaStalactite>());
+                                WorldGenerationMethods.PlaceTit(num5, num6, (ushort)ModContent.TileType<SunkenSeaStalactite>());
                             }
                             if (WorldGen.genRand.Next(8) == 0)
                             {
-                                WorldGen.PlaceTile(num5, num6, (ushort)ModContent.TileType<Tiles.BrainCoral>(), true, false, -1, 0);
+                                WorldGen.PlaceTile(num5, num6, (ushort)ModContent.TileType<BrainCoral>(), true, false, -1, 0);
                             }
                             if (WorldGen.genRand.Next(6) == 0)
                             {
-                                WorldGen.PlaceTile(num5, num6, (ushort)ModContent.TileType<Tiles.SmallBrainCoral>(), true, false, -1, 0);
+                                WorldGen.PlaceTile(num5, num6, (ushort)ModContent.TileType<SmallBrainCoral>(), true, false, -1, 0);
                             }
                             if (WorldGen.genRand.Next(10) == 0)
                             {
-                                WorldGen.PlaceTile(num5, num6, (ushort)ModContent.TileType<Tiles.FanCoral>(), true, false, -1, 0);
+                                WorldGen.PlaceTile(num5, num6, (ushort)ModContent.TileType<FanCoral>(), true, false, -1, 0);
                             }
                             if (WorldGen.genRand.Next(6) == 0)
                             {
-                                WorldGen.PlaceTile(num5, num6, (ushort)ModContent.TileType<Tiles.SeaAnemone>(), true, false, -1, 0);
+                                WorldGen.PlaceTile(num5, num6, (ushort)ModContent.TileType<SeaAnemone>(), true, false, -1, 0);
                             }
                             if (WorldGen.genRand.Next(8) == 0)
                             {
-                                WorldGen.PlaceTile(num5, num6, (ushort)ModContent.TileType<Tiles.TubeCoral>(), true, false, -1, 0);
+                                WorldGen.PlaceTile(num5, num6, (ushort)ModContent.TileType<TubeCoral>(), true, false, -1, 0);
                             }
                             if (WorldGen.genRand.Next(6) == 0)
                             {
-                                WorldGen.PlaceTile(num5, num6, (ushort)ModContent.TileType<Tiles.SmallTubeCoral>(), true, false, -1, 0);
+                                WorldGen.PlaceTile(num5, num6, (ushort)ModContent.TileType<SmallTubeCoral>(), true, false, -1, 0);
                             }
                             if (WorldGen.genRand.Next(4) == 0)
                             {
-                                WorldGen.PlaceTile(num5, num6, (ushort)ModContent.TileType<Tiles.TableCoral>(), true, false, -1, 0);
+                                WorldGen.PlaceTile(num5, num6, (ushort)ModContent.TileType<TableCoral>(), true, false, -1, 0);
                             }
                         }
                     }
@@ -578,7 +578,7 @@ namespace CalamityMod.World
             int sunkenSeaAreaY = (int)((WorldGen.genRand.NextFloat() + 1f) * 60f * scale); //80f
             float radius = (float)WorldGen.genRand.Next(6, 10);
             Vector2 vector = new Vector2(4f, 2f); //4, 2
-            SunkenSea.ClusterGroup clusterGroup = new SunkenSea.ClusterGroup();
+            ClusterGroup clusterGroup = new ClusterGroup();
             clusterGroup.Generate(sunkenSeaAreaX, sunkenSeaAreaY);
             SunkenSea.PlaceClusters(clusterGroup, origin, vector);
             SunkenSea.AddTileVariance(clusterGroup, origin, vector, scale);

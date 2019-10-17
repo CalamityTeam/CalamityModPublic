@@ -27,7 +27,7 @@ namespace CalamityMod.Items
             item.maxStack = 999;
             item.value = 1100;
             item.rare = 4;
-            item.shoot = ModContent.ProjectileType<Projectiles.MythrilKnifeProjectile>();
+            item.shoot = ModContent.ProjectileType<MythrilKnifeProjectile>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;
         }

@@ -28,7 +28,7 @@ namespace CalamityMod.Items
             item.rare = 10;
             item.UseSound = SoundID.Item33;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.GammaLaser>();
+            item.shoot = ModContent.ProjectileType<GammaLaser>();
             item.shootSpeed = 20f;
             item.Calamity().postMoonLordRarity = 12;
         }

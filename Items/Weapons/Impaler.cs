@@ -30,7 +30,7 @@ namespace CalamityMod.Items
             item.rare = 8;
             item.UseSound = SoundID.Item5;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.FlamingStake>();
+            item.shoot = ModContent.ProjectileType<FlamingStake>();
             item.shootSpeed = 10f;
             item.useAmmo = 1836;
         }
@@ -40,17 +40,17 @@ namespace CalamityMod.Items
             return new Vector2(0, -10);
         }
 
-        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             float SpeedX = speedX + (float)Main.rand.Next(-2, 3) * 0.05f;
             float SpeedY = speedY + (float)Main.rand.Next(-2, 3) * 0.05f;
             if (Main.rand.NextBool(3))
             {
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<Projectiles.ExplodingStake>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<ExplodingStake>(), damage, knockBack, player.whoAmI, 0f, 0f);
             }
             else
             {
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<Projectiles.FlamingStake>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<FlamingStake>(), damage, knockBack, player.whoAmI, 0f, 0f);
             }
             return false;
         }

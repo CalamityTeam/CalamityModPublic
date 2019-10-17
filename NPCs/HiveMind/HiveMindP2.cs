@@ -78,7 +78,7 @@ namespace CalamityMod.NPCs
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/HiveMind");
             else
                 music = MusicID.Boss2;
-            bossBag = ModContent.ItemType<Items.HiveMindBag>();
+            bossBag = ModContent.ItemType<HiveMindBag>();
             NPCID.Sets.TrailCacheLength[npc.type] = 8;
             NPCID.Sets.TrailingMode[npc.type] = 1;
             if (Main.expertMode)
@@ -151,13 +151,13 @@ namespace CalamityMod.NPCs
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             SpriteEffects spriteEffects = SpriteEffects.None;
-            Microsoft.Xna.Framework.Color color24 = lightColor;
+            Color color24 = lightColor;
             color24 = npc.GetAlpha(color24);
-            Microsoft.Xna.Framework.Color color25 = Lighting.GetColor((int)((double)npc.position.X + (double)npc.width * 0.5) / 16, (int)(((double)npc.position.Y + (double)npc.height * 0.5) / 16.0));
+            Color color25 = Lighting.GetColor((int)((double)npc.position.X + (double)npc.width * 0.5) / 16, (int)(((double)npc.position.Y + (double)npc.height * 0.5) / 16.0));
             Texture2D texture2D3 = mod.GetTexture("NPCs/HiveMind/HiveMindP2");
             int num156 = Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type];
             int y3 = num156 * (int)npc.frameCounter;
-            Microsoft.Xna.Framework.Rectangle rectangle = new Microsoft.Xna.Framework.Rectangle(0, y3, texture2D3.Width, num156);
+            Rectangle rectangle = new Rectangle(0, y3, texture2D3.Width, num156);
             Vector2 origin2 = rectangle.Size() / 2f;
             int num157 = 8;
             int num158 = 2;
@@ -166,7 +166,7 @@ namespace CalamityMod.NPCs
             int num161 = num159;
             while (state != 0 && Lighting.NotRetro && ((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157)))
             {
-                Microsoft.Xna.Framework.Color color26 = color25;
+                Color color26 = color25;
                 color26 = npc.GetAlpha(color26);
                 {
                     goto IL_6899;
@@ -666,31 +666,31 @@ namespace CalamityMod.NPCs
         {
             DropHelper.DropBags(npc);
 
-            DropHelper.DropItemChance(npc, ModContent.ItemType<Items.HiveMindTrophy>(), 10);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.KnowledgeHiveMind>(), true, !CalamityWorld.downedHiveMind);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<HiveMindTrophy>(), 10);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeHiveMind>(), true, !CalamityWorld.downedHiveMind);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedHiveMind, 2, 0, 0);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
             if (!Main.expertMode)
             {
                 // Materials
-                DropHelper.DropItemSpray(npc, ModContent.ItemType<Items.TrueShadowScale>(), 25, 30);
+                DropHelper.DropItemSpray(npc, ModContent.ItemType<TrueShadowScale>(), 25, 30);
                 DropHelper.DropItemSpray(npc, ItemID.DemoniteBar, 7, 10);
                 DropHelper.DropItemSpray(npc, ItemID.RottenChunk, 9, 15);
                 if (Main.hardMode)
                     DropHelper.DropItemSpray(npc, ItemID.CursedFlame, 10, 20);
 
                 // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.PerfectDark>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.LeechingDagger>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.Shadethrower>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.ShadowdropStaff>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.ShaderainStaff>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.DankStaff>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.RotBall>(), 4, 25, 50);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<PerfectDark>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<LeechingDagger>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Shadethrower>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<ShadowdropStaff>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<ShaderainStaff>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<DankStaff>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<RotBall>(), 4, 25, 50);
 
                 // Vanity
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.HiveMindMask>(), 7);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<HiveMindMask>(), 7);
             }
 
             // If neither The Hive Mind nor The Perforator Hive have been killed yet, notify players of Aerialite Ore

@@ -30,7 +30,7 @@ namespace CalamityMod.Items
             item.rare = 10;
             item.UseSound = SoundID.Item75;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.TerraBallBow>();
+            item.shoot = ModContent.ProjectileType<TerraBallBow>();
             item.shootSpeed = 12f;
             item.useAmmo = 40;
             item.Calamity().postMoonLordRarity = 12;
@@ -86,7 +86,7 @@ namespace CalamityMod.Items
                 {
                     float speedX4 = num78 + (float)Main.rand.Next(-120, 121) * 0.02f;
                     float speedY5 = num79 + (float)Main.rand.Next(-120, 121) * 0.02f;
-                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<Projectiles.TerraBallBow>(), damage, knockBack, player.whoAmI, 0f, (float)i);
+                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<TerraBallBow>(), damage, knockBack, player.whoAmI, 0f, (float)i);
                 }
             }
             else

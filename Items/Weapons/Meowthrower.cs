@@ -29,7 +29,7 @@ namespace CalamityMod.Items
             item.value = Item.buyPrice(0, 12, 0, 0);
             item.rare = 4;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.MeowFire>();
+            item.shoot = ModContent.ProjectileType<MeowFire>();
             item.shootSpeed = 5.5f;
             item.useAmmo = 23;
         }
@@ -51,10 +51,10 @@ namespace CalamityMod.Items
                 switch (Main.rand.Next(3))
                 {
                     case 1:
-                        type = ModContent.ProjectileType<Projectiles.MeowFire>();
+                        type = ModContent.ProjectileType<MeowFire>();
                         break;
                     case 2:
-                        type = ModContent.ProjectileType<Projectiles.MeowFire2>();
+                        type = ModContent.ProjectileType<MeowFire2>();
                         break;
                     default:
                         break;

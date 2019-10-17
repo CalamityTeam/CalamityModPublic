@@ -85,7 +85,7 @@ namespace CalamityMod.NPCs
         {
             if (CalamityWorld.revenge && Main.rand.NextBool(4))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, Main.rand.NextBool(2) ? ModContent.ItemType<Items.SirensHeart>() : ModContent.ItemType<Items.SirensHeartAlt>());
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, Main.rand.NextBool(2) ? ModContent.ItemType<SirensHeart>() : ModContent.ItemType<SirensHeartAlt>());
             }
         }
 

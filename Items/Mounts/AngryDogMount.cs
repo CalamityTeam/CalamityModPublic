@@ -73,7 +73,7 @@ namespace CalamityMod.Items
             }
             else
             {
-                mountedPlayer.basiliskCharge = Utils.Clamp<float>(mountedPlayer.basiliskCharge + 0.00555555569f, 0f, 1f);
+                mountedPlayer.basiliskCharge = Utils.Clamp(mountedPlayer.basiliskCharge + 0.00555555569f, 0f, 1f);
             }
             if ((double)mountedPlayer.position.Y > Main.worldSurface * 16.0 + 160.0)
             {

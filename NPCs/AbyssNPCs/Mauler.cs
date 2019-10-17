@@ -42,7 +42,7 @@ namespace CalamityMod.NPCs
             npc.knockBackResist = 0f;
             npc.rarity = 2;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.MaulerBanner>();
+            bannerItem = ModContent.ItemType<MaulerBanner>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)

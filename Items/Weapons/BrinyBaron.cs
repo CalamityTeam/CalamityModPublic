@@ -49,7 +49,7 @@ namespace CalamityMod.Items
                 item.useTime = 15;
                 item.useAnimation = 15;
                 item.UseSound = SoundID.Item84;
-                item.shoot = ModContent.ProjectileType<Projectiles.Razorwind>();
+                item.shoot = ModContent.ProjectileType<Razorwind>();
             }
             else
             {
@@ -65,7 +65,7 @@ namespace CalamityMod.Items
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.Razorwind>(), damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Razorwind>(), damage, knockBack, player.whoAmI, 0f, 0f);
             return false;
         }
 
@@ -79,7 +79,7 @@ namespace CalamityMod.Items
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<Projectiles.BrinyTyphoonBubble>(), (int)((float)item.damage * 0.5f * player.meleeDamage), knockback, player.whoAmI);
+            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<BrinyTyphoonBubble>(), (int)((float)item.damage * 0.5f * player.meleeDamage), knockback, player.whoAmI);
         }
     }
 }

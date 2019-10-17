@@ -26,7 +26,7 @@ namespace CalamityMod.NPCs
             npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = SoundID.NPCDeath14;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.WulfrumDroneBanner>();
+            bannerItem = ModContent.ItemType<WulfrumDroneBanner>();
         }
 
         public override void AI()
@@ -68,10 +68,10 @@ namespace CalamityMod.NPCs
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.WulfrumShard>(), Main.rand.Next(1, 4));
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<WulfrumShard>(), Main.rand.Next(1, 4));
             if (Main.expertMode && Main.rand.NextBool(2))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.WulfrumShard>());
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<WulfrumShard>());
             }
         }
     }

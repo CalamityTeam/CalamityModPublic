@@ -27,7 +27,7 @@ namespace CalamityMod.Items
             item.maxStack = 999;
             item.value = 2500;
             item.rare = 5;
-            item.shoot = ModContent.ProjectileType<Projectiles.CrystalPiercerProjectile>();
+            item.shoot = ModContent.ProjectileType<CrystalPiercerProjectile>();
             item.shootSpeed = 20f;
             item.Calamity().rogue = true;
         }

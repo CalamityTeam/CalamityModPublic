@@ -24,7 +24,7 @@ namespace CalamityMod.Items
             item.useStyle = 2;
             item.UseSound = SoundID.Item2;
             item.consumable = true;
-            item.buffType = ModContent.BuffType<Buffs.Trippy>();
+            item.buffType = ModContent.BuffType<Trippy>();
             item.buffTime = 216000;
             item.value = Item.buyPrice(1, 0, 0, 0);
         }

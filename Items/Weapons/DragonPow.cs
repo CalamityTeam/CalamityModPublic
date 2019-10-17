@@ -41,7 +41,7 @@ namespace CalamityMod.Items
             item.Calamity().postMoonLordRarity = 21;
             item.value = Item.buyPrice(2, 50, 0, 0);
 
-            item.shoot = ModContent.ProjectileType<Projectiles.DragonPowFlail>();
+            item.shoot = ModContent.ProjectileType<DragonPowFlail>();
             item.shootSpeed = Speed;
         }
 

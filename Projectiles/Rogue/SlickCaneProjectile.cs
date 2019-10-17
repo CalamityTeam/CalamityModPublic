@@ -79,16 +79,16 @@ namespace CalamityMod.Projectiles
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Microsoft.Xna.Framework.Color color25 = Lighting.GetColor((int)((double)projectile.position.X + (double)projectile.width * 0.5) / 16, (int)(((double)projectile.position.Y + (double)projectile.height * 0.5) / 16.0));
+            Color color25 = Lighting.GetColor((int)((double)projectile.position.X + (double)projectile.width * 0.5) / 16, (int)(((double)projectile.position.Y + (double)projectile.height * 0.5) / 16.0));
             Vector2 vector53 = projectile.position + new Vector2((float)projectile.width, (float)projectile.height) / 2f + Vector2.UnitY * projectile.gfxOffY - Main.screenPosition;
             Texture2D texture2D31 = (projectile.spriteDirection == -1) ? mod.GetTexture("Projectiles/Rogue/SlickCaneProjectileAlt") : Main.projectileTexture[projectile.type];
-            Microsoft.Xna.Framework.Color alpha4 = projectile.GetAlpha(color25);
+            Color alpha4 = projectile.GetAlpha(color25);
             Vector2 origin8 = new Vector2((float)texture2D31.Width, (float)texture2D31.Height) / 2f;
             origin8 = new Vector2((projectile.spriteDirection == 1) ? ((float)texture2D31.Width - -8f) : -8f, -8f); //-8 -8
             SpriteBatch arg_E055_0 = Main.spriteBatch;
             Vector2 arg_E055_2 = vector53;
-            Microsoft.Xna.Framework.Rectangle? sourceRectangle2 = null;
-            arg_E055_0.Draw(texture2D31, arg_E055_2, sourceRectangle2, new Microsoft.Xna.Framework.Color(255, 255, 255, 127), projectile.rotation, origin8, projectile.scale, SpriteEffects.None, 0f);
+            Rectangle? sourceRectangle2 = null;
+            arg_E055_0.Draw(texture2D31, arg_E055_2, sourceRectangle2, new Color(255, 255, 255, 127), projectile.rotation, origin8, projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
 

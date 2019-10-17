@@ -36,7 +36,7 @@ namespace CalamityMod.Items
             item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;
             item.shootSpeed = 20f;
-            item.shoot = ModContent.ProjectileType<Projectiles.AsteroidMolten>();
+            item.shoot = ModContent.ProjectileType<AsteroidMolten>();
             item.Calamity().postMoonLordRarity = 17;
         }
 
@@ -62,7 +62,7 @@ namespace CalamityMod.Items
             return base.CanUseItem(player);
         }
 
-        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             if (player.altFunctionUse == 2)
             {

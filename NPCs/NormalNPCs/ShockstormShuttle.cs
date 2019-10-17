@@ -31,7 +31,7 @@ namespace CalamityMod.NPCs
             npc.noGravity = true;
             npc.noTileCollide = true;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.ShockstormShuttleBanner>();
+            bannerItem = ModContent.ItemType<ShockstormShuttleBanner>();
         }
 
         public override void AI()
@@ -572,7 +572,7 @@ namespace CalamityMod.NPCs
             Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.MartianConduitPlating, Main.rand.Next(10, 30));
             if (Main.rand.NextBool(3))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.EssenceofCinder>());
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EssenceofCinder>());
             }
         }
     }

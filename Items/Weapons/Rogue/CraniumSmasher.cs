@@ -38,7 +38,7 @@ namespace CalamityMod.Items
             if (Main.rand.Next(0, 5) == 0)
             {
                 damage = (int)(damage * 1.25f);
-                type = ModContent.ProjectileType<Projectiles.CraniumSmasherExplosive>();
+                type = ModContent.ProjectileType<CraniumSmasherExplosive>();
             }
             else
             {

@@ -40,7 +40,7 @@ namespace CalamityMod.NPCs
             npc.netAlways = true;
             npc.dontCountMe = true;
             banner = ModContent.NPCType<AquaticSeekerHead>();
-            bannerItem = ModContent.ItemType<Items.AquaticSeekerBanner>();
+            bannerItem = ModContent.ItemType<AquaticSeekerBanner>();
         }
 
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)

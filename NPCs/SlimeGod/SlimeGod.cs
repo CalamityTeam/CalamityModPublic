@@ -43,7 +43,7 @@ namespace CalamityMod.NPCs
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/SlimeGod");
             else
                 music = MusicID.Boss1;
-            bossBag = ModContent.ItemType<Items.SlimeGodBag>();
+            bossBag = ModContent.ItemType<SlimeGodBag>();
         }
 
         public override void AI()

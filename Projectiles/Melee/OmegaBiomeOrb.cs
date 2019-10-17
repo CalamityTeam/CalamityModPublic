@@ -177,15 +177,15 @@ namespace CalamityMod.Projectiles
             }
             if (jungle)
             {
-                target.AddBuff(ModContent.BuffType<Buffs.Plague>(), 600);
+                target.AddBuff(ModContent.BuffType<Plague>(), 600);
             }
             else if (snow)
             {
-                target.AddBuff(ModContent.BuffType<Buffs.GlacialState>(), 600);
+                target.AddBuff(ModContent.BuffType<GlacialState>(), 600);
             }
             else if (beach)
             {
-                target.AddBuff(ModContent.BuffType<Buffs.CrushDepth>(), 600);
+                target.AddBuff(ModContent.BuffType<CrushDepth>(), 600);
             }
             else if (dungeon)
             {
@@ -193,23 +193,23 @@ namespace CalamityMod.Projectiles
             }
             else if (desert)
             {
-                target.AddBuff(ModContent.BuffType<Buffs.HolyFlames>(), 600);
+                target.AddBuff(ModContent.BuffType<HolyFlames>(), 600);
             }
             else if (glow)
             {
-                target.AddBuff(ModContent.BuffType<Buffs.TemporalSadness>(), 600);
+                target.AddBuff(ModContent.BuffType<TemporalSadness>(), 600);
             }
             else if (hell)
             {
-                target.AddBuff(ModContent.BuffType<Buffs.BrimstoneFlames>(), 600);
+                target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 600);
             }
             else if (holy)
             {
-                target.AddBuff(ModContent.BuffType<Buffs.HolyFlames>(), 600);
+                target.AddBuff(ModContent.BuffType<HolyFlames>(), 600);
             }
             else
             {
-                target.AddBuff(ModContent.BuffType<Buffs.ArmorCrunch>(), 600);
+                target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 600);
             }
         }
     }

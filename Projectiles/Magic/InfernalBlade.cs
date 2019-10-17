@@ -85,21 +85,21 @@ namespace CalamityMod.Projectiles
             {
                 spriteEffects = SpriteEffects.FlipHorizontally;
             }
-            Microsoft.Xna.Framework.Color color25 = Lighting.GetColor((int)((double)projectile.position.X + (double)projectile.width * 0.5) / 16, (int)(((double)projectile.position.Y + (double)projectile.height * 0.5) / 16.0));
+            Color color25 = Lighting.GetColor((int)((double)projectile.position.X + (double)projectile.width * 0.5) / 16, (int)(((double)projectile.position.Y + (double)projectile.height * 0.5) / 16.0));
             Texture2D texture2D3 = Main.projectileTexture[projectile.type];
             int num155 = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
             int y3 = num155 * projectile.frame;
-            Microsoft.Xna.Framework.Rectangle rectangle = new Microsoft.Xna.Framework.Rectangle(0, y3, texture2D3.Width, num155);
+            Rectangle rectangle = new Rectangle(0, y3, texture2D3.Width, num155);
             Vector2 origin2 = rectangle.Size() / 2f;
             float num158 = 0f;
             int num156 = 3;
             int num157 = 1;
             float value4 = 8f;
-            rectangle = new Microsoft.Xna.Framework.Rectangle(38 * projectile.frame, 0, 38, 38);
+            rectangle = new Rectangle(38 * projectile.frame, 0, 38, 38);
             origin2 = rectangle.Size() / 2f;
             for (int num159 = 1; num159 < num156; num159 += num157)
             {
-                Microsoft.Xna.Framework.Color color26 = color25;
+                Color color26 = color25;
                 color26 = projectile.GetAlpha(color26);
                 color26 *= (float)(num156 - num159) / ((float)ProjectileID.Sets.TrailCacheLength[projectile.type] * 1.5f);
                 Vector2 value5 = projectile.oldPos[num159];
@@ -112,7 +112,7 @@ namespace CalamityMod.Projectiles
                 }
                 Main.spriteBatch.Draw(texture2D3, value5 + projectile.Size / 2f - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(rectangle), color26, num160 + projectile.rotation * num158 * (float)(num159 - 1) * (float)-(float)spriteEffects.HasFlag(SpriteEffects.FlipHorizontally).ToDirectionInt(), origin2, MathHelper.Lerp(projectile.scale, value4, (float)num159 / 15f), effects, 0f);
             }
-            Microsoft.Xna.Framework.Color color28 = projectile.GetAlpha(color25);
+            Color color28 = projectile.GetAlpha(color25);
             Main.spriteBatch.Draw(texture2D3, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(rectangle), color28, projectile.rotation, origin2, projectile.scale, spriteEffects, 0f);
             return false;
         }
@@ -149,7 +149,7 @@ namespace CalamityMod.Projectiles
             {
                 Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, ModContent.ProjectileType<InfernalBlade2>(), (int)((double)projectile.damage * 0.75), 1f, projectile.owner);
             }
-            target.AddBuff(ModContent.BuffType<Buffs.BrimstoneFlames>(), 240);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 240);
         }
     }
 }

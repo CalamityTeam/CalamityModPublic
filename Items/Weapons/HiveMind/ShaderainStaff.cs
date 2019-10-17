@@ -29,7 +29,7 @@ namespace CalamityMod.Items
             item.value = Item.buyPrice(0, 4, 0, 0);
             item.rare = 3;
             item.UseSound = SoundID.Item66;
-            item.shoot = ModContent.ProjectileType<Projectiles.ShadeNimbus>();
+            item.shoot = ModContent.ProjectileType<ShadeNimbus>();
             item.shootSpeed = 16f;
         }
 
@@ -56,7 +56,7 @@ namespace CalamityMod.Items
             }
             num78 *= num80;
             num79 *= num80;
-            int num154 = Projectile.NewProjectile(vector2.X, vector2.Y, num78, num79, ModContent.ProjectileType<Projectiles.ShadeNimbusCloud>(), damage, knockBack, player.whoAmI, 0f, 0f);
+            int num154 = Projectile.NewProjectile(vector2.X, vector2.Y, num78, num79, ModContent.ProjectileType<ShadeNimbusCloud>(), damage, knockBack, player.whoAmI, 0f, 0f);
             Main.projectile[num154].ai[0] = (float)Main.mouseX + Main.screenPosition.X;
             Main.projectile[num154].ai[1] = (float)Main.mouseY + Main.screenPosition.Y;
             return false;

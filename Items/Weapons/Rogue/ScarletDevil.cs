@@ -31,7 +31,7 @@ namespace CalamityMod.Items
             item.autoReuse = true;
             item.value = Item.buyPrice(5, 0, 0, 0);
             item.rare = 8;
-            item.shoot = ModContent.ProjectileType<Projectiles.ScarletDevilProjectile>();
+            item.shoot = ModContent.ProjectileType<ScarletDevilProjectile>();
             item.shootSpeed = 30f;
             item.Calamity().rogue = true;
             item.Calamity().postMoonLordRarity = 16;

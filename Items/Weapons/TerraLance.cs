@@ -29,7 +29,7 @@ namespace CalamityMod.Items
             item.height = 44;
             item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;
-            item.shoot = ModContent.ProjectileType<Projectiles.TerraLanceProjectile>();
+            item.shoot = ModContent.ProjectileType<TerraLanceProjectile>();
             item.shootSpeed = 11f;
         }
 

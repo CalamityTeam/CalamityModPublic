@@ -28,7 +28,7 @@ namespace CalamityMod.Items
             item.rare = 2;
             item.UseSound = SoundID.Item8;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.WaywasherProj>();
+            item.shoot = ModContent.ProjectileType<WaywasherProj>();
             item.shootSpeed = 12f;
         }
 
@@ -36,7 +36,7 @@ namespace CalamityMod.Items
         {
             float SpeedX = speedX + (float)Main.rand.Next(-20, 21) * 0.05f;
             float SpeedY = speedY + (float)Main.rand.Next(-20, 21) * 0.05f;
-            Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<Projectiles.WaywasherProj>(), damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<WaywasherProj>(), damage, knockBack, player.whoAmI, 0f, 0f);
             return false;
         }
 

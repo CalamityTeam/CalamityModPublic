@@ -28,7 +28,7 @@ namespace CalamityMod.Items
             item.rare = 5;
             item.UseSound = SoundID.Item21;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.FrigidflashBoltProjectile>();
+            item.shoot = ModContent.ProjectileType<FrigidflashBoltProjectile>();
             item.shootSpeed = 6.5f;
         }
 

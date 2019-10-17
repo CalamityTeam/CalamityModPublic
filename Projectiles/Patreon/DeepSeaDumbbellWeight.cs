@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles
             if (target.defense > 0)
                 target.defense -= 15;
 
-            target.AddBuff(ModContent.BuffType<Buffs.CrushDepth>(), 600);
+            target.AddBuff(ModContent.BuffType<CrushDepth>(), 600);
         }
     }
 }

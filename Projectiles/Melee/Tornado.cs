@@ -141,7 +141,7 @@ namespace CalamityMod.Projectiles
             {
                 scale5 = MathHelper.Lerp(1f, 0f, (num229 - (num226 - 60f)) / 60f);
             }
-            Microsoft.Xna.Framework.Point point5 = projectile.Center.ToTileCoordinates();
+            Point point5 = projectile.Center.ToTileCoordinates();
             int num230;
             int num231;
             Collision.ExpandVertically(point5.X, point5.Y, out num230, out num231, (int)num227, (int)num228);
@@ -155,13 +155,13 @@ namespace CalamityMod.Projectiles
             vector33.X = vector33.Y * num232;
             new Vector2(value32.X - vector33.X / 2f, value32.Y);
             Texture2D texture2D23 = Main.projectileTexture[projectile.type];
-            Microsoft.Xna.Framework.Rectangle rectangle9 = texture2D23.Frame(1, 1, 0, 0);
+            Rectangle rectangle9 = texture2D23.Frame(1, 1, 0, 0);
             Vector2 origin3 = rectangle9.Size() / 2f;
             float num233 = -0.06283186f * num229;
             Vector2 spinningpoint2 = Vector2.UnitY.RotatedBy((double)(num229 * 0.1f), default);
             float num234 = 0f;
             float num235 = 5.1f;
-            Microsoft.Xna.Framework.Color value34 = new Microsoft.Xna.Framework.Color(225, 225, 225);
+            Color value34 = new Color(225, 225, 225);
             for (float num236 = (float)(int)value33.Y; num236 > (float)(int)value32.Y; num236 -= num235)
             {
                 num234 += num235;
@@ -171,7 +171,7 @@ namespace CalamityMod.Projectiles
                 Vector2 vector34 = spinningpoint2.RotatedBy((double)num238, default);
                 Vector2 value35 = new Vector2(0f, num237 + 1f);
                 value35.X = value35.Y * num232;
-                Microsoft.Xna.Framework.Color color39 = Microsoft.Xna.Framework.Color.Lerp(Microsoft.Xna.Framework.Color.Transparent, value34, num237 * 2f);
+                Color color39 = Microsoft.Xna.Framework.Color.Lerp(Microsoft.Xna.Framework.Color.Transparent, value34, num237 * 2f);
                 if (num237 > 0.5f)
                 {
                     color39 = Microsoft.Xna.Framework.Color.Lerp(Microsoft.Xna.Framework.Color.Transparent, value34, 2f - num237 * 2f);

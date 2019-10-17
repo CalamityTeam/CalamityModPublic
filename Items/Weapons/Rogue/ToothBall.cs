@@ -28,7 +28,7 @@ namespace CalamityMod.Items
             item.maxStack = 999;
             item.value = 1000;
             item.rare = 3;
-            item.shoot = ModContent.ProjectileType<Projectiles.ToothBallProjectile>();
+            item.shoot = ModContent.ProjectileType<ToothBallProjectile>();
             item.shootSpeed = 16f;
             item.Calamity().rogue = true;
         }

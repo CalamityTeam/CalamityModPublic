@@ -29,13 +29,13 @@ namespace CalamityMod.Items
             item.rare = 10;
             item.UseSound = SoundID.Item82;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.PhantomGuy>();
+            item.shoot = ModContent.ProjectileType<PhantomGuy>();
             item.shootSpeed = 10f;
             item.summon = true;
             item.Calamity().postMoonLordRarity = 13;
         }
 
-        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             int i = Main.myPlayer;
             float num72 = item.shootSpeed;

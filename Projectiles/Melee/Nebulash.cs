@@ -121,7 +121,7 @@ namespace CalamityMod.Projectiles
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Vector2 mountedCenter = Main.player[projectile.owner].MountedCenter;
-            Microsoft.Xna.Framework.Color color25 = Lighting.GetColor((int)((double)projectile.position.X + (double)projectile.width * 0.5) / 16, (int)(((double)projectile.position.Y + (double)projectile.height * 0.5) / 16.0));
+            Color color25 = Lighting.GetColor((int)((double)projectile.position.X + (double)projectile.width * 0.5) / 16, (int)(((double)projectile.position.Y + (double)projectile.height * 0.5) / 16.0));
             if (projectile.hide && !ProjectileID.Sets.DontAttachHideToAlpha[projectile.type])
             {
                 color25 = Lighting.GetColor((int)mountedCenter.X / 16, (int)(mountedCenter.Y / 16f));
@@ -129,7 +129,7 @@ namespace CalamityMod.Projectiles
             Vector2 projPos = projectile.position;
             projPos = new Vector2((float)projectile.width, (float)projectile.height) / 2f + Vector2.UnitY * projectile.gfxOffY - Main.screenPosition; //fuck it
             Texture2D texture2D22 = Main.projectileTexture[projectile.type];
-            Microsoft.Xna.Framework.Color alpha3 = projectile.GetAlpha(color25);
+            Color alpha3 = projectile.GetAlpha(color25);
             if (projectile.velocity == Vector2.Zero)
             {
                 return false;
@@ -137,14 +137,14 @@ namespace CalamityMod.Projectiles
             float num230 = projectile.velocity.Length() + 16f;
             bool flag24 = num230 < 100f;
             Vector2 value28 = Vector2.Normalize(projectile.velocity);
-            Microsoft.Xna.Framework.Rectangle rectangle8 = new Microsoft.Xna.Framework.Rectangle(0, 0, texture2D22.Width, 54); //2 and 40
+            Rectangle rectangle8 = new Rectangle(0, 0, texture2D22.Width, 54); //2 and 40
             Vector2 value29 = new Vector2(0f, Main.player[projectile.owner].gfxOffY);
             float rotation24 = projectile.rotation + 3.14159274f;
             Main.spriteBatch.Draw(texture2D22, projectile.Center.Floor() - Main.screenPosition + value29, new Microsoft.Xna.Framework.Rectangle?(rectangle8), alpha3, rotation24, rectangle8.Size() / 2f - Vector2.UnitY * 4f, projectile.scale, SpriteEffects.None, 0f);
             num230 -= 40f * projectile.scale;
             Vector2 vector31 = projectile.Center.Floor();
             vector31 += value28 * projectile.scale * 24f;
-            rectangle8 = new Microsoft.Xna.Framework.Rectangle(0, 84, texture2D22.Width, 18); //68 and 18
+            rectangle8 = new Rectangle(0, 84, texture2D22.Width, 18); //68 and 18
             if (num230 > 0f)
             {
                 float num231 = 0f;
@@ -162,7 +162,7 @@ namespace CalamityMod.Projectiles
             Vector2 value30 = vector31;
             vector31 = projectile.Center.Floor();
             vector31 += value28 * projectile.scale * 24f;
-            rectangle8 = new Microsoft.Xna.Framework.Rectangle(0, 62, texture2D22.Width, 20); //46 and 18
+            rectangle8 = new Rectangle(0, 62, texture2D22.Width, 20); //46 and 18
             int num232 = 18;
             if (flag24)
             {
@@ -187,7 +187,7 @@ namespace CalamityMod.Projectiles
                     vector31 += value28 * num237;
                 }
             }
-            rectangle8 = new Microsoft.Xna.Framework.Rectangle(0, 104, texture2D22.Width, 50); //90 and 48
+            rectangle8 = new Rectangle(0, 104, texture2D22.Width, 50); //90 and 48
             Main.spriteBatch.Draw(texture2D22, value30 - Main.screenPosition + value29, new Microsoft.Xna.Framework.Rectangle?(rectangle8), alpha3, rotation24, texture2D22.Frame(1, 1, 0, 0).Top(), projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
@@ -215,7 +215,7 @@ namespace CalamityMod.Projectiles
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<Buffs.AstralInfectionDebuff>(), 120);
+            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120);
             if (projectile.localAI[1] <= 0f && projectile.owner == Main.myPlayer)
             {
                 Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<Nebudust>(), damage, knockback, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);

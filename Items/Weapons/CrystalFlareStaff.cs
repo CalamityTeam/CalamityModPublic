@@ -29,7 +29,7 @@ namespace CalamityMod.Items
             item.rare = 5;
             item.UseSound = SoundID.Item20;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.SpiritFlameCurse>();
+            item.shoot = ModContent.ProjectileType<SpiritFlameCurse>();
             item.shootSpeed = 14f;
         }
 

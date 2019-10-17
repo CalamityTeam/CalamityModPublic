@@ -20,7 +20,7 @@ namespace CalamityMod.Items
             item.knockBack = 8f;
             item.value = 10000;
             item.rare = 8;
-            item.shoot = ModContent.ProjectileType<Projectiles.MagnumRound>();
+            item.shoot = ModContent.ProjectileType<MagnumRound>();
             item.shootSpeed = 12f;
             item.ammo = ModContent.ItemType<MagnumRounds>();
         }

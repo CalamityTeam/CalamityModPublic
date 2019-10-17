@@ -28,7 +28,7 @@ namespace CalamityMod.Items
             item.rare = 10;
             item.UseSound = SoundID.Item92;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.PlasmaBlast>();
+            item.shoot = ModContent.ProjectileType<PlasmaBlast>();
             item.shootSpeed = 12f;
             item.useAmmo = 75;
             item.Calamity().postMoonLordRarity = 12;
@@ -39,7 +39,7 @@ namespace CalamityMod.Items
             return new Vector2(-5, 0);
         }
 
-        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             for (int index = 0; index < 5; ++index)
             {

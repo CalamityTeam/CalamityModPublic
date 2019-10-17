@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles
         {
             if (target.rarity != 2 && !target.boss)
             {
-                target.AddBuff(ModContent.BuffType<Buffs.SilvaStun>(), 15);
+                target.AddBuff(ModContent.BuffType<SilvaStun>(), 15);
             }
         }
     }

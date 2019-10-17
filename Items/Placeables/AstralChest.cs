@@ -20,7 +20,7 @@ namespace CalamityMod.Items
             item.useStyle = 1;
             item.consumable = true;
             item.value = 500;
-            item.createTile = ModContent.TileType<Tiles.AstralChestLocked>();
+            item.createTile = ModContent.TileType<AstralChestLocked>();
         }
     }
 }

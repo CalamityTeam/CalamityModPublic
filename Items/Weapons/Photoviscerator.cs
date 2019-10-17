@@ -29,7 +29,7 @@ namespace CalamityMod.Items
             item.value = Item.buyPrice(2, 50, 0, 0);
             item.rare = 10;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.ExoFire>();
+            item.shoot = ModContent.ProjectileType<ExoFire>();
             item.shootSpeed = 6f;
             item.useAmmo = 23;
             item.Calamity().postMoonLordRarity = 15;
