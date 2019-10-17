@@ -70,11 +70,11 @@ namespace CalamityMod.Projectiles
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
             if (Main.rand.NextBool(6))
-                target.AddBuff(ModContent.BuffType<Shadowflame>(), 240, true);
+                target.AddBuff(ModContent.BuffType<Buffs.Shadowflame>(), 240, true);
             else if (Main.rand.NextBool(4))
-                target.AddBuff(ModContent.BuffType<Shadowflame>(), 150, true);
+                target.AddBuff(ModContent.BuffType<Buffs.Shadowflame>(), 150, true);
             else if (Main.rand.NextBool(2))
-                target.AddBuff(ModContent.BuffType<Shadowflame>(), 90, true);
+                target.AddBuff(ModContent.BuffType<Buffs.Shadowflame>(), 90, true);
         }
     }
 }

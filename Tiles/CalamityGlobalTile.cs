@@ -2,9 +2,9 @@
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
+using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader; using CalamityMod.Dusts;
 using Terraria.ID;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria.ModLoader; using CalamityMod.Dusts; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
 namespace CalamityMod.Tiles
 {
@@ -290,7 +290,7 @@ namespace CalamityMod.Tiles
                         }
                         if (expr_B64 == 8)
                         {
-                            Item.NewItem(i * 16, j * 16, 16, 16, ModContent.ItemType<AnechoicCoating>(), 1, false, 0, false, false);
+                            Item.NewItem(i * 16, j * 16, 16, 16, ModContent.ItemType<Items.AnechoicCoating>(), 1, false, 0, false, false);
                         }
                         if (expr_B64 == 9)
                         {
@@ -336,7 +336,7 @@ namespace CalamityMod.Tiles
                         }
                         else if (num9 == 2) //stew
                         {
-                            Item.NewItem(i * 16, j * 16, 16, 16, ModContent.ItemType<SunkenStew>(), 1, false, 0, false, false);
+                            Item.NewItem(i * 16, j * 16, 16, 16, ModContent.ItemType<Items.SunkenStew>(), 1, false, 0, false, false);
                         }
                         else if (num9 == 3) //sticky dynamite
                         {
@@ -450,7 +450,7 @@ namespace CalamityMod.Tiles
                         }
                         if (expr_B64 == 8)
                         {
-                            Item.NewItem(i * 16, j * 16, 16, 16, ModContent.ItemType<AnechoicCoating>(), 1, false, 0, false, false);
+                            Item.NewItem(i * 16, j * 16, 16, 16, ModContent.ItemType<Items.AnechoicCoating>(), 1, false, 0, false, false);
                         }
                         if (expr_B64 == 9)
                         {

@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles
             //Randomly not consume item if it wasnt a stealth strike
             if (Main.rand.Next(4) == 0 && projectile.ai[0] != 1)
             {
-                Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, 27, 27, ModContent.ItemType<MonkeyDarts>());
+                Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, 27, 27, ModContent.ItemType<Items.MonkeyDarts>());
             }
 
         }

@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles
         {
             target.immune[projectile.owner] = 6;
             target.AddBuff(BuffID.OnFire, 300);
-            target.AddBuff(ModContent.BuffType<Plague>(), 300);
+            target.AddBuff(ModContent.BuffType<Buffs.Plague>(), 300);
             if (target.life <= (target.lifeMax * 0.15f))
             {
                 Main.PlaySound(2, (int)target.position.X, (int)target.position.Y, 14);

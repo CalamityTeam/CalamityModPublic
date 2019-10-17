@@ -115,7 +115,7 @@ namespace CalamityMod.Projectiles
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             Player player = Main.player[projectile.owner];
-            player.AddBuff(ModContent.BuffType<Molten>(), 360);
+            player.AddBuff(ModContent.BuffType<Buffs.Molten>(), 360);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework; using CalamityMod.Dusts;
 using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
 using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
@@ -10,9 +10,9 @@ namespace CalamityMod.Walls
         {
             Main.wallHouse[Type] = true;
             Main.wallLargeFrames[Type] = 2;
-            dustType = ModContent.DustType<Sparkle>();
+            
             soundType = 13;
-            drop = ModContent.ItemType<ProfanedCrystalWall>();
+            drop = ModContent.ItemType<Items.ProfanedCrystalWall>();
             AddMapEntry(new Color(125, 97, 123));
         }
 

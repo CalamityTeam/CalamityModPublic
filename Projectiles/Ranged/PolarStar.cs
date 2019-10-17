@@ -197,7 +197,7 @@ namespace CalamityMod.Projectiles
             Player player = Main.player[projectile.owner];
             if ((target.damage > 5 || target.boss) && player.whoAmI == Main.myPlayer && !target.SpawnedFromStatue)
             {
-				player.AddBuff(ModContent.BuffType<PolarisBuff>(), 180);
+				player.AddBuff(ModContent.BuffType<Buffs.PolarisBuff>(), 180);
 			}
 			else
 			{

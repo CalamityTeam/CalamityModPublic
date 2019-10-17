@@ -1,9 +1,9 @@
 
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
+using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader; using CalamityMod.Dusts;
 using Terraria.ID;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria.ModLoader; using CalamityMod.Dusts; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
 namespace CalamityMod.Tiles
 {
@@ -19,8 +19,7 @@ namespace CalamityMod.Tiles
             TileMerge.MergeGeneralTiles(Type);
             TileMerge.MergeSnowTiles(Type);
 
-            dustType = ModContent.DustType<MSparkle>();
-            drop = ModContent.ItemType<CryonicOre>();
+            drop = ModContent.ItemType<Items.CryonicOre>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Cryonic Ore");
             AddMapEntry(new Color(0, 0, 150), name);

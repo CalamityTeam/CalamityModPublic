@@ -72,7 +72,7 @@ namespace CalamityMod.Projectiles
             bool flag64 = projectile.type == ModContent.ProjectileType<CorruptionSlimeGodMinion>();
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            player.AddBuff(ModContent.BuffType<CorruptionSlimeGodMinion>(), 3600);
+            player.AddBuff(ModContent.BuffType<MiniSlimeGodBuff>(), 3600);
             if (!modPlayer.slimeGod)
             {
                 projectile.active = false;

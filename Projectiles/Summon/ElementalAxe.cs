@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles
             bool flag64 = projectile.type == ModContent.ProjectileType<ElementalAxe>();
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            player.AddBuff(ModContent.BuffType<ElementalAxe>(), 3600);
+            player.AddBuff(ModContent.BuffType<Buffs.ElementalAxe>(), 3600);
             if (flag64)
             {
                 if (player.dead)
@@ -258,10 +258,10 @@ namespace CalamityMod.Projectiles
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.immune[projectile.owner] = 4;
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
-            target.AddBuff(ModContent.BuffType<Plague>(), 120);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
+            target.AddBuff(ModContent.BuffType<Buffs.BrimstoneFlames>(), 120);
+            target.AddBuff(ModContent.BuffType<Buffs.GlacialState>(), 120);
+            target.AddBuff(ModContent.BuffType<Buffs.Plague>(), 120);
+            target.AddBuff(ModContent.BuffType<Buffs.HolyFlames>(), 120);
         }
     }
 }

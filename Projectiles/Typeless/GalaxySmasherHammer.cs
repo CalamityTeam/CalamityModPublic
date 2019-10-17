@@ -166,7 +166,7 @@ namespace CalamityMod.Projectiles
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
 
             // Applies God Slayer Inferno on contact.
-            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 480);
+            target.AddBuff(ModContent.BuffType<Buffs.GodSlayerInferno>(), 480);
 
             // Three death lasers (aka "Nebula Shots") swarm the target.
             int laserID = ModContent.ProjectileType<NebulaShot>();

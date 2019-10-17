@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.Frostburn, 480);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 180);
+            target.AddBuff(ModContent.BuffType<Buffs.GlacialState>(), 180);
         }
 
         public override Color? GetAlpha(Color lightColor)

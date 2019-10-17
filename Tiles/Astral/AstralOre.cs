@@ -2,9 +2,9 @@
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
-using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
+using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader; using CalamityMod.Dusts;
 using Terraria.ID;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria.ModLoader; using CalamityMod.Dusts; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
 namespace CalamityMod.Tiles
 {
@@ -24,7 +24,7 @@ namespace CalamityMod.Tiles
 
             minPick = 200;
             dustType = 173;
-            drop = ModContent.ItemType<AstralOre>();
+            drop = ModContent.ItemType<Items.AstralOre>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Astral Ore");
             AddMapEntry(new Color(255, 153, 255), name);

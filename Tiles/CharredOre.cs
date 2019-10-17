@@ -1,7 +1,7 @@
 
 using Microsoft.Xna.Framework;
-using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader; using CalamityMod.Dusts;
+using Terraria.ModLoader; using CalamityMod.Dusts; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
 namespace CalamityMod.Tiles
 {
@@ -20,7 +20,7 @@ namespace CalamityMod.Tiles
             TileMerge.MergeGeneralTiles(Type);
             TileMerge.MergeHellTiles(Type);
 
-            drop = ModContent.ItemType<CharredOre>();
+            drop = ModContent.ItemType<Items.CharredOre>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Charred Ore");
             AddMapEntry(new Color(17, 16, 26), name);

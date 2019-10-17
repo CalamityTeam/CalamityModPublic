@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 180);
+            target.AddBuff(ModContent.BuffType<Buffs.GodSlayerInferno>(), 180);
         }
 
         public override Color? GetAlpha(Color lightColor)

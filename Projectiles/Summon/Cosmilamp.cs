@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles
             bool flag64 = projectile.type == ModContent.ProjectileType<Cosmilamp>();
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            player.AddBuff(ModContent.BuffType<Cosmilamp>(), 3600);
+            player.AddBuff(ModContent.BuffType<Buffs.Cosmilamp>(), 3600);
             if (flag64)
             {
                 if (player.dead)

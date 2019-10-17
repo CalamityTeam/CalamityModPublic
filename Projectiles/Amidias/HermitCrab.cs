@@ -66,7 +66,7 @@ namespace CalamityMod.Projectiles
             bool flag64 = projectile.type == ModContent.ProjectileType<HermitCrabMinion>();
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            player.AddBuff(ModContent.BuffType<HermitCrab>(), 3600);
+            player.AddBuff(ModContent.BuffType<Buffs.HermitCrab>(), 3600);
             if (flag64)
             {
                 if (player.dead)

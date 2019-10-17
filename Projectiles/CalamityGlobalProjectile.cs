@@ -498,12 +498,12 @@ namespace CalamityMod.Projectiles
 
             if (projectile.type == ProjectileID.NettleBurstRight || projectile.type == ProjectileID.NettleBurstLeft || projectile.type == ProjectileID.NettleBurstEnd)
             {
-                if (Main.player[projectile.owner].inventory[Main.player[projectile.owner].selectedItem].type == ModContent.ItemType<ThornBlossom>())
+                if (Main.player[projectile.owner].inventory[Main.player[projectile.owner].selectedItem].type == ModContent.ItemType<Items.ThornBlossom>())
                     projectile.penetrate = 1;
             }
             else if (projectile.type == ProjectileID.VilethornBase || projectile.type == ProjectileID.VilethornTip)
             {
-                if (Main.player[projectile.owner].inventory[Main.player[projectile.owner].selectedItem].type == ModContent.ItemType<FeralthornClaymore>())
+                if (Main.player[projectile.owner].inventory[Main.player[projectile.owner].selectedItem].type == ModContent.ItemType<Items.FeralthornClaymore>())
                 {
                     projectile.melee = true;
                     projectile.magic = false;
@@ -1291,12 +1291,12 @@ namespace CalamityMod.Projectiles
                 {
                     if (Main.player[projectile.owner].Calamity().pArtifact)
                     {
-                        target.AddBuff(ModContent.BuffType<HolyFlames>(), 300);
+                        target.AddBuff(ModContent.BuffType<Buffs.HolyFlames>(), 300);
                     }
 
                     if (Main.player[projectile.owner].Calamity().tearMinions)
                     {
-                        target.AddBuff(ModContent.BuffType<TemporalSadness>(), 60);
+                        target.AddBuff(ModContent.BuffType<Buffs.TemporalSadness>(), 60);
                     }
 
                     if (Main.player[projectile.owner].Calamity().shadowMinions)

@@ -81,8 +81,8 @@ namespace CalamityMod.Projectiles
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 180);
-            target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 120, true);
+            target.AddBuff(ModContent.BuffType<Buffs.AbyssalFlames>(), 180);
+            target.AddBuff(ModContent.BuffType<Buffs.VulnerabilityHex>(), 120, true);
         }
     }
 }

@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 180);
+            target.AddBuff(ModContent.BuffType<Buffs.AstralInfectionDebuff>(), 180);
         }
     }
 }

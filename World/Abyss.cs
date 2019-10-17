@@ -32,7 +32,7 @@ namespace CalamityMod.World
                                 tile.type == TileID.Sand &&
                                 WorldGen.genRand.Next(4) == 0)
                             {
-                                tile.type = (ushort)ModContent.TileType<SulphurousSand>();
+                                tile.type = (ushort)ModContent.TileType<Tiles.SulphurousSand>();
                             }
                             else if (tile.active() &&
                                      tile.type == TileID.PalmTree)
@@ -46,7 +46,7 @@ namespace CalamityMod.World
                                 tile.type == TileID.Sand &&
                                 WorldGen.genRand.Next(2) == 0)
                             {
-                                tile.type = (ushort)ModContent.TileType<SulphurousSand>();
+                                tile.type = (ushort)ModContent.TileType<Tiles.SulphurousSand>();
                             }
                             else if (tile.active() &&
                                      tile.type == TileID.PalmTree)
@@ -59,7 +59,7 @@ namespace CalamityMod.World
                             if (tile.active() &&
                                 tile.type == TileID.Sand)
                             {
-                                tile.type = (ushort)ModContent.TileType<SulphurousSand>();
+                                tile.type = (ushort)ModContent.TileType<Tiles.SulphurousSand>();
                             }
                             else if (tile.active() &&
                                      tile.type == TileID.PalmTree)
@@ -83,7 +83,7 @@ namespace CalamityMod.World
                                 tile.type == TileID.Sand &&
                                 WorldGen.genRand.Next(4) == 0)
                             {
-                                tile.type = (ushort)ModContent.TileType<SulphurousSand>();
+                                tile.type = (ushort)ModContent.TileType<Tiles.SulphurousSand>();
                             }
                             else if (tile.active() &&
                                      tile.type == TileID.PalmTree)
@@ -97,7 +97,7 @@ namespace CalamityMod.World
                                 tile.type == TileID.Sand &&
                                 WorldGen.genRand.Next(2) == 0)
                             {
-                                tile.type = (ushort)ModContent.TileType<SulphurousSand>();
+                                tile.type = (ushort)ModContent.TileType<Tiles.SulphurousSand>();
                             }
                             else if (tile.active() &&
                                      tile.type == TileID.PalmTree)
@@ -110,7 +110,7 @@ namespace CalamityMod.World
                             if (tile.active() &&
                                 tile.type == TileID.Sand)
                             {
-                                tile.type = (ushort)ModContent.TileType<SulphurousSand>();
+                                tile.type = (ushort)ModContent.TileType<Tiles.SulphurousSand>();
                             }
                             else if (tile.active() &&
                                      tile.type == TileID.PalmTree)
@@ -163,14 +163,14 @@ namespace CalamityMod.World
                                 if (canConvert)
                                 {
                                     tile.wall = (ushort)ModContent.WallType<AbyssGravelWall>();
-                                    tile.type = (ushort)ModContent.TileType<AbyssGravel>();
+                                    tile.type = (ushort)ModContent.TileType<Tiles.AbyssGravel>();
                                 }
                                 else if (!tile.active() &&
                                           abyssIndex2 > rockLayer)
                                 {
                                     tile.active(true);
                                     tile.wall = (ushort)ModContent.WallType<AbyssGravelWall>();
-                                    tile.type = (ushort)ModContent.TileType<AbyssGravel>();
+                                    tile.type = (ushort)ModContent.TileType<Tiles.AbyssGravel>();
                                 }
                             }
                         }
@@ -181,14 +181,14 @@ namespace CalamityMod.World
                                 if (canConvert)
                                 {
                                     tile.wall = (ushort)ModContent.WallType<AbyssGravelWall>();
-                                    tile.type = (ushort)ModContent.TileType<AbyssGravel>();
+                                    tile.type = (ushort)ModContent.TileType<Tiles.AbyssGravel>();
                                 }
                                 else if (!tile.active() &&
                                           abyssIndex2 > rockLayer)
                                 {
                                     tile.active(true);
                                     tile.wall = (ushort)ModContent.WallType<AbyssGravelWall>();
-                                    tile.type = (ushort)ModContent.TileType<AbyssGravel>();
+                                    tile.type = (ushort)ModContent.TileType<Tiles.AbyssGravel>();
                                 }
                             }
                         }
@@ -198,17 +198,17 @@ namespace CalamityMod.World
                             {
                                 if (abyssIndex2 > (rockLayer + y * 0.262))
                                 {
-                                    tile.type = (ushort)ModContent.TileType<Voidstone>();
+                                    tile.type = (ushort)ModContent.TileType<Tiles.Voidstone>();
                                     tile.wall = (ushort)ModContent.WallType<VoidstoneWallUnsafe>();
                                 }
                                 else if (abyssIndex2 > (rockLayer + y * 0.143) && WorldGen.genRand.Next(3) == 0)
                                 {
-                                    tile.type = (ushort)ModContent.TileType<Voidstone>();
+                                    tile.type = (ushort)ModContent.TileType<Tiles.Voidstone>();
                                     tile.wall = (ushort)ModContent.WallType<VoidstoneWallUnsafe>();
                                 }
                                 else
                                 {
-                                    tile.type = (ushort)ModContent.TileType<AbyssGravel>();
+                                    tile.type = (ushort)ModContent.TileType<Tiles.AbyssGravel>();
                                     tile.wall = (ushort)ModContent.WallType<AbyssGravelWall>();
                                 }
                             }
@@ -218,18 +218,18 @@ namespace CalamityMod.World
                                 tile.active(true);
                                 if (abyssIndex2 > (rockLayer + y * 0.262))
                                 {
-                                    tile.type = (ushort)ModContent.TileType<Voidstone>();
+                                    tile.type = (ushort)ModContent.TileType<Tiles.Voidstone>();
                                     tile.wall = (ushort)ModContent.WallType<VoidstoneWallUnsafe>();
                                 }
                                 else if (abyssIndex2 > (rockLayer + y * 0.143) && WorldGen.genRand.Next(3) == 0)
                                 {
-                                    tile.type = (ushort)ModContent.TileType<Voidstone>();
+                                    tile.type = (ushort)ModContent.TileType<Tiles.Voidstone>();
                                     tile.wall = (ushort)ModContent.WallType<VoidstoneWallUnsafe>();
                                 }
                                 else
                                 {
                                     tile.wall = (ushort)ModContent.WallType<AbyssGravelWall>();
-                                    tile.type = (ushort)ModContent.TileType<AbyssGravel>();
+                                    tile.type = (ushort)ModContent.TileType<Tiles.AbyssGravel>();
                                 }
                             }
                         }
@@ -259,14 +259,14 @@ namespace CalamityMod.World
                                 if (canConvert)
                                 {
                                     tile.wall = (ushort)ModContent.WallType<AbyssGravelWall>();
-                                    tile.type = (ushort)ModContent.TileType<AbyssGravel>();
+                                    tile.type = (ushort)ModContent.TileType<Tiles.AbyssGravel>();
                                 }
                                 else if (!tile.active() &&
                                           abyssIndex2 > rockLayer)
                                 {
                                     tile.active(true);
                                     tile.wall = (ushort)ModContent.WallType<AbyssGravelWall>();
-                                    tile.type = (ushort)ModContent.TileType<AbyssGravel>();
+                                    tile.type = (ushort)ModContent.TileType<Tiles.AbyssGravel>();
                                 }
                             }
                         }
@@ -277,14 +277,14 @@ namespace CalamityMod.World
                                 if (canConvert)
                                 {
                                     tile.wall = (ushort)ModContent.WallType<AbyssGravelWall>();
-                                    tile.type = (ushort)ModContent.TileType<AbyssGravel>();
+                                    tile.type = (ushort)ModContent.TileType<Tiles.AbyssGravel>();
                                 }
                                 else if (!tile.active() &&
                                           abyssIndex2 > rockLayer)
                                 {
                                     tile.active(true);
                                     tile.wall = (ushort)ModContent.WallType<AbyssGravelWall>();
-                                    tile.type = (ushort)ModContent.TileType<AbyssGravel>();
+                                    tile.type = (ushort)ModContent.TileType<Tiles.AbyssGravel>();
                                 }
                             }
                         }
@@ -294,17 +294,17 @@ namespace CalamityMod.World
                             {
                                 if (abyssIndex2 > (rockLayer + y * 0.262))
                                 {
-                                    tile.type = (ushort)ModContent.TileType<Voidstone>();
+                                    tile.type = (ushort)ModContent.TileType<Tiles.Voidstone>();
                                     tile.wall = (ushort)ModContent.WallType<VoidstoneWallUnsafe>();
                                 }
                                 else if (abyssIndex2 > (rockLayer + y * 0.143) && WorldGen.genRand.Next(3) == 0)
                                 {
-                                    tile.type = (ushort)ModContent.TileType<Voidstone>();
+                                    tile.type = (ushort)ModContent.TileType<Tiles.Voidstone>();
                                     tile.wall = (ushort)ModContent.WallType<VoidstoneWallUnsafe>();
                                 }
                                 else
                                 {
-                                    tile.type = (ushort)ModContent.TileType<AbyssGravel>();
+                                    tile.type = (ushort)ModContent.TileType<Tiles.AbyssGravel>();
                                     tile.wall = (ushort)ModContent.WallType<AbyssGravelWall>();
                                 }
                             }
@@ -314,18 +314,18 @@ namespace CalamityMod.World
                                 tile.active(true);
                                 if (abyssIndex2 > (rockLayer + y * 0.262))
                                 {
-                                    tile.type = (ushort)ModContent.TileType<Voidstone>();
+                                    tile.type = (ushort)ModContent.TileType<Tiles.Voidstone>();
                                     tile.wall = (ushort)ModContent.WallType<VoidstoneWallUnsafe>();
                                 }
                                 else if (abyssIndex2 > (rockLayer + y * 0.143) && WorldGen.genRand.Next(3) == 0)
                                 {
-                                    tile.type = (ushort)ModContent.TileType<Voidstone>();
+                                    tile.type = (ushort)ModContent.TileType<Tiles.Voidstone>();
                                     tile.wall = (ushort)ModContent.WallType<VoidstoneWallUnsafe>();
                                 }
                                 else
                                 {
                                     tile.wall = (ushort)ModContent.WallType<AbyssGravelWall>();
-                                    tile.type = (ushort)ModContent.TileType<AbyssGravel>();
+                                    tile.type = (ushort)ModContent.TileType<Tiles.AbyssGravel>();
                                 }
                             }
                         }
@@ -341,7 +341,7 @@ namespace CalamityMod.World
             else if (y > 1500)
                 maxAbyssIslands = 16; //Medium World
 
-            WorldGenerationMethods.SpecialHut((ushort)ModContent.TileType<SmoothVoidstone>(), (ushort)ModContent.TileType<Voidstone>(),
+            WorldGenerationMethods.SpecialHut((ushort)ModContent.TileType<Tiles.SmoothVoidstone>(), (ushort)ModContent.TileType<Tiles.Voidstone>(),
                 (ushort)ModContent.WallType<VoidstoneWallUnsafe>(), 9, abyssChasmX, CalamityWorld.abyssChasmBottom);
 
             int islandLocationOffset = 30;

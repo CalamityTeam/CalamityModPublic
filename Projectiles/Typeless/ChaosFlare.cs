@@ -76,7 +76,7 @@ namespace CalamityMod.Projectiles
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
+            target.AddBuff(ModContent.BuffType<Buffs.BrimstoneFlames>(), 180);
             target.AddBuff(BuffID.OnFire, 180);
         }
     }

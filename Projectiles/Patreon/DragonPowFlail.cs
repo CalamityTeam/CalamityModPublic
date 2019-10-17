@@ -140,8 +140,8 @@ namespace CalamityMod.Projectiles
         {
             // Inflicts Daybroken, Abyssal Flames and Holy Flames for 8 seconds on-hit
             target.AddBuff(BuffID.Daybreak, 480);
-            target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 480);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 480);
+            target.AddBuff(ModContent.BuffType<Buffs.AbyssalFlames>(), 480);
+            target.AddBuff(ModContent.BuffType<Buffs.HolyFlames>(), 480);
 
             projectile.ai[0] = 1f;
             projectile.netUpdate = true;

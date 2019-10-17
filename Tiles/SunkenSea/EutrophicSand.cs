@@ -1,9 +1,9 @@
 
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
+using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader; using CalamityMod.Dusts;
 using Terraria.ID;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria.ModLoader; using CalamityMod.Dusts; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
 namespace CalamityMod.Tiles
 {
@@ -19,7 +19,7 @@ namespace CalamityMod.Tiles
 
             TileID.Sets.ChecksForMerge[Type] = true;
             dustType = 108;
-            drop = ModContent.ItemType<EutrophicSand>();
+            drop = ModContent.ItemType<Items.EutrophicSand>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Eutrophic Sand");
             AddMapEntry(new Color(100, 100, 150), name);

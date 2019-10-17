@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles
         {
             if (Main.rand.NextBool(2))
             {
-                Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, ModContent.ItemType<CobaltKunai>());
+                Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, ModContent.ItemType<Items.CobaltKunai>());
             }
         }
     }

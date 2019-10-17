@@ -1,8 +1,8 @@
 
 using Microsoft.Xna.Framework;
-using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
+using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader; using CalamityMod.Dusts;
 using Terraria.ID;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria.ModLoader; using CalamityMod.Dusts; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
 namespace CalamityMod.Tiles
 {
@@ -18,7 +18,7 @@ namespace CalamityMod.Tiles
             TileMerge.MergeAbyssTiles(Type);
 
             dustType = 32;
-            drop = ModContent.ItemType<SulphurousSand>();
+            drop = ModContent.ItemType<Items.SulphurousSand>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Sulphurous Sand");
             AddMapEntry(new Color(150, 100, 50), name);
@@ -124,7 +124,7 @@ namespace CalamityMod.Tiles
                     if (Main.tile[i, tileLocationY].liquid == 255 && Main.tile[i, tileLocationY - 1].liquid == 255 &&
                         Main.tile[i, tileLocationY - 2].liquid == 255 && Main.netMode != 1)
                     {
-                        Projectile.NewProjectile((float)(i * 16 + 16), (float)(tileLocationY * 16 + 16), 0f, -0.1f, ModContent.ProjectileType<SulphuricAcidCannon>(), 0, 2f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile((float)(i * 16 + 16), (float)(tileLocationY * 16 + 16), 0f, -0.1f, ModContent.ProjectileType<Projectiles.SulphuricAcidCannon>(), 0, 2f, Main.myPlayer, 0f, 0f);
                     }
                     if (i < 250 || i > Main.maxTilesX - 250)
                     {

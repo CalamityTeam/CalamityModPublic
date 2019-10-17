@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework; using CalamityMod.Dusts;
 using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
 using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
@@ -10,7 +10,7 @@ namespace CalamityMod.Walls
         {
             Main.wallHouse[Type] = true;
             dustType = 108;
-            drop = ModContent.ItemType<EutrophicSandWallSafe>();
+            drop = ModContent.ItemType<Items.EutrophicSandWallSafe>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Eutrophic Sand Wall Safe");
             AddMapEntry(new Color(100, 100, 150), name);

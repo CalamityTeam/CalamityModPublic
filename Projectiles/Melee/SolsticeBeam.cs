@@ -193,7 +193,7 @@ namespace CalamityMod.Projectiles
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            int buff = Main.dayTime ? BuffID.Daybreak : ModContent.BuffType<Nightwither>();
+            int buff = Main.dayTime ? BuffID.Daybreak : ModContent.BuffType<Buffs.Nightwither>();
             target.AddBuff(buff, 300);
         }
     }

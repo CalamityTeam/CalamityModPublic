@@ -115,7 +115,7 @@ namespace CalamityMod.Projectiles
             if (target.defense > 0)
                 target.defense -= 15;
 
-            target.AddBuff(ModContent.BuffType<CrushDepth>(), 600);
+            target.AddBuff(ModContent.BuffType<Buffs.CrushDepth>(), 600);
 
             Main.PlaySound(4, (int)projectile.position.X, (int)projectile.position.Y, 43, 1f, 0f);
 

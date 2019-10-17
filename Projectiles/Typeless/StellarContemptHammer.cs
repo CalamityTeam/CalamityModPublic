@@ -138,7 +138,7 @@ namespace CalamityMod.Projectiles
 
             // Applies Nightwither on contact at night.
             if (!Main.dayTime)
-                target.AddBuff(ModContent.BuffType<Nightwither>(), 480);
+                target.AddBuff(ModContent.BuffType<Buffs.Nightwither>(), 480);
 
             // Do not drop lunar flares on dummies.
             if (target.type == NPCID.TargetDummy)

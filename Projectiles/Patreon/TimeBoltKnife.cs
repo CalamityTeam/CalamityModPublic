@@ -293,7 +293,7 @@ namespace CalamityMod.Projectiles
                 Main.dust[dust].scale = 0.3f;
             }
 
-            int buffType = ModContent.BuffType<TimeSlow>();
+            int buffType = ModContent.BuffType<Buffs.TimeSlow>();
             int damage = projectile.damage / 2;
 
             for (int i = 0; i < 200; i++)

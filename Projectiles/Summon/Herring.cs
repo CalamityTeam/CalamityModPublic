@@ -82,7 +82,7 @@ namespace CalamityMod.Projectiles
             bool flag64 = projectile.type == ModContent.ProjectileType<Herring>();
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            player.AddBuff(ModContent.BuffType<Herring>(), 3600);
+            player.AddBuff(ModContent.BuffType<Buffs.Herring>(), 3600);
             if (flag64)
             {
                 if (player.dead)

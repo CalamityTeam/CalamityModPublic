@@ -223,7 +223,7 @@ namespace CalamityMod.Projectiles
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
             target.AddBuff(BuffID.Ichor, 540);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 540);
+            target.AddBuff(ModContent.BuffType<Buffs.HolyFlames>(), 540);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -233,7 +233,7 @@ namespace CalamityMod.Projectiles
             target.AddBuff(BuffID.Ichor, 540);
             target.AddBuff(BuffID.BetsysCurse, 540);
             target.AddBuff(BuffID.Daybreak, 540);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 540);
+            target.AddBuff(ModContent.BuffType<Buffs.HolyFlames>(), 540);
 
             if (projectile.ai[0] != 0f && projectile.owner == Main.myPlayer) //if empowered
             {

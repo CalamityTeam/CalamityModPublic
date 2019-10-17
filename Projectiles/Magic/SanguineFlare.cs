@@ -93,7 +93,7 @@ namespace CalamityMod.Projectiles
             Player player = Main.player[projectile.owner];
             player.statLife += 1;
             player.HealEffect(1);
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
+            target.AddBuff(ModContent.BuffType<Buffs.BrimstoneFlames>(), 120);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

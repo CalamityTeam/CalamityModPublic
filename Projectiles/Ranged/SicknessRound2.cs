@@ -69,7 +69,7 @@ namespace CalamityMod.Projectiles
         {
             target.AddBuff(BuffID.Poisoned, 180);
             target.AddBuff(BuffID.Venom, 180);
-            target.AddBuff(ModContent.BuffType<Plague>(), 180);
+            target.AddBuff(ModContent.BuffType<Buffs.Plague>(), 180);
         }
 
         public override void Kill(int timeLeft)

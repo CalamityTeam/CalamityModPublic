@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles
                 if (Main.tile[tileX, tileY].type == TileID.MinecartTrack)
                     return;
 
-                WorldGen.PlaceTile(tileX, tileY, ModContent.TileType<AstralSand>(), false, true);
+                WorldGen.PlaceTile(tileX, tileY, ModContent.TileType<Tiles.AstralSand>(), false, true);
                 WorldGen.SquareTileFrame(tileX, tileY);
             }
         }

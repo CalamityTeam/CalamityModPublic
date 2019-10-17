@@ -53,12 +53,12 @@ namespace CalamityMod.Projectiles
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 600, true);
-            target.AddBuff(ModContent.BuffType<DemonFlames>(), 600, true);
-            target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 600, true);
+            target.AddBuff(ModContent.BuffType<Buffs.GodSlayerInferno>(), 600, true);
+            target.AddBuff(ModContent.BuffType<Buffs.DemonFlames>(), 600, true);
+            target.AddBuff(ModContent.BuffType<Buffs.ArmorCrunch>(), 600, true);
             if (Main.rand.NextBool(30))
             {
-                target.AddBuff(ModContent.BuffType<ExoFreeze>(), 120, true);
+                target.AddBuff(ModContent.BuffType<Buffs.ExoFreeze>(), 120, true);
             }
         }
     }

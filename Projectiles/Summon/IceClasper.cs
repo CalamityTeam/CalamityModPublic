@@ -78,7 +78,7 @@ namespace CalamityMod.Projectiles
             bool flag64 = projectile.type == ModContent.ProjectileType<IceClasper>();
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            player.AddBuff(ModContent.BuffType<IceClasper>(), 3600);
+            player.AddBuff(ModContent.BuffType<Buffs.IceClasper>(), 3600);
             if (flag64)
             {
                 if (player.dead)

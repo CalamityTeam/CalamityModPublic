@@ -1,7 +1,7 @@
 
 using Microsoft.Xna.Framework;
-using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader; using CalamityMod.Dusts;
+using Terraria.ModLoader; using CalamityMod.Dusts; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
 namespace CalamityMod.Tiles
 {
@@ -15,9 +15,7 @@ namespace CalamityMod.Tiles
             Main.tileBlockLight[Type] = true;
 
             TileMerge.MergeGeneralTiles(Type);
-
-            dustType = ModContent.DustType<AHSparkle>();
-            drop = ModContent.ItemType<AerialiteOre>();
+            drop = ModContent.ItemType<Items.AerialiteOre>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Aerialite Ore");
             AddMapEntry(new Color(0, 255, 255), name);

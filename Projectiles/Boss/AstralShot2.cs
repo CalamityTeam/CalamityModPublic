@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 180);
+            target.AddBuff(ModContent.BuffType<Buffs.AstralInfectionDebuff>(), 180);
         }
 
         public override Color? GetAlpha(Color lightColor)

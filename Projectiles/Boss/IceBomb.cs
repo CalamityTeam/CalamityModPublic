@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles
         {
             target.AddBuff(BuffID.Frostburn, 120, true);
             target.AddBuff(BuffID.Chilled, 90, true);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 60);
+            target.AddBuff(ModContent.BuffType<Buffs.GlacialState>(), 60);
         }
     }
 }

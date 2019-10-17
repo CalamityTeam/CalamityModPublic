@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles
         {
             Player player = Main.player[projectile.owner];
             target.AddBuff(BuffID.Bleeding, 300);
-            target.AddBuff(ModContent.BuffType<BurningBlood>(), 300);
+            target.AddBuff(ModContent.BuffType<Buffs.BurningBlood>(), 300);
             player.AddBuff(BuffID.WellFed, 180);
         }
 

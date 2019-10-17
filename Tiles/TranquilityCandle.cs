@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
-using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
+using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria.ModLoader;
 using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles
@@ -15,7 +15,7 @@ namespace CalamityMod.Tiles
             Main.tileLavaDeath[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.StyleOnTable1x1);
             TileObjectData.addTile(Type);
-            drop = ModContent.ItemType<TranquilityCandle>();
+            drop = ModContent.ItemType<Items.TranquilityCandle>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Tranquility Candle");
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
@@ -38,14 +38,14 @@ namespace CalamityMod.Tiles
             Player player = Main.LocalPlayer;
             player.noThrow = 2;
             player.showItemIcon = true;
-            player.showItemIcon2 = ModContent.ItemType<TranquilityCandle>();
+            player.showItemIcon2 = ModContent.ItemType<Items.TranquilityCandle>();
         }
 
         public override void NearbyEffects(int i, int j, bool closer)
         {
             Player player = Main.LocalPlayer;
             if (!player.dead && player.active)
-                player.AddBuff(ModContent.BuffType<TranquilityCandle>(), 20);
+                player.AddBuff(ModContent.BuffType<Buffs.TranquilityCandle>(), 20);
         }
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
@@ -57,7 +57,7 @@ namespace CalamityMod.Tiles
 
         /*public override void RightClick(int i, int j)
         {
-            Item.NewItem(i * 16, j * 16, 8, 8, ModContent.ItemType<TranquilityCandle>());
+            Item.NewItem(i * 16, j * 16, 8, 8, ModContent.ItemType<Items.TranquilityCandle>());
             ?? KillTile( i, j);
         }*/
     }

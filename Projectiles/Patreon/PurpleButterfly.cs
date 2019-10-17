@@ -82,7 +82,7 @@ namespace CalamityMod.Projectiles
             bool flag64 = projectile.type == ModContent.ProjectileType<PurpleButterfly>();
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            player.AddBuff(ModContent.BuffType<ResurrectionButterflyBuff>(), 3600);
+            player.AddBuff(ModContent.BuffType<Buffs.ResurrectionButterflyBuff>(), 3600);
             if (flag64)
             {
                 if (player.dead)

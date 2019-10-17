@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
             target.AddBuff(BuffID.Ichor, 540);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 540);
+            target.AddBuff(ModContent.BuffType<Buffs.HolyFlames>(), 540);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -69,11 +69,11 @@ namespace CalamityMod.Projectiles
             target.immune[projectile.owner] = 0;
 
             target.AddBuff(BuffID.Daybreak, 540);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 540);
-            target.AddBuff(ModContent.BuffType<ExoFreeze>(), 30);
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
-            target.AddBuff(ModContent.BuffType<Plague>(), 120);
+            target.AddBuff(ModContent.BuffType<Buffs.HolyFlames>(), 540);
+            target.AddBuff(ModContent.BuffType<Buffs.ExoFreeze>(), 30);
+            target.AddBuff(ModContent.BuffType<Buffs.BrimstoneFlames>(), 120);
+            target.AddBuff(ModContent.BuffType<Buffs.GlacialState>(), 120);
+            target.AddBuff(ModContent.BuffType<Buffs.Plague>(), 120);
             target.AddBuff(BuffID.CursedInferno, 120);
             target.AddBuff(BuffID.Frostburn, 120);
             target.AddBuff(BuffID.OnFire, 120);

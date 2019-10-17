@@ -112,7 +112,7 @@ namespace CalamityMod.Projectiles
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.immune[projectile.owner] = 5;
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
+            target.AddBuff(ModContent.BuffType<Buffs.GlacialState>(), 120);
             Vector2 vector80 = projectile.rotation.ToRotationVector2();
             if (projectile.owner == Main.myPlayer)
             {

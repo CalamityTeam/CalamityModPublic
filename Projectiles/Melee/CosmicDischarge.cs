@@ -225,14 +225,14 @@ namespace CalamityMod.Projectiles
             target.AddBuff(mod.BuffType("Nightwither"), 300);
             if (Main.rand.NextBool(3))
             {
-                target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
+                target.AddBuff(ModContent.BuffType<Buffs.GlacialState>(), 120);
             }
             if (projectile.localAI[1] <= 0f && projectile.owner == Main.myPlayer)
             {
                 Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<CosmicIceBurst>(), damage, 10f, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
             }
             projectile.localAI[1] = 4f;
-            player.AddBuff(ModContent.BuffType<CosmicFreeze>(), 300);
+            player.AddBuff(ModContent.BuffType<Buffs.CosmicFreeze>(), 300);
         }
     }
 }

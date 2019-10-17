@@ -193,11 +193,11 @@ namespace CalamityMod.Projectiles
             {
                 if (target.rarity != 2)
                 {
-                    target.AddBuff(ModContent.BuffType<SilvaStun>(), 60);
+                    target.AddBuff(ModContent.BuffType<Buffs.SilvaStun>(), 60);
                 }
                 else if (projectile.ai[1] >= 45f && (projectile.ai[0] != 1f || projectile.ai[0] != 2f))
                 {
-                    target.AddBuff(ModContent.BuffType<SilvaStun>(), 30);
+                    target.AddBuff(ModContent.BuffType<Buffs.SilvaStun>(), 30);
                 }
             }
             projectile.ai[0] = 1f;

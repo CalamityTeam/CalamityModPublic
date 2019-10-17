@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Dusts;
 using Terraria.ID;
 
 namespace CalamityMod.Tiles
@@ -14,7 +14,6 @@ namespace CalamityMod.Tiles
         {
             CalamityUtils.SetUpPlatform(Type);
             AddMapEntry(new Color(191, 142, 111));
-            dustType = ModContent.DustType<Sparkle>();
             drop = ModContent.ItemType<Items.PlaguedPlatePlatform>();
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Platforms };

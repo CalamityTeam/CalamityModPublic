@@ -73,7 +73,7 @@ namespace CalamityMod.Projectiles
             bool flag64 = projectile.type == ModContent.ProjectileType<Corroslime>();
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            player.AddBuff(ModContent.BuffType<Corroslime>(), 3600);
+            player.AddBuff(ModContent.BuffType<Buffs.Corroslime>(), 3600);
             if (flag64)
             {
                 if (player.dead)

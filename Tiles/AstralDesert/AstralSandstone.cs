@@ -1,8 +1,8 @@
 
 using Microsoft.Xna.Framework;
-using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
+using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader; using CalamityMod.Dusts;
 using Terraria.ID;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria.ModLoader; using CalamityMod.Dusts; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
 namespace CalamityMod.Tiles
 {
@@ -18,7 +18,7 @@ namespace CalamityMod.Tiles
             TileMerge.MergeAstralTiles(Type);
 
             dustType = ModContent.DustType<AstralBasic>();
-            drop = ModContent.ItemType<AstralSandstone>();
+            drop = ModContent.ItemType<Items.AstralSandstone>();
 
             AddMapEntry(new Color(79, 61, 97));
 

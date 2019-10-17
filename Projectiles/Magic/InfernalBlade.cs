@@ -149,7 +149,7 @@ namespace CalamityMod.Projectiles
             {
                 Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, ModContent.ProjectileType<InfernalBlade2>(), (int)((double)projectile.damage * 0.75), 1f, projectile.owner);
             }
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 240);
+            target.AddBuff(ModContent.BuffType<Buffs.BrimstoneFlames>(), 240);
         }
     }
 }

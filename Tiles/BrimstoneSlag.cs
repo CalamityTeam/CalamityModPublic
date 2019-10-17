@@ -1,8 +1,8 @@
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader; using CalamityMod.Dusts;
+using Terraria.ModLoader; using CalamityMod.Dusts; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
 namespace CalamityMod.Tiles
 {
@@ -23,7 +23,7 @@ namespace CalamityMod.Tiles
             soundType = 21;
             mineResist = 3f;
             minPick = 180;
-            drop = ModContent.ItemType<BrimstoneSlag>();
+            drop = ModContent.ItemType<Items.BrimstoneSlag>();
             AddMapEntry(new Color(53, 33, 56));
         }
 

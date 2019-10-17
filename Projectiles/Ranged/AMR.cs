@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles
                     }
                 }
             }
-            target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 600);
+            target.AddBuff(ModContent.BuffType<Buffs.MarkedforDeath>(), 600);
             if (target.defense > 50)
             {
                 target.defense -= 50;

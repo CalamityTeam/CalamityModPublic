@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Dusts;
 using Terraria.ID;
 
 namespace CalamityMod.Tiles
@@ -16,7 +16,6 @@ namespace CalamityMod.Tiles
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Botanic Clock");
             AddMapEntry(new Color(191, 142, 111), name);
-            dustType = ModContent.DustType<Pixel>();
             adjTiles = new int[] { TileID.GrandfatherClocks };
         }
 
