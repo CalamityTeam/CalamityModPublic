@@ -1,16 +1,16 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader; using CalamityMod.Dusts;
-using Terraria.ModLoader; using CalamityMod.Dusts; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
-
+using Terraria;
+using Terraria.ModLoader;
+using CalamityMod.Buffs;
 namespace CalamityMod.Projectiles
 {
     public class PolarStar : ModProjectile
     {
         private int dust1 = 86;
         private int dust2 = 91;
-		
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Polar Star");

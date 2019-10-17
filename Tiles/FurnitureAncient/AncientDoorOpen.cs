@@ -1,7 +1,6 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ModLoader; using CalamityMod.Dusts;
+using Terraria.ModLoader;
 using Terraria.ID;
 
 namespace CalamityMod.Tiles

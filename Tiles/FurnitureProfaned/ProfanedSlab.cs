@@ -1,7 +1,8 @@
 
 using Microsoft.Xna.Framework;
-using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader; using CalamityMod.Dusts;
-using Terraria.ModLoader; using CalamityMod.Dusts; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls; using CalamityMod.Dusts;
+using Terraria;
+using Terraria.ModLoader;
+using CalamityMod.Dusts;
 
 namespace CalamityMod.Tiles
 {

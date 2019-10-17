@@ -1,6 +1,5 @@
 ﻿using CalamityMod.Buffs;
 using CalamityMod.Items;
-using CalamityMod.Projectiles;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

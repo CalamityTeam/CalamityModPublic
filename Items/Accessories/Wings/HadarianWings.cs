@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
-using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
+using Terraria;
+using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Dusts; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
-
+using CalamityMod.Dusts;
 namespace CalamityMod.Items
 {
     [AutoloadEquip(EquipType.Wings)]

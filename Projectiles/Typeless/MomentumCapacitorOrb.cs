@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
-using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader; using CalamityMod.Dusts;
-using Terraria.ModLoader; using CalamityMod.Dusts; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
-
+using Terraria;
+using Terraria.ModLoader;
 namespace CalamityMod.Projectiles
 {
     public class MomentumCapacitorOrb : ModProjectile
@@ -47,7 +46,7 @@ namespace CalamityMod.Projectiles
                 if (Main.projectile[k].type == ModContent.ProjectileType<SlickCaneProjectile>() ||
                     Main.projectile[k].type == ModContent.ProjectileType<Malachite>() ||
                     Main.projectile[k].type == ModContent.ProjectileType<DuneHopperProjectile>()) continue;
-                if (Main.projectile[k].owner == projectile.owner && Main.projectile[k].Calamity().rogue && 
+                if (Main.projectile[k].owner == projectile.owner && Main.projectile[k].Calamity().rogue &&
                     !Main.projectile[k].Calamity().momentumCapacitatorBoost && Main.projectile[k].friendly)
                 {
                     Main.projectile[k].damage = (int)(Main.projectile[k].damage * 1.15f);

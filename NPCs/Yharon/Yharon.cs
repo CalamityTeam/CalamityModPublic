@@ -4,11 +4,14 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
-using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
+using Terraria;
+using CalamityMod.Projectiles;
+using Terraria.ModLoader;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.Localization;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles;  
+using CalamityMod.Buffs;
+using CalamityMod.Items;
 using Terraria.Utilities;
 
 namespace CalamityMod.NPCs

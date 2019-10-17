@@ -1,10 +1,11 @@
 using CalamityMod.World;
 using System.Collections.Generic;
-using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
+using Terraria;
+using CalamityMod.Projectiles;
+using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.Localization;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles;  
-
+using CalamityMod.Items;
 namespace CalamityMod.NPCs
 {
     [AutoloadHead]
@@ -30,7 +31,7 @@ namespace CalamityMod.NPCs
             NPCID.Sets.AttackType[npc.type] = 0;
             NPCID.Sets.AttackTime[npc.type] = 60;
             NPCID.Sets.AttackAverageChance[npc.type] = 10;
-        }        
+        }
         public override void SetDefaults()
         {
             npc.townNPC = true;

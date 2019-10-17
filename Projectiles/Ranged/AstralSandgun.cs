@@ -2,8 +2,7 @@ using System;
 
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader; using CalamityMod.Dusts;
-
+using Terraria.ModLoader;
 namespace CalamityMod.Projectiles
 {
     public class AstralSandgun : ModProjectile

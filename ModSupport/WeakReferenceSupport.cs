@@ -1,8 +1,9 @@
 ﻿using CalamityMod.World;
 using System;
 using Terraria.ID;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
-
+using Terraria.ModLoader;
+using CalamityMod.Items;
+using CalamityMod.NPCs;
 namespace CalamityMod
 {
     internal class WeakReferenceSupport

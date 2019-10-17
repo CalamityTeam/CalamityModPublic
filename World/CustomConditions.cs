@@ -1,5 +1,5 @@
 ﻿
-using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
+using Terraria;
 using Terraria.World.Generation;
 
 namespace CalamityMod.World

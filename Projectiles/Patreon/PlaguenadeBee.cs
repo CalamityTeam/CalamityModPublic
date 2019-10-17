@@ -1,8 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader; using CalamityMod.Dusts;
-using Terraria.ModLoader; using CalamityMod.Dusts; using CalamityMod.Buffs;
+using Terraria;
+using Terraria.ModLoader;
+using CalamityMod.Buffs;
 
 namespace CalamityMod.Projectiles
 {

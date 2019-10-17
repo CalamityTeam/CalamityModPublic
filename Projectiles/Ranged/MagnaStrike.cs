@@ -2,8 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria.ID;
-using Terraria.ModLoader; using CalamityMod.Dusts; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
-
+using Terraria.ModLoader;
 namespace CalamityMod.Projectiles
 {
     public class MagnaStrike : ModProjectile

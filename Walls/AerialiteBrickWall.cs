@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework; using CalamityMod.Dusts;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 

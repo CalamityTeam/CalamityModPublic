@@ -1,7 +1,7 @@
 using CalamityMod.Projectiles;
-using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
-using Terraria.ID;
+using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items
 {

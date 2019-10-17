@@ -1,7 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria.ID;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles;  
-
+using Terraria.ModLoader;
 namespace CalamityMod.NPCs
 {
     public class SuperDummy : ModNPC

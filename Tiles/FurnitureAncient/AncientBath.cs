@@ -1,9 +1,6 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ModLoader; using CalamityMod.Dusts;
-using Terraria.ID;
-
+using Terraria.ModLoader;
 namespace CalamityMod.Tiles
 {
     class AncientBath : ModTile
