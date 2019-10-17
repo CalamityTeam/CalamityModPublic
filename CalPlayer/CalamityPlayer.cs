@@ -8993,11 +8993,11 @@ namespace CalamityMod.CalPlayer
 
                 if (item.type == ModContent.ItemType<DeathhailStaff>() || item.type == ModContent.ItemType<Vesuvius>() || item.type == ModContent.ItemType<SoulPiercer>())
                 {
-                    Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Weapons/DevourerofGods/DeathhailStaffGlow");
+                    Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/DeathhailStaffGlow");
                     if (item.type == ModContent.ItemType<Vesuvius>())
-                        texture = ModContent.GetTexture("CalamityMod/Items/Weapons/VesuviusGlow");
+                        texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/VesuviusGlow");
                     else if (item.type == ModContent.ItemType<SoulPiercer>())
-                        texture = ModContent.GetTexture("CalamityMod/Items/Weapons/SoulPiercerGlow");
+                        texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/SoulPiercerGlow");
 
                     float num104 = drawPlayer.itemRotation + 0.785f * (float)drawPlayer.direction;
                     int num105 = 0;
@@ -9039,21 +9039,21 @@ namespace CalamityMod.CalPlayer
                 else if (item.type == ModContent.ItemType<Deathwind>() || item.type == ModContent.ItemType<Apotheosis>() || item.type == ModContent.ItemType<CleansingBlaze>() ||
                 item.type == ModContent.ItemType<SubsumingVortex>())
                 {
-                    Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Weapons/DevourerofGods/DeathwindGlow");
+                    Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Ranged/DeathwindGlow");
                     int offsetX = 10;
                     if (item.type == ModContent.ItemType<Apotheosis>())
                     {
-                        texture = ModContent.GetTexture("CalamityMod/Items/Weapons/ApotheosisGlow");
+                        texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/ApotheosisGlow");
                         offsetX = 6;
                     }
                     else if (item.type == ModContent.ItemType<CleansingBlaze>())
                     {
-                        texture = ModContent.GetTexture("CalamityMod/Items/Weapons/CleansingBlazeGlow");
+                        texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Ranged/CleansingBlazeGlow");
                         offsetX = 37;
                     }
                     else if (item.type == ModContent.ItemType<SubsumingVortex>())
                     {
-                        texture = ModContent.GetTexture("CalamityMod/Items/Weapons/SubsumingVortexGlow");
+                        texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/SubsumingVortexGlow");
                         offsetX = 9;
                     }
 
@@ -9082,13 +9082,13 @@ namespace CalamityMod.CalPlayer
                 else if (item.type == ModContent.ItemType<Excelsus>() || item.type == ModContent.ItemType<EssenceFlayer>() || item.type == ModContent.ItemType<TheEnforcer>() ||
                 item.type == ModContent.ItemType<ElementalExcalibur>())
                 {
-                    Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Weapons/ExcelsusGlow");
+                    Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/ExcelsusGlow");
                     if (item.type == ModContent.ItemType<EssenceFlayer>())
-                        texture = ModContent.GetTexture("CalamityMod/Items/Weapons/EssenceFlayerGlow");
+                        texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/EssenceFlayerGlow");
                     else if (item.type == ModContent.ItemType<TheEnforcer>())
-                        texture = ModContent.GetTexture("CalamityMod/Items/Weapons/TheEnforcerGlow");
+                        texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/TheEnforcerGlow");
                     else if (item.type == ModContent.ItemType<ElementalExcalibur>())
-                        texture = ModContent.GetTexture("CalamityMod/Items/Weapons/ElementalExcaliburGlow");
+                        texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/ElementalExcaliburGlow");
 
                     float yOffset = drawPlayer.gravDir == -1f ? 0f : (float)Main.itemTexture[item.type].Height;
 

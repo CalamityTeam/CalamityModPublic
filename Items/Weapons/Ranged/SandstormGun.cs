@@ -6,7 +6,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Items
 {
-    public class Sandstorm : ModItem
+    public class SandstormGun : ModItem
     {
         public override void SetStaticDefaults()
         {
