@@ -734,29 +734,40 @@ namespace CalamityMod.World
         #region PostUpdate
         public override void PostUpdate()
         {
+			// Sunken Sea Location...duh
             SunkenSeaLocation = new Rectangle(WorldGen.UndergroundDesertLocation.Left, WorldGen.UndergroundDesertLocation.Bottom,
                         WorldGen.UndergroundDesertLocation.Width, WorldGen.UndergroundDesertLocation.Height / 2);
+
+			// Player variable, always finds the closest player relative to the center of the map
             int closestPlayer = (int)Player.FindClosest(new Vector2((float)(Main.maxTilesX / 2), (float)Main.worldSurface / 2f) * 16f, 0, 0);
 
+			// Force boss rush to off
             if (!deactivateStupidFuckingBullshit)
             {
                 deactivateStupidFuckingBullshit = true;
                 bossRushActive = false;
                 CalamityMod.UpdateServerBoolean();
             }
+
+			// Boss Rush shit
             if (bossRushActive)
             {
+				// Prevent Moon Lord from spawning naturally
                 if (NPC.MoonLordCountdown > 0)
                 {
                     NPC.MoonLordCountdown = 0;
                 }
+
+				// Do boss rush countdown and shit if no boss is alive
                 if (!CalamityPlayer.areThereAnyDamnBosses)
                 {
+					// Stage text
                     if (bossRushSpawnCountdown > 0)
                     {
                         bossRushSpawnCountdown--;
                         if (bossRushSpawnCountdown == 180)
                         {
+							// After Fishron is dead
                             if (bossRushStage == 28)
                             {
                                 string key = "Mods.CalamityMod.BossRushTierThreeEndText2";
@@ -770,6 +781,8 @@ namespace CalamityMod.World
                                     NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
                                 }
                             }
+
+							// After Providence is dead
                             else if (bossRushStage == 36)
                             {
                                 string key = "Mods.CalamityMod.BossRushTierFourEndText2";
@@ -785,30 +798,42 @@ namespace CalamityMod.World
                             }
                         }
                     }
+
+					// Cooldown and boss spawn
                     if (bossRushSpawnCountdown <= 0)
                     {
+						// Cooldown before next boss spawns
                         bossRushSpawnCountdown = 60;
-                        if (bossRushStage > 27)
+
+						// Increase cooldown post-Fishron
+                        if (bossRushStage >= 27)
                         {
                             bossRushSpawnCountdown += 300;
                         }
+
+						// Change cooldown based on stage
                         switch (bossRushStage)
                         {
+							// When Destroyer or Cultist dies, increase time to show text
                             case 9:
-                                bossRushSpawnCountdown = 240;
-                                break;
                             case 18:
                                 bossRushSpawnCountdown = 300;
                                 break;
+
+							// When Signus dies, increase time to give players a moment to get in a good spot for Ravager
                             case 25:
                                 bossRushSpawnCountdown = 360;
                                 break;
+
+							// When Calamitas Clone dies, increase time to give players a moment to relax
                             case 32:
                                 bossRushSpawnCountdown = 420;
                                 break;
                             default:
                                 break;
                         }
+
+						// Post-Wall of Flesh teleport back to spawn
                         if (bossRushStage == 13)
                         {
                             for (int playerIndex = 0; playerIndex < 255; playerIndex++)
@@ -820,6 +845,8 @@ namespace CalamityMod.World
                                 }
                             }
                         }
+
+						// Remove Providence debuff for next boss fight
                         else if (bossRushStage == 36)
                         {
                             for (int playerIndex = 0; playerIndex < 255; playerIndex++)
@@ -834,6 +861,8 @@ namespace CalamityMod.World
                                 }
                             }
                         }
+
+						// Spawn bosses
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
                             Main.PlaySound(SoundID.Roar, Main.player[closestPlayer].position, 0);
