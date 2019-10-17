@@ -235,6 +235,7 @@ namespace CalamityMod.CalPlayer
         public bool dAmulet = false;
         public bool fCarapace = false;
         public bool gShell = false;
+        public bool seaShell = false;
         public bool absorber = false;
         public bool aAmpoule = false;
         public bool pAmulet = false;
@@ -920,6 +921,7 @@ namespace CalamityMod.CalPlayer
             dAmulet = false;
             fCarapace = false;
             gShell = false;
+            seaShell = false;
             absorber = false;
             aAmpoule = false;
             pAmulet = false;
@@ -3266,11 +3268,20 @@ namespace CalamityMod.CalPlayer
                 }
                 if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
                 {
-                    player.statDefense += 5;
-                    player.endurance += 0.05f;
-                    player.moveSpeed += 0.2f;
+                    player.statDefense += 2;
+                    player.moveSpeed += 0.05f;
                 }
-            }
+			}
+			if (seaShell)
+			{
+				if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
+				{
+					player.statDefense += 3;
+					player.endurance += 0.05f;
+					player.moveSpeed += 0.15f;
+					player.ignoreWater = true;
+				}
+			}
             if (coreOfTheBloodGod)
             {
                 player.statLifeMax2 += player.statLifeMax2 / 5 / 20 * 10;
@@ -7211,8 +7222,7 @@ namespace CalamityMod.CalPlayer
             if (CalamityWorld.revenge)
             {
                 customDamage = true;
-                double defenseMult = Main.hardMode ? 0.75 : 0.5;
-                double newDamage = (double)damage - ((double)player.statDefense * defenseMult);
+                double newDamage = (double)damage - ((double)player.statDefense * 0.75);
                 double newDamageLimit = 5.0 + (Main.hardMode ? 5.0 : 0.0) + (NPC.downedPlantBoss ? 5.0 : 0.0) + (NPC.downedMoonlord ? 5.0 : 0.0); //5, 10, 15, 20
                 if (newDamage < newDamageLimit)
                 {

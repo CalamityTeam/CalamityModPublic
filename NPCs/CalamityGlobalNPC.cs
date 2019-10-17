@@ -145,9 +145,9 @@ namespace CalamityMod.NPCs
             { NPCID.GolemFistLeft, 250000 },
             { NPCID.GolemFistRight, 250000 },
 
-            { NPCID.EaterofWorldsHead, 150000 }, // 30 seconds
-            { NPCID.EaterofWorldsBody, 225000 },
-            { NPCID.EaterofWorldsTail, 300000 },
+            { NPCID.EaterofWorldsHead, 2500000 }, // 30 seconds
+            { NPCID.EaterofWorldsBody, 2500000 },
+            { NPCID.EaterofWorldsTail, 2500000 },
 
             // Tier 2
             { NPCID.TheDestroyer, 2500000 }, // 30 seconds + immunity timer at start
@@ -3429,6 +3429,11 @@ namespace CalamityMod.NPCs
                 SetShopItem(ref shop, ref nextSlot, ItemID.RocketLauncher, NPC.downedGolemBoss, Item.buyPrice(0, 25));
             }
 
+            if (type == NPCID.Pirate)
+            {
+                SetShopItem(ref shop, ref nextSlot, ItemID.PirateMap, price: Item.buyPrice(0, 5));
+            }
+
             if (type == NPCID.Dryad)
             {
                 SetShopItem(ref shop, ref nextSlot, ItemID.JungleRose, price: Item.buyPrice(0, 2));
@@ -3505,6 +3510,7 @@ namespace CalamityMod.NPCs
                 SetShopItem(ref shop, ref nextSlot, mod.ItemType("BulbofDoom"), NPC.downedPlantBoss, Item.buyPrice(0, 20));
                 SetShopItem(ref shop, ref nextSlot, ItemID.SolarTablet, NPC.downedGolemBoss, Item.buyPrice(0, 25));
                 SetShopItem(ref shop, ref nextSlot, ItemID.LihzahrdPowerCell, NPC.downedGolemBoss, Item.buyPrice(0, 30));
+                SetShopItem(ref shop, ref nextSlot, mod.ItemType("GypsyPowder"), NPC.downedGolemBoss, Item.buyPrice(0, 10));
                 SetShopItem(ref shop, ref nextSlot, mod.ItemType("AncientMedallion"), CalamityWorld.downedScavenger, Item.buyPrice(0, 50));
                 SetShopItem(ref shop, ref nextSlot, mod.ItemType("Abomination"), CalamityWorld.downedPlaguebringer, Item.buyPrice(0, 50));
                 SetShopItem(ref shop, ref nextSlot, mod.ItemType("BirbPheromones"), CalamityWorld.downedBumble, Item.buyPrice(5));

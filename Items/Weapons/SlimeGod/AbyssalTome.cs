@@ -31,5 +31,16 @@ namespace CalamityMod.Items.Weapons.SlimeGod
             item.shoot = mod.ProjectileType("AbyssBall");
             item.shootSpeed = 9f;
         }
+
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(null, "PurifiedGel", 10);
+            recipe.AddIngredient(null, "EbonianGel", 20);
+            recipe.AddIngredient(ItemID.Book);
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
     }
 }

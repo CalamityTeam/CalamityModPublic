@@ -1,7 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.FurniturePlaguedPlate
 {
@@ -9,12 +8,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
     {
         public override void SetDefaults()
         {
-            Main.tileLighted[Type] = true;
-            Main.tileFrameImportant[Type] = true;
-            Main.tileLavaDeath[Type] = true;
-
-            TileObjectData.newTile.CopyFrom(TileObjectData.Style4x2);
-            TileObjectData.addTile(Type);
+            CalamityUtils.SetUpBathtub(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Plagued Plate Bathtub");
             AddMapEntry(new Color(191, 142, 111), name);

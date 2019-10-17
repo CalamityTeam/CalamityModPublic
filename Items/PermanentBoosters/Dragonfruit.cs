@@ -10,7 +10,8 @@ namespace CalamityMod.Items.PermanentBoosters
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dragonfruit");
-            Tooltip.SetDefault("Permanently increases maximum life by 25\n" +
+            Tooltip.SetDefault("Though somewhat bland, what taste can be described is unlike any other experienced\n" +
+                               "Permanently increases maximum life by 25\n" +
                                "Can only be used if the max amount of life fruit has been consumed");
         }
 

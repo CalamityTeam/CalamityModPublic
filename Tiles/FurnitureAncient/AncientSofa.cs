@@ -1,7 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.FurnitureAncient
 {
@@ -9,13 +8,7 @@ namespace CalamityMod.Tiles.FurnitureAncient
     {
         public override void SetDefaults()
         {
-            Main.tileLighted[Type] = true;
-            Main.tileFrameImportant[Type] = true;
-            Main.tileLavaDeath[Type] = false;
-
-            TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
-            TileObjectData.newTile.LavaDeath = false;
-            TileObjectData.addTile(Type);
+            CalamityUtils.SetUpSofa(Type, true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Ancient Sofa");
             AddMapEntry(new Color(191, 142, 111), name);

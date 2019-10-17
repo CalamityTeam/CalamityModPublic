@@ -45,6 +45,7 @@ namespace CalamityMod.Items
             DropHelper.DropItem(player, ItemID.SwiftnessPotion, 3);
             DropHelper.DropItem(player, ItemID.GillsPotion, 2);
             DropHelper.DropItem(player, ItemID.ShinePotion);
+            DropHelper.DropItem(player, ItemID.RecallPotion, 3);
 
             // Tiles / Placeables
             DropHelper.DropItem(player, ItemID.Torch, 25);

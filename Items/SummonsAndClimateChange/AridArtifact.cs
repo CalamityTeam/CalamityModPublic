@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.GameContent.Events;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.World;
 
 namespace CalamityMod.Items.SummonsAndClimateChange
 {
@@ -12,7 +13,8 @@ namespace CalamityMod.Items.SummonsAndClimateChange
         {
             DisplayName.SetDefault("Arid Artifact");
             Tooltip.SetDefault("Summons a sandstorm\n" +
-                               "The sandstorm will happen shortly after the item is used");
+                               "The sandstorm will happen shortly after the item is used\n" +
+							   "Cancels a sandstorm if one is active");
         }
 
         public override void SetDefaults()
@@ -30,12 +32,15 @@ namespace CalamityMod.Items.SummonsAndClimateChange
 
         public override bool CanUseItem(Player player)
         {
-            return !Sandstorm.Happening;
+            return CalamityWorld.downedDesertScourge;
         }
 
         public override bool UseItem(Player player)
         {
-            typeof(Sandstorm).GetMethod("StartSandstorm", BindingFlags.Static | BindingFlags.NonPublic).Invoke(null, null);
+            if (!Sandstorm.Happening)
+				typeof(Sandstorm).GetMethod("StartSandstorm", BindingFlags.Static | BindingFlags.NonPublic).Invoke(null, null);
+            else
+                Sandstorm.TimeLeft = 0;
             return true;
         }
 

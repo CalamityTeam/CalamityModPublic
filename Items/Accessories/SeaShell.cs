@@ -1,5 +1,6 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
+using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -24,13 +25,8 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
-            {
-                player.statDefense += 3;
-                player.endurance += 0.05f;
-                player.moveSpeed += 0.15f;
-                player.ignoreWater = true;
-            }
+            CalamityPlayer modPlayer = player.Calamity();
+            modPlayer.seaShell = true;
         }
     }
 }

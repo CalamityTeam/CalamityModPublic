@@ -18,7 +18,7 @@ namespace CalamityMod.Items.DifficultyItems
                 "You gain rage whenever you take damage or hit an enemy with a true melee weapon.\n" +
                 "Activates adrenaline. When adrenaline is maxed press B to activate adrenaline mode.\n" +
                 "You gain adrenaline whenever a boss is alive. Getting hit drops adrenaline back to 0.\n" +
-                "If you hit max adrenaline and don't use it within 3 seconds your adrenaline damage will drop gradually.\n" +
+                "If you hit max adrenaline and don't use it within 5 seconds your adrenaline damage will drop gradually.\n" +
                 "All enemies drop 50% more cash.\n" +
                 "All enemies gain a new damage reduction stat, which can be reduced by applying various debuffs to them.\n" +
                 "The amount of this damage reduction stat varies based on enemy type.\n" +
@@ -30,7 +30,6 @@ namespace CalamityMod.Items.DifficultyItems
                 "Increases Nurse healing price.\n" +
                 "Allows certain enemies to inflict the Horror and Marked debuffs.\n" +
                 "Before you have killed your first boss you take 20% less damage from everything.\n" +
-                "Changes the Expert Mode 75% defense back to the Normal Mode 50% defense for the duration of prehardmode.\n" +
                 "Changes ALL boss AIs and some enemy AIs in vanilla and the Calamity Mod.\n" +
                 "DO NOT USE IF A BOSS IS ALIVE!\n" +
                 "Can be toggled on and off.");

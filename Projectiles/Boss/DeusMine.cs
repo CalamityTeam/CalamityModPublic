@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.alpha = 100;
             projectile.penetrate = -1;
             projectile.tileCollide = false;
-            projectile.timeLeft = 1200;
+            projectile.timeLeft = 1020;
         }
 
         public override void SendExtraAI(BinaryWriter writer)

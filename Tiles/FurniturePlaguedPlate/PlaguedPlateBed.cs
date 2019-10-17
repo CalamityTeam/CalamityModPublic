@@ -52,10 +52,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
             int spawnX = i - tile.frameX / 18;
             int spawnY = j + 2;
             spawnX += tile.frameX >= 54 ? 5 : 2;
-            if (tile.frameY % 38 != 0)
-            {
-                spawnY--;
-            }
+            spawnY -= tile.frameY / 18;
             player.FindSpawn();
             if (player.SpawnX == spawnX && player.SpawnY == spawnY)
             {

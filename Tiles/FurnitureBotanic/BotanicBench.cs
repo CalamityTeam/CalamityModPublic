@@ -1,7 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.FurnitureBotanic
 {
@@ -9,13 +8,7 @@ namespace CalamityMod.Tiles.FurnitureBotanic
     {
         public override void SetDefaults()
         {
-            Main.tileLighted[Type] = true;
-            Main.tileFrameImportant[Type] = true;
-            Main.tileLavaDeath[Type] = true;
-            Main.tileWaterDeath[Type] = false;
-
-            TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
-            TileObjectData.addTile(Type);
+            CalamityUtils.SetUpSofa(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Botanic Bench");
             AddMapEntry(new Color(191, 142, 111), name);

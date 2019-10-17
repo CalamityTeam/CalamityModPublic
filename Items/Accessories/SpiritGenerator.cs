@@ -34,12 +34,7 @@ namespace CalamityMod.Items.Accessories
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Diamond, 5);
             recipe.AddIngredient(ItemID.IronBar, 15);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Diamond, 5);
-            recipe.AddIngredient(ItemID.LeadBar, 15);
+            recipe.anyIronBar = true;
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

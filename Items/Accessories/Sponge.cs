@@ -41,6 +41,7 @@ namespace CalamityMod.Items.Accessories
             modPlayer.aSpark = true;
             modPlayer.gShell = true;
             modPlayer.fCarapace = true;
+            modPlayer.seaShell = true;
             modPlayer.absorber = true;
             modPlayer.aAmpoule = true;
             player.statManaMax2 += 20;

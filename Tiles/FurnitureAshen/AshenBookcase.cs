@@ -2,7 +2,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.FurnitureAshen
 {
@@ -10,14 +9,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
     {
         public override void SetDefaults()
         {
-            Main.tileLighted[Type] = true;
-            Main.tileFrameImportant[Type] = true;
-            Main.tileLavaDeath[Type] = false;
-            Main.tileSolidTop[Type] = true;
-            Main.tileTable[Type] = true;
-            TileObjectData.newTile.CopyFrom(TileObjectData.Style3x4);
-            TileObjectData.newTile.LavaDeath = false;
-            TileObjectData.addTile(Type);
+            CalamityUtils.SetUpBookcase(Type, true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Ashen Bookcase");
             AddMapEntry(new Color(191, 142, 111), name);
