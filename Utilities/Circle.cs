@@ -1,7 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-namespace CalamityMod.MiscImplementation
+
+namespace CalamityMod
 {
     public class Circle
     {

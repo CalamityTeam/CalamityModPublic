@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.IO;
 using Terraria;
 using CalamityMod.Projectiles;

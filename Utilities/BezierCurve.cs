@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
-namespace CalamityMod.MiscImplementation
+namespace CalamityMod
 {
     public class BezierCurve
     {
