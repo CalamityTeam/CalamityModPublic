@@ -136,14 +136,14 @@ namespace CalamityMod.UI
             OneToMany[ModContent.NPCType<PerforatorHeadMedium>()] = Perfs;
             OneToMany[ModContent.NPCType<PerforatorHeadLarge>()] = Perfs;
 
-            int[] Rav = new int[] { ModContent.NPCType<ScavengerBody>(), ModContent.NPCType<ScavengerClawRight>(), ModContent.NPCType<ScavengerClawLeft>(),
-                ModContent.NPCType<ScavengerLegRight>(), ModContent.NPCType<ScavengerLegLeft>(), ModContent.NPCType<ScavengerHead>() };
-            OneToMany[ModContent.NPCType<ScavengerBody>()] = Rav;
-            OneToMany[ModContent.NPCType<ScavengerClawRight>()] = Rav;
-            OneToMany[ModContent.NPCType<ScavengerClawLeft>()] = Rav;
-            OneToMany[ModContent.NPCType<ScavengerLegRight>()] = Rav;
-            OneToMany[ModContent.NPCType<ScavengerLegLeft>()] = Rav;
-            OneToMany[ModContent.NPCType<ScavengerHead>()] = Rav;
+            int[] Rav = new int[] { ModContent.NPCType<RavagerBody>(), ModContent.NPCType<RavagerClawRight>(), ModContent.NPCType<RavagerClawLeft>(),
+                ModContent.NPCType<RavagerLegRight>(), ModContent.NPCType<RavagerLegLeft>(), ModContent.NPCType<RavagerHead>() };
+            OneToMany[ModContent.NPCType<RavagerBody>()] = Rav;
+            OneToMany[ModContent.NPCType<RavagerClawRight>()] = Rav;
+            OneToMany[ModContent.NPCType<RavagerClawLeft>()] = Rav;
+            OneToMany[ModContent.NPCType<RavagerLegRight>()] = Rav;
+            OneToMany[ModContent.NPCType<RavagerLegLeft>()] = Rav;
+            OneToMany[ModContent.NPCType<RavagerHead>()] = Rav;
 
             int[] Slimes = new int[] { ModContent.NPCType<SlimeGodCore>(), ModContent.NPCType<SlimeGod>(), ModContent.NPCType<SlimeGodSplit>(),
                 ModContent.NPCType<SlimeGodRun>(), ModContent.NPCType<SlimeGodRunSplit>() };

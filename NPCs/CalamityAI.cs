@@ -367,10 +367,10 @@ namespace CalamityMod.NPCs
                     {
                         // Spawn slimes
                         bool spawnFlag = revenge;
-                        if (NPC.CountNPCS(ModContent.NPCType<AstrageldonSlime>()) > 1)
+                        if (NPC.CountNPCS(ModContent.NPCType<AureusSpawn>()) > 1)
                             spawnFlag = false;
                         if (spawnFlag && Main.netMode != NetmodeID.MultiplayerClient)
-                            NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y - 25, ModContent.NPCType<AstrageldonSlime>(), 0, 0f, 0f, 0f, 0f, 255);
+                            NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y - 25, ModContent.NPCType<AureusSpawn>(), 0, 0f, 0f, 0f, 0f, 255);
 
                         // Reset localAI and find a teleport destination
                         npc.localAI[1] = 0f;
@@ -453,10 +453,10 @@ namespace CalamityMod.NPCs
                 {
                     // Spawn slimes
                     bool spawnFlag = revenge;
-                    if (NPC.CountNPCS(ModContent.NPCType<AstrageldonSlime>()) > 1)
+                    if (NPC.CountNPCS(ModContent.NPCType<AureusSpawn>()) > 1)
                         spawnFlag = false;
                     if (spawnFlag && Main.netMode != NetmodeID.MultiplayerClient)
-                        NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y - 25, ModContent.NPCType<AstrageldonSlime>(), 0, 0f, 0f, 0f, 0f, 255);
+                        NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y - 25, ModContent.NPCType<AureusSpawn>(), 0, 0f, 0f, 0f, 0f, 255);
 
                     // Become vulnerable
                     npc.chaseable = true;

@@ -8,7 +8,7 @@ using Terraria.ID;
 
 namespace CalamityMod.NPCs
 {
-    public class ScavengerHead2 : ModNPC
+    public class RavagerHead2 : ModNPC
     {
         public override void SetStaticDefaults()
         {

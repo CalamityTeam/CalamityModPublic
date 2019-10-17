@@ -7,7 +7,7 @@ using Terraria.ID;
 using CalamityMod.Buffs;
 namespace CalamityMod.NPCs
 {
-    public class ScavengerLegLeft : ModNPC
+    public class RavagerLegRight : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -101,7 +101,7 @@ namespace CalamityMod.NPCs
                 float num660 = Main.npc[CalamityGlobalNPC.scavenger].Center.X - vector79.X;
                 float num661 = Main.npc[CalamityGlobalNPC.scavenger].Center.Y - vector79.Y;
                 num661 += 88f;
-                num660 -= 70f;
+                num660 += 70f;
                 float num662 = (float)Math.Sqrt((double)(num660 * num660 + num661 * num661));
                 if (num662 < 12f + num659)
                 {
@@ -132,8 +132,8 @@ namespace CalamityMod.NPCs
             }
             if (npc.life <= 0)
             {
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ScavengerGores/ScavengerLegLeft"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ScavengerGores/ScavengerLegLeft2"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ScavengerGores/ScavengerLegRight"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ScavengerGores/ScavengerLegRight2"), 1f);
                 for (int k = 0; k < 20; k++)
                 {
                     Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);

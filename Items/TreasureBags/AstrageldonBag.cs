@@ -9,7 +9,7 @@ namespace CalamityMod.Items
 {
     public class AstrageldonBag : ModItem
     {
-        public override int BossBagNPC => ModContent.NPCType<Astrageldon>();
+        public override int BossBagNPC => ModContent.NPCType<AstrumAureus>();
 
         public override void SetStaticDefaults()
         {

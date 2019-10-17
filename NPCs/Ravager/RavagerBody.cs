@@ -12,7 +12,7 @@ using CalamityMod.Items;
 namespace CalamityMod.NPCs
 {
     [AutoloadBossHead]
-    public class ScavengerBody : ModNPC
+    public class RavagerBody : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -110,11 +110,11 @@ namespace CalamityMod.NPCs
             if (npc.localAI[0] == 0f && Main.netMode != NetmodeID.MultiplayerClient)
             {
                 npc.localAI[0] = 1f;
-                NPC.NewNPC((int)npc.Center.X - 70, (int)npc.Center.Y + 88, ModContent.NPCType<ScavengerLegLeft>(), 0, 0f, 0f, 0f, 0f, 255);
-                NPC.NewNPC((int)npc.Center.X + 70, (int)npc.Center.Y + 88, ModContent.NPCType<ScavengerLegRight>(), 0, 0f, 0f, 0f, 0f, 255);
-                NPC.NewNPC((int)npc.Center.X - 120, (int)npc.Center.Y + 50, ModContent.NPCType<ScavengerClawLeft>(), 0, 0f, 0f, 0f, 0f, 255);
-                NPC.NewNPC((int)npc.Center.X + 120, (int)npc.Center.Y + 50, ModContent.NPCType<ScavengerClawRight>(), 0, 0f, 0f, 0f, 0f, 255);
-                NPC.NewNPC((int)npc.Center.X + 1, (int)npc.Center.Y - 20, ModContent.NPCType<ScavengerHead>(), 0, 0f, 0f, 0f, 0f, 255);
+                NPC.NewNPC((int)npc.Center.X - 70, (int)npc.Center.Y + 88, ModContent.NPCType<RavagerLegLeft>(), 0, 0f, 0f, 0f, 0f, 255);
+                NPC.NewNPC((int)npc.Center.X + 70, (int)npc.Center.Y + 88, ModContent.NPCType<RavagerLegRight>(), 0, 0f, 0f, 0f, 0f, 255);
+                NPC.NewNPC((int)npc.Center.X - 120, (int)npc.Center.Y + 50, ModContent.NPCType<RavagerClawLeft>(), 0, 0f, 0f, 0f, 0f, 255);
+                NPC.NewNPC((int)npc.Center.X + 120, (int)npc.Center.Y + 50, ModContent.NPCType<RavagerClawRight>(), 0, 0f, 0f, 0f, 0f, 255);
+                NPC.NewNPC((int)npc.Center.X + 1, (int)npc.Center.Y - 20, ModContent.NPCType<RavagerHead>(), 0, 0f, 0f, 0f, 0f, 255);
             }
 
             if (npc.target >= 0 && Main.player[npc.target].dead)
@@ -141,15 +141,15 @@ namespace CalamityMod.NPCs
 
             for (int num619 = 0; num619 < 200; num619++)
             {
-                if (Main.npc[num619].active && Main.npc[num619].type == ModContent.NPCType<ScavengerHead>())
+                if (Main.npc[num619].active && Main.npc[num619].type == ModContent.NPCType<RavagerHead>())
                     headActive = true;
-                if (Main.npc[num619].active && Main.npc[num619].type == ModContent.NPCType<ScavengerClawRight>())
+                if (Main.npc[num619].active && Main.npc[num619].type == ModContent.NPCType<RavagerClawRight>())
                     rightClawActive = true;
-                if (Main.npc[num619].active && Main.npc[num619].type == ModContent.NPCType<ScavengerClawLeft>())
+                if (Main.npc[num619].active && Main.npc[num619].type == ModContent.NPCType<RavagerClawLeft>())
                     leftClawActive = true;
-                if (Main.npc[num619].active && Main.npc[num619].type == ModContent.NPCType<ScavengerLegRight>())
+                if (Main.npc[num619].active && Main.npc[num619].type == ModContent.NPCType<RavagerLegRight>())
                     rightLegActive = true;
-                if (Main.npc[num619].active && Main.npc[num619].type == ModContent.NPCType<ScavengerLegLeft>())
+                if (Main.npc[num619].active && Main.npc[num619].type == ModContent.NPCType<RavagerLegLeft>())
                     leftLegActive = true;
             }
 
@@ -521,22 +521,22 @@ namespace CalamityMod.NPCs
             Vector2 center = new Vector2(npc.Center.X, npc.Center.Y);
             Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
             Vector2 vector = center - Main.screenPosition;
-            vector -= new Vector2((float)mod.GetTexture("NPCs/Scavenger/ScavengerBodyGlow").Width, (float)(mod.GetTexture("NPCs/Scavenger/ScavengerBodyGlow").Height / Main.npcFrameCount[npc.type])) * 1f / 2f;
+            vector -= new Vector2((float)mod.GetTexture("NPCs/Ravager/RavagerBodyGlow").Width, (float)(mod.GetTexture("NPCs/Ravager/RavagerBodyGlow").Height / Main.npcFrameCount[npc.type])) * 1f / 2f;
             vector += vector11 * 1f + new Vector2(0f, 0f + 4f + npc.gfxOffY);
             Color color = new Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.Blue);
-            Main.spriteBatch.Draw(mod.GetTexture("NPCs/Scavenger/ScavengerBodyGlow"), vector,
+            Main.spriteBatch.Draw(mod.GetTexture("NPCs/Ravager/RavagerBodyGlow"), vector,
                 new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, vector11, 1f, spriteEffects, 0f);
             Color color2 = Lighting.GetColor((int)center.X / 16, (int)(center.Y / 16f));
-            Main.spriteBatch.Draw(mod.GetTexture("NPCs/Scavenger/ScavengerLegRight"), new Vector2(center.X - Main.screenPosition.X + 28f, center.Y - Main.screenPosition.Y + 20f), //72
-                new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, 0, mod.GetTexture("NPCs/Scavenger/ScavengerLegRight").Width, mod.GetTexture("NPCs/Scavenger/ScavengerLegRight").Height)),
+            Main.spriteBatch.Draw(mod.GetTexture("NPCs/Ravager/RavagerLegRight"), new Vector2(center.X - Main.screenPosition.X + 28f, center.Y - Main.screenPosition.Y + 20f), //72
+                new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, 0, mod.GetTexture("NPCs/Ravager/RavagerLegRight").Width, mod.GetTexture("NPCs/Ravager/RavagerLegRight").Height)),
                 color2, 0f, default, 1f, SpriteEffects.None, 0f);
-            Main.spriteBatch.Draw(mod.GetTexture("NPCs/Scavenger/ScavengerLegLeft"), new Vector2(center.X - Main.screenPosition.X - 112f, center.Y - Main.screenPosition.Y + 20f), //72
-                new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, 0, mod.GetTexture("NPCs/Scavenger/ScavengerLegLeft").Width, mod.GetTexture("NPCs/Scavenger/ScavengerLegLeft").Height)),
+            Main.spriteBatch.Draw(mod.GetTexture("NPCs/Ravager/RavagerLegLeft"), new Vector2(center.X - Main.screenPosition.X - 112f, center.Y - Main.screenPosition.Y + 20f), //72
+                new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, 0, mod.GetTexture("NPCs/Ravager/RavagerLegLeft").Width, mod.GetTexture("NPCs/Ravager/RavagerLegLeft").Height)),
                 color2, 0f, default, 1f, SpriteEffects.None, 0f);
-            if (NPC.CountNPCS(ModContent.NPCType<ScavengerHead>()) > 0)
+            if (NPC.CountNPCS(ModContent.NPCType<RavagerHead>()) > 0)
             {
-                Main.spriteBatch.Draw(mod.GetTexture("NPCs/Scavenger/ScavengerHead"), new Vector2(center.X - Main.screenPosition.X - 70f, center.Y - Main.screenPosition.Y - 75f),
-                    new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, 0, mod.GetTexture("NPCs/Scavenger/ScavengerHead").Width, mod.GetTexture("NPCs/Scavenger/ScavengerHead").Height)),
+                Main.spriteBatch.Draw(mod.GetTexture("NPCs/Ravager/RavagerHead"), new Vector2(center.X - Main.screenPosition.X - 70f, center.Y - Main.screenPosition.Y - 75f),
+                    new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, 0, mod.GetTexture("NPCs/Ravager/RavagerHead").Width, mod.GetTexture("NPCs/Ravager/RavagerHead").Height)),
                     color2, 0f, default, 1f, SpriteEffects.None, 0f);
             }
         }

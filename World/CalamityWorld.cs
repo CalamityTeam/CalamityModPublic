@@ -904,7 +904,7 @@ namespace CalamityMod.World
                                     break;
                                 case 8:
                                     ChangeTime(false);
-                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<Astrageldon>());
+                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<AstrumAureus>());
                                     break;
                                 case 9:
                                     ChangeTime(false);
@@ -976,7 +976,7 @@ namespace CalamityMod.World
                                     NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<CosmicWraith>());
                                     break;
                                 case 26:
-                                    NPC.NewNPC((int)(Main.player[closestPlayer].position.X + (float)Main.rand.Next(-100, 101)), (int)(Main.player[closestPlayer].position.Y - 400f), ModContent.NPCType<ScavengerBody>(), 0, 0f, 0f, 0f, 0f, 255);
+                                    NPC.NewNPC((int)(Main.player[closestPlayer].position.X + (float)Main.rand.Next(-100, 101)), (int)(Main.player[closestPlayer].position.Y - 400f), ModContent.NPCType<RavagerBody>(), 0, 0f, 0f, 0f, 0f, 255);
                                     break;
                                 case 27:
                                     NPC.NewNPC((int)(Main.player[closestPlayer].position.X + (float)Main.rand.Next(-100, 101)), (int)(Main.player[closestPlayer].position.Y - 400f), NPCID.DukeFishron, 0, 0f, 0f, 0f, 0f, 255);
@@ -1310,7 +1310,7 @@ namespace CalamityMod.World
                                     !Main.dayTime && Main.player[closestPlayer].ZoneOverworldHeight)
                                 {
                                     BossText();
-                                    bossType = ModContent.NPCType<Astrageldon>();
+                                    bossType = ModContent.NPCType<AstrumAureus>();
                                     bossSpawnCountdown = 3600;
                                 }
 
@@ -1438,7 +1438,7 @@ namespace CalamityMod.World
                             if (Main.dayTime || !Main.player[closestPlayer].ZoneOverworldHeight)
                                 canSpawn = false;
                         }
-                        else if (bossType == ModContent.NPCType<Astrageldon>())
+                        else if (bossType == ModContent.NPCType<AstrumAureus>())
                         {
                             if (!Main.player[closestPlayer].Calamity().ZoneAstral ||
                                     Main.dayTime || !Main.player[closestPlayer].ZoneOverworldHeight)

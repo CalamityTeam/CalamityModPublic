@@ -10,7 +10,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs
 {
-    public class AstrageldonSlime : ModNPC
+    public class AureusSpawn : ModNPC
     {
         // TODO -- This value is never set, but is read and written by the network. Remove it?
         private bool boostDR = false;

@@ -1670,7 +1670,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case 8:
-                    if (npc.type != ModContent.NPCType<Astrageldon>() && npc.type != ModContent.NPCType<AstrageldonSlime>())
+                    if (npc.type != ModContent.NPCType<AstrumAureus>() && npc.type != ModContent.NPCType<AureusSpawn>())
                     {
                         npc.active = false;
                         npc.netUpdate = true;
@@ -1861,10 +1861,10 @@ namespace CalamityMod.NPCs
                     break;
 
                 case 26:
-                    if (npc.type != ModContent.NPCType<ScavengerBody>() && npc.type != ModContent.NPCType<ScavengerHead>() &&
-                        npc.type != ModContent.NPCType<ScavengerClawLeft>() && npc.type != ModContent.NPCType<ScavengerClawRight>() &&
-                        npc.type != ModContent.NPCType<ScavengerLegLeft>() && npc.type != ModContent.NPCType<ScavengerLegRight>() &&
-                        npc.type != ModContent.NPCType<ScavengerHead2>() && npc.type != ModContent.NPCType<RockPillar>() &&
+                    if (npc.type != ModContent.NPCType<RavagerBody>() && npc.type != ModContent.NPCType<RavagerHead>() &&
+                        npc.type != ModContent.NPCType<RavagerClawLeft>() && npc.type != ModContent.NPCType<RavagerClawRight>() &&
+                        npc.type != ModContent.NPCType<RavagerLegLeft>() && npc.type != ModContent.NPCType<RavagerLegRight>() &&
+                        npc.type != ModContent.NPCType<RavagerHead2>() && npc.type != ModContent.NPCType<RockPillar>() &&
                         npc.type != ModContent.NPCType<FlamePillar>())
                     {
                         npc.active = false;
@@ -2015,9 +2015,9 @@ namespace CalamityMod.NPCs
             {
                 if (npc.type == NPCID.TheDestroyer || npc.type == NPCID.Spazmatism || npc.type == NPCID.Retinazer || npc.type == NPCID.SkeletronPrime ||
                     npc.type == NPCID.Plantera || npc.type == ModContent.NPCType<Cryogen>() || npc.type == ModContent.NPCType<AquaticScourgeHead>() ||
-                    npc.type == ModContent.NPCType<BrimstoneElemental>() || npc.type == ModContent.NPCType<Astrageldon>() || npc.type == ModContent.NPCType<AstrumDeusHeadSpectral>() ||
+                    npc.type == ModContent.NPCType<BrimstoneElemental>() || npc.type == ModContent.NPCType<AstrumAureus>() || npc.type == ModContent.NPCType<AstrumDeusHeadSpectral>() ||
                     npc.type == ModContent.NPCType<Calamitas>() || npc.type == ModContent.NPCType<Siren>() || npc.type == ModContent.NPCType<PlaguebringerGoliath>() ||
-                    npc.type == ModContent.NPCType<ScavengerBody>() || npc.type == NPCID.DukeFishron || npc.type == NPCID.CultistBoss || npc.type == NPCID.Golem)
+                    npc.type == ModContent.NPCType<RavagerBody>() || npc.type == NPCID.DukeFishron || npc.type == NPCID.CultistBoss || npc.type == NPCID.Golem)
                 {
                     CalamityWorld.spawnedHardBoss = true;
                     CalamityMod.UpdateServerBoolean();

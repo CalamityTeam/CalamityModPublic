@@ -327,7 +327,7 @@ namespace CalamityMod.NPCs
                     DespawnProj();
                 }
             }
-            else if (npc.type == ModContent.NPCType<Astrageldon>())
+            else if (npc.type == ModContent.NPCType<AstrumAureus>())
             {
                 CalamityWorld.bossRushStage = 9;
                 DespawnProj();
@@ -387,7 +387,7 @@ namespace CalamityMod.NPCs
                 CalamityWorld.bossRushStage = 26;
                 DespawnProj();
             }
-            else if (npc.type == ModContent.NPCType<ScavengerBody>())
+            else if (npc.type == ModContent.NPCType<RavagerBody>())
             {
                 CalamityWorld.bossRushStage = 27;
                 DespawnProj();

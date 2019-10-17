@@ -6,7 +6,7 @@ namespace CalamityMod.Items
 {
     public class RavagerBag : ModItem
     {
-        public override int BossBagNPC => ModContent.NPCType<ScavengerBody>();
+        public override int BossBagNPC => ModContent.NPCType<RavagerBody>();
 
         public override void SetStaticDefaults()
         {

@@ -8,7 +8,7 @@ using Terraria.ID;
 using CalamityMod.Buffs;
 namespace CalamityMod.NPCs
 {
-    public class ScavengerClawLeft : ModNPC
+    public class RavagerClawLeft : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -286,9 +286,9 @@ namespace CalamityMod.NPCs
                     drawPositionY += 30f;
                     drawPositionX -= 70f;
                     Color color = Lighting.GetColor((int)center.X / 16, (int)(center.Y / 16f));
-                    Main.spriteBatch.Draw(mod.GetTexture("NPCs/Scavenger/ScavengerChain"), new Vector2(center.X - Main.screenPosition.X, center.Y - Main.screenPosition.Y),
-                        new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, 0, mod.GetTexture("NPCs/Scavenger/ScavengerChain").Width, mod.GetTexture("NPCs/Scavenger/ScavengerChain").Height)), color, rotation,
-                        new Vector2((float)mod.GetTexture("NPCs/Scavenger/ScavengerChain").Width * 0.5f, (float)mod.GetTexture("NPCs/Scavenger/ScavengerChain").Height * 0.5f), 1f, SpriteEffects.None, 0f);
+                    Main.spriteBatch.Draw(mod.GetTexture("NPCs/Ravager/RavagerChain"), new Vector2(center.X - Main.screenPosition.X, center.Y - Main.screenPosition.Y),
+                        new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, 0, mod.GetTexture("NPCs/Ravager/RavagerChain").Width, mod.GetTexture("NPCs/Ravager/RavagerChain").Height)), color, rotation,
+                        new Vector2((float)mod.GetTexture("NPCs/Ravager/RavagerChain").Width * 0.5f, (float)mod.GetTexture("NPCs/Ravager/RavagerChain").Height * 0.5f), 1f, SpriteEffects.None, 0f);
                 }
             }
             return true;
