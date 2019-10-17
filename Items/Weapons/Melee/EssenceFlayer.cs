@@ -38,7 +38,7 @@ namespace CalamityMod.Items
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
             Vector2 origin = new Vector2(50f, 37f);
-            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/Weapons/EssenceFlayerGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/EssenceFlayerGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
         }
 
         public override void AddRecipes()

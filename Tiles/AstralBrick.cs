@@ -51,7 +51,7 @@ namespace CalamityMod.Tiles
             yOffset *= subsheetHeight;
             xPos += xOffset;
             yPos += yOffset;
-            Texture2D glowmask = ModContent.GetTexture("CalamityMod/Tiles/AstralBrick_Glowmask");
+            Texture2D glowmask = ModContent.GetTexture("CalamityMod/Tiles/AstralBrickGlow");
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
             Color drawColour = GetDrawColour(i, j, new Color(50, 50, 50, 50));

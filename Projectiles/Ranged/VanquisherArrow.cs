@@ -41,7 +41,9 @@ namespace CalamityMod.Projectiles
             }
         }
 
-        /*public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        // TODO -- Vanquisher Arrow projectile glowmask doesn't work.
+        /*
+        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Vector2 origin = new Vector2(0f, 0f);
             Color color = Color.White;
@@ -52,7 +54,8 @@ namespace CalamityMod.Projectiles
                 color = new Color((int)b2, (int)b2, (int)b2, (int)a2);
             }
             spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Ranged/VanquisherArrowGlow"), projectile.Center - Main.screenPosition, null, color, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
-        }*/
+        }
+        */
 
         public override Color? GetAlpha(Color lightColor)
         {
