@@ -8,7 +8,7 @@ using Terraria.ModLoader; using CalamityMod.Dusts; using CalamityMod.Buffs; usin
 
 namespace CalamityMod.Projectiles
 {
-    public class Quasar : ModProjectile
+    public class QuasarKnife : ModProjectile
     {
         public override void SetStaticDefaults()
         {

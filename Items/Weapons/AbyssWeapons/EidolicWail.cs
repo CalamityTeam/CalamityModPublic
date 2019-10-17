@@ -31,7 +31,7 @@ namespace CalamityMod.Items
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/WyrmScream");
             item.autoReuse = true;
             item.shootSpeed = 5f;
-            item.shoot = ModContent.ProjectileType<Projectiles.EidolicWail>();
+            item.shoot = ModContent.ProjectileType<Projectiles.EidolicWailSoundwave>();
             item.Calamity().postMoonLordRarity = 13;
         }
 

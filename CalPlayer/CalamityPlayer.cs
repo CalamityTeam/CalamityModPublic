@@ -9061,10 +9061,10 @@ namespace CalamityMod.CalPlayer
                     Main.playerDrawData.Add(data);
                 }
 
-                else if (item.type == ModContent.ItemType<Items.Excelsus>() || item.type == ModContent.ItemType<EssenceFlayer>() || item.type == ModContent.ItemType<TheEnforcer>() ||
+                else if (item.type == ModContent.ItemType<Excelsus>() || item.type == ModContent.ItemType<EssenceFlayer>() || item.type == ModContent.ItemType<TheEnforcer>() ||
                 item.type == ModContent.ItemType<ElementalExcalibur>())
                 {
-                    Texture2D texture = mod.GetTexture("Items/Weapons/DevourerofGods/ExcelsusGlow");
+                    Texture2D texture = mod.GetTexture("Items/Weapons/ExcelsusGlow");
                     if (item.type == ModContent.ItemType<EssenceFlayer>())
                         texture = mod.GetTexture("Items/Weapons/EssenceFlayerGlow");
                     else if (item.type == ModContent.ItemType<TheEnforcer>())

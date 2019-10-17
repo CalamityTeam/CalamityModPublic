@@ -124,7 +124,7 @@ namespace CalamityMod.Tiles
                     if (Main.tile[i, tileLocationY].liquid == 255 && Main.tile[i, tileLocationY - 1].liquid == 255 &&
                         Main.tile[i, tileLocationY - 2].liquid == 255 && Main.netMode != 1)
                     {
-                        Projectile.NewProjectile((float)(i * 16 + 16), (float)(tileLocationY * 16 + 16), 0f, -0.1f, ModContent.ProjectileType<Projectiles.SulphuricAcidCannon>(), 0, 2f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile((float)(i * 16 + 16), (float)(tileLocationY * 16 + 16), 0f, -0.1f, ModContent.ProjectileType<Projectiles.SulphuricAcidBubble>(), 0, 2f, Main.myPlayer, 0f, 0f);
                     }
                     if (i < 250 || i > Main.maxTilesX - 250)
                     {

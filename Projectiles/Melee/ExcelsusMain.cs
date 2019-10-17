@@ -7,7 +7,7 @@ using Terraria.ModLoader; using CalamityMod.Dusts; using CalamityMod.Buffs; usin
 
 namespace CalamityMod.Projectiles
 {
-    public class Excelsus : ModProjectile
+    public class ExcelsusMain : ModProjectile
     {
         public override void SetStaticDefaults()
         {

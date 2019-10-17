@@ -7,7 +7,7 @@ using Terraria.ModLoader; using CalamityMod.Dusts; using CalamityMod.Buffs; usin
 
 namespace CalamityMod.Projectiles
 {
-    public class EidolicWail : ModProjectile
+    public class EidolicWailSoundwave : ModProjectile
     {
         public override void SetStaticDefaults()
         {

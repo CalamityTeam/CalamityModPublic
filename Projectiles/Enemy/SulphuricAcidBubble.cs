@@ -6,7 +6,7 @@ using Terraria.ModLoader; using CalamityMod.Dusts; using CalamityMod.Buffs; usin
 
 namespace CalamityMod.Projectiles
 {
-    public class SulphuricAcidCannon : ModProjectile
+    public class SulphuricAcidBubble : ModProjectile
     {
         public override void SetStaticDefaults()
         {

@@ -30,7 +30,7 @@ namespace CalamityMod.Items
             item.height = 94;
             item.value = Item.buyPrice(1, 40, 0, 0);
             item.rare = 10;
-            item.shoot = ModContent.ProjectileType<Projectiles.Excelsus>();
+            item.shoot = ModContent.ProjectileType<Projectiles.ExcelsusMain>();
             item.shootSpeed = 12f;
             item.Calamity().postMoonLordRarity = 13;
         }
@@ -50,7 +50,7 @@ namespace CalamityMod.Items
                 switch (index)
                 {
                     case 0:
-                        type = ModContent.ProjectileType<Projectiles.Excelsus>();
+                        type = ModContent.ProjectileType<Projectiles.ExcelsusMain>();
                         break;
                     case 1:
                         type = ModContent.ProjectileType<ExcelsusBlue>();

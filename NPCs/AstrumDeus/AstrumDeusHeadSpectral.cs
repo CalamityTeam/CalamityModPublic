@@ -558,7 +558,7 @@ namespace CalamityMod.NPCs
 
                 // Weapons
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Starfall>(), 5);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.Quasar>(), DropHelper.RareVariantDropRateInt);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Quasar>(), DropHelper.RareVariantDropRateInt);
 
                 // Equipment
                 DropHelper.DropItemChance(npc, ModContent.ItemType<HideofAstrumDeus>(), DropHelper.RareVariantDropRateInt);

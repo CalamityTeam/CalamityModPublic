@@ -1,4 +1,5 @@
 using CalamityMod.Dusts;
+using CalamityMod.Items;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -21,10 +22,10 @@ namespace CalamityMod.NPCs
             npc.height = 5;
             aiType = NPCID.LightningBug;
             animationType = NPCID.LightningBug;
-            npc.catchItem = (short)ModContent.ItemType<Items.TwinklerItem>();
-            npc.friendly = true; // We have to add this and CanBeHitByItem/CanBeHitByProjectile because of reasons.
-                                 //banner = npc.type;
-                                 //bannerItem = ModContent.ItemType<Items.TwinklerBanner>();
+            npc.catchItem = (short)ModContent.ItemType<TwinklerItem>();
+            npc.friendly = true; // prevents critter from getting slagged
+            //banner = npc.type;
+            //bannerItem = ModContent.ItemType<Items.TwinklerBanner>();
         }
 
 

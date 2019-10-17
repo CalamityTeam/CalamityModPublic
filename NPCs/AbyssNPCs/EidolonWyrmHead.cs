@@ -496,7 +496,7 @@ namespace CalamityMod.NPCs
                 }
                 if (Main.rand.NextBool(3))
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.EidolicWail>());
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EidolicWail>());
                 }
             }
             if (NPC.downedPlantBoss || CalamityWorld.downedCalamitas)
