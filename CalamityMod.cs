@@ -156,9 +156,9 @@ namespace CalamityMod
             AddEquipTexture(new PopoBody(), null, EquipType.Body, "PopoBody", "CalamityMod/Items/Permafrost/Popo_Body", "CalamityMod/Items/Permafrost/Popo_Arms");
             AddEquipTexture(new PopoLegs(), null, EquipType.Legs, "PopoLeg", "CalamityMod/Items/Permafrost/Popo_Legs");
 
-            AstralCactusTexture = GetTexture("ExtraTextures/Tiles/AstralCactus");
-            AstralCactusGlowTexture = GetTexture("ExtraTextures/Tiles/AstralCactusGlow");
-            AstralSky = GetTexture("ExtraTextures/AstralSky");
+            AstralCactusTexture = ModContent.GetTexture("ExtraTextures/Tiles/AstralCactus");
+            AstralCactusGlowTexture = ModContent.GetTexture("ExtraTextures/Tiles/AstralCactusGlow");
+            AstralSky = ModContent.GetTexture("ExtraTextures/AstralSky");
             CustomShader = GetEffect("Effects/CustomShader");
 
             Filters.Scene["CalamityMod:DevourerofGodsHead"] = new Filter(new DoGScreenShaderData("FilterMiniTower").UseColor(0.4f, 0.1f, 1.0f).UseOpacity(0.5f), EffectPriority.VeryHigh);
