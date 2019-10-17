@@ -18,7 +18,7 @@ namespace CalamityMod.Items
         public override void SafeSetDefaults()
         {
             item.width = 40;
-            item.damage = 28;
+            item.damage = 30;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useAnimation = 15;

@@ -17,8 +17,8 @@ namespace CalamityMod.Items
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
+            item.width = 46;
+            item.height = 40;
             item.value = Item.buyPrice(0, 18, 0, 0);
             item.Calamity().postMoonLordRarity = 12;
             item.accessory = true;
