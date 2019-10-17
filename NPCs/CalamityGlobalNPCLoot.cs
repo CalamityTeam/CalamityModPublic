@@ -1499,11 +1499,38 @@ namespace CalamityMod.NPCs
                     DropHelper.DropItemCondition(npc, mod.ItemType("LivingShard"), !Main.expertMode, 6, 9);
                     break;
 
-                case NPCID.NebulaBrain:
-                case NPCID.NebulaSoldier:
-                case NPCID.NebulaHeadcrab:
-                case NPCID.NebulaBeast:
+                case NPCID.NebulaBrain: //Nebula Floater
+                case NPCID.NebulaSoldier: //Predictor
+                case NPCID.NebulaHeadcrab: //Brain Suckler
+                case NPCID.NebulaBeast: //Evolution Beast
                     DropHelper.DropItemChance(npc, mod.ItemType("MeldBlob"), 4, Main.expertMode ? 2 : 1, Main.expertMode ? 3 : 2);
+                    DropHelper.DropItemChance(npc, ItemID.FragmentNebula, Main.expertMode ? 3 : 4, Main.expertMode ? 2 : 1, Main.expertMode ? 3 : 2);
+                    break;
+
+                case NPCID.SolarSpearman: //Drakanian
+                case NPCID.SolarSolenian: //Selenian
+                case NPCID.SolarCorite:
+                case NPCID.SolarSroller:
+                case NPCID.SolarDrakomireRider:
+                case NPCID.SolarDrakomire:
+                case NPCID.SolarCrawltipedeHead:
+                    DropHelper.DropItemChance(npc, ItemID.FragmentSolar, Main.expertMode ? 3 : 4, Main.expertMode ? 2 : 1, Main.expertMode ? 3 : 2);
+                    break;
+
+                case NPCID.VortexSoldier: //Vortexian
+                case NPCID.VortexLarva: //Alien Larva
+                case NPCID.VortexHornet: //Alien Hornet
+                case NPCID.VortexHornetQueen: //Alien Queen
+                case NPCID.VortexRifleman: //Storm Diver
+                    DropHelper.DropItemChance(npc, ItemID.FragmentVortex, Main.expertMode ? 3 : 4, Main.expertMode ? 2 : 1, Main.expertMode ? 3 : 2);
+                    break;
+
+                case NPCID.StardustSoldier: //Stargazer
+                case NPCID.StardustSpiderBig: //Twinkle Popper
+                case NPCID.StardustJellyfishBig: //Flow Invader
+                case NPCID.StardustCellBig: //Star Cell
+                case NPCID.StardustWormHead: //Milkyway Weaver
+                    DropHelper.DropItemChance(npc, ItemID.FragmentStardust, Main.expertMode ? 3 : 4, Main.expertMode ? 2 : 1, Main.expertMode ? 3 : 2);
                     break;
 
                 case NPCID.DungeonGuardian:

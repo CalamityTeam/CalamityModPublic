@@ -55,5 +55,16 @@ namespace CalamityMod.Items.Weapons.SlimeGod
             }
             return false;
         }
+
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(null, "PurifiedGel", 15);
+            recipe.AddIngredient(ItemID.Gel, 30);
+            recipe.AddIngredient(ItemID.HellstoneBar, 5);
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
     }
 }
