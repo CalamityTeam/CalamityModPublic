@@ -56,8 +56,8 @@ namespace CalamityMod.Projectiles
             {
                 projectile.tileCollide = false;
 
-                float returnSpeed = Glaive.Speed;
-                float acceleration = 0.45f;
+                float returnSpeed = Glaive.Speed * 1.6f;
+                float acceleration = 1.4f;
 
                 if (projectile.ai[1] == 1f)
                 {

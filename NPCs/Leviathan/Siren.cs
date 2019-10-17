@@ -449,7 +449,8 @@ namespace CalamityMod.NPCs
                         if (isNotOcean)
                             num1074 *= 2;
 
-                        Projectile.NewProjectile(vector121.X, vector121.Y, num1071, num1072, num1075, num1074, 0f, Main.myPlayer, 0f, 0f);
+						float ai0 = ((!leviAlive && num1075 == mod.ProjectileType("FrostMist")) ? 1f : 0f);
+                        Projectile.NewProjectile(vector121.X, vector121.Y, num1071, num1072, num1075, num1074, 0f, Main.myPlayer, ai0, 0f);
                     }
                 }
 

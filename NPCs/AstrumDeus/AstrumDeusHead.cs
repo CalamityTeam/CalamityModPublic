@@ -18,8 +18,8 @@ namespace CalamityMod.NPCs
         private const int maxLength = 5;
         private int addOrbiter = 0;
         private int addOrbiter2 = 0;
-        private float speed = 0.15f;
-        private float turnSpeed = 0.1f;
+        private float speed = 0.12f;
+        private float turnSpeed = 0.08f;
         private bool tailSpawned = false;
         private bool secondStage = false;
         private bool thirdStage = false;
@@ -181,15 +181,17 @@ namespace CalamityMod.NPCs
                 npc.TargetClosest(true);
             }
             npc.velocity.Length();
-            float speedMult = expertMode ? 1.8f : 1.6f;
+			float speedAdd = expertMode ? 0.06f : 0.045f;
+            float turnSpeedAdd = expertMode ? 0.04f : 0.03f;
             if (CalamityWorld.death || CalamityWorld.bossRushActive)
             {
-                speedMult = (npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 3f : 2.5f;
+				speedAdd *= 1.25f;
+				turnSpeedAdd *= 1.25f;
             }
             float life = (float)npc.life;
             float totalLife = (float)npc.lifeMax;
-            float newSpeed = speed * (speedMult - (life / totalLife));
-            float newTurnSpeed = turnSpeed * (speedMult - (life / totalLife));
+            float newSpeed = speed + speedAdd * (1f - (life / totalLife));
+            float newTurnSpeed = turnSpeed + turnSpeedAdd * (1f - (life / totalLife));
             if (npc.alpha != 0)
             {
                 for (int num934 = 0; num934 < 2; num934++)

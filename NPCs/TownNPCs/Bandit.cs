@@ -212,8 +212,6 @@ namespace CalamityMod.NPCs
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<Kylie>());
 			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 9, 0, 0);
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<MonkeyDarts>());
-            nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<OldDie>());
 			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 40, 0, 0);
 			nextSlot++;
@@ -238,8 +236,11 @@ namespace CalamityMod.NPCs
 			}*/
 			if (NPC.downedPlantBoss)
 			{
-				shop.item[nextSlot].SetDefaults(ModContent.ItemType<GloveOfPrecicion>());
+				shop.item[nextSlot].SetDefaults(ModContent.ItemType<MonkeyDarts>());
+				shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 4, 0);
 				nextSlot++;
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<GloveofPrecision>());
+                nextSlot++;
 				shop.item[nextSlot].SetDefaults(ModContent.ItemType<GloveOfRecklessness>());
 				nextSlot++;
 				/*shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.DeepWounder>());

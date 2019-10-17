@@ -8,8 +8,8 @@ namespace CalamityMod.Items
 {
     public class BlazingStar : RogueWeapon
     {
-        public static int BaseDamage = 45;
-        public static float Speed = 9f;
+        public static int BaseDamage = 92;
+        public static float Speed = 13f;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blazing Star");
@@ -48,9 +48,12 @@ namespace CalamityMod.Items
                     for (int i = 0; i < item.stack; i++)
                     {
                         Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.Lerp(-MathHelper.ToRadians(8f), MathHelper.ToRadians(8f), i / (float)(item.stack - 1)));
-                        Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, i == 1 ? type : ModContent.ProjectileType<BlazingStarProj>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                        int projectileIndex2 = Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, i == 1 ? type : ModContent.ProjectileType<BlazingStarProj>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                        Main.projectile[projectileIndex2].Calamity().stealthStrike = true;
                         int projectileIndex = Projectile.NewProjectile(position, perturbedSpeed, type, damage, knockBack, player.whoAmI, 0f);
                         Main.projectile[projectileIndex].penetrate = -1;
+                        Main.projectile[projectileIndex].Calamity().stealthStrike = true;
+                        
                     }
                     return false;
                 }

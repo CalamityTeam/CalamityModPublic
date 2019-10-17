@@ -10,7 +10,8 @@ namespace CalamityMod.Items
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blood Orange");
-            Tooltip.SetDefault("Permanently increases maximum life by 25\n" +
+            Tooltip.SetDefault("It has a distinctly sweet flavor and a strong aroma\n" +
+                               "Permanently increases maximum life by 25\n" +
                                "Can only be used if the max amount of life fruit has been consumed");
         }
 

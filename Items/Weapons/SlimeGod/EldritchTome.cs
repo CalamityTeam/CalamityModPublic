@@ -65,5 +65,16 @@ namespace CalamityMod.Items
             Projectile.NewProjectile(vector2.X, vector2.Y, value2.X, value2.Y, ModContent.ProjectileType<EldritchTentacle>(), num73, num74, i, num92, num91);
             return false;
         }
+
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(null, "PurifiedGel", 10);
+            recipe.AddIngredient(null, "EbonianGel", 20);
+            recipe.AddIngredient(ItemID.Book);
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
     }
 }

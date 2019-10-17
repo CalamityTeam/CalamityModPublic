@@ -23,7 +23,6 @@ namespace CalamityMod.Projectiles
             projectile.timeLeft = 250;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 2;
-            Mod calamity = ModLoader.GetMod("CalamityMod");
             projectile.Calamity().rogue = true;
         }
 

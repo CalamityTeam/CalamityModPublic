@@ -24,6 +24,7 @@ namespace CalamityMod.Items
 
         public override void ModifyTooltips(List<TooltipLine> list)
         {
+            int minionCount = Main.player[Main.myPlayer].maxMinions;
             int level = Main.player[Main.myPlayer].Calamity().summonLevel;
             int exactLevel = Main.player[Main.myPlayer].Calamity().exactSummonLevel;
             int damageGain = 0;
@@ -113,7 +114,8 @@ namespace CalamityMod.Items
                 "Summon level (max of 15): " + exactLevel + "\n" +
                 "Minion damage increase: " + damageGain + "%\n" +
                 "Minion knockback increase: " + minionKB + "%\n" +
-                "Minion slot increase: " + minionSlots;
+                "Minion slot increase: " + minionSlots + "\n" +
+                "Total minion slots: " + minionCount;
                 }
             }
         }

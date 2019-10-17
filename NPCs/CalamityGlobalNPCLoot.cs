@@ -191,6 +191,7 @@ namespace CalamityMod.NPCs
             }
             else if (npc.type == NPCID.Golem)
             {
+				DropHelper.DropItem(npc, mod.ItemType("EssenceofCinder"), 5, 10);
                 DropHelper.DropItemCondition(npc, ItemID.Picksaw, true, !NPC.downedGolemBoss);
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeGolem>(), true, !NPC.downedGolemBoss);
                 DropHelper.DropResidentEvilAmmo(npc, NPC.downedGolemBoss, 4, 2, 1);
@@ -1500,11 +1501,38 @@ namespace CalamityMod.NPCs
                     DropHelper.DropItemCondition(npc, ModContent.ItemType<LivingShard>(), !Main.expertMode, 6, 9);
                     break;
 
-                case NPCID.NebulaBrain:
-                case NPCID.NebulaSoldier:
-                case NPCID.NebulaHeadcrab:
-                case NPCID.NebulaBeast:
+                case NPCID.SolarSpearman: //Drakanian
+                case NPCID.SolarSolenian: //Selenian
+                case NPCID.SolarCorite:
+                case NPCID.SolarSroller:
+                case NPCID.SolarDrakomireRider:
+                case NPCID.SolarDrakomire:
+                case NPCID.SolarCrawltipedeHead:
+                    DropHelper.DropItemChance(npc, ItemID.FragmentSolar, Main.expertMode ? 4 : 5);
+                    break;
+
+                case NPCID.VortexSoldier: //Vortexian
+                case NPCID.VortexLarva: //Alien Larva
+                case NPCID.VortexHornet: //Alien Hornet
+                case NPCID.VortexHornetQueen: //Alien Queen
+                case NPCID.VortexRifleman: //Storm Diver
+                    DropHelper.DropItemChance(npc, ItemID.FragmentVortex, Main.expertMode ? 4 : 5);
+                    break;
+
+                case NPCID.NebulaBrain: //Nebula Floater
+                case NPCID.NebulaSoldier: //Predictor
+                case NPCID.NebulaHeadcrab: //Brain Suckler
+                case NPCID.NebulaBeast: //Evolution Beast
                     DropHelper.DropItemChance(npc, ModContent.ItemType<MeldBlob>(), 4, Main.expertMode ? 2 : 1, Main.expertMode ? 3 : 2);
+                    DropHelper.DropItemChance(npc, ItemID.FragmentNebula, Main.expertMode ? 4 : 5);
+                    break;
+
+                case NPCID.StardustSoldier: //Stargazer
+                case NPCID.StardustSpiderBig: //Twinkle Popper
+                case NPCID.StardustJellyfishBig: //Flow Invader
+                case NPCID.StardustCellBig: //Star Cell
+                case NPCID.StardustWormHead: //Milkyway Weaver
+                    DropHelper.DropItemChance(npc, ItemID.FragmentStardust, Main.expertMode ? 4 : 5);
                     break;
 
                 case NPCID.DungeonGuardian:

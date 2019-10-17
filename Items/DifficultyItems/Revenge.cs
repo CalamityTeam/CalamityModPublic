@@ -30,7 +30,6 @@ namespace CalamityMod.Items
                 "Increases Nurse healing price.\n" +
                 "Allows certain enemies to inflict the Horror and Marked debuffs.\n" +
                 "Before you have killed your first boss you take 20% less damage from everything.\n" +
-                "Changes the Expert Mode 75% defense back to the Normal Mode 50% defense for the duration of prehardmode.\n" +
                 "Changes ALL boss AIs and some enemy AIs in vanilla and the Calamity Mod.\n" +
                 "DO NOT USE IF A BOSS IS ALIVE!\n" +
                 "Can be toggled on and off.");

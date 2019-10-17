@@ -1753,6 +1753,7 @@ namespace CalamityMod.Items
                     case ItemID.GolemBossBag:
                         float aegisChance = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : DropHelper.LegendaryDropRateFloat;
                         DropHelper.DropItemCondition(player, ModContent.ItemType<AegisBlade>(), CalamityWorld.revenge, aegisChance);
+                        DropHelper.DropItem(player, ModContent.ItemType<EssenceofCinder>(), 8, 13);
                         break;
 
                     // Duke Fishron

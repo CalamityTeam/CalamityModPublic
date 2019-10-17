@@ -10,7 +10,8 @@ namespace CalamityMod.Items
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Elderberry");
-            Tooltip.SetDefault("Permanently increases maximum life by 25\n" +
+            Tooltip.SetDefault("A tangy, tart flavor with a somewhat earthen touch\n" +
+                               "Permanently increases maximum life by 25\n" +
                                "Can only be used if the max amount of life fruit has been consumed");
         }
 

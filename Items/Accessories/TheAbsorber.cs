@@ -39,6 +39,7 @@ namespace CalamityMod.Items
             modPlayer.aSpark = true;
             modPlayer.gShell = true;
             modPlayer.fCarapace = true;
+            modPlayer.seaShell = true;
             modPlayer.absorber = true;
             player.statManaMax2 += 20;
         }

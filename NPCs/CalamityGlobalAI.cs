@@ -3160,7 +3160,7 @@ namespace CalamityMod.NPCs
                     }
 
                     // Teleport dust
-                    for (int m = 0; m < 60; m++)
+                    for (int m = 0; m < 30; m++)
                     {
                         int num39 = Dust.NewDust(npc.position, npc.width, npc.height, 27, 0f, 0f, 200, default, 3f);
                         Main.dust[num39].noGravity = true;
@@ -3213,12 +3213,11 @@ namespace CalamityMod.NPCs
 
                 if (calamityGlobalNPC.newAI[2] != 0f && calamityGlobalNPC.newAI[3] != 0f)
                 {
-                    for (int m = 0; m < 10; m++)
+                    for (int m = 0; m < 5; m++)
                     {
                         Vector2 position = new Vector2(calamityGlobalNPC.newAI[2], calamityGlobalNPC.newAI[3]);
-                        int num39 = Dust.NewDust(position, npc.width, npc.height, 27, 0f, 0f, 200, default, 1f);
+                        int num39 = Dust.NewDust(position, npc.width, npc.height, 27, 0f, 0f, 200, default, 2f);
                         Main.dust[num39].noGravity = true;
-                        Main.dust[num39].velocity.X = Main.dust[num39].velocity.X * 2f;
                     }
                 }
 
@@ -3233,14 +3232,13 @@ namespace CalamityMod.NPCs
                 {
                     int dust = Dust.NewDust(npc.position, npc.width, npc.height, 27, 0f, 0f, 200, default, 1.5f);
                     Main.dust[dust].noGravity = true;
-                    Main.dust[dust].velocity.X = Main.dust[dust].velocity.X * 2f;
                 }
 
                 // Teleport
                 if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[3] >= 420f)
                 {
                     // Teleport dust
-                    for (int m = 0; m < 60; m++)
+                    for (int m = 0; m < 30; m++)
                     {
                         int num39 = Dust.NewDust(npc.position, npc.width, npc.height, 27, 0f, 0f, 200, default, 3f);
                         Main.dust[num39].noGravity = true;
@@ -3397,26 +3395,26 @@ namespace CalamityMod.NPCs
                 if (enraged || configBossRushBoost)
                     num176 += 3f;
 
-                if (num175 > 150f || CalamityWorld.death || CalamityWorld.bossRushActive)
+                if (num175 > 150f)
                     num176 *= 1.05f;
                 if (num175 > 200f)
-                    num176 *= 1.1f;
+                    num176 *= 1.05f;
                 if (num175 > 250f)
-                    num176 *= 1.1f;
+                    num176 *= 1.05f;
                 if (num175 > 300f)
-                    num176 *= 1.1f;
+                    num176 *= 1.05f;
                 if (num175 > 350f)
-                    num176 *= 1.15f;
+                    num176 *= 1.1f;
                 if (num175 > 400f)
-                    num176 *= 1.15f;
+                    num176 *= 1.1f;
                 if (num175 > 450f)
-                    num176 *= 1.15f;
+                    num176 *= 1.1f;
                 if (num175 > 500f)
-                    num176 *= 1.2f;
+                    num176 *= 1.1f;
                 if (num175 > 550f)
-                    num176 *= 1.2f;
+                    num176 *= 1.1f;
                 if (num175 > 600f)
-                    num176 *= 1.2f;
+                    num176 *= 1.1f;
 
                 num175 = num176 / num175;
                 npc.velocity.X = num173 * num175;
@@ -3532,7 +3530,7 @@ namespace CalamityMod.NPCs
                 else
                 {
                     npc.ai[3] += 1f;
-                    if (npc.ai[3] >= 120f)
+                    if (npc.ai[3] >= 200f)
                     {
                         npc.ai[2] += 1f;
                         npc.ai[3] = 0f;
@@ -12322,7 +12320,7 @@ namespace CalamityMod.NPCs
                     if ((num1207 == num1208 - 14f || num1207 == num1208 - 7f || num1207 == num1208) && Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         Vector2 vector203 = Utils.Vector2FromElipse(npc.localAI[0].ToRotationVector2(), value19 * npc.localAI[1]);
-                        float velocity = CalamityWorld.bossRushActive ? 12f : 9f;
+                        float velocity = CalamityWorld.bossRushActive ? 9f : 6.75f;
                         Vector2 vector204 = Vector2.Normalize(v4) * velocity;
                         Projectile.NewProjectile(npc.Center.X + vector203.X, npc.Center.Y + vector203.Y, vector204.X, vector204.Y, ProjectileID.PhantasmalBolt, 40, 0f, Main.myPlayer, 0f, 0f);
                     }
@@ -12640,7 +12638,7 @@ namespace CalamityMod.NPCs
                     if ((num1178 == num1179 - 14f || num1178 == num1179 - 7f || num1178 == num1179) && Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         Vector2 vector181 = Utils.Vector2FromElipse(npc.localAI[0].ToRotationVector2(), vector165 * npc.localAI[1]);
-                        float velocity = CalamityWorld.bossRushActive ? 12f : 9f;
+                        float velocity = CalamityWorld.bossRushActive ? 9f : 6.75f;
                         Vector2 vector182 = Vector2.Normalize(v) * velocity;
                         Projectile.NewProjectile(npc.Center.X + vector181.X, npc.Center.Y + vector181.Y, vector182.X, vector182.Y, ProjectileID.PhantasmalBolt, 40, 0f, Main.myPlayer, 0f, 0f);
                     }

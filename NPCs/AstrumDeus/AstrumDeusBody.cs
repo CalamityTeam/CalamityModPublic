@@ -111,7 +111,7 @@ namespace CalamityMod.NPCs
                     npc.alpha = 0;
                 }
             }
-            if (Main.netMode != NetmodeID.MultiplayerClient)
+            /*if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 int shootTime = 4;
                 if ((double)npc.life <= (double)npc.lifeMax * 0.3 || CalamityWorld.bossRushActive)
@@ -149,7 +149,7 @@ namespace CalamityMod.NPCs
                         npc.netUpdate = true;
                     }
                 }
-            }
+            }*/
         }
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
