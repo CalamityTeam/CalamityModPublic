@@ -1,4 +1,3 @@
-
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -6,6 +5,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using CalamityMod.Buffs;
+
 namespace CalamityMod.Tiles
 {
     public class AstralOre : ModTile
