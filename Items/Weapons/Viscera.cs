@@ -30,7 +30,7 @@ namespace CalamityMod.Items
             item.rare = 10;
             item.UseSound = SoundID.Item20;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Viscera>();
+            item.shoot = ModContent.ProjectileType<Projectiles.Viscera>();
             item.shootSpeed = 6f;
             item.Calamity().postMoonLordRarity = 13;
         }

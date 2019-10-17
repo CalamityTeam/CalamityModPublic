@@ -1,10 +1,12 @@
-﻿
+﻿using CalamityMod.Buffs;
+using CalamityMod.Items;
+using CalamityMod.Projectiles;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
-using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
+using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs
 {
@@ -56,7 +58,7 @@ namespace CalamityMod.NPCs
             npc.value = Item.buyPrice(0, 30, 0, 0);
             npc.HitSound = SoundID.NPCHit51;
             npc.DeathSound = SoundID.NPCDeath46;
-            bossBag = ModContent.ItemType<BumblebirbBag>();
+            bossBag = ModContent.ItemType<Items.BumblebirbBag>();
         }
 
         public override void AI()
@@ -589,19 +591,19 @@ namespace CalamityMod.NPCs
         {
             DropHelper.DropBags(npc);
 
-            DropHelper.DropItemChance(npc, ModContent.ItemType<BumblebirbTrophy>(), 10);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeBumblebirb>(), true, !CalamityWorld.downedBumble);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<Items.BumblebirbTrophy>(), 10);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.KnowledgeBumblebirb>(), true, !CalamityWorld.downedBumble);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedBumble, 5, 2, 1);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
             if (!Main.expertMode)
             {
                 // Materials
-                DropHelper.DropItemSpray(npc, ModContent.ItemType<EffulgentFeather>(), 6, 11);
+                DropHelper.DropItemSpray(npc, ModContent.ItemType<Items.EffulgentFeather>(), 6, 11);
 
                 // Weapons
-                DropHelper.DropItemFromSet(npc, ModContent.ItemType<GildedProboscis>(), ModContent.ItemType<GoldenEagle>(), ModContent.ItemType<RougeSlash>());
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Swordsplosion>(), DropHelper.RareVariantDropRateInt);
+                DropHelper.DropItemFromSet(npc, ModContent.ItemType<Items.GildedProboscis>(), ModContent.ItemType<Items.GoldenEagle>(), ModContent.ItemType<Items.RougeSlash>());
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.Swordsplosion>(), DropHelper.RareVariantDropRateInt);
             }
 
             // Mark Bumblebirb as dead

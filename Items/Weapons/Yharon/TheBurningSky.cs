@@ -29,7 +29,7 @@ namespace CalamityMod.Items
             item.height = 64;
             item.value = Item.buyPrice(1, 80, 0, 0);
             item.rare = 10;
-            item.shoot = ModContent.ProjectileType<BurningMeteor>();
+            item.shoot = ModContent.ProjectileType<Projectiles.BurningMeteor>();
             item.shootSpeed = 35f;
             item.Calamity().postMoonLordRarity = 14;
         }
@@ -80,7 +80,7 @@ namespace CalamityMod.Items
                 num79 *= num80;
                 float speedX4 = num78 + (float)Main.rand.Next(-1000, 1001) * 0.02f;
                 float speedY5 = num79 + (float)Main.rand.Next(-1000, 1001) * 0.02f;
-                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<BurningMeteor>(), damage, knockBack, i, 0f, (float)Main.rand.Next(10));
+                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<Projectiles.BurningMeteor>(), damage, knockBack, i, 0f, (float)Main.rand.Next(10));
             }
             return false;
         }

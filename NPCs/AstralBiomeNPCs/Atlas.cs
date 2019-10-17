@@ -1,11 +1,11 @@
 ﻿using CalamityMod.World;
-using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework; using CalamityMod.Dusts;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
 using Terraria.DataStructures;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles;  
 
 namespace CalamityMod.NPCs
 {
@@ -109,7 +109,7 @@ namespace CalamityMod.NPCs
             npc.aiStyle = -1;
             npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AtlasDeath");
             banner = npc.type;
-            bannerItem = ModContent.ItemType<AtlasBanner>();
+            bannerItem = ModContent.ItemType<Items.AtlasBanner>();
             if (CalamityWorld.downedAstrageldon)
             {
                 npc.damage = 100;
@@ -614,14 +614,14 @@ namespace CalamityMod.NPCs
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Stardust>(), Main.rand.Next(6, 9));
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Stardust>(), Main.rand.Next(6, 9));
             if (Main.expertMode)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Stardust>());
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Stardust>());
             }
             if (CalamityWorld.downedAstrageldon && Main.rand.NextBool(7))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<TitanArm>());
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.TitanArm>());
             }
         }
     }

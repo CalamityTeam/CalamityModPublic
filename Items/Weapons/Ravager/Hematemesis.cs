@@ -29,7 +29,7 @@ namespace CalamityMod.Items
             item.value = Item.buyPrice(0, 80, 0, 0);
             item.UseSound = SoundID.Item21;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<BloodBlast>();
+            item.shoot = ModContent.ProjectileType<Projectiles.BloodBlast>();
             item.shootSpeed = 10f;
         }
 

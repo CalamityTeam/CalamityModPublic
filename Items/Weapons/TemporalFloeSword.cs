@@ -29,7 +29,7 @@ namespace CalamityMod.Items
             item.height = 58;
             item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;
-            item.shoot = ModContent.ProjectileType<TemporalFloeSwordProjectile>();
+            item.shoot = ModContent.ProjectileType<Projectiles.TemporalFloeSwordProjectile>();
             item.shootSpeed = 16f;
         }
 

@@ -34,7 +34,7 @@ namespace CalamityMod.Items
             item.Calamity().postMoonLordRarity = 21;
             item.value = Item.buyPrice(2, 50, 0, 0);
 
-            item.shoot = ModContent.ProjectileType<AtaraxiaMain>();
+            item.shoot = ModContent.ProjectileType<Projectiles.AtaraxiaMain>();
             item.shootSpeed = 9f;
         }
 
@@ -45,13 +45,13 @@ namespace CalamityMod.Items
             Main.PlaySound(SoundID.Item60, position);
 
             // Center projectile
-            int centerID = ModContent.ProjectileType<AtaraxiaMain>();
+            int centerID = ModContent.ProjectileType<Projectiles.AtaraxiaMain>();
             int centerDamage = damage;
             Vector2 centerVec = new Vector2(speedX, speedY);
             int center = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, centerID, centerDamage, knockBack, player.whoAmI, 0.0f, 0.0f);
 
             // Side projectiles (these deal 75% damage)
-            int sideID = ModContent.ProjectileType<AtaraxiaSide>();
+            int sideID = ModContent.ProjectileType<Projectiles.AtaraxiaSide>();
             int sideDamage = (int)(0.75f * centerDamage);
             Vector2 speed = new Vector2(speedX, speedY);
             speed.Normalize();
@@ -78,7 +78,7 @@ namespace CalamityMod.Items
 
             // Individual true melee homing missiles deal 10% of the weapon's base damage.
             int numSplits = 5;
-            int trueMeleeID = ModContent.ProjectileType<AtaraxiaHoming>();
+            int trueMeleeID = ModContent.ProjectileType<Projectiles.AtaraxiaHoming>();
             int trueMeleeDamage = (int)(0.1f * damage);
             float angleVariance = MathHelper.TwoPi / (float)numSplits;
             float spinOffsetAngle = MathHelper.Pi / (2f * numSplits);

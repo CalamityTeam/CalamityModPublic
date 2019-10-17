@@ -30,7 +30,7 @@ namespace CalamityMod.Items
             item.rare = 10;
             item.Calamity().postMoonLordRarity = 21;
             item.value = Item.buyPrice(1, 80, 0, 0);
-            item.shoot = ModContent.ProjectileType<MelterNote1>();
+            item.shoot = ModContent.ProjectileType<Projectiles.MelterNote1>();
             item.UseSound = SoundID.Item47;
             item.autoReuse = true;
             item.shootSpeed = 20f;
@@ -70,7 +70,7 @@ namespace CalamityMod.Items
                 item.useTime = 20;
                 item.useAnimation = 20;
                 item.reuseDelay = 0;
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<MelterAmp>(), damage, knockBack, player.whoAmI);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.MelterAmp>(), damage, knockBack, player.whoAmI);
                 return false;
             }
             else
@@ -83,13 +83,13 @@ namespace CalamityMod.Items
                 if (note == 0)
                 {
                     damage = (int)(damage * 1.5f);
-                    type = ModContent.ProjectileType<MelterNote1>();
+                    type = ModContent.ProjectileType<Projectiles.MelterNote1>();
                 }
                 else
                 {
                     SpeedX *= 1.5f;
                     SpeedY *= 1.5f;
-                    type = ModContent.ProjectileType<MelterNote2>();
+                    type = ModContent.ProjectileType<Projectiles.MelterNote2>();
                 }
                 Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
                 return false;

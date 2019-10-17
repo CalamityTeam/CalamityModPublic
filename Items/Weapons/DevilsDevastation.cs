@@ -30,7 +30,7 @@ namespace CalamityMod.Items
             item.height = 74;
             item.value = Item.buyPrice(1, 80, 0, 0);
             item.rare = 10;
-            item.shoot = ModContent.ProjectileType<Oathblade>();
+            item.shoot = ModContent.ProjectileType<Projectiles.Oathblade>();
             item.shootSpeed = 28f;
             item.Calamity().postMoonLordRarity = 14;
         }
@@ -87,9 +87,9 @@ namespace CalamityMod.Items
                 num79 *= num80;
                 float speedX4 = num78 + (float)Main.rand.Next(-40, 41) * 0.02f;
                 float speedY5 = num79 + (float)Main.rand.Next(-40, 41) * 0.02f;
-                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<DemonBlast>(), damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(5));
-                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<DemonBlastType2>(), damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(3));
-                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<DemonBlastType3>(), damage, knockBack, player.whoAmI, 0f, 1f);
+                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<Projectiles.DemonBlast>(), damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(5));
+                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<Projectiles.DemonBlastType2>(), damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(3));
+                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<Projectiles.DemonBlastType3>(), damage, knockBack, player.whoAmI, 0f, 1f);
             }
             return false;
         }

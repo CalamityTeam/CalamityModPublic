@@ -30,7 +30,7 @@ namespace CalamityMod.Items
             item.height = 94;
             item.value = Item.buyPrice(1, 40, 0, 0);
             item.rare = 10;
-            item.shoot = ModContent.ProjectileType<Excelsus>();
+            item.shoot = ModContent.ProjectileType<Projectiles.Excelsus>();
             item.shootSpeed = 12f;
             item.Calamity().postMoonLordRarity = 13;
         }
@@ -50,13 +50,13 @@ namespace CalamityMod.Items
                 switch (index)
                 {
                     case 0:
-                        type = ModContent.ProjectileType<Excelsus>();
+                        type = ModContent.ProjectileType<Projectiles.Excelsus>();
                         break;
                     case 1:
-                        type = ModContent.ProjectileType<ExcelsusBlue>();
+                        type = ModContent.ProjectileType<Projectiles.ExcelsusBlue>();
                         break;
                     case 2:
-                        type = ModContent.ProjectileType<ExcelsusPink>();
+                        type = ModContent.ProjectileType<Projectiles.ExcelsusPink>();
                         break;
                 }
                 Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
@@ -66,7 +66,7 @@ namespace CalamityMod.Items
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<LaserFountain>(), 0, 0, Main.myPlayer);
+            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<Projectiles.LaserFountain>(), 0, 0, Main.myPlayer);
         }
     }
 }

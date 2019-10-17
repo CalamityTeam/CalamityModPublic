@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles;  
 
 namespace CalamityMod.NPCs
 {
@@ -46,7 +46,7 @@ namespace CalamityMod.NPCs
             npc.DeathSound = SoundID.NPCDeath1;
             npc.netAlways = true;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<AquaticSeekerBanner>();
+            bannerItem = ModContent.ItemType<Items.AquaticSeekerBanner>();
         }
 
         public override void AI()

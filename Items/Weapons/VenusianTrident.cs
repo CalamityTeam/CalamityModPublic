@@ -31,7 +31,7 @@ namespace CalamityMod.Items
             item.rare = 10;
             item.UseSound = SoundID.Item45;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<VenusianBolt>();
+            item.shoot = ModContent.ProjectileType<Projectiles.VenusianBolt>();
             item.shootSpeed = 19f;
             item.Calamity().postMoonLordRarity = 13;
         }

@@ -1,6 +1,6 @@
 ﻿using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles;  
 
 namespace CalamityMod.NPCs
 {
@@ -41,12 +41,12 @@ namespace CalamityMod.NPCs
             npc.buffImmune[ModContent.BuffType<HolyFlames>()] = true;
             npc.buffImmune[ModContent.BuffType<Plague>()] = true;
             banner = ModContent.NPCType<PlagueBee>();
-            bannerItem = ModContent.ItemType<PlagueChargerBanner>();
+            bannerItem = ModContent.ItemType<Items.PlagueChargerBanner>();
         }
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<PlagueCellCluster>(), Main.rand.Next(2, 4));
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.PlagueCellCluster>(), Main.rand.Next(2, 4));
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)

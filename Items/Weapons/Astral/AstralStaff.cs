@@ -31,7 +31,7 @@ namespace CalamityMod.Items
             item.rare = 9;
             item.UseSound = SoundID.Item105;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<AstralCrystal>();
+            item.shoot = ModContent.ProjectileType<Projectiles.AstralCrystal>();
             item.shootSpeed = 15f;
         }
 

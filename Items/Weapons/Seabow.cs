@@ -36,7 +36,7 @@ namespace CalamityMod.Items
         {
             float SpeedX = speedX + (float)Main.rand.Next(-30, 31) * 0.05f;
             float SpeedY = speedY + (float)Main.rand.Next(-30, 31) * 0.05f;
-            Projectile.NewProjectile(position.X, position.Y, SpeedX * 0.5f, SpeedY * 0.5f, ModContent.ProjectileType<SandWater>(), (int)((double)damage * 0.5), 0f, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, SpeedX * 0.5f, SpeedY * 0.5f, ModContent.ProjectileType<Projectiles.SandWater>(), (int)((double)damage * 0.5), 0f, player.whoAmI, 0f, 0f);
             return true;
         }
 

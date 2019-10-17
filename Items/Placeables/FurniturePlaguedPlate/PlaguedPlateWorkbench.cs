@@ -20,7 +20,7 @@ namespace CalamityMod.Items
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = ModContent.TileType<PlaguedPlateWorkbench>();
+            item.createTile = ModContent.TileType<Tiles.PlaguedPlateWorkbench>();
         }
 
         public override void AddRecipes()

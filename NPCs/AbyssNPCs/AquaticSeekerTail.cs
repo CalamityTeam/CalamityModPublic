@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles;  
 
 namespace CalamityMod.NPCs
 {
@@ -40,7 +40,7 @@ namespace CalamityMod.NPCs
             npc.netAlways = true;
             npc.dontCountMe = true;
             banner = ModContent.NPCType<AquaticSeekerHead>();
-            bannerItem = ModContent.ItemType<AquaticSeekerBanner>();
+            bannerItem = ModContent.ItemType<Items.AquaticSeekerBanner>();
         }
 
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)

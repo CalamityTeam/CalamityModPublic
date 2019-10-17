@@ -30,7 +30,7 @@ namespace CalamityMod.Items
             item.height = 80;
             item.value = Item.buyPrice(1, 40, 0, 0);
             item.rare = 10;
-            item.shoot = ModContent.ProjectileType<NeptuneOrb>();
+            item.shoot = ModContent.ProjectileType<Projectiles.NeptuneOrb>();
             item.shootSpeed = 12f;
             item.Calamity().postMoonLordRarity = 13;
         }

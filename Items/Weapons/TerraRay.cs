@@ -29,7 +29,7 @@ namespace CalamityMod.Items
             item.rare = 8;
             item.UseSound = SoundID.Item60;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<TerraRay>();
+            item.shoot = ModContent.ProjectileType<Projectiles.TerraRay>();
             item.shootSpeed = 6f;
         }
 

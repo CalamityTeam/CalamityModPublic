@@ -30,7 +30,7 @@ namespace CalamityMod.Items
             item.height = 72;
             item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;
-            item.shoot = ModContent.ProjectileType<RedBall>();
+            item.shoot = ModContent.ProjectileType<Projectiles.RedBall>();
             item.shootSpeed = 12f;
         }
 
@@ -56,7 +56,7 @@ namespace CalamityMod.Items
         {
             if (Main.rand.NextBool(3))
             {
-                type = ModContent.ProjectileType<GreenBall>();
+                type = ModContent.ProjectileType<Projectiles.GreenBall>();
             }
             Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, Main.myPlayer);
             return false;

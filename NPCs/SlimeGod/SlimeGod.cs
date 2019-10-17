@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles;  
 
 namespace CalamityMod.NPCs
 {
@@ -43,7 +43,7 @@ namespace CalamityMod.NPCs
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/SlimeGod");
             else
                 music = MusicID.Boss1;
-            bossBag = ModContent.ItemType<SlimeGodBag>();
+            bossBag = ModContent.ItemType<Items.SlimeGodBag>();
         }
 
         public override void AI()

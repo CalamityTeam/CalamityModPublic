@@ -29,7 +29,7 @@ namespace CalamityMod.Items
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon");
             item.autoReuse = true;
             item.shootSpeed = 22f;
-            item.shoot = ModContent.ProjectileType<ChargedBlast>();
+            item.shoot = ModContent.ProjectileType<Projectiles.ChargedBlast>();
             item.useAmmo = 283;
         }
 
@@ -47,12 +47,12 @@ namespace CalamityMod.Items
         {
             if (player.altFunctionUse == 2)
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<ChargedBlast3>(), (int)((double)damage * 0.85), knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.ChargedBlast3>(), (int)((double)damage * 0.85), knockBack, player.whoAmI, 0f, 0f);
                 return false;
             }
             else
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<ChargedBlast>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.ChargedBlast>(), damage, knockBack, player.whoAmI, 0f, 0f);
                 return false;
             }
         }

@@ -1,7 +1,7 @@
 ﻿using CalamityMod.World;
 using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles;  
 
 namespace CalamityMod.NPCs
 {
@@ -85,7 +85,7 @@ namespace CalamityMod.NPCs
         {
             if (CalamityWorld.revenge && Main.rand.NextBool(4))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, Main.rand.NextBool(2) ? ModContent.ItemType<SirensHeart>() : ModContent.ItemType<SirensHeartAlt>());
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, Main.rand.NextBool(2) ? ModContent.ItemType<Items.SirensHeart>() : ModContent.ItemType<Items.SirensHeartAlt>());
             }
         }
 

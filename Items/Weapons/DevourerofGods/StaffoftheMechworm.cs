@@ -31,7 +31,7 @@ namespace CalamityMod.Items
             item.rare = 10;
             item.UseSound = SoundID.Item113;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<MechwormHead>();
+            item.shoot = ModContent.ProjectileType<Projectiles.MechwormHead>();
             item.shootSpeed = 10f;
             item.summon = true;
             item.Calamity().postMoonLordRarity = 13;
@@ -91,8 +91,8 @@ namespace CalamityMod.Items
             velY *= dist;
             int head = -1;
             int tail = -1;
-            int typeHead = ModContent.ProjectileType<MechwormHead>();
-            int typeTail = ModContent.ProjectileType<MechwormTail>();
+            int typeHead = ModContent.ProjectileType<Projectiles.MechwormHead>();
+            int typeTail = ModContent.ProjectileType<Projectiles.MechwormTail>();
             for (int i = 0; i < Main.maxProjectiles; i++)
             {
                 if (Main.projectile[i].active && Main.projectile[i].owner == owner)
@@ -126,25 +126,25 @@ namespace CalamityMod.Items
                 velY = 0f;
                 vector2.X = (float)Main.mouseX + Main.screenPosition.X;
                 vector2.Y = (float)Main.mouseY + Main.screenPosition.Y;
-                int curr = Projectile.NewProjectile(vector2.X, vector2.Y, velX, velY, ModContent.ProjectileType<MechwormHead>(), damage, knockBack, owner);
+                int curr = Projectile.NewProjectile(vector2.X, vector2.Y, velX, velY, ModContent.ProjectileType<Projectiles.MechwormHead>(), damage, knockBack, owner);
 
                 int prev = curr;
-                curr = Projectile.NewProjectile(vector2.X, vector2.Y, velX, velY, ModContent.ProjectileType<MechwormBody>(), damage, knockBack, owner, (float)prev);
+                curr = Projectile.NewProjectile(vector2.X, vector2.Y, velX, velY, ModContent.ProjectileType<Projectiles.MechwormBody>(), damage, knockBack, owner, (float)prev);
 
                 prev = curr;
-                curr = Projectile.NewProjectile(vector2.X, vector2.Y, velX, velY, ModContent.ProjectileType<MechwormBody2>(), damage, knockBack, owner, (float)prev);
+                curr = Projectile.NewProjectile(vector2.X, vector2.Y, velX, velY, ModContent.ProjectileType<Projectiles.MechwormBody2>(), damage, knockBack, owner, (float)prev);
                 Main.projectile[prev].localAI[1] = (float)curr;
                 Main.projectile[prev].netUpdate = true;
 
                 prev = curr;
-                curr = Projectile.NewProjectile(vector2.X, vector2.Y, velX, velY, ModContent.ProjectileType<MechwormTail>(), damage, knockBack, owner, (float)prev);
+                curr = Projectile.NewProjectile(vector2.X, vector2.Y, velX, velY, ModContent.ProjectileType<Projectiles.MechwormTail>(), damage, knockBack, owner, (float)prev);
                 Main.projectile[prev].localAI[1] = (float)curr;
                 Main.projectile[prev].netUpdate = true;
             }
             else if (head != -1 && tail != -1)
             {
-                int body = Projectile.NewProjectile(vector2.X, vector2.Y, velX, velY, ModContent.ProjectileType<MechwormBody>(), damage, knockBack, owner, Main.projectile[tail].ai[0]);
-                int back = Projectile.NewProjectile(vector2.X, vector2.Y, velX, velY, ModContent.ProjectileType<MechwormBody2>(), damage, knockBack, owner, (float)body);
+                int body = Projectile.NewProjectile(vector2.X, vector2.Y, velX, velY, ModContent.ProjectileType<Projectiles.MechwormBody>(), damage, knockBack, owner, Main.projectile[tail].ai[0]);
+                int back = Projectile.NewProjectile(vector2.X, vector2.Y, velX, velY, ModContent.ProjectileType<Projectiles.MechwormBody2>(), damage, knockBack, owner, (float)body);
 
                 Main.projectile[body].localAI[1] = (float)back;
                 Main.projectile[body].ai[1] = 1f;

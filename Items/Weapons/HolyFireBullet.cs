@@ -22,7 +22,7 @@ namespace CalamityMod.Items
             item.knockBack = 2f;
             item.value = 2000;
             item.rare = 10;
-            item.shoot = ModContent.ProjectileType<HolyFireBullet>();
+            item.shoot = ModContent.ProjectileType<Projectiles.HolyFireBullet>();
             item.shootSpeed = 12f;
             item.ammo = 97;
         }

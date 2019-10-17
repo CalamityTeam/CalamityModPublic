@@ -29,7 +29,7 @@ namespace CalamityMod.Items
             item.noMelee = true;
             item.height = 50;
             item.value = Item.buyPrice(0, 36, 0, 0);
-            item.shoot = ModContent.ProjectileType<MagnusBeam>();
+            item.shoot = ModContent.ProjectileType<Projectiles.MagnusBeam>();
             item.shootSpeed = 12f;
             item.Calamity().postMoonLordRarity = 22;
         }

@@ -2,7 +2,7 @@ using System;
 
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Dusts;
 
 namespace CalamityMod.Projectiles
 {

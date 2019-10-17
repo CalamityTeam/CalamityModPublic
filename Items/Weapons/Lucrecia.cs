@@ -31,7 +31,7 @@ namespace CalamityMod.Items
             item.UseSound = SoundID.Item1;
             item.useTurn = true;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<DNA>();
+            item.shoot = ModContent.ProjectileType<Projectiles.DNA>();
             item.shootSpeed = 32f;
             item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;

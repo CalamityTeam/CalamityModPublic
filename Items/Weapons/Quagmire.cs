@@ -27,7 +27,7 @@ namespace CalamityMod.Items
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.rare = 7;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<QuagmireProjectile>();
+            item.shoot = ModContent.ProjectileType<Projectiles.QuagmireProjectile>();
         }
 
         public override void AddRecipes()

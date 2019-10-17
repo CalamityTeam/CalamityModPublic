@@ -27,7 +27,7 @@ namespace CalamityMod.Items
             item.UseSound = SoundID.Item1;
             item.useTurn = true;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<ShortTerraBeam>();
+            item.shoot = ModContent.ProjectileType<Projectiles.ShortTerraBeam>();
             item.shootSpeed = 12f;
             item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;

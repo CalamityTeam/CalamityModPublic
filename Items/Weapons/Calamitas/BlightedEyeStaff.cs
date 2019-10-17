@@ -29,7 +29,7 @@ namespace CalamityMod.Items
             item.rare = 7;
             item.UseSound = SoundID.Item82;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Calamitamini>();
+            item.shoot = ModContent.ProjectileType<Projectiles.Calamitamini>();
             item.shootSpeed = 10f;
             item.summon = true;
         }
@@ -65,11 +65,11 @@ namespace CalamityMod.Items
             vector2.Y = (float)Main.mouseY + Main.screenPosition.Y;
             Vector2 spinningpoint = new Vector2(num78, num79);
             spinningpoint = spinningpoint.RotatedBy(1.5707963705062866, default);
-            Projectile.NewProjectile(vector2.X + spinningpoint.X, vector2.Y + spinningpoint.Y, spinningpoint.X, spinningpoint.Y, ModContent.ProjectileType<Calamitamini>(), damage, num74, i, 0f, 0f);
+            Projectile.NewProjectile(vector2.X + spinningpoint.X, vector2.Y + spinningpoint.Y, spinningpoint.X, spinningpoint.Y, ModContent.ProjectileType<Projectiles.Calamitamini>(), damage, num74, i, 0f, 0f);
             spinningpoint = spinningpoint.RotatedBy(-3.1415927410125732, default);
-            Projectile.NewProjectile(vector2.X + spinningpoint.X, vector2.Y + spinningpoint.Y, spinningpoint.X, spinningpoint.Y, ModContent.ProjectileType<Catastromini>(), damage, num74, i, 0f, 0f);
+            Projectile.NewProjectile(vector2.X + spinningpoint.X, vector2.Y + spinningpoint.Y, spinningpoint.X, spinningpoint.Y, ModContent.ProjectileType<Projectiles.Catastromini>(), damage, num74, i, 0f, 0f);
             spinningpoint = spinningpoint.RotatedBy(-5.1415927410125732, default);
-            Projectile.NewProjectile(vector2.X + spinningpoint.X, vector2.Y + spinningpoint.Y, spinningpoint.X, spinningpoint.Y, ModContent.ProjectileType<Cataclymini>(), damage, num74, i, 0f, 0f);
+            Projectile.NewProjectile(vector2.X + spinningpoint.X, vector2.Y + spinningpoint.Y, spinningpoint.X, spinningpoint.Y, ModContent.ProjectileType<Projectiles.Cataclymini>(), damage, num74, i, 0f, 0f);
             return false;
         }
     }

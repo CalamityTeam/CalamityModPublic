@@ -1,7 +1,8 @@
-﻿using Microsoft.Xna.Framework;
-using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
+﻿using CalamityMod.Buffs;
+using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles
 {
@@ -66,11 +67,11 @@ namespace CalamityMod.Projectiles
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
             if (Main.rand.NextBool(6))
-                target.AddBuff(ModContent.BuffType<ShadowflameFireball>(), 180, true);
+                target.AddBuff(ModContent.BuffType<Shadowflame>(), 180, true);
             else if (Main.rand.NextBool(4))
-                target.AddBuff(ModContent.BuffType<ShadowflameFireball>(), 120, true);
+                target.AddBuff(ModContent.BuffType<Shadowflame>(), 120, true);
             else if (Main.rand.NextBool(2))
-                target.AddBuff(ModContent.BuffType<ShadowflameFireball>(), 60, true);
+                target.AddBuff(ModContent.BuffType<Shadowflame>(), 60, true);
         }
 
         public override void Kill(int timeLeft)

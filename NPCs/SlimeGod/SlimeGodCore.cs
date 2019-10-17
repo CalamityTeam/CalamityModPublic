@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles;  
 
 namespace CalamityMod.NPCs
 {
@@ -48,7 +48,7 @@ namespace CalamityMod.NPCs
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/SlimeGod");
             else
                 music = MusicID.Boss1;
-            bossBag = ModContent.ItemType<SlimeGodBag>();
+            bossBag = ModContent.ItemType<Items.SlimeGodBag>();
         }
 
         public override void AI()
@@ -334,15 +334,15 @@ namespace CalamityMod.NPCs
             CalamityMod mod = ModContent.GetInstance<CalamityMod>();
             DropHelper.DropBags(npc);
 
-            DropHelper.DropItemChance(npc, ModContent.ItemType<SlimeGodTrophy>(), 10);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeSlimeGod>(), true, !CalamityWorld.downedSlimeGod);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<Items.SlimeGodTrophy>(), 10);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.KnowledgeSlimeGod>(), true, !CalamityWorld.downedSlimeGod);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedSlimeGod, 3, 1, 0);
 
             // Purified Jam is once per player, but drops for all players.
             CalamityPlayer mp = Main.player[Player.FindClosest(npc.position, npc.width, npc.height)].Calamity();
             if (!mp.revJamDrop)
             {
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<PurifiedJam>(), true, CalamityWorld.revenge && !CalamityWorld.downedSlimeGod, 6, 8);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.PurifiedJam>(), true, CalamityWorld.revenge && !CalamityWorld.downedSlimeGod, 6, 8);
                 mp.revJamDrop = true;
             }
 
@@ -353,21 +353,21 @@ namespace CalamityMod.NPCs
             if (!Main.expertMode)
             {
                 // Materials
-                DropHelper.DropItemSpray(npc, ModContent.ItemType<PurifiedGel>(), 25, 40);
+                DropHelper.DropItemSpray(npc, ModContent.ItemType<Items.PurifiedGel>(), 25, 40);
 
                 // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<OverloadedBlaster>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<AbyssalTome>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<EldritchTome>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<CorroslimeStaff>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<CrimslimeStaff>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<GelDart>(), 4, 80, 100);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.OverloadedBlaster>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.AbyssalTome>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.EldritchTome>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.CorroslimeStaff>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.CrimslimeStaff>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.GelDart>(), 4, 80, 100);
 
                 // Vanity
-                DropHelper.DropItemFromSetChance(npc, 7, ModContent.ItemType<SlimeGodMask>(), ModContent.ItemType<SlimeGodMask2>());
+                DropHelper.DropItemFromSetChance(npc, 7, ModContent.ItemType<Items.SlimeGodMask>(), ModContent.ItemType<Items.SlimeGodMask2>());
 
                 // Other
-                DropHelper.DropItem(npc, ModContent.ItemType<StaticRefiner>());
+                DropHelper.DropItem(npc, ModContent.ItemType<Items.StaticRefiner>());
             }
 
             // Mark the Slime God as dead

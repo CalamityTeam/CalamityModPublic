@@ -22,7 +22,7 @@ namespace CalamityMod.Items
             item.rare = 3;
             item.consumable = true;
             item.value = 0;
-            item.createTile = ModContent.TileType<AncientChair>();
+            item.createTile = ModContent.TileType<Tiles.AncientChair>();
         }
 
         public override void AddRecipes()

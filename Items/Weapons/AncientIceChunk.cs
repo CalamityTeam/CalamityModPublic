@@ -29,7 +29,7 @@ namespace CalamityMod.Items
             item.rare = 5;
             item.UseSound = SoundID.Item30;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<IceClasper>();
+            item.shoot = ModContent.ProjectileType<Projectiles.IceClasper>();
             item.shootSpeed = 10f;
             item.summon = true;
         }

@@ -32,7 +32,7 @@ namespace CalamityMod.Items
             item.rare = 10;
             item.Calamity().postMoonLordRarity = 13;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<HalleysComet>();
+            item.shoot = ModContent.ProjectileType<Projectiles.HalleysComet>();
             item.shootSpeed = 14.6f;
             item.useAmmo = 23;
         }

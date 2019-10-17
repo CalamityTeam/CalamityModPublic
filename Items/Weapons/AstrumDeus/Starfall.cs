@@ -30,7 +30,7 @@ namespace CalamityMod.Items
             item.value = Item.buyPrice(0, 95, 0, 0);
             item.UseSound = SoundID.Item105;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<AstralStarMagic>();
+            item.shoot = ModContent.ProjectileType<Projectiles.AstralStarMagic>();
             item.shootSpeed = 12f;
         }
 

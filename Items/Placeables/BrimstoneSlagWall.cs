@@ -15,7 +15,7 @@ namespace CalamityMod.Items
             item.useTime = 7;
             item.useStyle = 1;
             item.consumable = true;
-            item.createWall = ModContent.WallType<BrimstoneSlagWall>();
+            item.createWall = ModContent.WallType<Walls.BrimstoneSlagWall>();
         }
 
         public override void AddRecipes()

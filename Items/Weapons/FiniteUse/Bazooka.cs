@@ -31,7 +31,7 @@ namespace CalamityMod.Items
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/BazookaFull");
             item.autoReuse = true;
             item.shootSpeed = 12f;
-            item.shoot = ModContent.ProjectileType<GrenadeRound>();
+            item.shoot = ModContent.ProjectileType<Projectiles.GrenadeRound>();
             item.useAmmo = ModContent.ItemType<GrenadeRounds>();
             if (CalamityPlayer.areThereAnyDamnBosses)
             {

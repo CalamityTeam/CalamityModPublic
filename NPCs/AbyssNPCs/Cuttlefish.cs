@@ -1,11 +1,13 @@
 ﻿
+using CalamityMod.Buffs;
+using CalamityMod.Items;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
+using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs
 {
@@ -34,7 +36,7 @@ namespace CalamityMod.NPCs
             npc.DeathSound = SoundID.NPCDeath28;
             npc.knockBackResist = 0.3f;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<CuttlefishBanner>();
+            bannerItem = ModContent.ItemType<Items.CuttlefishBanner>();
         }
 
         public override void AI()
@@ -314,14 +316,14 @@ namespace CalamityMod.NPCs
         {
             if (Main.rand.NextBool(1000000) && CalamityWorld.revenge)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<HalibutCannon>());
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.HalibutCannon>());
             }
             if (Main.rand.NextBool(2))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CloakingGland>());
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.CloakingGland>());
             }
             int inkBombDropRate = CalamityWorld.defiled ? DropHelper.DefiledDropRateInt : Main.expertMode ? 50 : 100;
-            DropHelper.DropItemChance(npc, ModContent.ItemType<InkBomb>(), inkBombDropRate, 1, 1);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<Items.InkBomb>(), inkBombDropRate, 1, 1);
         }
 
         public override void HitEffect(int hitDirection, double damage)

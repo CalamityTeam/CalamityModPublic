@@ -28,7 +28,7 @@ namespace CalamityMod.Items
             item.rare = 2;
             item.UseSound = SoundID.Item61;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<FungiOrb>();
+            item.shoot = ModContent.ProjectileType<Projectiles.FungiOrb>();
             item.shootSpeed = 14f;
             item.useAmmo = 97;
         }
@@ -40,7 +40,7 @@ namespace CalamityMod.Items
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<FungiOrb>(), damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.FungiOrb>(), damage, knockBack, player.whoAmI, 0f, 0f);
             return false;
         }
     }

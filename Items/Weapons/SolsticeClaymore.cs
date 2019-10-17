@@ -29,7 +29,7 @@ namespace CalamityMod.Items
             item.height = 86;
             item.value = Item.buyPrice(1, 20, 0, 0);
             item.rare = 10;
-            item.shoot = ModContent.ProjectileType<SolsticeBeam>();
+            item.shoot = ModContent.ProjectileType<Projectiles.SolsticeBeam>();
             item.shootSpeed = 16f;
             item.Calamity().postMoonLordRarity = 12;
         }

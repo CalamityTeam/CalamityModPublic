@@ -28,7 +28,7 @@ namespace CalamityMod.Items
             item.height = 68;
             item.value = Item.buyPrice(0, 48, 0, 0);
             item.rare = 6;
-            item.shoot = ModContent.ProjectileType<PwnagehammerMelee>();
+            item.shoot = ModContent.ProjectileType<Projectiles.PwnagehammerMelee>();
             item.shootSpeed = 12f;
         }
 

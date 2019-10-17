@@ -29,7 +29,7 @@ namespace CalamityMod.Items
             item.height = 62;
             item.value = Item.buyPrice(1, 20, 0, 0);
             item.rare = 10;
-            item.shoot = ModContent.ProjectileType<OmegaBiomeOrb>();
+            item.shoot = ModContent.ProjectileType<Projectiles.OmegaBiomeOrb>();
             item.shootSpeed = 15f;
             item.Calamity().postMoonLordRarity = 12;
         }
@@ -38,7 +38,7 @@ namespace CalamityMod.Items
         {
             for (int projectiles = 0; projectiles <= 2; projectiles++)
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<OmegaBiomeOrb>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.OmegaBiomeOrb>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
             }
             return false;
         }

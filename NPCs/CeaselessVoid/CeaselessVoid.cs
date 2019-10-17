@@ -6,7 +6,7 @@ using System;
 using System.IO;
 using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles;  
 
 namespace CalamityMod.NPCs
 {
@@ -325,26 +325,26 @@ namespace CalamityMod.NPCs
             if (CalamityWorld.DoGSecondStageCountdown <= 0)
             {
                 // Materials
-                DropHelper.DropItem(npc, ModContent.ItemType<DarkPlasma>(), true, 2, 3);
+                DropHelper.DropItem(npc, ModContent.ItemType<Items.DarkPlasma>(), true, 2, 3);
 
                 // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<MirrorBlade>(), 3);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.MirrorBlade>(), 3);
 
                 // Equipment
                 float f = Main.rand.NextFloat();
                 bool replaceWithRare = f <= DropHelper.RareVariantDropRateFloat; // 1/40 chance overall of getting The Evolution
                 if (f < 0.2f) // 1/5 chance of getting Arcanum of the Void OR The Evolution replacing it
                 {
-                    DropHelper.DropItemCondition(npc, ModContent.ItemType<ArcanumoftheVoid>(), !replaceWithRare);
-                    DropHelper.DropItemCondition(npc, ModContent.ItemType<TheEvolution>(), replaceWithRare);
+                    DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.ArcanumoftheVoid>(), !replaceWithRare);
+                    DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.TheEvolution>(), replaceWithRare);
                 }
 
                 // Vanity
-                DropHelper.DropItemChance(npc, ModContent.ItemType<CeaselessVoidTrophy>(), 10);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.CeaselessVoidTrophy>(), 10);
 
                 // Other
                 bool lastSentinelKilled = !CalamityWorld.downedSentinel1 && CalamityWorld.downedSentinel2 && CalamityWorld.downedSentinel3;
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeSentinels>(), true, lastSentinelKilled);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.KnowledgeSentinels>(), true, lastSentinelKilled);
                 DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedSentinel1, 5, 2, 1);
             }
 

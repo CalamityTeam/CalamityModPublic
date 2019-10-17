@@ -29,7 +29,7 @@ namespace CalamityMod.Items
             item.value = Item.buyPrice(5, 0, 0, 0);
             item.rare = 10;
             item.UseSound = SoundID.Item1;
-            item.shoot = ModContent.ProjectileType<BlushieStaffProj>();
+            item.shoot = ModContent.ProjectileType<Projectiles.BlushieStaffProj>();
             item.mana = 200;
             item.shootSpeed = 0f;
             item.Calamity().postMoonLordRarity = 19;

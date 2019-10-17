@@ -24,7 +24,7 @@ namespace CalamityMod.Items
             item.value = 500;
             item.rare = 3;
             item.ammo = 97;
-            item.shoot = ModContent.ProjectileType<MortarRound>();
+            item.shoot = ModContent.ProjectileType<Projectiles.MortarRound>();
         }
 
         public override void AddRecipes()

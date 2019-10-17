@@ -20,7 +20,7 @@ namespace CalamityMod.Items
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = ModContent.TileType<StratusBed>();
+            item.createTile = ModContent.TileType<Tiles.StratusBed>();
         }
 
         public override void AddRecipes()

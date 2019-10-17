@@ -21,7 +21,7 @@ namespace CalamityMod.Items
             item.useStyle = 1;
             item.rare = 3;
             item.consumable = true;
-            item.createTile = ModContent.TileType<SmoothBrimstoneSlag>();
+            item.createTile = ModContent.TileType<Tiles.SmoothBrimstoneSlag>();
         }
 
         public override void AddRecipes()

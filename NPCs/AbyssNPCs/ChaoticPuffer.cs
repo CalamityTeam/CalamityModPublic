@@ -1,9 +1,12 @@
-﻿using CalamityMod.World;
+﻿using CalamityMod.Buffs;
+using CalamityMod.Items;
+using CalamityMod.Projectiles;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
+using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs
 {
@@ -37,7 +40,7 @@ namespace CalamityMod.NPCs
             npc.HitSound = SoundID.NPCHit23;
             npc.DeathSound = SoundID.NPCDeath28;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<ChaoticPufferBanner>();
+            bannerItem = ModContent.ItemType<Items.ChaoticPufferBanner>();
         }
 
         public override void AI()
@@ -212,11 +215,11 @@ namespace CalamityMod.NPCs
         {
             if (Main.rand.NextBool(1000000) && CalamityWorld.revenge)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<HalibutCannon>());
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.HalibutCannon>());
             }
             if (NPC.downedGolemBoss)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<ChaoticOre>(), Main.rand.Next(10, 27));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.ChaoticOre>(), Main.rand.Next(10, 27));
             }
         }
 

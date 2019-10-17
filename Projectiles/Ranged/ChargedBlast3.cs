@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader; using CalamityMod.Dusts;
+using Terraria.ModLoader; using CalamityMod.Dusts; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
 namespace CalamityMod.Projectiles
 {
@@ -95,8 +95,9 @@ namespace CalamityMod.Projectiles
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            int explode = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<HiveExplosion>(), projectile.damage / 4, projectile.knockBack, projectile.owner, 0f, 0f);
-            Main.projectile[explode].penetrate = 1;
+            // TODO -- HiveExplosion does not exist.
+            // int explode = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<HiveExplosion>(), projectile.damage / 4, projectile.knockBack, projectile.owner, 0f, 0f);
+            // Main.projectile[explode].penetrate = 1;
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 62);
             projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
@@ -144,8 +145,9 @@ namespace CalamityMod.Projectiles
 
         public override void Kill(int timeLeft)
         {
-            int explode = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<HiveExplosion>(), projectile.damage / 4, projectile.knockBack, projectile.owner, 0f, 0f);
-            Main.projectile[explode].penetrate = 1;
+            // TODO -- HiveExplosion does not exist.
+            // int explode = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<HiveExplosion>(), projectile.damage / 4, projectile.knockBack, projectile.owner, 0f, 0f);
+            // Main.projectile[explode].penetrate = 1;
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 62);
             projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
@@ -176,8 +178,9 @@ namespace CalamityMod.Projectiles
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.immune[projectile.owner] = 2;
-            int explode = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<HiveExplosion>(), projectile.damage / 4, projectile.knockBack, projectile.owner, 0f, 0f);
-            Main.projectile[explode].penetrate = 1;
+            // TODO -- HiveExplosion does not exist.
+            // int explode = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<HiveExplosion>(), projectile.damage / 4, projectile.knockBack, projectile.owner, 0f, 0f);
+            // Main.projectile[explode].penetrate = 1;
             projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
             projectile.width = 50;

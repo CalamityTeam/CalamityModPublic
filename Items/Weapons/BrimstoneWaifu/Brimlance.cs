@@ -29,7 +29,7 @@ namespace CalamityMod.Items
             item.height = 56;
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.rare = 5;
-            item.shoot = ModContent.ProjectileType<Brimlance>();
+            item.shoot = ModContent.ProjectileType<Projectiles.Brimlance>();
             item.shootSpeed = 12f;
         }
     }

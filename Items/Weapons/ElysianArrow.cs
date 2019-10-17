@@ -21,7 +21,7 @@ namespace CalamityMod.Items
             item.consumable = true;
             item.knockBack = 3f;
             item.value = 2000;
-            item.shoot = ModContent.ProjectileType<ElysianArrow>();
+            item.shoot = ModContent.ProjectileType<Projectiles.ElysianArrow>();
             item.shootSpeed = 10f;
             item.ammo = 40;
             item.Calamity().postMoonLordRarity = 12;

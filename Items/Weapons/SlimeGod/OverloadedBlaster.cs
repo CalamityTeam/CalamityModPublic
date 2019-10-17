@@ -29,7 +29,7 @@ namespace CalamityMod.Items
             item.UseSound = SoundID.Item9;
             item.autoReuse = true;
             item.shootSpeed = 6.5f;
-            item.shoot = ModContent.ProjectileType<SlimeBolt>();
+            item.shoot = ModContent.ProjectileType<Projectiles.SlimeBolt>();
             item.useAmmo = 23;
         }
 

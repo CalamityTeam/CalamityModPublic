@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles;  
 
 namespace CalamityMod.NPCs
 {
@@ -29,7 +29,7 @@ namespace CalamityMod.NPCs
             npc.DeathSound = SoundID.NPCDeath35;
             npc.behindTiles = true;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<BOHLDOHRBanner>();
+            bannerItem = ModContent.ItemType<Items.BOHLDOHRBanner>();
         }
 
         public override void AI()
@@ -341,7 +341,8 @@ namespace CalamityMod.NPCs
         {
             if (CalamityWorld.downedSCal)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<NO>());
+                // RIP LORDE
+                // Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.NO>());
             }
         }
     }

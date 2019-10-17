@@ -27,7 +27,7 @@ namespace CalamityMod.Items
             item.height = 90;
             item.value = Item.buyPrice(1, 20, 0, 0);
             item.rare = 10;
-            item.shoot = ModContent.ProjectileType<PlagueBeeDust>();
+            item.shoot = ModContent.ProjectileType<Projectiles.PlagueBeeDust>();
             item.shootSpeed = 9f;
             item.Calamity().postMoonLordRarity = 12;
         }

@@ -32,7 +32,7 @@ namespace CalamityMod.Items
             item.rare = 10;
             item.Calamity().postMoonLordRarity = 21;
 
-            item.shoot = ModContent.ProjectileType<KarasawaShot>();
+            item.shoot = ModContent.ProjectileType<Projectiles.KarasawaShot>();
             item.shootSpeed = 1f;
             item.useAmmo = AmmoID.Bullet;
         }
@@ -50,7 +50,7 @@ namespace CalamityMod.Items
                 velocity.Normalize();
                 velocity *= 5f;
             }
-            Projectile.NewProjectile(position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<KarasawaShot>(), damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<Projectiles.KarasawaShot>(), damage, knockBack, player.whoAmI, 0f, 0f);
 
             // Consume 5 ammo per shot
             CalamityGlobalItem.ConsumeAdditionalAmmo(player, item, 5);

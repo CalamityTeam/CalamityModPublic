@@ -6,7 +6,7 @@ using System.IO;
 using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
 using Terraria.GameContent.Events;
 using Terraria.ID;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles;  
 
 namespace CalamityMod.NPCs
 {
@@ -64,7 +64,7 @@ namespace CalamityMod.NPCs
             npc.DeathSound = SoundID.NPCDeath1;
             npc.timeLeft = NPC.activeTime * 30;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<GreatSandSharkBanner>();
+            bannerItem = ModContent.ItemType<Items.GreatSandSharkBanner>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -93,13 +93,8 @@ namespace CalamityMod.NPCs
             bool lowLife = (double)npc.life <= (double)npc.lifeMax * (expertMode ? 0.75 : 0.5);
             bool lowerLife = (double)npc.life <= (double)npc.lifeMax * (expertMode ? 0.35 : 0.2);
             bool youMustDie = !Main.player[npc.target].ZoneDesert;
-            if (!Sandstorm.Happening)
-            {
-                Main.raining = false;
-                Sandstorm.Happening = true;
-                Sandstorm.TimeLeft = (int)(3600f * (8f + Main.rand.NextFloat() * 16f));
-                CalamityMod.UpdateServerBoolean();
-            }
+            CalamityUtils.StartSandstorm();
+            CalamityMod.UpdateServerBoolean();
             if (npc.soundDelay <= 0)
             {
                 npc.soundDelay = 480;
@@ -671,10 +666,10 @@ namespace CalamityMod.NPCs
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<GrandScale>());
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.GrandScale>());
             if (Main.expertMode && Main.rand.NextBool(3))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<GrandScale>());
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.GrandScale>());
             }
         }
 

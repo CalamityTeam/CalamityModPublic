@@ -1,12 +1,15 @@
-﻿
+﻿using CalamityMod.Buffs;
+using CalamityMod.Dusts;
+using CalamityMod.Items;
+using CalamityMod.Projectiles;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
-using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
+using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs
 {
@@ -73,7 +76,7 @@ namespace CalamityMod.NPCs
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/AstrumDeus");
             else
                 music = MusicID.Boss3;
-            bossBag = ModContent.ItemType<AstrumDeusBag>();
+            bossBag = ModContent.ItemType<Items.AstrumDeusBag>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -517,7 +520,7 @@ namespace CalamityMod.NPCs
 
         public override void BossLoot(ref string name, ref int potionType)
         {
-            potionType = ModContent.ItemType<Stardust>();
+            potionType = ModContent.ItemType<Items.Stardust>();
         }
 
         public override bool SpecialNPCLoot()
@@ -535,9 +538,9 @@ namespace CalamityMod.NPCs
             DropHelper.DropBags(npc);
 
             DropHelper.DropItem(npc, ItemID.GreaterHealingPotion, 8, 14);
-            DropHelper.DropItemChance(npc, ModContent.ItemType<AstrumDeusTrophy>(), 10);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeAstrumDeus>(), !CalamityWorld.downedStarGod);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeAstralInfection>(), !CalamityWorld.downedStarGod);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<Items.AstrumDeusTrophy>(), 10);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.KnowledgeAstrumDeus>(), !CalamityWorld.downedStarGod);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.KnowledgeAstralInfection>(), !CalamityWorld.downedStarGod);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedStarGod, 4, 2, 1);
 
             // Drop a large spray of all 4 lunar fragments
@@ -551,17 +554,17 @@ namespace CalamityMod.NPCs
             // All other drops are contained in the bag, so they only drop directly on Normal
             if (!Main.expertMode)
             {
-                DropHelper.DropItemSpray(npc, ModContent.ItemType<Stardust>(), 50, 80, 5);
+                DropHelper.DropItemSpray(npc, ModContent.ItemType<Items.Stardust>(), 50, 80, 5);
 
                 // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Starfall>(), 5);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Quasar>(), DropHelper.RareVariantDropRateInt);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.Starfall>(), 5);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.Quasar>(), DropHelper.RareVariantDropRateInt);
 
                 // Equipment
-                DropHelper.DropItemChance(npc, ModContent.ItemType<HideofAstrumDeus>(), DropHelper.RareVariantDropRateInt);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.HideofAstrumDeus>(), DropHelper.RareVariantDropRateInt);
 
                 // Vanity
-                DropHelper.DropItemChance(npc, ModContent.ItemType<AstrumDeusMask>(), 7);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.AstrumDeusMask>(), 7);
             }
 
             // Notify players that Astral Ore can be mined if Deus has never been killed yet

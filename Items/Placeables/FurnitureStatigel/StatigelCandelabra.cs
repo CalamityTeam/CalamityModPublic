@@ -20,7 +20,7 @@ namespace CalamityMod.Items
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = ModContent.TileType<StatigelCandelabra>();
+            item.createTile = ModContent.TileType<Tiles.StatigelCandelabra>();
         }
 
         public override void AddRecipes()

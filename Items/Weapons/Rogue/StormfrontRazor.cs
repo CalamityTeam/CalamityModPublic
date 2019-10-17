@@ -31,7 +31,7 @@ namespace CalamityMod.Items
             item.damage = 50;
             item.crit += 8;
             item.knockBack = 7f;
-            item.shoot = ModContent.ProjectileType<StormfrontRazorProjectile>();
+            item.shoot = ModContent.ProjectileType<Projectiles.StormfrontRazorProjectile>();
             item.shootSpeed = 7f;
             item.Calamity().rogue = true;
         }
@@ -52,13 +52,13 @@ namespace CalamityMod.Items
         {
             if (player.Calamity().StealthStrikeAvailable())
             {
-                int p = Projectile.NewProjectile(position, new Vector2(speedX * 1.6f, speedY * 1.6f), ModContent.ProjectileType<StormfrontRazorProjectile>(), damage, knockBack, player.whoAmI, 0, 40f);
+                int p = Projectile.NewProjectile(position, new Vector2(speedX * 1.6f, speedY * 1.6f), ModContent.ProjectileType<Projectiles.StormfrontRazorProjectile>(), damage, knockBack, player.whoAmI, 0, 40f);
                 Main.projectile[p].Calamity().stealthStrike = true;
                 return false;
             }
             else
             {
-                Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<StormfrontRazorProjectile>(), damage, knockBack, player.whoAmI, 0, 1);
+                Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<Projectiles.StormfrontRazorProjectile>(), damage, knockBack, player.whoAmI, 0, 1);
                 return false;
             }
         }

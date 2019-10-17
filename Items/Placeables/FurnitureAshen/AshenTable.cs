@@ -21,7 +21,7 @@ namespace CalamityMod.Items
             item.rare = 3;
             item.consumable = true;
             item.value = 0;
-            item.createTile = ModContent.TileType<AshenTable>();
+            item.createTile = ModContent.TileType<Tiles.AshenTable>();
         }
 
         public override void AddRecipes()

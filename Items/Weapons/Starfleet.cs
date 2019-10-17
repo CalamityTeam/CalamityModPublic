@@ -28,7 +28,7 @@ namespace CalamityMod.Items
             item.rare = 10;
             item.UseSound = SoundID.Item92;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<PlasmaBlast>();
+            item.shoot = ModContent.ProjectileType<Projectiles.PlasmaBlast>();
             item.shootSpeed = 12f;
             item.useAmmo = 75;
             item.Calamity().postMoonLordRarity = 12;

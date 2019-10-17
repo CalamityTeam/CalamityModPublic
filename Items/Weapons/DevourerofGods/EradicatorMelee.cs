@@ -30,7 +30,7 @@ namespace CalamityMod.Items
             item.height = 54;
             item.value = Item.buyPrice(1, 40, 0, 0);
             item.rare = 10;
-            item.shoot = ModContent.ProjectileType<EradicatorMeleeProjectile>();
+            item.shoot = ModContent.ProjectileType<Projectiles.EradicatorMeleeProjectile>();
             item.shootSpeed = 12f;
             item.Calamity().postMoonLordRarity = 13;
         }

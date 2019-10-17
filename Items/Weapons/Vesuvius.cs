@@ -36,7 +36,7 @@ namespace CalamityMod.Items
             item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;
             item.shootSpeed = 20f;
-            item.shoot = ModContent.ProjectileType<AsteroidMolten>();
+            item.shoot = ModContent.ProjectileType<Projectiles.AsteroidMolten>();
             item.Calamity().postMoonLordRarity = 17;
         }
 

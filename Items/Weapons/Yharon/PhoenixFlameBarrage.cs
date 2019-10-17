@@ -32,7 +32,7 @@ namespace CalamityMod.Items
             item.rare = 10;
             item.UseSound = SoundID.Item20;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<HolyFlame>();
+            item.shoot = ModContent.ProjectileType<Projectiles.HolyFlame>();
             item.shootSpeed = 30f;
             item.Calamity().postMoonLordRarity = 14;
         }

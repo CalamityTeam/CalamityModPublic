@@ -4,7 +4,7 @@ using System;
 using System.IO;
 using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles;  
 
 namespace CalamityMod.NPCs
 {
@@ -43,7 +43,7 @@ namespace CalamityMod.NPCs
             npc.DeathSound = SoundID.NPCDeath59;
             npc.timeLeft = NPC.activeTime * 2;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<EidolistBanner>();
+            bannerItem = ModContent.ItemType<Items.EidolistBanner>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -316,17 +316,17 @@ namespace CalamityMod.NPCs
             {
                 if (!NPC.LunarApocalypseIsUp)
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EidolonTablet>());
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.EidolonTablet>());
                 }
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.BlueLunaticHood);
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.BlueLunaticRobe);
             }
             if (CalamityWorld.downedCalamitas || NPC.downedPlantBoss)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Lumenite>(), Main.rand.Next(8, 11));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Lumenite>(), Main.rand.Next(8, 11));
                 if (Main.expertMode && Main.rand.NextBool(2))
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Lumenite>(), Main.rand.Next(2, 5));
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Lumenite>(), Main.rand.Next(2, 5));
                 }
             }
             if (NPC.downedPlantBoss)

@@ -30,7 +30,7 @@ namespace CalamityMod.Items
             item.height = 88;
             item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;
-            item.shoot = ModContent.ProjectileType<BlazingPhantomBlade>();
+            item.shoot = ModContent.ProjectileType<Projectiles.BlazingPhantomBlade>();
             item.shootSpeed = 12f;
         }
 

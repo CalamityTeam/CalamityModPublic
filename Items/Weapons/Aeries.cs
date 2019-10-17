@@ -29,7 +29,7 @@ namespace CalamityMod.Items
             item.UseSound = SoundID.Item41;
             item.autoReuse = true;
             item.shootSpeed = 24f;
-            item.shoot = ModContent.ProjectileType<ShockblastRound>();
+            item.shoot = ModContent.ProjectileType<Projectiles.ShockblastRound>();
             item.useAmmo = 97;
         }
 
@@ -40,7 +40,7 @@ namespace CalamityMod.Items
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<ShockblastRound>(), damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.ShockblastRound>(), damage, knockBack, player.whoAmI, 0f, 0f);
             return false;
         }
 

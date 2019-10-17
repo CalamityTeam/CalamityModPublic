@@ -26,7 +26,7 @@ namespace CalamityMod.Items
             item.height = 64;
             item.value = Item.buyPrice(1, 40, 0, 0);
             item.rare = 10;
-            item.shoot = ModContent.ProjectileType<ReaperProjectile>();
+            item.shoot = ModContent.ProjectileType<Projectiles.ReaperProjectile>();
             item.shootSpeed = 20f;
             item.Calamity().rogue = true;
             item.Calamity().postMoonLordRarity = 22;

@@ -28,7 +28,7 @@ namespace CalamityMod.Items
             item.value = Item.buyPrice(1, 40, 0, 0);
             item.rare = 10;
             item.UseSound = SoundID.Item95;
-            item.shoot = ModContent.ProjectileType<SulphuricAcidCannon2>();
+            item.shoot = ModContent.ProjectileType<Projectiles.SulphuricAcidCannon2>();
             item.shootSpeed = 16f;
             item.Calamity().postMoonLordRarity = 13;
         }

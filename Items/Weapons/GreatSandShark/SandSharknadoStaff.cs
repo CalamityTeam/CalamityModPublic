@@ -28,7 +28,7 @@ namespace CalamityMod.Items
             item.rare = 8;
             item.UseSound = SoundID.Item44;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Sandnado>();
+            item.shoot = ModContent.ProjectileType<Projectiles.Sandnado>();
             item.shootSpeed = 10f;
             item.summon = true;
         }

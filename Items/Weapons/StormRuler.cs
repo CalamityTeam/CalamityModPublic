@@ -30,7 +30,7 @@ namespace CalamityMod.Items
             item.height = 82;
             item.value = Item.buyPrice(0, 95, 0, 0);
             item.rare = 9;
-            item.shoot = ModContent.ProjectileType<StormRuler>();
+            item.shoot = ModContent.ProjectileType<Projectiles.StormRuler>();
             item.shootSpeed = 20f;
         }
 

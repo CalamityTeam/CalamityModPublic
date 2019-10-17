@@ -31,7 +31,7 @@ namespace CalamityMod.Items
             item.height = 78;
             item.value = Item.buyPrice(2, 50, 0, 0);
             item.rare = 10;
-            item.shoot = ModContent.ProjectileType<Murasama>();
+            item.shoot = ModContent.ProjectileType<Projectiles.Murasama>();
             item.shootSpeed = 24f;
             item.Calamity().postMoonLordRarity = 15;
         }

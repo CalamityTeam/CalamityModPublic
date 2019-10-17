@@ -22,7 +22,7 @@ namespace CalamityMod.Items
             item.knockBack = 1.25f;
             item.value = 500;
             item.rare = 3;
-            item.shoot = ModContent.ProjectileType<VeriumBullet>();
+            item.shoot = ModContent.ProjectileType<Projectiles.VeriumBullet>();
             item.shootSpeed = 16f;
             item.ammo = 97;
         }

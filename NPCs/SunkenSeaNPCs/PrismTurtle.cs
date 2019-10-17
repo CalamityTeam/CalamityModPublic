@@ -5,7 +5,7 @@ using System;
 using System.IO;
 using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles;  
 
 namespace CalamityMod.NPCs
 {
@@ -35,7 +35,7 @@ namespace CalamityMod.NPCs
             npc.DeathSound = SoundID.NPCDeath27;
             npc.knockBackResist = 0.15f;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<PrismTurtleBanner>();
+            bannerItem = ModContent.ItemType<Items.PrismTurtleBanner>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -265,7 +265,7 @@ namespace CalamityMod.NPCs
         {
             if (CalamityWorld.downedDesertScourge)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<PrismShard>(), Main.rand.Next(1, 4));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.PrismShard>(), Main.rand.Next(1, 4));
             }
         }
 

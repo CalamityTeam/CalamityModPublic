@@ -32,7 +32,7 @@ namespace CalamityMod.Items
             item.knockBack = 0f;
             item.value = Item.buyPrice(1, 80, 0, 0);
             item.rare = 10;
-            item.shoot = ModContent.ProjectileType<YharimsCrystal>();
+            item.shoot = ModContent.ProjectileType<Projectiles.YharimsCrystal>();
             item.shootSpeed = 30f;
             item.Calamity().postMoonLordRarity = 17;
         }
@@ -60,7 +60,7 @@ namespace CalamityMod.Items
             bool yharon = CalamityWorld.downedYharon;
             if (playerName || yharon)
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<YharimsCrystal>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.YharimsCrystal>(), damage, knockBack, player.whoAmI, 0f, 0f);
                 return false;
             }
             else

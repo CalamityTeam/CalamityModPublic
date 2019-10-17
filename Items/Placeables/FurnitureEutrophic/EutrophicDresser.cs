@@ -19,7 +19,7 @@ namespace CalamityMod.Items
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = ModContent.TileType<EutrophicDresser>();
+            item.createTile = ModContent.TileType<Tiles.EutrophicDresser>();
         }
 
         public override void AddRecipes()

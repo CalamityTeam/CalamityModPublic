@@ -33,7 +33,7 @@ namespace CalamityMod.Items
             item.rare = 10;
             item.UseSound = SoundID.Item9;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<LiquidBlade>();
+            item.shoot = ModContent.ProjectileType<Projectiles.LiquidBlade>();
             item.shootSpeed = 16f;
             item.Calamity().postMoonLordRarity = 12;
         }

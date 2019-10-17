@@ -18,7 +18,7 @@ namespace CalamityMod.Items
             item.consumable = true;
             item.rare = 1;
             item.value = Item.buyPrice(0, 0, 10, 0);
-            item.createTile = ModContent.TileType<MonsterBanner>();
+            item.createTile = ModContent.TileType<Tiles.MonsterBanner>();
             item.placeStyle = 54;
         }
     }

@@ -33,7 +33,7 @@ namespace CalamityMod.Items
             item.rare = 10;
             item.UseSound = SoundID.Item106;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<MadAlchemistsCocktailRed>();
+            item.shoot = ModContent.ProjectileType<Projectiles.MadAlchemistsCocktailRed>();
             item.shootSpeed = 12f;
             item.Calamity().postMoonLordRarity = 21;
         }
@@ -57,7 +57,7 @@ namespace CalamityMod.Items
         {
             if (player.altFunctionUse == 2)
             {
-                type = ModContent.ProjectileType<MadAlchemistsCocktailAlt>();
+                type = ModContent.ProjectileType<Projectiles.MadAlchemistsCocktailAlt>();
                 Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)((float)BaseDamage * 1.5f * player.magicDamage), knockBack, player.whoAmI, 0f, 0f);
             }
             else
@@ -65,16 +65,16 @@ namespace CalamityMod.Items
                 switch (FlaskType)
                 {
                     case 0:
-                        type = ModContent.ProjectileType<MadAlchemistsCocktailRed>();
+                        type = ModContent.ProjectileType<Projectiles.MadAlchemistsCocktailRed>();
                         break;
                     case 1:
-                        type = ModContent.ProjectileType<MadAlchemistsCocktailBlue>();
+                        type = ModContent.ProjectileType<Projectiles.MadAlchemistsCocktailBlue>();
                         break;
                     case 2:
-                        type = ModContent.ProjectileType<MadAlchemistsCocktailGreen>();
+                        type = ModContent.ProjectileType<Projectiles.MadAlchemistsCocktailGreen>();
                         break;
                     case 3:
-                        type = ModContent.ProjectileType<MadAlchemistsCocktailPurple>();
+                        type = ModContent.ProjectileType<Projectiles.MadAlchemistsCocktailPurple>();
                         break;
                     default:
                         break;

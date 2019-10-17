@@ -31,7 +31,7 @@ namespace CalamityMod.Items
             item.rare = 1;
             item.UseSound = SoundID.Item102;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<StickyFeather>();
+            item.shoot = ModContent.ProjectileType<Projectiles.StickyFeather>();
             item.shootSpeed = 15f;
         }
 

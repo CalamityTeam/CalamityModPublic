@@ -20,7 +20,7 @@ namespace CalamityMod.Items
             item.useStyle = 1;
             item.rare = 3;
             item.consumable = true;
-            item.createWall = ModContent.WallType<AshenSlabWall>();
+            item.createWall = ModContent.WallType<Walls.AshenSlabWall>();
         }
 
         public override void AddRecipes()

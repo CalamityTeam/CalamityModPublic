@@ -30,7 +30,7 @@ namespace CalamityMod.Items
             item.UseSound = SoundID.Item111;
             item.autoReuse = true;
             item.shootSpeed = 8f;
-            item.shoot = ModContent.ProjectileType<BlackAnurian>();
+            item.shoot = ModContent.ProjectileType<Projectiles.BlackAnurian>();
         }
 
         public override Vector2? HoldoutOffset()
@@ -45,7 +45,7 @@ namespace CalamityMod.Items
             {
                 float SpeedX = speedX + (float)Main.rand.Next(-25, 26) * 0.05f;
                 float SpeedY = speedY + (float)Main.rand.Next(-25, 26) * 0.05f;
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<BlackAnurianPlankton>(), (int)((double)damage * 0.5), knockBack, player.whoAmI, 0.0f, 0.0f);
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<Projectiles.BlackAnurianPlankton>(), (int)((double)damage * 0.5), knockBack, player.whoAmI, 0.0f, 0.0f);
             }
             Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)((double)damage * 0.5), knockBack, player.whoAmI, 0.0f, 0.0f);
             return false;

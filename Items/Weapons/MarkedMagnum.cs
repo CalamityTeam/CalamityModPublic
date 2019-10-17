@@ -29,7 +29,7 @@ namespace CalamityMod.Items
             item.UseSound = SoundID.Item33;
             item.autoReuse = false;
             item.shootSpeed = 12f;
-            item.shoot = ModContent.ProjectileType<MarkRound>();
+            item.shoot = ModContent.ProjectileType<Projectiles.MarkRound>();
         }
 
         public override Vector2? HoldoutOffset()

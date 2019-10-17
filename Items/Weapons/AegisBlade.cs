@@ -48,7 +48,7 @@ namespace CalamityMod.Items
                 item.useTime = 20;
                 item.useAnimation = 20;
                 item.UseSound = SoundID.Item73;
-                item.shoot = ModContent.ProjectileType<AegisBeam>();
+                item.shoot = ModContent.ProjectileType<Projectiles.AegisBeam>();
             }
             else
             {
@@ -63,7 +63,7 @@ namespace CalamityMod.Items
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<AegisBeam>(), damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.AegisBeam>(), damage, knockBack, player.whoAmI, 0f, 0f);
             return false;
         }
 
@@ -77,7 +77,7 @@ namespace CalamityMod.Items
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<AegisBlast>(), (int)((float)item.damage * player.meleeDamage), knockback, Main.myPlayer);
+            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<Projectiles.AegisBlast>(), (int)((float)item.damage * player.meleeDamage), knockback, Main.myPlayer);
         }
     }
 }

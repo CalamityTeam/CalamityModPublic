@@ -31,7 +31,7 @@ namespace CalamityMod.Items
             item.UseSound = SoundID.Item1;
             item.noMelee = true;
             item.noUseGraphic = true;
-            item.shoot = ModContent.ProjectileType<GacruxianProj>();
+            item.shoot = ModContent.ProjectileType<Projectiles.GacruxianProj>();
             item.shootSpeed = Speed;
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.Calamity().rogue = true;
@@ -43,7 +43,7 @@ namespace CalamityMod.Items
         {
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
-                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<GacruxianProj>(), damage, knockBack, player.whoAmI, 0f, 1f);
+                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<Projectiles.GacruxianProj>(), damage, knockBack, player.whoAmI, 0f, 1f);
                 Main.projectile[stealth].Calamity().stealthStrike = true;
                 return false;
             }

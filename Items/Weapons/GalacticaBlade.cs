@@ -30,7 +30,7 @@ namespace CalamityMod.Items
             item.height = 58;
             item.value = Item.buyPrice(1, 20, 0, 0);
             item.rare = 10;
-            item.shoot = ModContent.ProjectileType<GalacticaComet>();
+            item.shoot = ModContent.ProjectileType<Projectiles.GalacticaComet>();
             item.shootSpeed = 23f;
             item.Calamity().postMoonLordRarity = 12;
         }
@@ -94,7 +94,7 @@ namespace CalamityMod.Items
                 num79 *= num80;
                 float speedX4 = num78 + (float)Main.rand.Next(-100, 101) * 0.02f;
                 float speedY5 = num79 + (float)Main.rand.Next(-100, 101) * 0.02f;
-                int projectile = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<GalacticaComet>(), damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(10));
+                int projectile = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<Projectiles.GalacticaComet>(), damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(10));
             }
             return false;
         }

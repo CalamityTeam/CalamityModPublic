@@ -44,7 +44,7 @@ namespace CalamityMod.Items
             Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
             if (Main.rand.NextBool(5))
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Shroom>(), (int)((double)damage * 1.5), knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.Shroom>(), (int)((double)damage * 1.5), knockBack, player.whoAmI, 0f, 0f);
             }
             return false;
         }

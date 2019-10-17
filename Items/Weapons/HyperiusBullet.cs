@@ -23,7 +23,7 @@ namespace CalamityMod.Items
             item.knockBack = 1.5f;
             item.value = 2000;
             item.rare = 9;
-            item.shoot = ModContent.ProjectileType<HyperiusBullet>();
+            item.shoot = ModContent.ProjectileType<Projectiles.HyperiusBullet>();
             item.shootSpeed = 16f;
             item.ammo = 97;
         }

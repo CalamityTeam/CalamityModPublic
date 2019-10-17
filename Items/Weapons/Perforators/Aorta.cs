@@ -24,7 +24,7 @@ namespace CalamityMod.Items
             item.value = Item.buyPrice(0, 4, 0, 0);
             item.rare = 3;
             item.autoReuse = false;
-            item.shoot = ModContent.ProjectileType<AortaProjectile>();
+            item.shoot = ModContent.ProjectileType<Projectiles.AortaProjectile>();
         }
 
         public override void AddRecipes()

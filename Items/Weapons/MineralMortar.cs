@@ -28,13 +28,13 @@ namespace CalamityMod.Items
             item.UseSound = SoundID.Item11;
             item.autoReuse = true;
             item.shootSpeed = 14f;
-            item.shoot = ModContent.ProjectileType<OnyxSharkBomb>();
+            item.shoot = ModContent.ProjectileType<Projectiles.OnyxSharkBomb>();
             item.useAmmo = 771;
         }
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<OnyxSharkBomb>(), damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.OnyxSharkBomb>(), damage, knockBack, player.whoAmI, 0f, 0f);
             return false;
         }
 

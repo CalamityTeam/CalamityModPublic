@@ -22,7 +22,7 @@ namespace CalamityMod.Items
             item.knockBack = 1.5f;
             item.value = 1000;
             item.rare = 3;
-            item.shoot = ModContent.ProjectileType<NapalmArrow>();
+            item.shoot = ModContent.ProjectileType<Projectiles.NapalmArrow>();
             item.shootSpeed = 13f;
             item.ammo = 40;
         }

@@ -29,7 +29,7 @@ namespace CalamityMod.Items
             item.UseSound = SoundID.Item95;
             item.autoReuse = true;
             item.shootSpeed = 13f;
-            item.shoot = ModContent.ProjectileType<UberBubble>();
+            item.shoot = ModContent.ProjectileType<Projectiles.UberBubble>();
             item.Calamity().postMoonLordRarity = 12;
         }
 

@@ -32,7 +32,7 @@ namespace CalamityMod.Items
             item.rare = 10;
             item.UseSound = SoundID.Item102;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<AstrealArrow>();
+            item.shoot = ModContent.ProjectileType<Projectiles.AstrealArrow>();
             item.shootSpeed = 1f;
             item.useAmmo = 40;
         }
@@ -50,7 +50,7 @@ namespace CalamityMod.Items
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<AstrealArrow>(), (int)(double)damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.AstrealArrow>(), (int)(double)damage, knockBack, player.whoAmI, 0f, 0f);
             return false;
         }
 

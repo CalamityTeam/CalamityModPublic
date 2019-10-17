@@ -31,7 +31,7 @@ namespace CalamityMod.Items
             item.value = Item.buyPrice(1, 40, 0, 0);
             item.rare = 10;
             item.Calamity().postMoonLordRarity = 13;
-            item.shoot = ModContent.ProjectileType<BloodsoakedCrashax>();
+            item.shoot = ModContent.ProjectileType<Projectiles.BloodsoakedCrashax>();
             item.shootSpeed = 15f;
             item.Calamity().rogue = true;
         }
@@ -40,7 +40,7 @@ namespace CalamityMod.Items
         {
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
-                int p = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<BloodsoakedCrashax>(), damage, knockBack, player.whoAmI, 0f, 1f);
+                int p = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<Projectiles.BloodsoakedCrashax>(), damage, knockBack, player.whoAmI, 0f, 1f);
                 Main.projectile[p].Calamity().stealthStrike = true;
                 return false;
             }

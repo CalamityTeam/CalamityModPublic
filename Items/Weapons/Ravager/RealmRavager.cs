@@ -29,7 +29,7 @@ namespace CalamityMod.Items
             item.UseSound = SoundID.Item38;
             item.autoReuse = true;
             item.shootSpeed = 30f;
-            item.shoot = ModContent.ProjectileType<RealmRavagerBullet>();
+            item.shoot = ModContent.ProjectileType<Projectiles.RealmRavagerBullet>();
             item.useAmmo = 97;
         }
 
@@ -44,7 +44,7 @@ namespace CalamityMod.Items
             {
                 float SpeedX = speedX + (float)Main.rand.Next(-75, 76) * 0.05f;
                 float SpeedY = speedY + (float)Main.rand.Next(-75, 76) * 0.05f;
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<RealmRavagerBullet>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<Projectiles.RealmRavagerBullet>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
             }
             return false;
         }

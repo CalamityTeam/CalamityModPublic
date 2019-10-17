@@ -28,7 +28,7 @@ namespace CalamityMod.Items
             item.rare = 2;
             item.UseSound = SoundID.Item17;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<CoralSpike>();
+            item.shoot = ModContent.ProjectileType<Projectiles.CoralSpike>();
             item.shootSpeed = 16f;
         }
 

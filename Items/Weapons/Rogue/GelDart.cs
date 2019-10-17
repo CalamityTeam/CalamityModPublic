@@ -28,7 +28,7 @@ namespace CalamityMod.Items
             item.maxStack = 999;
             item.value = 1000;
             item.rare = 4;
-            item.shoot = ModContent.ProjectileType<GelDartProjectile>();
+            item.shoot = ModContent.ProjectileType<Projectiles.GelDartProjectile>();
             item.shootSpeed = 14f;
             item.Calamity().rogue = true;
         }

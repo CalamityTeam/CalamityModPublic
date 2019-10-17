@@ -19,7 +19,7 @@ namespace CalamityMod.Items
             item.useTime = 7;
             item.useStyle = 1;
             item.consumable = true;
-            item.createWall = ModContent.WallType<ProfanedSlabWall>();
+            item.createWall = ModContent.WallType<Walls.ProfanedSlabWall>();
         }
 
         public override void AddRecipes()

@@ -50,7 +50,7 @@ namespace CalamityMod.Items
         {
             float SpeedX = speedX + (float)Main.rand.Next(-5, 6) * 0.05f;
             float SpeedY = speedY + (float)Main.rand.Next(-5, 6) * 0.05f;
-            type = Main.rand.NextBool(2) ? ModContent.ProjectileType<Voidragon>() : type;
+            type = Main.rand.NextBool(2) ? ModContent.ProjectileType<Projectiles.Voidragon>() : type;
             Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
             return false;
         }

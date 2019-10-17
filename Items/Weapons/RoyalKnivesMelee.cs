@@ -30,7 +30,7 @@ namespace CalamityMod.Items
             item.height = 20;
             item.value = Item.buyPrice(5, 0, 0, 0);
             item.rare = 10;
-            item.shoot = ModContent.ProjectileType<RoyalKnifeMelee>();
+            item.shoot = ModContent.ProjectileType<Projectiles.RoyalKnifeMelee>();
             item.shootSpeed = 9f;
             item.Calamity().postMoonLordRarity = 16;
         }
@@ -90,7 +90,7 @@ namespace CalamityMod.Items
                 num149 *= num80;
                 float x4 = vector2.X;
                 float y4 = vector2.Y;
-                Projectile.NewProjectile(x4, y4, num148, num149, ModContent.ProjectileType<RoyalKnifeMelee>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(x4, y4, num148, num149, ModContent.ProjectileType<Projectiles.RoyalKnifeMelee>(), damage, knockBack, player.whoAmI, 0f, 0f);
             }
             return false;
         }

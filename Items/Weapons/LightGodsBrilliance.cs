@@ -28,7 +28,7 @@ namespace CalamityMod.Items
             item.rare = 10;
             item.UseSound = SoundID.Item9;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<LightBead>();
+            item.shoot = ModContent.ProjectileType<Projectiles.LightBead>();
             item.shootSpeed = 25f;
             item.Calamity().postMoonLordRarity = 21;
         }
@@ -44,7 +44,7 @@ namespace CalamityMod.Items
             }
             if (Main.rand.NextBool(3))
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<LightBall>(), (int)((double)damage * 2.0), knockBack, player.whoAmI, 0.0f, 0.0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.LightBall>(), (int)((double)damage * 2.0), knockBack, player.whoAmI, 0.0f, 0.0f);
             }
 
             return false;

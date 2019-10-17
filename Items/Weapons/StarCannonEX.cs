@@ -53,7 +53,7 @@ namespace CalamityMod.Items
                         type = 9;
                         break;
                     case 2:
-                        type = ModContent.ProjectileType<AstralStar>();
+                        type = ModContent.ProjectileType<Projectiles.AstralStar>();
                         break;
                 }
                 int star = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);

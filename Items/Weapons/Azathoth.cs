@@ -26,7 +26,7 @@ namespace CalamityMod.Items
             item.value = Item.buyPrice(5, 0, 0, 0);
             item.rare = 10;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<AzathothProjectile>();
+            item.shoot = ModContent.ProjectileType<Projectiles.AzathothProjectile>();
             item.Calamity().postMoonLordRarity = 16;
         }
 

@@ -30,7 +30,7 @@ namespace CalamityMod.Items
             item.UseSound = SoundID.Item117;
             item.autoReuse = true;
             item.shootSpeed = 12f;
-            item.shoot = ModContent.ProjectileType<MagnaBlast>();
+            item.shoot = ModContent.ProjectileType<Projectiles.MagnaBlast>();
         }
 
         public override Vector2? HoldoutOffset()

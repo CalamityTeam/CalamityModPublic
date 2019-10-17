@@ -30,7 +30,7 @@ namespace CalamityMod.Items
             item.height = 34;
             item.value = Item.buyPrice(1, 20, 0, 0);
             item.rare = 10;
-            item.shoot = ModContent.ProjectileType<IonBlast>();
+            item.shoot = ModContent.ProjectileType<Projectiles.IonBlast>();
             item.shootSpeed = 8f;
             item.Calamity().postMoonLordRarity = 12;
         }

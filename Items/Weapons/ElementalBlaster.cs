@@ -29,7 +29,7 @@ namespace CalamityMod.Items
             item.rare = 10;
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBolt");
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<RainbowBlast>();
+            item.shoot = ModContent.ProjectileType<Projectiles.RainbowBlast>();
             item.shootSpeed = 18f;
             item.Calamity().postMoonLordRarity = 12;
         }

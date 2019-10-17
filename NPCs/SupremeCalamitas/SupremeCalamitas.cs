@@ -7,7 +7,7 @@ using System.IO;
 using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.Localization;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles;  
 
 namespace CalamityMod.NPCs
 {
@@ -331,7 +331,7 @@ namespace CalamityMod.NPCs
                         {
                             if ((num55 == num52 - num54 || num55 == num52 + num54 || num56 == num53 - num54 || num56 == num53 + num54) && !Main.tile[num55, num56].active())
                             {
-                                Main.tile[num55, num56].type = (ushort)ModContent.TileType<ArenaTile>();
+                                Main.tile[num55, num56].type = (ushort)ModContent.TileType<Tiles.ArenaTile>();
                                 Main.tile[num55, num56].active(true);
                             }
                             if (Main.netMode == NetmodeID.Server)
@@ -2108,7 +2108,7 @@ namespace CalamityMod.NPCs
         #region Loot
         public override void BossLoot(ref string name, ref int potionType)
         {
-            potionType = ModContent.ItemType<OmegaHealingPotion>();
+            potionType = ModContent.ItemType<Items.OmegaHealingPotion>();
         }
 
         // If SCal is killed too quickly, cancel all drops and chastise the player
@@ -2143,36 +2143,36 @@ namespace CalamityMod.NPCs
             // Materials
             int essenceMin = Main.expertMode ? 30 : 20;
             int essenceMax = Main.expertMode ? 40 : 30;
-            DropHelper.DropItem(npc, ModContent.ItemType<CalamitousEssence>(), true, essenceMin, essenceMax);
+            DropHelper.DropItem(npc, ModContent.ItemType<Items.CalamitousEssence>(), true, essenceMin, essenceMax);
 
             // Weapons
             // All non-hybrid weapons are listed twice so that the drop rates are actually equal between each unique weapon
             DropHelper.DropItemFromSetCondition(npc, Main.expertMode,
-                ModContent.ItemType<Animus>(), ModContent.ItemType<Animus>(),
-                ModContent.ItemType<Azathoth>(), ModContent.ItemType<Azathoth>(),
-                ModContent.ItemType<Contagion>(), ModContent.ItemType<Contagion>(),
-                ModContent.ItemType<CrystylCrusher>(), ModContent.ItemType<CrystylCrusher>(),
-                ModContent.ItemType<DraconicDestruction>(), ModContent.ItemType<DraconicDestruction>(),
-                ModContent.ItemType<Earth>(), ModContent.ItemType<Earth>(),
-                ModContent.ItemType<Fabstaff>(), ModContent.ItemType<Fabstaff>(),
-                ModContent.ItemType<RoyalKnivesMelee>(), ModContent.ItemType<RoyalKnives>(), // Illustrious Knives
-                ModContent.ItemType<NanoblackReaperMelee>(), ModContent.ItemType<NanoblackReaperRogue>(),
-                ModContent.ItemType<RedSun>(), ModContent.ItemType<RedSun>(),
-                ModContent.ItemType<ScarletDevil>(), ModContent.ItemType<ScarletDevil>(),
-                ModContent.ItemType<SomaPrime>(), ModContent.ItemType<SomaPrime>(),
-                ModContent.ItemType<BlushieStaff>(), ModContent.ItemType<BlushieStaff>(), // Staff of Blushie
-                ModContent.ItemType<Svantechnical>(), ModContent.ItemType<Svantechnical>(),
-                ModContent.ItemType<Judgement>(), ModContent.ItemType<Judgement>(), // The Dance of Light
-                ModContent.ItemType<TriactisTruePaladinianMageHammerofMightMelee>(), ModContent.ItemType<TriactisTruePaladinianMageHammerofMight>(),
-                ModContent.ItemType<Megafleet>(), ModContent.ItemType<Megafleet>() // Voidragon
+                ModContent.ItemType<Items.Animus>(), ModContent.ItemType<Items.Animus>(),
+                ModContent.ItemType<Items.Azathoth>(), ModContent.ItemType<Items.Azathoth>(),
+                ModContent.ItemType<Items.Contagion>(), ModContent.ItemType<Items.Contagion>(),
+                ModContent.ItemType<Items.CrystylCrusher>(), ModContent.ItemType<Items.CrystylCrusher>(),
+                ModContent.ItemType<Items.DraconicDestruction>(), ModContent.ItemType<Items.DraconicDestruction>(),
+                ModContent.ItemType<Items.Earth>(), ModContent.ItemType<Items.Earth>(),
+                ModContent.ItemType<Items.Fabstaff>(), ModContent.ItemType<Items.Fabstaff>(),
+                ModContent.ItemType<Items.RoyalKnivesMelee>(), ModContent.ItemType<Items.RoyalKnives>(), // Illustrious Knives
+                ModContent.ItemType<Items.NanoblackReaperMelee>(), ModContent.ItemType<Items.NanoblackReaperRogue>(),
+                ModContent.ItemType<Items.RedSun>(), ModContent.ItemType<Items.RedSun>(),
+                ModContent.ItemType<Items.ScarletDevil>(), ModContent.ItemType<Items.ScarletDevil>(),
+                ModContent.ItemType<Items.SomaPrime>(), ModContent.ItemType<Items.SomaPrime>(),
+                ModContent.ItemType<Items.BlushieStaff>(), ModContent.ItemType<Items.BlushieStaff>(), // Staff of Blushie
+                ModContent.ItemType<Items.Svantechnical>(), ModContent.ItemType<Items.Svantechnical>(),
+                ModContent.ItemType<Items.Judgement>(), ModContent.ItemType<Items.Judgement>(), // The Dance of Light
+                ModContent.ItemType<Items.TriactisTruePaladinianMageHammerofMightMelee>(), ModContent.ItemType<Items.TriactisTruePaladinianMageHammerofMight>(),
+                ModContent.ItemType<Items.Megafleet>(), ModContent.ItemType<Items.Megafleet>() // Voidragon
             );
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Vehemenc>(), CalamityWorld.revenge);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.Vehemenc>(), CalamityWorld.revenge);
 
             // Vanity
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Levi>(), CalamityWorld.death);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.Levi>(), CalamityWorld.death);
 
             // Other
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeCalamitas>(), true, !CalamityWorld.downedSCal);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.KnowledgeCalamitas>(), true, !CalamityWorld.downedSCal);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedSCal, 6, 3, 2);
 
             // Mark Supreme Calamitas as dead
@@ -2202,7 +2202,7 @@ namespace CalamityMod.NPCs
                         break;
                     case 3: // Three deaths exactly rewards Lul
                         key = "Mods.CalamityMod.SupremeBossText19";
-                        DropHelper.DropItem(npc, ModContent.ItemType<CheatTestThing>());
+                        DropHelper.DropItem(npc, ModContent.ItemType<Items.CheatTestThing>());
                         break;
                     default: // Four or more deaths: Lul is permanently missed
                         key = "Mods.CalamityMod.SupremeBossText10";

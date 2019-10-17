@@ -6,7 +6,7 @@ using System.IO;
 using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.Localization;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles;  
 
 namespace CalamityMod.NPCs
 {
@@ -49,7 +49,7 @@ namespace CalamityMod.NPCs
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/BloodCoagulant");
             else
                 music = MusicID.Boss2;
-            bossBag = ModContent.ItemType<PerforatorBag>();
+            bossBag = ModContent.ItemType<Items.PerforatorBag>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -279,33 +279,33 @@ namespace CalamityMod.NPCs
         {
             DropHelper.DropBags(npc);
 
-            DropHelper.DropItemChance(npc, ModContent.ItemType<PerforatorTrophy>(), 10);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgePerforators>(), true, !CalamityWorld.downedPerforator);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<Items.PerforatorTrophy>(), 10);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.KnowledgePerforators>(), true, !CalamityWorld.downedPerforator);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedPerforator, 2, 0, 0);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
             if (!Main.expertMode)
             {
                 // Materials
-                DropHelper.DropItemSpray(npc, ModContent.ItemType<BloodSample>(), 7, 14);
+                DropHelper.DropItemSpray(npc, ModContent.ItemType<Items.BloodSample>(), 7, 14);
                 DropHelper.DropItemSpray(npc, ItemID.CrimtaneBar, 2, 5);
                 DropHelper.DropItemSpray(npc, ItemID.Vertebrae, 3, 9);
                 if (Main.hardMode)
                     DropHelper.DropItemSpray(npc, ItemID.Ichor, 10, 20);
 
                 // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<VeinBurster>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<BloodyRupture>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<SausageMaker>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Aorta>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Eviscerator>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<BloodBath>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<BloodClotStaff>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<ToothBall>(), 4, 25, 50);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.VeinBurster>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.BloodyRupture>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.SausageMaker>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.Aorta>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.Eviscerator>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.BloodBath>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.BloodClotStaff>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.ToothBall>(), 4, 25, 50);
 
                 // Vanity
-                DropHelper.DropItemChance(npc, ModContent.ItemType<PerforatorMask>(), 7);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<BloodyVein>(), 10);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.PerforatorMask>(), 7);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.BloodyVein>(), 10);
             }
 
             // If neither The Hive Mind nor The Perforator Hive have been killed yet, notify players of Aerialite Ore
@@ -313,7 +313,7 @@ namespace CalamityMod.NPCs
             {
                 string key = "Mods.CalamityMod.SkyOreText";
                 Color messageColor = Color.Cyan;
-                WorldGenerationMethods.SpawnOre(ModContent.TileType<AerialiteOre>(), 12E-05, .4f, .6f);
+                WorldGenerationMethods.SpawnOre(ModContent.TileType<Tiles.AerialiteOre>(), 12E-05, .4f, .6f);
 
                 if (Main.netMode == NetmodeID.SinglePlayer)
                     Main.NewText(Language.GetTextValue(key), messageColor);

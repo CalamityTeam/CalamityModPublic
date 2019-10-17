@@ -30,7 +30,7 @@ namespace CalamityMod.Items
             item.height = 36;
             item.value = Item.buyPrice(2, 50, 0, 0);
             item.rare = 10;
-            item.shoot = ModContent.ProjectileType<SparkInfernal>();
+            item.shoot = ModContent.ProjectileType<Projectiles.SparkInfernal>();
             item.shootSpeed = 24f;
             item.Calamity().postMoonLordRarity = 15;
         }

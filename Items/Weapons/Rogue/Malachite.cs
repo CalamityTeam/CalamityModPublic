@@ -61,7 +61,7 @@ namespace CalamityMod.Items
         {
             if (player.altFunctionUse == 2)
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<MalachiteBolt>(), (int)((double)damage * 1.75), knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.MalachiteBolt>(), (int)((double)damage * 1.75), knockBack, player.whoAmI, 0f, 0f);
             }
             else
             {

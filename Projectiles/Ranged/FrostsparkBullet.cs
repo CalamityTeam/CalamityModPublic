@@ -1,8 +1,9 @@
+using CalamityMod.Buffs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
+using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles
 {
@@ -71,7 +72,8 @@ namespace CalamityMod.Projectiles
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 27);
-            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<BoltExplosion>(), (int)((double)projectile.damage * 0.5), 0f, projectile.owner, 0f, 0f);
+            // TODO -- BoltExplosion does not exist.
+            // Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<BoltExplosion>(), (int)((double)projectile.damage * 0.5), 0f, projectile.owner, 0f, 0f);
             int num212 = Main.rand.Next(10, 20);
             for (int num213 = 0; num213 < num212; num213++)
             {

@@ -43,7 +43,7 @@ namespace CalamityMod.Items
             {
                 item.noMelee = true;
                 item.noUseGraphic = true;
-                item.shoot = ModContent.ProjectileType<ProfanedSword>();
+                item.shoot = ModContent.ProjectileType<Projectiles.ProfanedSword>();
             }
             else
             {
@@ -56,14 +56,14 @@ namespace CalamityMod.Items
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<ProfanedSword>(), damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.ProfanedSword>(), damage, knockBack, player.whoAmI, 0f, 0f);
             return false;
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<Brimblast>(), (int)((float)item.damage * player.meleeDamage), knockback, Main.myPlayer);
+            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<Projectiles.Brimblast>(), (int)((float)item.damage * player.meleeDamage), knockback, Main.myPlayer);
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

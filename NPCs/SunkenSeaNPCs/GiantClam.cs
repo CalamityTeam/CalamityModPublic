@@ -6,7 +6,7 @@ using System;
 using System.IO;
 using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles;  
 
 namespace CalamityMod.NPCs
 {
@@ -48,7 +48,7 @@ namespace CalamityMod.NPCs
             npc.knockBackResist = 0f;
             npc.rarity = 2;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<GiantClamBanner>();
+            bannerItem = ModContent.ItemType<Items.GiantClamBanner>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -404,20 +404,20 @@ namespace CalamityMod.NPCs
             }
 
             // Materials
-            DropHelper.DropItem(npc, ModContent.ItemType<Navystone>(), 25, 35);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<MolluskHusk>(), Main.hardMode, 6, 11);
+            DropHelper.DropItem(npc, ModContent.ItemType<Items.Navystone>(), 25, 35);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.MolluskHusk>(), Main.hardMode, 6, 11);
 
             // Weapons
             DropHelper.DropItemFromSetCondition(npc, Main.hardMode,
-                ModContent.ItemType<ClamCrusher>(),
-                ModContent.ItemType<ClamorRifle>(),
-                ModContent.ItemType<Poseidon>(),
-                ModContent.ItemType<ShellfishStaff>()
+                ModContent.ItemType<Items.ClamCrusher>(),
+                ModContent.ItemType<Items.ClamorRifle>(),
+                ModContent.ItemType<Items.Poseidon>(),
+                ModContent.ItemType<Items.ShellfishStaff>()
             );
 
             // Equipment
-            DropHelper.DropItemChance(npc, ModContent.ItemType<GiantPearl>(), 3);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<AmidiasPendant>(), CalamityWorld.revenge, 0.5f);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<Items.GiantPearl>(), 3);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.AmidiasPendant>(), CalamityWorld.revenge, 0.5f);
 
             // Mark Giant Clam as dead
             CalamityWorld.downedCLAM = true;

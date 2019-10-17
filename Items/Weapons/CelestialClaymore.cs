@@ -29,7 +29,7 @@ namespace CalamityMod.Items
             item.height = 50;
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.rare = 5;
-            item.shoot = ModContent.ProjectileType<CosmicSpiritBomb1>();
+            item.shoot = ModContent.ProjectileType<Projectiles.CosmicSpiritBomb1>();
             item.shootSpeed = 0.1f;
         }
 
@@ -76,13 +76,13 @@ namespace CalamityMod.Items
                 switch (Main.rand.Next(3))
                 {
                     case 0:
-                        type = ModContent.ProjectileType<CosmicSpiritBomb1>();
+                        type = ModContent.ProjectileType<Projectiles.CosmicSpiritBomb1>();
                         break;
                     case 1:
-                        type = ModContent.ProjectileType<CosmicSpiritBomb2>();
+                        type = ModContent.ProjectileType<Projectiles.CosmicSpiritBomb2>();
                         break;
                     case 2:
-                        type = ModContent.ProjectileType<CosmicSpiritBomb3>();
+                        type = ModContent.ProjectileType<Projectiles.CosmicSpiritBomb3>();
                         break;
                     default:
                         break;

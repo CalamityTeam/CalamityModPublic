@@ -30,7 +30,7 @@ namespace CalamityMod.Items
             item.value = Item.buyPrice(1, 80, 0, 0);
             item.rare = 10;
             item.shootSpeed = 24f;
-            item.shoot = ModContent.ProjectileType<Mourningstar>();
+            item.shoot = ModContent.ProjectileType<Projectiles.Mourningstar>();
             item.Calamity().postMoonLordRarity = 14;
         }
 

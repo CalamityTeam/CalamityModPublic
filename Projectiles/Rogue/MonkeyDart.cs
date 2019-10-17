@@ -1,8 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Items;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
+using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles
 {
@@ -69,7 +70,7 @@ namespace CalamityMod.Projectiles
             //Randomly not consume item if it wasnt a stealth strike
             if (Main.rand.Next(4) == 0 && projectile.ai[0] != 1)
             {
-                Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, 27, 27, ModContent.ItemType<Items.CalamityCustomThrowingDamage.MonkeyDarts>());
+                Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, 27, 27, ModContent.ItemType<MonkeyDarts>());
             }
 
         }

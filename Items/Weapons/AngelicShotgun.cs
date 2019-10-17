@@ -40,7 +40,7 @@ Fighting 'til the war's won");
             item.Calamity().postMoonLordRarity = 21;
 
             item.shootSpeed = BulletSpeed;
-            item.shoot = ModContent.ProjectileType<IlluminatedBullet>();
+            item.shoot = ModContent.ProjectileType<Projectiles.IlluminatedBullet>();
             item.useAmmo = 97;
         }
 
@@ -59,7 +59,7 @@ Fighting 'til the war's won");
                 float dx = Main.rand.NextFloat(-1.5f, 1.5f);
                 float dy = Main.rand.NextFloat(-1.5f, 1.5f);
                 Vector2 randomVelocity = baseVelocity + new Vector2(dx, dy);
-                Projectile.NewProjectile(position, randomVelocity, ModContent.ProjectileType<IlluminatedBullet>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position, randomVelocity, ModContent.ProjectileType<Projectiles.IlluminatedBullet>(), damage, knockBack, player.whoAmI, 0f, 0f);
             }
 
             // Spawn a beam from the sky ala Deathhail Staff or Lunar Flare
@@ -103,7 +103,7 @@ Fighting 'til the war's won");
             mouseDist = laserSpeed / mouseDist;
             mouseDX *= mouseDist;
             mouseDY *= mouseDist;
-            Projectile.NewProjectile(rrp, new Vector2(mouseDX, mouseDY + Main.rand.NextFloat(-0.8f, 0.8f)), ModContent.ProjectileType<AngelicBeam>(), laserDamage, laserKB, player.whoAmI);
+            Projectile.NewProjectile(rrp, new Vector2(mouseDX, mouseDY + Main.rand.NextFloat(-0.8f, 0.8f)), ModContent.ProjectileType<Projectiles.AngelicBeam>(), laserDamage, laserKB, player.whoAmI);
 
             // Play the sound of the laser beam
             Main.PlaySound(SoundID.Item72, player.Center);

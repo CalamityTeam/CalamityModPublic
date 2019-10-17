@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles;  
 
 namespace CalamityMod.NPCs
 {
@@ -32,7 +32,7 @@ namespace CalamityMod.NPCs
             npc.noGravity = true;
             npc.noTileCollide = true;
             banner = ModContent.NPCType<PhantomSpirit>();
-            bannerItem = ModContent.ItemType<PhantomSpiritBanner>();
+            bannerItem = ModContent.ItemType<Items.PhantomSpiritBanner>();
         }
 
         public override void FindFrame(int frameHeight)
@@ -136,7 +136,7 @@ namespace CalamityMod.NPCs
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Phantoplasm>(), Main.rand.Next(2, 5));
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Phantoplasm>(), Main.rand.Next(2, 5));
         }
     }
 }

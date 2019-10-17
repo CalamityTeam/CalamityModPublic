@@ -19,7 +19,7 @@ namespace CalamityMod.Items
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = ModContent.TileType<PlaguedPlateDresser>();
+            item.createTile = ModContent.TileType<Tiles.PlaguedPlateDresser>();
         }
 
         public override void AddRecipes()

@@ -25,7 +25,7 @@ namespace CalamityMod.Items
             item.value = Item.buyPrice(0, 2, 0, 0);
             item.rare = 2;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<CnidarianProjectile>();
+            item.shoot = ModContent.ProjectileType<Projectiles.CnidarianProjectile>();
         }
 
         public override void AddRecipes()

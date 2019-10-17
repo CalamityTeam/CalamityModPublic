@@ -2,7 +2,7 @@
 using System;
 using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles;  
 
 namespace CalamityMod.NPCs
 {
@@ -33,7 +33,7 @@ namespace CalamityMod.NPCs
             npc.DeathSound = SoundID.NPCDeath53;
             npc.knockBackResist = 0.35f;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<FlounderBanner>();
+            bannerItem = ModContent.ItemType<Items.FlounderBanner>();
         }
 
         public override void AI()
@@ -281,7 +281,7 @@ namespace CalamityMod.NPCs
         {
             if (Main.rand.NextBool(2))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CloakingGland>());
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.CloakingGland>());
             }
         }
 

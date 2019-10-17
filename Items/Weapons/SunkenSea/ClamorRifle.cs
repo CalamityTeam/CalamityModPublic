@@ -27,7 +27,7 @@ namespace CalamityMod.Items
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBolt");
             item.autoReuse = true;
             item.rare = 5;
-            item.shoot = ModContent.ProjectileType<ClamorRifleProj>();
+            item.shoot = ModContent.ProjectileType<Projectiles.ClamorRifleProj>();
             item.shootSpeed = 15f;
             item.useAmmo = 97;
         }
@@ -39,7 +39,7 @@ namespace CalamityMod.Items
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<ClamorRifleProj>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.ClamorRifleProj>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
             return false;
         }
     }

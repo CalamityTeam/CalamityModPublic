@@ -29,7 +29,7 @@ namespace CalamityMod.Items
             item.rare = 5;
             item.UseSound = SoundID.Item109;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<GleamingBolt>();
+            item.shoot = ModContent.ProjectileType<Projectiles.GleamingBolt>();
             item.shootSpeed = 14f;
         }
 

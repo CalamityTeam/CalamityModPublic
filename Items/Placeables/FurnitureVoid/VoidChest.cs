@@ -20,7 +20,7 @@ namespace CalamityMod.Items
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = ModContent.TileType<VoidChest>();
+            item.createTile = ModContent.TileType<Tiles.VoidChest>();
         }
 
         public override void AddRecipes()

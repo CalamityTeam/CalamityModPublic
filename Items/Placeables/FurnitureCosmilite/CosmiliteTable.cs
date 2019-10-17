@@ -19,7 +19,7 @@ namespace CalamityMod.Items
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = ModContent.TileType<CosmiliteTable>();
+            item.createTile = ModContent.TileType<Tiles.CosmiliteTable>();
         }
 
         public override void AddRecipes()

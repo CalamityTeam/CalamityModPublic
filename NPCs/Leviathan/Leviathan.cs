@@ -6,7 +6,7 @@ using System;
 using System.IO;
 using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles;  
 
 namespace CalamityMod.NPCs
 {
@@ -64,7 +64,7 @@ namespace CalamityMod.NPCs
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/LeviathanAndSiren");
             else
                 music = MusicID.Boss3;
-            bossBag = ModContent.ItemType<LeviathanBag>();
+            bossBag = ModContent.ItemType<Items.LeviathanBag>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -611,29 +611,29 @@ namespace CalamityMod.NPCs
             CalamityMod mod = ModContent.GetInstance<CalamityMod>();
             DropHelper.DropBags(npc);
 
-            DropHelper.DropItemChance(npc, ModContent.ItemType<LeviathanTrophy>(), 10);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeOcean>(), true, !CalamityWorld.downedLeviathan);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeLeviathanandSiren>(), true, !CalamityWorld.downedLeviathan);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<Items.LeviathanTrophy>(), 10);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.KnowledgeOcean>(), true, !CalamityWorld.downedLeviathan);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.KnowledgeLeviathanandSiren>(), true, !CalamityWorld.downedLeviathan);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedLeviathan, 4, 2, 1);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
             if (!Main.expertMode)
             {
                 // Weapons
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<Greentide>(), Main.hardMode, 4, 1, 1);
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<Leviatitan>(), Main.hardMode, 4, 1, 1);
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<SirensSong>(), Main.hardMode, 4, 1, 1);
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<Atlantis>(), Main.hardMode, 4, 1, 1);
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<BrackishFlask>(), Main.hardMode, 4, 1, 1);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.Greentide>(), Main.hardMode, 4, 1, 1);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.Leviatitan>(), Main.hardMode, 4, 1, 1);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.SirensSong>(), Main.hardMode, 4, 1, 1);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.Atlantis>(), Main.hardMode, 4, 1, 1);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.BrackishFlask>(), Main.hardMode, 4, 1, 1);
 
                 // Equipment
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<LureofEnthrallment>(), Main.hardMode, 4, 1, 1);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.LureofEnthrallment>(), Main.hardMode, 4, 1, 1);
 
                 // Vanity
-                DropHelper.DropItemChance(npc, ModContent.ItemType<LeviathanMask>(), 7);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.LeviathanMask>(), 7);
 
                 // Fishing
-                DropHelper.DropItem(npc, ModContent.ItemType<EnchantedPearl>());
+                DropHelper.DropItem(npc, ModContent.ItemType<Items.EnchantedPearl>());
                 DropHelper.DropItemChance(npc, ItemID.HotlineFishingHook, 10);
                 DropHelper.DropItemChance(npc, ItemID.BottomlessBucket, 10);
                 DropHelper.DropItemChance(npc, ItemID.SuperAbsorbantSponge, 10);
@@ -642,7 +642,7 @@ namespace CalamityMod.NPCs
                 DropHelper.DropItemChance(npc, ItemID.CratePotion, 5, 5, 8);
 
                 // Other
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<IOU>(), !Main.hardMode);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.IOU>(), !Main.hardMode);
             }
 
             // Mark Siren & Levi as dead

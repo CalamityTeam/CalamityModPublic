@@ -30,7 +30,7 @@ namespace CalamityMod.Items
             item.UseSound = SoundID.Item10;
             item.autoReuse = true;
             item.shootSpeed = 15f;
-            item.shoot = ModContent.ProjectileType<MechanicalBarracuda>();
+            item.shoot = ModContent.ProjectileType<Projectiles.MechanicalBarracuda>();
         }
 
         public override Vector2? HoldoutOffset()

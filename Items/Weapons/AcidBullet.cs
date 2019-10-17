@@ -23,7 +23,7 @@ namespace CalamityMod.Items
             item.knockBack = 1.5f;
             item.value = 1250;
             item.rare = 8;
-            item.shoot = ModContent.ProjectileType<AcidBullet>();
+            item.shoot = ModContent.ProjectileType<Projectiles.AcidBullet>();
             item.shootSpeed = 10f;
             item.ammo = 97;
         }

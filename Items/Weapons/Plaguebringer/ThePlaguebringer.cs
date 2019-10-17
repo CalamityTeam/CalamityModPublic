@@ -25,7 +25,7 @@ namespace CalamityMod.Items
             item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<ThePlaguebringer>();
+            item.shoot = ModContent.ProjectileType<Projectiles.ThePlaguebringer>();
         }
     }
 }

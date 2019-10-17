@@ -29,7 +29,7 @@ namespace CalamityMod.Items
             item.height = 42;
             item.value = Item.buyPrice(0, 4, 0, 0);
             item.rare = 3;
-            item.shoot = ModContent.ProjectileType<SausageMaker>();
+            item.shoot = ModContent.ProjectileType<Projectiles.SausageMaker>();
             item.shootSpeed = 6f;
         }
 

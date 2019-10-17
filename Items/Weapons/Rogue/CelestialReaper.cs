@@ -33,7 +33,7 @@ namespace CalamityMod.Items
             item.UseSound = SoundID.Item71;
             item.autoReuse = true;
             item.value = Item.buyPrice(platinum: 1); //sell price of 20 gold
-            item.shoot = ModContent.ProjectileType<CelestialReaperProjectile>();
+            item.shoot = ModContent.ProjectileType<Projectiles.CelestialReaperProjectile>();
             item.shootSpeed = 20f;
             item.Calamity().rogue = true;
         }
@@ -41,7 +41,7 @@ namespace CalamityMod.Items
         {
             Vector2 velocity = new Vector2(speedX, speedY);
             float strikeValue = player.Calamity().StealthStrikeAvailable().ToInt(); //0 if false, 1 if true
-            int p = Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<CelestialReaperProjectile>(), damage, knockBack, player.whoAmI, strikeValue);
+            int p = Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<Projectiles.CelestialReaperProjectile>(), damage, knockBack, player.whoAmI, strikeValue);
             if (player.Calamity().StealthStrikeAvailable())
                 Main.projectile[p].Calamity().stealthStrike = true;
             return false;

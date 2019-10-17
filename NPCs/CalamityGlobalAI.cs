@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
 using Terraria.GameContent.Events;
 using Terraria.ID;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles;  
 
 namespace CalamityMod.NPCs
 {
@@ -6087,7 +6087,7 @@ namespace CalamityMod.NPCs
                             {
                                 float num430 = 16f;
                                 int num431 = 31;
-                                int num432 = ModContent.ProjectileType<Shadowflame>();
+                                int num432 = ModContent.ProjectileType<ShadowflameFireball>();
 
                                 float num429 = (float)Math.Sqrt((double)(num427 * num427 + num428 * num428));
                                 num429 = num430 / num429;

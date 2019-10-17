@@ -1,4 +1,4 @@
-﻿using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+﻿using Terraria.ModLoader;
 
 namespace CalamityMod.Items
 {
@@ -11,7 +11,7 @@ namespace CalamityMod.Items
 
         public override void SetDefaults()
         {
-            item.createTile = ModContent.TileType<BrimstoneSlag>();
+            item.createTile = ModContent.TileType<Tiles.BrimstoneSlag>();
             item.useStyle = 1;
             item.useTurn = true;
             item.useAnimation = 15;

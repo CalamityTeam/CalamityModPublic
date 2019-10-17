@@ -28,7 +28,7 @@ namespace CalamityMod.Items
             item.rare = 7;
             item.UseSound = SoundID.Item92;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<AquaBlast>();
+            item.shoot = ModContent.ProjectileType<Projectiles.AquaBlast>();
             item.shootSpeed = 18f;
         }
 
@@ -53,11 +53,11 @@ namespace CalamityMod.Items
             float SpeedY = speedY + (float)Main.rand.Next(-10, 11) * 0.05f;
             if (Main.rand.NextBool(3))
             {
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<AquaBlastToxic>(), (int)((double)damage * 1.5), knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<Projectiles.AquaBlastToxic>(), (int)((double)damage * 1.5), knockBack, player.whoAmI, 0f, 0f);
             }
             else
             {
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<AquaBlast>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<Projectiles.AquaBlast>(), damage, knockBack, player.whoAmI, 0f, 0f);
             }
             return false;
         }

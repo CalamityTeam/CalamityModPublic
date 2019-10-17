@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles;  
 
 namespace CalamityMod.NPCs
 {
@@ -619,18 +619,18 @@ namespace CalamityMod.NPCs
             if (CalamityWorld.DoGSecondStageCountdown <= 0)
             {
                 // Materials
-                DropHelper.DropItem(npc, ModContent.ItemType<ArmoredShell>(), true, 5, 8);
+                DropHelper.DropItem(npc, ModContent.ItemType<Items.ArmoredShell>(), true, 5, 8);
 
                 // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<TheStorm>(), 3);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<StormDragoon>(), 3);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.TheStorm>(), 3);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.StormDragoon>(), 3);
 
                 // Vanity
-                DropHelper.DropItemChance(npc, ModContent.ItemType<WeaverTrophy>(), 10);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.WeaverTrophy>(), 10);
 
                 // Other
                 bool lastSentinelKilled = CalamityWorld.downedSentinel1 && !CalamityWorld.downedSentinel2 && CalamityWorld.downedSentinel3;
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeSentinels>(), true, lastSentinelKilled);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.KnowledgeSentinels>(), true, lastSentinelKilled);
                 DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedSentinel2, 5, 2, 1);
             }
 

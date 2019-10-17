@@ -1,9 +1,9 @@
 using CalamityMod.Projectiles;
 using Microsoft.Xna.Framework;
 using System;
-using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
+using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader; using CalamityMod.Dusts;
 using Terraria.ID;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria.ModLoader; using CalamityMod.Dusts; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
 namespace CalamityMod.Projectiles
 {
@@ -99,7 +99,7 @@ namespace CalamityMod.Projectiles
 
                     player.PickAmmo(player.inventory[player.selectedItem], ref type, ref scaleFactor, ref canFire, ref damage, ref knockBack, false);
 
-                    type = ModContent.ProjectileType<DrataliornusFlame>
+                    type = ModContent.ProjectileType<DrataliornusFlame>();
                     knockBack = player.GetWeaponKnockback(player.inventory[player.selectedItem], knockBack);
 
                     Vector2 playerPosition = player.RotatedRelativePoint(player.MountedCenter, true);

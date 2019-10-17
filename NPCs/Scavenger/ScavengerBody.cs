@@ -6,7 +6,7 @@ using System;
 using System.IO;
 using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles;  
 
 namespace CalamityMod.NPCs
 {
@@ -67,7 +67,7 @@ namespace CalamityMod.NPCs
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Ravager");
             else
                 music = MusicID.Boss4;
-            bossBag = ModContent.ItemType<RavagerBag>();
+            bossBag = ModContent.ItemType<Items.RavagerBag>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -592,8 +592,8 @@ namespace CalamityMod.NPCs
         {
             DropHelper.DropBags(npc);
 
-            DropHelper.DropItemChance(npc, ModContent.ItemType<RavagerTrophy>(), 10);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeRavager>(), true, !CalamityWorld.downedScavenger);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<Items.RavagerTrophy>(), 10);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.KnowledgeRavager>(), true, !CalamityWorld.downedScavenger);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedScavenger, 4, 2, 1);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
@@ -604,27 +604,27 @@ namespace CalamityMod.NPCs
                 int barMax = CalamityWorld.downedProvidence ? 10 : 3;
                 int coreMin = CalamityWorld.downedProvidence ? 1 : 1;
                 int coreMax = CalamityWorld.downedProvidence ? 3 : 2;
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 50, 60);
-                DropHelper.DropItem(npc, ModContent.ItemType<VerstaltiteBar>(), barMin, barMax);
-                DropHelper.DropItem(npc, ModContent.ItemType<DraedonBar>(), barMin, barMax);
-                DropHelper.DropItem(npc, ModContent.ItemType<CruptixBar>(), barMin, barMax);
-                DropHelper.DropItem(npc, ModContent.ItemType<CoreofCinder>(), coreMin, coreMax);
-                DropHelper.DropItem(npc, ModContent.ItemType<CoreofEleum>(), coreMin, coreMax);
-                DropHelper.DropItem(npc, ModContent.ItemType<CoreofChaos>(), coreMin, coreMax);
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<BarofLife>(), CalamityWorld.downedProvidence, 2, 1, 1);
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<CoreofCalamity>(), CalamityWorld.downedProvidence, 3, 1, 1);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.Bloodstone>(), CalamityWorld.downedProvidence, 50, 60);
+                DropHelper.DropItem(npc, ModContent.ItemType<Items.VerstaltiteBar>(), barMin, barMax);
+                DropHelper.DropItem(npc, ModContent.ItemType<Items.DraedonBar>(), barMin, barMax);
+                DropHelper.DropItem(npc, ModContent.ItemType<Items.CruptixBar>(), barMin, barMax);
+                DropHelper.DropItem(npc, ModContent.ItemType<Items.CoreofCinder>(), coreMin, coreMax);
+                DropHelper.DropItem(npc, ModContent.ItemType<Items.CoreofEleum>(), coreMin, coreMax);
+                DropHelper.DropItem(npc, ModContent.ItemType<Items.CoreofChaos>(), coreMin, coreMax);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.BarofLife>(), CalamityWorld.downedProvidence, 2, 1, 1);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.CoreofCalamity>(), CalamityWorld.downedProvidence, 3, 1, 1);
 
                 // Weapons
                 DropHelper.DropItemFromSet(npc,
-                    ModContent.ItemType<UltimusCleaver>(),
-                    ModContent.ItemType<RealmRavager>(),
-                    ModContent.ItemType<Hematemesis>(),
-                    ModContent.ItemType<SpikecragStaff>(),
-                    ModContent.ItemType<CraniumSmasher>());
+                    ModContent.ItemType<Items.UltimusCleaver>(),
+                    ModContent.ItemType<Items.RealmRavager>(),
+                    ModContent.ItemType<Items.Hematemesis>(),
+                    ModContent.ItemType<Items.SpikecragStaff>(),
+                    ModContent.ItemType<Items.CraniumSmasher>());
 
                 // Equipment
-                DropHelper.DropItemChance(npc, ModContent.ItemType<BloodPact>(), 3);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<FleshTotem>(), 3);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.BloodPact>(), 3);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.FleshTotem>(), 3);
             }
 
             // Mark Ravager as dead

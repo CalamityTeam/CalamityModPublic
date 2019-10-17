@@ -21,7 +21,7 @@ namespace CalamityMod.Items
             item.useStyle = 1;
             item.consumable = true;
             item.value = 0;
-            item.createTile = ModContent.TileType<AbyssChair>();
+            item.createTile = ModContent.TileType<Tiles.AbyssChair>();
         }
 
         public override void AddRecipes()

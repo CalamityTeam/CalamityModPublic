@@ -33,7 +33,7 @@ namespace CalamityMod.Items
             item.rare = 10;
             item.UseSound = SoundID.Item12;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<MagicNebulaShot>();
+            item.shoot = ModContent.ProjectileType<Projectiles.MagicNebulaShot>();
             item.shootSpeed = 18f;
             item.Calamity().postMoonLordRarity = 13;
         }

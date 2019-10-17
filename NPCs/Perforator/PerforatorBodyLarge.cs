@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles;  
 
 namespace CalamityMod.NPCs
 {
@@ -75,7 +75,7 @@ namespace CalamityMod.NPCs
                         num942 += (float)Main.rand.Next(-50, 51) * 0.05f;
                         num943 += (float)Main.rand.Next(-50, 51) * 0.05f;
                         int num945 = expertMode ? 12 : 15;
-                        int num946 = ModContent.ProjectileType<BloodClot>();
+                        int num946 = ModContent.ProjectileType<Projectiles.BloodClot>();
                         vector104.X += num942 * 5f;
                         vector104.Y += num943 * 5f;
                         if (Main.rand.NextBool(2))

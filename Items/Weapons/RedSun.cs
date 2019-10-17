@@ -31,7 +31,7 @@ namespace CalamityMod.Items
             item.height = 72;
             item.value = Item.buyPrice(5, 0, 0, 0);
             item.rare = 10;
-            item.shoot = ModContent.ProjectileType<SolarFlare>();
+            item.shoot = ModContent.ProjectileType<Projectiles.SolarFlare>();
             item.shootSpeed = 15f;
             item.Calamity().postMoonLordRarity = 16;
         }
@@ -94,7 +94,7 @@ namespace CalamityMod.Items
                 num79 *= num80;
                 float speedX4 = num78 + (float)Main.rand.Next(-1000, 1001) * 0.02f;
                 float speedY5 = num79 + (float)Main.rand.Next(-1000, 1001) * 0.02f;
-                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<SolarFlare>(), (int)((double)damage * 0.7), knockBack, player.whoAmI, 0f, (float)Main.rand.Next(10));
+                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<Projectiles.SolarFlare>(), (int)((double)damage * 0.7), knockBack, player.whoAmI, 0f, (float)Main.rand.Next(10));
             }
             return false;
         }

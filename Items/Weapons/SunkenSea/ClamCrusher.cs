@@ -30,7 +30,7 @@ namespace CalamityMod.Items
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.channel = true;
-            item.shoot = ModContent.ProjectileType<ClamCrusherFlail>();
+            item.shoot = ModContent.ProjectileType<Projectiles.ClamCrusherFlail>();
             item.shootSpeed = 18f;
         }
     }

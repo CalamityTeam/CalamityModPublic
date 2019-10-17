@@ -28,7 +28,7 @@ namespace CalamityMod.Items
             item.maxStack = 999;
             item.value = 2000;
             item.rare = 4;
-            item.shoot = ModContent.ProjectileType<TitaniumShurikenProjectile>();
+            item.shoot = ModContent.ProjectileType<Projectiles.TitaniumShurikenProjectile>();
             item.shootSpeed = 16f;
             item.Calamity().rogue = true;
         }

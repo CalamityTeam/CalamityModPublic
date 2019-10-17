@@ -44,7 +44,7 @@ namespace CalamityMod.Items
                 item.noUseGraphic = true;
                 item.useStyle = 5;
                 item.autoReuse = false;
-                item.shoot = ModContent.ProjectileType<FulgurationHalberd>();
+                item.shoot = ModContent.ProjectileType<Projectiles.FulgurationHalberd>();
             }
             else
             {
@@ -59,7 +59,7 @@ namespace CalamityMod.Items
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<FulgurationHalberd>(), damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.FulgurationHalberd>(), damage, knockBack, player.whoAmI, 0f, 0f);
             return false;
         }
 

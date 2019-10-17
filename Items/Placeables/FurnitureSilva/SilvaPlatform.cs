@@ -19,7 +19,7 @@ namespace CalamityMod.Items
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = ModContent.TileType<SilvaPlatform>();
+            item.createTile = ModContent.TileType<Tiles.SilvaPlatform>();
         }
 
         public override void AddRecipes()

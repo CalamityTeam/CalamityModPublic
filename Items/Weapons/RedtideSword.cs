@@ -27,7 +27,7 @@ namespace CalamityMod.Items
             item.height = 42;
             item.value = Item.buyPrice(0, 2, 0, 0);
             item.rare = 2;
-            item.shoot = ModContent.ProjectileType<Whirlpool>();
+            item.shoot = ModContent.ProjectileType<Projectiles.Whirlpool>();
             item.shootSpeed = 6f;
         }
 

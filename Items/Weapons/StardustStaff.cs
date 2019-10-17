@@ -32,7 +32,7 @@ namespace CalamityMod.Items
             item.rare = 9;
             item.UseSound = SoundID.Item43;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Starblast>();
+            item.shoot = ModContent.ProjectileType<Projectiles.Starblast>();
             item.shootSpeed = 12f;
         }
 
@@ -69,7 +69,7 @@ namespace CalamityMod.Items
                 num133 *= num80;
                 float x2 = vector2.X;
                 float y2 = vector2.Y;
-                Projectile.NewProjectile(x2, y2, num132, num133, ModContent.ProjectileType<IceCluster>(), num73, num74, i, 0f, 1f);
+                Projectile.NewProjectile(x2, y2, num132, num133, ModContent.ProjectileType<Projectiles.IceCluster>(), num73, num74, i, 0f, 1f);
             }
             else
             {
@@ -86,7 +86,7 @@ namespace CalamityMod.Items
                     num133 *= num80;
                     float x2 = vector2.X;
                     float y2 = vector2.Y;
-                    Projectile.NewProjectile(x2, y2, num132, num133, ModContent.ProjectileType<Starblast>(), num73, num74, i, 0f, 0f);
+                    Projectile.NewProjectile(x2, y2, num132, num133, ModContent.ProjectileType<Projectiles.Starblast>(), num73, num74, i, 0f, 0f);
                 }
             }
             return false;

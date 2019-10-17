@@ -55,7 +55,7 @@ This crap is abhorrent but you might like it");
                 player.HealEffect(100, true);
                 player.ManaEffect(100);
             }
-            player.AddBuff(ModContent.BuffType<GrapeBeer>(), 3600);
+            player.AddBuff(ModContent.BuffType<Buffs.GrapeBeer>(), 3600);
         }
 
         // Zeroes out the hardcoded healing function from having a healLife value. The item still heals in the UseItem hook.

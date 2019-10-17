@@ -29,7 +29,7 @@ namespace CalamityMod.Items
             item.height = 94;
             item.value = Item.buyPrice(5, 0, 0, 0);
             item.rare = 10;
-            item.shoot = ModContent.ProjectileType<DracoBeam>();
+            item.shoot = ModContent.ProjectileType<Projectiles.DracoBeam>();
             item.shootSpeed = 14f;
             item.Calamity().postMoonLordRarity = 16;
         }

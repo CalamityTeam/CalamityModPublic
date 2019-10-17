@@ -26,7 +26,7 @@ This is the most potent booze I have, be careful with it");
             item.useStyle = 2;
             item.UseSound = SoundID.Item3;
             item.consumable = true;
-            item.buffType = ModContent.BuffType<Everclear>();
+            item.buffType = ModContent.BuffType<Buffs.Everclear>();
             item.buffTime = 900; //15 seconds
             item.value = Item.buyPrice(0, 6, 60, 0);
         }

@@ -1,9 +1,10 @@
-﻿using CalamityMod.World;
+﻿using CalamityMod.Items;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
-using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
+using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs
 {
@@ -37,7 +38,7 @@ namespace CalamityMod.NPCs
             npc.DeathSound = SoundID.NPCDeath15;
             npc.behindTiles = true;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<AquaticUrchinBanner>();
+            bannerItem = ModContent.ItemType<Items.AquaticUrchinBanner>();
         }
 
         public override void AI()
@@ -336,7 +337,7 @@ namespace CalamityMod.NPCs
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<UrchinStinger>(), Main.rand.Next(15, 26));
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.UrchinStinger>(), Main.rand.Next(15, 26));
         }
 
         public override void HitEffect(int hitDirection, double damage)

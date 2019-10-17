@@ -27,7 +27,7 @@ namespace CalamityMod.Items
             item.rare = 6;
             item.UseSound = SoundID.Item44;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<SolarGod>();
+            item.shoot = ModContent.ProjectileType<Projectiles.SolarGod>();
             item.summon = true;
         }
 
@@ -52,7 +52,7 @@ namespace CalamityMod.Items
             for (int x = 0; x < 1000; x++)
             {
                 Projectile projectile = Main.projectile[x];
-                if (projectile.active && projectile.owner == player.whoAmI && projectile.type == ModContent.ProjectileType<SolarGod>())
+                if (projectile.active && projectile.owner == player.whoAmI && projectile.type == ModContent.ProjectileType<Projectiles.SolarGod>())
                 {
                     projectile.Kill();
                 }

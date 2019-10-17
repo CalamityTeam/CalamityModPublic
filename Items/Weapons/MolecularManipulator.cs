@@ -32,7 +32,7 @@ namespace CalamityMod.Items
             item.UseSound = SoundID.Item33;
             item.autoReuse = true;
             item.shootSpeed = 25f;
-            item.shoot = ModContent.ProjectileType<NullShot2>();
+            item.shoot = ModContent.ProjectileType<Projectiles.NullShot2>();
             item.Calamity().postMoonLordRarity = 13;
         }
 
@@ -48,7 +48,7 @@ namespace CalamityMod.Items
             {
                 player.KillMe(PlayerDeathReason.ByOther(10), 1000.0, 0, false);
             }
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<NullShot2>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.NullShot2>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
             return false;
         }
 

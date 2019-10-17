@@ -31,7 +31,7 @@ namespace CalamityMod.Items
             item.rare = 10;
             item.UseSound = SoundID.Item102;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<BloodfireArrow>();
+            item.shoot = ModContent.ProjectileType<Projectiles.BloodfireArrow>();
             item.shootSpeed = 30f;
             item.useAmmo = 40;
             item.Calamity().postMoonLordRarity = 13;
@@ -89,7 +89,7 @@ namespace CalamityMod.Items
             float speedY5 = num79;
             if (type == ProjectileID.WoodenArrowFriendly)
             {
-                int bloodfire = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<BloodfireArrow>(), damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(15));
+                int bloodfire = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<Projectiles.BloodfireArrow>(), damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(15));
                 Main.projectile[bloodfire].tileCollide = false;
             }
             else

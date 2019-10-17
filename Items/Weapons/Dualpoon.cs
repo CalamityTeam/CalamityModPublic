@@ -29,7 +29,7 @@ namespace CalamityMod.Items
             item.UseSound = SoundID.Item10;
             item.autoReuse = true;
             item.shootSpeed = 20f;
-            item.shoot = ModContent.ProjectileType<Triploon>();
+            item.shoot = ModContent.ProjectileType<Projectiles.Triploon>();
         }
 
         public override Vector2? HoldoutOffset()

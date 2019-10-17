@@ -28,7 +28,7 @@ namespace CalamityMod.Items
             item.noMelee = true;
             item.height = 50;
             item.value = Item.buyPrice(0, 36, 0, 0);
-            item.shoot = ModContent.ProjectileType<LunicBeam>();
+            item.shoot = ModContent.ProjectileType<Projectiles.LunicBeam>();
             item.shootSpeed = 13f;
         }
 

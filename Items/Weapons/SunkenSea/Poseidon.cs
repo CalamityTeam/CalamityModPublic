@@ -28,7 +28,7 @@ namespace CalamityMod.Items
             item.UseSound = SoundID.Item84;
             item.rare = 5;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<PoseidonTyphoon>();
+            item.shoot = ModContent.ProjectileType<Projectiles.PoseidonTyphoon>();
             item.shootSpeed = 10f;
         }
     }

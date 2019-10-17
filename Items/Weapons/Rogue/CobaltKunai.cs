@@ -27,7 +27,7 @@ namespace CalamityMod.Items
             item.maxStack = 999;
             item.value = 900;
             item.rare = 4;
-            item.shoot = ModContent.ProjectileType<CobaltKunaiProjectile>();
+            item.shoot = ModContent.ProjectileType<Projectiles.CobaltKunaiProjectile>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;
         }

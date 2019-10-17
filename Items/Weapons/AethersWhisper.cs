@@ -32,7 +32,7 @@ namespace CalamityMod.Items
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon");
             item.autoReuse = true;
             item.shootSpeed = 12f;
-            item.shoot = ModContent.ProjectileType<AetherBeam>();
+            item.shoot = ModContent.ProjectileType<Projectiles.AetherBeam>();
             item.Calamity().postMoonLordRarity = 13;
         }
 

@@ -76,7 +76,7 @@ namespace CalamityMod.Items
                     }
                     value15.Normalize();
                     value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-                    Projectile.NewProjectile(target.Center.X, target.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<Blood>(), (int)((float)item.damage * player.meleeDamage), knockback, player.whoAmI, 0f, 0f);
+                    Projectile.NewProjectile(target.Center.X, target.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<Projectiles.Blood>(), (int)((float)item.damage * player.meleeDamage), knockback, player.whoAmI, 0f, 0f);
                 }
             }
         }

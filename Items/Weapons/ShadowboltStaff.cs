@@ -29,7 +29,7 @@ namespace CalamityMod.Items
             item.rare = 10;
             item.UseSound = SoundID.Item72;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Shadowbolt>();
+            item.shoot = ModContent.ProjectileType<Projectiles.Shadowbolt>();
             item.shootSpeed = 6f;
             item.Calamity().postMoonLordRarity = 13;
         }

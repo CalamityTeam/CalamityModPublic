@@ -31,7 +31,7 @@ namespace CalamityMod.Items
             item.rare = 3;
             item.UseSound = SoundID.Item43;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<FlamePillar>();
+            item.shoot = ModContent.ProjectileType<Projectiles.FlamePillar>();
             item.shootSpeed = 9f;
         }
 
@@ -101,7 +101,7 @@ namespace CalamityMod.Items
                 num79 *= num80;
                 float speedX4 = num78 + (float)Main.rand.Next(-40, 41) * 0.02f;
                 float speedY5 = num79 + (float)Main.rand.Next(-40, 41) * 0.02f;
-                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<FlamePillar>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<Projectiles.FlamePillar>(), damage, knockBack, player.whoAmI, 0f, 0f);
             }
             return false;
         }

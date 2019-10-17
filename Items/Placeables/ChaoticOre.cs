@@ -12,7 +12,7 @@ namespace CalamityMod.Items
 
         public override void SetDefaults()
         {
-            item.createTile = ModContent.TileType<ChaoticOre>();
+            item.createTile = ModContent.TileType<Tiles.ChaoticOre>();
             item.useStyle = 1;
             item.useTurn = true;
             item.useAnimation = 15;

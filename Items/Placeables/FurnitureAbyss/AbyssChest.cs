@@ -21,7 +21,7 @@ namespace CalamityMod.Items
             item.useStyle = 1;
             item.consumable = true;
             item.value = 0;
-            item.createTile = ModContent.TileType<AbyssChest>();
+            item.createTile = ModContent.TileType<Tiles.AbyssChest>();
         }
 
         public override void AddRecipes()

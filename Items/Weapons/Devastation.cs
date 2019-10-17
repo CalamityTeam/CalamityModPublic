@@ -29,7 +29,7 @@ namespace CalamityMod.Items
             item.height = 72;
             item.value = Item.buyPrice(1, 20, 0, 0);
             item.rare = 10;
-            item.shoot = ModContent.ProjectileType<GalaxyBlast>();
+            item.shoot = ModContent.ProjectileType<Projectiles.GalaxyBlast>();
             item.shootSpeed = 16f;
             item.Calamity().postMoonLordRarity = 12;
         }
@@ -39,13 +39,13 @@ namespace CalamityMod.Items
             switch (Main.rand.Next(6))
             {
                 case 1:
-                    type = ModContent.ProjectileType<GalaxyBlast>();
+                    type = ModContent.ProjectileType<Projectiles.GalaxyBlast>();
                     break;
                 case 2:
-                    type = ModContent.ProjectileType<GalaxyBlastType2>();
+                    type = ModContent.ProjectileType<Projectiles.GalaxyBlastType2>();
                     break;
                 case 3:
-                    type = ModContent.ProjectileType<GalaxyBlastType3>();
+                    type = ModContent.ProjectileType<Projectiles.GalaxyBlastType3>();
                     break;
                 default:
                     break;
@@ -93,9 +93,9 @@ namespace CalamityMod.Items
                 num79 *= num80;
                 float speedX4 = num78 + (float)Main.rand.Next(-40, 41) * 0.02f;
                 float speedY5 = num79 + (float)Main.rand.Next(-40, 41) * 0.02f;
-                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<GalaxyBlast>(), damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(5));
-                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<GalaxyBlastType2>(), damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(3));
-                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<GalaxyBlastType3>(), damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(1));
+                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<Projectiles.GalaxyBlast>(), damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(5));
+                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<Projectiles.GalaxyBlastType2>(), damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(3));
+                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<Projectiles.GalaxyBlastType3>(), damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(1));
             }
             return false;
         }

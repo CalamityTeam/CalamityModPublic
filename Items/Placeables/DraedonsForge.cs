@@ -24,7 +24,7 @@ namespace CalamityMod.Items
             item.consumable = true;
             item.value = 5000000;
             item.rare = 10;
-            item.createTile = ModContent.TileType<DraedonsForge>();
+            item.createTile = ModContent.TileType<Tiles.DraedonsForge>();
             item.Calamity().postMoonLordRarity = 20;
         }
 

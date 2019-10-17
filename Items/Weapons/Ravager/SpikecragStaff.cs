@@ -31,7 +31,7 @@ namespace CalamityMod.Items
             item.autoReuse = true;
             item.shootSpeed = 20f;
             item.UseSound = SoundID.Item78;
-            item.shoot = ModContent.ProjectileType<Spikecrag>();
+            item.shoot = ModContent.ProjectileType<Projectiles.Spikecrag>();
         }
 
         public override bool AltFunctionUse(Player player)

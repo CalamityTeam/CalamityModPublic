@@ -74,7 +74,7 @@ namespace CalamityMod.Items
                 }
                 num80 = (float)Math.Sqrt((double)(num78 * num78 + num79 * num79));
                 num80 = num72 / num80;
-                Projectile.NewProjectile(vector2.X, vector2.Y, 0f, 0f, ModContent.ProjectileType<IceBombFriendly>(), (int)((float)item.damage * player.meleeDamage), num74, i, 0f, (float)Main.rand.Next(3));
+                Projectile.NewProjectile(vector2.X, vector2.Y, 0f, 0f, ModContent.ProjectileType<Projectiles.IceBombFriendly>(), (int)((float)item.damage * player.meleeDamage), num74, i, 0f, (float)Main.rand.Next(3));
             }
         }
 

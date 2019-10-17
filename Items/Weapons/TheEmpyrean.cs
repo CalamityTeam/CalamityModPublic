@@ -27,7 +27,7 @@ namespace CalamityMod.Items
             item.value = Item.buyPrice(0, 95, 0, 0);
             item.rare = 9;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<CosmicFire>();
+            item.shoot = ModContent.ProjectileType<Projectiles.CosmicFire>();
             item.shootSpeed = 7.5f;
             item.useAmmo = 23;
         }

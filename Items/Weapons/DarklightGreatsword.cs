@@ -28,7 +28,7 @@ namespace CalamityMod.Items
             item.height = 60;
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.rare = 5;
-            item.shoot = ModContent.ProjectileType<StarCrystal>();
+            item.shoot = ModContent.ProjectileType<Projectiles.StarCrystal>();
             item.shootSpeed = 16f;
         }
 

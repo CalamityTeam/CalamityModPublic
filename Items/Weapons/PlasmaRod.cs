@@ -31,7 +31,7 @@ namespace CalamityMod.Items
             item.rare = 1;
             item.UseSound = SoundID.Item109;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<PlasmaRay>();
+            item.shoot = ModContent.ProjectileType<Projectiles.PlasmaRay>();
             item.shootSpeed = 6f;
         }
     }

@@ -20,7 +20,7 @@ namespace CalamityMod.Items
             item.useStyle = 1;
             item.rare = 3;
             item.consumable = true;
-            item.createTile = ModContent.TileType<AshenPlatform>();
+            item.createTile = ModContent.TileType<Tiles.AshenPlatform>();
         }
 
         public override void AddRecipes()

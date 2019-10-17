@@ -28,7 +28,7 @@ namespace CalamityMod.Items
             item.rare = 3;
             item.UseSound = SoundID.Item7;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<TradewindsProjectile>();
+            item.shoot = ModContent.ProjectileType<Projectiles.TradewindsProjectile>();
             item.shootSpeed = 20f;
         }
 

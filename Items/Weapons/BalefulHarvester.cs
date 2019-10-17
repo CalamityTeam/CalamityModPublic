@@ -28,7 +28,7 @@ namespace CalamityMod.Items
             item.autoReuse = true;
             item.value = Item.buyPrice(0, 95, 0, 0);
             item.rare = 9;
-            item.shoot = ModContent.ProjectileType<BalefulHarvesterProjectile>();
+            item.shoot = ModContent.ProjectileType<Projectiles.BalefulHarvesterProjectile>();
             item.shootSpeed = 6f;
         }
 

@@ -19,7 +19,7 @@ namespace CalamityMod.Items
             item.knockBack = 10f;
             item.value = 15000;
             item.rare = 8;
-            item.shoot = ModContent.ProjectileType<ExplosiveShellBullet>();
+            item.shoot = ModContent.ProjectileType<Projectiles.ExplosiveShellBullet>();
             item.shootSpeed = 12f;
             item.ammo = ModContent.ItemType<ExplosiveShells>();
         }

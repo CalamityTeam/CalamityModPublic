@@ -21,7 +21,7 @@ namespace CalamityMod.Items
             item.consumable = true;
             item.knockBack = 3.5f;
             item.value = 2000;
-            item.shoot = ModContent.ProjectileType<BloodfireArrow>();
+            item.shoot = ModContent.ProjectileType<Projectiles.BloodfireArrow>();
             item.shootSpeed = 10f;
             item.ammo = 40;
             item.Calamity().postMoonLordRarity = 13;

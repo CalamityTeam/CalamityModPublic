@@ -28,7 +28,7 @@ namespace CalamityMod.Items
             item.height = 58;
             item.value = Item.buyPrice(0, 4, 0, 0);
             item.rare = 3;
-            item.shoot = ModContent.ProjectileType<Cyclone>();
+            item.shoot = ModContent.ProjectileType<Projectiles.Cyclone>();
             item.shootSpeed = 3f;
         }
 

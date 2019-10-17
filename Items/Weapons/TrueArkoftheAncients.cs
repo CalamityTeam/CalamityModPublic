@@ -29,7 +29,7 @@ namespace CalamityMod.Items
             item.height = 60;
             item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;
-            item.shoot = ModContent.ProjectileType<EonBeam>();
+            item.shoot = ModContent.ProjectileType<Projectiles.EonBeam>();
             item.shootSpeed = 12f;
         }
 
@@ -38,10 +38,10 @@ namespace CalamityMod.Items
             switch (Main.rand.Next(2))
             {
                 case 0:
-                    type = ModContent.ProjectileType<EonBeam>();
+                    type = ModContent.ProjectileType<Projectiles.EonBeam>();
                     break;
                 case 1:
-                    type = ModContent.ProjectileType<EonBeamV2>();
+                    type = ModContent.ProjectileType<Projectiles.EonBeamV2>();
                     break;
             }
             Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, Main.myPlayer);
@@ -95,7 +95,7 @@ namespace CalamityMod.Items
                 float speedY5 = num79 + (float)Main.rand.Next(-160, 161) * 0.02f;
                 int proj = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, 92, damage / 3, num74, i, 0f, (float)Main.rand.Next(10));
                 Main.projectile[proj].Calamity().forceMelee = true;
-                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<TerraBall>(), damage / 3, num74, i, 0f, (float)Main.rand.Next(5));
+                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<Projectiles.TerraBall>(), damage / 3, num74, i, 0f, (float)Main.rand.Next(5));
             }
             return false;
         }

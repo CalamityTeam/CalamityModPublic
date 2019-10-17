@@ -28,7 +28,7 @@ namespace CalamityMod.Items
             item.maxStack = 999;
             item.value = 1200;
             item.rare = 4;
-            item.shoot = ModContent.ProjectileType<OrichalcumSpikedGemstoneProjectile>();
+            item.shoot = ModContent.ProjectileType<Projectiles.OrichalcumSpikedGemstoneProjectile>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;
         }

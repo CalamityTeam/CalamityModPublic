@@ -35,7 +35,7 @@ namespace CalamityMod.Items
             item.height = 92;
             item.value = Item.buyPrice(5, 0, 0, 0);
             item.rare = 10;
-            item.shoot = ModContent.ProjectileType<ElementalExcaliburBeam>();
+            item.shoot = ModContent.ProjectileType<Projectiles.ElementalExcaliburBeam>();
             item.shootSpeed = 12f;
             item.Calamity().postMoonLordRarity = 20;
         }

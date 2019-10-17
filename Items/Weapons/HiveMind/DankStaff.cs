@@ -29,7 +29,7 @@ namespace CalamityMod.Items
             item.rare = 3;
             item.UseSound = SoundID.Item44;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<DankCreeper>();
+            item.shoot = ModContent.ProjectileType<Projectiles.DankCreeper>();
             item.shootSpeed = 10f;
             item.summon = true;
         }

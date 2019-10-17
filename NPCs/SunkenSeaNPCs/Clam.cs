@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles;  
 
 namespace CalamityMod.NPCs
 {
@@ -35,7 +35,7 @@ namespace CalamityMod.NPCs
             npc.HitSound = SoundID.NPCHit4;
             npc.knockBackResist = 0.05f;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<ClamBanner>();
+            bannerItem = ModContent.ItemType<Items.ClamBanner>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -216,10 +216,10 @@ namespace CalamityMod.NPCs
         }
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Navystone>(), Main.rand.Next(8, 13));
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Navystone>(), Main.rand.Next(8, 13));
             if (Main.rand.NextBool(2) && Main.hardMode)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MolluskHusk>());
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.MolluskHusk>());
             }
         }
     }

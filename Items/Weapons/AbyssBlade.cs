@@ -30,7 +30,7 @@ namespace CalamityMod.Items
             item.height = 60;
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.rare = 7;
-            item.shoot = ModContent.ProjectileType<DepthOrb>();
+            item.shoot = ModContent.ProjectileType<Projectiles.DepthOrb>();
             item.shootSpeed = 9f;
         }
 

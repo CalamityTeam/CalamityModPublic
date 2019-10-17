@@ -90,7 +90,7 @@ namespace CalamityMod.Items
                 num79 *= num80;
                 float speedX4 = num78;
                 float speedY5 = num79 + (float)Main.rand.Next(-180, 181) * 0.02f;
-                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<GreenWater>(), (int)((float)item.damage * player.meleeDamage), num74, i, 0f, (float)Main.rand.Next(10));
+                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<Projectiles.GreenWater>(), (int)((float)item.damage * player.meleeDamage), num74, i, 0f, (float)Main.rand.Next(10));
             }
         }
 

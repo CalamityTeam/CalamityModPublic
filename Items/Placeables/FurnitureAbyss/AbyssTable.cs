@@ -20,7 +20,7 @@ namespace CalamityMod.Items
             item.useStyle = 1;
             item.consumable = true;
             item.value = 0;
-            item.createTile = ModContent.TileType<AbyssTable>();
+            item.createTile = ModContent.TileType<Tiles.AbyssTable>();
         }
 
         public override void AddRecipes()

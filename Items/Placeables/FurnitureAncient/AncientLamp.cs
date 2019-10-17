@@ -21,7 +21,7 @@ namespace CalamityMod.Items
             item.rare = 3;
             item.consumable = true;
             item.value = 0;
-            item.createTile = ModContent.TileType<AncientLamp>();
+            item.createTile = ModContent.TileType<Tiles.AncientLamp>();
         }
 
         public override void AddRecipes()

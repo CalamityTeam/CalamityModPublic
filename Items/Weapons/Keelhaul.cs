@@ -31,7 +31,7 @@ namespace CalamityMod.Items
             item.rare = 8;
             item.Calamity().postMoonLordRarity = 21;
             item.value = Item.buyPrice(0, 80, 0, 0);
-            item.shoot = ModContent.ProjectileType<KeelhaulBubble>();
+            item.shoot = ModContent.ProjectileType<Projectiles.KeelhaulBubble>();
             item.shootSpeed = 15f;
         }
     }

@@ -28,7 +28,7 @@ namespace CalamityMod.Items
             item.rare = 5;
             item.UseSound = SoundID.Item44;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<AquaticStar>();
+            item.shoot = ModContent.ProjectileType<Projectiles.AquaticStar>();
             item.shootSpeed = 10f;
             item.summon = true;
         }

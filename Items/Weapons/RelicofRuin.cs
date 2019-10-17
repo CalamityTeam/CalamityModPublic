@@ -30,7 +30,7 @@ namespace CalamityMod.Items
             item.rare = 5;
             item.UseSound = SoundID.Item84;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<ForbiddenAxeBlade>();
+            item.shoot = ModContent.ProjectileType<Projectiles.ForbiddenAxeBlade>();
             item.shootSpeed = 30f;
         }
 

@@ -6,7 +6,7 @@ using System;
 using System.IO;
 using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles;  
 
 namespace CalamityMod.NPCs
 {
@@ -421,8 +421,8 @@ namespace CalamityMod.NPCs
         public override void NPCLoot()
         {
             // Profaned Guardians have no actual drops and no treasure bag
-            DropHelper.DropItem(npc, ModContent.ItemType<ProfanedCore>());
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeProfanedGuardians>(), true, !CalamityWorld.downedGuardians);
+            DropHelper.DropItem(npc, ModContent.ItemType<Items.ProfanedCore>());
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.KnowledgeProfanedGuardians>(), true, !CalamityWorld.downedGuardians);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedGuardians, 5, 2, 1);
 
             // Mark the Profaned Guardians as dead

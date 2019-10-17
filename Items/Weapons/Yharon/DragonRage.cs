@@ -28,7 +28,7 @@ namespace CalamityMod.Items
             item.height = 82;
             item.value = Item.buyPrice(1, 80, 0, 0);
             item.rare = 10;
-            item.shoot = ModContent.ProjectileType<DragonRage>();
+            item.shoot = ModContent.ProjectileType<Projectiles.DragonRage>();
             item.shootSpeed = 14f;
             item.Calamity().postMoonLordRarity = 14;
         }

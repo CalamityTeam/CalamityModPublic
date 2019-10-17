@@ -28,7 +28,7 @@ namespace CalamityMod.Items
             item.rare = 4;
             item.UseSound = SoundID.Item8;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<AbyssBall>();
+            item.shoot = ModContent.ProjectileType<Projectiles.AbyssBall>();
             item.shootSpeed = 9f;
         }
     }

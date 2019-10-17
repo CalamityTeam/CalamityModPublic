@@ -21,7 +21,7 @@ namespace CalamityMod.Items
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = ModContent.TileType<RunicProfanedBrick>();
+            item.createTile = ModContent.TileType<Tiles.RunicProfanedBrick>();
         }
 
         public override void AddRecipes()

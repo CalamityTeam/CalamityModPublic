@@ -29,7 +29,7 @@ namespace CalamityMod.Items
             item.autoReuse = true;
             item.value = Item.buyPrice(0, 2, 0, 0);
             item.rare = 2;
-            item.shoot = ModContent.ProjectileType<EutrophicSpark>();
+            item.shoot = ModContent.ProjectileType<Projectiles.EutrophicSpark>();
             item.shootSpeed = 3f;
         }
 

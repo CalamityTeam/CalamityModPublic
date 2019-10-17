@@ -28,7 +28,7 @@ namespace CalamityMod.Items
             item.UseSound = SoundID.Item1;
             item.value = Item.buyPrice(0, 1, 0, 0);
             item.rare = 2;
-            item.shoot = ModContent.ProjectileType<SandDollarProj>();
+            item.shoot = ModContent.ProjectileType<Projectiles.SandDollarProj>();
             item.shootSpeed = 14f;
             item.Calamity().rogue = true;
         }

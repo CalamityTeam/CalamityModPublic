@@ -22,7 +22,7 @@ namespace CalamityMod.Items
             item.knockBack = 1.25f;
             item.value = 2000;
             item.rare = 7;
-            item.shoot = ModContent.ProjectileType<TerraBullet>();
+            item.shoot = ModContent.ProjectileType<Projectiles.TerraBullet>();
             item.shootSpeed = 10f;
             item.ammo = 97;
         }

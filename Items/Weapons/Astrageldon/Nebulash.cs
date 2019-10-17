@@ -30,7 +30,7 @@ namespace CalamityMod.Items
             item.UseSound = SoundID.Item117;
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.shootSpeed = 24f;
-            item.shoot = ModContent.ProjectileType<Nebulash>();
+            item.shoot = ModContent.ProjectileType<Projectiles.Nebulash>();
         }
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

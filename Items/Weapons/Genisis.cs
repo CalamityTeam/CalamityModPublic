@@ -30,7 +30,7 @@ namespace CalamityMod.Items
             item.UseSound = SoundID.Item33;
             item.autoReuse = true;
             item.shootSpeed = 6f;
-            item.shoot = ModContent.ProjectileType<BigBeamofDeath>();
+            item.shoot = ModContent.ProjectileType<Projectiles.BigBeamofDeath>();
             item.Calamity().postMoonLordRarity = 12;
         }
 

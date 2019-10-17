@@ -31,7 +31,7 @@ namespace CalamityMod.Items
             item.rare = 3;
             item.UseSound = SoundID.Item66;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<AuraRain>();
+            item.shoot = ModContent.ProjectileType<Projectiles.AuraRain>();
             item.shootSpeed = 8f;
         }
 
@@ -90,7 +90,7 @@ namespace CalamityMod.Items
                 num79 *= num80;
                 float speedX4 = num78 + (float)Main.rand.Next(-120, 121) * 0.02f;
                 float speedY5 = num79 + (float)Main.rand.Next(-120, 121) * 0.02f;
-                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<AuraRain>(), damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(10));
+                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<Projectiles.AuraRain>(), damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(10));
             }
             return false;
         }

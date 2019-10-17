@@ -32,7 +32,7 @@ namespace CalamityMod.Items
             item.height = 100;
             item.value = Item.buyPrice(1, 80, 0, 0);
             item.rare = 10;
-            item.shoot = ModContent.ProjectileType<StreamGouge>();
+            item.shoot = ModContent.ProjectileType<Projectiles.StreamGouge>();
             item.shootSpeed = 15f;
             item.Calamity().postMoonLordRarity = 14;
         }

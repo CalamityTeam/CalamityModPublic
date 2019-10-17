@@ -40,7 +40,7 @@ namespace CalamityMod.Items
             item.Calamity().postMoonLordRarity = 21;
             item.value = Item.buyPrice(0, 2, 0, 0);
 
-            item.shoot = ModContent.ProjectileType<YateveoBloom>();
+            item.shoot = ModContent.ProjectileType<Projectiles.YateveoBloom>();
             item.shootSpeed = ShootSpeed;
         }
 
@@ -73,9 +73,9 @@ namespace CalamityMod.Items
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             if (player.altFunctionUse == 2)
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<YateveoBloomSpear>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.YateveoBloomSpear>(), damage, knockBack, player.whoAmI, 0f, 0f);
             else
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<YateveoBloom>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.YateveoBloom>(), damage, knockBack, player.whoAmI, 0f, 0f);
             return false;
         }
 

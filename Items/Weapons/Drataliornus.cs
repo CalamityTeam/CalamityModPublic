@@ -29,7 +29,7 @@ Right click to fire two devastating barrages of five empowered fireballs.
             item.width = 64;
             item.height = 84;
             item.UseSound = SoundID.Item5;
-            item.shoot = ModContent.ProjectileType<Drataliornus>();
+            item.shoot = ModContent.ProjectileType<Projectiles.Drataliornus>();
             item.value = Item.buyPrice(5, 0, 0, 0);
             item.rare = 10;
             item.noMelee = true;
@@ -79,12 +79,12 @@ Right click to fire two devastating barrages of five empowered fireballs.
                 {
                     float num8 = index1 - (num4 - 1) / 2;
                     Vector2 vector2_5 = spinningpoint.RotatedBy(num3 * num8, new Vector2());
-                    Projectile.NewProjectile(position.X + vector2_5.X, position.Y + vector2_5.Y, speedX, speedY, ModContent.ProjectileType<DrataliornusFlame>(), damage, knockBack, player.whoAmI, 1f, 0f);
+                    Projectile.NewProjectile(position.X + vector2_5.X, position.Y + vector2_5.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.DrataliornusFlame>(), damage, knockBack, player.whoAmI, 1f, 0f);
                 }
             }
             else
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Drataliornus>(), 0, 0f, player.whoAmI);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.Drataliornus>(), 0, 0f, player.whoAmI);
             }
 
             return false;

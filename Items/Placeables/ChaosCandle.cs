@@ -24,7 +24,7 @@ namespace CalamityMod.Items
             item.useStyle = 1;
             item.consumable = true;
             item.value = 500;
-            item.createTile = ModContent.TileType<ChaosCandle>();
+            item.createTile = ModContent.TileType<Tiles.ChaosCandle>();
         }
 
         public override void HoldItem(Player player)

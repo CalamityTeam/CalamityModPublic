@@ -32,7 +32,7 @@ namespace CalamityMod.Items
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/Magnum");
             item.autoReuse = true;
             item.shootSpeed = 12f;
-            item.shoot = ModContent.ProjectileType<MagnumRound>();
+            item.shoot = ModContent.ProjectileType<Projectiles.MagnumRound>();
             item.useAmmo = ModContent.ItemType<MagnumRounds>();
             if (CalamityPlayer.areThereAnyDamnBosses)
             {

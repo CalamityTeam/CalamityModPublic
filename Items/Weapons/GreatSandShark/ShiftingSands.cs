@@ -28,7 +28,7 @@ namespace CalamityMod.Items
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.rare = 7;
             item.UseSound = SoundID.Item20;
-            item.shoot = ModContent.ProjectileType<ShiftingSands>();
+            item.shoot = ModContent.ProjectileType<Projectiles.ShiftingSands>();
             item.shootSpeed = 7f;
         }
 

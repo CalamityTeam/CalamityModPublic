@@ -27,7 +27,7 @@ namespace CalamityMod.Items
             item.height = 50;
             item.value = Item.buyPrice(0, 4, 0, 0);
             item.rare = 3;
-            item.shoot = ModContent.ProjectileType<DarkBall>();
+            item.shoot = ModContent.ProjectileType<Projectiles.DarkBall>();
             item.shootSpeed = 5f;
         }
 

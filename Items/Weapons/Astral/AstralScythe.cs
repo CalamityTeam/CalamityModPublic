@@ -27,7 +27,7 @@ namespace CalamityMod.Items
             item.autoReuse = true;
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.rare = 7;
-            item.shoot = ModContent.ProjectileType<AstralScytheProjectile>();
+            item.shoot = ModContent.ProjectileType<Projectiles.AstralScytheProjectile>();
             item.shootSpeed = 5f;
         }
 

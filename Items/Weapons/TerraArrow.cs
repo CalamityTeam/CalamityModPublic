@@ -23,7 +23,7 @@ namespace CalamityMod.Items
             item.knockBack = 1.5f;
             item.value = Item.sellPrice(0, 0, 0, 40);
             item.rare = 7;
-            item.shoot = ModContent.ProjectileType<TerraArrow>();
+            item.shoot = ModContent.ProjectileType<Projectiles.TerraArrow>();
             item.shootSpeed = 15f;
             item.ammo = 40;
         }

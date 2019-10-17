@@ -7,7 +7,7 @@ using System.IO;
 using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.Localization;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles;  
 
 namespace CalamityMod.NPCs
 {
@@ -81,7 +81,7 @@ namespace CalamityMod.NPCs
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/PlaguebringerGoliath");
             else
                 music = MusicID.Boss3;
-            bossBag = ModContent.ItemType<PlaguebringerGoliathBag>();
+            bossBag = ModContent.ItemType<Items.PlaguebringerGoliathBag>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -1017,31 +1017,31 @@ namespace CalamityMod.NPCs
         {
             DropHelper.DropBags(npc);
 
-            DropHelper.DropItemChance(npc, ModContent.ItemType<PlaguebringerGoliathTrophy>(), 10);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgePlaguebringerGoliath>(), true, !CalamityWorld.downedPlaguebringer);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<Items.PlaguebringerGoliathTrophy>(), 10);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.KnowledgePlaguebringerGoliath>(), true, !CalamityWorld.downedPlaguebringer);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedPlaguebringer, 4, 2, 1);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
             if (!Main.expertMode)
             {
                 // Materials
-                DropHelper.DropItemSpray(npc, ModContent.ItemType<PlagueCellCluster>(), 10, 14);
+                DropHelper.DropItemSpray(npc, ModContent.ItemType<Items.PlagueCellCluster>(), 10, 14);
 
                 // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<VirulentKatana>(), 4); // Virulence
-                DropHelper.DropItemChance(npc, ModContent.ItemType<DiseasedPike>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<ThePlaguebringer>(), 4); // Pandemic
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Malevolence>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<PestilentDefiler>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<TheHive>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<MepheticSprayer>(), 4); // Blight Spewer
-                DropHelper.DropItemChance(npc, ModContent.ItemType<PlagueStaff>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.VirulentKatana>(), 4); // Virulence
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.DiseasedPike>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.ThePlaguebringer>(), 4); // Pandemic
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.Malevolence>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.PestilentDefiler>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.TheHive>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.MepheticSprayer>(), 4); // Blight Spewer
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.PlagueStaff>(), 4);
 
                 // Equipment
-                DropHelper.DropItemChance(npc, ModContent.ItemType<BloomStone>(), 10);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.BloomStone>(), 10);
 
                 // Vanity
-                DropHelper.DropItemChance(npc, ModContent.ItemType<PlaguebringerGoliathMask>(), 7);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.PlaguebringerGoliathMask>(), 7);
             }
 
             // Mark PBG as dead

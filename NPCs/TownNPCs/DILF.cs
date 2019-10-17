@@ -4,7 +4,7 @@ using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
 using Terraria.GameContent.Events;
 using Terraria.ID;
 using Terraria.Localization;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles;  
 
 namespace CalamityMod.NPCs
 {
@@ -128,39 +128,39 @@ namespace CalamityMod.NPCs
 
         public override void SetupShop(Chest shop, ref int nextSlot)
         {
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<ColdheartIcicle>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.ColdheartIcicle>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<AbsoluteZero>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.AbsoluteZero>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<FrostbiteBlaster>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.FrostbiteBlaster>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<EternalBlizzard>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.EternalBlizzard>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<WintersFury>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.WintersFury>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<ArcticBearPaw>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.ArcticBearPaw>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<IcicleTrident>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.IcicleTrident>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<FrostyFlare>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.FrostyFlare>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<CryogenicStaff>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.CryogenicStaff>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<PermafrostsConcoction>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.PermafrostsConcoction>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<IcyBullet>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.IcyBullet>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<IcicleArrow>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.IcicleArrow>());
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ItemID.SuperManaPotion);
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<DeliciousMeat>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.DeliciousMeat>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<EnchantedMetal>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.EnchantedMetal>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<BearEye>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.BearEye>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Popo>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Popo>());
             nextSlot++;
             shop.item[nextSlot].SetDefaults(mod.ItemType("CryoKey"));
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 15, 0, 0);

@@ -30,7 +30,7 @@ namespace CalamityMod.Items
             item.height = 64;
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.rare = 7;
-            item.shoot = ModContent.ProjectileType<HellionFlowerSpearProjectile>();
+            item.shoot = ModContent.ProjectileType<Projectiles.HellionFlowerSpearProjectile>();
             item.shootSpeed = 8f;
         }
 

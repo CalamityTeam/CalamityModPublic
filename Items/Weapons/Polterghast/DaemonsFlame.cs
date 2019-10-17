@@ -30,7 +30,7 @@ namespace CalamityMod.Items
             item.ranged = true;
             item.channel = true;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<DaemonsFlame>();
+            item.shoot = ModContent.ProjectileType<Projectiles.DaemonsFlame>();
             item.shootSpeed = 20f;
             item.useAmmo = 40;
             item.Calamity().postMoonLordRarity = 13;
@@ -38,7 +38,7 @@ namespace CalamityMod.Items
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<DaemonsFlame>(), damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.DaemonsFlame>(), damage, knockBack, player.whoAmI, 0f, 0f);
             return false;
         }
     }

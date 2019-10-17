@@ -7,7 +7,7 @@ using System.IO;
 using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.Localization;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles;  
 
 namespace CalamityMod.NPCs
 {
@@ -79,7 +79,7 @@ namespace CalamityMod.NPCs
                 music = MusicID.LunarBoss;
             npc.HitSound = SoundID.NPCHit44;
             npc.DeathSound = SoundID.NPCDeath46;
-            bossBag = ModContent.ItemType<ProvidenceBag>();
+            bossBag = ModContent.ItemType<Items.ProvidenceBag>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -1055,36 +1055,36 @@ namespace CalamityMod.NPCs
         public override void NPCLoot()
         {
             DropHelper.DropBags(npc);
-            DropHelper.DropItemChance(npc, ModContent.ItemType<ProvidenceTrophy>(), 10);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeProvidence>(), true, !CalamityWorld.downedProvidence);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<Items.ProvidenceTrophy>(), 10);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.KnowledgeProvidence>(), true, !CalamityWorld.downedProvidence);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedProvidence, 5, 2, 1);
 
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<ElysianWings>(), biomeType != 2);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<ElysianAegis>(), biomeType == 2);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.ElysianWings>(), biomeType != 2);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.ElysianAegis>(), biomeType == 2);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
             if (!Main.expertMode)
             {
                 // Materials
-                DropHelper.DropItemSpray(npc, ModContent.ItemType<UnholyEssence>(), 20, 30);
-                DropHelper.DropItemSpray(npc, ModContent.ItemType<DivineGeode>(), 10, 15);
+                DropHelper.DropItemSpray(npc, ModContent.ItemType<Items.UnholyEssence>(), 20, 30);
+                DropHelper.DropItemSpray(npc, ModContent.ItemType<Items.DivineGeode>(), 10, 15);
 
                 // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<HolyCollider>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<SolarFlare>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<TelluricGlare>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<BlissfulBombardier>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<PurgeGuzzler>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<MoltenAmputator>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.HolyCollider>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.SolarFlare>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.TelluricGlare>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.BlissfulBombardier>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.PurgeGuzzler>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.MoltenAmputator>(), 4);
 
                 // Equipment
-                DropHelper.DropItemChance(npc, ModContent.ItemType<SamuraiBadge>(), 40);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.SamuraiBadge>(), 40);
 
                 // Vanity
-                DropHelper.DropItemChance(npc, ModContent.ItemType<ProvidenceMask>(), 7);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.ProvidenceMask>(), 7);
 
                 // Other
-                DropHelper.DropItem(npc, ModContent.ItemType<RuneofCos>());
+                DropHelper.DropItem(npc, ModContent.ItemType<Items.RuneofCos>());
             }
 
             if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -1100,7 +1100,7 @@ namespace CalamityMod.NPCs
                 string key3 = "Mods.CalamityMod.TreeOreText";
                 Color messageColor3 = Color.LightGreen;
 
-                WorldGenerationMethods.SpawnOre(ModContent.TileType<UelibloomOre>(), 15E-05, .4f, .8f);
+                WorldGenerationMethods.SpawnOre(ModContent.TileType<Tiles.UelibloomOre>(), 15E-05, .4f, .8f);
 
                 if (Main.netMode == NetmodeID.SinglePlayer)
                 {
@@ -1131,7 +1131,7 @@ namespace CalamityMod.NPCs
                     if ((x == tileCenterX - halfBox || x == tileCenterX + halfBox || y == tileCenterY - halfBox || y == tileCenterY + halfBox)
                         && !Main.tile[x, y].active())
                     {
-                        Main.tile[x, y].type = (ushort)ModContent.TileType<ProfanedRock>();
+                        Main.tile[x, y].type = (ushort)ModContent.TileType<Tiles.ProfanedRock>();
                         Main.tile[x, y].active(true);
                     }
                     Main.tile[x, y].lava(false);

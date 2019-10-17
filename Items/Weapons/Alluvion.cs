@@ -57,7 +57,7 @@ namespace CalamityMod.Items
                 {
                     if (Main.rand.NextBool(12))
                     {
-                        type = ModContent.ProjectileType<TorrentialArrow>();
+                        type = ModContent.ProjectileType<Projectiles.TorrentialArrow>();
                     }
                     if (Main.rand.NextBool(25))
                     {
@@ -65,7 +65,7 @@ namespace CalamityMod.Items
                     }
                     if (Main.rand.NextBool(100))
                     {
-                        type = ModContent.ProjectileType<TyphoonArrow>();
+                        type = ModContent.ProjectileType<Projectiles.TyphoonArrow>();
                     }
                     int num121 = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
                     Main.projectile[num121].Calamity().forceRanged = true;

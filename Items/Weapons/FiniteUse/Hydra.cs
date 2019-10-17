@@ -31,7 +31,7 @@ namespace CalamityMod.Items
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/Hydra");
             item.autoReuse = true;
             item.shootSpeed = 12f;
-            item.shoot = ModContent.ProjectileType<ExplosiveShellBullet>();
+            item.shoot = ModContent.ProjectileType<Projectiles.ExplosiveShellBullet>();
             item.useAmmo = ModContent.ItemType<ExplosiveShells>();
             if (CalamityPlayer.areThereAnyDamnBosses)
             {

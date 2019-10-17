@@ -30,7 +30,7 @@ namespace CalamityMod.Items
             item.UseSound = SoundID.Item117;
             item.autoReuse = true;
             item.shootSpeed = 12f;
-            item.shoot = ModContent.ProjectileType<CryoBlast>();
+            item.shoot = ModContent.ProjectileType<Projectiles.CryoBlast>();
             item.Calamity().postMoonLordRarity = 22;
         }
 

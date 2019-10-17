@@ -1,7 +1,9 @@
+using CalamityMod.Buffs;
 using CalamityMod.CalPlayer;
-using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
+using CalamityMod.Projectiles;
+using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items
 {
@@ -39,13 +41,13 @@ namespace CalamityMod.Items
             modPlayer.sirenWaifu = true;
             if (player.whoAmI == Main.myPlayer)
             {
-                if (player.FindBuffIndex(ModContent.BuffType<SirenLure>()) == -1)
+                if (player.FindBuffIndex(ModContent.BuffType<WaterWaifu>()) == -1)
                 {
-                    player.AddBuff(ModContent.BuffType<SirenLure>(), 3600, true);
+                    player.AddBuff(ModContent.BuffType<WaterWaifu>(), 3600, true);
                 }
-                if (player.ownedProjectileCounts[ModContent.ProjectileType<SirenLure>()] < 1)
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<WaterElementalMinion>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<SirenLure>(), (int)(65f * player.minionDamage), 2f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<WaterElementalMinion>(), (int)(65f * player.minionDamage), 2f, Main.myPlayer, 0f, 0f);
                 }
             }
         }

@@ -28,7 +28,7 @@ A great-tasting cinnamon whiskey");
             item.useStyle = 2;
             item.UseSound = SoundID.Item3;
             item.consumable = true;
-            item.buffType = ModContent.BuffType<Fireball>();
+            item.buffType = ModContent.BuffType<Buffs.Fireball>();
             item.buffTime = 18000; //5 minutes
             item.value = Item.buyPrice(0, 6, 60, 0);
         }

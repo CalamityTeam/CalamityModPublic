@@ -7,7 +7,7 @@ using System.IO;
 using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.Localization;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles;  
 
 namespace CalamityMod.NPCs
 {
@@ -76,7 +76,7 @@ namespace CalamityMod.NPCs
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Calamitas");
             else
                 music = MusicID.Boss2;
-            bossBag = ModContent.ItemType<CalamitasBag>();
+            bossBag = ModContent.ItemType<Items.CalamitasBag>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -479,7 +479,7 @@ namespace CalamityMod.NPCs
         {
             if (Main.rand.NextBool(10))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CalamitasTrophy>());
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.CalamitasTrophy>());
             }
             if (CalamityWorld.armageddon)
             {
@@ -494,41 +494,41 @@ namespace CalamityMod.NPCs
             }
             else
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EssenceofChaos>(), Main.rand.Next(4, 9));
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CalamityDust>(), Main.rand.Next(9, 15));
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<BlightedLens>(), Main.rand.Next(1, 3));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.EssenceofChaos>(), Main.rand.Next(4, 9));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.CalamityDust>(), Main.rand.Next(9, 15));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.BlightedLens>(), Main.rand.Next(1, 3));
                 if (CalamityWorld.downedProvidence)
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Bloodstone>(), Main.rand.Next(30, 41));
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Bloodstone>(), Main.rand.Next(30, 41));
                 }
                 if (Main.rand.NextBool(10))
                 {
-                    npc.DropItemInstanced(npc.position, npc.Size, ModContent.ItemType<ChaosStone>(), 1, true);
+                    npc.DropItemInstanced(npc.position, npc.Size, ModContent.ItemType<Items.ChaosStone>(), 1, true);
                 }
                 if (Main.rand.NextBool(4))
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CalamitasInferno>());
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.CalamitasInferno>());
                 }
                 if (Main.rand.NextBool(7))
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CalamitasMask>());
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.CalamitasMask>());
                 }
                 if (Main.rand.NextBool(4))
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<TheEyeofCalamitas>());
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.TheEyeofCalamitas>());
                 }
                 if (Main.rand.NextBool(4))
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<BlightedEyeStaff>());
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.BlightedEyeStaff>());
                 }
                 if (Main.rand.NextBool(4))
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Animosity>());
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Animosity>());
                 }
             }
 
             DropHelper.DropItem(npc, ItemID.BrokenHeroSword, true);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeCalamitasClone>(), !CalamityWorld.downedCalamitas);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.KnowledgeCalamitasClone>(), !CalamityWorld.downedCalamitas);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedCalamitas, 4, 2, 1);
 
             // Abyss awakens after killing Calamitas OR Plantera

@@ -28,7 +28,7 @@ namespace CalamityMod.Items
             item.rare = 3;
             item.UseSound = SoundID.Item44;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<BloodClotMinion>();
+            item.shoot = ModContent.ProjectileType<Projectiles.BloodClotMinion>();
             item.shootSpeed = 10f;
             item.summon = true;
         }

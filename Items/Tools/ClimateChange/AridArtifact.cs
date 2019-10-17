@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
-using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
+using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items
 {
@@ -27,14 +27,18 @@ namespace CalamityMod.Items
             item.consumable = true;
         }
 
+        // this is extremely ugly and has to be fully qualified because we add an item called Sandstorm
         public override bool CanUseItem(Player player)
         {
-            return !Sandstorm.Happening;
+            return !Terraria.GameContent.Events.Sandstorm.Happening;
         }
 
         public override bool UseItem(Player player)
         {
-            typeof(Sandstorm).GetMethod("StartSandstorm", BindingFlags.Static | BindingFlags.NonPublic).Invoke(null, null);
+            if (Terraria.GameContent.Events.Sandstorm.Happening)
+                CalamityUtils.StopSandstorm();
+            else
+                CalamityUtils.StartSandstorm();
             return true;
         }
 

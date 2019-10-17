@@ -30,7 +30,7 @@ namespace CalamityMod.Items
             item.height = 50;
             item.value = Item.buyPrice(0, 95, 0, 0);
             item.rare = 9;
-            item.shoot = ModContent.ProjectileType<AstralPike>();
+            item.shoot = ModContent.ProjectileType<Projectiles.AstralPike>();
             item.shootSpeed = 13f;
         }
 

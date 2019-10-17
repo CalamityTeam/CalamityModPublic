@@ -21,7 +21,7 @@ namespace CalamityMod.Items
             item.useStyle = 1;
             item.value = 0;
             item.consumable = true;
-            item.createTile = ModContent.TileType<BotanicChest>();
+            item.createTile = ModContent.TileType<Tiles.BotanicChest>();
         }
 
         public override void AddRecipes()

@@ -29,7 +29,7 @@ namespace CalamityMod.Items
             item.UseSound = SoundID.Item11;
             item.autoReuse = true;
             item.shootSpeed = 20f;
-            item.shoot = ModContent.ProjectileType<MiniRocket>();
+            item.shoot = ModContent.ProjectileType<Projectiles.MiniRocket>();
             item.useAmmo = 771;
         }
 
@@ -57,12 +57,12 @@ namespace CalamityMod.Items
         {
             if (player.altFunctionUse == 2)
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<BigNuke>(), (int)((double)damage * 3.0), knockBack, player.whoAmI, 0.0f, 0.0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.BigNuke>(), (int)((double)damage * 3.0), knockBack, player.whoAmI, 0.0f, 0.0f);
                 return false;
             }
             else
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<MiniRocket>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.MiniRocket>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
                 return false;
             }
         }

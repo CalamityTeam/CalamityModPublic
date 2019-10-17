@@ -29,7 +29,7 @@ namespace CalamityMod.Items
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.channel = true;
-            item.shoot = ModContent.ProjectileType<Tumbleweed>();
+            item.shoot = ModContent.ProjectileType<Projectiles.Tumbleweed>();
             item.shootSpeed = 12f;
         }
 

@@ -6,7 +6,7 @@ using System.IO;
 using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.Localization;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles;  
 
 /* states:
  * 0 = slow drift
@@ -78,7 +78,7 @@ namespace CalamityMod.NPCs
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/HiveMind");
             else
                 music = MusicID.Boss2;
-            bossBag = ModContent.ItemType<HiveMindBag>();
+            bossBag = ModContent.ItemType<Items.HiveMindBag>();
             NPCID.Sets.TrailCacheLength[npc.type] = 8;
             NPCID.Sets.TrailingMode[npc.type] = 1;
             if (Main.expertMode)
@@ -666,31 +666,31 @@ namespace CalamityMod.NPCs
         {
             DropHelper.DropBags(npc);
 
-            DropHelper.DropItemChance(npc, ModContent.ItemType<HiveMindTrophy>(), 10);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeHiveMind>(), true, !CalamityWorld.downedHiveMind);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<Items.HiveMindTrophy>(), 10);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.KnowledgeHiveMind>(), true, !CalamityWorld.downedHiveMind);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedHiveMind, 2, 0, 0);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
             if (!Main.expertMode)
             {
                 // Materials
-                DropHelper.DropItemSpray(npc, ModContent.ItemType<TrueShadowScale>(), 25, 30);
+                DropHelper.DropItemSpray(npc, ModContent.ItemType<Items.TrueShadowScale>(), 25, 30);
                 DropHelper.DropItemSpray(npc, ItemID.DemoniteBar, 7, 10);
                 DropHelper.DropItemSpray(npc, ItemID.RottenChunk, 9, 15);
                 if (Main.hardMode)
                     DropHelper.DropItemSpray(npc, ItemID.CursedFlame, 10, 20);
 
                 // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<PerfectDark>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<LeechingDagger>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Shadethrower>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<ShadowdropStaff>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<ShaderainStaff>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<DankStaff>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<RotBall>(), 4, 25, 50);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.PerfectDark>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.LeechingDagger>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.Shadethrower>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.ShadowdropStaff>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.ShaderainStaff>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.DankStaff>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.RotBall>(), 4, 25, 50);
 
                 // Vanity
-                DropHelper.DropItemChance(npc, ModContent.ItemType<HiveMindMask>(), 7);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.HiveMindMask>(), 7);
             }
 
             // If neither The Hive Mind nor The Perforator Hive have been killed yet, notify players of Aerialite Ore
@@ -698,7 +698,7 @@ namespace CalamityMod.NPCs
             {
                 string key = "Mods.CalamityMod.SkyOreText";
                 Color messageColor = Color.Cyan;
-                WorldGenerationMethods.SpawnOre(ModContent.TileType<AerialiteOre>(), 12E-05, .4f, .6f);
+                WorldGenerationMethods.SpawnOre(ModContent.TileType<Tiles.AerialiteOre>(), 12E-05, .4f, .6f);
 
                 if (Main.netMode == NetmodeID.SinglePlayer)
                     Main.NewText(Language.GetTextValue(key), messageColor);

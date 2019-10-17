@@ -15,7 +15,7 @@ namespace CalamityMod.Items
             item.useTime = 7;
             item.useStyle = 1;
             item.consumable = true;
-            item.createWall = ModContent.WallType<NavystoneWall>();
+            item.createWall = ModContent.WallType<Walls.NavystoneWall>();
         }
 
         public override void AddRecipes()

@@ -29,7 +29,7 @@ namespace CalamityMod.Items
             item.rare = 6;
             item.UseSound = SoundID.Item43;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<BrimstoneBeam>();
+            item.shoot = ModContent.ProjectileType<Projectiles.BrimstoneBeam>();
             item.shootSpeed = 6f;
         }
 

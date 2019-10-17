@@ -26,7 +26,7 @@ namespace CalamityMod.Items
             item.height = 34;
             item.maxStack = 999;
             item.value = 25000;
-            item.shoot = ModContent.ProjectileType<TarragonThrowingDartProjectile>();
+            item.shoot = ModContent.ProjectileType<Projectiles.TarragonThrowingDartProjectile>();
             item.shootSpeed = 24f;
             item.Calamity().rogue = true;
             item.Calamity().postMoonLordRarity = 12;

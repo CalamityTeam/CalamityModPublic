@@ -26,7 +26,7 @@ Why is the rum gone?");
             item.useStyle = 2;
             item.UseSound = SoundID.Item3;
             item.consumable = true;
-            item.buffType = ModContent.BuffType<CaribbeanRum>();
+            item.buffType = ModContent.BuffType<Buffs.CaribbeanRum>();
             item.buffTime = 18000; //5 minutes
             item.value = Item.buyPrice(0, 20, 0, 0);
         }

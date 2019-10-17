@@ -1,10 +1,11 @@
-﻿
-
+﻿using CalamityMod.Buffs;
+using CalamityMod.Dusts;
+using CalamityMod.Items;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
+using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs
 {
@@ -31,7 +32,7 @@ namespace CalamityMod.NPCs
             npc.DeathSound = SoundID.NPCDeath1;
             animationType = NPCID.BlueSlime;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<AstralSlimeBanner>();
+            bannerItem = ModContent.ItemType<Items.AstralSlimeBanner>();
             if (CalamityWorld.downedAstrageldon)
             {
                 npc.damage = 65;
@@ -73,7 +74,7 @@ namespace CalamityMod.NPCs
         {
             int oreMin = Main.expertMode ? 11 : 8;
             int oreMax = Main.expertMode ? 16 : 12;
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<AstralOre>(), CalamityWorld.downedStarGod, oreMin, oreMax);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.AstralOre>(), CalamityWorld.downedStarGod, oreMin, oreMax);
         }
     }
 }

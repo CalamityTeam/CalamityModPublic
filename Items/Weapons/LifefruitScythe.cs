@@ -28,7 +28,7 @@ namespace CalamityMod.Items
             item.height = 72;
             item.value = Item.buyPrice(1, 20, 0, 0);
             item.rare = 10;
-            item.shoot = ModContent.ProjectileType<LifeScythe>();
+            item.shoot = ModContent.ProjectileType<Projectiles.LifeScythe>();
             item.shootSpeed = 9f;
             item.Calamity().postMoonLordRarity = 12;
         }

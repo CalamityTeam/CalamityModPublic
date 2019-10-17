@@ -29,7 +29,7 @@ namespace CalamityMod.Items
             item.UseSound = SoundID.Item11;
             item.autoReuse = true;
             item.shootSpeed = 24f;
-            item.shoot = ModContent.ProjectileType<Nuke>();
+            item.shoot = ModContent.ProjectileType<Projectiles.Nuke>();
             item.useAmmo = 771;
             item.Calamity().postMoonLordRarity = 12;
         }
@@ -41,7 +41,7 @@ namespace CalamityMod.Items
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Nuke>(), damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.Nuke>(), damage, knockBack, player.whoAmI, 0f, 0f);
             return false;
         }
     }

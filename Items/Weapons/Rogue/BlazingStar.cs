@@ -35,7 +35,7 @@ namespace CalamityMod.Items
             item.maxStack = 3;
 
             item.shootSpeed = Speed;
-            item.shoot = ModContent.ProjectileType<BlazingStarProj>();
+            item.shoot = ModContent.ProjectileType<Projectiles.BlazingStarProj>();
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -47,7 +47,7 @@ namespace CalamityMod.Items
                     for (int i = 0; i < item.stack; i++)
                     {
                         Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.Lerp(-MathHelper.ToRadians(8f), MathHelper.ToRadians(8f), i / (float)(item.stack - 1)));
-                        Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, i == 1 ? type : ModContent.ProjectileType<BlazingStarProj>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, i == 1 ? type : ModContent.ProjectileType<Projectiles.BlazingStarProj>(), damage, knockBack, player.whoAmI, 0f, 0f);
                         int projectileIndex = Projectile.NewProjectile(position, perturbedSpeed, type, damage, knockBack, player.whoAmI, 0f);
                         Main.projectile[projectileIndex].penetrate = -1;
                     }

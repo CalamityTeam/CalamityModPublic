@@ -30,7 +30,7 @@ namespace CalamityMod.Items
             item.rare = 4;
             item.UseSound = SoundID.Item103;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<EldritchTentacle>();
+            item.shoot = ModContent.ProjectileType<Projectiles.EldritchTentacle>();
             item.shootSpeed = 12f;
         }
 
@@ -61,7 +61,7 @@ namespace CalamityMod.Items
             {
                 num92 *= -1f;
             }
-            Projectile.NewProjectile(vector2.X, vector2.Y, value2.X, value2.Y, ModContent.ProjectileType<EldritchTentacle>(), num73, num74, i, num92, num91);
+            Projectile.NewProjectile(vector2.X, vector2.Y, value2.X, value2.Y, ModContent.ProjectileType<Projectiles.EldritchTentacle>(), num73, num74, i, num92, num91);
             return false;
         }
     }

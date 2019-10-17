@@ -27,7 +27,7 @@ namespace CalamityMod.Items
             item.autoReuse = true;
             item.value = Item.buyPrice(0, 2, 0, 0);
             item.rare = 2;
-            item.shoot = ModContent.ProjectileType<SnapClamProj>();
+            item.shoot = ModContent.ProjectileType<Projectiles.SnapClamProj>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;
         }

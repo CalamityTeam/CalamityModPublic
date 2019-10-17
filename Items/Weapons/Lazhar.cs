@@ -29,7 +29,7 @@ namespace CalamityMod.Items
             item.UseSound = SoundID.Item12;
             item.autoReuse = true;
             item.shootSpeed = 15f;
-            item.shoot = ModContent.ProjectileType<SolarBeam2>();
+            item.shoot = ModContent.ProjectileType<Projectiles.SolarBeam2>();
         }
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

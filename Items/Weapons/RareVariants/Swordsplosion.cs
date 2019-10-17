@@ -29,7 +29,7 @@ namespace CalamityMod.Items
             item.height = 84;
             item.value = Item.buyPrice(1, 20, 0, 0);
             item.rare = 10;
-            item.shoot = ModContent.ProjectileType<EonBeam>();
+            item.shoot = ModContent.ProjectileType<Projectiles.EonBeam>();
             item.shootSpeed = 16f;
             item.Calamity().postMoonLordRarity = 22;
         }
@@ -39,16 +39,16 @@ namespace CalamityMod.Items
             switch (Main.rand.Next(4))
             {
                 case 0:
-                    type = ModContent.ProjectileType<EonBeam>();
+                    type = ModContent.ProjectileType<Projectiles.EonBeam>();
                     break;
                 case 1:
-                    type = ModContent.ProjectileType<EonBeamV2>();
+                    type = ModContent.ProjectileType<Projectiles.EonBeamV2>();
                     break;
                 case 2:
-                    type = ModContent.ProjectileType<EonBeamV3>();
+                    type = ModContent.ProjectileType<Projectiles.EonBeamV3>();
                     break;
                 case 3:
-                    type = ModContent.ProjectileType<EonBeamV4>();
+                    type = ModContent.ProjectileType<Projectiles.EonBeamV4>();
                     break;
             }
             float num72 = Main.rand.Next(22, 30);

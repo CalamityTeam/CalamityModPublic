@@ -29,7 +29,7 @@ namespace CalamityMod.Items
             item.UseSound = SoundID.Item41;
             item.autoReuse = true;
             item.shootSpeed = 24f;
-            item.shoot = ModContent.ProjectileType<ShockblastRound>();
+            item.shoot = ModContent.ProjectileType<Projectiles.ShockblastRound>();
             item.useAmmo = 97;
             item.Calamity().postMoonLordRarity = 22;
         }
@@ -44,9 +44,9 @@ namespace CalamityMod.Items
             for (int index = 0; index < 2; ++index)
             {
                 float speedMult = (float)(index + 1) * 0.15f;
-                Projectile.NewProjectile(position.X, position.Y, speedX * speedMult, speedY * speedMult, ModContent.ProjectileType<FrostsparkBullet>(), (int)((double)damage * 0.75), knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX * speedMult, speedY * speedMult, ModContent.ProjectileType<Projectiles.FrostsparkBullet>(), (int)((double)damage * 0.75), knockBack, player.whoAmI, 0f, 0f);
             }
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<ShockblastRound>(), damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.ShockblastRound>(), damage, knockBack, player.whoAmI, 0f, 0f);
             return false;
         }
     }

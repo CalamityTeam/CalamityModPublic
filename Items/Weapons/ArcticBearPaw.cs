@@ -29,7 +29,7 @@ namespace CalamityMod.Items
             item.rare = 5;
             item.UseSound = SoundID.Item8;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<ArcticBearPaw>();
+            item.shoot = ModContent.ProjectileType<Projectiles.ArcticBearPaw>();
             item.shootSpeed = 27f;
         }
     }

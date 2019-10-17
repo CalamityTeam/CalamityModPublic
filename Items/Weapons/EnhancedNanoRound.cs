@@ -22,7 +22,7 @@ namespace CalamityMod.Items
             item.knockBack = 5.5f;
             item.value = 500;
             item.rare = 3;
-            item.shoot = ModContent.ProjectileType<EnhancedNanoRound>();
+            item.shoot = ModContent.ProjectileType<Projectiles.EnhancedNanoRound>();
             item.shootSpeed = 8f;
             item.ammo = 97;
         }

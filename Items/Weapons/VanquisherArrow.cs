@@ -25,7 +25,7 @@ namespace CalamityMod.Items
             item.consumable = true;
             item.knockBack = 3.5f;
             item.value = 2250;
-            item.shoot = ModContent.ProjectileType<VanquisherArrow>();
+            item.shoot = ModContent.ProjectileType<Projectiles.VanquisherArrow>();
             item.shootSpeed = 10f;
             item.ammo = 40;
             item.Calamity().postMoonLordRarity = 14;

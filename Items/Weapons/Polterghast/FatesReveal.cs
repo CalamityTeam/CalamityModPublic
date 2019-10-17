@@ -31,7 +31,7 @@ namespace CalamityMod.Items
             item.rare = 10;
             item.UseSound = SoundID.Item20;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<FatesReveal>();
+            item.shoot = ModContent.ProjectileType<Projectiles.FatesReveal>();
             item.shootSpeed = 1f;
             item.Calamity().postMoonLordRarity = 13;
         }

@@ -1,13 +1,15 @@
-﻿
+﻿using CalamityMod.Buffs;
+using CalamityMod.Dusts;
+using CalamityMod.Items;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using System.Threading;
-using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
+using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs
 {
@@ -60,7 +62,7 @@ namespace CalamityMod.NPCs
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Astrageldon");
             else
                 music = MusicID.Boss3;
-            bossBag = ModContent.ItemType<AstrageldonBag>();
+            bossBag = ModContent.ItemType<Items.AstrageldonBag>();
             if (NPC.downedMoonlord && CalamityWorld.revenge)
             {
                 npc.value = Item.buyPrice(0, 35, 0, 0);
@@ -297,25 +299,25 @@ namespace CalamityMod.NPCs
         {
             DropHelper.DropBags(npc);
 
-            DropHelper.DropItemChance(npc, ModContent.ItemType<AstrageldonTrophy>(), 10);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeAstrumAureus>(), true, !CalamityWorld.downedAstrageldon);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<Items.AstrageldonTrophy>(), 10);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.KnowledgeAstrumAureus>(), true, !CalamityWorld.downedAstrageldon);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedAstrageldon, 4, 2, 1);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
             if (!Main.expertMode)
             {
                 // Materials
-                DropHelper.DropItemSpray(npc, ModContent.ItemType<Stardust>(), 20, 30);
+                DropHelper.DropItemSpray(npc, ModContent.ItemType<Items.Stardust>(), 20, 30);
                 DropHelper.DropItemSpray(npc, ItemID.FallenStar, 25, 40);
 
                 // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Nebulash>(), 5);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.Nebulash>(), 5);
 
                 // Vanity
-                DropHelper.DropItemChance(npc, ModContent.ItemType<AureusMask>(), 7);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.AureusMask>(), 7);
 
                 // Other
-                DropHelper.DropItem(npc, ModContent.ItemType<AstralJelly>(), 9, 12);
+                DropHelper.DropItem(npc, ModContent.ItemType<Items.AstralJelly>(), 9, 12);
                 DropHelper.DropItemChance(npc, ItemID.HallowedKey, 5);
             }
 

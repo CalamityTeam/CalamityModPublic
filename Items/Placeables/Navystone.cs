@@ -11,7 +11,7 @@ namespace CalamityMod.Items
 
         public override void SetDefaults()
         {
-            item.createTile = ModContent.TileType<Navystone>();
+            item.createTile = ModContent.TileType<Tiles.Navystone>();
             item.useStyle = 1;
             item.useTurn = true;
             item.useAnimation = 15;

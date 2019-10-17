@@ -32,7 +32,7 @@ namespace CalamityMod.Items
             item.UseSound = SoundID.Item33;
             item.autoReuse = true;
             item.shootSpeed = 6f;
-            item.shoot = ModContent.ProjectileType<ParticleBeamofDoom>();
+            item.shoot = ModContent.ProjectileType<Projectiles.ParticleBeamofDoom>();
             item.Calamity().postMoonLordRarity = 14;
         }
 
@@ -50,7 +50,7 @@ namespace CalamityMod.Items
         {
             if (player.altFunctionUse == 2)
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<BigBeamofDeath>(), (int)((double)damage * 2.1), knockBack, player.whoAmI, 0.0f, 0.0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.BigBeamofDeath>(), (int)((double)damage * 2.1), knockBack, player.whoAmI, 0.0f, 0.0f);
             }
             else
             {

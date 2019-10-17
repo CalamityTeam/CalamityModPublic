@@ -1,10 +1,13 @@
-﻿using CalamityMod.World;
+﻿using CalamityMod.Buffs;
+using CalamityMod.Dusts;
+using CalamityMod.Items;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
+using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs
 {
@@ -33,7 +36,7 @@ namespace CalamityMod.NPCs
             npc.knockBackResist = 0.75f;
             npc.value = Item.buyPrice(0, 0, 15, 0);
             banner = npc.type;
-            bannerItem = ModContent.ItemType<HadarianBanner>();
+            bannerItem = ModContent.ItemType<Items.HadarianBanner>();
             if (CalamityWorld.downedAstrageldon)
             {
                 npc.damage = 80;
@@ -177,7 +180,7 @@ namespace CalamityMod.NPCs
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             Tile tile = Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY];
-            if (spawnInfo.player.Calamity().ZoneAstral && spawnInfo.player.ZoneDesert && spawnInfo.spawnTileType == ModContent.TileType<AstralSand>() && tile.wall == WallID.None)
+            if (spawnInfo.player.Calamity().ZoneAstral && spawnInfo.player.ZoneDesert && spawnInfo.spawnTileType == ModContent.TileType<Tiles.AstralSand>() && tile.wall == WallID.None)
             {
                 return 0.25f;
             }
@@ -191,14 +194,14 @@ namespace CalamityMod.NPCs
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Stardust>(), Main.rand.Next(2, 4));
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Stardust>(), Main.rand.Next(2, 4));
             if (Main.expertMode)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Stardust>());
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Stardust>());
             }
             if (CalamityWorld.downedAstrageldon && Main.rand.NextBool(2))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<HadarianMembrane>(), Main.rand.Next(1, 3));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.HadarianMembrane>(), Main.rand.Next(1, 3));
             }
         }
     }

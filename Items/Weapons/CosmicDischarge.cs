@@ -33,7 +33,7 @@ namespace CalamityMod.Items
             item.value = Item.buyPrice(1, 40, 0, 0);
             item.rare = 10;
             item.shootSpeed = 24f;
-            item.shoot = ModContent.ProjectileType<CosmicDischarge>();
+            item.shoot = ModContent.ProjectileType<Projectiles.CosmicDischarge>();
             item.Calamity().postMoonLordRarity = 17;
         }
 

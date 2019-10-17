@@ -29,7 +29,7 @@ namespace CalamityMod.Items
             item.height = 44;
             item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;
-            item.shoot = ModContent.ProjectileType<ExsanguinationLanceProjectile>();
+            item.shoot = ModContent.ProjectileType<Projectiles.ExsanguinationLanceProjectile>();
             item.shootSpeed = 8f;
         }
 

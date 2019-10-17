@@ -28,13 +28,13 @@ namespace CalamityMod.Items
             item.value = Item.buyPrice(1, 40, 0, 0);
             item.rare = 10;
             item.shootSpeed = 9f;
-            item.shoot = ModContent.ProjectileType<GhastlyVisage>();
+            item.shoot = ModContent.ProjectileType<Projectiles.GhastlyVisage>();
             item.Calamity().postMoonLordRarity = 13;
         }
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<GhastlyVisage>(), damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.GhastlyVisage>(), damage, knockBack, player.whoAmI, 0f, 0f);
             return false;
         }
     }

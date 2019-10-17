@@ -32,7 +32,7 @@ namespace CalamityMod.Items
             item.UseSound = SoundID.Item66;
             item.autoReuse = true;
             item.shootSpeed = 12f;
-            item.shoot = ModContent.ProjectileType<UndinesRetribution>();
+            item.shoot = ModContent.ProjectileType<Projectiles.UndinesRetribution>();
         }
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

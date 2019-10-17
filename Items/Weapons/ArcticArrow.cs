@@ -23,7 +23,7 @@ namespace CalamityMod.Items
             item.knockBack = 1.5f;
             item.value = Item.sellPrice(0, 0, 0, 24);
             item.rare = 3;
-            item.shoot = ModContent.ProjectileType<ArcticArrow>();
+            item.shoot = ModContent.ProjectileType<Projectiles.ArcticArrow>();
             item.shootSpeed = 13f;
             item.ammo = 40;
         }

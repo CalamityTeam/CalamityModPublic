@@ -28,7 +28,7 @@ namespace CalamityMod.Items
             item.rare = 10;
             item.UseSound = SoundID.Item5;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<TelluricGlare>();
+            item.shoot = ModContent.ProjectileType<Projectiles.TelluricGlare>();
             item.shootSpeed = 12f;
             item.useAmmo = 40;
             item.Calamity().postMoonLordRarity = 12;
@@ -36,7 +36,7 @@ namespace CalamityMod.Items
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<TelluricGlare>(), damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.TelluricGlare>(), damage, knockBack, player.whoAmI, 0f, 0f);
             return false;
         }
     }

@@ -1,6 +1,6 @@
-using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
+using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items
 {
@@ -31,7 +31,7 @@ namespace CalamityMod.Items
             item.rare = 2;
             item.UseSound = SoundID.Item23;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<MarniteObliterator>();
+            item.shoot = ModContent.ProjectileType<Projectiles.MarniteObliterator>();
             item.shootSpeed = 40f;
         }
 

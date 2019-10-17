@@ -28,7 +28,7 @@ namespace CalamityMod.Items
             item.rare = 5;
             item.UseSound = SoundID.Item5;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<MistArrow>();
+            item.shoot = ModContent.ProjectileType<Projectiles.MistArrow>();
             item.shootSpeed = 12f;
             item.useAmmo = 40;
         }
@@ -48,7 +48,7 @@ namespace CalamityMod.Items
             {
                 float SpeedX = speedX + (float)Main.rand.Next(-30, 31) * 0.05f;
                 float SpeedY = speedY + (float)Main.rand.Next(-30, 31) * 0.05f;
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<MistArrow>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<Projectiles.MistArrow>(), damage, knockBack, player.whoAmI, 0f, 0f);
             }
             return false;
         }

@@ -29,7 +29,7 @@ namespace CalamityMod.Items
             item.rare = 8;
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/OpalStrike");
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<OpalStrike>();
+            item.shoot = ModContent.ProjectileType<Projectiles.OpalStrike>();
             item.shootSpeed = 15f;
             item.useAmmo = 97;
         }
@@ -44,11 +44,11 @@ namespace CalamityMod.Items
             int randomProj = Main.rand.Next(2);
             if (randomProj == 0)
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<OpalStrike>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.OpalStrike>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
             }
             else
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<MagnaStrike>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.MagnaStrike>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
             }
             return false;
         }

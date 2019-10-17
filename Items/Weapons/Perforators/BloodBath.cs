@@ -31,7 +31,7 @@ namespace CalamityMod.Items
             item.rare = 3;
             item.UseSound = SoundID.Item21;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<BloodBeam>();
+            item.shoot = ModContent.ProjectileType<Projectiles.BloodBeam>();
             item.shootSpeed = 9f;
         }
 

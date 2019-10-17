@@ -22,7 +22,7 @@ namespace CalamityMod.Items
             item.useStyle = 1;
             item.value = 0;
             item.consumable = true;
-            item.createTile = ModContent.TileType<BotanicPlanter>();
+            item.createTile = ModContent.TileType<Tiles.BotanicPlanter>();
         }
 
         public override void AddRecipes()

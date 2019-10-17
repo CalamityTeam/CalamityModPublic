@@ -21,7 +21,7 @@ namespace CalamityMod.Items
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = ModContent.TileType<VoidCondenser>();
+            item.createTile = ModContent.TileType<Tiles.VoidCondenser>();
         }
 
         public override void AddRecipes()

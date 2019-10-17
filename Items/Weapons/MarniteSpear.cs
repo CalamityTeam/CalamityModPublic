@@ -28,7 +28,7 @@ namespace CalamityMod.Items
             item.height = 50;
             item.value = Item.buyPrice(0, 2, 0, 0);
             item.rare = 2;
-            item.shoot = ModContent.ProjectileType<MarniteSpearProjectile>();
+            item.shoot = ModContent.ProjectileType<Projectiles.MarniteSpearProjectile>();
             item.shootSpeed = 5f;
         }
 

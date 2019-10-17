@@ -40,7 +40,7 @@ namespace CalamityMod.Items
             for (int i = 0; i < numProj + 1; i++)
             {
                 Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
-                Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X * 0.75f, perturbedSpeed.Y * 0.75f, ModContent.ProjectileType<FeatherLarge>(), (int)((double)damage * 0.25), 0f, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X * 0.75f, perturbedSpeed.Y * 0.75f, ModContent.ProjectileType<Projectiles.FeatherLarge>(), (int)((double)damage * 0.25), 0f, player.whoAmI, 0f, 0f);
             }
             return true;
         }

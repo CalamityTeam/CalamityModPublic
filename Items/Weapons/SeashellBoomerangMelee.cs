@@ -26,7 +26,7 @@ namespace CalamityMod.Items
             item.height = 34;
             item.value = Item.buyPrice(0, 2, 0, 0);
             item.rare = 2;
-            item.shoot = ModContent.ProjectileType<SeashellBoomerangProjectileMelee>();
+            item.shoot = ModContent.ProjectileType<Projectiles.SeashellBoomerangProjectileMelee>();
             item.shootSpeed = 11.5f;
         }
 

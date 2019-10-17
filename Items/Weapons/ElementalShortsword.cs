@@ -28,7 +28,7 @@ namespace CalamityMod.Items
             item.UseSound = SoundID.Item1;
             item.useTurn = true;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<ElementBallShiv>();
+            item.shoot = ModContent.ProjectileType<Projectiles.ElementBallShiv>();
             item.shootSpeed = 14f;
             item.value = Item.buyPrice(1, 20, 0, 0);
             item.rare = 10;

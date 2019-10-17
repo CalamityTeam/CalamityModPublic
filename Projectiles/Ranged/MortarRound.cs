@@ -1,10 +1,11 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Walls;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
+using Terraria;
 using Terraria.GameContent.Achievements;
 using Terraria.ID;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles
 {
@@ -187,7 +188,7 @@ namespace CalamityMod.Projectiles
                         double num828 = Math.Sqrt((double)(num826 * num826 + num827 * num827));
                         if (num828 < (double)num814)
                         {
-                            if (Main.tile[num824, num825] != null && Main.tile[num824, num825].active() && Main.tile[num824, num825].type != (ushort)ModContent.TileType<AbyssGravel>())
+                            if (Main.tile[num824, num825] != null && Main.tile[num824, num825].active() && Main.tile[num824, num825].type != (ushort)ModContent.TileType<Tiles.AbyssGravel>())
                             {
                                 WorldGen.KillTile(num824, num825, false, false, false);
                                 if (!Main.tile[num824, num825].active() && Main.netMode != NetmodeID.SinglePlayer)

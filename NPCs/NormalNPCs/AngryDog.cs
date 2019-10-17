@@ -4,7 +4,7 @@ using System;
 using System.IO;
 using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles;  
 
 namespace CalamityMod.NPCs
 {
@@ -39,7 +39,7 @@ namespace CalamityMod.NPCs
             npc.HitSound = mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AngryDogHit");
             npc.DeathSound = SoundID.NPCDeath5;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<AngryDogBanner>();
+            bannerItem = ModContent.ItemType<Items.AngryDogBanner>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -656,7 +656,7 @@ namespace CalamityMod.NPCs
             }
             if (Main.rand.NextBool(100))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Cryophobia>());
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Cryophobia>());
             }
         }
     }

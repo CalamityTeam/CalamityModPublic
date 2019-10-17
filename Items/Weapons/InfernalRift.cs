@@ -32,7 +32,7 @@ namespace CalamityMod.Items
             item.rare = 5;
             item.UseSound = SoundID.Item9;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<InfernalBlade>();
+            item.shoot = ModContent.ProjectileType<Projectiles.InfernalBlade>();
             item.shootSpeed = 16f;
         }
 

@@ -32,7 +32,7 @@ namespace CalamityMod.Items
             item.UseSound = SoundID.Item73;
             item.autoReuse = true;
             item.shootSpeed = 19f;
-            item.shoot = ModContent.ProjectileType<DivineRetribution>();
+            item.shoot = ModContent.ProjectileType<Projectiles.DivineRetribution>();
             item.Calamity().postMoonLordRarity = 21;
         }
 

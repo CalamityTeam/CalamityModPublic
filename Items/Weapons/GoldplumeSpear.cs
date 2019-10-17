@@ -29,7 +29,7 @@ namespace CalamityMod.Items
             item.height = 54;
             item.value = Item.buyPrice(0, 4, 0, 0);
             item.rare = 3;
-            item.shoot = ModContent.ProjectileType<GoldplumeSpearProjectile>();
+            item.shoot = ModContent.ProjectileType<Projectiles.GoldplumeSpearProjectile>();
             item.shootSpeed = 5f;
         }
 

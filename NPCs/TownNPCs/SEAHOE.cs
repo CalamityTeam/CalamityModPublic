@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.Localization;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles;  
 
 namespace CalamityMod.NPCs
 {
@@ -243,21 +243,21 @@ namespace CalamityMod.NPCs
 
         public override void SetupShop(Chest shop, ref int nextSlot)
         {
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Shellshooter>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Shellshooter>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<SnapClam>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.SnapClam>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<SandDollar>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.SandDollar>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Waywasher>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Waywasher>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<CoralCannon>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.CoralCannon>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<UrchinFlail>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.UrchinFlail>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<AmidiasTrident>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.AmidiasTrident>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<MagicalConch>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.MagicalConch>());
             nextSlot++;
             if (CalamityWorld.downedDesertScourge)
             {

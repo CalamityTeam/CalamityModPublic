@@ -28,7 +28,7 @@ namespace CalamityMod.Items
             item.rare = 5;
             item.UseSound = SoundID.Item9;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<ShadecrystalProjectile>();
+            item.shoot = ModContent.ProjectileType<Projectiles.ShadecrystalProjectile>();
             item.shootSpeed = 16f;
         }
 

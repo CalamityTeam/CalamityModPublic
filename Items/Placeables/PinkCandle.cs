@@ -26,7 +26,7 @@ namespace CalamityMod.Items
             item.consumable = true;
             item.value = Item.buyPrice(0, 50, 0, 0);
             item.rare = 6;
-            item.createTile = ModContent.TileType<PinkCandle>();
+            item.createTile = ModContent.TileType<Tiles.PinkCandle>();
         }
     }
 }
