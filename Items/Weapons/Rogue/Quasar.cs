@@ -1,3 +1,4 @@
+using CalamityMod.Projectiles;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
@@ -28,7 +29,7 @@ namespace CalamityMod.Items
             item.height = 48;
             item.value = Item.buyPrice(0, 95, 0, 0);
             item.rare = 9;
-            item.shoot = ModContent.ProjectileType<Projectiles.QuasarKnife>();
+            item.shoot = ModContent.ProjectileType<QuasarKnife>();
             item.shootSpeed = 20f;
             item.Calamity().rogue = true;
             item.Calamity().postMoonLordRarity = 22;

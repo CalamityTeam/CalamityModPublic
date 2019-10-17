@@ -858,7 +858,7 @@ namespace CalamityMod.NPCs
                 DropHelper.DropItem(npc, ModContent.ItemType<CosmiliteBrick>(), 150, 250);
 
                 // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.Excelsus>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Excelsus>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<EradicatorMelee>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Items.TheObliterator>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Deathwind>(), 4);

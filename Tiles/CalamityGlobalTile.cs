@@ -290,7 +290,7 @@ namespace CalamityMod.Tiles
                         }
                         if (expr_B64 == 8)
                         {
-                            Item.NewItem(i * 16, j * 16, 16, 16, ModContent.ItemType<Items.AnechoicCoating>(), 1, false, 0, false, false);
+                            Item.NewItem(i * 16, j * 16, 16, 16, ModContent.ItemType<AnechoicCoating>(), 1, false, 0, false, false);
                         }
                         if (expr_B64 == 9)
                         {
@@ -450,7 +450,7 @@ namespace CalamityMod.Tiles
                         }
                         if (expr_B64 == 8)
                         {
-                            Item.NewItem(i * 16, j * 16, 16, 16, ModContent.ItemType<Items.AnechoicCoating>(), 1, false, 0, false, false);
+                            Item.NewItem(i * 16, j * 16, 16, 16, ModContent.ItemType<AnechoicCoating>(), 1, false, 0, false, false);
                         }
                         if (expr_B64 == 9)
                         {

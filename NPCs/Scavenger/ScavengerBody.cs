@@ -621,7 +621,7 @@ namespace CalamityMod.NPCs
                     ModContent.ItemType<RealmRavager>(),
                     ModContent.ItemType<Hematemesis>(),
                     ModContent.ItemType<SpikecragStaff>(),
-                    ModContent.ItemType<Items.CraniumSmasher>());
+                    ModContent.ItemType<CraniumSmasher>());
 
                 // Equipment
                 DropHelper.DropItemChance(npc, ModContent.ItemType<BloodPact>(), 3);

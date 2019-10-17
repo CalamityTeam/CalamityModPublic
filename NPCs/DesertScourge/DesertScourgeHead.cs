@@ -463,7 +463,7 @@ namespace CalamityMod.NPCs
                 bool replaceWithRare = f <= DropHelper.RareVariantDropRateFloat; // 1/40 chance overall of getting Dune Hopper
                 if (f < 0.25f) // 1/4 chance of getting Scourge of the Desert OR Dune Hopper replacing it
                 {
-                    DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.ScourgeoftheDesert>(), !replaceWithRare);
+                    DropHelper.DropItemCondition(npc, ModContent.ItemType<ScourgeoftheDesert>(), !replaceWithRare);
                     DropHelper.DropItemCondition(npc, ModContent.ItemType<DuneHopper>(), replaceWithRare);
                 }
 

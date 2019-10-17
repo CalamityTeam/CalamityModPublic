@@ -246,7 +246,7 @@ namespace CalamityMod.World
                         tile.liquid = 192;
                         if (num4 % 15 == 2)
                         {
-                            tile.ResetToType((ushort)ModContent.TileType<Tiles.Navystone>());
+                            tile.ResetToType((ushort)ModContent.TileType<Navystone>());
                             tile.active(true);
                             tile.liquid = 0;
                         }
@@ -258,7 +258,7 @@ namespace CalamityMod.World
                         tile.liquid = 192;
                         if (!flag || tile.active())
                         {
-                            tile.ResetToType((ushort)ModContent.TileType<Tiles.Navystone>());
+                            tile.ResetToType((ushort)ModContent.TileType<Navystone>());
                             tile.active(true);
                             Tile.SmoothSlope(num6, num7, true);
                             tile.liquid = 0;
@@ -269,7 +269,7 @@ namespace CalamityMod.World
                         tile.liquid = 192;
                         if (!flag || tile.active())
                         {
-                            tile.ResetToType((ushort)ModContent.TileType<Tiles.EutrophicSand>());
+                            tile.ResetToType((ushort)ModContent.TileType<EutrophicSand>());
                             tile.active(true);
                             Tile.SmoothSlope(num6, num7, true);
                             tile.liquid = 0;
@@ -283,7 +283,7 @@ namespace CalamityMod.World
                         {
                             if (tile.active())
                             {
-                                tile.ResetToType((ushort)ModContent.TileType<Tiles.EutrophicSand>());
+                                tile.ResetToType((ushort)ModContent.TileType<EutrophicSand>());
                                 tile.active(true);
                                 Tile.SmoothSlope(num6, num7, true);
                                 tile.wall = (ushort)ModContent.WallType<Walls.EutrophicSandWall>();
@@ -345,7 +345,7 @@ namespace CalamityMod.World
                         WorldUtils.Gen(point, new Shapes.Circle((int)((float)radius * outerRadiusPercentage)), Actions.Chain(new GenAction[] //Smallest is 6
                         {
                             new Modifiers.Blotches(2, 0.3).Output(holeShape),
-                            new Actions.SetTile((ushort)ModContent.TileType<Tiles.Navystone>(), true) //Place outer shell
+                            new Actions.SetTile((ushort)ModContent.TileType<Navystone>(), true) //Place outer shell
                         }));
 
                         WorldUtils.Gen(point, new ModShapes.OuterOutline(holeShape, true, true), Actions.Chain(new GenAction[] //Smooth outer shell
@@ -359,7 +359,7 @@ namespace CalamityMod.World
                         WorldUtils.Gen(point, new Shapes.Circle((int)((float)radius * (outerRadiusPercentage * 0.6f))), Actions.Chain(new GenAction[] //Smallest is 4
                         {
                             new Modifiers.Blotches(2, 0.3),
-                            new Actions.SetTile((ushort)ModContent.TileType<Tiles.SeaPrism>(), true) //Place prism
+                            new Actions.SetTile((ushort)ModContent.TileType<SeaPrism>(), true) //Place prism
                         }));
 
                         WorldUtils.Gen(point, new Shapes.Circle((int)((float)radius * (outerRadiusPercentage * 0.3f))), Actions.Chain(new GenAction[] //Smallest is 2
@@ -402,7 +402,7 @@ namespace CalamityMod.World
                         WorldUtils.Gen(point, new Shapes.Circle((int)((float)radiusSmall * outerRadiusPercentage)), Actions.Chain(new GenAction[] //Smallest is 4
                         {
                             new Modifiers.Blotches(2, 0.3).Output(holeShape),
-                            new Actions.SetTile((ushort)ModContent.TileType<Tiles.Navystone>(), true) //Place outer shell
+                            new Actions.SetTile((ushort)ModContent.TileType<Navystone>(), true) //Place outer shell
                         }));
 
                         WorldUtils.Gen(point, new ModShapes.OuterOutline(holeShape, true, true), Actions.Chain(new GenAction[] //Smooth outer shell
@@ -416,7 +416,7 @@ namespace CalamityMod.World
                         WorldUtils.Gen(point, new Shapes.Circle((int)((float)radiusSmall * (outerRadiusPercentage * 0.6f))), Actions.Chain(new GenAction[] //Smallest is 2
                         {
                             new Modifiers.Blotches(2, 0.3),
-                            new Actions.SetTile((ushort)ModContent.TileType<Tiles.SeaPrism>(), true) //Place prism
+                            new Actions.SetTile((ushort)ModContent.TileType<SeaPrism>(), true) //Place prism
                         }));
 
                         WorldUtils.Gen(point, new Shapes.Circle((int)((float)radiusSmall * (outerRadiusPercentage * 0.3f))), Actions.Chain(new GenAction[] //Smallest is 1
@@ -439,9 +439,9 @@ namespace CalamityMod.World
                     Tile tile = Main.tile[num3, num4];
                     Tile testTile = Main.tile[num3, num4 + 1];
                     Tile testTile2 = Main.tile[num3, num4 + 2];
-                    if (tile.type == ModContent.TileType<Tiles.EutrophicSand>() && (!WorldGen.SolidTile(testTile) || !WorldGen.SolidTile(testTile2))) //Tile variation
+                    if (tile.type == ModContent.TileType<EutrophicSand>() && (!WorldGen.SolidTile(testTile) || !WorldGen.SolidTile(testTile2))) //Tile variation
                     {
-                        tile.type = (ushort)ModContent.TileType<Tiles.Navystone>();
+                        tile.type = (ushort)ModContent.TileType<Navystone>();
                     }
                 }
             }
@@ -452,7 +452,7 @@ namespace CalamityMod.World
                     int num5 = k + start.X;
                     int num6 = l + start.Y;
                     Tile tile2 = Main.tile[num5, num6];
-                    if (tile2.active() && (tile2.type == ModContent.TileType<Tiles.SeaPrism>() || tile2.type == ModContent.TileType<Tiles.Navystone>()))
+                    if (tile2.active() && (tile2.type == ModContent.TileType<SeaPrism>() || tile2.type == ModContent.TileType<Navystone>()))
                     {
                         bool flag = true;
                         for (int m = -1; m >= -3; m--)
@@ -490,7 +490,7 @@ namespace CalamityMod.World
                                 break;
                             }
                         }
-                        if (tile2.type == ModContent.TileType<Tiles.SeaPrism>() || (tile2.type == ModContent.TileType<Tiles.Navystone>() && WorldGen.genRand.Next(8) == 0))
+                        if (tile2.type == ModContent.TileType<SeaPrism>() || (tile2.type == ModContent.TileType<Navystone>() && WorldGen.genRand.Next(8) == 0))
                         {
                             if (flag3 ^ flag4)
                             {

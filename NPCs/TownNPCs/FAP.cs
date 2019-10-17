@@ -240,39 +240,39 @@ namespace CalamityMod.NPCs
 
         public override void SetupShop(Chest shop, ref int nextSlot) //charges 50% extra than the original item value
         {
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.GrapeBeer>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<GrapeBeer>());
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 1, 0, 0);
             nextSlot++;
 
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.RedWine>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<RedWine>());
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 3, 0, 0);
             nextSlot++;
 
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Moonshine>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Moonshine>());
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 5, 0, 0);
             nextSlot++;
 
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Vodka>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Vodka>());
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 5, 0, 0);
             nextSlot++;
 
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Whiskey>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Whiskey>());
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 5, 0, 0);
             nextSlot++;
 
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Tequila>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Tequila>());
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 7, 50, 0);
             nextSlot++;
 
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Rum>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Rum>());
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 7, 50, 0);
             nextSlot++;
 
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Fireball>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Fireball>());
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 10, 0, 0);
             nextSlot++;
 
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Everclear>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Everclear>());
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 10, 0, 0);
             nextSlot++;
 
@@ -282,47 +282,47 @@ namespace CalamityMod.NPCs
 
             if (Main.bloodMoon)
             {
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.BloodyMary>());
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<BloodyMary>());
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 15, 0, 0);
                 nextSlot++;
             }
 
             if (CalamityWorld.downedAstrageldon && !Main.dayTime)
             {
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.StarBeamRye>());
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<StarBeamRye>());
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 20, 0, 0);
                 nextSlot++;
             }
 
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Screwdriver>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Screwdriver>());
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 25, 0, 0);
             nextSlot++;
 
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.MoscowMule>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<MoscowMule>());
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 25, 0, 0);
             nextSlot++;
 
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.WhiteWine>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<WhiteWine>());
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 25, 0, 0);
             nextSlot++;
 
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.EvergreenGin>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<EvergreenGin>());
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 25, 0, 0);
             nextSlot++;
 
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.CinnamonRoll>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<CinnamonRoll>());
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 25, 0, 0);
             nextSlot++;
 
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.TequilaSunrise>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<TequilaSunrise>());
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 30, 0, 0);
             nextSlot++;
 
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.CaribbeanRum>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<CaribbeanRum>());
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 30, 0, 0);
             nextSlot++;
 
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Margarita>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Margarita>());
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 35, 0, 0);
             nextSlot++;
 

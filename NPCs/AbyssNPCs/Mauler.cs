@@ -293,7 +293,7 @@ namespace CalamityMod.NPCs
                 int damageBoom = npc.localAI[1] >= 255f ? 200 : 50;
                 for (iBoom = 0; iBoom < 25; iBoom++)
                 {
-                    int projectileType = Main.rand.NextBool(2) ? ModContent.ProjectileType<SulphuricAcidMist>() : ModContent.ProjectileType<Projectiles.SulphuricAcidBubble>();
+                    int projectileType = Main.rand.NextBool(2) ? ModContent.ProjectileType<SulphuricAcidMist>() : ModContent.ProjectileType<SulphuricAcidBubble>();
                     offsetAngleBoom = startAngleBoom + deltaAngleBoom * (iBoom + iBoom * iBoom) / 2f + 32f * iBoom;
                     int boom1 = Projectile.NewProjectile(valueBoom.X, valueBoom.Y, (float)(Math.Sin(offsetAngleBoom) * 6f), (float)(Math.Cos(offsetAngleBoom) * 6f), projectileType, damageBoom, 0f, Main.myPlayer, 0f, 0f);
                     int boom2 = Projectile.NewProjectile(valueBoom.X, valueBoom.Y, (float)(-Math.Sin(offsetAngleBoom) * 6f), (float)(-Math.Cos(offsetAngleBoom) * 6f), projectileType, damageBoom, 0f, Main.myPlayer, 0f, 0f);
