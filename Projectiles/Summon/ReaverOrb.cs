@@ -5,7 +5,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 
-namespace CalamityMod.Projectiles
+namespace CalamityMod.Projectiles.Summon
 {
     public class ReaverOrb : ModProjectile
     {

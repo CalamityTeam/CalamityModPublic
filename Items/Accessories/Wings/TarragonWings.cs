@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 
-namespace CalamityMod.Items
+namespace CalamityMod.Items.Accessories.Wings
 {
     [AutoloadEquip(EquipType.Wings)]
     public class TarragonWings : ModItem

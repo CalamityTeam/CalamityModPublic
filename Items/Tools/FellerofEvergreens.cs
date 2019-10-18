@@ -2,7 +2,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 
-namespace CalamityMod.Items
+namespace CalamityMod.Items.Tools
 {
     public class FellerofEvergreens : ModItem
     {

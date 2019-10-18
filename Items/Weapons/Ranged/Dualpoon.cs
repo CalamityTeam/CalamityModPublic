@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 
-namespace CalamityMod.Items
+namespace CalamityMod.Items.Weapons.Ranged
 {
     public class Dualpoon : ModItem
     {

@@ -1,7 +1,7 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Buffs
+namespace CalamityMod.Buffs.Cooldowns
 {
     public class AbyssalMirrorCooldown : ModBuff
     {

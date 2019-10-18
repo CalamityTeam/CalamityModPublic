@@ -2,7 +2,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 
-namespace CalamityMod.Buffs
+namespace CalamityMod.Buffs.StatBuffs
 {
     public class Encased : ModBuff
     {

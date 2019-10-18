@@ -1,5 +1,5 @@
 using Terraria.ModLoader;
-namespace CalamityMod.Items
+namespace CalamityMod.Items.Placeables.FurnitureStatigel
 {
     public class StatigelPlatform : ModItem
     {

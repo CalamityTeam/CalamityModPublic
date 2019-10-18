@@ -2,7 +2,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 
-namespace CalamityMod.Items
+namespace CalamityMod.Items.Ammo
 {
     public class IcicleArrow : ModItem
     {

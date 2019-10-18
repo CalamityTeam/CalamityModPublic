@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 
-namespace CalamityMod.Tiles
+namespace CalamityMod.Tiles.FurnitureProfaned
 {
     public class ProfanedBed : ModTile
     {

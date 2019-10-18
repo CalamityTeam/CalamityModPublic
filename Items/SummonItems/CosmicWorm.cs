@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.Localization;
 using CalamityMod.NPCs;
-namespace CalamityMod.Items
+namespace CalamityMod.Items.SummonItems
 {
     public class CosmicWorm : ModItem
     {

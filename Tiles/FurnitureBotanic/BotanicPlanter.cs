@@ -5,7 +5,7 @@ using CalamityMod.Dusts;
 using Terraria.ID;
 using Terraria.ObjectData;
 
-namespace CalamityMod.Tiles
+namespace CalamityMod.Tiles.FurnitureBotanic
 {
     class BotanicPlanter : ModTile
     {

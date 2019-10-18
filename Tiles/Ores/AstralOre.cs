@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using CalamityMod.Buffs;
 
-namespace CalamityMod.Tiles
+namespace CalamityMod.Tiles.Ores
 {
     public class AstralOre : ModTile
     {

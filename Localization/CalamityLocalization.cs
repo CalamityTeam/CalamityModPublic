@@ -1,4 +1,5 @@
 ﻿using Terraria.ModLoader;
+
 namespace CalamityMod.Localization
 {
     public class CalamityLocalization

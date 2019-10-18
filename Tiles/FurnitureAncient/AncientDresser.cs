@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 
-namespace CalamityMod.Tiles
+namespace CalamityMod.Tiles.FurnitureAncient
 {
     public class AncientDresser : ModTile
     {

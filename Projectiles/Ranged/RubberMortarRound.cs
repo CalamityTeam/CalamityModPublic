@@ -7,7 +7,7 @@ using Terraria.GameContent.Achievements;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Projectiles
+namespace CalamityMod.Projectiles.Ranged
 {
     public class RubberMortarRound : ModProjectile
     {

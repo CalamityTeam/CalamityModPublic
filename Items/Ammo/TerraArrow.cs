@@ -1,7 +1,7 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria;
-namespace CalamityMod.Items
+namespace CalamityMod.Items.Ammo
 {
     public class TerraArrow : ModItem
     {

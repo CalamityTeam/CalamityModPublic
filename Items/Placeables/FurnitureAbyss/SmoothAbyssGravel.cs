@@ -1,5 +1,5 @@
 ﻿using Terraria.ModLoader;
-namespace CalamityMod.Items
+namespace CalamityMod.Items.Placeables.FurnitureAbyss
 {
     public class SmoothAbyssGravel : ModItem
     {

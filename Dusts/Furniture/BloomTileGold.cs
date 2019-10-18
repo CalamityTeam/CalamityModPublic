@@ -1,9 +1,9 @@
 using Terraria;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Dusts
+namespace CalamityMod.Dusts.Furniture
 {
-    public class BloomTileLeaves : ModDust
+    public class BloomTileGold : ModDust
     {
         public override void OnSpawn(Dust dust)
         {
@@ -15,7 +15,7 @@ namespace CalamityMod.Dusts
 
         public override bool Update(Dust dust)
         {
-            dust.velocity.Y += 0.05f;
+            dust.velocity.Y += 0.1f;
             dust.position += dust.velocity;
             dust.rotation += dust.velocity.X;
             dust.scale -= 0.03f;

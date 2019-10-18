@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using CalamityMod.Items;
-namespace CalamityMod.Tiles
+namespace CalamityMod.Tiles.Abyss
 {
     public class LumenylCrystals : ModTile
     {

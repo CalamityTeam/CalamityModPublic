@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 using Terraria.Enums;
 using CalamityMod.Buffs;
 using CalamityMod.NPCs;
-namespace CalamityMod.Projectiles
+namespace CalamityMod.Projectiles.Boss
 {
     public class ProvidenceHolyRay : ModProjectile
     {

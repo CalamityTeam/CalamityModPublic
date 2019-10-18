@@ -4,7 +4,7 @@ using CalamityMod.Projectiles;
 using Terraria.ModLoader;
 using Terraria.ID;
 
-namespace CalamityMod.Items
+namespace CalamityMod.Items.Weapons.Rogue
 {
     public class BloodsoakedCrasher : RogueWeapon //This weapon has been coded by Achilles|Termi|Ben
     {

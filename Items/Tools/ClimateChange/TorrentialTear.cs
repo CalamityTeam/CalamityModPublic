@@ -2,7 +2,7 @@
 using Terraria.ModLoader;
 using Terraria.ID;
 
-namespace CalamityMod.Items
+namespace CalamityMod.Items.Tools.ClimateChange
 {
     public class TorrentialTear : ModItem
     {

@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Items;
-namespace CalamityMod.Projectiles
+namespace CalamityMod.Projectiles.Rogue
 {
     public class OrichalcumSpikedGemstoneProjectile : ModProjectile
     {

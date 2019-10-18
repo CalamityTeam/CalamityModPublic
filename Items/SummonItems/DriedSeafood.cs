@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using CalamityMod.NPCs;
-namespace CalamityMod.Items
+namespace CalamityMod.Items.SummonItems
 {
     public class DriedSeafood : ModItem
     {

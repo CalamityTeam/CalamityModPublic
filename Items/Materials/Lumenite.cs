@@ -1,7 +1,7 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Tiles;
-namespace CalamityMod.Items
+namespace CalamityMod.Items.Materials
 {
     public class Lumenite : ModItem
     {

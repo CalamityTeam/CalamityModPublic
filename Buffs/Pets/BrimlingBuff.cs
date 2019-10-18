@@ -2,7 +2,7 @@ using Terraria;
 using CalamityMod.Projectiles;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Buffs
+namespace CalamityMod.Buffs.Pets
 {
     public class BrimlingBuff : ModBuff
     {

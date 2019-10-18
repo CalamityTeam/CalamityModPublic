@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using CalamityMod.Dusts;
-namespace CalamityMod.Items
+namespace CalamityMod.Items.Accessories.Wings
 {
     [AutoloadEquip(EquipType.Wings)]
     public class HadarianWings : ModItem

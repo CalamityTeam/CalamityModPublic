@@ -6,7 +6,7 @@ using System.IO;
 using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.NPCs;
-namespace CalamityMod.Projectiles
+namespace CalamityMod.Projectiles.Boss
 {
     public class ProvidenceCrystal : ModProjectile
     {

@@ -1,6 +1,6 @@
 using Terraria.ModLoader;
 using CalamityMod.Tiles;
-namespace CalamityMod.Items
+namespace CalamityMod.Items.Placeables.FurnitureCosmilite
 {
     public class CosmiliteDoor : ModItem
     {

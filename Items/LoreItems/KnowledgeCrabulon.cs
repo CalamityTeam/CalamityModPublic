@@ -1,7 +1,7 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Buffs;
-namespace CalamityMod.Items
+namespace CalamityMod.Items.LoreItems
 {
     public class KnowledgeCrabulon : ModItem
     {

@@ -2,7 +2,7 @@
 using System.IO;
 using Terraria;
 using Terraria.ModLoader;
-namespace CalamityMod.Projectiles
+namespace CalamityMod.Projectiles.Boss
 {
     public class DarkEnergyBall : ModProjectile
     {

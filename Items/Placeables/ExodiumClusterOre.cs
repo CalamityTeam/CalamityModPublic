@@ -2,7 +2,7 @@
 using Terraria.ModLoader;
 using Terraria.ID;
 using CalamityMod.Tiles;
-namespace CalamityMod.Items
+namespace CalamityMod.Items.Placeables
 {
     public class ExodiumClusterOre : ModItem
     {

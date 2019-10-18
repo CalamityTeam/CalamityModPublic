@@ -7,7 +7,7 @@ using CalamityMod.Dusts;
 using Terraria.Enums;
 using Terraria.ID;
 using CalamityMod.Buffs;
-namespace CalamityMod.Projectiles
+namespace CalamityMod.Projectiles.Melee
 {
     public class Nebulash : ModProjectile
     {

@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.NPCs;
-namespace CalamityMod.Items
+namespace CalamityMod.Items.TreasureBags
 {
     public class DevourerofGodsBag : ModItem
     {

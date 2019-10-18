@@ -2,7 +2,7 @@ using CalamityMod.World;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Items
+namespace CalamityMod.Items.Weapons.Melee
 {
     public class Murasama : ModItem
     {

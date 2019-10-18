@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ModLoader;
 using System;
 
-namespace CalamityMod.Projectiles
+namespace CalamityMod.Projectiles.Rogue
 {
     public class DragonShit : ModProjectile
     {

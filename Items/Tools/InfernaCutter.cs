@@ -4,7 +4,7 @@ using CalamityMod.Projectiles;
 using Terraria.ModLoader;
 using Terraria.ID;
 using CalamityMod.Buffs;
-namespace CalamityMod.Items
+namespace CalamityMod.Items.Tools
 {
     public class InfernaCutter : ModItem
     {

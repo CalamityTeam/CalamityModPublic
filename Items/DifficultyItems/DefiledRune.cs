@@ -6,7 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.Localization;
 using CalamityMod.NPCs;
-namespace CalamityMod.Items
+namespace CalamityMod.Items.DifficultyItems
 {
     public class DefiledRune : ModItem
     {

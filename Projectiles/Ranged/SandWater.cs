@@ -2,7 +2,7 @@
 using System;
 using Terraria;
 using Terraria.ModLoader;
-namespace CalamityMod.Projectiles
+namespace CalamityMod.Projectiles.Ranged
 {
     public class SandWater : ModProjectile
     {

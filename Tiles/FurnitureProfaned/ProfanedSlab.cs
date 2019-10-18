@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Dusts;
 
-namespace CalamityMod.Tiles
+namespace CalamityMod.Tiles.FurnitureProfaned
 {
     public class ProfanedSlab : ModTile
     {

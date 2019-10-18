@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 
-namespace CalamityMod.Items
+namespace CalamityMod.Items.Mounts
 {
     class AngryDogMount : ModMountData
     {

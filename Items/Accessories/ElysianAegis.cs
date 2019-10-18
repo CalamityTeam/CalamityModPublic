@@ -2,7 +2,7 @@
 using Terraria;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Items
+namespace CalamityMod.Items.Accessories
 {
     [AutoloadEquip(EquipType.Shield)]
     public class ElysianAegis : ModItem

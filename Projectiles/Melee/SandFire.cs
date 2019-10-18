@@ -3,7 +3,7 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Buffs;
-namespace CalamityMod.Projectiles
+namespace CalamityMod.Projectiles.Melee
 {
     public class SandFire : ModProjectile
     {

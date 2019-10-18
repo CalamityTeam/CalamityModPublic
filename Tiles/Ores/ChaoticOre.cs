@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using CalamityMod.Projectiles;
 using Terraria.ModLoader;
-namespace CalamityMod.Tiles
+namespace CalamityMod.Tiles.Ores
 {
     public class ChaoticOre : ModTile
     {

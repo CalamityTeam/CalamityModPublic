@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Buffs;
-namespace CalamityMod.Projectiles
+namespace CalamityMod.Projectiles.Typeless
 {
     public class MarkRound : ModProjectile
     {

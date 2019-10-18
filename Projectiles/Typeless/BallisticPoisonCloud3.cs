@@ -2,7 +2,7 @@
 using Terraria.ModLoader;
 using Terraria.ID;
 
-namespace CalamityMod.Projectiles
+namespace CalamityMod.Projectiles.Typeless
 {
     public class BallisticPoisonCloud3 : ModProjectile
     {

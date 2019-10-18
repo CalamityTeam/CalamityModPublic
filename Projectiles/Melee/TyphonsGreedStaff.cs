@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.Enums;
 using CalamityMod.Buffs;
-namespace CalamityMod.Projectiles
+namespace CalamityMod.Projectiles.Melee
 {
     public class TyphonsGreedStaff : ModProjectile
     {

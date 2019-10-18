@@ -7,7 +7,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
 
-namespace CalamityMod.Projectiles
+namespace CalamityMod.Projectiles.Boss
 {
     public class InfernadoRevenge : ModProjectile
     {

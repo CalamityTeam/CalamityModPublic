@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 using CalamityMod.Dusts;
 using Terraria.ObjectData;
 
-namespace CalamityMod.Tiles
+namespace CalamityMod.Tiles.AstralDesert
 {
     public class AstralDesertLargePiles : ModTile
     {

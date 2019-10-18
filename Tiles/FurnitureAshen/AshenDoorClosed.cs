@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 
-namespace CalamityMod.Tiles
+namespace CalamityMod.Tiles.FurnitureAshen
 {
     // TODO: Smart Cursor Outlines and tModLoader support
     public class AshenDoorClosed : ModTile

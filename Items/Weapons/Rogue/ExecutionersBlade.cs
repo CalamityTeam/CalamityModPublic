@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 
-namespace CalamityMod.Items
+namespace CalamityMod.Items.Weapons.Rogue
 {
     public class ExecutionersBlade : RogueWeapon
     {

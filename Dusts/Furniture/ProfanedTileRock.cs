@@ -1,9 +1,9 @@
 using Terraria;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Dusts
+namespace CalamityMod.Dusts.Furniture
 {
-    public class BloomTileGold : ModDust
+    public class ProfanedTileRock : ModDust
     {
         public override void OnSpawn(Dust dust)
         {

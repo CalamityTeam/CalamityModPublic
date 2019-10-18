@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using CalamityMod.Walls;
 
-namespace CalamityMod.Tiles
+namespace CalamityMod.Tiles.Abyss
 {
     public class PlantyMush : ModTile
     {

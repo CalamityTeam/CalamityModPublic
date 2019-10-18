@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Dusts;
 
-namespace CalamityMod.Tiles
+namespace CalamityMod.Tiles.Astral
 {
     public class AstralNormalStalactite : ModTile
     {

@@ -2,7 +2,7 @@
 using Terraria;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Items
+namespace CalamityMod.Items.LoreItems
 {
     public class KnowledgeCalamitas : ModItem
     {

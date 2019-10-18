@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
-namespace CalamityMod.Projectiles
+namespace CalamityMod.Projectiles.Pets
 {
     public class DannyDevitoPet : ModProjectile
     {

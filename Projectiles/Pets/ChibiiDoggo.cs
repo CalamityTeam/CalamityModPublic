@@ -7,7 +7,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.Localization;
 
-namespace CalamityMod.Projectiles
+namespace CalamityMod.Projectiles.Pets
 {
     public class ChibiiDoggo : ModProjectile
     {

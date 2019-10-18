@@ -2,7 +2,7 @@
 using Terraria.ModLoader;
 using Terraria.DataStructures;
 
-namespace CalamityMod.Items
+namespace CalamityMod.Items.Materials
 {
     public class FetidEssence : ModItem
     {

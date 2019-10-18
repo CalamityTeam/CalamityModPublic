@@ -1,6 +1,6 @@
 ﻿using Terraria.ModLoader;
 using CalamityMod.Projectiles;
-namespace CalamityMod.Items
+namespace CalamityMod.Items.Placeables
 {
     public class AstralSand : ModItem
     {

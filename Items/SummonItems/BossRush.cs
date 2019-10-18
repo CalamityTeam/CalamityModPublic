@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.Localization;
 
-namespace CalamityMod.Items
+namespace CalamityMod.Items.SummonItems
 {
     public class BossRush : ModItem
     {

@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 using CalamityMod.Buffs;
 using Terraria.ObjectData;
 
-namespace CalamityMod.Tiles
+namespace CalamityMod.Tiles.Furniture
 {
     public class CrimsonEffigy : ModTile
     {

@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.Localization;
 
-namespace CalamityMod.Items
+namespace CalamityMod.Items.DifficultyItems
 {
     public class IronHeart : ModItem
     {

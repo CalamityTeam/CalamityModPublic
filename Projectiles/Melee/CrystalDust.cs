@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 using Terraria.GameContent.Achievements;
 using Terraria.ID;
 
-namespace CalamityMod.Projectiles
+namespace CalamityMod.Projectiles.Melee
 {
     public class CrystalDust : ModProjectile
     {

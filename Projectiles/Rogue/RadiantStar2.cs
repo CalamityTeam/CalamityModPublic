@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 using CalamityMod.Dusts;
 using Terraria.ID;
 using CalamityMod.Buffs;
-namespace CalamityMod.Projectiles
+namespace CalamityMod.Projectiles.Rogue
 {
     public class RadiantStar2 : ModProjectile
     {

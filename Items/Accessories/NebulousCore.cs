@@ -4,7 +4,7 @@ using Terraria;
 using CalamityMod.Projectiles;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Items
+namespace CalamityMod.Items.Accessories
 {
     public class NebulousCore : ModItem
     {

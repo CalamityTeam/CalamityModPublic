@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 
-namespace CalamityMod.Projectiles
+namespace CalamityMod.Projectiles.Rogue
 {
     public class BrackishFlask : ModProjectile
     {

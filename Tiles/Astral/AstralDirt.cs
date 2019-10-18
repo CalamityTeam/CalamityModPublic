@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 using CalamityMod.Dusts;
 using Terraria.ID;
 
-namespace CalamityMod.Tiles
+namespace CalamityMod.Tiles.Astral
 {
     public class AstralDirt : ModTile
     {

@@ -5,7 +5,7 @@ using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.ObjectData;
 
-namespace CalamityMod.Tiles
+namespace CalamityMod.Tiles.SunkenSea
 {
     public class TableCoral : ModTile
     {

@@ -1,5 +1,5 @@
 ﻿using Terraria.ModLoader;
-namespace CalamityMod.Projectiles
+namespace CalamityMod.Projectiles.Rogue
 {
     public class SeashellBoomerangProjectile : ModProjectile
     {

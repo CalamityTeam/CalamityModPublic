@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 using Terraria.Enums;
 using Terraria.ID;
 
-namespace CalamityMod.Projectiles
+namespace CalamityMod.Projectiles.Melee
 {
     public class Mourningstar : ModProjectile
     {

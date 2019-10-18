@@ -1,6 +1,6 @@
 using Terraria;
 using Terraria.ModLoader;
-namespace CalamityMod.Projectiles
+namespace CalamityMod.Projectiles.Magic
 {
     public class FlamingPumpkin : ModProjectile
     {

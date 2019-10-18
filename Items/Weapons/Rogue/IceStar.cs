@@ -2,7 +2,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
 using Terraria;
-namespace CalamityMod.Items
+namespace CalamityMod.Items.Weapons.Rogue
 {
     public class IceStar : RogueWeapon
     {

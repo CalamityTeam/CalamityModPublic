@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using static System.Math;
 
-namespace CalamityMod.Projectiles
+namespace CalamityMod.Projectiles.Rogue
 {
     public class BouncingEyeballProjectile : ModProjectile
     {

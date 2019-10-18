@@ -4,7 +4,7 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Items;
-namespace CalamityMod.Projectiles
+namespace CalamityMod.Projectiles.Rogue
 {
     public class TarragonThrowingDartProjectile : ModProjectile
     {

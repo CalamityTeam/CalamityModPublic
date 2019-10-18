@@ -1,6 +1,6 @@
 using Terraria.ModLoader;
 using CalamityMod.Tiles;
-namespace CalamityMod.Items
+namespace CalamityMod.Items.Placeables.FurnitureAshen
 {
     public class AshenDoor : ModItem
     {

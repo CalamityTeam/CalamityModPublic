@@ -5,7 +5,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using CalamityMod.Buffs;
-namespace CalamityMod.Items
+namespace CalamityMod.Items.Mounts
 {
     class AlicornMount : ModMountData
     {

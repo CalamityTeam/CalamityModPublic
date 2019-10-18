@@ -3,7 +3,7 @@ using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-namespace CalamityMod.Tiles
+namespace CalamityMod.Tiles.Ores
 {
     public class AuricOre : ModTile
     {

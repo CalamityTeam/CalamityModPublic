@@ -1,7 +1,7 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Buffs
+namespace CalamityMod.Buffs.Potions
 {
     public class ProfanedRageBuff : ModBuff
     {

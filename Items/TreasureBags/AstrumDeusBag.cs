@@ -3,7 +3,7 @@ using CalamityMod.NPCs;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Items
+namespace CalamityMod.Items.TreasureBags
 {
     public class AstrumDeusBag : ModItem
     {

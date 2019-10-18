@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Dusts;
 
-namespace CalamityMod.Projectiles
+namespace CalamityMod.Projectiles.Rogue
 {
     public class GacruxianHome : ModProjectile
     {

@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 using Terraria.ID;
 //using TerrariaOverhaul;
 
-namespace CalamityMod.Items
+namespace CalamityMod.Items.Weapons.Ranged
 {
     public class WulfrumBow : ModItem
     {

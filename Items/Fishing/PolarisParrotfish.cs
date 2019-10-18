@@ -4,7 +4,7 @@ using CalamityMod.Projectiles;
 using Terraria.ModLoader;
 using CalamityMod.CalPlayer;
 
-namespace CalamityMod.Items
+namespace CalamityMod.Items.Fishing
 {
     public class PolarisParrotfish : ModItem
     {

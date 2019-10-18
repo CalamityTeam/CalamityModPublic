@@ -2,7 +2,7 @@ using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-namespace CalamityMod.Projectiles
+namespace CalamityMod.Projectiles.Pets
 {
     public class Astrophage : ModProjectile
     {

@@ -1,5 +1,5 @@
 using Terraria.ModLoader;
-namespace CalamityMod.Projectiles
+namespace CalamityMod.Projectiles.Melee
 {
     public class MarniteObliterator : ModProjectile
     {

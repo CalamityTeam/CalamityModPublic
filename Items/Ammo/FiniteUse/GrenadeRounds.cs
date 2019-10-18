@@ -1,6 +1,6 @@
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
-namespace CalamityMod.Items
+namespace CalamityMod.Items.Ammo.FiniteUse
 {
     public class GrenadeRounds : ModItem
     {

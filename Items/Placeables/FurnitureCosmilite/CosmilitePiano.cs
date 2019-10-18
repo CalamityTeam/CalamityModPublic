@@ -1,6 +1,6 @@
 using Terraria.ID;
 using Terraria.ModLoader;
-namespace CalamityMod.Items
+namespace CalamityMod.Items.Placeables.FurnitureCosmilite
 {
     public class CosmilitePiano : ModItem
     {

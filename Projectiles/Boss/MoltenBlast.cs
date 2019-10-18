@@ -5,7 +5,7 @@ using System.IO;
 using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Buffs;
-namespace CalamityMod.Projectiles
+namespace CalamityMod.Projectiles.Boss
 {
     public class MoltenBlast : ModProjectile
     {

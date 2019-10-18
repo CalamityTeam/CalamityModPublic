@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.ObjectData;
 
-namespace CalamityMod.Tiles
+namespace CalamityMod.Tiles.Furniture.CraftingStations
 {
     public class DraedonsForge : ModTile
     {

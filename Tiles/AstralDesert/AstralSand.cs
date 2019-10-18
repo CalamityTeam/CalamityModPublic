@@ -6,7 +6,7 @@ using CalamityMod.Projectiles;
 using Terraria.ModLoader;
 using Terraria.ID;
 
-namespace CalamityMod.Tiles
+namespace CalamityMod.Tiles.AstralDesert
 {
     public class AstralSand : ModTile
     {

@@ -1,7 +1,7 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
-namespace CalamityMod.Items
+namespace CalamityMod.Items.Weapons.Rogue
 {
     public class TitaniumShuriken : RogueWeapon
     {

@@ -1,5 +1,5 @@
 ﻿using Terraria.ModLoader;
-namespace CalamityMod.Projectiles
+namespace CalamityMod.Projectiles.Typeless
 {
     public class NobodyKnows : ModProjectile
     {

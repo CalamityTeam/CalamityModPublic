@@ -4,7 +4,7 @@ using CalamityMod.World;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Items
+namespace CalamityMod.Items.TreasureBags
 {
     public class BumblebirbBag : ModItem
     {

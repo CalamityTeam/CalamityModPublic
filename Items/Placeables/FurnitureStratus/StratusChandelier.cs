@@ -1,6 +1,6 @@
 using Terraria.ID;
 using Terraria.ModLoader;
-namespace CalamityMod.Items
+namespace CalamityMod.Items.Placeables.FurnitureStratus
 {
     public class StratusChandelier : ModItem
     {

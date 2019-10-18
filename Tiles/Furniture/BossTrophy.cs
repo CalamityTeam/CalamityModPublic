@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 using CalamityMod.Items;
 using Terraria.ObjectData;
 
-namespace CalamityMod.Tiles
+namespace CalamityMod.Tiles.Furniture
 {
     public class BossTrophy : ModTile
     {

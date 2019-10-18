@@ -2,7 +2,7 @@
 using Terraria.ModLoader;
 using Terraria.ID;
 
-namespace CalamityMod.Items
+namespace CalamityMod.Items.Accessories
 {
     [AutoloadEquip(EquipType.Neck)]
     public class BloodyWormScarf : ModItem

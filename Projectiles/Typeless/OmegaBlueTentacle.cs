@@ -6,7 +6,7 @@ using Terraria.DataStructures;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 
-namespace CalamityMod.Projectiles
+namespace CalamityMod.Projectiles.Typeless
 {
     public class OmegaBlueTentacle : ModProjectile
     {

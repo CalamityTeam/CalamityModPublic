@@ -2,7 +2,7 @@
 using Terraria.ModLoader;
 using Terraria.ID;
 using CalamityMod.Buffs;
-namespace CalamityMod.Items
+namespace CalamityMod.Items.Potions
 {
     public class PhotosynthesisPotion : ModItem
     {

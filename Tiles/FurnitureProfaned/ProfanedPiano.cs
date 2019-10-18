@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 using CalamityMod.Dusts;
 using Terraria.ObjectData;
 
-namespace CalamityMod.Tiles
+namespace CalamityMod.Tiles.FurnitureProfaned
 {
     class ProfanedPiano : ModTile
     {

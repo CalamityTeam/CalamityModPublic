@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using CalamityMod.NPCs;
 using CalamityMod.Tiles;
-namespace CalamityMod.Items
+namespace CalamityMod.Items.SummonItems
 {
     public class EyeofExtinction : ModItem
     {

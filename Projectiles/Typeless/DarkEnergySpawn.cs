@@ -2,7 +2,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using CalamityMod.NPCs;
-namespace CalamityMod.Projectiles
+namespace CalamityMod.Projectiles.Typeless
 {
     public class DarkEnergySpawn : ModProjectile
     {

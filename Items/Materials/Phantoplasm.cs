@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
 
-namespace CalamityMod.Items
+namespace CalamityMod.Items.Materials
 {
     public class Phantoplasm : ModItem
     {

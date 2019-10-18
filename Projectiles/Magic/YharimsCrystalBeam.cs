@@ -10,7 +10,7 @@ using Terraria.GameContent.Shaders;
 using Terraria.Graphics.Effects;
 using Terraria.ID;
 
-namespace CalamityMod.Projectiles
+namespace CalamityMod.Projectiles.Magic
 {
     public class YharimsCrystalBeam : ModProjectile
     {

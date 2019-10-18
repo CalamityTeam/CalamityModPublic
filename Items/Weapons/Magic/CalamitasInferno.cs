@@ -2,7 +2,7 @@ using Terraria;
 using CalamityMod.Projectiles;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Items
+namespace CalamityMod.Items.Weapons.Magic
 {
     public class CalamitasInferno : ModItem
     {

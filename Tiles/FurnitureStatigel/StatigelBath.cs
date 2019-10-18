@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-namespace CalamityMod.Tiles
+namespace CalamityMod.Tiles.FurnitureStatigel
 {
     class StatigelBath : ModTile
     {

@@ -5,7 +5,7 @@ using Terraria.ID;
 using CalamityMod.Buffs;
 using Terraria.ObjectData;
 
-namespace CalamityMod.Tiles
+namespace CalamityMod.Tiles.Furniture
 {
     public class PurpleCandle : ModTile
     {

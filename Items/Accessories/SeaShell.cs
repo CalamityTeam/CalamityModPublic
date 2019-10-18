@@ -2,7 +2,7 @@
 using Terraria.ModLoader;
 using CalamityMod.CalPlayer;
 
-namespace CalamityMod.Items
+namespace CalamityMod.Items.Accessories
 {
     public class SeaShell : ModItem
     {
