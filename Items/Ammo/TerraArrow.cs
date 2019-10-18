@@ -1,6 +1,8 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria;
+using CalamityMod.Projectiles.Ranged;
+
 namespace CalamityMod.Items.Ammo
 {
     public class TerraArrow : ModItem
@@ -22,7 +24,7 @@ namespace CalamityMod.Items.Ammo
             item.knockBack = 1.5f;
             item.value = Item.sellPrice(0, 0, 0, 40);
             item.rare = 7;
-            item.shoot = ModContent.ProjectileType<Projectiles.TerraArrow>();
+            item.shoot = ModContent.ProjectileType<TerraArrowMain>();
             item.shootSpeed = 15f;
             item.ammo = 40;
         }

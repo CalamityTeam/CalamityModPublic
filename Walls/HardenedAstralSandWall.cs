@@ -14,8 +14,9 @@ namespace CalamityMod.Walls
 
         public override void SetDefaults()
         {
-            dustType = DustID.Shadowflame; //TODO
-            drop = ModContent.ItemType<Items.HardenedAstralSandWall>();
+            // TODO -- Change this dust to be one more befitting Hardened Astral Sand.
+            dustType = DustID.Shadowflame;
+            drop = ModContent.ItemType<Items.Placeables.HardenedAstralSandWall>();
 
             WallID.Sets.Conversion.HardenedSand[Type] = true;
 

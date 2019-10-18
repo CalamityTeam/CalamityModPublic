@@ -1,3 +1,4 @@
+using CalamityMod.Projectiles.Ranged;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Ammo
@@ -23,7 +24,7 @@ namespace CalamityMod.Items.Ammo
             item.value = 500;
             item.rare = 3;
             item.ammo = 97;
-            item.shoot = ModContent.ProjectileType<Projectiles.MortarRound>();
+            item.shoot = ModContent.ProjectileType<MortarRoundProj>();
         }
 
         public override void AddRecipes()

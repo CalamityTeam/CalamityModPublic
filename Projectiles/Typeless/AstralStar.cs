@@ -5,6 +5,8 @@ using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Dusts;
 using Terraria.ID;
+using CalamityMod.Buffs.DamageOverTime;
+
 namespace CalamityMod.Projectiles.Typeless
 {
     public class AstralStar : ModProjectile

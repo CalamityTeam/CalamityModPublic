@@ -2,10 +2,10 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Items.Placeables.FurnitureAshen;
 
 namespace CalamityMod.Tiles.FurnitureAshen
 {
-    // TODO: Smart Cursor Outlines and tModLoader support
     public class AshenDoorClosed : ModTile
     {
         public override void SetDefaults()
@@ -38,7 +38,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 16, 48, ModContent.ItemType<Items.AshenDoor>());
+            Item.NewItem(i * 16, j * 16, 16, 48, ModContent.ItemType<AshenDoor>());
         }
 
         public override void MouseOver(int i, int j)
@@ -46,7 +46,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
             Player player = Main.LocalPlayer;
             player.noThrow = 2;
             player.showItemIcon = true;
-            player.showItemIcon2 = ModContent.ItemType<Items.AshenDoor>();
+            player.showItemIcon2 = ModContent.ItemType<AshenDoor>();
         }
     }
 }

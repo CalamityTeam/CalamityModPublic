@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAbyss
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles.AbyssTorch>();
+            item.createTile = ModContent.TileType<Tiles.FurnitureAbyss.AbyssTorch>();
             item.flame = false;
             item.value = 500;
         }
@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAbyss
         {
             if (Main.rand.Next(player.itemAnimation > 0 ? 40 : 80) == 0)
             {
-                // TODO -- This dust was picked purely at random because it was an invalid dust type.
+                // TODO -- This dust was an invalid dust. Replaced with a random dust.
                 Dust.NewDust(new Vector2(player.itemLocation.X + 16f * player.direction, player.itemLocation.Y - 14f * player.gravDir), 4, 4, 135);
             }
             Vector2 position = player.RotatedRelativePoint(new Vector2(player.itemLocation.X + 12f * player.direction + player.velocity.X, player.itemLocation.Y - 14f + player.velocity.Y), true);

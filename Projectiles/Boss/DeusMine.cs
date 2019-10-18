@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override bool CanDamage()
         {
-            if (projectile.timeLeft > 1115 || projectile.timeLeft < 85)
+            if (projectile.timeLeft > 935 || projectile.timeLeft < 85)
             {
                 return false;
             }
@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override Color? GetAlpha(Color lightColor)
         {
-            if (projectile.timeLeft > 1115)
+            if (projectile.timeLeft > 935)
             {
                 projectile.localAI[1] += 1f;
                 byte b2 = (byte)(((int)projectile.localAI[1]) * 3);

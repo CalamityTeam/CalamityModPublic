@@ -1,3 +1,4 @@
+using CalamityMod.Projectiles.Ranged;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Ammo
@@ -21,7 +22,7 @@ namespace CalamityMod.Items.Ammo
             item.knockBack = 1.25f;
             item.value = 2000;
             item.rare = 7;
-            item.shoot = ModContent.ProjectileType<Projectiles.TerraBullet>();
+            item.shoot = ModContent.ProjectileType<TerraBulletMain>();
             item.shootSpeed = 10f;
             item.ammo = 97;
         }

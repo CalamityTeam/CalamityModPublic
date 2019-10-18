@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Ranged;
 
 namespace CalamityMod.Items.Ammo
 {
@@ -22,7 +23,7 @@ namespace CalamityMod.Items.Ammo
             item.knockBack = 2.5f;
             item.value = Item.buyPrice(0, 0, 0, 15);
             item.rare = 3;
-            item.shoot = ModContent.ProjectileType<Projectiles.IcicleArrow>();
+            item.shoot = ModContent.ProjectileType<IcicleArrowProj>();
             item.shootSpeed = 1.0f;
             item.ammo = AmmoID.Arrow;
             item.maxStack = 999;

@@ -7,12 +7,16 @@ using System.IO;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
+using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Items.Materials;
+using CalamityMod.Items.Weapons.Melee;
+
 namespace CalamityMod.NPCs
 {
     public class Atlas : ModNPC
     {
-        //TODO:
-        //draw 4 pixels lower than actual bottom position (arm overlaps tiles)
+        //TODO -- draw 4 pixels lower than actual bottom position (arm overlaps tiles)
 
         private static Texture2D glowmask;
 
@@ -614,15 +618,10 @@ namespace CalamityMod.NPCs
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Stardust>(), Main.rand.Next(6, 9));
-            if (Main.expertMode)
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Stardust>());
-            }
-            if (CalamityWorld.downedAstrageldon && Main.rand.NextBool(7))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<TitanArm>());
-            }
+            int minStardust = Main.expertMode ? 7 : 6;
+            int maxStardust = Main.expertMode ? 9 : 8;
+            DropHelper.DropItem(npc, ModContent.ItemType<Stardust>(), minStardust, maxStardust);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<TitanArm>(), CalamityWorld.downedAstrageldon);
         }
     }
 }

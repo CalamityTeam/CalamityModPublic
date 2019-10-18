@@ -14,8 +14,9 @@ namespace CalamityMod.Walls
 
         public override void SetDefaults()
         {
-            dustType = DustID.Shadowflame; //TODO
-            drop = ModContent.ItemType<Items.AstralIceWall>();
+            // TODO -- Change this dust to be one more befitting Astral Ice.
+            dustType = DustID.Shadowflame;
+            drop = ModContent.ItemType<Items.Placeables.AstralIceWall>();
 
             AddMapEntry(new Color(83, 76, 92));
         }
