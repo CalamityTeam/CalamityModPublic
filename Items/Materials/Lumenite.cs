@@ -1,6 +1,5 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Materials
 {
     public class Lumenite : ModItem
@@ -13,7 +12,7 @@ namespace CalamityMod.Items.Materials
 
         public override void SetDefaults()
         {
-            item.createTile = mod.TileType("LumenylCrystals");
+            item.createTile = ModContent.TileType<LumenylCrystals>();
             item.useStyle = 1;
             item.useTurn = true;
             item.useAnimation = 15;

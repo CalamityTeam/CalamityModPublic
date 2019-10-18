@@ -1,5 +1,4 @@
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Placeables.FurnitureAshen
 {
     public class AshenDoor : ModItem
@@ -21,7 +20,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAshen
             item.rare = 3;
             item.consumable = true;
             item.value = 0;
-            item.createTile = mod.TileType("AshenDoorClosed");
+            item.createTile = ModContent.TileType<AshenDoorClosed>();
         }
 
         public override void AddRecipes()

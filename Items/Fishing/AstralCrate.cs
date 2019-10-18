@@ -1,8 +1,8 @@
-using CalamityMod.Utilities;
+
 using CalamityMod.World;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Fishing
 {
@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Fishing
             item.height = 32;
             item.rare = 2;
             item.value = Item.sellPrice(gold: 1);
-            item.createTile = mod.TileType("AstralCrate");
+            item.createTile = ModContent.TileType<Tiles.AstralCrate>();
             item.useTurn = true;
             item.autoReuse = true;
             item.useAnimation = 15;
@@ -38,34 +38,34 @@ namespace CalamityMod.Items.Fishing
         public override void RightClick(Player player)
         {
             //Modded materials
-            DropHelper.DropItem(player, mod.ItemType("Stardust"), 10, 20);
+            DropHelper.DropItem(player, ModContent.ItemType<Stardust>(), 10, 20);
             DropHelper.DropItem(player, ItemID.FallenStar, 10, 20);
             if (CalamityWorld.downedAstrageldon)
             {
-                DropHelper.DropItemChance(player, mod.ItemType("AstralJelly"), 0.5f, 5, 10);
+                DropHelper.DropItemChance(player, ModContent.ItemType<AstralJelly>(), 0.5f, 5, 10);
             }
             if (CalamityWorld.downedStarGod)
             {
-                DropHelper.DropItemChance(player, mod.ItemType("AstralOre"), 0.5f, 10, 20);
-                DropHelper.DropItemChance(player, mod.ItemType("AstralBar"), 0.25f, 5, 10);
+                DropHelper.DropItemChance(player, ModContent.ItemType<AstralOre>(), 0.5f, 10, 20);
+                DropHelper.DropItemChance(player, ModContent.ItemType<AstralBar>(), 0.25f, 5, 10);
             }
 
             // Weapons
             DropHelper.DropItemFromSetCondition(player, CalamityWorld.downedAstrageldon, 0.2f,
-                mod.ItemType("StellarKnife"),
-                mod.ItemType("AstralachneaStaff"),
-                mod.ItemType("TitanArm"),
-                mod.ItemType("HivePod"),
-                mod.ItemType("AstralScythe"),
-                mod.ItemType("StellarCannon"));
-				
+                ModContent.ItemType<StellarKnife>(),
+                ModContent.ItemType<AstralachneaStaff>(),
+                ModContent.ItemType<TitanArm>(),
+                ModContent.ItemType<HivePod>(),
+                ModContent.ItemType<AstralScythe>(),
+                ModContent.ItemType<StellarCannon>());
+
             //Pet
-            DropHelper.DropItemChance(player, mod.ItemType("AstrophageItem"), 10);
+            DropHelper.DropItemChance(player, ModContent.ItemType<AstrophageItem>(), 10);
 
             //Bait
-            DropHelper.DropItemChance(player, mod.ItemType("Twinkler"), 5, 1, 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<TwinklerItem>(), 5, 1, 3);
             DropHelper.DropItemChance(player, ItemID.EnchantedNightcrawler, 5, 1, 3);
-            DropHelper.DropItemChance(player, mod.ItemType("ArcturusAstroidean"), 5, 1, 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<ArcturusAstroidean>(), 5, 1, 3);
             DropHelper.DropItemChance(player, ItemID.Firefly, 3, 1, 3);
 
             //Potions
@@ -87,8 +87,8 @@ namespace CalamityMod.Items.Fishing
             }
             if (CalamityWorld.downedAstrageldon)
             {
-                DropHelper.DropItemChance(player, mod.ItemType("AstralInjection"), 4, 1, 3);
-                DropHelper.DropItemChance(player, mod.ItemType("GravityNormalizerPotion"), 4, 1, 3);
+                DropHelper.DropItemChance(player, ModContent.ItemType<AstralInjection>(), 4, 1, 3);
+                DropHelper.DropItemChance(player, ModContent.ItemType<GravityNormalizerPotion>(), 4, 1, 3);
             }
 
             //Money

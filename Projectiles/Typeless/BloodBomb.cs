@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Projectiles.Typeless
 {
     public class BloodBomb : ModProjectile
@@ -42,7 +41,7 @@ namespace CalamityMod.Projectiles.Typeless
         {
             if (projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("BloodBombExplosion"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<BloodBombExplosion>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
             }
         }
     }

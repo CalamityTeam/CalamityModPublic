@@ -3,8 +3,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Summon
 {
@@ -75,10 +75,10 @@ namespace CalamityMod.Projectiles.Summon
             float num634 = 1000f;
             float num635 = 2200f;
             float num636 = 150f;
-            bool flag64 = projectile.type == mod.ProjectileType("IceClasper");
+            bool flag64 = projectile.type == ModContent.ProjectileType<IceClasper>();
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            player.AddBuff(mod.BuffType("IceClasper"), 3600);
+            player.AddBuff(ModContent.BuffType<Buffs.IceClasper>(), 3600);
             if (flag64)
             {
                 if (player.dead)
@@ -93,7 +93,7 @@ namespace CalamityMod.Projectiles.Summon
             float num637 = 0.05f;
             for (int num638 = 0; num638 < 1000; num638++)
             {
-                bool flag23 = Main.projectile[num638].type == mod.ProjectileType("IceClasper");
+                bool flag23 = Main.projectile[num638].type == ModContent.ProjectileType<IceClasper>();
                 if (num638 != projectile.whoAmI && Main.projectile[num638].active && Main.projectile[num638].owner == projectile.owner &&
                     flag23 && Math.Abs(projectile.position.X - Main.projectile[num638].position.X) + Math.Abs(projectile.position.Y - Main.projectile[num638].position.Y) < (float)projectile.width)
                 {
@@ -273,7 +273,7 @@ namespace CalamityMod.Projectiles.Summon
             Texture2D texture2D13 = Main.projectileTexture[projectile.type];
             int num214 = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
             int y6 = num214 * projectile.frame;
-            Main.spriteBatch.Draw(texture2D13, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y6, texture2D13.Width, num214)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)num214 / 2f), projectile.scale, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(texture2D13, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, num214)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)num214 / 2f), projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
 

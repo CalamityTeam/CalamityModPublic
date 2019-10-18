@@ -1,5 +1,4 @@
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Placeables.FurnitureStratus
 {
     public class StratusDresser : ModItem
@@ -19,7 +18,7 @@ namespace CalamityMod.Items.Placeables.FurnitureStratus
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = mod.TileType("StratusDresser");
+            item.createTile = ModContent.TileType<Tiles.StratusDresser>();
         }
 
         public override void AddRecipes()

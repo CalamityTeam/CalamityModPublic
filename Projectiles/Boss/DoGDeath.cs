@@ -2,7 +2,6 @@
 using System;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Projectiles.Boss
 {
     public class DoGDeath : ModProjectile
@@ -41,7 +40,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(mod.BuffType("GodSlayerInferno"), 180);
+            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 180);
         }
 
         public override Color? GetAlpha(Color lightColor)

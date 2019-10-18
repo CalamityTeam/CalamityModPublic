@@ -1,9 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.Enums;
 using Terraria.ModLoader;
-
+using Terraria.Enums;
 namespace CalamityMod.Projectiles.Melee
 {
     public class TyphonsGreedStaff : ModProjectile
@@ -169,7 +168,7 @@ namespace CalamityMod.Projectiles.Melee
                 if (projectile.owner == Main.myPlayer)
                 {
                     float ai1 = Main.rand.NextFloat() + 0.5f;
-                    Projectile.NewProjectile(vector20.X, vector20.Y, speedX, speedY, mod.ProjectileType("TyphonsGreed"), projectile.damage, 2f, projectile.owner, 0.0f, ai1);
+                    Projectile.NewProjectile(vector20.X, vector20.Y, speedX, speedY, ModContent.ProjectileType<TyphonsGreed>(), projectile.damage, 2f, projectile.owner, 0.0f, ai1);
                 }
             }
         }
@@ -243,7 +242,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("CrushDepth"), 240);
+            target.AddBuff(ModContent.BuffType<CrushDepth>(), 240);
             target.immune[projectile.owner] = 6;
         }
     }

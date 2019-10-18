@@ -1,17 +1,18 @@
-﻿using CalamityMod.Utilities;
+﻿
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.ModLoader;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.Localization;
-using Terraria.ModLoader;
+using CalamityMod.Items;
 using Terraria.Utilities;
 
-namespace CalamityMod.NPCs.Yharon
+namespace CalamityMod.NPCs
 {
     [AutoloadBossHead]
     public class Yharon : ModNPC
@@ -63,8 +64,8 @@ namespace CalamityMod.NPCs.Yharon
             }
             npc.buffImmune[BuffID.Ichor] = false;
             npc.buffImmune[BuffID.CursedInferno] = false;
-            npc.buffImmune[mod.BuffType("DemonFlames")] = false;
-            npc.buffImmune[mod.BuffType("Shred")] = false;
+            npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
+            npc.buffImmune[ModContent.BuffType<Shred>()] = false;
 
             CalamityGlobalNPC global = npc.Calamity();
             global.DR = Phase1_DR;
@@ -89,7 +90,7 @@ namespace CalamityMod.NPCs.Yharon
             }
             npc.HitSound = SoundID.NPCHit56;
             npc.DeathSound = SoundID.NPCDeath60;
-            bossBag = mod.ItemType("YharonBag");
+            bossBag = ModContent.ItemType<YharonBag>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -326,8 +327,8 @@ namespace CalamityMod.NPCs.Yharon
                 safeBox.Height = revenge ? 18000 : 21000;
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    Projectile.NewProjectile(player.Center.X + (revenge ? 3000f : 3500f), player.Center.Y + 100f, 0f, 0f, mod.ProjectileType("SkyFlareRevenge"), 0, 0f, Main.myPlayer, 0f, 0f);
-                    Projectile.NewProjectile(player.Center.X - (revenge ? 3000f : 3500f), player.Center.Y + 100f, 0f, 0f, mod.ProjectileType("SkyFlareRevenge"), 0, 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X + (revenge ? 3000f : 3500f), player.Center.Y + 100f, 0f, 0f, ModContent.ProjectileType<SkyFlareRevenge>(), 0, 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X - (revenge ? 3000f : 3500f), player.Center.Y + 100f, 0f, 0f, ModContent.ProjectileType<SkyFlareRevenge>(), 0, 0f, Main.myPlayer, 0f, 0f);
                 }
             }
 
@@ -708,12 +709,12 @@ namespace CalamityMod.NPCs.Yharon
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         Vector2 vector = Vector2.Normalize(player.Center - vectorCenter) * (float)(npc.width + 20) / 2f + vectorCenter;
-                        if (NPC.CountNPCS(mod.NPCType("DetonatingFlare")) < flareCount)
+                        if (NPC.CountNPCS(ModContent.NPCType<DetonatingFlare>()) < flareCount)
                         {
-                            NPC.NewNPC((int)vector.X + xPos, (int)vector.Y - 15, mod.NPCType("DetonatingFlare"), 0, 0f, 0f, 0f, 0f, 255);
+                            NPC.NewNPC((int)vector.X + xPos, (int)vector.Y - 15, ModContent.NPCType<DetonatingFlare>(), 0, 0f, 0f, 0f, 0f, 255);
                         }
                         int damage = expertMode ? 75 : 90;
-                        Projectile.NewProjectile((int)vector.X + xPos, (int)vector.Y - 15, 0f, 0f, mod.ProjectileType("FlareBomb"), damage, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile((int)vector.X + xPos, (int)vector.Y - 15, 0f, 0f, ModContent.ProjectileType<FlareBomb>(), damage, 0f, Main.myPlayer, 0f, 0f);
                     }
                 }
                 int num1476 = Math.Sign(player.Center.X - vectorCenter.X);
@@ -745,8 +746,8 @@ namespace CalamityMod.NPCs.Yharon
                 }
                 if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] == (float)(num1457 - 30))
                 {
-                    Projectile.NewProjectile(vectorCenter.X, vectorCenter.Y, (float)(npc.direction * 2), 8f, mod.ProjectileType("Flare"), 0, 0f, Main.myPlayer, 1f, (float)(npc.target + 1)); //changed
-                    Projectile.NewProjectile(vectorCenter.X, vectorCenter.Y, (float)(-(float)npc.direction * 2), 8f, mod.ProjectileType("Flare"), 0, 0f, Main.myPlayer, 0f, 0f); //changed
+                    Projectile.NewProjectile(vectorCenter.X, vectorCenter.Y, (float)(npc.direction * 2), 8f, ModContent.ProjectileType<Flare>(), 0, 0f, Main.myPlayer, 1f, (float)(npc.target + 1)); //changed
+                    Projectile.NewProjectile(vectorCenter.X, vectorCenter.Y, (float)(-(float)npc.direction * 2), 8f, ModContent.ProjectileType<Flare>(), 0, 0f, Main.myPlayer, 0f, 0f); //changed
                 }
                 npc.ai[2] += 1f;
                 if (npc.ai[2] >= (float)num1457)
@@ -1012,11 +1013,11 @@ namespace CalamityMod.NPCs.Yharon
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         Vector2 vector = Vector2.Normalize(player.Center - vectorCenter) * (float)(npc.width + 20) / 2f + vectorCenter;
-                        if (NPC.CountNPCS(mod.NPCType("DetonatingFlare2")) < flareCount)
+                        if (NPC.CountNPCS(ModContent.NPCType<DetonatingFlare2>()) < flareCount)
                         {
-                            NPC.NewNPC((int)vector.X + xPos, (int)vector.Y - 15, mod.NPCType("DetonatingFlare2"), 0, 0f, 0f, 0f, 0f, 255);
+                            NPC.NewNPC((int)vector.X + xPos, (int)vector.Y - 15, ModContent.NPCType<DetonatingFlare2>(), 0, 0f, 0f, 0f, 0f, 255);
                         }
-                        Projectile.NewProjectile((int)vector.X + xPos, (int)vector.Y - 15, (float)Main.rand.Next(-400, 401) * 0.13f, (float)Main.rand.Next(-30, 31) * 0.13f, mod.ProjectileType("FlareDust"), 0, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile((int)vector.X + xPos, (int)vector.Y - 15, (float)Main.rand.Next(-400, 401) * 0.13f, (float)Main.rand.Next(-30, 31) * 0.13f, ModContent.ProjectileType<FlareDust>(), 0, 0f, Main.myPlayer, 0f, 0f);
                     }
                 }
                 npc.velocity = npc.velocity.RotatedBy((double)(-(double)num1463 * (float)npc.direction), default);
@@ -1040,7 +1041,7 @@ namespace CalamityMod.NPCs.Yharon
                 }
                 if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] == (float)(num1457 - 30))
                 {
-                    Projectile.NewProjectile(vectorCenter.X, vectorCenter.Y, 0f, 0f, mod.ProjectileType("BigFlare"), 0, 0f, Main.myPlayer, 1f, (float)(npc.target + 1));
+                    Projectile.NewProjectile(vectorCenter.X, vectorCenter.Y, 0f, 0f, ModContent.ProjectileType<BigFlare>(), 0, 0f, Main.myPlayer, 1f, (float)(npc.target + 1));
                 }
                 npc.ai[2] += 1f;
                 if (npc.ai[2] >= (float)num1457)
@@ -1116,7 +1117,7 @@ namespace CalamityMod.NPCs.Yharon
                         playerXY = speed / playerXY;
                         playerX *= playerXY;
                         playerY *= playerXY;
-                        Projectile.NewProjectile((int)vector173.X + xPos, (int)vector173.Y - 15, playerX, playerY, mod.ProjectileType("FlareDust2"), damage, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile((int)vector173.X + xPos, (int)vector173.Y - 15, playerX, playerY, ModContent.ProjectileType<FlareDust2>(), damage, 0f, Main.myPlayer, 0f, 0f);
                     }
                 }
                 npc.velocity = npc.velocity.RotatedBy((double)(-(double)num1463 * (float)npc.direction), default);
@@ -1355,12 +1356,12 @@ namespace CalamityMod.NPCs.Yharon
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         Vector2 vector = Vector2.Normalize(player.Center - vectorCenter) * (float)(npc.width + 20) / 2f + vectorCenter;
-                        if (NPC.CountNPCS(mod.NPCType("DetonatingFlare2")) < flareCount && NPC.CountNPCS(mod.NPCType("DetonatingFlare")) < flareCount)
+                        if (NPC.CountNPCS(ModContent.NPCType<DetonatingFlare2>()) < flareCount && NPC.CountNPCS(ModContent.NPCType<DetonatingFlare>()) < flareCount)
                         {
-                            NPC.NewNPC((int)vector.X + xPos, (int)vector.Y - 15, Main.rand.NextBool(2) ? mod.NPCType("DetonatingFlare") : mod.NPCType("DetonatingFlare2"), 0, 0f, 0f, 0f, 0f, 255);
+                            NPC.NewNPC((int)vector.X + xPos, (int)vector.Y - 15, Main.rand.NextBool(2) ? ModContent.NPCType<DetonatingFlare>() : ModContent.NPCType<DetonatingFlare2>(), 0, 0f, 0f, 0f, 0f, 255);
                         }
-                        Projectile.NewProjectile((int)vector.X + xPos, (int)vector.Y - 15, (float)Main.rand.Next(-401, 401) * 0.13f, (float)Main.rand.Next(-31, 31) * 0.13f, mod.ProjectileType("FlareDust"), 0, 0f, Main.myPlayer, 0f, 0f); //changed
-                        Projectile.NewProjectile((int)vector.X + xPos, (int)vector.Y - 15, (float)Main.rand.Next(-31, 31) * 0.13f, (float)Main.rand.Next(-151, 151) * 0.13f, mod.ProjectileType("FlareDust"), 0, 0f, Main.myPlayer, 0f, 0f); //changed
+                        Projectile.NewProjectile((int)vector.X + xPos, (int)vector.Y - 15, (float)Main.rand.Next(-401, 401) * 0.13f, (float)Main.rand.Next(-31, 31) * 0.13f, ModContent.ProjectileType<FlareDust>(), 0, 0f, Main.myPlayer, 0f, 0f); //changed
+                        Projectile.NewProjectile((int)vector.X + xPos, (int)vector.Y - 15, (float)Main.rand.Next(-31, 31) * 0.13f, (float)Main.rand.Next(-151, 151) * 0.13f, ModContent.ProjectileType<FlareDust>(), 0, 0f, Main.myPlayer, 0f, 0f); //changed
                     }
                 }
                 npc.velocity = npc.velocity.RotatedBy((double)(-(double)num1463 * (float)npc.direction), default);
@@ -1386,7 +1387,7 @@ namespace CalamityMod.NPCs.Yharon
                 }
                 if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] == (float)(num1457 - 30))
                 {
-                    Projectile.NewProjectile(vectorCenter.X, vectorCenter.Y, 0f, 0f, mod.ProjectileType("BigFlare"), 0, 0f, Main.myPlayer, 1f, (float)(npc.target + 1));
+                    Projectile.NewProjectile(vectorCenter.X, vectorCenter.Y, 0f, 0f, ModContent.ProjectileType<BigFlare>(), 0, 0f, Main.myPlayer, 1f, (float)(npc.target + 1));
                 }
                 npc.ai[2] += 1f;
                 if (npc.ai[2] >= (float)num1457)
@@ -1495,7 +1496,7 @@ namespace CalamityMod.NPCs.Yharon
                         playerXY = speed / playerXY;
                         playerX *= playerXY;
                         playerY *= playerXY;
-                        Projectile.NewProjectile((int)vector173.X + xPos, (int)vector173.Y - 15, playerX, playerY, mod.ProjectileType("FlareDust2"), damage, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile((int)vector173.X + xPos, (int)vector173.Y - 15, playerX, playerY, ModContent.ProjectileType<FlareDust2>(), damage, 0f, Main.myPlayer, 0f, 0f);
                     }
                 }
                 npc.velocity = npc.velocity.RotatedBy((double)(-(double)num1463 * (float)npc.direction), default);
@@ -1524,14 +1525,14 @@ namespace CalamityMod.NPCs.Yharon
                 {
                     if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] == (float)(num1457 - 30))
                     {
-                        Projectile.NewProjectile(vectorCenter.X, vectorCenter.Y, 0f, 0f, mod.ProjectileType("BigFlare"), 0, 0f, Main.myPlayer, 1f, (float)(npc.target + 1));
+                        Projectile.NewProjectile(vectorCenter.X, vectorCenter.Y, 0f, 0f, ModContent.ProjectileType<BigFlare>(), 0, 0f, Main.myPlayer, 1f, (float)(npc.target + 1));
                     }
                 }
                 else
                 {
                     if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] == (float)(num1457 - 30))
                     {
-                        Projectile.NewProjectile(vectorCenter.X, vectorCenter.Y, 0f, 0f, mod.ProjectileType("Flare"), 0, 0f, Main.myPlayer, 1f, (float)(npc.target + 1));
+                        Projectile.NewProjectile(vectorCenter.X, vectorCenter.Y, 0f, 0f, ModContent.ProjectileType<Flare>(), 0, 0f, Main.myPlayer, 1f, (float)(npc.target + 1));
                     }
                 }
                 npc.ai[2] += 1f;
@@ -1734,7 +1735,7 @@ namespace CalamityMod.NPCs.Yharon
                     npc.ai[3] += 1f;
                     if (npc.ai[3] == 5f && Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        Projectile.NewProjectile(vectorCenter.X, vectorCenter.Y, 0f, 0f, mod.ProjectileType("BigFlare"), 0, 0f, Main.myPlayer, 1f, (float)(npc.target + 1));
+                        Projectile.NewProjectile(vectorCenter.X, vectorCenter.Y, 0f, 0f, ModContent.ProjectileType<BigFlare>(), 0, 0f, Main.myPlayer, 1f, (float)(npc.target + 1));
                     }
                     if (npc.ai[3] >= 20f) //14
                     {
@@ -2287,7 +2288,7 @@ namespace CalamityMod.NPCs.Yharon
                         playerXY = speed / playerXY;
                         playerX *= playerXY;
                         playerY *= playerXY;
-                        Projectile.NewProjectile(position.X, position.Y, playerX, playerY, mod.ProjectileType("FlareDust2"), num4, 0f, Main.myPlayer, 1f, 0f);
+                        Projectile.NewProjectile(position.X, position.Y, playerX, playerY, ModContent.ProjectileType<FlareDust2>(), num4, 0f, Main.myPlayer, 1f, 0f);
                     }
                     num2 = 1.5f;
                     if (Math.Abs(targetData.Center.X - npc.Center.X) > 550f && Math.Abs(npc.velocity.X) < 20f)
@@ -2346,7 +2347,7 @@ namespace CalamityMod.NPCs.Yharon
                     int num34 = (int)(npc.ai[1] - num15 + 1f);
                     if (num34 <= num17 && num34 % num16 == 0 && Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        Projectile.NewProjectile(position, npc.velocity, mod.ProjectileType("YharonFireball"), num4, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile(position, npc.velocity, ModContent.ProjectileType<YharonFireball>(), num4, 0f, Main.myPlayer, 0f, 0f);
                     }
                 }
                 if (npc.ai[1] > num19 - num18)
@@ -2383,7 +2384,7 @@ namespace CalamityMod.NPCs.Yharon
                         float num33 = 30f;
                         Vector2 position = npc.Center + new Vector2((110f + num33) * (float)npc.direction, -20f).RotatedBy((double)npc.rotation,
                             default);
-                        Projectile.NewProjectile(position, npc.velocity, mod.ProjectileType("YharonFireball"), num4, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile(position, npc.velocity, ModContent.ProjectileType<YharonFireball>(), num4, 0f, Main.myPlayer, 0f, 0f);
                         if (phase4)
                         {
                             float speed = 0.01f;
@@ -2394,13 +2395,13 @@ namespace CalamityMod.NPCs.Yharon
                             playerXY = speed / playerXY;
                             playerX *= playerXY;
                             playerY *= playerXY;
-                            Projectile.NewProjectile(position.X, position.Y, playerX, playerY, mod.ProjectileType("FlareDust2"), num4, 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(position.X, position.Y, playerX, playerY, ModContent.ProjectileType<FlareDust2>(), num4, 0f, Main.myPlayer, 0f, 0f);
                         }
                     }
                     if (npc.ai[1] == 45f && phase4 && useTornado)
                     {
                         useTornado = false;
-                        Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, 0f, mod.ProjectileType("BigFlare2"), 0, 0f, Main.myPlayer, 1f, (float)(npc.target + 1));
+                        Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, 0f, ModContent.ProjectileType<BigFlare2>(), 0, 0f, Main.myPlayer, 1f, (float)(npc.target + 1));
                     }
                 }
                 if (num26 >= num20)
@@ -2451,7 +2452,7 @@ namespace CalamityMod.NPCs.Yharon
                     }
                     num2 *= 0.85f;
                     bool flag3 = npc.ai[1] == 20f || npc.ai[1] == 45f || npc.ai[1] == 70f;
-                    int flareCount = NPC.CountNPCS(mod.NPCType("DetonatingFlare")) + NPC.CountNPCS(mod.NPCType("DetonatingFlare2"));
+                    int flareCount = NPC.CountNPCS(ModContent.NPCType<DetonatingFlare>()) + NPC.CountNPCS(ModContent.NPCType<DetonatingFlare2>());
                     if (flareCount > 5)
                     {
                         flag3 = false;
@@ -2462,11 +2463,11 @@ namespace CalamityMod.NPCs.Yharon
                         if (Vector2.Distance(vector7, targetData.Center) > 100f)
                         {
                             Point point2 = vector7.ToPoint();
-                            NPC.NewNPC(point2.X, point2.Y, mod.NPCType("DetonatingFlare"), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
-                            NPC.NewNPC(point2.X, point2.Y, mod.NPCType("DetonatingFlare2"), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+                            NPC.NewNPC(point2.X, point2.Y, ModContent.NPCType<DetonatingFlare>(), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+                            NPC.NewNPC(point2.X, point2.Y, ModContent.NPCType<DetonatingFlare2>(), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
                         }
-                        NPC.NewNPC((int)npc.Center.X + (Main.rand.NextBool(2) ? 100 : -100), (int)npc.Center.Y - 100, mod.NPCType("DetonatingFlare"), 0, 0f, 0f, 0f, 0f, 255);
-                        NPC.NewNPC((int)npc.Center.X + (Main.rand.NextBool(2) ? 100 : -100), (int)npc.Center.Y - 100, mod.NPCType("DetonatingFlare2"), 0, 0f, 0f, 0f, 0f, 255);
+                        NPC.NewNPC((int)npc.Center.X + (Main.rand.NextBool(2) ? 100 : -100), (int)npc.Center.Y - 100, ModContent.NPCType<DetonatingFlare>(), 0, 0f, 0f, 0f, 0f, 255);
+                        NPC.NewNPC((int)npc.Center.X + (Main.rand.NextBool(2) ? 100 : -100), (int)npc.Center.Y - 100, ModContent.NPCType<DetonatingFlare2>(), 0, 0f, 0f, 0f, 0f, 255);
                     }
                     npc.ai[1] += 1f;
                 }
@@ -2474,7 +2475,7 @@ namespace CalamityMod.NPCs.Yharon
                 {
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, 0f, mod.ProjectileType("BigFlare2"), 0, 0f, Main.myPlayer, 1f, (float)(npc.target + 1));
+                        Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, 0f, ModContent.ProjectileType<BigFlare2>(), 0, 0f, Main.myPlayer, 1f, (float)(npc.target + 1));
                         Boom(600, num4);
                     }
                     npc.ai[0] = 1f;
@@ -2568,14 +2569,14 @@ namespace CalamityMod.NPCs.Yharon
                             Projectile projectile = Main.projectile[x];
                             if (projectile.active)
                             {
-                                if (projectile.type == mod.ProjectileType("Infernado2"))
+                                if (projectile.type == ModContent.ProjectileType<Infernado2>())
                                 {
                                     if (projectile.timeLeft >= 300)
                                         projectile.active = false;
                                     else if (projectile.timeLeft > 5)
                                         projectile.timeLeft = (int)(5f * projectile.ai[1]);
                                 }
-                                else if (projectile.type == mod.ProjectileType("BigFlare2"))
+                                else if (projectile.type == ModContent.ProjectileType<BigFlare2>())
                                     projectile.active = false;
                             }
                             proj = x;
@@ -2671,11 +2672,11 @@ namespace CalamityMod.NPCs.Yharon
                 spriteEffects = SpriteEffects.FlipHorizontally;
             }
             Texture2D texture = Main.npcTexture[npc.type];
-            Microsoft.Xna.Framework.Rectangle frame6 = npc.frame;
-            Microsoft.Xna.Framework.Color color9 = Lighting.GetColor((int)((double)npc.position.X + (double)npc.width * 0.5) / 16, (int)(((double)npc.position.Y + (double)npc.height * 0.5) / 16.0));
+            Rectangle frame6 = npc.frame;
+            Color color9 = Lighting.GetColor((int)((double)npc.position.X + (double)npc.width * 0.5) / 16, (int)(((double)npc.position.Y + (double)npc.height * 0.5) / 16.0));
             int num156 = texture.Height / Main.npcFrameCount[npc.type];
             int y3 = num156 * (int)npc.frameCounter;
-            Microsoft.Xna.Framework.Rectangle rectangle = new Microsoft.Xna.Framework.Rectangle(0, y3, texture.Width, num156);
+            Rectangle rectangle = new Rectangle(0, y3, texture.Width, num156);
             Vector2 origin2 = rectangle.Size() / 2f;
             int num157 = 8;
             int num158 = 2;
@@ -2690,7 +2691,7 @@ namespace CalamityMod.NPCs.Yharon
                 {
                     color9 = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, 0);
                 }
-                Microsoft.Xna.Framework.Color alpha16 = npc.GetAlpha(color9);
+                Color alpha16 = npc.GetAlpha(color9);
                 while (drawAfterImage2 && ((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157)))
                 {
                     goto IL_6899;
@@ -2712,7 +2713,7 @@ namespace CalamityMod.NPCs.Yharon
                 Main.spriteBatch.Draw(texture, npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(frame6), npc.GetAlpha(color9), npc.rotation, npc.frame.Size() / 2, npc.scale, spriteEffects2, 0);
                 return false;
             }
-            Microsoft.Xna.Framework.Color alpha15 = npc.GetAlpha(color9);
+            Color alpha15 = npc.GetAlpha(color9);
             bool drawAfterImage = (npc.ai[0] == 1f || npc.ai[0] == 5f || npc.ai[0] == 7f || npc.ai[0] == 8f || npc.ai[0] == 11f || npc.ai[0] == 12f ||
                 npc.ai[0] == 14f || npc.ai[0] == 15f || npc.ai[0] == 18f || npc.ai[0] == 19f || npc.ai[0] == 22f) && Lighting.NotRetro;
             while (drawAfterImage && ((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157)))
@@ -2768,17 +2769,17 @@ namespace CalamityMod.NPCs.Yharon
             if (!Main.expertMode)
             {
                 // Weapons
-                DropHelper.DropItemChance(npc, mod.ItemType("DragonRage"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("TheBurningSky"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("DragonsBreath"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("ChickenCannon"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("PhoenixFlameBarrage"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("AngryChickenStaff"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("ProfanedTrident"), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.DragonRage>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<TheBurningSky>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<DragonsBreath>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<ChickenCannon>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<PhoenixFlameBarrage>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<AngryChickenStaff>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<ProfanedTrident>(), 4);
 
                 // Vanity
-                DropHelper.DropItemChance(npc, mod.ItemType("YharonMask"), 7);
-                DropHelper.DropItemChance(npc, mod.ItemType("ForgottenDragonEgg"), 10);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<YharonMask>(), 7);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<ForgottenDragonEgg>(), 10);
             }
 
             // These drops only occur in Phase 2 (where you actually kill Yharon)
@@ -2787,27 +2788,27 @@ namespace CalamityMod.NPCs.Yharon
                 // Materials
                 int soulFragMin = Main.expertMode ? 22 : 15;
                 int soulFragMax = Main.expertMode ? 28 : 22;
-                DropHelper.DropItem(npc, mod.ItemType("HellcasterFragment"), true, soulFragMin, soulFragMax);
+                DropHelper.DropItem(npc, ModContent.ItemType<HellcasterFragment>(), true, soulFragMin, soulFragMax);
 
                 // Equipment
-                DropHelper.DropItem(npc, mod.ItemType("DrewsWings"));
+                DropHelper.DropItem(npc, ModContent.ItemType<DrewsWings>());
 
                 // Weapons
-                DropHelper.DropItemChance(npc, mod.ItemType("VoidVortex"), DropHelper.RareVariantDropRateInt);
-                DropHelper.DropItemChance(npc, mod.ItemType("YharimsCrystal"), DropHelper.LegendaryDropRateInt);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<VoidVortex>(), DropHelper.RareVariantDropRateInt);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.YharimsCrystal>(), DropHelper.LegendaryDropRateInt);
 
                 // Vanity
-                DropHelper.DropItemChance(npc, mod.ItemType("YharonTrophy"), 10);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<YharonTrophy>(), 10);
 
                 // Other
-                DropHelper.DropItem(npc, mod.ItemType("BossRush"));
-                DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeYharon"), true, !CalamityWorld.downedYharon);
+                DropHelper.DropItem(npc, ModContent.ItemType<BossRush>());
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeYharon>(), true, !CalamityWorld.downedYharon);
                 DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedYharon, 6, 3, 2);
 
                 // If Yharon has not been killed yet, notify players of Auric Ore
                 if (!CalamityWorld.downedYharon)
                 {
-                    WorldGenerationMethods.SpawnOre(mod.TileType("AuricOre"), 2E-05, .6f, .8f);
+                    WorldGenerationMethods.SpawnOre(ModContent.TileType<Tiles.AuricOre>(), 2E-05, .6f, .8f);
 
                     string key = "Mods.CalamityMod.AuricOreText";
                     Color messageColor = Color.Gold;
@@ -2825,7 +2826,7 @@ namespace CalamityMod.NPCs.Yharon
 
         public override void BossLoot(ref string name, ref int potionType)
         {
-            potionType = mod.ItemType("OmegaHealingPotion");
+            potionType = ModContent.ItemType<OmegaHealingPotion>();
         }
         #endregion
 
@@ -2965,8 +2966,8 @@ namespace CalamityMod.NPCs.Yharon
                 for (iBoom = 0; iBoom < 25; iBoom++)
                 {
                     offsetAngleBoom = startAngleBoom + deltaAngleBoom * (iBoom + iBoom * iBoom) / 2f + 32f * iBoom;
-                    int boom1 = Projectile.NewProjectile(valueBoom.X, valueBoom.Y, (float)(Math.Sin(offsetAngleBoom) * 5f), (float)(Math.Cos(offsetAngleBoom) * 5f), mod.ProjectileType("FlareBomb"), damage, 0f, Main.myPlayer, 0f, 0f);
-                    int boom2 = Projectile.NewProjectile(valueBoom.X, valueBoom.Y, (float)(-Math.Sin(offsetAngleBoom) * 5f), (float)(-Math.Cos(offsetAngleBoom) * 5f), mod.ProjectileType("FlareBomb"), damage, 0f, Main.myPlayer, 0f, 0f);
+                    int boom1 = Projectile.NewProjectile(valueBoom.X, valueBoom.Y, (float)(Math.Sin(offsetAngleBoom) * 5f), (float)(Math.Cos(offsetAngleBoom) * 5f), ModContent.ProjectileType<FlareBomb>(), damage, 0f, Main.myPlayer, 0f, 0f);
+                    int boom2 = Projectile.NewProjectile(valueBoom.X, valueBoom.Y, (float)(-Math.Sin(offsetAngleBoom) * 5f), (float)(-Math.Cos(offsetAngleBoom) * 5f), ModContent.ProjectileType<FlareBomb>(), damage, 0f, Main.myPlayer, 0f, 0f);
                     Main.projectile[boom1].timeLeft = timeLeft;
                     Main.projectile[boom2].timeLeft = timeLeft;
                 }

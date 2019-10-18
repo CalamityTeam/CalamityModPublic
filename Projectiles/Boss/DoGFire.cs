@@ -2,9 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
+using Terraria.ID;
 namespace CalamityMod.Projectiles.Boss
 {
     public class DoGFire : ModProjectile
@@ -92,7 +91,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(mod.BuffType("GodSlayerInferno"), 300);
+            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
             target.AddBuff(BuffID.Frostburn, 300, true);
             target.AddBuff(BuffID.Darkness, 300, true);
         }

@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Projectiles.Boss
 {
     public class BloodClot : ModProjectile
@@ -33,7 +32,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(mod.BuffType("BurningBlood"), 120);
+            target.AddBuff(ModContent.BuffType<BurningBlood>(), 120);
         }
     }
 }

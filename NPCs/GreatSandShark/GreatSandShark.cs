@@ -4,11 +4,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
-using Terraria.GameContent.Events;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.GreatSandShark
+using Terraria.ID;
+namespace CalamityMod.NPCs
 {
     public class GreatSandShark : ModNPC
     {
@@ -46,25 +44,25 @@ namespace CalamityMod.NPCs.GreatSandShark
                 npc.buffImmune[k] = true;
             }
             npc.buffImmune[BuffID.Ichor] = false;
-            npc.buffImmune[mod.BuffType("MarkedforDeath")] = false;
+            npc.buffImmune[ModContent.BuffType<MarkedforDeath>()] = false;
             npc.buffImmune[BuffID.CursedInferno] = false;
             npc.buffImmune[BuffID.Daybreak] = false;
-            npc.buffImmune[mod.BuffType("AbyssalFlames")] = false;
-            npc.buffImmune[mod.BuffType("ArmorCrunch")] = false;
-            npc.buffImmune[mod.BuffType("DemonFlames")] = false;
-            npc.buffImmune[mod.BuffType("HolyLight")] = false;
-            npc.buffImmune[mod.BuffType("Nightwither")] = false;
-            npc.buffImmune[mod.BuffType("Plague")] = false;
-            npc.buffImmune[mod.BuffType("Shred")] = false;
-            npc.buffImmune[mod.BuffType("WhisperingDeath")] = false;
-            npc.buffImmune[mod.BuffType("SilvaStun")] = false;
+            npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
+            npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
+            npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
+            npc.buffImmune[ModContent.BuffType<HolyFlames>()] = false;
+            npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
+            npc.buffImmune[ModContent.BuffType<Plague>()] = false;
+            npc.buffImmune[ModContent.BuffType<Shred>()] = false;
+            npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
+            npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
             npc.behindTiles = true;
             npc.netAlways = true;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
             npc.timeLeft = NPC.activeTime * 30;
             banner = npc.type;
-            bannerItem = mod.ItemType("GreatSandSharkBanner");
+            bannerItem = ModContent.ItemType<GreatSandSharkBanner>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -93,13 +91,8 @@ namespace CalamityMod.NPCs.GreatSandShark
             bool lowLife = (double)npc.life <= (double)npc.lifeMax * (expertMode ? 0.75 : 0.5);
             bool lowerLife = (double)npc.life <= (double)npc.lifeMax * (expertMode ? 0.35 : 0.2);
             bool youMustDie = !Main.player[npc.target].ZoneDesert;
-            if (!Sandstorm.Happening)
-            {
-                Main.raining = false;
-                Sandstorm.Happening = true;
-                Sandstorm.TimeLeft = (int)(3600f * (8f + Main.rand.NextFloat() * 16f));
-                CalamityMod.UpdateServerBoolean();
-            }
+            CalamityUtils.StartSandstorm();
+            CalamityMod.UpdateServerBoolean();
             if (npc.soundDelay <= 0)
             {
                 npc.soundDelay = 480;
@@ -468,7 +461,7 @@ namespace CalamityMod.NPCs.GreatSandShark
                                 int spawnX = (int)(npc.width / 2);
                                 for (int sand = 0; sand < 5; sand++)
                                     Projectile.NewProjectile(npc.Center.X + (float)Main.rand.Next(-spawnX, spawnX), npc.Center.Y,
-                                        (float)Main.rand.Next(-3, 4), (float)Main.rand.Next(-12, -6), mod.ProjectileType("GreatSandBlast"), 40, 0f, Main.myPlayer, 0f, 0f);
+                                        (float)Main.rand.Next(-3, 4), (float)Main.rand.Next(-12, -6), ModContent.ProjectileType<GreatSandBlast>(), 40, 0f, Main.myPlayer, 0f, 0f);
                             }
                             npc.ai[2] = -30f;
                             Vector2 vector261 = npc.DirectionTo(vector260 + new Vector2(0f, -80f));
@@ -602,12 +595,12 @@ namespace CalamityMod.NPCs.GreatSandShark
             {
                 spriteEffects = SpriteEffects.FlipHorizontally;
             }
-            Microsoft.Xna.Framework.Color color24 = npc.GetAlpha(drawColor);
-            Microsoft.Xna.Framework.Color color25 = Lighting.GetColor((int)((double)npc.position.X + (double)npc.width * 0.5) / 16, (int)(((double)npc.position.Y + (double)npc.height * 0.5) / 16.0));
+            Color color24 = npc.GetAlpha(drawColor);
+            Color color25 = Lighting.GetColor((int)((double)npc.position.X + (double)npc.width * 0.5) / 16, (int)(((double)npc.position.Y + (double)npc.height * 0.5) / 16.0));
             Texture2D texture2D3 = Main.npcTexture[npc.type];
             int num156 = Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type];
             int y3 = num156 * (int)npc.frameCounter;
-            Microsoft.Xna.Framework.Rectangle rectangle = new Microsoft.Xna.Framework.Rectangle(0, y3, texture2D3.Width, num156);
+            Rectangle rectangle = new Rectangle(0, y3, texture2D3.Width, num156);
             Vector2 origin2 = rectangle.Size() / 2f;
             int num157 = 8;
             int num158 = 2;
@@ -616,7 +609,7 @@ namespace CalamityMod.NPCs.GreatSandShark
             int num161 = num159;
             while (((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157)) && Lighting.NotRetro)
             {
-                Microsoft.Xna.Framework.Color color26 = npc.GetAlpha(color25);
+                Color color26 = npc.GetAlpha(color25);
                 {
                     goto IL_6899;
                 }
@@ -671,10 +664,10 @@ namespace CalamityMod.NPCs.GreatSandShark
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrandScale"));
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<GrandScale>());
             if (Main.expertMode && Main.rand.NextBool(3))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrandScale"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<GrandScale>());
             }
         }
 

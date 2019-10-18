@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Tiles.FurniturePlaguedPlate
 {
@@ -45,7 +45,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 48, 48, mod.ItemType("PlaguedPlateChandelier"));
+            Item.NewItem(i * 16, j * 16, 48, 48, ModContent.ItemType<Items.PlaguedPlateChandelier>());
         }
 
         public override void HitWire(int i, int j)

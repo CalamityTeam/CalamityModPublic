@@ -2,10 +2,10 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
-namespace CalamityMod.NPCs.NormalNPCs
+namespace CalamityMod.NPCs
 {
     public class ProfanedEnergyLantern : ModNPC
     {
@@ -163,7 +163,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                             num191 = num196 / num191;
                             num189 *= num191;
                             num190 *= num191;
-                            int num9 = mod.ProjectileType("HolyBomb");
+                            int num9 = ModContent.ProjectileType<HolyBomb>();
                             Projectile.NewProjectile(npc.Center.X, npc.Center.Y, num189, num190, num9, 40, 0f, Main.myPlayer, 0f, 0f);
                             npc.localAI[1] = 0f;
                             return;
@@ -209,10 +209,10 @@ namespace CalamityMod.NPCs.NormalNPCs
                         drawPositionX = Main.npc[CalamityGlobalNPC.energyFlame].Center.X - center.X;
                         drawPositionY = Main.npc[CalamityGlobalNPC.energyFlame].Center.Y - center.Y;
                         drawPositionY -= 10f;
-                        Microsoft.Xna.Framework.Color color = Lighting.GetColor((int)center.X / 16, (int)(center.Y / 16f));
-                        Main.spriteBatch.Draw(mod.GetTexture("NPCs/NormalNPCs/ProfanedEnergySegment"), new Vector2(center.X - Main.screenPosition.X, center.Y - Main.screenPosition.Y),
-                            new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, 0, mod.GetTexture("NPCs/NormalNPCs/ProfanedEnergySegment").Width, mod.GetTexture("NPCs/NormalNPCs/ProfanedEnergySegment").Height)), color, rotation,
-                            new Vector2((float)mod.GetTexture("NPCs/NormalNPCs/ProfanedEnergySegment").Width * 0.5f, (float)mod.GetTexture("NPCs/NormalNPCs/ProfanedEnergySegment").Height * 0.5f), 1f, SpriteEffects.None, 0f);
+                        Color color = Lighting.GetColor((int)center.X / 16, (int)(center.Y / 16f));
+                        Main.spriteBatch.Draw(ModContent.GetTexture("CalamityMod/NPCs/NormalNPCs/ProfanedEnergySegment"), new Vector2(center.X - Main.screenPosition.X, center.Y - Main.screenPosition.Y),
+                            new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, 0, ModContent.GetTexture("CalamityMod/NPCs/NormalNPCs/ProfanedEnergySegment").Width, ModContent.GetTexture("CalamityMod/NPCs/NormalNPCs/ProfanedEnergySegment").Height)), color, rotation,
+                            new Vector2((float)ModContent.GetTexture("CalamityMod/NPCs/NormalNPCs/ProfanedEnergySegment").Width * 0.5f, (float)ModContent.GetTexture("CalamityMod/NPCs/NormalNPCs/ProfanedEnergySegment").Height * 0.5f), 1f, SpriteEffects.None, 0f);
                     }
                 }
             }

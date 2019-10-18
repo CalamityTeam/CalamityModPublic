@@ -1,6 +1,5 @@
 ﻿using Terraria.ID;
-using Terraria.ModLoader;
-// If you are using c# 6, you can use: "using static Terraria.Localization.GameCulture;" which would mean you could just write "DisplayName.AddTranslation(German, "");"
+using Terraria.ModLoader; // If you are using c# 6, you can use: "using static Terraria.Localization.GameCulture;" which would mean you could just write "DisplayName.AddTranslation(German, "");"
 
 namespace CalamityMod.Items.Placeables
 {
@@ -21,7 +20,7 @@ namespace CalamityMod.Items.Placeables
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = mod.TileType("Voidstone");
+            item.createTile = ModContent.TileType<Tiles.Voidstone>();
         }
 
         public override void AddRecipes()

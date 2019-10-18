@@ -2,10 +2,10 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
-namespace CalamityMod.Projectiles.Melee.Yoyos
+namespace CalamityMod.Projectiles.Melee
 {
     public class ShimmersparkProjectile : ModProjectile
     {

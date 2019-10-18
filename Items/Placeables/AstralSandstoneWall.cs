@@ -1,5 +1,4 @@
 ﻿using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Placeables
 {
     public class AstralSandstoneWall : ModItem
@@ -11,7 +10,7 @@ namespace CalamityMod.Items.Placeables
 
         public override void SetDefaults()
         {
-            item.createWall = mod.WallType("AstralSandstoneWall");
+            item.createWall = ModContent.WallType<Walls.AstralSandstoneWall>();
             item.useStyle = 1;
             item.useTurn = true;
             item.useAnimation = 15;
@@ -27,7 +26,7 @@ namespace CalamityMod.Items.Placeables
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddTile(18);
-            recipe.AddIngredient(mod.ItemType("AstralSandstone"));
+            recipe.AddIngredient(ModContent.ItemType<AstralSandstone>());
             recipe.SetResult(this, 4);
             recipe.AddRecipe();
             base.AddRecipes();

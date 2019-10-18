@@ -1,8 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
+using Terraria.ID;
 namespace CalamityMod.Projectiles.Ranged
 {
     public class MistArrow : ModProjectile
@@ -49,7 +48,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.Frostburn, 240);
-            target.AddBuff(mod.BuffType("GlacialState"), 120);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
         }
     }
 }

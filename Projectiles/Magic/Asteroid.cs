@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Magic
 {
@@ -99,7 +99,7 @@ namespace CalamityMod.Projectiles.Magic
             }
             for (int num341 = 0; num341 < 5; num341++)
             {
-                int num342 = Utils.SelectRandom<int>(Main.rand, new int[]
+                int num342 = Utils.SelectRandom(Main.rand, new int[]
                 {
                     107,
                     259,

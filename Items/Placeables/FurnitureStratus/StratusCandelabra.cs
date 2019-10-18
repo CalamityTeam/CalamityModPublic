@@ -1,5 +1,4 @@
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Placeables.FurnitureStratus
 {
     public class StratusCandelabra : ModItem
@@ -19,7 +18,7 @@ namespace CalamityMod.Items.Placeables.FurnitureStratus
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = mod.TileType("StratusCandelabra");
+            item.createTile = ModContent.TileType<Tiles.StratusCandelabra>();
         }
 
         public override void AddRecipes()

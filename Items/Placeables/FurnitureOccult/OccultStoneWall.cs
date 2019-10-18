@@ -1,5 +1,4 @@
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Placeables.FurnitureOccult
 {
     public class OccultStoneWall : ModItem
@@ -20,7 +19,7 @@ namespace CalamityMod.Items.Placeables.FurnitureOccult
             item.useTime = 7;
             item.useStyle = 1;
             item.consumable = true;
-            item.createWall = mod.WallType("OccultStoneWall");
+            item.createWall = ModContent.WallType<Walls.OccultStoneWall>();
         }
 
         public override void AddRecipes()

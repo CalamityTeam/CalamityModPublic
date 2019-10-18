@@ -1,10 +1,10 @@
 ﻿using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
-namespace CalamityMod.NPCs.Perforator
+namespace CalamityMod.NPCs
 {
     public class PerforatorCyst : ModNPC
     {
@@ -40,7 +40,7 @@ namespace CalamityMod.NPCs.Perforator
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.playerSafe || NPC.AnyNPCs(mod.NPCType("PerforatorCyst")) || NPC.AnyNPCs(mod.NPCType("PerforatorHive")))
+            if (spawnInfo.playerSafe || NPC.AnyNPCs(ModContent.NPCType<PerforatorCyst>()) || NPC.AnyNPCs(ModContent.NPCType<PerforatorHive>()))
             {
                 return 0f;
             }
@@ -69,10 +69,10 @@ namespace CalamityMod.NPCs.Perforator
                 {
                     Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
                 }
-                if (Main.netMode != NetmodeID.MultiplayerClient && NPC.CountNPCS(mod.NPCType("PerforatorHive")) < 1)
+                if (Main.netMode != NetmodeID.MultiplayerClient && NPC.CountNPCS(ModContent.NPCType<PerforatorHive>()) < 1)
                 {
                     Vector2 spawnAt = npc.Center + new Vector2(0f, (float)npc.height / 2f);
-                    NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, mod.NPCType("PerforatorHive"));
+                    NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<PerforatorHive>());
                 }
             }
         }

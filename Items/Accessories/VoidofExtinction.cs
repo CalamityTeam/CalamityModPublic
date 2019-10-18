@@ -2,8 +2,8 @@
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -84,7 +84,7 @@ namespace CalamityMod.Items.Accessories
                             num18 = (float)num17 / num18;
                             num15 *= num18;
                             num16 *= num18;
-                            int num19 = Projectile.NewProjectile(x, y, num15, num16, mod.ProjectileType("StandingFire"), 40, 5f, player.whoAmI, 0f, 0f);
+                            int num19 = Projectile.NewProjectile(x, y, num15, num16, ModContent.ProjectileType<StandingFire>(), 40, 5f, player.whoAmI, 0f, 0f);
                             Main.projectile[num19].ai[1] = player.position.Y;
                         }
                     }
@@ -114,7 +114,7 @@ namespace CalamityMod.Items.Accessories
                             spawn.X = spawn.X + i * 30 - (FireProjectiles * 15);
                             Vector2 velocity = baseVelocity.RotatedBy(MathHelper.ToRadians(-FireAngleSpread / 2 + (FireAngleSpread * i / (float)FireProjectiles)));
                             velocity.X = velocity.X + 3 * Main.rand.NextFloat() - 1.5f;
-                            int projectile = Projectile.NewProjectile(spawn.X, spawn.Y, velocity.X, velocity.Y, mod.ProjectileType("BrimstoneHellfireballFriendly2"), 70, 5f, Main.myPlayer, 0f, 0f);
+                            int projectile = Projectile.NewProjectile(spawn.X, spawn.Y, velocity.X, velocity.Y, ModContent.ProjectileType<BrimstoneHellfireballFriendly2>(), 70, 5f, Main.myPlayer, 0f, 0f);
                             Main.projectile[projectile].tileCollide = false;
                             Main.projectile[projectile].timeLeft = 50;
                         }

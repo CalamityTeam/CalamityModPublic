@@ -1,6 +1,5 @@
 ﻿using Terraria.ID;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Placeables.FurnitureOccult
 {
     public class OccultStone : ModItem
@@ -21,16 +20,16 @@ namespace CalamityMod.Items.Placeables.FurnitureOccult
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = mod.TileType("OccultStone");
+            item.createTile = ModContent.TileType<Tiles.OccultStone>();
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.StoneBlock, 150);
-            recipe.AddIngredient(mod.ItemType("DarkPlasma"));
-            recipe.AddIngredient(mod.ItemType("ArmoredShell"));
-            recipe.AddIngredient(mod.ItemType("TwistingNether"));
+            recipe.AddIngredient(ModContent.ItemType<DarkPlasma>());
+            recipe.AddIngredient(ModContent.ItemType<ArmoredShell>());
+            recipe.AddIngredient(ModContent.ItemType<TwistingNether>());
             recipe.AddIngredient(ItemID.Silk, 15);
             recipe.SetResult(this, 150);
             recipe.AddTile(null, "DraedonsForge");

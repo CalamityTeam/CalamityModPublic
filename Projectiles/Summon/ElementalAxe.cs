@@ -3,9 +3,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
+using Terraria.ID;
 namespace CalamityMod.Projectiles.Summon
 {
     public class ElementalAxe : ModProjectile
@@ -48,10 +47,10 @@ namespace CalamityMod.Projectiles.Summon
                     Main.player[projectile.owner].minionDamage);
                 projectile.damage = damage2;
             }
-            bool flag64 = projectile.type == mod.ProjectileType("ElementalAxe");
+            bool flag64 = projectile.type == ModContent.ProjectileType<ElementalAxe>();
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            player.AddBuff(mod.BuffType("ElementalAxe"), 3600);
+            player.AddBuff(ModContent.BuffType<Buffs.ElementalAxe>(), 3600);
             if (flag64)
             {
                 if (player.dead)
@@ -71,7 +70,7 @@ namespace CalamityMod.Projectiles.Summon
             float num637 = 0.05f;
             for (int num638 = 0; num638 < 1000; num638++)
             {
-                bool flag23 = Main.projectile[num638].type == mod.ProjectileType("ElementalAxe");
+                bool flag23 = Main.projectile[num638].type == ModContent.ProjectileType<ElementalAxe>();
                 if (num638 != projectile.whoAmI && Main.projectile[num638].active && Main.projectile[num638].owner == projectile.owner && flag23 && Math.Abs(projectile.position.X - Main.projectile[num638].position.X) + Math.Abs(projectile.position.Y - Main.projectile[num638].position.Y) < (float)projectile.width)
                 {
                     if (projectile.position.X < Main.projectile[num638].position.X)
@@ -258,10 +257,10 @@ namespace CalamityMod.Projectiles.Summon
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.immune[projectile.owner] = 4;
-            target.AddBuff(mod.BuffType("BrimstoneFlames"), 120);
-            target.AddBuff(mod.BuffType("GlacialState"), 120);
-            target.AddBuff(mod.BuffType("Plague"), 120);
-            target.AddBuff(mod.BuffType("HolyLight"), 120);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
+            target.AddBuff(ModContent.BuffType<Plague>(), 120);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
         }
     }
 }

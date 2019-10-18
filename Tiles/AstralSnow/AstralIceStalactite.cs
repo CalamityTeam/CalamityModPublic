@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using CalamityMod.Dusts;
 
 namespace CalamityMod.Tiles.AstralSnow
 {
@@ -14,7 +15,7 @@ namespace CalamityMod.Tiles.AstralSnow
             Main.tileObsidianKill[Type] = true;
             Main.tileBlockLight[Type] = true;
 
-            dustType = mod.DustType("AstralBasic");
+            dustType = ModContent.DustType<AstralBasic>();
             AddMapEntry(new Color(79, 61, 97));
 
             base.SetDefaults();

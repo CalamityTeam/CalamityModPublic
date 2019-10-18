@@ -1,5 +1,4 @@
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Placeables.FurnitureBotanic
 {
     public class BotanicBathtub : ModItem
@@ -20,7 +19,7 @@ namespace CalamityMod.Items.Placeables.FurnitureBotanic
             item.useStyle = 1;
             item.value = 0;
             item.consumable = true;
-            item.createTile = mod.TileType("BotanicBathtub");
+            item.createTile = ModContent.TileType<Tiles.BotanicBathtub>();
         }
 
         public override void AddRecipes()

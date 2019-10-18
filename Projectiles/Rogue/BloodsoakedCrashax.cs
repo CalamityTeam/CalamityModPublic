@@ -1,9 +1,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
+using Terraria.ID;
 namespace CalamityMod.Projectiles.Rogue
 {
     public class BloodsoakedCrashax : ModProjectile
@@ -91,10 +90,10 @@ namespace CalamityMod.Projectiles.Rogue
                 grind = 10;
             }
             Player player = Main.player[projectile.owner];
-            target.AddBuff(mod.BuffType("BrimstoneFlames"), 300);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
             if (projectile.ai[1] == 1f && projectile.owner == Main.myPlayer && grind >= 1) //stealth strike attack
             {
-                int stealth = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("Blood"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+                int stealth = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<Blood>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
                 Main.projectile[stealth].Calamity().forceRogue = true;
             }
             if (!target.canGhostHeal) //canGhostHeal be like lol

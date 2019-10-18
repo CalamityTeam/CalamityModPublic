@@ -3,10 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.AbyssNPCs
+using Terraria.ID;
+namespace CalamityMod.NPCs
 {
     public class MorayEel : ModNPC
     {
@@ -28,13 +27,13 @@ namespace CalamityMod.NPCs.AbyssNPCs
             npc.lifeMax = 180;
             npc.aiStyle = -1;
             aiType = -1;
-            npc.buffImmune[mod.BuffType("CrushDepth")] = true;
+            npc.buffImmune[ModContent.BuffType<CrushDepth>()] = true;
             npc.value = Item.buyPrice(0, 0, 1, 0);
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
             npc.knockBackResist = 0.75f;
             banner = npc.type;
-            bannerItem = mod.ItemType("MorayEelBanner");
+            bannerItem = ModContent.ItemType<MorayEelBanner>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -236,10 +235,10 @@ namespace CalamityMod.NPCs.AbyssNPCs
             Vector2 center = new Vector2(npc.Center.X, npc.Center.Y);
             Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
             Vector2 vector = center - Main.screenPosition;
-            vector -= new Vector2((float)mod.GetTexture("NPCs/AbyssNPCs/MorayEelGlow").Width, (float)(mod.GetTexture("NPCs/AbyssNPCs/MorayEelGlow").Height / Main.npcFrameCount[npc.type])) * 1f / 2f;
+            vector -= new Vector2((float)ModContent.GetTexture("CalamityMod/NPCs/AbyssNPCs/MorayEelGlow").Width, (float)(ModContent.GetTexture("CalamityMod/NPCs/AbyssNPCs/MorayEelGlow").Height / Main.npcFrameCount[npc.type])) * 1f / 2f;
             vector += vector11 * 1f + new Vector2(0f, 0f + 4f + npc.gfxOffY);
-            Microsoft.Xna.Framework.Color color = new Microsoft.Xna.Framework.Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.Gold);
-            Main.spriteBatch.Draw(mod.GetTexture("NPCs/AbyssNPCs/MorayEelGlow"), vector,
+            Color color = new Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.Gold);
+            Main.spriteBatch.Draw(ModContent.GetTexture("CalamityMod/NPCs/AbyssNPCs/MorayEelGlow"), vector,
                 new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, vector11, 1f, spriteEffects, 0f);
         }
 

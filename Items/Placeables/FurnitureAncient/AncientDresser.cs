@@ -1,5 +1,4 @@
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Placeables.FurnitureAncient
 {
     public class AncientDresser : ModItem
@@ -21,7 +20,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAncient
             item.rare = 3;
             item.consumable = true;
             item.value = 0;
-            item.createTile = mod.TileType("AncientDresser");
+            item.createTile = ModContent.TileType<Tiles.AncientDresser>();
         }
 
         public override void AddRecipes()

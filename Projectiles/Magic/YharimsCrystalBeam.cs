@@ -4,11 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using Terraria;
+using Terraria.ModLoader;
 using Terraria.Enums;
 using Terraria.GameContent.Shaders;
 using Terraria.Graphics.Effects;
 using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {
@@ -116,7 +116,7 @@ namespace CalamityMod.Projectiles.Magic
             {
                 projectile.velocity = -Vector2.UnitY;
             }
-            if (projectile.type != mod.ProjectileType("YharimsCrystalBeam") || !Main.projectile[(int)projectile.ai[1]].active || Main.projectile[(int)projectile.ai[1]].type != mod.ProjectileType("YharimsCrystal"))
+            if (projectile.type != ModContent.ProjectileType<YharimsCrystalBeam>() || !Main.projectile[(int)projectile.ai[1]].active || Main.projectile[(int)projectile.ai[1]].type != ModContent.ProjectileType<YharimsCrystal>())
             {
                 projectile.Kill();
                 return;
@@ -256,7 +256,7 @@ namespace CalamityMod.Projectiles.Magic
             Texture2D tex = Main.projectileTexture[projectile.type];
             float num228 = projectile.localAI[1];
             float prismHue = GetHue(projectile.ai[0]);
-            Microsoft.Xna.Framework.Color value25 = Main.hslToRgb(2.55f, prismHue, 0.53f);
+            Color value25 = Main.hslToRgb(2.55f, prismHue, 0.53f);
             value25.A = 0;
             Vector2 value26 = projectile.Center.Floor();
             value26 += projectile.velocity * projectile.scale * 10.5f;
@@ -267,7 +267,7 @@ namespace CalamityMod.Projectiles.Magic
             Vector2 projPos = projectile.oldPos[0];
             projPos = new Vector2((float)projectile.width, (float)projectile.height) / 2f + Vector2.UnitY * projectile.gfxOffY - Main.screenPosition;
             Utils.DrawLaser(Main.spriteBatch, tex, value26 - Main.screenPosition, value26 + projectile.velocity * num228 - Main.screenPosition, vector29, new Utils.LaserLineFraming(DelegateMethods.RainbowLaserDraw));
-            DelegateMethods.c_1 = new Microsoft.Xna.Framework.Color(255, Main.DiscoG, 53, 127) * 0.75f * projectile.Opacity;
+            DelegateMethods.c_1 = new Color(255, Main.DiscoG, 53, 127) * 0.75f * projectile.Opacity;
             Utils.DrawLaser(Main.spriteBatch, tex, value26 - Main.screenPosition, value26 + projectile.velocity * num228 - Main.screenPosition, vector29 / 2f, new Utils.LaserLineFraming(DelegateMethods.RainbowLaserDraw));
             return false;
         }

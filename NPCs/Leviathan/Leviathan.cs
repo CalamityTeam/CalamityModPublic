@@ -1,14 +1,14 @@
-﻿using CalamityMod.Utilities;
+﻿
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.Leviathan
+using Terraria.ID;
+using CalamityMod.Items;
+namespace CalamityMod.NPCs
 {
     [AutoloadBossHead]
     public class Leviathan : ModNPC
@@ -43,16 +43,16 @@ namespace CalamityMod.NPCs.Leviathan
             npc.buffImmune[BuffID.Ichor] = false;
             npc.buffImmune[BuffID.CursedInferno] = false;
             npc.buffImmune[BuffID.Daybreak] = false;
-            npc.buffImmune[mod.BuffType("AbyssalFlames")] = false;
-            npc.buffImmune[mod.BuffType("ArmorCrunch")] = false;
-            npc.buffImmune[mod.BuffType("DemonFlames")] = false;
-            npc.buffImmune[mod.BuffType("GodSlayerInferno")] = false;
-            npc.buffImmune[mod.BuffType("HolyLight")] = false;
-            npc.buffImmune[mod.BuffType("Nightwither")] = false;
-            npc.buffImmune[mod.BuffType("Plague")] = false;
-            npc.buffImmune[mod.BuffType("Shred")] = false;
-            npc.buffImmune[mod.BuffType("WhisperingDeath")] = false;
-            npc.buffImmune[mod.BuffType("SilvaStun")] = false;
+            npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
+            npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
+            npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
+            npc.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = false;
+            npc.buffImmune[ModContent.BuffType<HolyFlames>()] = false;
+            npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
+            npc.buffImmune[ModContent.BuffType<Plague>()] = false;
+            npc.buffImmune[ModContent.BuffType<Shred>()] = false;
+            npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
+            npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
             npc.HitSound = SoundID.NPCHit56;
             npc.DeathSound = SoundID.NPCDeath60;
             npc.noTileCollide = true;
@@ -64,7 +64,7 @@ namespace CalamityMod.NPCs.Leviathan
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/LeviathanAndSiren");
             else
                 music = MusicID.Boss3;
-            bossBag = mod.ItemType("LeviathanBag");
+            bossBag = ModContent.ItemType<LeviathanBag>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -140,7 +140,7 @@ namespace CalamityMod.NPCs.Leviathan
                     {
                         for (int x = 0; x < 200; x++)
                         {
-                            if (Main.npc[x].type == mod.NPCType("Siren"))
+                            if (Main.npc[x].type == ModContent.NPCType<Siren>())
                             {
                                 Main.npc[x].active = false;
                                 Main.npc[x].netUpdate = true;
@@ -241,7 +241,7 @@ namespace CalamityMod.NPCs.Leviathan
                             {
                                 float num418 = sirenAlive ? 13.5f : 16f;
                                 int num419 = 40;
-                                int num420 = mod.ProjectileType("LeviathanBomb");
+                                int num420 = ModContent.ProjectileType<LeviathanBomb>();
                                 if (expertMode)
                                 {
                                     num418 = sirenAlive ? 14f : 17f;
@@ -296,7 +296,7 @@ namespace CalamityMod.NPCs.Leviathan
                     if (flag103)
                     {
                         Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, soundChoice);
-                        if (Main.netMode != NetmodeID.MultiplayerClient && NPC.CountNPCS(mod.NPCType("Parasea")) < spawnLimit2 && NPC.CountNPCS(mod.NPCType("AquaticAberration")) < spawnLimit)
+                        if (Main.netMode != NetmodeID.MultiplayerClient && NPC.CountNPCS(ModContent.NPCType<Parasea>()) < spawnLimit2 && NPC.CountNPCS(ModContent.NPCType<AquaticAberration>()) < spawnLimit)
                         {
                             int num1061;
                             int value = CalamityWorld.death ? 2 : 3;
@@ -304,11 +304,11 @@ namespace CalamityMod.NPCs.Leviathan
                                 value++;
                             if (Main.rand.Next(value) == 0)
                             {
-                                num1061 = mod.NPCType("AquaticAberration");
+                                num1061 = ModContent.NPCType<AquaticAberration>();
                             }
                             else
                             {
-                                num1061 = mod.NPCType("Parasea");
+                                num1061 = ModContent.NPCType<Parasea>();
                             }
                             int num1062 = NPC.NewNPC((int)vector119.X, (int)vector119.Y, num1061, 0, 0f, 0f, 0f, 0f, 255);
                             Main.npc[num1062].velocity.X = (float)Main.rand.Next(-200, 201) * 0.01f;
@@ -601,7 +601,7 @@ namespace CalamityMod.NPCs.Leviathan
         // The Leviathan runs the same loot code as Anahita, but only if she dies last.
         public override void NPCLoot()
         {
-            if (!NPC.AnyNPCs(mod.NPCType("Siren")))
+            if (!NPC.AnyNPCs(ModContent.NPCType<Siren>()))
                 DropSirenLeviLoot(npc);
         }
 
@@ -611,29 +611,29 @@ namespace CalamityMod.NPCs.Leviathan
             CalamityMod mod = ModContent.GetInstance<CalamityMod>();
             DropHelper.DropBags(npc);
 
-            DropHelper.DropItemChance(npc, mod.ItemType("LeviathanTrophy"), 10);
-            DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeOcean"), true, !CalamityWorld.downedLeviathan);
-            DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeLeviathanandSiren"), true, !CalamityWorld.downedLeviathan);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<LeviathanTrophy>(), 10);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeOcean>(), true, !CalamityWorld.downedLeviathan);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeLeviathanandSiren>(), true, !CalamityWorld.downedLeviathan);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedLeviathan, 4, 2, 1);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
             if (!Main.expertMode)
             {
                 // Weapons
-                DropHelper.DropItemCondition(npc, mod.ItemType("Greentide"), Main.hardMode, 4, 1, 1);
-                DropHelper.DropItemCondition(npc, mod.ItemType("Leviatitan"), Main.hardMode, 4, 1, 1);
-                DropHelper.DropItemCondition(npc, mod.ItemType("SirensSong"), Main.hardMode, 4, 1, 1);
-                DropHelper.DropItemCondition(npc, mod.ItemType("Atlantis"), Main.hardMode, 4, 1, 1);
-                DropHelper.DropItemCondition(npc, mod.ItemType("BrackishFlask"), Main.hardMode, 4, 1, 1);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<Greentide>(), Main.hardMode, 4, 1, 1);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<Leviatitan>(), Main.hardMode, 4, 1, 1);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.SirensSong>(), Main.hardMode, 4, 1, 1);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<Atlantis>(), Main.hardMode, 4, 1, 1);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.BrackishFlask>(), Main.hardMode, 4, 1, 1);
 
                 // Equipment
-                DropHelper.DropItemCondition(npc, mod.ItemType("LureofEnthrallment"), Main.hardMode, 4, 1, 1);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<LureofEnthrallment>(), Main.hardMode, 4, 1, 1);
 
                 // Vanity
-                DropHelper.DropItemChance(npc, mod.ItemType("LeviathanMask"), 7);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<LeviathanMask>(), 7);
 
                 // Fishing
-                DropHelper.DropItem(npc, mod.ItemType("EnchantedPearl"));
+                DropHelper.DropItem(npc, ModContent.ItemType<EnchantedPearl>());
                 DropHelper.DropItemChance(npc, ItemID.HotlineFishingHook, 10);
                 DropHelper.DropItemChance(npc, ItemID.BottomlessBucket, 10);
                 DropHelper.DropItemChance(npc, ItemID.SuperAbsorbantSponge, 10);
@@ -642,7 +642,7 @@ namespace CalamityMod.NPCs.Leviathan
                 DropHelper.DropItemChance(npc, ItemID.CratePotion, 5, 5, 8);
 
                 // Other
-                DropHelper.DropItemCondition(npc, mod.ItemType("IOU"), !Main.hardMode);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<IOU>(), !Main.hardMode);
             }
 
             // Mark Siren & Levi as dead
@@ -664,9 +664,9 @@ namespace CalamityMod.NPCs.Leviathan
         {
             Mod mod = ModLoader.GetMod("CalamityMod");
             Texture2D texture = Main.npcTexture[npc.type];
-            Texture2D texture2 = mod.GetTexture("NPCs/Leviathan/LeviathanTexTwo");
-            Texture2D texture3 = mod.GetTexture("NPCs/Leviathan/LeviathanAltTexOne");
-            Texture2D texture4 = mod.GetTexture("NPCs/Leviathan/LeviathanAltTexTwo");
+            Texture2D texture2 = ModContent.GetTexture("CalamityMod/NPCs/Leviathan/LeviathanTexTwo");
+            Texture2D texture3 = ModContent.GetTexture("CalamityMod/NPCs/Leviathan/LeviathanAltTexOne");
+            Texture2D texture4 = ModContent.GetTexture("CalamityMod/NPCs/Leviathan/LeviathanAltTexTwo");
             if (npc.ai[0] == 1f)
             {
                 if (!altTextureSwap)

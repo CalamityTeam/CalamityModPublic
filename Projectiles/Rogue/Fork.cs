@@ -1,9 +1,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
+using Terraria.ID;
 namespace CalamityMod.Projectiles.Rogue
 {
     public class Fork : ModProjectile
@@ -41,7 +40,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             Player player = Main.player[projectile.owner];
             target.AddBuff(BuffID.Bleeding, 300);
-            target.AddBuff(mod.BuffType("BurningBlood"), 300);
+            target.AddBuff(ModContent.BuffType<BurningBlood>(), 300);
             player.AddBuff(BuffID.WellFed, 180);
         }
 

@@ -1,5 +1,4 @@
 ﻿using Terraria.ModLoader;
-
 namespace CalamityMod.Projectiles.Boss
 {
     public class Mushmash : ModProjectile

@@ -1,7 +1,6 @@
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
+using Terraria.ID;
 namespace CalamityMod.Items.Pets
 {
     public class CosmicPlushie : ModItem
@@ -22,8 +21,8 @@ namespace CalamityMod.Items.Pets
             item.width = 28;
             item.height = 36;
             item.value = Item.sellPrice(0, 7, 0, 0);
-            item.shoot = mod.ProjectileType("ChibiiDoggo");
-            item.buffType = mod.BuffType("ChibiiBuff");
+            item.shoot = ModContent.ProjectileType<ChibiiDoggo>();
+            item.buffType = ModContent.BuffType<ChibiiBuff>();
             item.rare = 10;
             item.UseSound = new Terraria.Audio.LegacySoundStyle(SoundID.Meowmere, 5);
             item.Calamity().postMoonLordRarity = 14;

@@ -5,7 +5,7 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.ModLoader;
-
+using CalamityMod.NPCs;
 namespace CalamityMod.Projectiles.Boss
 {
     public class ProvidenceCrystal : ModProjectile
@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Boss
         public override void AI()
         {
             Player player = Main.player[projectile.owner];
-            if (player.dead || NPC.CountNPCS(mod.NPCType("Providence")) < 1)
+            if (player.dead || NPC.CountNPCS(ModContent.NPCType<Providence>()) < 1)
             {
                 projectile.active = false;
                 projectile.netUpdate = true;
@@ -96,7 +96,7 @@ namespace CalamityMod.Projectiles.Boss
                     for (int num1083 = 0; num1083 < 14; num1083++)
                     {
                         float x4 = Main.rgbToHsl(new Color(255, 200, Main.DiscoB)).X;
-                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, speedX, speedY, mod.ProjectileType("ProvidenceCrystalShard"), projectile.damage, projectile.knockBack, projectile.owner, x4, (float)projectile.whoAmI);
+                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, speedX, speedY, ModContent.ProjectileType<ProvidenceCrystalShard>(), projectile.damage, projectile.knockBack, projectile.owner, x4, (float)projectile.whoAmI);
                         speedX += 3f; // -21, -18, -15, -12, -9, -6, -3, 0, 3, 6, 9, 12, 15, 18, 21
                     }
                 }
@@ -111,11 +111,11 @@ namespace CalamityMod.Projectiles.Boss
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Microsoft.Xna.Framework.Color color25 = Lighting.GetColor((int)((double)projectile.position.X + (double)projectile.width * 0.5) / 16, (int)(((double)projectile.position.Y + (double)projectile.height * 0.5) / 16.0));
+            Color color25 = Lighting.GetColor((int)((double)projectile.position.X + (double)projectile.width * 0.5) / 16, (int)(((double)projectile.position.Y + (double)projectile.height * 0.5) / 16.0));
             Vector2 vector59 = projectile.position + new Vector2((float)projectile.width, (float)projectile.height) / 2f + Vector2.UnitY * projectile.gfxOffY - Main.screenPosition;
             Texture2D texture2D34 = Main.projectileTexture[projectile.type];
-            Microsoft.Xna.Framework.Rectangle rectangle17 = texture2D34.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame);
-            Microsoft.Xna.Framework.Color alpha5 = projectile.GetAlpha(color25);
+            Rectangle rectangle17 = texture2D34.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame);
+            Color alpha5 = projectile.GetAlpha(color25);
             Vector2 origin11 = rectangle17.Size() / 2f;
             float scaleFactor5 = (float)Math.Cos((double)(6.28318548f * (projectile.localAI[0] / 60f))) + 3f + 3f;
             for (float num286 = 0f; num286 < 4f; num286 += 1f)

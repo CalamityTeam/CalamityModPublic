@@ -1,8 +1,7 @@
 ﻿using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.NormalNPCs
+using Terraria.ID;
+namespace CalamityMod.NPCs
 {
     public class CalamityEye : ModNPC
     {
@@ -27,7 +26,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
             banner = npc.type;
-            bannerItem = mod.ItemType("CalamityEyeBanner");
+            bannerItem = ModContent.ItemType<CalamityEyeBanner>();
         }
 
         public override void HitEffect(int hitDirection, double damage)
@@ -57,14 +56,14 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             player.AddBuff(BuffID.Weak, 120, true);
-            player.AddBuff(mod.BuffType("BrimstoneFlames"), 120, true);
+            player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120, true);
         }
 
         public override void NPCLoot()
         {
             if (Main.rand.NextBool(2))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BlightedLens"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<BlightedLens>());
             }
             if (Main.rand.NextBool(2))
             {

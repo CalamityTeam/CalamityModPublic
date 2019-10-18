@@ -1,8 +1,9 @@
-using CalamityMod.Utilities;
+
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Dusts;
+using Terraria.ID;
 
 namespace CalamityMod.Tiles.Astral
 {
@@ -18,8 +19,8 @@ namespace CalamityMod.Tiles.Astral
             TileMerge.MergeAstralTiles(Type);
             TileMerge.MergeOreTiles(Type);
 
-            dustType = mod.DustType("AstralBasic");
-            drop = mod.ItemType("AstralStone");
+            dustType = ModContent.DustType<AstralBasic>();
+            drop = ModContent.ItemType<Items.AstralStone>();
 
             soundType = 21;
 
@@ -32,7 +33,7 @@ namespace CalamityMod.Tiles.Astral
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            CustomTileFraming.FrameTileForCustomMerge(i, j, Type, mod.TileType("AstralDirt"));
+            CustomTileFraming.FrameTileForCustomMerge(i, j, Type, ModContent.TileType<AstralDirt>());
             return false;
         }
 

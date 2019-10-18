@@ -1,8 +1,8 @@
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -99,13 +99,13 @@ namespace CalamityMod.Projectiles.Ranged
                         switch (Main.rand.Next(5))
                         {
                             case 0:
-                                type = mod.ProjectileType("PlasmaBlast");
+                                type = ModContent.ProjectileType<PlasmaBlast>();
                                 break;
                             case 1:
-                                type = mod.ProjectileType("AstralStar");
+                                type = ModContent.ProjectileType<AstralStar>();
                                 break;
                             case 2:
-                                type = mod.ProjectileType("GalacticaComet");
+                                type = ModContent.ProjectileType<GalacticaComet>();
                                 break;
                             case 3:
                                 break;

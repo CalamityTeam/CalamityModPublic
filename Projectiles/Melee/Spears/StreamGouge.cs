@@ -3,8 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ModLoader;
-
-namespace CalamityMod.Projectiles.Melee.Spears
+namespace CalamityMod.Projectiles.Melee
 {
     public class StreamGouge : ModProjectile
     {
@@ -56,7 +55,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
                 {
                     projectile.localAI[0] = 1f;
                     Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y,
-                        mod.ProjectileType("EssenceBeam"), projectile.damage * 4, projectile.knockBack, projectile.owner, 0f, 0f);
+                        ModContent.ProjectileType<EssenceBeam>(), projectile.damage * 4, projectile.knockBack, projectile.owner, 0f, 0f);
                 }
             }
             else
@@ -77,12 +76,12 @@ namespace CalamityMod.Projectiles.Melee.Spears
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Vector2 origin = new Vector2(0f, 0f);
-            spriteBatch.Draw(mod.GetTexture("Projectiles/Melee/Spears/StreamGougeGlow"), projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Melee/Spears/StreamGougeGlow"), projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("GodSlayerInferno"), 300);
+            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
         }
     }
 }

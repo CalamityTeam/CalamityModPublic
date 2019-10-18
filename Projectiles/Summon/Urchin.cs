@@ -2,8 +2,8 @@
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Summon
 {
@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-            bool flag64 = projectile.type == mod.ProjectileType("Urchin");
+            bool flag64 = projectile.type == ModContent.ProjectileType<Urchin>();
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
             if (!modPlayer.urchin)
@@ -124,7 +124,7 @@ namespace CalamityMod.Projectiles.Summon
                         }
                         value15.Normalize();
                         value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-                        int spore = Projectile.NewProjectile(projectile.Center.X - 4f, projectile.Center.Y, value15.X, value15.Y, mod.ProjectileType("UrchinSpike"), projectile.damage, 1f, projectile.owner, 0f, 0f);
+                        int spore = Projectile.NewProjectile(projectile.Center.X - 4f, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<UrchinSpike>(), projectile.damage, 1f, projectile.owner, 0f, 0f);
                         Main.projectile[spore].minion = true;
                         Main.projectile[spore].minionSlots = 0f;
                     }

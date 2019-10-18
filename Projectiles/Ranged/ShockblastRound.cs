@@ -2,8 +2,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("Shockblast"), projectile.damage, 0f, projectile.owner, 0f, 0f);
+            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<Shockblast>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
             return true;
         }
 
@@ -85,7 +85,7 @@ namespace CalamityMod.Projectiles.Ranged
         {
             if (projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("Shockblast"), projectile.damage, 0f, projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<Shockblast>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
             }
             if (target.type == NPCID.TargetDummy)
             {
@@ -102,7 +102,7 @@ namespace CalamityMod.Projectiles.Ranged
             }
             Main.player[Main.myPlayer].lifeSteal -= num * 1.5f;
             int num2 = projectile.owner;
-            Projectile.NewProjectile(target.position.X, target.position.Y, 0f, 0f, mod.ProjectileType("TransfusionTrail"), 0, 0f, projectile.owner, (float)num2, num);
+            Projectile.NewProjectile(target.position.X, target.position.Y, 0f, 0f, ModContent.ProjectileType<TransfusionTrail>(), 0, 0f, projectile.owner, (float)num2, num);
         }
     }
 }

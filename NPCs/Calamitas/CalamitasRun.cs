@@ -4,10 +4,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.Calamitas
+using Terraria.ID;
+namespace CalamityMod.NPCs
 {
     [AutoloadBossHead]
     public class CalamitasRun : ModNPC
@@ -47,19 +46,19 @@ namespace CalamityMod.NPCs.Calamitas
                 npc.buffImmune[k] = true;
             }
             npc.buffImmune[BuffID.Ichor] = false;
-            npc.buffImmune[mod.BuffType("MarkedforDeath")] = false;
+            npc.buffImmune[ModContent.BuffType<MarkedforDeath>()] = false;
             npc.buffImmune[BuffID.CursedInferno] = false;
             npc.buffImmune[BuffID.Daybreak] = false;
-            npc.buffImmune[mod.BuffType("AbyssalFlames")] = false;
-            npc.buffImmune[mod.BuffType("ArmorCrunch")] = false;
-            npc.buffImmune[mod.BuffType("DemonFlames")] = false;
-            npc.buffImmune[mod.BuffType("GodSlayerInferno")] = false;
-            npc.buffImmune[mod.BuffType("HolyLight")] = false;
-            npc.buffImmune[mod.BuffType("Nightwither")] = false;
-            npc.buffImmune[mod.BuffType("Plague")] = false;
-            npc.buffImmune[mod.BuffType("Shred")] = false;
-            npc.buffImmune[mod.BuffType("WhisperingDeath")] = false;
-            npc.buffImmune[mod.BuffType("SilvaStun")] = false;
+            npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
+            npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
+            npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
+            npc.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = false;
+            npc.buffImmune[ModContent.BuffType<HolyFlames>()] = false;
+            npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
+            npc.buffImmune[ModContent.BuffType<Plague>()] = false;
+            npc.buffImmune[ModContent.BuffType<Shred>()] = false;
+            npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
+            npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit4;
@@ -297,7 +296,7 @@ namespace CalamityMod.NPCs.Calamitas
                             npc.localAI[1] = 0f;
                             float num867 = CalamityWorld.bossRushActive ? 9f : 6f;
                             int num868 = expertMode ? 30 : 38;
-                            int num869 = mod.ProjectileType("BrimstoneFire");
+                            int num869 = ModContent.ProjectileType<BrimstoneFire>();
                             vector86 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
                             num864 = player.position.X + (float)(player.width / 2) - vector86.X;
                             num865 = player.position.Y + (float)(player.height / 2) - vector86.Y;
@@ -407,12 +406,12 @@ namespace CalamityMod.NPCs.Calamitas
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             SpriteEffects spriteEffects = SpriteEffects.None;
-            Microsoft.Xna.Framework.Color color24 = npc.GetAlpha(drawColor);
-            Microsoft.Xna.Framework.Color color25 = Lighting.GetColor((int)((double)npc.position.X + (double)npc.width * 0.5) / 16, (int)(((double)npc.position.Y + (double)npc.height * 0.5) / 16.0));
+            Color color24 = npc.GetAlpha(drawColor);
+            Color color25 = Lighting.GetColor((int)((double)npc.position.X + (double)npc.width * 0.5) / 16, (int)(((double)npc.position.Y + (double)npc.height * 0.5) / 16.0));
             Texture2D texture2D3 = Main.npcTexture[npc.type];
             int num156 = Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type];
             int y3 = num156 * (int)npc.frameCounter;
-            Microsoft.Xna.Framework.Rectangle rectangle = new Microsoft.Xna.Framework.Rectangle(0, y3, texture2D3.Width, num156);
+            Rectangle rectangle = new Rectangle(0, y3, texture2D3.Width, num156);
             Vector2 origin2 = rectangle.Size() / 2f;
             int num157 = 8;
             int num158 = 2;
@@ -421,7 +420,7 @@ namespace CalamityMod.NPCs.Calamitas
             int num161 = num159;
             while (npc.ai[1] > 0f && Lighting.NotRetro && ((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157)))
             {
-                Microsoft.Xna.Framework.Color color26 = npc.GetAlpha(color25);
+                Color color26 = npc.GetAlpha(color25);
                 {
                     goto IL_6899;
                 }
@@ -454,25 +453,25 @@ namespace CalamityMod.NPCs.Calamitas
         {
             if (Main.rand.NextBool(10))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CataclysmTrophy"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CataclysmTrophy>());
             }
             if (Main.expertMode)
             {
                 if (Main.rand.NextBool(10))
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BrimstoneFlamesprayer"));
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<BrimstoneFlamesprayer>());
             }
             else if (Main.rand.NextBool(12))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BrimstoneFlamesprayer"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<BrimstoneFlamesprayer>());
             }
             if (Main.expertMode)
             {
                 if (Main.rand.NextBool(10))
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BrimstoneFlameblaster"));
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<BrimstoneFlameblaster>());
             }
             else if (Main.rand.NextBool(12))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BrimstoneFlameblaster"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<BrimstoneFlameblaster>());
             }
         }
 
@@ -520,10 +519,10 @@ namespace CalamityMod.NPCs.Calamitas
         {
             if (CalamityWorld.revenge)
             {
-                player.AddBuff(mod.BuffType("MarkedforDeath"), 180);
-                player.AddBuff(mod.BuffType("Horror"), 180, true);
+                player.AddBuff(ModContent.BuffType<MarkedforDeath>(), 180);
+                player.AddBuff(ModContent.BuffType<Horror>(), 180, true);
             }
-            player.AddBuff(mod.BuffType("BrimstoneFlames"), 300, true);
+            player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300, true);
         }
     }
 }

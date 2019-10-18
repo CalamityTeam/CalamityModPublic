@@ -1,5 +1,4 @@
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Placeables.FurnitureBotanic
 {
     public class BotanicDresser : ModItem
@@ -20,7 +19,7 @@ namespace CalamityMod.Items.Placeables.FurnitureBotanic
             item.useStyle = 1;
             item.value = 0;
             item.consumable = true;
-            item.createTile = mod.TileType("BotanicDresser");
+            item.createTile = ModContent.TileType<Tiles.BotanicDresser>();
         }
 
         public override void AddRecipes()

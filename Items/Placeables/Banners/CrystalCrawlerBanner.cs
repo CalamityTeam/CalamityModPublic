@@ -1,6 +1,6 @@
 using Terraria;
 using Terraria.ModLoader;
-
+using CalamityMod.Tiles;
 namespace CalamityMod.Items.Placeables.Banners
 {
     public class CrystalCrawlerBanner : ModItem
@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Placeables.Banners
             item.consumable = true;
             item.rare = 1;
             item.value = Item.buyPrice(0, 0, 10, 0);
-            item.createTile = mod.TileType("MonsterBanner");
+            item.createTile = ModContent.TileType<MonsterBanner>();
             item.placeStyle = 73;
         }
     }

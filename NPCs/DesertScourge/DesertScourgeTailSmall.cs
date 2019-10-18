@@ -1,10 +1,9 @@
 ﻿using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.DesertScourge
+using Terraria.ID;
+namespace CalamityMod.NPCs
 {
     public class DesertScourgeTailSmall : ModNPC
     {
@@ -29,7 +28,7 @@ namespace CalamityMod.NPCs.DesertScourge
             aiType = -1;
             npc.knockBackResist = 0f;
             npc.alpha = 255;
-            npc.buffImmune[mod.BuffType("GlacialState")] = true;
+            npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
             npc.behindTiles = true;
             npc.noGravity = true;
             npc.noTileCollide = true;

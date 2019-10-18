@@ -1,7 +1,8 @@
 using CalamityMod.World;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
+using CalamityMod.Buffs.StatDebuffs;
 
 namespace CalamityMod.Buffs
 {
@@ -40,7 +41,7 @@ namespace CalamityMod.Buffs
             }
             else if (type == BuffID.Warmth)
             {
-                player.buffImmune[mod.BuffType("GlacialState")] = true;
+                player.buffImmune[ModContent.BuffType<GlacialState>()] = true;
                 player.buffImmune[BuffID.Frozen] = true;
                 player.buffImmune[BuffID.Chilled] = true;
             }

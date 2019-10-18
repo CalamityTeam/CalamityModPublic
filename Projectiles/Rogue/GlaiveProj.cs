@@ -1,10 +1,9 @@
-﻿using CalamityMod.Items.CalamityCustomThrowingDamage;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -56,8 +55,8 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 projectile.tileCollide = false;
 
-                float returnSpeed = Glaive.Speed;
-                float acceleration = 0.45f;
+                float returnSpeed = Glaive.Speed * 1.6f;
+                float acceleration = 1.4f;
 
                 if (projectile.ai[1] == 1f)
                 {

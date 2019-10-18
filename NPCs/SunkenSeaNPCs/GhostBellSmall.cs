@@ -2,10 +2,9 @@
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.SunkenSeaNPCs
+using Terraria.ID;
+namespace CalamityMod.NPCs
 {
     public class GhostBellSmall : ModNPC
     {
@@ -34,7 +33,7 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
             npc.HitSound = SoundID.NPCHit25;
             npc.DeathSound = SoundID.NPCDeath28;
             banner = npc.type;
-            bannerItem = mod.ItemType("GhostBellSmallBanner");
+            bannerItem = ModContent.ItemType<GhostBellSmallBanner>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -112,10 +111,10 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
             Vector2 center = new Vector2(npc.Center.X, npc.Center.Y);
             Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
             Vector2 vector = center - Main.screenPosition;
-            vector -= new Vector2((float)mod.GetTexture("NPCs/SunkenSeaNPCs/GhostBellSmallGlow").Width, (float)(mod.GetTexture("NPCs/SunkenSeaNPCs/GhostBellSmallGlow").Height / Main.npcFrameCount[npc.type])) * 1f / 2f;
+            vector -= new Vector2((float)ModContent.GetTexture("CalamityMod/NPCs/SunkenSeaNPCs/GhostBellSmallGlow").Width, (float)(ModContent.GetTexture("CalamityMod/NPCs/SunkenSeaNPCs/GhostBellSmallGlow").Height / Main.npcFrameCount[npc.type])) * 1f / 2f;
             vector += vector11 * 1f + new Vector2(0f, 0f + 4f + npc.gfxOffY);
-            Microsoft.Xna.Framework.Color color = new Microsoft.Xna.Framework.Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.LightBlue);
-            Main.spriteBatch.Draw(mod.GetTexture("NPCs/SunkenSeaNPCs/GhostBellSmallGlow"), vector,
+            Color color = new Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.LightBlue);
+            Main.spriteBatch.Draw(ModContent.GetTexture("CalamityMod/NPCs/SunkenSeaNPCs/GhostBellSmallGlow"), vector,
                 new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, vector11, 1f, spriteEffects, 0f);
         }
 

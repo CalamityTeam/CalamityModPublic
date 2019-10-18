@@ -1,9 +1,8 @@
 ﻿using CalamityMod.World;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.NormalNPCs
+using Terraria.ID;
+namespace CalamityMod.NPCs
 {
     public class CosmicElemental : ModNPC
     {
@@ -28,7 +27,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.HitSound = SoundID.NPCHit7;
             npc.DeathSound = SoundID.NPCDeath6;
             banner = npc.type;
-            bannerItem = mod.ItemType("CosmicElementalBanner");
+            bannerItem = ModContent.ItemType<CosmicElementalBanner>();
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -44,7 +43,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             if (CalamityWorld.revenge)
             {
-                player.AddBuff(mod.BuffType("Horror"), 180, true);
+                player.AddBuff(ModContent.BuffType<Horror>(), 180, true);
             }
             player.AddBuff(BuffID.Confused, 180, true);
         }

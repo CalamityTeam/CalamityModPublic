@@ -2,7 +2,6 @@
 using System;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Projectiles.Healing
 {
     public class RoyalHeal : ModProjectile

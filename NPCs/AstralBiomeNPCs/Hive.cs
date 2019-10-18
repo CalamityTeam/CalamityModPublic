@@ -1,11 +1,11 @@
 ﻿using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using CalamityMod.Dusts;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.AstralBiomeNPCs
+namespace CalamityMod.NPCs
 {
     public class Hive : ModNPC
     {
@@ -15,7 +15,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
         {
             DisplayName.SetDefault("Hive");
             if (!Main.dedServ)
-                glowmask = mod.GetTexture("NPCs/AstralBiomeNPCs/HiveGlow");
+                glowmask = ModContent.GetTexture("CalamityMod/NPCs/AstralBiomeNPCs/HiveGlow");
             Main.npcFrameCount[npc.type] = 6;
         }
 
@@ -32,7 +32,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             npc.knockBackResist = 0f;
             npc.value = Item.buyPrice(0, 0, 15, 0);
             banner = npc.type;
-            bannerItem = mod.ItemType("HiveBanner");
+            bannerItem = ModContent.ItemType<HiveBanner>();
             if (CalamityWorld.downedAstrageldon)
             {
                 npc.damage = 90;
@@ -51,7 +51,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
                     npc.ai[0] = 0;
 
                     //spawn hiveling, it's ai[0] is the hive npc index.
-                    int n = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("Hiveling"), 0, npc.whoAmI);
+                    int n = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<Hiveling>(), 0, npc.whoAmI);
                     Main.npc[n].velocity.X = Main.rand.NextFloat(-0.4f, 0.4f);
                     Main.npc[n].velocity.Y = Main.rand.NextFloat(-0.5f, -0.05f);
                 }
@@ -97,12 +97,12 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
                 }
             }
 
-            CalamityGlobalNPC.DoHitDust(npc, hitDirection, (Main.rand.Next(0, Math.Max(0, npc.life)) == 0) ? 5 : mod.DustType("AstralEnemy"), 1f, 3, 20);
+            CalamityGlobalNPC.DoHitDust(npc, hitDirection, (Main.rand.Next(0, Math.Max(0, npc.life)) == 0) ? 5 : ModContent.DustType<AstralEnemy>(), 1f, 3, 20);
 
             //if dead do gores
             if (npc.life <= 0)
             {
-                int type = mod.NPCType("Hiveling");
+                int type = ModContent.NPCType<Hiveling>();
                 for (int i = 0; i < 200; i++)
                 {
                     if (Main.npc[i].type == type)
@@ -130,19 +130,19 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(mod.BuffType("AstralInfectionDebuff"), 120, true);
+            player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120, true);
         }
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Stardust"), Main.rand.Next(2, 4));
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Stardust>(), Main.rand.Next(2, 4));
             if (Main.expertMode)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Stardust"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Stardust>());
             }
             if (CalamityWorld.downedAstrageldon && Main.rand.NextBool(7))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("HivePod"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<HivePod>());
             }
         }
     }

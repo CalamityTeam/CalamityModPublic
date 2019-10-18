@@ -1,14 +1,13 @@
-﻿using CalamityMod.Utilities;
+﻿
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.CeaselessVoid
+using Terraria.ID;
+namespace CalamityMod.NPCs
 {
     [AutoloadBossHead]
     public class CeaselessVoid : ModNPC
@@ -101,9 +100,9 @@ namespace CalamityMod.NPCs.CeaselessVoid
             npc.TargetClosest(true);
             Player player = Main.player[npc.target];
 
-            if (NPC.CountNPCS(mod.NPCType("DarkEnergy")) > 0 ||
-                NPC.CountNPCS(mod.NPCType("DarkEnergy2")) > 0 ||
-                NPC.CountNPCS(mod.NPCType("DarkEnergy3")) > 0)
+            if (NPC.CountNPCS(ModContent.NPCType<DarkEnergy>()) > 0 ||
+                NPC.CountNPCS(ModContent.NPCType<DarkEnergy2>()) > 0 ||
+                NPC.CountNPCS(ModContent.NPCType<DarkEnergy3>()) > 0)
             {
                 npc.dontTakeDamage = true;
             }
@@ -222,7 +221,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
                         num942 *= num944;
                         num943 *= num944;
                         int num945 = expertMode ? 50 : 60;
-                        int num946 = mod.ProjectileType("DoGBeamPortal");
+                        int num946 = ModContent.ProjectileType<DoGBeamPortal>();
                         vector104.X += num942 * 5f;
                         vector104.Y += num943 * 5f;
                         int num947 = Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, num946, num945, 0f, Main.myPlayer, 0f, 0f);
@@ -241,7 +240,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
                         for (i = 0; i < 4; i++)
                         {
                             offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                            Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)(Math.Sin(offsetAngle) * 3f), (float)(Math.Cos(offsetAngle) * 3f), mod.ProjectileType("DarkEnergyBall"), damage, 0f, Main.myPlayer, passedVar, 0f);
+                            Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)(Math.Sin(offsetAngle) * 3f), (float)(Math.Cos(offsetAngle) * 3f), ModContent.ProjectileType<DarkEnergyBall>(), damage, 0f, Main.myPlayer, passedVar, 0f);
                             passedVar += 1f;
                         }
                     }
@@ -312,7 +311,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
                         }
                         for (int num662 = 0; num662 < glob; num662++)
                         {
-                            Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, 0f, mod.ProjectileType("DarkEnergySpawn"), 0, 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, 0f, ModContent.ProjectileType<DarkEnergySpawn>(), 0, 0f, Main.myPlayer, 0f, 0f);
                         }
                     }
                 }
@@ -325,26 +324,26 @@ namespace CalamityMod.NPCs.CeaselessVoid
             if (CalamityWorld.DoGSecondStageCountdown <= 0)
             {
                 // Materials
-                DropHelper.DropItem(npc, mod.ItemType("DarkPlasma"), true, 2, 3);
+                DropHelper.DropItem(npc, ModContent.ItemType<DarkPlasma>(), true, 2, 3);
 
                 // Weapons
-                DropHelper.DropItemChance(npc, mod.ItemType("MirrorBlade"), 3);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<MirrorBlade>(), 3);
 
                 // Equipment
                 float f = Main.rand.NextFloat();
                 bool replaceWithRare = f <= DropHelper.RareVariantDropRateFloat; // 1/40 chance overall of getting The Evolution
                 if (f < 0.2f) // 1/5 chance of getting Arcanum of the Void OR The Evolution replacing it
                 {
-                    DropHelper.DropItemCondition(npc, mod.ItemType("ArcanumoftheVoid"), !replaceWithRare);
-                    DropHelper.DropItemCondition(npc, mod.ItemType("TheEvolution"), replaceWithRare);
+                    DropHelper.DropItemCondition(npc, ModContent.ItemType<ArcanumoftheVoid>(), !replaceWithRare);
+                    DropHelper.DropItemCondition(npc, ModContent.ItemType<TheEvolution>(), replaceWithRare);
                 }
 
                 // Vanity
-                DropHelper.DropItemChance(npc, mod.ItemType("CeaselessVoidTrophy"), 10);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<CeaselessVoidTrophy>(), 10);
 
                 // Other
                 bool lastSentinelKilled = !CalamityWorld.downedSentinel1 && CalamityWorld.downedSentinel2 && CalamityWorld.downedSentinel3;
-                DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeSentinels"), true, lastSentinelKilled);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeSentinels>(), true, lastSentinelKilled);
                 DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedSentinel1, 5, 2, 1);
             }
 

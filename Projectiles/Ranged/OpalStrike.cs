@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria.ID;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Projectiles.Ranged
 {
     public class OpalStrike : ModProjectile

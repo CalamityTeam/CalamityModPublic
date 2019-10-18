@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Projectiles.Magic
 {
     public class BrimstoneHellfireballFriendly : ModProjectile
@@ -46,13 +45,13 @@ namespace CalamityMod.Projectiles.Magic
         {
             if (projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("HellfireExplosionFriendly"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<HellfireExplosionFriendly>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
             }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("BrimstoneFlames"), 600);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 600);
         }
     }
 }

@@ -2,10 +2,9 @@
 using System;
 using System.IO;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.NormalNPCs
+using Terraria.ID;
+namespace CalamityMod.NPCs
 {
     public class Horse : ModNPC
     {
@@ -42,7 +41,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.HitSound = SoundID.NPCHit4;
             npc.rarity = 2;
             banner = npc.type;
-            bannerItem = mod.ItemType("EarthElementalBanner");
+            bannerItem = ModContent.ItemType<EarthElementalBanner>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -81,19 +80,19 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             if (Main.rand.NextBool(3))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("AridArtifact"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<AridArtifact>());
             }
             if (Main.rand.NextBool(4))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SlagMagnum"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<SlagMagnum>());
             }
             if (Main.rand.NextBool(4))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Aftershock"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.Aftershock>());
             }
             if (Main.rand.NextBool(4))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EarthenPike"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.EarthenPike>());
             }
         }
 
@@ -192,12 +191,12 @@ namespace CalamityMod.NPCs.NormalNPCs
                         num180 *= num183;
                         num182 *= num183;
                         int num184 = 30;
-                        int num185 = mod.ProjectileType("EarthRockSmall");
+                        int num185 = ModContent.ProjectileType<EarthRockSmall>();
                         value9.X += num180;
                         value9.Y += num182;
                         for (int num186 = 0; num186 < 4; num186++)
                         {
-                            num185 = Main.rand.NextBool(4) ? mod.ProjectileType("EarthRockBig") : mod.ProjectileType("EarthRockSmall");
+                            num185 = Main.rand.NextBool(4) ? ModContent.ProjectileType<EarthRockBig>() : ModContent.ProjectileType<EarthRockSmall>();
                             num180 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - value9.X;
                             num182 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - value9.Y;
                             num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));

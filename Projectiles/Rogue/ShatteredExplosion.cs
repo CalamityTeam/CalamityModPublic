@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Projectiles.Rogue
 {
     public class ShatteredExplosion : ModProjectile
@@ -41,7 +40,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("HolyLight"), 180);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
         }
     }
 }

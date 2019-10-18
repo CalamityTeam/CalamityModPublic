@@ -4,10 +4,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.Polterghast
+using Terraria.ID;
+namespace CalamityMod.NPCs
 {
     public class PolterghastHook : ModNPC
     {
@@ -130,7 +129,7 @@ namespace CalamityMod.NPCs.Polterghast
                     {
                         float num151 = CalamityWorld.bossRushActive ? 7.5f : 5f;
                         int num152 = Main.expertMode ? 48 : 60;
-                        int num153 = mod.ProjectileType("PhantomHookShot");
+                        int num153 = ModContent.ProjectileType<PhantomHookShot>();
                         num149 = num151 / num149;
                         num147 *= num149;
                         num148 *= num149;
@@ -339,10 +338,10 @@ namespace CalamityMod.NPCs.Polterghast
                     center.Y += bossCenterY;
                     bossCenterX = Main.npc[CalamityGlobalNPC.ghostBoss].Center.X - center.X;
                     bossCenterY = Main.npc[CalamityGlobalNPC.ghostBoss].Center.Y - center.Y;
-                    Microsoft.Xna.Framework.Color color2 = new Color(100, 100, 100, 0);
-                    Main.spriteBatch.Draw(mod.GetTexture("NPCs/Polterghast/PolterghastChain"), new Vector2(center.X - Main.screenPosition.X, center.Y - Main.screenPosition.Y),
-                        new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, 0, mod.GetTexture("NPCs/Polterghast/PolterghastChain").Width, chainWidth)), color2, rotation2,
-                        new Vector2((float)mod.GetTexture("NPCs/Polterghast/PolterghastChain").Width * 0.5f, (float)mod.GetTexture("NPCs/Polterghast/PolterghastChain").Height * 0.5f), 1f, SpriteEffects.None, 0f);
+                    Color color2 = new Color(100, 100, 100, 0);
+                    Main.spriteBatch.Draw(ModContent.GetTexture("CalamityMod/NPCs/Polterghast/PolterghastChain"), new Vector2(center.X - Main.screenPosition.X, center.Y - Main.screenPosition.Y),
+                        new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, 0, ModContent.GetTexture("CalamityMod/NPCs/Polterghast/PolterghastChain").Width, chainWidth)), color2, rotation2,
+                        new Vector2((float)ModContent.GetTexture("CalamityMod/NPCs/Polterghast/PolterghastChain").Width * 0.5f, (float)ModContent.GetTexture("CalamityMod/NPCs/Polterghast/PolterghastChain").Height * 0.5f), 1f, SpriteEffects.None, 0f);
                 }
             }
             return true;
@@ -362,7 +361,7 @@ namespace CalamityMod.NPCs.Polterghast
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             if (CalamityWorld.revenge)
-                player.AddBuff(mod.BuffType("Horror"), 180, true);
+                player.AddBuff(ModContent.BuffType<Horror>(), 180, true);
         }
 
         public override void HitEffect(int hitDirection, double damage)

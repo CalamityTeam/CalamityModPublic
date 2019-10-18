@@ -1,7 +1,7 @@
 ﻿using CalamityMod.CalPlayer;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Accessories
         public override void OnCraft(Recipe recipe)
         {
             if (Main.rand.NextBool(40))
-                recipe.createItem.type = mod.ItemType("SamuraiBadge");
+                recipe.createItem.type = ModContent.ItemType<SamuraiBadge>();
             else
                 recipe.createItem.type = item.type;
         }

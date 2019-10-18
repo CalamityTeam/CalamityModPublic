@@ -1,6 +1,5 @@
 ﻿using Terraria.ID;
-using Terraria.ModLoader;
-// If you are using c# 6, you can use: "using static Terraria.Localization.GameCulture;" which would mean you could just write "DisplayName.AddTranslation(German, "");"
+using Terraria.ModLoader; // If you are using c# 6, you can use: "using static Terraria.Localization.GameCulture;" which would mean you could just write "DisplayName.AddTranslation(German, "");"
 
 namespace CalamityMod.Items.Placeables.FurnitureProfaned
 {
@@ -21,7 +20,7 @@ namespace CalamityMod.Items.Placeables.FurnitureProfaned
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = mod.TileType("RunicProfanedBrick");
+            item.createTile = ModContent.TileType<Tiles.RunicProfanedBrick>();
         }
 
         public override void AddRecipes()

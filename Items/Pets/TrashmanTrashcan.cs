@@ -1,7 +1,6 @@
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
+using Terraria.ID;
 namespace CalamityMod.Items.Pets
 {
     public class TrashmanTrashcan : ModItem
@@ -21,8 +20,8 @@ namespace CalamityMod.Items.Pets
             item.width = 30;
             item.height = 30;
             item.value = Item.sellPrice(0, 1, 0, 0);
-            item.shoot = mod.ProjectileType("DannyDevito");
-            item.buffType = mod.BuffType("DannyDevito");
+            item.shoot = ModContent.ProjectileType<DannyDevitoPet>();
+            item.buffType = ModContent.BuffType<DannyDevito>();
             item.rare = 5;
             item.UseSound = SoundID.NPCDeath13;
         }

@@ -2,10 +2,9 @@
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.AstralBiomeNPCs
+using Terraria.ID;
+namespace CalamityMod.NPCs
 {
     public class AstralProbe : ModNPC
     {
@@ -30,7 +29,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             npc.noTileCollide = true;
             npc.DeathSound = SoundID.NPCDeath14;
             banner = npc.type;
-            bannerItem = mod.ItemType("AstralProbeBanner");
+            bannerItem = ModContent.ItemType<AstralProbeBanner>();
             if (CalamityWorld.downedAstrageldon)
             {
                 npc.damage = 30;
@@ -291,11 +290,11 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
         {
             if (Main.rand.NextBool(2))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Stardust"), Main.rand.Next(1, 3));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Stardust>(), Main.rand.Next(1, 3));
             }
             if (Main.expertMode)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Stardust"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Stardust>());
             }
         }
 
@@ -306,7 +305,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(mod.BuffType("AstralInfectionDebuff"), 120, true);
+            player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120, true);
         }
     }
 }

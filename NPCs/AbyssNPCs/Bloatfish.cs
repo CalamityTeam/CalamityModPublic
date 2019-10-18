@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.NPCs.AbyssNPCs
+namespace CalamityMod.NPCs
 {
     public class Bloatfish : ModNPC
     {
@@ -26,12 +26,12 @@ namespace CalamityMod.NPCs.AbyssNPCs
             npc.aiStyle = -1;
             aiType = -1;
             npc.value = Item.buyPrice(0, 0, 30, 0);
-            npc.buffImmune[mod.BuffType("CrushDepth")] = true;
+            npc.buffImmune[ModContent.BuffType<CrushDepth>()] = true;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
             npc.knockBackResist = 0.9f;
             banner = npc.type;
-            bannerItem = mod.ItemType("BloatfishBanner");
+            bannerItem = ModContent.ItemType<BloatfishBanner>();
         }
 
         public override void AI()
@@ -157,7 +157,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(mod.BuffType("CrushDepth"), 900, true);
+            player.AddBuff(ModContent.BuffType<CrushDepth>(), 900, true);
         }
 
         public override void FindFrame(int frameHeight)
@@ -175,7 +175,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.player.Calamity().ZoneAbyssLayer4 && spawnInfo.water && NPC.CountNPCS(mod.NPCType("Bloatfish")) < 3)
+            if (spawnInfo.player.Calamity().ZoneAbyssLayer4 && spawnInfo.water && NPC.CountNPCS(ModContent.NPCType<Bloatfish>()) < 3)
             {
                 return SpawnCondition.CaveJellyfish.Chance * 0.3f;
             }
@@ -184,20 +184,20 @@ namespace CalamityMod.NPCs.AbyssNPCs
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Voidstone"), Main.rand.Next(10, 21));
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Voidstone>(), Main.rand.Next(10, 21));
             if (Main.rand.NextBool(1000000) && CalamityWorld.revenge)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("HalibutCannon"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<HalibutCannon>());
             }
             if (NPC.downedPlantBoss || CalamityWorld.downedCalamitas)
             {
                 if (Main.rand.NextBool(2))
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DepthCells"), Main.rand.Next(5, 8));
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DepthCells>(), Main.rand.Next(5, 8));
                 }
                 if (Main.expertMode && Main.rand.NextBool(2))
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DepthCells"), Main.rand.Next(2, 4));
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DepthCells>(), Main.rand.Next(2, 4));
                 }
             }
         }

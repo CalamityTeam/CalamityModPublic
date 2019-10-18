@@ -1,7 +1,8 @@
 ﻿using CalamityMod.CalPlayer;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
+using CalamityMod.Items.Materials;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -17,8 +18,8 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
+            item.width = 46;
+            item.height = 40;
             item.value = Item.buyPrice(0, 18, 0, 0);
             item.Calamity().postMoonLordRarity = 12;
             item.accessory = true;
@@ -34,9 +35,9 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("FeatherCrown"));
+            recipe.AddIngredient(ModContent.ItemType<FeatherCrown>());
             recipe.AddIngredient(ItemID.LunarBar, 5);
-            recipe.AddIngredient(mod.ItemType("GalacticaSingularity"), 5);
+            recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

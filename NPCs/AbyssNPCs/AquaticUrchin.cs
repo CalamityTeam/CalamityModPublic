@@ -5,7 +5,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.NPCs.AbyssNPCs
+namespace CalamityMod.NPCs
 {
     public class AquaticUrchin : ModNPC
     {
@@ -37,7 +37,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
             npc.DeathSound = SoundID.NPCDeath15;
             npc.behindTiles = true;
             banner = npc.type;
-            bannerItem = mod.ItemType("AquaticUrchinBanner");
+            bannerItem = ModContent.ItemType<AquaticUrchinBanner>();
         }
 
         public override void AI()
@@ -327,7 +327,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
             {
                 return 0f;
             }
-            if (spawnInfo.player.Calamity().ZoneSulphur && spawnInfo.water && NPC.CountNPCS(mod.NPCType("AquaticUrchin")) < 2)
+            if (spawnInfo.player.Calamity().ZoneSulphur && spawnInfo.water && NPC.CountNPCS(ModContent.NPCType<AquaticUrchin>()) < 2)
             {
                 return 0.2f;
             }
@@ -336,7 +336,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("UrchinStinger"), Main.rand.Next(15, 26));
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<UrchinStinger>(), Main.rand.Next(15, 26));
         }
 
         public override void HitEffect(int hitDirection, double damage)

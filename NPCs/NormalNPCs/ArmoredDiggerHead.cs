@@ -1,10 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.NormalNPCs
+using Terraria.ID;
+namespace CalamityMod.NPCs
 {
     public class ArmoredDiggerHead : ModNPC
     {
@@ -39,7 +38,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
             npc.netAlways = true;
             banner = npc.type;
-            bannerItem = mod.ItemType("ArmoredDiggerBanner");
+            bannerItem = ModContent.ItemType<ArmoredDiggerBanner>();
         }
 
         public override void AI()
@@ -63,10 +62,10 @@ namespace CalamityMod.NPCs.NormalNPCs
                     int num3 = 40;
                     for (int j = 0; j <= num3; j++)
                     {
-                        int num4 = mod.NPCType("ArmoredDiggerBody");
+                        int num4 = ModContent.NPCType<ArmoredDiggerBody>();
                         if (j == num3)
                         {
-                            num4 = mod.NPCType("ArmoredDiggerTail");
+                            num4 = ModContent.NPCType<ArmoredDiggerTail>();
                         }
                         int num5 = NPC.NewNPC((int)(npc.position.X + (float)(npc.width / 2)), (int)(npc.position.Y + (float)npc.height), num4, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
                         Main.npc[num5].ai[3] = (float)npc.whoAmI;
@@ -164,8 +163,8 @@ namespace CalamityMod.NPCs.NormalNPCs
                 {
                     for (int a = 0; a < 200; a++)
                     {
-                        if (Main.npc[a].type == mod.NPCType("ArmoredDiggerHead") || Main.npc[a].type == mod.NPCType("ArmoredDiggerBody") ||
-                            Main.npc[a].type == mod.NPCType("ArmoredDiggerTail"))
+                        if (Main.npc[a].type == ModContent.NPCType<ArmoredDiggerHead>() || Main.npc[a].type == ModContent.NPCType<ArmoredDiggerBody>() ||
+                            Main.npc[a].type == ModContent.NPCType<ArmoredDiggerTail>())
                         {
                             Main.npc[a].active = false;
                         }
@@ -411,13 +410,13 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             if (Main.rand.NextBool(40))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("LeadWizard"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<LeadWizard>());
             }
             if (Main.rand.NextBool(3))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DraedonsRemote"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DraedonsRemote>());
             }
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DemonicBoneAsh"), Main.rand.Next(2, 5));
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DemonicBoneAsh>(), Main.rand.Next(2, 5));
         }
     }
 }

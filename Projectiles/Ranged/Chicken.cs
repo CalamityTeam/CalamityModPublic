@@ -2,7 +2,6 @@
 using System;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Projectiles.Ranged
 {
     public class Chicken : ModProjectile
@@ -93,7 +92,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
             if (projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("ChickenExplosion"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ChickenExplosion>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
             }
             Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 14);
             for (int num621 = 0; num621 < 40; num621++)

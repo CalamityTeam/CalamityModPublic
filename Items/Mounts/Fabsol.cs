@@ -1,6 +1,6 @@
 ﻿using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Mounts
 {
@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Mounts
             item.expert = true;
             item.UseSound = SoundID.Item3;
             item.noMelee = true;
-            item.mountType = mod.MountType("Fab");
+            item.mountType = ModContent.MountType<AlicornMount>();
         }
     }
 }

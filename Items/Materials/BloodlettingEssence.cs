@@ -1,6 +1,6 @@
 ﻿using Terraria;
-using Terraria.DataStructures;
 using Terraria.ModLoader;
+using Terraria.DataStructures;
 
 namespace CalamityMod.Items.Materials
 {

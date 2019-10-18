@@ -1,15 +1,15 @@
-﻿using CalamityMod.Utilities;
+﻿
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.Localization;
-using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.Cryogen
+using CalamityMod.Items;
+namespace CalamityMod.NPCs
 {
     [AutoloadBossHead]
     public class Cryogen : ModNPC
@@ -45,21 +45,21 @@ namespace CalamityMod.NPCs.Cryogen
                 npc.buffImmune[k] = true;
             }
             npc.buffImmune[BuffID.Ichor] = false;
-            npc.buffImmune[mod.BuffType("MarkedforDeath")] = false;
+            npc.buffImmune[ModContent.BuffType<MarkedforDeath>()] = false;
             npc.buffImmune[BuffID.OnFire] = false;
             npc.buffImmune[BuffID.CursedInferno] = false;
             npc.buffImmune[BuffID.Daybreak] = false;
-            npc.buffImmune[mod.BuffType("AbyssalFlames")] = false;
-            npc.buffImmune[mod.BuffType("ArmorCrunch")] = false;
-            npc.buffImmune[mod.BuffType("BrimstoneFlames")] = false;
-            npc.buffImmune[mod.BuffType("DemonFlames")] = false;
-            npc.buffImmune[mod.BuffType("GodSlayerInferno")] = false;
-            npc.buffImmune[mod.BuffType("HolyLight")] = false;
-            npc.buffImmune[mod.BuffType("Nightwither")] = false;
-            npc.buffImmune[mod.BuffType("Plague")] = false;
-            npc.buffImmune[mod.BuffType("Shred")] = false;
-            npc.buffImmune[mod.BuffType("WhisperingDeath")] = false;
-            npc.buffImmune[mod.BuffType("SilvaStun")] = false;
+            npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
+            npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
+            npc.buffImmune[ModContent.BuffType<BrimstoneFlames>()] = false;
+            npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
+            npc.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = false;
+            npc.buffImmune[ModContent.BuffType<HolyFlames>()] = false;
+            npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
+            npc.buffImmune[ModContent.BuffType<Plague>()] = false;
+            npc.buffImmune[ModContent.BuffType<Shred>()] = false;
+            npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
+            npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
             npc.boss = true;
             npc.noGravity = true;
             npc.noTileCollide = true;
@@ -70,7 +70,7 @@ namespace CalamityMod.NPCs.Cryogen
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Cryogen");
             else
                 music = MusicID.FrostMoon;
-            bossBag = mod.ItemType("CryogenBag");
+            bossBag = ModContent.ItemType<CryogenBag>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -102,7 +102,7 @@ namespace CalamityMod.NPCs.Cryogen
             npc.TargetClosest(true);
             if (npc.ai[2] == 0f && npc.localAI[1] == 0f && Main.netMode != NetmodeID.MultiplayerClient && (npc.ai[0] < 4f || CalamityWorld.bossRushActive)) //spawn shield for phase 0 1 2 3, not 4 5
             {
-                int num6 = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("CryogenIce"), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+                int num6 = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<CryogenIce>(), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
                 npc.ai[2] = (float)(num6 + 1);
                 npc.localAI[1] = -1f;
                 npc.netUpdate = true;
@@ -110,7 +110,7 @@ namespace CalamityMod.NPCs.Cryogen
                 Main.npc[num6].netUpdate = true;
             }
             int num7 = (int)npc.ai[2] - 1;
-            if (num7 != -1 && Main.npc[num7].active && Main.npc[num7].type == mod.NPCType("CryogenIce"))
+            if (num7 != -1 && Main.npc[num7].active && Main.npc[num7].type == ModContent.NPCType<CryogenIce>())
             {
                 npc.dontTakeDamage = true;
             }
@@ -177,8 +177,8 @@ namespace CalamityMod.NPCs.Cryogen
                     for (i = 0; i < 2; i++)
                     {
                         offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                        Projectile.NewProjectile(value9.X, value9.Y, (float)(Math.Sin(offsetAngle) * velocity), (float)(Math.Cos(offsetAngle) * velocity), mod.ProjectileType("IceBomb"), num184, 0f, Main.myPlayer, 0f, 0f);
-                        Projectile.NewProjectile(value9.X, value9.Y, (float)(-Math.Sin(offsetAngle) * velocity), (float)(-Math.Cos(offsetAngle) * velocity), mod.ProjectileType("IceBomb"), num184, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile(value9.X, value9.Y, (float)(Math.Sin(offsetAngle) * velocity), (float)(Math.Cos(offsetAngle) * velocity), ModContent.ProjectileType<IceBomb>(), num184, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile(value9.X, value9.Y, (float)(-Math.Sin(offsetAngle) * velocity), (float)(-Math.Cos(offsetAngle) * velocity), ModContent.ProjectileType<IceBomb>(), num184, 0f, Main.myPlayer, 0f, 0f);
                     }
                     time = 0;
                 }
@@ -206,8 +206,8 @@ namespace CalamityMod.NPCs.Cryogen
                             for (i = 0; i < 8; i++)
                             {
                                 offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                                Projectile.NewProjectile(value9.X, value9.Y, (float)(Math.Sin(offsetAngle) * velocity), (float)(Math.Cos(offsetAngle) * velocity), mod.ProjectileType("IceBlast"), num184, 0f, Main.myPlayer, 0f, 0f);
-                                Projectile.NewProjectile(value9.X, value9.Y, (float)(-Math.Sin(offsetAngle) * velocity), (float)(-Math.Cos(offsetAngle) * velocity), mod.ProjectileType("IceBlast"), num184, 0f, Main.myPlayer, 0f, 0f);
+                                Projectile.NewProjectile(value9.X, value9.Y, (float)(Math.Sin(offsetAngle) * velocity), (float)(Math.Cos(offsetAngle) * velocity), ModContent.ProjectileType<IceBlast>(), num184, 0f, Main.myPlayer, 0f, 0f);
+                                Projectile.NewProjectile(value9.X, value9.Y, (float)(-Math.Sin(offsetAngle) * velocity), (float)(-Math.Cos(offsetAngle) * velocity), ModContent.ProjectileType<IceBlast>(), num184, 0f, Main.myPlayer, 0f, 0f);
                             }
                         }
                     }
@@ -259,8 +259,8 @@ namespace CalamityMod.NPCs.Cryogen
                             for (i = 0; i < 6; i++)
                             {
                                 offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                                int ice = Projectile.NewProjectile(value9.X, value9.Y, (float)(Math.Sin(offsetAngle) * velocity), (float)(Math.Cos(offsetAngle) * velocity), mod.ProjectileType("IceBlast"), num184, 0f, Main.myPlayer, 0f, 0f);
-                                int ice2 = Projectile.NewProjectile(value9.X, value9.Y, (float)(-Math.Sin(offsetAngle) * velocity), (float)(-Math.Cos(offsetAngle) * velocity), mod.ProjectileType("IceBlast"), num184, 0f, Main.myPlayer, 0f, 0f);
+                                int ice = Projectile.NewProjectile(value9.X, value9.Y, (float)(Math.Sin(offsetAngle) * velocity), (float)(Math.Cos(offsetAngle) * velocity), ModContent.ProjectileType<IceBlast>(), num184, 0f, Main.myPlayer, 0f, 0f);
+                                int ice2 = Projectile.NewProjectile(value9.X, value9.Y, (float)(-Math.Sin(offsetAngle) * velocity), (float)(-Math.Cos(offsetAngle) * velocity), ModContent.ProjectileType<IceBlast>(), num184, 0f, Main.myPlayer, 0f, 0f);
                                 Main.projectile[ice].timeLeft = 300;
                                 Main.projectile[ice2].timeLeft = 300;
                             }
@@ -337,7 +337,7 @@ namespace CalamityMod.NPCs.Cryogen
                         if (CalamityWorld.bossRushActive)
                             velocity = 9f;
 
-                        Projectile.NewProjectile((float)num1169, (float)num1170, 0f, velocity, mod.ProjectileType("IceRain"), damage, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile((float)num1169, (float)num1170, 0f, velocity, ModContent.ProjectileType<IceRain>(), damage, 0f, Main.myPlayer, 0f, 0f);
                     }
                 }
                 if ((double)npc.life < (double)npc.lifeMax * (0.66 + multAdd))
@@ -373,8 +373,8 @@ namespace CalamityMod.NPCs.Cryogen
                                 for (i = 0; i < 6; i++)
                                 {
                                     offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                                    int ice = Projectile.NewProjectile(value9.X, value9.Y, (float)(Math.Sin(offsetAngle) * velocity), (float)(Math.Cos(offsetAngle) * velocity), mod.ProjectileType("IceBlast"), num184, 0f, Main.myPlayer, 0f, 0f);
-                                    int ice2 = Projectile.NewProjectile(value9.X, value9.Y, (float)(-Math.Sin(offsetAngle) * velocity), (float)(-Math.Cos(offsetAngle) * velocity), mod.ProjectileType("IceBlast"), num184, 0f, Main.myPlayer, 0f, 0f);
+                                    int ice = Projectile.NewProjectile(value9.X, value9.Y, (float)(Math.Sin(offsetAngle) * velocity), (float)(Math.Cos(offsetAngle) * velocity), ModContent.ProjectileType<IceBlast>(), num184, 0f, Main.myPlayer, 0f, 0f);
+                                    int ice2 = Projectile.NewProjectile(value9.X, value9.Y, (float)(-Math.Sin(offsetAngle) * velocity), (float)(-Math.Cos(offsetAngle) * velocity), ModContent.ProjectileType<IceBlast>(), num184, 0f, Main.myPlayer, 0f, 0f);
                                     Main.projectile[ice].timeLeft = 300;
                                     Main.projectile[ice2].timeLeft = 300;
                                 }
@@ -394,7 +394,7 @@ namespace CalamityMod.NPCs.Cryogen
                                 num180 *= num183;
                                 num182 *= num183;
                                 int num184 = expertMode ? 23 : 26;
-                                int num185 = mod.ProjectileType("IceRain");
+                                int num185 = ModContent.ProjectileType<IceRain>();
                                 value9.X += num180;
                                 value9.Y += num182;
                                 for (int num186 = 0; num186 < 15; num186++)
@@ -462,7 +462,7 @@ namespace CalamityMod.NPCs.Cryogen
                             num180 *= num183;
                             num182 *= num183;
                             int num184 = expertMode ? 23 : 26;
-                            int num185 = mod.ProjectileType("IceRain");
+                            int num185 = ModContent.ProjectileType<IceRain>();
                             value9.X += num180;
                             value9.Y += num182;
                             for (int num186 = 0; num186 < 15; num186++)
@@ -545,7 +545,7 @@ namespace CalamityMod.NPCs.Cryogen
                         if (CalamityWorld.bossRushActive)
                             velocity = 9f;
 
-                        Projectile.NewProjectile((float)num1169, (float)num1170, 0f, velocity, mod.ProjectileType("IceRain"), damage, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile((float)num1169, (float)num1170, 0f, velocity, ModContent.ProjectileType<IceRain>(), damage, 0f, Main.myPlayer, 0f, 0f);
                     }
                 }
                 if ((double)npc.life < (double)npc.lifeMax * (0.32 + multAdd))
@@ -577,8 +577,8 @@ namespace CalamityMod.NPCs.Cryogen
                             for (i = 0; i < 6; i++)
                             {
                                 offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                                int ice = Projectile.NewProjectile(value9.X, value9.Y, (float)(Math.Sin(offsetAngle) * 9f), (float)(Math.Cos(offsetAngle) * 9f), mod.ProjectileType("IceBlast"), num184, 0f, Main.myPlayer, 0f, 0f);
-                                int ice2 = Projectile.NewProjectile(value9.X, value9.Y, (float)(-Math.Sin(offsetAngle) * 9f), (float)(-Math.Cos(offsetAngle) * 9f), mod.ProjectileType("IceBlast"), num184, 0f, Main.myPlayer, 0f, 0f);
+                                int ice = Projectile.NewProjectile(value9.X, value9.Y, (float)(Math.Sin(offsetAngle) * 9f), (float)(Math.Cos(offsetAngle) * 9f), ModContent.ProjectileType<IceBlast>(), num184, 0f, Main.myPlayer, 0f, 0f);
+                                int ice2 = Projectile.NewProjectile(value9.X, value9.Y, (float)(-Math.Sin(offsetAngle) * 9f), (float)(-Math.Cos(offsetAngle) * 9f), ModContent.ProjectileType<IceBlast>(), num184, 0f, Main.myPlayer, 0f, 0f);
                                 Main.projectile[ice].timeLeft = 300;
                                 Main.projectile[ice2].timeLeft = 300;
                             }
@@ -833,15 +833,15 @@ namespace CalamityMod.NPCs.Cryogen
                             int randomSpawn = Main.rand.Next(3);
                             if (randomSpawn == 0)
                             {
-                                randomSpawn = mod.NPCType("Cryocore");
+                                randomSpawn = ModContent.NPCType<Cryocore>();
                             }
                             else if (randomSpawn == 1)
                             {
-                                randomSpawn = mod.NPCType("IceMass");
+                                randomSpawn = ModContent.NPCType<IceMass>();
                             }
                             else
                             {
-                                randomSpawn = mod.NPCType("Cryocore2");
+                                randomSpawn = ModContent.NPCType<Cryocore2>();
                             }
                             int num664 = NPC.NewNPC(x, y, randomSpawn, 0, 0f, 0f, 0f, 0f, 255);
                             if (Main.netMode == NetmodeID.Server && num664 < 200)
@@ -859,7 +859,7 @@ namespace CalamityMod.NPCs.Cryogen
             if (drawAltTexture)
             {
                 Mod mod = ModLoader.GetMod("CalamityMod");
-                Texture2D texture = mod.GetTexture("NPCs/Cryogen/Cryogen2");
+                Texture2D texture = ModContent.GetTexture("CalamityMod/NPCs/Cryogen/Cryogen2");
                 CalamityMod.DrawTexture(spriteBatch, texture, 0, npc, drawColor);
                 return false;
             }
@@ -965,43 +965,43 @@ namespace CalamityMod.NPCs.Cryogen
         {
             DropHelper.DropBags(npc);
 
-            DropHelper.DropItemChance(npc, mod.ItemType("CryogenTrophy"), 10);
-            DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeCryogen"), true, !CalamityWorld.downedCryogen);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<CryogenTrophy>(), 10);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeCryogen>(), true, !CalamityWorld.downedCryogen);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedCryogen, 4, 2, 1);
 
             if (!Main.expertMode)
             {
                 // Materials
                 DropHelper.DropItem(npc, ItemID.SoulofMight, 20, 40);
-                DropHelper.DropItem(npc, mod.ItemType("CryoBar"), 15, 25);
-                DropHelper.DropItemSpray(npc, mod.ItemType("EssenceofEleum"), 4, 8);
+                DropHelper.DropItem(npc, ModContent.ItemType<CryoBar>(), 15, 25);
+                DropHelper.DropItemSpray(npc, ModContent.ItemType<EssenceofEleum>(), 4, 8);
                 DropHelper.DropItem(npc, ItemID.FrostCore);
 
                 // Weapons
-                DropHelper.DropItemChance(npc, mod.ItemType("Avalanche"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("GlacialCrusher"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("EffluviumBow"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("BittercoldStaff"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("SnowstormStaff"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("Icebreaker"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("IceStar"), 4, 100, 150);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Avalanche>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<GlacialCrusher>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<EffluviumBow>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<BittercoldStaff>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<SnowstormStaff>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.Icebreaker>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<IceStar>(), 4, 100, 150);
 
                 // Equipment
-                DropHelper.DropItemChance(npc, mod.ItemType("CryoStone"), 10);
-                DropHelper.DropItemChance(npc, mod.ItemType("Regenator"), DropHelper.RareVariantDropRateInt);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<CryoStone>(), 10);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Regenator>(), DropHelper.RareVariantDropRateInt);
 
                 // Vanity
-                DropHelper.DropItemChance(npc, mod.ItemType("CryogenMask"), 7);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<CryogenMask>(), 7);
 
                 // Other
                 DropHelper.DropItemChance(npc, ItemID.FrozenKey, 5);
             }
 
             // Spawn Permafrost if he isn't in the world
-            int permafrostNPC = NPC.FindFirstNPC(mod.NPCType("DILF"));
+            int permafrostNPC = NPC.FindFirstNPC(ModContent.NPCType<DILF>());
             if (permafrostNPC == -1 && Main.netMode != NetmodeID.MultiplayerClient)
             {
-                NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("DILF"), 0, 0f, 0f, 0f, 0f, 255);
+                NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<DILF>(), 0, 0f, 0f, 0f, 0f, 255);
             }
 
             // If Cryogen has not been killed, notify players about Cryonic Ore
@@ -1009,7 +1009,7 @@ namespace CalamityMod.NPCs.Cryogen
             {
                 string key = "Mods.CalamityMod.IceOreText";
                 Color messageColor = Color.LightSkyBlue;
-                WorldGenerationMethods.SpawnOre(mod.TileType("CryonicOre"), 15E-05, .45f, .65f);
+                WorldGenerationMethods.SpawnOre(ModContent.TileType<Tiles.CryonicOre>(), 15E-05, .45f, .65f);
 
                 if (Main.netMode == NetmodeID.SinglePlayer)
                     Main.NewText(Language.GetTextValue(key), messageColor);

@@ -1,8 +1,8 @@
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -98,7 +98,7 @@ namespace CalamityMod.Projectiles.Ranged
 
                     player.PickAmmo(player.inventory[player.selectedItem], ref type, ref scaleFactor, ref canFire, ref damage, ref knockBack, false);
 
-                    type = mod.ProjectileType("DrataliornusFlame");
+                    type = ModContent.ProjectileType<DrataliornusFlame>();
                     knockBack = player.GetWeaponKnockback(player.inventory[player.selectedItem], knockBack);
 
                     Vector2 playerPosition = player.RotatedRelativePoint(player.MountedCenter, true);

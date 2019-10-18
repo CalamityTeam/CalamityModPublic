@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Dusts
 {
-    public class HolyFlame : ModDust
+    public class HolyFireDust : ModDust
     {
         public override void OnSpawn(Dust dust)
         {

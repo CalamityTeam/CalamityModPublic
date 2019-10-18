@@ -1,7 +1,8 @@
 ﻿using CalamityMod.CalPlayer;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
+using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -28,7 +29,7 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.alchFlask = true;
-            player.buffImmune[mod.BuffType("Plague")] = true;
+            player.buffImmune[ModContent.BuffType<Plague>()] = true;
         }
 
         public override void AddRecipes()

@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (Main.rand.Next(2) == 0)
             {
-                Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, mod.ItemType("LeadTomahawk"));
+                Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, ModContent.ItemType<Items.LeadTomahawk>());
             }
         }
 

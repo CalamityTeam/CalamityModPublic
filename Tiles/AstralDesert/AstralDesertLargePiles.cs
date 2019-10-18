@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using CalamityMod.Dusts;
 using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.AstralDesert
@@ -17,7 +18,7 @@ namespace CalamityMod.Tiles.AstralDesert
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
             TileObjectData.addTile(Type);
 
-            dustType = mod.DustType("AstralBasic");
+            dustType = ModContent.DustType<AstralBasic>();
 
             AddMapEntry(new Color(79, 61, 97));
 

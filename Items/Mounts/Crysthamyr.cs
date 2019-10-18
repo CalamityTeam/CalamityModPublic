@@ -1,9 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
+using Terraria.ID;
 namespace CalamityMod.Items.Mounts
 {
     class Crysthamyr : ModMountData
@@ -12,7 +11,7 @@ namespace CalamityMod.Items.Mounts
         {
             mountData.spawnDust = 173;
             mountData.spawnDustNoGravity = true;
-            mountData.buff = mod.BuffType("GazeOfCrysthamyrBuff");
+            mountData.buff = ModContent.BuffType<GazeOfCrysthamyrBuff>();
             mountData.heightBoost = 36;
             mountData.fallDamage = 0f;
             mountData.runSpeed = 5f;
@@ -66,7 +65,7 @@ namespace CalamityMod.Items.Mounts
             mountData.swimFrameStart = mountData.inAirFrameStart;
             if (Main.netMode != NetmodeID.Server)
             {
-                mountData.frontTextureExtra = mod.GetTexture("Items/Mounts/CrysthamyrExtra");
+                mountData.frontTextureExtra = ModContent.GetTexture("CalamityMod/Items/Mounts/CrysthamyrExtra");
                 mountData.textureWidth = mountData.backTexture.Width;
                 mountData.textureHeight = mountData.backTexture.Height;
             }

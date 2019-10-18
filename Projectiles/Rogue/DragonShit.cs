@@ -35,7 +35,7 @@ namespace CalamityMod.Projectiles.Rogue
             target = projectile.Center.ClosestNPCAt(1200f);
             if (projectile.localAI[0] == 0f)
             {
-                projectile.ai[0] = Utils.SelectRandom<float>(Main.rand, -1f, 1f);
+                projectile.ai[0] = Utils.SelectRandom(Main.rand, -1f, 1f);
                 projectile.localAI[0] = 1f;
             }
             projectile.frameCounter++;

@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Tiles.FurnitureAbyss
 {
@@ -16,7 +16,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Dressers };
             dresser = "Abyss Dresser";
-            dresserDrop = mod.ItemType("AbyssDresser");
+            dresserDrop = ModContent.ItemType<Items.AbyssDresser>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)

@@ -1,8 +1,7 @@
 ﻿using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.NormalNPCs
+using Terraria.ID;
+namespace CalamityMod.NPCs
 {
     public class IrradiatedSlime : ModNPC
     {
@@ -30,7 +29,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
             banner = npc.type;
-            bannerItem = mod.ItemType("IrradiatedSlimeBanner");
+            bannerItem = ModContent.ItemType<IrradiatedSlimeBanner>();
         }
 
         public override void AI()
@@ -46,23 +45,6 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
             return 0.05f;
         }
-
-        /*public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
-        {
-            SpriteEffects spriteEffects = SpriteEffects.None;
-            if (npc.spriteDirection == 1)
-            {
-                spriteEffects = SpriteEffects.FlipHorizontally;
-            }
-            Vector2 center = new Vector2(npc.Center.X, npc.Center.Y);
-            Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
-            Vector2 vector = center - Main.screenPosition;
-            vector -= new Vector2((float)mod.GetTexture("NPCs/NormalNPCs/IrradiatedSlimeGlow").Width, (float)(mod.GetTexture("NPCs/NormalNPCs/IrradiatedSlimeGlow").Height / Main.npcFrameCount[npc.type])) * 1f / 2f;
-            vector += vector11 * 1f + new Vector2(0f, 0f + 4f + npc.gfxOffY);
-            Microsoft.Xna.Framework.Color color = new Microsoft.Xna.Framework.Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.LightYellow);
-            Main.spriteBatch.Draw(mod.GetTexture("NPCs/NormalNPCs/IrradiatedSlimeGlow"), vector,
-                new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, vector11, 1f, spriteEffects, 0f);
-        }*/
 
         public override void HitEffect(int hitDirection, double damage)
         {
@@ -85,7 +67,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             if (Main.rand.NextBool(10))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("LeadCore"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<LeadCore>());
             }
         }
     }

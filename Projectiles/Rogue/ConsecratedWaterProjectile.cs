@@ -1,8 +1,7 @@
-﻿using CalamityMod.Items.CalamityCustomThrowingDamage;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 using Terraria.World.Generation;
 
 namespace CalamityMod.Projectiles.Rogue
@@ -47,7 +46,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Point result;
                 if (WorldUtils.Find(projectile.Top.ToTileCoordinates(), Searches.Chain((GenSearch)new Searches.Down(80), (GenCondition)new Conditions.IsSolid()), out result))
                 {
-                    Projectile.NewProjectile(result.ToVector2() * 16f, Vector2.Zero, mod.ProjectileType("BlueFlamePillar"), ConsecratedWater.BaseDamage, 2f, projectile.owner);
+                    Projectile.NewProjectile(result.ToVector2() * 16f, Vector2.Zero, ModContent.ProjectileType<BlueFlamePillar>(), ConsecratedWater.BaseDamage, 2f, projectile.owner);
                 }
             }
             //stealth strike
@@ -59,7 +58,7 @@ namespace CalamityMod.Projectiles.Rogue
                     Point result;
                     if (WorldUtils.Find((projectile.Top + i * Main.rand.NextFloat(56f, 108f) * Vector2.UnitX).ToTileCoordinates(), Searches.Chain((GenSearch)new Searches.Down(80), (GenCondition)new Conditions.IsSolid()), out result))
                     {
-                        Projectile.NewProjectile(result.ToVector2() * 16f, Vector2.Zero, mod.ProjectileType("BlueFlamePillar"), ConsecratedWater.BaseDamage, 2f, projectile.owner);
+                        Projectile.NewProjectile(result.ToVector2() * 16f, Vector2.Zero, ModContent.ProjectileType<BlueFlamePillar>(), ConsecratedWater.BaseDamage, 2f, projectile.owner);
                     }
                 }
             }

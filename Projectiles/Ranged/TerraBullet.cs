@@ -2,8 +2,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -80,7 +80,7 @@ namespace CalamityMod.Projectiles.Ranged
                     }
                     value15.Normalize();
                     value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, mod.ProjectileType("TerraBulletSplit"), (int)((double)projectile.damage * 0.3), 0f, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<TerraBulletSplit>(), (int)((double)projectile.damage * 0.3), 0f, projectile.owner, 0f, 0f);
                 }
             }
             Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 118);

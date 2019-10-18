@@ -1,11 +1,11 @@
 ﻿using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using CalamityMod.Dusts;
 using System.IO;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.AstrumDeus
+using Terraria.ID;
+namespace CalamityMod.NPCs
 {
     public class AstrumDeusTail : ModNPC
     {
@@ -123,11 +123,11 @@ namespace CalamityMod.NPCs.AstrumDeus
 
         public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            if (projectile.type == mod.ProjectileType("RainbowBoom") || ProjectileID.Sets.StardustDragon[projectile.type])
+            if (projectile.type == ModContent.ProjectileType<RainbowBoom>() || ProjectileID.Sets.StardustDragon[projectile.type])
             {
                 damage = (int)((double)damage * 0.1);
             }
-            else if (projectile.type == mod.ProjectileType("RainBolt") || projectile.type == mod.ProjectileType("AtlantisSpear2") || projectile.type == mod.ProjectileType("MalachiteBolt"))
+            else if (projectile.type == ModContent.ProjectileType<RainBolt>() || projectile.type == ModContent.ProjectileType<AtlantisSpear2>() || projectile.type == ModContent.ProjectileType<MalachiteBolt>())
             {
                 damage = (int)((double)damage * 0.2);
             }
@@ -135,19 +135,19 @@ namespace CalamityMod.NPCs.AstrumDeus
             {
                 damage = (int)((double)damage * 0.3);
             }
-            else if (projectile.type == mod.ProjectileType("SpikecragSpike"))
+            else if (projectile.type == ModContent.ProjectileType<SpikecragSpike>())
             {
                 damage = (int)((double)damage * 0.5);
             }
 
             if (projectile.penetrate == -1 && !projectile.minion)
             {
-                if (projectile.type == mod.ProjectileType("CosmicFire") || projectile.type == mod.ProjectileType("BigNuke"))
+                if (projectile.type == ModContent.ProjectileType<CosmicFire>() || projectile.type == ModContent.ProjectileType<BigNuke>())
                     damage = (int)((double)damage * 0.3);
                 else
                     damage = (int)((double)damage * 0.2);
             }
-            else if (projectile.penetrate > 1 && projectile.type != mod.ProjectileType("BrinySpout"))
+            else if (projectile.penetrate > 1 && projectile.type != ModContent.ProjectileType<BrinySpout>())
             {
                 damage /= projectile.penetrate;
             }
@@ -175,10 +175,10 @@ namespace CalamityMod.NPCs.AstrumDeus
                 }
                 for (int num623 = 0; num623 < 10; num623++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, mod.DustType("AstralOrange"), 0f, 0f, 100, default, 3f);
+                    int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 3f);
                     Main.dust[num624].noGravity = true;
                     Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, mod.DustType("AstralOrange"), 0f, 0f, 100, default, 2f);
+                    num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 2f);
                     Main.dust[num624].velocity *= 2f;
                 }
             }
@@ -196,7 +196,7 @@ namespace CalamityMod.NPCs.AstrumDeus
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(mod.BuffType("AstralInfectionDebuff"), 120, true);
+            player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120, true);
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

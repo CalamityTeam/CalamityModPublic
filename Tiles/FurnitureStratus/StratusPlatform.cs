@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Tiles.FurnitureStratus
 {
@@ -11,8 +11,7 @@ namespace CalamityMod.Tiles.FurnitureStratus
         {
             CalamityUtils.SetUpPlatform(Type);
             AddMapEntry(new Color(191, 142, 111));
-            dustType = mod.DustType("Sparkle");
-            drop = mod.ItemType("StratusPlatform");
+            drop = ModContent.ItemType<Items.StratusPlatform>();
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Platforms };
         }

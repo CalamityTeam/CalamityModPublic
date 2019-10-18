@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Projectiles.Magic
 {
     public class T1000Laser : ModProjectile
@@ -62,7 +61,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Microsoft.Xna.Framework.Color color25 = Lighting.GetColor((int)((double)projectile.position.X + (double)projectile.width * 0.5) / 16, (int)(((double)projectile.position.Y + (double)projectile.height * 0.5) / 16.0));
+            Color color25 = Lighting.GetColor((int)((double)projectile.position.X + (double)projectile.width * 0.5) / 16, (int)(((double)projectile.position.Y + (double)projectile.height * 0.5) / 16.0));
             int num147 = 0;
             int num148 = 0;
             float num149 = (float)(Main.projectileTexture[projectile.type].Width - projectile.width) * 0.5f + (float)projectile.width * 0.5f;
@@ -71,7 +70,7 @@ namespace CalamityMod.Projectiles.Magic
             {
                 spriteEffects = SpriteEffects.FlipHorizontally;
             }
-            Microsoft.Xna.Framework.Rectangle value6 = new Microsoft.Xna.Framework.Rectangle((int)Main.screenPosition.X - 500, (int)Main.screenPosition.Y - 500, Main.screenWidth + 1000, Main.screenHeight + 1000);
+            Rectangle value6 = new Rectangle((int)Main.screenPosition.X - 500, (int)Main.screenPosition.Y - 500, Main.screenWidth + 1000, Main.screenHeight + 1000);
             if (projectile.getRect().Intersects(value6))
             {
                 Vector2 value7 = new Vector2(projectile.position.X - Main.screenPosition.X + num149 + (float)num148, projectile.position.Y - Main.screenPosition.Y + (float)(projectile.height / 2) + projectile.gfxOffY);
@@ -84,7 +83,7 @@ namespace CalamityMod.Projectiles.Magic
                 for (int num163 = 1; num163 <= (int)projectile.localAI[0]; num163++)
                 {
                     Vector2 value8 = Vector2.Normalize(projectile.velocity) * (float)num163 * scaleFactor;
-                    Microsoft.Xna.Framework.Color color29 = projectile.GetAlpha(color25);
+                    Color color29 = projectile.GetAlpha(color25);
                     color29 *= (num162 - (float)num163) / num162;
                     color29.A = 0;
                     Main.spriteBatch.Draw(Main.projectileTexture[projectile.type], value7 - value8, null, color29, projectile.rotation, new Vector2(num149, (float)(projectile.height / 2 + num147)), projectile.scale, spriteEffects, 0f);

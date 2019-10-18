@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Tiles.FurnitureAbyss
 {
@@ -15,7 +15,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
             AddMapEntry(new Color(191, 142, 111), name);
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.ClosedDoor };
-            openDoorID = mod.TileType("AbyssDoorOpen");
+            openDoorID = ModContent.TileType<AbyssDoorOpen>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -36,7 +36,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 16, 48, mod.ItemType("AbyssDoor"));
+            Item.NewItem(i * 16, j * 16, 16, 48, ModContent.ItemType<Items.AbyssDoor>());
         }
 
         public override void MouseOver(int i, int j)
@@ -44,7 +44,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
             Player player = Main.LocalPlayer;
             player.noThrow = 2;
             player.showItemIcon = true;
-            player.showItemIcon2 = mod.ItemType("AbyssDoor");
+            player.showItemIcon2 = ModContent.ItemType<Items.AbyssDoor>();
         }
     }
 }

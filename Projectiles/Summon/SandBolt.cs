@@ -1,6 +1,5 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Projectiles.Summon
 {
     public class SandBolt : ModProjectile
@@ -29,7 +28,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             if (projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("SandMark"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<SandMark>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
             }
         }
     }

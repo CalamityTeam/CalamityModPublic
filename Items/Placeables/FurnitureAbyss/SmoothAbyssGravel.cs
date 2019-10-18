@@ -1,5 +1,4 @@
 ﻿using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Placeables.FurnitureAbyss
 {
     public class SmoothAbyssGravel : ModItem
@@ -19,7 +18,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAbyss
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = mod.TileType("SmoothAbyssGravel");
+            item.createTile = ModContent.TileType<Tiles.SmoothAbyssGravel>();
         }
 
         public override void AddRecipes()

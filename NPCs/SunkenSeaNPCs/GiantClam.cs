@@ -1,14 +1,13 @@
-﻿using CalamityMod.Utilities;
+﻿
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.SunkenSeaNPCs
+using Terraria.ID;
+namespace CalamityMod.NPCs
 {
     public class GiantClam : ModNPC
     {
@@ -48,7 +47,7 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
             npc.knockBackResist = 0f;
             npc.rarity = 2;
             banner = npc.type;
-            bannerItem = mod.ItemType("GiantClamBanner");
+            bannerItem = ModContent.ItemType<GiantClamBanner>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -91,7 +90,7 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
                 {
                     if (!Main.player[npc.target].dead && Main.player[npc.target].active)
                     {
-                        player.AddBuff(mod.BuffType("Clamity"), 2); //CLAM INVASION
+                        player.AddBuff(ModContent.BuffType<Clamity>(), 2); //CLAM INVASION
                     }
                 }
 
@@ -137,9 +136,9 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
                             hide = false;
                             attack = -1;
                             npc.defense = Main.hardMode ? 35 : 10;
-                            NPC.NewNPC((int)(npc.Center.X + 5), (int)npc.Center.Y, mod.NPCType("Clam"), 0, 0f, 0f, 0f, 0f, 255);
-                            NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("Clam"), 0, 0f, 0f, 0f, 0f, 255);
-                            NPC.NewNPC((int)(npc.Center.X - 5), (int)npc.Center.Y, mod.NPCType("Clam"), 0, 0f, 0f, 0f, 0f, 255);
+                            NPC.NewNPC((int)(npc.Center.X + 5), (int)npc.Center.Y, ModContent.NPCType<Clam>(), 0, 0f, 0f, 0f, 0f, 255);
+                            NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<Clam>(), 0, 0f, 0f, 0f, 0f, 255);
+                            NPC.NewNPC((int)(npc.Center.X - 5), (int)npc.Center.Y, ModContent.NPCType<Clam>(), 0, 0f, 0f, 0f, 0f, 255);
                         }
                     }
                     else if (attack == 1)
@@ -258,7 +257,7 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
                         double startAngle = Math.Atan2(npc.velocity.X, npc.velocity.Y) - spread / 2;
                         double deltaAngle = spread / 8f;
                         double offsetAngle;
-                        int projectileShot = mod.ProjectileType("PearlBurst");
+                        int projectileShot = ModContent.ProjectileType<PearlBurst>();
                         int damage = Main.expertMode ? 28 : 35;
                         float speed = 5f;
                         Vector2 vector = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)(npc.height / 2));
@@ -287,7 +286,7 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
                             float shotSpacing = 750f;
                             for (int i = 0; i < 11; i++)
                             {
-                                Projectile.NewProjectile(player.Center.X + shotSpacing, player.Center.Y - 750f, 0f, 8f, mod.ProjectileType("PearlRain"), damage, 0f, Main.myPlayer, 0f, 0f);
+                                Projectile.NewProjectile(player.Center.X + shotSpacing, player.Center.Y - 750f, 0f, 8f, ModContent.ProjectileType<PearlRain>(), damage, 0f, Main.myPlayer, 0f, 0f);
                                 shotSpacing -= 150f;
                             }
                         }
@@ -347,7 +346,7 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.player.Calamity().ZoneSunkenSea && spawnInfo.water && CalamityWorld.downedDesertScourge && !NPC.AnyNPCs(mod.NPCType("GiantClam")))
+            if (spawnInfo.player.Calamity().ZoneSunkenSea && spawnInfo.water && CalamityWorld.downedDesertScourge && !NPC.AnyNPCs(ModContent.NPCType<GiantClam>()))
             {
                 return SpawnCondition.CaveJellyfish.Chance * 0.12f;
             }
@@ -387,37 +386,37 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
             Vector2 center = new Vector2(npc.Center.X, npc.Center.Y);
             Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
             Vector2 vector = center - Main.screenPosition;
-            vector -= new Vector2((float)mod.GetTexture("NPCs/SunkenSeaNPCs/GiantClamGlow").Width, (float)(mod.GetTexture("NPCs/SunkenSeaNPCs/GiantClamGlow").Height / Main.npcFrameCount[npc.type])) * 1f / 2f;
+            vector -= new Vector2((float)ModContent.GetTexture("CalamityMod/NPCs/SunkenSeaNPCs/GiantClamGlow").Width, (float)(ModContent.GetTexture("CalamityMod/NPCs/SunkenSeaNPCs/GiantClamGlow").Height / Main.npcFrameCount[npc.type])) * 1f / 2f;
             vector += vector11 * 1f + new Vector2(0f, 0f + 4f + npc.gfxOffY);
-            Microsoft.Xna.Framework.Color color = new Microsoft.Xna.Framework.Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.LightBlue);
-            Main.spriteBatch.Draw(mod.GetTexture("NPCs/SunkenSeaNPCs/GiantClamGlow"), vector,
+            Color color = new Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.LightBlue);
+            Main.spriteBatch.Draw(ModContent.GetTexture("CalamityMod/NPCs/SunkenSeaNPCs/GiantClamGlow"), vector,
                 new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, vector11, 1f, spriteEffects, 0f);
         }
 
         public override void NPCLoot()
         {
             // Spawn Amidias if he isn't in the world
-            int amidiasNPC = NPC.FindFirstNPC(mod.NPCType("SEAHOE"));
+            int amidiasNPC = NPC.FindFirstNPC(ModContent.NPCType<SEAHOE>());
             if (amidiasNPC == -1 && Main.netMode != NetmodeID.MultiplayerClient)
             {
-                NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("SEAHOE"), 0, 0f, 0f, 0f, 0f, 255);
+                NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<SEAHOE>(), 0, 0f, 0f, 0f, 0f, 255);
             }
 
             // Materials
-            DropHelper.DropItem(npc, mod.ItemType("Navystone"), 25, 35);
-            DropHelper.DropItemCondition(npc, mod.ItemType("MolluskHusk"), Main.hardMode, 6, 11);
+            DropHelper.DropItem(npc, ModContent.ItemType<Navystone>(), 25, 35);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<MolluskHusk>(), Main.hardMode, 6, 11);
 
             // Weapons
             DropHelper.DropItemFromSetCondition(npc, Main.hardMode,
-                mod.ItemType("ClamCrusher"),
-                mod.ItemType("ClamorRifle"),
-                mod.ItemType("Poseidon"),
-                mod.ItemType("ShellfishStaff")
+                ModContent.ItemType<ClamCrusher>(),
+                ModContent.ItemType<ClamorRifle>(),
+                ModContent.ItemType<Poseidon>(),
+                ModContent.ItemType<ShellfishStaff>()
             );
 
             // Equipment
-            DropHelper.DropItemChance(npc, mod.ItemType("GiantPearl"), 3);
-            DropHelper.DropItemCondition(npc, mod.ItemType("AmidiasPendant"), CalamityWorld.revenge, 0.5f);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<GiantPearl>(), 3);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<AmidiasPendant>(), CalamityWorld.revenge, 0.5f);
 
             // Mark Giant Clam as dead
             CalamityWorld.downedCLAM = true;

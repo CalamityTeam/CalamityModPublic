@@ -1,7 +1,7 @@
-﻿using CalamityMod.CalPlayer;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Accessories
 {
     public class AstralBulwark : ModItem
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.aBulwark = true;
-            player.buffImmune[mod.BuffType("AstralInfectionDebuff")] = true;
+            player.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = true;
         }
     }
 }

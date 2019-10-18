@@ -1,10 +1,10 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.Graphics.Effects;
 using Terraria.ModLoader;
+using Terraria.Graphics.Effects;
 
-namespace CalamityMod.NPCs.Calamitas
+namespace CalamityMod.NPCs
 {
     public class CalSky : CustomSky
     {

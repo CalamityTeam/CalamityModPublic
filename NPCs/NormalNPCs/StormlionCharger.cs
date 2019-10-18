@@ -1,8 +1,7 @@
 ﻿using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.NormalNPCs
+using Terraria.ID;
+namespace CalamityMod.NPCs
 {
     public class StormlionCharger : ModNPC
     {
@@ -26,7 +25,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.HitSound = SoundID.NPCHit31;
             npc.DeathSound = SoundID.NPCDeath34;
             banner = npc.type;
-            bannerItem = mod.ItemType("StormlionBanner");
+            bannerItem = ModContent.ItemType<StormlionBanner>();
         }
 
         public override void HitEffect(int hitDirection, double damage)
@@ -62,7 +61,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             if (Main.rand.NextBool(2))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("StormlionMandible"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<StormlionMandible>());
             }
         }
     }

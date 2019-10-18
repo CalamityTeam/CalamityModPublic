@@ -1,5 +1,4 @@
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Placeables.FurnitureOccult
 {
     public class OccultChest : ModItem
@@ -20,14 +19,14 @@ namespace CalamityMod.Items.Placeables.FurnitureOccult
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = mod.TileType("OccultChest");
+            item.createTile = ModContent.TileType<Tiles.OccultChest>();
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "OccultStone", 8);
-            recipe.AddIngredient(mod.ItemType("CosmiliteBrick"), 2);
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBrick>(), 2);
             recipe.SetResult(this, 1);
             recipe.AddTile(null, "DraedonsForge");
             recipe.AddRecipe();

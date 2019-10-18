@@ -1,12 +1,11 @@
-﻿
-using CalamityMod.Utilities;
+﻿using CalamityMod.Dusts;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.NPCs.AstralBiomeNPCs
+namespace CalamityMod.NPCs
 {
     public class AstralSlime : ModNPC
     {
@@ -31,7 +30,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             npc.DeathSound = SoundID.NPCDeath1;
             animationType = NPCID.BlueSlime;
             banner = npc.type;
-            bannerItem = mod.ItemType("AstralSlimeBanner");
+            bannerItem = ModContent.ItemType<AstralSlimeBanner>();
             if (CalamityWorld.downedAstrageldon)
             {
                 npc.damage = 65;
@@ -43,7 +42,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
         public override void FindFrame(int frameHeight)
         {
             //DO DUST
-            Dust d = CalamityGlobalNPC.SpawnDustOnNPC(npc, 44, frameHeight, mod.DustType("AstralOrange"), new Rectangle(4, 4, 36, 24), Vector2.Zero, 0.15f, true);
+            Dust d = CalamityGlobalNPC.SpawnDustOnNPC(npc, 44, frameHeight, ModContent.DustType<AstralOrange>(), new Rectangle(4, 4, 36, 24), Vector2.Zero, 0.15f, true);
             if (d != null)
             {
                 d.customData = 0.04f;
@@ -52,7 +51,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            CalamityGlobalNPC.DoHitDust(npc, hitDirection, mod.DustType("AstralOrange"), 1f, 4, 24);
+            CalamityGlobalNPC.DoHitDust(npc, hitDirection, ModContent.DustType<AstralOrange>(), 1f, 4, 24);
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -66,14 +65,14 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(mod.BuffType("AstralInfectionDebuff"), 120, true);
+            player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120, true);
         }
 
         public override void NPCLoot()
         {
             int oreMin = Main.expertMode ? 11 : 8;
             int oreMax = Main.expertMode ? 16 : 12;
-            DropHelper.DropItemCondition(npc, mod.ItemType("AstralOre"), CalamityWorld.downedStarGod, oreMin, oreMax);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<AstralOre>(), CalamityWorld.downedStarGod, oreMin, oreMax);
         }
     }
 }

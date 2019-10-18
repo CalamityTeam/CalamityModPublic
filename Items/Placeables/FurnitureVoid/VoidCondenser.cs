@@ -1,6 +1,5 @@
 using Terraria.ID;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Placeables.FurnitureVoid
 {
     public class VoidCondenser : ModItem
@@ -21,7 +20,7 @@ namespace CalamityMod.Items.Placeables.FurnitureVoid
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = mod.TileType("VoidCondenser");
+            item.createTile = ModContent.TileType<Tiles.VoidCondenser>();
         }
 
         public override void AddRecipes()

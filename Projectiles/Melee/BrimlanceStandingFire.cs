@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Projectiles.Melee
 {
     public class BrimlanceStandingFire : ModProjectile
@@ -99,7 +98,7 @@ namespace CalamityMod.Projectiles.Melee
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.immune[projectile.owner] = 7;
-            target.AddBuff(mod.BuffType("BrimstoneFlames"), 180);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
         }
     }
 }

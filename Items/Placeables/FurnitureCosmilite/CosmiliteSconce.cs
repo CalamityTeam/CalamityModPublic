@@ -1,6 +1,5 @@
 using Terraria.ID;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Placeables.FurnitureCosmilite
 {
     public class CosmiliteSconce : ModItem
@@ -20,7 +19,7 @@ namespace CalamityMod.Items.Placeables.FurnitureCosmilite
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = mod.TileType("CosmiliteSconce");
+            item.createTile = ModContent.TileType<Tiles.CosmiliteSconce>();
         }
 
         public override void AddRecipes()

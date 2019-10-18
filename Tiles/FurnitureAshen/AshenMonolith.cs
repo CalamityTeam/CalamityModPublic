@@ -2,8 +2,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Tiles.FurnitureAshen
 {
@@ -15,7 +15,6 @@ namespace CalamityMod.Tiles.FurnitureAshen
             ModTranslation name = CreateMapEntryName();
             AddMapEntry(new Color(191, 142, 111), name);
             name.SetDefault("Ashen Monolith");
-            dustType = mod.DustType("Pixel");
             adjTiles = new int[] { TileID.GrandfatherClocks };
         }
         int animationFrameWidth = 36;
@@ -59,7 +58,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 48, 32, mod.ItemType("AshenMonolith"));
+            Item.NewItem(i * 16, j * 16, 48, 32, ModContent.ItemType<Items.AshenMonolith>());
         }
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
@@ -132,7 +131,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
             frameY *= 90;
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
-            Texture2D eyeSheet = mod.GetTexture("Tiles/FurnitureAshen/AshenMonolith_Eye");
+            Texture2D eyeSheet = ModContent.GetTexture("CalamityMod/Tiles/FurnitureAshen/AshenMonolith_Eye");
             spriteBatch.Draw
             (
                 eyeSheet,

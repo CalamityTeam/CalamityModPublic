@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Tiles.FurnitureAbyss
 {
@@ -12,7 +12,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
             CalamityUtils.SetUpPlatform(Type);
             soundType = 21;
             AddMapEntry(new Color(191, 142, 111));
-            drop = mod.ItemType("SmoothAbyssGravelPlatform");
+            drop = ModContent.ItemType<Items.SmoothAbyssGravelPlatform>();
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Platforms };
         }

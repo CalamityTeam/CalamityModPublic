@@ -3,10 +3,9 @@ using Microsoft.Xna.Framework;
 using System;
 using System.IO;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.Polterghast
+using Terraria.ID;
+namespace CalamityMod.NPCs
 {
     public class PolterPhantom : ModNPC
     {
@@ -44,11 +43,11 @@ namespace CalamityMod.NPCs.Polterghast
             }
             npc.buffImmune[BuffID.Ichor] = false;
             npc.buffImmune[BuffID.CursedInferno] = false;
-            npc.buffImmune[mod.BuffType("AbyssalFlames")] = false;
-            npc.buffImmune[mod.BuffType("DemonFlames")] = false;
-            npc.buffImmune[mod.BuffType("GodSlayerInferno")] = false;
-            npc.buffImmune[mod.BuffType("Nightwither")] = false;
-            npc.buffImmune[mod.BuffType("Shred")] = false;
+            npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
+            npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
+            npc.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = false;
+            npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
+            npc.buffImmune[ModContent.BuffType<Shred>()] = false;
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.netAlways = true;
@@ -106,7 +105,7 @@ namespace CalamityMod.NPCs.Polterghast
             int num;
             for (int num733 = 0; num733 < 200; num733 = num + 1)
             {
-                if (Main.npc[num733].active && Main.npc[num733].type == mod.NPCType("PolterghastHook"))
+                if (Main.npc[num733].active && Main.npc[num733].type == ModContent.NPCType<PolterghastHook>())
                 {
                     num730 += Main.npc[num733].Center.X;
                     num731 += Main.npc[num733].Center.Y;
@@ -253,7 +252,7 @@ namespace CalamityMod.NPCs.Polterghast
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             if (CalamityWorld.revenge)
-                player.AddBuff(mod.BuffType("Horror"), 180, true);
+                player.AddBuff(ModContent.BuffType<Horror>(), 180, true);
         }
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)

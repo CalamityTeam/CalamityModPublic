@@ -1,5 +1,4 @@
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items
 {
     public class BrimstoneKey : ModItem

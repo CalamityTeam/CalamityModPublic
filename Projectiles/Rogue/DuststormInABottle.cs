@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Projectiles.Rogue
 {
     public class DuststormInABottle : ModProjectile
@@ -38,7 +37,7 @@ namespace CalamityMod.Projectiles.Rogue
                     Vector2 value17 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
                     value17.Normalize();
                     value17 *= (float)Main.rand.Next(10, 201) * 0.01f;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value17.X, value17.Y, mod.ProjectileType("DuststormCloud"), projectile.damage, 1f, projectile.owner, 0f, (float)Main.rand.Next(-45, 1));
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value17.X, value17.Y, ModContent.ProjectileType<DuststormCloud>(), projectile.damage, 1f, projectile.owner, 0f, (float)Main.rand.Next(-45, 1));
                 }
             }
         }

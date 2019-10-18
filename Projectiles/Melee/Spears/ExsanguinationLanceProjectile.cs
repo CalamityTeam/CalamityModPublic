@@ -1,10 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
-namespace CalamityMod.Projectiles.Melee.Spears
+namespace CalamityMod.Projectiles.Melee
 {
     public class ExsanguinationLanceProjectile : ModProjectile
     {
@@ -76,7 +76,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
             target.AddBuff(BuffID.OnFire, 300);
             if (projectile.owner == Main.myPlayer)
             {
-                int boom = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("FuckYou"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+                int boom = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<FuckYou>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
                 Main.projectile[boom].Calamity().forceMelee = true;
             }
             if (crit)
@@ -110,7 +110,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
                     }
                     if (projectile.owner == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, mod.ProjectileType("TinyFlare"), (int)((double)projectile.damage * 0.5), 2f, projectile.owner);
+                        Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, ModContent.ProjectileType<TinyFlare>(), (int)((double)projectile.damage * 0.5), 2f, projectile.owner);
                     }
                 }
             }

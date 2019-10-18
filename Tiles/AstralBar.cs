@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using CalamityMod.Dusts;
 using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles
@@ -19,8 +20,8 @@ namespace CalamityMod.Tiles
             TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
 
-            dustType = mod.DustType("AstralBlue");
-            drop = mod.ItemType("AstralBar");
+            dustType = ModContent.DustType<AstralBlue>();
+            drop = ModContent.ItemType<Items.AstralBar>();
 
             AddMapEntry(new Color(47, 66, 90));
         }
@@ -29,11 +30,11 @@ namespace CalamityMod.Tiles
         {
             if (Main.rand.NextBool(2))
             {
-                type = mod.DustType("AstralOrange");
+                type = ModContent.DustType<AstralOrange>();
             }
             else
             {
-                type = mod.DustType("AstralBlue");
+                type = ModContent.DustType<AstralBlue>();
             }
             return true;
         }

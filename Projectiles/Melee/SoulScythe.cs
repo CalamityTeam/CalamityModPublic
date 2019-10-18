@@ -1,9 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
+using Terraria.ID;
 namespace CalamityMod.Projectiles.Melee
 {
     public class SoulScythe : ModProjectile
@@ -39,13 +38,14 @@ namespace CalamityMod.Projectiles.Melee
         {
             target.immune[projectile.owner] = 6;
             target.AddBuff(BuffID.OnFire, 300);
-            target.AddBuff(mod.BuffType("Plague"), 300);
+            target.AddBuff(ModContent.BuffType<Plague>(), 300);
             if (target.life <= (target.lifeMax * 0.15f))
             {
                 Main.PlaySound(2, (int)target.position.X, (int)target.position.Y, 14);
                 if (projectile.owner == Main.myPlayer)
                 {
-                    Projectile.NewProjectile(target.Center.X, target.Center.Y, projectile.velocity.X * 0f, projectile.velocity.Y * 0f, mod.ProjectileType("HiveBombExplosion"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                    // TODO -- HiveBombExplosion doesn't exist. Is it supposed to?
+                    // Projectile.NewProjectile(target.Center.X, target.Center.Y, projectile.velocity.X * 0f, projectile.velocity.Y * 0f, ModContent.ProjectileType<HiveBombExplosion>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                 }
                 projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
                 projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);

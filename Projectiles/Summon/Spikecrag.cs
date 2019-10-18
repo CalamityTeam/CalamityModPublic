@@ -2,7 +2,6 @@
 using System;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Projectiles.Summon
 {
     public class Spikecrag : ModProjectile
@@ -93,7 +92,7 @@ namespace CalamityMod.Projectiles.Summon
                     {
                         float velocityX = Main.rand.NextFloat(-10f, 10f);
                         float velocityY = Main.rand.NextFloat(-15f, -8f);
-                        Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), velocityX, velocityY, mod.ProjectileType("SpikecragSpike"), (int)((double)projectile.damage * 0.80), 0f, projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), velocityX, velocityY, ModContent.ProjectileType<SpikecragSpike>(), (int)((double)projectile.damage * 0.80), 0f, projectile.owner, 0f, 0f);
                     }
                 }
             }

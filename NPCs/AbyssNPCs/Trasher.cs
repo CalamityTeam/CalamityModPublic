@@ -2,10 +2,9 @@
 using System;
 using System.IO;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.AbyssNPCs
+using Terraria.ID;
+namespace CalamityMod.NPCs
 {
     public class Trasher : ModNPC
     {
@@ -36,7 +35,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
             npc.DeathSound = SoundID.NPCDeath5;
             npc.knockBackResist = 0f;
             banner = npc.type;
-            bannerItem = mod.ItemType("TrasherBanner");
+            bannerItem = ModContent.ItemType<TrasherBanner>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -356,7 +355,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
             }
             if (Main.rand.NextBool(20))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("TrashmanTrashcan"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<TrashmanTrashcan>());
             }
             if (Main.rand.NextBool(10) && Main.hardMode)
             {

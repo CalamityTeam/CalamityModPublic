@@ -1,8 +1,8 @@
 ﻿using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
-namespace CalamityMod.Items.Armor
+namespace CalamityMod.Items
 {
     [AutoloadEquip(EquipType.Body)]
     public class WulfrumArmor : ModItem

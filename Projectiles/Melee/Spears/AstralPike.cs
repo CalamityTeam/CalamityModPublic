@@ -2,8 +2,8 @@
 using System;
 using Terraria;
 using Terraria.ModLoader;
-
-namespace CalamityMod.Projectiles.Melee.Spears
+using CalamityMod.Dusts;
+namespace CalamityMod.Projectiles.Melee
 {
     public class AstralPike : ModProjectile
     {
@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
             projectile.position += projectile.velocity * projectile.ai[0];
             if (Main.rand.NextBool(5))
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, mod.DustType("AstralOrange"), projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, ModContent.DustType<AstralOrange>(), projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             }
             if (projectile.ai[0] == 0f)
             {
@@ -73,7 +73,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("AstralInfectionDebuff"), 120);
+            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120);
             target.immune[projectile.owner] = 6;
             if (crit)
             {
@@ -106,7 +106,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
                     }
                     if (projectile.owner == Main.myPlayer)
                     {
-                        int proj = Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, mod.ProjectileType("AstralStar"), (int)((double)projectile.damage * 0.2), 1f, projectile.owner);
+                        int proj = Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, ModContent.ProjectileType<AstralStar>(), (int)((double)projectile.damage * 0.2), 1f, projectile.owner);
                         Main.projectile[proj].Calamity().forceMelee = true;
                     }
                 }

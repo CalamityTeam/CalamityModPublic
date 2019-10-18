@@ -1,6 +1,6 @@
-﻿using Terraria;
+﻿using CalamityMod.Buffs.StatDebuffs;
+using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Accessories
 {
     public class LeadCore : ModItem
@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.buffImmune[mod.BuffType("Irradiated")] = true;
+            player.buffImmune[ModContent.BuffType<Irradiated>()] = true;
         }
     }
 }

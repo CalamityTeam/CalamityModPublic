@@ -1,7 +1,6 @@
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
+using Terraria.ID;
 namespace CalamityMod.Items.Pets
 {
     public class BearEye : ModItem
@@ -21,8 +20,8 @@ namespace CalamityMod.Items.Pets
             item.width = 30;
             item.height = 30;
             item.value = Item.sellPrice(1, 0, 0, 0);
-            item.shoot = mod.ProjectileType("Bear");
-            item.buffType = mod.BuffType("BearBuff");
+            item.shoot = ModContent.ProjectileType<Bear>();
+            item.buffType = ModContent.BuffType<BearBuff>();
             item.rare = 5;
             item.UseSound = new Terraria.Audio.LegacySoundStyle(SoundID.Meowmere, 5);
         }

@@ -1,6 +1,5 @@
 using Terraria.ID;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Placeables.FurnitureAshen
 {
     public class AshenPiano : ModItem
@@ -23,7 +22,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAshen
             item.rare = 3;
             item.consumable = true;
             item.value = 0;
-            item.createTile = mod.TileType("AshenPiano");
+            item.createTile = ModContent.TileType<Tiles.AshenPiano>();
         }
 
         public override void AddRecipes()

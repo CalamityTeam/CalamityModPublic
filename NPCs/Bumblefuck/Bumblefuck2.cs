@@ -1,10 +1,8 @@
-﻿using CalamityMod.World;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.Bumblefuck
+using Terraria.ID;
+namespace CalamityMod.NPCs
 {
     public class Bumblefuck2 : ModNPC
     {
@@ -32,7 +30,7 @@ namespace CalamityMod.NPCs.Bumblefuck
             }
             npc.buffImmune[BuffID.Ichor] = false;
             npc.buffImmune[BuffID.CursedInferno] = false;
-            npc.buffImmune[mod.BuffType("ExoFreeze")] = false;
+            npc.buffImmune[ModContent.BuffType<ExoFreeze>()] = false;
             npc.lavaImmune = true;
             npc.noGravity = true;
             npc.canGhostHeal = false;

@@ -1,8 +1,9 @@
 ﻿using CalamityMod.CalPlayer;
 using Terraria;
+using Terraria.ModLoader;
 using Terraria.DataStructures;
 using Terraria.ID;
-using Terraria.ModLoader;
+using CalamityMod.Buffs.StatDebuffs;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -34,7 +35,7 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.draedonsHeart = true;
-            player.buffImmune[mod.BuffType("Horror")] = true;
+            player.buffImmune[ModContent.BuffType<Horror>()] = true;
             modPlayer.draedonsStressGain = true;
         }
 

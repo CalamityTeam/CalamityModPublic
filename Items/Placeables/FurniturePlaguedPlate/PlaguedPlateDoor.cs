@@ -1,5 +1,4 @@
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Placeables.FurniturePlaguedPlate
 {
     public class PlaguedPlateDoor : ModItem
@@ -19,7 +18,7 @@ namespace CalamityMod.Items.Placeables.FurniturePlaguedPlate
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = mod.TileType("PlaguedPlateDoorClosed");
+            item.createTile = ModContent.TileType<PlaguedPlateDoorClosed>();
         }
 
         public override void AddRecipes()

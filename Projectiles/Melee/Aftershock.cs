@@ -1,5 +1,4 @@
 ﻿using Terraria.ModLoader;
-
 namespace CalamityMod.Projectiles.Melee
 {
     public class Aftershock : ModProjectile

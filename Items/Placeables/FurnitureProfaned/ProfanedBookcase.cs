@@ -1,6 +1,5 @@
 using Terraria.ID;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Placeables.FurnitureProfaned
 {
     public class ProfanedBookcase : ModItem
@@ -20,7 +19,7 @@ namespace CalamityMod.Items.Placeables.FurnitureProfaned
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = mod.TileType("ProfanedBookcase");
+            item.createTile = ModContent.TileType<Tiles.ProfanedBookcase>();
         }
 
         public override void AddRecipes()

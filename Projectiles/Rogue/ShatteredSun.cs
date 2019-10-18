@@ -2,8 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Rogue
                     for (int i = 0; i < numProj; i++)
                     {
                         Vector2 perturbedSpeed = new Vector2(projectile.velocity.X, projectile.velocity.Y).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
-                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, mod.ProjectileType("ShatteredSun2"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<ShatteredSun2>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                     }
                     projectile.active = false;
                 }
@@ -72,13 +72,13 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("ShatteredExplosion"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ShatteredExplosion>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("ShatteredExplosion"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ShatteredExplosion>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
             return true;
         }

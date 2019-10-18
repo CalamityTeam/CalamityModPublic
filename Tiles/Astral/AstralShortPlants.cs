@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 
 using Terraria;
 using Terraria.ModLoader;
+using CalamityMod.Dusts;
 
 namespace CalamityMod.Tiles.Astral
 {
@@ -18,7 +19,7 @@ namespace CalamityMod.Tiles.Astral
             Main.tileWaterDeath[Type] = true;
             Main.tileFrameImportant[Type] = true;
 
-            dustType = mod.DustType("AstralBasic");
+            dustType = ModContent.DustType<AstralBasic>();
 
             soundStyle = 1;
             soundType = 6;

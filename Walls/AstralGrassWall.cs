@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework;
 using Terraria.ID;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Walls
 {
     public class AstralGrassWall : ModWall
@@ -16,7 +15,7 @@ namespace CalamityMod.Walls
         public override void SetDefaults()
         {
             dustType = DustID.Shadowflame; //TODO
-            drop = mod.ItemType("AstralGrassWall");
+            drop = ModContent.ItemType<Items.AstralGrassWall>();
 
             WallID.Sets.Conversion.Grass[Type] = true;
 

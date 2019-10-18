@@ -2,8 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -92,7 +92,7 @@ namespace CalamityMod.Projectiles.Melee
                 vector63.Normalize();
                 vector63 *= (float)Main.rand.Next(45, 65) * 0.1f;
                 vector63 = vector63.RotatedBy((Main.rand.NextDouble() - 0.5) * 1.5707963705062866, default);
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector63.X, vector63.Y, mod.ProjectileType("UrchinSpikeFugu"), (int)((double)projectile.damage * 0.6), projectile.knockBack * 0.2f, projectile.owner, -10f, 0f);
+                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector63.X, vector63.Y, ModContent.ProjectileType<UrchinSpikeFugu>(), (int)((double)projectile.damage * 0.6), projectile.knockBack * 0.2f, projectile.owner, -10f, 0f);
             }
         }
 
@@ -108,10 +108,10 @@ namespace CalamityMod.Projectiles.Melee
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Vector2 mountedCenter = Main.player[projectile.owner].MountedCenter;
-            Microsoft.Xna.Framework.Color transparent = Microsoft.Xna.Framework.Color.Transparent;
-            Texture2D texture2D2 = mod.GetTexture("ExtraTextures/Chains/BallOFuguChain");
+            Color transparent = Microsoft.Xna.Framework.Color.Transparent;
+            Texture2D texture2D2 = ModContent.GetTexture("CalamityMod/ExtraTextures/Chains/BallOFuguChain");
             Vector2 vector17 = projectile.Center;
-            Microsoft.Xna.Framework.Rectangle? sourceRectangle = null;
+            Rectangle? sourceRectangle = null;
             Vector2 origin = new Vector2((float)texture2D2.Width * 0.5f, (float)texture2D2.Height * 0.5f);
             float num91 = (float)texture2D2.Height;
             Vector2 vector18 = mountedCenter - vector17;
@@ -137,7 +137,7 @@ namespace CalamityMod.Projectiles.Melee
                     value2.Normalize();
                     vector17 += value2 * num91;
                     vector18 = mountedCenter - vector17;
-                    Microsoft.Xna.Framework.Color color17 = Lighting.GetColor((int)vector17.X / 16, (int)(vector17.Y / 16f));
+                    Color color17 = Lighting.GetColor((int)vector17.X / 16, (int)(vector17.Y / 16f));
                     Main.spriteBatch.Draw(texture2D2, vector17 - Main.screenPosition, sourceRectangle, color17, rotation15, origin, 1f, SpriteEffects.None, 0f);
                 }
             }

@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Dusts;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -37,21 +38,21 @@ namespace CalamityMod.Projectiles.Magic
             {
                 blue = !blue;
                 Vector2 velocity = angle.ToRotationVector2() * (2f + (float)(Math.Sin(angleStart + angle * 3f) + 1) * 2.5f) * Main.rand.NextFloat(0.95f, 1.05f);
-                Dust d = Dust.NewDustPerfect(projectile.Center, blue ? mod.DustType("AstralBlue") : mod.DustType("AstralOrange"), velocity);
+                Dust d = Dust.NewDustPerfect(projectile.Center, blue ? ModContent.DustType<AstralBlue>() : ModContent.DustType<AstralOrange>(), velocity);
                 d.customData = 0.025f;
             }
 
             //chunks
             for (int i = 0; i < Main.rand.Next(5, 9); i++)
             {
-                Dust d = Dust.NewDustPerfect(projectile.Center, mod.DustType("AstralChunk"));
+                Dust d = Dust.NewDustPerfect(projectile.Center, ModContent.DustType<AstralChunk>());
             }
 
             Main.PlaySound(SoundID.Item27, projectile.Center);
 
             for (float i = 0; i < MathHelper.TwoPi; i += MathHelper.PiOver4 / 2f)
             {
-                Projectile.NewProjectile(projectile.Center, i.ToRotationVector2() * 9f, mod.ProjectileType("AstralCrystalInvisibleExplosion"), 50, 4f, projectile.owner);
+                Projectile.NewProjectile(projectile.Center, i.ToRotationVector2() * 9f, ModContent.ProjectileType<AstralCrystalInvisibleExplosion>(), 50, 4f, projectile.owner);
             }
         }
 
@@ -77,7 +78,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("AstralInfectionDebuff"), 300);
+            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 300);
         }
 
         public override void AI()
@@ -111,8 +112,8 @@ namespace CalamityMod.Projectiles.Magic
             Vector2 perp = new Vector2(projectile.velocity.Y, -projectile.velocity.X);
             perp.Normalize();
             bool flag = Main.time % 2 == 0;
-            int blue = mod.DustType("AstralBlue");
-            int orange = mod.DustType("AstralOrange");
+            int blue = ModContent.DustType<AstralBlue>();
+            int orange = ModContent.DustType<AstralOrange>();
             projectile.ai[1] += 0.3141f; //2pi / 20 (total frames for one loop of animation)
             Vector2 posOff = perp * (float)Math.Sin(projectile.ai[1]) * 6f;
             Dust d1 = Dust.NewDustPerfect(pos + posOff, flag ? blue : orange, perp * Main.rand.NextFloat(2.3f, 3.5f));
@@ -122,7 +123,7 @@ namespace CalamityMod.Projectiles.Magic
             //Astral chunk dust
             if (Main.rand.NextBool(30))
             {
-                Dust dust = Dust.NewDustPerfect(projectile.Center, mod.DustType("AstralChunk"));
+                Dust dust = Dust.NewDustPerfect(projectile.Center, ModContent.DustType<AstralChunk>());
                 dust.velocity *= 0.3f;
             }
         }

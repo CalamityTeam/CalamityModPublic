@@ -2,7 +2,7 @@
 using System.IO;
 using Terraria;
 using Terraria.ModLoader;
-
+using CalamityMod.Dusts;
 namespace CalamityMod.Projectiles.Boss
 {
     public class DeusMine : ModProjectile
@@ -92,17 +92,17 @@ namespace CalamityMod.Projectiles.Boss
             }
             for (int num623 = 0; num623 < 60; num623++)
             {
-                int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, mod.DustType("AstralOrange"), 0f, 0f, 100, default, 1.7f);
+                int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 1.7f);
                 Main.dust[num624].noGravity = true;
                 Main.dust[num624].velocity *= 1.5f;
-                Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, mod.DustType("AstralOrange"), 0f, 0f, 100, default, 1f);
+                Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 1f);
             }
             projectile.Damage();
         }
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(mod.BuffType("AstralInfectionDebuff"), 300);
+            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 300);
         }
     }
 }

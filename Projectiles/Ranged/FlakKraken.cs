@@ -2,8 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -33,9 +33,9 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
-            if (projectile.type != mod.ProjectileType("FlakKraken") ||
+            if (projectile.type != ModContent.ProjectileType<FlakKraken>() ||
                 !Main.projectile[(int)projectile.ai[1]].active ||
-                Main.projectile[(int)projectile.ai[1]].type != mod.ProjectileType("FlakKrakenGun"))
+                Main.projectile[(int)projectile.ai[1]].type != ModContent.ProjectileType<FlakKrakenGun>())
             {
                 projectile.Kill();
                 return;

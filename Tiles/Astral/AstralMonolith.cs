@@ -1,9 +1,10 @@
-using CalamityMod.Utilities;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Dusts;
+using Terraria.ID;
 
 namespace CalamityMod.Tiles.Astral
 {
@@ -21,7 +22,7 @@ namespace CalamityMod.Tiles.Astral
             TileMerge.MergeTile(Type, TileID.LivingWood);
             TileMerge.MergeTile(Type, TileID.LivingMahogany);
 
-            drop = mod.ItemType("AstralMonolith");
+            drop = ModContent.ItemType<Items.AstralMonolith>();
             AddMapEntry(new Color(45, 36, 63));
             animationFrameHeight = 270;
         }
@@ -29,7 +30,7 @@ namespace CalamityMod.Tiles.Astral
 
         public override bool CreateDust(int i, int j, ref int type)
         {
-            Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, mod.DustType("AstralBasic"), 0f, 0f, 1, new Color(255, 255, 255), 1f);
+            Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, ModContent.DustType<AstralBasic>(), 0f, 0f, 1, new Color(255, 255, 255), 1f);
             return false;
         }
 
@@ -51,7 +52,7 @@ namespace CalamityMod.Tiles.Astral
             yOffset *= 270;
             xPos += xOffset;
             yPos += yOffset;
-            Texture2D glowmask = mod.GetTexture("Tiles/Astral/AstralMonolith_Glowmask");
+            Texture2D glowmask = ModContent.GetTexture("CalamityMod/Tiles/Astral/AstralMonolithGlow");
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
             Color drawColour = GetDrawColour(i, j, new Color(50, 50, 50, 50));
@@ -70,7 +71,7 @@ namespace CalamityMod.Tiles.Astral
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            CustomTileFraming.FrameTileForCustomMerge(i, j, Type, mod.TileType("AstralDirt"), false, false, false, false, resetFrame);
+            CustomTileFraming.FrameTileForCustomMerge(i, j, Type, ModContent.TileType<AstralDirt>(), false, false, false, false, resetFrame);
             return false;
         }
 

@@ -1,5 +1,4 @@
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Placeables.FurnitureAshen
 {
     public class SmoothBrimstoneSlagWall : ModItem
@@ -20,7 +19,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAshen
             item.useStyle = 1;
             item.rare = 3;
             item.consumable = true;
-            item.createWall = mod.WallType("SmoothBrimstoneSlagWall");
+            item.createWall = ModContent.WallType<Walls.SmoothBrimstoneSlagWall>();
         }
 
         public override void AddRecipes()

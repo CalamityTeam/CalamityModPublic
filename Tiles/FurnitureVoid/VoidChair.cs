@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Tiles.FurnitureVoid
 {
@@ -13,7 +13,6 @@ namespace CalamityMod.Tiles.FurnitureVoid
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Void Chair");
             AddMapEntry(new Color(191, 142, 111), name);
-            dustType = mod.DustType("Sparkle");
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Chairs };
         }
@@ -31,7 +30,7 @@ namespace CalamityMod.Tiles.FurnitureVoid
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 16, 32, mod.ItemType("VoidChair"));
+            Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<Items.VoidChair>());
         }
     }
 }

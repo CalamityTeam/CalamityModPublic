@@ -1,5 +1,4 @@
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Placeables.FurnitureCosmilite
 {
     public class CosmiliteDresser : ModItem
@@ -19,7 +18,7 @@ namespace CalamityMod.Items.Placeables.FurnitureCosmilite
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = mod.TileType("CosmiliteDresser");
+            item.createTile = ModContent.TileType<Tiles.CosmiliteDresser>();
         }
 
         public override void AddRecipes()

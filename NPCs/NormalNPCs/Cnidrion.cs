@@ -1,10 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.NormalNPCs
+using Terraria.ID;
+namespace CalamityMod.NPCs
 {
     public class Cnidrion : ModNPC
     {
@@ -31,7 +30,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.DeathSound = SoundID.NPCDeath18;
             npc.rarity = 2;
             banner = npc.type;
-            bannerItem = mod.ItemType("CnidrionBanner");
+            bannerItem = ModContent.ItemType<CnidrionBanner>();
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -112,7 +111,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                     num830 *= num831;
                     num829 *= 1f + (float)Main.rand.Next(-10, 11) * 0.01f;
                     num830 *= 1f + (float)Main.rand.Next(-10, 11) * 0.01f;
-                    Projectile.NewProjectile(vector18.X, vector18.Y, num829, num830, mod.ProjectileType("HorsWaterBlast"), expertMode ? 8 : 11, 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(vector18.X, vector18.Y, num829, num830, ModContent.ProjectileType<HorsWaterBlast>(), expertMode ? 8 : 11, 0f, Main.myPlayer, 0f, 0f);
                 }
                 if (npc.ai[1] >= 120f)
                 {
@@ -137,7 +136,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                     num830 *= num831;
                     num829 *= 1f + (float)Main.rand.Next(-15, 16) * 0.01f;
                     num830 *= 1f + (float)Main.rand.Next(-15, 16) * 0.01f;
-                    Projectile.NewProjectile(vector18.X, vector18.Y, num829, num830, mod.ProjectileType("HorsWaterBlast"), expertMode ? 9 : 12, 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(vector18.X, vector18.Y, num829, num830, ModContent.ProjectileType<HorsWaterBlast>(), expertMode ? 9 : 12, 0f, Main.myPlayer, 0f, 0f);
                 }
                 if (npc.ai[1] >= 300f)
                 {
@@ -162,7 +161,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                     num845 *= num846;
                     num844 *= 1f + (float)Main.rand.Next(-10, 11) * 0.001f;
                     num845 *= 1f + (float)Main.rand.Next(-10, 11) * 0.001f;
-                    int num848 = Projectile.NewProjectile(vector18.X, vector18.Y, num844, num845, mod.ProjectileType("HorsWaterBlast"), expertMode ? 11 : 14, 0f, Main.myPlayer, 0f, 0f);
+                    int num848 = Projectile.NewProjectile(vector18.X, vector18.Y, num844, num845, ModContent.ProjectileType<HorsWaterBlast>(), expertMode ? 11 : 14, 0f, Main.myPlayer, 0f, 0f);
                 }
                 if (npc.ai[1] >= 120f)
                 {
@@ -187,7 +186,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                     num830 *= num831;
                     num829 *= 1f + (float)Main.rand.Next(-5, 6) * 0.01f;
                     num830 *= 1f + (float)Main.rand.Next(-5, 6) * 0.01f;
-                    int num833 = Projectile.NewProjectile(vector18.X, vector18.Y, num829, num830, mod.ProjectileType("HorsWaterBlast"), expertMode ? 13 : 17, 0f, Main.myPlayer, 0f, 0f);
+                    int num833 = Projectile.NewProjectile(vector18.X, vector18.Y, num829, num830, ModContent.ProjectileType<HorsWaterBlast>(), expertMode ? 13 : 17, 0f, Main.myPlayer, 0f, 0f);
                 }
                 if (npc.ai[1] >= 240f)
                 {
@@ -290,13 +289,13 @@ namespace CalamityMod.NPCs.NormalNPCs
             Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Coral, Main.rand.Next(1, 4));
             Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Starfish, Main.rand.Next(1, 4));
             Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Seashell, Main.rand.Next(1, 4));
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("VictoryShard"), Main.rand.Next(1, 4));
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<VictoryShard>(), Main.rand.Next(1, 4));
             if (Main.rand.NextBool(4))
             {
                 if (Main.rand.NextBool(25))
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("TheTransformer"));
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<TheTransformer>());
                 else
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("AmidiasSpark"));
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<AmidiasSpark>());
             }
         }
     }

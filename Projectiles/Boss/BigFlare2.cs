@@ -3,8 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Boss
 {
@@ -169,7 +169,7 @@ namespace CalamityMod.Projectiles.Boss
                     }
                 }
                 int damage = Main.expertMode ? 130 : 150;
-                int num236 = Projectile.NewProjectile((float)(num232 * 16 + 8), (float)(num231 * 16 - 24), 0f, 0f, mod.ProjectileType("Infernado2"), damage, 4f, Main.myPlayer, 11f, 30f);
+                int num236 = Projectile.NewProjectile((float)(num232 * 16 + 8), (float)(num231 * 16 - 24), 0f, 0f, ModContent.ProjectileType<Infernado2>(), damage, 4f, Main.myPlayer, 11f, 30f);
                 Main.projectile[num236].netUpdate = true;
             }
         }

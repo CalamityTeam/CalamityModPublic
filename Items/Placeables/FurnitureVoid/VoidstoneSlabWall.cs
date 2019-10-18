@@ -1,6 +1,5 @@
 using Terraria.ID;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Placeables.FurnitureVoid
 {
     public class VoidstoneSlabWall : ModItem
@@ -20,7 +19,7 @@ namespace CalamityMod.Items.Placeables.FurnitureVoid
             item.useTime = 7;
             item.useStyle = 1;
             item.consumable = true;
-            item.createWall = mod.WallType("VoidstoneSlabWall");
+            item.createWall = ModContent.WallType<Walls.VoidstoneSlabWall>();
         }
 
         public override void AddRecipes()

@@ -1,9 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.SunkenSeaNPCs
+using Terraria.ID;
+namespace CalamityMod.NPCs
 {
     public class SeaSerpent4 : ModNPC
     {
@@ -35,8 +34,8 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
             npc.netAlways = true;
             npc.dontCountMe = true;
             npc.chaseable = false;
-            banner = mod.NPCType("SeaSerpent1");
-            bannerItem = mod.ItemType("SeaSerpentBanner");
+            banner = ModContent.NPCType<SeaSerpent1>();
+            bannerItem = ModContent.ItemType<SeaSerpentBanner>();
         }
 
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
@@ -79,7 +78,7 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
                 npc.HitEffect(0, 10.0);
                 npc.checkDead();
             }
-            if (!NPC.AnyNPCs(mod.NPCType("SeaSerpent1")))
+            if (!NPC.AnyNPCs(ModContent.NPCType<SeaSerpent1>()))
             {
                 npc.active = false;
             }

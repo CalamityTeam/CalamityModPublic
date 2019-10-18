@@ -2,10 +2,10 @@
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
-namespace CalamityMod.NPCs.SlimeGod
+namespace CalamityMod.NPCs
 {
     public class SlimeSpawnCrimson2 : ModNPC
     {
@@ -69,7 +69,7 @@ namespace CalamityMod.NPCs.SlimeGod
                             vector4.Y *= 1f + (float)Main.rand.Next(-50, 51) * 0.005f;
                             vector4.Normalize();
                             vector4 *= 4f + (float)Main.rand.Next(-50, 51) * 0.01f;
-                            Projectile.NewProjectile(vector3.X, vector3.Y, vector4.X, vector4.Y, mod.ProjectileType("CrimsonSpike"), 13, 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(vector3.X, vector3.Y, vector4.X, vector4.Y, ModContent.ProjectileType<CrimsonSpike>(), 13, 0f, Main.myPlayer, 0f, 0f);
                             spikeTimer = 30f;
                         }
                     }
@@ -89,7 +89,7 @@ namespace CalamityMod.NPCs.SlimeGod
                         num14 *= num16;
                         num15 *= num16;
                         spikeTimer = 50f;
-                        Projectile.NewProjectile(vector3.X, vector3.Y, num14, num15, mod.ProjectileType("CrimsonSpike"), 12, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile(vector3.X, vector3.Y, num14, num15, ModContent.ProjectileType<CrimsonSpike>(), 12, 0f, Main.myPlayer, 0f, 0f);
                     }
                 }
             }

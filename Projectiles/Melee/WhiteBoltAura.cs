@@ -1,6 +1,5 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Projectiles.Melee
 {
     public class WhiteBoltAura : ModProjectile
@@ -42,7 +41,7 @@ namespace CalamityMod.Projectiles.Melee
                     {
                         int num414 = (int)(projectile.position.X + 14f + (float)Main.rand.Next(projectile.width - 28));
                         int num415 = (int)(projectile.position.Y + (float)projectile.height + 4f);
-                        Projectile.NewProjectile((float)num414, (float)num415, 0f, 5f, mod.ProjectileType("Whiterain"), projectile.damage, 0f, projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile((float)num414, (float)num415, 0f, 5f, ModContent.ProjectileType<Whiterain>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
                     }
                 }
             }

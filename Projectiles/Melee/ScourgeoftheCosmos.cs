@@ -2,8 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -112,11 +112,11 @@ namespace CalamityMod.Projectiles.Melee
                         num629 *= 10f;
                         if (!projectile.melee)
                         {
-                            Projectile.NewProjectile(projectile.position.X, projectile.position.Y, num628, num629, mod.ProjectileType("ScourgeoftheCosmosMini"), (int)((double)projectile.damage * 0.7), projectile.knockBack * 0.35f, Main.myPlayer, 0f, 1f);
+                            Projectile.NewProjectile(projectile.position.X, projectile.position.Y, num628, num629, ModContent.ProjectileType<ScourgeoftheCosmosMini>(), (int)((double)projectile.damage * 0.7), projectile.knockBack * 0.35f, Main.myPlayer, 0f, 1f);
                         }
                         else
                         {
-                            Projectile.NewProjectile(projectile.position.X, projectile.position.Y, num628, num629, mod.ProjectileType("ScourgeoftheCosmosMini"), (int)((double)projectile.damage * 0.7), projectile.knockBack * 0.35f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(projectile.position.X, projectile.position.Y, num628, num629, ModContent.ProjectileType<ScourgeoftheCosmosMini>(), (int)((double)projectile.damage * 0.7), projectile.knockBack * 0.35f, Main.myPlayer, 0f, 0f);
                         }
                         num3 = num627;
                     }
@@ -164,11 +164,11 @@ namespace CalamityMod.Projectiles.Melee
                     num629 *= 10f;
                     if (!projectile.melee)
                     {
-                        Projectile.NewProjectile(projectile.position.X, projectile.position.Y, num628, num629, mod.ProjectileType("ScourgeoftheCosmosMini"), (int)((double)projectile.damage * 0.7), projectile.knockBack * 0.35f, Main.myPlayer, 0f, 1f);
+                        Projectile.NewProjectile(projectile.position.X, projectile.position.Y, num628, num629, ModContent.ProjectileType<ScourgeoftheCosmosMini>(), (int)((double)projectile.damage * 0.7), projectile.knockBack * 0.35f, Main.myPlayer, 0f, 1f);
                     }
                     else
                     {
-                        Projectile.NewProjectile(projectile.position.X, projectile.position.Y, num628, num629, mod.ProjectileType("ScourgeoftheCosmosMini"), (int)((double)projectile.damage * 0.7), projectile.knockBack * 0.35f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile(projectile.position.X, projectile.position.Y, num628, num629, ModContent.ProjectileType<ScourgeoftheCosmosMini>(), (int)((double)projectile.damage * 0.7), projectile.knockBack * 0.35f, Main.myPlayer, 0f, 0f);
                     }
                     num3 = num627;
                 }

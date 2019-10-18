@@ -2,9 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
+using Terraria.ID;
 namespace CalamityMod.Projectiles.Magic
 {
     public class SanguineFlare : ModProjectile
@@ -93,7 +92,7 @@ namespace CalamityMod.Projectiles.Magic
             Player player = Main.player[projectile.owner];
             player.statLife += 1;
             player.HealEffect(1);
-            target.AddBuff(mod.BuffType("BrimstoneFlames"), 120);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

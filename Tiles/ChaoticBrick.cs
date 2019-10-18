@@ -1,7 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Tiles
 {
     public class ChaoticBrick : ModTile
@@ -12,7 +11,7 @@ namespace CalamityMod.Tiles
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
             dustType = 105;
-            drop = mod.ItemType("ChaoticBrick");
+            drop = ModContent.ItemType<Items.ChaoticBrick>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Chaotic Brick");
             AddMapEntry(new Color(255, 0, 0), name);

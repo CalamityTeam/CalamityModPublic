@@ -1,15 +1,15 @@
-﻿using CalamityMod.Utilities;
+﻿
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.Localization;
-using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.PlaguebringerGoliath
+using CalamityMod.Items;
+namespace CalamityMod.NPCs
 {
     [AutoloadBossHead]
     public class PlaguebringerGoliath : ModNPC
@@ -63,15 +63,15 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             npc.buffImmune[BuffID.Ichor] = false;
             npc.buffImmune[BuffID.CursedInferno] = false;
             npc.buffImmune[BuffID.Daybreak] = false;
-            npc.buffImmune[mod.BuffType("AbyssalFlames")] = false;
-            npc.buffImmune[mod.BuffType("ArmorCrunch")] = false;
-            npc.buffImmune[mod.BuffType("DemonFlames")] = false;
-            npc.buffImmune[mod.BuffType("GodSlayerInferno")] = false;
-            npc.buffImmune[mod.BuffType("HolyLight")] = false;
-            npc.buffImmune[mod.BuffType("Nightwither")] = false;
-            npc.buffImmune[mod.BuffType("Shred")] = false;
-            npc.buffImmune[mod.BuffType("WhisperingDeath")] = false;
-            npc.buffImmune[mod.BuffType("SilvaStun")] = false;
+            npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
+            npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
+            npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
+            npc.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = false;
+            npc.buffImmune[ModContent.BuffType<HolyFlames>()] = false;
+            npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
+            npc.buffImmune[ModContent.BuffType<Shred>()] = false;
+            npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
+            npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit4;
@@ -81,7 +81,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/PlaguebringerGoliath");
             else
                 music = MusicID.Boss3;
-            bossBag = mod.ItemType("PlaguebringerGoliathBag");
+            bossBag = ModContent.ItemType<PlaguebringerGoliathBag>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -479,17 +479,17 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     {
                         int randomAmt = expertMode ? 2 : 4;
                         if (Main.rand.Next(randomAmt) == 0)
-                            randomAmt = mod.NPCType("PlagueBeeLargeG");
+                            randomAmt = ModContent.NPCType<PlagueBeeLargeG>();
                         else
-                            randomAmt = mod.NPCType("PlagueBeeG");
+                            randomAmt = ModContent.NPCType<PlagueBeeG>();
 
-                        if (expertMode && NPC.CountNPCS(mod.NPCType("PlagueMine")) < (aboveGroundEnrage ? 4 : 2))
-                            NPC.NewNPC((int)vector119.X, (int)vector119.Y, mod.NPCType("PlagueMine"), 0, 0f, 0f, 0f, 0f, 255);
+                        if (expertMode && NPC.CountNPCS(ModContent.NPCType<PlagueMine>()) < (aboveGroundEnrage ? 4 : 2))
+                            NPC.NewNPC((int)vector119.X, (int)vector119.Y, ModContent.NPCType<PlagueMine>(), 0, 0f, 0f, 0f, 0f, 255);
 
-                        if (revenge && NPC.CountNPCS(mod.NPCType("PlaguebringerShade")) < (aboveGroundEnrage ? 2 : 1))
-                            NPC.NewNPC((int)vector119.X, (int)vector119.Y, mod.NPCType("PlaguebringerShade"), 0, 0f, 0f, 0f, 0f, 255);
+                        if (revenge && NPC.CountNPCS(ModContent.NPCType<PlaguebringerShade>()) < (aboveGroundEnrage ? 2 : 1))
+                            NPC.NewNPC((int)vector119.X, (int)vector119.Y, ModContent.NPCType<PlaguebringerShade>(), 0, 0f, 0f, 0f, 0f, 255);
 
-                        if (NPC.CountNPCS(mod.NPCType("PlagueBeeLargeG")) < 2)
+                        if (NPC.CountNPCS(ModContent.NPCType<PlagueBeeLargeG>()) < 2)
                         {
                             int num1062 = NPC.NewNPC((int)vector119.X, (int)vector119.Y, randomAmt, 0, 0f, 0f, 0f, 0f, 255);
                             Main.npc[num1062].velocity.X = (float)Main.rand.Next(-200, 201) * (CalamityWorld.bossRushActive ? 0.04f : 0.02f);
@@ -552,11 +552,11 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        if (expertMode && NPC.CountNPCS(mod.NPCType("PlagueMine")) < (aboveGroundEnrage ? 6 : 4))
-                            NPC.NewNPC((int)vector119.X, (int)vector119.Y, mod.NPCType("PlagueMine"), 0, 0f, 0f, 0f, 0f, 255);
+                        if (expertMode && NPC.CountNPCS(ModContent.NPCType<PlagueMine>()) < (aboveGroundEnrage ? 6 : 4))
+                            NPC.NewNPC((int)vector119.X, (int)vector119.Y, ModContent.NPCType<PlagueMine>(), 0, 0f, 0f, 0f, 0f, 255);
 
-                        if (revenge && NPC.CountNPCS(mod.NPCType("PlaguebringerShade")) < 1 && aboveGroundEnrage)
-                            NPC.NewNPC((int)vector119.X, (int)vector119.Y, mod.NPCType("PlaguebringerShade"), 0, 0f, 0f, 0f, 0f, 255);
+                        if (revenge && NPC.CountNPCS(ModContent.NPCType<PlaguebringerShade>()) < 1 && aboveGroundEnrage)
+                            NPC.NewNPC((int)vector119.X, (int)vector119.Y, ModContent.NPCType<PlaguebringerShade>(), 0, 0f, 0f, 0f, 0f, 255);
 
                         float projectileSpeed = revenge ? 6f : 5f;
                         float num1071 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector119.X;
@@ -567,9 +567,9 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         num1071 *= num1073;
                         num1072 *= num1073;
 
-                        if (NPC.CountNPCS(mod.NPCType("PlagueHomingMissile")) < (aboveGroundEnrage ? 8 : 5))
+                        if (NPC.CountNPCS(ModContent.NPCType<PlagueHomingMissile>()) < (aboveGroundEnrage ? 8 : 5))
                         {
-                            int num1062 = NPC.NewNPC((int)vector119.X, (int)vector119.Y, mod.NPCType("PlagueHomingMissile"), 0, 0f, 0f, 0f, 0f, 255);
+                            int num1062 = NPC.NewNPC((int)vector119.X, (int)vector119.Y, ModContent.NPCType<PlagueHomingMissile>(), 0, 0f, 0f, 0f, 0f, 255);
                             Main.npc[num1062].velocity.X = num1071;
                             Main.npc[num1062].velocity.Y = num1072;
                             Main.npc[num1062].netUpdate = true;
@@ -640,7 +640,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         num1072 *= num1073;
 
                         int num1074 = 40;
-                        int num1075 = Main.rand.NextBool(2) ? mod.ProjectileType("PlagueStingerGoliath") : mod.ProjectileType("PlagueStingerGoliathV2");
+                        int num1075 = Main.rand.NextBool(2) ? ModContent.ProjectileType<PlagueStingerGoliath>() : ModContent.ProjectileType<PlagueStingerGoliathV2>();
                         if (expertMode)
                         {
                             num1074 = 32;
@@ -650,7 +650,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                             if (Main.rand.NextBool(6))
                             {
                                 num1074 += 8;
-                                num1075 = mod.ProjectileType("HiveBombGoliath");
+                                num1075 = ModContent.ProjectileType<HiveBombGoliath>();
                             }
                         }
                         else
@@ -658,7 +658,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                             if (Main.rand.NextBool(9))
                             {
                                 num1074 = 50;
-                                num1075 = mod.ProjectileType("HiveBombGoliath");
+                                num1075 = ModContent.ProjectileType<HiveBombGoliath>();
                             }
                         }
                         Projectile.NewProjectile(vector121.X, vector121.Y, num1071, num1072, num1075, num1074, 0f, Main.myPlayer, 0f, Main.player[npc.target].position.Y);
@@ -727,7 +727,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                                     spawn.X = spawn.X + i * 30 - (MissileProjectiles * 15);
                                     Vector2 velocity = baseVelocity.RotatedBy(MathHelper.ToRadians(-MissileAngleSpread / 2 + (MissileAngleSpread * i / (float)MissileProjectiles)));
                                     velocity.X = velocity.X + 3 * Main.rand.NextFloat() - 1.5f;
-                                    Projectile.NewProjectile(spawn.X, spawn.Y, velocity.X, velocity.Y, mod.ProjectileType("HiveBombGoliath"), damage, 0f, Main.myPlayer, 0f, Main.player[npc.target].position.Y);
+                                    Projectile.NewProjectile(spawn.X, spawn.Y, velocity.X, velocity.Y, ModContent.ProjectileType<HiveBombGoliath>(), damage, 0f, Main.myPlayer, 0f, Main.player[npc.target].position.Y);
                                 }
                             }
                         }
@@ -935,7 +935,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             Texture2D texture = Main.npcTexture[npc.type];
             if (charging)
             {
-                texture = mod.GetTexture("NPCs/PlaguebringerGoliath/PlaguebringerGoliathChargeTex");
+                texture = ModContent.GetTexture("CalamityMod/NPCs/PlaguebringerGoliath/PlaguebringerGoliathChargeTex");
             }
             else
             {
@@ -945,7 +945,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 }
                 else
                 {
-                    texture = mod.GetTexture("NPCs/PlaguebringerGoliath/PlaguebringerGoliathAltTex");
+                    texture = ModContent.GetTexture("CalamityMod/NPCs/PlaguebringerGoliath/PlaguebringerGoliathAltTex");
                 }
             }
             SpriteEffects spriteEffects = SpriteEffects.None;
@@ -953,11 +953,11 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             {
                 spriteEffects = SpriteEffects.FlipHorizontally;
             }
-            Microsoft.Xna.Framework.Color color24 = npc.GetAlpha(drawColor);
-            Microsoft.Xna.Framework.Color color25 = Lighting.GetColor((int)((double)npc.position.X + (double)npc.width * 0.5) / 16, (int)(((double)npc.position.Y + (double)npc.height * 0.5) / 16.0));
+            Color color24 = npc.GetAlpha(drawColor);
+            Color color25 = Lighting.GetColor((int)((double)npc.position.X + (double)npc.width * 0.5) / 16, (int)(((double)npc.position.Y + (double)npc.height * 0.5) / 16.0));
             int num156 = Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type];
             int y3 = num156 * (int)npc.frameCounter;
-            Microsoft.Xna.Framework.Rectangle rectangle = new Microsoft.Xna.Framework.Rectangle(0, y3, texture.Width, num156);
+            Rectangle rectangle = new Rectangle(0, y3, texture.Width, num156);
             Vector2 origin2 = rectangle.Size() / 2f;
             int num157 = 8;
             int num158 = 2;
@@ -966,7 +966,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             int num161 = num159;
             while (((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157)) && Lighting.NotRetro)
             {
-                Microsoft.Xna.Framework.Color color26 = npc.GetAlpha(color25);
+                Color color26 = npc.GetAlpha(color25);
                 {
                     goto IL_6899;
                 }
@@ -1017,31 +1017,31 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
         {
             DropHelper.DropBags(npc);
 
-            DropHelper.DropItemChance(npc, mod.ItemType("PlaguebringerGoliathTrophy"), 10);
-            DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgePlaguebringerGoliath"), true, !CalamityWorld.downedPlaguebringer);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<PlaguebringerGoliathTrophy>(), 10);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgePlaguebringerGoliath>(), true, !CalamityWorld.downedPlaguebringer);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedPlaguebringer, 4, 2, 1);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
             if (!Main.expertMode)
             {
                 // Materials
-                DropHelper.DropItemSpray(npc, mod.ItemType("PlagueCellCluster"), 10, 14);
+                DropHelper.DropItemSpray(npc, ModContent.ItemType<PlagueCellCluster>(), 10, 14);
 
                 // Weapons
-                DropHelper.DropItemChance(npc, mod.ItemType("VirulentKatana"), 4); // Virulence
-                DropHelper.DropItemChance(npc, mod.ItemType("DiseasedPike"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("ThePlaguebringer"), 4); // Pandemic
-                DropHelper.DropItemChance(npc, mod.ItemType("Malevolence"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("PestilentDefiler"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("TheHive"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("MepheticSprayer"), 4); // Blight Spewer
-                DropHelper.DropItemChance(npc, mod.ItemType("PlagueStaff"), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<VirulentKatana>(), 4); // Virulence
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.DiseasedPike>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.ThePlaguebringer>(), 4); // Pandemic
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Malevolence>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<PestilentDefiler>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<TheHive>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<MepheticSprayer>(), 4); // Blight Spewer
+                DropHelper.DropItemChance(npc, ModContent.ItemType<PlagueStaff>(), 4);
 
                 // Equipment
-                DropHelper.DropItemChance(npc, mod.ItemType("BloomStone"), 10);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<BloomStone>(), 10);
 
                 // Vanity
-                DropHelper.DropItemChance(npc, mod.ItemType("PlaguebringerGoliathMask"), 7);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<PlaguebringerGoliathMask>(), 7);
             }
 
             // Mark PBG as dead
@@ -1057,11 +1057,11 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(mod.BuffType("Plague"), 300, true);
+            player.AddBuff(ModContent.BuffType<Plague>(), 300, true);
             if (CalamityWorld.revenge)
             {
-                player.AddBuff(mod.BuffType("Horror"), 180, true);
-                player.AddBuff(mod.BuffType("MarkedforDeath"), 180);
+                player.AddBuff(ModContent.BuffType<Horror>(), 180, true);
+                player.AddBuff(ModContent.BuffType<MarkedforDeath>(), 180);
             }
         }
     }

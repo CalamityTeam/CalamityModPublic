@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Projectiles.Typeless
 {
     public class Seashell : ModProjectile

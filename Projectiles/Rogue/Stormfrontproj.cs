@@ -1,12 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class Stormfrontproj : ModProjectile
+    public class StormfrontRazorProjectile : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (projectile.ai[0] >= sparkFreq)
             {
                 Vector2 sparkS = new Vector2(Main.rand.NextFloat(-14f, 14f), Main.rand.NextFloat(-14f, 14f));
-                Projectile.NewProjectile(projectile.Center, sparkS, mod.ProjectileType("Stormfrontspark"), projectile.damage, 3f, projectile.owner);
+                Projectile.NewProjectile(projectile.Center, sparkS, ModContent.ProjectileType<Stormfrontspark>(), projectile.damage, 3f, projectile.owner);
                 projectile.ai[0] = 0;
             }
             if (Main.rand.Next(10) == 0)

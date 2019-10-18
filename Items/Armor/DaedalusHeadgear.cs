@@ -1,9 +1,9 @@
 ﻿using CalamityMod.CalPlayer;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
-namespace CalamityMod.Items.Armor
+namespace CalamityMod.Items
 {
     [AutoloadEquip(EquipType.Head)]
     public class DaedalusHeadgear : ModItem
@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Armor
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == mod.ItemType("DaedalusBreastplate") && legs.type == mod.ItemType("DaedalusLeggings");
+            return body.type == ModContent.ItemType<DaedalusBreastplate>() && legs.type == ModContent.ItemType<DaedalusLeggings>();
         }
 
         public override void ArmorSetShadows(Player player)
@@ -42,13 +42,13 @@ namespace CalamityMod.Items.Armor
             modPlayer.daedalusCrystal = true;
             if (player.whoAmI == Main.myPlayer)
             {
-                if (player.FindBuffIndex(mod.BuffType("DaedalusCrystal")) == -1)
+                if (player.FindBuffIndex(ModContent.BuffType<Buffs.DaedalusCrystal>()) == -1)
                 {
-                    player.AddBuff(mod.BuffType("DaedalusCrystal"), 3600, true);
+                    player.AddBuff(ModContent.BuffType<Buffs.DaedalusCrystal>(), 3600, true);
                 }
-                if (player.ownedProjectileCounts[mod.ProjectileType("DaedalusCrystal")] < 1)
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.DaedalusCrystal>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("DaedalusCrystal"), (int)(95f * player.minionDamage), 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<Projectiles.DaedalusCrystal>(), (int)(95f * player.minionDamage), 0f, Main.myPlayer, 0f, 0f);
                 }
             }
             player.minionDamage += 0.2f;

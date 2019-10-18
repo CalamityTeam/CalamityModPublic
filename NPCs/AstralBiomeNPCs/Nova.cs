@@ -1,13 +1,13 @@
 ﻿using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using CalamityMod.Dusts;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.ModLoader;
 using Terraria.DataStructures;
 using Terraria.ID;
-using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.AstralBiomeNPCs
+namespace CalamityMod.NPCs
 {
     public class Nova : ModNPC
     {
@@ -25,7 +25,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             Main.npcFrameCount[npc.type] = 8;
 
             if (!Main.dedServ)
-                glowmask = mod.GetTexture("NPCs/AstralBiomeNPCs/NovaGlow");
+                glowmask = ModContent.GetTexture("CalamityMod/NPCs/AstralBiomeNPCs/NovaGlow");
         }
 
         public override void SetDefaults()
@@ -42,7 +42,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             npc.value = Item.buyPrice(0, 0, 20, 0);
             npc.aiStyle = -1;
             banner = npc.type;
-            bannerItem = mod.ItemType("NovaBanner");
+            bannerItem = ModContent.ItemType<NovaBanner>();
             if (CalamityWorld.downedAstrageldon)
             {
                 npc.damage = 75;
@@ -81,7 +81,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             }
 
             //DO DUST
-            Dust d = CalamityGlobalNPC.SpawnDustOnNPC(npc, 114, frameHeight, mod.DustType("AstralOrange"), new Rectangle(78, 34, 36, 18), Vector2.Zero, 0.45f, true);
+            Dust d = CalamityGlobalNPC.SpawnDustOnNPC(npc, 114, frameHeight, ModContent.DustType<AstralOrange>(), new Rectangle(78, 34, 36, 18), Vector2.Zero, 0.45f, true);
             if (d != null)
             {
                 d.customData = 0.04f;
@@ -189,7 +189,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 
             for (int i = 0; i < 45; i++)
             {
-                int dust = Dust.NewDust(npc.Center - off, size, size, mod.DustType("AstralEnemy"), Main.rand.NextFloat(-3f, 3f), Main.rand.NextFloat(-3f, 3f), 0, default, Main.rand.NextFloat(1f, 2f));
+                int dust = Dust.NewDust(npc.Center - off, size, size, ModContent.DustType<AstralEnemy>(), Main.rand.NextFloat(-3f, 3f), Main.rand.NextFloat(-3f, 3f), 0, default, Main.rand.NextFloat(1f, 2f));
                 Main.dust[dust].velocity *= 1.4f;
             }
             for (int i = 0; i < 15; i++)
@@ -226,7 +226,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
                 }
             }
 
-            CalamityGlobalNPC.DoHitDust(npc, hitDirection, (Main.rand.Next(0, Math.Max(0, npc.life)) == 0) ? 5 : mod.DustType("AstralEnemy"), 1f, 3, 40);
+            CalamityGlobalNPC.DoHitDust(npc, hitDirection, (Main.rand.Next(0, Math.Max(0, npc.life)) == 0) ? 5 : ModContent.DustType<AstralEnemy>(), 1f, 3, 40);
 
             //if dead do gores
             if (npc.life <= 0)
@@ -259,19 +259,19 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(mod.BuffType("AstralInfectionDebuff"), 120, true);
+            player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120, true);
         }
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Stardust"), Main.rand.Next(2, 4));
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Stardust>(), Main.rand.Next(2, 4));
             if (Main.expertMode)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Stardust"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Stardust>());
             }
             if (CalamityWorld.downedAstrageldon && Main.rand.NextBool(7))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("StellarCannon"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<StellarCannon>());
             }
         }
     }

@@ -1,6 +1,5 @@
 using Terraria.ID;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Placeables.FurniturePlaguedPlate
 {
     public class PlaguedPlateLamp : ModItem
@@ -20,7 +19,7 @@ namespace CalamityMod.Items.Placeables.FurniturePlaguedPlate
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = mod.TileType("PlaguedPlateLamp");
+            item.createTile = ModContent.TileType<Tiles.PlaguedPlateLamp>();
         }
 
         public override void AddRecipes()

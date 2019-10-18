@@ -1,8 +1,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Tiles.FurnitureAbyss
 {
@@ -15,7 +15,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
             name.SetDefault("Abyss Torch");
             AddMapEntry(new Color(253, 221, 3), name);
             disableSmartCursor = true;
-            drop = mod.ItemType("AbyssTorch");
+            drop = ModContent.ItemType<Items.AbyssTorch>();
             adjTiles = new int[] { TileID.Torches };
             torch = true;
         }

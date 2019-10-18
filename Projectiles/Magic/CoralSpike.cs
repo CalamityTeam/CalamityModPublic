@@ -1,6 +1,5 @@
 ﻿using System;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Projectiles.Magic
 {
     public class CoralSpike : ModProjectile

@@ -1,5 +1,4 @@
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Placeables.FurnitureProfaned
 {
     public class ProfanedTable : ModItem
@@ -19,7 +18,7 @@ namespace CalamityMod.Items.Placeables.FurnitureProfaned
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = mod.TileType("ProfanedTable");
+            item.createTile = ModContent.TileType<Tiles.ProfanedTable>();
         }
 
         public override void AddRecipes()

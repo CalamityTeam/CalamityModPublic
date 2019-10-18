@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Tools
             item.rare = 2;
             item.UseSound = SoundID.Item23;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("MarniteObliterator");
+            item.shoot = ModContent.ProjectileType<Projectiles.MarniteObliterator>();
             item.shootSpeed = 40f;
         }
 

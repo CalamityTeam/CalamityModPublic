@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Tiles.FurnitureStratus
 {
@@ -15,7 +15,7 @@ namespace CalamityMod.Tiles.FurnitureStratus
             AddMapEntry(new Color(191, 142, 111), name);
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.OpenDoor };
-            closeDoorID = mod.TileType("StratusDoorClosed");
+            closeDoorID = ModContent.TileType<StratusDoorClosed>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -37,7 +37,7 @@ namespace CalamityMod.Tiles.FurnitureStratus
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 32, 48, mod.ItemType("StratusDoor"));
+            Item.NewItem(i * 16, j * 16, 32, 48, ModContent.ItemType<Items.StratusDoor>());
         }
 
         public override void MouseOver(int i, int j)
@@ -45,7 +45,7 @@ namespace CalamityMod.Tiles.FurnitureStratus
             Player player = Main.LocalPlayer;
             player.noThrow = 2;
             player.showItemIcon = true;
-            player.showItemIcon2 = mod.ItemType("StratusDoor");
+            player.showItemIcon2 = ModContent.ItemType<Items.StratusDoor>();
         }
     }
 }

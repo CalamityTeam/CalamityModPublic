@@ -2,10 +2,10 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
-namespace CalamityMod.Projectiles.Melee.Yoyos
+namespace CalamityMod.Projectiles.Melee
 {
     public class CnidarianProjectile : ModProjectile
     {
@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                     num439 *= num440;
                     if (projectile.owner == Main.myPlayer)
                     {
-                        int projectile2 = Projectile.NewProjectile(value10.X, value10.Y, num438, num439, mod.ProjectileType("Seashell"), projectile.damage / 3, 0f, projectile.owner, 0f, 0f);
+                        int projectile2 = Projectile.NewProjectile(value10.X, value10.Y, num438, num439, ModContent.ProjectileType<Seashell>(), projectile.damage / 3, 0f, projectile.owner, 0f, 0f);
                         Main.projectile[projectile2].Calamity().forceMelee = true;
                     }
                 }

@@ -2,7 +2,6 @@
 using System;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Projectiles.Ranged
 {
     public class TerraArrow : ModProjectile
@@ -62,7 +61,7 @@ namespace CalamityMod.Projectiles.Ranged
                     }
                     value15.Normalize();
                     value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, mod.ProjectileType("TerraArrow2"), (int)((double)projectile.damage * 0.4), 0f, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<TerraArrow2>(), (int)((double)projectile.damage * 0.4), 0f, projectile.owner, 0f, 0f);
                 }
             }
         }

@@ -1,9 +1,8 @@
 ﻿using CalamityMod.World;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.Calamitas
+using Terraria.ID;
+namespace CalamityMod.NPCs
 {
     public class LifeSeeker : ModNPC
     {
@@ -43,7 +42,7 @@ namespace CalamityMod.NPCs.Calamitas
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(mod.BuffType("BrimstoneFlames"), 120, true);
+            player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120, true);
         }
 
         public override void HitEffect(int hitDirection, double damage)

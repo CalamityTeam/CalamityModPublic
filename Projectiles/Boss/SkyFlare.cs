@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Projectiles.Boss
 {
     public class SkyFlare : ModProjectile
@@ -57,7 +56,7 @@ namespace CalamityMod.Projectiles.Boss
             Texture2D texture2D13 = Main.projectileTexture[projectile.type];
             int num214 = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
             int y6 = num214 * projectile.frame;
-            Main.spriteBatch.Draw(texture2D13, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y6, texture2D13.Width, num214)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)num214 / 2f), projectile.scale, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(texture2D13, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, num214)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)num214 / 2f), projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
 
@@ -110,13 +109,13 @@ namespace CalamityMod.Projectiles.Boss
                 if (tornadoType < 5)
                 {
                     int num235 = Main.expertMode ? 180 : 300; //720
-                    int num236 = Projectile.NewProjectile((float)(num232 * 16 + 8), (float)(num231 * 16 - 24), 0f, 0f, mod.ProjectileType("Flarenado"), num235, 4f, Main.myPlayer, 16f, 15f + (revenge ? 4f : 0f));
+                    int num236 = Projectile.NewProjectile((float)(num232 * 16 + 8), (float)(num231 * 16 - 24), 0f, 0f, ModContent.ProjectileType<Flarenado>(), num235, 4f, Main.myPlayer, 16f, 15f + (revenge ? 4f : 0f));
                     Main.projectile[num236].netUpdate = true;
                 }
                 else
                 {
                     int num235 = Main.expertMode ? 230 : 400; //920
-                    int num236 = Projectile.NewProjectile((float)(num232 * 16 + 8), (float)(num231 * 16 - 24), 0f, 0f, mod.ProjectileType("Infernado"), num235, 4f, Main.myPlayer, 16f, 16f + (revenge ? 4f : 0f));
+                    int num236 = Projectile.NewProjectile((float)(num232 * 16 + 8), (float)(num231 * 16 - 24), 0f, 0f, ModContent.ProjectileType<Infernado>(), num235, 4f, Main.myPlayer, 16f, 16f + (revenge ? 4f : 0f));
                     Main.projectile[num236].netUpdate = true;
                 }
             }

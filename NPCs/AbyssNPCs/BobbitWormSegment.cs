@@ -1,8 +1,8 @@
 ﻿using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
-namespace CalamityMod.NPCs.AbyssNPCs
+namespace CalamityMod.NPCs
 {
     public class BobbitWormSegment : ModNPC
     {
@@ -36,10 +36,10 @@ namespace CalamityMod.NPCs.AbyssNPCs
                 if (npc.localAI[0] == 0f)
                 {
                     npc.localAI[0] = 1f;
-                    NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("BobbitWormHead"), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+                    NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<BobbitWormHead>(), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
                 }
             }
-            if (!NPC.AnyNPCs(mod.NPCType("BobbitWormHead")))
+            if (!NPC.AnyNPCs(ModContent.NPCType<BobbitWormHead>()))
             {
                 npc.active = false;
                 npc.netUpdate = true;
@@ -50,7 +50,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
         {
             if (spawnInfo.player.Calamity().ZoneAbyssLayer4 && spawnInfo.water)
             {
-                if (!NPC.AnyNPCs(mod.NPCType("BobbitWormSegment")))
+                if (!NPC.AnyNPCs(ModContent.NPCType<BobbitWormSegment>()))
                     return SpawnCondition.CaveJellyfish.Chance * 0.3f;
             }
             return 0f;

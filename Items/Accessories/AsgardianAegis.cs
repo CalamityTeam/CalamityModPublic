@@ -1,7 +1,8 @@
-﻿using CalamityMod.CalPlayer;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Accessories
 {
     [AutoloadEquip(EquipType.Shield)]
@@ -51,9 +52,9 @@ namespace CalamityMod.Items.Accessories
             player.buffImmune[35] = true;
             player.buffImmune[23] = true;
             player.buffImmune[22] = true;
-            player.buffImmune[mod.BuffType("BrimstoneFlames")] = true;
-            player.buffImmune[mod.BuffType("HolyLight")] = true;
-            player.buffImmune[mod.BuffType("GlacialState")] = true;
+            player.buffImmune[ModContent.BuffType<BrimstoneFlames>()] = true;
+            player.buffImmune[ModContent.BuffType<HolyFlames>()] = true;
+            player.buffImmune[ModContent.BuffType<GlacialState>()] = true;
             if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
             { player.endurance += 0.1f; }
         }

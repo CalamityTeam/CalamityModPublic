@@ -1,8 +1,8 @@
 ﻿using System;
 
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Typeless
 {
@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Typeless
                 if (Main.tile[tileX, tileY].type == TileID.MinecartTrack)
                     return;
 
-                WorldGen.PlaceTile(tileX, tileY, mod.TileType("AstralSand"), false, true);
+                WorldGen.PlaceTile(tileX, tileY, ModContent.TileType<Tiles.AstralSand>(), false, true);
                 WorldGen.SquareTileFrame(tileX, tileY);
             }
         }

@@ -1,13 +1,10 @@
 using CalamityMod.World;
-using CalamityMod.Utilities;
 using System.Collections.Generic;
-using System.Linq;
 using Terraria;
+using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.Localization;
-using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.TownNPCs
+namespace CalamityMod.NPCs
 {
     [AutoloadHead]
     public class Bandit : ModNPC
@@ -32,7 +29,7 @@ namespace CalamityMod.NPCs.TownNPCs
             NPCID.Sets.AttackType[npc.type] = 0;
             NPCID.Sets.AttackTime[npc.type] = 60;
             NPCID.Sets.AttackAverageChance[npc.type] = 10;
-        }        
+        }
         public override void SetDefaults()
         {
             npc.townNPC = true;
@@ -125,8 +122,8 @@ namespace CalamityMod.NPCs.TownNPCs
                 PossibleDialogs.Add("Providence HATES it when you take her stuff. I learned that the hard way.");
                 PossibleDialogs.Add("You think I can get away with looting from ghosts? It ain't like they can pick things up.");
             }
-            if (Main.LocalPlayer.InventoryHas(mod.ItemType("Valediction")) ||
-                Main.LocalPlayer.InventoryHas(mod.ItemType("TheReaper")))
+            if (Main.LocalPlayer.InventoryHas(ModContent.ItemType<Items.Valediction>()) ||
+                Main.LocalPlayer.InventoryHas(ModContent.ItemType<TheReaper>()))
             {
                 PossibleDialogs.Add("Oh man, did you rip that off a shark!? Now that's a weapon!");
             }
@@ -145,7 +142,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 PossibleDialogs.Add($"Don't tell {nerd.GivenName}, but I took some of his stuff and replaced it with Angel Statues.");
             }
 
-            int cirrusIndex = NPC.FindFirstNPC(mod.NPCType("FAP"));
+            int cirrusIndex = NPC.FindFirstNPC(ModContent.NPCType<FAP>());
             if (cirrusIndex != -1)
             {
                 NPC cirrus = Main.npc[cirrusIndex]; //please help me I'm stuck in a children's video game - Fabsol
@@ -204,85 +201,74 @@ namespace CalamityMod.NPCs.TownNPCs
 
         public override void SetupShop(Chest shop, ref int nextSlot)
         {
-            shop.item[nextSlot].SetDefaults(mod.ItemType("Cinquedea"));
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Cinquedea>());
 			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 9, 0, 0);
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(mod.ItemType("Glaive"));
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Glaive>());
 			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 3, 0, 0);
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(mod.ItemType("Kylie"));
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Kylie>());
 			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 9, 0, 0);
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(mod.ItemType("MonkeyDarts"));
-            nextSlot++;
-            shop.item[nextSlot].SetDefaults(mod.ItemType("OldDie"));
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<OldDie>());
 			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 40, 0, 0);
 			nextSlot++;
 			if (Main.hardMode)
 			{
-				shop.item[nextSlot].SetDefaults(mod.ItemType("SlickCane"));
+				shop.item[nextSlot].SetDefaults(ModContent.ItemType<SlickCane>());
 			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 25, 0, 0);
-				nextSlot++;
-			}
-			if (NPC.downedPirates)
-			{
-				shop.item[nextSlot].SetDefaults(mod.ItemType("ThiefsDime"));
-			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(1, 0, 0, 0);
 				nextSlot++;
 			}
 			if (NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3)
 			{
-				shop.item[nextSlot].SetDefaults(mod.ItemType("MomentumCapacitator"));
+				shop.item[nextSlot].SetDefaults(ModContent.ItemType<MomentumCapacitor>());
 				shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 60, 0, 0);
 				nextSlot++;
 			}
 			/*if (NPC.downedMechBoss1 || NPC.downedMechBoss2 || NPC.downedMechBoss3)
 			{
-				shop.item[nextSlot].SetDefaults(mod.ItemType("BouncingBetty"));
+				shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.BouncingBetty>());
 				nextSlot++;
-				shop.item[nextSlot].SetDefaults(mod.ItemType("LatcherMines"));
+				shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.LatcherMines>());
 				nextSlot++;
 			}*/
 			if (NPC.downedPlantBoss)
 			{
-				shop.item[nextSlot].SetDefaults(mod.ItemType("GloveOfPrecicion"));
+				shop.item[nextSlot].SetDefaults(ModContent.ItemType<MonkeyDarts>());
+				shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 4, 0);
 				nextSlot++;
-				shop.item[nextSlot].SetDefaults(mod.ItemType("GloveOfRecklessness"));
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<GloveofPrecision>());
+                nextSlot++;
+				shop.item[nextSlot].SetDefaults(ModContent.ItemType<GloveOfRecklessness>());
 				nextSlot++;
-				/*shop.item[nextSlot].SetDefaults(mod.ItemType("DeepWounder"));
+				/*shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.DeepWounder>());
 				nextSlot++;*/
 			}
 			/*if (NPC.downedGolemBoss)
 			{
-				shop.item[nextSlot].SetDefaults(mod.ItemType("EtherealExtorter"));
+				shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.EtherealExtorter>());
 				shop.item[nextSlot].shopCustomPrice = Item.buyPrice(1, 0, 0, 0);
 				nextSlot++;
 			}*/
 			if (NPC.downedMoonlord)
 			{
-                shop.item[nextSlot].SetDefaults(mod.ItemType("CelestialReaper"));
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<CelestialReaper>());
 				shop.item[nextSlot].shopCustomPrice = Item.buyPrice(2, 0, 0, 0);
 				nextSlot++;
             }
 			/*if (CalamityWorld.downedProvidence)
 			{
-				shop.item[nextSlot].SetDefaults(mod.ItemType("SylvanSlasher"));
+				shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.SylvanSlasher>());
 				shop.item[nextSlot].shopCustomPrice = Item.buyPrice(5, 0, 0, 0);
 				nextSlot++;
 			}*/
             if (CalamityWorld.buffedEclipse && !CalamityWorld.dragonScalesBought)
             {
-                shop.item[nextSlot].SetDefaults(mod.ItemType("DragonScales"));
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<DragonScales>());
 				shop.item[nextSlot].shopCustomPrice = Item.buyPrice(40, 0, 0, 0);
 				nextSlot++;
             }
         }
-
-		// Make this Town NPC teleport to the King and/or Queen statue when triggered.
-		public override bool CanGoToStatue(bool toKingStatue) //I don't think you can differentiate male vs female with this.
-		{
-			return true;
-		}
 
         public override void TownNPCAttackStrength(ref int damage, ref float knockback)
         {
@@ -298,7 +284,7 @@ namespace CalamityMod.NPCs.TownNPCs
 
         public override void TownNPCAttackProj(ref int projType, ref int attackDelay)
         {
-            projType = mod.ProjectileType("CinquedeaProj"); //affected by nanotech. I'd look into this
+            projType = ModContent.ProjectileType<CinquedeaProj>(); //affected by nanotech. I'd look into this
             attackDelay = 1;
         }
 

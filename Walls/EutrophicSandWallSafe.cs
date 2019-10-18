@@ -10,7 +10,7 @@ namespace CalamityMod.Walls
         {
             Main.wallHouse[Type] = true;
             dustType = 108;
-            drop = mod.ItemType("EutrophicSandWallSafe");
+            drop = ModContent.ItemType<Items.EutrophicSandWallSafe>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Eutrophic Sand Wall Safe");
             AddMapEntry(new Color(100, 100, 150), name);

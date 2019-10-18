@@ -1,8 +1,8 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ModLoader;
 using Terraria.DataStructures;
 using Terraria.ID;
-using Terraria.ModLoader;
 using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.FurnitureCosmilite
@@ -63,7 +63,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 16, 32, mod.ItemType("CosmiliteSconce"));
+            Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<Items.CosmiliteSconce>());
         }
 
         public override void HitWire(int i, int j)

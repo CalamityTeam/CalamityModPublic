@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Tiles.FurniturePlaguedPlate
 {
@@ -15,7 +15,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
             AddMapEntry(new Color(191, 142, 111), name);
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Torches };
-            drop = mod.ItemType("PlaguedPlateCandle");
+            drop = ModContent.ItemType<Items.PlaguedPlateCandle>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)

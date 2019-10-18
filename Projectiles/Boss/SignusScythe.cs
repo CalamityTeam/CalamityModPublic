@@ -3,9 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
+using Terraria.ID;
 namespace CalamityMod.Projectiles.Boss
 {
     public class SignusScythe : ModProjectile
@@ -119,7 +118,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(mod.BuffType("WhisperingDeath"), 300);
+            target.AddBuff(ModContent.BuffType<WhisperingDeath>(), 300);
         }
 
         public override void Kill(int timeLeft)

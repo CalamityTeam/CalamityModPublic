@@ -2,7 +2,7 @@
 using Terraria;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Items.Armor
+namespace CalamityMod.Items
 {
     public class SirensHeart : ModItem
     {

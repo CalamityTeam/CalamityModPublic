@@ -4,10 +4,10 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
-namespace CalamityMod.NPCs.Polterghast
+namespace CalamityMod.NPCs
 {
     public class PhantomFuckYou : ModNPC
     {
@@ -87,7 +87,7 @@ namespace CalamityMod.NPCs.Polterghast
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     int damage = expertMode ? 62 : 75;
-                    Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X * 0.05f, direction.Y * 0.05f, mod.ProjectileType("PhantomMine"), damage, 1f, npc.target);
+                    Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X * 0.05f, direction.Y * 0.05f, ModContent.ProjectileType<PhantomMine>(), damage, 1f, npc.target);
                 }
 
                 timer = 0;
@@ -122,7 +122,7 @@ namespace CalamityMod.NPCs.Polterghast
                 for (int i = 1; i < npc.oldPos.Length; ++i)
                 {
                     Vector2 vector2_2 = npc.oldPos[i];
-                    Microsoft.Xna.Framework.Color color2 = Color.White * npc.Opacity;
+                    Color color2 = Color.White * npc.Opacity;
                     color2.R = (byte)(0.5 * (double)color2.R * (double)(10 - i) / 20.0);
                     color2.G = (byte)(0.5 * (double)color2.G * (double)(10 - i) / 20.0);
                     color2.B = (byte)(0.5 * (double)color2.B * (double)(10 - i) / 20.0);

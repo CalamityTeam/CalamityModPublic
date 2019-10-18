@@ -1,10 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
-namespace CalamityMod.NPCs.NormalNPCs
+namespace CalamityMod.NPCs
 {
     public class FearlessGoldfishWarrior : ModNPC
     {
@@ -28,7 +28,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
             //banner = npc.type;
-            //bannerItem = mod.ItemType("OverloadedSoldierBanner");
+            //bannerItem = ModContent.ItemType<Items.OverloadedSoldierBanner>();
         }
 
         public override void AI()

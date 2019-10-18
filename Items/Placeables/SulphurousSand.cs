@@ -1,5 +1,4 @@
 ﻿using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Placeables
 {
     public class SulphurousSand : ModItem
@@ -11,7 +10,7 @@ namespace CalamityMod.Items.Placeables
 
         public override void SetDefaults()
         {
-            item.createTile = mod.TileType("SulphurousSand");
+            item.createTile = ModContent.TileType<Tiles.SulphurousSand>();
             item.useStyle = 1;
             item.useTurn = true;
             item.useAnimation = 15;

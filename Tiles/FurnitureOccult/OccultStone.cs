@@ -1,9 +1,7 @@
-﻿using CalamityMod.Utilities;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Tiles.FurnitureOccult
 {
     public class OccultStone : ModTile
@@ -24,14 +22,14 @@ namespace CalamityMod.Tiles.FurnitureOccult
             soundType = 21;
             mineResist = 10f;
             minPick = 200;
-            drop = mod.ItemType("OccultStone");
+            drop = ModContent.ItemType<Items.OccultStone>();
             AddMapEntry(new Color(60, 42, 61));
         }
 
         public override bool CreateDust(int i, int j, ref int type)
         {
             Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, 1, 0f, 0f, 1, new Color(125, 94, 128), 1f);
-            Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, mod.DustType("OccultTileCloth"), 0f, 0f, 1, new Color(255, 255, 255), 1f);
+            Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, ModContent.DustType<OccultTileCloth>(), 0f, 0f, 1, new Color(255, 255, 255), 1f);
             return false;
         }
 
@@ -51,7 +49,7 @@ namespace CalamityMod.Tiles.FurnitureOccult
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
             Color drawColour = GetDrawColour(i, j);
-            Texture2D cloth = mod.GetTexture("Tiles/FurnitureOccult/OccultStone_Cloth");
+            Texture2D cloth = ModContent.GetTexture("CalamityMod/Tiles/FurnitureOccult/OccultStone_Cloth");
 
             DrawExtraTop(i, j, cloth, drawOffset, drawColour);
             DrawExtraWallEnds(i, j, cloth, drawOffset, drawColour);

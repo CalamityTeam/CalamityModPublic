@@ -1,11 +1,11 @@
 ﻿using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using CalamityMod.Dusts;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.AstralBiomeNPCs
+namespace CalamityMod.NPCs
 {
     public class SmallSightseer : ModNPC
     {
@@ -17,7 +17,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             Main.npcFrameCount[npc.type] = 4;
 
             if (!Main.dedServ)
-                glowmask = mod.GetTexture("NPCs/AstralBiomeNPCs/SmallSightseerGlow");
+                glowmask = ModContent.GetTexture("CalamityMod/NPCs/AstralBiomeNPCs/SmallSightseerGlow");
         }
 
         public override void SetDefaults()
@@ -34,7 +34,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             npc.value = Item.buyPrice(0, 0, 10, 0);
             npc.aiStyle = -1;
             banner = npc.type;
-            bannerItem = mod.ItemType("SmallSightseerBanner");
+            bannerItem = ModContent.ItemType<SmallSightseerBanner>();
             if (CalamityWorld.downedAstrageldon)
             {
                 npc.damage = 58;
@@ -58,7 +58,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             }
 
             //DO DUST
-            Dust d = CalamityGlobalNPC.SpawnDustOnNPC(npc, 80, frameHeight, mod.DustType("AstralOrange"), new Rectangle(16, 8, 6, 6), Vector2.Zero, 0.45f, true);
+            Dust d = CalamityGlobalNPC.SpawnDustOnNPC(npc, 80, frameHeight, ModContent.DustType<AstralOrange>(), new Rectangle(16, 8, 6, 6), Vector2.Zero, 0.45f, true);
             if (d != null)
             {
                 d.customData = 0.04f;
@@ -89,7 +89,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
                 }
             }
 
-            CalamityGlobalNPC.DoHitDust(npc, hitDirection, (Main.rand.Next(0, Math.Max(0, npc.life)) == 0) ? 5 : mod.DustType("AstralEnemy"), 1f, 4, 22);
+            CalamityGlobalNPC.DoHitDust(npc, hitDirection, (Main.rand.Next(0, Math.Max(0, npc.life)) == 0) ? 5 : ModContent.DustType<AstralEnemy>(), 1f, 4, 22);
 
             //if dead do gores
             if (npc.life <= 0)
@@ -119,18 +119,18 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(mod.BuffType("AstralInfectionDebuff"), 60, true);
+            player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 60, true);
         }
 
         public override void NPCLoot()
         {
             if (Main.rand.NextBool(2))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Stardust"), Main.rand.Next(1, 3));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Stardust>(), Main.rand.Next(1, 3));
             }
             if (Main.expertMode)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Stardust"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Stardust>());
             }
         }
     }

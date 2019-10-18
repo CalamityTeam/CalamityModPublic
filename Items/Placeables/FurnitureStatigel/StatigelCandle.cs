@@ -1,6 +1,5 @@
 using Terraria.ID;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Placeables.FurnitureStatigel
 {
     public class StatigelCandle : ModItem
@@ -20,7 +19,7 @@ namespace CalamityMod.Items.Placeables.FurnitureStatigel
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = mod.TileType("StatigelCandle");
+            item.createTile = ModContent.TileType<Tiles.StatigelCandle>();
         }
 
         public override void AddRecipes()

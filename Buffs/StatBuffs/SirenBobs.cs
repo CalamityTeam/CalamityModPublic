@@ -39,7 +39,7 @@ namespace CalamityMod.Buffs.StatBuffs
                 }
                 if (Main.myPlayer == player.whoAmI && player.wet && NPC.downedBoss3)
                 {
-                    player.AddBuff(mod.BuffType("SirenWaterSpeed"), 360);
+                    player.AddBuff(ModContent.BuffType<SirenWaterSpeed>(), 360);
                 }
             }
             else

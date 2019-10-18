@@ -1,9 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
+using Terraria.ID;
 namespace CalamityMod.Projectiles.Magic
 {
     public class CryoBlast : ModProjectile
@@ -50,7 +49,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("GlacialState"), 360);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 360);
             target.AddBuff(BuffID.Frostburn, 360);
         }
     }

@@ -1,10 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.AbyssNPCs
+using Terraria.ID;
+namespace CalamityMod.NPCs
 {
     public class GulperEelTail : ModNPC
     {
@@ -36,8 +35,8 @@ namespace CalamityMod.NPCs.AbyssNPCs
             npc.netAlways = true;
             npc.dontCountMe = true;
             npc.chaseable = false;
-            banner = mod.NPCType("GulperEelHead");
-            bannerItem = mod.ItemType("GulperEelBanner");
+            banner = ModContent.NPCType<GulperEelHead>();
+            bannerItem = ModContent.ItemType<GulperEelBanner>();
         }
 
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
@@ -79,7 +78,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
                 npc.HitEffect(0, 10.0);
                 npc.checkDead();
             }
-            if (!NPC.AnyNPCs(mod.NPCType("GulperEelHead")))
+            if (!NPC.AnyNPCs(ModContent.NPCType<GulperEelHead>()))
             {
                 npc.active = false;
             }
@@ -145,10 +144,10 @@ namespace CalamityMod.NPCs.AbyssNPCs
             Vector2 center = new Vector2(npc.Center.X, npc.Center.Y);
             Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
             Vector2 vector = center - Main.screenPosition;
-            vector -= new Vector2((float)mod.GetTexture("NPCs/AbyssNPCs/GulperEelTailGlow").Width, (float)(mod.GetTexture("NPCs/AbyssNPCs/GulperEelTailGlow").Height / Main.npcFrameCount[npc.type])) * 1f / 2f;
+            vector -= new Vector2((float)ModContent.GetTexture("CalamityMod/NPCs/AbyssNPCs/GulperEelTailGlow").Width, (float)(ModContent.GetTexture("CalamityMod/NPCs/AbyssNPCs/GulperEelTailGlow").Height / Main.npcFrameCount[npc.type])) * 1f / 2f;
             vector += vector11 * 1f + new Vector2(0f, 0f + 4f + npc.gfxOffY);
-            Microsoft.Xna.Framework.Color color = new Microsoft.Xna.Framework.Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.LightYellow);
-            Main.spriteBatch.Draw(mod.GetTexture("NPCs/AbyssNPCs/GulperEelTailGlow"), vector,
+            Color color = new Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.LightYellow);
+            Main.spriteBatch.Draw(ModContent.GetTexture("CalamityMod/NPCs/AbyssNPCs/GulperEelTailGlow"), vector,
                 new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, vector11, 1f, spriteEffects, 0f);
         }
 
@@ -181,7 +180,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             player.AddBuff(BuffID.Bleeding, 60, true);
-            player.AddBuff(mod.BuffType("CrushDepth"), 60, true);
+            player.AddBuff(ModContent.BuffType<CrushDepth>(), 60, true);
         }
     }
 }

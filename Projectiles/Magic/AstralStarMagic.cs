@@ -2,9 +2,9 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
+using CalamityMod.Dusts;
+using Terraria.ID;
 namespace CalamityMod.Projectiles.Magic
 {
     public class AstralStarMagic : ModProjectile
@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Magic
             if (Main.rand.NextBool(16))
             {
                 Vector2 value3 = Vector2.UnitX.RotatedByRandom(1.5707963705062866).RotatedBy((double)projectile.velocity.ToRotation(), default);
-                int num59 = Dust.NewDust(projectile.position, projectile.width, projectile.height, mod.DustType("AstralOrange"), projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f, 150, default, 1.2f);
+                int num59 = Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<AstralOrange>(), projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f, 150, default, 1.2f);
                 Main.dust[num59].velocity = value3 * 0.66f;
                 Main.dust[num59].position = projectile.Center + value3 * 12f;
             }
@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.Magic
                 projectile.light = 0.9f;
                 if (Main.rand.NextBool(10))
                 {
-                    Dust.NewDust(projectile.position, projectile.width, projectile.height, mod.DustType("AstralOrange"), projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f, 150, default, 1.2f);
+                    Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<AstralOrange>(), projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f, 150, default, 1.2f);
                 }
                 if (Main.rand.NextBool(20))
                 {
@@ -86,7 +86,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("AstralInfectionDebuff"), 300);
+            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 300);
         }
 
         public override Color? GetAlpha(Color lightColor)
@@ -110,7 +110,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
             for (int num621 = 0; num621 < 5; num621++)
             {
-                int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, mod.DustType("AstralOrange"), 0f, 0f, 100, default, 1.2f);
+                int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 1.2f);
                 Main.dust[num622].velocity *= 3f;
                 if (Main.rand.NextBool(2))
                 {
@@ -120,10 +120,10 @@ namespace CalamityMod.Projectiles.Magic
             }
             for (int num623 = 0; num623 < 5; num623++)
             {
-                int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, mod.DustType("AstralOrange"), 0f, 0f, 100, default, 1.7f);
+                int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 1.7f);
                 Main.dust[num624].noGravity = true;
                 Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, mod.DustType("AstralOrange"), 0f, 0f, 100, default, 1f);
+                num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 1f);
                 Main.dust[num624].velocity *= 2f;
             }
             for (int num480 = 0; num480 < 3; num480++)

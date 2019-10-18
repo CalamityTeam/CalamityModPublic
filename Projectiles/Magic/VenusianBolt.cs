@@ -1,8 +1,7 @@
-﻿using CalamityMod.Items.Weapons;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Magic
 {
@@ -56,7 +55,7 @@ namespace CalamityMod.Projectiles.Magic
             {
                 int explosionDamage = VenusianTrident.BaseDamage;
                 float explosionKB = 6f;
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("VenusianExplosion"), explosionDamage, explosionKB, projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<VenusianExplosion>(), explosionDamage, explosionKB, projectile.owner, 0f, 0f);
 
                 int cinderDamage = (int)(VenusianTrident.BaseDamage * 0.75f);
                 float cinderKB = 0f;
@@ -71,7 +70,7 @@ namespace CalamityMod.Projectiles.Magic
                     }
                     cinderVel.Normalize();
                     cinderVel *= (float)Main.rand.Next(70, 101) * 0.1f;
-                    Projectile.NewProjectile(cinderPos, cinderVel, mod.ProjectileType("VenusianFlame"), cinderDamage, cinderKB, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(cinderPos, cinderVel, ModContent.ProjectileType<VenusianFlame>(), cinderDamage, cinderKB, projectile.owner, 0f, 0f);
                 }
             }
         }

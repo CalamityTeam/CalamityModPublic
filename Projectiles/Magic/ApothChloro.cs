@@ -2,7 +2,6 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Projectiles.Magic
 {
     public class ApothChloro : ModProjectile
@@ -115,8 +114,8 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("GodSlayerInferno"), 600, true);
-            target.AddBuff(mod.BuffType("DemonFlames"), 600, true);
+            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 600, true);
+            target.AddBuff(ModContent.BuffType<DemonFlames>(), 600, true);
         }
     }
 }

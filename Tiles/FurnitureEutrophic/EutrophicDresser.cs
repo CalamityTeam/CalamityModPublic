@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Tiles.FurnitureEutrophic
 {
@@ -16,7 +16,7 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Dressers };
             dresser = "Eutrophic Dresser";
-            dresserDrop = mod.ItemType("EutrophicDresser");
+            dresserDrop = ModContent.ItemType<Items.EutrophicDresser>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)

@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Projectiles.Rogue
 {
     public class EclipseMirrorBurst : ModProjectile
@@ -53,7 +52,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D texture = mod.GetTexture("Projectiles/Rogue/EclipseMirrorFlash");
+            Texture2D texture = ModContent.GetTexture("CalamityMod/Projectiles/Rogue/EclipseMirrorFlash");
             spriteBatch.Draw
             (
                 texture,

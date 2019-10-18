@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Tiles.FurnitureAshen
 {
@@ -16,7 +16,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
             animationFrameHeight = 22;
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Torches };
-            drop = mod.ItemType("AshenCandle");
+            drop = ModContent.ItemType<Items.AshenCandle>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)

@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Tiles.FurnitureStatigel
 {
@@ -16,7 +16,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Containers };
             chest = "Statigel Chest";
-            chestDrop = mod.ItemType("StatigelChest");
+            chestDrop = ModContent.ItemType<Items.StatigelChest>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)

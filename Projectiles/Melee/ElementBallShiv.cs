@@ -2,7 +2,6 @@
 using System;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Projectiles.Melee
 {
     public class ElementBallShiv : ModProjectile
@@ -90,13 +89,13 @@ namespace CalamityMod.Projectiles.Melee
                 {
                     speedX *= dir * random;
                     speedY *= dir * random;
-                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, mod.ProjectileType("SHIV"), projectile.damage, 1f, projectile.owner);
+                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, ModContent.ProjectileType<SHIV>(), projectile.damage, 1f, projectile.owner);
                 }
             }
-            target.AddBuff(mod.BuffType("HolyLight"), 120);
-            target.AddBuff(mod.BuffType("GlacialState"), 120);
-            target.AddBuff(mod.BuffType("BrimstoneFlames"), 120);
-            target.AddBuff(mod.BuffType("Plague"), 120);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
+            target.AddBuff(ModContent.BuffType<Plague>(), 120);
         }
     }
 }

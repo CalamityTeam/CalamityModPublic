@@ -4,9 +4,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
-using Terraria.Enums;
 using Terraria.ModLoader;
-
+using Terraria.Enums;
+using CalamityMod.NPCs;
 namespace CalamityMod.Projectiles.Boss
 {
     public class ProvidenceHolyRay : ModProjectile
@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.velocity = -Vector2.UnitY;
             }
 
-            if (Main.npc[(int)projectile.ai[1]].active && Main.npc[(int)projectile.ai[1]].type == mod.NPCType("Providence"))
+            if (Main.npc[(int)projectile.ai[1]].active && Main.npc[(int)projectile.ai[1]].type == ModContent.NPCType<Providence>())
             {
                 Vector2 value21 = new Vector2(27f, 59f);
                 Vector2 fireFrom = new Vector2(Main.npc[(int)projectile.ai[1]].Center.X, Main.npc[(int)projectile.ai[1]].Center.Y - 32f);
@@ -141,14 +141,14 @@ namespace CalamityMod.Projectiles.Boss
                 return false;
             }
             Texture2D texture2D19 = Main.projectileTexture[projectile.type];
-            Texture2D texture2D20 = mod.GetTexture("ExtraTextures/Lasers/ProvidenceHolyRayMid");
-            Texture2D texture2D21 = mod.GetTexture("ExtraTextures/Lasers/ProvidenceHolyRayEnd");
+            Texture2D texture2D20 = ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/ProvidenceHolyRayMid");
+            Texture2D texture2D21 = ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/ProvidenceHolyRayEnd");
             float num223 = projectile.localAI[1]; //length of laser
-            Microsoft.Xna.Framework.Color color44 = new Microsoft.Xna.Framework.Color(255, 255, 255, 0) * 0.9f;
+            Color color44 = new Color(255, 255, 255, 0) * 0.9f;
             SpriteBatch arg_ABD8_0 = Main.spriteBatch;
             Texture2D arg_ABD8_1 = texture2D19;
             Vector2 arg_ABD8_2 = projectile.Center - Main.screenPosition;
-            Microsoft.Xna.Framework.Rectangle? sourceRectangle2 = null;
+            Rectangle? sourceRectangle2 = null;
             arg_ABD8_0.Draw(arg_ABD8_1, arg_ABD8_2, sourceRectangle2, color44, projectile.rotation, texture2D19.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
             num223 -= (float)(texture2D19.Height / 2 + texture2D21.Height) * projectile.scale;
             Vector2 value20 = projectile.Center;
@@ -156,7 +156,7 @@ namespace CalamityMod.Projectiles.Boss
             if (num223 > 0f)
             {
                 float num224 = 0f;
-                Microsoft.Xna.Framework.Rectangle rectangle7 = new Microsoft.Xna.Framework.Rectangle(0, 16 * (projectile.timeLeft / 3 % 5), texture2D20.Width, 16);
+                Rectangle rectangle7 = new Rectangle(0, 16 * (projectile.timeLeft / 3 % 5), texture2D20.Width, 16);
                 while (num224 + 1f < num223)
                 {
                     if (num223 - num224 < (float)rectangle7.Height)
@@ -204,7 +204,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(mod.BuffType("HolyLight"), 300);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 300);
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Placeables
 {
     public class EutrophicSand : ModItem
@@ -11,7 +10,7 @@ namespace CalamityMod.Items.Placeables
 
         public override void SetDefaults()
         {
-            item.createTile = mod.TileType("EutrophicSand");
+            item.createTile = ModContent.TileType<Tiles.EutrophicSand>();
             item.useStyle = 1;
             item.useTurn = true;
             item.useAnimation = 15;

@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Projectiles.Magic
 {
     public class UberBubble : ModProjectile
@@ -66,7 +65,7 @@ namespace CalamityMod.Projectiles.Magic
             {
                 for (int numBubbles = 0; numBubbles <= Main.rand.Next(3, 7); numBubbles++)
                 {
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * (Main.rand.NextFloat() * 2f), projectile.velocity.Y * (Main.rand.NextFloat() * 2f), mod.ProjectileType("BlueBubble"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * (Main.rand.NextFloat() * 2f), projectile.velocity.Y * (Main.rand.NextFloat() * 2f), ModContent.ProjectileType<BlueBubble>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                 }
             }
         }

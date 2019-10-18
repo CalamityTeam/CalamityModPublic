@@ -2,8 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Boss
 {
@@ -76,10 +76,10 @@ namespace CalamityMod.Projectiles.Boss
                 case 0:
                     break;
                 case 1:
-                    texture = mod.GetTexture("Projectiles/Boss/SporeGasPlantera2");
+                    texture = ModContent.GetTexture("CalamityMod/Projectiles/Boss/SporeGasPlantera2");
                     break;
                 case 2:
-                    texture = mod.GetTexture("Projectiles/Boss/SporeGasPlantera3");
+                    texture = ModContent.GetTexture("CalamityMod/Projectiles/Boss/SporeGasPlantera3");
                     break;
                 default:
                     break;

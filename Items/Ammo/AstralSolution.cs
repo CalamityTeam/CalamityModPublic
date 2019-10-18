@@ -1,7 +1,7 @@
 ﻿
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Ammo
 {
@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Ammo
         public override void SetDefaults()
         {
             item.ammo = AmmoID.Solution;
-            item.shoot = mod.ProjectileType("AstralSpray") - ProjectileID.PureSpray;
+            item.shoot = ModContent.ProjectileType<AstralSpray>() - ProjectileID.PureSpray;
             item.width = 10;
             item.height = 12;
             item.value = Item.buyPrice(0, 0, 5, 0);

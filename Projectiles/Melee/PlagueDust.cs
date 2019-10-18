@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Projectiles.Melee
 {
     public class PlagueDust : ModProjectile
@@ -77,7 +76,7 @@ namespace CalamityMod.Projectiles.Melee
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.immune[projectile.owner] = 5;
-            target.AddBuff(mod.BuffType("Plague"), 120);
+            target.AddBuff(ModContent.BuffType<Plague>(), 120);
         }
     }
 }

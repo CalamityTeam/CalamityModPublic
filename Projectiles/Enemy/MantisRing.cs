@@ -2,9 +2,9 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
+using CalamityMod.Dusts;
+using Terraria.ID;
 namespace CalamityMod.Projectiles.Enemy
 {
     public class MantisRing : ModProjectile
@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Enemy
                 Vector2 off = angleVec * distance;
                 off.Y *= (float)projectile.height / projectile.width;
                 Vector2 pos = projectile.Center + off;
-                Dust d = Dust.NewDustPerfect(pos, mod.DustType("AstralBlue"), angleVec * Main.rand.NextFloat(2f, 4f));
+                Dust d = Dust.NewDustPerfect(pos, ModContent.DustType<AstralBlue>(), angleVec * Main.rand.NextFloat(2f, 4f));
                 d.customData = true;
             }
         }
@@ -65,13 +65,13 @@ namespace CalamityMod.Projectiles.Enemy
                 Vector2 off = angle.ToRotationVector2() * distance;
                 off.Y *= (float)projectile.height / projectile.width;
                 Vector2 pos = projectile.Center + off;
-                Dust.NewDustPerfect(pos, mod.DustType("AstralBlue"), Vector2.Zero);
+                Dust.NewDustPerfect(pos, ModContent.DustType<AstralBlue>(), Vector2.Zero);
             }
         }
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(mod.BuffType("AstralInfectionDebuff"), 120);
+            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

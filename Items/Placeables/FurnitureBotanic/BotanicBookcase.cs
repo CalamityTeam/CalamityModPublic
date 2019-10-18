@@ -1,6 +1,5 @@
 using Terraria.ID;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Placeables.FurnitureBotanic
 {
     public class BotanicBookcase : ModItem
@@ -21,7 +20,7 @@ namespace CalamityMod.Items.Placeables.FurnitureBotanic
             item.useStyle = 1;
             item.value = 0;
             item.consumable = true;
-            item.createTile = mod.TileType("BotanicBookcase");
+            item.createTile = ModContent.TileType<Tiles.BotanicBookcase>();
         }
 
         public override void AddRecipes()

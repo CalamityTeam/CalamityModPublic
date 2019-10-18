@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Projectiles.Magic
 {
     public class BrimstoneFireball : ModProjectile
@@ -41,7 +40,7 @@ namespace CalamityMod.Projectiles.Magic
                         }
                         value15.Normalize();
                         value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-                        Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), value15.X, value15.Y, mod.ProjectileType("BrimstoneHomer"), (int)((double)projectile.damage * 1.35), 0f, projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), value15.X, value15.Y, ModContent.ProjectileType<BrimstoneHomer>(), (int)((double)projectile.damage * 1.35), 0f, projectile.owner, 0f, 0f);
                     }
                 }
             }
@@ -89,7 +88,7 @@ namespace CalamityMod.Projectiles.Magic
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.immune[projectile.owner] = 8;
-            target.AddBuff(mod.BuffType("BrimstoneFlames"), 120);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
         }
     }
 }

@@ -1,11 +1,9 @@
-﻿using CalamityMod.Items.Weapons;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
+using Terraria.ID;
 namespace CalamityMod.Projectiles.Typeless
 {
     public class StellarContemptHammer : ModProjectile
@@ -138,7 +136,7 @@ namespace CalamityMod.Projectiles.Typeless
 
             // Applies Nightwither on contact at night.
             if (!Main.dayTime)
-                target.AddBuff(mod.BuffType("Nightwither"), 480);
+                target.AddBuff(ModContent.BuffType<Nightwither>(), 480);
 
             // Do not drop lunar flares on dummies.
             if (target.type == NPCID.TargetDummy)

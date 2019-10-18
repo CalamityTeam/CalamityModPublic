@@ -1,10 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.AbyssNPCs
+using Terraria.ID;
+namespace CalamityMod.NPCs
 {
     public class Flounder : ModNPC
     {
@@ -33,7 +32,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
             npc.DeathSound = SoundID.NPCDeath53;
             npc.knockBackResist = 0.35f;
             banner = npc.type;
-            bannerItem = mod.ItemType("FlounderBanner");
+            bannerItem = ModContent.ItemType<FlounderBanner>();
         }
 
         public override void AI()
@@ -157,7 +156,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
                                     {
                                         damage = 19;
                                     }
-                                    int beam = Projectile.NewProjectile(npc.Center.X + (npc.spriteDirection == 1 ? 10f : -10f), npc.Center.Y, num6, num7, mod.ProjectileType("SulphuricAcidMist"), damage, 0f, Main.myPlayer, 0f, 0f);
+                                    int beam = Projectile.NewProjectile(npc.Center.X + (npc.spriteDirection == 1 ? 10f : -10f), npc.Center.Y, num6, num7, ModContent.ProjectileType<SulphuricAcidMist>(), damage, 0f, Main.myPlayer, 0f, 0f);
                                 }
                             }
                         }
@@ -281,7 +280,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
         {
             if (Main.rand.NextBool(2))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CloakingGland"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CloakingGland>());
             }
         }
 

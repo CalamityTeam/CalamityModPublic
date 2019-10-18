@@ -1,4 +1,4 @@
-using CalamityMod.Utilities;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -20,7 +20,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
             soundType = 21;
             mineResist = 10f;
             minPick = 225;
-            drop = mod.ItemType("RunicProfanedBrick");
+            drop = ModContent.ItemType<Items.RunicProfanedBrick>();
             AddMapEntry(new Color(122, 66, 59));
             animationFrameHeight = 90;
         }
@@ -29,7 +29,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
         public override bool CreateDust(int i, int j, ref int type)
         {
             Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, 246, 0f, 0f, 1, new Color(255, 255, 255), 1f);
-            Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, mod.DustType("ProfanedTileRock"), 0f, 0f, 1, new Color(255, 255, 255), 1f);
+            Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, ModContent.DustType<ProfanedTileRock>(), 0f, 0f, 1, new Color(255, 255, 255), 1f);
             return false;
         }
 
@@ -49,7 +49,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
             yOffset *= animationFrameHeight;
             xPos += xOffset;
             yPos += yOffset;
-            Texture2D glowmask = mod.GetTexture("Tiles/FurnitureProfaned/RunicProfanedBrick_Glowmask");
+            Texture2D glowmask = ModContent.GetTexture("CalamityMod/Tiles/FurnitureProfaned/RunicProfanedBrickGlow");
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
             Color drawColour = GetDrawColour(i, j, new Color(128, 128, 128, 128));

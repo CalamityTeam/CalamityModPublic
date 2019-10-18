@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Tiles.FurnitureOccult
 {
@@ -21,7 +21,7 @@ namespace CalamityMod.Tiles.FurnitureOccult
         public override bool CreateDust(int i, int j, ref int type)
         {
             Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, 1, 0f, 0f, 1, new Color(125, 94, 128), 1f);
-            Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, mod.DustType("OccultTileCloth"), 0f, 0f, 1, new Color(255, 255, 255), 1f);
+            Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, ModContent.DustType<OccultTileCloth>(), 0f, 0f, 1, new Color(255, 255, 255), 1f);
             return false;
         }
 
@@ -37,7 +37,7 @@ namespace CalamityMod.Tiles.FurnitureOccult
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 64, 32, mod.ItemType("OccultBed"));
+            Item.NewItem(i * 16, j * 16, 64, 32, ModContent.ItemType<Items.OccultBed>());
         }
 
         public override bool NewRightClick(int i, int j)
@@ -50,7 +50,7 @@ namespace CalamityMod.Tiles.FurnitureOccult
             Player player = Main.LocalPlayer;
             player.noThrow = 2;
             player.showItemIcon = true;
-            player.showItemIcon2 = mod.ItemType("OccultBed");
+            player.showItemIcon2 = ModContent.ItemType<Items.OccultBed>();
         }
     }
 }

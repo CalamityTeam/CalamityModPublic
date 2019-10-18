@@ -2,10 +2,9 @@
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.NormalNPCs
+using Terraria.ID;
+namespace CalamityMod.NPCs
 {
     public class Bohldohr : ModNPC
     {
@@ -29,7 +28,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.DeathSound = SoundID.NPCDeath35;
             npc.behindTiles = true;
             banner = npc.type;
-            bannerItem = mod.ItemType("BOHLDOHRBanner");
+            bannerItem = ModContent.ItemType<BOHLDOHRBanner>();
         }
 
         public override void AI()
@@ -341,7 +340,8 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             if (CalamityWorld.downedSCal)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("NO"));
+                // RIP LORDE
+                // Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.NO>());
             }
         }
     }

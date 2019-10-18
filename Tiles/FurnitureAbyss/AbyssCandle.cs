@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.FurnitureAbyss
@@ -22,7 +22,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
             AddMapEntry(new Color(191, 142, 111), name);
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Torches };
-            drop = mod.ItemType("AbyssCandle");
+            drop = ModContent.ItemType<Items.AbyssCandle>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)

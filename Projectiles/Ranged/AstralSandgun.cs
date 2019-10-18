@@ -3,7 +3,6 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Projectiles.Ranged
 {
     public class AstralSandgun : ModProjectile

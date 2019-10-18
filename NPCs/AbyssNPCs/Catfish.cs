@@ -1,10 +1,9 @@
 ﻿using System;
 using System.IO;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.AbyssNPCs
+using Terraria.ID;
+namespace CalamityMod.NPCs
 {
     public class Catfish : ModNPC
     {
@@ -35,7 +34,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
             npc.DeathSound = SoundID.NPCDeath40;
             npc.knockBackResist = 0.8f;
             banner = npc.type;
-            bannerItem = mod.ItemType("CatfishBanner");
+            bannerItem = ModContent.ItemType<CatfishBanner>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)

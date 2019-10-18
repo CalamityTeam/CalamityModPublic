@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Ranged
             Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 14);
             if (projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("PlagueExplosionFriendly"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<PlagueExplosionFriendly>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                 int num516 = 6;
                 for (int num517 = 0; num517 < num516; num517++)
                 {

@@ -1,5 +1,4 @@
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Placeables.FurnitureAbyss
 {
     public class AbyssBath : ModItem
@@ -21,7 +20,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAbyss
             item.useStyle = 1;
             item.value = 0;
             item.consumable = true;
-            item.createTile = mod.TileType("AbyssBath");
+            item.createTile = ModContent.TileType<Tiles.AbyssBath>();
         }
 
         public override void AddRecipes()

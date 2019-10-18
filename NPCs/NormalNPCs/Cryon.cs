@@ -1,10 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.NormalNPCs
+using Terraria.ID;
+namespace CalamityMod.NPCs
 {
     public class Cryon : ModNPC
     {
@@ -29,7 +28,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.HitSound = SoundID.NPCHit5;
             npc.DeathSound = SoundID.NPCDeath7;
             banner = npc.type;
-            bannerItem = mod.ItemType("CryonBanner");
+            bannerItem = ModContent.ItemType<CryonBanner>();
         }
 
         public override void AI()
@@ -351,7 +350,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             player.AddBuff(BuffID.Frostburn, 300, true);
             if (Main.rand.NextBool(3))
             {
-                player.AddBuff(mod.BuffType("GlacialState"), 30, true);
+                player.AddBuff(ModContent.BuffType<GlacialState>(), 30, true);
             }
         }
 
@@ -374,7 +373,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             if (Main.rand.NextBool(2))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EssenceofEleum"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EssenceofEleum>());
             }
         }
     }

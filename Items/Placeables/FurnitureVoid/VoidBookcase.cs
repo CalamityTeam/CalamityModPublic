@@ -1,6 +1,5 @@
 using Terraria.ID;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Placeables.FurnitureVoid
 {
     public class VoidBookcase : ModItem
@@ -20,7 +19,7 @@ namespace CalamityMod.Items.Placeables.FurnitureVoid
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = mod.TileType("VoidBookcase");
+            item.createTile = ModContent.TileType<Tiles.VoidBookcase>();
         }
 
         public override void AddRecipes()

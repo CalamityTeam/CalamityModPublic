@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Projectiles.Typeless
 {
     public class StandingFire : ModProjectile
@@ -98,7 +97,7 @@ namespace CalamityMod.Projectiles.Typeless
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.immune[projectile.owner] = 7;
-            target.AddBuff(mod.BuffType("BrimstoneFlames"), 120);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
         }
     }
 }

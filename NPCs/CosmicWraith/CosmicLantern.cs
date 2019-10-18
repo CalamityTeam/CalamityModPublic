@@ -3,10 +3,9 @@ using Microsoft.Xna.Framework;
 using System;
 using System.IO;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.CosmicWraith
+using Terraria.ID;
+namespace CalamityMod.NPCs
 {
     public class CosmicLantern : ModNPC
     {
@@ -103,7 +102,7 @@ namespace CalamityMod.NPCs.CosmicWraith
         {
             if (CalamityWorld.revenge)
             {
-                player.AddBuff(mod.BuffType("MarkedforDeath"), 180);
+                player.AddBuff(ModContent.BuffType<MarkedforDeath>(), 180);
             }
         }
 

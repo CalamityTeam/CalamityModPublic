@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Placeables
 
         public override void SetDefaults()
         {
-            item.createTile = mod.TileType("AerialiteOre");
+            item.createTile = ModContent.TileType<Tiles.AerialiteOre>();
             item.useStyle = 1;
             item.useTurn = true;
             item.useAnimation = 15;

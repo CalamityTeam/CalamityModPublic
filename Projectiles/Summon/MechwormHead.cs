@@ -3,9 +3,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
+using Terraria.ID;
 namespace CalamityMod.Projectiles.Summon
 {
     public class MechwormHead : ModProjectile
@@ -63,7 +62,7 @@ namespace CalamityMod.Projectiles.Summon
                 playerMinionSlots = player9.maxMinions;
             }
             CalamityPlayer modPlayer = player9.Calamity();
-            player9.AddBuff(mod.BuffType("Mechworm"), 3600);
+            player9.AddBuff(ModContent.BuffType<Mechworm>(), 3600);
             if ((int)Main.time % 120 == 0)
             {
                 projectile.netUpdate = true;
@@ -220,7 +219,7 @@ namespace CalamityMod.Projectiles.Summon
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Vector2 origin = new Vector2(21f, 25f);
-            spriteBatch.Draw(mod.GetTexture("Projectiles/Summon/MechwormHeadGlow"), projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Summon/MechwormHeadGlow"), projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
         }
     }
 }

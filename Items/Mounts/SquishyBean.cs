@@ -1,14 +1,13 @@
 ﻿using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
+using Terraria.ID;
 namespace CalamityMod.Items.Mounts
 {
     class SquishyBean : ModMountData
     {
         public override void SetDefaults()
         {
-            mountData.buff = mod.BuffType("SquishyBeanBuff");
+            mountData.buff = ModContent.BuffType<SquishyBeanBuff>();
             mountData.heightBoost = 58;
             mountData.fallDamage = -1;
             mountData.runSpeed = 5f;
@@ -79,6 +78,7 @@ namespace CalamityMod.Items.Mounts
             player.statDefense += 60;
             player.gravity = 2f;
             player.maxFallSpeed = 25f;
+            player.noFallDmg = true;
         }
     }
 }

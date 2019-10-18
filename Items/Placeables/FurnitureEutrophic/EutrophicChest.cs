@@ -1,5 +1,4 @@
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Placeables.FurnitureEutrophic
 {
     public class EutrophicChest : ModItem
@@ -19,14 +18,14 @@ namespace CalamityMod.Items.Placeables.FurnitureEutrophic
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = mod.TileType("EutrophicChest");
+            item.createTile = ModContent.TileType<Tiles.EutrophicChest>();
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("Navystone"), 8);
-            recipe.AddIngredient(mod.ItemType("PrismShard"), 1);
+            recipe.AddIngredient(ModContent.ItemType<Navystone>(), 8);
+            recipe.AddIngredient(ModContent.ItemType<PrismShard>(), 1);
             recipe.SetResult(this, 1);
             recipe.AddTile(null, "EutrophicCrafting");
             recipe.AddRecipe();

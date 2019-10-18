@@ -2,12 +2,11 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
+using Terraria.ID;
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class RoyalKnife : ModProjectile
+    public class IllustriousKnife : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -95,7 +94,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("HolyLight"), 600);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 600);
             if (target.type == NPCID.TargetDummy)
             {
                 return;
@@ -111,7 +110,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
             Main.player[Main.myPlayer].lifeSteal -= num * 1.5f;
             int num2 = projectile.owner;
-            Projectile.NewProjectile(target.position.X, target.position.Y, 0f, 0f, mod.ProjectileType("RoyalHeal"), 0, 0f, projectile.owner, (float)num2, num);
+            Projectile.NewProjectile(target.position.X, target.position.Y, 0f, 0f, ModContent.ProjectileType<RoyalHeal>(), 0, 0f, projectile.owner, (float)num2, num);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

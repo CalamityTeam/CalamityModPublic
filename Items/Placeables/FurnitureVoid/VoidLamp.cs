@@ -1,5 +1,4 @@
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Placeables.FurnitureVoid
 {
     public class VoidLamp : ModItem
@@ -19,7 +18,7 @@ namespace CalamityMod.Items.Placeables.FurnitureVoid
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = mod.TileType("VoidLamp");
+            item.createTile = ModContent.TileType<Tiles.VoidLamp>();
         }
 
         public override void AddRecipes()

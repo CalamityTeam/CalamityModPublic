@@ -2,10 +2,9 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.ModLoader;
 using Terraria.Enums;
 using Terraria.ID;
-using Terraria.ModLoader;
-
 namespace CalamityMod.Projectiles.Melee
 {
     public class CosmicDischarge : ModProjectile
@@ -121,7 +120,7 @@ namespace CalamityMod.Projectiles.Melee
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Vector2 mountedCenter = Main.player[projectile.owner].MountedCenter;
-            Microsoft.Xna.Framework.Color color25 = Lighting.GetColor((int)((double)projectile.position.X + (double)projectile.width * 0.5) / 16, (int)(((double)projectile.position.Y + (double)projectile.height * 0.5) / 16.0));
+            Color color25 = Lighting.GetColor((int)((double)projectile.position.X + (double)projectile.width * 0.5) / 16, (int)(((double)projectile.position.Y + (double)projectile.height * 0.5) / 16.0));
             if (projectile.hide && !ProjectileID.Sets.DontAttachHideToAlpha[projectile.type])
             {
                 color25 = Lighting.GetColor((int)mountedCenter.X / 16, (int)(mountedCenter.Y / 16f));
@@ -129,7 +128,7 @@ namespace CalamityMod.Projectiles.Melee
             Vector2 projPos = projectile.position;
             projPos = new Vector2((float)projectile.width, (float)projectile.height) / 2f + Vector2.UnitY * projectile.gfxOffY - Main.screenPosition;
             Texture2D texture2D22 = Main.projectileTexture[projectile.type];
-            Microsoft.Xna.Framework.Color alpha3 = projectile.GetAlpha(color25);
+            Color alpha3 = projectile.GetAlpha(color25);
             if (projectile.velocity == Vector2.Zero)
             {
                 return false;
@@ -137,14 +136,14 @@ namespace CalamityMod.Projectiles.Melee
             float num230 = projectile.velocity.Length() + 16f;
             bool flag24 = num230 < 100f;
             Vector2 value28 = Vector2.Normalize(projectile.velocity);
-            Microsoft.Xna.Framework.Rectangle rectangle8 = new Microsoft.Xna.Framework.Rectangle(0, 0, texture2D22.Width, 36); //2 and 40
+            Rectangle rectangle8 = new Rectangle(0, 0, texture2D22.Width, 36); //2 and 40
             Vector2 value29 = new Vector2(0f, Main.player[projectile.owner].gfxOffY);
             float rotation24 = projectile.rotation + 3.14159274f;
             Main.spriteBatch.Draw(texture2D22, projectile.Center.Floor() - Main.screenPosition + value29, new Microsoft.Xna.Framework.Rectangle?(rectangle8), alpha3, rotation24, rectangle8.Size() / 2f - Vector2.UnitY * 4f, projectile.scale, SpriteEffects.None, 0f);
             num230 -= 40f * projectile.scale;
             Vector2 vector31 = projectile.Center.Floor();
             vector31 += value28 * projectile.scale * 24f;
-            rectangle8 = new Microsoft.Xna.Framework.Rectangle(0, 62, texture2D22.Width, 18); //68 and 18
+            rectangle8 = new Rectangle(0, 62, texture2D22.Width, 18); //68 and 18
             if (num230 > 0f)
             {
                 float num231 = 0f;
@@ -162,7 +161,7 @@ namespace CalamityMod.Projectiles.Melee
             Vector2 value30 = vector31;
             vector31 = projectile.Center.Floor();
             vector31 += value28 * projectile.scale * 24f;
-            rectangle8 = new Microsoft.Xna.Framework.Rectangle(0, 40, texture2D22.Width, 20); //46 and 18
+            rectangle8 = new Rectangle(0, 40, texture2D22.Width, 20); //46 and 18
             int num232 = 18;
             if (flag24)
             {
@@ -187,7 +186,7 @@ namespace CalamityMod.Projectiles.Melee
                     vector31 += value28 * num237;
                 }
             }
-            rectangle8 = new Microsoft.Xna.Framework.Rectangle(0, 84, texture2D22.Width, 56); //90 and 48
+            rectangle8 = new Rectangle(0, 84, texture2D22.Width, 56); //90 and 48
             Main.spriteBatch.Draw(texture2D22, value30 - Main.screenPosition + value29, new Microsoft.Xna.Framework.Rectangle?(rectangle8), alpha3, rotation24, texture2D22.Frame(1, 1, 0, 0).Top(), projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
@@ -225,14 +224,14 @@ namespace CalamityMod.Projectiles.Melee
             target.AddBuff(mod.BuffType("Nightwither"), 300);
             if (Main.rand.NextBool(3))
             {
-                target.AddBuff(mod.BuffType("GlacialState"), 120);
+                target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
             }
             if (projectile.localAI[1] <= 0f && projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("CosmicIceBurst"), damage, 10f, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<CosmicIceBurst>(), damage, 10f, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
             }
             projectile.localAI[1] = 4f;
-            player.AddBuff(mod.BuffType("CosmicFreeze"), 300);
+            player.AddBuff(ModContent.BuffType<CosmicFreeze>(), 300);
         }
     }
 }

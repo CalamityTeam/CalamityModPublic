@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Tiles.FurnitureAshen
 {
@@ -37,7 +37,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 64, 32, mod.ItemType("AshenBed"));
+            Item.NewItem(i * 16, j * 16, 64, 32, ModContent.ItemType<Items.AshenBed>());
         }
 
         public override bool NewRightClick(int i, int j)
@@ -50,7 +50,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
             Player player = Main.LocalPlayer;
             player.noThrow = 2;
             player.showItemIcon = true;
-            player.showItemIcon2 = mod.ItemType("AshenBed");
+            player.showItemIcon2 = ModContent.ItemType<Items.AshenBed>();
         }
     }
 }

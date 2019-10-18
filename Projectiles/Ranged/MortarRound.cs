@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Walls;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -187,7 +188,7 @@ namespace CalamityMod.Projectiles.Ranged
                         double num828 = Math.Sqrt((double)(num826 * num826 + num827 * num827));
                         if (num828 < (double)num814)
                         {
-                            if (Main.tile[num824, num825] != null && Main.tile[num824, num825].active() && Main.tile[num824, num825].type != (ushort)mod.TileType("AbyssGravel"))
+                            if (Main.tile[num824, num825] != null && Main.tile[num824, num825].active() && Main.tile[num824, num825].type != (ushort)ModContent.TileType<Tiles.AbyssGravel>())
                             {
                                 WorldGen.KillTile(num824, num825, false, false, false);
                                 if (!Main.tile[num824, num825].active() && Main.netMode != NetmodeID.SinglePlayer)
@@ -199,7 +200,7 @@ namespace CalamityMod.Projectiles.Ranged
                             {
                                 for (int num830 = num825 - 1; num830 <= num825 + 1; num830++)
                                 {
-                                    if (Main.tile[num829, num830] != null && Main.tile[num829, num830].wall > 0 && Main.tile[num829, num830].wall != (byte)mod.WallType("AbyssGravelWall") && flag3)
+                                    if (Main.tile[num829, num830] != null && Main.tile[num829, num830].wall > 0 && Main.tile[num829, num830].wall != (byte)ModContent.WallType<AbyssGravelWall>() && flag3)
                                     {
                                         WorldGen.KillWall(num829, num830, false);
                                         if (Main.tile[num829, num830].wall == 0 && Main.netMode != NetmodeID.SinglePlayer)

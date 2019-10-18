@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Projectiles.Magic
 {
     public class SupremeDustProjectile : ModProjectile
@@ -95,7 +94,7 @@ namespace CalamityMod.Projectiles.Magic
             target.immune[projectile.owner] = 6;
             if (projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("SupremeDustFlakProjectile"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<SupremeDustFlakProjectile>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
             }
         }
     }

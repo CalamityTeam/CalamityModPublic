@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
-namespace CalamityMod.Utilities
+namespace CalamityMod
 {
     public static class CustomTileFraming
     {
@@ -20,8 +20,6 @@ namespace CalamityMod.Utilities
 
         private static void Setup()
         {
-            Mod mod = ModContent.GetInstance<CalamityMod>();
-
             int size = CalamityGlobalTile.PlantTypes.Length;
             PlantCheckAgainst = new int[TileLoader.TileCount][];
 
@@ -34,14 +32,14 @@ namespace CalamityMod.Utilities
             PlantCheckAgainst[TileID.HallowedPlants] = new int[1] { TileID.HallowedGrass };
             PlantCheckAgainst[TileID.HallowedPlants2] = new int[1] { TileID.HallowedGrass };
             PlantCheckAgainst[TileID.FleshWeeds] = new int[1] { TileID.FleshWeeds };
-            PlantCheckAgainst[ModContent.GetInstance<CalamityMod>().TileType("AstralShortPlants")] = new int[1] { mod.TileType("AstralGrass") };
-            PlantCheckAgainst[ModContent.GetInstance<CalamityMod>().TileType("AstralTallPlants")] = new int[1] { mod.TileType("AstralGrass") };
+            PlantCheckAgainst[ModContent.TileType<AstralShortPlants>()] = new int[1] { ModContent.TileType<AstralGrass>() };
+            PlantCheckAgainst[ModContent.TileType<AstralTallPlants>()] = new int[1] { ModContent.TileType<AstralGrass>() };
 
             VineToGrass = new Dictionary<ushort, ushort>();
             VineToGrass[TileID.Vines] = TileID.Grass;
             VineToGrass[TileID.CrimsonVines] = TileID.FleshGrass;
             VineToGrass[TileID.HallowedVines] = TileID.HallowedGrass;
-            VineToGrass[(ushort)mod.TileType("AstralVines")] = (ushort)mod.TileType("AstralGrass");
+            VineToGrass[(ushort)ModContent.TileType<AstralVines>()] = (ushort)ModContent.TileType<AstralGrass>();
 
             tileMergeTypes = new bool[TileLoader.TileCount][];
             for (int i = 0; i < tileMergeTypes.Length; i++)
@@ -49,25 +47,25 @@ namespace CalamityMod.Utilities
                 tileMergeTypes[i] = new bool[TileLoader.TileCount];
             }
 
-            tileMergeTypes[mod.TileType("AstralDirt")][mod.TileType("AstralOre")] = true;
-            tileMergeTypes[mod.TileType("AstralDirt")][mod.TileType("AstralStone")] = true;
-            tileMergeTypes[mod.TileType("AstralDirt")][mod.TileType("AstralSand")] = true;
-            tileMergeTypes[mod.TileType("AstralDirt")][mod.TileType("AstralMonolith")] = true;
-            tileMergeTypes[mod.TileType("AstralDirt")][mod.TileType("AstralIce")] = true;
-            tileMergeTypes[mod.TileType("AstralSand")][mod.TileType("HardenedAstralSand")] = true;
-            tileMergeTypes[mod.TileType("HardenedAstralSand")][mod.TileType("AstralSandstone")] = true;
+            tileMergeTypes[ModContent.TileType<AstralDirt>()][ModContent.TileType<AstralOre>()] = true;
+            tileMergeTypes[ModContent.TileType<AstralDirt>()][ModContent.TileType<AstralStone>()] = true;
+            tileMergeTypes[ModContent.TileType<AstralDirt>()][ModContent.TileType<AstralSand>()] = true;
+            tileMergeTypes[ModContent.TileType<AstralDirt>()][ModContent.TileType<AstralMonolith>()] = true;
+            tileMergeTypes[ModContent.TileType<AstralDirt>()][ModContent.TileType<AstralIce>()] = true;
+            tileMergeTypes[ModContent.TileType<AstralSand>()][ModContent.TileType<HardenedAstralSand>()] = true;
+            tileMergeTypes[ModContent.TileType<HardenedAstralSand>()][ModContent.TileType<AstralSandstone>()] = true;
 
-            tileMergeTypes[mod.TileType("BrimstoneSlag")][mod.TileType("CharredOre")] = true;
+            tileMergeTypes[ModContent.TileType<BrimstoneSlag>()][ModContent.TileType<CharredOre>()] = true;
 
-            tileMergeTypes[TileID.Sandstone][mod.TileType("EutrophicSand")] = true;
-            tileMergeTypes[mod.TileType("EutrophicSand")][mod.TileType("NavyStone")] = true;
-            tileMergeTypes[mod.TileType("NavyStone")][mod.TileType("SeaPrism")] = true;
+            tileMergeTypes[TileID.Sandstone][ModContent.TileType<EutrophicSand>()] = true;
+            tileMergeTypes[ModContent.TileType<EutrophicSand>()][ModContent.TileType<Navystone>()] = true;
+            tileMergeTypes[ModContent.TileType<Navystone>()][ModContent.TileType<SeaPrism>()] = true;
 
-            tileMergeTypes[mod.TileType("AbyssGravel")][mod.TileType("ChaoticOre")] = true;
-            tileMergeTypes[mod.TileType("AbyssGravel")][mod.TileType("PlantyMush")] = true;
-            tileMergeTypes[mod.TileType("AbyssGravel")][mod.TileType("Voidstone")] = true;
-            tileMergeTypes[mod.TileType("AbyssGravel")][mod.TileType("SulphurousSand")] = true;
-            tileMergeTypes[mod.TileType("PlantyMush")][mod.TileType("Tenebris")] = true;
+            tileMergeTypes[ModContent.TileType<AbyssGravel>()][ModContent.TileType<ChaoticOre>()] = true;
+            tileMergeTypes[ModContent.TileType<AbyssGravel>()][ModContent.TileType<PlantyMush>()] = true;
+            tileMergeTypes[ModContent.TileType<AbyssGravel>()][ModContent.TileType<Voidstone>()] = true;
+            tileMergeTypes[ModContent.TileType<AbyssGravel>()][ModContent.TileType<SulphurousSand>()] = true;
+            tileMergeTypes[ModContent.TileType<PlantyMush>()][ModContent.TileType<Tenebris>()] = true;
 
         }
 

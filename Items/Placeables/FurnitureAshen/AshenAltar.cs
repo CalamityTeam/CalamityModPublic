@@ -1,6 +1,5 @@
 using Terraria.ID;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Placeables.FurnitureAshen
 {
     public class AshenAltar : ModItem
@@ -23,7 +22,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAshen
             item.rare = 3;
             item.value = 0;
             item.consumable = true;
-            item.createTile = mod.TileType("AshenAltar");
+            item.createTile = ModContent.TileType<Tiles.AshenAltar>();
         }
 
         public override void AddRecipes()

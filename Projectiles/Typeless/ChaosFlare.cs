@@ -1,9 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
+using Terraria.ID;
 namespace CalamityMod.Projectiles.Typeless
 {
     public class ChaosFlare : ModProjectile
@@ -76,7 +75,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("BrimstoneFlames"), 180);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
             target.AddBuff(BuffID.OnFire, 180);
         }
     }

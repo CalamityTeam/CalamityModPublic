@@ -1,9 +1,8 @@
 ﻿using CalamityMod.CalPlayer;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.Items.Armor
+using Terraria.ID;
+namespace CalamityMod.Items
 {
     [AutoloadEquip(EquipType.Head)]
     public class StatigelHood : ModItem
@@ -25,7 +24,7 @@ namespace CalamityMod.Items.Armor
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == mod.ItemType("StatigelArmor") && legs.type == mod.ItemType("StatigelGreaves");
+            return body.type == ModContent.ItemType<StatigelArmor>() && legs.type == ModContent.ItemType<StatigelGreaves>();
         }
 
         public override void UpdateArmorSet(Player player)
@@ -42,17 +41,17 @@ namespace CalamityMod.Items.Armor
             player.minionDamage += 0.18f;
             if (player.whoAmI == Main.myPlayer)
             {
-                if (player.FindBuffIndex(mod.BuffType("SlimeGod")) == -1)
+                if (player.FindBuffIndex(ModContent.BuffType<MiniSlimeGodBuff>()) == -1)
                 {
-                    player.AddBuff(mod.BuffType("SlimeGod"), 3600, true);
+                    player.AddBuff(ModContent.BuffType<MiniSlimeGodBuff>(), 3600, true);
                 }
-                if (WorldGen.crimson && player.ownedProjectileCounts[mod.ProjectileType("SlimeGodAlt")] < 1)
+                if (WorldGen.crimson && player.ownedProjectileCounts[ModContent.ProjectileType<CrimsonSlimeGodMinion>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("SlimeGodAlt"), (int)(33f * player.minionDamage), 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<CrimsonSlimeGodMinion>(), (int)(33f * player.minionDamage), 0f, Main.myPlayer, 0f, 0f);
                 }
-                else if (!WorldGen.crimson && player.ownedProjectileCounts[mod.ProjectileType("SlimeGod")] < 1)
+                else if (!WorldGen.crimson && player.ownedProjectileCounts[ModContent.ProjectileType<CorruptionSlimeGodMinion>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("SlimeGod"), (int)(33f * player.minionDamage), 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<CorruptionSlimeGodMinion>(), (int)(33f * player.minionDamage), 0f, Main.myPlayer, 0f, 0f);
                 }
             }
         }

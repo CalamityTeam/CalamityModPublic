@@ -1,5 +1,4 @@
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Placeables.FurnitureProfaned
 {
     public class ProfanedCrystalWall : ModItem
@@ -19,7 +18,7 @@ namespace CalamityMod.Items.Placeables.FurnitureProfaned
             item.useTime = 7;
             item.useStyle = 1;
             item.consumable = true;
-            item.createWall = mod.WallType("ProfanedCrystalWall");
+            item.createWall = ModContent.WallType<Walls.ProfanedCrystalWall>();
         }
 
         public override void AddRecipes()

@@ -1,5 +1,4 @@
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Placeables.FurnitureStatigel
 {
     public class StatigelWall : ModItem
@@ -19,7 +18,7 @@ namespace CalamityMod.Items.Placeables.FurnitureStatigel
             item.useTime = 7;
             item.useStyle = 1;
             item.consumable = true;
-            item.createWall = mod.WallType("StatigelWall");
+            item.createWall = ModContent.WallType<Walls.StatigelWall>();
         }
 
         public override void AddRecipes()

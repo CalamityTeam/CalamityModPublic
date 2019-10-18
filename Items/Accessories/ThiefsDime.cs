@@ -1,4 +1,3 @@
-using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -24,23 +23,17 @@ namespace CalamityMod.Items.Accessories
 
         public override bool CanEquipAccessory(Player player, int slot)
         {
-            CalamityPlayer modPlayer = player.Calamity();
-            if (modPlayer.thiefsDime)
-            {
-                return false;
-            }
-            return true;
+            return !player.Calamity().thiefsDime;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.thiefsDime = true;
+            player.Calamity().thiefsDime = true;
             if (player.whoAmI == Main.myPlayer)
             {
-                if (player.ownedProjectileCounts[mod.ProjectileType("ThiefsDimeProj")] < 1)
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<ThiefsDimeProj>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, mod.ProjectileType("ThiefsDimeProj"), 100, 6f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<ThiefsDimeProj>(), 100, 6f, Main.myPlayer, 0f, 0f);
                 }
             }
         }

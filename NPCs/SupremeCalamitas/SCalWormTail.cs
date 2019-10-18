@@ -1,10 +1,10 @@
 ﻿using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
-namespace CalamityMod.NPCs.SupremeCalamitas
+namespace CalamityMod.NPCs
 {
     public class SCalWormTail : ModNPC
     {

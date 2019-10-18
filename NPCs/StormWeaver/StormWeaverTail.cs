@@ -1,10 +1,10 @@
 ﻿using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
-namespace CalamityMod.NPCs.StormWeaver
+namespace CalamityMod.NPCs
 {
     public class StormWeaverTail : ModNPC
     {

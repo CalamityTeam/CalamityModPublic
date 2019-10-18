@@ -1,8 +1,7 @@
 ﻿using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.NormalNPCs
+using Terraria.ID;
+namespace CalamityMod.NPCs
 {
     public class SunBat : ModNPC
     {
@@ -27,7 +26,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath4;
             banner = npc.type;
-            bannerItem = mod.ItemType("SunBatBanner");
+            bannerItem = ModContent.ItemType<SunBatBanner>();
         }
 
         public override void FindFrame(int frameHeight)
@@ -56,7 +55,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             player.AddBuff(BuffID.OnFire, 120, true);
-            player.AddBuff(mod.BuffType("HolyLight"), 120, true);
+            player.AddBuff(ModContent.BuffType<HolyFlames>(), 120, true);
         }
 
         public override void HitEffect(int hitDirection, double damage)
@@ -78,7 +77,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             if (Main.rand.NextBool(3))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EssenceofCinder"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EssenceofCinder>());
             }
         }
     }

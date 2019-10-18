@@ -3,10 +3,10 @@ using Microsoft.Xna.Framework;
 using System;
 using System.IO;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
-namespace CalamityMod.NPCs.SupremeCalamitas
+namespace CalamityMod.NPCs
 {
     public class SCalWormHead : ModNPC
     {
@@ -78,7 +78,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         public override void AI()
         {
             CalamityGlobalNPC.SCalWorm = npc.whoAmI;
-            if (!NPC.AnyNPCs(mod.NPCType("SCalWormHeart")) || CalamityGlobalNPC.SCal < 0 || !Main.npc[CalamityGlobalNPC.SCal].active)
+            if (!NPC.AnyNPCs(ModContent.NPCType<SCalWormHeart>()) || CalamityGlobalNPC.SCal < 0 || !Main.npc[CalamityGlobalNPC.SCal].active)
             {
                 npc.life = 0;
                 npc.HitEffect(0, 10.0);
@@ -103,13 +103,13 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         int lol;
                         if (num36 >= 0 && num36 < minLength && num36 % 2 == 0)
                         {
-                            lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("SCalWormBodyWeak"), npc.whoAmI);
+                            lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<SCalWormBodyWeak>(), npc.whoAmI);
                             Main.npc[lol].localAI[0] += passedVar;
                             passedVar += 36f;
                         }
                         else if (num36 >= 0 && num36 < minLength)
                         {
-                            lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("SCalWormBody"), npc.whoAmI);
+                            lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<SCalWormBody>(), npc.whoAmI);
                             if (npc.localAI[0] % 2 == 0)
                             {
                                 Main.npc[lol].localAI[3] = 1f;
@@ -122,7 +122,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         }
                         else
                         {
-                            lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("SCalWormTail"), npc.whoAmI);
+                            lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<SCalWormTail>(), npc.whoAmI);
                         }
                         Main.npc[lol].realLife = npc.whoAmI;
                         Main.npc[lol].ai[2] = (float)npc.whoAmI;

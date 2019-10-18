@@ -1,9 +1,9 @@
 ﻿using CalamityMod.World;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
-namespace CalamityMod.NPCs.Crabulon
+namespace CalamityMod.NPCs
 {
     public class CrabShroom : ModNPC
     {

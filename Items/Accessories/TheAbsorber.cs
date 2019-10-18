@@ -1,7 +1,7 @@
 ﻿using CalamityMod.CalPlayer;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -39,6 +39,7 @@ namespace CalamityMod.Items.Accessories
             modPlayer.aSpark = true;
             modPlayer.gShell = true;
             modPlayer.fCarapace = true;
+            modPlayer.seaShell = true;
             modPlayer.absorber = true;
             player.statManaMax2 += 20;
         }

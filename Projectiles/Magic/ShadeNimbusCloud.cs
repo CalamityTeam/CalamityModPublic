@@ -1,6 +1,5 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Projectiles.Magic
 {
     public class ShadeNimbusCloud : ModProjectile
@@ -58,7 +57,7 @@ namespace CalamityMod.Projectiles.Magic
         {
             if (projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("ShadeNimbus"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ShadeNimbus>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
             }
         }
     }

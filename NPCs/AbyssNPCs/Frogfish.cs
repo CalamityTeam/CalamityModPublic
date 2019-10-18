@@ -1,9 +1,8 @@
 ﻿using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.AbyssNPCs
+using Terraria.ID;
+namespace CalamityMod.NPCs
 {
     public class Frogfish : ModNPC
     {
@@ -23,13 +22,13 @@ namespace CalamityMod.NPCs.AbyssNPCs
             npc.lifeMax = 80;
             npc.aiStyle = -1;
             aiType = -1;
-            npc.buffImmune[mod.BuffType("CrushDepth")] = true;
+            npc.buffImmune[ModContent.BuffType<CrushDepth>()] = true;
             npc.value = Item.buyPrice(0, 0, 0, 80);
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
             npc.knockBackResist = 0.5f;
             banner = npc.type;
-            bannerItem = mod.ItemType("FrogfishBanner");
+            bannerItem = ModContent.ItemType<FrogfishBanner>();
         }
 
         public override void AI()
@@ -248,7 +247,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
         {
             if (Main.rand.NextBool(2))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CloakingGland"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CloakingGland>());
             }
         }
 

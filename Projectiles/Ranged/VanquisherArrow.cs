@@ -2,7 +2,6 @@
 using System;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Projectiles.Ranged
 {
     public class VanquisherArrow : ModProjectile
@@ -35,13 +34,15 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 if (projectile.owner == Main.myPlayer)
                 {
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f, mod.ProjectileType("VanquisherArrow2"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f, ModContent.ProjectileType<VanquisherArrow2>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                 }
                 projCount = 18;
             }
         }
 
-        /*public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        // TODO -- Vanquisher Arrow projectile glowmask doesn't work.
+        /*
+        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Vector2 origin = new Vector2(0f, 0f);
             Color color = Color.White;
@@ -51,8 +52,9 @@ namespace CalamityMod.Projectiles.Ranged
                 byte a2 = (byte)(100f * ((float)b2 / 255f));
                 color = new Color((int)b2, (int)b2, (int)b2, (int)a2);
             }
-            spriteBatch.Draw(mod.GetTexture("Projectiles/Ranged/VanquisherArrowGlow"), projectile.Center - Main.screenPosition, null, color, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
-        }*/
+            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Ranged/VanquisherArrowGlow"), projectile.Center - Main.screenPosition, null, color, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
+        }
+        */
 
         public override Color? GetAlpha(Color lightColor)
         {
@@ -67,7 +69,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("GodSlayerInferno"), 300);
+            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
         }
     }
 }

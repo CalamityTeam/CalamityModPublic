@@ -1,8 +1,7 @@
 ﻿using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.NormalNPCs
+using Terraria.ID;
+namespace CalamityMod.NPCs
 {
     public class WulfrumDrone : ModNPC
     {
@@ -26,7 +25,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = SoundID.NPCDeath14;
             banner = npc.type;
-            bannerItem = mod.ItemType("WulfrumDroneBanner");
+            bannerItem = ModContent.ItemType<WulfrumDroneBanner>();
         }
 
         public override void AI()
@@ -68,10 +67,10 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("WulfrumShard"), Main.rand.Next(1, 4));
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<WulfrumShard>(), Main.rand.Next(1, 4));
             if (Main.expertMode && Main.rand.NextBool(2))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("WulfrumShard"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<WulfrumShard>());
             }
         }
     }

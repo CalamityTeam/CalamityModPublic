@@ -1,5 +1,4 @@
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Placeables.FurnitureCosmilite
 {
     public class CosmiliteWorkbench : ModItem
@@ -20,7 +19,7 @@ namespace CalamityMod.Items.Placeables.FurnitureCosmilite
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = mod.TileType("CosmiliteWorkbench");
+            item.createTile = ModContent.TileType<Tiles.CosmiliteWorkbench>();
         }
 
         public override void AddRecipes()

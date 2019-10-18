@@ -1,10 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using System.IO;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.TheDevourerofGods
+using Terraria.ID;
+namespace CalamityMod.NPCs
 {
     public class DevourerofGodsBody2 : ModNPC
     {
@@ -151,7 +150,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(mod.BuffType("GodSlayerInferno"), 120, true);
+            player.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 120, true);
             player.AddBuff(BuffID.Frostburn, 120, true);
             player.AddBuff(BuffID.Darkness, 120, true);
         }

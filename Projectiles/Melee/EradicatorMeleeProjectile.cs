@@ -2,8 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -79,7 +79,7 @@ namespace CalamityMod.Projectiles.Melee
                     {
                         if (projectile.owner == Main.myPlayer)
                         {
-                            int proj = Projectile.NewProjectile(value10.X, value10.Y, num438, num439, mod.ProjectileType("NebulaShot"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                            int proj = Projectile.NewProjectile(value10.X, value10.Y, num438, num439, ModContent.ProjectileType<NebulaShot>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                             Main.projectile[proj].Calamity().forceMelee = true;
                         }
                     }
@@ -96,7 +96,7 @@ namespace CalamityMod.Projectiles.Melee
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Vector2 origin = new Vector2(31f, 29f);
-            spriteBatch.Draw(mod.GetTexture("Projectiles/Melee/EradicatorMeleeProjectileGlow"), projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, origin, projectile.scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Melee/EradicatorMeleeProjectileGlow"), projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, origin, projectile.scale, SpriteEffects.None, 0f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

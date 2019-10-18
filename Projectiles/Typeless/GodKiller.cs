@@ -2,9 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
+using Terraria.ID;
 namespace CalamityMod.Projectiles.Typeless
 {
     public class GodKiller : ModProjectile
@@ -106,7 +105,7 @@ namespace CalamityMod.Projectiles.Typeless
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Vector2 origin = new Vector2(11f, 23f);
-            spriteBatch.Draw(mod.GetTexture("Projectiles/Typeless/GodKillerGlow"), projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Typeless/GodKillerGlow"), projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
         }
 
         public override void Kill(int timeLeft)
@@ -134,7 +133,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("GodSlayerInferno"), 180);
+            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 180);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

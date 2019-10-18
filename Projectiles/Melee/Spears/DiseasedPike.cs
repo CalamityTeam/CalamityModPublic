@@ -1,8 +1,7 @@
 ﻿using System;
 using Terraria;
 using Terraria.ModLoader;
-
-namespace CalamityMod.Projectiles.Melee.Spears
+namespace CalamityMod.Projectiles.Melee
 {
     public class DiseasedPike : ModProjectile
     {
@@ -73,12 +72,12 @@ namespace CalamityMod.Projectiles.Melee.Spears
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.immune[projectile.owner] = 6;
-            target.AddBuff(mod.BuffType("Plague"), 360);
+            target.AddBuff(ModContent.BuffType<Plague>(), 360);
             if (projectile.owner == Main.myPlayer)
             {
                 for (int i = 0; i <= 3; i++)
                 {
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 1.5f, projectile.velocity.Y * 1.5f, mod.ProjectileType("PlagueSeeker"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 1.5f, projectile.velocity.Y * 1.5f, ModContent.ProjectileType<PlagueSeeker>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                 }
             }
         }

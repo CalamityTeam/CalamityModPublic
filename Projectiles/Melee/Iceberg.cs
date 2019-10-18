@@ -1,9 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
+using Terraria.ID;
 namespace CalamityMod.Projectiles.Melee
 {
     public class Iceberg : ModProjectile
@@ -47,7 +46,7 @@ namespace CalamityMod.Projectiles.Melee
             double newDamageMult = 1.0 - ((double)projectile.timeLeft / 300.0);
             damage = (int)((double)damage * newDamageMult);
             knockback = 0f;
-            if (crit || target.buffImmune[mod.BuffType("GlacialState")])
+            if (crit || target.buffImmune[ModContent.BuffType<GlacialState>()])
                 damage *= 2;
         }
 
@@ -55,7 +54,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             int debuffDuration = 300 - projectile.timeLeft;
             if (projectile.timeLeft < 270)
-                target.AddBuff(mod.BuffType("GlacialState"), debuffDuration);
+                target.AddBuff(ModContent.BuffType<GlacialState>(), debuffDuration);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

@@ -10,8 +10,8 @@ namespace CalamityMod.Walls
         public override void SetDefaults()
         {
             Main.wallHouse[Type] = true;
-            dustType = mod.DustType("Sparkle");
-            drop = mod.ItemType("VoidstoneSlabWall");
+
+            drop = ModContent.ItemType<Items.VoidstoneSlabWall>();
             AddMapEntry(new Color(19, 17, 22));
         }
 
@@ -28,7 +28,7 @@ namespace CalamityMod.Walls
 
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            Texture2D sprite = mod.GetTexture("Walls/VoidstoneSlabWall");
+            Texture2D sprite = ModContent.GetTexture("CalamityMod/Walls/VoidstoneSlabWall");
             Color lightColor = GetWallColour(i, j);
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             zero -= new Vector2(8, 8);

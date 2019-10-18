@@ -2,8 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Boss
 {
@@ -56,7 +56,7 @@ namespace CalamityMod.Projectiles.Boss
             Texture2D texture = Main.projectileTexture[projectile.type];
             int frameHeight = texture.Height / Main.projFrames[projectile.type];
             int frameY = frameHeight * projectile.frame;
-            Microsoft.Xna.Framework.Rectangle rectangle = new Microsoft.Xna.Framework.Rectangle(0, frameY, texture.Width, frameHeight);
+            Rectangle rectangle = new Rectangle(0, frameY, texture.Width, frameHeight);
             SpriteEffects spriteEffects = SpriteEffects.None;
             if (projectile.spriteDirection == -1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
@@ -72,7 +72,7 @@ namespace CalamityMod.Projectiles.Boss
             }
 
             Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY),
-                new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, frameY, texture.Width, frameHeight)),
+                new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, frameY, texture.Width, frameHeight)),
                 projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)texture.Width / 2f, (float)frameHeight / 2f), projectile.scale, spriteEffects, 0f);
 
             return false;
@@ -84,12 +84,12 @@ namespace CalamityMod.Projectiles.Boss
             {
                 for (int x = 0; x < 3; x++)
                 {
-                    Projectile.NewProjectile((int)projectile.Center.X, (int)projectile.Center.Y, speedX, -50f, mod.ProjectileType("YharonFireball2"), projectile.damage, 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile((int)projectile.Center.X, (int)projectile.Center.Y, speedX, -50f, ModContent.ProjectileType<YharonFireball2>(), projectile.damage, 0f, Main.myPlayer, 0f, 0f);
                     speedX += 3f;
                 }
                 for (int x = 0; x < 2; x++)
                 {
-                    Projectile.NewProjectile((int)projectile.Center.X, (int)projectile.Center.Y, speedX2, -75f, mod.ProjectileType("YharonFireball2"), projectile.damage, 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile((int)projectile.Center.X, (int)projectile.Center.Y, speedX2, -75f, ModContent.ProjectileType<YharonFireball2>(), projectile.damage, 0f, Main.myPlayer, 0f, 0f);
                     speedX2 += 10f;
                 }
             }

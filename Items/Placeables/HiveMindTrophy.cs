@@ -1,5 +1,4 @@
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Placeables
 {
     public class HiveMindTrophy : ModItem
@@ -22,7 +21,7 @@ namespace CalamityMod.Items.Placeables
             item.consumable = true;
             item.value = 50000;
             item.rare = 1;
-            item.createTile = mod.TileType("BossTrophy");
+            item.createTile = ModContent.TileType<BossTrophy>();
             item.placeStyle = 8;
         }
     }

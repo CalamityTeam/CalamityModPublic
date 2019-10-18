@@ -9,8 +9,8 @@ namespace CalamityMod.Walls
         public override void SetDefaults()
         {
             Main.wallHouse[Type] = true;
-            dustType = mod.DustType("Sparkle");
-            drop = mod.ItemType("PlaguedPlateWall");
+
+            drop = ModContent.ItemType<Items.PlaguedPlateWall>();
             AddMapEntry(new Color(23, 23, 26));
         }
 

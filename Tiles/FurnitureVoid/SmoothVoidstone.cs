@@ -1,9 +1,8 @@
-using CalamityMod.Utilities;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Tiles.FurnitureVoid
 {
     public class SmoothVoidstone : ModTile
@@ -22,7 +21,7 @@ namespace CalamityMod.Tiles.FurnitureVoid
             soundType = 21;
             mineResist = 7f;
             minPick = 190;
-            drop = mod.ItemType("SmoothVoidstone");
+            drop = ModContent.ItemType<Items.SmoothVoidstone>();
             AddMapEntry(new Color(27, 24, 31));
         }
         int animationFrameWidth = 288;
@@ -216,7 +215,7 @@ namespace CalamityMod.Tiles.FurnitureVoid
             }
             xOffset *= 288;
             xPos += xOffset;
-            Texture2D glowmask = mod.GetTexture("Tiles/FurnitureVoid/SmoothVoidstone_Glowmask");
+            Texture2D glowmask = ModContent.GetTexture("CalamityMod/Tiles/FurnitureVoid/SmoothVoidstoneGlow");
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
             Color drawColour = GetDrawColour(i, j, new Color(50, 50, 50, 50));

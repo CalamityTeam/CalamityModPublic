@@ -1,8 +1,7 @@
 ﻿using CalamityMod.World;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
+using Terraria.ID;
 namespace CalamityMod.Items.Potions
 {
     public class PurifiedJam : ModItem
@@ -38,7 +37,7 @@ namespace CalamityMod.Items.Potions
 
         public override bool UseItem(Player player)
         {
-            player.AddBuff(mod.BuffType("Invincible"), CalamityWorld.death ? 300 : 600);
+            player.AddBuff(ModContent.BuffType<Invincible>(), CalamityWorld.death ? 300 : 600);
             player.AddBuff(BuffID.PotionSickness, player.pStone ? 1500 : 1800);
             return true;
         }

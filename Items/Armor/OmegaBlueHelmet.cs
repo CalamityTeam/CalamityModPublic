@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
-namespace CalamityMod.Items.Armor
+namespace CalamityMod.Items
 {
     [AutoloadEquip(EquipType.Head)]
     public class OmegaBlueHelmet : ModItem
@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Armor
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == mod.ItemType("OmegaBlueChestplate") && legs.type == mod.ItemType("OmegaBlueLeggings");
+            return body.type == ModContent.ItemType<OmegaBlueChestplate>() && legs.type == ModContent.ItemType<OmegaBlueLeggings>();
         }
 
         public override void ArmorSetShadows(Player player)
@@ -92,10 +92,10 @@ This effect has a 30 second cooldown";
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("ReaperTooth"), 11);
-            recipe.AddIngredient(mod.ItemType("Lumenite"), 5);
-            recipe.AddIngredient(mod.ItemType("Tenebris"), 5);
-            recipe.AddIngredient(mod.ItemType("RuinousSoul"), 2);
+            recipe.AddIngredient(ModContent.ItemType<ReaperTooth>(), 11);
+            recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 2);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

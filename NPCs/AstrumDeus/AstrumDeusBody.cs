@@ -1,13 +1,12 @@
 ﻿using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using CalamityMod.Dusts;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.IO;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.AstrumDeus
+using Terraria.ID;
+namespace CalamityMod.NPCs
 {
     public class AstrumDeusBody : ModNPC
     {
@@ -140,7 +139,7 @@ namespace CalamityMod.NPCs.AstrumDeus
                         num942 *= num944;
                         num943 *= num944;
                         int num945 = expertMode ? 38 : 45;
-                        int num946 = mod.ProjectileType("AstralShot2");
+                        int num946 = ModContent.ProjectileType<AstralShot2>();
                         vector104.X += num942 * 5f;
                         vector104.Y += num943 * 5f;
                         int num947 = Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, num946, num945, 0f, Main.myPlayer, 0f, 0f);
@@ -160,18 +159,18 @@ namespace CalamityMod.NPCs.AstrumDeus
             Mod mod = ModLoader.GetMod("CalamityMod");
             Color lightColor = new Color(125, 75, Main.DiscoB, npc.alpha); //250 150 Disco
             Color newColor = npc.dontTakeDamage ? lightColor : drawColor;
-            Texture2D texture = mod.GetTexture("NPCs/AstrumDeus/AstrumDeusBodyAlt");
+            Texture2D texture = ModContent.GetTexture("CalamityMod/NPCs/AstrumDeus/AstrumDeusBodyAlt");
             CalamityMod.DrawTexture(spriteBatch, npc.localAI[3] == 1f ? texture : Main.npcTexture[npc.type], 0, npc, newColor);
             return false;
         }
 
         public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            if (projectile.type == mod.ProjectileType("RainbowBoom") || ProjectileID.Sets.StardustDragon[projectile.type])
+            if (projectile.type == ModContent.ProjectileType<RainbowBoom>() || ProjectileID.Sets.StardustDragon[projectile.type])
             {
                 damage = (int)((double)damage * 0.1);
             }
-            else if (projectile.type == mod.ProjectileType("RainBolt") || projectile.type == mod.ProjectileType("AtlantisSpear2") || projectile.type == mod.ProjectileType("MalachiteBolt"))
+            else if (projectile.type == ModContent.ProjectileType<RainBolt>() || projectile.type == ModContent.ProjectileType<AtlantisSpear2>() || projectile.type == ModContent.ProjectileType<MalachiteBolt>())
             {
                 damage = (int)((double)damage * 0.2);
             }
@@ -179,19 +178,19 @@ namespace CalamityMod.NPCs.AstrumDeus
             {
                 damage = (int)((double)damage * 0.3);
             }
-            else if (projectile.type == mod.ProjectileType("SpikecragSpike"))
+            else if (projectile.type == ModContent.ProjectileType<SpikecragSpike>())
             {
                 damage = (int)((double)damage * 0.5);
             }
 
             if (projectile.penetrate == -1 && !projectile.minion)
             {
-                if (projectile.type == mod.ProjectileType("CosmicFire") || projectile.type == mod.ProjectileType("BigNuke"))
+                if (projectile.type == ModContent.ProjectileType<CosmicFire>() || projectile.type == ModContent.ProjectileType<BigNuke>())
                     damage = (int)((double)damage * 0.3);
                 else
                     damage = (int)((double)damage * 0.2);
             }
-            else if (projectile.penetrate > 1 && projectile.type != mod.ProjectileType("BrinySpout"))
+            else if (projectile.penetrate > 1 && projectile.type != ModContent.ProjectileType<BrinySpout>())
             {
                 damage /= projectile.penetrate;
             }
@@ -209,12 +208,12 @@ namespace CalamityMod.NPCs.AstrumDeus
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            if (NPC.CountNPCS(mod.NPCType("AstrumDeusProbe3")) < 3 && CalamityWorld.revenge)
+            if (NPC.CountNPCS(ModContent.NPCType<AstrumDeusProbe3>()) < 3 && CalamityWorld.revenge)
             {
                 if (npc.life > 0 && Main.netMode != NetmodeID.MultiplayerClient && spawn == 0 && Main.rand.NextBool(25))
                 {
                     spawn = 1;
-                    int num660 = NPC.NewNPC((int)(npc.position.X + (float)(npc.width / 2)), (int)(npc.position.Y + (float)npc.height), mod.NPCType("AstrumDeusProbe3"), 0, 0f, 0f, 0f, 0f, 255);
+                    int num660 = NPC.NewNPC((int)(npc.position.X + (float)(npc.width / 2)), (int)(npc.position.Y + (float)npc.height), ModContent.NPCType<AstrumDeusProbe3>(), 0, 0f, 0f, 0f, 0f, 255);
                     if (Main.netMode == NetmodeID.Server && num660 < 200)
                     {
                         NetMessage.SendData(23, -1, -1, null, num660, 0f, 0f, 0f, 0, 0, 0);
@@ -242,10 +241,10 @@ namespace CalamityMod.NPCs.AstrumDeus
                 }
                 for (int num623 = 0; num623 < 10; num623++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, mod.DustType("AstralOrange"), 0f, 0f, 100, default, 3f);
+                    int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 3f);
                     Main.dust[num624].noGravity = true;
                     Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, mod.DustType("AstralOrange"), 0f, 0f, 100, default, 2f);
+                    num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 2f);
                     Main.dust[num624].velocity *= 2f;
                 }
             }
@@ -253,7 +252,7 @@ namespace CalamityMod.NPCs.AstrumDeus
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(mod.BuffType("AstralInfectionDebuff"), 180, true);
+            player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 180, true);
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

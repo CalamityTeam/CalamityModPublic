@@ -3,8 +3,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Pets
 {
@@ -480,10 +480,10 @@ namespace CalamityMod.Projectiles.Pets
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D texture = underwater ? Main.projectileTexture[projectile.type] : mod.GetTexture("Projectiles/Pets/SirenFlopping");
+            Texture2D texture = underwater ? Main.projectileTexture[projectile.type] : ModContent.GetTexture("CalamityMod/Projectiles/Pets/SirenFlopping");
             int height = (underwater ? Main.projectileTexture[projectile.type].Height : 256) / Main.projFrames[projectile.type];
             int frameHeight = height * projectile.frame;
-            Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, frameHeight, texture.Width, height)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)texture.Width / 2f, (float)height / 2f), projectile.scale, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, frameHeight, texture.Width, height)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)texture.Width / 2f, (float)height / 2f), projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
     }

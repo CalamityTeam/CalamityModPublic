@@ -1,7 +1,6 @@
 ﻿using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Projectiles.Rogue
 {
     public class AbyssalMirrorProjectile : ModProjectile
@@ -38,7 +37,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (!target.friendly && target.rarity != 2 && !CalamityPlayer.areThereAnyDamnBosses)
             {
-                target.AddBuff(mod.BuffType("SilvaStun"), 300);
+                target.AddBuff(ModContent.BuffType<SilvaStun>(), 300);
             }
         }
     }

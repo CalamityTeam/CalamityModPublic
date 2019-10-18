@@ -1,6 +1,5 @@
 using Terraria.ID;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Placeables.FurnitureEutrophic
 {
     public class EutrophicBed : ModItem
@@ -20,13 +19,13 @@ namespace CalamityMod.Items.Placeables.FurnitureEutrophic
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = mod.TileType("EutrophicBed");
+            item.createTile = ModContent.TileType<Tiles.EutrophicBed>();
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("Navystone"), 15);
+            recipe.AddIngredient(ModContent.ItemType<Navystone>(), 15);
             recipe.AddIngredient(ItemID.Silk, 5);
             recipe.SetResult(this, 1);
             recipe.AddTile(null, "EutrophicCrafting");

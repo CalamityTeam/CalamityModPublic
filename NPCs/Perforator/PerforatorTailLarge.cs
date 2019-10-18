@@ -1,10 +1,9 @@
 ﻿using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.Perforator
+using Terraria.ID;
+namespace CalamityMod.NPCs
 {
     public class PerforatorTailLarge : ModNPC
     {
@@ -31,8 +30,8 @@ namespace CalamityMod.NPCs.Perforator
             aiType = -1;
             npc.knockBackResist = 0f;
             npc.alpha = 255;
-            npc.buffImmune[mod.BuffType("GlacialState")] = true;
-            npc.buffImmune[mod.BuffType("TemporalSadness")] = true;
+            npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
+            npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
             npc.behindTiles = true;
             npc.noGravity = true;
             npc.noTileCollide = true;
@@ -101,7 +100,7 @@ namespace CalamityMod.NPCs.Perforator
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(mod.BuffType("BurningBlood"), 90, true);
+            player.AddBuff(ModContent.BuffType<BurningBlood>(), 90, true);
             player.AddBuff(BuffID.Bleeding, 90, true);
         }
     }

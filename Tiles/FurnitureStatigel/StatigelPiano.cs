@@ -1,7 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Tiles.FurnitureStatigel
 {
     class StatigelPiano : ModTile
@@ -27,7 +26,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 16, 32, mod.ItemType("StatigelPiano"));
+            Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<Items.StatigelPiano>());
         }
     }
 }

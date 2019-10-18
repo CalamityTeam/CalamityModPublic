@@ -1,5 +1,4 @@
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Placeables.FurnitureStratus
 {
     public class StratusWall : ModItem
@@ -19,7 +18,7 @@ namespace CalamityMod.Items.Placeables.FurnitureStratus
             item.useTime = 7;
             item.useStyle = 1;
             item.consumable = true;
-            item.createWall = mod.WallType("StratusWall");
+            item.createWall = ModContent.WallType<Walls.StratusWall>();
         }
 
         public override void AddRecipes()

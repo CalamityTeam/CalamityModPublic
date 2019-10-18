@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Projectiles.Summon
 {
     public class BrimstoneFireSummon : ModProjectile
@@ -79,7 +78,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("BrimstoneFlames"), 120);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
             target.immune[projectile.owner] = 9;
         }
     }

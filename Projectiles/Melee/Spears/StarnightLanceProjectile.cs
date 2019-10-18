@@ -1,9 +1,9 @@
 ﻿using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
-namespace CalamityMod.Projectiles.Melee.Spears
+namespace CalamityMod.Projectiles.Melee
 {
     public class StarnightLanceProjectile : ModProjectile
     {
@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
                 {
                     projectile.localAI[0] = 1f;
                     Projectile.NewProjectile(projectile.Center.X + projectile.velocity.X, projectile.Center.Y + projectile.velocity.Y,
-                        projectile.velocity.X * 2.4f, projectile.velocity.Y * 2.4f, mod.ProjectileType("StarnightBeam"), (int)((double)projectile.damage * 0.8), projectile.knockBack * 0.85f, projectile.owner, 0f, 0f);
+                        projectile.velocity.X * 2.4f, projectile.velocity.Y * 2.4f, ModContent.ProjectileType<StarnightBeam>(), (int)((double)projectile.damage * 0.8), projectile.knockBack * 0.85f, projectile.owner, 0f, 0f);
                 }
             }
             else

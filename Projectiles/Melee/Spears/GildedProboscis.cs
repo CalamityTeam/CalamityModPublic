@@ -1,9 +1,9 @@
 ﻿using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
-namespace CalamityMod.Projectiles.Melee.Spears
+namespace CalamityMod.Projectiles.Melee
 {
     public class GildedProboscis : ModProjectile
     {

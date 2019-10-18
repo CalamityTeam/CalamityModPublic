@@ -1,7 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Tiles.FurnitureCosmilite
 {
     class CosmilitePiano : ModTile
@@ -28,7 +27,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 16, 32, mod.ItemType("CosmilitePiano"));
+            Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<Items.CosmilitePiano>());
         }
     }
 }

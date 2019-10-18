@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Terraria.ModLoader;
-
-namespace CalamityMod.Tiles
+namespace CalamityMod.Tiles.Astral
 {
     public class AstralTree : ModTree
     {

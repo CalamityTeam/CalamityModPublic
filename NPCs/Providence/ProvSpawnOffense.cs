@@ -3,10 +3,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.Providence
+using Terraria.ID;
+namespace CalamityMod.NPCs
 {
     public class ProvSpawnOffense : ModNPC
     {
@@ -46,14 +45,14 @@ namespace CalamityMod.NPCs.Providence
             }
             npc.buffImmune[BuffID.Ichor] = false;
             npc.buffImmune[BuffID.CursedInferno] = false;
-            npc.buffImmune[mod.BuffType("AbyssalFlames")] = false;
-            npc.buffImmune[mod.BuffType("ArmorCrunch")] = false;
-            npc.buffImmune[mod.BuffType("DemonFlames")] = false;
-            npc.buffImmune[mod.BuffType("GodSlayerInferno")] = false;
-            npc.buffImmune[mod.BuffType("Nightwither")] = false;
-            npc.buffImmune[mod.BuffType("Shred")] = false;
-            npc.buffImmune[mod.BuffType("WhisperingDeath")] = false;
-            npc.buffImmune[mod.BuffType("SilvaStun")] = false;
+            npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
+            npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
+            npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
+            npc.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = false;
+            npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
+            npc.buffImmune[ModContent.BuffType<Shred>()] = false;
+            npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
+            npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
             npc.HitSound = SoundID.NPCHit52;
             npc.DeathSound = SoundID.NPCDeath55;
         }
@@ -182,7 +181,7 @@ namespace CalamityMod.NPCs.Providence
                         Main.PlaySound(SoundID.Item20, npc.position);
                         int damage = expertMode ? 40 : 59;
                         Vector2 vector173 = Vector2.Normalize(player.Center - vectorCenter) * (float)(npc.width + 20) / 2f + vectorCenter;
-                        int projectile = Projectile.NewProjectile((int)vector173.X, (int)vector173.Y, (float)(npc.direction * 2), 4f, mod.ProjectileType("FlareDust"), damage, 0f, Main.myPlayer, 0f, 0f); //changed
+                        int projectile = Projectile.NewProjectile((int)vector173.X, (int)vector173.Y, (float)(npc.direction * 2), 4f, ModContent.ProjectileType<FlareDust>(), damage, 0f, Main.myPlayer, 0f, 0f); //changed
                         Main.projectile[projectile].timeLeft = 120;
                         Main.projectile[projectile].velocity.X = 0f;
                         Main.projectile[projectile].velocity.Y = 0f;
@@ -237,12 +236,12 @@ namespace CalamityMod.NPCs.Providence
             {
                 spriteEffects = SpriteEffects.FlipHorizontally;
             }
-            Microsoft.Xna.Framework.Color color24 = npc.GetAlpha(drawColor);
-            Microsoft.Xna.Framework.Color color25 = Lighting.GetColor((int)((double)npc.position.X + (double)npc.width * 0.5) / 16, (int)(((double)npc.position.Y + (double)npc.height * 0.5) / 16.0));
+            Color color24 = npc.GetAlpha(drawColor);
+            Color color25 = Lighting.GetColor((int)((double)npc.position.X + (double)npc.width * 0.5) / 16, (int)(((double)npc.position.Y + (double)npc.height * 0.5) / 16.0));
             Texture2D texture2D3 = Main.npcTexture[npc.type];
             int num156 = Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type];
             int y3 = num156 * (int)npc.frameCounter;
-            Microsoft.Xna.Framework.Rectangle rectangle = new Microsoft.Xna.Framework.Rectangle(0, y3, texture2D3.Width, num156);
+            Rectangle rectangle = new Rectangle(0, y3, texture2D3.Width, num156);
             Vector2 origin2 = rectangle.Size() / 2f;
             int num157 = 8;
             int num158 = 2;
@@ -252,7 +251,7 @@ namespace CalamityMod.NPCs.Providence
             spriteBatch.Draw(texture2D3, npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, color24, npc.rotation, npc.frame.Size() / 2, npc.scale, spriteEffects, 0);
             while (npc.ai[0] == 2f && Lighting.NotRetro && ((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157)))
             {
-                Microsoft.Xna.Framework.Color color26 = npc.GetAlpha(color25);
+                Color color26 = npc.GetAlpha(color25);
                 {
                     goto IL_6899;
                 }
@@ -289,7 +288,7 @@ namespace CalamityMod.NPCs.Providence
         {
             if (CalamityWorld.revenge)
             {
-                player.AddBuff(mod.BuffType("MarkedforDeath"), 180);
+                player.AddBuff(ModContent.BuffType<MarkedforDeath>(), 180);
             }
             player.AddBuff(BuffID.OnFire, 600, true);
         }

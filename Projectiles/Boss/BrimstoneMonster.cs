@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Projectiles.Boss
 {
     public class BrimstoneMonster : ModProjectile
@@ -150,8 +149,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(mod.BuffType("AbyssalFlames"), 900);
-            target.AddBuff(mod.BuffType("VulnerabilityHex"), 300, true);
+            target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 900);
+            target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 300, true);
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using Terraria.ID;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Placeables
 {
     public class GreenBrickWallUnsafe : ModItem

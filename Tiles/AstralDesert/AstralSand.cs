@@ -1,9 +1,9 @@
-using CalamityMod.Utilities;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Tiles.AstralDesert
 {
@@ -21,7 +21,7 @@ namespace CalamityMod.Tiles.AstralDesert
             TileMerge.MergeAstralTiles(Type);
 
             dustType = 108;
-            drop = mod.ItemType("AstralSand");
+            drop = ModContent.ItemType<Items.AstralSand>();
 
             AddMapEntry(new Color(149, 156, 155));
 
@@ -43,11 +43,11 @@ namespace CalamityMod.Tiles.AstralDesert
             if (j < Main.maxTilesY && !Main.tile[i, j + 1].active())
             {
                 Main.tile[i, j].active(false);
-                Projectile.NewProjectile(new Vector2(i * 16f + 8f, j * 16f + 8f), Vector2.Zero, mod.ProjectileType("AstralFallingSand"), 15, 0f);
+                Projectile.NewProjectile(new Vector2(i * 16f + 8f, j * 16f + 8f), Vector2.Zero, ModContent.ProjectileType<AstralFallingSand>(), 15, 0f);
                 WorldGen.SquareTileFrame(i, j);
                 return false;
             }
-            CustomTileFraming.FrameTileForCustomMerge(i, j, Type, mod.TileType("AstralDirt"));
+            CustomTileFraming.FrameTileForCustomMerge(i, j, Type, ModContent.TileType<AstralDirt>());
             return false;
         }
 
@@ -64,7 +64,7 @@ namespace CalamityMod.Tiles.AstralDesert
         public override int SaplingGrowthType(ref int style)
         {
             style = 0;
-            return mod.TileType("AstralPalmSapling");
+            return ModContent.TileType<AstralPalmSapling>();
         }
     }
 

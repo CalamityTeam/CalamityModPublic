@@ -3,10 +3,9 @@ using Microsoft.Xna.Framework;
 using System;
 using System.IO;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.CeaselessVoid
+using Terraria.ID;
+namespace CalamityMod.NPCs
 {
     public class DarkEnergy2 : ModNPC
     {
@@ -155,7 +154,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
         {
             if (CalamityWorld.revenge)
             {
-                player.AddBuff(mod.BuffType("Horror"), 300, true);
+                player.AddBuff(ModContent.BuffType<Horror>(), 300, true);
             }
         }
 

@@ -1,7 +1,5 @@
-﻿using Microsoft.Xna.Framework;
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Projectiles.Rogue
 {
     public class BlueFlamePillar : ModProjectile

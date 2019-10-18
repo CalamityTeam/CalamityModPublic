@@ -2,10 +2,9 @@
 using System;
 using System.IO;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.NormalNPCs
+using Terraria.ID;
+namespace CalamityMod.NPCs
 {
     public class CrawlerCrystal : ModNPC
     {
@@ -32,7 +31,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.HitSound = SoundID.NPCHit33;
             npc.DeathSound = SoundID.NPCDeath36;
             banner = npc.type;
-            bannerItem = mod.ItemType("CrystalCrawlerBanner");
+            bannerItem = ModContent.ItemType<CrystalCrawlerBanner>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -267,7 +266,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.CrystalShard, Main.rand.Next(2, 5));
             if (Main.rand.NextBool(5))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CrystalBlade"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CrystalBlade>());
             }
         }
     }

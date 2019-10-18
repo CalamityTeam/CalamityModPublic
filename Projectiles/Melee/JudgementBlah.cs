@@ -2,7 +2,6 @@
 using System;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Projectiles.Melee
 {
     public class JudgementBlah : ModProjectile
@@ -42,8 +41,8 @@ namespace CalamityMod.Projectiles.Melee
                     for (i = 0; i < 1; i++)
                     {
                         offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                        int projectile1 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 6f), (float)(Math.Cos(offsetAngle) * 6f), mod.ProjectileType("WhiteOrbBlah"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-                        int projectile2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 6f), (float)(-Math.Cos(offsetAngle) * 6f), mod.ProjectileType("WhiteOrbBlah"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                        int projectile1 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 6f), (float)(Math.Cos(offsetAngle) * 6f), ModContent.ProjectileType<WhiteOrbBlah>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                        int projectile2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 6f), (float)(-Math.Cos(offsetAngle) * 6f), ModContent.ProjectileType<WhiteOrbBlah>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                         Main.projectile[projectile1].velocity.X *= 0.1f;
                         Main.projectile[projectile1].velocity.Y *= 0.1f;
                         Main.projectile[projectile2].velocity.X *= 0.1f;
@@ -99,7 +98,7 @@ namespace CalamityMod.Projectiles.Melee
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 122);
             if (projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y - 100, 0f, 0f, mod.ProjectileType("WhiteBoltAuraBlah"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y - 100, 0f, 0f, ModContent.ProjectileType<WhiteBoltAuraBlah>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
             }
         }
     }

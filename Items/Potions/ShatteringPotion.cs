@@ -1,7 +1,6 @@
 ﻿using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
+using Terraria.ID;
 namespace CalamityMod.Items.Potions
 {
     public class ShatteringPotion : ModItem
@@ -26,7 +25,7 @@ namespace CalamityMod.Items.Potions
             item.useStyle = 2;
             item.UseSound = SoundID.Item3;
             item.consumable = true;
-            item.buffType = mod.BuffType("ArmorShattering");
+            item.buffType = ModContent.BuffType<ArmorShattering>();
             item.buffTime = 18000;
             item.value = Item.buyPrice(0, 2, 0, 0);
         }

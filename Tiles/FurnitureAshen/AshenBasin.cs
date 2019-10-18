@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.FurnitureAshen
@@ -59,7 +59,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 16, 32, mod.ItemType("AshenBasin"));
+            Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<Items.AshenBasin>());
         }
 
         public override void HitWire(int i, int j)

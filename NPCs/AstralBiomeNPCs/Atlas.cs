@@ -1,13 +1,13 @@
 ﻿using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using CalamityMod.Dusts;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.AstralBiomeNPCs
+using Terraria.DataStructures;
+namespace CalamityMod.NPCs
 {
     public class Atlas : ModNPC
     {
@@ -92,7 +92,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             //also it's visuals are messed up on npc spawners etc. because the sheet is 3 wide.
             //not much we can do. looks fine in-game so /shrug
             if (!Main.dedServ)
-                glowmask = mod.GetTexture("NPCs/AstralBiomeNPCs/AtlasGlow");
+                glowmask = ModContent.GetTexture("CalamityMod/NPCs/AstralBiomeNPCs/AtlasGlow");
         }
 
         public override void SetDefaults()
@@ -109,7 +109,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             npc.aiStyle = -1;
             npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AtlasDeath");
             banner = npc.type;
-            bannerItem = mod.ItemType("AtlasBanner");
+            bannerItem = ModContent.ItemType<AtlasBanner>();
             if (CalamityWorld.downedAstrageldon)
             {
                 npc.damage = 100;
@@ -425,7 +425,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
                 }
             }
 
-            CalamityGlobalNPC.DoHitDust(npc, hitDirection, (Main.rand.Next(0, Math.Max(0, npc.life)) == 0) ? 5 : mod.DustType("AstralEnemy"), 1f, 3, 30);
+            CalamityGlobalNPC.DoHitDust(npc, hitDirection, (Main.rand.Next(0, Math.Max(0, npc.life)) == 0) ? 5 : ModContent.DustType<AstralEnemy>(), 1f, 3, 30);
 
             //if dead do gores
             if (npc.life <= 0)
@@ -609,19 +609,19 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(mod.BuffType("AstralInfectionDebuff"), 180, true);
+            player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 180, true);
         }
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Stardust"), Main.rand.Next(6, 9));
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Stardust>(), Main.rand.Next(6, 9));
             if (Main.expertMode)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Stardust"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Stardust>());
             }
             if (CalamityWorld.downedAstrageldon && Main.rand.NextBool(7))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("TitanArm"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<TitanArm>());
             }
         }
     }

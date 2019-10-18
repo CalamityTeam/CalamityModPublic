@@ -2,9 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
+using Terraria.ID;
 namespace CalamityMod.Projectiles.Ranged
 {
     public class BloodfireArrow : ModProjectile
@@ -88,7 +87,7 @@ namespace CalamityMod.Projectiles.Ranged
                 player.statLife += 1;
                 player.HealEffect(1);
             }
-            target.AddBuff(mod.BuffType("BrimstoneFlames"), 360);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 360);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

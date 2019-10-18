@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Tools
 {
@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Tools
             return true;
         }
 
-        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 1f, 0f);
             Main.projectile[proj].extraUpdates = 1;
@@ -54,7 +54,7 @@ namespace CalamityMod.Items.Tools
             if (player.altFunctionUse == 2)
             {
                 item.pick = 0;
-                item.shoot = mod.ProjectileType("CrystalDust");
+                item.shoot = ModContent.ProjectileType<CrystalDust>();
                 item.shootSpeed = PowderSpeed;
                 item.tileBoost = 0;
             }

@@ -1,5 +1,4 @@
 ﻿using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Placeables
 {
     public class Navystone : ModItem
@@ -11,7 +10,7 @@ namespace CalamityMod.Items.Placeables
 
         public override void SetDefaults()
         {
-            item.createTile = mod.TileType("Navystone");
+            item.createTile = ModContent.TileType<Tiles.Navystone>();
             item.useStyle = 1;
             item.useTurn = true;
             item.useAnimation = 15;
@@ -31,7 +30,7 @@ namespace CalamityMod.Items.Placeables
             recipe.SetResult(this);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("EutrophicPlatform"), 2);
+            recipe.AddIngredient(ModContent.ItemType<EutrophicPlatform>(), 2);
             recipe.SetResult(this);
             recipe.AddTile(null, "EutrophicCrafting");
             recipe.AddRecipe();

@@ -1,7 +1,7 @@
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
+using Terraria.ID;
+using CalamityMod.NPCs;
 namespace CalamityMod.Projectiles.Typeless
 {
     public class DarkEnergySpawn : ModProjectile
@@ -30,9 +30,9 @@ namespace CalamityMod.Projectiles.Typeless
 
             if (projectile.ai[1] >= 0)
             {
-                NPC.NewNPC((int)projectile.Center.X - 200, (int)projectile.Center.Y - 200, mod.NPCType("DarkEnergy"));
-                NPC.NewNPC((int)projectile.Center.X + 200, (int)projectile.Center.Y - 200, mod.NPCType("DarkEnergy2"));
-                NPC.NewNPC((int)projectile.Center.X, (int)projectile.Center.Y + 200, mod.NPCType("DarkEnergy3"));
+                NPC.NewNPC((int)projectile.Center.X - 200, (int)projectile.Center.Y - 200, ModContent.NPCType<DarkEnergy>());
+                NPC.NewNPC((int)projectile.Center.X + 200, (int)projectile.Center.Y - 200, ModContent.NPCType<DarkEnergy2>());
+                NPC.NewNPC((int)projectile.Center.X, (int)projectile.Center.Y + 200, ModContent.NPCType<DarkEnergy3>());
                 projectile.ai[1] = -30;
             }
         }

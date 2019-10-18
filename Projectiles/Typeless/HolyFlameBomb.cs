@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Projectiles.Typeless
 {
     public class HolyFlameBomb : ModProjectile
@@ -74,7 +73,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("HolyLight"), 300);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 300);
         }
     }
 }

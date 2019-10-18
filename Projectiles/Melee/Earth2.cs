@@ -2,7 +2,6 @@
 using System;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Projectiles.Melee
 {
     public class Earth2 : ModProjectile
@@ -94,7 +93,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("GlacialState"), 600);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 600);
         }
     }
 }

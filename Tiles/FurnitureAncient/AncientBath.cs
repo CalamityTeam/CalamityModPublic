@@ -1,7 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Tiles.FurnitureAncient
 {
     class AncientBath : ModTile
@@ -29,7 +28,7 @@ namespace CalamityMod.Tiles.FurnitureAncient
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 16, 32, mod.ItemType("AncientBath"));
+            Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<Items.AncientBath>());
         }
     }
 }

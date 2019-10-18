@@ -2,11 +2,10 @@
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.ModLoader;
 using Terraria.GameContent.Achievements;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
-using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Mounts
 {
     class OnyxExcavator : ModMountData
@@ -15,7 +14,7 @@ namespace CalamityMod.Items.Mounts
         {
             mountData.spawnDust = 109;
             mountData.spawnDustNoGravity = true;
-            mountData.buff = mod.BuffType("OnyxExcavatorBuff");
+            mountData.buff = ModContent.BuffType<OnyxExcavatorBuff>();
             mountData.heightBoost = 10;
             mountData.fallDamage = 0f;
             mountData.runSpeed = 8f;
@@ -55,8 +54,8 @@ namespace CalamityMod.Items.Mounts
             mountData.swimFrameStart = mountData.inAirFrameStart;
             if (Main.netMode != NetmodeID.Server)
             {
-                mountData.backTextureExtra = mod.GetTexture("Items/Mounts/OnyxExcavatorExtra");
-                mountData.frontTextureExtra = mod.GetTexture("Items/Mounts/OnyxExcavatorExtra2");
+                mountData.backTextureExtra = ModContent.GetTexture("CalamityMod/Items/Mounts/OnyxExcavatorExtra");
+                mountData.frontTextureExtra = ModContent.GetTexture("CalamityMod/Items/Mounts/OnyxExcavatorExtra2");
                 mountData.textureWidth = mountData.backTexture.Width;
                 mountData.textureHeight = mountData.backTexture.Height;
             }
@@ -136,13 +135,13 @@ namespace CalamityMod.Items.Mounts
                             Tile tile = Framing.GetTileSafely(num824, num825);
                             if (num828 < (double)num814)
                             {
-                                if (tile != null && tile.active() && tile.type != (ushort)mod.TileType("AbyssGravel") &&
-                                    tile.type != (ushort)mod.TileType("Voidstone") && (tile.type != TileID.Hellstone || Main.hardMode) &&
-                                    (tile.type != TileID.LihzahrdBrick || NPC.downedGolemBoss) && (tile.type != TileID.BlueDungeonBrick || NPC.downedBoss3) &&
-                                    (tile.type != TileID.GreenDungeonBrick || NPC.downedBoss3) && (tile.type != TileID.PinkDungeonBrick || NPC.downedBoss3) &&
-									tile.type != TileID.DemonAltar && (tile.type != (ushort)mod.TileType("AstralOre") || CalamityWorld.downedStarGod) &&
-                                    ((tile.type != (ushort)mod.TileType("Tenebris") && tile.type != (ushort)mod.TileType("PlantyMush")) || NPC.downedPlantBoss || CalamityWorld.downedCalamitas) &&
-                                    (!player.Calamity().ZoneSunkenSea || CalamityWorld.downedDesertScourge) && tile.type != (ushort)mod.TileType("ArenaTile") &&
+                                if (tile != null && tile.active() && tile.type != (ushort)ModContent.TileType<Tiles.AbyssGravel>() &&
+                                    tile.type != (ushort)ModContent.TileType<Tiles.Voidstone>() && (tile.type != TileID.Hellstone || Main.hardMode) &&
+                                    (tile.type != TileID.LihzahrdBrick || NPC.downedGolemBoss) && tile.type != TileID.BlueDungeonBrick &&
+                                    tile.type != TileID.GreenDungeonBrick && tile.type != TileID.PinkDungeonBrick && tile.type != TileID.DemonAltar &&
+                                    (tile.type != (ushort)ModContent.TileType<Tiles.AstralOre>() || CalamityWorld.downedStarGod) &&
+                                    ((tile.type != (ushort)ModContent.TileType<Tiles.Tenebris>() && tile.type != (ushort)ModContent.TileType<Tiles.PlantyMush>()) || NPC.downedPlantBoss || CalamityWorld.downedCalamitas) &&
+                                    (!player.Calamity().ZoneSunkenSea || CalamityWorld.downedDesertScourge) &&
                                     (Main.tileValue[tile.type] < tileValueLimit || tile.type == TileID.Heart || tile.type == TileID.LifeFruit) &&
                                     !player.noBuilding && tile.type != TileID.ElderCrystalStand && tile.type != TileID.Containers)
                                 {

@@ -1,9 +1,9 @@
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
+using CalamityMod.Dusts;
+using Terraria.ID;
 namespace CalamityMod.Tiles.Astral
 {
     public class AstralChestLocked : ModTile
@@ -17,11 +17,11 @@ namespace CalamityMod.Tiles.Astral
             name = CreateMapEntryName(Name + "_Locked"); // With multiple map entries, you need unique translation keys.
             name.SetDefault("Locked Astral Chest");
             AddMapEntry(new Color(174, 129, 92), name, MapChestName);
-            dustType = mod.DustType("AstralBasic");
+            dustType = ModContent.DustType<AstralBasic>();
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Containers };
             chest = "Astral Chest";
-            chestDrop = mod.ItemType("AstralChest");
+            chestDrop = ModContent.ItemType<AstralChest>();
         }
 
         public override ushort GetMapOption(int i, int j) => (ushort)(Main.tile[i, j].frameX / 36);

@@ -1,8 +1,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Magic
 {
@@ -104,7 +104,7 @@ namespace CalamityMod.Projectiles.Magic
 
             Vector2 center = projectile.Center - Main.screenPosition;
             Vector2 aura = center + new Vector2(-xRange, yRange);
-            Texture2D texture = mod.GetTexture("ExtraTextures/BlushieStaffAura");
+            Texture2D texture = ModContent.GetTexture("CalamityMod/ExtraTextures/BlushieStaffAura");
             Rectangle frame = new Rectangle(50, 0, 50, 32);
             int count = 2 * xRange / 50;
             SpriteEffects effects = projectile.ai[0] % 30f < 15f ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
@@ -153,7 +153,7 @@ namespace CalamityMod.Projectiles.Magic
             {
                 scale = 4f - 3f * projectile.ai[0] / 60f;
             }
-            texture = mod.GetTexture("ExtraTextures/BlushieStaffGear");
+            texture = ModContent.GetTexture("CalamityMod/ExtraTextures/BlushieStaffGear");
             Vector2 origin = new Vector2(48f, 48f);
             spriteBatch.Draw(texture, center, null, Color.White, projectile.ai[0] / 20f, origin, 1.5f * scale, SpriteEffects.None, 0f);
             spriteBatch.Draw(texture, topLeftGear, null, Color.White, projectile.ai[0] / 10f, origin, scale, SpriteEffects.None, 0f);
@@ -162,7 +162,7 @@ namespace CalamityMod.Projectiles.Magic
             spriteBatch.Draw(texture, bottomRightGear, null, Color.White, projectile.ai[0] / 10f, origin, scale, SpriteEffects.None, 0f);
 
             float seed = projectile.localAI[0];
-            texture = mod.GetTexture("ExtraTextures/BlushieStaffFire");
+            texture = ModContent.GetTexture("CalamityMod/ExtraTextures/BlushieStaffFire");
             Vector2 topLeft = center + new Vector2(-xRange, -yRange);
             for (int k = (int)projectile.ai[0] - 60; k < (int)projectile.ai[0]; k++)
             {
@@ -180,7 +180,7 @@ namespace CalamityMod.Projectiles.Magic
 
         private void DrawChains(SpriteBatch spriteBatch, Vector2 start, Vector2 end, float alpha)
         {
-            Texture2D texture = mod.GetTexture("ExtraTextures/BlushieStaffChain");
+            Texture2D texture = ModContent.GetTexture("CalamityMod/ExtraTextures/BlushieStaffChain");
             Vector2 unit = end - start;
             float distance = unit.Length() - 36f;
             unit.Normalize();

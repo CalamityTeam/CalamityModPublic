@@ -1,9 +1,9 @@
-using CalamityMod.Utilities;
+
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Tiles.SunkenSea
 {
@@ -19,7 +19,7 @@ namespace CalamityMod.Tiles.SunkenSea
 
             TileID.Sets.ChecksForMerge[Type] = true;
             dustType = 108;
-            drop = mod.ItemType("EutrophicSand");
+            drop = ModContent.ItemType<Items.EutrophicSand>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Eutrophic Sand");
             AddMapEntry(new Color(100, 100, 150), name);

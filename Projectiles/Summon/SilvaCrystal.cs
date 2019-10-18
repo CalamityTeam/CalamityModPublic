@@ -3,8 +3,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Summon
 {
@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Summon
                     Main.player[projectile.owner].minionDamage);
                 projectile.damage = damage2;
             }
-            bool flag64 = projectile.type == mod.ProjectileType("SilvaCrystal");
+            bool flag64 = projectile.type == ModContent.ProjectileType<SilvaCrystal>();
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
             if (!modPlayer.silvaSummon)
@@ -195,7 +195,7 @@ namespace CalamityMod.Projectiles.Summon
                                 vector156 = projectile.Center + vector155.RotatedByRandom(0.78539818525314331) * (Main.rand.NextFloat() * 0.5f + 0.75f);
                             }
                             float x4 = Main.rgbToHsl(new Color(Main.DiscoR, 203, 103)).X;
-                            Projectile.NewProjectile(vector156.X, vector156.Y, 0f, 0f, mod.ProjectileType("SilvaCrystalExplosion"), projectile.damage, projectile.knockBack, projectile.owner, x4, (float)projectile.whoAmI);
+                            Projectile.NewProjectile(vector156.X, vector156.Y, 0f, 0f, ModContent.ProjectileType<SilvaCrystalExplosion>(), projectile.damage, projectile.knockBack, projectile.owner, x4, (float)projectile.whoAmI);
                             num31 = num1083;
                         }
                         return;
@@ -211,11 +211,11 @@ namespace CalamityMod.Projectiles.Summon
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Microsoft.Xna.Framework.Color color25 = Lighting.GetColor((int)((double)projectile.position.X + (double)projectile.width * 0.5) / 16, (int)(((double)projectile.position.Y + (double)projectile.height * 0.5) / 16.0));
+            Color color25 = Lighting.GetColor((int)((double)projectile.position.X + (double)projectile.width * 0.5) / 16, (int)(((double)projectile.position.Y + (double)projectile.height * 0.5) / 16.0));
             Vector2 vector59 = projectile.position + new Vector2((float)projectile.width, (float)projectile.height) / 2f + Vector2.UnitY * projectile.gfxOffY - Main.screenPosition;
             Texture2D texture2D34 = Main.projectileTexture[projectile.type];
-            Microsoft.Xna.Framework.Rectangle rectangle17 = texture2D34.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame);
-            Microsoft.Xna.Framework.Color alpha5 = projectile.GetAlpha(color25);
+            Rectangle rectangle17 = texture2D34.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame);
+            Color alpha5 = projectile.GetAlpha(color25);
             Vector2 origin11 = rectangle17.Size() / 2f;
             float scaleFactor5 = (float)Math.Cos((double)(6.28318548f * (projectile.localAI[0] / 60f))) + 3f + 3f;
             for (float num286 = 0f; num286 < 4f; num286 += 1f)

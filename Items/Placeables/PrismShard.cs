@@ -1,6 +1,5 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Placeables
 {
     public class PrismShard : ModItem
@@ -12,7 +11,7 @@ namespace CalamityMod.Items.Placeables
 
         public override void SetDefaults()
         {
-            item.createTile = mod.TileType("SeaPrismCrystals");
+            item.createTile = ModContent.TileType<SeaPrismCrystals>();
             item.useStyle = 1;
             item.useTurn = true;
             item.useAnimation = 15;

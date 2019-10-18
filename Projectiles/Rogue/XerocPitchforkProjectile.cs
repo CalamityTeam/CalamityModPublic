@@ -2,9 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
+using Terraria.ID;
 namespace CalamityMod.Projectiles.Rogue
 {
     public class XerocPitchforkProjectile : ModProjectile
@@ -52,7 +51,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (Main.rand.NextBool(2))
             {
-                Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, mod.ItemType("XerocPitchfork"));
+                Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, ModContent.ItemType<XerocPitchfork>());
             }
         }
 

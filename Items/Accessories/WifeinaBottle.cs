@@ -1,7 +1,6 @@
 using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Accessories
 {
     public class WifeinaBottle : ModItem
@@ -37,13 +36,13 @@ namespace CalamityMod.Items.Accessories
             modPlayer.sandWaifu = true;
             if (player.whoAmI == Main.myPlayer)
             {
-                if (player.FindBuffIndex(mod.BuffType("SandyWaifu")) == -1)
+                if (player.FindBuffIndex(ModContent.BuffType<SandyWaifu>()) == -1)
                 {
-                    player.AddBuff(mod.BuffType("SandyWaifu"), 3600, true);
+                    player.AddBuff(ModContent.BuffType<SandyWaifu>(), 3600, true);
                 }
-                if (player.ownedProjectileCounts[mod.ProjectileType("SandyWaifu")] < 1)
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<SandElementalMinion>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("SandyWaifu"), (int)(45f * player.minionDamage), 2f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<SandElementalMinion>(), (int)(45f * player.minionDamage), 2f, Main.myPlayer, 0f, 0f);
                 }
             }
         }

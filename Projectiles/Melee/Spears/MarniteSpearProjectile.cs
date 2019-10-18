@@ -1,8 +1,7 @@
 ﻿using System;
 using Terraria;
 using Terraria.ModLoader;
-
-namespace CalamityMod.Projectiles.Melee.Spears
+namespace CalamityMod.Projectiles.Melee
 {
     public class MarniteSpearProjectile : ModProjectile
     {

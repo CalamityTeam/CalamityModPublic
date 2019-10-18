@@ -1,5 +1,4 @@
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Placeables.FurniturePlaguedPlate
 {
     public class PlaguedPlateWall : ModItem
@@ -19,7 +18,7 @@ namespace CalamityMod.Items.Placeables.FurniturePlaguedPlate
             item.useTime = 7;
             item.useStyle = 1;
             item.consumable = true;
-            item.createWall = mod.WallType("PlaguedPlateWall");
+            item.createWall = ModContent.WallType<Walls.PlaguedPlateWall>();
         }
 
         public override void AddRecipes()

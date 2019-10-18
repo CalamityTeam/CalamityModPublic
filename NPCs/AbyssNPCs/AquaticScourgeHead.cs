@@ -1,5 +1,4 @@
-﻿using CalamityMod.Utilities;
-using CalamityMod.World;
+﻿using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
@@ -7,7 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.NPCs.AbyssNPCs
+namespace CalamityMod.NPCs
 {
     [AutoloadBossHead]
     public class AquaticScourgeHead : ModNPC
@@ -51,7 +50,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
             npc.netAlways = true;
-            bossBag = mod.ItemType("AquaticScourgeBag");
+            bossBag = ModContent.ItemType<AquaticScourgeBag>();
             if (Main.expertMode)
             {
                 npc.scale = 1.15f;
@@ -113,16 +112,16 @@ namespace CalamityMod.NPCs.AbyssNPCs
                         {
                             if (num36 % 2 == 0)
                             {
-                                lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("AquaticScourgeBody"), npc.whoAmI);
+                                lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<AquaticScourgeBody>(), npc.whoAmI);
                             }
                             else
                             {
-                                lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("AquaticScourgeBodyAlt"), npc.whoAmI);
+                                lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<AquaticScourgeBodyAlt>(), npc.whoAmI);
                             }
                         }
                         else
                         {
-                            lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("AquaticScourgeTail"), npc.whoAmI);
+                            lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<AquaticScourgeTail>(), npc.whoAmI);
                         }
                         Main.npc[lol].realLife = npc.whoAmI;
                         Main.npc[lol].ai[2] = (float)npc.whoAmI;
@@ -149,17 +148,17 @@ namespace CalamityMod.NPCs.AbyssNPCs
                             int random = Main.rand.Next(3);
                             Main.PlaySound(3, (int)npc.Center.X, (int)npc.Center.Y, 8);
                             Vector2 spawnAt = npc.Center + new Vector2(0f, (float)npc.height / 2f);
-                            if (random == 0 && NPC.CountNPCS(mod.NPCType("AquaticSeekerHead")) < 1)
+                            if (random == 0 && NPC.CountNPCS(ModContent.NPCType<AquaticSeekerHead>()) < 1)
                             {
-                                NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, mod.NPCType("AquaticSeekerHead"));
+                                NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<AquaticSeekerHead>());
                             }
-                            else if (random == 1 && NPC.CountNPCS(mod.NPCType("AquaticUrchin")) < 3)
+                            else if (random == 1 && NPC.CountNPCS(ModContent.NPCType<AquaticUrchin>()) < 3)
                             {
-                                NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, mod.NPCType("AquaticUrchin"));
+                                NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<AquaticUrchin>());
                             }
-                            else if (NPC.CountNPCS(mod.NPCType("AquaticParasite")) < 8)
+                            else if (NPC.CountNPCS(ModContent.NPCType<AquaticParasite>()) < 8)
                             {
-                                NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, mod.NPCType("AquaticParasite"));
+                                NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<AquaticParasite>());
                             }
                         }
                     }
@@ -226,7 +225,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
             {
                 npc.alpha = 0;
             }
-            if (!NPC.AnyNPCs(mod.NPCType("AquaticScourgeTail")))
+            if (!NPC.AnyNPCs(ModContent.NPCType<AquaticScourgeTail>()))
             {
                 npc.active = false;
             }
@@ -470,8 +469,8 @@ namespace CalamityMod.NPCs.AbyssNPCs
 
                 for (iBoom = 0; iBoom < 15; iBoom++)
                 {
-                    int projectileType = Main.rand.NextBool(2) ? mod.ProjectileType("SandTooth") : mod.ProjectileType("SandBlast");
-                    if (projectileType == mod.ProjectileType("SandTooth"))
+                    int projectileType = Main.rand.NextBool(2) ? ModContent.ProjectileType<SandTooth>() : ModContent.ProjectileType<SandBlast>();
+                    if (projectileType == ModContent.ProjectileType<SandTooth>())
                     {
                         damageBoom = Main.expertMode ? 25 : 30;
                     }
@@ -487,7 +486,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
                     Vector2 vector15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
                     vector15.Normalize();
                     vector15 *= (float)Main.rand.Next(50, 401) * (CalamityWorld.bossRushActive ? 0.02f : 0.01f);
-                    Projectile.NewProjectile(npc.Center.X, npc.Center.Y, vector15.X, vector15.Y, mod.ProjectileType("SandPoisonCloud"), damageBoom, 0f, Main.myPlayer, 0f, (float)Main.rand.Next(-45, 1));
+                    Projectile.NewProjectile(npc.Center.X, npc.Center.Y, vector15.X, vector15.Y, ModContent.ProjectileType<SandPoisonCloud>(), damageBoom, 0f, Main.myPlayer, 0f, (float)Main.rand.Next(-45, 1));
                     num3 = num321;
                 }
             }
@@ -536,7 +535,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
             }
             if (spawnInfo.player.Calamity().ZoneSulphur && spawnInfo.water)
             {
-                if (!NPC.AnyNPCs(mod.NPCType("AquaticScourgeHead")))
+                if (!NPC.AnyNPCs(ModContent.NPCType<AquaticScourgeHead>()))
                     return 0.01f;
             }
             return 0f;
@@ -544,16 +543,16 @@ namespace CalamityMod.NPCs.AbyssNPCs
 
         public override void BossLoot(ref string name, ref int potionType)
         {
-            potionType = mod.ItemType("SulphurousSand");
+            potionType = ModContent.ItemType<SulphurousSand>();
         }
 
         public override bool SpecialNPCLoot()
         {
             int closestSegmentID = DropHelper.FindClosestWormSegment(npc,
-                mod.NPCType("AquaticScourgeHead"),
-                mod.NPCType("AquaticScourgeBody"),
-                mod.NPCType("AquaticScourgeBodyAlt"),
-                mod.NPCType("AquaticScourgeTail"));
+                ModContent.NPCType<AquaticScourgeHead>(),
+                ModContent.NPCType<AquaticScourgeBody>(),
+                ModContent.NPCType<AquaticScourgeBodyAlt>(),
+                ModContent.NPCType<AquaticScourgeTail>());
             npc.position = Main.npc[closestSegmentID].position;
             return false;
         }
@@ -564,8 +563,8 @@ namespace CalamityMod.NPCs.AbyssNPCs
 
             DropHelper.DropItem(npc, ItemID.GreaterHealingPotion, 8, 14);
             // there is no Aquatic Scourge trophy yet
-            DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeAquaticScourge"), true, !CalamityWorld.downedAquaticScourge);
-            DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeSulphurSea"), true, !CalamityWorld.downedAquaticScourge);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeAquaticScourge>(), true, !CalamityWorld.downedAquaticScourge);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeSulphurSea>(), true, !CalamityWorld.downedAquaticScourge);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedAquaticScourge, 4, 2, 1);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
@@ -573,19 +572,19 @@ namespace CalamityMod.NPCs.AbyssNPCs
             {
                 // Materials
                 DropHelper.DropItemCondition(npc, ItemID.SoulofSight, Main.hardMode, 20, 40);
-                DropHelper.DropItem(npc, mod.ItemType("VictoryShard"), 11, 20);
+                DropHelper.DropItem(npc, ModContent.ItemType<VictoryShard>(), 11, 20);
                 DropHelper.DropItem(npc, ItemID.Coral, 5, 9);
                 DropHelper.DropItem(npc, ItemID.Seashell, 5, 9);
                 DropHelper.DropItem(npc, ItemID.Starfish, 5, 9);
 
                 // Weapons (Hardmode only)
-                DropHelper.DropItemCondition(npc, mod.ItemType("SubmarineShocker"), Main.hardMode, 4, 1, 1);
-                DropHelper.DropItemCondition(npc, mod.ItemType("Barinautical"), Main.hardMode, 4, 1, 1);
-                DropHelper.DropItemCondition(npc, mod.ItemType("Downpour"), Main.hardMode, 4, 1, 1);
-                DropHelper.DropItemCondition(npc, mod.ItemType("DeepseaStaff"), Main.hardMode, 4, 1, 1);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<SubmarineShocker>(), Main.hardMode, 4, 1, 1);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<Barinautical>(), Main.hardMode, 4, 1, 1);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<Downpour>(), Main.hardMode, 4, 1, 1);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<DeepseaStaff>(), Main.hardMode, 4, 1, 1);
 
                 // Equipment
-                DropHelper.DropItemChance(npc, mod.ItemType("AeroStone"), 9);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<AeroStone>(), 9);
 
                 // Vanity
                 // there is no Aquatic Scourge mask yet
@@ -664,7 +663,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
             player.AddBuff(BuffID.Venom, 360, true);
             if (CalamityWorld.revenge)
             {
-                player.AddBuff(mod.BuffType("MarkedforDeath"), 180);
+                player.AddBuff(ModContent.BuffType<MarkedforDeath>(), 180);
             }
         }
     }

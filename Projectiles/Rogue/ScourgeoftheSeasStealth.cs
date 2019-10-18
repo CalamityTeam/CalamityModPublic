@@ -2,9 +2,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
+using Terraria.ID;
+using CalamityMod.NPCs;
 namespace CalamityMod.Projectiles.Rogue
 {
     public class ScourgeoftheSeasStealth : ModProjectile
@@ -178,11 +178,11 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (target.type == mod.NPCType("Cryogen") || target.type == mod.NPCType("Brimstone Elemental") || target.type == NPCID.SkeletronPrime)
+            if (target.type == ModContent.NPCType<Cryogen>() || target.type == ModContent.NPCType<BrimstoneElemental>() || target.type == NPCID.SkeletronPrime)
             {
                 target.buffImmune[BuffID.Venom] = false;
             }
-            else if (target.buffImmune[BuffID.Venom] && !target.boss && target.aiStyle != 6 && target.type != mod.NPCType("EidolonWyrmHeadHuge"))
+            else if (target.buffImmune[BuffID.Venom] && !target.boss && target.aiStyle != 6 && target.type != ModContent.NPCType<EidolonWyrmHeadHuge>())
             {
                 target.buffImmune[BuffID.Venom] = false;
             }
@@ -206,7 +206,7 @@ namespace CalamityMod.Projectiles.Rogue
                     Vector2 vector15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
                     vector15.Normalize();
                     vector15 *= (float)Main.rand.Next(10, 201) * 0.01f;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector15.X, vector15.Y, mod.ProjectileType("ScourgeVenomCloud"), (int)((double)projectile.damage * 0.50), 1f, projectile.owner, 0f, (float)Main.rand.Next(-45, 1));
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector15.X, vector15.Y, ModContent.ProjectileType<ScourgeVenomCloud>(), (int)((double)projectile.damage * 0.50), 1f, projectile.owner, 0f, (float)Main.rand.Next(-45, 1));
                     num3 = num321;
                 }
             }

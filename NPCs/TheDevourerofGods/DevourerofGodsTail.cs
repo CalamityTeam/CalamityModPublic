@@ -1,11 +1,10 @@
 ﻿using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.Localization;
-using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.TheDevourerofGods
+namespace CalamityMod.NPCs
 {
     [AutoloadBossHead]
     public class DevourerofGodsTail : ModNPC
@@ -212,8 +211,8 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(mod.BuffType("GodSlayerInferno"), 180, true);
-            player.AddBuff(mod.BuffType("WhisperingDeath"), 240, true);
+            player.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 180, true);
+            player.AddBuff(ModContent.BuffType<WhisperingDeath>(), 240, true);
             int num = Main.rand.Next(2);
             string key = "Mods.CalamityMod.EdgyBossText8";
             if (num == 0)

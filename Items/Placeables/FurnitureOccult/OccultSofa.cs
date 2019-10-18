@@ -1,6 +1,5 @@
 using Terraria.ID;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Placeables.FurnitureOccult
 {
     public class OccultSofa : ModItem
@@ -21,7 +20,7 @@ namespace CalamityMod.Items.Placeables.FurnitureOccult
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = mod.TileType("OccultSofa");
+            item.createTile = ModContent.TileType<Tiles.OccultSofa>();
         }
 
         public override void AddRecipes()

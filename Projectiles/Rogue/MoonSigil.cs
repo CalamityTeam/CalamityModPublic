@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Projectiles.Rogue
 {
     public class MoonSigil : ModProjectile
@@ -24,7 +23,6 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.timeLeft = 250;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 2;
-            Mod calamity = ModLoader.GetMod("CalamityMod");
             projectile.Calamity().rogue = true;
         }
 
@@ -36,7 +34,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D texture = mod.GetTexture("Projectiles/Rogue/MoonSigil");
+            Texture2D texture = ModContent.GetTexture("CalamityMod/Projectiles/Rogue/MoonSigil");
             spriteBatch.Draw
             (
                 texture,

@@ -2,10 +2,9 @@
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.NormalNPCs
+using Terraria.ID;
+namespace CalamityMod.NPCs
 {
     public class PhantomSpiritL : ModNPC
     {
@@ -31,8 +30,8 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.DeathSound = SoundID.NPCDeath39;
             npc.noGravity = true;
             npc.noTileCollide = true;
-            banner = mod.NPCType("PhantomSpirit");
-            bannerItem = mod.ItemType("PhantomSpiritBanner");
+            banner = ModContent.NPCType<PhantomSpirit>();
+            bannerItem = ModContent.ItemType<PhantomSpiritBanner>();
         }
 
         public override void FindFrame(int frameHeight)
@@ -93,7 +92,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 {
                     float num151 = 5f;
                     int num152 = Main.expertMode ? 53 : 65;
-                    int num153 = mod.ProjectileType("PhantomGhostShot");
+                    int num153 = ModContent.ProjectileType<PhantomGhostShot>();
                     num149 = num151 / num149;
                     num147 *= num149;
                     num148 *= num149;
@@ -106,7 +105,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             if (CalamityWorld.revenge)
             {
-                player.AddBuff(mod.BuffType("MarkedforDeath"), 180);
+                player.AddBuff(ModContent.BuffType<MarkedforDeath>(), 180);
             }
         }
 
@@ -136,7 +135,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Phantoplasm"), Main.rand.Next(2, 5));
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Phantoplasm>(), Main.rand.Next(2, 5));
         }
     }
 }

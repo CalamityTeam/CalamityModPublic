@@ -1,6 +1,5 @@
 using Terraria.ID;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Placeables.FurniturePlaguedPlate
 {
     public class PlagueInfuser : ModItem
@@ -21,7 +20,7 @@ namespace CalamityMod.Items.Placeables.FurniturePlaguedPlate
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = mod.TileType("PlagueInfuser");
+            item.createTile = ModContent.TileType<Tiles.PlagueInfuser>();
         }
 
         public override void AddRecipes()

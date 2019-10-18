@@ -2,7 +2,6 @@
 using System;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Projectiles.Typeless
 {
     public class VanquisherArrow2 : ModProjectile
@@ -61,7 +60,9 @@ namespace CalamityMod.Projectiles.Typeless
             }
         }
 
-        /*public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        // TODO -- Vanquisher Arrow duplicate projectile glow doesn't work.
+        /*
+        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Vector2 origin = new Vector2(0f, 0f);
             Color color = new Color(0, 0, 0, 0);
@@ -71,8 +72,9 @@ namespace CalamityMod.Projectiles.Typeless
                 byte a2 = (byte)(100f * ((float)b2 / 255f));
                 color = new Color((int)b2, (int)b2, (int)b2, (int)a2);
             }
-            spriteBatch.Draw(mod.GetTexture("Projectiles/Typeless/VanquisherArrow2Glow"), projectile.Center - Main.screenPosition, null, color, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
-        }*/
+            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Typeless/VanquisherArrow2Glow"), projectile.Center - Main.screenPosition, null, color, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
+        }
+        */
 
         public override Color? GetAlpha(Color lightColor)
         {
@@ -87,7 +89,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("GodSlayerInferno"), 300);
+            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
         }
     }
 }

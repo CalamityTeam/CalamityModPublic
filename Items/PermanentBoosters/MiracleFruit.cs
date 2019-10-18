@@ -1,7 +1,7 @@
 ﻿using CalamityMod.CalPlayer;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.PermanentBoosters
 {
@@ -10,7 +10,8 @@ namespace CalamityMod.Items.PermanentBoosters
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Miracle Fruit");
-            Tooltip.SetDefault("Permanently increases maximum life by 25\n" +
+            Tooltip.SetDefault("Refreshing and cool, perhaps even a bit minty\n" +
+                               "Permanently increases maximum life by 25\n" +
                                "Can only be used if the max amount of life fruit has been consumed");
         }
 

@@ -2,8 +2,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -92,7 +92,7 @@ namespace CalamityMod.Projectiles.Ranged
             }
             if (projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, mod.ProjectileType("OMGWTH"), (int)((double)projectile.damage * 0.8), 1f, projectile.owner);
+                Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, ModContent.ProjectileType<OMGWTH>(), (int)((double)projectile.damage * 0.8), 1f, projectile.owner);
             }
         }
     }

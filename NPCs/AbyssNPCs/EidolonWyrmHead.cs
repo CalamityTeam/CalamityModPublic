@@ -7,7 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.NPCs.AbyssNPCs
+namespace CalamityMod.NPCs
 {
     public class EidolonWyrmHead : ModNPC
     {
@@ -48,7 +48,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
             npc.netAlways = true;
             npc.rarity = 2;
             banner = npc.type;
-            bannerItem = mod.ItemType("EidolonWyrmJuvenileBanner");
+            bannerItem = ModContent.ItemType<EidolonWyrmJuvenileBanner>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -111,16 +111,16 @@ namespace CalamityMod.NPCs.AbyssNPCs
                         {
                             if (num36 % 2 == 0)
                             {
-                                lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("EidolonWyrmBody"), npc.whoAmI);
+                                lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<EidolonWyrmBody>(), npc.whoAmI);
                             }
                             else
                             {
-                                lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("EidolonWyrmBodyAlt"), npc.whoAmI);
+                                lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<EidolonWyrmBodyAlt>(), npc.whoAmI);
                             }
                         }
                         else
                         {
-                            lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("EidolonWyrmTail"), npc.whoAmI);
+                            lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<EidolonWyrmTail>(), npc.whoAmI);
                         }
                         Main.npc[lol].realLife = npc.whoAmI;
                         Main.npc[lol].ai[2] = (float)npc.whoAmI;
@@ -220,7 +220,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
             {
                 npc.alpha = 0;
             }
-            if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 6400f || !NPC.AnyNPCs(mod.NPCType("EidolonWyrmTail")) || !Main.player[npc.target].Calamity().ZoneAbyss)
+            if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 6400f || !NPC.AnyNPCs(ModContent.NPCType<EidolonWyrmTail>()) || !Main.player[npc.target].Calamity().ZoneAbyss)
             {
                 npc.active = false;
             }
@@ -455,21 +455,21 @@ namespace CalamityMod.NPCs.AbyssNPCs
             Vector2 center = new Vector2(npc.Center.X, npc.Center.Y);
             Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
             Vector2 vector = center - Main.screenPosition;
-            vector -= new Vector2((float)mod.GetTexture("NPCs/AbyssNPCs/EidolonWyrmHeadGlow").Width, (float)(mod.GetTexture("NPCs/AbyssNPCs/EidolonWyrmHeadGlow").Height / Main.npcFrameCount[npc.type])) * 1f / 2f;
+            vector -= new Vector2((float)ModContent.GetTexture("CalamityMod/NPCs/AbyssNPCs/EidolonWyrmHeadGlow").Width, (float)(ModContent.GetTexture("CalamityMod/NPCs/AbyssNPCs/EidolonWyrmHeadGlow").Height / Main.npcFrameCount[npc.type])) * 1f / 2f;
             vector += vector11 * 1f + new Vector2(0f, 0f + 4f + npc.gfxOffY);
-            Microsoft.Xna.Framework.Color color = new Microsoft.Xna.Framework.Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.LightYellow);
-            Main.spriteBatch.Draw(mod.GetTexture("NPCs/AbyssNPCs/EidolonWyrmHeadGlow"), vector,
+            Color color = new Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.LightYellow);
+            Main.spriteBatch.Draw(ModContent.GetTexture("CalamityMod/NPCs/AbyssNPCs/EidolonWyrmHeadGlow"), vector,
                 new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, vector11, 1f, spriteEffects, 0f);
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.player.Calamity().ZoneAbyssLayer3 && spawnInfo.water && !NPC.AnyNPCs(mod.NPCType("EidolonWyrmHead")) &&
-                !NPC.AnyNPCs(mod.NPCType("Reaper")) && !NPC.AnyNPCs(mod.NPCType("ColossalSquid")))
+            if (spawnInfo.player.Calamity().ZoneAbyssLayer3 && spawnInfo.water && !NPC.AnyNPCs(ModContent.NPCType<EidolonWyrmHead>()) &&
+                !NPC.AnyNPCs(ModContent.NPCType<Reaper>()) && !NPC.AnyNPCs(ModContent.NPCType<ColossalSquid>()))
             {
                 return SpawnCondition.CaveJellyfish.Chance * 0.3f;
             }
-            if (spawnInfo.player.Calamity().ZoneAbyssLayer4 && spawnInfo.water && !NPC.AnyNPCs(mod.NPCType("EidolonWyrmHead")))
+            if (spawnInfo.player.Calamity().ZoneAbyssLayer4 && spawnInfo.water && !NPC.AnyNPCs(ModContent.NPCType<EidolonWyrmHead>()))
             {
                 return SpawnCondition.CaveJellyfish.Chance * 0.6f;
             }
@@ -478,31 +478,31 @@ namespace CalamityMod.NPCs.AbyssNPCs
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Voidstone"), Main.rand.Next(30, 41));
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Voidstone>(), Main.rand.Next(30, 41));
             Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.BlueLunaticHood);
             Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.BlueLunaticRobe);
             if (Main.rand.NextBool(10000) && CalamityWorld.revenge)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("HalibutCannon"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<HalibutCannon>());
             }
             if (CalamityWorld.downedPolterghast)
             {
                 if (Main.rand.NextBool(3))
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SoulEdge"));
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<SoulEdge>());
                 }
                 if (Main.rand.NextBool(3))
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EidolicWail"));
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EidolicWail>());
                 }
             }
             if (NPC.downedPlantBoss || CalamityWorld.downedCalamitas)
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Ectoplasm, Main.rand.Next(8, 13));
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Lumenite"), Main.rand.Next(6, 9));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Lumenite>(), Main.rand.Next(6, 9));
                 if (Main.expertMode && Main.rand.NextBool(2))
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Lumenite"), Main.rand.Next(2, 4));
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Lumenite>(), Main.rand.Next(2, 4));
                 }
             }
         }
@@ -550,11 +550,11 @@ namespace CalamityMod.NPCs.AbyssNPCs
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(mod.BuffType("CrushDepth"), 1200, true);
+            player.AddBuff(ModContent.BuffType<CrushDepth>(), 1200, true);
             if (CalamityWorld.revenge)
             {
-                player.AddBuff(mod.BuffType("Horror"), 600, true);
-                player.AddBuff(mod.BuffType("MarkedforDeath"), 600);
+                player.AddBuff(ModContent.BuffType<Horror>(), 600, true);
+                player.AddBuff(ModContent.BuffType<MarkedforDeath>(), 600);
             }
         }
     }

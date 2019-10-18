@@ -2,10 +2,9 @@
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.Leviathan
+using Terraria.ID;
+namespace CalamityMod.NPCs
 {
     public class AquaticAberration : ModNPC
     {
@@ -35,7 +34,7 @@ namespace CalamityMod.NPCs.Leviathan
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
             banner = npc.type;
-            bannerItem = mod.ItemType("AquaticAberrationBanner");
+            bannerItem = ModContent.ItemType<AquaticAberrationBanner>();
         }
 
         public override void FindFrame(int frameHeight)
@@ -199,7 +198,7 @@ namespace CalamityMod.NPCs.Leviathan
             player.AddBuff(BuffID.Wet, 120, true);
             if (CalamityWorld.revenge)
             {
-                player.AddBuff(mod.BuffType("MarkedforDeath"), 120);
+                player.AddBuff(ModContent.BuffType<MarkedforDeath>(), 120);
             }
         }
 

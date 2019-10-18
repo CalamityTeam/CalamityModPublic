@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework;
 using Terraria.ID;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Walls
 {
     public class AstralSandstoneWall : ModWall
@@ -16,7 +15,7 @@ namespace CalamityMod.Walls
         public override void SetDefaults()
         {
             dustType = DustID.Shadowflame; //TODO
-            drop = mod.ItemType("AstralSandstoneWall");
+            drop = ModContent.ItemType<Items.AstralSandstoneWall>();
 
             WallID.Sets.Conversion.Sandstone[Type] = true;
 

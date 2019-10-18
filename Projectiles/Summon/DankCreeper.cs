@@ -3,8 +3,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Summon
 {
@@ -62,10 +62,10 @@ namespace CalamityMod.Projectiles.Summon
                     Main.player[projectile.owner].minionDamage);
                 projectile.damage = damage2;
             }
-            bool flag64 = projectile.type == mod.ProjectileType("DankCreeper");
+            bool flag64 = projectile.type == ModContent.ProjectileType<DankCreeper>();
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            player.AddBuff(mod.BuffType("DankCreeper"), 3600);
+            player.AddBuff(ModContent.BuffType<Buffs.DankCreeper>(), 3600);
             if (flag64)
             {
                 if (player.dead)
@@ -81,7 +81,7 @@ namespace CalamityMod.Projectiles.Summon
             for (int num534 = 0; num534 < 1000; num534 = num3 + 1)
             {
                 if (num534 != projectile.whoAmI && Main.projectile[num534].active && Main.projectile[num534].owner == projectile.owner &&
-                    Main.projectile[num534].type == mod.ProjectileType("DankCreeper") &&
+                    Main.projectile[num534].type == ModContent.ProjectileType<DankCreeper>() &&
                     Math.Abs(projectile.position.X - Main.projectile[num534].position.X) + Math.Abs(projectile.position.Y - Main.projectile[num534].position.Y) < (float)projectile.width)
                 {
                     if (projectile.position.X < Main.projectile[num534].position.X)

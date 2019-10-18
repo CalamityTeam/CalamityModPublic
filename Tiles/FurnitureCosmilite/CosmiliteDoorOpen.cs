@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Tiles.FurnitureCosmilite
 {
@@ -15,7 +15,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
             AddMapEntry(new Color(191, 142, 111), name);
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.OpenDoor };
-            closeDoorID = mod.TileType("CosmiliteDoorClosed");
+            closeDoorID = ModContent.TileType<CosmiliteDoorClosed>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -37,7 +37,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 32, 48, mod.ItemType("CosmiliteDoor"));
+            Item.NewItem(i * 16, j * 16, 32, 48, ModContent.ItemType<Items.CosmiliteDoor>());
         }
 
         public override void MouseOver(int i, int j)
@@ -45,7 +45,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
             Player player = Main.LocalPlayer;
             player.noThrow = 2;
             player.showItemIcon = true;
-            player.showItemIcon2 = mod.ItemType("CosmiliteDoor");
+            player.showItemIcon2 = ModContent.ItemType<Items.CosmiliteDoor>();
         }
     }
 }

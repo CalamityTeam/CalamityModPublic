@@ -1,9 +1,9 @@
-using CalamityMod.Utilities;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Tiles.FurnitureStratus
 {
@@ -20,7 +20,7 @@ namespace CalamityMod.Tiles.FurnitureStratus
             soundType = 21;
             mineResist = 5f;
             minPick = 250;
-            drop = mod.ItemType("StratusBricks");
+            drop = ModContent.ItemType<Items.StratusBricks>();
             AddMapEntry(new Color(53, 57, 74));
         }
 
@@ -40,7 +40,7 @@ namespace CalamityMod.Tiles.FurnitureStratus
         {
             int xPos = Main.tile[i, j].frameX;
             int yPos = Main.tile[i, j].frameY;
-            Texture2D glowmask = mod.GetTexture("Tiles/FurnitureStratus/StratusBricks_Glowmask");
+            Texture2D glowmask = ModContent.GetTexture("CalamityMod/Tiles/FurnitureStratus/StratusBricksGlow");
             Color drawColour = GetDrawColour(i, j, new Color(100, 100, 100, 100));
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;

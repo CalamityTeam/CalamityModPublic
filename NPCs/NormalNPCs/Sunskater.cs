@@ -1,10 +1,9 @@
 ﻿using System;
 using System.IO;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.NormalNPCs
+using Terraria.ID;
+namespace CalamityMod.NPCs
 {
     public class Sunskater : ModNPC
     {
@@ -32,7 +31,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/Sunskater");
             npc.knockBackResist = 0.7f;
             banner = npc.type;
-            bannerItem = mod.ItemType("SunskaterBanner");
+            bannerItem = ModContent.ItemType<SunskaterBanner>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -227,14 +226,14 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             player.AddBuff(BuffID.OnFire, 120, true);
-            player.AddBuff(mod.BuffType("HolyLight"), 120, true);
+            player.AddBuff(ModContent.BuffType<HolyFlames>(), 120, true);
         }
 
         public override void NPCLoot()
         {
             if (Main.hardMode && Main.rand.NextBool(3))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EssenceofCinder"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EssenceofCinder>());
             }
         }
 

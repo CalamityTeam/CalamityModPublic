@@ -1,9 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
+using Terraria.ID;
 namespace CalamityMod.Projectiles.Melee
 {
     public class TemporalFloeSwordProjectile : ModProjectile
@@ -68,7 +67,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             if (Main.rand.NextBool(3))
             {
-                target.AddBuff(mod.BuffType("GlacialState"), 120);
+                target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
             }
             target.AddBuff(BuffID.Frostburn, 240);
         }

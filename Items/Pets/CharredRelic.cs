@@ -1,7 +1,6 @@
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
+using Terraria.ID;
 namespace CalamityMod.Items.Pets
 {
     public class CharredRelic : ModItem
@@ -14,8 +13,8 @@ namespace CalamityMod.Items.Pets
 
         public override void SetDefaults()
         {
-            item.shoot = mod.ProjectileType("Brimgling");
-            item.buffType = mod.BuffType("BrimlingBuff");
+            item.shoot = ModContent.ProjectileType<BrimlingPet>();
+            item.buffType = ModContent.BuffType<BrimlingBuff>();
             item.rare = 4;
             item.UseSound = SoundID.NPCHit51;
         }

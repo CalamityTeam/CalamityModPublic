@@ -1,5 +1,4 @@
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Placeables.FurnitureEutrophic
 {
     public class SmoothNavystoneWall : ModItem
@@ -19,13 +18,13 @@ namespace CalamityMod.Items.Placeables.FurnitureEutrophic
             item.useTime = 7;
             item.useStyle = 1;
             item.consumable = true;
-            item.createWall = mod.WallType("SmoothNavystoneWall");
+            item.createWall = ModContent.WallType<Walls.SmoothNavystoneWall>();
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("SmoothNavystone"));
+            recipe.AddIngredient(ModContent.ItemType<SmoothNavystone>());
             recipe.SetResult(this, 4);
             recipe.AddTile(18);
             recipe.AddRecipe();

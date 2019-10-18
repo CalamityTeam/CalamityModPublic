@@ -1,5 +1,4 @@
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Placeables.FurnitureCosmilite
 {
     public class CosmiliteBrickWall : ModItem
@@ -19,7 +18,7 @@ namespace CalamityMod.Items.Placeables.FurnitureCosmilite
             item.useTime = 7;
             item.useStyle = 1;
             item.consumable = true;
-            item.createWall = mod.WallType("CosmiliteBrickWall");
+            item.createWall = ModContent.WallType<Walls.CosmiliteBrickWall>();
         }
 
         public override void AddRecipes()

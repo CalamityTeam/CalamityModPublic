@@ -1,8 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
+using Terraria.ID;
 namespace CalamityMod.Projectiles.Melee
 {
     public class BiomeOrb : ModProjectile
@@ -102,15 +101,15 @@ namespace CalamityMod.Projectiles.Melee
             bool hell = player.ZoneUnderworldHeight;
             if (jungle)
             {
-                target.AddBuff(mod.BuffType("Plague"), 180);
+                target.AddBuff(ModContent.BuffType<Plague>(), 180);
             }
             else if (snow)
             {
-                target.AddBuff(mod.BuffType("GlacialState"), 180);
+                target.AddBuff(ModContent.BuffType<GlacialState>(), 180);
             }
             else if (beach)
             {
-                target.AddBuff(mod.BuffType("CrushDepth"), 180);
+                target.AddBuff(ModContent.BuffType<CrushDepth>(), 180);
             }
             else if (dungeon)
             {
@@ -118,19 +117,19 @@ namespace CalamityMod.Projectiles.Melee
             }
             else if (desert)
             {
-                target.AddBuff(mod.BuffType("HolyLight"), 180);
+                target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
             }
             else if (glow)
             {
-                target.AddBuff(mod.BuffType("TemporalSadness"), 180);
+                target.AddBuff(ModContent.BuffType<TemporalSadness>(), 180);
             }
             else if (hell)
             {
-                target.AddBuff(mod.BuffType("BrimstoneFlames"), 180);
+                target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
             }
             else
             {
-                target.AddBuff(mod.BuffType("ArmorCrunch"), 180);
+                target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 180);
             }
         }
     }

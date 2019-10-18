@@ -2,7 +2,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Tiles.FurnitureAshen
 {
     public class AshenSlab : ModTile
@@ -12,7 +11,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = false;
             Main.tileBlockLight[Type] = true;
-            drop = mod.ItemType("AshenSlab");
+            drop = ModContent.ItemType<Items.AshenSlab>();
             soundType = 21;
             mineResist = 5f;
             minPick = 180;
@@ -509,7 +508,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
             int yDrawPos = Main.tile[i, j].frameY + (uniqueAnimationFrameY * animationFrameHeight);
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
-            Texture2D glowmask = mod.GetTexture("Tiles/FurnitureAshen/AshenSlab_Glowmask");
+            Texture2D glowmask = ModContent.GetTexture("CalamityMod/Tiles/FurnitureAshen/AshenSlabGlow");
             Color drawColour = GetDrawColour(i, j, new Color(64, 64, 64, 64));
             Tile trackTile = Main.tile[i, j];
             double num6 = Main.time * 0.08;

@@ -2,10 +2,10 @@
 using Microsoft.Xna.Framework;
 using System.IO;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
-namespace CalamityMod.NPCs.DesertScourge
+namespace CalamityMod.NPCs
 {
     public class DesertScourgeTail : ModNPC
     {

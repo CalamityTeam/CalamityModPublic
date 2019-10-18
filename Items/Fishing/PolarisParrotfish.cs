@@ -1,6 +1,5 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.CalPlayer;
 
@@ -32,21 +31,21 @@ namespace CalamityMod.Items.Fishing
             item.rare = 5;
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon"); //pew pew
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("PolarStar");
+            item.shoot = ModContent.ProjectileType<PolarStar>();
             item.shootSpeed = 15f;
         }
 
-        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             CalamityPlayer modPlayer = player.Calamity();
             if (modPlayer.polarisBoostThree)
             {
-                Projectile.NewProjectile(position, new Vector2(speedX, speedY), mod.ProjectileType("PolarStar"), damage, knockBack, player.whoAmI, 0f, 2f);
+                Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<PolarStar>(), damage, knockBack, player.whoAmI, 0f, 2f);
                 return false;
             }
 			else if (modPlayer.polarisBoostTwo)
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("PolarStar"), (int)((double)damage * 1.25), knockBack, player.whoAmI, 0f, 1f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<PolarStar>(), (int)((double)damage * 1.25), knockBack, player.whoAmI, 0f, 1f);
                 return false;
             }
             return true;

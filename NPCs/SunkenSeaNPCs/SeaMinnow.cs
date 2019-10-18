@@ -1,9 +1,8 @@
 ﻿using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.SunkenSeaNPCs
+using Terraria.ID;
+namespace CalamityMod.NPCs
 {
     public class SeaMinnow : ModNPC
     {
@@ -27,7 +26,7 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
             banner = npc.type;
-            bannerItem = mod.ItemType("SeaMinnowBanner");
+            bannerItem = ModContent.ItemType<SeaMinnowBanner>();
             npc.chaseable = false;
         }
 

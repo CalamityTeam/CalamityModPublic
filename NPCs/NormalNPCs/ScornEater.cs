@@ -1,9 +1,8 @@
 ﻿using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.NormalNPCs
+using Terraria.ID;
+namespace CalamityMod.NPCs
 {
     public class ScornEater : ModNPC
     {
@@ -36,7 +35,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.HitSound = SoundID.NPCHit23;
             npc.DeathSound = SoundID.NPCDeath26;
             banner = npc.type;
-            bannerItem = mod.ItemType("ScornEaterBanner");
+            bannerItem = ModContent.ItemType<ScornEaterBanner>();
         }
 
         public override void AI()
@@ -181,7 +180,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("UnholyEssence"), Main.rand.Next(2, 5));
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<UnholyEssence>(), Main.rand.Next(2, 5));
         }
     }
 }

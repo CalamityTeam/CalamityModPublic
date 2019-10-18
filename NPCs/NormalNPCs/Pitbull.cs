@@ -1,8 +1,7 @@
 ﻿using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.NormalNPCs
+using Terraria.ID;
+namespace CalamityMod.NPCs
 {
     public class Pitbull : ModNPC
     {
@@ -27,7 +26,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath5;
             banner = npc.type;
-            bannerItem = mod.ItemType("PitbullBanner");
+            bannerItem = ModContent.ItemType<PitbullBanner>();
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)

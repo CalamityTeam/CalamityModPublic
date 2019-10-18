@@ -4,10 +4,10 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
-namespace CalamityMod.NPCs.SupremeCalamitas
+namespace CalamityMod.NPCs
 {
     [AutoloadBossHead]
     public class SupremeCataclysm : ModNPC
@@ -155,14 +155,14 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     Vector2 vector85 = new Vector2(npc.Center.X, npc.Center.Y);
                     float num689 = -8f;
                     int num690 = expertMode ? 150 : 200; //600 500
-                    int num691 = mod.ProjectileType("BrimstoneWave");
+                    int num691 = ModContent.ProjectileType<BrimstoneWave>();
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         int num695 = Projectile.NewProjectile(vector85.X, vector85.Y, num689, 0f, num691, num690, 0f, Main.myPlayer, 0f, 0f);
                     }
                 }
                 npc.ai[2] += 1f;
-                if (!NPC.AnyNPCs(mod.NPCType("SupremeCatastrophe")))
+                if (!NPC.AnyNPCs(ModContent.NPCType<SupremeCatastrophe>()))
                 {
                     npc.ai[2] += 2f;
                 }
@@ -182,8 +182,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         for (i = 0; i < 8; i++)
                         {
                             offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                            Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)(Math.Sin(offsetAngle) * num689), (float)(Math.Cos(offsetAngle) * num689), mod.ProjectileType("BrimstoneBarrage"), num690, 0f, Main.myPlayer, 0f, 1f);
-                            Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)(-Math.Sin(offsetAngle) * num689), (float)(-Math.Cos(offsetAngle) * num689), mod.ProjectileType("BrimstoneBarrage"), num690, 0f, Main.myPlayer, 0f, 1f);
+                            Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)(Math.Sin(offsetAngle) * num689), (float)(Math.Cos(offsetAngle) * num689), ModContent.ProjectileType<BrimstoneBarrage>(), num690, 0f, Main.myPlayer, 0f, 1f);
+                            Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)(-Math.Sin(offsetAngle) * num689), (float)(-Math.Cos(offsetAngle) * num689), ModContent.ProjectileType<BrimstoneBarrage>(), num690, 0f, Main.myPlayer, 0f, 1f);
                         }
                     }
                     for (int dust = 0; dust <= 5; dust++)
@@ -196,7 +196,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            if (projectile.type == mod.ProjectileType("AngryChicken"))
+            if (projectile.type == ModContent.ProjectileType<SonOfYharon>())
             {
                 damage /= 2;
             }
@@ -210,12 +210,12 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             SpriteEffects spriteEffects = SpriteEffects.None;
-            Microsoft.Xna.Framework.Color color24 = npc.GetAlpha(drawColor);
-            Microsoft.Xna.Framework.Color color25 = Lighting.GetColor((int)((double)npc.position.X + (double)npc.width * 0.5) / 16, (int)(((double)npc.position.Y + (double)npc.height * 0.5) / 16.0));
+            Color color24 = npc.GetAlpha(drawColor);
+            Color color25 = Lighting.GetColor((int)((double)npc.position.X + (double)npc.width * 0.5) / 16, (int)(((double)npc.position.Y + (double)npc.height * 0.5) / 16.0));
             Texture2D texture2D3 = Main.npcTexture[npc.type];
             int num156 = Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type];
             int y3 = num156 * (int)npc.frameCounter;
-            Microsoft.Xna.Framework.Rectangle rectangle = new Microsoft.Xna.Framework.Rectangle(0, y3, texture2D3.Width, num156);
+            Rectangle rectangle = new Rectangle(0, y3, texture2D3.Width, num156);
             Vector2 origin2 = rectangle.Size() / 2f;
             int num157 = 8;
             int num158 = 2;
@@ -224,7 +224,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             int num161 = num159;
             while (((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157)) && Lighting.NotRetro)
             {
-                Microsoft.Xna.Framework.Color color26 = npc.GetAlpha(color25);
+                Color color26 = npc.GetAlpha(color25);
                 {
                     goto IL_6899;
                 }

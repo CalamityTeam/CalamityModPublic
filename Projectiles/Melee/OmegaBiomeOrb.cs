@@ -1,9 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
+using Terraria.ID;
 namespace CalamityMod.Projectiles.Melee
 {
     public class OmegaBiomeOrb : ModProjectile
@@ -177,15 +176,15 @@ namespace CalamityMod.Projectiles.Melee
             }
             if (jungle)
             {
-                target.AddBuff(mod.BuffType("Plague"), 600);
+                target.AddBuff(ModContent.BuffType<Plague>(), 600);
             }
             else if (snow)
             {
-                target.AddBuff(mod.BuffType("GlacialState"), 600);
+                target.AddBuff(ModContent.BuffType<GlacialState>(), 600);
             }
             else if (beach)
             {
-                target.AddBuff(mod.BuffType("CrushDepth"), 600);
+                target.AddBuff(ModContent.BuffType<CrushDepth>(), 600);
             }
             else if (dungeon)
             {
@@ -193,23 +192,23 @@ namespace CalamityMod.Projectiles.Melee
             }
             else if (desert)
             {
-                target.AddBuff(mod.BuffType("HolyLight"), 600);
+                target.AddBuff(ModContent.BuffType<HolyFlames>(), 600);
             }
             else if (glow)
             {
-                target.AddBuff(mod.BuffType("TemporalSadness"), 600);
+                target.AddBuff(ModContent.BuffType<TemporalSadness>(), 600);
             }
             else if (hell)
             {
-                target.AddBuff(mod.BuffType("BrimstoneFlames"), 600);
+                target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 600);
             }
             else if (holy)
             {
-                target.AddBuff(mod.BuffType("HolyLight"), 600);
+                target.AddBuff(ModContent.BuffType<HolyFlames>(), 600);
             }
             else
             {
-                target.AddBuff(mod.BuffType("ArmorCrunch"), 600);
+                target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 600);
             }
         }
     }

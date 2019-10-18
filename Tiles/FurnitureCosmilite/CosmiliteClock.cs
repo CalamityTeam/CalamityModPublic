@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Tiles.FurnitureCosmilite
 {
@@ -13,7 +13,6 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Cosmilite Clock");
             AddMapEntry(new Color(191, 142, 111), name);
-            dustType = mod.DustType("Pixel");
             adjTiles = new int[] { TileID.GrandfatherClocks };
         }
 
@@ -49,7 +48,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 48, 32, mod.ItemType("CosmiliteClock"));
+            Item.NewItem(i * 16, j * 16, 48, 32, ModContent.ItemType<Items.CosmiliteClock>());
         }
     }
 }

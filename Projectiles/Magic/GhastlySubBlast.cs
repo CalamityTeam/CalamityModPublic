@@ -2,7 +2,6 @@
 using System;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Projectiles.Magic
 {
     public class GhastlySubBlast : ModProjectile
@@ -30,7 +29,7 @@ namespace CalamityMod.Projectiles.Magic
             bool flag60 = false;
             bool flag61 = false;
             int num3 = projectile.type;
-            int num1024 = mod.ProjectileType("GhastlyBlast");
+            int num1024 = ModContent.ProjectileType<GhastlyBlast>();
             float num1025 = 420f;
             float x3 = 0.15f;
             float y3 = 0.15f;

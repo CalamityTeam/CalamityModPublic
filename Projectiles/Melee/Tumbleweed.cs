@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Projectiles.Melee
 {
     public class Tumbleweed : ModProjectile
@@ -100,10 +99,10 @@ namespace CalamityMod.Projectiles.Melee
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Vector2 mountedCenter = Main.player[projectile.owner].MountedCenter;
-            Microsoft.Xna.Framework.Color transparent = Microsoft.Xna.Framework.Color.Transparent;
-            Texture2D texture2D2 = mod.GetTexture("ExtraTextures/Chains/TumbleweedChain");
+            Color transparent = Microsoft.Xna.Framework.Color.Transparent;
+            Texture2D texture2D2 = ModContent.GetTexture("CalamityMod/ExtraTextures/Chains/TumbleweedChain");
             Vector2 vector17 = projectile.Center;
-            Microsoft.Xna.Framework.Rectangle? sourceRectangle = null;
+            Rectangle? sourceRectangle = null;
             Vector2 origin = new Vector2((float)texture2D2.Width * 0.5f, (float)texture2D2.Height * 0.5f);
             float num91 = (float)texture2D2.Height;
             Vector2 vector18 = mountedCenter - vector17;
@@ -129,7 +128,7 @@ namespace CalamityMod.Projectiles.Melee
                     value2.Normalize();
                     vector17 += value2 * num91;
                     vector18 = mountedCenter - vector17;
-                    Microsoft.Xna.Framework.Color color17 = Lighting.GetColor((int)vector17.X / 16, (int)(vector17.Y / 16f));
+                    Color color17 = Lighting.GetColor((int)vector17.X / 16, (int)(vector17.Y / 16f));
                     Main.spriteBatch.Draw(texture2D2, vector17 - Main.screenPosition, sourceRectangle, color17, rotation15, origin, 1f, SpriteEffects.None, 0f);
                 }
             }
@@ -159,7 +158,7 @@ namespace CalamityMod.Projectiles.Melee
             }
             if (projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y, mod.ProjectileType("TumbleweedRolling"), projectile.damage, projectile.knockBack, Main.myPlayer, 0f, 0f);
+                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y, ModContent.ProjectileType<TumbleweedRolling>(), projectile.damage, projectile.knockBack, Main.myPlayer, 0f, 0f);
             }
             projectile.Kill();
         }

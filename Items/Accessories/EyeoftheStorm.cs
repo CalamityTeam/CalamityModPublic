@@ -1,7 +1,8 @@
+using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
+using CalamityMod.Projectiles.Summon;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Accessories
 {
     public class EyeoftheStorm : ModItem
@@ -37,13 +38,13 @@ namespace CalamityMod.Items.Accessories
             modPlayer.cloudWaifu = true;
             if (player.whoAmI == Main.myPlayer)
             {
-                if (player.FindBuffIndex(mod.BuffType("CloudyWaifu")) == -1)
+                if (player.FindBuffIndex(ModContent.BuffType<CloudyWaifu>()) == -1)
                 {
-                    player.AddBuff(mod.BuffType("CloudyWaifu"), 3600, true);
+                    player.AddBuff(ModContent.BuffType<CloudyWaifu>(), 3600, true);
                 }
-                if (player.ownedProjectileCounts[mod.ProjectileType("CloudyWaifu")] < 1)
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<CloudElementalMinion>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("CloudyWaifu"), (int)(45f * player.minionDamage), 2f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<CloudElementalMinion>(), (int)(45f * player.minionDamage), 2f, Main.myPlayer, 0f, 0f);
                 }
             }
         }

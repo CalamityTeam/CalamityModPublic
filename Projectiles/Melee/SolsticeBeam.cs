@@ -2,9 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
+using Terraria.ID;
 namespace CalamityMod.Projectiles.Melee
 {
     public class SolsticeBeam : ModProjectile
@@ -58,7 +57,7 @@ namespace CalamityMod.Projectiles.Melee
             switch (CalamityMod.CurrentSeason)
             {
                 case Season.Spring:
-                    dustType = Utils.SelectRandom<int>(Main.rand, new int[]
+                    dustType = Utils.SelectRandom(Main.rand, new int[]
                     {
                         74,
                         157,
@@ -66,7 +65,7 @@ namespace CalamityMod.Projectiles.Melee
                     });
                     break;
                 case Season.Summer:
-                    dustType = Utils.SelectRandom<int>(Main.rand, new int[]
+                    dustType = Utils.SelectRandom(Main.rand, new int[]
                     {
                         247,
                         228,
@@ -74,7 +73,7 @@ namespace CalamityMod.Projectiles.Melee
                     });
                     break;
                 case Season.Fall:
-                    dustType = Utils.SelectRandom<int>(Main.rand, new int[]
+                    dustType = Utils.SelectRandom(Main.rand, new int[]
                     {
                         6,
                         259,
@@ -82,7 +81,7 @@ namespace CalamityMod.Projectiles.Melee
                     });
                     break;
                 case Season.Winter:
-                    dustType = Utils.SelectRandom<int>(Main.rand, new int[]
+                    dustType = Utils.SelectRandom(Main.rand, new int[]
                     {
                         67,
                         229,
@@ -142,7 +141,7 @@ namespace CalamityMod.Projectiles.Melee
             switch (CalamityMod.CurrentSeason)
             {
                 case Season.Spring:
-                    dustType = Utils.SelectRandom<int>(Main.rand, new int[]
+                    dustType = Utils.SelectRandom(Main.rand, new int[]
                     {
                         245,
                         157,
@@ -150,7 +149,7 @@ namespace CalamityMod.Projectiles.Melee
                     });
                     break;
                 case Season.Summer:
-                    dustType = Utils.SelectRandom<int>(Main.rand, new int[]
+                    dustType = Utils.SelectRandom(Main.rand, new int[]
                     {
                         247,
                         228,
@@ -158,7 +157,7 @@ namespace CalamityMod.Projectiles.Melee
                     });
                     break;
                 case Season.Fall:
-                    dustType = Utils.SelectRandom<int>(Main.rand, new int[]
+                    dustType = Utils.SelectRandom(Main.rand, new int[]
                     {
                         6,
                         259,
@@ -166,7 +165,7 @@ namespace CalamityMod.Projectiles.Melee
                     });
                     break;
                 case Season.Winter:
-                    dustType = Utils.SelectRandom<int>(Main.rand, new int[]
+                    dustType = Utils.SelectRandom(Main.rand, new int[]
                     {
                         67,
                         229,
@@ -193,7 +192,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            int buff = Main.dayTime ? BuffID.Daybreak : mod.BuffType("Nightwither");
+            int buff = Main.dayTime ? BuffID.Daybreak : ModContent.BuffType<Nightwither>();
             target.AddBuff(buff, 300);
         }
     }

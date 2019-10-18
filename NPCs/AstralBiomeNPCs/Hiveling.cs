@@ -1,11 +1,11 @@
 ﻿using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using CalamityMod.Dusts;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.AstralBiomeNPCs
+namespace CalamityMod.NPCs
 {
     public class Hiveling : ModNPC
     {
@@ -15,7 +15,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
         {
             DisplayName.SetDefault("Hiveling");
             if (!Main.dedServ)
-                glowmask = mod.GetTexture("NPCs/AstralBiomeNPCs/HivelingGlow");
+                glowmask = ModContent.GetTexture("CalamityMod/NPCs/AstralBiomeNPCs/HivelingGlow");
             Main.npcFrameCount[npc.type] = 4;
         }
 
@@ -78,7 +78,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             }
 
             //DO DUST
-            Dust d = CalamityGlobalNPC.SpawnDustOnNPC(npc, 30, frameHeight, mod.DustType("AstralOrange"), new Rectangle(16, 8, 6, 6), Vector2.Zero, 0.3f, true);
+            Dust d = CalamityGlobalNPC.SpawnDustOnNPC(npc, 30, frameHeight, ModContent.DustType<AstralOrange>(), new Rectangle(16, 8, 6, 6), Vector2.Zero, 0.3f, true);
             if (d != null)
             {
                 d.customData = 0.04f;
@@ -110,7 +110,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
                 }
             }
 
-            CalamityGlobalNPC.DoHitDust(npc, hitDirection, (Main.rand.Next(0, Math.Max(0, npc.life)) == 0) ? 5 : mod.DustType("AstralEnemy"), 1f, 3, 20);
+            CalamityGlobalNPC.DoHitDust(npc, hitDirection, (Main.rand.Next(0, Math.Max(0, npc.life)) == 0) ? 5 : ModContent.DustType<AstralEnemy>(), 1f, 3, 20);
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -120,7 +120,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(mod.BuffType("AstralInfectionDebuff"), 60, true);
+            player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 60, true);
         }
     }
 }

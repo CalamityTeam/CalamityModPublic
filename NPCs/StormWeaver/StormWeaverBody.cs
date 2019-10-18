@@ -1,10 +1,10 @@
 ﻿using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
-namespace CalamityMod.NPCs.StormWeaver
+namespace CalamityMod.NPCs
 {
     public class StormWeaverBody : ModNPC
     {
@@ -231,12 +231,12 @@ namespace CalamityMod.NPCs.StormWeaver
                     Main.dust[num624].velocity *= 2f;
                 }
             }
-            if (NPC.CountNPCS(mod.NPCType("StasisProbe")) < 3)
+            if (NPC.CountNPCS(ModContent.NPCType<StasisProbe>()) < 3)
             {
                 if (npc.life > 0 && Main.netMode != NetmodeID.MultiplayerClient && spawn == 0 && Main.rand.NextBool(15))
                 {
                     spawn = 1;
-                    int num660 = NPC.NewNPC((int)(npc.position.X + (float)(npc.width / 2)), (int)(npc.position.Y + (float)npc.height), mod.NPCType("StasisProbe"), 0, 0f, 0f, 0f, 0f, 255);
+                    int num660 = NPC.NewNPC((int)(npc.position.X + (float)(npc.width / 2)), (int)(npc.position.Y + (float)npc.height), ModContent.NPCType<StasisProbe>(), 0, 0f, 0f, 0f, 0f, 255);
                     if (Main.netMode == NetmodeID.Server)
                     {
                         NetMessage.SendData(23, -1, -1, null, num660, 0f, 0f, 0f, 0, 0, 0);

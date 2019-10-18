@@ -1,8 +1,8 @@
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
-namespace CalamityMod.Items.Armor
+namespace CalamityMod.Items
 {
     [AutoloadEquip(EquipType.Legs)]
     public class OmegaBlueLeggings : ModItem
@@ -35,10 +35,10 @@ namespace CalamityMod.Items.Armor
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("ReaperTooth"), 13);
-            recipe.AddIngredient(mod.ItemType("Lumenite"), 6);
-            recipe.AddIngredient(mod.ItemType("Tenebris"), 6);
-            recipe.AddIngredient(mod.ItemType("RuinousSoul"), 3);
+            recipe.AddIngredient(ModContent.ItemType<ReaperTooth>(), 13);
+            recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 6);
+            recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 6);
+            recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 3);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

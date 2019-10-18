@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Projectiles.Magic
 {
     public class AstralCrystalInvisibleExplosion : ModProjectile
@@ -24,7 +23,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("AstralInfectionDebuff"), 300);
+            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 300);
         }
 
         public override void AI()

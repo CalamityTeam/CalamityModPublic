@@ -1,14 +1,13 @@
-﻿using CalamityMod.Utilities;
+﻿
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.Localization;
-using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.Polterghast
+namespace CalamityMod.NPCs
 {
     [AutoloadBossHead]
     public class Polterghast : ModNPC
@@ -54,11 +53,11 @@ namespace CalamityMod.NPCs.Polterghast
             }
             npc.buffImmune[BuffID.Ichor] = false;
             npc.buffImmune[BuffID.CursedInferno] = false;
-            npc.buffImmune[mod.BuffType("AbyssalFlames")] = false;
-            npc.buffImmune[mod.BuffType("DemonFlames")] = false;
-            npc.buffImmune[mod.BuffType("GodSlayerInferno")] = false;
-            npc.buffImmune[mod.BuffType("Nightwither")] = false;
-            npc.buffImmune[mod.BuffType("Shred")] = false;
+            npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
+            npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
+            npc.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = false;
+            npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
+            npc.buffImmune[ModContent.BuffType<Shred>()] = false;
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.netAlways = true;
@@ -69,7 +68,7 @@ namespace CalamityMod.NPCs.Polterghast
                 music = MusicID.Plantera;
             npc.HitSound = SoundID.NPCHit7;
             npc.DeathSound = SoundID.NPCDeath39;
-            bossBag = mod.ItemType("PolterghastBag");
+            bossBag = ModContent.ItemType<PolterghastBag>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -124,10 +123,10 @@ namespace CalamityMod.NPCs.Polterghast
             if (npc.localAI[0] == 0f && Main.netMode != NetmodeID.MultiplayerClient)
             {
                 npc.localAI[0] = 1f;
-                int num729 = NPC.NewNPC((int)vector.X, (int)vector.Y, mod.NPCType("PolterghastHook"), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
-                num729 = NPC.NewNPC((int)vector.X, (int)vector.Y, mod.NPCType("PolterghastHook"), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
-                num729 = NPC.NewNPC((int)vector.X, (int)vector.Y, mod.NPCType("PolterghastHook"), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
-                num729 = NPC.NewNPC((int)vector.X, (int)vector.Y, mod.NPCType("PolterghastHook"), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+                int num729 = NPC.NewNPC((int)vector.X, (int)vector.Y, ModContent.NPCType<PolterghastHook>(), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+                num729 = NPC.NewNPC((int)vector.X, (int)vector.Y, ModContent.NPCType<PolterghastHook>(), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+                num729 = NPC.NewNPC((int)vector.X, (int)vector.Y, ModContent.NPCType<PolterghastHook>(), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+                num729 = NPC.NewNPC((int)vector.X, (int)vector.Y, ModContent.NPCType<PolterghastHook>(), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
             }
 
             int[] array2 = new int[4];
@@ -137,7 +136,7 @@ namespace CalamityMod.NPCs.Polterghast
             int num;
             for (int num733 = 0; num733 < 200; num733 = num + 1)
             {
-                if (Main.npc[num733].active && Main.npc[num733].type == mod.NPCType("PolterghastHook"))
+                if (Main.npc[num733].active && Main.npc[num733].type == ModContent.NPCType<PolterghastHook>())
                 {
                     num730 += Main.npc[num733].Center.X;
                     num731 += Main.npc[num733].Center.Y;
@@ -226,7 +225,7 @@ namespace CalamityMod.NPCs.Polterghast
                         npc.localAI[2] = 0f;
 
                         if (Main.netMode != NetmodeID.MultiplayerClient)
-                            NPC.NewNPC((int)vector.X, (int)vector.Y, mod.NPCType("PolterPhantom"), 0, 0f, 0f, 0f, 0f, 255);
+                            NPC.NewNPC((int)vector.X, (int)vector.Y, ModContent.NPCType<PolterPhantom>(), 0, 0f, 0f, 0f, 0f, 255);
 
                         Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 122);
 
@@ -389,13 +388,13 @@ namespace CalamityMod.NPCs.Polterghast
                             num744 *= num745;
 
                             int num746 = expertMode ? 48 : 60;
-                            int num747 = mod.ProjectileType("PhantomShot");
+                            int num747 = ModContent.ProjectileType<PhantomShot>();
 
                             if (Main.rand.NextBool(3))
                             {
                                 num746 = expertMode ? 60 : 70;
                                 npc.localAI[1] = -30f;
-                                num747 = mod.ProjectileType("PhantomBlast");
+                                num747 = ModContent.ProjectileType<PhantomBlast>();
                             }
 
                             if (speedBoost1 || npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
@@ -405,7 +404,7 @@ namespace CalamityMod.NPCs.Polterghast
                             vector93.Y += num744 * 3f;
 
                             int num748 = Projectile.NewProjectile(vector93.X, vector93.Y, num743, num744, num747, num746, 0f, Main.myPlayer, 0f, 0f);
-                            Main.projectile[num748].timeLeft = num747 == mod.ProjectileType("PhantomBlast") ? 300 : 1200;
+                            Main.projectile[num748].timeLeft = num747 == ModContent.ProjectileType<PhantomBlast>() ? 300 : 1200;
                         }
                         else
                         {
@@ -427,7 +426,7 @@ namespace CalamityMod.NPCs.Polterghast
                             num744 *= num745;
 
                             int num746 = expertMode ? 60 : 70;
-                            int num747 = mod.ProjectileType("PhantomBlast");
+                            int num747 = ModContent.ProjectileType<PhantomBlast>();
                             if (speedBoost1 || npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
                                 num746 *= 2;
 
@@ -523,13 +522,13 @@ namespace CalamityMod.NPCs.Polterghast
                             num744 *= num745;
 
                             int num746 = expertMode ? 53 : 65;
-                            int num747 = mod.ProjectileType("PhantomShot2");
+                            int num747 = ModContent.ProjectileType<PhantomShot2>();
 
                             if (Main.rand.NextBool(3))
                             {
                                 num746 = expertMode ? 65 : 75;
                                 npc.localAI[1] = -30f;
-                                num747 = mod.ProjectileType("PhantomBlast2");
+                                num747 = ModContent.ProjectileType<PhantomBlast2>();
                             }
 
                             if (speedBoost1 || npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
@@ -539,7 +538,7 @@ namespace CalamityMod.NPCs.Polterghast
                             vector93.Y += num744 * 3f;
 
                             int num748 = Projectile.NewProjectile(vector93.X, vector93.Y, num743, num744, num747, num746, 0f, Main.myPlayer, 0f, 0f);
-                            Main.projectile[num748].timeLeft = num747 == mod.ProjectileType("PhantomBlast2") ? 300 : 1200;
+                            Main.projectile[num748].timeLeft = num747 == ModContent.ProjectileType<PhantomBlast2>() ? 300 : 1200;
                         }
                         else
                         {
@@ -561,7 +560,7 @@ namespace CalamityMod.NPCs.Polterghast
                             num744 *= num745;
 
                             int num746 = expertMode ? 65 : 75;
-                            int num747 = mod.ProjectileType("PhantomBlast2");
+                            int num747 = ModContent.ProjectileType<PhantomBlast2>();
 
                             if (speedBoost1 || npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
                                 num746 *= 2;
@@ -585,12 +584,12 @@ namespace CalamityMod.NPCs.Polterghast
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        NPC.NewNPC((int)vector.X, (int)vector.Y, mod.NPCType("PolterPhantom"), 0, 0f, 0f, 0f, 0f, 255);
+                        NPC.NewNPC((int)vector.X, (int)vector.Y, ModContent.NPCType<PolterPhantom>(), 0, 0f, 0f, 0f, 0f, 255);
 
                         for (int I = 0; I < 3; I++)
                         {
                             int Phantom = NPC.NewNPC((int)(Main.player[npc.target].Center.X + (Math.Sin(I * 120) * 500)),
-                                (int)(Main.player[npc.target].Center.Y + (Math.Cos(I * 120) * 500)), mod.NPCType("PhantomFuckYou"), 0, 0, 0, 0, -1);
+                                (int)(Main.player[npc.target].Center.Y + (Math.Cos(I * 120) * 500)), ModContent.NPCType<PhantomFuckYou>(), 0, 0, 0, 0, -1);
                             NPC Eye = Main.npc[Phantom];
                             Eye.ai[0] = I * 120;
                             Eye.ai[3] = I * 120;
@@ -658,9 +657,9 @@ namespace CalamityMod.NPCs.Polterghast
                         num758 *= num761;
                         num760 *= num761;
 
-                        if (NPC.CountNPCS(mod.NPCType("PhantomSpiritL")) < (revenge ? 3 : 2) && Main.netMode != NetmodeID.MultiplayerClient)
+                        if (NPC.CountNPCS(ModContent.NPCType<PhantomSpiritL>()) < (revenge ? 3 : 2) && Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            int num762 = NPC.NewNPC((int)vector.X, (int)vector.Y, mod.NPCType("PhantomSpiritL"), 0, 0f, 0f, 0f, 0f, 255);
+                            int num762 = NPC.NewNPC((int)vector.X, (int)vector.Y, ModContent.NPCType<PhantomSpiritL>(), 0, 0f, 0f, 0f, 0f, 255);
                             Main.npc[num762].velocity.X = num758;
                             Main.npc[num762].velocity.Y = num760;
                             Main.npc[num762].netUpdate = true;
@@ -679,33 +678,29 @@ namespace CalamityMod.NPCs.Polterghast
         {
             DropHelper.DropBags(npc);
 
-            DropHelper.DropItemChance(npc, mod.ItemType("PolterghastTrophy"), 10);
-            DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgePolterghast"), true, !CalamityWorld.downedPolterghast);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<PolterghastTrophy>(), 10);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgePolterghast>(), true, !CalamityWorld.downedPolterghast);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedPolterghast, 6, 3, 2);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
             if (!Main.expertMode)
             {
                 // Materials
-                DropHelper.DropItem(npc, mod.ItemType("RuinousSoul"), 5, 8);
-                DropHelper.DropItem(npc, mod.ItemType("Phantoplasm"), 10, 20);
+                DropHelper.DropItem(npc, ModContent.ItemType<RuinousSoul>(), 5, 8);
 
                 // Weapons
-                DropHelper.DropItemChance(npc, mod.ItemType("TerrorBlade"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("BansheeHook"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("DaemonsFlame"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("FatesReveal"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("GhastlyVisage"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("EtherealSubjugator"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("GhoulishGouger"), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<TerrorBlade>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.BansheeHook>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.DaemonsFlame>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.FatesReveal>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.GhastlyVisage>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<EtherealSubjugator>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.GhoulishGouger>(), 4);
             }
 
             // If Polterghast has not been killed, notify players about the Abyss minibosses now dropping items
             if (!CalamityWorld.downedPolterghast)
             {
-                if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
-                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ReaperSearchRoar"), (int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y);
-				
                 string key = "Mods.CalamityMod.GhostBossText";
                 Color messageColor = Color.RoyalBlue;
 
@@ -763,7 +758,7 @@ namespace CalamityMod.NPCs.Polterghast
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             if (CalamityWorld.revenge)
-                player.AddBuff(mod.BuffType("Horror"), 300, true);
+                player.AddBuff(ModContent.BuffType<Horror>(), 300, true);
         }
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)

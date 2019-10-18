@@ -3,8 +3,7 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
-
-namespace CalamityMod.Items.Armor
+namespace CalamityMod.Items
 {
     [AutoloadEquip(EquipType.Head)]
     public class AuricTeslaSpaceHelmet : ModItem
@@ -27,7 +26,7 @@ namespace CalamityMod.Items.Armor
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == mod.ItemType("AuricTeslaBodyArmor") && legs.type == mod.ItemType("AuricTeslaCuisses");
+            return body.type == ModContent.ItemType<AuricTeslaBodyArmor>() && legs.type == ModContent.ItemType<AuricTeslaCuisses>();
         }
 
         public override void ArmorSetShadows(Player player)
@@ -64,25 +63,25 @@ namespace CalamityMod.Items.Armor
             }
             if (player.whoAmI == Main.myPlayer)
             {
-                if (player.FindBuffIndex(mod.BuffType("SilvaCrystal")) == -1)
+                if (player.FindBuffIndex(ModContent.BuffType<Buffs.SilvaCrystal>()) == -1)
                 {
-                    player.AddBuff(mod.BuffType("SilvaCrystal"), 3600, true);
+                    player.AddBuff(ModContent.BuffType<Buffs.SilvaCrystal>(), 3600, true);
                 }
-                if (player.ownedProjectileCounts[mod.ProjectileType("SilvaCrystal")] < 1)
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.SilvaCrystal>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("SilvaCrystal"), (int)(3000f * player.minionDamage), 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<Projectiles.SilvaCrystal>(), (int)(3000f * player.minionDamage), 0f, Main.myPlayer, 0f, 0f);
                 }
-                if (player.FindBuffIndex(mod.BuffType("Mechworm")) == -1)
+                if (player.FindBuffIndex(ModContent.BuffType<Mechworm>()) == -1)
                 {
-                    player.AddBuff(mod.BuffType("Mechworm"), 3600, true);
+                    player.AddBuff(ModContent.BuffType<Mechworm>(), 3600, true);
                 }
-                if (player.ownedProjectileCounts[mod.ProjectileType("MechwormHead")] < 1)
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<MechwormHead>()] < 1)
                 {
                     int owner = player.whoAmI;
-                    int typeHead = mod.ProjectileType("MechwormHead");
-                    int typeBody = mod.ProjectileType("MechwormBody");
-                    int typeBody2 = mod.ProjectileType("MechwormBody2");
-                    int typeTail = mod.ProjectileType("MechwormTail");
+                    int typeHead = ModContent.ProjectileType<MechwormHead>();
+                    int typeBody = ModContent.ProjectileType<MechwormBody>();
+                    int typeBody2 = ModContent.ProjectileType<MechwormBody2>();
+                    int typeTail = ModContent.ProjectileType<MechwormTail>();
                     for (int i = 0; i < Main.maxProjectiles; i++)
                     {
                         if (Main.projectile[i].active && Main.projectile[i].owner == owner)
@@ -157,25 +156,25 @@ namespace CalamityMod.Items.Armor
                         velY = 0f;
                         vector2.X = (float)Main.mouseX + Main.screenPosition.X;
                         vector2.Y = (float)Main.mouseY + Main.screenPosition.Y;
-                        int curr = Projectile.NewProjectile(vector2.X, vector2.Y, velX, velY, mod.ProjectileType("MechwormHead"), damage, 1f, owner);
+                        int curr = Projectile.NewProjectile(vector2.X, vector2.Y, velX, velY, ModContent.ProjectileType<MechwormHead>(), damage, 1f, owner);
 
                         int prev = curr;
-                        curr = Projectile.NewProjectile(vector2.X, vector2.Y, velX, velY, mod.ProjectileType("MechwormBody"), damage, 1f, owner, (float)prev);
+                        curr = Projectile.NewProjectile(vector2.X, vector2.Y, velX, velY, ModContent.ProjectileType<MechwormBody>(), damage, 1f, owner, (float)prev);
 
                         prev = curr;
-                        curr = Projectile.NewProjectile(vector2.X, vector2.Y, velX, velY, mod.ProjectileType("MechwormBody2"), damage, 1f, owner, (float)prev);
+                        curr = Projectile.NewProjectile(vector2.X, vector2.Y, velX, velY, ModContent.ProjectileType<MechwormBody2>(), damage, 1f, owner, (float)prev);
                         Main.projectile[prev].localAI[1] = (float)curr;
                         Main.projectile[prev].netUpdate = true;
 
                         prev = curr;
-                        curr = Projectile.NewProjectile(vector2.X, vector2.Y, velX, velY, mod.ProjectileType("MechwormTail"), damage, 1f, owner, (float)prev);
+                        curr = Projectile.NewProjectile(vector2.X, vector2.Y, velX, velY, ModContent.ProjectileType<MechwormTail>(), damage, 1f, owner, (float)prev);
                         Main.projectile[prev].localAI[1] = (float)curr;
                         Main.projectile[prev].netUpdate = true;
                     }
                     else if (head != -1 && tail != -1)
                     {
-                        int body = Projectile.NewProjectile(vector2.X, vector2.Y, velX, velY, mod.ProjectileType("MechwormBody"), damage, 1f, owner, Main.projectile[tail].ai[0]);
-                        int back = Projectile.NewProjectile(vector2.X, vector2.Y, velX, velY, mod.ProjectileType("MechwormBody2"), damage, 1f, owner, (float)body);
+                        int body = Projectile.NewProjectile(vector2.X, vector2.Y, velX, velY, ModContent.ProjectileType<MechwormBody>(), damage, 1f, owner, Main.projectile[tail].ai[0]);
+                        int back = Projectile.NewProjectile(vector2.X, vector2.Y, velX, velY, ModContent.ProjectileType<MechwormBody2>(), damage, 1f, owner, (float)body);
 
                         Main.projectile[body].localAI[1] = (float)back;
                         Main.projectile[body].ai[1] = 1f;

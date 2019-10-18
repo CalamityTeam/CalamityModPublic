@@ -1,6 +1,5 @@
 using Terraria.ID;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Placeables.FurniturePlaguedPlate
 {
     public class PlaguedPlateChandelier : ModItem
@@ -20,7 +19,7 @@ namespace CalamityMod.Items.Placeables.FurniturePlaguedPlate
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = mod.TileType("PlaguedPlateChandelier");
+            item.createTile = ModContent.TileType<Tiles.PlaguedPlateChandelier>();
         }
 
         public override void AddRecipes()

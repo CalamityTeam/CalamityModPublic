@@ -1,4 +1,5 @@
-﻿using CalamityMod.World;
+﻿using CalamityMod.Dusts;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -6,7 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.NPCs.AstralBiomeNPCs
+namespace CalamityMod.NPCs
 {
     public class Hadarian : ModNPC
     {
@@ -16,7 +17,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
         {
             DisplayName.SetDefault("Hadarian");
             if (!Main.dedServ)
-                glowmask = mod.GetTexture("NPCs/AstralBiomeNPCs/HadarianGlow");
+                glowmask = ModContent.GetTexture("CalamityMod/NPCs/AstralBiomeNPCs/HadarianGlow");
             Main.npcFrameCount[npc.type] = 7;
         }
 
@@ -33,7 +34,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             npc.knockBackResist = 0.75f;
             npc.value = Item.buyPrice(0, 0, 15, 0);
             banner = npc.type;
-            bannerItem = mod.ItemType("HadarianBanner");
+            bannerItem = ModContent.ItemType<HadarianBanner>();
             if (CalamityWorld.downedAstrageldon)
             {
                 npc.damage = 80;
@@ -98,16 +99,16 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             switch (frame)
             {
                 case 1:
-                    d = CalamityGlobalNPC.SpawnDustOnNPC(npc, 82, frameHeight, mod.DustType("AstralOrange"), new Rectangle(38, 16, 22, 20), Vector2.Zero, 0.35f);
+                    d = CalamityGlobalNPC.SpawnDustOnNPC(npc, 82, frameHeight, ModContent.DustType<AstralOrange>(), new Rectangle(38, 16, 22, 20), Vector2.Zero, 0.35f);
                     break;
                 case 2:
-                    d = CalamityGlobalNPC.SpawnDustOnNPC(npc, 82, frameHeight, mod.DustType("AstralOrange"), new Rectangle(38, 24, 30, 14), Vector2.Zero);
+                    d = CalamityGlobalNPC.SpawnDustOnNPC(npc, 82, frameHeight, ModContent.DustType<AstralOrange>(), new Rectangle(38, 24, 30, 14), Vector2.Zero);
                     break;
                 case 3:
-                    d = CalamityGlobalNPC.SpawnDustOnNPC(npc, 82, frameHeight, mod.DustType("AstralOrange"), new Rectangle(44, 28, 32, 20), Vector2.Zero);
+                    d = CalamityGlobalNPC.SpawnDustOnNPC(npc, 82, frameHeight, ModContent.DustType<AstralOrange>(), new Rectangle(44, 28, 32, 20), Vector2.Zero);
                     break;
                 case 4:
-                    d = CalamityGlobalNPC.SpawnDustOnNPC(npc, 82, frameHeight, mod.DustType("AstralOrange"), new Rectangle(42, 36, 18, 30), Vector2.Zero, 0.3f);
+                    d = CalamityGlobalNPC.SpawnDustOnNPC(npc, 82, frameHeight, ModContent.DustType<AstralOrange>(), new Rectangle(42, 36, 18, 30), Vector2.Zero, 0.3f);
                     break;
             }
 
@@ -162,7 +163,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
                 }
             }
 
-            CalamityGlobalNPC.DoHitDust(npc, hitDirection, (Main.rand.Next(0, Math.Max(0, npc.life)) == 0) ? 5 : mod.DustType("AstralEnemy"), 1f, 3, 20);
+            CalamityGlobalNPC.DoHitDust(npc, hitDirection, (Main.rand.Next(0, Math.Max(0, npc.life)) == 0) ? 5 : ModContent.DustType<AstralEnemy>(), 1f, 3, 20);
 
             //if dead do gores
             if (npc.life <= 0)
@@ -177,7 +178,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             Tile tile = Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY];
-            if (spawnInfo.player.Calamity().ZoneAstral && spawnInfo.player.ZoneDesert && spawnInfo.spawnTileType == mod.TileType("AstralSand") && tile.wall == WallID.None)
+            if (spawnInfo.player.Calamity().ZoneAstral && spawnInfo.player.ZoneDesert && spawnInfo.spawnTileType == ModContent.TileType<Tiles.AstralSand>() && tile.wall == WallID.None)
             {
                 return 0.25f;
             }
@@ -186,19 +187,19 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(mod.BuffType("AstralInfectionDebuff"), 120, true);
+            player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120, true);
         }
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Stardust"), Main.rand.Next(2, 4));
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Stardust>(), Main.rand.Next(2, 4));
             if (Main.expertMode)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Stardust"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Stardust>());
             }
             if (CalamityWorld.downedAstrageldon && Main.rand.NextBool(2))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("HadarianMembrane"), Main.rand.Next(1, 3));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<HadarianMembrane>(), Main.rand.Next(1, 3));
             }
         }
     }

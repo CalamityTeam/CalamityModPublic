@@ -1,8 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
+using Terraria.ID;
 namespace CalamityMod.Projectiles.Melee
 {
     public class TrueBiomeOrb : ModProjectile
@@ -109,15 +108,15 @@ namespace CalamityMod.Projectiles.Melee
             bool holy = player.ZoneHoly;
             if (jungle)
             {
-                target.AddBuff(mod.BuffType("Plague"), 360);
+                target.AddBuff(ModContent.BuffType<Plague>(), 360);
             }
             else if (snow)
             {
-                target.AddBuff(mod.BuffType("GlacialState"), 360);
+                target.AddBuff(ModContent.BuffType<GlacialState>(), 360);
             }
             else if (beach)
             {
-                target.AddBuff(mod.BuffType("CrushDepth"), 360);
+                target.AddBuff(ModContent.BuffType<CrushDepth>(), 360);
             }
             else if (dungeon)
             {
@@ -125,23 +124,23 @@ namespace CalamityMod.Projectiles.Melee
             }
             else if (desert)
             {
-                target.AddBuff(mod.BuffType("HolyLight"), 360);
+                target.AddBuff(ModContent.BuffType<HolyFlames>(), 360);
             }
             else if (glow)
             {
-                target.AddBuff(mod.BuffType("TemporalSadness"), 360);
+                target.AddBuff(ModContent.BuffType<TemporalSadness>(), 360);
             }
             else if (hell)
             {
-                target.AddBuff(mod.BuffType("BrimstoneFlames"), 360);
+                target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 360);
             }
             else if (holy)
             {
-                target.AddBuff(mod.BuffType("HolyLight"), 360);
+                target.AddBuff(ModContent.BuffType<HolyFlames>(), 360);
             }
             else
             {
-                target.AddBuff(mod.BuffType("ArmorCrunch"), 360);
+                target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 360);
             }
         }
     }

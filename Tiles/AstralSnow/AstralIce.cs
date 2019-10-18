@@ -1,8 +1,8 @@
-using CalamityMod.Utilities;
+
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Tiles.AstralSnow
 {
@@ -19,7 +19,7 @@ namespace CalamityMod.Tiles.AstralSnow
             TileMerge.MergeAstralTiles(Type);
 
             dustType = 173;
-            drop = mod.ItemType("AstralIce");
+            drop = ModContent.ItemType<Items.AstralIce>();
 
             soundType = 2;
             soundStyle = 50;
@@ -47,7 +47,7 @@ namespace CalamityMod.Tiles.AstralSnow
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            CustomTileFraming.FrameTileForCustomMerge(i, j, Type, mod.TileType("AstralDirt"), false, false, false, false, resetFrame);
+            CustomTileFraming.FrameTileForCustomMerge(i, j, Type, ModContent.TileType<AstralDirt>(), false, false, false, false, resetFrame);
             return false;
         }
     }

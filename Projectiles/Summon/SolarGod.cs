@@ -2,9 +2,8 @@
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
+using Terraria.ID;
 namespace CalamityMod.Projectiles.Summon
 {
     public class SolarGod : ModProjectile
@@ -34,10 +33,10 @@ namespace CalamityMod.Projectiles.Summon
         public override void AI()
         {
             Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.5f / 255f, (255 - projectile.alpha) * 0.5f / 255f, (255 - projectile.alpha) * 0f / 255f);
-            bool flag64 = projectile.type == mod.ProjectileType("SolarGod");
+            bool flag64 = projectile.type == ModContent.ProjectileType<SolarGod>();
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            player.AddBuff(mod.BuffType("SolarSpiritGod"), 3600);
+            player.AddBuff(ModContent.BuffType<SolarSpiritGod>(), 3600);
             if (flag64)
             {
                 if (player.dead)
@@ -141,7 +140,7 @@ namespace CalamityMod.Projectiles.Summon
                     num406 = num403 / num406;
                     num404 *= num406;
                     num405 *= num406;
-                    Projectile.NewProjectile(projectile.Center.X - 4f, projectile.Center.Y, num404, num405, mod.ProjectileType("SolarBeam"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center.X - 4f, projectile.Center.Y, num404, num405, ModContent.ProjectileType<SolarBeam>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                     projectile.ai[0] = 30f;
                 }
             }

@@ -1,7 +1,6 @@
 using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Fishing
 {
     public class UrsaSergeant : ModItem
@@ -28,7 +27,7 @@ namespace CalamityMod.Items.Fishing
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.ursaSergeant = true;
             player.statDefense += 20;
-            player.buffImmune[mod.BuffType("AstralInfectionDebuff")] = true;
+            player.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = true;
             player.buffImmune[148] = true; //Feral Bite
         }
     }

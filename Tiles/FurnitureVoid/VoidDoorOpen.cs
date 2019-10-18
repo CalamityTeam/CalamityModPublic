@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Tiles.FurnitureVoid
 {
@@ -15,7 +15,7 @@ namespace CalamityMod.Tiles.FurnitureVoid
             AddMapEntry(new Color(191, 142, 111), name);
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.OpenDoor };
-            closeDoorID = mod.TileType("VoidDoorClosed");
+            closeDoorID = ModContent.TileType<VoidDoorClosed>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -36,7 +36,7 @@ namespace CalamityMod.Tiles.FurnitureVoid
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 32, 48, mod.ItemType("VoidDoor"));
+            Item.NewItem(i * 16, j * 16, 32, 48, ModContent.ItemType<Items.VoidDoor>());
         }
 
         public override void MouseOver(int i, int j)
@@ -44,7 +44,7 @@ namespace CalamityMod.Tiles.FurnitureVoid
             Player player = Main.LocalPlayer;
             player.noThrow = 2;
             player.showItemIcon = true;
-            player.showItemIcon2 = mod.ItemType("VoidDoor");
+            player.showItemIcon2 = ModContent.ItemType<Items.VoidDoor>();
         }
     }
 }

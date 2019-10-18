@@ -1,7 +1,8 @@
 ﻿using CalamityMod.CalPlayer;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
+using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -34,7 +35,7 @@ namespace CalamityMod.Items.Accessories
             modPlayer.astralArcanum = true;
             modPlayer.aBulwark = true;
             modPlayer.projRef = true;
-            player.buffImmune[mod.BuffType("AstralInfectionDebuff")] = true;
+            player.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = true;
         }
 
         public override void AddRecipes()

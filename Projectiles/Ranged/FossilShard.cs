@@ -1,6 +1,5 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Projectiles.Ranged
 {
     public class FossilShard : ModProjectile
@@ -30,7 +29,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("ArmorCrunch"), 60);
+            target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 60);
         }
 
         public override void Kill(int timeLeft)

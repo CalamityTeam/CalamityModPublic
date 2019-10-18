@@ -1,11 +1,10 @@
 using CalamityMod.World;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.Localization;
-using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.TownNPCs
+namespace CalamityMod.NPCs
 {
     [AutoloadHead]
     public class SEAHOE : ModNPC
@@ -93,7 +92,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 dialogue.Add("Not sure how " + Main.npc[lilBitch].GivenName + " has not been roasted and digested by now, hanging around the sulphuric seas for so long. Peharps it got to his head.");
             }
 
-            int cirrus = NPC.FindFirstNPC(mod.NPCType("FAP"));
+            int cirrus = NPC.FindFirstNPC(ModContent.NPCType<FAP>());
             if (cirrus != -1)
                 dialogue.Add("Rumor has it " + Main.npc[cirrus].GivenName + " drinks to forget her troubled past.");
 
@@ -237,27 +236,27 @@ namespace CalamityMod.NPCs.TownNPCs
                 shop = false;
                 Main.npcChatText = Lore();
                 Player player = Main.player[Main.myPlayer];
-                player.AddBuff(mod.BuffType("AmidiasBlessing"), 36000);
+                player.AddBuff(ModContent.BuffType<AmidiasBlessing>(), 36000);
             }
         }
 
         public override void SetupShop(Chest shop, ref int nextSlot)
         {
-            shop.item[nextSlot].SetDefaults(mod.ItemType("Shellshooter"));
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Shellshooter>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(mod.ItemType("SnapClam"));
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<SnapClam>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(mod.ItemType("SandDollar"));
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<SandDollar>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(mod.ItemType("Waywasher"));
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Waywasher>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(mod.ItemType("CoralCannon"));
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<CoralCannon>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(mod.ItemType("UrchinFlail"));
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<UrchinFlail>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(mod.ItemType("AmidiasTrident"));
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<AmidiasTrident>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(mod.ItemType("MagicalConch"));
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<MagicalConch>());
             nextSlot++;
             if (CalamityWorld.downedDesertScourge)
             {
@@ -309,7 +308,7 @@ namespace CalamityMod.NPCs.TownNPCs
 
         public override void TownNPCAttackProj(ref int projType, ref int attackDelay)
         {
-            projType = mod.ProjectileType("SnapClamProj");
+            projType = ModContent.ProjectileType<SnapClamProj>();
             attackDelay = 1;
         }
 

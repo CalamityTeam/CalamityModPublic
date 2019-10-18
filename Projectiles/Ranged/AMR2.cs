@@ -1,5 +1,4 @@
 ﻿using Terraria.ModLoader;
-
 namespace CalamityMod.Projectiles.Ranged
 {
     public class AMR2 : ModProjectile

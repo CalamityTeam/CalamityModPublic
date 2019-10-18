@@ -1,8 +1,7 @@
-using CalamityMod.Utilities;
+
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Tiles
 {
     public class CryonicBrick : ModTile
@@ -19,7 +18,7 @@ namespace CalamityMod.Tiles
 
             soundType = 21;
             minPick = 100;
-            drop = mod.ItemType("CryonicBrick");
+            drop = ModContent.ItemType<Items.CryonicBrick>();
             AddMapEntry(new Color(99, 131, 199));
         }
 

@@ -2,17 +2,12 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
+using Terraria.ID;
 namespace CalamityMod.Projectiles.Ranged
 {
     public class DrataliornusFlame : ModProjectile
     {
-        private int HolyLight { get { return mod.BuffType("HolyLight"); } }
-        private int DragonDust { get { return mod.ProjectileType("DragonDust"); } }
-        private int SkyFlareFriendly { get { return mod.ProjectileType("SkyFlareFriendly"); } }
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Drataliornus Flame");
@@ -76,7 +71,7 @@ namespace CalamityMod.Projectiles.Ranged
                 projectile.localAI[0] = 0f;
 
                 if (projectile.ai[0] != 0f && projectile.owner == Main.myPlayer)
-                    Projectile.NewProjectile(projectile.Center, Vector2.Zero, DragonDust, projectile.damage / 3, projectile.knockBack * 3f, projectile.owner);
+                    Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<DragonDust>(), projectile.damage / 3, projectile.knockBack * 3f, projectile.owner);
             }
 
             projectile.localAI[1]++;
@@ -164,7 +159,7 @@ namespace CalamityMod.Projectiles.Ranged
             Texture2D texture2D13 = Main.projectileTexture[projectile.type];
             int num214 = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
             int y6 = num214 * projectile.frame;
-            Main.spriteBatch.Draw(texture2D13, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y6, texture2D13.Width, num214)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)num214 / 2f), projectile.scale, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(texture2D13, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, num214)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)num214 / 2f), projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
 
@@ -181,7 +176,7 @@ namespace CalamityMod.Projectiles.Ranged
                     speed /= 30f;
                     Projectile.NewProjectile(vector3.X, vector3.Y, speed.X, speed.Y, ModContent.ProjectileType<DrataliornusExoArrow>(), projectile.damage / 2, projectile.knockBack, projectile.owner);
 
-                    Projectile.NewProjectile(projectile.Center, Vector2.Zero, DragonDust, projectile.damage / 3, projectile.knockBack * 2f, projectile.owner);
+                    Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<DragonDust>(), projectile.damage / 3, projectile.knockBack * 2f, projectile.owner);
                 }
 
                 projectile.position = projectile.Center;
@@ -227,7 +222,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
             target.AddBuff(BuffID.Ichor, 540);
-            target.AddBuff(HolyLight, 540);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 540);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -237,7 +232,7 @@ namespace CalamityMod.Projectiles.Ranged
             target.AddBuff(BuffID.Ichor, 540);
             target.AddBuff(BuffID.BetsysCurse, 540);
             target.AddBuff(BuffID.Daybreak, 540);
-            target.AddBuff(HolyLight, 540);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 540);
 
             if (projectile.ai[0] != 0f && projectile.owner == Main.myPlayer) //if empowered
             {
@@ -247,14 +242,14 @@ namespace CalamityMod.Projectiles.Ranged
                     Vector2 vector3 = target.Center + new Vector2(600, 0).RotatedBy(MathHelper.ToRadians(Main.rand.Next(360)));
                     Vector2 speed = target.Center - vector3;
                     speed /= 30f;
-                    Projectile.NewProjectile(vector3.X, vector3.Y, speed.X, speed.Y, mod.ProjectileType("DrataliornusExoArrow"), projectile.damage / 2, projectile.knockBack, projectile.owner);
+                    Projectile.NewProjectile(vector3.X, vector3.Y, speed.X, speed.Y, ModContent.ProjectileType<DrataliornusExoArrow>(), projectile.damage / 2, projectile.knockBack, projectile.owner);
 
                     Vector2 vel = new Vector2(Main.rand.Next(-400, 401), Main.rand.Next(500, 801));
                     Vector2 pos = target.Center - vel;
                     vel.X += Main.rand.Next(-100, 101);
                     vel.Normalize();
                     vel *= 30f;
-                    Projectile.NewProjectile(pos, vel + target.velocity, SkyFlareFriendly, projectile.damage * 3, projectile.knockBack * 5f, projectile.owner);
+                    Projectile.NewProjectile(pos, vel + target.velocity, ModContent.ProjectileType<SkyFlareFriendly>(), projectile.damage * 3, projectile.knockBack * 5f, projectile.owner);
                 }
             }
         }

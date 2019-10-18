@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Projectiles.Rogue
 {
     public class OrichalcumSpikedGemstoneProjectile : ModProjectile
@@ -54,7 +53,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (Main.rand.NextBool(2))
             {
-                Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, mod.ItemType("OrichalcumSpikedGemstone"));
+                Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, ModContent.ItemType<OrichalcumSpikedGemstone>());
             }
         }
     }

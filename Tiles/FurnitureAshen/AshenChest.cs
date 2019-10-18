@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Tiles.FurnitureAshen
 {
@@ -19,7 +19,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Containers };
             chest = "Ashen Chest";
-            chestDrop = mod.ItemType("AshenChest");
+            chestDrop = ModContent.ItemType<Items.AshenChest>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)

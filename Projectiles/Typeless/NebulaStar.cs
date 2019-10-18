@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Projectiles.Typeless
 {
     public class NebulaStar : ModProjectile
@@ -180,14 +179,14 @@ namespace CalamityMod.Projectiles.Typeless
                 Vector2 value10 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
                 value10.Normalize();
                 value10 *= 0.3f;
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value10.X, value10.Y, mod.ProjectileType("NebulaDust"), projectile.damage, 0f, projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value10.X, value10.Y, ModContent.ProjectileType<NebulaDust>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
             }
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Vector2 origin = new Vector2(17f, 17f);
-            spriteBatch.Draw(mod.GetTexture("Projectiles/Typeless/NebulaStarGlow"), projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, origin, projectile.scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Typeless/NebulaStarGlow"), projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, origin, projectile.scale, SpriteEffects.None, 0f);
         }
     }
 }

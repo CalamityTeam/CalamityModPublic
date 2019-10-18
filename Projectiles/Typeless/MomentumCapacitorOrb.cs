@@ -1,10 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Projectiles.Typeless
 {
     public class MomentumCapacitorOrb : ModProjectile
@@ -47,10 +43,10 @@ namespace CalamityMod.Projectiles.Typeless
             }
             for (int k = 0; k < Main.projectile.Length; k++)
             {
-                if (Main.projectile[k].type == mod.ProjectileType("SlickCaneProjectile") ||
-                    Main.projectile[k].type == mod.ProjectileType("Malachite") ||
-                    Main.projectile[k].type == mod.ProjectileType("ScourgeoftheDesert2")) continue;
-                if (Main.projectile[k].owner == projectile.owner && Main.projectile[k].Calamity().rogue && 
+                if (Main.projectile[k].type == ModContent.ProjectileType<SlickCaneProjectile>() ||
+                    Main.projectile[k].type == ModContent.ProjectileType<Malachite>() ||
+                    Main.projectile[k].type == ModContent.ProjectileType<DuneHopperProjectile>()) continue;
+                if (Main.projectile[k].owner == projectile.owner && Main.projectile[k].Calamity().rogue &&
                     !Main.projectile[k].Calamity().momentumCapacitatorBoost && Main.projectile[k].friendly)
                 {
                     Main.projectile[k].damage = (int)(Main.projectile[k].damage * 1.15f);

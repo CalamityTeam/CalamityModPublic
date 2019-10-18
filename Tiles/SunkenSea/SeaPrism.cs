@@ -1,9 +1,9 @@
-using CalamityMod.Utilities;
+
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Tiles.SunkenSea
 {
@@ -19,7 +19,7 @@ namespace CalamityMod.Tiles.SunkenSea
 
             TileID.Sets.ChecksForMerge[Type] = true;
             dustType = 33;
-            drop = mod.ItemType("SeaPrism");
+            drop = ModContent.ItemType<Items.SeaPrism>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Sea Prism");
             AddMapEntry(new Color(0, 150, 200), name);
@@ -71,7 +71,7 @@ namespace CalamityMod.Tiles.SunkenSea
                     {
                         if (!Main.tile[i, j].lava() && Main.tile[i, j].slope() == 0 && !Main.tile[i, j].halfBrick())
                         {
-                            Main.tile[i, j].type = (ushort)mod.TileType("SeaPrismCrystals");
+                            Main.tile[i, j].type = (ushort)ModContent.TileType<SeaPrismCrystals>();
                             Main.tile[i, j].active(true);
                             if (Main.tile[i, j + 1].active() && Main.tileSolid[Main.tile[i, j + 1].type] && Main.tile[i, j + 1].slope() == 0 && !Main.tile[i, j + 1].halfBrick())
                             {
@@ -103,7 +103,7 @@ namespace CalamityMod.Tiles.SunkenSea
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            CustomTileFraming.FrameTileForCustomMerge(i, j, Type, mod.TileType("Navystone"), false, false, false, false, resetFrame);
+            CustomTileFraming.FrameTileForCustomMerge(i, j, Type, ModContent.TileType<Navystone>(), false, false, false, false, resetFrame);
             return false;
         }
     }

@@ -1,8 +1,9 @@
+using CalamityMod.Dusts;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.NPCs.AstralBiomeNPCs
+namespace CalamityMod.NPCs
 {
     public class Twinkler : ModNPC
     {
@@ -20,10 +21,10 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             npc.height = 5;
             aiType = NPCID.LightningBug;
             animationType = NPCID.LightningBug;
-            npc.catchItem = (short)mod.ItemType("TwinklerItem");
-            npc.friendly = true; // We have to add this and CanBeHitByItem/CanBeHitByProjectile because of reasons.
-                                 //banner = npc.type;
-                                 //bannerItem = mod.ItemType("TwinklerBanner");
+            npc.catchItem = (short)ModContent.ItemType<TwinklerItem>();
+            npc.friendly = true; // prevents critter from getting slagged
+            //banner = npc.type;
+            //bannerItem = ModContent.ItemType<Items.TwinklerBanner>();
         }
 
 
@@ -43,7 +44,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             {
                 for (int i = 0; i < 6; i++)
                 {
-                    int dust = Dust.NewDust(npc.position, npc.width, npc.height, mod.DustType("AstralOrange"), 2 * hitDirection, -2f);
+                    int dust = Dust.NewDust(npc.position, npc.width, npc.height, ModContent.DustType<AstralOrange>(), 2 * hitDirection, -2f);
                     if (Main.rand.NextBool(2))
                     {
                         Main.dust[dust].noGravity = true;
@@ -82,33 +83,6 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             {
                 return;
             }
-        }
-    }
-
-    internal class TwinklerItem : ModItem
-    {
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Twinkler");
-        }
-
-        public override void SetDefaults()
-        {
-            item.useStyle = 1;
-            item.autoReuse = true;
-            item.useTurn = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.maxStack = 999;
-            item.consumable = true;
-            item.noUseGraphic = true;
-            item.value = Item.buyPrice(0, 0, 40, 0);
-            //item.CloneDefaults(2004); //Lightning Bug item
-            item.width = 26;
-            item.height = 24;
-            item.bait = 40;
-            item.makeNPC = (short)mod.NPCType("Twinkler");
-            item.rare = 2;
         }
     }
 }

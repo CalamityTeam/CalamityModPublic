@@ -1,8 +1,7 @@
 ﻿using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
+using Terraria.ID;
 namespace CalamityMod.Projectiles.Boss
 {
     public class IceBomb : ModProjectile
@@ -41,8 +40,8 @@ namespace CalamityMod.Projectiles.Boss
                 for (i = 0; i < 3; i++)
                 {
                     offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), mod.ProjectileType("IceRain"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), mod.ProjectileType("IceRain"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<IceRain>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<IceRain>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                 }
             }
             for (int k = 0; k < 3; k++)
@@ -55,7 +54,7 @@ namespace CalamityMod.Projectiles.Boss
         {
             target.AddBuff(BuffID.Frostburn, 120, true);
             target.AddBuff(BuffID.Chilled, 90, true);
-            target.AddBuff(mod.BuffType("GlacialState"), 60);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 60);
         }
     }
 }

@@ -2,9 +2,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
+using CalamityMod.Dusts;
+using Terraria.ID;
 namespace CalamityMod.Projectiles.Ranged
 {
     public class AstralRound : ModProjectile
@@ -58,11 +58,11 @@ namespace CalamityMod.Projectiles.Ranged
                 int randomDust = Main.rand.Next(2);
                 if (randomDust == 0)
                 {
-                    randomDust = mod.DustType("AstralOrange");
+                    randomDust = ModContent.DustType<AstralOrange>();
                 }
                 else
                 {
-                    randomDust = mod.DustType("AstralBlue");
+                    randomDust = ModContent.DustType<AstralBlue>();
                 }
                 int num137 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), 1, 1, randomDust, 0f, 0f, 0, default, 0.5f);
                 Main.dust[num137].alpha = projectile.alpha;
@@ -149,7 +149,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("AstralInfectionDebuff"), 120);
+            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120);
         }
     }
 }

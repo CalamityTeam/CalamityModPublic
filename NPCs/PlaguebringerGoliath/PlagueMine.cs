@@ -3,10 +3,10 @@ using Microsoft.Xna.Framework;
 using System;
 using System.IO;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
-namespace CalamityMod.NPCs.PlaguebringerGoliath
+namespace CalamityMod.NPCs
 {
     public class PlagueMine : ModNPC
     {

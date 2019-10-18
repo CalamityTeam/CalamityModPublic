@@ -1,8 +1,9 @@
 ﻿using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
+using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -45,14 +46,14 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            player.buffImmune[mod.BuffType("Plague")] = true;
+            player.buffImmune[ModContent.BuffType<Plague>()] = true;
             player.bee = true;
             modPlayer.uberBees = true;
             player.strongBees = true;
             modPlayer.alchFlask = true;
             int plagueCounter = 0;
             Lighting.AddLight((int)(player.Center.X / 16f), (int)(player.Center.Y / 16f), 0.1f, 2f, 0.2f);
-            int num = mod.BuffType("Plague");
+            int num = ModContent.BuffType<Plague>();
             float num2 = 300f;
             bool flag = plagueCounter % 60 == 0;
             int num3 = 60;

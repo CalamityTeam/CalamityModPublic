@@ -1,5 +1,4 @@
 using Terraria.ModLoader;
-
 namespace CalamityMod.Walls
 {
     public class MossyGravelWall : ModWall

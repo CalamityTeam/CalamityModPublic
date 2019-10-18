@@ -1,7 +1,6 @@
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
+using Terraria.ID;
 namespace CalamityMod.Items.Fishing
 {
     public class AstrophageItem : ModItem
@@ -15,8 +14,8 @@ namespace CalamityMod.Items.Fishing
         public override void SetDefaults()
         {
             item.CloneDefaults(ItemID.ZephyrFish);
-            item.shoot = mod.ProjectileType("Astrophage");
-            item.buffType = mod.BuffType("AstrophageBuff");
+            item.shoot = ModContent.ProjectileType<Astrophage>();
+            item.buffType = ModContent.BuffType<AstrophageBuff>();
             item.rare = 5;
         }
 

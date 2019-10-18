@@ -1,13 +1,13 @@
-using CalamityMod.Utilities;
+
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
+using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.Localization;
-using Terraria.ModLoader;
-
+using CalamityMod.Items;
 /* states:
  * 0 = slow drift
  * 1 = reelback and teleport after spawn enemy
@@ -18,7 +18,7 @@ using Terraria.ModLoader;
  * 6 = deceleration
  */
 
-namespace CalamityMod.NPCs.HiveMind
+namespace CalamityMod.NPCs
 {
     [AutoloadBossHead]
     public class HiveMindP2 : ModNPC
@@ -64,8 +64,8 @@ namespace CalamityMod.NPCs.HiveMind
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
             aiType = -1;
-            npc.buffImmune[mod.BuffType("GlacialState")] = true;
-            npc.buffImmune[mod.BuffType("TemporalSadness")] = true;
+            npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
+            npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
             npc.knockBackResist = 0f;
             npc.value = Item.buyPrice(0, 6, 0, 0);
             npc.boss = true;
@@ -78,7 +78,7 @@ namespace CalamityMod.NPCs.HiveMind
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/HiveMind");
             else
                 music = MusicID.Boss2;
-            bossBag = mod.ItemType("HiveMindBag");
+            bossBag = ModContent.ItemType<HiveMindBag>();
             NPCID.Sets.TrailCacheLength[npc.type] = 8;
             NPCID.Sets.TrailingMode[npc.type] = 1;
             if (Main.expertMode)
@@ -151,13 +151,13 @@ namespace CalamityMod.NPCs.HiveMind
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             SpriteEffects spriteEffects = SpriteEffects.None;
-            Microsoft.Xna.Framework.Color color24 = lightColor;
+            Color color24 = lightColor;
             color24 = npc.GetAlpha(color24);
-            Microsoft.Xna.Framework.Color color25 = Lighting.GetColor((int)((double)npc.position.X + (double)npc.width * 0.5) / 16, (int)(((double)npc.position.Y + (double)npc.height * 0.5) / 16.0));
-            Texture2D texture2D3 = mod.GetTexture("NPCs/HiveMind/HiveMindP2");
+            Color color25 = Lighting.GetColor((int)((double)npc.position.X + (double)npc.width * 0.5) / 16, (int)(((double)npc.position.Y + (double)npc.height * 0.5) / 16.0));
+            Texture2D texture2D3 = ModContent.GetTexture("CalamityMod/NPCs/HiveMind/HiveMindP2");
             int num156 = Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type];
             int y3 = num156 * (int)npc.frameCounter;
-            Microsoft.Xna.Framework.Rectangle rectangle = new Microsoft.Xna.Framework.Rectangle(0, y3, texture2D3.Width, num156);
+            Rectangle rectangle = new Rectangle(0, y3, texture2D3.Width, num156);
             Vector2 origin2 = rectangle.Size() / 2f;
             int num157 = 8;
             int num158 = 2;
@@ -166,7 +166,7 @@ namespace CalamityMod.NPCs.HiveMind
             int num161 = num159;
             while (state != 0 && Lighting.NotRetro && ((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157)))
             {
-                Microsoft.Xna.Framework.Color color26 = color25;
+                Color color26 = color25;
                 color26 = npc.GetAlpha(color26);
                 {
                     goto IL_6899;
@@ -208,15 +208,15 @@ namespace CalamityMod.NPCs.HiveMind
                         maxAmount = 1;
                         break;
                     case 1:
-                        type = mod.NPCType("DankCreeper");
+                        type = ModContent.NPCType<DankCreeper>();
                         maxAmount = 1;
                         break;
                     case 2:
-                        type = mod.NPCType("DankCreeper");
+                        type = ModContent.NPCType<DankCreeper>();
                         maxAmount = 2;
                         break;
                     case 3:
-                        type = mod.NPCType("HiveBlob2");
+                        type = ModContent.NPCType<HiveBlob2>();
                         maxAmount = 2;
                         break;
                     case 4:
@@ -224,7 +224,7 @@ namespace CalamityMod.NPCs.HiveMind
                         maxAmount = 2;
                         break;
                     case 5:
-                        type = mod.NPCType("DarkHeart");
+                        type = ModContent.NPCType<DarkHeart>();
                         maxAmount = 2;
                         break;
                 }
@@ -503,9 +503,9 @@ namespace CalamityMod.NPCs.HiveMind
                                 {
                                     if (npc.ai[0] == 2 || npc.ai[0] == 4)
                                     {
-                                        if ((Main.expertMode || CalamityWorld.bossRushActive) && NPC.CountNPCS(mod.NPCType("DarkHeart")) < 2)
+                                        if ((Main.expertMode || CalamityWorld.bossRushActive) && NPC.CountNPCS(ModContent.NPCType<DarkHeart>()) < 2)
                                         {
-                                            NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("DarkHeart"));
+                                            NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<DarkHeart>());
                                         }
                                     }
                                     else if (NPC.CountNPCS(NPCID.EaterofSouls) < 2)
@@ -557,7 +557,7 @@ namespace CalamityMod.NPCs.HiveMind
                                 if (Main.netMode != NetmodeID.MultiplayerClient)
                                 {
                                     int damage = Main.expertMode ? 14 : 18;
-                                    Projectile.NewProjectile(npc.position.X + Main.rand.Next(npc.width), npc.position.Y + Main.rand.Next(npc.height), 0, 0, mod.ProjectileType("ShadeNimbusHostile"), damage, 0, Main.myPlayer, 11, 0);
+                                    Projectile.NewProjectile(npc.position.X + Main.rand.Next(npc.width), npc.position.Y + Main.rand.Next(npc.height), 0, 0, ModContent.ProjectileType<ShadeNimbusHostile>(), damage, 0, Main.myPlayer, 11, 0);
                                 }
                                 if (npc.ai[0] == 10)
                                 {
@@ -617,10 +617,10 @@ namespace CalamityMod.NPCs.HiveMind
             {
                 Dust.NewDust(npc.position, npc.width, npc.height, 14, hitDirection, -1f, 0, default, 1f);
             }
-            if (Main.netMode != NetmodeID.MultiplayerClient && Main.rand.NextBool(15) && NPC.CountNPCS(mod.NPCType("HiveBlob2")) < 2)
+            if (Main.netMode != NetmodeID.MultiplayerClient && Main.rand.NextBool(15) && NPC.CountNPCS(ModContent.NPCType<HiveBlob2>()) < 2)
             {
                 Vector2 spawnAt = npc.Center + new Vector2(0f, (float)npc.height / 2f);
-                NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, mod.NPCType("HiveBlob2"));
+                NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<HiveBlob2>());
             }
             if (npc.life <= 0)
             {
@@ -666,31 +666,31 @@ namespace CalamityMod.NPCs.HiveMind
         {
             DropHelper.DropBags(npc);
 
-            DropHelper.DropItemChance(npc, mod.ItemType("HiveMindTrophy"), 10);
-            DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeHiveMind"), true, !CalamityWorld.downedHiveMind);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<HiveMindTrophy>(), 10);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeHiveMind>(), true, !CalamityWorld.downedHiveMind);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedHiveMind, 2, 0, 0);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
             if (!Main.expertMode)
             {
                 // Materials
-                DropHelper.DropItemSpray(npc, mod.ItemType("TrueShadowScale"), 25, 30);
+                DropHelper.DropItemSpray(npc, ModContent.ItemType<TrueShadowScale>(), 25, 30);
                 DropHelper.DropItemSpray(npc, ItemID.DemoniteBar, 7, 10);
                 DropHelper.DropItemSpray(npc, ItemID.RottenChunk, 9, 15);
                 if (Main.hardMode)
                     DropHelper.DropItemSpray(npc, ItemID.CursedFlame, 10, 20);
 
                 // Weapons
-                DropHelper.DropItemChance(npc, mod.ItemType("PerfectDark"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("LeechingDagger"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("Shadethrower"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("ShadowdropStaff"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("ShaderainStaff"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("DankStaff"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("RotBall"), 4, 25, 50);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<PerfectDark>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<LeechingDagger>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Shadethrower>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<ShadowdropStaff>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<ShaderainStaff>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<DankStaff>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<RotBall>(), 4, 25, 50);
 
                 // Vanity
-                DropHelper.DropItemChance(npc, mod.ItemType("HiveMindMask"), 7);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<HiveMindMask>(), 7);
             }
 
             // If neither The Hive Mind nor The Perforator Hive have been killed yet, notify players of Aerialite Ore
@@ -698,7 +698,7 @@ namespace CalamityMod.NPCs.HiveMind
             {
                 string key = "Mods.CalamityMod.SkyOreText";
                 Color messageColor = Color.Cyan;
-                WorldGenerationMethods.SpawnOre(mod.TileType("AerialiteOre"), 12E-05, .4f, .6f);
+                WorldGenerationMethods.SpawnOre(ModContent.TileType<Tiles.AerialiteOre>(), 12E-05, .4f, .6f);
 
                 if (Main.netMode == NetmodeID.SinglePlayer)
                     Main.NewText(Language.GetTextValue(key), messageColor);
@@ -715,7 +715,7 @@ namespace CalamityMod.NPCs.HiveMind
         {
             if (CalamityWorld.revenge)
             {
-                player.AddBuff(mod.BuffType("Horror"), 300, true);
+                player.AddBuff(ModContent.BuffType<Horror>(), 300, true);
             }
         }
     }

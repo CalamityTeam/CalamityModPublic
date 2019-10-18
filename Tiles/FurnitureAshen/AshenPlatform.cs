@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Tiles.FurnitureAshen
 {
@@ -11,8 +11,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
         {
             CalamityUtils.SetUpPlatform(Type, true);
             AddMapEntry(new Color(191, 142, 111));
-            dustType = mod.DustType("Sparkle");
-            drop = mod.ItemType("AshenPlatform");
+            drop = ModContent.ItemType<Items.AshenPlatform>();
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Platforms };
         }

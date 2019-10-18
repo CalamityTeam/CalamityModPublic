@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
@@ -143,108 +144,110 @@ namespace CalamityMod
         }
         #endregion
 
-        #region Miscellaneous Utilities
-        public static void AddWithCondition<T>(this List<T> list, T type, bool condition)
-        {
-            if (condition)
-                list.Add(type);
-        }
+        #region Item Utilities
         public static Rectangle FixSwingHitbox(float hitboxWidth, float hitboxHeight)
         {
             Player player = Main.player[Main.myPlayer];
             Item item = player.inventory[player.selectedItem];
             float hitbox_X = 0, hitbox_Y = 0;
-            float num = player.mount.PlayerOffsetHitbox;
-            //Third hitbox
+            float mountOffsetY = player.mount.PlayerOffsetHitbox;
+
+            // Third hitbox shifting values
             if (player.itemAnimation < player.itemAnimationMax * 0.333)
             {
-                float num38 = 10f;
+                float shiftX = 10f;
                 if (hitboxWidth >= 92)
-                    num38 = 38f;
+                    shiftX = 38f;
                 else if (hitboxWidth >= 64)
-                    num38 = 28f;
+                    shiftX = 28f;
                 else if (hitboxWidth >= 52)
-                    num38 = 24f;
+                    shiftX = 24f;
                 else if (hitboxWidth > 32)
-                    num38 = 14f;
-                hitbox_X = player.position.X + player.width * 0.5f + (hitboxWidth * 0.5f - num38) * player.direction;
-                hitbox_Y = player.position.Y + 24f + num;
+                    shiftX = 14f;
+                hitbox_X = player.position.X + player.width * 0.5f + (hitboxWidth * 0.5f - shiftX) * player.direction;
+                hitbox_Y = player.position.Y + 24f + mountOffsetY;
             }
-            //Second hitbox
+
+            // Second hitbox shifting values
             else if (player.itemAnimation < player.itemAnimationMax * 0.666)
             {
-                float num39 = 10f;
+                float shift = 10f;
                 if (hitboxWidth >= 92)
-                    num39 = 38f;
+                    shift = 38f;
                 else if (hitboxWidth >= 64)
-                    num39 = 28f;
+                    shift = 28f;
                 else if (hitboxWidth >= 52)
-                    num39 = 24f;
+                    shift = 24f;
                 else if (hitboxWidth > 32)
-                    num39 = 18f;
-                hitbox_X = player.position.X + (player.width * 0.5f + (hitboxWidth * 0.5f - num39) * player.direction);
+                    shift = 18f;
+                hitbox_X = player.position.X + (player.width * 0.5f + (hitboxWidth * 0.5f - shift) * player.direction);
 
-                num39 = 10f;
+                shift = 10f;
                 if (hitboxHeight > 64)
-                    num39 = 14f;
+                    shift = 14f;
                 else if (hitboxHeight > 52)
-                    num39 = 12f;
+                    shift = 12f;
                 else if (hitboxHeight > 32)
-                    num39 = 8f;
+                    shift = 8f;
 
-                hitbox_Y = player.position.Y + num39 + num;
+                hitbox_Y = player.position.Y + shift + mountOffsetY;
             }
-            //First hitbox
+
+            // First hitbox shifting values
             else
             {
-                    float num40 = 6f;
+                float shift = 6f;
                 if (hitboxWidth >= 92)
-                    num40 = 38f;
+                    shift = 38f;
                 else if (hitboxWidth >= 64)
-                    num40 = 28f;
+                    shift = 28f;
                 else if (hitboxWidth >= 52)
-                    num40 = 24f;
+                    shift = 24f;
                 else if (hitboxWidth >= 48)
-                    num40 = 18f;
-                else if (hitboxWidth > 32) 
-                    num40 = 14f;
-                hitbox_X = player.position.X + player.width * 0.5f - (hitboxWidth * 0.5f - num40) * player.direction;
+                    shift = 18f;
+                else if (hitboxWidth > 32)
+                    shift = 14f;
+                hitbox_X = player.position.X + player.width * 0.5f - (hitboxWidth * 0.5f - shift) * player.direction;
 
-                num40 = 10f;
+                shift = 10f;
                 if (hitboxHeight > 64)
-                    num40 = 14f;
+                    shift = 14f;
                 else if (hitboxHeight > 52)
-                    num40 = 12f;
-                else if (hitboxHeight > 32) 
-                    num40 = 10f;      
-                hitbox_Y = player.position.Y + num40 + num;
+                    shift = 12f;
+                else if (hitboxHeight > 32)
+                    shift = 10f;
+                hitbox_Y = player.position.Y + shift + mountOffsetY;
             }
+
+            // Inversion due to grav potion
             if (player.gravDir == -1f)
             {
                 hitbox_Y = player.position.Y + player.height + (player.position.Y - hitbox_Y);
             }
-            //Hitbox size
-            Rectangle hitbox = new Rectangle((int)hitbox_X, (int)hitbox_Y, 32, 32);
-            if (item.damage >= 0 && item.type > 0 && !item.noMelee && player.itemAnimation > 0) 
-            {
 
-                if (!Main.dedServ) 
+            // Hitbox size adjustments
+            Rectangle hitbox = new Rectangle((int)hitbox_X, (int)hitbox_Y, 32, 32);
+            if (item.damage >= 0 && item.type > 0 && !item.noMelee && player.itemAnimation > 0)
+            {
+                if (!Main.dedServ)
                 {
                     hitbox = new Rectangle((int)hitbox_X, (int)hitbox_Y, (int)hitboxWidth, (int)hitboxHeight);
                 }
                 hitbox.Width = (int)(hitbox.Width * item.scale);
                 hitbox.Height = (int)(hitbox.Height * item.scale);
-                if (player.direction == -1) 
+                if (player.direction == -1)
                 {
                     hitbox.X -= hitbox.Width;
                 }
-                if (player.gravDir == 1f) 
+                if (player.gravDir == 1f)
                 {
                     hitbox.Y -= hitbox.Height;
                 }
-                if (item.useStyle == 1) 
+
+                // Broadsword use style
+                if (item.useStyle == 1)
                 {
-                    //Third hitbox
+                    // Third hitbox size adjustments
                     if (player.itemAnimation < player.itemAnimationMax * 0.333)
                     {
                         if (player.direction == -1)
@@ -255,10 +258,11 @@ namespace CalamityMod
                         hitbox.Y += (int)(hitbox.Height * 0.5 * player.gravDir);
                         hitbox.Height = (int)(hitbox.Height * 1.1);
                     }
-                    //First hitbox
-                    else if (player.itemAnimation >= player.itemAnimationMax * 0.666) 
+
+                    // First hitbox size adjustments
+                    else if (player.itemAnimation >= player.itemAnimationMax * 0.666)
                     {
-                        if (player.direction == 1) 
+                        if (player.direction == 1)
                         {
                             hitbox.X -= (int)(hitbox.Width * 1.2);
                         }
@@ -268,9 +272,8 @@ namespace CalamityMod
                     }
                 }
             }
-                return hitbox;
+            return hitbox;
         }
-
         #endregion
 
         #region Projectile Utilities
@@ -511,9 +514,6 @@ namespace CalamityMod
             {
                 Main.CancelClothesWindow(true);
 
-                // with 0.11.5 changes this should no longer be necessary
-                // Main.mouseRightRelease = false;
-
                 int left = (int)(Main.tile[Player.tileTargetX, Player.tileTargetY].frameX / 18);
                 left %= 3;
                 left = Player.tileTargetX - left;
@@ -688,10 +688,6 @@ namespace CalamityMod
             Player player = Main.LocalPlayer;
             Tile tile = Main.tile[i, j];
 
-            // with 0.11.5 changes this should no longer be necessary
-            // Main.mouseRightRelease = false;
-
-
             // If the player right clicked the chest while editing a sign, finish that up
             if (player.sign >= 0)
             {
@@ -828,6 +824,7 @@ namespace CalamityMod
                 player.showItemIcon2 = 0;
             }
         }
+
         #region Furniture SetDefaults
         public static void SetUpBathtub(int type, bool lavaImmune = false)
         {
@@ -1212,6 +1209,24 @@ namespace CalamityMod
             TileObjectData.addTile(type);
         }
         #endregion
+        #endregion
+
+        #region Miscellaneous Utilities
+        public static void StartSandstorm()
+        {
+            typeof(Terraria.GameContent.Events.Sandstorm).GetMethod("StartSandstorm", BindingFlags.Static | BindingFlags.NonPublic).Invoke(null, null);
+        }
+
+        public static void StopSandstorm()
+        {
+            Terraria.GameContent.Events.Sandstorm.Happening = false;
+        }
+
+        public static void AddWithCondition<T>(this List<T> list, T type, bool condition)
+        {
+            if (condition)
+                list.Add(type);
+        }
         #endregion
     }
 }

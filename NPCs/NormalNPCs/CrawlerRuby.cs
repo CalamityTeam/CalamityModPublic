@@ -2,10 +2,9 @@
 using System;
 using System.IO;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.NormalNPCs
+using Terraria.ID;
+namespace CalamityMod.NPCs
 {
     public class CrawlerRuby : ModNPC
     {
@@ -32,7 +31,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.HitSound = SoundID.NPCHit33;
             npc.DeathSound = SoundID.NPCDeath36;
             banner = npc.type;
-            bannerItem = mod.ItemType("RubyCrawlerBanner");
+            bannerItem = ModContent.ItemType<RubyCrawlerBanner>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)

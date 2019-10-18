@@ -1,8 +1,7 @@
-using CalamityMod.Utilities;
+
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Tiles.FurnitureProfaned
 {
     public class ProfanedCrystal : ModTile
@@ -22,7 +21,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
             soundType = 13;
             mineResist = 1f;
             minPick = 225;
-            drop = mod.ItemType("ProfanedCrystal");
+            drop = ModContent.ItemType<Items.ProfanedCrystal>();
             AddMapEntry(new Color(181, 136, 177));
         }
 

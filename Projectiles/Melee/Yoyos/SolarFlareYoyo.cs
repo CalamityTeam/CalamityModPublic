@@ -1,10 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.Projectiles.Melee.Yoyos
+using Terraria.ID;
+namespace CalamityMod.Projectiles.Melee
 {
     public class SolarFlareYoyo : ModProjectile
     {
@@ -37,10 +36,10 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("HolyLight"), 300);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 300);
             if (projectile.owner == Main.myPlayer)
             {
-                int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("HolyExplosionSupreme"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<HolyExplosionSupreme>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                 Main.projectile[proj].Calamity().forceMelee = true;
             }
         }

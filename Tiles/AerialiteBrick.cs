@@ -1,8 +1,7 @@
-using CalamityMod.Utilities;
+
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Tiles
 {
     public class AerialiteBrick : ModTile
@@ -14,7 +13,7 @@ namespace CalamityMod.Tiles
             Main.tileBlockLight[Type] = true;
             soundType = 21;
             minPick = 50;
-            drop = mod.ItemType("AerialiteBrick");
+            drop = ModContent.ItemType<Items.AerialiteBrick>();
             AddMapEntry(new Color(68, 58, 145));
         }
 

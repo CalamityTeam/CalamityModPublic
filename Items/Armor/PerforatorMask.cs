@@ -1,6 +1,5 @@
 using Terraria.ModLoader;
-
-namespace CalamityMod.Items.Armor
+namespace CalamityMod.Items
 {
     [AutoloadEquip(EquipType.Head)]
     public class PerforatorMask : ModItem

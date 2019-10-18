@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Tiles.FurnitureEutrophic
 {
@@ -13,7 +13,6 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Eutrophic Lantern");
             AddMapEntry(new Color(191, 142, 111), name);
-
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Torches };
         }
@@ -31,7 +30,7 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 16, 32, mod.ItemType("EutrophicLantern"));
+            Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<Items.EutrophicLantern>());
         }
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)

@@ -1,13 +1,12 @@
-﻿using CalamityMod.Utilities;
+﻿
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.StormWeaver
+using Terraria.ID;
+namespace CalamityMod.NPCs
 {
     [AutoloadBossHead]
     public class StormWeaverHeadNaked : ModNPC
@@ -150,11 +149,11 @@ namespace CalamityMod.NPCs.StormWeaver
                         int lol;
                         if (num36 >= 0 && num36 < minLength)
                         {
-                            lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("StormWeaverBodyNaked"), npc.whoAmI);
+                            lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<StormWeaverBodyNaked>(), npc.whoAmI);
                         }
                         else
                         {
-                            lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("StormWeaverTailNaked"), npc.whoAmI);
+                            lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<StormWeaverTailNaked>(), npc.whoAmI);
                         }
                         Main.npc[lol].realLife = npc.whoAmI;
                         Main.npc[lol].ai[2] = (float)npc.whoAmI;
@@ -488,12 +487,12 @@ namespace CalamityMod.NPCs.StormWeaver
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             SpriteEffects spriteEffects = SpriteEffects.None;
-            Microsoft.Xna.Framework.Color color24 = npc.GetAlpha(drawColor);
-            Microsoft.Xna.Framework.Color color25 = Lighting.GetColor((int)((double)npc.position.X + (double)npc.width * 0.5) / 16, (int)(((double)npc.position.Y + (double)npc.height * 0.5) / 16.0));
+            Color color24 = npc.GetAlpha(drawColor);
+            Color color25 = Lighting.GetColor((int)((double)npc.position.X + (double)npc.width * 0.5) / 16, (int)(((double)npc.position.Y + (double)npc.height * 0.5) / 16.0));
             Texture2D texture2D3 = Main.npcTexture[npc.type];
             int num156 = Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type];
             int y3 = num156 * (int)npc.frameCounter;
-            Microsoft.Xna.Framework.Rectangle rectangle = new Microsoft.Xna.Framework.Rectangle(0, y3, texture2D3.Width, num156);
+            Rectangle rectangle = new Rectangle(0, y3, texture2D3.Width, num156);
             Vector2 origin2 = rectangle.Size() / 2f;
             int num157 = 8;
             int num158 = 2;
@@ -502,7 +501,7 @@ namespace CalamityMod.NPCs.StormWeaver
             int num161 = num159;
             while (((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157)) && Lighting.NotRetro)
             {
-                Microsoft.Xna.Framework.Color color26 = npc.GetAlpha(color25);
+                Color color26 = npc.GetAlpha(color25);
                 {
                     goto IL_6899;
                 }
@@ -590,7 +589,7 @@ namespace CalamityMod.NPCs.StormWeaver
         {
             for (int num569 = 0; num569 < 200; num569++)
             {
-                if (Main.npc[num569].active && (Main.npc[num569].type == mod.NPCType("StormWeaverBodyNaked") || Main.npc[num569].type == mod.NPCType("StormWeaverTailNaked")))
+                if (Main.npc[num569].active && (Main.npc[num569].type == ModContent.NPCType<StormWeaverBodyNaked>() || Main.npc[num569].type == ModContent.NPCType<StormWeaverTailNaked>()))
                 {
                     Main.npc[num569].active = false;
                 }
@@ -606,9 +605,9 @@ namespace CalamityMod.NPCs.StormWeaver
         public override bool SpecialNPCLoot()
         {
             int closestSegmentID = DropHelper.FindClosestWormSegment(npc,
-                mod.NPCType("StormWeaverHeadNaked"),
-                mod.NPCType("StormWeaverBodyNaked"),
-                mod.NPCType("StormWeaverTailNaked"));
+                ModContent.NPCType<StormWeaverHeadNaked>(),
+                ModContent.NPCType<StormWeaverBodyNaked>(),
+                ModContent.NPCType<StormWeaverTailNaked>());
             npc.position = Main.npc[closestSegmentID].position;
             return false;
         }
@@ -619,18 +618,18 @@ namespace CalamityMod.NPCs.StormWeaver
             if (CalamityWorld.DoGSecondStageCountdown <= 0)
             {
                 // Materials
-                DropHelper.DropItem(npc, mod.ItemType("ArmoredShell"), true, 5, 8);
+                DropHelper.DropItem(npc, ModContent.ItemType<ArmoredShell>(), true, 5, 8);
 
                 // Weapons
-                DropHelper.DropItemChance(npc, mod.ItemType("TheStorm"), 3);
-                DropHelper.DropItemChance(npc, mod.ItemType("StormDragoon"), 3);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<TheStorm>(), 3);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<StormDragoon>(), 3);
 
                 // Vanity
-                DropHelper.DropItemChance(npc, mod.ItemType("WeaverTrophy"), 10);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<WeaverTrophy>(), 10);
 
                 // Other
                 bool lastSentinelKilled = CalamityWorld.downedSentinel1 && !CalamityWorld.downedSentinel2 && CalamityWorld.downedSentinel3;
-                DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeSentinels"), true, lastSentinelKilled);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeSentinels>(), true, lastSentinelKilled);
                 DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedSentinel2, 5, 2, 1);
             }
 

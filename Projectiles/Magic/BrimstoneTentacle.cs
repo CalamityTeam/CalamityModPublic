@@ -2,7 +2,6 @@
 using System;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Projectiles.Magic
 {
     public class BrimstoneTentacle : ModProjectile
@@ -94,7 +93,7 @@ namespace CalamityMod.Projectiles.Magic
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.immune[projectile.owner] = 5;
-            target.AddBuff(mod.BuffType("BrimstoneFlames"), 240);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 240);
         }
     }
 }

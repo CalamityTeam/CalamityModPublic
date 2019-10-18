@@ -1,9 +1,9 @@
 ﻿using CalamityMod.World;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
-namespace CalamityMod.NPCs.SupremeCalamitas
+namespace CalamityMod.NPCs
 {
     public class SCalWormHeart : ModNPC
     {
@@ -59,7 +59,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            if (projectile.type == mod.ProjectileType("Celestus2"))
+            if (projectile.type == ModContent.ProjectileType<Celestus2>())
             {
                 damage = (int)((double)damage * 0.66);
             }

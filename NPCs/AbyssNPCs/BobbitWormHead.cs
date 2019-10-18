@@ -3,10 +3,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.AbyssNPCs
+using Terraria.ID;
+namespace CalamityMod.NPCs
 {
     public class BobbitWormHead : ModNPC
     {
@@ -30,11 +29,11 @@ namespace CalamityMod.NPCs.AbyssNPCs
             aiType = -1;
             npc.noGravity = true;
             npc.value = Item.buyPrice(0, 0, 50, 0);
-            npc.buffImmune[mod.BuffType("CrushDepth")] = true;
+            npc.buffImmune[ModContent.BuffType<CrushDepth>()] = true;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
             banner = npc.type;
-            bannerItem = mod.ItemType("BobbitWormBanner");
+            bannerItem = ModContent.ItemType<BobbitWormBanner>();
         }
 
         public override void AI()
@@ -214,10 +213,10 @@ namespace CalamityMod.NPCs.AbyssNPCs
                     drawPositionX = Main.npc[CalamityGlobalNPC.bobbitWormBottom].Center.X - center.X;
                     drawPositionY = Main.npc[CalamityGlobalNPC.bobbitWormBottom].Center.Y - center.Y;
                     drawPositionY += 4f;
-                    Microsoft.Xna.Framework.Color color = Lighting.GetColor((int)center.X / 16, (int)(center.Y / 16f));
-                    Main.spriteBatch.Draw(mod.GetTexture("NPCs/AbyssNPCs/BobbitWormSegment"), new Vector2(center.X - Main.screenPosition.X, center.Y - Main.screenPosition.Y),
-                        new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, 0, mod.GetTexture("NPCs/AbyssNPCs/BobbitWormSegment").Width, mod.GetTexture("NPCs/AbyssNPCs/BobbitWormSegment").Height)), color, rotation,
-                        new Vector2((float)mod.GetTexture("NPCs/AbyssNPCs/BobbitWormSegment").Width * 0.5f, (float)mod.GetTexture("NPCs/AbyssNPCs/BobbitWormSegment").Height * 0.5f), 1f, SpriteEffects.None, 0f);
+                    Color color = Lighting.GetColor((int)center.X / 16, (int)(center.Y / 16f));
+                    Main.spriteBatch.Draw(ModContent.GetTexture("CalamityMod/NPCs/AbyssNPCs/BobbitWormSegment"), new Vector2(center.X - Main.screenPosition.X, center.Y - Main.screenPosition.Y),
+                        new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, 0, ModContent.GetTexture("CalamityMod/NPCs/AbyssNPCs/BobbitWormSegment").Width, ModContent.GetTexture("CalamityMod/NPCs/AbyssNPCs/BobbitWormSegment").Height)), color, rotation,
+                        new Vector2((float)ModContent.GetTexture("CalamityMod/NPCs/AbyssNPCs/BobbitWormSegment").Width * 0.5f, (float)ModContent.GetTexture("CalamityMod/NPCs/AbyssNPCs/BobbitWormSegment").Height * 0.5f), 1f, SpriteEffects.None, 0f);
                 }
             }
             return true;
@@ -226,11 +225,11 @@ namespace CalamityMod.NPCs.AbyssNPCs
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             player.AddBuff(BuffID.Bleeding, 300, true);
-            player.AddBuff(mod.BuffType("CrushDepth"), 300, true);
+            player.AddBuff(ModContent.BuffType<CrushDepth>(), 300, true);
             if (CalamityWorld.revenge)
             {
-                player.AddBuff(mod.BuffType("MarkedforDeath"), 300);
-                player.AddBuff(mod.BuffType("Horror"), 120, true);
+                player.AddBuff(ModContent.BuffType<MarkedforDeath>(), 300);
+                player.AddBuff(ModContent.BuffType<Horror>(), 120, true);
             }
         }
 
@@ -238,17 +237,17 @@ namespace CalamityMod.NPCs.AbyssNPCs
         {
             if (Main.rand.NextBool(1000000) && CalamityWorld.revenge)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("HalibutCannon"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<HalibutCannon>());
             }
             if (NPC.downedPlantBoss || CalamityWorld.downedCalamitas)
             {
                 if (Main.rand.NextBool(2))
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DepthCells"), Main.rand.Next(5, 8));
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DepthCells>(), Main.rand.Next(5, 8));
                 }
                 if (Main.expertMode && Main.rand.NextBool(2))
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DepthCells"), Main.rand.Next(2, 4));
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DepthCells>(), Main.rand.Next(2, 4));
                 }
             }
         }

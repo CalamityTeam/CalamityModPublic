@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework;
 using Terraria.ID;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Walls
 {
     public class AstralDirtWall : ModWall
@@ -16,7 +15,7 @@ namespace CalamityMod.Walls
         public override void SetDefaults()
         {
             dustType = DustID.Shadowflame; //TODO
-            drop = mod.ItemType("AstralDirtWall");
+            drop = ModContent.ItemType<Items.AstralDirtWall>();
             AddMapEntry(new Color(26, 22, 32));
         }
 

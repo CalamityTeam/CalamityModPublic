@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Tiles.FurnitureVoid
 {
@@ -14,7 +14,6 @@ namespace CalamityMod.Tiles.FurnitureVoid
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Void Obelisk");
             AddMapEntry(new Color(191, 142, 111), name);
-            dustType = mod.DustType("Pixel");
             adjTiles = new int[] { TileID.GrandfatherClocks };
         }
 
@@ -59,7 +58,7 @@ namespace CalamityMod.Tiles.FurnitureVoid
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 48, 32, mod.ItemType("VoidClock"));
+            Item.NewItem(i * 16, j * 16, 48, 32, ModContent.ItemType<Items.VoidClock>());
         }
     }
 }

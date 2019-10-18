@@ -1,10 +1,10 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.ModLoader;
 using Terraria.DataStructures;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Typeless
 {
@@ -213,7 +213,7 @@ namespace CalamityMod.Projectiles.Typeless
             GameShaders.Armor.ApplySecondary(Main.player[projectile.owner].cBody, Main.player[projectile.owner], new DrawData?());
             projectile.rotation = (projectile.Center - segment[5]).ToRotation();
             Texture2D texture2D13 = Main.projectileTexture[projectile.type];
-            Texture2D segmentSprite = mod.GetTexture("ExtraTextures/Chains/OmegaBlueTentacleSegment");
+            Texture2D segmentSprite = ModContent.GetTexture("CalamityMod/ExtraTextures/Chains/OmegaBlueTentacleSegment");
             for (int i = 0; i < 6; i++)
             {
                 Main.spriteBatch.Draw(segmentSprite, segment[i] - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), segmentSprite.Bounds, projectile.GetAlpha(lightColor), 0f, segmentSprite.Bounds.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);

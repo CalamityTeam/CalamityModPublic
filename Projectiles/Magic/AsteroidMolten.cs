@@ -1,9 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
+using Terraria.ID;
 namespace CalamityMod.Projectiles.Magic
 {
     public class AsteroidMolten : ModProjectile
@@ -99,7 +98,7 @@ namespace CalamityMod.Projectiles.Magic
             }
             for (int num341 = 0; num341 < 5; num341++)
             {
-                int num342 = Utils.SelectRandom<int>(Main.rand, new int[]
+                int num342 = Utils.SelectRandom(Main.rand, new int[]
                 {
                     244,
                     259,
@@ -115,7 +114,7 @@ namespace CalamityMod.Projectiles.Magic
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             Player player = Main.player[projectile.owner];
-            player.AddBuff(mod.BuffType("Molten"), 360);
+            player.AddBuff(ModContent.BuffType<Molten>(), 360);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -127,19 +126,19 @@ namespace CalamityMod.Projectiles.Magic
                 case 0:
                     break;
                 case 1:
-                    texture = mod.GetTexture("Projectiles/Magic/AsteroidMolten2");
+                    texture = ModContent.GetTexture("CalamityMod/Projectiles/Magic/AsteroidMolten2");
                     break;
                 case 2:
-                    texture = mod.GetTexture("Projectiles/Magic/AsteroidMolten3");
+                    texture = ModContent.GetTexture("CalamityMod/Projectiles/Magic/AsteroidMolten3");
                     break;
                 case 3:
-                    texture = mod.GetTexture("Projectiles/Magic/AsteroidMolten4");
+                    texture = ModContent.GetTexture("CalamityMod/Projectiles/Magic/AsteroidMolten4");
                     break;
                 case 4:
-                    texture = mod.GetTexture("Projectiles/Magic/AsteroidMolten5");
+                    texture = ModContent.GetTexture("CalamityMod/Projectiles/Magic/AsteroidMolten5");
                     break;
                 case 5:
-                    texture = mod.GetTexture("Projectiles/Magic/AsteroidMolten6");
+                    texture = ModContent.GetTexture("CalamityMod/Projectiles/Magic/AsteroidMolten6");
                     break;
                 default:
                     break;
@@ -150,24 +149,24 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D texture = mod.GetTexture("Projectiles/Magic/AsteroidMoltenGlow");
+            Texture2D texture = ModContent.GetTexture("CalamityMod/Projectiles/Magic/AsteroidMoltenGlow");
             switch ((int)projectile.ai[0])
             {
                 case 0:
                     break;
                 case 1:
-                    texture = mod.GetTexture("Projectiles/Magic/AsteroidMoltenGlow2");
+                    texture = ModContent.GetTexture("CalamityMod/Projectiles/Magic/AsteroidMoltenGlow2");
                     break;
                 case 2:
-                    texture = mod.GetTexture("Projectiles/Magic/AsteroidMoltenGlow3");
+                    texture = ModContent.GetTexture("CalamityMod/Projectiles/Magic/AsteroidMoltenGlow3");
                     break;
                 case 3:
-                    texture = mod.GetTexture("Projectiles/Magic/AsteroidMoltenGlow4");
+                    texture = ModContent.GetTexture("CalamityMod/Projectiles/Magic/AsteroidMoltenGlow4");
                     break;
                 case 4:
                     return;
                 case 5:
-                    texture = mod.GetTexture("Projectiles/Magic/AsteroidMoltenGlow6");
+                    texture = ModContent.GetTexture("CalamityMod/Projectiles/Magic/AsteroidMoltenGlow6");
                     break;
                 default:
                     break;

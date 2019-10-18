@@ -1,8 +1,8 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories.Wings
 {
@@ -31,10 +31,10 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            if ((player.armor[0].type == mod.ItemType("ReaverCap") || player.armor[0].type == mod.ItemType("ReaverHelm") ||
-                player.armor[0].type == mod.ItemType("ReaverHelmet") || player.armor[0].type == mod.ItemType("ReaverMask") ||
-                player.armor[0].type == mod.ItemType("ReaverVisage")) &&
-                player.armor[1].type == mod.ItemType("ReaverScaleMail") && player.armor[2].type == mod.ItemType("ReaverCuisses"))
+            if ((player.armor[0].type == ModContent.ItemType<ReaverCap>() || player.armor[0].type == ModContent.ItemType<ReaverHelm>() ||
+                player.armor[0].type == ModContent.ItemType<ReaverHelmet>() || player.armor[0].type == ModContent.ItemType<ReaverMask>() ||
+                player.armor[0].type == ModContent.ItemType<ReaverVisage>()) &&
+                player.armor[1].type == ModContent.ItemType<ReaverScaleMail>() && player.armor[2].type == ModContent.ItemType<ReaverCuisses>())
             {
                 player.moveSpeed += 0.15f;
             }

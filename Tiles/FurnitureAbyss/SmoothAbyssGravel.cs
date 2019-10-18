@@ -1,8 +1,7 @@
-using CalamityMod.Utilities;
+
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Tiles.FurnitureAbyss
 {
     public class SmoothAbyssGravel : ModTile
@@ -21,7 +20,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
             soundType = 21;
             mineResist = 2f;
             minPick = 65;
-            drop = mod.ItemType("SmoothAbyssGravel");
+            drop = ModContent.ItemType<Items.SmoothAbyssGravel>();
             AddMapEntry(new Color(49, 56, 77));
         }
 

@@ -1,14 +1,14 @@
-﻿using CalamityMod.Utilities;
+﻿
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.Crabulon
+using Terraria.ID;
+using CalamityMod.Items;
+namespace CalamityMod.NPCs
 {
     [AutoloadBossHead]
     public class CrabulonIdle : ModNPC
@@ -33,8 +33,8 @@ namespace CalamityMod.NPCs.Crabulon
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
             aiType = -1;
-            npc.buffImmune[mod.BuffType("GlacialState")] = true;
-            npc.buffImmune[mod.BuffType("TemporalSadness")] = true;
+            npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
+            npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
             npc.noGravity = false;
             npc.noTileCollide = false;
             Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
@@ -47,7 +47,7 @@ namespace CalamityMod.NPCs.Crabulon
             npc.value = Item.buyPrice(0, 4, 0, 0);
             npc.HitSound = SoundID.NPCHit45;
             npc.DeathSound = SoundID.NPCDeath1;
-            bossBag = mod.ItemType("CrabulonBag");
+            bossBag = ModContent.ItemType<CrabulonBag>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -132,7 +132,7 @@ namespace CalamityMod.NPCs.Crabulon
                         }
                         float num353 = 10f;
                         int num354 = expertMode ? 11 : 14;
-                        int num355 = mod.ProjectileType("MushBomb");
+                        int num355 = ModContent.ProjectileType<MushBomb>();
                         Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 42);
                         if (CalamityWorld.bossRushActive)
                         {
@@ -173,7 +173,7 @@ namespace CalamityMod.NPCs.Crabulon
                 {
                     if (!player.dead && player.active && (player.Center - npc.Center).Length() < 800f)
                     {
-                        player.AddBuff(mod.BuffType("Mushy"), 2);
+                        player.AddBuff(ModContent.BuffType<Mushy>(), 2);
                     }
                 }
                 int sporeDust = Dust.NewDust(npc.position, npc.width, npc.height, 56, npc.velocity.X, npc.velocity.Y, 255, new Color(0, 80, 255, 80), 1.2f);
@@ -336,7 +336,7 @@ namespace CalamityMod.NPCs.Crabulon
                     Main.PlaySound(SoundID.Item14, npc.position);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        Projectile.NewProjectile((int)npc.Center.X, (int)npc.Center.Y + 20, 0f, 0f, mod.ProjectileType("Mushmash"), 20, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile((int)npc.Center.X, (int)npc.Center.Y + 20, 0f, 0f, ModContent.ProjectileType<Mushmash>(), 20, 0f, Main.myPlayer, 0f, 0f);
                     }
                     npc.ai[2] += 1f;
                     if (npc.ai[2] >= 3f)
@@ -346,7 +346,7 @@ namespace CalamityMod.NPCs.Crabulon
                             for (int x = 0; x < 20; x++)
                             {
                                 int num354 = expertMode ? 11 : 14;
-                                Projectile.NewProjectile(npc.Center.X + (float)shotSpacing, npc.Center.Y - 1000f, 0f, 0f, mod.ProjectileType("MushBombFall"), num354, 0f, Main.myPlayer, 0f, 0f);
+                                Projectile.NewProjectile(npc.Center.X + (float)shotSpacing, npc.Center.Y - 1000f, 0f, 0f, ModContent.ProjectileType<MushBombFall>(), num354, 0f, Main.myPlayer, 0f, 0f);
                                 shotSpacing -= 100;
                             }
                             shotSpacing = 1000;
@@ -434,7 +434,7 @@ namespace CalamityMod.NPCs.Crabulon
                         {
                             int x = (int)(npc.position.X + (float)Main.rand.Next(npc.width - 32));
                             int y = (int)(npc.position.Y + (float)Main.rand.Next(npc.height - 32));
-                            int num663 = mod.NPCType("CrabShroom");
+                            int num663 = ModContent.NPCType<CrabShroom>();
                             int num664 = NPC.NewNPC(x, y, num663, 0, 0f, 0f, 0f, 0f, 255);
                             Main.npc[num664].SetDefaults(num663, -1f);
                             Main.npc[num664].velocity.X = (float)Main.rand.Next(-50, 51) * 0.1f;
@@ -465,8 +465,8 @@ namespace CalamityMod.NPCs.Crabulon
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             Mod mod = ModLoader.GetMod("CalamityMod");
-            Texture2D texture = mod.GetTexture("NPCs/Crabulon/CrabulonIdleAlt");
-            Texture2D textureAttack = mod.GetTexture("NPCs/Crabulon/CrabulonAttack");
+            Texture2D texture = ModContent.GetTexture("CalamityMod/NPCs/Crabulon/CrabulonIdleAlt");
+            Texture2D textureAttack = ModContent.GetTexture("CalamityMod/NPCs/Crabulon/CrabulonAttack");
             if (npc.ai[0] > 2f)
             {
                 CalamityMod.DrawTexture(spriteBatch, textureAttack, 0, npc, drawColor, true);
@@ -482,8 +482,8 @@ namespace CalamityMod.NPCs.Crabulon
         {
             DropHelper.DropBags(npc);
 
-            DropHelper.DropItemChance(npc, mod.ItemType("CrabulonTrophy"), 10);
-            DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeCrabulon"), true, !CalamityWorld.downedCrabulon);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<CrabulonTrophy>(), 10);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeCrabulon>(), true, !CalamityWorld.downedCrabulon);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedCrabulon, 2, 0, 0);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
@@ -494,13 +494,13 @@ namespace CalamityMod.NPCs.Crabulon
                 DropHelper.DropItem(npc, ItemID.MushroomGrassSeeds, 3, 6);
 
                 // Weapons
-                DropHelper.DropItemChance(npc, mod.ItemType("MycelialClaws"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("Fungicide"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("HyphaeRod"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("Mycoroot"), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<MycelialClaws>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Fungicide>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<HyphaeRod>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.Mycoroot>(), 4);
 
                 // Vanity
-                DropHelper.DropItemChance(npc, mod.ItemType("CrabulonMask"), 7);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<CrabulonMask>(), 7);
             }
 
             // Mark Crabulon as dead

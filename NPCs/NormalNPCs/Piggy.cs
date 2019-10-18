@@ -1,9 +1,8 @@
 ﻿using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.NormalNPCs
+using Terraria.ID;
+namespace CalamityMod.NPCs
 {
     public class Piggy : ModNPC
     {
@@ -28,7 +27,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
             banner = npc.type;
-            bannerItem = mod.ItemType("PiggyBanner");
+            bannerItem = ModContent.ItemType<PiggyBanner>();
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)

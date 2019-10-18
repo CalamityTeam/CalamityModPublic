@@ -1,8 +1,7 @@
 ﻿using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.NormalNPCs
+using Terraria.ID;
+namespace CalamityMod.NPCs
 {
     public class SandTortoise : ModNPC
     {
@@ -30,7 +29,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.DeathSound = SoundID.NPCDeath27;
             npc.noGravity = false;
             banner = npc.type;
-            bannerItem = mod.ItemType("SandTortoiseBanner");
+            bannerItem = ModContent.ItemType<SandTortoiseBanner>();
         }
 
         public override void HitEffect(int hitDirection, double damage)

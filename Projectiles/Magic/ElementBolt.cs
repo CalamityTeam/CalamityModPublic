@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Projectiles.Magic
 {
     public class ElementBolt : ModProjectile
@@ -27,7 +26,7 @@ namespace CalamityMod.Projectiles.Magic
             if (projectile.localAI[1] >= 29f && projectile.owner == Main.myPlayer)
             {
                 projectile.localAI[1] = 0f;
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0.35f, projectile.velocity.Y * 0.35f, mod.ProjectileType("ElementOrb2"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0.35f, projectile.velocity.Y * 0.35f, ModContent.ProjectileType<ElementOrb2>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
             }
             projectile.localAI[0] += 1f;
             if (projectile.localAI[0] > 9f)

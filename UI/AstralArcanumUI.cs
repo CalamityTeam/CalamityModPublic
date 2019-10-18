@@ -3,8 +3,8 @@ using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.UI
 {
@@ -30,7 +30,7 @@ namespace CalamityMod.UI
 
         public static void Load(Mod mod)
         {
-            CircleTextures = mod.GetTexture("ExtraTextures/UI/AstralArcanumCircles");
+            CircleTextures = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/AstralArcanumCircles");
             CircleNames = new string[]
             {
                 "Underworld",

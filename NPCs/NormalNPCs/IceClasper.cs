@@ -2,10 +2,9 @@
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.NormalNPCs
+using Terraria.ID;
+namespace CalamityMod.NPCs
 {
     public class IceClasper : ModNPC
     {
@@ -33,7 +32,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.coldDamage = true;
             npc.rarity = 2;
             banner = npc.type;
-            bannerItem = mod.ItemType("IceClasperBanner");
+            bannerItem = ModContent.ItemType<IceClasperBanner>();
         }
 
         public override void AI()
@@ -247,7 +246,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             player.AddBuff(BuffID.Frostburn, 300, true);
             if (Main.rand.NextBool(3))
             {
-                player.AddBuff(mod.BuffType("GlacialState"), 30, true);
+                player.AddBuff(ModContent.BuffType<GlacialState>(), 30, true);
             }
         }
 
@@ -268,14 +267,14 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EssenceofEleum"));
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EssenceofEleum>());
             if (Main.rand.NextBool(10))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("FrostBarrier"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<FrostBarrier>());
             }
             if (Main.rand.NextBool(3))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("AncientIceChunk"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<AncientIceChunk>());
             }
         }
     }

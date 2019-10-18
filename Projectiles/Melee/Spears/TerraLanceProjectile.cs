@@ -1,8 +1,7 @@
 ﻿using System;
 using Terraria;
 using Terraria.ModLoader;
-
-namespace CalamityMod.Projectiles.Melee.Spears
+namespace CalamityMod.Projectiles.Melee
 {
     public class TerraLanceProjectile : ModProjectile
     {
@@ -51,7 +50,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
                 {
                     projectile.localAI[0] = 1f;
                     Projectile.NewProjectile(projectile.Center.X + projectile.velocity.X, projectile.Center.Y + projectile.velocity.Y,
-                        projectile.velocity.X * 1.4f, projectile.velocity.Y * 1.4f, mod.ProjectileType("TerraSpear"), (int)((double)projectile.damage * 0.85), projectile.knockBack * 0.85f, projectile.owner, 0f, 0f);
+                        projectile.velocity.X * 1.4f, projectile.velocity.Y * 1.4f, ModContent.ProjectileType<TerraSpear>(), (int)((double)projectile.damage * 0.85), projectile.knockBack * 0.85f, projectile.owner, 0f, 0f);
                 }
             }
             else

@@ -1,9 +1,8 @@
-using CalamityMod.Utilities;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Tiles
 {
     public class Cinderplate : ModTile
@@ -19,7 +18,7 @@ namespace CalamityMod.Tiles
             soundType = 21;
             mineResist = 1f;
             minPick = 180;
-            drop = mod.ItemType("Cinderplate");
+            drop = ModContent.ItemType<Items.Cinderplate>();
             AddMapEntry(new Color(173, 52, 70));
         }
 
@@ -34,7 +33,7 @@ namespace CalamityMod.Tiles
         {
             int xPos = Main.tile[i, j].frameX;
             int yPos = Main.tile[i, j].frameY;
-            Texture2D glowmask = mod.GetTexture("Tiles/Cinderplate_Glowmask");
+            Texture2D glowmask = ModContent.GetTexture("CalamityMod/Tiles/CinderplateGlow");
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
             Color drawColour = GetDrawColour(i, j, new Color(50, 50, 50, 50));

@@ -1,8 +1,7 @@
 ﻿using System;
 using Terraria;
 using Terraria.ModLoader;
-
-namespace CalamityMod.Projectiles.Melee.Spears
+namespace CalamityMod.Projectiles.Melee
 {
     public class EarthenPike : ModProjectile
     {
@@ -56,7 +55,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
                         velocityY = 0.1f;
                     }
                     int proj = Projectile.NewProjectile(projectile.Center.X + projectile.velocity.X, projectile.Center.Y + projectile.velocity.Y,
-                        projectile.velocity.X * 1.25f, velocityY, mod.ProjectileType("FossilShard"), (int)((double)projectile.damage * 0.5), 0f, projectile.owner, 0f, 0f);
+                        projectile.velocity.X * 1.25f, velocityY, ModContent.ProjectileType<FossilShard>(), (int)((double)projectile.damage * 0.5), 0f, projectile.owner, 0f, 0f);
                     Main.projectile[proj].Calamity().forceMelee = true;
                 }
             }
@@ -88,7 +87,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.immune[projectile.owner] = 8;
-            target.AddBuff(mod.BuffType("ArmorCrunch"), 300);
+            target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 300);
         }
     }
 }

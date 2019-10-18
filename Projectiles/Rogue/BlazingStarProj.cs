@@ -1,17 +1,16 @@
-﻿using CalamityMod.Items.CalamityCustomThrowingDamage;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Rogue
 {
     public class BlazingStarProj : ModProjectile
     {
         private static int Lifetime = 1540;
-        private static int ReboundTime = 75;
+        private static int ReboundTime = 40;
 
         public override void SetStaticDefaults()
         {
@@ -55,39 +54,45 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 projectile.tileCollide = false;
 
-                float returnSpeed = BlazingStar.Speed;
-                float acceleration = 0.35f;
+                float returnSpeed = BlazingStar.Speed* 2.5f;
+                float acceleration = 2f;
                 Player owner = Main.player[projectile.owner];
 
                 // Delete the projectile if it's excessively far away.
-                Vector2 distance = owner.Center - projectile.Center;
-                Vector2 ownerDistNorm = projectile.DirectionTo(owner.Center) * returnSpeed;
-                if (distance.Length() > 3000f)
+                Vector2 playerCenter = owner.Center;
+                float xDist = playerCenter.X - projectile.Center.X;
+                float yDist = playerCenter.Y - projectile.Center.Y;
+                float dist = (float)Math.Sqrt((double)(xDist * xDist + yDist * yDist));
+                if (dist > 3000f)
                     projectile.Kill();
 
+                dist = returnSpeed / dist;
+                xDist *= dist;
+                yDist *= dist;
+
                 // Home back in on the player.
-                if (projectile.velocity.X < distance.X)
+                if (projectile.velocity.X < xDist)
                 {
                     projectile.velocity.X = projectile.velocity.X + acceleration;
-                    if (projectile.velocity.X < 0f && distance.X > 0f)
+                    if (projectile.velocity.X < 0f && xDist > 0f)
                         projectile.velocity.X += acceleration;
                 }
-                else if (projectile.velocity.X > distance.X)
+                else if (projectile.velocity.X > xDist)
                 {
                     projectile.velocity.X = projectile.velocity.X - acceleration;
-                    if (projectile.velocity.X > 0f && distance.X < 0f)
+                    if (projectile.velocity.X > 0f && xDist < 0f)
                         projectile.velocity.X -= acceleration;
                 }
-                if (projectile.velocity.Y < distance.Y)
+                if (projectile.velocity.Y < yDist)
                 {
                     projectile.velocity.Y = projectile.velocity.Y + acceleration;
-                    if (projectile.velocity.Y < 0f && distance.Y > 0f)
+                    if (projectile.velocity.Y < 0f && yDist > 0f)
                         projectile.velocity.Y += acceleration;
                 }
-                else if (projectile.velocity.Y > distance.Y)
+                else if (projectile.velocity.Y > yDist)
                 {
                     projectile.velocity.Y = projectile.velocity.Y - acceleration;
-                    if (projectile.velocity.Y > 0f && distance.Y < 0f)
+                    if (projectile.velocity.Y > 0f && yDist < 0f)
                         projectile.velocity.Y -= acceleration;
                 }
 

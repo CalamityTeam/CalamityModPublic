@@ -1,10 +1,10 @@
 ﻿using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
-namespace CalamityMod.NPCs.SlimeGod
+namespace CalamityMod.NPCs
 {
     public class SlimeSpawnCorrupt : ModNPC
     {
@@ -55,7 +55,7 @@ namespace CalamityMod.NPCs.SlimeGod
             if (Main.netMode != NetmodeID.MultiplayerClient && npc.life <= 0)
             {
                 Vector2 spawnAt = npc.Center + new Vector2(0f, (float)npc.height / 2f);
-                NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, mod.NPCType("SlimeSpawnCorrupt2"));
+                NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<SlimeSpawnCorrupt2>());
             }
             for (int k = 0; k < 5; k++)
             {

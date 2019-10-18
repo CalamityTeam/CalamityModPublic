@@ -10,7 +10,7 @@ namespace CalamityMod.Walls
         {
             Main.wallHouse[Type] = true;
             dustType = 96;
-            drop = mod.ItemType("NavystoneWallSafe");
+            drop = ModContent.ItemType<Items.NavystoneWallSafe>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Navystone Wall Safe");
             AddMapEntry(new Color(0, 50, 50), name);

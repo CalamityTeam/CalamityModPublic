@@ -1,6 +1,5 @@
 using Terraria.ID;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Placeables
 {
     public class ChaoticBrick : ModItem
@@ -18,7 +17,7 @@ namespace CalamityMod.Items.Placeables
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = mod.TileType("ChaoticBrick");
+            item.createTile = ModContent.TileType<Tiles.ChaoticBrick>();
         }
 
         public override void AddRecipes()

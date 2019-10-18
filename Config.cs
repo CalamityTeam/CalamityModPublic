@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using Terraria;
-using Terraria.IO;
 using Terraria.ModLoader;
+using Terraria.IO;
 
 namespace CalamityMod
 {

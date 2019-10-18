@@ -2,7 +2,7 @@
 using Terraria;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Items.Armor
+namespace CalamityMod.Items
 {
     [AutoloadEquip(EquipType.Head)]
     public class SilvaHelmet : ModItem
@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Armor
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == mod.ItemType("SilvaArmor") && legs.type == mod.ItemType("SilvaLeggings");
+            return body.type == ModContent.ItemType<SilvaArmor>() && legs.type == ModContent.ItemType<SilvaLeggings>();
         }
 
         public override void ArmorSetShadows(Player player)
@@ -49,13 +49,13 @@ namespace CalamityMod.Items.Armor
                 "After the silva invulnerability time your minions will deal 10% more damage and you will gain +2 max minions";
             if (player.whoAmI == Main.myPlayer)
             {
-                if (player.FindBuffIndex(mod.BuffType("SilvaCrystal")) == -1)
+                if (player.FindBuffIndex(ModContent.BuffType<Buffs.SilvaCrystal>()) == -1)
                 {
-                    player.AddBuff(mod.BuffType("SilvaCrystal"), 3600, true);
+                    player.AddBuff(ModContent.BuffType<Buffs.SilvaCrystal>(), 3600, true);
                 }
-                if (player.ownedProjectileCounts[mod.ProjectileType("SilvaCrystal")] < 1)
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.SilvaCrystal>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("SilvaCrystal"), (int)(1500f * player.minionDamage), 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<Projectiles.SilvaCrystal>(), (int)(1500f * player.minionDamage), 0f, Main.myPlayer, 0f, 0f);
                 }
             }
             player.minionDamage += 0.75f;

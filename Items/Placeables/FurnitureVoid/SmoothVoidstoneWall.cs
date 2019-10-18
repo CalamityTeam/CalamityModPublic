@@ -1,6 +1,5 @@
 using Terraria.ID;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Placeables.FurnitureVoid
 {
     public class SmoothVoidstoneWall : ModItem
@@ -20,7 +19,7 @@ namespace CalamityMod.Items.Placeables.FurnitureVoid
             item.useTime = 7;
             item.useStyle = 1;
             item.consumable = true;
-            item.createWall = mod.WallType("SmoothVoidstoneWall");
+            item.createWall = ModContent.WallType<Walls.SmoothVoidstoneWall>();
         }
 
         public override void AddRecipes()

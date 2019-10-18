@@ -1,6 +1,6 @@
 ﻿using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Placeables
 {
@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Placeables
 
         public override void SetDefaults()
         {
-            item.createTile = mod.TileType("Cinderplate");
+            item.createTile = ModContent.TileType<Tiles.Cinderplate>();
             item.useStyle = 1;
             item.useTurn = true;
             item.useAnimation = 15;

@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Tiles.FurnitureAbyss
 {
@@ -29,7 +29,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 16, 32, mod.ItemType("AbyssTable"));
+            Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<Items.AbyssTable>());
         }
     }
 }

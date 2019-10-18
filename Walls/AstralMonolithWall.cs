@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using CalamityMod.Dusts;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
@@ -10,14 +11,13 @@ namespace CalamityMod.Walls
         public override void SetDefaults()
         {
             Main.wallHouse[Type] = true;
-            dustType = mod.DustType("Sparkle");
-            drop = mod.ItemType("AstralMonolithWall");
+            drop = ModContent.ItemType<Items.AstralMonolithWall>();
             AddMapEntry(new Color(5, 5, 5));
         }
 
         public override bool CreateDust(int i, int j, ref int type)
         {
-            Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, mod.DustType("AstralBasic"), 0f, 0f, 1, new Color(255, 255, 255), 1f);
+            Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, ModContent.DustType<AstralBasic>(), 0f, 0f, 1, new Color(255, 255, 255), 1f);
             return false;
         }
 
@@ -28,7 +28,7 @@ namespace CalamityMod.Walls
 
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            Texture2D sprite = mod.GetTexture("Walls/AstralMonolithWall");
+            Texture2D sprite = ModContent.GetTexture("CalamityMod/Walls/AstralMonolithWall");
             Color lightColor = GetWallColour(i, j);
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             zero -= new Vector2(8, 8);

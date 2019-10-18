@@ -1,5 +1,4 @@
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Placeables
 {
     public class ChaoticBrickWall : ModItem
@@ -15,7 +14,7 @@ namespace CalamityMod.Items.Placeables
             item.useTime = 7;
             item.useStyle = 1;
             item.consumable = true;
-            item.createWall = mod.WallType("ChaoticBrickWall");
+            item.createWall = ModContent.WallType<Walls.ChaoticBrickWall>();
         }
 
         public override void AddRecipes()

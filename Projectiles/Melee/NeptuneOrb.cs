@@ -2,9 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
+using Terraria.ID;
 namespace CalamityMod.Projectiles.Melee
 {
     public class NeptuneOrb : ModProjectile
@@ -36,7 +35,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 if (projectile.owner == Main.myPlayer)
                 {
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 15f, mod.ProjectileType("DepthOrb2"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 15f, ModContent.ProjectileType<DepthOrb2>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                 }
                 addSprayTimer = 20;
             }
@@ -94,7 +93,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("CrushDepth"), 300);
+            target.AddBuff(ModContent.BuffType<CrushDepth>(), 300);
         }
     }
 }

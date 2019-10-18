@@ -1,8 +1,7 @@
 ﻿using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.AbyssNPCs
+using Terraria.ID;
+namespace CalamityMod.NPCs
 {
     public class Gnasher : ModNPC
     {
@@ -31,7 +30,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
                 npc.buffImmune[k] = true;
             }
             banner = npc.type;
-            bannerItem = mod.ItemType("GnasherBanner");
+            bannerItem = ModContent.ItemType<GnasherBanner>();
         }
 
         public override void AI()

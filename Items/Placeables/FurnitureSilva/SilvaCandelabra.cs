@@ -1,5 +1,4 @@
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Placeables.FurnitureSilva
 {
     public class SilvaCandelabra : ModItem
@@ -19,14 +18,14 @@ namespace CalamityMod.Items.Placeables.FurnitureSilva
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = mod.TileType("SilvaCandelabra");
+            item.createTile = ModContent.TileType<Tiles.SilvaCandelabra>();
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "SilvaCrystal", 5);
-            recipe.AddIngredient(mod.ItemType("EffulgentFeather"), 3);
+            recipe.AddIngredient(ModContent.ItemType<EffulgentFeather>(), 3);
             recipe.SetResult(this);
             recipe.AddTile(null, "SilvaBasin");
             recipe.AddRecipe();

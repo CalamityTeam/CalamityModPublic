@@ -1,9 +1,8 @@
 ﻿using CalamityMod.World;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.NormalNPCs
+using Terraria.ID;
+namespace CalamityMod.NPCs
 {
     public class AeroSlime : ModNPC
     {
@@ -31,7 +30,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
             banner = npc.type;
-            bannerItem = mod.ItemType("AeroSlimeBanner");
+            bannerItem = ModContent.ItemType<AeroSlimeBanner>();
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -61,7 +60,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("AerialiteOre"), Main.rand.Next(10, 27));
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<AerialiteOre>(), Main.rand.Next(10, 27));
         }
     }
 }

@@ -2,9 +2,9 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.ModLoader;
 using Terraria.Enums;
 using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -128,14 +128,14 @@ namespace CalamityMod.Projectiles.Melee
             float num230 = projectile.velocity.Length() + 16f;
             bool flag24 = num230 < 100f;
             Vector2 value28 = Vector2.Normalize(projectile.velocity);
-            Microsoft.Xna.Framework.Rectangle rectangle8 = new Microsoft.Xna.Framework.Rectangle(0, 0, texture2D22.Width, 36); //2 and 40
+            Rectangle rectangle8 = new Rectangle(0, 0, texture2D22.Width, 36); //2 and 40
             Vector2 value29 = new Vector2(0f, Main.player[projectile.owner].gfxOffY);
             float rotation24 = projectile.rotation + 3.14159274f;
             Main.spriteBatch.Draw(texture2D22, projectile.Center.Floor() - Main.screenPosition + value29, new Microsoft.Xna.Framework.Rectangle?(rectangle8), lightColor, rotation24, rectangle8.Size() / 2f - Vector2.UnitY * 4f, projectile.scale, SpriteEffects.None, 0f);
             num230 -= 40f * projectile.scale;
             Vector2 vector31 = projectile.Center.Floor();
             vector31 += value28 * projectile.scale * 24f;
-            rectangle8 = new Microsoft.Xna.Framework.Rectangle(0, 62, texture2D22.Width, 18); //68 and 18
+            rectangle8 = new Rectangle(0, 62, texture2D22.Width, 18); //68 and 18
             if (num230 > 0f)
             {
                 float num231 = 0f;
@@ -153,7 +153,7 @@ namespace CalamityMod.Projectiles.Melee
             Vector2 value30 = vector31;
             vector31 = projectile.Center.Floor();
             vector31 += value28 * projectile.scale * 24f;
-            rectangle8 = new Microsoft.Xna.Framework.Rectangle(0, 40, texture2D22.Width, 20); //46 and 18
+            rectangle8 = new Rectangle(0, 40, texture2D22.Width, 20); //46 and 18
             int num232 = 18;
             if (flag24)
             {
@@ -178,7 +178,7 @@ namespace CalamityMod.Projectiles.Melee
                     vector31 += value28 * num237;
                 }
             }
-            rectangle8 = new Microsoft.Xna.Framework.Rectangle(0, 84, texture2D22.Width, 56); //90 and 48
+            rectangle8 = new Rectangle(0, 84, texture2D22.Width, 56); //90 and 48
             Main.spriteBatch.Draw(texture2D22, value30 - Main.screenPosition + value29, new Microsoft.Xna.Framework.Rectangle?(rectangle8), lightColor, rotation24, texture2D22.Frame(1, 1, 0, 0).Top(), projectile.scale, SpriteEffects.None, 0f);
             return false;
         }

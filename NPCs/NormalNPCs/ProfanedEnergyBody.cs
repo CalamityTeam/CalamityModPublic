@@ -1,8 +1,7 @@
 ﻿using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.NormalNPCs
+using Terraria.ID;
+namespace CalamityMod.NPCs
 {
     public class ProfanedEnergyBody : ModNPC
     {
@@ -29,7 +28,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.HitSound = SoundID.NPCHit52;
             npc.DeathSound = SoundID.NPCDeath55;
             banner = npc.type;
-            bannerItem = mod.ItemType("ProfanedEnergyBanner");
+            bannerItem = ModContent.ItemType<ProfanedEnergyBanner>();
         }
 
         public override void AI()
@@ -42,7 +41,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                     npc.localAI[0] = 1f;
                     for (int num723 = 0; num723 < 2; num723++)
                     {
-                        NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("ProfanedEnergyLantern"), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+                        NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<ProfanedEnergyLantern>(), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
                     }
                 }
             }
@@ -78,7 +77,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("UnholyEssence"), Main.rand.Next(2, 5));
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<UnholyEssence>(), Main.rand.Next(2, 5));
         }
     }
 }

@@ -2,8 +2,7 @@
 using System;
 using Terraria;
 using Terraria.ModLoader;
-
-namespace CalamityMod.Projectiles.Melee.Spears
+namespace CalamityMod.Projectiles.Melee
 {
     public class SpatialLanceProjectile : ModProjectile
     {
@@ -55,7 +54,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
                 {
                     projectile.localAI[0] = 1f;
                     Projectile.NewProjectile(projectile.Center.X + projectile.velocity.X, projectile.Center.Y + projectile.velocity.Y,
-                        projectile.velocity.X, projectile.velocity.Y, mod.ProjectileType("SpatialSpear"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                        projectile.velocity.X, projectile.velocity.Y, ModContent.ProjectileType<SpatialSpear>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                 }
             }
             else
@@ -77,10 +76,10 @@ namespace CalamityMod.Projectiles.Melee.Spears
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("BrimstoneFlames"), 120);
-            target.AddBuff(mod.BuffType("GlacialState"), 120);
-            target.AddBuff(mod.BuffType("Plague"), 120);
-            target.AddBuff(mod.BuffType("HolyLight"), 120);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
+            target.AddBuff(ModContent.BuffType<Plague>(), 120);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
         }
     }
 }

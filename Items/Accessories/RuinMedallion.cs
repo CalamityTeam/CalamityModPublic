@@ -1,7 +1,7 @@
 ﻿using CalamityMod.CalPlayer;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Accessories
         public override void SetDefaults()
         {
             item.width = 20;
-            item.height = 20;
+            item.height = 28;
             item.value = Item.buyPrice(0, 13, 0, 0);
             item.rare = 6;
             item.accessory = true;
@@ -34,9 +34,9 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("CoinofDeceit"));
-            recipe.AddIngredient(mod.ItemType("UnholyCore"), 4);
-            recipe.AddIngredient(mod.ItemType("EssenceofChaos"), 2);
+            recipe.AddIngredient(ModContent.ItemType<CoinofDeceit>());
+            recipe.AddIngredient(ModContent.ItemType<UnholyCore>(), 4);
+            recipe.AddIngredient(ModContent.ItemType<EssenceofChaos>(), 2);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

@@ -1,8 +1,8 @@
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -95,7 +95,7 @@ namespace CalamityMod.Projectiles.Ranged
                         float variation = (1f + projectile.localAI[0]) * 3f;
                         Vector2 position = playerPosition + Utils.RandomVector2(Main.rand, -variation, variation);
                         Vector2 speed = projectile.velocity * scaleFactor * (0.6f + Main.rand.NextFloat() * 0.6f);
-                        type = mod.ProjectileType("NorfleetComet");
+                        type = ModContent.ProjectileType<NorfleetComet>();
                         speed.X += (float)Main.rand.Next(-30, 31) * 0.05f;
                         speed.Y += (float)Main.rand.Next(-30, 31) * 0.05f;
                         Projectile.NewProjectile(position, speed, type, damage, knockBack, projectile.owner, 0f, 0f);

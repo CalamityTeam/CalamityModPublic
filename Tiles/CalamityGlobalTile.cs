@@ -1,11 +1,10 @@
-using CalamityMod.Utilities;
+
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
+using Terraria.ID;
 namespace CalamityMod.Tiles
 {
     public class CalamityGlobalTile : GlobalTile
@@ -67,7 +66,7 @@ namespace CalamityMod.Tiles
                     return false;
                 }
             }
-            if (type == TileID.Vines || type == TileID.CrimsonVines || type == TileID.HallowedVines || type == mod.TileType("AstralVines"))
+            if (type == TileID.Vines || type == TileID.CrimsonVines || type == TileID.HallowedVines || type == ModContent.TileType<AstralVines>())
             {
                 CustomTileFraming.VineFrame(i, j);
                 return false;
@@ -130,7 +129,7 @@ namespace CalamityMod.Tiles
                         }
                     }
                     //CACTUS CHECK
-                    if (Main.tile[xTile, yTile].type == (ushort)mod.TileType("AstralSand"))
+                    if (Main.tile[xTile, yTile].type == (ushort)ModContent.TileType<AstralSand>())
                     {
                         astralCactus = true;
                     }
@@ -146,13 +145,13 @@ namespace CalamityMod.Tiles
 
         public override void KillTile(int i, int j, int type, ref bool fail, ref bool effectOnly, ref bool noItem)
         {
-            if (Main.tile[i, j].type != mod.TileType("LumenylCrystals") && Main.tile[i, j].type != mod.TileType("SeaPrismCrystals") && Main.tileSolid[Main.tile[i, j].type])
+            if (Main.tile[i, j].type != ModContent.TileType<LumenylCrystals>() && Main.tile[i, j].type != ModContent.TileType<SeaPrismCrystals>() && Main.tileSolid[Main.tile[i, j].type])
             {
                 if (Main.tile[i + 1, j] != null)
                 {
                     if (Main.tile[i + 1, j].active())
                     {
-                        if (Main.tile[i + 1, j].type == mod.TileType("LumenylCrystals") || (Main.tile[i + 1, j].type == mod.TileType("SeaPrismCrystals") && CalamityWorld.downedDesertScourge))
+                        if (Main.tile[i + 1, j].type == ModContent.TileType<LumenylCrystals>() || (Main.tile[i + 1, j].type == ModContent.TileType<SeaPrismCrystals>() && CalamityWorld.downedDesertScourge))
                         {
                             WorldGen.KillTile(i + 1, j, false, false, false);
                             if (!Main.tile[i + 1, j].active() && Main.netMode != NetmodeID.SinglePlayer)
@@ -166,7 +165,7 @@ namespace CalamityMod.Tiles
                 {
                     if (Main.tile[i - 1, j].active())
                     {
-                        if (Main.tile[i - 1, j].type == mod.TileType("LumenylCrystals") || (Main.tile[i - 1, j].type == mod.TileType("SeaPrismCrystals") && CalamityWorld.downedDesertScourge))
+                        if (Main.tile[i - 1, j].type == ModContent.TileType<LumenylCrystals>() || (Main.tile[i - 1, j].type == ModContent.TileType<SeaPrismCrystals>() && CalamityWorld.downedDesertScourge))
                         {
                             WorldGen.KillTile(i - 1, j, false, false, false);
                             if (!Main.tile[i - 1, j].active() && Main.netMode != NetmodeID.SinglePlayer)
@@ -180,7 +179,7 @@ namespace CalamityMod.Tiles
                 {
                     if (Main.tile[i, j + 1].active())
                     {
-                        if (Main.tile[i, j + 1].type == mod.TileType("LumenylCrystals") || (Main.tile[i, j + 1].type == mod.TileType("SeaPrismCrystals") && CalamityWorld.downedDesertScourge))
+                        if (Main.tile[i, j + 1].type == ModContent.TileType<LumenylCrystals>() || (Main.tile[i, j + 1].type == ModContent.TileType<SeaPrismCrystals>() && CalamityWorld.downedDesertScourge))
                         {
                             WorldGen.KillTile(i, j + 1, false, false, false);
                             if (!Main.tile[i, j + 1].active() && Main.netMode != NetmodeID.SinglePlayer)
@@ -194,7 +193,7 @@ namespace CalamityMod.Tiles
                 {
                     if (Main.tile[i, j - 1].active())
                     {
-                        if (Main.tile[i, j - 1].type == mod.TileType("LumenylCrystals") || (Main.tile[i, j - 1].type == mod.TileType("SeaPrismCrystals") && CalamityWorld.downedDesertScourge))
+                        if (Main.tile[i, j - 1].type == ModContent.TileType<LumenylCrystals>() || (Main.tile[i, j - 1].type == ModContent.TileType<SeaPrismCrystals>() && CalamityWorld.downedDesertScourge))
                         {
                             WorldGen.KillTile(i, j - 1, false, false, false);
                             if (!Main.tile[i, j - 1].active() && Main.netMode != NetmodeID.SinglePlayer)
@@ -290,7 +289,7 @@ namespace CalamityMod.Tiles
                         }
                         if (expr_B64 == 8)
                         {
-                            Item.NewItem(i * 16, j * 16, 16, 16, mod.ItemType("AnechoicCoating"), 1, false, 0, false, false);
+                            Item.NewItem(i * 16, j * 16, 16, 16, ModContent.ItemType<AnechoicCoating>(), 1, false, 0, false, false);
                         }
                         if (expr_B64 == 9)
                         {
@@ -336,7 +335,7 @@ namespace CalamityMod.Tiles
                         }
                         else if (num9 == 2) //stew
                         {
-                            Item.NewItem(i * 16, j * 16, 16, 16, mod.ItemType("SunkenStew"), 1, false, 0, false, false);
+                            Item.NewItem(i * 16, j * 16, 16, 16, ModContent.ItemType<SunkenStew>(), 1, false, 0, false, false);
                         }
                         else if (num9 == 3) //sticky dynamite
                         {
@@ -450,7 +449,7 @@ namespace CalamityMod.Tiles
                         }
                         if (expr_B64 == 8)
                         {
-                            Item.NewItem(i * 16, j * 16, 16, 16, mod.ItemType("AnechoicCoating"), 1, false, 0, false, false);
+                            Item.NewItem(i * 16, j * 16, 16, 16, ModContent.ItemType<AnechoicCoating>(), 1, false, 0, false, false);
                         }
                         if (expr_B64 == 9)
                         {

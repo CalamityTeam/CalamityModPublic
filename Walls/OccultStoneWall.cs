@@ -9,8 +9,8 @@ namespace CalamityMod.Walls
         public override void SetDefaults()
         {
             Main.wallHouse[Type] = true;
-            dustType = mod.DustType("Sparkle");
-            drop = mod.ItemType("OccultStoneWall");
+
+            drop = ModContent.ItemType<Items.OccultStoneWall>();
             AddMapEntry(new Color(23, 23, 26));
         }
 

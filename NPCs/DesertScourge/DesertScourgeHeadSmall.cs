@@ -1,10 +1,10 @@
 ﻿using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
-namespace CalamityMod.NPCs.DesertScourge
+namespace CalamityMod.NPCs
 {
     public class DesertScourgeHeadSmall : ModNPC
     {
@@ -75,11 +75,11 @@ namespace CalamityMod.NPCs.DesertScourge
                     int lol;
                     if (num36 >= 0 && num36 < minLength)
                     {
-                        lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("DesertScourgeBodySmall"), npc.whoAmI);
+                        lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<DesertScourgeBodySmall>(), npc.whoAmI);
                     }
                     else
                     {
-                        lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("DesertScourgeTailSmall"), npc.whoAmI);
+                        lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<DesertScourgeTailSmall>(), npc.whoAmI);
                     }
                     Main.npc[lol].realLife = npc.whoAmI;
                     Main.npc[lol].ai[2] = (float)npc.whoAmI;

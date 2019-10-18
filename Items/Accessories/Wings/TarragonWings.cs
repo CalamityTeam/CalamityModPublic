@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories.Wings
 {
@@ -42,10 +42,10 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            if ((player.armor[0].type == mod.ItemType("TarragonHelm") || player.armor[0].type == mod.ItemType("TarragonHelmet") ||
-                player.armor[0].type == mod.ItemType("TarragonHornedHelm") || player.armor[0].type == mod.ItemType("TarragonMask") ||
-                player.armor[0].type == mod.ItemType("TarragonVisage")) &&
-                player.armor[1].type == mod.ItemType("TarragonBreastplate") && player.armor[2].type == mod.ItemType("TarragonLeggings"))
+            if ((player.armor[0].type == ModContent.ItemType<TarragonHelm>() || player.armor[0].type == ModContent.ItemType<TarragonHelmet>() ||
+                player.armor[0].type == ModContent.ItemType<TarragonHornedHelm>() || player.armor[0].type == ModContent.ItemType<TarragonMask>() ||
+                player.armor[0].type == ModContent.ItemType<TarragonVisage>()) &&
+                player.armor[1].type == ModContent.ItemType<TarragonBreastplate>() && player.armor[2].type == ModContent.ItemType<TarragonLeggings>())
             {
                 player.statDefense += 15;
                 player.lifeRegen += 2;

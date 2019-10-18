@@ -2,7 +2,6 @@
 using System;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Projectiles.Melee
 {
     public class DNA : ModProjectile
@@ -45,7 +44,7 @@ namespace CalamityMod.Projectiles.Melee
                         int num48 = projectile.type;
                         if (projectile.ai[1] >= (float)(12 + Main.rand.Next(2)))
                         {
-                            num48 = mod.ProjectileType("DNA2");
+                            num48 = ModContent.ProjectileType<DNA2>();
                         }
                         int num49 = projectile.damage;
                         float num50 = projectile.knockBack;

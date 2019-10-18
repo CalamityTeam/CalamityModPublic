@@ -1,7 +1,6 @@
 ﻿using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
+using Terraria.ID;
 namespace CalamityMod.Items.Potions
 {
     public class ZenPotion : ModItem
@@ -24,7 +23,7 @@ namespace CalamityMod.Items.Potions
             item.useStyle = 2;
             item.UseSound = SoundID.Item3;
             item.consumable = true;
-            item.buffType = mod.BuffType("Zen");
+            item.buffType = ModContent.BuffType<Zen>();
             item.buffTime = 36000;
             item.value = Item.buyPrice(0, 2, 0, 0);
         }

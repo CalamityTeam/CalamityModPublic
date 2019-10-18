@@ -1,5 +1,4 @@
-﻿using CalamityMod.Utilities;
-using CalamityMod.World;
+﻿using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -7,7 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.NPCs.AbyssNPCs
+namespace CalamityMod.NPCs
 {
     public class Cuttlefish : ModNPC
     {
@@ -28,13 +27,13 @@ namespace CalamityMod.NPCs.AbyssNPCs
             npc.lifeMax = 55;
             npc.aiStyle = -1;
             aiType = -1;
-            npc.buffImmune[mod.BuffType("CrushDepth")] = true;
+            npc.buffImmune[ModContent.BuffType<CrushDepth>()] = true;
             npc.value = Item.buyPrice(0, 0, 1, 0);
             npc.HitSound = SoundID.NPCHit33;
             npc.DeathSound = SoundID.NPCDeath28;
             npc.knockBackResist = 0.3f;
             banner = npc.type;
-            bannerItem = mod.ItemType("CuttlefishBanner");
+            bannerItem = ModContent.ItemType<CuttlefishBanner>();
         }
 
         public override void AI()
@@ -281,10 +280,10 @@ namespace CalamityMod.NPCs.AbyssNPCs
             Vector2 center = new Vector2(npc.Center.X, npc.Center.Y);
             Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
             Vector2 vector = center - Main.screenPosition;
-            vector -= new Vector2((float)mod.GetTexture("NPCs/AbyssNPCs/CuttlefishGlow").Width, (float)(mod.GetTexture("NPCs/AbyssNPCs/CuttlefishGlow").Height / Main.npcFrameCount[npc.type])) * 1f / 2f;
+            vector -= new Vector2((float)ModContent.GetTexture("CalamityMod/NPCs/AbyssNPCs/CuttlefishGlow").Width, (float)(ModContent.GetTexture("CalamityMod/NPCs/AbyssNPCs/CuttlefishGlow").Height / Main.npcFrameCount[npc.type])) * 1f / 2f;
             vector += vector11 * 1f + new Vector2(0f, 0f + 4f + npc.gfxOffY);
-            Microsoft.Xna.Framework.Color color = new Microsoft.Xna.Framework.Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.Gold);
-            Main.spriteBatch.Draw(mod.GetTexture("NPCs/AbyssNPCs/CuttlefishGlow"), vector,
+            Color color = new Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.Gold);
+            Main.spriteBatch.Draw(ModContent.GetTexture("CalamityMod/NPCs/AbyssNPCs/CuttlefishGlow"), vector,
                 new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, vector11, 1f, spriteEffects, 0f);
         }
 
@@ -293,7 +292,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
             player.AddBuff(BuffID.Darkness, 120, true);
             if (CalamityWorld.revenge)
             {
-                player.AddBuff(mod.BuffType("Horror"), 60, true);
+                player.AddBuff(ModContent.BuffType<Horror>(), 60, true);
             }
         }
 
@@ -314,14 +313,14 @@ namespace CalamityMod.NPCs.AbyssNPCs
         {
             if (Main.rand.NextBool(1000000) && CalamityWorld.revenge)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("HalibutCannon"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<HalibutCannon>());
             }
             if (Main.rand.NextBool(2))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CloakingGland"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CloakingGland>());
             }
             int inkBombDropRate = CalamityWorld.defiled ? DropHelper.DefiledDropRateInt : Main.expertMode ? 50 : 100;
-            DropHelper.DropItemChance(npc, mod.ItemType("InkBomb"), inkBombDropRate, 1, 1);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<InkBomb>(), inkBombDropRate, 1, 1);
         }
 
         public override void HitEffect(int hitDirection, double damage)

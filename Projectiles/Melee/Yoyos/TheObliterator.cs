@@ -2,10 +2,10 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
-namespace CalamityMod.Projectiles.Melee.Yoyos
+namespace CalamityMod.Projectiles.Melee
 {
     public class TheObliterator : ModProjectile
     {
@@ -72,7 +72,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                     num439 *= num440;
                     if (projectile.owner == Main.myPlayer)
                     {
-                        int proj = Projectile.NewProjectile(value10.X, value10.Y, num438, num439, mod.ProjectileType("NebulaShot"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                        int proj = Projectile.NewProjectile(value10.X, value10.Y, num438, num439, ModContent.ProjectileType<NebulaShot>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                         Main.projectile[proj].Calamity().forceMelee = true;
                     }
                 }
@@ -82,7 +82,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Vector2 origin = new Vector2(10f, 10f);
-            spriteBatch.Draw(mod.GetTexture("Projectiles/Melee/Yoyos/TheObliteratorGlow"), projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Melee/Yoyos/TheObliteratorGlow"), projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

@@ -31,7 +31,7 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 16, 32, mod.ItemType("EutrophicBathtub"));
+            Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<Items.EutrophicBathtub>());
         }
     }
 }

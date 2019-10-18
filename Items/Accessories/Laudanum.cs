@@ -1,7 +1,7 @@
-﻿using CalamityMod.CalPlayer;
+﻿using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Accessories
 {
     public class Laudanum : ModItem
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.laudanum = true;
-            player.buffImmune[mod.BuffType("Horror")] = true;
+            player.buffImmune[ModContent.BuffType<Horror>()] = true;
         }
     }
 }

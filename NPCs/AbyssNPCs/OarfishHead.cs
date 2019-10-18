@@ -2,10 +2,9 @@
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.AbyssNPCs
+using Terraria.ID;
+namespace CalamityMod.NPCs
 {
     public class OarfishHead : ModNPC
     {
@@ -42,7 +41,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
             npc.DeathSound = SoundID.NPCDeath1;
             npc.netAlways = true;
             banner = npc.type;
-            bannerItem = mod.ItemType("OarfishBanner");
+            bannerItem = ModContent.ItemType<OarfishBanner>();
         }
 
         public override void AI()
@@ -66,11 +65,11 @@ namespace CalamityMod.NPCs.AbyssNPCs
                         int lol;
                         if (num36 >= 0 && num36 < minLength)
                         {
-                            lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("OarfishBody"), npc.whoAmI);
+                            lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<OarfishBody>(), npc.whoAmI);
                         }
                         else
                         {
-                            lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("OarfishTail"), npc.whoAmI);
+                            lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<OarfishTail>(), npc.whoAmI);
                         }
                         Main.npc[lol].realLife = npc.whoAmI;
                         Main.npc[lol].ai[2] = (float)npc.whoAmI;
@@ -99,7 +98,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
             {
                 npc.alpha = 0;
             }
-            if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 5600f || !NPC.AnyNPCs(mod.NPCType("OarfishTail")))
+            if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 5600f || !NPC.AnyNPCs(ModContent.NPCType<OarfishTail>()))
             {
                 npc.active = false;
             }
@@ -313,11 +312,11 @@ namespace CalamityMod.NPCs.AbyssNPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.player.Calamity().ZoneAbyssLayer2 && spawnInfo.water && !NPC.AnyNPCs(mod.NPCType("OarfishHead")))
+            if (spawnInfo.player.Calamity().ZoneAbyssLayer2 && spawnInfo.water && !NPC.AnyNPCs(ModContent.NPCType<OarfishHead>()))
             {
                 return SpawnCondition.CaveJellyfish.Chance * 0.3f;
             }
-            if (spawnInfo.player.Calamity().ZoneAbyssLayer3 && spawnInfo.water && !NPC.AnyNPCs(mod.NPCType("OarfishHead")))
+            if (spawnInfo.player.Calamity().ZoneAbyssLayer3 && spawnInfo.water && !NPC.AnyNPCs(ModContent.NPCType<OarfishHead>()))
             {
                 return SpawnCondition.CaveJellyfish.Chance * 0.6f;
             }
@@ -328,17 +327,17 @@ namespace CalamityMod.NPCs.AbyssNPCs
         {
             if (Main.rand.NextBool(1000000) && CalamityWorld.revenge)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("HalibutCannon"));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<HalibutCannon>());
             }
             if (NPC.downedPlantBoss || CalamityWorld.downedCalamitas)
             {
                 if (Main.rand.NextBool(2))
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DepthCells"), Main.rand.Next(3, 6));
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DepthCells>(), Main.rand.Next(3, 6));
                 }
                 if (Main.expertMode && Main.rand.NextBool(2))
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DepthCells"), Main.rand.Next(1, 3));
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DepthCells>(), Main.rand.Next(1, 3));
                 }
             }
         }
@@ -384,8 +383,8 @@ namespace CalamityMod.NPCs.AbyssNPCs
             player.AddBuff(BuffID.Bleeding, 180, true);
             if (CalamityWorld.revenge)
             {
-                player.AddBuff(mod.BuffType("MarkedforDeath"), 90);
-                player.AddBuff(mod.BuffType("Horror"), 90, true);
+                player.AddBuff(ModContent.BuffType<MarkedforDeath>(), 90);
+                player.AddBuff(ModContent.BuffType<Horror>(), 90, true);
             }
         }
     }

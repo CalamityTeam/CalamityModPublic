@@ -2,7 +2,6 @@
 using System;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Projectiles.Magic
 {
     public class ElementOrb : ModProjectile
@@ -79,7 +78,7 @@ namespace CalamityMod.Projectiles.Magic
                     num439 *= num440;
                     if (projectile.owner == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(value10.X, value10.Y, num438, num439, mod.ProjectileType("ElementBolt"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(value10.X, value10.Y, num438, num439, ModContent.ProjectileType<ElementBolt>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                     }
                 }
             }

@@ -2,7 +2,6 @@
 using System;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Projectiles.Ranged
 {
     public class ArcticArrow : ModProjectile
@@ -63,7 +62,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("GlacialState"), 180);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 180);
         }
     }
 }

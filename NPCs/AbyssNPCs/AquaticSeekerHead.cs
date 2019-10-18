@@ -2,10 +2,9 @@
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.AbyssNPCs
+using Terraria.ID;
+namespace CalamityMod.NPCs
 {
     public class AquaticSeekerHead : ModNPC
     {
@@ -46,7 +45,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
             npc.DeathSound = SoundID.NPCDeath1;
             npc.netAlways = true;
             banner = npc.type;
-            bannerItem = mod.ItemType("AquaticSeekerBanner");
+            bannerItem = ModContent.ItemType<AquaticSeekerBanner>();
         }
 
         public override void AI()
@@ -70,11 +69,11 @@ namespace CalamityMod.NPCs.AbyssNPCs
                         int lol;
                         if (num36 >= 0 && num36 < minLength)
                         {
-                            lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("AquaticSeekerBody"), npc.whoAmI);
+                            lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<AquaticSeekerBody>(), npc.whoAmI);
                         }
                         else
                         {
-                            lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("AquaticSeekerTail"), npc.whoAmI);
+                            lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<AquaticSeekerTail>(), npc.whoAmI);
                         }
                         Main.npc[lol].realLife = npc.whoAmI;
                         Main.npc[lol].ai[2] = (float)npc.whoAmI;
@@ -103,7 +102,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
             {
                 npc.alpha = 0;
             }
-            if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 5600f || !NPC.AnyNPCs(mod.NPCType("AquaticSeekerTail")))
+            if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 5600f || !NPC.AnyNPCs(ModContent.NPCType<AquaticSeekerTail>()))
             {
                 npc.active = false;
             }
@@ -317,7 +316,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
             }
             if (spawnInfo.player.Calamity().ZoneSulphur && spawnInfo.water)
             {
-                if (!NPC.AnyNPCs(mod.NPCType("AquaticSeekerHead")))
+                if (!NPC.AnyNPCs(ModContent.NPCType<AquaticSeekerHead>()))
                     return 0.01f;
             }
             return 0f;
@@ -366,7 +365,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
             player.AddBuff(BuffID.Venom, 120, true);
             if (CalamityWorld.revenge)
             {
-                player.AddBuff(mod.BuffType("MarkedforDeath"), 60);
+                player.AddBuff(ModContent.BuffType<MarkedforDeath>(), 60);
             }
         }
     }

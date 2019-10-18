@@ -1,6 +1,5 @@
 using Terraria.ID;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Placeables.FurnitureStatigel
 {
     public class StatigelSofa : ModItem
@@ -20,7 +19,7 @@ namespace CalamityMod.Items.Placeables.FurnitureStatigel
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = mod.TileType("StatigelSofa");
+            item.createTile = ModContent.TileType<Tiles.StatigelSofa>();
         }
 
         public override void AddRecipes()

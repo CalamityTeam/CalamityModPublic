@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Tiles.FurnitureCosmilite
 {
@@ -15,7 +15,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
             AddMapEntry(new Color(191, 142, 111), name);
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Torches };
-            drop = mod.ItemType("CosmiliteCandle");
+            drop = ModContent.ItemType<Items.CosmiliteCandle>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)

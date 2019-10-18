@@ -2,9 +2,8 @@ using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
+using Terraria.ID;
 namespace CalamityMod.Projectiles.Summon
 {
     public class BlackHawkSummon : ModProjectile
@@ -100,10 +99,10 @@ namespace CalamityMod.Projectiles.Summon
             float num634 = 1300f;
             float num635 = 2600f;
             float num636 = 600f;
-            bool flag64 = projectile.type == mod.ProjectileType("BlackHawkSummon");
+            bool flag64 = projectile.type == ModContent.ProjectileType<BlackHawkSummon>();
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            player.AddBuff(mod.BuffType("BlackHawkBuff"), 3600);
+            player.AddBuff(ModContent.BuffType<BlackHawkBuff>(), 3600);
             if (flag64)
             {
                 if (player.dead)
@@ -118,7 +117,7 @@ namespace CalamityMod.Projectiles.Summon
             float num637 = 0.05f;
             for (int num638 = 0; num638 < 1000; num638++)
             {
-                bool flag23 = Main.projectile[num638].type == mod.ProjectileType("BlackHawkSummon");
+                bool flag23 = Main.projectile[num638].type == ModContent.ProjectileType<BlackHawkSummon>();
                 if (num638 != projectile.whoAmI && Main.projectile[num638].active && Main.projectile[num638].owner == projectile.owner && flag23 && Math.Abs(projectile.position.X - Main.projectile[num638].position.X) + Math.Abs(projectile.position.Y - Main.projectile[num638].position.Y) < (float)projectile.width)
                 {
                     if (projectile.position.X < Main.projectile[num638].position.X)
@@ -261,7 +260,7 @@ namespace CalamityMod.Projectiles.Summon
             if (projectile.ai[0] == 0f)
             {
                 float scaleFactor3 = 6f;
-                int num658 = mod.ProjectileType("BlackHawkBullet");
+                int num658 = ModContent.ProjectileType<BlackHawkBullet>();
                 if (flag25 && projectile.ai[1] == 0f)
                 {
                     Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 20);

@@ -2,9 +2,8 @@
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ModLoader;
-
+using Terraria.DataStructures;
 namespace CalamityMod.Projectiles.Boss
 {
     public class HolyBurnOrb : ModProjectile
@@ -105,7 +104,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(mod.BuffType("HolyLight"), 60);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 60);
         }
     }
 }

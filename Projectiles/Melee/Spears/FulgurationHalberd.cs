@@ -1,8 +1,7 @@
 ﻿using System;
 using Terraria;
 using Terraria.ModLoader;
-
-namespace CalamityMod.Projectiles.Melee.Spears
+namespace CalamityMod.Projectiles.Melee
 {
     public class FulgurationHalberd : ModProjectile
     {
@@ -63,7 +62,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.immune[projectile.owner] = 8;
-            target.AddBuff(mod.BuffType("BurningBlood"), 300);
+            target.AddBuff(ModContent.BuffType<BurningBlood>(), 300);
         }
     }
 }

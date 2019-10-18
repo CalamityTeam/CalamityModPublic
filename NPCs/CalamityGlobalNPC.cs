@@ -1,7 +1,6 @@
-using CalamityMod.Buffs.DoTDebuffs;
-using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Buffs;
 using CalamityMod.CalPlayer;
-using CalamityMod.Utilities;
+using CalamityMod.Dusts;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -300,16 +299,16 @@ namespace CalamityMod.NPCs
             }
 
             bool inAbyss = ((npc.position.Y / 16f > (Main.rockLayer - Main.maxTilesY * 0.05)) && ((double)(npc.position.Y / 16f) <= Main.maxTilesY - 250) && abyssPosX) || CalamityWorld.abyssTiles > 200;
-            bool hurtByAbyss = npc.wet && npc.damage > 0 && !npc.boss && !npc.friendly && !npc.dontTakeDamage && inAbyss && !npc.buffImmune[mod.BuffType("CrushDepth")];
+            bool hurtByAbyss = npc.wet && npc.damage > 0 && !npc.boss && !npc.friendly && !npc.dontTakeDamage && inAbyss && !npc.buffImmune[ModContent.BuffType<CrushDepth>()];
             if (hurtByAbyss)
             {
-                npc.AddBuff(mod.BuffType("CrushDepth"), 2);
+                npc.AddBuff(ModContent.BuffType<CrushDepth>(), 2);
                 npc.DeathSound = null;
                 npc.HitSound = null;
             }
 
             if (npc.damage > 0 && !npc.boss && !npc.friendly && !npc.dontTakeDamage && CalamityWorld.sulphurTiles > 30 &&
-                !npc.buffImmune[BuffID.Poisoned] && !npc.buffImmune[mod.BuffType("CrushDepth")])
+                !npc.buffImmune[BuffID.Poisoned] && !npc.buffImmune[ModContent.BuffType<CrushDepth>()])
             {
                 if (npc.wet)
                 {
@@ -318,7 +317,7 @@ namespace CalamityMod.NPCs
 
                 if (Main.raining)
                 {
-                    npc.AddBuff(mod.BuffType("Irradiated"), 2);
+                    npc.AddBuff(ModContent.BuffType<Irradiated>(), 2);
                 }
             }
 
@@ -333,7 +332,7 @@ namespace CalamityMod.NPCs
                 for (int j = 0; j < 1000; j++)
                 {
                     if (Main.projectile[j].active &&
-                        (Main.projectile[j].type == mod.ProjectileType("Lionfish") || Main.projectile[j].type == mod.ProjectileType("SulphuricAcidCannon2")) &&
+                        (Main.projectile[j].type == ModContent.ProjectileType<Lionfish>() || Main.projectile[j].type == ModContent.ProjectileType<SulphuricAcidBubble2>()) &&
                         Main.projectile[j].ai[0] == 1f && Main.projectile[j].ai[1] == npc.whoAmI)
                     {
                         projectileCount++;
@@ -342,7 +341,7 @@ namespace CalamityMod.NPCs
                 for (int j = 0; j < 1000; j++)
                 {
                     if (Main.projectile[j].active &&
-                        (Main.projectile[j].type == mod.ProjectileType("ScourgeoftheSeasStealth")) &&
+                        (Main.projectile[j].type == ModContent.ProjectileType<ScourgeoftheSeasStealth>()) &&
                         Main.projectile[j].ai[0] == 1f && Main.projectile[j].ai[1] == npc.whoAmI)
                     {
                         projectileCount += 6;
@@ -371,7 +370,7 @@ namespace CalamityMod.NPCs
                 for (int j = 0; j < 1000; j++)
                 {
                     if (Main.projectile[j].active &&
-                        (Main.projectile[j].type == mod.ProjectileType("Shellfish")) &&
+                        (Main.projectile[j].type == ModContent.ProjectileType<Shellfish>()) &&
                         Main.projectile[j].ai[0] == 1f && Main.projectile[j].ai[1] == npc.whoAmI &&
                         projectileCount < 5)
                     {
@@ -398,7 +397,7 @@ namespace CalamityMod.NPCs
                 for (int j = 0; j < 1000; j++)
                 {
                     if (Main.projectile[j].active &&
-                        (Main.projectile[j].type == mod.ProjectileType("SnapClamProj")) &&
+                        (Main.projectile[j].type == ModContent.ProjectileType<SnapClamProj>()) &&
                         Main.projectile[j].ai[0] == 1f && Main.projectile[j].ai[1] == npc.whoAmI &&
                         projectileCount < 2)
                     {
@@ -511,7 +510,7 @@ namespace CalamityMod.NPCs
 
             // Apply DR to vanilla NPCs. No vanilla NPCs have DR except in Rev+.
             // This also applies DR to other mods' NPCs who have set up their NPCs to have DR in Rev+.
-            if (CalamityWorld.revenge && CalamityMod.DRValues.ContainsKey(npc.type))
+            if (CalamityWorld.revenge)
             {
                 CalamityMod.DRValues.TryGetValue(npc.type, out float revDR);
                 DR = revDR;
@@ -519,10 +518,10 @@ namespace CalamityMod.NPCs
 
             if (npc.boss && CalamityWorld.revenge)
             {
-                if (npc.type != mod.NPCType("HiveMindP2") && npc.type != mod.NPCType("Leviathan") && npc.type != mod.NPCType("StormWeaverHeadNaked") &&
-                    npc.type != mod.NPCType("StormWeaverBodyNaked") && npc.type != mod.NPCType("StormWeaverTailNaked") &&
-                    npc.type != mod.NPCType("DevourerofGodsHeadS") && npc.type != mod.NPCType("DevourerofGodsBodyS") &&
-                    npc.type != mod.NPCType("DevourerofGodsTailS"))
+                if (npc.type != ModContent.NPCType<HiveMindP2>() && npc.type != ModContent.NPCType<Leviathan>() && npc.type != ModContent.NPCType<StormWeaverHeadNaked>() &&
+                    npc.type != ModContent.NPCType<StormWeaverBodyNaked>() && npc.type != ModContent.NPCType<StormWeaverTailNaked>() &&
+                    npc.type != ModContent.NPCType<DevourerofGodsHeadS>() && npc.type != ModContent.NPCType<DevourerofGodsBodyS>() &&
+                    npc.type != ModContent.NPCType<DevourerofGodsTailS>())
                 {
                     if (Main.netMode != NetmodeID.Server)
                     {
@@ -542,9 +541,9 @@ namespace CalamityMod.NPCs
             {
                 if (CalamityMod.enemyImmunityList.Contains(npc.type))
                 {
-                    npc.buffImmune[mod.BuffType("GlacialState")] = true;
-                    npc.buffImmune[mod.BuffType("TemporalSadness")] = true;
-                    npc.buffImmune[mod.BuffType("TimeSlow")] = true;
+                    npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
+                    npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
+                    npc.buffImmune[ModContent.BuffType<TimeSlow>()] = true;
                 }
 
                 if (npc.type == NPCID.TheDestroyer || npc.type == NPCID.TheDestroyerBody || npc.type == NPCID.TheDestroyerTail ||
@@ -566,7 +565,7 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            npc.buffImmune[mod.BuffType("Enraged")] = false;
+            npc.buffImmune[ModContent.BuffType<Enraged>()] = false;
 
             BossValueChanges(npc);
 
@@ -604,7 +603,7 @@ namespace CalamityMod.NPCs
                     npc.buffImmune[k] = true;
                 }
 
-                if (npc.type != mod.NPCType("DevourerofGodsHeadS") && npc.type != mod.NPCType("DevourerofGodsBodyS") && npc.type != mod.NPCType("DevourerofGodsTailS"))
+                if (npc.type != ModContent.NPCType<DevourerofGodsHeadS>() && npc.type != ModContent.NPCType<DevourerofGodsBodyS>() && npc.type != ModContent.NPCType<DevourerofGodsTailS>())
                 {
                     npc.buffImmune[BuffID.Ichor] = false;
                     npc.buffImmune[BuffID.CursedInferno] = false;
@@ -1008,80 +1007,80 @@ namespace CalamityMod.NPCs
                     }
                     else if (npc.type == thorium.NPCType("TheGrandThunderBirdv2"))
                     {
-                        npc.buffImmune[mod.BuffType("GlacialState")] = true;
-                        npc.buffImmune[mod.BuffType("TemporalSadness")] = true;
+                        npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
+                        npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
 
                         npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 2.3) : (int)(npc.lifeMax * 1.5);
                     }
                     else if (npc.type == thorium.NPCType("QueenJelly"))
                     {
-                        npc.buffImmune[mod.BuffType("GlacialState")] = true;
-                        npc.buffImmune[mod.BuffType("TemporalSadness")] = true;
+                        npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
+                        npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
 
                         npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 1.9) : (int)(npc.lifeMax * 1.35);
                     }
                     else if (npc.type == thorium.NPCType("Viscount"))
                     {
-                        npc.buffImmune[mod.BuffType("GlacialState")] = true;
-                        npc.buffImmune[mod.BuffType("TemporalSadness")] = true;
+                        npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
+                        npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
 
                         npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 1.65) : (int)(npc.lifeMax * 1.25);
                     }
                     else if (npc.type == thorium.NPCType("GraniteEnergyStorm"))
                     {
-                        npc.buffImmune[mod.BuffType("GlacialState")] = true;
-                        npc.buffImmune[mod.BuffType("TemporalSadness")] = true;
+                        npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
+                        npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
 
                         npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 1.25) : (int)(npc.lifeMax * 1.1);
                     }
                     else if (npc.type == thorium.NPCType("TheBuriedWarrior") || npc.type == thorium.NPCType("TheBuriedWarrior1") || npc.type == thorium.NPCType("TheBuriedWarrior2"))
                     {
-                        npc.buffImmune[mod.BuffType("GlacialState")] = true;
-                        npc.buffImmune[mod.BuffType("TemporalSadness")] = true;
+                        npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
+                        npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
 
                         npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 1.5) : (int)(npc.lifeMax * 1.2);
                     }
                     else if (npc.type == thorium.NPCType("ThePrimeScouter") || npc.type == thorium.NPCType("CryoCore") || npc.type == thorium.NPCType("BioCore") ||
                         npc.type == thorium.NPCType("PyroCore"))
                     {
-                        npc.buffImmune[mod.BuffType("GlacialState")] = true;
-                        npc.buffImmune[mod.BuffType("TemporalSadness")] = true;
+                        npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
+                        npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
 
                         npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 1.75) : (int)(npc.lifeMax * 1.3);
                     }
                     else if (npc.type == thorium.NPCType("BoreanStrider") || npc.type == thorium.NPCType("BoreanStriderPopped"))
                     {
-                        npc.buffImmune[mod.BuffType("GlacialState")] = true;
-                        npc.buffImmune[mod.BuffType("TemporalSadness")] = true;
+                        npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
+                        npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
 
                         npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 2.0) : (int)(npc.lifeMax * 1.4);
                     }
                     else if (npc.type == thorium.NPCType("FallenDeathBeholder") || npc.type == thorium.NPCType("FallenDeathBeholder2"))
                     {
-                        npc.buffImmune[mod.BuffType("GlacialState")] = true;
-                        npc.buffImmune[mod.BuffType("TemporalSadness")] = true;
+                        npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
+                        npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
 
                         npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 2.5) : (int)(npc.lifeMax * 1.6);
                     }
                     else if (npc.type == thorium.NPCType("Lich") || npc.type == thorium.NPCType("LichHeadless"))
                     {
-                        npc.buffImmune[mod.BuffType("GlacialState")] = true;
-                        npc.buffImmune[mod.BuffType("TemporalSadness")] = true;
+                        npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
+                        npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
 
                         npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 2.5) : (int)(npc.lifeMax * 1.6);
                     }
                     else if (npc.type == thorium.NPCType("Abyssion") || npc.type == thorium.NPCType("AbyssionCracked") || npc.type == thorium.NPCType("AbyssionReleased"))
                     {
-                        npc.buffImmune[mod.BuffType("GlacialState")] = true;
-                        npc.buffImmune[mod.BuffType("TemporalSadness")] = true;
+                        npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
+                        npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
 
                         npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 2.3) : (int)(npc.lifeMax * 1.5);
                     }
                     else if (npc.type == thorium.NPCType("SlagFury") || npc.type == thorium.NPCType("Omnicide") || npc.type == thorium.NPCType("RealityBreaker") ||
                         npc.type == thorium.NPCType("Aquaius") || npc.type == thorium.NPCType("Aquaius2"))
                     {
-                        npc.buffImmune[mod.BuffType("GlacialState")] = true;
-                        npc.buffImmune[mod.BuffType("TemporalSadness")] = true;
+                        npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
+                        npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
 
                         npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 1.75) : (int)(npc.lifeMax * 1.3);
                     }
@@ -1131,7 +1130,7 @@ namespace CalamityMod.NPCs
         #region Strike NPC
         public override bool StrikeNPC(NPC npc, ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
         {
-            // TODO -- move this to Destroyer's Rev+ AI by setting his DR to 99% unbreakable
+            // TODO -- move this to Destroyer's Rev+ AI; either set his DR or modify npc.takenDamageMultiplier
             if (npc.type == NPCID.TheDestroyer || npc.type == NPCID.TheDestroyerBody || npc.type == NPCID.TheDestroyerTail)
             {
                 if ((newAI[1] < 480f || newAI[2] > 0f) && (CalamityWorld.revenge || CalamityWorld.bossRushActive))
@@ -1185,7 +1184,7 @@ namespace CalamityMod.NPCs
             damage = ApplyDR(npc, damage);
 
             // Add Yellow Candle damage if the NPC isn't supposed to be "near invincible"
-            if (yellowCandle && DR < 0.99f)
+            if (yellowCandle && DR < 0.99f && npc.takenDamageMultiplier > 0.05f)
                 damage += yellowCandleDamage;
 
             // Cancel out vanilla defense math by reversing the calculation vanilla is about to perform.
@@ -1208,7 +1207,7 @@ namespace CalamityMod.NPCs
 
             // If the NPC currently has unbreakable DR, it cannot be reduced by any means.
             // If custom DR is enabled, use that instead of normal DR.
-            float effectiveDR = unbreakableDR ? DR : customDR ? CustomDRMath(npc, DR) : DefaultDRMath(npc, DR);
+            float effectiveDR = unbreakableDR ? DR : (customDR ? CustomDRMath(npc, DR) : DefaultDRMath(npc, DR));
 
             // DR floor is 0%. Nothing can have negative DR.
             if (effectiveDR <= 0f)
@@ -1326,7 +1325,7 @@ namespace CalamityMod.NPCs
         {
             SetPatreonTownNPCName(npc);
 
-            if (npc.type == NPCID.TargetDummy || npc.type == mod.NPCType("SuperDummy"))
+            if (npc.type == NPCID.TargetDummy || npc.type == ModContent.NPCType<SuperDummy>())
             {
                 npc.chaseable = !CalamityPlayer.areThereAnyDamnBosses;
                 npc.dontTakeDamage = CalamityPlayer.areThereAnyDamnBosses;
@@ -1335,7 +1334,7 @@ namespace CalamityMod.NPCs
             if (npc.type == NPCID.TheDestroyer || npc.type == NPCID.TheDestroyerBody || npc.type == NPCID.TheDestroyerTail ||
                 npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.EaterofWorldsBody || npc.type == NPCID.EaterofWorldsTail)
             {
-                npc.buffImmune[mod.BuffType("Enraged")] = false;
+                npc.buffImmune[ModContent.BuffType<Enraged>()] = false;
             }
 
             if (npc.type == NPCID.Bee || npc.type == NPCID.BeeSmall || npc.type == NPCID.Hornet || npc.type == NPCID.HornetFatty || npc.type == NPCID.HornetHoney ||
@@ -1610,7 +1609,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case 2:
-                    if (npc.type != NPCID.KingSlime && npc.type != NPCID.BlueSlime && npc.type != NPCID.SlimeSpiked && npc.type != mod.NPCType("KingSlimeJewel") &&
+                    if (npc.type != NPCID.KingSlime && npc.type != NPCID.BlueSlime && npc.type != NPCID.SlimeSpiked && npc.type != ModContent.NPCType<KingSlimeJewel>() &&
                         npc.type != NPCID.YellowSlime && npc.type != NPCID.PurpleSlime && npc.type != NPCID.GreenSlime && npc.type != NPCID.RedSlime &&
                         npc.type != NPCID.IceSlime && npc.type != NPCID.UmbrellaSlime && npc.type != NPCID.RainbowSlime && npc.type != NPCID.Pinky)
                     {
@@ -1650,8 +1649,8 @@ namespace CalamityMod.NPCs
                     break;
 
                 case 6:
-                    if (npc.type != mod.NPCType("ProfanedGuardianBoss") && npc.type != mod.NPCType("ProfanedGuardianBoss2") &&
-                        npc.type != mod.NPCType("ProfanedGuardianBoss3"))
+                    if (npc.type != ModContent.NPCType<ProfanedGuardianBoss>() && npc.type != ModContent.NPCType<ProfanedGuardianBoss2>() &&
+                        npc.type != ModContent.NPCType<ProfanedGuardianBoss3>())
                     {
                         npc.active = false;
                         npc.netUpdate = true;
@@ -1670,7 +1669,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case 8:
-                    if (npc.type != mod.NPCType("Astrageldon") && npc.type != mod.NPCType("AstrageldonSlime"))
+                    if (npc.type != ModContent.NPCType<AstrumAureus>() && npc.type != ModContent.NPCType<AureusSpawn>())
                     {
                         npc.active = false;
                         npc.netUpdate = true;
@@ -1698,7 +1697,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case 11:
-                    if (npc.type != mod.NPCType("Bumblefuck") && npc.type != mod.NPCType("Bumblefuck2") &&
+                    if (npc.type != ModContent.NPCType<Bumblefuck>() && npc.type != ModContent.NPCType<Bumblefuck2>() &&
                         npc.type != NPCID.Spazmatism && npc.type != NPCID.Retinazer)
                     {
                         npc.active = false;
@@ -1719,9 +1718,9 @@ namespace CalamityMod.NPCs
                     break;
 
                 case 13:
-                    if (npc.type != mod.NPCType("HiveMind") && npc.type != mod.NPCType("HiveMindP2") &&
-                        npc.type != mod.NPCType("DarkHeart") && npc.type != mod.NPCType("HiveBlob") &&
-                        npc.type != mod.NPCType("DankCreeper") && npc.type != mod.NPCType("HiveBlob2"))
+                    if (npc.type != ModContent.NPCType<HiveMind>() && npc.type != ModContent.NPCType<HiveMindP2>() &&
+                        npc.type != ModContent.NPCType<DarkHeart>() && npc.type != ModContent.NPCType<HiveBlob>() &&
+                        npc.type != ModContent.NPCType<DankCreeper>() && npc.type != ModContent.NPCType<HiveBlob2>())
                     {
                         npc.active = false;
                         npc.netUpdate = true;
@@ -1739,10 +1738,10 @@ namespace CalamityMod.NPCs
                     break;
 
                 case 15:
-                    if (npc.type != mod.NPCType("StormWeaverHead") && npc.type != mod.NPCType("StormWeaverBody") &&
-                        npc.type != mod.NPCType("StormWeaverTail") && npc.type != mod.NPCType("StormWeaverHeadNaked") &&
-                        npc.type != mod.NPCType("StormWeaverBodyNaked") && npc.type != mod.NPCType("StormWeaverTailNaked") &&
-                        npc.type != mod.NPCType("StasisProbe") && npc.type != mod.NPCType("StasisProbeNaked"))
+                    if (npc.type != ModContent.NPCType<StormWeaverHead>() && npc.type != ModContent.NPCType<StormWeaverBody>() &&
+                        npc.type != ModContent.NPCType<StormWeaverTail>() && npc.type != ModContent.NPCType<StormWeaverHeadNaked>() &&
+                        npc.type != ModContent.NPCType<StormWeaverBodyNaked>() && npc.type != ModContent.NPCType<StormWeaverTailNaked>() &&
+                        npc.type != ModContent.NPCType<StasisProbe>() && npc.type != ModContent.NPCType<StasisProbeNaked>())
                     {
                         npc.active = false;
                         npc.netUpdate = true;
@@ -1751,11 +1750,11 @@ namespace CalamityMod.NPCs
                     break;
 
                 case 16:
-                    if (npc.type != mod.NPCType("AquaticScourgeHead") && npc.type != mod.NPCType("AquaticScourgeBody") &&
-                        npc.type != mod.NPCType("AquaticScourgeBodyAlt") && npc.type != mod.NPCType("AquaticScourgeTail") &&
-                        npc.type != mod.NPCType("AquaticParasite") && npc.type != mod.NPCType("AquaticUrchin") &&
-                        npc.type != mod.NPCType("AquaticSeekerHead") && npc.type != mod.NPCType("AquaticSeekerBody") &&
-                        npc.type != mod.NPCType("AquaticSeekerTail"))
+                    if (npc.type != ModContent.NPCType<AquaticScourgeHead>() && npc.type != ModContent.NPCType<AquaticScourgeBody>() &&
+                        npc.type != ModContent.NPCType<AquaticScourgeBodyAlt>() && npc.type != ModContent.NPCType<AquaticScourgeTail>() &&
+                        npc.type != ModContent.NPCType<AquaticParasite>() && npc.type != ModContent.NPCType<AquaticUrchin>() &&
+                        npc.type != ModContent.NPCType<AquaticSeekerHead>() && npc.type != ModContent.NPCType<AquaticSeekerBody>() &&
+                        npc.type != ModContent.NPCType<AquaticSeekerTail>())
                     {
                         npc.active = false;
                         npc.netUpdate = true;
@@ -1764,11 +1763,11 @@ namespace CalamityMod.NPCs
                     break;
 
                 case 17:
-                    if (npc.type != mod.NPCType("DesertScourgeHead") && npc.type != mod.NPCType("DesertScourgeBody") &&
-                        npc.type != mod.NPCType("DesertScourgeTail") && npc.type != mod.NPCType("DesertScourgeHeadSmall") &&
-                        npc.type != mod.NPCType("DesertScourgeBodySmall") && npc.type != mod.NPCType("DesertScourgeTailSmall") &&
-                        npc.type != mod.NPCType("DriedSeekerHead") && npc.type != mod.NPCType("DriedSeekerBody") &&
-                        npc.type != mod.NPCType("DriedSeekerTail"))
+                    if (npc.type != ModContent.NPCType<DesertScourgeHead>() && npc.type != ModContent.NPCType<DesertScourgeBody>() &&
+                        npc.type != ModContent.NPCType<DesertScourgeTail>() && npc.type != ModContent.NPCType<DesertScourgeHeadSmall>() &&
+                        npc.type != ModContent.NPCType<DesertScourgeBodySmall>() && npc.type != ModContent.NPCType<DesertScourgeTailSmall>() &&
+                        npc.type != ModContent.NPCType<DriedSeekerHead>() && npc.type != ModContent.NPCType<DriedSeekerBody>() &&
+                        npc.type != ModContent.NPCType<DriedSeekerTail>())
                     {
                         npc.active = false;
                         npc.netUpdate = true;
@@ -1789,7 +1788,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case 19:
-                    if (npc.type != mod.NPCType("CrabulonIdle") && npc.type != mod.NPCType("CrabShroom"))
+                    if (npc.type != ModContent.NPCType<CrabulonIdle>() && npc.type != ModContent.NPCType<CrabShroom>())
                     {
                         npc.active = false;
                         npc.netUpdate = true;
@@ -1808,8 +1807,8 @@ namespace CalamityMod.NPCs
                     break;
 
                 case 21:
-                    if (npc.type != mod.NPCType("CeaselessVoid") && npc.type != mod.NPCType("DarkEnergy") &&
-                        npc.type != mod.NPCType("DarkEnergy2") && npc.type != mod.NPCType("DarkEnergy3"))
+                    if (npc.type != ModContent.NPCType<CeaselessVoid>() && npc.type != ModContent.NPCType<DarkEnergy>() &&
+                        npc.type != ModContent.NPCType<DarkEnergy2>() && npc.type != ModContent.NPCType<DarkEnergy3>())
                     {
                         npc.active = false;
                         npc.netUpdate = true;
@@ -1818,11 +1817,11 @@ namespace CalamityMod.NPCs
                     break;
 
                 case 22:
-                    if (npc.type != mod.NPCType("PerforatorHive") && npc.type != mod.NPCType("PerforatorHeadLarge") &&
-                        npc.type != mod.NPCType("PerforatorBodyLarge") && npc.type != mod.NPCType("PerforatorTailLarge") &&
-                        npc.type != mod.NPCType("PerforatorHeadMedium") && npc.type != mod.NPCType("PerforatorBodyMedium") &&
-                        npc.type != mod.NPCType("PerforatorTailMedium") && npc.type != mod.NPCType("PerforatorHeadSmall") &&
-                        npc.type != mod.NPCType("PerforatorBodySmall") && npc.type != mod.NPCType("PerforatorTailSmall"))
+                    if (npc.type != ModContent.NPCType<PerforatorHive>() && npc.type != ModContent.NPCType<PerforatorHeadLarge>() &&
+                        npc.type != ModContent.NPCType<PerforatorBodyLarge>() && npc.type != ModContent.NPCType<PerforatorTailLarge>() &&
+                        npc.type != ModContent.NPCType<PerforatorHeadMedium>() && npc.type != ModContent.NPCType<PerforatorBodyMedium>() &&
+                        npc.type != ModContent.NPCType<PerforatorTailMedium>() && npc.type != ModContent.NPCType<PerforatorHeadSmall>() &&
+                        npc.type != ModContent.NPCType<PerforatorBodySmall>() && npc.type != ModContent.NPCType<PerforatorTailSmall>())
                     {
                         npc.active = false;
                         npc.netUpdate = true;
@@ -1831,9 +1830,9 @@ namespace CalamityMod.NPCs
                     break;
 
                 case 23:
-                    if (npc.type != mod.NPCType("Cryogen") && npc.type != mod.NPCType("CryogenIce") &&
-                        npc.type != mod.NPCType("IceMass") && npc.type != mod.NPCType("Cryocore") &&
-                        npc.type != mod.NPCType("Cryocore2"))
+                    if (npc.type != ModContent.NPCType<Cryogen>() && npc.type != ModContent.NPCType<CryogenIce>() &&
+                        npc.type != ModContent.NPCType<IceMass>() && npc.type != ModContent.NPCType<Cryocore>() &&
+                        npc.type != ModContent.NPCType<Cryocore2>())
                     {
                         npc.active = false;
                         npc.netUpdate = true;
@@ -1842,7 +1841,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case 24:
-                    if (npc.type != mod.NPCType("BrimstoneElemental") && npc.type != mod.NPCType("Brimling"))
+                    if (npc.type != ModContent.NPCType<BrimstoneElemental>() && npc.type != ModContent.NPCType<Brimling>())
                     {
                         npc.active = false;
                         npc.netUpdate = true;
@@ -1851,8 +1850,8 @@ namespace CalamityMod.NPCs
                     break;
 
                 case 25:
-                    if (npc.type != mod.NPCType("CosmicWraith") && npc.type != mod.NPCType("SignusBomb") &&
-                        npc.type != mod.NPCType("CosmicLantern"))
+                    if (npc.type != ModContent.NPCType<CosmicWraith>() && npc.type != ModContent.NPCType<SignusBomb>() &&
+                        npc.type != ModContent.NPCType<CosmicLantern>())
                     {
                         npc.active = false;
                         npc.netUpdate = true;
@@ -1861,11 +1860,11 @@ namespace CalamityMod.NPCs
                     break;
 
                 case 26:
-                    if (npc.type != mod.NPCType("ScavengerBody") && npc.type != mod.NPCType("ScavengerHead") &&
-                        npc.type != mod.NPCType("ScavengerClawLeft") && npc.type != mod.NPCType("ScavengerClawRight") &&
-                        npc.type != mod.NPCType("ScavengerLegLeft") && npc.type != mod.NPCType("ScavengerLegRight") &&
-                        npc.type != mod.NPCType("ScavengerHead2") && npc.type != mod.NPCType("RockPillar") &&
-                        npc.type != mod.NPCType("FlamePillar"))
+                    if (npc.type != ModContent.NPCType<RavagerBody>() && npc.type != ModContent.NPCType<RavagerHead>() &&
+                        npc.type != ModContent.NPCType<RavagerClawLeft>() && npc.type != ModContent.NPCType<RavagerClawRight>() &&
+                        npc.type != ModContent.NPCType<RavagerLegLeft>() && npc.type != ModContent.NPCType<RavagerLegRight>() &&
+                        npc.type != ModContent.NPCType<RavagerHead2>() && npc.type != ModContent.NPCType<RockPillar>() &&
+                        npc.type != ModContent.NPCType<FlamePillar>())
                     {
                         npc.active = false;
                         npc.netUpdate = true;
@@ -1894,11 +1893,11 @@ namespace CalamityMod.NPCs
                     break;
 
                 case 29:
-                    if (npc.type != mod.NPCType("AstrumDeusHead") && npc.type != mod.NPCType("AstrumDeusBody") &&
-                        npc.type != mod.NPCType("AstrumDeusTail") && npc.type != mod.NPCType("AstrumDeusHeadSpectral") &&
-                        npc.type != mod.NPCType("AstrumDeusBodySpectral") && npc.type != mod.NPCType("AstrumDeusTailSpectral") &&
-                        npc.type != mod.NPCType("AstrumDeusProbe") && npc.type != mod.NPCType("AstrumDeusProbe2") &&
-                        npc.type != mod.NPCType("AstrumDeusProbe3"))
+                    if (npc.type != ModContent.NPCType<AstrumDeusHead>() && npc.type != ModContent.NPCType<AstrumDeusBody>() &&
+                        npc.type != ModContent.NPCType<AstrumDeusTail>() && npc.type != ModContent.NPCType<AstrumDeusHeadSpectral>() &&
+                        npc.type != ModContent.NPCType<AstrumDeusBodySpectral>() && npc.type != ModContent.NPCType<AstrumDeusTailSpectral>() &&
+                        npc.type != ModContent.NPCType<AstrumDeusProbe>() && npc.type != ModContent.NPCType<AstrumDeusProbe2>() &&
+                        npc.type != ModContent.NPCType<AstrumDeusProbe3>())
                     {
                         npc.active = false;
                         npc.netUpdate = true;
@@ -1907,8 +1906,8 @@ namespace CalamityMod.NPCs
                     break;
 
                 case 30:
-                    if (npc.type != mod.NPCType("Polterghast") && npc.type != mod.NPCType("PhantomFuckYou") &&
-                        npc.type != mod.NPCType("PolterghastHook") && npc.type != mod.NPCType("PolterPhantom"))
+                    if (npc.type != ModContent.NPCType<Polterghast>() && npc.type != ModContent.NPCType<PhantomFuckYou>() &&
+                        npc.type != ModContent.NPCType<PolterghastHook>() && npc.type != ModContent.NPCType<PolterPhantom>())
                     {
                         npc.active = false;
                         npc.netUpdate = true;
@@ -1917,9 +1916,9 @@ namespace CalamityMod.NPCs
                     break;
 
                 case 31:
-                    if (npc.type != mod.NPCType("PlaguebringerGoliath") && npc.type != mod.NPCType("PlagueBeeG") &&
-                        npc.type != mod.NPCType("PlagueBeeLargeG") && npc.type != mod.NPCType("PlagueHomingMissile") &&
-                        npc.type != mod.NPCType("PlagueMine") && npc.type != mod.NPCType("PlaguebringerShade"))
+                    if (npc.type != ModContent.NPCType<PlaguebringerGoliath>() && npc.type != ModContent.NPCType<PlagueBeeG>() &&
+                        npc.type != ModContent.NPCType<PlagueBeeLargeG>() && npc.type != ModContent.NPCType<PlagueHomingMissile>() &&
+                        npc.type != ModContent.NPCType<PlagueMine>() && npc.type != ModContent.NPCType<PlaguebringerShade>())
                     {
                         npc.active = false;
                         npc.netUpdate = true;
@@ -1928,9 +1927,9 @@ namespace CalamityMod.NPCs
                     break;
 
                 case 32:
-                    if (npc.type != mod.NPCType("Calamitas") && npc.type != mod.NPCType("CalamitasRun") &&
-                        npc.type != mod.NPCType("CalamitasRun2") && npc.type != mod.NPCType("CalamitasRun3") &&
-                        npc.type != mod.NPCType("LifeSeeker") && npc.type != mod.NPCType("SoulSeeker"))
+                    if (npc.type != ModContent.NPCType<Calamitas>() && npc.type != ModContent.NPCType<CalamitasRun>() &&
+                        npc.type != ModContent.NPCType<CalamitasRun2>() && npc.type != ModContent.NPCType<CalamitasRun3>() &&
+                        npc.type != ModContent.NPCType<LifeSeeker>() && npc.type != ModContent.NPCType<SoulSeeker>())
                     {
                         npc.active = false;
                         npc.netUpdate = true;
@@ -1939,9 +1938,9 @@ namespace CalamityMod.NPCs
                     break;
 
                 case 33:
-                    if (npc.type != mod.NPCType("Siren") && npc.type != mod.NPCType("Leviathan") &&
-                        npc.type != mod.NPCType("AquaticAberration") && npc.type != mod.NPCType("Parasea") &&
-                        npc.type != mod.NPCType("SirenClone") && npc.type != mod.NPCType("SirenIce"))
+                    if (npc.type != ModContent.NPCType<Siren>() && npc.type != ModContent.NPCType<Leviathan>() &&
+                        npc.type != ModContent.NPCType<AquaticAberration>() && npc.type != ModContent.NPCType<Parasea>() &&
+                        npc.type != ModContent.NPCType<SirenClone>() && npc.type != ModContent.NPCType<SirenIce>())
                     {
                         npc.active = false;
                         npc.netUpdate = true;
@@ -1950,11 +1949,11 @@ namespace CalamityMod.NPCs
                     break;
 
                 case 34:
-                    if (npc.type != mod.NPCType("SlimeGod") && npc.type != mod.NPCType("SlimeGodRun") &&
-                        npc.type != mod.NPCType("SlimeGodCore") && npc.type != mod.NPCType("SlimeGodSplit") &&
-                        npc.type != mod.NPCType("SlimeGodRunSplit") && npc.type != mod.NPCType("SlimeSpawnCorrupt") &&
-                        npc.type != mod.NPCType("SlimeSpawnCorrupt2") && npc.type != mod.NPCType("SlimeSpawnCrimson") &&
-                        npc.type != mod.NPCType("SlimeSpawnCrimson2"))
+                    if (npc.type != ModContent.NPCType<SlimeGod>() && npc.type != ModContent.NPCType<SlimeGodRun>() &&
+                        npc.type != ModContent.NPCType<SlimeGodCore>() && npc.type != ModContent.NPCType<SlimeGodSplit>() &&
+                        npc.type != ModContent.NPCType<SlimeGodRunSplit>() && npc.type != ModContent.NPCType<SlimeSpawnCorrupt>() &&
+                        npc.type != ModContent.NPCType<SlimeSpawnCorrupt2>() && npc.type != ModContent.NPCType<SlimeSpawnCrimson>() &&
+                        npc.type != ModContent.NPCType<SlimeSpawnCrimson2>())
                     {
                         npc.active = false;
                         npc.netUpdate = true;
@@ -1963,8 +1962,8 @@ namespace CalamityMod.NPCs
                     break;
 
                 case 35:
-                    if (npc.type != mod.NPCType("Providence") && npc.type != mod.NPCType("ProvSpawnDefense") &&
-                        npc.type != mod.NPCType("ProvSpawnOffense") && npc.type != mod.NPCType("ProvSpawnHealer"))
+                    if (npc.type != ModContent.NPCType<Providence>() && npc.type != ModContent.NPCType<ProvSpawnDefense>() &&
+                        npc.type != ModContent.NPCType<ProvSpawnOffense>() && npc.type != ModContent.NPCType<ProvSpawnHealer>())
                     {
                         npc.active = false;
                         npc.netUpdate = true;
@@ -1973,11 +1972,11 @@ namespace CalamityMod.NPCs
                     break;
 
                 case 36:
-                    if (npc.type != mod.NPCType("SupremeCalamitas") && npc.type != mod.NPCType("SCalWormBody") &&
-                        npc.type != mod.NPCType("SCalWormBodyWeak") && npc.type != mod.NPCType("SCalWormHead") &&
-                        npc.type != mod.NPCType("SCalWormTail") && npc.type != mod.NPCType("SoulSeekerSupreme") &&
-                        npc.type != mod.NPCType("SCalWormHeart") && npc.type != mod.NPCType("SupremeCataclysm") &&
-                        npc.type != mod.NPCType("SupremeCatastrophe"))
+                    if (npc.type != ModContent.NPCType<SupremeCalamitas>() && npc.type != ModContent.NPCType<SCalWormBody>() &&
+                        npc.type != ModContent.NPCType<SCalWormBodyWeak>() && npc.type != ModContent.NPCType<SCalWormHead>() &&
+                        npc.type != ModContent.NPCType<SCalWormTail>() && npc.type != ModContent.NPCType<SoulSeekerSupreme>() &&
+                        npc.type != ModContent.NPCType<SCalWormHeart>() && npc.type != ModContent.NPCType<SupremeCataclysm>() &&
+                        npc.type != ModContent.NPCType<SupremeCatastrophe>())
                     {
                         npc.active = false;
                         npc.netUpdate = true;
@@ -1986,8 +1985,8 @@ namespace CalamityMod.NPCs
                     break;
 
                 case 37:
-                    if (npc.type != mod.NPCType("Yharon") && npc.type != mod.NPCType("DetonatingFlare") &&
-                        npc.type != mod.NPCType("DetonatingFlare2"))
+                    if (npc.type != ModContent.NPCType<Yharon>() && npc.type != ModContent.NPCType<DetonatingFlare>() &&
+                        npc.type != ModContent.NPCType<DetonatingFlare2>())
                     {
                         npc.active = false;
                         npc.netUpdate = true;
@@ -1996,8 +1995,8 @@ namespace CalamityMod.NPCs
                     break;
 
                 case 38:
-                    if (npc.type != mod.NPCType("DevourerofGodsHeadS") && npc.type != mod.NPCType("DevourerofGodsBodyS") &&
-                        npc.type != mod.NPCType("DevourerofGodsTailS"))
+                    if (npc.type != ModContent.NPCType<DevourerofGodsHeadS>() && npc.type != ModContent.NPCType<DevourerofGodsBodyS>() &&
+                        npc.type != ModContent.NPCType<DevourerofGodsTailS>())
                     {
                         npc.active = false;
                         npc.netUpdate = true;
@@ -2014,10 +2013,10 @@ namespace CalamityMod.NPCs
             if (!CalamityWorld.spawnedHardBoss)
             {
                 if (npc.type == NPCID.TheDestroyer || npc.type == NPCID.Spazmatism || npc.type == NPCID.Retinazer || npc.type == NPCID.SkeletronPrime ||
-                    npc.type == NPCID.Plantera || npc.type == mod.NPCType("Cryogen") || npc.type == mod.NPCType("AquaticScourgeHead") ||
-                    npc.type == mod.NPCType("BrimstoneElemental") || npc.type == mod.NPCType("Astrageldon") || npc.type == mod.NPCType("AstrumDeusHeadSpectral") ||
-                    npc.type == mod.NPCType("Calamitas") || npc.type == mod.NPCType("Siren") || npc.type == mod.NPCType("PlaguebringerGoliath") ||
-                    npc.type == mod.NPCType("ScavengerBody") || npc.type == NPCID.DukeFishron || npc.type == NPCID.CultistBoss || npc.type == NPCID.Golem)
+                    npc.type == NPCID.Plantera || npc.type == ModContent.NPCType<Cryogen>() || npc.type == ModContent.NPCType<AquaticScourgeHead>() ||
+                    npc.type == ModContent.NPCType<BrimstoneElemental>() || npc.type == ModContent.NPCType<AstrumAureus>() || npc.type == ModContent.NPCType<AstrumDeusHeadSpectral>() ||
+                    npc.type == ModContent.NPCType<Calamitas>() || npc.type == ModContent.NPCType<Siren>() || npc.type == ModContent.NPCType<PlaguebringerGoliath>() ||
+                    npc.type == ModContent.NPCType<RavagerBody>() || npc.type == NPCID.DukeFishron || npc.type == NPCID.CultistBoss || npc.type == NPCID.Golem)
                 {
                     CalamityWorld.spawnedHardBoss = true;
                     CalamityMod.UpdateServerBoolean();
@@ -2076,20 +2075,20 @@ namespace CalamityMod.NPCs
             {
                 if (npc.type == NPCID.Demon || npc.type == NPCID.VoodooDemon || npc.type == NPCID.RedDevil)
                 {
-                    target.AddBuff(mod.BuffType("PopoNoseless"), 36000);
+                    target.AddBuff(ModContent.BuffType<PopoNoselessBuff>(), 36000);
                 }
             }
 
             switch (npc.type)
             {
                 case NPCID.Golem:
-                    target.AddBuff(mod.BuffType("ArmorCrunch"), 300);
+                    target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 300);
                     break;
 
                 case NPCID.GolemHead:
                 case NPCID.GolemFistRight:
                 case NPCID.GolemFistLeft:
-                    target.AddBuff(mod.BuffType("ArmorCrunch"), 180);
+                    target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 180);
                     break;
 
                 default:
@@ -2109,15 +2108,15 @@ namespace CalamityMod.NPCs
                             npc.type == thorium.NPCType("Omnicide") || npc.type == thorium.NPCType("RealityBreaker") || npc.type == thorium.NPCType("Aquaius") ||
                             npc.type == thorium.NPCType("Aquaius2"))
                         {
-                            target.AddBuff(mod.BuffType("MarkedforDeath"), 180);
+                            target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 180);
                         }
                         else if (npc.type == thorium.NPCType("ViscountBaby") || npc.type == thorium.NPCType("EnemyBeholder") || npc.type == thorium.NPCType("AbyssalSpawn") ||
                             npc.type == thorium.NPCType("Viscount") || npc.type == thorium.NPCType("FallenDeathBeholder") || npc.type == thorium.NPCType("FallenDeathBeholder2") ||
                             npc.type == thorium.NPCType("Lich") || npc.type == thorium.NPCType("LichHeadless") || npc.type == thorium.NPCType("Abyssion") ||
                             npc.type == thorium.NPCType("AbyssionCracked") || npc.type == thorium.NPCType("AbyssionReleased"))
                         {
-                            target.AddBuff(mod.BuffType("MarkedforDeath"), 180);
-                            target.AddBuff(mod.BuffType("Horror"), 180);
+                            target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 180);
+                            target.AddBuff(ModContent.BuffType<Horror>(), 180);
                         }
                     }
                 }
@@ -2134,7 +2133,7 @@ namespace CalamityMod.NPCs
                     case NPCID.FaceMonster:
                     case NPCID.BloodCrawler:
                     case NPCID.BloodCrawlerWall:
-                        target.AddBuff(mod.BuffType("Horror"), 60);
+                        target.AddBuff(ModContent.BuffType<Horror>(), 60);
                         break;
 
                     case NPCID.DevourerHead:
@@ -2164,7 +2163,7 @@ namespace CalamityMod.NPCs
                     case NPCID.CrimsonGoldfish:
                     case NPCID.CrimsonPenguin:
                     case NPCID.Drippler:
-                        target.AddBuff(mod.BuffType("Horror"), 120);
+                        target.AddBuff(ModContent.BuffType<Horror>(), 120);
                         break;
 
                     case NPCID.EyeofCthulhu:
@@ -2192,26 +2191,26 @@ namespace CalamityMod.NPCs
                     case NPCID.Medusa:
                     case NPCID.SandsharkCorrupt:
                     case NPCID.SandsharkCrimson:
-                        target.AddBuff(mod.BuffType("Horror"), 180);
+                        target.AddBuff(ModContent.BuffType<Horror>(), 180);
                         break;
 
                     case NPCID.MourningWood:
                     case NPCID.Pumpking:
-                        target.AddBuff(mod.BuffType("Horror"), 240);
+                        target.AddBuff(ModContent.BuffType<Horror>(), 240);
                         break;
 
                     case NPCID.WallofFlesh:
                     case NPCID.Krampus:
-                        target.AddBuff(mod.BuffType("Horror"), 300);
+                        target.AddBuff(ModContent.BuffType<Horror>(), 300);
                         break;
 
                     case NPCID.DungeonGuardian:
-                        target.AddBuff(mod.BuffType("Horror"), 1200);
+                        target.AddBuff(ModContent.BuffType<Horror>(), 1200);
                         break;
 
                     case NPCID.Creeper:
-                        target.AddBuff(mod.BuffType("Horror"), 60);
-                        target.AddBuff(mod.BuffType("MarkedforDeath"), 120);
+                        target.AddBuff(ModContent.BuffType<Horror>(), 60);
+                        target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 120);
                         break;
 
                     case NPCID.CursedSkull:
@@ -2220,48 +2219,48 @@ namespace CalamityMod.NPCs
                     case NPCID.TheHungryII:
                     case NPCID.PumpkingBlade:
                     case NPCID.BloodZombie:
-                        target.AddBuff(mod.BuffType("Horror"), 120);
-                        target.AddBuff(mod.BuffType("MarkedforDeath"), 120);
+                        target.AddBuff(ModContent.BuffType<Horror>(), 120);
+                        target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 120);
                         break;
 
                     case NPCID.DarkMummy:
-                        target.AddBuff(mod.BuffType("Horror"), 180);
-                        target.AddBuff(mod.BuffType("MarkedforDeath"), 120);
+                        target.AddBuff(ModContent.BuffType<Horror>(), 180);
+                        target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 120);
                         break;
 
                     case NPCID.EaterofWorldsHead:
                     case NPCID.GiantCursedSkull:
                     case NPCID.Butcher:
                     case NPCID.Psycho:
-                        target.AddBuff(mod.BuffType("Horror"), 180);
-                        target.AddBuff(mod.BuffType("MarkedforDeath"), 180);
+                        target.AddBuff(ModContent.BuffType<Horror>(), 180);
+                        target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 180);
                         break;
 
                     case NPCID.Wraith:
                     case NPCID.VampireBat:
                     case NPCID.Vampire:
                     case NPCID.Reaper:
-                        target.AddBuff(mod.BuffType("Horror"), 240);
-                        target.AddBuff(mod.BuffType("MarkedforDeath"), 180);
+                        target.AddBuff(ModContent.BuffType<Horror>(), 240);
+                        target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 180);
                         break;
 
                     case NPCID.AncientCultistSquidhead:
-                        target.AddBuff(mod.BuffType("Horror"), 240);
-                        target.AddBuff(mod.BuffType("MarkedforDeath"), 240);
+                        target.AddBuff(ModContent.BuffType<Horror>(), 240);
+                        target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 240);
                         break;
 
                     case NPCID.DungeonSpirit:
-                        target.AddBuff(mod.BuffType("Horror"), 300);
-                        target.AddBuff(mod.BuffType("MarkedforDeath"), 180);
+                        target.AddBuff(ModContent.BuffType<Horror>(), 300);
+                        target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 180);
                         break;
 
                     case NPCID.AncientDoom:
-                        target.AddBuff(mod.BuffType("Horror"), 300);
-                        target.AddBuff(mod.BuffType("MarkedforDeath"), 300);
+                        target.AddBuff(ModContent.BuffType<Horror>(), 300);
+                        target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 300);
                         break;
 
                     case NPCID.Snatcher:
-                        target.AddBuff(mod.BuffType("MarkedforDeath"), 60);
+                        target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 60);
                         break;
 
                     case NPCID.BurningSphere:
@@ -2269,7 +2268,7 @@ namespace CalamityMod.NPCs
                     case NPCID.Mummy:
                     case NPCID.EnchantedSword:
                     case NPCID.Werewolf:
-                        target.AddBuff(mod.BuffType("MarkedforDeath"), 120);
+                        target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 120);
                         break;
 
                     case NPCID.Spazmatism:
@@ -2287,16 +2286,16 @@ namespace CalamityMod.NPCs
                     case NPCID.Sharkron2:
                     case NPCID.ShadowFlameApparition:
                     case NPCID.MartianDrone:
-                        target.AddBuff(mod.BuffType("MarkedforDeath"), 180);
+                        target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 180);
                         break;
 
                     case NPCID.Mimic:
                     case NPCID.AngryTrapper:
-                        target.AddBuff(mod.BuffType("MarkedforDeath"), 240);
+                        target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 240);
                         break;
 
                     case NPCID.DetonatingBubble:
-                        target.AddBuff(mod.BuffType("MarkedforDeath"), 360);
+                        target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 360);
                         break;
 
                     default:
@@ -2311,11 +2310,11 @@ namespace CalamityMod.NPCs
         {
             if (npc.type == NPCID.TheDestroyerBody)
             {
-                if (((projectile.penetrate == -1 || projectile.penetrate > 1) && !projectile.minion) || projectile.type == mod.ProjectileType("KelvinCatalystStar"))
+                if (((projectile.penetrate == -1 || projectile.penetrate > 1) && !projectile.minion) || projectile.type == ModContent.ProjectileType<KelvinCatalystStar>())
                 {
                     damage = (int)(damage * 0.5);
                 }
-                else if (projectile.type == mod.ProjectileType("FossilShardThrown") || projectile.type == mod.ProjectileType("FrostShardFriendly"))
+                else if (projectile.type == ModContent.ProjectileType<FossilShardThrown>() || projectile.type == ModContent.ProjectileType<FrostShardFriendly>())
                 {
                     damage = (int)(damage * 0.75);
                 }
@@ -2418,15 +2417,15 @@ namespace CalamityMod.NPCs
                     switch (Main.rand.Next(3))
                     {
                         case 0:
-                            Main.player[projectile.owner].AddBuff(mod.BuffType("SpiritGeneratorAtkBuff"), 120);
+                            Main.player[projectile.owner].AddBuff(ModContent.BuffType<SpiritGeneratorAtkBuff>(), 120);
                             break;
 
                         case 1:
-                            Main.player[projectile.owner].AddBuff(mod.BuffType("SpiritGeneratorRegenBuff"), 120);
+                            Main.player[projectile.owner].AddBuff(ModContent.BuffType<SpiritGeneratorRegenBuff>(), 120);
                             break;
 
                         case 2:
-                            Main.player[projectile.owner].AddBuff(mod.BuffType("SpiritGeneratorDefBuff"), 120);
+                            Main.player[projectile.owner].AddBuff(ModContent.BuffType<SpiritGeneratorDefBuff>(), 120);
                             break;
 
                         default:
@@ -2457,10 +2456,10 @@ namespace CalamityMod.NPCs
         public override bool CheckDead(NPC npc)
         {
             if (npc.lifeMax > 1000 && npc.type != 288 &&
-                npc.type != mod.NPCType("PhantomSpirit") &&
-                npc.type != mod.NPCType("PhantomSpiritS") &&
-                npc.type != mod.NPCType("PhantomSpiritM") &&
-                npc.type != mod.NPCType("PhantomSpiritL") &&
+                npc.type != ModContent.NPCType<PhantomSpirit>() &&
+                npc.type != ModContent.NPCType<PhantomSpiritS>() &&
+                npc.type != ModContent.NPCType<PhantomSpiritM>() &&
+                npc.type != ModContent.NPCType<PhantomSpiritL>() &&
                 npc.value > 0f && npc.HasPlayerTarget &&
                 NPC.downedMoonlord &&
                 Main.player[npc.target].ZoneDungeon)
@@ -2473,19 +2472,19 @@ namespace CalamityMod.NPCs
                     switch (randomType)
                     {
                         case 0:
-                            randomType = mod.NPCType("PhantomSpirit");
+                            randomType = ModContent.NPCType<PhantomSpirit>();
                             break;
 
                         case 1:
-                            randomType = mod.NPCType("PhantomSpiritS");
+                            randomType = ModContent.NPCType<PhantomSpiritS>();
                             break;
 
                         case 2:
-                            randomType = mod.NPCType("PhantomSpiritM");
+                            randomType = ModContent.NPCType<PhantomSpiritM>();
                             break;
 
                         case 3:
-                            randomType = mod.NPCType("PhantomSpiritL");
+                            randomType = ModContent.NPCType<PhantomSpiritL>();
                             break;
 
                         default:
@@ -2582,7 +2581,7 @@ namespace CalamityMod.NPCs
                         break;
                 }
 
-                if (npc.type == mod.NPCType("SandTortoise") || npc.type == mod.NPCType("PlaguedTortoise"))
+                if (npc.type == ModContent.NPCType<SandTortoise>() || npc.type == ModContent.NPCType<PlaguedTortoise>())
                 {
                     if (npc.life <= npc.lifeMax * 0.25)
                     {
@@ -2740,7 +2739,7 @@ namespace CalamityMod.NPCs
             {
                 if (Main.rand.Next(5) < 4)
                 {
-                    int dust = Dust.NewDust(npc.position - new Vector2(2f, 2f), npc.width + 4, npc.height + 4, mod.DustType("BrimstoneFlame"), npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 100, default, 3.5f);
+                    int dust = Dust.NewDust(npc.position - new Vector2(2f, 2f), npc.width + 4, npc.height + 4, ModContent.DustType<BrimstoneFlame>(), npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 100, default, 3.5f);
                     Main.dust[dust].noGravity = true;
                     Main.dust[dust].velocity *= 1.8f;
                     Main.dust[dust].velocity.Y -= 0.5f;
@@ -2756,7 +2755,7 @@ namespace CalamityMod.NPCs
             {
                 if (Main.rand.Next(5) < 4)
                 {
-                    int dust = Dust.NewDust(npc.position - new Vector2(2f, 2f), npc.width + 4, npc.height + 4, mod.DustType("BrimstoneFlame"), npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 100, default, 3.5f);
+                    int dust = Dust.NewDust(npc.position - new Vector2(2f, 2f), npc.width + 4, npc.height + 4, ModContent.DustType<BrimstoneFlame>(), npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 100, default, 3.5f);
                     Main.dust[dust].noGravity = true;
                     Main.dust[dust].velocity *= 1.8f;
                     Main.dust[dust].velocity.Y -= 0.25f;
@@ -2787,7 +2786,7 @@ namespace CalamityMod.NPCs
             {
                 if (Main.rand.Next(5) < 4)
                 {
-                    int dust = Dust.NewDust(npc.position - new Vector2(2f, 2f), npc.width + 4, npc.height + 4, mod.DustType("HolyFlame"), npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 100, default, 3.5f);
+                    int dust = Dust.NewDust(npc.position - new Vector2(2f, 2f), npc.width + 4, npc.height + 4, ModContent.DustType<HolyFireDust>(), npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 100, default, 3.5f);
                     Main.dust[dust].noGravity = true;
                     Main.dust[dust].velocity *= 1.8f;
                     Main.dust[dust].velocity.Y -= 0.5f;
@@ -2835,7 +2834,7 @@ namespace CalamityMod.NPCs
             {
                 if (Main.rand.Next(5) < 3)
                 {
-                    int dustType = Main.rand.NextBool(2) ? mod.DustType("AstralOrange") : mod.DustType("AstralBlue");
+                    int dustType = Main.rand.NextBool(2) ? ModContent.DustType<AstralOrange>() : ModContent.DustType<AstralBlue>();
                     int dust = Dust.NewDust(npc.position - new Vector2(2f, 2f), npc.width + 4, npc.height + 4, dustType, npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 100, default, 0.6f);
                     Main.dust[dust].noGravity = true;
                     Main.dust[dust].velocity *= 1.2f;
@@ -2957,8 +2956,8 @@ namespace CalamityMod.NPCs
 
                 float num66 = 0f;
                 Vector2 vector11 = new Vector2(Main.npcTexture[npc.type].Width / 2, Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2);
-                Microsoft.Xna.Framework.Color color9 = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, 0);
-                Microsoft.Xna.Framework.Color alpha15 = npc.GetAlpha(color9);
+                Color color9 = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, 0);
+                Color alpha15 = npc.GetAlpha(color9);
                 float num212 = 0.99f;
                 alpha15.R = (byte)(alpha15.R * num212);
                 alpha15.G = (byte)(alpha15.G * num212);
@@ -3051,7 +3050,7 @@ namespace CalamityMod.NPCs
                     spriteBatch.Draw(texture2D3, npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, npc.GetAlpha(drawColor), npc.rotation, npc.frame.Size() / 2, npc.scale, spriteEffects, 0);
 
                     spriteBatch.Draw(Main.BoneEyesTexture, npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY),
-                        npc.frame, new Microsoft.Xna.Framework.Color(200, 200, 200, 0), npc.rotation, npc.frame.Size() / 2, npc.scale, spriteEffects, 0);
+                        npc.frame, new Color(200, 200, 200, 0), npc.rotation, npc.frame.Size() / 2, npc.scale, spriteEffects, 0);
                 }
             }
         }
@@ -3060,8 +3059,8 @@ namespace CalamityMod.NPCs
         #region Get Chat
         public override void GetChat(NPC npc, ref string chat)
         {
-            int fapsol = NPC.FindFirstNPC(mod.NPCType("FAP"));
-            int permadong = NPC.FindFirstNPC(mod.NPCType("DILF"));
+            int fapsol = NPC.FindFirstNPC(ModContent.NPCType<FAP>());
+            int permadong = NPC.FindFirstNPC(ModContent.NPCType<DILF>());
 
             switch (npc.type)
             {
@@ -3169,7 +3168,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.GoblinTinkerer:
-                    int banditIndex = NPC.FindFirstNPC(mod.NPCType("Bandit"));
+                    int banditIndex = NPC.FindFirstNPC(ModContent.NPCType<Bandit>());
                     if (Main.rand.NextBool(10) && banditIndex != -1 && Main.LocalPlayer.Calamity().reforges >= 10)
                     {
                         var thief = Main.npc[banditIndex];
@@ -3408,7 +3407,7 @@ namespace CalamityMod.NPCs
         {
             if (type == NPCID.Merchant)
             {
-                SetShopItem(ref shop, ref nextSlot, ItemID.Flare, Main.LocalPlayer.HasItem(mod.ItemType("FirestormCannon")) || Main.LocalPlayer.HasItem(mod.ItemType("SpectralstormCannon")));
+                SetShopItem(ref shop, ref nextSlot, ItemID.Flare, Main.LocalPlayer.HasItem(ModContent.ItemType<Items.FirestormCannon>()) || Main.LocalPlayer.HasItem(ModContent.ItemType<Items.SpectralstormCannon>()));
                 SetShopItem(ref shop, ref nextSlot, ItemID.ApprenticeBait, NPC.downedBoss1);
                 SetShopItem(ref shop, ref nextSlot, ItemID.JourneymanBait, NPC.downedBoss2);
                 SetShopItem(ref shop, ref nextSlot, WorldGen.crimson ? ItemID.Vilethorn : ItemID.TheRottedFork, NPC.downedBoss2);
@@ -3417,65 +3416,55 @@ namespace CalamityMod.NPCs
 
             if (type == NPCID.ArmsDealer)
             {
-                SetShopItem(ref shop, ref nextSlot, ItemID.Stake, Main.LocalPlayer.HasItem(mod.ItemType("Impaler")));
+                SetShopItem(ref shop, ref nextSlot, ItemID.Stake, Main.LocalPlayer.HasItem(ModContent.ItemType<Items.Impaler>()));
                 SetShopItem(ref shop, ref nextSlot, WorldGen.crimson ? ItemID.Musket : ItemID.TheUndertaker, NPC.downedBoss2);
                 SetShopItem(ref shop, ref nextSlot, ItemID.Boomstick, NPC.downedQueenBee, price: Item.buyPrice(0, 20, 0, 0));
-                SetShopItem(ref shop, ref nextSlot, ItemID.SniperRifle, NPC.downedGolemBoss, Item.buyPrice(0, 25));
-                SetShopItem(ref shop, ref nextSlot, ItemID.TacticalShotgun, NPC.downedGolemBoss, Item.buyPrice(0, 25));
-            }
-
-            if (type == NPCID.Cyborg)
-            {
-                SetShopItem(ref shop, ref nextSlot, ItemID.RocketLauncher, NPC.downedGolemBoss, Item.buyPrice(0, 25));
-            }
-
-            if (type == NPCID.Pirate)
-            {
-                SetShopItem(ref shop, ref nextSlot, ItemID.PirateMap, price: Item.buyPrice(0, 5));
             }
 
             if (type == NPCID.Dryad)
             {
                 SetShopItem(ref shop, ref nextSlot, ItemID.JungleRose, price: Item.buyPrice(0, 2));
                 SetShopItem(ref shop, ref nextSlot, ItemID.NaturesGift, price: Item.buyPrice(0, 10));
+                SetShopItem(ref shop, ref nextSlot, ItemID.GoblinBattleStandard, price: Item.buyPrice(0, 1));
                 SetShopItem(ref shop, ref nextSlot, ItemID.SlimeCrown, NPC.downedSlimeKing, Item.buyPrice(0, 2));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.DriedSeafood>(), CalamityWorld.downedDesertScourge, Item.buyPrice(0, 2));
                 SetShopItem(ref shop, ref nextSlot, ItemID.SuspiciousLookingEye, NPC.downedBoss1, Item.buyPrice(0, 3));
-                SetShopItem(ref shop, ref nextSlot, mod.ItemType("DecapoditaSprout"), CalamityWorld.downedCrabulon, Item.buyPrice(0, 4));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.DecapoditaSprout>(), CalamityWorld.downedCrabulon, Item.buyPrice(0, 4));
                 SetShopItem(ref shop, ref nextSlot, ItemID.BloodySpine, NPC.downedBoss2, Item.buyPrice(0, 6));
                 SetShopItem(ref shop, ref nextSlot, ItemID.WormFood, NPC.downedBoss2, Item.buyPrice(0, 6));
                 SetShopItem(ref shop, ref nextSlot, WorldGen.crimson ? ItemID.BandofStarpower : ItemID.PanicNecklace, NPC.downedBoss2);
                 SetShopItem(ref shop, ref nextSlot, WorldGen.crimson ? ItemID.WormScarf : ItemID.BrainOfConfusion, Main.expertMode && NPC.downedBoss2);
-                SetShopItem(ref shop, ref nextSlot, mod.ItemType("BloodyWormFood"), CalamityWorld.downedPerforator, Item.buyPrice(0, 10));
-                SetShopItem(ref shop, ref nextSlot, mod.ItemType("RottenBrain"), CalamityWorld.downedPerforator && Main.expertMode);
-                SetShopItem(ref shop, ref nextSlot, mod.ItemType("Teratoma"), CalamityWorld.downedHiveMind, Item.buyPrice(0, 10));
-                SetShopItem(ref shop, ref nextSlot, mod.ItemType("BloodyWormTooth"), CalamityWorld.downedHiveMind && Main.expertMode);
-                SetShopItem(ref shop, ref nextSlot, mod.ItemType("OverloadedSludge"), CalamityWorld.downedSlimeGod, Item.buyPrice(0, 15));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.BloodyWormFood>(), CalamityWorld.downedPerforator, Item.buyPrice(0, 10));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.RottenBrain>(), CalamityWorld.downedPerforator && Main.expertMode);
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.Teratoma>(), CalamityWorld.downedHiveMind, Item.buyPrice(0, 10));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.BloodyWormTooth>(), CalamityWorld.downedHiveMind && Main.expertMode);
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.OverloadedSludge>(), CalamityWorld.downedSlimeGod, Item.buyPrice(0, 15));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.Seafood>(), CalamityWorld.downedAquaticScourge, Item.buyPrice(0, 20));
                 SetShopItem(ref shop, ref nextSlot, ItemID.PumpkinMoonMedallion, NPC.downedHalloweenKing, Item.buyPrice(0, 25));
                 SetShopItem(ref shop, ref nextSlot, ItemID.NaughtyPresent, NPC.downedChristmasIceQueen, Item.buyPrice(0, 25));
-                SetShopItem(ref shop, ref nextSlot, mod.ItemType("RomajedaOrchid"));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.RomajedaOrchid>());
             }
 
             if (type == NPCID.GoblinTinkerer)
             {
-                SetShopItem(ref shop, ref nextSlot, mod.ItemType("MeleeLevelMeter"), price: Item.buyPrice(0, 5));
-                SetShopItem(ref shop, ref nextSlot, mod.ItemType("RangedLevelMeter"), price: Item.buyPrice(0, 5));
-                SetShopItem(ref shop, ref nextSlot, mod.ItemType("MagicLevelMeter"), price: Item.buyPrice(0, 5));
-                SetShopItem(ref shop, ref nextSlot, mod.ItemType("SummonLevelMeter"), price: Item.buyPrice(0, 5));
-                SetShopItem(ref shop, ref nextSlot, mod.ItemType("RogueLevelMeter"), price: Item.buyPrice(0, 5));
-                SetShopItem(ref shop, ref nextSlot, ItemID.GoblinBattleStandard, price: Item.buyPrice(0, 1));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.MeleeLevelMeter>(), price: Item.buyPrice(0, 5));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.RangedLevelMeter>(), price: Item.buyPrice(0, 5));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.MagicLevelMeter>(), price: Item.buyPrice(0, 5));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.SummonLevelMeter>(), price: Item.buyPrice(0, 5));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.RogueLevelMeter>(), price: Item.buyPrice(0, 5));
             }
 
             if (type == NPCID.Clothier)
             {
-                SetShopItem(ref shop, ref nextSlot, mod.ItemType("BlueBrickWallUnsafe"), price: Item.buyPrice(copper: 10));
-                SetShopItem(ref shop, ref nextSlot, mod.ItemType("BlueSlabWallUnsafe"), price: Item.buyPrice(copper: 10));
-                SetShopItem(ref shop, ref nextSlot, mod.ItemType("BlueTiledWallUnsafe"), price: Item.buyPrice(copper: 10));
-                SetShopItem(ref shop, ref nextSlot, mod.ItemType("GreenBrickWallUnsafe"), price: Item.buyPrice(copper: 10));
-                SetShopItem(ref shop, ref nextSlot, mod.ItemType("GreenSlabWallUnsafe"), price: Item.buyPrice(copper: 10));
-                SetShopItem(ref shop, ref nextSlot, mod.ItemType("GreenTiledWallUnsafe"), price: Item.buyPrice(copper: 10));
-                SetShopItem(ref shop, ref nextSlot, mod.ItemType("PinkBrickWallUnsafe"), price: Item.buyPrice(copper: 10));
-                SetShopItem(ref shop, ref nextSlot, mod.ItemType("PinkSlabWallUnsafe"), price: Item.buyPrice(copper: 10));
-                SetShopItem(ref shop, ref nextSlot, mod.ItemType("PinkTiledWallUnsafe"), price: Item.buyPrice(copper: 10));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.BlueBrickWallUnsafe>(), price: Item.buyPrice(copper: 10));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.BlueSlabWallUnsafe>(), price: Item.buyPrice(copper: 10));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.BlueTiledWallUnsafe>(), price: Item.buyPrice(copper: 10));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.GreenBrickWallUnsafe>(), price: Item.buyPrice(copper: 10));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.GreenSlabWallUnsafe>(), price: Item.buyPrice(copper: 10));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.GreenTiledWallUnsafe>(), price: Item.buyPrice(copper: 10));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.PinkBrickWallUnsafe>(), price: Item.buyPrice(copper: 10));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.PinkSlabWallUnsafe>(), price: Item.buyPrice(copper: 10));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.PinkTiledWallUnsafe>(), price: Item.buyPrice(copper: 10));
                 SetShopItem(ref shop, ref nextSlot, ItemID.GoldenKey, Main.hardMode, Item.buyPrice(0, 5));
             }
 
@@ -3489,31 +3478,31 @@ namespace CalamityMod.NPCs
                 SetShopItem(ref shop, ref nextSlot, ItemID.MechanicalWorm, NPC.downedMechBoss1, Item.buyPrice(0, 20));
                 SetShopItem(ref shop, ref nextSlot, ItemID.MechanicalEye, NPC.downedMechBoss2, Item.buyPrice(0, 20));
                 SetShopItem(ref shop, ref nextSlot, ItemID.MechanicalSkull, NPC.downedMechBoss3, Item.buyPrice(0, 20));
-                SetShopItem(ref shop, ref nextSlot, mod.ItemType("AstralSolution"), Main.LocalPlayer.Calamity().ZoneAstral && Main.hardMode, Item.buyPrice(0, 0, 5));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.AstralSolution>(), Main.LocalPlayer.Calamity().ZoneAstral && Main.hardMode, Item.buyPrice(0, 0, 5));
             }
 
             if (type == NPCID.Wizard)
             {
-                SetShopItem(ref shop, ref nextSlot, mod.ItemType("CharredIdol"), CalamityWorld.downedBrimstoneElemental, Item.buyPrice(0, 20));
-                SetShopItem(ref shop, ref nextSlot, mod.ItemType("AstralChunk"), CalamityWorld.downedAstrageldon, Item.buyPrice(0, 25));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.CryoKey>(), CalamityWorld.downedCryogen, Item.buyPrice(0, 15));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.CharredIdol>(), CalamityWorld.downedBrimstoneElemental, Item.buyPrice(0, 20));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.AstralChunk>(), CalamityWorld.downedAstrageldon, Item.buyPrice(0, 25));
                 SetShopItem(ref shop, ref nextSlot, ItemID.MagicMissile, price: Item.buyPrice(0, 5));
                 SetShopItem(ref shop, ref nextSlot, ItemID.SpectreStaff, NPC.downedGolemBoss, Item.buyPrice(0, 25));
                 SetShopItem(ref shop, ref nextSlot, ItemID.InfernoFork, NPC.downedGolemBoss, Item.buyPrice(0, 25));
                 SetShopItem(ref shop, ref nextSlot, ItemID.ShadowbeamStaff, NPC.downedGolemBoss, Item.buyPrice(0, 25));
                 SetShopItem(ref shop, ref nextSlot, ItemID.CelestialSigil, NPC.downedMoonlord, Item.buyPrice(3));
-                SetShopItem(ref shop, ref nextSlot, mod.ItemType("ProfanedShard"), CalamityWorld.downedGuardians, Item.buyPrice(10));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.ProfanedShard>(), CalamityWorld.downedGuardians, Item.buyPrice(10));
             }
 
             if (type == NPCID.WitchDoctor)
             {
                 SetShopItem(ref shop, ref nextSlot, ItemID.Abeemination, price: Item.buyPrice(0, 8));
-                SetShopItem(ref shop, ref nextSlot, mod.ItemType("BulbofDoom"), NPC.downedPlantBoss, Item.buyPrice(0, 20));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.BulbofDoom>(), NPC.downedPlantBoss, Item.buyPrice(0, 20));
                 SetShopItem(ref shop, ref nextSlot, ItemID.SolarTablet, NPC.downedGolemBoss, Item.buyPrice(0, 25));
                 SetShopItem(ref shop, ref nextSlot, ItemID.LihzahrdPowerCell, NPC.downedGolemBoss, Item.buyPrice(0, 30));
-                SetShopItem(ref shop, ref nextSlot, mod.ItemType("GypsyPowder"), NPC.downedGolemBoss, Item.buyPrice(0, 10));
-                SetShopItem(ref shop, ref nextSlot, mod.ItemType("AncientMedallion"), CalamityWorld.downedScavenger, Item.buyPrice(0, 50));
-                SetShopItem(ref shop, ref nextSlot, mod.ItemType("Abomination"), CalamityWorld.downedPlaguebringer, Item.buyPrice(0, 50));
-                SetShopItem(ref shop, ref nextSlot, mod.ItemType("BirbPheromones"), CalamityWorld.downedBumble, Item.buyPrice(5));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.AncientMedallion>(), CalamityWorld.downedScavenger, Item.buyPrice(0, 50));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.Abomination>(), CalamityWorld.downedPlaguebringer, Item.buyPrice(0, 50));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.BirbPheromones>(), CalamityWorld.downedBumble, Item.buyPrice(5));
             }
         }
 
@@ -3521,7 +3510,7 @@ namespace CalamityMod.NPCs
         {
             if (Main.moonPhase == 0)
             {
-                shop[nextSlot] = mod.ItemType("FrostBarrier");
+                shop[nextSlot] = ModContent.ItemType<Items.FrostBarrier>();
                 nextSlot++;
             }
         }
@@ -3549,8 +3538,8 @@ namespace CalamityMod.NPCs
             for (int i = 0; i < 200; i++)
             {
                 if (Main.npc[i].active && Main.npc[i].type != NPCID.MartianSaucerCore &&
-                    (Main.npc[i].boss || Main.npc[i].type == NPCID.EaterofWorldsHead || Main.npc[i].type == NPCID.EaterofWorldsTail || Main.npc[i].type == mod.NPCType("SlimeGodRun") ||
-                    Main.npc[i].type == mod.NPCType("SlimeGodRunSplit") || Main.npc[i].type == mod.NPCType("SlimeGod") || Main.npc[i].type == mod.NPCType("SlimeGodSplit")))
+                    (Main.npc[i].boss || Main.npc[i].type == NPCID.EaterofWorldsHead || Main.npc[i].type == NPCID.EaterofWorldsTail || Main.npc[i].type == ModContent.NPCType<SlimeGodRun>() ||
+                    Main.npc[i].type == ModContent.NPCType<SlimeGodRunSplit>() || Main.npc[i].type == ModContent.NPCType<SlimeGod>() || Main.npc[i].type == ModContent.NPCType<SlimeGodSplit>()))
                 {
                     return true;
                 }
@@ -3581,8 +3570,8 @@ namespace CalamityMod.NPCs
             if (target.damage > 0 && !target.boss && !target.friendly && !target.dontTakeDamage && target.type != NPCID.Mothron &&
                 target.type != NPCID.Pumpking && target.type != NPCID.TheDestroyerBody && target.type != NPCID.TheDestroyerTail &&
                 target.type != NPCID.MourningWood && target.type != NPCID.Everscream && target.type != NPCID.SantaNK1 && target.type != NPCID.IceQueen &&
-                target.type != mod.NPCType("Reaper") && target.type != mod.NPCType("Mauler") && target.type != mod.NPCType("EidolonWyrmHead") &&
-                target.type != mod.NPCType("EidolonWyrmHeadHuge") && target.type != mod.NPCType("ColossalSquid") && target.type != NPCID.DD2Betsy)
+                target.type != ModContent.NPCType<Reaper>() && target.type != ModContent.NPCType<Mauler>() && target.type != ModContent.NPCType<EidolonWyrmHead>() &&
+                target.type != ModContent.NPCType<EidolonWyrmHeadHuge>() && target.type != ModContent.NPCType<ColossalSquid>() && target.type != NPCID.DD2Betsy)
             {
                 return true;
             }
@@ -3607,7 +3596,8 @@ namespace CalamityMod.NPCs
                 Projectile projectile = Main.projectile[m];
                 if (projectile.active && projectile.bobber && projectile.owner == plr)
                 {
-                    int num8 = NPC.NewNPC((int)projectile.Center.X, (int)projectile.Center.Y + 100, mod.NPCType("OldDuke"));
+                    // TODO -- Old Duke not added yet
+                    int num8 = NPC.NewNPC((int)projectile.Center.X, (int)projectile.Center.Y + 100, /* ModContent.NPCType<OldDuke>() */ NPCID.DukeFishron);
                     string typeName2 = Main.npc[num8].TypeName;
                     if (Main.netMode == NetmodeID.SinglePlayer)
                     {

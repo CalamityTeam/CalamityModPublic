@@ -2,10 +2,9 @@
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.PlaguebringerGoliath
+using Terraria.ID;
+namespace CalamityMod.NPCs
 {
     public class PlagueHomingMissile : ModNPC
     {
@@ -38,9 +37,9 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             npc.buffImmune[39] = true;
             npc.buffImmune[24] = true;
             npc.buffImmune[20] = true;
-            npc.buffImmune[mod.BuffType("BrimstoneFlames")] = true;
-            npc.buffImmune[mod.BuffType("HolyLight")] = true;
-            npc.buffImmune[mod.BuffType("Plague")] = true;
+            npc.buffImmune[ModContent.BuffType<BrimstoneFlames>()] = true;
+            npc.buffImmune[ModContent.BuffType<HolyFlames>()] = true;
+            npc.buffImmune[ModContent.BuffType<Plague>()] = true;
         }
 
         public override void AI()
@@ -194,7 +193,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(mod.BuffType("Plague"), 180, true);
+            player.AddBuff(ModContent.BuffType<Plague>(), 180, true);
         }
 
         public override void HitEffect(int hitDirection, double damage)

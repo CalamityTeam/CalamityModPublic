@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Placeables
 
         public override void SetDefaults()
         {
-            item.createTile = mod.TileType("UelibloomOre");
+            item.createTile = ModContent.TileType<Tiles.UelibloomOre>();
             item.useStyle = 1;
             item.useTurn = true;
             item.useAnimation = 15;

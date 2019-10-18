@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ModLoader;
+using Terraria.DataStructures;
 
 namespace CalamityMod.Projectiles.Boss
 {

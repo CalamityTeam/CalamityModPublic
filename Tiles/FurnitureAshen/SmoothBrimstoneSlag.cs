@@ -1,9 +1,8 @@
-using CalamityMod.Utilities;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Tiles.FurnitureAshen
 {
     public class SmoothBrimstoneSlag : ModTile
@@ -22,7 +21,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
             soundType = 21;
             mineResist = 5f;
             minPick = 180;
-            drop = mod.ItemType("SmoothBrimstoneSlag");
+            drop = ModContent.ItemType<Items.SmoothBrimstoneSlag>();
             AddMapEntry(new Color(61, 40, 61));
         }
 
@@ -37,7 +36,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
         {
             int xPos = Main.tile[i, j].frameX;
             int yPos = Main.tile[i, j].frameY;
-            Texture2D glowmask = mod.GetTexture("Tiles/FurnitureAshen/SmoothBrimstoneSlag_Glowmask");
+            Texture2D glowmask = ModContent.GetTexture("CalamityMod/Tiles/FurnitureAshen/SmoothBrimstoneSlagGlow");
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
             Color drawColour = GetDrawColour(i, j, new Color(25, 25, 25, 25));

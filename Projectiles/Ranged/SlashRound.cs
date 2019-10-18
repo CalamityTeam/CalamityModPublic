@@ -1,6 +1,5 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Projectiles.Ranged
 {
     public class SlashRound : ModProjectile
@@ -29,7 +28,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("Shred"), 180);
+            target.AddBuff(ModContent.BuffType<Shred>(), 180);
         }
     }
 }

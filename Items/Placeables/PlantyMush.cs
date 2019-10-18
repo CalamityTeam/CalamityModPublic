@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Placeables
 
         public override void SetDefaults()
         {
-            item.createTile = mod.TileType("PlantyMush");
+            item.createTile = ModContent.TileType<Tiles.PlantyMush>();
             item.useStyle = 1;
             item.useTurn = true;
             item.useAnimation = 15;

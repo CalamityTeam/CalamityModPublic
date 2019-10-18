@@ -3,7 +3,6 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Projectiles.Boss
 {
     public class BrimstoneLaser : ModProjectile
@@ -50,7 +49,7 @@ namespace CalamityMod.Projectiles.Boss
                     for (int i = 0; i < numProj + 1; i++)
                     {
                         Vector2 perturbedSpeed = new Vector2(projectile.velocity.X, projectile.velocity.Y).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
-                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, mod.ProjectileType("BrimstoneLaserSplit"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<BrimstoneLaserSplit>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                     }
                 }
                 projectile.Kill();
@@ -68,7 +67,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(mod.BuffType("BrimstoneFlames"), 180);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
         }
     }
 }

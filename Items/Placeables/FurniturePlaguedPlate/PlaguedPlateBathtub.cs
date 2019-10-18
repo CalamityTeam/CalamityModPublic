@@ -1,5 +1,4 @@
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Placeables.FurniturePlaguedPlate
 {
     public class PlaguedPlateBathtub : ModItem
@@ -19,7 +18,7 @@ namespace CalamityMod.Items.Placeables.FurniturePlaguedPlate
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = mod.TileType("PlaguedPlateBathtub");
+            item.createTile = ModContent.TileType<Tiles.PlaguedPlateBathtub>();
         }
 
         public override void AddRecipes()

@@ -10,9 +10,9 @@ namespace CalamityMod.Walls
         {
             Main.wallHouse[Type] = true;
             Main.wallLargeFrames[Type] = 2;
-            dustType = mod.DustType("Sparkle");
+
             soundType = 13;
-            drop = mod.ItemType("ProfanedCrystalWall");
+            drop = ModContent.ItemType<Items.ProfanedCrystalWall>();
             AddMapEntry(new Color(125, 97, 123));
         }
 

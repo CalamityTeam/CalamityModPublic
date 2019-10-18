@@ -3,10 +3,10 @@ using Microsoft.Xna.Framework;
 using System;
 using System.IO;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
-namespace CalamityMod.NPCs.StormWeaver
+namespace CalamityMod.NPCs
 {
     [AutoloadBossHead]
     public class StormWeaverHead : ModNPC
@@ -133,11 +133,11 @@ namespace CalamityMod.NPCs.StormWeaver
                         int lol;
                         if (num36 >= 0 && num36 < minLength)
                         {
-                            lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("StormWeaverBody"), npc.whoAmI);
+                            lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<StormWeaverBody>(), npc.whoAmI);
                         }
                         else
                         {
-                            lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("StormWeaverTail"), npc.whoAmI);
+                            lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<StormWeaverTail>(), npc.whoAmI);
                         }
                         Main.npc[lol].realLife = npc.whoAmI;
                         Main.npc[lol].ai[2] = (float)npc.whoAmI;
@@ -570,7 +570,7 @@ namespace CalamityMod.NPCs.StormWeaver
             }
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                NPC.SpawnOnPlayer(Main.LocalPlayer.whoAmI, mod.NPCType("StormWeaverHeadNaked"));
+                NPC.SpawnOnPlayer(Main.LocalPlayer.whoAmI, ModContent.NPCType<StormWeaverHeadNaked>());
             }
             return true;
         }

@@ -3,10 +3,9 @@ using Microsoft.Xna.Framework;
 using System;
 using System.IO;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.NormalNPCs
+using Terraria.ID;
+namespace CalamityMod.NPCs
 {
     public class Eidolist : ModNPC
     {
@@ -43,7 +42,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.DeathSound = SoundID.NPCDeath59;
             npc.timeLeft = NPC.activeTime * 2;
             banner = npc.type;
-            bannerItem = mod.ItemType("EidolistBanner");
+            bannerItem = ModContent.ItemType<EidolistBanner>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -316,17 +315,17 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 if (!NPC.LunarApocalypseIsUp)
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EidolonTablet"));
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EidolonTablet>());
                 }
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.BlueLunaticHood);
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.BlueLunaticRobe);
             }
             if (CalamityWorld.downedCalamitas || NPC.downedPlantBoss)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Lumenite"), Main.rand.Next(8, 11));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Lumenite>(), Main.rand.Next(8, 11));
                 if (Main.expertMode && Main.rand.NextBool(2))
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Lumenite"), Main.rand.Next(2, 5));
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Lumenite>(), Main.rand.Next(2, 5));
                 }
             }
             if (NPC.downedPlantBoss)

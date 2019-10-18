@@ -2,7 +2,6 @@
 using System;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Projectiles.Magic
 {
     public class T1000 : ModProjectile
@@ -28,7 +27,7 @@ namespace CalamityMod.Projectiles.Magic
             Player player = Main.player[projectile.owner];
             float num = 1.57079637f;
             Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
-            if (projectile.type == mod.ProjectileType("T1000"))
+            if (projectile.type == ModContent.ProjectileType<T1000>())
             {
                 projectile.ai[0] += 1f;
                 int num2 = 0;
@@ -98,7 +97,7 @@ namespace CalamityMod.Projectiles.Magic
                             projectile.netUpdate = true;
                         }
                         projectile.velocity = vector3;
-                        int num6 = mod.ProjectileType("T1000Laser");
+                        int num6 = ModContent.ProjectileType<T1000Laser>();
                         float scaleFactor2 = 14f;
                         int num7 = 7;
                         for (int j = 0; j < 4; j++)

@@ -69,11 +69,11 @@ namespace CalamityMod.Projectiles.Boss
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
             if (Main.rand.NextBool(6))
-                target.AddBuff(mod.BuffType("Shadowflame"), 240, true);
+                target.AddBuff(ModContent.BuffType<Shadowflame>(), 240, true);
             else if (Main.rand.NextBool(4))
-                target.AddBuff(mod.BuffType("Shadowflame"), 150, true);
+                target.AddBuff(ModContent.BuffType<Shadowflame>(), 150, true);
             else if (Main.rand.NextBool(2))
-                target.AddBuff(mod.BuffType("Shadowflame"), 90, true);
+                target.AddBuff(ModContent.BuffType<Shadowflame>(), 90, true);
         }
     }
 }

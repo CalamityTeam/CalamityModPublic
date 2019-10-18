@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -120,7 +120,7 @@ namespace CalamityMod.Projectiles.Rogue
                     }
                     value15.Normalize();
                     value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, mod.ProjectileType("BallisticPoisonBombSpike"), (int)((double)projectile.damage * 0.5), 0f, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<BallisticPoisonBombSpike>(), (int)((double)projectile.damage * 0.5), 0f, projectile.owner, 0f, 0f);
                 }
                 int num320 = Main.rand.Next(8, 13);
                 int num3;
@@ -129,7 +129,7 @@ namespace CalamityMod.Projectiles.Rogue
                     Vector2 vector15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
                     vector15.Normalize();
                     vector15 *= (float)Main.rand.Next(10, 201) * 0.01f;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector15.X, vector15.Y, mod.ProjectileType("BallisticPoisonCloud") + Main.rand.Next(3), (int)((double)projectile.damage * 0.5), 1f, projectile.owner, 0f, (float)Main.rand.Next(-45, 1));
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector15.X, vector15.Y, ModContent.ProjectileType<BallisticPoisonCloud>() + Main.rand.Next(3), (int)((double)projectile.damage * 0.5), 1f, projectile.owner, 0f, (float)Main.rand.Next(-45, 1));
                     num3 = num321;
                 }
             }

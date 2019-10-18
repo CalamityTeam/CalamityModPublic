@@ -1,6 +1,5 @@
 using Terraria.ID;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Placeables
 {
     public class DraedonsForge : ModItem
@@ -24,7 +23,7 @@ namespace CalamityMod.Items.Placeables
             item.consumable = true;
             item.value = 5000000;
             item.rare = 10;
-            item.createTile = mod.TileType("DraedonsForge");
+            item.createTile = ModContent.TileType<Tiles.DraedonsForge>();
             item.Calamity().postMoonLordRarity = 20;
         }
 

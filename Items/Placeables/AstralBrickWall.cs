@@ -1,5 +1,4 @@
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Placeables
 {
     public class AstralBrickWall : ModItem
@@ -19,13 +18,13 @@ namespace CalamityMod.Items.Placeables
             item.useTime = 7;
             item.useStyle = 1;
             item.consumable = true;
-            item.createWall = mod.WallType("AstralBrickWall");
+            item.createWall = ModContent.WallType<Walls.AstralBrickWall>();
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("AstralBrick"));
+            recipe.AddIngredient(ModContent.ItemType<AstralBrick>());
             recipe.SetResult(this, 4);
             recipe.AddTile(18);
             recipe.AddRecipe();

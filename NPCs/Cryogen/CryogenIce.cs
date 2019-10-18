@@ -2,10 +2,10 @@
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
-namespace CalamityMod.NPCs.Cryogen
+namespace CalamityMod.NPCs
 {
     public class CryogenIce : ModNPC
     {
@@ -42,10 +42,10 @@ namespace CalamityMod.NPCs.Cryogen
                 npc.alpha = 0;
             }
             npc.rotation += 0.15f;
-            if (npc.type == mod.NPCType("CryogenIce"))
+            if (npc.type == ModContent.NPCType<CryogenIce>())
             {
                 int num989 = (int)npc.ai[0];
-                if (Main.npc[num989].active && Main.npc[num989].type == mod.NPCType("Cryogen"))
+                if (Main.npc[num989].active && Main.npc[num989].type == ModContent.NPCType<Cryogen>())
                 {
                     npc.velocity = Vector2.Zero;
                     npc.position = Main.npc[num989].Center;
@@ -112,8 +112,8 @@ namespace CalamityMod.NPCs.Cryogen
                 for (i = 0; i < 2; i++)
                 {
                     offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                    int ice = Projectile.NewProjectile(value9.X, value9.Y, (float)(Math.Sin(offsetAngle) * 8f), (float)(Math.Cos(offsetAngle) * 8f), mod.ProjectileType("IceBlast"), num184, 0f, Main.myPlayer, 0f, 0f);
-                    int ice2 = Projectile.NewProjectile(value9.X, value9.Y, (float)(-Math.Sin(offsetAngle) * 8f), (float)(-Math.Cos(offsetAngle) * 8f), mod.ProjectileType("IceBlast"), num184, 0f, Main.myPlayer, 0f, 0f);
+                    int ice = Projectile.NewProjectile(value9.X, value9.Y, (float)(Math.Sin(offsetAngle) * 8f), (float)(Math.Cos(offsetAngle) * 8f), ModContent.ProjectileType<IceBlast>(), num184, 0f, Main.myPlayer, 0f, 0f);
+                    int ice2 = Projectile.NewProjectile(value9.X, value9.Y, (float)(-Math.Sin(offsetAngle) * 8f), (float)(-Math.Cos(offsetAngle) * 8f), ModContent.ProjectileType<IceBlast>(), num184, 0f, Main.myPlayer, 0f, 0f);
                     Main.projectile[ice].timeLeft = 300;
                     Main.projectile[ice2].timeLeft = 300;
                 }

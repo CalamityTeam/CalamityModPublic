@@ -1,5 +1,4 @@
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Placeables
 {
     public class AstralChest : ModItem
@@ -20,7 +19,7 @@ namespace CalamityMod.Items.Placeables
             item.useStyle = 1;
             item.consumable = true;
             item.value = 500;
-            item.createTile = mod.TileType("AstralChestLocked");
+            item.createTile = ModContent.TileType<AstralChestLocked>();
         }
     }
 }

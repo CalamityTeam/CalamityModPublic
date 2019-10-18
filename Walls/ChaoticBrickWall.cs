@@ -9,7 +9,7 @@ namespace CalamityMod.Walls
         public override void SetDefaults()
         {
             Main.wallHouse[Type] = true;
-            drop = mod.ItemType("ChaoticBrickWall");
+            drop = ModContent.ItemType<Items.ChaoticBrickWall>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Chaotic Brick Wall");
             AddMapEntry(new Color(255, 0, 0), name);

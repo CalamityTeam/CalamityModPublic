@@ -2,10 +2,10 @@
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
-namespace CalamityMod.NPCs.HiveMind
+namespace CalamityMod.NPCs
 {
     public class HiveBlob : ModNPC
     {
@@ -177,7 +177,7 @@ namespace CalamityMod.NPCs.HiveMind
                         num942 *= num944;
                         num943 *= num944;
                         int num945 = expertMode ? 12 : 15;
-                        int num946 = mod.ProjectileType("VileClot");
+                        int num946 = ModContent.ProjectileType<VileClot>();
                         vector104.X += num942 * 5f;
                         vector104.Y += num943 * 5f;
                         int num947 = Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, num946, num945, 0f, Main.myPlayer, 0f, 0f);

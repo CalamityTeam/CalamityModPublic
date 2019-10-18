@@ -1,6 +1,5 @@
 ﻿using Terraria.ID;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Placeables.FurnitureAshen
 {
     public class SmoothBrimstoneSlag : ModItem
@@ -21,7 +20,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAshen
             item.useStyle = 1;
             item.rare = 3;
             item.consumable = true;
-            item.createTile = mod.TileType("SmoothBrimstoneSlag");
+            item.createTile = ModContent.TileType<Tiles.SmoothBrimstoneSlag>();
         }
 
         public override void AddRecipes()

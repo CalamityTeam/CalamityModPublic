@@ -2,12 +2,11 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
+using Terraria.ID;
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class Valediction2 : ModProjectile
+    public class ReaperProjectile : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -175,7 +174,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("CrushDepth"), 600);
+            target.AddBuff(ModContent.BuffType<CrushDepth>(), 600);
         }
 
         public override void Kill(int timeLeft)

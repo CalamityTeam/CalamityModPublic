@@ -2,10 +2,9 @@
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace CalamityMod.NPCs.Perforator
+using Terraria.ID;
+namespace CalamityMod.NPCs
 {
     public class PerforatorBodyMedium : ModNPC
     {
@@ -32,8 +31,8 @@ namespace CalamityMod.NPCs.Perforator
             aiType = -1;
             npc.knockBackResist = 0f;
             npc.alpha = 255;
-            npc.buffImmune[mod.BuffType("GlacialState")] = true;
-            npc.buffImmune[mod.BuffType("TemporalSadness")] = true;
+            npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
+            npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
             npc.behindTiles = true;
             npc.noGravity = true;
             npc.noTileCollide = true;
@@ -74,7 +73,7 @@ namespace CalamityMod.NPCs.Perforator
                         num942 += (float)Main.rand.Next(-50, 51) * 0.05f;
                         num943 += (float)Main.rand.Next(-50, 51) * 0.05f;
                         int num945 = expertMode ? 12 : 15;
-                        int num946 = mod.ProjectileType("BloodClot");
+                        int num946 = ModContent.ProjectileType<Projectiles.BloodClot>();
                         vector104.X += num942 * 5f;
                         vector104.Y += num943 * 5f;
                         if (Main.rand.NextBool(2))
@@ -137,7 +136,7 @@ namespace CalamityMod.NPCs.Perforator
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(mod.BuffType("BurningBlood"), 120, true);
+            player.AddBuff(ModContent.BuffType<BurningBlood>(), 120, true);
             player.AddBuff(BuffID.Bleeding, 120, true);
         }
     }

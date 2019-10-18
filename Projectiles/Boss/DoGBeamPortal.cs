@@ -4,7 +4,6 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Projectiles.Boss
 {
     public class DoGBeamPortal : ModProjectile
@@ -80,8 +79,8 @@ namespace CalamityMod.Projectiles.Boss
                             speed = 5f;
                         }
                         offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * speed), (float)(Math.Cos(offsetAngle) * speed), mod.ProjectileType("DoGBeam"), projectileDamage, projectile.knockBack, projectile.owner, 0f, 0f);
-                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * speed), (float)(-Math.Cos(offsetAngle) * speed), mod.ProjectileType("DoGBeam"), projectileDamage, projectile.knockBack, projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * speed), (float)(Math.Cos(offsetAngle) * speed), ModContent.ProjectileType<DoGBeam>(), projectileDamage, projectile.knockBack, projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * speed), (float)(-Math.Cos(offsetAngle) * speed), ModContent.ProjectileType<DoGBeam>(), projectileDamage, projectile.knockBack, projectile.owner, 0f, 0f);
                     }
                 }
                 beamTimer = 180;

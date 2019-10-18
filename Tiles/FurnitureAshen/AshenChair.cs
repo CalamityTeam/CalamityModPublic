@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Tiles.FurnitureAshen
 {
@@ -13,7 +13,6 @@ namespace CalamityMod.Tiles.FurnitureAshen
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Ashen Chair");
             AddMapEntry(new Color(191, 142, 111), name);
-            dustType = mod.DustType("Sparkle");
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Chairs };
         }
@@ -32,7 +31,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 16, 32, mod.ItemType("AshenChair"));
+            Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<Items.AshenChair>());
         }
     }
 }
