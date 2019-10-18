@@ -6,7 +6,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class SuperballBullet : ModProjectile
+    public class SuperballBulletProj : ModProjectile
     {
         public override void SetStaticDefaults()
         {

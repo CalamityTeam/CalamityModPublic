@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class TerraArrow2 : ModProjectile
+    public class TerraArrowSplit : ModProjectile
     {
         public override void SetStaticDefaults()
         {

@@ -2,13 +2,13 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-namespace CalamityMod.Projectiles.Ranged
+namespace CalamityMod.Projectiles.Typeless.FiniteUse
 {
-    public class ExplosiveShellBullet : ModProjectile
+    public class ExplosiveShotgunShell : ModProjectile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Explosive Shell Bullet");
+            DisplayName.SetDefault("Explosive Shotgun Shell");
         }
 
         public override void SetDefaults()
@@ -45,8 +45,8 @@ namespace CalamityMod.Projectiles.Ranged
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
             projectile.position = projectile.Center;
             projectile.width = projectile.height = 32;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+            projectile.position.X = projectile.position.X - projectile.width / 2;
+            projectile.position.Y = projectile.position.Y - projectile.height / 2;
             for (int num193 = 0; num193 < 2; num193++)
             {
                 Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 31, 0f, 0f, 100, default, 1.5f);

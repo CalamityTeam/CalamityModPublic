@@ -1,16 +1,17 @@
+using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class EnhancedNanoRound : ModProjectile
+    public class FrostsparkBulletProj : ModProjectile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Nano Round");
+            DisplayName.SetDefault("Bullet");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 2;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
@@ -30,10 +31,19 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0.25f / 255f, (255 - projectile.alpha) * 0.25f / 255f);
-            if (Main.rand.NextBool(3))
+            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0.15f / 255f, (255 - projectile.alpha) * 0.15f / 255f);
+            if (Main.rand.NextBool(2))
             {
-                int num137 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), 1, 1, 229, 0f, 0f, 0, default, 0.5f);
+                int dustType = Main.rand.Next(3);
+                if (dustType == 0)
+                {
+                    dustType = 67;
+                }
+                else
+                {
+                    dustType = 6;
+                }
+                int num137 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), 1, 1, dustType, 0f, 0f, 0, default, 0.5f);
                 Main.dust[num137].alpha = projectile.alpha;
                 Main.dust[num137].velocity *= 0f;
                 Main.dust[num137].noGravity = true;
@@ -54,33 +64,29 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.Confused, 300);
-            if (target.life <= 0)
-            {
-                if (projectile.owner == Main.myPlayer)
-                {
-                    for (int num252 = 0; num252 < 2; num252++)
-                    {
-                        Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                        while (value15.X == 0f && value15.Y == 0f)
-                        {
-                            value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                        }
-                        value15.Normalize();
-                        value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-                        Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), value15.X, value15.Y, ModContent.ProjectileType<Nanomachine>(), (int)((double)projectile.damage * 0.3), 0f, projectile.owner, 0f, 0f);
-                    }
-                }
-            }
+            target.AddBuff(BuffID.OnFire, 240);
+            target.AddBuff(BuffID.Frostburn, 240);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
         }
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 93);
-            int num212 = Main.rand.Next(5, 10);
+            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 27);
+            // TODO -- BoltExplosion does not exist.
+            // Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<BoltExplosion>(), (int)((double)projectile.damage * 0.5), 0f, projectile.owner, 0f, 0f);
+            int num212 = Main.rand.Next(10, 20);
             for (int num213 = 0; num213 < num212; num213++)
             {
-                int num214 = Dust.NewDust(projectile.Center - projectile.velocity / 2f, 0, 0, 229, 0f, 0f, 100, default, 2f);
+                int dustType = Main.rand.Next(2);
+                if (dustType == 0)
+                {
+                    dustType = 67;
+                }
+                else
+                {
+                    dustType = 6;
+                }
+                int num214 = Dust.NewDust(projectile.Center - projectile.velocity / 2f, 0, 0, dustType, 0f, 0f, 100, default, 2f);
                 Main.dust[num214].velocity *= 2f;
                 Main.dust[num214].noGravity = true;
             }

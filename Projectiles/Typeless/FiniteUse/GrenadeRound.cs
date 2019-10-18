@@ -5,7 +5,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 
-namespace CalamityMod.Projectiles.Typeless
+namespace CalamityMod.Projectiles.Typeless.FiniteUse
 {
     public class GrenadeRound : ModProjectile
     {
@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void AI()
         {
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+            projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + 1.57f;
             if (projectile.soundDelay == 0)
             {
                 projectile.soundDelay = 90;
@@ -34,13 +34,9 @@ namespace CalamityMod.Projectiles.Typeless
             }
             projectile.ai[0] += 1f;
             if (projectile.ai[0] >= 30f)
-            {
                 projectile.velocity.Y = projectile.velocity.Y + 0.1f;
-            }
             if (projectile.velocity.Y > 16f)
-            {
                 projectile.velocity.Y = 16f;
-            }
             if (Math.Abs(projectile.velocity.X) >= 8f || Math.Abs(projectile.velocity.Y) >= 8f)
             {
                 for (int num246 = 0; num246 < 2; num246++)
@@ -53,11 +49,11 @@ namespace CalamityMod.Projectiles.Typeless
                         num248 = projectile.velocity.Y * 0.5f;
                     }
                     int num249 = Dust.NewDust(new Vector2(projectile.position.X + 3f + num247, projectile.position.Y + 3f + num248) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, 6, 0f, 0f, 100, default, 1f);
-                    Main.dust[num249].scale *= 2f + (float)Main.rand.Next(10) * 0.1f;
+                    Main.dust[num249].scale *= 2f + Main.rand.Next(10) * 0.1f;
                     Main.dust[num249].velocity *= 0.2f;
                     Main.dust[num249].noGravity = true;
                     num249 = Dust.NewDust(new Vector2(projectile.position.X + 3f + num247, projectile.position.Y + 3f + num248) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, 31, 0f, 0f, 100, default, 0.5f);
-                    Main.dust[num249].fadeIn = 1f + (float)Main.rand.Next(5) * 0.1f;
+                    Main.dust[num249].fadeIn = 1f + Main.rand.Next(5) * 0.1f;
                     Main.dust[num249].velocity *= 0.05f;
                 }
             }
@@ -90,8 +86,8 @@ namespace CalamityMod.Projectiles.Typeless
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 62);
             projectile.position = projectile.Center;
             projectile.width = projectile.height = 96;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+            projectile.position.X = projectile.position.X - projectile.width / 2;
+            projectile.position.Y = projectile.position.Y - projectile.height / 2;
             for (int num193 = 0; num193 < 6; num193++)
             {
                 Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 31, 0f, 0f, 100, default, 1.5f);

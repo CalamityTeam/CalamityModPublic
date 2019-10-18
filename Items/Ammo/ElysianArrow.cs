@@ -1,3 +1,4 @@
+using CalamityMod.Projectiles.Ranged;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Ammo
@@ -20,7 +21,7 @@ namespace CalamityMod.Items.Ammo
             item.consumable = true;
             item.knockBack = 3f;
             item.value = 2000;
-            item.shoot = ModContent.ProjectileType<Projectiles.ElysianArrow>();
+            item.shoot = ModContent.ProjectileType<ElysianArrowProj>();
             item.shootSpeed = 10f;
             item.ammo = 40;
             item.Calamity().postMoonLordRarity = 12;

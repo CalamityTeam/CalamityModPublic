@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 
-namespace CalamityMod.Projectiles.Typeless
+namespace CalamityMod.Projectiles.Typeless.FiniteUse
 {
     public class MagnumRound : ModProjectile
     {
@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Typeless
                 damage = target.lifeMax / 15;
             if (crit)
             {
-                damage = (int)((double)damage * 1.25);
+                damage = (int)(damage * 1.25);
                 knockback *= 1.25f;
             }
         }

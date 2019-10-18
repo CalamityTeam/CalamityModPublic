@@ -1,3 +1,4 @@
+using CalamityMod.Projectiles.Typeless.FiniteUse;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Ammo.FiniteUse
 {
@@ -18,9 +19,9 @@ namespace CalamityMod.Items.Ammo.FiniteUse
             item.knockBack = 10f;
             item.value = 15000;
             item.rare = 8;
-            item.shoot = ModContent.ProjectileType<ExplosiveShellBullet>();
+            item.shoot = ModContent.ProjectileType<ExplosiveShotgunShell>();
             item.shootSpeed = 12f;
-            item.ammo = ModContent.ItemType<ExplosiveShells>();
+            item.ammo = ModContent.ItemType<ExplosiveShells>(); // TODO -- would item.type work here
         }
     }
 }

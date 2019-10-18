@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Ranged;
 
 namespace CalamityMod.Items.Ammo
 {
@@ -25,7 +26,7 @@ namespace CalamityMod.Items.Ammo
             item.consumable = true;
             item.knockBack = 3.5f;
             item.value = 2250;
-            item.shoot = ModContent.ProjectileType<Projectiles.VanquisherArrow>();
+            item.shoot = ModContent.ProjectileType<VanquisherArrowMain>();
             item.shootSpeed = 10f;
             item.ammo = 40;
             item.Calamity().postMoonLordRarity = 14;

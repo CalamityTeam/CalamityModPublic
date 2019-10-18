@@ -1,3 +1,4 @@
+using CalamityMod.Projectiles.Ranged;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Ammo
@@ -22,7 +23,7 @@ namespace CalamityMod.Items.Ammo
             item.knockBack = 1.25f;
             item.value = 600;
             item.rare = 3;
-            item.shoot = ModContent.ProjectileType<Projectiles.FrostsparkBullet>();
+            item.shoot = ModContent.ProjectileType<FrostsparkBulletProj>();
             item.shootSpeed = 14f;
             item.ammo = 97;
         }

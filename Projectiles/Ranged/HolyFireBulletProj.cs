@@ -3,9 +3,12 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Typeless;
+using CalamityMod.Buffs.DamageOverTime;
+
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class HolyFireBullet : ModProjectile
+    public class HolyFireBulletProj : ModProjectile
     {
         public override void SetStaticDefaults()
         {

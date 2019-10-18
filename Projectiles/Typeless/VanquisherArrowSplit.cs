@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class VanquisherArrow2 : ModProjectile
+    public class VanquisherArrowSplit : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -72,7 +72,7 @@ namespace CalamityMod.Projectiles.Typeless
                 byte a2 = (byte)(100f * ((float)b2 / 255f));
                 color = new Color((int)b2, (int)b2, (int)b2, (int)a2);
             }
-            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Typeless/VanquisherArrow2Glow"), projectile.Center - Main.screenPosition, null, color, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Typeless/VanquisherArrowSplitGlow"), projectile.Center - Main.screenPosition, null, color, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
         }
         */
 

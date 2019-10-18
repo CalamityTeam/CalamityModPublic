@@ -4,9 +4,12 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Typeless;
+using CalamityMod.Buffs.DamageOverTime;
+
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class ElysianArrow : ModProjectile
+    public class ElysianArrowProj : ModProjectile
     {
         public override void SetStaticDefaults()
         {

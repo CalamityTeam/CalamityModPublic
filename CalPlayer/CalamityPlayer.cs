@@ -6329,7 +6329,7 @@ namespace CalamityMod.CalPlayer
             {
                 damageMult += 0.1;
             }
-            if (proj.type == ModContent.ProjectileType<FrostsparkBullet>())
+            if (proj.type == ModContent.ProjectileType<FrostsparkBulletProj>())
             {
                 if (target.buffImmune[ModContent.BuffType<GlacialState>()])
                     damageMult += 0.2;
@@ -6389,7 +6389,7 @@ namespace CalamityMod.CalPlayer
                 if (hasClassType)
                     damage += theBeeDamage;
             }
-            if (proj.type == ModContent.ProjectileType<AcidBullet>())
+            if (proj.type == ModContent.ProjectileType<AcidBulletProj>())
             {
                 int defenseAdd = (int)((double)target.defense * 0.1 * ((double)damage / 50.0)); //100 defense * 0.1 = 10
                 damage += defenseAdd;
@@ -6432,7 +6432,7 @@ namespace CalamityMod.CalPlayer
                         damage = (int)((double)damage * 0.7);
                         break;
                 }
-                if (proj.type == ModContent.ProjectileType<VeriumBullet>())
+                if (proj.type == ModContent.ProjectileType<VeriumBulletProj>())
                     damage = (int)((double)damage * 0.8);
             }
             if (proj.type == ProjectileID.SpectreWrath && player.ghostHurt)

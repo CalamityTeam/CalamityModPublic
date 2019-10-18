@@ -1,3 +1,4 @@
+using CalamityMod.Projectiles.Typeless.FiniteUse;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Ammo.FiniteUse
@@ -6,7 +7,7 @@ namespace CalamityMod.Items.Ammo.FiniteUse
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Magnum Rounds");
+            DisplayName.SetDefault("Magnum Round");
         }
 
         public override void SetDefaults()
@@ -22,7 +23,7 @@ namespace CalamityMod.Items.Ammo.FiniteUse
             item.rare = 8;
             item.shoot = ModContent.ProjectileType<MagnumRound>();
             item.shootSpeed = 12f;
-            item.ammo = ModContent.ItemType<MagnumRounds>();
+            item.ammo = ModContent.ItemType<MagnumRounds>(); // TODO -- would item.type work here
         }
     }
 }

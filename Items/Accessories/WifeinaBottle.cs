@@ -1,4 +1,6 @@
+using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
+using CalamityMod.Projectiles.Summon;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Accessories

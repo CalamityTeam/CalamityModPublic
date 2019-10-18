@@ -6,11 +6,11 @@ using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class AccelerationBullet : ModProjectile
+    public class FlashBulletProj : ModProjectile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Acceleration Bullet");
+            DisplayName.SetDefault("Bullet");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 2;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
@@ -30,21 +30,14 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
-            projectile.velocity *= 1.01f;
+            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.1f / 255f, (255 - projectile.alpha) * 0.1f / 255f, (255 - projectile.alpha) * 0.1f / 255f);
             if (Main.rand.NextBool(3))
             {
-                int num137 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), 1, 1, 91, 0f, 0f, 0, default, 0.5f);
+                int num137 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), 1, 1, 264, 0f, 0f, 0, default, 0.5f);
                 Main.dust[num137].alpha = projectile.alpha;
                 Main.dust[num137].velocity *= 0f;
                 Main.dust[num137].noGravity = true;
             }
-        }
-
-        public override bool OnTileCollide(Vector2 oldVelocity)
-        {
-            Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
-            Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y, 1, 1f, 0f);
-            return true;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -61,10 +54,14 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 10);
+            Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 93);
+            if (projectile.owner == Main.myPlayer)
+            {
+                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<Flash>(), (int)((double)projectile.damage * 0.25), 0f, projectile.owner, 0f, 0f);
+            }
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 91, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
+                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 264, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
             }
         }
     }

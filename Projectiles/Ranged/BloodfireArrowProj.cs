@@ -4,9 +4,11 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Buffs.DamageOverTime;
+
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class BloodfireArrow : ModProjectile
+    public class BloodfireArrowProj : ModProjectile
     {
         public override void SetStaticDefaults()
         {

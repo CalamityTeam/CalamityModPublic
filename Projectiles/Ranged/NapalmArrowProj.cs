@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class NapalmArrow : ModProjectile
+    public class NapalmArrowProj : ModProjectile
     {
         public override void SetStaticDefaults()
         {

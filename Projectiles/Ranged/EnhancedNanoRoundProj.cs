@@ -3,13 +3,14 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class AcidBullet : ModProjectile
+    public class EnhancedNanoRoundProj : ModProjectile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Acid Bullet");
+            DisplayName.SetDefault("Nano Round");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 2;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
@@ -29,21 +30,14 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0.25f / 255f, (255 - projectile.alpha) * 0f / 255f);
-            if (Main.rand.NextBool(2))
+            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0.25f / 255f, (255 - projectile.alpha) * 0.25f / 255f);
+            if (Main.rand.NextBool(3))
             {
-                int num137 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), 1, 1, 107, 0f, 0f, 0, default, 0.5f);
+                int num137 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), 1, 1, 229, 0f, 0f, 0, default, 0.5f);
                 Main.dust[num137].alpha = projectile.alpha;
                 Main.dust[num137].velocity *= 0f;
                 Main.dust[num137].noGravity = true;
             }
-        }
-
-        public override bool OnTileCollide(Vector2 oldVelocity)
-        {
-            Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
-            Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y, 1, 1f, 0f);
-            return true;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -60,14 +54,35 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<Plague>(), 360);
+            target.AddBuff(BuffID.Confused, 300);
+            if (target.life <= 0)
+            {
+                if (projectile.owner == Main.myPlayer)
+                {
+                    for (int num252 = 0; num252 < 2; num252++)
+                    {
+                        Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+                        while (value15.X == 0f && value15.Y == 0f)
+                        {
+                            value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+                        }
+                        value15.Normalize();
+                        value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
+                        Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), value15.X, value15.Y, ModContent.ProjectileType<Nanomachine>(), (int)((double)projectile.damage * 0.3), 0f, projectile.owner, 0f, 0f);
+                    }
+                }
+            }
         }
 
         public override void Kill(int timeLeft)
         {
-            for (int k = 0; k < 5; k++)
+            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 93);
+            int num212 = Main.rand.Next(5, 10);
+            for (int num213 = 0; num213 < num212; num213++)
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 107, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
+                int num214 = Dust.NewDust(projectile.Center - projectile.velocity / 2f, 0, 0, 229, 0f, 0f, 100, default, 2f);
+                Main.dust[num214].velocity *= 2f;
+                Main.dust[num214].noGravity = true;
             }
         }
     }
