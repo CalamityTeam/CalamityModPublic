@@ -5,10 +5,11 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Buffs.Summon;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class Sandnado : ModProjectile
+    public class SandnadoMinion : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -61,10 +62,10 @@ namespace CalamityMod.Projectiles.Summon
                     Main.player[projectile.owner].minionDamage);
                 projectile.damage = damage2;
             }
-            bool flag64 = projectile.type == ModContent.ProjectileType<Sandnado>();
+            bool flag64 = projectile.type == ModContent.ProjectileType<SandnadoMinion>();
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            player.AddBuff(ModContent.BuffType<Buffs.Sandnado>(), 3600);
+            player.AddBuff(ModContent.BuffType<Sandnado>(), 3600);
             if (flag64)
             {
                 if (player.dead)

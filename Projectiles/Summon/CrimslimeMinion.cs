@@ -4,16 +4,17 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Buffs.Summon;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class Corroslime : ModProjectile
+    public class CrimslimeMinion : ModProjectile
     {
         public float dust = 0f;
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Corroslime");
+            DisplayName.SetDefault("Crimslime");
             Main.projFrames[projectile.type] = 6;
             ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
@@ -56,7 +57,7 @@ namespace CalamityMod.Projectiles.Summon
                     Vector2 vector6 = Vector2.Normalize(projectile.velocity) * new Vector2((float)projectile.width / 2f, (float)projectile.height) * 0.75f;
                     vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * 6.28318548f / (float)num226), default) + projectile.Center;
                     Vector2 vector7 = vector6 - projectile.Center;
-                    int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 14, vector7.X * 1f, vector7.Y * 1f, 100, default, 1.1f);
+                    int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 5, vector7.X * 1f, vector7.Y * 1f, 100, default, 1.1f);
                     Main.dust[num228].noGravity = true;
                     Main.dust[num228].noLight = true;
                     Main.dust[num228].velocity = vector7;
@@ -70,17 +71,17 @@ namespace CalamityMod.Projectiles.Summon
                     Main.player[projectile.owner].minionDamage);
                 projectile.damage = damage2;
             }
-            bool flag64 = projectile.type == ModContent.ProjectileType<Corroslime>();
+            bool flag64 = projectile.type == ModContent.ProjectileType<CrimslimeMinion>();
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            player.AddBuff(ModContent.BuffType<Buffs.Corroslime>(), 3600);
+            player.AddBuff(ModContent.BuffType<Crimslime>(), 3600);
             if (flag64)
             {
                 if (player.dead)
                 {
-                    modPlayer.cSlime = false;
+                    modPlayer.cSlime2 = false;
                 }
-                if (modPlayer.cSlime)
+                if (modPlayer.cSlime2)
                 {
                     projectile.timeLeft = 2;
                 }

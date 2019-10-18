@@ -778,7 +778,7 @@ namespace CalamityMod.UI
                 Vector2 nameSize = Main.fontMouseText.MeasureString(name);
                 DrawBorderStringEightWay(sb, Main.fontMouseText, name, new Vector2(x + BarMaxWidth - nameSize.X, y + 23 - nameSize.Y), Color.White, Color.Black * 0.2f);
 
-                //TODO: Make this toggleable
+                // TODO -- Make small text health a toggle in ModConfig.
                 if (SHOULD_DRAW_SMALLTEXT_HEALTH)
                 {
                     float textScale = 0.75f;
@@ -910,7 +910,6 @@ namespace CalamityMod.UI
                 Vector2 nameSize = Main.fontMouseText.MeasureString(name);
                 DrawBorderStringEightWay(sb, Main.fontMouseText, name, new Vector2(x + BarMaxWidth - nameSize.X, y + 23 - nameSize.Y), Color.White * flickerValue, Color.Black * 0.2f * flickerValue);
 
-                //TODO: Make this toggleable
                 if (SHOULD_DRAW_SMALLTEXT_HEALTH)
                 {
                     float textScale = 0.75f;

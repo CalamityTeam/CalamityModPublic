@@ -8,7 +8,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class RedDevil : ModProjectile
+    public class DemonshadeRedDevil : ModProjectile
     {
         public int dust = 3;
 
@@ -35,7 +35,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-            bool flag64 = projectile.type == ModContent.ProjectileType<RedDevil>();
+            bool flag64 = projectile.type == ModContent.ProjectileType<DemonshadeRedDevil>();
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
             if (!modPlayer.redDevil)
@@ -90,7 +90,7 @@ namespace CalamityMod.Projectiles.Summon
             float num637 = 0.05f;
             for (int num638 = 0; num638 < 1000; num638++)
             {
-                bool flag23 = Main.projectile[num638].type == ModContent.ProjectileType<RedDevil>();
+                bool flag23 = Main.projectile[num638].type == ModContent.ProjectileType<DemonshadeRedDevil>();
                 if (num638 != projectile.whoAmI && Main.projectile[num638].active && Main.projectile[num638].owner == projectile.owner && flag23 && Math.Abs(projectile.position.X - Main.projectile[num638].position.X) + Math.Abs(projectile.position.Y - Main.projectile[num638].position.Y) < (float)projectile.width)
                 {
                     if (projectile.position.X < Main.projectile[num638].position.X)

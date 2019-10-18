@@ -5,6 +5,11 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
 using Terraria.ID;
+using CalamityMod.Buffs.Summon;
+using CalamityMod.Projectiles.Summon;
+using CalamityMod.Projectiles.Typeless;
+using CalamityMod.Projectiles.Magic;
+
 namespace CalamityMod.Items.Accessories
 {
     public class TheAmalgam : ModItem

@@ -4,7 +4,7 @@ using Terraria.ModLoader; using CalamityMod.Projectiles.Summon;
 
 namespace CalamityMod.Buffs.Summon
 {
-    public class ReaverOrb : ModBuff
+    public class ReaverSummonSetBuff : ModBuff
     {
         public override void SetDefaults()
         {
@@ -17,7 +17,7 @@ namespace CalamityMod.Buffs.Summon
         public override void Update(Player player, ref int buffIndex)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.ReaverOrb>()] > 0)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<ReaverOrb>()] > 0)
             {
                 modPlayer.rOrb = true;
             }

@@ -1,4 +1,5 @@
 ﻿using CalamityMod.CalPlayer;
+using CalamityMod.Buffs.Summon;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -8,7 +9,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class DankCreeper : ModProjectile
+    public class DankCreeperMinion : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -62,10 +63,10 @@ namespace CalamityMod.Projectiles.Summon
                     Main.player[projectile.owner].minionDamage);
                 projectile.damage = damage2;
             }
-            bool flag64 = projectile.type == ModContent.ProjectileType<DankCreeper>();
+            bool flag64 = projectile.type == ModContent.ProjectileType<DankCreeperMinion>();
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            player.AddBuff(ModContent.BuffType<Buffs.DankCreeper>(), 3600);
+            player.AddBuff(ModContent.BuffType<DankCreeper>(), 3600);
             if (flag64)
             {
                 if (player.dead)
@@ -81,7 +82,7 @@ namespace CalamityMod.Projectiles.Summon
             for (int num534 = 0; num534 < 1000; num534 = num3 + 1)
             {
                 if (num534 != projectile.whoAmI && Main.projectile[num534].active && Main.projectile[num534].owner == projectile.owner &&
-                    Main.projectile[num534].type == ModContent.ProjectileType<DankCreeper>() &&
+                    Main.projectile[num534].type == ModContent.ProjectileType<DankCreeperMinion>() &&
                     Math.Abs(projectile.position.X - Main.projectile[num534].position.X) + Math.Abs(projectile.position.Y - Main.projectile[num534].position.Y) < (float)projectile.width)
                 {
                     if (projectile.position.X < Main.projectile[num534].position.X)

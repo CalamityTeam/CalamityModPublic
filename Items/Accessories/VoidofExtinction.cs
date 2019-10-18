@@ -4,6 +4,8 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Typeless;
+using CalamityMod.Projectiles.Magic;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -114,6 +116,7 @@ namespace CalamityMod.Items.Accessories
                             spawn.X = spawn.X + i * 30 - (FireProjectiles * 15);
                             Vector2 velocity = baseVelocity.RotatedBy(MathHelper.ToRadians(-FireAngleSpread / 2 + (FireAngleSpread * i / (float)FireProjectiles)));
                             velocity.X = velocity.X + 3 * Main.rand.NextFloat() - 1.5f;
+                            // TODO -- Void of Extinction's projectiles are boosted by magic damage despite being an all class accessory
                             int projectile = Projectile.NewProjectile(spawn.X, spawn.Y, velocity.X, velocity.Y, ModContent.ProjectileType<BrimstoneHellfireballFriendly2>(), 70, 5f, Main.myPlayer, 0f, 0f);
                             Main.projectile[projectile].tileCollide = false;
                             Main.projectile[projectile].timeLeft = 50;

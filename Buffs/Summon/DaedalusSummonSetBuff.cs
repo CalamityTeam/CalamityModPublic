@@ -4,12 +4,12 @@ using Terraria.ModLoader; using CalamityMod.Projectiles.Summon;
 
 namespace CalamityMod.Buffs.Summon
 {
-    public class RedDevil : ModBuff
+    public class DaedalusSummonSetBuff : ModBuff
     {
         public override void SetDefaults()
         {
-            DisplayName.SetDefault("Red Devil");
-            Description.SetDefault("The red devil will protect you");
+            DisplayName.SetDefault("Daedalus Crystal");
+            Description.SetDefault("The daedalus crystal will protect you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
         }
@@ -17,11 +17,11 @@ namespace CalamityMod.Buffs.Summon
         public override void Update(Player player, ref int buffIndex)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.RedDevil>()] > 0)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<DaedalusCrystal>()] > 0)
             {
-                modPlayer.rDevil = true;
+                modPlayer.dCrystal = true;
             }
-            if (!modPlayer.rDevil)
+            if (!modPlayer.dCrystal)
             {
                 player.DelBuff(buffIndex);
                 buffIndex--;

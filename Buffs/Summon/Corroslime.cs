@@ -17,7 +17,7 @@ namespace CalamityMod.Buffs.Summon
         public override void Update(Player player, ref int buffIndex)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Corroslime>()] > 0)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<CorroslimeMinion>()] > 0)
             {
                 modPlayer.cSlime = true;
             }

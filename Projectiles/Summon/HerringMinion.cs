@@ -5,10 +5,11 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Buffs.Summon;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class Herring : ModProjectile
+    public class HerringMinion : ModProjectile
     {
         public int dust = 3;
 
@@ -79,10 +80,10 @@ namespace CalamityMod.Projectiles.Summon
             float num634 = 800f;
             float num635 = 1200f;
             float num636 = 150f;
-            bool flag64 = projectile.type == ModContent.ProjectileType<Herring>();
+            bool flag64 = projectile.type == ModContent.ProjectileType<HerringMinion>();
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            player.AddBuff(ModContent.BuffType<Buffs.Herring>(), 3600);
+            player.AddBuff(ModContent.BuffType<Herring>(), 3600);
             if (flag64)
             {
                 if (player.dead)
@@ -97,7 +98,7 @@ namespace CalamityMod.Projectiles.Summon
             float num637 = 0.05f;
             for (int num638 = 0; num638 < 1000; num638++)
             {
-                bool flag23 = Main.projectile[num638].type == ModContent.ProjectileType<Herring>();
+                bool flag23 = Main.projectile[num638].type == ModContent.ProjectileType<HerringMinion>();
                 if (num638 != projectile.whoAmI && Main.projectile[num638].active && Main.projectile[num638].owner == projectile.owner &&
                     flag23 && Math.Abs(projectile.position.X - Main.projectile[num638].position.X) + Math.Abs(projectile.position.Y - Main.projectile[num638].position.Y) < (float)projectile.width)
                 {

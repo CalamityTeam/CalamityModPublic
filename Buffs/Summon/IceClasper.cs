@@ -17,7 +17,7 @@ namespace CalamityMod.Buffs.Summon
         public override void Update(Player player, ref int buffIndex)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.IceClasper>()] > 0)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<IceClasperMinion>()] > 0)
             {
                 modPlayer.iClasper = true;
             }

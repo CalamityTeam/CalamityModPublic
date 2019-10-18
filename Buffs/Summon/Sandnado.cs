@@ -17,7 +17,7 @@ namespace CalamityMod.Buffs.Summon
         public override void Update(Player player, ref int buffIndex)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Sandnado>()] > 0)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<SandnadoMinion>()] > 0)
             {
                 modPlayer.sandnado = true;
             }

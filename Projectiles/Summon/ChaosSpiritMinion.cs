@@ -7,7 +7,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class ChaosSpirit : ModProjectile
+    public class ChaosSpiritMinion : ModProjectile
     {
         public int dust = 3;
 
@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-            bool flag64 = projectile.type == ModContent.ProjectileType<ChaosSpirit>();
+            bool flag64 = projectile.type == ModContent.ProjectileType<ChaosSpiritMinion>();
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
             if (!modPlayer.chaosSpirit)
