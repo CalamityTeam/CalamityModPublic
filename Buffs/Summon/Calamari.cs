@@ -17,7 +17,7 @@ namespace CalamityMod.Buffs.Summon
         public override void Update(Player player, ref int buffIndex)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Calamari>()] > 0)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Summon.CalamariMinion>()] > 0)
             {
                 modPlayer.calamari = true;
             }

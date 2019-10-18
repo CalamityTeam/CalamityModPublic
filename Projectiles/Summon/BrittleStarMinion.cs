@@ -6,7 +6,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class BrittleStar : ModProjectile
+    public class BrittleStarMinion : ModProjectile
     {
         public float dust = 0f;
 
@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.damage = damage2;
             }
             projectile.rotation += projectile.velocity.X * 0.04f;
-            bool flag64 = projectile.type == ModContent.ProjectileType<BrittleStar>();
+            bool flag64 = projectile.type == ModContent.ProjectileType<BrittleStarMinion>();
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
             player.AddBuff(ModContent.BuffType<Buffs.BrittleStar>(), 3600);

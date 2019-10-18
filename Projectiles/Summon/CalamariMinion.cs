@@ -8,7 +8,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class Calamari : ModProjectile
+    public class CalamariMinion : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles.Summon
             {
                 projectile.frame = 0;
             }
-            bool flag64 = projectile.type == ModContent.ProjectileType<Calamari>();
+            bool flag64 = projectile.type == ModContent.ProjectileType<CalamariMinion>();
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
             player.AddBuff(ModContent.BuffType<Buffs.Calamari>(), 3600);
@@ -132,7 +132,7 @@ namespace CalamityMod.Projectiles.Summon
             for (int num534 = 0; num534 < 1000; num534 = num3 + 1)
             {
                 if (num534 != projectile.whoAmI && Main.projectile[num534].active && Main.projectile[num534].owner == projectile.owner &&
-                    Main.projectile[num534].type == ModContent.ProjectileType<Calamari>() &&
+                    Main.projectile[num534].type == ModContent.ProjectileType<CalamariMinion>() &&
                     Math.Abs(projectile.position.X - Main.projectile[num534].position.X) + Math.Abs(projectile.position.Y - Main.projectile[num534].position.Y) < (float)projectile.width)
                 {
                     if (projectile.position.X < Main.projectile[num534].position.X)
