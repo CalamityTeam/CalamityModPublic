@@ -11751,6 +11751,9 @@ namespace CalamityMod.NPCs
                     if (value4.Length() > 20f)
                     {
                         float velocity = CalamityWorld.bossRushActive ? 14f : 10f;
+						if (Main.npc[(int)npc.localAI[2]].ai[0] == 1f)
+							velocity = 8f;
+
                         Vector2 desiredVelocity = Vector2.Normalize(value4 - npc.velocity) * velocity;
                         Vector2 velocity2 = npc.velocity;
                         npc.SimpleFlyMovement(desiredVelocity, 0.5f);
@@ -11805,7 +11808,10 @@ namespace CalamityMod.NPCs
                     if (value5.Length() > 20f)
                     {
                         float velocity = CalamityWorld.bossRushActive ? 14f : 10f;
-                        Vector2 desiredVelocity2 = Vector2.Normalize(value5 - npc.velocity) * velocity;
+						if (Main.npc[(int)npc.localAI[2]].ai[0] == 1f)
+							velocity = 8f;
+
+						Vector2 desiredVelocity2 = Vector2.Normalize(value5 - npc.velocity) * velocity;
                         Vector2 velocity3 = npc.velocity;
                         npc.SimpleFlyMovement(desiredVelocity2, 0.5f);
                         npc.velocity = Vector2.Lerp(npc.velocity, velocity3, 0.5f);
