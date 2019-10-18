@@ -2,7 +2,6 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Items;
 namespace CalamityMod.NPCs
 {
     public class SeaSerpent4 : ModNPC

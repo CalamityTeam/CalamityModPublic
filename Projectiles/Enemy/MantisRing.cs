@@ -5,7 +5,6 @@ using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Dusts;
 using Terraria.ID;
-using CalamityMod.Buffs;
 namespace CalamityMod.Projectiles.Enemy
 {
     public class MantisRing : ModProjectile

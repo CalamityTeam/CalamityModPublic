@@ -7,8 +7,6 @@ using System.IO;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Buffs;
-using CalamityMod.Items;
 namespace CalamityMod.NPCs
 {
     [AutoloadBossHead]

@@ -1,5 +1,4 @@
 using Terraria.ModLoader;
-using CalamityMod.Tiles;
 namespace CalamityMod.Items.Placeables
 {
     public class CrabulonTrophy : ModItem

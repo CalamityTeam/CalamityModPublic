@@ -1,6 +1,6 @@
-﻿using Terraria;
+﻿using CalamityMod.Items.Mounts;
+using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.Items;
 namespace CalamityMod.Buffs.Mounts
 {
     class AlicornBuff : ModBuff

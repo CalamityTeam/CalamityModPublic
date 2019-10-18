@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.Buffs;
 namespace CalamityMod.Projectiles.Typeless
 {
     public class HolyEruption : ModProjectile

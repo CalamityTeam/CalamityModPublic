@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Items;
 namespace CalamityMod.Tiles
 {
     public class CalamityGlobalTile : GlobalTile

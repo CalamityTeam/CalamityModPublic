@@ -1,6 +1,6 @@
-﻿using Terraria;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.Buffs;
 namespace CalamityMod.Items.Accessories
 {
     [AutoloadEquip(EquipType.Head)]

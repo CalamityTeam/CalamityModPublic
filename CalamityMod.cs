@@ -18,6 +18,7 @@ using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.UI;
+using CalamityMod.Items.Accessories;
 
 namespace CalamityMod
 {

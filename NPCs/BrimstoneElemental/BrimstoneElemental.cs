@@ -1,7 +1,4 @@
-﻿using CalamityMod.Buffs;
-using CalamityMod.CalPlayer;
-using CalamityMod.Items;
-using CalamityMod.Projectiles;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;

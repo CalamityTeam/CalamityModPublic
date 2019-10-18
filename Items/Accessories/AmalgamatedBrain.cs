@@ -2,9 +2,9 @@
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using CalamityMod.Projectiles;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Magic;
 
 namespace CalamityMod.Items.Accessories
 {

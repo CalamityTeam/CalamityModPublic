@@ -3,7 +3,8 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
 using Terraria.ID;
-using CalamityMod.Buffs;
+using CalamityMod.Buffs.StatDebuffs;
+
 namespace CalamityMod.Items.Accessories
 {
     public class DraedonsHeart : ModItem

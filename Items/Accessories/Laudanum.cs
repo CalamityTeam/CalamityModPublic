@@ -1,7 +1,7 @@
-﻿using CalamityMod.CalPlayer;
+﻿using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.Buffs;
 namespace CalamityMod.Items.Accessories
 {
     public class Laudanum : ModItem

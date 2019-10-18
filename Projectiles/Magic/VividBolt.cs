@@ -2,7 +2,6 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Buffs;
 namespace CalamityMod.Projectiles.Magic
 {
     public class VividBolt : ModProjectile

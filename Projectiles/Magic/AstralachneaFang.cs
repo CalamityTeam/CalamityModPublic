@@ -5,7 +5,6 @@ using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Dusts;
 using Terraria.ID;
-using CalamityMod.Buffs;
 namespace CalamityMod.Projectiles.Magic
 {
     public class AstralachneaFang : ModProjectile

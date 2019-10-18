@@ -1,5 +1,4 @@
 using Terraria.ModLoader;
-using CalamityMod.Tiles;
 namespace CalamityMod.Items.Placeables.FurnitureOccult
 {
     public class OccultDoor : ModItem

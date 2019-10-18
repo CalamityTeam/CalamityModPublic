@@ -2,7 +2,6 @@
 using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Dusts;
-using CalamityMod.Buffs;
 namespace CalamityMod.Projectiles.Rogue
 {
     public class HeavenfallenEnergy : ModProjectile

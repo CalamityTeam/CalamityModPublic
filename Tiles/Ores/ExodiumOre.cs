@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.Items;
 namespace CalamityMod.Tiles.Ores
 {
     public class ExodiumOre : ModTile

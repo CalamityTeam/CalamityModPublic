@@ -2,7 +2,8 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Buffs;
+using CalamityMod.Buffs.DamageOverTime;
+
 namespace CalamityMod.Items.Accessories
 {
     public class AstralArcanum : ModItem

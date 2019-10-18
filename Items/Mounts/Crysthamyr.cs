@@ -3,7 +3,6 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Buffs;
 namespace CalamityMod.Items.Mounts
 {
     class Crysthamyr : ModMountData

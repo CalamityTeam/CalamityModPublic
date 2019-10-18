@@ -1,13 +1,11 @@
 using CalamityMod.World;
 using System.Collections.Generic;
 using Terraria;
-using CalamityMod.Projectiles;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
 using Terraria.GameContent.Events;
 using Terraria.ID;
 using Terraria.Localization;
-using CalamityMod.Items;
 namespace CalamityMod.NPCs
 {
     [AutoloadHead]

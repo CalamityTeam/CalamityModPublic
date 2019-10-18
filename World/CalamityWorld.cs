@@ -10,8 +10,6 @@ using Terraria.GameContent.Events;
 using Terraria.GameContent.Generation;
 using Terraria.ID;
 using Terraria.Localization;
-using CalamityMod.Buffs;
-using CalamityMod.Tiles;
 using Terraria.ModLoader.IO;
 using Terraria.World.Generation;
 

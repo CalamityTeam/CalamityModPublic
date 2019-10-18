@@ -1,11 +1,12 @@
 ﻿using CalamityMod.CalPlayer;
 using CalamityMod.World;
 using Terraria;
-using CalamityMod.Projectiles;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
 using Terraria.ID;
-using CalamityMod.Buffs;
+using CalamityMod.Projectiles.Summon;
+using CalamityMod.Buffs.Summon;
+
 namespace CalamityMod.Items.Accessories
 {
     public class HeartoftheElements : ModItem

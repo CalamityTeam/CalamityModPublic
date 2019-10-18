@@ -4,10 +4,7 @@ using CalamityMod.Dusts;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using CalamityMod.Projectiles;
 using Terraria.ModLoader;
-using CalamityMod.Buffs;
-using CalamityMod.Items;
 namespace CalamityMod.NPCs
 {
     public class Mantis : ModNPC

@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Items;
 namespace CalamityMod.Tiles.SunkenSea
 {
     public class SeaPrismCrystals : ModTile

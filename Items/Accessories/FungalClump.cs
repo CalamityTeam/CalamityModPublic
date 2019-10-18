@@ -1,8 +1,8 @@
+using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
+using CalamityMod.Projectiles.Summon;
 using Terraria;
-using CalamityMod.Projectiles;
 using Terraria.ModLoader;
-using CalamityMod.Buffs;
 namespace CalamityMod.Items.Accessories
 {
     public class FungalClump : ModItem

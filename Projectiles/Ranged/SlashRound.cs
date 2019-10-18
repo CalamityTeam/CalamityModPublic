@@ -1,6 +1,5 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.Buffs;
 namespace CalamityMod.Projectiles.Ranged
 {
     public class SlashRound : ModProjectile

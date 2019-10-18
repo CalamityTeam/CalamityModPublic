@@ -5,7 +5,6 @@ using System.IO;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Buffs;
 namespace CalamityMod.Projectiles.Boss
 {
     public class SignusScythe : ModProjectile

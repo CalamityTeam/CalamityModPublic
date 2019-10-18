@@ -1,6 +1,6 @@
-﻿using Terraria;
+﻿using CalamityMod.Buffs.StatDebuffs;
+using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.Buffs;
 namespace CalamityMod.Items.Accessories
 {
     public class LeadCore : ModItem

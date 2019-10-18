@@ -4,7 +4,6 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Buffs;
 namespace CalamityMod.NPCs
 {
     public class DetonatingFlare2 : ModNPC

@@ -3,7 +3,6 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Dusts;
-using CalamityMod.Buffs;
 namespace CalamityMod.Projectiles.Typeless
 {
     public class GodSlayerBlaze : ModProjectile

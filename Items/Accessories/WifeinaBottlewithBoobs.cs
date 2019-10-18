@@ -1,8 +1,6 @@
 using CalamityMod.CalPlayer;
 using Terraria;
-using CalamityMod.Projectiles;
 using Terraria.ModLoader;
-using CalamityMod.Buffs;
 namespace CalamityMod.Items.Accessories
 {
     public class WifeinaBottlewithBoobs : ModItem

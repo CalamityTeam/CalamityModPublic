@@ -1,8 +1,30 @@
 using CalamityMod.Buffs;
+using CalamityMod.Buffs.Cooldowns;
+using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.Pets;
+using CalamityMod.Buffs.Potions;
+using CalamityMod.Buffs.StatBuffs;
+using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Buffs.Summon;
 using CalamityMod.Dusts;
 using CalamityMod.Items;
+using CalamityMod.Items.Accessories;
+using CalamityMod.Items.DifficultyItems;
+using CalamityMod.Items.Fishing;
+using CalamityMod.Items.Mounts;
+using CalamityMod.Items.Pets;
+using CalamityMod.Items.Placeables;
+using CalamityMod.Items.TreasureBags;
+using CalamityMod.Items.Weapons.Magic;
+using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.NPCs;
-using CalamityMod.Projectiles;
+using CalamityMod.Projectiles.Melee;
+using CalamityMod.Projectiles.Ranged;
+using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Projectiles.Summon;
+using CalamityMod.Projectiles.Typeless;
 using CalamityMod.UI;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -6307,7 +6329,7 @@ namespace CalamityMod.CalPlayer
             {
                 damageMult += 0.1;
             }
-            if (proj.type == ModContent.ProjectileType<Projectiles.FrostsparkBullet>())
+            if (proj.type == ModContent.ProjectileType<FrostsparkBullet>())
             {
                 if (target.buffImmune[ModContent.BuffType<GlacialState>()])
                     damageMult += 0.2;
@@ -6367,7 +6389,7 @@ namespace CalamityMod.CalPlayer
                 if (hasClassType)
                     damage += theBeeDamage;
             }
-            if (proj.type == ModContent.ProjectileType<Projectiles.AcidBullet>())
+            if (proj.type == ModContent.ProjectileType<AcidBullet>())
             {
                 int defenseAdd = (int)((double)target.defense * 0.1 * ((double)damage / 50.0)); //100 defense * 0.1 = 10
                 damage += defenseAdd;
@@ -6410,7 +6432,7 @@ namespace CalamityMod.CalPlayer
                         damage = (int)((double)damage * 0.7);
                         break;
                 }
-                if (proj.type == ModContent.ProjectileType<Projectiles.VeriumBullet>())
+                if (proj.type == ModContent.ProjectileType<VeriumBullet>())
                     damage = (int)((double)damage * 0.8);
             }
             if (proj.type == ProjectileID.SpectreWrath && player.ghostHurt)
@@ -7486,11 +7508,11 @@ namespace CalamityMod.CalPlayer
                     { player.ClearBuff(ModContent.BuffType<PolarisBuff>()); }
                 }
             }
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Drataliornus>()] != 0)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Ranged.Drataliornus>()] != 0)
             {
                 for (int i = 0; i < 1000; i++)
                 {
-                    if (Main.projectile[i].active && Main.projectile[i].type == ModContent.ProjectileType<Projectiles.Drataliornus>() && Main.projectile[i].owner == player.whoAmI)
+                    if (Main.projectile[i].active && Main.projectile[i].type == ModContent.ProjectileType<Projectiles.Ranged.Drataliornus>() && Main.projectile[i].owner == player.whoAmI)
                     {
                         Main.projectile[i].Kill();
                         break;

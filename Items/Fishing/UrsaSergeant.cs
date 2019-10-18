@@ -1,7 +1,6 @@
 using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.Buffs;
 namespace CalamityMod.Items.Fishing
 {
     public class UrsaSergeant : ModItem

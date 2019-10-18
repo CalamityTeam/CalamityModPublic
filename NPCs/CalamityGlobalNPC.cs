@@ -1,7 +1,6 @@
 using CalamityMod.Buffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
-using CalamityMod.Projectiles;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

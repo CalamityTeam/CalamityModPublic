@@ -2,11 +2,8 @@
 using System;
 using System.IO;
 using Terraria;
-using CalamityMod.Projectiles;
 using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Buffs;
-using CalamityMod.Items;
 namespace CalamityMod.NPCs
 {
     public class ImpiousImmolator : ModNPC

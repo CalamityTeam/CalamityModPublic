@@ -4,7 +4,6 @@ using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Dusts;
 using Terraria.ID;
-using CalamityMod.Buffs;
 namespace CalamityMod.Projectiles.Melee
 {
     public class AstralScytheProjectile : ModProjectile

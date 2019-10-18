@@ -5,8 +5,6 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.Buffs;
-using CalamityMod.Items;
 namespace CalamityMod.NPCs
 {
     public class Hive : ModNPC

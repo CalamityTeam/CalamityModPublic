@@ -1,4 +1,3 @@
-using CalamityMod.Buffs;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;

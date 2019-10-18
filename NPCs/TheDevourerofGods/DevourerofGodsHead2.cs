@@ -4,7 +4,6 @@ using System.IO;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Buffs;
 namespace CalamityMod.NPCs
 {
     public class DevourerofGodsHead2 : ModNPC

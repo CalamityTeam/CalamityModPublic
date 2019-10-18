@@ -1,5 +1,4 @@
 using Terraria.ModLoader;
-using CalamityMod.Tiles;
 namespace CalamityMod.Items.Placeables.FurnitureVoid
 {
     public class VoidDoor : ModItem

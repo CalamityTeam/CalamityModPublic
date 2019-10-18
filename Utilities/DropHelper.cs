@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.Items;
 namespace CalamityMod
 {
     public class DropHelper

@@ -1,7 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.Items;
 using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.Furniture

@@ -1,6 +1,4 @@
-using CalamityMod.Buffs;
 using CalamityMod.CalPlayer;
-using CalamityMod.Projectiles;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

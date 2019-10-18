@@ -5,7 +5,6 @@ using System.IO;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Buffs;
 namespace CalamityMod.Projectiles.Melee
 {
     public class ElementalExcaliburBeam : ModProjectile

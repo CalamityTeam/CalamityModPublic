@@ -1,7 +1,6 @@
 using System;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.Buffs;
 namespace CalamityMod.Projectiles.Magic
 {
     public class ApothMark : ModProjectile

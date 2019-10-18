@@ -1,7 +1,6 @@
 
 using Microsoft.Xna.Framework;
 using Terraria;
-using CalamityMod.Projectiles;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.Ores
 {

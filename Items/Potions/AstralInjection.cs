@@ -2,7 +2,6 @@
 using Terraria.ModLoader;
 using Terraria.DataStructures;
 using Terraria.ID;
-using CalamityMod.Buffs;
 namespace CalamityMod.Items.Potions
 {
     public class AstralInjection : ModItem

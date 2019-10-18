@@ -6,7 +6,6 @@ using Terraria.ModLoader;
 using Terraria.GameContent.Achievements;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
-using CalamityMod.Buffs;
 namespace CalamityMod.Items.Mounts
 {
     class OnyxExcavator : ModMountData

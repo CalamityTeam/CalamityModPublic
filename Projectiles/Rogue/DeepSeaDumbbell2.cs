@@ -2,7 +2,6 @@
 using System;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.Buffs;
 namespace CalamityMod.Projectiles.Rogue
 {
     public class DeepSeaDumbbell2 : ModProjectile

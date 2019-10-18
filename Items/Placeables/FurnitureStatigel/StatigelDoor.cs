@@ -1,5 +1,4 @@
 using Terraria.ModLoader;
-using CalamityMod.Tiles;
 namespace CalamityMod.Items.Placeables.FurnitureStatigel
 {
     public class StatigelDoor : ModItem

@@ -1,5 +1,5 @@
-﻿using Terraria;
-using CalamityMod.Projectiles;
+﻿using CalamityMod.Projectiles.Pets;
+using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.Pets

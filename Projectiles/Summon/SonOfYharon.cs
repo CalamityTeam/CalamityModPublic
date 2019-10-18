@@ -5,7 +5,6 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Buffs;
 namespace CalamityMod.Projectiles.Summon
 {
     public class SonOfYharon : ModProjectile

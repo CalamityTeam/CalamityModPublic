@@ -1,7 +1,6 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Items;
 namespace CalamityMod.NPCs
 {
     public class WulfrumDrone : ModNPC

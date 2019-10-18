@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.Dusts;
 
 namespace CalamityMod.Tiles.FurnitureProfaned
 {

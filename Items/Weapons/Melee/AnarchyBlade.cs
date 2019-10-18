@@ -2,10 +2,8 @@ using CalamityMod.CalPlayer;
 using CalamityMod.NPCs;
 using Microsoft.Xna.Framework;
 using Terraria;
-using CalamityMod.Projectiles;
 using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Buffs;
 namespace CalamityMod.Items.Weapons.Melee
 {
     public class AnarchyBlade : ModItem

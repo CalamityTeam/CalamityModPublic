@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.Tiles;
 using Terraria.World.Generation;
 
 namespace CalamityMod.World

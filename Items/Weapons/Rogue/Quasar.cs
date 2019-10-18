@@ -1,4 +1,3 @@
-using CalamityMod.Projectiles;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;

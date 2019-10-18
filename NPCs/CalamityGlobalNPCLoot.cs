@@ -1,4 +1,3 @@
-using CalamityMod.Buffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items;
 using CalamityMod.World;

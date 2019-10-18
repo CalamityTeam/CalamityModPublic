@@ -1,6 +1,4 @@
-﻿using CalamityMod.Buffs;
-using CalamityMod.Items;
-using CalamityMod.World;
+﻿using CalamityMod.World;
 using System;
 using Terraria;
 using Terraria.ID;
