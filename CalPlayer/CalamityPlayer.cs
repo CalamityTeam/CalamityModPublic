@@ -5160,7 +5160,7 @@ namespace CalamityMod.CalPlayer
         {
             if (silvaRanged)
             {
-                if (item.ranged && !item.Calamity().rogue && item.useTime > 3)
+                if (item.ranged && item.useTime > 3)
                     return auricSet ? 1.2f : 1.1f;
             }
             if (silvaThrowing)
