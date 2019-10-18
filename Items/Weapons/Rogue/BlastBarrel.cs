@@ -2,12 +2,13 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Rogue;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
     public class BlastBarrel : RogueWeapon
     {
-        public const int BaseDamage = 60;
+        public const int BaseDamage = 45;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blast Barrel");

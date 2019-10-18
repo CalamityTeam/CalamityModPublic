@@ -33,13 +33,14 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             crit = item.crit + player.Calamity().throwingCrit;
         }
-        public override void MeleeEffects(Player player, Rectangle hitbox)
+        public override float UseTimeMultiplier(Player player)
         {
+            float rogueAS = 1f;
             if (player.Calamity().gloveOfPrecision)
-            {
-                item.useTime = (int)(item.useTime * 0.8f);
-                item.useAnimation = (int)(item.useAnimation * 0.8f);
-            }
+                rogueAS -= 0.2f;
+            if (player.Calamity().gloveOfRecklessness)
+                rogueAS += 0.2f;
+            return rogueAS;
         }
         // Not needed because the weapon is now internally thrown instead of ranged
         /*

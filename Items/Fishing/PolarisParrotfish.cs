@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.CalPlayer;
+using CalamityMod.Projectiles.Ranged;
 
 namespace CalamityMod.Items.Fishing
 {

@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using CalamityMod.CalPlayer;
+using CalamityMod.Projectiles.Rogue;
 namespace CalamityMod.Projectiles.Typeless
 {
     public class MomentumCapacitorOrb : ModProjectile
@@ -24,6 +26,10 @@ namespace CalamityMod.Projectiles.Typeless
         }
         public override void AI()
         {
+            Player player = Main.player[Main.myPlayer];
+            CalamityPlayer modPlayer = player.Calamity();
+            if (!modPlayer.momentumCapacitor)
+                projectile.Kill();
             if (Main.rand.NextBool(4))
             {
                 float numDust = MathHelper.TwoPi * Radius / 5f;

@@ -1,6 +1,7 @@
 using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ModLoader;
+using CalamityMod.Buffs.DamageOverTime;
 namespace CalamityMod.Items.Fishing
 {
     public class UrsaSergeant : ModItem
@@ -8,7 +9,7 @@ namespace CalamityMod.Items.Fishing
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ursa Sergeant");
-            Tooltip.SetDefault("+20 defense but 20% reduced movement speed\n" +
+            Tooltip.SetDefault("+20 defense but 35% reduced movement speed\n" +
                 "Immune to Astral Infection and Feral Bite\n" +
                 "Increased regeneration at lower health");
         }

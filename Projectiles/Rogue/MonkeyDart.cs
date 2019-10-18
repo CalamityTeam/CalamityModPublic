@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Items.Weapons.Rogue;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -24,6 +25,8 @@ namespace CalamityMod.Projectiles.Rogue
             drawOffsetX = -10;
             drawOriginOffsetY = 0;
             drawOriginOffsetX = 0;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 40;
             projectile.extraUpdates = 1;
             projectile.Calamity().rogue = true;
         }

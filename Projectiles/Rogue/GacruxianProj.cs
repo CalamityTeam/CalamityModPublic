@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Dusts;
+using CalamityMod.Projectiles.Melee;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -36,7 +37,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 if (projectile.Calamity().stealthStrike == true)
                 {
-					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0f, projectile.velocity.Y * 0f, ModContent.ProjectileType<GacruxianHome>(), (int)((double)projectile.damage * 0.75), projectile.knockBack, projectile.owner, 0f, 0f);
+					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0f, projectile.velocity.Y * 0f, ModContent.ProjectileType<GacruxianHome>(), (int)((double)projectile.damage * 0.3), projectile.knockBack, projectile.owner, 0f, 0f);
 				}
                 else
 				{
