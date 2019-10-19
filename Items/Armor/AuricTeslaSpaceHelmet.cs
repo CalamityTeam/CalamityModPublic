@@ -1,4 +1,6 @@
-﻿using CalamityMod.CalPlayer;
+﻿using CalamityMod.Buffs.Summon;
+using CalamityMod.CalPlayer;
+using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -63,13 +65,13 @@ namespace CalamityMod.Items
             }
             if (player.whoAmI == Main.myPlayer)
             {
-                if (player.FindBuffIndex(ModContent.BuffType<Buffs.SilvaCrystal>()) == -1)
+                if (player.FindBuffIndex(ModContent.BuffType<SilvaSummonSetBuff>()) == -1)
                 {
-                    player.AddBuff(ModContent.BuffType<Buffs.SilvaCrystal>(), 3600, true);
+                    player.AddBuff(ModContent.BuffType<SilvaSummonSetBuff>(), 3600, true);
                 }
-                if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.SilvaCrystal>()] < 1)
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<SilvaCrystal>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<Projectiles.SilvaCrystal>(), (int)(3000f * player.minionDamage), 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<SilvaCrystal>(), (int)(3000f * player.minionDamage), 0f, Main.myPlayer, 0f, 0f);
                 }
                 if (player.FindBuffIndex(ModContent.BuffType<Mechworm>()) == -1)
                 {

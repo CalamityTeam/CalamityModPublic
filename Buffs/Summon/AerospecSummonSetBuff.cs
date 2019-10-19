@@ -4,12 +4,12 @@ using Terraria.ModLoader; using CalamityMod.Projectiles.Summon;
 
 namespace CalamityMod.Buffs.Summon
 {
-    public class ChaosSpirit : ModBuff
+    public class AerospecSummonSetBuff : ModBuff
     {
         public override void SetDefaults()
         {
-            DisplayName.SetDefault("Chaos Spirit");
-            Description.SetDefault("The chaos spirit will protect you");
+            DisplayName.SetDefault("Valkyrie");
+            Description.SetDefault("The valkyrie will protect you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
         }
@@ -17,11 +17,11 @@ namespace CalamityMod.Buffs.Summon
         public override void Update(Player player, ref int buffIndex)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<ChaosSpiritMinion>()] > 0)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<Valkyrie>()] > 0)
             {
-                modPlayer.cSpirit = true;
+                modPlayer.aValkyrie = true;
             }
-            if (!modPlayer.cSpirit)
+            if (!modPlayer.aValkyrie)
             {
                 player.DelBuff(buffIndex);
                 buffIndex--;

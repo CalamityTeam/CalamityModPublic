@@ -2,6 +2,9 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Buffs.Summon;
+using CalamityMod.Projectiles.Summon;
+
 namespace CalamityMod.Items
 {
     [AutoloadEquip(EquipType.Head)]
@@ -44,9 +47,9 @@ namespace CalamityMod.Items
             player.noFallDmg = true;
             if (player.whoAmI == Main.myPlayer)
             {
-                if (player.FindBuffIndex(ModContent.BuffType<ValkyrieBuff>()) == -1)
+                if (player.FindBuffIndex(ModContent.BuffType<AerospecSummonSetBuff>()) == -1)
                 {
-                    player.AddBuff(ModContent.BuffType<ValkyrieBuff>(), 3600, true);
+                    player.AddBuff(ModContent.BuffType<AerospecSummonSetBuff>(), 3600, true);
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<Valkyrie>()] < 1)
                 {

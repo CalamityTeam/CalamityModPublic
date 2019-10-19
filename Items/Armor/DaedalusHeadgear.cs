@@ -2,6 +2,8 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Buffs.Summon;
+using CalamityMod.Projectiles.Summon;
 
 namespace CalamityMod.Items
 {
@@ -42,13 +44,13 @@ namespace CalamityMod.Items
             modPlayer.daedalusCrystal = true;
             if (player.whoAmI == Main.myPlayer)
             {
-                if (player.FindBuffIndex(ModContent.BuffType<Buffs.DaedalusCrystal>()) == -1)
+                if (player.FindBuffIndex(ModContent.BuffType<DaedalusSummonSetBuff>()) == -1)
                 {
-                    player.AddBuff(ModContent.BuffType<Buffs.DaedalusCrystal>(), 3600, true);
+                    player.AddBuff(ModContent.BuffType<DaedalusSummonSetBuff>(), 3600, true);
                 }
-                if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.DaedalusCrystal>()] < 1)
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<DaedalusCrystal>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<Projectiles.DaedalusCrystal>(), (int)(95f * player.minionDamage), 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<DaedalusCrystal>(), (int)(95f * player.minionDamage), 0f, Main.myPlayer, 0f, 0f);
                 }
             }
             player.minionDamage += 0.2f;

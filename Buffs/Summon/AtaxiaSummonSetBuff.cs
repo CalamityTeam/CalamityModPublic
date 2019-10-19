@@ -4,12 +4,12 @@ using Terraria.ModLoader; using CalamityMod.Projectiles.Summon;
 
 namespace CalamityMod.Buffs.Summon
 {
-    public class MiniSlimeGodBuff : ModBuff
+    public class AtaxiaSummonSetBuff : ModBuff
     {
         public override void SetDefaults()
         {
-            DisplayName.SetDefault("Baby Slime God");
-            Description.SetDefault("The slime god will protect you");
+            DisplayName.SetDefault("Chaos Spirit");
+            Description.SetDefault("The chaos spirit will protect you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
         }
@@ -17,15 +17,11 @@ namespace CalamityMod.Buffs.Summon
         public override void Update(Player player, ref int buffIndex)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<CrimsonSlimeGodMinion>()] > 0)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<ChaosSpirit>()] > 0)
             {
-                modPlayer.sGod = true;
+                modPlayer.cSpirit = true;
             }
-            else if (player.ownedProjectileCounts[ModContent.ProjectileType<CorruptionSlimeGodMinion>()] > 0)
-            {
-                modPlayer.sGod = true;
-            }
-            if (!modPlayer.sGod)
+            if (!modPlayer.cSpirit)
             {
                 player.DelBuff(buffIndex);
                 buffIndex--;

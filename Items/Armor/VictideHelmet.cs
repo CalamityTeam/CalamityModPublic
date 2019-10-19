@@ -2,6 +2,9 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Buffs.Summon;
+using CalamityMod.Projectiles.Summon;
+
 namespace CalamityMod.Items
 {
     [AutoloadEquip(EquipType.Head)]
@@ -40,9 +43,9 @@ namespace CalamityMod.Items
             modPlayer.urchin = true;
             if (player.whoAmI == Main.myPlayer)
             {
-                if (player.FindBuffIndex(ModContent.BuffType<UrchinBuff>()) == -1)
+                if (player.FindBuffIndex(ModContent.BuffType<VictideSummonSetBuff>()) == -1)
                 {
-                    player.AddBuff(ModContent.BuffType<UrchinBuff>(), 3600, true);
+                    player.AddBuff(ModContent.BuffType<VictideSummonSetBuff>(), 3600, true);
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<Urchin>()] < 1)
                 {
