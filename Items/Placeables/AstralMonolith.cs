@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Placeables
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.GetItem("AstralMonolithWall"), 4);
+            recipe.AddIngredient(ModContent.ItemType<AstralMonolithWall>(), 4);
             recipe.SetResult(this, 1);
             recipe.AddTile(TileID.WorkBenches);
             recipe.AddRecipe();

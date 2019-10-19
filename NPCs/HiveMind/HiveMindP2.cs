@@ -7,7 +7,6 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.Localization;
-using CalamityMod.Items;
 /* states:
  * 0 = slow drift
  * 1 = reelback and teleport after spawn enemy

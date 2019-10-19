@@ -1,4 +1,3 @@
-using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
@@ -24,7 +23,6 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            CalamityPlayer modPlayer = player.Calamity();
             player.Calamity().throwingCrit += 6;
         }
 

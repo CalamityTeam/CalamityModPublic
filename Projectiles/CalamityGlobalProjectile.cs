@@ -12,7 +12,6 @@ using CalamityMod.Projectiles.Healing;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
-using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Buffs.DamageOverTime;
 
@@ -660,7 +659,8 @@ namespace CalamityMod.Projectiles
 
             if (rogue)
             {
-                if (Main.player[projectile.owner].Calamity().moonCrown)
+                // Moon Crown gets overridden by Nanotech
+                if (Main.player[projectile.owner].Calamity().moonCrown && !Main.player[projectile.owner].Calamity().nanotech)
                 {
                     //Summon moon sigils infrequently
                     if (Main.rand.NextBool(300) && projectile.type != ModContent.ProjectileType<MoonSigil>()) 

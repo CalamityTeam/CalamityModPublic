@@ -1,6 +1,8 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using CalamityMod.Items.Placeables.Ores;
+using CalamityMod.Items.Materials;
 using Terraria.ID;
 
 namespace CalamityMod.Items.Weapons.Ranged
@@ -25,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.width = 122;
             item.height = 50;
             item.UseSound = SoundID.Item92;
-            item.shoot = ModContent.ProjectileType<Projectiles.StarfleetMK2>();
+            item.shoot = ModContent.ProjectileType<StarfleetMK2>();
             item.value = Item.buyPrice(1, 80, 0, 0);
             item.rare = 10;
             item.noMelee = true;
@@ -45,7 +47,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.StarfleetMK2>(), 0, 0f, player.whoAmI);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<StarfleetMK2>(), 0, 0f, player.whoAmI);
             return false;
         }
 

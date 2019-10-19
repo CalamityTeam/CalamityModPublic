@@ -2,8 +2,10 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables;
 
-namespace CalamityMod.Items
+namespace CalamityMod.Items.Accessories
 {
     public class AbyssalDivingSuit : ModItem
     {

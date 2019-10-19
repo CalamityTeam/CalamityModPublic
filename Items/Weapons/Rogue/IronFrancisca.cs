@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.maxStack = 999;
             item.value = 1000;
             item.rare = 0;
-            item.shoot = ModContent.ProjectileType<Projectiles.IronFrancisca>();
+            item.shoot = ModContent.ProjectileType<IronFrancisca>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;
         }

@@ -4,8 +4,8 @@ using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ModLoader;
-namespace CalamityMod.Items
+using Terraria.ModLoader; using CalamityMod.Items.Materials;
+namespace CalamityMod.Items.Armor
 {
     [AutoloadEquip(EquipType.Head)]
     public class GodSlayerHornedHelm : ModItem

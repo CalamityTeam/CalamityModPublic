@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.height = 54;
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.rare = 5;
-            item.shoot = ModContent.ProjectileType<Projectiles.SpearofPaleolith>();
+            item.shoot = ModContent.ProjectileType<SpearofPaleolith>();
             item.shootSpeed = 35f;
             item.Calamity().rogue = true;
         }

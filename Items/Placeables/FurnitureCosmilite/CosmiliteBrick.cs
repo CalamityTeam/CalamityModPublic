@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Placeables.FurnitureCosmilite
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.GetItem("CosmiliteBar"), 1);
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 1);
             recipe.AddIngredient(ItemID.StoneBlock, 20);
             recipe.SetResult(this, 20);
             recipe.AddTile(ModContent.TileType<DraedonsForge>());

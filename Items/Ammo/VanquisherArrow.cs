@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using CalamityMod.Projectiles.Ranged;
+using CalamityMod.Items.Materials;
 
 namespace CalamityMod.Items.Ammo
 {

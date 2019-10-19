@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.rare = 7;
             item.UseSound = SoundID.Item78;
-            item.shoot = ModContent.ProjectileType<Projectiles.Hive>();
+            item.shoot = ModContent.ProjectileType<Hive>();
         }
 
         public override bool AltFunctionUse(Player player)

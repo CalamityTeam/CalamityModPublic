@@ -1,5 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
+using CalamityMod.Tiles.Furniture.CraftingStations;
+using CalamityMod.Items.Materials;
 using Terraria.ID;
 
 namespace CalamityMod.Items.Weapons.Ranged
@@ -28,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.value = Item.buyPrice(5, 0, 0, 0);
             item.rare = 10;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.Contagion>();
+            item.shoot = ModContent.ProjectileType<Contagion>();
             item.shootSpeed = 20f;
             item.useAmmo = 40;
             item.Calamity().postMoonLordRarity = 16;
@@ -46,7 +48,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.Contagion>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Contagion>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
             return false;
         }
     }

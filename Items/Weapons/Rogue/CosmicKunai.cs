@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.height = 48;
             item.value = Item.buyPrice(1, 40, 0, 0);
             item.rare = 10;
-            item.shoot = ModContent.ProjectileType<Projectiles.CosmicKunai>();
+            item.shoot = ModContent.ProjectileType<CosmicKunai>();
             item.shootSpeed = 28f;
             item.rare = 9;
             item.Calamity().rogue = true;

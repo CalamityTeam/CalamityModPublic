@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using CalamityMod.Items.Materials;
 using Terraria.ID;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Buffs.DamageOverTime;
@@ -63,7 +64,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 14);
 
                 // TODO -- HiveBombExplosion doesn't exist. Is it supposed to?
-                // Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<Projectiles.HiveBombExplosion>(), (int)((float)item.damage * player.meleeDamage), knockback, Main.myPlayer);
+                // Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<HiveBombExplosion>(), (int)((float)item.damage * player.meleeDamage), knockback, Main.myPlayer);
 
                 for (int num621 = 0; num621 < 30; num621++)
                 {

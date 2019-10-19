@@ -1,5 +1,6 @@
 using Terraria;
 using Terraria.ModLoader;
+using CalamityMod.Items.Materials;
 using Terraria.ID;
 
 namespace CalamityMod.Items.Weapons.Rogue
@@ -28,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.autoReuse = true;
             item.value = Item.buyPrice(1, 20, 0, 0);
             item.rare = 10;
-            item.shoot = ModContent.ProjectileType<Projectiles.ShatteredSun>();
+            item.shoot = ModContent.ProjectileType<ShatteredSun>();
             item.shootSpeed = 25f;
             item.Calamity().rogue = true;
             item.Calamity().postMoonLordRarity = 12;

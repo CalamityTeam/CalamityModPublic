@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Items.Materials;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -38,12 +39,12 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.GetItem("MirageMirror"));
-            recipe.AddIngredient(mod.GetItem("InkBomb"));
+            recipe.AddIngredient(ModContent.ItemType<MirageMirror>());
+            recipe.AddIngredient(ModContent.ItemType<InkBomb>());
             recipe.AddIngredient(ItemID.SpectreBar, 8);
             recipe.AddIngredient(ItemID.BlackBelt);
-            recipe.AddIngredient(mod.GetItem("DepthCells"), 5);
-            recipe.AddIngredient(mod.GetItem("Lumenite"), 5);
+            recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 5);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

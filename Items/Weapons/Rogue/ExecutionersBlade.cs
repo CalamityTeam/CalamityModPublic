@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
+using CalamityMod.Items.Materials;
 using Terraria.ID;
 
 namespace CalamityMod.Items.Weapons.Rogue
@@ -29,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.height = 64;
             item.value = Item.buyPrice(1, 80, 0, 0);
             item.rare = 10;
-            item.shoot = ModContent.ProjectileType<Projectiles.ExecutionersBlade>();
+            item.shoot = ModContent.ProjectileType<ExecutionersBlade>();
             item.shootSpeed = 26f;
             item.Calamity().rogue = true;
             item.Calamity().postMoonLordRarity = 14;

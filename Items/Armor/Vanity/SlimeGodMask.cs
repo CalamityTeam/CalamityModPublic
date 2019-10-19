@@ -1,12 +1,12 @@
 using Terraria.ModLoader;
-namespace CalamityMod.Items
+namespace CalamityMod.Items.Armor.Vanity
 {
     [AutoloadEquip(EquipType.Head)]
-    public class YharonMask : ModItem
+    public class SlimeGodMask : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Yharon Mask");
+            DisplayName.SetDefault("Slime God Mask");
         }
 
         public override void SetDefaults()

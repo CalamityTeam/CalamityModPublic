@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Placeables.FurnitureProfaned
             recipe.AddTile(18);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.GetItem("UnholyEssence"));
+            recipe.AddIngredient(ModContent.ItemType<UnholyEssence>());
             recipe.AddIngredient(ItemID.StoneBlock, 20);
             recipe.SetResult(this, 20);
             recipe.AddTile(412);

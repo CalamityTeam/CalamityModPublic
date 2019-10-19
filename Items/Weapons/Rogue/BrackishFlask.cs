@@ -1,5 +1,6 @@
 using Terraria;
 using Terraria.ModLoader;
+using CalamityMod.Items.Materials;
 using Terraria.ID;
 
 namespace CalamityMod.Items.Weapons.Rogue
@@ -27,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.height = 30;
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.rare = 7;
-            item.shoot = ModContent.ProjectileType<Projectiles.BrackishFlask>();
+            item.shoot = ModContent.ProjectileType<BrackishFlask>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;
         }

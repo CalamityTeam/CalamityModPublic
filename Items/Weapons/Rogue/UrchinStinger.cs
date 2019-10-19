@@ -1,6 +1,5 @@
 using Terraria.ID;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Weapons.Rogue
 {
     public class UrchinStinger : RogueWeapon
@@ -27,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.maxStack = 999;
             item.value = 200;
             item.rare = 1;
-            item.shoot = ModContent.ProjectileType<Projectiles.UrchinStinger>();
+            item.shoot = ModContent.ProjectileType<UrchinStinger>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;
         }

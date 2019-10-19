@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.height = 52;
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.rare = 5;
-            item.shoot = ModContent.ProjectileType<Projectiles.IchorSpear>();
+            item.shoot = ModContent.ProjectileType<IchorSpear>();
             item.shootSpeed = 20f;
             item.Calamity().rogue = true;
         }

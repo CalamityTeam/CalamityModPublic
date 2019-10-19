@@ -37,14 +37,14 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.AnglerHat); //5
-            recipe.AddIngredient(ItemID.AnglerVest); //5
-            recipe.AddIngredient(ItemID.AnglerPants); //5
-            recipe.AddIngredient(ItemID.AnglerTackleBag); //10
-            recipe.AddIngredient(ItemID.FishingPotion, 5); //15
+            recipe.AddIngredient(ItemID.AnglerHat);
+            recipe.AddIngredient(ItemID.AnglerVest);
+            recipe.AddIngredient(ItemID.AnglerPants);
+            recipe.AddIngredient(ItemID.AnglerTackleBag);
+            recipe.AddIngredient(ItemID.FishingPotion, 5);
             recipe.AddIngredient(ItemID.CratePotion, 5);
             recipe.AddIngredient(ItemID.SonarPotion, 5);
-            recipe.AddIngredient(ItemID.MasterBait, 5); //50
+            recipe.AddIngredient(ItemID.MasterBait, 5);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

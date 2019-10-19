@@ -1,6 +1,5 @@
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Weapons.Summon
 {
     public class EnergyStaff : ModItem

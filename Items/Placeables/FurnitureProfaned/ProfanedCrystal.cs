@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Placeables.FurnitureProfaned
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.GetItem("UnholyEssence"));
+            recipe.AddIngredient(ModContent.ItemType<UnholyEssence>());
             recipe.AddIngredient(ItemID.Glass, 20);
             recipe.SetResult(this, 20);
             recipe.AddTile(412);

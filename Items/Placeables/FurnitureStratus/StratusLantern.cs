@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Placeables.FurnitureStratus
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<StratusBricks>(), 6);
-            recipe.AddIngredient(mod.GetItem("Lumenite"), 1);
+            recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 1);
             recipe.SetResult(this, 1);
             recipe.AddTile(412);
             recipe.AddRecipe();

@@ -1,9 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Weapons.Rogue
 {
     public abstract class RogueWeapon : ModItem
@@ -42,20 +40,6 @@ namespace CalamityMod.Items.Weapons.Rogue
                 rogueAS += 0.2f;
             return rogueAS;
         }
-        // Not needed because the weapon is now internally thrown instead of ranged
-        /*
-        public override void GetWeaponKnockback(Player player, ref float knockback)
-        {
-            if (player.shroomiteStealth)
-            {
-                knockback /= 1f + (1f - player.stealth) * 0.5f;
-            }
-            if (player.setVortex)
-            {
-                knockback /= 1f + (1f - player.stealth) * 0.5f;
-            }
-        }
-        */
 
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {

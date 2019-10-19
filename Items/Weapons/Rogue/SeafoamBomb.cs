@@ -1,5 +1,6 @@
 using Terraria;
 using Terraria.ModLoader;
+using CalamityMod.Items.Placeables;
 using Terraria.ID;
 
 namespace CalamityMod.Items.Weapons.Rogue
@@ -27,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.autoReuse = true;
             item.value = Item.buyPrice(0, 2, 0, 0);
             item.rare = 2;
-            item.shoot = ModContent.ProjectileType<Projectiles.SeafoamBomb>();
+            item.shoot = ModContent.ProjectileType<SeafoamBomb>();
             item.shootSpeed = 8f;
             item.Calamity().rogue = true;
         }

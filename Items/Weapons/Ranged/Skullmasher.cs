@@ -1,7 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Weapons.Ranged
 {
     public class Skullmasher : ModItem
@@ -46,7 +45,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             {
                 float SpeedX = speedX + (float)Main.rand.Next(-15, 16) * 0.05f;
                 float SpeedY = speedY + (float)Main.rand.Next(-15, 16) * 0.05f;
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<Projectiles.AMR>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<AMR>(), damage, knockBack, player.whoAmI, 0f, 0f);
             }
             return false;
         }

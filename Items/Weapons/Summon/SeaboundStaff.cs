@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.rare = 2;
             item.UseSound = SoundID.Item44;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.BrittleStar>();
+            item.shoot = ModContent.ProjectileType<BrittleStar>();
             item.shootSpeed = 10f;
             item.summon = true;
         }

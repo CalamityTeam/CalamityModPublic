@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.height = 28;
             item.value = Item.buyPrice(0, 2, 0, 0);
             item.rare = 2;
-            item.shoot = ModContent.ProjectileType<Projectiles.MeteorFist>();
+            item.shoot = ModContent.ProjectileType<MeteorFist>();
             item.shootSpeed = 10f;
             item.Calamity().rogue = true;
         }

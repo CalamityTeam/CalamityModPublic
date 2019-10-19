@@ -1,11 +1,11 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.ID;
 using CalamityMod.Items.Materials;
+using Terraria.ID;
 using CalamityMod.Items.Placeables;
 
-namespace CalamityMod.Items
+namespace CalamityMod.Items.Armor
 {
     [AutoloadEquip(EquipType.Head)]
     public class OmegaBlueHelmet : ModItem

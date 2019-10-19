@@ -1,12 +1,12 @@
 using Terraria.ModLoader;
-namespace CalamityMod.Items
+namespace CalamityMod.Items.Armor.Vanity
 {
     [AutoloadEquip(EquipType.Head)]
-    public class PlaguebringerGoliathMask : ModItem
+    public class PerforatorMask : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Plaguebringer Goliath Mask");
+            DisplayName.SetDefault("Perforator Mask");
         }
 
         public override void SetDefaults()

@@ -2,6 +2,8 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Items.Materials;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -31,6 +33,7 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.nanotech = true;
+            modPlayer.moonCrown = true;
             modPlayer.raiderTalisman = true;
             player.Calamity().throwingDamage += 0.1f;
             player.Calamity().throwingCrit += 5;
@@ -42,8 +45,15 @@ namespace CalamityMod.Items.Accessories
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<RogueEmblem>());
             recipe.AddIngredient(ModContent.ItemType<RaidersTalisman>());
+            recipe.AddIngredient(ModContent.ItemType<MoonstoneCrown>());
+
+            // add this ingredient when the item is finished
+            // recipe.AddIngredient(ModContent.ItemType<ElectriciansGlove>());
+
+            // remove these two ingredients once Electrician's Glove is added
             recipe.AddIngredient(ItemID.MartianConduitPlating, 250);
             recipe.AddIngredient(ItemID.Nanites, 500);
+
             recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 20);
             recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 20);
             recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 20);

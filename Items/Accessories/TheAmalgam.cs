@@ -9,6 +9,8 @@ using CalamityMod.Buffs.Summon;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
 using CalamityMod.Projectiles.Magic;
+using CalamityMod.Items.Materials;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 
 namespace CalamityMod.Items.Accessories
 {

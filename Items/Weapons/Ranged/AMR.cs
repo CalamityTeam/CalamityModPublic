@@ -1,6 +1,8 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using CalamityMod.Tiles.Furniture.CraftingStations;
+using CalamityMod.Items.Materials;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -52,7 +54,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.AMR>(), damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<AMR>(), damage, knockBack, player.whoAmI, 0f, 0f);
             return false;
         }
     }

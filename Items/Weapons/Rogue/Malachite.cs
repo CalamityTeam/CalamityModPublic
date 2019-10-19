@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.height = 58;
             item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;
-            item.shoot = ModContent.ProjectileType<Projectiles.Malachite>();
+            item.shoot = ModContent.ProjectileType<Malachite>();
             item.shootSpeed = 10f;
             item.Calamity().rogue = true;
             item.Calamity().postMoonLordRarity = 17;
@@ -66,7 +66,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             }
             else
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.Malachite>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Malachite>(), damage, knockBack, player.whoAmI, 0f, 0f);
             }
             return false;
         }

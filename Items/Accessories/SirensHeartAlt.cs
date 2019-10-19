@@ -2,16 +2,16 @@
 using Terraria;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Items
+namespace CalamityMod.Items.Accessories
 {
-    public class SirensHeart : ModItem
+    public class SirensHeartAlt : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Siren's Heart (Blue)");
+            DisplayName.SetDefault("Siren's Heart (Green)");
             Tooltip.SetDefault("Transforms the holder into a siren\n" +
                 "Siren scales give increased defense (gives more defense in hardmode and post-ML)\n" +
-                "Siren sight reveals enemy locations (blue-only)\n" +
+                "Siren sight reveals danger locations (green-only)\n" +
                 "Increases life regen (gives more life regen in hardmode and post-ML)\n" +
                 "Going underwater gives you a buff\n" +
                 "Greatly reduces breath loss in the abyss\n" +
@@ -36,15 +36,15 @@ namespace CalamityMod.Items
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.sirenBoobs = true;
+            modPlayer.sirenBoobsAlt = true;
             if (hideVisual)
             {
-                modPlayer.sirenBoobsHide = true;
+                modPlayer.sirenBoobsAltHide = true;
             }
         }
     }
 
-    public class SirenHead : EquipTexture
+    public class SirenHeadAlt : EquipTexture
     {
         public override bool DrawHead()
         {
@@ -52,7 +52,7 @@ namespace CalamityMod.Items
         }
     }
 
-    public class SirenBody : EquipTexture
+    public class SirenBodyAlt : EquipTexture
     {
         public override bool DrawBody()
         {
@@ -60,7 +60,7 @@ namespace CalamityMod.Items
         }
     }
 
-    public class SirenLegs : EquipTexture
+    public class SirenLegsAlt : EquipTexture
     {
         public override bool DrawLegs()
         {

@@ -1,6 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using CalamityMod.Items.Placeables.Ores;
+using CalamityMod.Tiles.Furniture.CraftingStations;
+using CalamityMod.Items.Materials;
 using Terraria.ID;
 
 namespace CalamityMod.Items.Weapons.Ranged
@@ -29,7 +32,7 @@ Right click to fire two devastating barrages of five empowered fireballs.
             item.width = 64;
             item.height = 84;
             item.UseSound = SoundID.Item5;
-            item.shoot = ModContent.ProjectileType<Projectiles.Drataliornus>();
+            item.shoot = ModContent.ProjectileType<Drataliornus>();
             item.value = Item.buyPrice(5, 0, 0, 0);
             item.rare = 10;
             item.noMelee = true;
@@ -84,7 +87,7 @@ Right click to fire two devastating barrages of five empowered fireballs.
             }
             else
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.Drataliornus>(), 0, 0f, player.whoAmI);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Drataliornus>(), 0, 0f, player.whoAmI);
             }
 
             return false;

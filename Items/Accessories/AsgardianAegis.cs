@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
+using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Accessories

@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Items.Potions;
 
 namespace CalamityMod.Items.Accessories
 {

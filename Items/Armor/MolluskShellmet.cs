@@ -1,13 +1,13 @@
 using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ModLoader;
+using CalamityMod.Items.Materials;
 using Terraria.ID;
 using CalamityMod.Buffs.Summon;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Items.Placeables;
-using CalamityMod.Items.Materials;
 
-namespace CalamityMod.Items
+namespace CalamityMod.Items.Armor
 {
     [AutoloadEquip(EquipType.Head)]
     public class MolluskShellmet : ModItem

@@ -1,12 +1,12 @@
 using Terraria.ModLoader;
-namespace CalamityMod.Items
+namespace CalamityMod.Items.Armor.Vanity
 {
     [AutoloadEquip(EquipType.Head)]
-    public class DesertScourgeMask : ModItem
+    public class AstrumDeusMask : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Desert Scourge Mask");
+            DisplayName.SetDefault("Astrum Deus Mask");
         }
 
         public override void SetDefaults()

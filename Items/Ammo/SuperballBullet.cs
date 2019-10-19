@@ -1,3 +1,4 @@
+using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
 using Terraria.ID;
 using Terraria.ModLoader;

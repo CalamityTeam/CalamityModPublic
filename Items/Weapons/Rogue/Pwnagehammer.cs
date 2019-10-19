@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.height = 68;
             item.value = Item.buyPrice(0, 48, 0, 0);
             item.rare = 6;
-            item.shoot = ModContent.ProjectileType<Projectiles.Pwnagehammer>();
+            item.shoot = ModContent.ProjectileType<Pwnagehammer>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;
         }

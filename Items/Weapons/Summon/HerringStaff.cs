@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.rare = 3;
             item.UseSound = SoundID.Item21;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.Herring>();
+            item.shoot = ModContent.ProjectileType<Herring>();
             item.shootSpeed = 10f;
             item.summon = true;
         }

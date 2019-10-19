@@ -1,5 +1,4 @@
 ﻿using CalamityMod.CalPlayer;
-using CalamityMod.Items;
 using CalamityMod.Localization;
 using CalamityMod.NPCs;
 using CalamityMod.Skies;
@@ -19,6 +18,7 @@ using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.UI;
 using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Accessories.Vanity;
 
 namespace CalamityMod
 {
@@ -140,22 +140,22 @@ namespace CalamityMod
 
         private void LoadClient()
         {
-            AddEquipTexture(new AbyssalDivingSuitHead(), null, EquipType.Head, "AbyssalDivingSuitHead", "CalamityMod/Items/Armor/AbyssalDivingSuit_Head");
-            AddEquipTexture(new AbyssalDivingSuitBody(), null, EquipType.Body, "AbyssalDivingSuitBody", "CalamityMod/Items/Armor/AbyssalDivingSuit_Body", "CalamityMod/Items/Armor/AbyssalDivingSuit_Arms");
-            AddEquipTexture(new AbyssalDivingSuitLegs(), null, EquipType.Legs, "AbyssalDivingSuitLeg", "CalamityMod/Items/Armor/AbyssalDivingSuit_Legs");
+            AddEquipTexture(new AbyssalDivingSuitHead(), null, EquipType.Head, "AbyssalDivingSuitHead", "CalamityMod/Items/Accessories/AbyssalDivingSuit_Head");
+            AddEquipTexture(new AbyssalDivingSuitBody(), null, EquipType.Body, "AbyssalDivingSuitBody", "CalamityMod/Items/Accessories/AbyssalDivingSuit_Body", "CalamityMod/Items/Accessories/AbyssalDivingSuit_Arms");
+            AddEquipTexture(new AbyssalDivingSuitLegs(), null, EquipType.Legs, "AbyssalDivingSuitLeg", "CalamityMod/Items/Accessories/AbyssalDivingSuit_Legs");
 
-            AddEquipTexture(new SirenHead(), null, EquipType.Head, "SirenHead", "CalamityMod/Items/Armor/SirenTrans_Head");
-            AddEquipTexture(new SirenBody(), null, EquipType.Body, "SirenBody", "CalamityMod/Items/Armor/SirenTrans_Body", "CalamityMod/Items/Armor/SirenTrans_Arms");
-            AddEquipTexture(new SirenLegs(), null, EquipType.Legs, "SirenLeg", "CalamityMod/Items/Armor/SirenTrans_Legs");
+            AddEquipTexture(new SirenHead(), null, EquipType.Head, "SirenHead", "CalamityMod/Items/Accessories/SirenTrans_Head");
+            AddEquipTexture(new SirenBody(), null, EquipType.Body, "SirenBody", "CalamityMod/Items/Accessories/SirenTrans_Body", "CalamityMod/Items/Accessories/SirenTrans_Arms");
+            AddEquipTexture(new SirenLegs(), null, EquipType.Legs, "SirenLeg", "CalamityMod/Items/Accessories/SirenTrans_Legs");
 
-            AddEquipTexture(new SirenHeadAlt(), null, EquipType.Head, "SirenHeadAlt", "CalamityMod/Items/Armor/SirenTransAlt_Head");
-            AddEquipTexture(new SirenBodyAlt(), null, EquipType.Body, "SirenBodyAlt", "CalamityMod/Items/Armor/SirenTransAlt_Body", "CalamityMod/Items/Armor/SirenTransAlt_Arms");
-            AddEquipTexture(new SirenLegsAlt(), null, EquipType.Legs, "SirenLegAlt", "CalamityMod/Items/Armor/SirenTransAlt_Legs");
+            AddEquipTexture(new SirenHeadAlt(), null, EquipType.Head, "SirenHeadAlt", "CalamityMod/Items/Accessories/SirenTransAlt_Head");
+            AddEquipTexture(new SirenBodyAlt(), null, EquipType.Body, "SirenBodyAlt", "CalamityMod/Items/Accessories/SirenTransAlt_Body", "CalamityMod/Items/Accessories/SirenTransAlt_Arms");
+            AddEquipTexture(new SirenLegsAlt(), null, EquipType.Legs, "SirenLegAlt", "CalamityMod/Items/Accessories/SirenTransAlt_Legs");
 
-            AddEquipTexture(new PopoHead(), null, EquipType.Head, "PopoHead", "CalamityMod/Items/Permafrost/Popo_Head");
-            AddEquipTexture(new PopoNoselessHead(), null, EquipType.Head, "PopoNoselessHead", "CalamityMod/Items/Permafrost/PopoNoseless_Head");
-            AddEquipTexture(new PopoBody(), null, EquipType.Body, "PopoBody", "CalamityMod/Items/Permafrost/Popo_Body", "CalamityMod/Items/Permafrost/Popo_Arms");
-            AddEquipTexture(new PopoLegs(), null, EquipType.Legs, "PopoLeg", "CalamityMod/Items/Permafrost/Popo_Legs");
+            AddEquipTexture(new PopoHead(), null, EquipType.Head, "PopoHead", "CalamityMod/Items/Accessories/Vanity/Popo_Head");
+            AddEquipTexture(new PopoNoselessHead(), null, EquipType.Head, "PopoNoselessHead", "CalamityMod/Items/Accessories/Vanity/PopoNoseless_Head");
+            AddEquipTexture(new PopoBody(), null, EquipType.Body, "PopoBody", "CalamityMod/Items/Accessories/Vanity/Popo_Body", "CalamityMod/Items/Accessories/Vanity/Popo_Arms");
+            AddEquipTexture(new PopoLegs(), null, EquipType.Legs, "PopoLeg", "CalamityMod/Items/Accessories/Vanity/Popo_Legs");
 
             AstralCactusTexture = ModContent.GetTexture("ExtraTextures/Tiles/AstralCactus");
             AstralCactusGlowTexture = ModContent.GetTexture("ExtraTextures/Tiles/AstralCactusGlow");

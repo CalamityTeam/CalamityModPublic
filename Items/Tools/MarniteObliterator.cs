@@ -1,7 +1,6 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Tools
 {
     public class MarniteObliterator : ModItem

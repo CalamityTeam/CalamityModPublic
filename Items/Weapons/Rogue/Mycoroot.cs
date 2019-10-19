@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.height = 32;
             item.rare = 2;
             item.value = Item.buyPrice(0, 2, 0, 0);
-            item.shoot = ModContent.ProjectileType<Projectiles.Mycoroot>();
+            item.shoot = ModContent.ProjectileType<Mycoroot>();
             item.shootSpeed = 20f;
             item.Calamity().rogue = true;
         }
