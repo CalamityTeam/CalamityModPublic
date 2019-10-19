@@ -1,3 +1,4 @@
+using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -31,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/WyrmScream");
             item.autoReuse = true;
             item.shootSpeed = 5f;
-            item.shoot = ModContent.ProjectileType<Projectiles.EidolicWailSoundwave>();
+            item.shoot = ModContent.ProjectileType<EidolicWailSoundwave>();
             item.Calamity().postMoonLordRarity = 13;
         }
 

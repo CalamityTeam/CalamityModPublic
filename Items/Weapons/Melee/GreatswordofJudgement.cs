@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Items.Weapons.Magic;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -31,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.height = 72;
             item.value = Item.buyPrice(1, 20, 0, 0);
             item.rare = 10;
-            item.shoot = ModContent.ProjectileType<Projectiles.Judgement>();
+            item.shoot = ModContent.ProjectileType<Judgement>();
             item.shootSpeed = 10f;
             item.Calamity().postMoonLordRarity = 12;
         }

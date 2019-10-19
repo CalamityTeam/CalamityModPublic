@@ -2,6 +2,9 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Melee;
+using CalamityMod.Buffs.DamageOverTime;
+
 namespace CalamityMod.Items.Weapons.Melee
 {
     public class Brimlash : ModItem
@@ -27,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.height = 50;
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.rare = 7;
-            item.shoot = ModContent.ProjectileType<Projectiles.Brimlash>();
+            item.shoot = ModContent.ProjectileType<BrimlashProj>();
             item.shootSpeed = 15f;
         }
 

@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Magic;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -29,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.rare = 8;
             item.UseSound = SoundID.Item60;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.TerraRay>();
+            item.shoot = ModContent.ProjectileType<TerraBeam>();
             item.shootSpeed = 6f;
         }
 

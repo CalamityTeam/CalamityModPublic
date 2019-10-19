@@ -3,6 +3,7 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Melee;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -31,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.height = 16;
             item.value = Item.buyPrice(1, 40, 0, 0);
             item.rare = 10;
-            item.shoot = ModContent.ProjectileType<Projectiles.BansheeHook>();
+            item.shoot = ModContent.ProjectileType<BansheeHookProj>();
             item.shootSpeed = 42f;
             item.Calamity().postMoonLordRarity = 13;
         }
@@ -71,7 +72,7 @@ namespace CalamityMod.Items.Weapons.Melee
             num83 *= num84;
             float ai4 = Main.rand.NextFloat() * item.shootSpeed * 0.75f * (float)player.direction;
             Vector2 velocity = new Vector2(num82, num83);
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.BansheeHook>(), damage, knockBack, player.whoAmI, ai4, 0.0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, ai4, 0.0f);
             return false;
         }
     }

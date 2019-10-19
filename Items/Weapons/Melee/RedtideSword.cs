@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Melee;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -27,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.height = 42;
             item.value = Item.buyPrice(0, 2, 0, 0);
             item.rare = 2;
-            item.shoot = ModContent.ProjectileType<Projectiles.Whirlpool>();
+            item.shoot = ModContent.ProjectileType<RedtideWhirlpool>();
             item.shootSpeed = 6f;
         }
 

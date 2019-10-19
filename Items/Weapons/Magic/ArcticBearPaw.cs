@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Magic;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -29,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.rare = 5;
             item.UseSound = SoundID.Item8;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.ArcticBearPaw>();
+            item.shoot = ModContent.ProjectileType<ArcticBearPawProj>();
             item.shootSpeed = 27f;
         }
     }

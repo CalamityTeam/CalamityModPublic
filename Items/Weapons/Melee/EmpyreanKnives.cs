@@ -3,6 +3,7 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Rogue;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -30,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.height = 20;
             item.value = Item.buyPrice(1, 80, 0, 0);
             item.rare = 10;
-            item.shoot = ModContent.ProjectileType<Projectiles.EmpyreanKnives>();
+            item.shoot = ModContent.ProjectileType<EmpyreanKnife>();
             item.shootSpeed = 15f;
             item.Calamity().postMoonLordRarity = 14;
         }

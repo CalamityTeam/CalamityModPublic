@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Melee;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -28,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.height = 68;
             item.value = Item.buyPrice(0, 48, 0, 0);
             item.rare = 6;
-            item.shoot = ModContent.ProjectileType<Projectiles.PwnagehammerMelee>();
+            item.shoot = ModContent.ProjectileType<PwnagehammerMeleeProj>();
             item.shootSpeed = 12f;
         }
 

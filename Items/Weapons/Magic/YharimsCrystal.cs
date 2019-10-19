@@ -2,6 +2,7 @@ using CalamityMod.World;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Magic;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -32,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.knockBack = 0f;
             item.value = Item.buyPrice(1, 80, 0, 0);
             item.rare = 10;
-            item.shoot = ModContent.ProjectileType<Projectiles.YharimsCrystal>();
+            item.shoot = ModContent.ProjectileType<YharimsCrystalPrism>();
             item.shootSpeed = 30f;
             item.Calamity().postMoonLordRarity = 17;
         }
@@ -60,7 +61,7 @@ namespace CalamityMod.Items.Weapons.Magic
             bool yharon = CalamityWorld.downedYharon;
             if (playerName || yharon)
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.YharimsCrystal>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
                 return false;
             }
             else

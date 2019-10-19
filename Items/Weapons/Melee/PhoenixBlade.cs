@@ -2,6 +2,8 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Healing;
+using CalamityMod.Projectiles.Typeless;
 
 namespace CalamityMod.Items.Weapons.Melee
 {

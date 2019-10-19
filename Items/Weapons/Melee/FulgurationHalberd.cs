@@ -1,6 +1,9 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Projectiles.Melee;
+
 namespace CalamityMod.Items.Weapons.Melee
 {
     public class FulgurationHalberd : ModItem
@@ -43,7 +46,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 item.noUseGraphic = true;
                 item.useStyle = 5;
                 item.autoReuse = false;
-                item.shoot = ModContent.ProjectileType<Projectiles.FulgurationHalberd>();
+                item.shoot = ModContent.ProjectileType<FulgurationHalberdProj>();
             }
             else
             {
@@ -58,7 +61,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.FulgurationHalberd>(), damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<FulgurationHalberdProj>(), damage, knockBack, player.whoAmI, 0f, 0f);
             return false;
         }
 

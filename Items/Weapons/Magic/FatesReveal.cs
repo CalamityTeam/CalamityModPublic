@@ -3,6 +3,7 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Magic;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -31,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.rare = 10;
             item.UseSound = SoundID.Item20;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.FatesReveal>();
+            item.shoot = ModContent.ProjectileType<FatesRevealFlame>();
             item.shootSpeed = 1f;
             item.Calamity().postMoonLordRarity = 13;
         }

@@ -2,6 +2,9 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Projectiles.Melee;
+
 namespace CalamityMod.Items.Weapons.Melee
 {
     public class ProfanedSword : ModItem
@@ -42,7 +45,7 @@ namespace CalamityMod.Items.Weapons.Melee
             {
                 item.noMelee = true;
                 item.noUseGraphic = true;
-                item.shoot = ModContent.ProjectileType<Projectiles.ProfanedSword>();
+                item.shoot = ModContent.ProjectileType<ProfanedSwordProj>();
             }
             else
             {
@@ -55,7 +58,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.ProfanedSword>(), damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<ProfanedSwordProj>(), damage, knockBack, player.whoAmI, 0f, 0f);
             return false;
         }
 

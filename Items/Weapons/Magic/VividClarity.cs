@@ -3,6 +3,7 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Magic;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -34,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.rare = 10;
             item.UseSound = SoundID.Item60;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.VividClarity>();
+            item.shoot = ModContent.ProjectileType<VividClarityBeam>();
             item.shootSpeed = 6f;
             item.Calamity().postMoonLordRarity = 15;
         }
@@ -83,7 +84,7 @@ namespace CalamityMod.Items.Weapons.Magic
                 num79 *= num80;
                 float speedX4 = num78 + (float)Main.rand.Next(-40, 41) * 0.02f;
                 float speedY5 = num79 + (float)Main.rand.Next(-40, 41) * 0.02f;
-                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<Projectiles.VividClarity>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<VividClarityBeam>(), damage, knockBack, player.whoAmI, 0f, 0f);
             }
             return false;
         }

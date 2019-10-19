@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Healing;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -37,9 +38,9 @@ namespace CalamityMod.Items.Weapons.Melee
             {
                 float randomSpeedX = (float)Main.rand.Next(3);
                 float randomSpeedY = (float)Main.rand.Next(3, 5);
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, -randomSpeedX, -randomSpeedY, ModContent.ProjectileType<Projectiles.BurntSienna>(), 0, 0f, player.whoAmI);
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, randomSpeedX, -randomSpeedY, ModContent.ProjectileType<Projectiles.BurntSienna>(), 0, 0f, player.whoAmI);
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, -randomSpeedY, ModContent.ProjectileType<Projectiles.BurntSienna>(), 0, 0f, player.whoAmI);
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, -randomSpeedX, -randomSpeedY, ModContent.ProjectileType<BurntSiennaProj>(), 0, 0f, player.whoAmI);
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, randomSpeedX, -randomSpeedY, ModContent.ProjectileType<BurntSiennaProj>(), 0, 0f, player.whoAmI);
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, -randomSpeedY, ModContent.ProjectileType<BurntSiennaProj>(), 0, 0f, player.whoAmI);
             }
         }
 

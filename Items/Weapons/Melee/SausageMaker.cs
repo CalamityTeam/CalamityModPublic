@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Melee;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -29,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.height = 42;
             item.value = Item.buyPrice(0, 4, 0, 0);
             item.rare = 3;
-            item.shoot = ModContent.ProjectileType<Projectiles.SausageMaker>();
+            item.shoot = ModContent.ProjectileType<SausageMakerSpear>();
             item.shootSpeed = 6f;
         }
 

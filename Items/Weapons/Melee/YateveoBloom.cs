@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Melee;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -40,7 +41,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.Calamity().postMoonLordRarity = 21;
             item.value = Item.buyPrice(0, 2, 0, 0);
 
-            item.shoot = ModContent.ProjectileType<Projectiles.YateveoBloom>();
+            item.shoot = ModContent.ProjectileType<YateveoBloomProj>();
             item.shootSpeed = ShootSpeed;
         }
 
@@ -75,7 +76,7 @@ namespace CalamityMod.Items.Weapons.Melee
             if (player.altFunctionUse == 2)
                 Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<YateveoBloomSpear>(), damage, knockBack, player.whoAmI, 0f, 0f);
             else
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.YateveoBloom>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<YateveoBloomProj>(), damage, knockBack, player.whoAmI, 0f, 0f);
             return false;
         }
 

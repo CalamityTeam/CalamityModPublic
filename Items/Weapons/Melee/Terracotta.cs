@@ -2,6 +2,8 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Melee;
+using CalamityMod.Projectiles.Healing;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -38,9 +40,9 @@ namespace CalamityMod.Items.Weapons.Melee
             {
                 float randomSpeedX = (float)Main.rand.Next(3);
                 float randomSpeedY = (float)Main.rand.Next(3, 5);
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, -randomSpeedX, -randomSpeedY, ModContent.ProjectileType<Projectiles.Terracotta>(), 0, 0f, player.whoAmI);
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, randomSpeedX, -randomSpeedY, ModContent.ProjectileType<Projectiles.Terracotta>(), 0, 0f, player.whoAmI);
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, -randomSpeedY, ModContent.ProjectileType<Projectiles.Terracotta>(), 0, 0f, player.whoAmI);
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, -randomSpeedX, -randomSpeedY, ModContent.ProjectileType<TerracottaProj>(), 0, 0f, player.whoAmI);
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, randomSpeedX, -randomSpeedY, ModContent.ProjectileType<TerracottaProj>(), 0, 0f, player.whoAmI);
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, -randomSpeedY, ModContent.ProjectileType<TerracottaProj>(), 0, 0f, player.whoAmI);
             }
             Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<TerracottaExplosion>(), (int)((float)item.damage * player.meleeDamage), knockback, player.whoAmI);
         }

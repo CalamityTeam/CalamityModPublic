@@ -1,3 +1,4 @@
+using CalamityMod.Projectiles.Magic;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -28,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.value = Item.buyPrice(1, 40, 0, 0);
             item.rare = 10;
             item.shootSpeed = 9f;
-            item.shoot = ModContent.ProjectileType<Projectiles.GhastlyVisage>();
+            item.shoot = ModContent.ProjectileType<GhastlyVisageProj>();
             item.Calamity().postMoonLordRarity = 13;
         }
 

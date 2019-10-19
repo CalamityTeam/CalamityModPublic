@@ -1,3 +1,4 @@
+using CalamityMod.Projectiles.Melee;
 using CalamityMod.World;
 using Terraria;
 using Terraria.ModLoader;
@@ -31,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.height = 78;
             item.value = Item.buyPrice(2, 50, 0, 0);
             item.rare = 10;
-            item.shoot = ModContent.ProjectileType<Projectiles.Murasama>();
+            item.shoot = ModContent.ProjectileType<MurasamaProj>();
             item.shootSpeed = 24f;
             item.Calamity().postMoonLordRarity = 15;
         }

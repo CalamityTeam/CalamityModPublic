@@ -3,6 +3,7 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Magic;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -32,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.UseSound = SoundID.Item73;
             item.autoReuse = true;
             item.shootSpeed = 19f;
-            item.shoot = ModContent.ProjectileType<Projectiles.DivineRetribution>();
+            item.shoot = ModContent.ProjectileType<DivineRetributionSpear>();
             item.Calamity().postMoonLordRarity = 21;
         }
 
