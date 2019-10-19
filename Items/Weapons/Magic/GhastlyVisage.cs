@@ -1,7 +1,6 @@
 using CalamityMod.Projectiles.Magic;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Weapons.Magic
 {
     public class GhastlyVisage : ModItem

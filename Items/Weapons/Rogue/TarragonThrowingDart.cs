@@ -1,5 +1,5 @@
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Items.Materials;
 namespace CalamityMod.Items.Weapons.Rogue
 {
     public class TarragonThrowingDart : RogueWeapon

@@ -1,7 +1,6 @@
 ﻿using CalamityMod.CalPlayer;
 using Terraria;
-using Terraria.ModLoader; using CalamityMod.Projectiles.Summon;
-
+using Terraria.ModLoader;
 namespace CalamityMod.Buffs.Summon
 {
     public class Calamari : ModBuff

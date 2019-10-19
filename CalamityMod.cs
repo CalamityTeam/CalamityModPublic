@@ -1,5 +1,4 @@
 ﻿using CalamityMod.CalPlayer;
-using CalamityMod.Items;
 using CalamityMod.Localization;
 using CalamityMod.NPCs;
 using CalamityMod.Skies;

@@ -9,7 +9,6 @@ using Terraria.ModLoader;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.Localization;
-using CalamityMod.Items;
 using Terraria.Utilities;
 
 namespace CalamityMod.NPCs

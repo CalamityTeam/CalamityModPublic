@@ -2,7 +2,7 @@ using CalamityMod.CalPlayer;
 using CalamityMod.NPCs;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Items.Materials;
 using Terraria.ID;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Projectiles.Melee;

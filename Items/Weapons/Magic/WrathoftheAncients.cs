@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Weapons.Magic
 {
     public class WrathoftheAncients : ModItem

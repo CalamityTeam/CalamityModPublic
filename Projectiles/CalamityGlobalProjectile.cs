@@ -12,7 +12,6 @@ using CalamityMod.Projectiles.Healing;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
-using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Buffs.DamageOverTime;
 

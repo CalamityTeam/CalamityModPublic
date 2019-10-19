@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Items.Materials;
 using Terraria.ID;
 using CalamityMod.Projectiles.Melee;
 

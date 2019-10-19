@@ -1,5 +1,5 @@
 ﻿using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Items.Materials;
 using Terraria.DataStructures;
 using Terraria.ID;
 namespace CalamityMod.Items.Potions
