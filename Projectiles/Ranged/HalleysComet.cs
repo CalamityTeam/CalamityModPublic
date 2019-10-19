@@ -1,4 +1,3 @@
-using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -13,8 +12,8 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 20;
-            projectile.height = 20;
+            projectile.width = 12;
+            projectile.height = 12;
             projectile.friendly = true;
             projectile.ignoreWater = true;
             projectile.ranged = true;
@@ -51,36 +50,33 @@ namespace CalamityMod.Projectiles.Ranged
                 }
                 projectile.ai[0] += 1f;
                 int num297 = 176;
-                if (Main.rand.Next(1) == 0)
-                {
-                    for (int num298 = 0; num298 < 1; num298++)
-                    {
-                        int num299 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num297, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 1, default, 1f);
-                        if (Main.rand.Next(3) == 0)
-                        {
-                            Main.dust[num299].noGravity = true;
-                            Main.dust[num299].scale *= 3f;
-                            Dust expr_DBEF_cp_0 = Main.dust[num299];
-                            expr_DBEF_cp_0.velocity.X *= 2f;
-                            Dust expr_DC0F_cp_0 = Main.dust[num299];
-                            expr_DC0F_cp_0.velocity.Y *= 2f;
-                        }
-                        else
-                        {
-                            Main.dust[num299].scale *= 1.5f;
-                        }
-                        Dust expr_DC74_cp_0 = Main.dust[num299];
-                        expr_DC74_cp_0.velocity.X *= 1.2f;
-                        Dust expr_DC94_cp_0 = Main.dust[num299];
-                        expr_DC94_cp_0.velocity.Y *= 1.2f;
-                        Main.dust[num299].scale *= num296;
-                        Main.dust[num299].velocity += projectile.velocity/2;
-                        if (!Main.dust[num299].noGravity)
-                        {
-                            Main.dust[num299].velocity *= 0.5f;
-                        }
-                    }
-                }
+				for (int num298 = 0; num298 < 3; num298++)
+				{
+					int num299 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num297, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 1, default, 1f);
+					if (Main.rand.Next(3) == 0)
+					{
+						Main.dust[num299].noGravity = true;
+						Main.dust[num299].scale *= 3f;
+						Dust expr_DBEF_cp_0 = Main.dust[num299];
+						expr_DBEF_cp_0.velocity.X *= 2f;
+						Dust expr_DC0F_cp_0 = Main.dust[num299];
+						expr_DC0F_cp_0.velocity.Y *= 2f;
+					}
+					else
+					{
+						Main.dust[num299].scale *= 1.5f;
+					}
+					Dust expr_DC74_cp_0 = Main.dust[num299];
+					expr_DC74_cp_0.velocity.X *= 1.2f;
+					Dust expr_DC94_cp_0 = Main.dust[num299];
+					expr_DC94_cp_0.velocity.Y *= 1.2f;
+					Main.dust[num299].scale *= num296;
+					Main.dust[num299].velocity += projectile.velocity;
+					if (!Main.dust[num299].noGravity)
+					{
+						Main.dust[num299].velocity *= 0.5f;
+					}
+				}
             }
             else
             {
