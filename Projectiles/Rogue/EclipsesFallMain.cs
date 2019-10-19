@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            for (int n = 0; n < Main.rand.Next(4, 7); n++) //4 to 6 spears
+            for (int n = 0; n < Main.rand.Next(3, 6); n++) //3 to 5 spears
             {
                 float x = target.position.X + (float)Main.rand.Next(-400, 400);
                 float y = target.position.Y - (float)Main.rand.Next(500, 800);
@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Rogue
                 num16 = (float)num15 / num16;
                 num13 *= num16;
                 num14 *= num16;
-                Projectile.NewProjectile(x, y, num13, num14, ModContent.ProjectileType<EclipsesSmol>(), (int)((double)projectile.damage * 0.1 * Main.rand.Next(7, 10)), (int)((double)projectile.knockBack * 0.1 * Main.rand.Next(7, 10)), projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(x, y, num13, num14, ModContent.ProjectileType<EclipsesSmol>(), (int)((double)projectile.damage * 0.1 * Main.rand.Next(4, 7)), (int)((double)projectile.knockBack * 0.1 * Main.rand.Next(7, 10)), projectile.owner, 0f, 0f);
             }
         }
 
