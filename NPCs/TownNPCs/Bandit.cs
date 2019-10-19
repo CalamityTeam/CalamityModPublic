@@ -36,7 +36,7 @@ namespace CalamityMod.NPCs
             npc.friendly = true;
             npc.lavaImmune = false;
             npc.width = 18;
-            npc.height = 42;
+            npc.height = 44;
             npc.aiStyle = 7;
             npc.damage = 10;
             npc.defense = 15;
@@ -216,7 +216,7 @@ namespace CalamityMod.NPCs
 			if (Main.hardMode)
 			{
 				shop.item[nextSlot].SetDefaults(ModContent.ItemType<SlickCane>());
-			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 25, 0, 0);
+				shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 25, 0, 0);
 				nextSlot++;
 			}
 			if (NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3)

@@ -366,6 +366,15 @@ namespace CalamityMod
             r.AddTile(TileID.MythrilAnvil);
             r.SetResult(ItemID.Muramasa);
             r.AddRecipe();
+
+            // Water Bolt w/ Hardmode Spell Tome
+            r = GetNewRecipe();
+            r.AddIngredient(ItemID.SpellTome);
+            r.AddIngredient(ItemID.Waterleaf, 3);
+            r.AddIngredient(ItemID.WaterCandle);
+            r.AddTile(TileID.Bookcases);
+            r.SetResult(ItemID.WaterBolt);
+            r.AddRecipe();
         }
         #endregion
 
