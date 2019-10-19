@@ -660,7 +660,8 @@ namespace CalamityMod.Projectiles
 
             if (rogue)
             {
-                if (Main.player[projectile.owner].Calamity().moonCrown)
+                // Moon Crown gets overridden by Nanotech
+                if (Main.player[projectile.owner].Calamity().moonCrown && !Main.player[projectile.owner].Calamity().nanotech)
                 {
                     //Summon moon sigils infrequently
                     if (Main.rand.NextBool(300) && projectile.type != ModContent.ProjectileType<MoonSigil>()) 

@@ -33,6 +33,7 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.nanotech = true;
+            modPlayer.moonCrown = true;
             modPlayer.raiderTalisman = true;
             player.Calamity().throwingDamage += 0.1f;
             player.Calamity().throwingCrit += 5;
