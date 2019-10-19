@@ -3,6 +3,7 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Items.Weapons.Rogue;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -52,9 +53,9 @@ namespace CalamityMod.Projectiles.Rogue
                 projectile.tileCollide = true;
             //Decide the range of the boomerang depending on stealth
             if (projectile.Calamity().stealthStrike)
-                ReboundTime = 25f;
+                ReboundTime = 27f;
             else
-                ReboundTime = 50f;
+                ReboundTime = 55f;
             
             // ai[0] stores whether the boomerang is returning. If 0, it isn't. If 1, it is.
             if (projectile.ai[0] == 0f)

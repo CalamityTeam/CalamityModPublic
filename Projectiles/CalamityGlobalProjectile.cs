@@ -5,6 +5,16 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Projectiles.Magic;
+using CalamityMod.Projectiles.Melee;
+using CalamityMod.Projectiles.Typeless;
+using CalamityMod.Projectiles.Healing;
+using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Items.Weapons.Magic;
+using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles
 {
@@ -553,8 +563,8 @@ namespace CalamityMod.Projectiles
                 {
                     if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].ownedProjectileCounts[ProjectileID.Mushroom] < 30)
                     {
-                        if (projectile.type == ModContent.ProjectileType<Nebulash>() || projectile.type == ModContent.ProjectileType<CosmicDischarge>() ||
-                            projectile.type == ModContent.ProjectileType<Mourningstar>() || projectile.type == ProjectileID.SolarWhipSword)
+                        if (projectile.type == ModContent.ProjectileType<Melee.Nebulash>() || projectile.type == ModContent.ProjectileType<Melee.CosmicDischarge>() ||
+                            projectile.type == ModContent.ProjectileType<Melee.Mourningstar>() || projectile.type == ProjectileID.SolarWhipSword)
                         {
                             Vector2 vector24 = Main.OffsetsPlayerOnhand[Main.player[projectile.owner].bodyFrame.Y / 56] * 2f;
                             if (Main.player[projectile.owner].direction != 1)
@@ -629,7 +639,7 @@ namespace CalamityMod.Projectiles
             //will always be friendly and rogue if it has this boost
             if (Main.player[projectile.owner].Calamity().momentumCapacitor && projectile.Calamity().momentumCapacitatorBoost)
             {
-                if (projectile.type != ModContent.ProjectileType<Malachite>() && projectile.type != ModContent.ProjectileType<DuneHopperProjectile>() &&
+                if (projectile.type != ModContent.ProjectileType<Rogue.Malachite>() && projectile.type != ModContent.ProjectileType<DuneHopperProjectile>() &&
                     projectile.velocity.Length() < 3f)
                     projectile.velocity *= 1.025f;
             }
@@ -655,7 +665,7 @@ namespace CalamityMod.Projectiles
                     //Summon moon sigils infrequently
                     if (Main.rand.NextBool(300) && projectile.type != ModContent.ProjectileType<MoonSigil>()) 
                     {
-                        Projectile.NewProjectile(projectile.position, Vector2.Zero, ModContent.ProjectileType<MoonSigil>(), (int)(projectile.damage * 0.05), 0, projectile.owner);
+                        Projectile.NewProjectile(projectile.position, Vector2.Zero, ModContent.ProjectileType<MoonSigil>(), (int)(projectile.damage * 0.2), 0, projectile.owner);
                     }
                 }
             }

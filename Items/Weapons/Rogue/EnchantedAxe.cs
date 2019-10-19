@@ -2,6 +2,8 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Items.Materials;
+using CalamityMod.Projectiles.Rogue;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -18,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SafeSetDefaults()
         {
             item.width = 40;
-            item.damage = 30;
+            item.damage = 23;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useAnimation = 15;
@@ -32,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.value = 1000;
             item.rare = 3;
             item.value = Item.buyPrice(0, 4, 0, 0);
-            item.shoot = ModContent.ProjectileType<Projectiles.EnchantedAxe>();
+            item.shoot = ModContent.ProjectileType<Projectiles.Rogue.EnchantedAxe>();
             item.shootSpeed = 30f;
             item.Calamity().rogue = true;
         }

@@ -1702,10 +1702,10 @@ namespace CalamityMod.CalPlayer
         #region HotKeys
         public override void ProcessTriggers(TriggersSet triggersSet)
         {
-            if (CalamityMod.MomentumCapacitatorHotkey.JustPressed && momentumCapacitor && Main.myPlayer == player.whoAmI && player.Calamity().rogueStealth >= player.Calamity().rogueStealthMax * 0.25f &&
+            if (CalamityMod.MomentumCapacitatorHotkey.JustPressed && momentumCapacitor && Main.myPlayer == player.whoAmI && player.Calamity().rogueStealth >= player.Calamity().rogueStealthMax * 0.3f &&
                 CalamityUtils.CountProjectiles(ModContent.ProjectileType<MomentumCapacitorOrb>()) == 0)
             {
-                player.Calamity().rogueStealth -= player.Calamity().rogueStealthMax * 0.25f;
+                player.Calamity().rogueStealth -= player.Calamity().rogueStealthMax * 0.3f;
                 Vector2 fieldSpawnCenter = new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition;
                 Projectile.NewProjectile(fieldSpawnCenter, Vector2.Zero, ModContent.ProjectileType<MomentumCapacitorOrb>(), 0, 0f, player.whoAmI, 0f, 0f);
             }
@@ -4548,16 +4548,6 @@ namespace CalamityMod.CalPlayer
                     player.Calamity().throwingVelocity += 0.1f;
                 }
             }
-            if (gloveOfPrecision)
-            {
-                player.Calamity().throwingCrit += 12;
-                player.Calamity().throwingVelocity *= 1.2f;
-            }
-            if (gloveOfRecklessness)
-            {
-                player.Calamity().throwingVelocity *= 1.2f;
-                player.Calamity().throwingDamage *= 0.9f;
-            }
             if (tarraSummon)
             {
                 int lifeCounter = 0;
@@ -4802,7 +4792,7 @@ namespace CalamityMod.CalPlayer
                     Rectangle rect = nPC.getRect();
                     if (rectangle.Intersects(rect) && (nPC.noTileCollide || player.CanHit(nPC)))
                     {
-                        if (Main.rand.Next(0, 10) == 0)
+                        if (Main.rand.Next(0, 10) == 0 && player.immuneTime <= 0)
                         {
                             AbyssMirrorEvade();
                             EclipseMirrorEvade();
@@ -4896,8 +4886,8 @@ namespace CalamityMod.CalPlayer
             }
             if (ursaSergeant)
             {
-                runAccMult *= 0.8f;
-                runSpeedMult *= 0.8f;
+                runAccMult *= 0.65f;
+                runSpeedMult *= 0.65f;
             }
             if (elysianGuard)
             {
@@ -9686,8 +9676,7 @@ namespace CalamityMod.CalPlayer
 
             // Stealth gen acceleration
             float stealthScaleCap = eclipseMirror ? 40f : 25f;
-
-            if (standstill && (eclipseMirror || darkGodSheath))
+            if (standstill && (eclipseMirror || darkGodSheath) && player.itemAnimation == 0)
             {
                 if (eclipseMirror)
                     stealthGenAcceleration = stealthGenAcceleration < stealthScaleCap ? stealthGenAcceleration * 1.2f : stealthScaleCap;

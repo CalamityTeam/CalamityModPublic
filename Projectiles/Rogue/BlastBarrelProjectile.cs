@@ -4,6 +4,7 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Items.Weapons.Rogue;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -84,6 +85,9 @@ namespace CalamityMod.Projectiles.Rogue
                         BlastBarrel.BaseDamage, 1f, projectile.owner);
                     Main.projectile[fireIndex].thrown = false;
                     Main.projectile[fireIndex].Calamity().rogue = true;
+                    Main.projectile[fireIndex].penetrate = -1;
+                    Main.projectile[fireIndex].usesLocalNPCImmunity = true;
+                    Main.projectile[fireIndex].localNPCHitCooldown = -1;
                 }
             }
             projectile.ai[1]--;

@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Rogue;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -15,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.damage = 50;
+            item.damage = 130;
             item.knockBack = 4;
             item.crit = 18;
             item.noMelee = true;
@@ -26,8 +27,8 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.height = 27;
             item.useStyle = 1;
             item.UseSound = SoundID.Item1;
-            item.useTime = 30;
-            item.useAnimation = 30;
+            item.useTime = 20;
+            item.useAnimation = 20;
             item.value = Item.buyPrice(0, 0, 1, 0);
             item.rare = 3;
             item.shootSpeed = 10.5f;

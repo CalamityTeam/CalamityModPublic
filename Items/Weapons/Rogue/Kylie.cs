@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Rogue;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -53,19 +54,6 @@ namespace CalamityMod.Items.Weapons.Rogue
                 return false;
             }
             return true;
-        }
-
-        public override bool CanUseItem(Player player)
-        {
-            //If you have more than one boomerang, you cant shoot another
-            int MAX = 1;
-            int launched = 0;
-            foreach (Projectile projectile in Main.projectile)
-                if (projectile.type == item.shoot && projectile.owner == item.owner && projectile.active)
-                {
-                    launched++;
-                }
-            return (launched >= MAX) ? false : true;
         }
     }
 }
