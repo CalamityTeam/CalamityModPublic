@@ -86,17 +86,17 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "SunGodStaff");
-            recipe.AddIngredient(null, "AncientIceChunk");
-            recipe.AddIngredient(null, "ElementalAxe");
-            recipe.AddIngredient(null, "EnergyStaff");
-            recipe.AddIngredient(null, "NightmareFuel", 5);
-            recipe.AddIngredient(null, "EndothermicEnergy", 5);
-            recipe.AddIngredient(null, "CosmiliteBar", 5);
-            recipe.AddIngredient(null, "DarksunFragment", 5);
-            recipe.AddIngredient(null, "HellcasterFragment", 3);
-            recipe.AddIngredient(null, "Phantoplasm", 5);
-            recipe.AddIngredient(null, "AuricOre", 25);
+            recipe.AddIngredient(ModContent.ItemType<SunGodStaff>());
+            recipe.AddIngredient(ModContent.ItemType<AncientIceChunk>());
+            recipe.AddIngredient(ModContent.ItemType<ElementalAxe>());
+            recipe.AddIngredient(ModContent.ItemType<EnergyStaff>());
+            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<HellcasterFragment>(), 3);
+            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<AuricOre>(), 25);
             recipe.AddTile(null, "DraedonsForge");
             recipe.SetResult(this);
             recipe.AddRecipe();

@@ -46,10 +46,10 @@ namespace CalamityMod.Items.Weapons.Magic
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.TheAxe);
             recipe.AddIngredient(ItemID.MagicalHarp);
-            recipe.AddIngredient(null, "SirensSong");
-            recipe.AddIngredient(null, "CosmiliteBar", 10);
-            recipe.AddIngredient(null, "NightmareFuel", 10);
-            recipe.AddIngredient(null, "EndothermicEnergy", 10);
+            recipe.AddIngredient(ModContent.ItemType<SirensSong>());
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 10);
             recipe.AddTile(null, "DraedonsForge");
             recipe.SetResult(this);
             recipe.AddRecipe();

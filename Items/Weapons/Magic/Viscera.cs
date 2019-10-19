@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "BloodstoneCore", 4);
+            recipe.AddIngredient(ModContent.ItemType<BloodstoneCore>(), 4);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

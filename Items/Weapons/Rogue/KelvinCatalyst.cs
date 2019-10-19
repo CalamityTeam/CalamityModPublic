@@ -42,20 +42,20 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "IceStar", 200);
+            recipe.AddIngredient(ModContent.ItemType<IceStar>(), 200);
             recipe.AddIngredient(ItemID.SoulofMight, 30);
-            recipe.AddIngredient(null, "CryoBar", 20);
-            recipe.AddIngredient(null, "EssenceofEleum", 10);
-            recipe.AddIngredient(null, "Avalanche", 2);
-            recipe.AddIngredient(null, "BittercoldStaff", 2);
-            recipe.AddIngredient(null, "EffluviumBow", 2);
-            recipe.AddIngredient(null, "GlacialCrusher", 2);
-            recipe.AddIngredient(null, "Icebreaker", 2);
-            recipe.AddIngredient(null, "SnowstormStaff", 2);
-            recipe.AddIngredient(null, "SoulofCryogen", 2);
-            recipe.AddIngredient(null, "FrostFlare", 2);
+            recipe.AddIngredient(ModContent.ItemType<CryoBar>(), 20);
+            recipe.AddIngredient(ModContent.ItemType<EssenceofEleum>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<Avalanche>(), 2);
+            recipe.AddIngredient(ModContent.ItemType<BittercoldStaff>(), 2);
+            recipe.AddIngredient(ModContent.ItemType<EffluviumBow>(), 2);
+            recipe.AddIngredient(ModContent.ItemType<GlacialCrusher>(), 2);
+            recipe.AddIngredient(ModContent.ItemType<Icebreaker>(), 2);
+            recipe.AddIngredient(ModContent.ItemType<SnowstormStaff>(), 2);
+            recipe.AddIngredient(ModContent.ItemType<SoulofCryogen>(), 2);
+            recipe.AddIngredient(ModContent.ItemType<FrostFlare>(), 2);
             recipe.AddIngredient(ItemID.FrostCore, 2);
-            recipe.AddIngredient(null, "CryoStone");
+            recipe.AddIngredient(ModContent.ItemType<CryoStone>());
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

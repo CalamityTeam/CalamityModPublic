@@ -99,9 +99,9 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.VampireKnives);
-            recipe.AddIngredient(null, "CosmiliteBar", 10);
-            recipe.AddIngredient(null, "DarksunFragment", 10);
-            recipe.AddIngredient(null, "TheEmpyrean");
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<TheEmpyrean>());
             recipe.AddTile(null, "DraedonsForge");
             recipe.SetResult(this);
             recipe.AddRecipe();

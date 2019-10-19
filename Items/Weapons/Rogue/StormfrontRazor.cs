@@ -39,9 +39,9 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "Cinquedea");
+            recipe.AddIngredient(ModContent.ItemType<Cinquedea>());
             recipe.AddIngredient(ItemID.HallowedBar, 6);
-            recipe.AddIngredient(null, "EssenceofCinder", 4);
+            recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>(), 4);
             recipe.AddIngredient(ItemID.Feather, 8);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

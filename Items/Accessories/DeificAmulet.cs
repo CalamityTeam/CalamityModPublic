@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Accessories
             recipe.AddIngredient(ItemID.PanicNecklace);
             recipe.AddIngredient(ItemID.SharkToothNecklace);
             recipe.AddIngredient(ItemID.StarVeil);
-            recipe.AddIngredient(null, "Stardust", 25);
+            recipe.AddIngredient(ModContent.ItemType<Stardust>(), 25);
             recipe.AddIngredient(ItemID.MeteoriteBar, 25);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

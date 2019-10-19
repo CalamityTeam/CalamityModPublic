@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Placeables.FurnitureProfaned
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "ProfanedRock", 4);
+            recipe.AddIngredient(ModContent.ItemType<ProfanedRock>(), 4);
             recipe.SetResult(this, 1);
             recipe.AddTile(null, "ProfanedBasin");
             recipe.AddRecipe();

@@ -73,10 +73,10 @@ namespace CalamityMod.Items.Weapons.Typeless
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "PlasmaRod");
-            recipe.AddIngredient(null, "Zapper");
-            recipe.AddIngredient(null, "SpectreRifle");
-            recipe.AddIngredient(null, "TwistingNether", 3);
+            recipe.AddIngredient(ModContent.ItemType<PlasmaRod>());
+            recipe.AddIngredient(ModContent.ItemType<Zapper>());
+            recipe.AddIngredient(ModContent.ItemType<SpectreRifle>());
+            recipe.AddIngredient(ModContent.ItemType<TwistingNether>(), 3);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

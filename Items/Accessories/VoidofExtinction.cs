@@ -49,8 +49,8 @@ namespace CalamityMod.Items.Accessories
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.ObsidianRose);
-            recipe.AddIngredient(null, "Gehenna");
-            recipe.AddIngredient(null, "CalamityRing");
+            recipe.AddIngredient(ModContent.ItemType<Gehenna>());
+            recipe.AddIngredient(ModContent.ItemType<CalamityRing>());
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

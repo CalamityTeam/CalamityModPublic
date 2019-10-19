@@ -40,13 +40,13 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "RogueEmblem");
-            recipe.AddIngredient(null, "RaidersTalisman");
+            recipe.AddIngredient(ModContent.ItemType<RogueEmblem>());
+            recipe.AddIngredient(ModContent.ItemType<RaidersTalisman>());
             recipe.AddIngredient(ItemID.MartianConduitPlating, 250);
             recipe.AddIngredient(ItemID.Nanites, 500);
-            recipe.AddIngredient(null, "Phantoplasm", 20);
-            recipe.AddIngredient(null, "NightmareFuel", 20);
-            recipe.AddIngredient(null, "EndothermicEnergy", 20);
+            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 20);
+            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 20);
+            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 20);
             recipe.AddTile(null, "DraedonsForge");
             recipe.SetResult(this);
             recipe.AddRecipe();

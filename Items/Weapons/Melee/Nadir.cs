@@ -51,11 +51,11 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "SpatialLance");
-            recipe.AddIngredient(null, "TwistingNether", 5);
-            recipe.AddIngredient(null, "DarksunFragment", 15);
-            recipe.AddIngredient(null, "Phantoplasm", 15);
-            recipe.AddIngredient(null, "CosmiliteBar", 10);
+            recipe.AddIngredient(ModContent.ItemType<SpatialLance>());
+            recipe.AddIngredient(ModContent.ItemType<TwistingNether>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 15);
+            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 15);
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
             recipe.AddTile(null, "DraedonsForge");
             recipe.SetResult(this);
             recipe.AddRecipe();

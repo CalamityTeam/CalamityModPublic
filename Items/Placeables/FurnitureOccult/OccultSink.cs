@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Placeables.FurnitureOccult
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "OccultStone", 6);
+            recipe.AddIngredient(ModContent.ItemType<OccultStone>(), 6);
             recipe.AddIngredient(ItemID.WaterBucket);
             recipe.SetResult(this, 1);
             recipe.AddTile(null, "DraedonsForge");

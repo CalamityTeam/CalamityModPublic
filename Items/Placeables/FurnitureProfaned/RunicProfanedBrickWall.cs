@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Placeables.FurnitureProfaned
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "RunicProfanedBrick");
+            recipe.AddIngredient(ModContent.ItemType<RunicProfanedBrick>());
             recipe.SetResult(this, 4);
             recipe.AddTile(18);
             recipe.AddRecipe();

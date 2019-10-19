@@ -38,8 +38,8 @@ namespace CalamityMod.Items
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.RodofDiscord);
             recipe.AddIngredient(ItemID.FragmentStardust, 30);
-            recipe.AddIngredient(null, "ExodiumClusterOre", 10);
-            recipe.AddIngredient(null, "Cinderplate", 5);
+            recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<Cinderplate>(), 5);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

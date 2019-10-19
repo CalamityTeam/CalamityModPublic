@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "EssenceofEleum", 3);
+            recipe.AddIngredient(ModContent.ItemType<EssenceofEleum>(), 3);
             recipe.AddIngredient(ItemID.CrystalShard, 15);
             recipe.AddIngredient(ItemID.FrostStaff);
             recipe.AddTile(TileID.MythrilAnvil);

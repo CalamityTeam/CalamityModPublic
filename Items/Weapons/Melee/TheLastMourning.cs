@@ -100,10 +100,10 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             ModRecipe r = new ModRecipe(mod);
-            r.AddIngredient(null, "BalefulHarvester");
+            r.AddIngredient(ModContent.ItemType<BalefulHarvester>());
             r.AddIngredient(ItemID.SoulofNight, 30);
-            r.AddIngredient(null, "ReaperTooth", 5);
-            r.AddIngredient(null, "RuinousSoul", 3);
+            r.AddIngredient(ModContent.ItemType<ReaperTooth>(), 5);
+            r.AddIngredient(ModContent.ItemType<RuinousSoul>(), 3);
             r.AddTile(TileID.LunarCraftingStation);
             r.SetResult(this);
             r.AddRecipe();

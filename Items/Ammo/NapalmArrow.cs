@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Ammo
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "EssenceofChaos");
+            recipe.AddIngredient(ModContent.ItemType<EssenceofChaos>());
             recipe.AddIngredient(ItemID.Torch);
             recipe.AddIngredient(ItemID.WoodenArrow, 250);
             recipe.AddTile(TileID.MythrilAnvil);

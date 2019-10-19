@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "GleamingMagnolia");
+            recipe.AddIngredient(ModContent.ItemType<GleamingMagnolia>());
             recipe.AddIngredient(ItemID.FragmentNebula, 10);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);

@@ -39,8 +39,8 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.LunarFlareBook);
-            recipe.AddIngredient(null, "WrathoftheAncients");
-            recipe.AddIngredient(null, "ShadowspecBar", 5);
+            recipe.AddIngredient(ModContent.ItemType<WrathoftheAncients>());
+            recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
             recipe.AddTile(null, "DraedonsForge");
             recipe.SetResult(this);
             recipe.AddRecipe();

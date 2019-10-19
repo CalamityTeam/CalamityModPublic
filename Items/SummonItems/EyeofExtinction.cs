@@ -67,14 +67,14 @@ namespace CalamityMod.Items.SummonItems
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "AuricOre", 50);
-            recipe.AddIngredient(null, "NightmareFuel", 30);
-            recipe.AddIngredient(null, "EndothermicEnergy", 30);
-            recipe.AddIngredient(null, "DarksunFragment", 25);
-            recipe.AddIngredient(null, "CosmiliteBar", 15);
-            recipe.AddIngredient(null, "Phantoplasm", 15);
-            recipe.AddIngredient(null, "HellcasterFragment", 5);
-            recipe.AddIngredient(null, "BlightedEyeball");
+            recipe.AddIngredient(ModContent.ItemType<AuricOre>(), 50);
+            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 30);
+            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 30);
+            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 25);
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 15);
+            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 15);
+            recipe.AddIngredient(ModContent.ItemType<HellcasterFragment>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<BlightedEyeball>());
             recipe.AddTile(null, "DraedonsForge");
             recipe.SetResult(this);
             recipe.AddRecipe();

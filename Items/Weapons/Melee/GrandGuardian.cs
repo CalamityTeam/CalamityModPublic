@@ -77,9 +77,9 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "MajesticGuard");
-            recipe.AddIngredient(null, "BarofLife", 10);
-            recipe.AddIngredient(null, "GalacticaSingularity", 3);
+            recipe.AddIngredient(ModContent.ItemType<MajesticGuard>());
+            recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 3);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

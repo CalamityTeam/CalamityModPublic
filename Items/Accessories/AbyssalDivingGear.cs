@@ -47,9 +47,9 @@ namespace CalamityMod.Items.Accessories
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.ArcticDivingGear);
-            recipe.AddIngredient(null, "DepthCharm");
-            recipe.AddIngredient(null, "DepthCells", 10);
-            recipe.AddIngredient(null, "Lumenite", 10);
+            recipe.AddIngredient(ModContent.ItemType<DepthCharm>());
+            recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 10);
             recipe.AddTile(TileID.TinkerersWorkbench);
             recipe.SetResult(this);
             recipe.AddRecipe();

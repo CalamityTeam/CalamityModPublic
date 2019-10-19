@@ -52,9 +52,9 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "Starfleet");
-            recipe.AddIngredient(null, "CosmiliteBar", 10);
-            recipe.AddIngredient(null, "ExodiumClusterOre", 15);
+            recipe.AddIngredient(ModContent.ItemType<Starfleet>());
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 15);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

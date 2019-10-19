@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Obsidian, 20);
-            recipe.AddIngredient(null, "TrueShadowScale", 15);
+            recipe.AddIngredient(ModContent.ItemType<TrueShadowScale>(), 15);
             recipe.AddIngredient(ItemID.HellstoneBar, 10);
             recipe.AddIngredient(ItemID.SoulofNight, 10);
             recipe.AddTile(TileID.MythrilAnvil);

@@ -38,8 +38,8 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.SpectreStaff);
-            recipe.AddIngredient(null, "RuinousSoul", 2);
-            recipe.AddIngredient(null, "DarkPlasma");
+            recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 2);
+            recipe.AddIngredient(ModContent.ItemType<DarkPlasma>());
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

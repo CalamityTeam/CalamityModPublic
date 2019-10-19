@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAbyss
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Bone, 4);
-            recipe.AddIngredient(null, "SmoothAbyssGravel", 15);
+            recipe.AddIngredient(ModContent.ItemType<SmoothAbyssGravel>(), 15);
             recipe.AddIngredient(ItemID.Book);
             recipe.SetResult(this, 1);
             recipe.AddTile(null, "VoidCondenser");

@@ -48,7 +48,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "UnholyCore", 5);
+            recipe.AddIngredient(ModContent.ItemType<UnholyCore>(), 5);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

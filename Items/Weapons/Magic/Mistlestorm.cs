@@ -58,8 +58,8 @@ namespace CalamityMod.Items.Weapons.Magic
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Razorpine);
             recipe.AddIngredient(ItemID.LeafBlower);
-            recipe.AddIngredient(null, "UeliaceBar", 7);
-            recipe.AddIngredient(null, "DarkPlasma");
+            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 7);
+            recipe.AddIngredient(ModContent.ItemType<DarkPlasma>());
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

@@ -55,9 +55,9 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Boomstick);
-            recipe.AddIngredient(null, "SeaPrism", 5);
-            recipe.AddIngredient(null, "PrismShard", 5);
-            recipe.AddIngredient(null, "Navystone", 25);
+            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<PrismShard>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<Navystone>(), 25);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

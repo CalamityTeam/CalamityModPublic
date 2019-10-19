@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "ExcaliburShortsword");
+            recipe.AddIngredient(ModContent.ItemType<ExcaliburShortsword>());
             recipe.AddIngredient(ItemID.BrokenHeroSword);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

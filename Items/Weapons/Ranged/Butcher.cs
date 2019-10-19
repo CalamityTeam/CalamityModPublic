@@ -45,8 +45,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Shotgun);
-            recipe.AddIngredient(null, "EssenceofChaos", 4);
-            recipe.AddIngredient(null, "EssenceofEleum", 4);
+            recipe.AddIngredient(ModContent.ItemType<EssenceofChaos>(), 4);
+            recipe.AddIngredient(ModContent.ItemType<EssenceofEleum>(), 4);
             recipe.AddIngredient(ItemID.IllegalGunParts);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "PurifiedGel", 30);
+            recipe.AddIngredient(ModContent.ItemType<PurifiedGel>(), 30);
             recipe.AddIngredient(ItemID.Gel, 35);
             recipe.AddIngredient(ItemID.HellstoneBar, 10);
             recipe.AddTile(TileID.Anvils);

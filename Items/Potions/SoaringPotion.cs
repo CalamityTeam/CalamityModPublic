@@ -34,13 +34,13 @@ namespace CalamityMod.Items.Potions
             recipe.AddIngredient(ItemID.BottledWater);
             recipe.AddIngredient(ItemID.Feather);
             recipe.AddIngredient(ItemID.SoulofFlight);
-            recipe.AddIngredient(null, "EssenceofCinder");
+            recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>());
             recipe.AddTile(TileID.AlchemyTable);
             recipe.SetResult(this);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.BottledWater);
-            recipe.AddIngredient(null, "BloodOrb", 30);
+            recipe.AddIngredient(ModContent.ItemType<BloodOrb>(), 30);
             recipe.AddTile(TileID.AlchemyTable);
             recipe.SetResult(this);
             recipe.AddRecipe();

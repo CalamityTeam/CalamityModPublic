@@ -38,9 +38,9 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.RainbowGun);
-            recipe.AddIngredient(null, "MeldiateBar", 5);
-            recipe.AddIngredient(null, "CoreofCalamity");
-            recipe.AddIngredient(null, "BarofLife", 5);
+            recipe.AddIngredient(ModContent.ItemType<MeldiateBar>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>());
+            recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 5);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Tools
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "DraedonBar", 9);
+            recipe.AddIngredient(ModContent.ItemType<DraedonBar>(), 9);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

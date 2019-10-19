@@ -51,7 +51,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             ModRecipe r = new ModRecipe(mod);
             r.SetResult(this);
-            r.AddIngredient(null, "TruePaladinsHammerMelee");
+            r.AddIngredient(ModContent.ItemType<TruePaladinsHammerMelee>());
             r.AddIngredient(ItemID.LunarBar, 10);
             r.AddIngredient(ItemID.FragmentSolar, 10);
             r.AddIngredient(ItemID.FragmentNebula, 10);

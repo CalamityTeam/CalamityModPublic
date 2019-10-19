@@ -85,7 +85,7 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "Magnum");
+            recipe.AddIngredient(ModContent.ItemType<Magnum>());
             recipe.AddIngredient(ItemID.SoulofMight, 20);
             recipe.AddIngredient(ItemID.SoulofSight, 20);
             recipe.AddIngredient(ItemID.SoulofFright, 20);

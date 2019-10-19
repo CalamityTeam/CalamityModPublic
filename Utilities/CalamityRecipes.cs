@@ -41,14 +41,14 @@ namespace CalamityMod
 
             // Fallen Star
             r = GetNewRecipe();
-            r.AddIngredient(null, "Stardust", 5);
+            r.AddIngredient(ModContent.ItemType<Stardust>(), 5);
             r.AddTile(TileID.MythrilAnvil);
             r.SetResult(ItemID.FallenStar);
             r.AddRecipe();
 
             // Ectoplasm from Ectoblood
             r = GetNewRecipe();
-            r.AddIngredient(null, "Ectoblood", 3);
+            r.AddIngredient(ModContent.ItemType<Ectoblood>(), 3);
             r.AddTile(TileID.MythrilAnvil);
             r.SetResult(ItemID.Ectoplasm);
             r.AddRecipe();
@@ -73,29 +73,29 @@ namespace CalamityMod
 
             // Life Fruit
             r = GetNewRecipe();
-            r.AddIngredient(null, "PlantyMush", 10);
-            r.AddIngredient(null, "LivingShard");
+            r.AddIngredient(ModContent.ItemType<PlantyMush>(), 10);
+            r.AddIngredient(ModContent.ItemType<LivingShard>());
             r.AddTile(TileID.MythrilAnvil);
             r.SetResult(ItemID.LifeFruit);
             r.AddRecipe();
 
             // Cooked Fish
             r = GetNewRecipe();
-            r.AddIngredient(null, "TwinklingPollox");
+            r.AddIngredient(ModContent.ItemType<TwinklingPollox>());
             r.AddTile(TileID.CookingPots);
             r.SetResult(2425);
             r.AddRecipe();
 
             // Cooked Shrimp
             r = GetNewRecipe();
-            r.AddIngredient(null, "ProcyonidPrawn");
+            r.AddIngredient(ModContent.ItemType<ProcyonidPrawn>());
             r.AddTile(TileID.CookingPots);
             r.SetResult(2426);
             r.AddRecipe();
 
             // Glass
             r = GetNewRecipe();
-            r.AddIngredient(null, "AstralSand", 2);
+            r.AddIngredient(ModContent.ItemType<AstralSand>(), 2);
             r.AddTile(TileID.Furnaces);
             r.SetResult(ItemID.Glass);
             r.AddRecipe();
@@ -176,7 +176,7 @@ namespace CalamityMod
             foreach (var potion in potions)
             {
                 r = GetNewRecipe();
-                r.AddIngredient(null, "BloodOrb", 10);
+                r.AddIngredient(ModContent.ItemType<BloodOrb>(), 10);
                 r.AddIngredient(ItemID.BottledWater);
                 r.AddTile(TileID.AlchemyTable);
                 r.SetResult(potion);
@@ -256,14 +256,14 @@ namespace CalamityMod
             // Guide Voodoo Doll
             ModRecipe r = GetNewRecipe();
             r.AddIngredient(ItemID.Leather, 2);
-            r.AddIngredient(null, "FetidEssence", 2);
+            r.AddIngredient(ModContent.ItemType<FetidEssence>(), 2);
             r.AddTile(TileID.Hellforge);
             r.SetResult(ItemID.GuideVoodooDoll);
             r.AddRecipe();
 
             r = GetNewRecipe();
             r.AddIngredient(ItemID.Leather, 2);
-            r.AddIngredient(null, "BloodlettingEssence", 2);
+            r.AddIngredient(ModContent.ItemType<BloodlettingEssence>(), 2);
             r.AddTile(TileID.Hellforge);
             r.SetResult(ItemID.GuideVoodooDoll);
             r.AddRecipe();
@@ -281,7 +281,7 @@ namespace CalamityMod
             // Lihzahrd Power Cell (NOT Calamity's Old Power Cell)
             r = GetNewRecipe();
             r.AddIngredient(ItemID.LihzahrdBrick, 15);
-            r.AddIngredient(null, "CoreofCinder");
+            r.AddIngredient(ModContent.ItemType<CoreofCinder>());
             r.AddTile(TileID.LihzahrdFurnace);
             r.SetResult(ItemID.LihzahrdPowerCell);
             r.AddRecipe();
@@ -329,7 +329,7 @@ namespace CalamityMod
             r = GetNewRecipe();
             r.AddIngredient(ItemID.GoldBroadsword);
             r.AddIngredient(ItemID.FallenStar, 10);
-            r.AddIngredient(null, "VictoryShard", 3);
+            r.AddIngredient(ModContent.ItemType<VictoryShard>(), 3);
             r.AddTile(TileID.Anvils);
             r.SetResult(ItemID.Starfury);
             r.AddRecipe();
@@ -338,14 +338,14 @@ namespace CalamityMod
             r = GetNewRecipe();
             r.AddIngredient(ItemID.PlatinumBroadsword);
             r.AddIngredient(ItemID.FallenStar, 10);
-            r.AddIngredient(null, "VictoryShard", 3);
+            r.AddIngredient(ModContent.ItemType<VictoryShard>(), 3);
             r.AddTile(TileID.Anvils);
             r.SetResult(ItemID.Starfury);
             r.AddRecipe();
 
             // Enchanted Sword (requires Hardmode materials)
             r = GetNewRecipe();
-            r.AddIngredient(null, "VictoryShard", 10);
+            r.AddIngredient(ModContent.ItemType<VictoryShard>(), 10);
             r.AddIngredient(ItemID.SoulofLight, 15);
             r.AddIngredient(ItemID.UnicornHorn, 3);
             r.AddIngredient(ItemID.LightShard);
@@ -400,7 +400,7 @@ namespace CalamityMod
 
             // Sandstorm in a Bottle
             r = GetNewRecipe();
-            r.AddIngredient(null, "DesertFeather", 10);
+            r.AddIngredient(ModContent.ItemType<DesertFeather>(), 10);
             r.AddIngredient(ItemID.Feather, 6);
             r.AddIngredient(ItemID.Bottle);
             r.AddIngredient(ItemID.SandBlock, 70);
@@ -544,7 +544,7 @@ namespace CalamityMod
             // Armor Polish (broken armor)
             r = GetNewRecipe();
             r.AddIngredient(ItemID.Bone, 50);
-            r.AddIngredient(null, "AncientBoneDust", 3);
+            r.AddIngredient(ModContent.ItemType<AncientBoneDust>(), 3);
             r.AddTile(TileID.MythrilAnvil);
             r.SetResult(ItemID.ArmorPolish);
             r.AddRecipe();
@@ -561,7 +561,7 @@ namespace CalamityMod
             // Bezoar (poison)
             r = GetNewRecipe();
             r.AddIngredient(ItemID.Stinger, 15);
-            r.AddIngredient(null, "MurkyPaste");
+            r.AddIngredient(ModContent.ItemType<MurkyPaste>());
             r.AddTile(TileID.Anvils);
             r.SetResult(ItemID.Bezoar);
             r.AddRecipe();
@@ -580,7 +580,7 @@ namespace CalamityMod
             r.AddIngredient(ItemID.Waterleaf, 5);
             r.AddIngredient(ItemID.Blinkroot, 5);
             r.AddIngredient(ItemID.Daybloom, 5);
-            r.AddIngredient(null, "BeetleJuice", 3);
+            r.AddIngredient(ModContent.ItemType<BeetleJuice>(), 3);
             r.AddTile(TileID.MythrilAnvil);
             r.SetResult(ItemID.Vitamins);
             r.AddRecipe();
@@ -628,7 +628,7 @@ namespace CalamityMod
         {
             // Avenger Emblem made with Rogue Emblem
             ModRecipe r = GetNewRecipe();
-            r.AddIngredient(null, "RogueEmblem");
+            r.AddIngredient(ModContent.ItemType<RogueEmblem>());
             r.AddIngredient(ItemID.SoulofMight, 5);
             r.AddIngredient(ItemID.SoulofSight, 5);
             r.AddIngredient(ItemID.SoulofFright, 5);
@@ -642,7 +642,7 @@ namespace CalamityMod
             r.AddIngredient(ItemID.SoulofMight, 10);
             r.AddIngredient(ItemID.SoulofLight, 5);
             r.AddIngredient(ItemID.SoulofNight, 5);
-            r.AddIngredient(null, "CryoBar", 3);
+            r.AddIngredient(ModContent.ItemType<CryoBar>(), 3);
             r.AddTile(TileID.MythrilAnvil);
             r.SetResult(ItemID.CelestialMagnet);
             r.AddRecipe();
@@ -650,14 +650,14 @@ namespace CalamityMod
             // Frozen Turtle Shell
             r = GetNewRecipe();
             r.AddIngredient(ItemID.TurtleShell, 3);
-            r.AddIngredient(null, "EssenceofEleum", 9);
+            r.AddIngredient(ModContent.ItemType<EssenceofEleum>(), 9);
             r.AddTile(TileID.MythrilAnvil);
             r.SetResult(ItemID.FrozenTurtleShell);
             r.AddRecipe();
 
             // Frost Helmet w/ Frigid Bars
             r = GetNewRecipe();
-            r.AddIngredient(null, "CryoBar", 6);
+            r.AddIngredient(ModContent.ItemType<CryoBar>(), 6);
             r.AddIngredient(ItemID.FrostCore);
             r.AddTile(TileID.IceMachine);
             r.SetResult(ItemID.FrostHelmet);
@@ -665,7 +665,7 @@ namespace CalamityMod
 
             // Frost Breastplate w/ Frigid Bars
             r = GetNewRecipe();
-            r.AddIngredient(null, "CryoBar", 10);
+            r.AddIngredient(ModContent.ItemType<CryoBar>(), 10);
             r.AddIngredient(ItemID.FrostCore);
             r.AddTile(TileID.IceMachine);
             r.SetResult(ItemID.FrostBreastplate);
@@ -673,7 +673,7 @@ namespace CalamityMod
 
             // Frost Leggings w/ Frigid Bars
             r = GetNewRecipe();
-            r.AddIngredient(null, "CryoBar", 8);
+            r.AddIngredient(ModContent.ItemType<CryoBar>(), 8);
             r.AddIngredient(ItemID.FrostCore);
             r.AddTile(TileID.IceMachine);
             r.SetResult(ItemID.FrostLeggings);
@@ -681,9 +681,9 @@ namespace CalamityMod
 
             // Terra Blade w/ True Bloody Edge
             r = GetNewRecipe();
-            r.AddIngredient(null, "TrueBloodyEdge");
+            r.AddIngredient(ModContent.ItemType<TrueBloodyEdge>());
             r.AddIngredient(ItemID.TrueExcalibur);
-            r.AddIngredient(null, "LivingShard", 7);
+            r.AddIngredient(ModContent.ItemType<LivingShard>(), 7);
             r.AddTile(TileID.MythrilAnvil);
             r.SetResult(ItemID.TerraBlade);
             r.AddRecipe();

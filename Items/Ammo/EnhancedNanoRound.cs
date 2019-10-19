@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Ammo
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.NanoBullet, 250);
-            recipe.AddIngredient(null, "EssenceofEleum");
+            recipe.AddIngredient(ModContent.ItemType<EssenceofEleum>());
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this, 250);
             recipe.AddRecipe();

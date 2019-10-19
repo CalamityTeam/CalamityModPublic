@@ -48,7 +48,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "CosmiliteBar", 10);
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
             recipe.AddIngredient(ItemID.SpectreStaff);
             recipe.AddIngredient(ItemID.MagnetSphere);
             recipe.AddTile(TileID.LunarCraftingStation);

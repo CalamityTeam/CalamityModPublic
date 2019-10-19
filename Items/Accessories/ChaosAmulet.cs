@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "EssenceofChaos", 7);
+            recipe.AddIngredient(ModContent.ItemType<EssenceofChaos>(), 7);
             recipe.AddIngredient(ItemID.SpelunkerPotion, 7);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

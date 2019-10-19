@@ -189,12 +189,12 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "AmalgamatedBrain");
-            recipe.AddIngredient(null, "VoidofExtinction");
-            recipe.AddIngredient(null, "FungalClump");
-            recipe.AddIngredient(null, "LeviathanAmbergris");
-            recipe.AddIngredient(null, "CosmiliteBar", 5);
-            recipe.AddIngredient(null, "Phantoplasm", 5);
+            recipe.AddIngredient(ModContent.ItemType<AmalgamatedBrain>());
+            recipe.AddIngredient(ModContent.ItemType<VoidofExtinction>());
+            recipe.AddIngredient(ModContent.ItemType<FungalClump>());
+            recipe.AddIngredient(ModContent.ItemType<LeviathanAmbergris>());
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 5);
             recipe.AddTile(null, "DraedonsForge");
             recipe.SetResult(this);
             recipe.AddRecipe();

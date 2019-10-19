@@ -31,7 +31,7 @@ namespace CalamityMod.Items
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "PurifiedGel", 6);
+            recipe.AddIngredient(ModContent.ItemType<PurifiedGel>(), 6);
             recipe.AddIngredient(ItemID.HellstoneBar, 11);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);

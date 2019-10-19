@@ -32,15 +32,15 @@ namespace CalamityMod.Items.Potions
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.BottledWater);
-            recipe.AddIngredient(null, "CalamityDust", 3);
+            recipe.AddIngredient(ModContent.ItemType<CalamityDust>(), 3);
             recipe.AddIngredient(ItemID.LunarTabletFragment, 2);
-            recipe.AddIngredient(null, "EssenceofChaos");
+            recipe.AddIngredient(ModContent.ItemType<EssenceofChaos>());
             recipe.AddTile(TileID.AlchemyTable);
             recipe.SetResult(this);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.BottledWater);
-            recipe.AddIngredient(null, "BloodOrb", 30);
+            recipe.AddIngredient(ModContent.ItemType<BloodOrb>(), 30);
             recipe.AddIngredient(ItemID.LunarTabletFragment);
             recipe.AddTile(TileID.AlchemyTable);
             recipe.SetResult(this);

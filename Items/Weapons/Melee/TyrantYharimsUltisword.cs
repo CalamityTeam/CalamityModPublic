@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "TrueCausticEdge");
+            recipe.AddIngredient(ModContent.ItemType<TrueCausticEdge>());
             recipe.AddIngredient(ItemID.BrokenHeroSword);
             recipe.AddIngredient(ItemID.FlaskofVenom, 5);
             recipe.AddIngredient(ItemID.FlaskofCursedFlames, 5);
@@ -45,7 +45,7 @@ namespace CalamityMod.Items.Weapons.Melee
             recipe.SetResult(this);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "TrueCausticEdge");
+            recipe.AddIngredient(ModContent.ItemType<TrueCausticEdge>());
             recipe.AddIngredient(ItemID.BrokenHeroSword);
             recipe.AddIngredient(ItemID.FlaskofVenom, 5);
             recipe.AddIngredient(ItemID.FlaskofIchor, 5);

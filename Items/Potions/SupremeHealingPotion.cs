@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Potions
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.SuperHealingPotion);
-            recipe.AddIngredient(null, "UnholyEssence");
+            recipe.AddIngredient(ModContent.ItemType<UnholyEssence>());
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

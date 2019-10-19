@@ -64,7 +64,7 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "RottenBrain");
+            recipe.AddIngredient(ModContent.ItemType<RottenBrain>());
             recipe.AddIngredient(ItemID.BrainOfConfusion);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

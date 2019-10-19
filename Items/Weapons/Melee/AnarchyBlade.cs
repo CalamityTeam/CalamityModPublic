@@ -38,8 +38,8 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "UnholyCore", 5);
-            recipe.AddIngredient(null, "CoreofChaos", 3);
+            recipe.AddIngredient(ModContent.ItemType<UnholyCore>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<CoreofChaos>(), 3);
             recipe.AddIngredient(ItemID.BrokenHeroSword);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

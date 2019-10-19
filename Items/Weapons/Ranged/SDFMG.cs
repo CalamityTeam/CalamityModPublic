@@ -65,11 +65,11 @@ namespace CalamityMod.Items.Weapons.Ranged
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.SDMG);
             recipe.AddIngredient(ItemID.ShrimpyTruffle);
-            recipe.AddIngredient(null, "CosmiliteBar", 4);
-            recipe.AddIngredient(null, "Phantoplasm", 4);
-            recipe.AddIngredient(null, "DepthCells", 10);
-            recipe.AddIngredient(null, "Lumenite", 10);
-            recipe.AddIngredient(null, "Tenebris", 5);
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 4);
+            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 4);
+            recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 5);
             recipe.AddTile(null, "DraedonsForge");
             recipe.SetResult(this);
             recipe.AddRecipe();

@@ -42,7 +42,7 @@ namespace CalamityMod.Items.SummonItems
             recipe.AddIngredient(ItemID.IceBlock, 50);
             recipe.AddIngredient(ItemID.SoulofNight, 3);
             recipe.AddIngredient(ItemID.SoulofLight, 3);
-            recipe.AddIngredient(null, "EssenceofEleum", 5);
+            recipe.AddIngredient(ModContent.ItemType<EssenceofEleum>(), 5);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

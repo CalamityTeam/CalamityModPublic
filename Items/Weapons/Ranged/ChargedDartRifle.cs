@@ -62,7 +62,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.DartRifle);
             recipe.AddIngredient(ItemID.MartianConduitPlating, 25);
-            recipe.AddIngredient(null, "CoreofEleum", 3);
+            recipe.AddIngredient(ModContent.ItemType<CoreofEleum>(), 3);
             recipe.AddIngredient(ItemID.FragmentVortex, 5);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
@@ -70,7 +70,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.DartPistol);
             recipe.AddIngredient(ItemID.MartianConduitPlating, 25);
-            recipe.AddIngredient(null, "CoreofEleum", 3);
+            recipe.AddIngredient(ModContent.ItemType<CoreofEleum>(), 3);
             recipe.AddIngredient(ItemID.FragmentVortex, 5);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

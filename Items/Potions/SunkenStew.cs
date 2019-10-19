@@ -80,7 +80,7 @@ Grants Well Fed");
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "DepthCells", 5);
+            recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 5);
             recipe.AddIngredient(ItemID.GlowingMushroom, 3);
             recipe.AddIngredient(ItemID.Honeyfin);
             recipe.AddIngredient(ItemID.Bowl);

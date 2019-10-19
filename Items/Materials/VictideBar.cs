@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Materials
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "VictoryShard");
+            recipe.AddIngredient(ModContent.ItemType<VictoryShard>());
             recipe.AddIngredient(ItemID.Coral);
             recipe.AddIngredient(ItemID.Starfish);
             recipe.AddIngredient(ItemID.Seashell);

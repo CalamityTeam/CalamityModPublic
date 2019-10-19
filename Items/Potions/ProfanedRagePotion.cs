@@ -34,15 +34,15 @@ namespace CalamityMod.Items.Potions
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.RagePotion);
-            recipe.AddIngredient(null, "UnholyEssence");
-            recipe.AddIngredient(null, "GalacticaSingularity");
+            recipe.AddIngredient(ModContent.ItemType<UnholyEssence>());
+            recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>());
             recipe.AddTile(TileID.AlchemyTable);
             recipe.SetResult(this);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.BottledWater);
-            recipe.AddIngredient(null, "BloodOrb", 40);
-            recipe.AddIngredient(null, "UnholyEssence");
+            recipe.AddIngredient(ModContent.ItemType<BloodOrb>(), 40);
+            recipe.AddIngredient(ModContent.ItemType<UnholyEssence>());
             recipe.AddTile(TileID.AlchemyTable);
             recipe.SetResult(this);
             recipe.AddRecipe();

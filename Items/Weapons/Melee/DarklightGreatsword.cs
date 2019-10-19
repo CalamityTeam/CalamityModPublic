@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "VerstaltiteBar", 12);
+            recipe.AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 12);
             recipe.AddIngredient(ItemID.FallenStar, 5);
             recipe.AddIngredient(ItemID.SoulofNight);
             recipe.AddIngredient(ItemID.SoulofLight);

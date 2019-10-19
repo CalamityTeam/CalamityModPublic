@@ -99,9 +99,9 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "GrandGuardian");
-            recipe.AddIngredient(null, "GalacticaBlade");
-            recipe.AddIngredient(null, "ShadowspecBar", 5);
+            recipe.AddIngredient(ModContent.ItemType<GrandGuardian>());
+            recipe.AddIngredient(ModContent.ItemType<GalacticaBlade>());
+            recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
             recipe.AddTile(null, "DraedonsForge");
             recipe.SetResult(this);
             recipe.AddRecipe();

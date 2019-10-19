@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "MeldiateBar", 9);
+            recipe.AddIngredient(ModContent.ItemType<MeldiateBar>(), 9);
             recipe.AddIngredient(ItemID.SpellTome);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);

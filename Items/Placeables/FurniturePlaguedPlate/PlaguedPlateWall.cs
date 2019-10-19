@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Placeables.FurniturePlaguedPlate
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "PlaguedPlate");
+            recipe.AddIngredient(ModContent.ItemType<PlaguedPlate>());
             recipe.SetResult(this, 4);
             recipe.AddTile(18);
             recipe.AddRecipe();

@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "CruptixBar", 6);
+            recipe.AddIngredient(ModContent.ItemType<CruptixBar>(), 6);
             recipe.AddIngredient(ItemID.LivingFireBlock, 50);
             recipe.AddTile(TileID.Bookcases);
             recipe.SetResult(this);

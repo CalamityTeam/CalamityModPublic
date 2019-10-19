@@ -60,7 +60,7 @@ namespace CalamityMod.Items.SummonItems
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "UnholyEssence", 40);
+            recipe.AddIngredient(ModContent.ItemType<UnholyEssence>(), 40);
             recipe.AddIngredient(ItemID.LunarBar, 10);
             recipe.AddIngredient(ItemID.FragmentSolar, 5);
             recipe.AddTile(TileID.LunarCraftingStation);

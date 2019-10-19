@@ -43,15 +43,15 @@ namespace CalamityMod.Items.Potions
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.HolyWater, 5);
-            recipe.AddIngredient(null, "Stardust", 20);
+            recipe.AddIngredient(ModContent.ItemType<Stardust>(), 20);
             recipe.AddIngredient(ItemID.CrystalShard, 5);
-            recipe.AddIngredient(null, "EssenceofCinder", 3);
+            recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>(), 3);
             recipe.AddTile(TileID.AlchemyTable);
             recipe.SetResult(this);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.HolyWater, 5);
-            recipe.AddIngredient(null, "BloodOrb", 50);
+            recipe.AddIngredient(ModContent.ItemType<BloodOrb>(), 50);
             recipe.AddTile(TileID.AlchemyTable);
             recipe.SetResult(this);
             recipe.AddRecipe();

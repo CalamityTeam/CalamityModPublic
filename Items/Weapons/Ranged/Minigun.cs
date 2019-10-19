@@ -58,8 +58,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.ChainGun);
-            recipe.AddIngredient(null, "CosmiliteBar", 5);
-            recipe.AddIngredient(null, "Phantoplasm", 5);
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 5);
             recipe.AddTile(null, "DraedonsForge");
             recipe.SetResult(this);
             recipe.AddRecipe();

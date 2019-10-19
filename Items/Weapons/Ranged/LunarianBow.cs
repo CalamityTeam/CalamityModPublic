@@ -62,7 +62,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             recipe.AddIngredient(ItemID.DemonBow);
             recipe.AddIngredient(ItemID.MoltenFury);
             recipe.AddIngredient(ItemID.BeesKnees);
-            recipe.AddIngredient(null, "PurifiedGel", 10);
+            recipe.AddIngredient(ModContent.ItemType<PurifiedGel>(), 10);
             recipe.AddTile(TileID.DemonAltar);
             recipe.SetResult(this);
             recipe.AddRecipe();
@@ -70,7 +70,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             recipe.AddIngredient(ItemID.TendonBow);
             recipe.AddIngredient(ItemID.MoltenFury);
             recipe.AddIngredient(ItemID.BeesKnees);
-            recipe.AddIngredient(null, "PurifiedGel", 10);
+            recipe.AddIngredient(ModContent.ItemType<PurifiedGel>(), 10);
             recipe.AddTile(TileID.DemonAltar);
             recipe.SetResult(this);
             recipe.AddRecipe();

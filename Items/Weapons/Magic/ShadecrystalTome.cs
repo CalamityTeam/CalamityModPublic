@@ -48,7 +48,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.CrystalStorm);
-            recipe.AddIngredient(null, "VerstaltiteBar", 6);
+            recipe.AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 6);
             recipe.AddTile(TileID.Bookcases);
             recipe.SetResult(this);
             recipe.AddRecipe();

@@ -47,9 +47,9 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "FrigidflashBolt");
+            recipe.AddIngredient(ModContent.ItemType<FrigidflashBolt>());
             recipe.AddIngredient(ItemID.WaterBolt);
-            recipe.AddIngredient(null, "CoreofCinder", 5);
+            recipe.AddIngredient(ModContent.ItemType<CoreofCinder>(), 5);
             recipe.AddTile(TileID.Bookcases);
             recipe.SetResult(this);
             recipe.AddRecipe();

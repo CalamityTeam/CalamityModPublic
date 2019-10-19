@@ -42,9 +42,9 @@ namespace CalamityMod.Items.SummonItems
             recipe.AddIngredient(ItemID.JungleSpores, 15);
             recipe.AddIngredient(ItemID.SoulofNight, 10);
             recipe.AddIngredient(ItemID.SoulofLight, 10);
-            recipe.AddIngredient(null, "MurkyPaste", 3);
-            recipe.AddIngredient(null, "ManeaterBulb");
-            recipe.AddIngredient(null, "TrapperBulb");
+            recipe.AddIngredient(ModContent.ItemType<MurkyPaste>(), 3);
+            recipe.AddIngredient(ModContent.ItemType<ManeaterBulb>());
+            recipe.AddIngredient(ModContent.ItemType<TrapperBulb>());
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

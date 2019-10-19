@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Placeables
             recipe.AddIngredient(ItemID.PeaceCandle, 3);
             recipe.AddIngredient(ItemID.SoulofLight, 3);
             recipe.AddIngredient(ItemID.PixieDust, 4);
-            recipe.AddIngredient(null, "ZenPotion");
+            recipe.AddIngredient(ModContent.ItemType<ZenPotion>());
             recipe.SetResult(this, 1);
             recipe.AddTile(18);
             recipe.AddRecipe();

@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Melee
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Amber, 8);
             recipe.AddIngredient(ItemID.FossilOre, 35);
-            recipe.AddIngredient(null, "EssenceofCinder", 3);
+            recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>(), 3);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

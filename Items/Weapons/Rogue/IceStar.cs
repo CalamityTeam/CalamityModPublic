@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "CryoBar");
+            recipe.AddIngredient(ModContent.ItemType<CryoBar>());
             recipe.AddTile(TileID.IceMachine);
             recipe.SetResult(this, 50);
             recipe.AddRecipe();

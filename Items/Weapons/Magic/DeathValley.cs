@@ -35,10 +35,10 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "Tradewinds");
+            recipe.AddIngredient(ModContent.ItemType<Tradewinds>());
             recipe.AddIngredient(ItemID.FossilOre, 25);
             recipe.AddIngredient(ItemID.AncientBattleArmorMaterial);
-            recipe.AddIngredient(null, "DesertFeather", 5);
+            recipe.AddIngredient(ModContent.ItemType<DesertFeather>(), 5);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

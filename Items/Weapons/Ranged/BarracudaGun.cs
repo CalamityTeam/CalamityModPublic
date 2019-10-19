@@ -54,8 +54,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.PiranhaGun);
-            recipe.AddIngredient(null, "CoreofCalamity", 2);
-            recipe.AddIngredient(null, "Tenebris", 5);
+            recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>(), 2);
+            recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 5);
             recipe.AddIngredient(ItemID.SharkFin, 2);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

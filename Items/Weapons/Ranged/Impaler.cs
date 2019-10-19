@@ -58,7 +58,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "CruptixBar", 5);
+            recipe.AddIngredient(ModContent.ItemType<CruptixBar>(), 5);
             recipe.AddIngredient(ItemID.StakeLauncher);
             recipe.AddIngredient(ItemID.ExplosivePowder, 100);
             recipe.AddIngredient(ItemID.LivingFireBlock, 75);

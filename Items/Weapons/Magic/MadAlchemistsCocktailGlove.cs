@@ -96,11 +96,11 @@ namespace CalamityMod.Items.Weapons.Magic
             recipe.AddIngredient(ItemID.ToxicFlask);
             recipe.AddIngredient(ItemID.BottledWater, 15);
             recipe.AddIngredient(ItemID.Leather, 5);
-            recipe.AddIngredient(null, "EffulgentFeather", 5);
-            recipe.AddIngredient(null, "CoreofEleum", 5);
-            recipe.AddIngredient(null, "CoreofCinder", 5);
-            recipe.AddIngredient(null, "CoreofChaos", 5);
-            recipe.AddIngredient(null, "CoreofCalamity");
+            recipe.AddIngredient(ModContent.ItemType<EffulgentFeather>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<CoreofEleum>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<CoreofCinder>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<CoreofChaos>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>());
             recipe.AddTile(TileID.AlchemyTable);
             recipe.SetResult(this);
             recipe.AddRecipe();

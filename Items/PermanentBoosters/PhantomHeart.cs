@@ -54,8 +54,8 @@ namespace CalamityMod.Items.PermanentBoosters
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "RuinousSoul", 10);
-            recipe.AddIngredient(null, "Phantoplasm", 100);
+            recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 100);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

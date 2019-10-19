@@ -42,7 +42,7 @@ namespace CalamityMod.Items.SummonItems
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "SulphurousSand", 10);
+            recipe.AddIngredient(ModContent.ItemType<SulphurousSand>(), 10);
             recipe.AddIngredient(ItemID.Starfish, 5);
             recipe.AddIngredient(ItemID.SharkFin, 3);
             recipe.AddTile(TileID.MythrilAnvil);

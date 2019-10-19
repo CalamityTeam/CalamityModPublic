@@ -59,7 +59,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "PurifiedGel", 18);
+            recipe.AddIngredient(ModContent.ItemType<PurifiedGel>(), 18);
             recipe.AddIngredient(ItemID.Gel, 30);
             recipe.AddIngredient(ItemID.HellstoneBar, 5);
             recipe.AddTile(TileID.Anvils);

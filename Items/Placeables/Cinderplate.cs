@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Placeables
             recipe.AddTile(TileID.Anvils);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "CinderplateWall", 4);
+            recipe.AddIngredient(ModContent.ItemType<CinderplateWall>(), 4);
             recipe.SetResult(this);
             recipe.AddTile(TileID.Anvils);
             recipe.AddRecipe();

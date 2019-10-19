@@ -51,7 +51,7 @@ namespace CalamityMod.Items.SummonItems
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.LunarTabletFragment, 10);
-            recipe.AddIngredient(null, "EssenceofCinder", 5);
+            recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>(), 5);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

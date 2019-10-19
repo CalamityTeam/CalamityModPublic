@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "BloodSample", 8);
+            recipe.AddIngredient(ModContent.ItemType<BloodSample>(), 8);
             recipe.AddIngredient(ItemID.Vertebrae, 3);
             recipe.AddIngredient(ItemID.CrimtaneBar, 2);
             recipe.AddTile(TileID.DemonAltar);

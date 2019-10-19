@@ -48,7 +48,7 @@ namespace CalamityMod.Items.Accessories.Wings
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "AerialiteBar", 5);
+            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 5);
             recipe.AddIngredient(ItemID.Feather, 5);
             recipe.AddIngredient(ItemID.FallenStar, 5);
             recipe.AddIngredient(ItemID.Bone, 15);

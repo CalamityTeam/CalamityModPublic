@@ -53,12 +53,12 @@ namespace CalamityMod.Items.Weapons.Melee
             ModRecipe r = new ModRecipe(mod);
             r.SetResult(this);
             r.AddTile(null, "DraedonsForge");
-            r.AddIngredient(null, "GhoulishGouger");
-            r.AddIngredient(null, "SoulHarvester");
-            r.AddIngredient(null, "EssenceFlayer");
-            r.AddIngredient(null, "ShadowspecBar", 5);
-            r.AddIngredient(null, "EndothermicEnergy", 40);
-            r.AddIngredient(null, "DarkPlasma", 10);
+            r.AddIngredient(ModContent.ItemType<GhoulishGouger>());
+            r.AddIngredient(ModContent.ItemType<SoulHarvester>());
+            r.AddIngredient(ModContent.ItemType<EssenceFlayer>());
+            r.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
+            r.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 40);
+            r.AddIngredient(ModContent.ItemType<DarkPlasma>(), 10);
             r.AddIngredient(ItemID.Nanites, 400);
             r.AddRecipe();
         }

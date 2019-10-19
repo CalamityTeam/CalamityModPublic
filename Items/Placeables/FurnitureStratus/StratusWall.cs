@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Placeables.FurnitureStratus
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "StratusBricks");
+            recipe.AddIngredient(ModContent.ItemType<StratusBricks>());
             recipe.SetResult(this, 4);
             recipe.AddTile(18);
             recipe.AddRecipe();

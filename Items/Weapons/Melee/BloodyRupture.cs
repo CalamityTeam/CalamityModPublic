@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "BloodSample", 4);
+            recipe.AddIngredient(ModContent.ItemType<BloodSample>(), 4);
             recipe.AddIngredient(ItemID.Vertebrae, 2);
             recipe.AddIngredient(ItemID.CrimtaneBar, 5);
             recipe.AddTile(TileID.DemonAltar);

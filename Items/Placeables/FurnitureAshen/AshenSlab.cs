@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAshen
             recipe.AddTile(null, "AshenAltar");
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "AshenSlabWall", 4);
+            recipe.AddIngredient(ModContent.ItemType<AshenSlabWall>(), 4);
             recipe.SetResult(this);
             recipe.AddTile(TileID.WorkBenches);
             recipe.AddRecipe();

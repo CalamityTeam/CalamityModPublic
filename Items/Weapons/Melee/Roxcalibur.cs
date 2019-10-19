@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Weapons.Melee
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.HellstoneBar, 25);
             recipe.AddIngredient(ItemID.SoulofNight, 10);
-            recipe.AddIngredient(null, "EssenceofChaos", 5);
+            recipe.AddIngredient(ModContent.ItemType<EssenceofChaos>(), 5);
             recipe.AddIngredient(ItemID.Obsidian, 10);
             recipe.AddIngredient(ItemID.StoneBlock, 100);
             recipe.AddIngredient(ItemID.Amethyst, 2);

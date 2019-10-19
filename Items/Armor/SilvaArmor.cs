@@ -34,13 +34,13 @@ namespace CalamityMod.Items
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "DarksunFragment", 10);
-            recipe.AddIngredient(null, "EffulgentFeather", 10);
-            recipe.AddIngredient(null, "CosmiliteBar", 10);
-            recipe.AddIngredient(null, "Tenebris", 12);
-            recipe.AddIngredient(null, "NightmareFuel", 16);
-            recipe.AddIngredient(null, "EndothermicEnergy", 16);
-            recipe.AddIngredient(null, "LeadCore");
+            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<EffulgentFeather>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 12);
+            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 16);
+            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 16);
+            recipe.AddIngredient(ModContent.ItemType<LeadCore>());
             recipe.AddTile(null, "DraedonsForge");
             recipe.SetResult(this);
             recipe.AddRecipe();

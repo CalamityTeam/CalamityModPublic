@@ -31,15 +31,15 @@ namespace CalamityMod.Items.Potions
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "EssenceofChaos", 3);
-            recipe.AddIngredient(null, "MurkySludge", 2);
-            recipe.AddIngredient(null, "DemonicBoneAsh");
+            recipe.AddIngredient(ModContent.ItemType<EssenceofChaos>(), 3);
+            recipe.AddIngredient(ModContent.ItemType<MurkySludge>(), 2);
+            recipe.AddIngredient(ModContent.ItemType<DemonicBoneAsh>());
             recipe.AddIngredient(ItemID.BottledWater);
             recipe.AddTile(TileID.AlchemyTable);
             recipe.SetResult(this);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "BloodOrb", 20);
+            recipe.AddIngredient(ModContent.ItemType<BloodOrb>(), 20);
             recipe.AddIngredient(ItemID.BottledWater);
             recipe.AddTile(TileID.AlchemyTable);
             recipe.SetResult(this);

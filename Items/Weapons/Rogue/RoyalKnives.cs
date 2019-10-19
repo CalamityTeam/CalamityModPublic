@@ -98,9 +98,9 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "ShadowspecBar", 5);
-            recipe.AddIngredient(null, "CoreofCalamity", 3);
-            recipe.AddIngredient(null, "EmpyreanKnivesThrown");
+            recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>(), 3);
+            recipe.AddIngredient(ModContent.ItemType<EmpyreanKnivesThrown>());
             recipe.AddTile(null, "DraedonsForge");
             recipe.SetResult(this);
             recipe.AddRecipe();

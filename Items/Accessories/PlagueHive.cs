@@ -34,8 +34,8 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "ToxicHeart");
-            recipe.AddIngredient(null, "AlchemicalFlask");
+            recipe.AddIngredient(ModContent.ItemType<ToxicHeart>());
+            recipe.AddIngredient(ModContent.ItemType<AlchemicalFlask>());
             recipe.AddIngredient(ItemID.HiveBackpack);
             recipe.AddIngredient(ItemID.HoneyComb);
             recipe.AddTile(TileID.LunarCraftingStation);

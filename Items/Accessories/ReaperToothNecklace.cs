@@ -34,10 +34,10 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "ReaperTooth", 6);
-            recipe.AddIngredient(null, "Lumenite", 15);
-            recipe.AddIngredient(null, "DepthCells", 15);
-            recipe.AddIngredient(null, "Tenebris", 5);
+            recipe.AddIngredient(ModContent.ItemType<ReaperTooth>(), 6);
+            recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 15);
+            recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 15);
+            recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 5);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

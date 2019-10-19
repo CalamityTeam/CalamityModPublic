@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.SandstoneBrick, 20);
-            recipe.AddIngredient(null, "DesertFeather", 2);
+            recipe.AddIngredient(ModContent.ItemType<DesertFeather>(), 2);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

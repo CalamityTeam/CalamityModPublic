@@ -48,9 +48,9 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.LastPrism);
-            recipe.AddIngredient(null, "DarkPlasma", 10);
-            recipe.AddIngredient(null, "RuinousSoul", 20);
-            recipe.AddIngredient(null, "DivineGeode", 30);
+            recipe.AddIngredient(ModContent.ItemType<DarkPlasma>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 20);
+            recipe.AddIngredient(ModContent.ItemType<DivineGeode>(), 30);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

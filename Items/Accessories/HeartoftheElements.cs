@@ -213,15 +213,15 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "WifeinaBottle");
-            recipe.AddIngredient(null, "WifeinaBottlewithBoobs");
-            recipe.AddIngredient(null, "LureofEnthrallment");
-            recipe.AddIngredient(null, "EyeoftheStorm");
-            recipe.AddIngredient(null, "RoseStone");
-            recipe.AddIngredient(null, "AeroStone");
-            recipe.AddIngredient(null, "CryoStone");
-            recipe.AddIngredient(null, "ChaosStone");
-            recipe.AddIngredient(null, "BloomStone");
+            recipe.AddIngredient(ModContent.ItemType<WifeinaBottle>());
+            recipe.AddIngredient(ModContent.ItemType<WifeinaBottlewithBoobs>());
+            recipe.AddIngredient(ModContent.ItemType<LureofEnthrallment>());
+            recipe.AddIngredient(ModContent.ItemType<EyeoftheStorm>());
+            recipe.AddIngredient(ModContent.ItemType<RoseStone>());
+            recipe.AddIngredient(ModContent.ItemType<AeroStone>());
+            recipe.AddIngredient(ModContent.ItemType<CryoStone>());
+            recipe.AddIngredient(ModContent.ItemType<ChaosStone>());
+            recipe.AddIngredient(ModContent.ItemType<BloomStone>());
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

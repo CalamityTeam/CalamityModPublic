@@ -130,18 +130,18 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "GreatswordofBlah");
+            recipe.AddIngredient(ModContent.ItemType<GreatswordofBlah>());
             recipe.AddIngredient(ItemID.TrueExcalibur);
             recipe.AddIngredient(ItemID.LargeDiamond, 3);
             recipe.AddIngredient(ItemID.LightShard, 10);
             recipe.AddIngredient(ItemID.DarkShard, 10);
-            recipe.AddIngredient(null, "LivingShard", 10);
-            recipe.AddIngredient(null, "GalacticaSingularity", 10);
-            recipe.AddIngredient(null, "NightmareFuel", 10);
-            recipe.AddIngredient(null, "EndothermicEnergy", 10);
-            recipe.AddIngredient(null, "CalamitousEssence", 10);
-            recipe.AddIngredient(null, "DarksunFragment", 10);
-            recipe.AddIngredient(null, "HellcasterFragment", 10);
+            recipe.AddIngredient(ModContent.ItemType<LivingShard>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<CalamitousEssence>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<HellcasterFragment>(), 10);
             recipe.AddIngredient(ItemID.SoulofLight, 50);
             recipe.AddIngredient(ItemID.SoulofNight, 50);
             recipe.AddTile(null, "DraedonsForge");

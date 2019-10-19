@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "AerialiteBar", 6);
+            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 6);
             recipe.AddIngredient(ItemID.SunplateBlock, 5);
             recipe.AddIngredient(ItemID.Feather, 3);
             recipe.AddTile(TileID.SkyMill);

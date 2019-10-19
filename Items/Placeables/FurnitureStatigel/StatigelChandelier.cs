@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Placeables.FurnitureStatigel
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "StatigelBlock", 4);
+            recipe.AddIngredient(ModContent.ItemType<StatigelBlock>(), 4);
             recipe.AddIngredient(ItemID.Torch, 4);
             recipe.AddIngredient(ItemID.Chain);
             recipe.SetResult(this, 1);

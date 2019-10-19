@@ -25,19 +25,19 @@ namespace CalamityMod.Items.Placeables.FurnitureStatigel
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "PurifiedGel");
+            recipe.AddIngredient(ModContent.ItemType<PurifiedGel>());
             recipe.SetResult(this, 10);
             recipe.AddTile(null, "StaticRefiner");
             recipe.AddRecipe();
 
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "StatigelPlatform", 2);
+            recipe.AddIngredient(ModContent.ItemType<StatigelPlatform>(), 2);
             recipe.SetResult(this);
             recipe.AddTile(TileID.WorkBenches);
             recipe.AddRecipe();
 
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "StatigelWall", 4);
+            recipe.AddIngredient(ModContent.ItemType<StatigelWall>(), 4);
             recipe.SetResult(this);
             recipe.AddTile(TileID.WorkBenches);
             recipe.AddRecipe();

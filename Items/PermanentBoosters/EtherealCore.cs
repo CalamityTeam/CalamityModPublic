@@ -54,7 +54,7 @@ namespace CalamityMod.Items.PermanentBoosters
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.MeteoriteBar, 25);
-            recipe.AddIngredient(null, "AstralBar", 25);
+            recipe.AddIngredient(ModContent.ItemType<AstralBar>(), 25);
             recipe.AddIngredient(ItemID.FragmentNebula, 20);
             recipe.AddIngredient(ItemID.FallenStar, 50);
             recipe.AddTile(TileID.LunarCraftingStation);

@@ -84,9 +84,9 @@ namespace CalamityMod.Items.Accessories.Wings
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddRecipeGroup("WingsGroup");
-            recipe.AddIngredient(null, "AngelTreads");
-            recipe.AddIngredient(null, "CoreofCalamity", 3);
-            recipe.AddIngredient(null, "BarofLife", 5);
+            recipe.AddIngredient(ModContent.ItemType<AngelTreads>());
+            recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>(), 3);
+            recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 5);
             recipe.AddIngredient(ItemID.LunarBar, 5);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);

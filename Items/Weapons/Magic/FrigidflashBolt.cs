@@ -35,10 +35,10 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "FrostBolt");
-            recipe.AddIngredient(null, "FlareBolt");
-            recipe.AddIngredient(null, "EssenceofEleum", 2);
-            recipe.AddIngredient(null, "EssenceofChaos", 2);
+            recipe.AddIngredient(ModContent.ItemType<FrostBolt>());
+            recipe.AddIngredient(ModContent.ItemType<FlareBolt>());
+            recipe.AddIngredient(ModContent.ItemType<EssenceofEleum>(), 2);
+            recipe.AddIngredient(ModContent.ItemType<EssenceofChaos>(), 2);
             recipe.AddTile(TileID.Bookcases);
             recipe.SetResult(this);
             recipe.AddRecipe();

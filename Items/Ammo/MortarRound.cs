@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Ammo
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.RocketIV, 100);
-            recipe.AddIngredient(null, "UeliaceBar");
+            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>());
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this, 100);
             recipe.AddRecipe();

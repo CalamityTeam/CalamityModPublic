@@ -31,12 +31,12 @@ namespace CalamityMod.Items.Placeables.FurnitureCosmilite
             recipe.AddTile(null, "DraedonsForge");
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "CosmiliteBrickWall", 4);
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBrickWall>(), 4);
             recipe.SetResult(this);
             recipe.AddTile(18);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "CosmilitePlatform", 2);
+            recipe.AddIngredient(ModContent.ItemType<CosmilitePlatform>(), 2);
             recipe.SetResult(this);
             recipe.AddTile(null, "DraedonsForge");
             recipe.AddRecipe();

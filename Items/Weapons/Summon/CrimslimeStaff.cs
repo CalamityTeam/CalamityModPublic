@@ -36,8 +36,8 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "EbonianGel", 25);
-            recipe.AddIngredient(null, "PurifiedGel", 10);
+            recipe.AddIngredient(ModContent.ItemType<EbonianGel>(), 25);
+            recipe.AddIngredient(ModContent.ItemType<PurifiedGel>(), 10);
             recipe.AddIngredient(ItemID.Shadewood, 100);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);

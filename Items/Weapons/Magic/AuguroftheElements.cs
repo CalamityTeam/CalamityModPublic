@@ -39,10 +39,10 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "EldritchTome");
-            recipe.AddIngredient(null, "TomeofFates");
+            recipe.AddIngredient(ModContent.ItemType<EldritchTome>());
+            recipe.AddIngredient(ModContent.ItemType<TomeofFates>());
             recipe.AddIngredient(ItemID.ShadowFlameHexDoll);
-            recipe.AddIngredient(null, "GalacticaSingularity", 5);
+            recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5);
             recipe.AddIngredient(ItemID.LunarBar, 5);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);

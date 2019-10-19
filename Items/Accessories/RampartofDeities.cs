@@ -41,11 +41,11 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "FrigidBulwark");
-            recipe.AddIngredient(null, "DeificAmulet");
-            recipe.AddIngredient(null, "GalacticaSingularity", 5);
-            recipe.AddIngredient(null, "DivineGeode", 10);
-            recipe.AddIngredient(null, "CosmiliteBar", 20);
+            recipe.AddIngredient(ModContent.ItemType<FrigidBulwark>());
+            recipe.AddIngredient(ModContent.ItemType<DeificAmulet>());
+            recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<DivineGeode>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 20);
             recipe.AddTile(null, "DraedonsForge");
             recipe.SetResult(this);
             recipe.AddRecipe();

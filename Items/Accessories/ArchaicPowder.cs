@@ -34,9 +34,9 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "AncientFossil");
-            recipe.AddIngredient(null, "DemonicBoneAsh");
-            recipe.AddIngredient(null, "AncientBoneDust", 3);
+            recipe.AddIngredient(ModContent.ItemType<AncientFossil>());
+            recipe.AddIngredient(ModContent.ItemType<DemonicBoneAsh>());
+            recipe.AddIngredient(ModContent.ItemType<AncientBoneDust>(), 3);
             recipe.AddIngredient(ItemID.Bone, 15);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);

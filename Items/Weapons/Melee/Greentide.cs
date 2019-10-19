@@ -35,8 +35,8 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "IOU");
-            recipe.AddIngredient(null, "LivingShard");
+            recipe.AddIngredient(ModContent.ItemType<IOU>());
+            recipe.AddIngredient(ModContent.ItemType<LivingShard>());
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

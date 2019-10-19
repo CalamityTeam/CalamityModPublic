@@ -28,9 +28,9 @@ namespace CalamityMod.Items.Materials
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "CoreofCinder", 3);
-            recipe.AddIngredient(null, "CoreofEleum", 3);
-            recipe.AddIngredient(null, "CoreofChaos", 3);
+            recipe.AddIngredient(ModContent.ItemType<CoreofCinder>(), 3);
+            recipe.AddIngredient(ModContent.ItemType<CoreofEleum>(), 3);
+            recipe.AddIngredient(ModContent.ItemType<CoreofChaos>(), 3);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

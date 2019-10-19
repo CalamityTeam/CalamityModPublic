@@ -59,10 +59,10 @@ namespace CalamityMod.Items.Weapons.Ranged
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.SpiritFlame);
             recipe.AddIngredient(ItemID.ShadowFlameBow);
-            recipe.AddIngredient(null, "GreatbowofTurmoil");
-            recipe.AddIngredient(null, "BladedgeGreatbow");
-            recipe.AddIngredient(null, "DarkechoGreatbow");
-            recipe.AddIngredient(null, "GalacticaSingularity", 5);
+            recipe.AddIngredient(ModContent.ItemType<GreatbowofTurmoil>());
+            recipe.AddIngredient(ModContent.ItemType<BladedgeGreatbow>());
+            recipe.AddIngredient(ModContent.ItemType<DarkechoGreatbow>());
+            recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5);
             recipe.AddIngredient(ItemID.LunarBar, 5);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);

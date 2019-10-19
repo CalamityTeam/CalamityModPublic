@@ -51,7 +51,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             ModRecipe r = new ModRecipe(mod);
             r.SetResult(this);
-            r.AddIngredient(null, "TruePaladinsHammer");
+            r.AddIngredient(ModContent.ItemType<TruePaladinsHammer>());
             r.AddIngredient(ItemID.LunarBar, 10);
             r.AddIngredient(ItemID.FragmentSolar, 10);
             r.AddIngredient(ItemID.FragmentNebula, 10);

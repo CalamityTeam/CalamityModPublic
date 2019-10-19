@@ -52,7 +52,7 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "LivingDew");
+            recipe.AddIngredient(ModContent.ItemType<LivingDew>());
             recipe.AddIngredient(ItemID.BottledHoney, 10);
             recipe.AddIngredient(ItemID.BeeWax, 10);
             recipe.AddIngredient(ItemID.Bezoar);

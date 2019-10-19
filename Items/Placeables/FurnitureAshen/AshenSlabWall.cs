@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAshen
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "AshenSlab");
+            recipe.AddIngredient(ModContent.ItemType<AshenSlab>());
             recipe.SetResult(this, 4);
             recipe.AddTile(18);
             recipe.AddRecipe();

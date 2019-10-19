@@ -130,7 +130,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "ConferenceCall");
+            recipe.AddIngredient(ModContent.ItemType<ConferenceCall>());
             recipe.AddIngredient(ItemID.LunarBar, 10);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);

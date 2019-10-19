@@ -42,11 +42,11 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "HeartofDarkness");
-            recipe.AddIngredient(null, "StressPills");
-            recipe.AddIngredient(null, "Laudanum");
-            recipe.AddIngredient(null, "CosmiliteBar", 5);
-            recipe.AddIngredient(null, "Phantoplasm", 5);
+            recipe.AddIngredient(ModContent.ItemType<HeartofDarkness>());
+            recipe.AddIngredient(ModContent.ItemType<StressPills>());
+            recipe.AddIngredient(ModContent.ItemType<Laudanum>());
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 5);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

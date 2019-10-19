@@ -33,14 +33,14 @@ namespace CalamityMod.Items.Potions
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "CrumblingPotion", 2);
+            recipe.AddIngredient(ModContent.ItemType<CrumblingPotion>(), 2);
             recipe.AddIngredient(ItemID.BeetleHusk);
             recipe.AddTile(TileID.AlchemyTable);
             recipe.SetResult(this);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.BottledWater);
-            recipe.AddIngredient(null, "BloodOrb", 30);
+            recipe.AddIngredient(ModContent.ItemType<BloodOrb>(), 30);
             recipe.AddIngredient(ItemID.BeetleHusk);
             recipe.AddTile(TileID.AlchemyTable);
             recipe.SetResult(this);

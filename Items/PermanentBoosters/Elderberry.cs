@@ -56,9 +56,9 @@ namespace CalamityMod.Items.PermanentBoosters
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.LifeFruit, 5);
-            recipe.AddIngredient(null, "UeliaceBar", 10);
+            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 10);
             recipe.AddIngredient(ItemID.LunarBar, 10);
-            recipe.AddIngredient(null, "UnholyEssence", 20);
+            recipe.AddIngredient(ModContent.ItemType<UnholyEssence>(), 20);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

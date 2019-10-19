@@ -67,8 +67,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "Aeries");
-            recipe.AddIngredient(null, "RuinousSoul", 5);
+            recipe.AddIngredient(ModContent.ItemType<Aeries>());
+            recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 5);
             recipe.AddIngredient(ItemID.LunarBar, 15);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);

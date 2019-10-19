@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "AerialiteBar", 2);
+            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 2);
             recipe.AddIngredient(ItemID.Feather, 5);
             recipe.AddIngredient(ItemID.FallenStar);
             recipe.AddTile(TileID.SkyMill);

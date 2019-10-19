@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.SkyFracture);
-            recipe.AddIngredient(null, "EssenceofChaos", 3);
+            recipe.AddIngredient(ModContent.ItemType<EssenceofChaos>(), 3);
             recipe.AddIngredient(ItemID.SoulofFright, 10);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

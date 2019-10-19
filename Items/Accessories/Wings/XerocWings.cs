@@ -75,8 +75,8 @@ namespace CalamityMod.Items.Accessories.Wings
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "MeldiateBar", 5);
-            recipe.AddIngredient(null, "CoreofCalamity");
+            recipe.AddIngredient(ModContent.ItemType<MeldiateBar>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>());
             recipe.AddIngredient(ItemID.SoulofFlight, 20);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);

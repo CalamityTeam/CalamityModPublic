@@ -50,20 +50,20 @@ namespace CalamityMod.Items.Weapons.Melee
             ModRecipe r = new ModRecipe(mod);
             r.SetResult(this);
             r.AddTile(null, "DraedonsForge");
-            r.AddIngredient(null, "Mourningstar");
+            r.AddIngredient(ModContent.ItemType<Mourningstar>());
             r.AddIngredient(ItemID.DaoofPow);
             r.AddIngredient(ItemID.FlowerPow);
             r.AddIngredient(ItemID.Flairon);
-            r.AddIngredient(null, "BallOFugu");
-            r.AddIngredient(null, "Tumbleweed");
-            r.AddIngredient(null, "UrchinFlail");
-            r.AddIngredient(null, "CosmiliteBar", 5);
-            r.AddIngredient(null, "Phantoplasm", 5);
-            r.AddIngredient(null, "NightmareFuel", 5);
-            r.AddIngredient(null, "EndothermicEnergy", 5);
-            r.AddIngredient(null, "DarksunFragment", 5);
-            r.AddIngredient(null, "HellcasterFragment", 10);
-            r.AddIngredient(null, "AuricOre", 25);
+            r.AddIngredient(ModContent.ItemType<BallOFugu>());
+            r.AddIngredient(ModContent.ItemType<Tumbleweed>());
+            r.AddIngredient(ModContent.ItemType<UrchinFlail>());
+            r.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
+            r.AddIngredient(ModContent.ItemType<Phantoplasm>(), 5);
+            r.AddIngredient(ModContent.ItemType<NightmareFuel>(), 5);
+            r.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 5);
+            r.AddIngredient(ModContent.ItemType<DarksunFragment>(), 5);
+            r.AddIngredient(ModContent.ItemType<HellcasterFragment>(), 10);
+            r.AddIngredient(ModContent.ItemType<AuricOre>(), 25);
             r.AddRecipe();
         }
     }

@@ -32,12 +32,12 @@ namespace CalamityMod.Items.Placeables.FurnitureStratus
             recipe.AddTile(412);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "StratusWall", 4);
+            recipe.AddIngredient(ModContent.ItemType<StratusWall>(), 4);
             recipe.SetResult(this, 1);
             recipe.AddTile(TileID.WorkBenches);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "StratusPlatform", 2);
+            recipe.AddIngredient(ModContent.ItemType<StratusPlatform>(), 2);
             recipe.SetResult(this);
             recipe.AddTile(412);
             recipe.AddRecipe();

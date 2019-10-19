@@ -60,8 +60,8 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "CoreofCalamity");
-            recipe.AddIngredient(null, "BarofLife", 5);
+            recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>());
+            recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 5);
             recipe.AddIngredient(ItemID.SoulofLight, 5);
             recipe.AddIngredient(ItemID.SoulofNight, 5);
             recipe.AddTile(TileID.MythrilAnvil);

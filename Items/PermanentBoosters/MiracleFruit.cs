@@ -56,9 +56,9 @@ namespace CalamityMod.Items.PermanentBoosters
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.LifeFruit, 5);
-            recipe.AddIngredient(null, "AstralJelly", 5);
-            recipe.AddIngredient(null, "LivingShard", 10);
-            recipe.AddIngredient(null, "Stardust", 20);
+            recipe.AddIngredient(ModContent.ItemType<AstralJelly>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<LivingShard>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<Stardust>(), 20);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

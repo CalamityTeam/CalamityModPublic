@@ -36,18 +36,18 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "AccretionDisk");
-            recipe.AddIngredient(null, "ShatteredSun");
-            recipe.AddIngredient(null, "ExecutionersBlade");
-            recipe.AddIngredient(null, "Pwnagehammer");
-            recipe.AddIngredient(null, "SpearofPaleolith");
-            recipe.AddIngredient(null, "NightmareFuel", 5);
-            recipe.AddIngredient(null, "EndothermicEnergy", 5);
-            recipe.AddIngredient(null, "CosmiliteBar", 5);
-            recipe.AddIngredient(null, "DarksunFragment", 5);
-            recipe.AddIngredient(null, "HellcasterFragment", 3);
-            recipe.AddIngredient(null, "Phantoplasm", 5);
-            recipe.AddIngredient(null, "AuricOre", 25);
+            recipe.AddIngredient(ModContent.ItemType<AccretionDisk>());
+            recipe.AddIngredient(ModContent.ItemType<ShatteredSun>());
+            recipe.AddIngredient(ModContent.ItemType<ExecutionersBlade>());
+            recipe.AddIngredient(ModContent.ItemType<Pwnagehammer>());
+            recipe.AddIngredient(ModContent.ItemType<SpearofPaleolith>());
+            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<HellcasterFragment>(), 3);
+            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<AuricOre>(), 25);
             recipe.AddTile(null, "DraedonsForge");
             recipe.SetResult(this);
             recipe.AddRecipe();

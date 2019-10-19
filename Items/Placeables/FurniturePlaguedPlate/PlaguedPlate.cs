@@ -32,12 +32,12 @@ namespace CalamityMod.Items.Placeables.FurniturePlaguedPlate
             recipe.AddTile(null, "PlagueInfuser");
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "PlaguedPlateWall", 4);
+            recipe.AddIngredient(ModContent.ItemType<PlaguedPlateWall>(), 4);
             recipe.SetResult(this);
             recipe.AddTile(18);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "PlaguedPlatePlatform", 2);
+            recipe.AddIngredient(ModContent.ItemType<PlaguedPlatePlatform>(), 2);
             recipe.SetResult(this);
             recipe.AddTile(null, "PlagueInfuser");
             recipe.AddRecipe();

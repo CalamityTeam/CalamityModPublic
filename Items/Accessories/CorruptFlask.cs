@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "FetidEssence", 3);
+            recipe.AddIngredient(ModContent.ItemType<FetidEssence>(), 3);
             recipe.AddIngredient(ItemID.RottenChunk, 10);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);

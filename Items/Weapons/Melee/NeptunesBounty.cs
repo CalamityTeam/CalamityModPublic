@@ -37,12 +37,12 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "AbyssBlade");
-            recipe.AddIngredient(null, "RuinousSoul", 5);
-            recipe.AddIngredient(null, "Phantoplasm", 5);
-            recipe.AddIngredient(null, "DepthCells", 15);
-            recipe.AddIngredient(null, "Lumenite", 15);
-            recipe.AddIngredient(null, "Tenebris", 5);
+            recipe.AddIngredient(ModContent.ItemType<AbyssBlade>());
+            recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 15);
+            recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 15);
+            recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 5);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

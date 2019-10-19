@@ -41,9 +41,9 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "CelestialJewel");
-            recipe.AddIngredient(null, "AstralBulwark");
-            recipe.AddIngredient(null, "ArcanumoftheVoid");
+            recipe.AddIngredient(ModContent.ItemType<CelestialJewel>());
+            recipe.AddIngredient(ModContent.ItemType<AstralBulwark>());
+            recipe.AddIngredient(ModContent.ItemType<ArcanumoftheVoid>());
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

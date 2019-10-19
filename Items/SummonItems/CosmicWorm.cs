@@ -52,9 +52,9 @@ namespace CalamityMod.Items.SummonItems
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "ArmoredShell", 3);
-            recipe.AddIngredient(null, "TwistingNether");
-            recipe.AddIngredient(null, "DarkPlasma");
+            recipe.AddIngredient(ModContent.ItemType<ArmoredShell>(), 3);
+            recipe.AddIngredient(ModContent.ItemType<TwistingNether>());
+            recipe.AddIngredient(ModContent.ItemType<DarkPlasma>());
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

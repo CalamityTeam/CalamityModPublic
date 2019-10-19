@@ -56,16 +56,16 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "OpalStriker");
-            recipe.AddIngredient(null, "MagnaCannon");
+            recipe.AddIngredient(ModContent.ItemType<OpalStriker>());
+            recipe.AddIngredient(ModContent.ItemType<MagnaCannon>());
             recipe.AddIngredient(ItemID.AdamantiteBar, 6);
             recipe.AddIngredient(ItemID.Ectoplasm, 5);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "OpalStriker");
-            recipe.AddIngredient(null, "MagnaCannon");
+            recipe.AddIngredient(ModContent.ItemType<OpalStriker>());
+            recipe.AddIngredient(ModContent.ItemType<MagnaCannon>());
             recipe.AddIngredient(ItemID.TitaniumBar, 6);
             recipe.AddIngredient(ItemID.Ectoplasm, 5);
             recipe.AddTile(TileID.MythrilAnvil);

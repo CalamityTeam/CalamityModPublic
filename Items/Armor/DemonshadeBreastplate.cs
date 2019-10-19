@@ -40,7 +40,7 @@ namespace CalamityMod.Items
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "ShadowspecBar", 15);
+            recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 15);
             recipe.AddTile(null, "DraedonsForge");
             recipe.SetResult(this);
             recipe.AddRecipe();

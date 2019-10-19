@@ -37,8 +37,8 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "RadiantStar");
-            recipe.AddIngredient(null, "DivineGeode", 6);
+            recipe.AddIngredient(ModContent.ItemType<RadiantStar>());
+            recipe.AddIngredient(ModContent.ItemType<DivineGeode>(), 6);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

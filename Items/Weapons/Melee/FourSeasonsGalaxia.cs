@@ -38,9 +38,9 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "OmegaBiomeBlade");
-            recipe.AddIngredient(null, "CosmiliteBar", 10);
-            recipe.AddIngredient(null, "Phantoplasm", 5);
+            recipe.AddIngredient(ModContent.ItemType<OmegaBiomeBlade>());
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 5);
             recipe.AddTile(null, "DraedonsForge");
             recipe.SetResult(this);
             recipe.AddRecipe();

@@ -35,8 +35,8 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "BladecrestOathsword");
-            recipe.AddIngredient(null, "OldLordOathsword");
+            recipe.AddIngredient(ModContent.ItemType<BladecrestOathsword>());
+            recipe.AddIngredient(ModContent.ItemType<OldLordOathsword>());
             recipe.AddIngredient(ItemID.SoulofFright, 5);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

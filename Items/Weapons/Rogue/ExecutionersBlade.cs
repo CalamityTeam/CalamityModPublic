@@ -44,14 +44,14 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "CosmiliteBar", 11);
-            recipe.AddIngredient(null, "NightmareFuel", 5);
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 11);
+            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 5);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "CosmiliteBar", 11);
-            recipe.AddIngredient(null, "EndothermicEnergy", 5);
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 11);
+            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 5);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

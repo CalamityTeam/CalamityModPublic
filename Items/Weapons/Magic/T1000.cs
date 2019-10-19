@@ -36,9 +36,9 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "Purge");
-            recipe.AddIngredient(null, "Phantoplasm", 5);
-            recipe.AddIngredient(null, "CosmiliteBar", 5);
+            recipe.AddIngredient(ModContent.ItemType<Purge>());
+            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
             recipe.AddTile(null, "DraedonsForge");
             recipe.SetResult(this);
             recipe.AddRecipe();

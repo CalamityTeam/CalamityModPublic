@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAshen
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "SmoothBrimstoneSlag", 8);
+            recipe.AddIngredient(ModContent.ItemType<SmoothBrimstoneSlag>(), 8);
             recipe.SetResult(this, 1);
             recipe.AddTile(null, "AshenAltar");
             recipe.AddRecipe();

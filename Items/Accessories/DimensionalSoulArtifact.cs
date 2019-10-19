@@ -34,10 +34,10 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "Cinderplate", 5);
-            recipe.AddIngredient(null, "EssenceofEleum", 10);
-            recipe.AddIngredient(null, "CosmiliteBar", 10);
-            recipe.AddIngredient(null, "ExodiumClusterOre", 15);
+            recipe.AddIngredient(ModContent.ItemType<Cinderplate>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<EssenceofEleum>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 15);
             recipe.AddTile(TileID.DemonAltar);
             recipe.SetResult(this);
             recipe.AddRecipe();

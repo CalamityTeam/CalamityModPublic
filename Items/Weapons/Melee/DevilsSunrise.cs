@@ -49,8 +49,8 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             ModRecipe r = new ModRecipe(mod);
             r.AddIngredient(ItemID.Arkhalis);
-            r.AddIngredient(null, "DemonicBoneAsh", 10);
-            r.AddIngredient(null, "BloodstoneCore", 25);
+            r.AddIngredient(ModContent.ItemType<DemonicBoneAsh>(), 10);
+            r.AddIngredient(ModContent.ItemType<BloodstoneCore>(), 25);
             r.AddTile(TileID.LunarCraftingStation);
             r.SetResult(this);
             r.AddRecipe();

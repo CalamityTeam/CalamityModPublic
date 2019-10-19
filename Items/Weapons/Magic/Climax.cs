@@ -74,8 +74,8 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "MagneticMeltdown");
-            recipe.AddIngredient(null, "DarksunFragment", 15);
+            recipe.AddIngredient(ModContent.ItemType<MagneticMeltdown>());
+            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 15);
             recipe.AddTile(null, "DraedonsForge");
             recipe.SetResult(this);
             recipe.AddRecipe();

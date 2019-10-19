@@ -83,12 +83,12 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "Monsoon");
-            recipe.AddIngredient(null, "Phantoplasm", 5);
-            recipe.AddIngredient(null, "CosmiliteBar", 5);
-            recipe.AddIngredient(null, "DepthCells", 10);
-            recipe.AddIngredient(null, "Lumenite", 20);
-            recipe.AddIngredient(null, "Tenebris", 5);
+            recipe.AddIngredient(ModContent.ItemType<Monsoon>());
+            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 20);
+            recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 5);
             recipe.AddTile(null, "DraedonsForge");
             recipe.SetResult(this);
             recipe.AddRecipe();

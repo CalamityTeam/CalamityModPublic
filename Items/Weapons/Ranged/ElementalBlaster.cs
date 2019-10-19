@@ -42,10 +42,10 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "SpectralstormCannon");
-            recipe.AddIngredient(null, "ClockGatlignum");
-            recipe.AddIngredient(null, "PaintballBlaster");
-            recipe.AddIngredient(null, "GalacticaSingularity", 5);
+            recipe.AddIngredient(ModContent.ItemType<SpectralstormCannon>());
+            recipe.AddIngredient(ModContent.ItemType<ClockGatlignum>());
+            recipe.AddIngredient(ModContent.ItemType<PaintballBlaster>());
+            recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5);
             recipe.AddIngredient(ItemID.LunarBar, 5);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);

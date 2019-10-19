@@ -102,10 +102,10 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "ArkoftheAncients");
-            recipe.AddIngredient(null, "CoreofCalamity");
+            recipe.AddIngredient(ModContent.ItemType<ArkoftheAncients>());
+            recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>());
             recipe.AddIngredient(ItemID.BrokenHeroSword);
-            recipe.AddIngredient(null, "LivingShard", 3);
+            recipe.AddIngredient(ModContent.ItemType<LivingShard>(), 3);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

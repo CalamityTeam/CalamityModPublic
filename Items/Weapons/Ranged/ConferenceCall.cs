@@ -106,7 +106,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.TacticalShotgun);
-            recipe.AddIngredient(null, "CoreofChaos", 7);
+            recipe.AddIngredient(ModContent.ItemType<CoreofChaos>(), 7);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

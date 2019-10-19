@@ -36,14 +36,14 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "NightsRay");
-            recipe.AddIngredient(null, "LivingShard", 7);
+            recipe.AddIngredient(ModContent.ItemType<NightsRay>());
+            recipe.AddIngredient(ModContent.ItemType<LivingShard>(), 7);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "CarnageRay");
-            recipe.AddIngredient(null, "LivingShard", 7);
+            recipe.AddIngredient(ModContent.ItemType<CarnageRay>());
+            recipe.AddIngredient(ModContent.ItemType<LivingShard>(), 7);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

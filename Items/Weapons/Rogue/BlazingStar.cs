@@ -68,9 +68,9 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "Glaive", 1);
+            recipe.AddIngredient(ModContent.ItemType<Glaive>(), 1);
             recipe.AddIngredient(ItemID.HellstoneBar, 3);
-            recipe.AddIngredient(null, "EssenceofChaos", 4);
+            recipe.AddIngredient(ModContent.ItemType<EssenceofChaos>(), 4);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

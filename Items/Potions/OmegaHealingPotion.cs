@@ -32,8 +32,8 @@ namespace CalamityMod.Items.Potions
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "SupremeHealingPotion");
-            recipe.AddIngredient(null, "BloodOrb", 10);
+            recipe.AddIngredient(ModContent.ItemType<SupremeHealingPotion>());
+            recipe.AddIngredient(ModContent.ItemType<BloodOrb>(), 10);
             recipe.AddTile(null, "DraedonsForge");
             recipe.SetResult(this);
             recipe.AddRecipe();

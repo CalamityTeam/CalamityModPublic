@@ -40,20 +40,20 @@ namespace CalamityMod.Items
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "SilvaArmor");
-            recipe.AddIngredient(null, "GodSlayerChestplate");
-            recipe.AddIngredient(null, "BloodflareBodyArmor");
-            recipe.AddIngredient(null, "TarragonBreastplate");
-            recipe.AddIngredient(null, "AuricOre", 100);
-            recipe.AddIngredient(null, "EndothermicEnergy", 30);
-            recipe.AddIngredient(null, "NightmareFuel", 30);
-            recipe.AddIngredient(null, "Phantoplasm", 20);
-            recipe.AddIngredient(null, "DarksunFragment", 15);
-            recipe.AddIngredient(null, "BarofLife", 10);
-            recipe.AddIngredient(null, "HellcasterFragment", 7);
-            recipe.AddIngredient(null, "CoreofCalamity", 5);
-            recipe.AddIngredient(null, "GalacticaSingularity", 3);
-            recipe.AddIngredient(null, "FrostBarrier");
+            recipe.AddIngredient(ModContent.ItemType<SilvaArmor>());
+            recipe.AddIngredient(ModContent.ItemType<GodSlayerChestplate>());
+            recipe.AddIngredient(ModContent.ItemType<BloodflareBodyArmor>());
+            recipe.AddIngredient(ModContent.ItemType<TarragonBreastplate>());
+            recipe.AddIngredient(ModContent.ItemType<AuricOre>(), 100);
+            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 30);
+            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 30);
+            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 20);
+            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 15);
+            recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<HellcasterFragment>(), 7);
+            recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 3);
+            recipe.AddIngredient(ModContent.ItemType<FrostBarrier>());
             recipe.AddTile(null, "DraedonsForge");
             recipe.SetResult(this);
             recipe.AddRecipe();

@@ -40,10 +40,10 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "ProfanedTrident");
-            recipe.AddIngredient(null, "BloodstoneCore", 15);
+            recipe.AddIngredient(ModContent.ItemType<ProfanedTrident>());
+            recipe.AddIngredient(ModContent.ItemType<BloodstoneCore>(), 15);
             recipe.AddIngredient(ItemID.SoulofNight, 15);
-            recipe.AddIngredient(null, "ShadowspecBar", 5);
+            recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
             recipe.AddTile(null, "DraedonsForge");
             recipe.SetResult(this);
             recipe.AddRecipe();

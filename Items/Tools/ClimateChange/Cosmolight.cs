@@ -48,8 +48,8 @@ namespace CalamityMod.Items.Tools.ClimateChange
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "Daylight");
-            recipe.AddIngredient(null, "Moonlight");
+            recipe.AddIngredient(ModContent.ItemType<Daylight>());
+            recipe.AddIngredient(ModContent.ItemType<Moonlight>());
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

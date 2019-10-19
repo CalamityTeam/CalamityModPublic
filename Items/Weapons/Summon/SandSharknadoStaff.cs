@@ -63,7 +63,7 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.TempestStaff);
-            recipe.AddIngredient(null, "GrandScale");
+            recipe.AddIngredient(ModContent.ItemType<GrandScale>());
             recipe.AddIngredient(ItemID.HallowedBar, 10);
             recipe.AddIngredient(ItemID.AncientCloth, 5);
             recipe.AddTile(TileID.MythrilAnvil);

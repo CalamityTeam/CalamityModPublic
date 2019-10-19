@@ -24,13 +24,13 @@ namespace CalamityMod.Items.Placeables
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.StoneBlock, 1);
-            recipe.AddIngredient(null, "ChaoticOre", 1);
+            recipe.AddIngredient(ModContent.ItemType<ChaoticOre>(), 1);
             recipe.AddTile(17);
             recipe.SetResult(this, 1);
             recipe.AddRecipe();
 
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "ChaoticBrickWall", 4);
+            recipe.AddIngredient(ModContent.ItemType<ChaoticBrickWall>(), 4);
             recipe.AddTile(18);
             recipe.SetResult(this, 1);
             recipe.AddRecipe();

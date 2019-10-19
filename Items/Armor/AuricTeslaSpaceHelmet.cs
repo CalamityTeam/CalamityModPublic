@@ -206,20 +206,20 @@ namespace CalamityMod.Items
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "SilvaHelmet");
-            recipe.AddIngredient(null, "GodSlayerHornedHelm");
-            recipe.AddIngredient(null, "BloodflareHelmet");
-            recipe.AddIngredient(null, "TarragonHornedHelm");
-            recipe.AddIngredient(null, "AuricOre", 60);
-            recipe.AddIngredient(null, "EndothermicEnergy", 10);
-            recipe.AddIngredient(null, "NightmareFuel", 10);
-            recipe.AddIngredient(null, "Phantoplasm", 8);
-            recipe.AddIngredient(null, "DarksunFragment", 6);
-            recipe.AddIngredient(null, "BarofLife", 5);
-            recipe.AddIngredient(null, "HellcasterFragment", 5);
-            recipe.AddIngredient(null, "CoreofCalamity", 2);
-            recipe.AddIngredient(null, "GalacticaSingularity");
-            recipe.AddIngredient(null, "PsychoticAmulet");
+            recipe.AddIngredient(ModContent.ItemType<SilvaHelmet>());
+            recipe.AddIngredient(ModContent.ItemType<GodSlayerHornedHelm>());
+            recipe.AddIngredient(ModContent.ItemType<BloodflareHelmet>());
+            recipe.AddIngredient(ModContent.ItemType<TarragonHornedHelm>());
+            recipe.AddIngredient(ModContent.ItemType<AuricOre>(), 60);
+            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 8);
+            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 6);
+            recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<HellcasterFragment>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>(), 2);
+            recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>());
+            recipe.AddIngredient(ModContent.ItemType<PsychoticAmulet>());
             recipe.AddTile(null, "DraedonsForge");
             recipe.SetResult(this);
             recipe.AddRecipe();

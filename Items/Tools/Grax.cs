@@ -35,8 +35,8 @@ namespace CalamityMod.Items.Tools
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "FellerofEvergreens");
-            recipe.AddIngredient(null, "DraedonBar", 5);
+            recipe.AddIngredient(ModContent.ItemType<FellerofEvergreens>());
+            recipe.AddIngredient(ModContent.ItemType<DraedonBar>(), 5);
             recipe.AddRecipeGroup("LunarHamaxe");
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);

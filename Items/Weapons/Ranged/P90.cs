@@ -62,7 +62,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.IronBar, 10);
             recipe.anyIronBar = true;
-            recipe.AddIngredient(null, "CoreofEleum", 7);
+            recipe.AddIngredient(ModContent.ItemType<CoreofEleum>(), 7);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

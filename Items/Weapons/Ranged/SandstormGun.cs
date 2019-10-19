@@ -48,7 +48,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Sandgun);
-            recipe.AddIngredient(null, "GrandScale");
+            recipe.AddIngredient(ModContent.ItemType<GrandScale>());
             recipe.AddIngredient(ItemID.Amber, 5);
             recipe.AddIngredient(ItemID.SandBlock, 50);
             recipe.AddTile(TileID.MythrilAnvil);

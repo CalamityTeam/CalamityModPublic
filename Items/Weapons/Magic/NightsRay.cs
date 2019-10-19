@@ -40,8 +40,8 @@ namespace CalamityMod.Items.Weapons.Magic
             recipe.AddIngredient(ItemID.Vilethorn);
             recipe.AddIngredient(ItemID.AmberStaff);
             recipe.AddIngredient(ItemID.MagicMissile);
-            recipe.AddIngredient(null, "TrueShadowScale", 15);
-            recipe.AddIngredient(null, "PurifiedGel", 10);
+            recipe.AddIngredient(ModContent.ItemType<TrueShadowScale>(), 15);
+            recipe.AddIngredient(ModContent.ItemType<PurifiedGel>(), 10);
             recipe.AddTile(TileID.DemonAltar);
             recipe.SetResult(this);
             recipe.AddRecipe();

@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Placeables.FurnitureProfaned
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "ProfanedCrystal");
+            recipe.AddIngredient(ModContent.ItemType<ProfanedCrystal>());
             recipe.SetResult(this, 4);
             recipe.AddTile(18);
             recipe.AddRecipe();

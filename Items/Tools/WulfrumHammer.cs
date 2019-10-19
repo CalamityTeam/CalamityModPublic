@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Tools
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "WulfrumShard", 16);
+            recipe.AddIngredient(ModContent.ItemType<WulfrumShard>(), 16);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

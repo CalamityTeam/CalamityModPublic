@@ -53,13 +53,13 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "ShadecrystalTome");
-            recipe.AddIngredient(null, "AbyssalTome");
+            recipe.AddIngredient(ModContent.ItemType<ShadecrystalTome>());
+            recipe.AddIngredient(ModContent.ItemType<AbyssalTome>());
             recipe.AddIngredient(ItemID.HolyWater, 10);
-            recipe.AddIngredient(null, "EndothermicEnergy", 5);
-            recipe.AddIngredient(null, "NightmareFuel", 5);
+            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 5);
             recipe.AddIngredient(ItemID.SoulofLight, 30);
-            recipe.AddIngredient(null, "EffulgentFeather", 5);
+            recipe.AddIngredient(ModContent.ItemType<EffulgentFeather>(), 5);
             recipe.AddTile(TileID.Bookcases);
             recipe.SetResult(this);
             recipe.AddRecipe();

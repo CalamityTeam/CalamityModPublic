@@ -32,8 +32,8 @@ namespace CalamityMod.Items.Mounts
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.DD2PetDragon);
             recipe.AddIngredient(ItemID.SoulofNight, 100);
-            recipe.AddIngredient(null, "DarksunFragment", 50);
-            recipe.AddIngredient(null, "ExodiumClusterOre", 25);
+            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 50);
+            recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 25);
             recipe.AddTile(null, "DraedonsForge");
             recipe.SetResult(this);
             recipe.AddRecipe();

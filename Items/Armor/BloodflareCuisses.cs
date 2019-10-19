@@ -32,8 +32,8 @@ namespace CalamityMod.Items
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "BloodstoneCore", 13);
-            recipe.AddIngredient(null, "RuinousSoul", 3);
+            recipe.AddIngredient(ModContent.ItemType<BloodstoneCore>(), 13);
+            recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 3);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

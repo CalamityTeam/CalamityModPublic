@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Melee
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.RottenChunk, 5);
             recipe.AddIngredient(ItemID.DemoniteBar, 5);
-            recipe.AddIngredient(null, "TrueShadowScale", 15);
+            recipe.AddIngredient(ModContent.ItemType<TrueShadowScale>(), 15);
             recipe.AddTile(TileID.DemonAltar);
             recipe.SetResult(this);
             recipe.AddRecipe();

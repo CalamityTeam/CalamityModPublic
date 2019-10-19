@@ -25,17 +25,17 @@ namespace CalamityMod.Items.Placeables.FurnitureVoid
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "Voidstone", 1);
+            recipe.AddIngredient(ModContent.ItemType<Voidstone>(), 1);
             recipe.SetResult(this);
             recipe.AddTile(TileID.WorkBenches);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "SmoothVoidstoneWall", 4);
+            recipe.AddIngredient(ModContent.ItemType<SmoothVoidstoneWall>(), 4);
             recipe.SetResult(this);
             recipe.AddTile(TileID.WorkBenches);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "SmoothVoidstonePlatform", 2);
+            recipe.AddIngredient(ModContent.ItemType<SmoothVoidstonePlatform>(), 2);
             recipe.SetResult(this);
             recipe.AddTile(null, "VoidCondenser");
             recipe.AddRecipe();

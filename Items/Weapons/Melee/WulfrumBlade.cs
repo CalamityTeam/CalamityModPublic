@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "WulfrumShard", 12);
+            recipe.AddIngredient(ModContent.ItemType<WulfrumShard>(), 12);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

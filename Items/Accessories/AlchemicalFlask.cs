@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Accessories
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.BottledWater);
             recipe.AddIngredient(ItemID.Bezoar);
-            recipe.AddIngredient(null, "PlagueCellCluster", 10);
+            recipe.AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 10);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

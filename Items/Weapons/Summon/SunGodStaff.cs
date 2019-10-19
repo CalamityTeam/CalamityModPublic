@@ -34,8 +34,8 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "SunSpiritStaff");
-            recipe.AddIngredient(null, "EssenceofCinder", 5);
+            recipe.AddIngredient(ModContent.ItemType<SunSpiritStaff>());
+            recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>(), 5);
             recipe.AddIngredient(ItemID.SoulofMight, 3);
             recipe.AddIngredient(ItemID.SoulofSight, 3);
             recipe.AddIngredient(ItemID.SoulofFright, 3);

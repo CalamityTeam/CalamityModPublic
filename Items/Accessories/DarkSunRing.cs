@@ -39,8 +39,8 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "UeliaceBar", 10);
-            recipe.AddIngredient(null, "DarksunFragment", 100);
+            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 100);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

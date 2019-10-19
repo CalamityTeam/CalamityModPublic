@@ -115,8 +115,8 @@ namespace CalamityMod.Items.Accessories.Wings
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "DraedonBar", 5);
-            recipe.AddIngredient(null, "EssenceofCinder");
+            recipe.AddIngredient(ModContent.ItemType<DraedonBar>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>());
             recipe.AddIngredient(ItemID.SoulofFlight, 20);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

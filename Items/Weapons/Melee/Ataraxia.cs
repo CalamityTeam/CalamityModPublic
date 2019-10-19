@@ -125,14 +125,14 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             ModRecipe r = new ModRecipe(mod);
             r.AddIngredient(ItemID.BrokenHeroSword);
-            r.AddIngredient(null, "CosmiliteBar", 25);
-            r.AddIngredient(null, "Phantoplasm", 35);
-            r.AddIngredient(null, "NightmareFuel", 90);
-            r.AddIngredient(null, "EndothermicEnergy", 90);
-            r.AddIngredient(null, "DarksunFragment", 65);
-            r.AddIngredient(null, "BarofLife", 15);
-            r.AddIngredient(null, "CoreofCalamity", 5);
-            r.AddIngredient(null, "HellcasterFragment", 10);
+            r.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 25);
+            r.AddIngredient(ModContent.ItemType<Phantoplasm>(), 35);
+            r.AddIngredient(ModContent.ItemType<NightmareFuel>(), 90);
+            r.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 90);
+            r.AddIngredient(ModContent.ItemType<DarksunFragment>(), 65);
+            r.AddIngredient(ModContent.ItemType<BarofLife>(), 15);
+            r.AddIngredient(ModContent.ItemType<CoreofCalamity>(), 5);
+            r.AddIngredient(ModContent.ItemType<HellcasterFragment>(), 10);
             r.AddTile(null, "DraedonsForge");
             r.SetResult(this);
             r.AddRecipe();

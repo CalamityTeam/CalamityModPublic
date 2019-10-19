@@ -100,13 +100,13 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "FourSeasonsGalaxia");
-            recipe.AddIngredient(null, "ArkoftheElements");
-            recipe.AddIngredient(null, "NightmareFuel", 5);
-            recipe.AddIngredient(null, "EndothermicEnergy", 5);
-            recipe.AddIngredient(null, "HellcasterFragment", 3);
-            recipe.AddIngredient(null, "DarksunFragment", 5);
-            recipe.AddIngredient(null, "AuricOre", 25);
+            recipe.AddIngredient(ModContent.ItemType<FourSeasonsGalaxia>());
+            recipe.AddIngredient(ModContent.ItemType<ArkoftheElements>());
+            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<HellcasterFragment>(), 3);
+            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<AuricOre>(), 25);
             recipe.AddTile(null, "DraedonsForge");
             recipe.SetResult(this);
             recipe.AddRecipe();

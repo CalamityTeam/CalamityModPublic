@@ -37,9 +37,9 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "ShadowspecBar", 5);
-            recipe.AddIngredient(null, "CoreofCinder", 3);
-            recipe.AddIngredient(null, "CoreofEleum", 3);
+            recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<CoreofCinder>(), 3);
+            recipe.AddIngredient(ModContent.ItemType<CoreofEleum>(), 3);
             recipe.AddIngredient(ItemID.FragmentSolar, 10);
             recipe.AddTile(null, "DraedonsForge");
             recipe.SetResult(this);

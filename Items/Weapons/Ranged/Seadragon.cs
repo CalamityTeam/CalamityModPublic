@@ -62,12 +62,12 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "Megalodon");
-            recipe.AddIngredient(null, "Phantoplasm", 9);
-            recipe.AddIngredient(null, "ArmoredShell", 3);
-            recipe.AddIngredient(null, "DepthCells", 15);
-            recipe.AddIngredient(null, "Lumenite", 15);
-            recipe.AddIngredient(null, "Tenebris", 5);
+            recipe.AddIngredient(ModContent.ItemType<Megalodon>());
+            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 9);
+            recipe.AddIngredient(ModContent.ItemType<ArmoredShell>(), 3);
+            recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 15);
+            recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 15);
+            recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 5);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

@@ -97,7 +97,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             recipe.AddIngredient(ItemID.FlareGun);
             recipe.AddIngredient(ItemID.Boomstick);
             recipe.AddIngredient(ItemID.GoldBar, 10);
-            recipe.AddIngredient(null, "VictoryShard", 10);
+            recipe.AddIngredient(ModContent.ItemType<VictoryShard>(), 10);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
@@ -105,7 +105,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             recipe.AddIngredient(ItemID.FlareGun);
             recipe.AddIngredient(ItemID.Boomstick);
             recipe.AddIngredient(ItemID.PlatinumBar, 10);
-            recipe.AddIngredient(null, "VictoryShard", 10);
+            recipe.AddIngredient(ModContent.ItemType<VictoryShard>(), 10);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

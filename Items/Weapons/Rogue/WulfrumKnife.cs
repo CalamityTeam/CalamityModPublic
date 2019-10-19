@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "WulfrumShard");
+            recipe.AddIngredient(ModContent.ItemType<WulfrumShard>());
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this, 50);
             recipe.AddRecipe();

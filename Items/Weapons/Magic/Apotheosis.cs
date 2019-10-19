@@ -46,16 +46,16 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "SubsumingVortex");
-            recipe.AddIngredient(null, "CosmicDischarge");
-            recipe.AddIngredient(null, "StaffoftheMechworm", 2);
-            recipe.AddIngredient(null, "Excelsus", 2);
-            recipe.AddIngredient(null, "DarksunFragment", 33);
-            recipe.AddIngredient(null, "NightmareFuel", 33);
-            recipe.AddIngredient(null, "EndothermicEnergy", 33);
-            recipe.AddIngredient(null, "CosmiliteBar", 33);
-            recipe.AddIngredient(null, "Phantoplasm", 33);
-            recipe.AddIngredient(null, "ShadowspecBar", 5);
+            recipe.AddIngredient(ModContent.ItemType<SubsumingVortex>());
+            recipe.AddIngredient(ModContent.ItemType<CosmicDischarge>());
+            recipe.AddIngredient(ModContent.ItemType<StaffoftheMechworm>(), 2);
+            recipe.AddIngredient(ModContent.ItemType<Excelsus>(), 2);
+            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 33);
+            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 33);
+            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 33);
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 33);
+            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 33);
+            recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
             recipe.AddTile(null, "DraedonsForge");
             recipe.SetResult(this);
             recipe.AddRecipe();

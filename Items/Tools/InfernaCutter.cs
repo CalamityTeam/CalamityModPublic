@@ -34,9 +34,9 @@ namespace CalamityMod.Items.Tools
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "PurityAxe");
+            recipe.AddIngredient(ModContent.ItemType<PurityAxe>());
             recipe.AddIngredient(ItemID.SoulofFright, 8);
-            recipe.AddIngredient(null, "EssenceofChaos", 3);
+            recipe.AddIngredient(ModContent.ItemType<EssenceofChaos>(), 3);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

@@ -39,8 +39,8 @@ namespace CalamityMod.Items.Accessories
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.FragmentStardust, 10);
-            recipe.AddIngredient(null, "StatisBlessing");
-            recipe.AddIngredient(null, "TheFirstShadowflame");
+            recipe.AddIngredient(ModContent.ItemType<StatisBlessing>());
+            recipe.AddIngredient(ModContent.ItemType<TheFirstShadowflame>());
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

@@ -23,9 +23,9 @@ namespace CalamityMod.Items.Materials
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "VerstaltiteBar");
-            recipe.AddIngredient(null, "DraedonBar");
-            recipe.AddIngredient(null, "CruptixBar");
+            recipe.AddIngredient(ModContent.ItemType<VerstaltiteBar>());
+            recipe.AddIngredient(ModContent.ItemType<DraedonBar>());
+            recipe.AddIngredient(ModContent.ItemType<CruptixBar>());
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

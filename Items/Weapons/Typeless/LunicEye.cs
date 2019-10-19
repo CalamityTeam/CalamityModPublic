@@ -58,8 +58,8 @@ namespace CalamityMod.Items.Weapons.Typeless
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "Stardust", 20);
-            recipe.AddIngredient(null, "AerialiteBar", 15);
+            recipe.AddIngredient(ModContent.ItemType<Stardust>(), 20);
+            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 15);
             recipe.AddIngredient(ItemID.SunplateBlock, 15);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);

@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Ammo
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.MeteorShot, 150);
-            recipe.AddIngredient(null, "VictoryShard");
+            recipe.AddIngredient(ModContent.ItemType<VictoryShard>());
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this, 150);
             recipe.AddRecipe();

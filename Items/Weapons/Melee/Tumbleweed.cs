@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Sunfury);
-            recipe.AddIngredient(null, "GrandScale");
+            recipe.AddIngredient(ModContent.ItemType<GrandScale>());
             recipe.AddIngredient(ItemID.SoulofMight, 5);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

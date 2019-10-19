@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Placeables
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "EutrophicSand");
+            recipe.AddIngredient(ModContent.ItemType<EutrophicSand>());
             recipe.AddTile(18);
             recipe.SetResult(this, 4);
             recipe.AddRecipe();

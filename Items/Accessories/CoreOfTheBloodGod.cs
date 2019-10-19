@@ -37,12 +37,12 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "BloodyWormScarf");
-            recipe.AddIngredient(null, "BloodPact");
-            recipe.AddIngredient(null, "FleshTotem");
-            recipe.AddIngredient(null, "BloodflareCore");
-            recipe.AddIngredient(null, "CosmiliteBar", 5);
-            recipe.AddIngredient(null, "Phantoplasm", 5);
+            recipe.AddIngredient(ModContent.ItemType<BloodyWormScarf>());
+            recipe.AddIngredient(ModContent.ItemType<BloodPact>());
+            recipe.AddIngredient(ModContent.ItemType<FleshTotem>());
+            recipe.AddIngredient(ModContent.ItemType<BloodflareCore>());
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 5);
             recipe.AddTile(null, "DraedonsForge");
             recipe.SetResult(this);
             recipe.AddRecipe();

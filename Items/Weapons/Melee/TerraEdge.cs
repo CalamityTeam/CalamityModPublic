@@ -36,16 +36,16 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "TrueBloodyEdge");
+            recipe.AddIngredient(ModContent.ItemType<TrueBloodyEdge>());
             recipe.AddIngredient(ItemID.TrueExcalibur);
-            recipe.AddIngredient(null, "LivingShard", 7);
+            recipe.AddIngredient(ModContent.ItemType<LivingShard>(), 7);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.TrueNightsEdge);
             recipe.AddIngredient(ItemID.TrueExcalibur);
-            recipe.AddIngredient(null, "LivingShard", 7);
+            recipe.AddIngredient(ModContent.ItemType<LivingShard>(), 7);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

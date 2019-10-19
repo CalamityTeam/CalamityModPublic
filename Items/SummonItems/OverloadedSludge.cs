@@ -43,19 +43,19 @@ namespace CalamityMod.Items.SummonItems
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "EbonianGel", 25);
+            recipe.AddIngredient(ModContent.ItemType<EbonianGel>(), 25);
             recipe.AddIngredient(ItemID.EbonstoneBlock, 25);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "EbonianGel", 25);
+            recipe.AddIngredient(ModContent.ItemType<EbonianGel>(), 25);
             recipe.AddIngredient(ItemID.CrimstoneBlock, 25);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "PurifiedGel", 25);
+            recipe.AddIngredient(ModContent.ItemType<PurifiedGel>(), 25);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

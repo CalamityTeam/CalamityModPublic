@@ -34,8 +34,8 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Terrarian);
-            recipe.AddIngredient(null, "ShadowspecBar", 5);
-            recipe.AddIngredient(null, "CoreofCalamity", 3);
+            recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>(), 3);
             recipe.AddTile(null, "DraedonsForge");
             recipe.SetResult(this);
             recipe.AddRecipe();

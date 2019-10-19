@@ -86,7 +86,7 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "LightningHawk");
+            recipe.AddIngredient(ModContent.ItemType<LightningHawk>());
             recipe.AddIngredient(ItemID.LunarBar, 30);
             recipe.AddIngredient(ItemID.IllegalGunParts);
             recipe.AddTile(TileID.LunarCraftingStation);

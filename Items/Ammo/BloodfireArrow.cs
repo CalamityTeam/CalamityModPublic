@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Ammo
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "BloodstoneCore");
+            recipe.AddIngredient(ModContent.ItemType<BloodstoneCore>());
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this, 250);
             recipe.AddRecipe();

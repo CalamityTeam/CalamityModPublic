@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "UeliaceBar", 2);
+            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 2);
             recipe.AddIngredient(ItemID.FeralClaws);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);

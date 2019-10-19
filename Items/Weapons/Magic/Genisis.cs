@@ -58,7 +58,7 @@ namespace CalamityMod.Items.Weapons.Magic
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.LaserMachinegun);
             recipe.AddIngredient(ItemID.LunarBar, 5);
-            recipe.AddIngredient(null, "BarofLife", 5);
+            recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 5);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

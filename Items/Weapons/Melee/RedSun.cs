@@ -39,9 +39,9 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.AntlionClaw);
-            recipe.AddIngredient(null, "ForsakenSaber");
-            recipe.AddIngredient(null, "CoreofCinder", 5);
-            recipe.AddIngredient(null, "ShadowspecBar", 5);
+            recipe.AddIngredient(ModContent.ItemType<ForsakenSaber>());
+            recipe.AddIngredient(ModContent.ItemType<CoreofCinder>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
             recipe.AddTile(null, "DraedonsForge");
             recipe.SetResult(this);
             recipe.AddRecipe();

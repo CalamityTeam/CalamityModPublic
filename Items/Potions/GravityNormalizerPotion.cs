@@ -32,14 +32,14 @@ namespace CalamityMod.Items.Potions
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.GravitationPotion);
-            recipe.AddIngredient(null, "AstralJelly");
+            recipe.AddIngredient(ModContent.ItemType<AstralJelly>());
             recipe.AddTile(TileID.AlchemyTable);
             recipe.SetResult(this);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.BottledWater);
-            recipe.AddIngredient(null, "BloodOrb", 10);
-            recipe.AddIngredient(null, "AstralJelly");
+            recipe.AddIngredient(ModContent.ItemType<BloodOrb>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<AstralJelly>());
             recipe.AddTile(TileID.AlchemyTable);
             recipe.SetResult(this);
             recipe.AddRecipe();

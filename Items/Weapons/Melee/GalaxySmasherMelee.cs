@@ -52,10 +52,10 @@ namespace CalamityMod.Items.Weapons.Melee
             ModRecipe r = new ModRecipe(mod);
             r.SetResult(this);
             r.AddTile(null, "DraedonsForge");
-            r.AddIngredient(null, "StellarContemptMelee");
-            r.AddIngredient(null, "CosmiliteBar", 10);
-            r.AddIngredient(null, "NightmareFuel", 10);
-            r.AddIngredient(null, "EndothermicEnergy", 10);
+            r.AddIngredient(ModContent.ItemType<StellarContemptMelee>());
+            r.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
+            r.AddIngredient(ModContent.ItemType<NightmareFuel>(), 10);
+            r.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 10);
             r.AddRecipe();
         }
     }

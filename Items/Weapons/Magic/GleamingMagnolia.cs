@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "ManaRose");
+            recipe.AddIngredient(ModContent.ItemType<ManaRose>());
             recipe.AddIngredient(ItemID.HallowedBar, 5);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

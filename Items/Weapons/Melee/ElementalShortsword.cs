@@ -43,8 +43,8 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "TerraShiv");
-            recipe.AddIngredient(null, "GalacticaSingularity", 5);
+            recipe.AddIngredient(ModContent.ItemType<TerraShiv>());
+            recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5);
             recipe.AddIngredient(ItemID.LunarBar, 5);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);

@@ -35,7 +35,7 @@ namespace CalamityMod.Items
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "VictideBar", 4);
+            recipe.AddIngredient(ModContent.ItemType<VictideBar>(), 4);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

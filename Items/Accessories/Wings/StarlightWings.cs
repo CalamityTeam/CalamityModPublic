@@ -77,8 +77,8 @@ namespace CalamityMod.Items.Accessories.Wings
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "VerstaltiteBar", 5);
-            recipe.AddIngredient(null, "EssenceofEleum");
+            recipe.AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<EssenceofEleum>());
             recipe.AddIngredient(ItemID.SoulofFlight, 20);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

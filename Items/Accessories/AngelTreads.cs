@@ -44,9 +44,9 @@ namespace CalamityMod.Items.Accessories
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.FrostsparkBoots);
             recipe.AddIngredient(ItemID.LavaWaders);
-            recipe.AddIngredient(null, "HarpyRing");
-            recipe.AddIngredient(null, "EssenceofCinder", 5);
-            recipe.AddIngredient(null, "AerialiteBar", 20);
+            recipe.AddIngredient(ModContent.ItemType<HarpyRing>());
+            recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 20);
             recipe.AddIngredient(ItemID.SoulofMight);
             recipe.AddIngredient(ItemID.SoulofSight);
             recipe.AddIngredient(ItemID.SoulofFright);

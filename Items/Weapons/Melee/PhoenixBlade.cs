@@ -57,7 +57,7 @@ namespace CalamityMod.Items.Weapons.Melee
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.BreakerBlade);
             recipe.AddIngredient(ItemID.HellstoneBar, 10);
-            recipe.AddIngredient(null, "EssenceofCinder");
+            recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>());
             recipe.AddIngredient(ItemID.SoulofMight, 3);
             recipe.AddIngredient(ItemID.SoulofSight, 3);
             recipe.AddIngredient(ItemID.SoulofFright, 3);

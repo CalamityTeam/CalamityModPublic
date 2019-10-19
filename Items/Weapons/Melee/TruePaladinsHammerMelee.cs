@@ -36,9 +36,9 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.PaladinsHammer);
-            recipe.AddIngredient(null, "CalamityDust", 5);
-            recipe.AddIngredient(null, "CoreofChaos", 5);
-            recipe.AddIngredient(null, "CruptixBar", 5);
+            recipe.AddIngredient(ModContent.ItemType<CalamityDust>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<CoreofChaos>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<CruptixBar>(), 5);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

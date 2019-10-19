@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Placeables
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "BrimstoneSlag");
+            recipe.AddIngredient(ModContent.ItemType<BrimstoneSlag>());
             recipe.AddTile(18);
             recipe.SetResult(this, 4);
             recipe.AddRecipe();

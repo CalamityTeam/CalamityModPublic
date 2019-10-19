@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "VerstaltiteBar");
+            recipe.AddIngredient(ModContent.ItemType<VerstaltiteBar>());
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this, 20);
             recipe.AddRecipe();

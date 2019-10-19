@@ -35,9 +35,9 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "StormlionMandible");
-            recipe.AddIngredient(null, "VictideBar", 2);
-            recipe.AddIngredient(null, "AerialiteBar", 2);
+            recipe.AddIngredient(ModContent.ItemType<StormlionMandible>());
+            recipe.AddIngredient(ModContent.ItemType<VictideBar>(), 2);
+            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 2);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

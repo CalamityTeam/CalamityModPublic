@@ -38,10 +38,10 @@ namespace CalamityMod.Items.Accessories
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.WarriorEmblem);
-            recipe.AddIngredient(null, "NecklaceofVexation");
-            recipe.AddIngredient(null, "CoreofCinder", 5);
+            recipe.AddIngredient(ModContent.ItemType<NecklaceofVexation>());
+            recipe.AddIngredient(ModContent.ItemType<CoreofCinder>(), 5);
             recipe.AddIngredient(ItemID.CrossNecklace);
-            recipe.AddIngredient(null, "BadgeofBravery");
+            recipe.AddIngredient(ModContent.ItemType<BadgeofBravery>());
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

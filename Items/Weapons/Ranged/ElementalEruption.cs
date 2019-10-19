@@ -57,11 +57,11 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "GalacticaSingularity", 5);
-            recipe.AddIngredient(null, "TerraFlameburster");
-            recipe.AddIngredient(null, "Meowthrower");
-            recipe.AddIngredient(null, "MepheticSprayer");
-            recipe.AddIngredient(null, "BrimstoneFlamesprayer");
+            recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<TerraFlameburster>());
+            recipe.AddIngredient(ModContent.ItemType<Meowthrower>());
+            recipe.AddIngredient(ModContent.ItemType<MepheticSprayer>());
+            recipe.AddIngredient(ModContent.ItemType<BrimstoneFlamesprayer>());
             recipe.AddIngredient(ItemID.LunarBar, 5);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);

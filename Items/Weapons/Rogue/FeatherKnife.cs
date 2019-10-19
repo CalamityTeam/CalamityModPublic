@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "AerialiteBar");
+            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>());
             recipe.AddTile(TileID.SkyMill);
             recipe.SetResult(this, 30);
             recipe.AddRecipe();

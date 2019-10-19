@@ -89,7 +89,7 @@ namespace CalamityMod.Items.Accessories.Wings
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "UeliaceBar", 5);
+            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 5);
             recipe.AddIngredient(ItemID.SoulofFlight, 30);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);

@@ -41,14 +41,14 @@ namespace CalamityMod.Items.Ammo
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "CosmiliteBar");
-            recipe.AddIngredient(null, "NightmareFuel");
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>());
+            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>());
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this, 250);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "CosmiliteBar");
-            recipe.AddIngredient(null, "EndothermicEnergy");
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>());
+            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>());
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this, 250);
             recipe.AddRecipe();

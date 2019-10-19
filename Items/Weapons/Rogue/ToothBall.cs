@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "BloodSample");
+            recipe.AddIngredient(ModContent.ItemType<BloodSample>());
             recipe.AddIngredient(ItemID.Vertebrae);
             recipe.AddIngredient(ItemID.CrimtaneBar);
             recipe.AddTile(TileID.DemonAltar);

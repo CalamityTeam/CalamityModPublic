@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "NightsStabber");
+            recipe.AddIngredient(ModContent.ItemType<NightsStabber>());
             recipe.AddIngredient(ItemID.BrokenHeroSword);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

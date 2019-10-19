@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "CryoBar", 10);
+            recipe.AddIngredient(ModContent.ItemType<CryoBar>(), 10);
             recipe.AddTile(TileID.IceMachine);
             recipe.SetResult(this);
             recipe.AddRecipe();

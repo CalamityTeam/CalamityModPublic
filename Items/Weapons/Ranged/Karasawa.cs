@@ -72,10 +72,10 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             ModRecipe r = new ModRecipe(mod);
-            r.AddIngredient(null, "CrownJewel");
-            r.AddIngredient(null, "GalacticaSingularity", 5);
-            r.AddIngredient(null, "BarofLife", 10);
-            r.AddIngredient(null, "CosmiliteBar", 15);
+            r.AddIngredient(ModContent.ItemType<CrownJewel>());
+            r.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5);
+            r.AddIngredient(ModContent.ItemType<BarofLife>(), 10);
+            r.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 15);
             r.AddTile(null, "DraedonsForge");
             r.SetResult(this);
             r.AddRecipe();

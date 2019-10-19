@@ -84,9 +84,9 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "DepthCells", 30);
-            recipe.AddIngredient(null, "Lumenite", 10);
-            recipe.AddIngredient(null, "Tenebris", 10);
+            recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 30);
+            recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 10);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

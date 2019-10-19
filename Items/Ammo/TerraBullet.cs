@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Ammo
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.CrystalBullet, 100);
-            recipe.AddIngredient(null, "LivingShard");
+            recipe.AddIngredient(ModContent.ItemType<LivingShard>());
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this, 100);
             recipe.AddRecipe();

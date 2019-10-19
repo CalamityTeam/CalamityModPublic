@@ -50,10 +50,10 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "TheAbsorber");
-            recipe.AddIngredient(null, "AmbrosialAmpoule");
-            recipe.AddIngredient(null, "CosmiliteBar", 15);
-            recipe.AddIngredient(null, "Phantoplasm", 15);
+            recipe.AddIngredient(ModContent.ItemType<TheAbsorber>());
+            recipe.AddIngredient(ModContent.ItemType<AmbrosialAmpoule>());
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 15);
+            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 15);
             recipe.AddTile(null, "DraedonsForge");
             recipe.SetResult(this);
             recipe.AddRecipe();

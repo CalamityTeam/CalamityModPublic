@@ -41,9 +41,9 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "ManaJelly");
-            recipe.AddIngredient(null, "LifeJelly");
-            recipe.AddIngredient(null, "VitalJelly");
+            recipe.AddIngredient(ModContent.ItemType<ManaJelly>());
+            recipe.AddIngredient(ModContent.ItemType<LifeJelly>());
+            recipe.AddIngredient(ModContent.ItemType<VitalJelly>());
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

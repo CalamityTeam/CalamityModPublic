@@ -42,9 +42,9 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "TrueNightsStabber");
-            recipe.AddIngredient(null, "TrueExcaliburShortsword");
-            recipe.AddIngredient(null, "LivingShard", 7);
+            recipe.AddIngredient(ModContent.ItemType<TrueNightsStabber>());
+            recipe.AddIngredient(ModContent.ItemType<TrueExcaliburShortsword>());
+            recipe.AddIngredient(ModContent.ItemType<LivingShard>(), 7);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

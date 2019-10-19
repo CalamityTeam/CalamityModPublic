@@ -25,15 +25,15 @@ namespace CalamityMod.Items.Placeables.FurnitureSilva
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "SilvaCrystal", 4);
-            recipe.AddIngredient(null, "EffulgentFeather", 4);
+            recipe.AddIngredient(ModContent.ItemType<SilvaCrystal>(), 4);
+            recipe.AddIngredient(ModContent.ItemType<EffulgentFeather>(), 4);
             recipe.AddIngredient(ItemID.GoldBar);
             recipe.SetResult(this);
             recipe.AddTile(null, "SilvaBasin");
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "SilvaCrystal", 4);
-            recipe.AddIngredient(null, "EffulgentFeather", 4);
+            recipe.AddIngredient(ModContent.ItemType<SilvaCrystal>(), 4);
+            recipe.AddIngredient(ModContent.ItemType<EffulgentFeather>(), 4);
             recipe.AddIngredient(ItemID.PlatinumBar);
             recipe.SetResult(this);
             recipe.AddTile(null, "SilvaBasin");

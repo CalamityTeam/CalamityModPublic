@@ -33,8 +33,8 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "MurkySludge", 5);
-            recipe.AddIngredient(null, "PurifiedGel", 15);
+            recipe.AddIngredient(ModContent.ItemType<MurkySludge>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<PurifiedGel>(), 15);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

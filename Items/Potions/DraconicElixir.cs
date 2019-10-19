@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Potions
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.BottledWater);
-            recipe.AddIngredient(null, "HellcasterFragment");
+            recipe.AddIngredient(ModContent.ItemType<HellcasterFragment>());
             recipe.AddIngredient(ItemID.Daybloom);
             recipe.AddIngredient(ItemID.Moonglow);
             recipe.AddIngredient(ItemID.Fireblossom);
@@ -49,8 +49,8 @@ namespace CalamityMod.Items.Potions
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.BottledWater);
-            recipe.AddIngredient(null, "BloodOrb", 50);
-            recipe.AddIngredient(null, "HellcasterFragment");
+            recipe.AddIngredient(ModContent.ItemType<BloodOrb>(), 50);
+            recipe.AddIngredient(ModContent.ItemType<HellcasterFragment>());
             recipe.AddTile(TileID.AlchemyTable);
             recipe.SetResult(this);
             recipe.AddRecipe();

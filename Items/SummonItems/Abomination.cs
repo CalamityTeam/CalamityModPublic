@@ -40,7 +40,7 @@ namespace CalamityMod.Items.SummonItems
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "PlagueCellCluster", 10);
+            recipe.AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 10);
             recipe.AddIngredient(ItemID.IronBar, 5);
             recipe.anyIronBar = true;
             recipe.AddIngredient(ItemID.Stinger, 2);

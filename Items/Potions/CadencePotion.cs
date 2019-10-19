@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Potions
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.BottledWater);
-            recipe.AddIngredient(null, "BloodOrb", 40);
+            recipe.AddIngredient(ModContent.ItemType<BloodOrb>(), 40);
             recipe.AddTile(TileID.AlchemyTable);
             recipe.SetResult(this);
             recipe.AddRecipe();

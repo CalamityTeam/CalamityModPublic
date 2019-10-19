@@ -48,22 +48,22 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "XerocsGreatsword");
-            recipe.AddIngredient(null, "Floodtide");
-            recipe.AddIngredient(null, "Hellkite");
-            recipe.AddIngredient(null, "TemporalFloeSword");
+            recipe.AddIngredient(ModContent.ItemType<XerocsGreatsword>());
+            recipe.AddIngredient(ModContent.ItemType<Floodtide>());
+            recipe.AddIngredient(ModContent.ItemType<Hellkite>());
+            recipe.AddIngredient(ModContent.ItemType<TemporalFloeSword>());
             recipe.AddIngredient(ItemID.TerraBlade);
-            recipe.AddIngredient(null, "AstralBar", 5);
+            recipe.AddIngredient(ModContent.ItemType<AstralBar>(), 5);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "XerocsGreatsword");
-            recipe.AddIngredient(null, "Floodtide");
-            recipe.AddIngredient(null, "Hellkite");
-            recipe.AddIngredient(null, "TemporalFloeSword");
-            recipe.AddIngredient(null, "TerraEdge");
-            recipe.AddIngredient(null, "AstralBar", 5);
+            recipe.AddIngredient(ModContent.ItemType<XerocsGreatsword>());
+            recipe.AddIngredient(ModContent.ItemType<Floodtide>());
+            recipe.AddIngredient(ModContent.ItemType<Hellkite>());
+            recipe.AddIngredient(ModContent.ItemType<TemporalFloeSword>());
+            recipe.AddIngredient(ModContent.ItemType<TerraEdge>());
+            recipe.AddIngredient(ModContent.ItemType<AstralBar>(), 5);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

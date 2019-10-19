@@ -57,12 +57,12 @@ namespace CalamityMod.Items.PermanentBoosters
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.LifeFruit, 5);
-            recipe.AddIngredient(null, "Phantoplasm", 5);
-            recipe.AddIngredient(null, "CosmiliteBar", 5);
-            recipe.AddIngredient(null, "DarksunFragment", 10);
+            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 10);
             recipe.AddIngredient(ItemID.FragmentSolar, 15);
-            recipe.AddIngredient(null, "NightmareFuel", 5);
-            recipe.AddIngredient(null, "EndothermicEnergy", 5);
+            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 5);
             recipe.AddTile(null, "DraedonsForge");
             recipe.SetResult(this);
             recipe.AddRecipe();

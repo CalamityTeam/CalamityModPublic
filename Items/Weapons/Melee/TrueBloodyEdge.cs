@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "BloodyEdge");
+            recipe.AddIngredient(ModContent.ItemType<BloodyEdge>());
             recipe.AddIngredient(ItemID.BrokenHeroSword);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

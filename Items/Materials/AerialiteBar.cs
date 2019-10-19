@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Materials
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "AerialiteOre", 4);
+            recipe.AddIngredient(ModContent.ItemType<AerialiteOre>(), 4);
             recipe.AddTile(TileID.Furnaces);
             recipe.SetResult(this);
             recipe.AddRecipe();

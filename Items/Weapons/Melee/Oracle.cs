@@ -49,19 +49,19 @@ namespace CalamityMod.Items.Weapons.Melee
             ModRecipe r = new ModRecipe(mod);
             r.SetResult(this);
             r.AddTile(null, "DraedonsForge");
-            r.AddIngredient(null, "TheObliterator");
-            r.AddIngredient(null, "Lacerator");
-            r.AddIngredient(null, "Verdant");
-            r.AddIngredient(null, "Chaotrix");
-            r.AddIngredient(null, "Quagmire");
-            r.AddIngredient(null, "Shimmerspark");
-            r.AddIngredient(null, "NightmareFuel", 5);
-            r.AddIngredient(null, "EndothermicEnergy", 5);
-            r.AddIngredient(null, "CosmiliteBar", 5);
-            r.AddIngredient(null, "DarksunFragment", 5);
-            r.AddIngredient(null, "Phantoplasm", 5);
-            r.AddIngredient(null, "HellcasterFragment", 3);
-            r.AddIngredient(null, "AuricOre", 25);
+            r.AddIngredient(ModContent.ItemType<TheObliterator>());
+            r.AddIngredient(ModContent.ItemType<Lacerator>());
+            r.AddIngredient(ModContent.ItemType<Verdant>());
+            r.AddIngredient(ModContent.ItemType<Chaotrix>());
+            r.AddIngredient(ModContent.ItemType<Quagmire>());
+            r.AddIngredient(ModContent.ItemType<Shimmerspark>());
+            r.AddIngredient(ModContent.ItemType<NightmareFuel>(), 5);
+            r.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 5);
+            r.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
+            r.AddIngredient(ModContent.ItemType<DarksunFragment>(), 5);
+            r.AddIngredient(ModContent.ItemType<Phantoplasm>(), 5);
+            r.AddIngredient(ModContent.ItemType<HellcasterFragment>(), 3);
+            r.AddIngredient(ModContent.ItemType<AuricOre>(), 25);
             r.AddRecipe();
         }
     }

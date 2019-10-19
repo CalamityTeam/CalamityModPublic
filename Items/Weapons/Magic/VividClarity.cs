@@ -91,20 +91,20 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "ElementalRay");
-            recipe.AddIngredient(null, "ArchAmaryllis");
-            recipe.AddIngredient(null, "AsteroidStaff");
-            recipe.AddIngredient(null, "HellwingStaff");
-            recipe.AddIngredient(null, "PhantasmalFury");
-            recipe.AddIngredient(null, "ShadowboltStaff");
-            recipe.AddIngredient(null, "HeliumFlash");
-            recipe.AddIngredient(null, "NightmareFuel", 5);
-            recipe.AddIngredient(null, "EndothermicEnergy", 5);
-            recipe.AddIngredient(null, "CosmiliteBar", 5);
-            recipe.AddIngredient(null, "DarksunFragment", 5);
-            recipe.AddIngredient(null, "HellcasterFragment", 3);
-            recipe.AddIngredient(null, "Phantoplasm", 5);
-            recipe.AddIngredient(null, "AuricOre", 25);
+            recipe.AddIngredient(ModContent.ItemType<ElementalRay>());
+            recipe.AddIngredient(ModContent.ItemType<ArchAmaryllis>());
+            recipe.AddIngredient(ModContent.ItemType<AsteroidStaff>());
+            recipe.AddIngredient(ModContent.ItemType<HellwingStaff>());
+            recipe.AddIngredient(ModContent.ItemType<PhantasmalFury>());
+            recipe.AddIngredient(ModContent.ItemType<ShadowboltStaff>());
+            recipe.AddIngredient(ModContent.ItemType<HeliumFlash>());
+            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<HellcasterFragment>(), 3);
+            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<AuricOre>(), 25);
             recipe.AddTile(null, "DraedonsForge");
             recipe.SetResult(this);
             recipe.AddRecipe();

@@ -37,9 +37,9 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.ScourgeoftheCorruptor);
-            recipe.AddIngredient(null, "CosmiliteBar", 10);
-            recipe.AddIngredient(null, "DarksunFragment", 10);
-            recipe.AddIngredient(null, "XerocPitchfork", 200);
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<XerocPitchfork>(), 200);
             recipe.AddTile(null, "DraedonsForge");
             recipe.SetResult(this);
             recipe.AddRecipe();

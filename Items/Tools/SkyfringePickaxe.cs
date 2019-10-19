@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Tools
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "AerialiteBar", 7);
+            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 7);
             recipe.AddIngredient(ItemID.SunplateBlock, 3);
             recipe.AddTile(TileID.SkyMill);
             recipe.SetResult(this);

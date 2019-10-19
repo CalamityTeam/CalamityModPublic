@@ -41,8 +41,8 @@ namespace CalamityMod.Items.SummonItems
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "EffulgentFeather", 15);
-            recipe.AddIngredient(null, "BarofLife", 15);
+            recipe.AddIngredient(ModContent.ItemType<EffulgentFeather>(), 15);
+            recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 15);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

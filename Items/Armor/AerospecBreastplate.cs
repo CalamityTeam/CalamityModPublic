@@ -33,7 +33,7 @@ namespace CalamityMod.Items
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "AerialiteBar", 11);
+            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 11);
             recipe.AddIngredient(ItemID.Cloud, 10);
             recipe.AddIngredient(ItemID.RainCloud, 5);
             recipe.AddIngredient(ItemID.Feather, 2);

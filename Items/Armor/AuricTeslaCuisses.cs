@@ -35,19 +35,19 @@ namespace CalamityMod.Items
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "SilvaLeggings");
-            recipe.AddIngredient(null, "GodSlayerLeggings");
-            recipe.AddIngredient(null, "BloodflareCuisses");
-            recipe.AddIngredient(null, "TarragonLeggings");
-            recipe.AddIngredient(null, "AuricOre", 80);
-            recipe.AddIngredient(null, "EndothermicEnergy", 20);
-            recipe.AddIngredient(null, "NightmareFuel", 20);
-            recipe.AddIngredient(null, "Phantoplasm", 15);
-            recipe.AddIngredient(null, "DarksunFragment", 10);
-            recipe.AddIngredient(null, "BarofLife", 8);
-            recipe.AddIngredient(null, "HellcasterFragment", 6);
-            recipe.AddIngredient(null, "CoreofCalamity", 3);
-            recipe.AddIngredient(null, "GalacticaSingularity", 2);
+            recipe.AddIngredient(ModContent.ItemType<SilvaLeggings>());
+            recipe.AddIngredient(ModContent.ItemType<GodSlayerLeggings>());
+            recipe.AddIngredient(ModContent.ItemType<BloodflareCuisses>());
+            recipe.AddIngredient(ModContent.ItemType<TarragonLeggings>());
+            recipe.AddIngredient(ModContent.ItemType<AuricOre>(), 80);
+            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 20);
+            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 20);
+            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 15);
+            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 8);
+            recipe.AddIngredient(ModContent.ItemType<HellcasterFragment>(), 6);
+            recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>(), 3);
+            recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 2);
             recipe.AddIngredient(ItemID.FlyingCarpet);
             recipe.AddTile(null, "DraedonsForge");
             recipe.SetResult(this);

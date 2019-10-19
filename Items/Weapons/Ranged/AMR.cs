@@ -43,8 +43,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "Shroomer");
-            recipe.AddIngredient(null, "CosmiliteBar", 10);
+            recipe.AddIngredient(ModContent.ItemType<Shroomer>());
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
             recipe.AddTile(null, "DraedonsForge");
             recipe.SetResult(this);
             recipe.AddRecipe();

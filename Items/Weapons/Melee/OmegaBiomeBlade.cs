@@ -46,10 +46,10 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "TrueBiomeBlade");
-            recipe.AddIngredient(null, "CoreofCalamity");
-            recipe.AddIngredient(null, "BarofLife", 3);
-            recipe.AddIngredient(null, "GalacticaSingularity", 3);
+            recipe.AddIngredient(ModContent.ItemType<TrueBiomeBlade>());
+            recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>());
+            recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 3);
+            recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 3);
             recipe.AddIngredient(ItemID.LunarBar, 5);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);

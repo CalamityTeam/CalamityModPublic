@@ -36,9 +36,9 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "GalaxySmasherRogue");
+            recipe.AddIngredient(ModContent.ItemType<GalaxySmasherRogue>());
             recipe.AddIngredient(ItemID.SoulofMight, 30);
-            recipe.AddIngredient(null, "ShadowspecBar", 5);
+            recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
             recipe.AddTile(null, "DraedonsForge");
             recipe.SetResult(this);
             recipe.AddRecipe();

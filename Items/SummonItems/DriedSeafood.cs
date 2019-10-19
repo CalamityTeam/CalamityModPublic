@@ -49,7 +49,7 @@ namespace CalamityMod.Items.SummonItems
             recipe.AddIngredient(ItemID.SandBlock, 15);
             recipe.AddIngredient(ItemID.AntlionMandible, 3);
             recipe.AddIngredient(ItemID.Cactus, 10);
-            recipe.AddIngredient(null, "StormlionMandible");
+            recipe.AddIngredient(ModContent.ItemType<StormlionMandible>());
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

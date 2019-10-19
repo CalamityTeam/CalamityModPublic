@@ -57,9 +57,9 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "TyrantYharimsUltisword");
-            recipe.AddIngredient(null, "CoreofCalamity");
-            recipe.AddIngredient(null, "UeliaceBar", 15);
+            recipe.AddIngredient(ModContent.ItemType<TyrantYharimsUltisword>());
+            recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>());
+            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 15);
             recipe.AddTile(TileID.DemonAltar);
             recipe.SetResult(this);
             recipe.AddRecipe();

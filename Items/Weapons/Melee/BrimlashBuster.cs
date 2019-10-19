@@ -35,8 +35,8 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "Brimlash");
-            recipe.AddIngredient(null, "CoreofChaos", 3);
+            recipe.AddIngredient(ModContent.ItemType<Brimlash>());
+            recipe.AddIngredient(ModContent.ItemType<CoreofChaos>(), 3);
             recipe.AddIngredient(ItemID.FragmentSolar, 10);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);

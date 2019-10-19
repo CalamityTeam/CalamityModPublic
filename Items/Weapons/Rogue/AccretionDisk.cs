@@ -36,11 +36,11 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "MangroveChakram");
-            recipe.AddIngredient(null, "FlameScythe");
-            recipe.AddIngredient(null, "SeashellBoomerang");
-            recipe.AddIngredient(null, "GalacticaSingularity", 5);
-            recipe.AddIngredient(null, "BarofLife", 5);
+            recipe.AddIngredient(ModContent.ItemType<MangroveChakram>());
+            recipe.AddIngredient(ModContent.ItemType<FlameScythe>());
+            recipe.AddIngredient(ModContent.ItemType<SeashellBoomerang>());
+            recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 5);
             recipe.AddIngredient(ItemID.LunarBar, 5);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);

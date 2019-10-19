@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "EbonianGel", 15);
+            recipe.AddIngredient(ModContent.ItemType<EbonianGel>(), 15);
             recipe.AddIngredient(ItemID.CrimstoneBlock, 50);
             recipe.AddIngredient(ItemID.TissueSample, 5);
             recipe.AddIngredient(ItemID.IronBar, 4);

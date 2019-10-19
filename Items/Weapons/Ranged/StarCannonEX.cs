@@ -66,8 +66,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.StarCannon);
-            recipe.AddIngredient(null, "AstralJelly", 10);
-            recipe.AddIngredient(null, "Stardust", 25);
+            recipe.AddIngredient(ModContent.ItemType<AstralJelly>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<Stardust>(), 25);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

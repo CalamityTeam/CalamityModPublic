@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Weapons.Summon
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Vertebrae, 4);
             recipe.AddIngredient(ItemID.CrimtaneBar, 5);
-            recipe.AddIngredient(null, "BloodSample", 10);
+            recipe.AddIngredient(ModContent.ItemType<BloodSample>(), 10);
             recipe.AddTile(TileID.DemonAltar);
             recipe.SetResult(this);
             recipe.AddRecipe();

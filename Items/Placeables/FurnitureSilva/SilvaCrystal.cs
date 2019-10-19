@@ -47,12 +47,12 @@ namespace CalamityMod.Items.Placeables.FurnitureSilva
             recipe.AddTile(null, "DraedonsForge");
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "SilvaWall", 4);
+            recipe.AddIngredient(ModContent.ItemType<SilvaWall>(), 4);
             recipe.SetResult(this);
             recipe.AddTile(18);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "SilvaPlatform", 2);
+            recipe.AddIngredient(ModContent.ItemType<SilvaPlatform>(), 2);
             recipe.SetResult(this);
             recipe.AddTile(null, "SilvaBasin");
             recipe.AddRecipe();

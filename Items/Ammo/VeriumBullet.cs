@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Ammo
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.MusketBall, 100);
-            recipe.AddIngredient(null, "VerstaltiteBar");
+            recipe.AddIngredient(ModContent.ItemType<VerstaltiteBar>());
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this, 100);
             recipe.AddRecipe();

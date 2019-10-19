@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Ichor, 20);
-            recipe.AddIngredient(null, "DraedonBar", 3);
+            recipe.AddIngredient(ModContent.ItemType<DraedonBar>(), 3);
             recipe.AddTile(TileID.Bookcases);
             recipe.SetResult(this);
             recipe.AddRecipe();

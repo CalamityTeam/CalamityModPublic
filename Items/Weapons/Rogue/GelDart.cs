@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "PurifiedGel", 5);
+            recipe.AddIngredient(ModContent.ItemType<PurifiedGel>(), 5);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this, 150);
             recipe.AddRecipe();

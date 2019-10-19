@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Placeables.FurnitureProfaned
             recipe.AddTile(412);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "ProfanedCrystalWall", 4);
+            recipe.AddIngredient(ModContent.ItemType<ProfanedCrystalWall>(), 4);
             recipe.SetResult(this);
             recipe.AddTile(TileID.WorkBenches);
             recipe.AddRecipe();

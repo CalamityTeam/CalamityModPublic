@@ -40,8 +40,8 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.InfernoFork);
-            recipe.AddIngredient(null, "RuinousSoul", 2);
-            recipe.AddIngredient(null, "TwistingNether");
+            recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 2);
+            recipe.AddIngredient(ModContent.ItemType<TwistingNether>());
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

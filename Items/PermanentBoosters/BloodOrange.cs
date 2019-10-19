@@ -56,9 +56,9 @@ namespace CalamityMod.Items.PermanentBoosters
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.LifeFruit, 5);
-            recipe.AddIngredient(null, "EssenceofChaos", 5);
-            recipe.AddIngredient(null, "EssenceofCinder", 5);
-            recipe.AddIngredient(null, "EssenceofEleum", 5);
+            recipe.AddIngredient(ModContent.ItemType<EssenceofChaos>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<EssenceofEleum>(), 5);
             recipe.AddIngredient(ItemID.SoulofNight, 10);
             recipe.AddIngredient(ItemID.SoulofLight, 10);
             recipe.AddTile(TileID.MythrilAnvil);

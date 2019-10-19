@@ -48,12 +48,12 @@ namespace CalamityMod.Items
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "AbyssalDivingGear");
-            recipe.AddIngredient(null, "AnechoicPlating");
-            recipe.AddIngredient(null, "IronBoots");
-            recipe.AddIngredient(null, "Lumenite", 40);
-            recipe.AddIngredient(null, "DepthCells", 40);
-            recipe.AddIngredient(null, "Tenebris", 15);
+            recipe.AddIngredient(ModContent.ItemType<AbyssalDivingGear>());
+            recipe.AddIngredient(ModContent.ItemType<AnechoicPlating>());
+            recipe.AddIngredient(ModContent.ItemType<IronBoots>());
+            recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 40);
+            recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 40);
+            recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 15);
             recipe.AddIngredient(ItemID.LunarBar, 5);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Placeables.FurnitureOccult
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "OccultStone", 10);
+            recipe.AddIngredient(ModContent.ItemType<OccultStone>(), 10);
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBrick>(), 3);
             recipe.AddIngredient(ItemID.Glass, 6);
             recipe.SetResult(this, 1);

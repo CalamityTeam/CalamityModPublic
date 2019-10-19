@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "BloodyWormTooth");
+            recipe.AddIngredient(ModContent.ItemType<BloodyWormTooth>());
             recipe.AddIngredient(ItemID.WormScarf);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

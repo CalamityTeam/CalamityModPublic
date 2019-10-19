@@ -38,22 +38,22 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "CorruptFlask");
-            recipe.AddIngredient(null, "ArchaicPowder");
-            recipe.AddIngredient(null, "RadiantOoze");
-            recipe.AddIngredient(null, "HoneyDew");
-            recipe.AddIngredient(null, "Stardust", 15);
-            recipe.AddIngredient(null, "CryoBar", 5);
+            recipe.AddIngredient(ModContent.ItemType<CorruptFlask>());
+            recipe.AddIngredient(ModContent.ItemType<ArchaicPowder>());
+            recipe.AddIngredient(ModContent.ItemType<RadiantOoze>());
+            recipe.AddIngredient(ModContent.ItemType<HoneyDew>());
+            recipe.AddIngredient(ModContent.ItemType<Stardust>(), 15);
+            recipe.AddIngredient(ModContent.ItemType<CryoBar>(), 5);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "CrimsonFlask");
-            recipe.AddIngredient(null, "ArchaicPowder");
-            recipe.AddIngredient(null, "RadiantOoze");
-            recipe.AddIngredient(null, "HoneyDew");
-            recipe.AddIngredient(null, "Stardust", 15);
-            recipe.AddIngredient(null, "CryoBar", 5);
+            recipe.AddIngredient(ModContent.ItemType<CrimsonFlask>());
+            recipe.AddIngredient(ModContent.ItemType<ArchaicPowder>());
+            recipe.AddIngredient(ModContent.ItemType<RadiantOoze>());
+            recipe.AddIngredient(ModContent.ItemType<HoneyDew>());
+            recipe.AddIngredient(ModContent.ItemType<Stardust>(), 15);
+            recipe.AddIngredient(ModContent.ItemType<CryoBar>(), 5);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

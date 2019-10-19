@@ -72,7 +72,7 @@ namespace CalamityMod.Items
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "MeldiateBar", 12);
+            recipe.AddIngredient(ModContent.ItemType<MeldiateBar>(), 12);
             recipe.AddIngredient(ItemID.LunarBar, 8);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);

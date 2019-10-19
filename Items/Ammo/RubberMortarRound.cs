@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Ammo
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "MortarRound", 100);
+            recipe.AddIngredient(ModContent.ItemType<MortarRound>(), 100);
             recipe.AddIngredient(ItemID.PinkGel, 5);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this, 100);

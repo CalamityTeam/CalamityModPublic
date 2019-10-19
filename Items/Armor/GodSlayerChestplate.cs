@@ -40,9 +40,9 @@ namespace CalamityMod.Items
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "CosmiliteBar", 23);
-            recipe.AddIngredient(null, "NightmareFuel", 11);
-            recipe.AddIngredient(null, "EndothermicEnergy", 11);
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 23);
+            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 11);
+            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 11);
             recipe.AddTile(null, "DraedonsForge");
             recipe.SetResult(this);
             recipe.AddRecipe();

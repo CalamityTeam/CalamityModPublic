@@ -46,8 +46,8 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Katana);
-            recipe.AddIngredient(null, "BarofLife", 20);
-            recipe.AddIngredient(null, "CoreofCalamity", 10);
+            recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 20);
+            recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>(), 10);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

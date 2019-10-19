@@ -55,22 +55,22 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "VictideBar", 5);
+            recipe.AddIngredient(ModContent.ItemType<VictideBar>(), 5);
             recipe.AddIngredient(ItemID.SharkFin, 2);
             recipe.AddIngredient(ItemID.AdamantiteBar, 5);
-            recipe.AddIngredient(null, "DepthCells", 10);
-            recipe.AddIngredient(null, "Lumenite", 10);
-            recipe.AddIngredient(null, "Tenebris", 5);
+            recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 5);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "VictideBar", 5);
+            recipe.AddIngredient(ModContent.ItemType<VictideBar>(), 5);
             recipe.AddIngredient(ItemID.SharkFin, 2);
             recipe.AddIngredient(ItemID.TitaniumBar, 5);
-            recipe.AddIngredient(null, "DepthCells", 10);
-            recipe.AddIngredient(null, "Lumenite", 10);
-            recipe.AddIngredient(null, "Tenebris", 5);
+            recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 5);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

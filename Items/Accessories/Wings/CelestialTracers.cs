@@ -84,10 +84,10 @@ namespace CalamityMod.Items.Accessories.Wings
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "ElysianTracers");
-            recipe.AddIngredient(null, "DrewsWings");
-            recipe.AddIngredient(null, "DarksunFragment", 5);
-            recipe.AddIngredient(null, "AuricOre", 25);
+            recipe.AddIngredient(ModContent.ItemType<ElysianTracers>());
+            recipe.AddIngredient(ModContent.ItemType<DrewsWings>());
+            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<AuricOre>(), 25);
             recipe.AddTile(null, "DraedonsForge");
             recipe.SetResult(this);
             recipe.AddRecipe();

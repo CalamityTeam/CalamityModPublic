@@ -96,7 +96,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.SDMG);
-            recipe.AddIngredient(null, "ShadowspecBar", 5);
+            recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
             recipe.AddIngredient(ItemID.SoulofMight, 10);
             recipe.AddIngredient(ItemID.SoulofSight, 10);
             recipe.AddIngredient(ItemID.SoulofFright, 10);

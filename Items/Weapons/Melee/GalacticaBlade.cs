@@ -40,8 +40,8 @@ namespace CalamityMod.Items.Weapons.Melee
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.StarWrath);
             recipe.AddIngredient(ItemID.SoulofMight, 20);
-            recipe.AddIngredient(null, "DivineGeode", 10);
-            recipe.AddIngredient(null, "GalacticaSingularity", 5);
+            recipe.AddIngredient(ModContent.ItemType<DivineGeode>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5);
             recipe.AddIngredient(ItemID.LunarBar, 5);
             recipe.AddIngredient(ItemID.DarkShard);
             recipe.AddIngredient(ItemID.LightShard);

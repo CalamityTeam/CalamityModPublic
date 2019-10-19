@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Placeables.FurnitureEutrophic
             recipe.AddTile(TileID.WorkBenches);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "SmoothNavystoneWall", 4);
+            recipe.AddIngredient(ModContent.ItemType<SmoothNavystoneWall>(), 4);
             recipe.SetResult(this);
             recipe.AddTile(TileID.WorkBenches);
             recipe.AddRecipe();

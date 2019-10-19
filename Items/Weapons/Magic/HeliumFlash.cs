@@ -95,11 +95,11 @@ namespace CalamityMod.Items.Weapons.Magic
             ModRecipe r = new ModRecipe(mod);
             r.SetResult(this);
             r.AddTile(mod, "DraedonsForge");
-            r.AddIngredient(null, "VenusianTrident");
-            r.AddIngredient(null, "CalamitasInferno");
-            r.AddIngredient(null, "ForbiddenSun");
-            r.AddIngredient(null, "CosmiliteBar", 10);
-            r.AddIngredient(null, "DarksunFragment", 10);
+            r.AddIngredient(ModContent.ItemType<VenusianTrident>());
+            r.AddIngredient(ModContent.ItemType<CalamitasInferno>());
+            r.AddIngredient(ModContent.ItemType<ForbiddenSun>());
+            r.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
+            r.AddIngredient(ModContent.ItemType<DarksunFragment>(), 10);
             r.AddIngredient(ItemID.FragmentSolar, 80);
             r.AddIngredient(ItemID.FragmentNebula, 20);
             r.AddRecipe();

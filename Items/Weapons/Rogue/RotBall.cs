@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "TrueShadowScale");
+            recipe.AddIngredient(ModContent.ItemType<TrueShadowScale>());
             recipe.AddIngredient(ItemID.RottenChunk);
             recipe.AddIngredient(ItemID.DemoniteBar);
             recipe.AddTile(TileID.DemonAltar);

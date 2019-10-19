@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "VirulentKatana");
+            recipe.AddIngredient(ModContent.ItemType<VirulentKatana>());
             recipe.AddIngredient(ItemID.BeeKeeper);
             recipe.AddIngredient(ItemID.FragmentSolar, 10);
             recipe.AddIngredient(ItemID.LunarBar, 5);

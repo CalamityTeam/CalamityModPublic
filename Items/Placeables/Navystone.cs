@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Placeables
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "NavystoneWallSafe", 4);
+            recipe.AddIngredient(ModContent.ItemType<NavystoneWallSafe>(), 4);
             recipe.AddTile(18);
             recipe.SetResult(this);
             recipe.AddRecipe();

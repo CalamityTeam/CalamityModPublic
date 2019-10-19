@@ -76,9 +76,9 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             ModRecipe r = new ModRecipe(mod);
-            r.AddIngredient(null, "OnyxChainBlaster");
-            r.AddIngredient(null, "CosmiliteBar", 10);
-            r.AddIngredient(null, "DarksunFragment", 10);
+            r.AddIngredient(ModContent.ItemType<OnyxChainBlaster>());
+            r.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
+            r.AddIngredient(ModContent.ItemType<DarksunFragment>(), 10);
             r.AddTile(null, "DraedonsForge");
             r.SetResult(this);
             r.AddRecipe();

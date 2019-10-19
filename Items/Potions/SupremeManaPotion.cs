@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Potions
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.SuperManaPotion);
-            recipe.AddIngredient(null, "Phantoplasm");
+            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>());
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

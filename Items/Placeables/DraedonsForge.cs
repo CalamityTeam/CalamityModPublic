@@ -34,9 +34,9 @@ namespace CalamityMod.Items.Placeables
             recipe.AddIngredient(ItemID.MythrilAnvil);
             recipe.AddIngredient(ItemID.LunarCraftingStation);
             recipe.AddIngredient(ItemID.LunarBar, 5);
-            recipe.AddIngredient(null, "CosmiliteBar", 5);
-            recipe.AddIngredient(null, "NightmareFuel", 20);
-            recipe.AddIngredient(null, "EndothermicEnergy", 20);
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 20);
+            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 20);
             recipe.SetResult(this);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
@@ -44,9 +44,9 @@ namespace CalamityMod.Items.Placeables
             recipe.AddIngredient(ItemID.MythrilAnvil);
             recipe.AddIngredient(ItemID.LunarCraftingStation);
             recipe.AddIngredient(ItemID.LunarBar, 5);
-            recipe.AddIngredient(null, "CosmiliteBar", 5);
-            recipe.AddIngredient(null, "NightmareFuel", 20);
-            recipe.AddIngredient(null, "EndothermicEnergy", 20);
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 20);
+            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 20);
             recipe.SetResult(this);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
@@ -54,9 +54,9 @@ namespace CalamityMod.Items.Placeables
             recipe.AddIngredient(ItemID.OrichalcumAnvil);
             recipe.AddIngredient(ItemID.LunarCraftingStation);
             recipe.AddIngredient(ItemID.LunarBar, 5);
-            recipe.AddIngredient(null, "CosmiliteBar", 5);
-            recipe.AddIngredient(null, "NightmareFuel", 20);
-            recipe.AddIngredient(null, "EndothermicEnergy", 20);
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 20);
+            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 20);
             recipe.SetResult(this);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
@@ -64,9 +64,9 @@ namespace CalamityMod.Items.Placeables
             recipe.AddIngredient(ItemID.OrichalcumAnvil);
             recipe.AddIngredient(ItemID.LunarCraftingStation);
             recipe.AddIngredient(ItemID.LunarBar, 5);
-            recipe.AddIngredient(null, "CosmiliteBar", 5);
-            recipe.AddIngredient(null, "NightmareFuel", 20);
-            recipe.AddIngredient(null, "EndothermicEnergy", 20);
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 20);
+            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 20);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

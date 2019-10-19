@@ -35,8 +35,8 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "PurifiedGel", 10);
-            recipe.AddIngredient(null, "EbonianGel", 20);
+            recipe.AddIngredient(ModContent.ItemType<PurifiedGel>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<EbonianGel>(), 20);
             recipe.AddIngredient(ItemID.Book);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);

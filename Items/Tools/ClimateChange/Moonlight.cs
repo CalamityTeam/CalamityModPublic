@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Tools.ClimateChange
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.SoulofNight, 7);
-            recipe.AddIngredient(null, "CryoBar", 5);
+            recipe.AddIngredient(ModContent.ItemType<CryoBar>(), 5);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

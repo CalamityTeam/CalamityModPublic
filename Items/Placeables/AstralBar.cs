@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Placeables
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "Stardust", 3);
+            recipe.AddIngredient(ModContent.ItemType<Stardust>(), 3);
             recipe.AddIngredient(ModContent.ItemType<AstralOre>(), 2);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);

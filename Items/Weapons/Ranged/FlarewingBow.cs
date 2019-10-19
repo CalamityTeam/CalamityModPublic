@@ -69,7 +69,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.HellwingBow);
-            recipe.AddIngredient(null, "EssenceofCinder", 5);
+            recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>(), 5);
             recipe.AddIngredient(ItemID.LivingFireBlock, 50);
             recipe.AddIngredient(ItemID.Obsidian, 10);
             recipe.AddTile(TileID.MythrilAnvil);

@@ -81,10 +81,10 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "GalacticaSingularity", 5);
-            recipe.AddIngredient(null, "DarksunFragment", 15);
-            recipe.AddIngredient(null, "Wingman", 2);
-            recipe.AddIngredient(null, "Genisis");
+            recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 15);
+            recipe.AddIngredient(ModContent.ItemType<Wingman>(), 2);
+            recipe.AddIngredient(ModContent.ItemType<Genisis>());
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

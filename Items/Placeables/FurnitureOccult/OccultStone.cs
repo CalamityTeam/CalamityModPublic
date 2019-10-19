@@ -35,12 +35,12 @@ namespace CalamityMod.Items.Placeables.FurnitureOccult
             recipe.AddTile(null, "DraedonsForge");
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "OccultStoneWall", 4);
+            recipe.AddIngredient(ModContent.ItemType<OccultStoneWall>(), 4);
             recipe.SetResult(this);
             recipe.AddTile(18);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "OccultPlatform", 2);
+            recipe.AddIngredient(ModContent.ItemType<OccultPlatform>(), 2);
             recipe.SetResult(this);
             recipe.AddTile(null, "DraedonsForge");
             recipe.AddRecipe();

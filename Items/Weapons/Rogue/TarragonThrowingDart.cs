@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "UeliaceBar");
+            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>());
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this, 100);
             recipe.AddRecipe();

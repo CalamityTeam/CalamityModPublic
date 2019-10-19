@@ -42,7 +42,7 @@ namespace CalamityMod.Items.SummonItems
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "Stardust", 15);
+            recipe.AddIngredient(ModContent.ItemType<Stardust>(), 15);
             recipe.AddIngredient(ItemID.FallenStar, 10);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

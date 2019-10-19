@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "WulfrumKnife", 50);
+            recipe.AddIngredient(ModContent.ItemType<WulfrumKnife>(), 50);
             recipe.AddIngredient(ItemID.Diamond, 3);
             recipe.AddIngredient(ItemID.FallenStar, 3);
             recipe.AddTile(TileID.Anvils);

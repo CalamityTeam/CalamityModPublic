@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Ammo
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.ExplodingBullet, 100);
-            recipe.AddIngredient(null, "UnholyEssence");
+            recipe.AddIngredient(ModContent.ItemType<UnholyEssence>());
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this, 100);
             recipe.AddRecipe();

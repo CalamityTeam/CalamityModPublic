@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "BloodlettingEssence", 3);
+            recipe.AddIngredient(ModContent.ItemType<BloodlettingEssence>(), 3);
             recipe.AddIngredient(ItemID.Vertebrae, 10);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);

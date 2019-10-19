@@ -42,10 +42,10 @@ namespace CalamityMod.Items.Accessories
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.MagicQuiver);
-            recipe.AddIngredient(null, "DaedalusEmblem");
-            recipe.AddIngredient(null, "Phantoplasm", 20);
-            recipe.AddIngredient(null, "NightmareFuel", 20);
-            recipe.AddIngredient(null, "EndothermicEnergy", 20);
+            recipe.AddIngredient(ModContent.ItemType<DaedalusEmblem>());
+            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 20);
+            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 20);
+            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 20);
             recipe.AddTile(null, "DraedonsForge");
             recipe.SetResult(this);
             recipe.AddRecipe();

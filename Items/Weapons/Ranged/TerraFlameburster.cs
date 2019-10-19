@@ -43,8 +43,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Flamethrower);
-            recipe.AddIngredient(null, "LivingShard", 7);
-            recipe.AddIngredient(null, "EssenceofCinder", 5);
+            recipe.AddIngredient(ModContent.ItemType<LivingShard>(), 7);
+            recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>(), 5);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

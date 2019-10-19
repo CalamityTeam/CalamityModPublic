@@ -76,7 +76,7 @@ namespace CalamityMod.Items.Tools
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "FellerofEvergreens");
+            recipe.AddIngredient(ModContent.ItemType<FellerofEvergreens>());
             recipe.AddIngredient(ItemID.PurificationPowder, 20);
             recipe.AddIngredient(ItemID.PixieDust, 10);
             recipe.AddIngredient(ItemID.CrystalShard, 5);

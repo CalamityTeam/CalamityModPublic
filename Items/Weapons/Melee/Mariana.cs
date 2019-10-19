@@ -38,9 +38,9 @@ namespace CalamityMod.Items.Weapons.Melee
             recipe.AddIngredient(ItemID.Coral, 3);
             recipe.AddIngredient(ItemID.Starfish, 3);
             recipe.AddIngredient(ItemID.Seashell, 3);
-            recipe.AddIngredient(null, "DepthCells", 10);
-            recipe.AddIngredient(null, "Lumenite", 10);
-            recipe.AddIngredient(null, "Tenebris", 5);
+            recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 5);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

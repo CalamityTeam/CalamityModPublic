@@ -59,7 +59,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "FirestormCannon");
+            recipe.AddIngredient(ModContent.ItemType<FirestormCannon>());
             recipe.AddIngredient(ItemID.FragmentVortex, 20);
             recipe.AddIngredient(ItemID.Ectoplasm, 10);
             recipe.AddTile(TileID.LunarCraftingStation);

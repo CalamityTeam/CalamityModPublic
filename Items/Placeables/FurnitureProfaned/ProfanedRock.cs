@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Placeables.FurnitureProfaned
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "ProfanedRockWall", 4);
+            recipe.AddIngredient(ModContent.ItemType<ProfanedRockWall>(), 4);
             recipe.SetResult(this);
             recipe.AddTile(18);
             recipe.AddRecipe();
@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Placeables.FurnitureProfaned
             recipe.AddTile(412);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "ProfanedPlatform", 2);
+            recipe.AddIngredient(ModContent.ItemType<ProfanedPlatform>(), 2);
             recipe.SetResult(this);
             recipe.AddTile(412);
             recipe.AddRecipe();

@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "DeathValley");
+            recipe.AddIngredient(ModContent.ItemType<DeathValley>());
             recipe.AddIngredient(ItemID.AncientBattleArmorMaterial, 3);
             recipe.AddIngredient(ItemID.MeteoriteBar, 5);
             recipe.AddIngredient(ItemID.Ectoplasm, 5);

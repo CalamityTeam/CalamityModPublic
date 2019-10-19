@@ -55,9 +55,9 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "NullificationRifle");
-            recipe.AddIngredient(null, "DarkPlasma", 2);
-            recipe.AddIngredient(null, "CoreofCalamity", 3);
+            recipe.AddIngredient(ModContent.ItemType<NullificationRifle>());
+            recipe.AddIngredient(ModContent.ItemType<DarkPlasma>(), 2);
+            recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>(), 3);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Materials
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "EssenceofCinder");
+            recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>());
             recipe.AddIngredient(ItemID.Ectoplasm);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this, 3);

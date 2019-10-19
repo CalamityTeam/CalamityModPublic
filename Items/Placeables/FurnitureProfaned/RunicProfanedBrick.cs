@@ -26,13 +26,13 @@ namespace CalamityMod.Items.Placeables.FurnitureProfaned
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "ProfanedRock", 4);
-            recipe.AddIngredient(null, "ProfanedCrystal", 1);
+            recipe.AddIngredient(ModContent.ItemType<ProfanedRock>(), 4);
+            recipe.AddIngredient(ModContent.ItemType<ProfanedCrystal>(), 1);
             recipe.SetResult(this, 5);
             recipe.AddTile(412);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "RunicProfanedBrickWall", 4);
+            recipe.AddIngredient(ModContent.ItemType<RunicProfanedBrickWall>(), 4);
             recipe.SetResult(this, 1);
             recipe.AddTile(TileID.WorkBenches);
             recipe.AddRecipe();

@@ -103,9 +103,9 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "CatastropheClaymore");
+            recipe.AddIngredient(ModContent.ItemType<CatastropheClaymore>());
             recipe.AddIngredient(ItemID.LunarBar, 5);
-            recipe.AddIngredient(null, "AstralBar", 10);
+            recipe.AddIngredient(ModContent.ItemType<AstralBar>(), 10);
             recipe.AddIngredient(ItemID.MeteoriteBar, 10);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);

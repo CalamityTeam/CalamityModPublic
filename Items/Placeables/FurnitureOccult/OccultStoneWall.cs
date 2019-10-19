@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Placeables.FurnitureOccult
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "OccultStone");
+            recipe.AddIngredient(ModContent.ItemType<OccultStone>());
             recipe.SetResult(this, 4);
             recipe.AddTile(18);
             recipe.AddRecipe();

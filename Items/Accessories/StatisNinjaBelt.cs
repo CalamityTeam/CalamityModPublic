@@ -43,8 +43,8 @@ namespace CalamityMod.Items.Accessories
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.FrogLeg);
-            recipe.AddIngredient(null, "PurifiedGel", 50);
-            recipe.AddIngredient(null, "CoreofEleum");
+            recipe.AddIngredient(ModContent.ItemType<PurifiedGel>(), 50);
+            recipe.AddIngredient(ModContent.ItemType<CoreofEleum>());
             recipe.AddIngredient(ItemID.MasterNinjaGear);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

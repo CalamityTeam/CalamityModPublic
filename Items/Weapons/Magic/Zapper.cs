@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.LaserRifle);
-            recipe.AddIngredient(null, "VictoryShard", 5);
+            recipe.AddIngredient(ModContent.ItemType<VictoryShard>(), 5);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

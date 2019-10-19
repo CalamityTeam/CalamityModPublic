@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Bomb, 25);
-            recipe.AddIngredient(null, "SeaPrism", 10);
+            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 10);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

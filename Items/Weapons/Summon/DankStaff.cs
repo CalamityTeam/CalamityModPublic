@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Weapons.Summon
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.RottenChunk, 3);
             recipe.AddIngredient(ItemID.DemoniteBar, 8);
-            recipe.AddIngredient(null, "TrueShadowScale", 7);
+            recipe.AddIngredient(ModContent.ItemType<TrueShadowScale>(), 7);
             recipe.AddTile(TileID.DemonAltar);
             recipe.SetResult(this);
             recipe.AddRecipe();

@@ -36,9 +36,9 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "Crystalline");
-            recipe.AddIngredient(null, "EssenceofEleum", 5);
-            recipe.AddIngredient(null, "SeaPrism", 5);
+            recipe.AddIngredient(ModContent.ItemType<Crystalline>());
+            recipe.AddIngredient(ModContent.ItemType<EssenceofEleum>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 5);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

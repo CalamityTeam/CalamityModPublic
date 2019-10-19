@@ -34,11 +34,11 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "ManeaterBulb", 2);
-            recipe.AddIngredient(null, "TrapperBulb", 2);
-            recipe.AddIngredient(null, "MurkyPaste", 5);
-            recipe.AddIngredient(null, "GypsyPowder");
-            recipe.AddIngredient(null, "BeetleJuice", 3);
+            recipe.AddIngredient(ModContent.ItemType<ManeaterBulb>(), 2);
+            recipe.AddIngredient(ModContent.ItemType<TrapperBulb>(), 2);
+            recipe.AddIngredient(ModContent.ItemType<MurkyPaste>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<GypsyPowder>());
+            recipe.AddIngredient(ModContent.ItemType<BeetleJuice>(), 3);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

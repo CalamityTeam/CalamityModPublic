@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAncient
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Bone, 4);
-            recipe.AddIngredient(null, "BrimstoneSlag", 15);
+            recipe.AddIngredient(ModContent.ItemType<BrimstoneSlag>(), 15);
             recipe.AddIngredient(ItemID.Book);
             recipe.SetResult(this, 1);
             recipe.AddTile(null, "AncientAltar");

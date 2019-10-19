@@ -40,7 +40,7 @@ namespace CalamityMod.Items.SummonItems
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Vertebrae, 9);
-            recipe.AddIngredient(null, "BloodSample", 5);
+            recipe.AddIngredient(ModContent.ItemType<BloodSample>(), 5);
             recipe.AddIngredient(ItemID.CrimtaneBar, 2);
             recipe.AddTile(TileID.DemonAltar);
             recipe.SetResult(this);

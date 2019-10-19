@@ -35,9 +35,9 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "DepthCells", 10);
-            recipe.AddIngredient(null, "SulphurousSand", 20);
-            recipe.AddIngredient(null, "Tenebris", 10);
+            recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<SulphurousSand>(), 20);
+            recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 10);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
