@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
 using Terraria.ID;
+using CalamityMod.Items.Materials;
 
 namespace CalamityMod.Items.Accessories
 {

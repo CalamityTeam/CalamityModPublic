@@ -1,11 +1,11 @@
 ﻿using CalamityMod.CalPlayer;
+using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables.Ores;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
-using CalamityMod.Items.Materials;
-using CalamityMod.Items.Placeables;
-using CalamityMod.Tiles.Furniture.CraftingStations;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories.Wings
 {

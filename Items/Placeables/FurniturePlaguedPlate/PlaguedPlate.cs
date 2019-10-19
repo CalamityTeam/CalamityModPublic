@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Placeables.FurniturePlaguedPlate
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.IronBar, 1);
             recipe.anyIronBar = true;
-            recipe.AddIngredient(mod.GetItem("PlagueCellCluster"), 5);
+            recipe.AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 5);
             recipe.SetResult(this, 20);
             recipe.AddTile(ModContent.TileType<PlagueInfuser>());
             recipe.AddRecipe();

@@ -4,6 +4,7 @@ using Terraria.ModLoader;
 using Terraria.DataStructures;
 using Terraria.ID;
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Items.Materials;
 
 namespace CalamityMod.Items.Accessories
 {

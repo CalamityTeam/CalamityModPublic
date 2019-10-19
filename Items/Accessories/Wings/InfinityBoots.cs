@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
+using CalamityMod.Items.Materials;
 
 namespace CalamityMod.Items.Accessories.Wings
 {

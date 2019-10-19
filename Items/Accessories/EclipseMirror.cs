@@ -1,4 +1,6 @@
 ﻿using CalamityMod.CalPlayer;
+using CalamityMod.Items.Materials;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -47,12 +49,12 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.GetItem("AbyssalMirror"));
-            recipe.AddIngredient(mod.GetItem("DarkGodsSheath"));
-            recipe.AddIngredient(mod.GetItem("DarksunFragment"), 10);
-            recipe.AddIngredient(mod.GetItem("NightmareFuel"), 5);
-            recipe.AddIngredient(mod.GetItem("EndothermicEnergy"), 5);
-            recipe.AddTile(mod.GetTile("DraedonsForge"));
+            recipe.AddIngredient(ModContent.ItemType<AbyssalMirror>());
+            recipe.AddIngredient(ModContent.ItemType<DarkGodsSheath>());
+            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 5);
+            recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

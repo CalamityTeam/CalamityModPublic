@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAbyss
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Torch, 3);
-            recipe.AddIngredient(mod.GetItem("Lumenite"));
+            recipe.AddIngredient(ModContent.ItemType<Lumenite>());
             recipe.SetResult(this, 3);
             recipe.AddRecipe();
         }

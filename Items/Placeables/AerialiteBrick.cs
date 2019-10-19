@@ -25,13 +25,13 @@ namespace CalamityMod.Items.Placeables
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.GetItem("AerialiteOre"), 1);
+            recipe.AddIngredient(ModContent.ItemType<AerialiteOre>(), 1);
             recipe.AddIngredient(ItemID.StoneBlock, 1);
             recipe.SetResult(this, 1);
             recipe.AddTile(TileID.Furnaces);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.GetItem("AerialiteBrickWall"), 4);
+            recipe.AddIngredient(ModContent.ItemType<AerialiteBrickWall>(), 4);
             recipe.SetResult(this, 1);
             recipe.AddTile(TileID.WorkBenches);
             recipe.AddRecipe();
