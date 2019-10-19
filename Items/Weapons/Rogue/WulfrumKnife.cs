@@ -1,5 +1,6 @@
 using Terraria.ID;
-using Terraria.ModLoader; using CalamityMod.Items.Materials;
+using Terraria.ModLoader;
+using CalamityMod.Items.Materials;
 namespace CalamityMod.Items.Weapons.Rogue
 {
     public class WulfrumKnife : RogueWeapon
