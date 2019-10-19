@@ -1,6 +1,9 @@
 ﻿using Terraria;
-using Terraria.ModLoader; using CalamityMod.Items.Materials;
+using Terraria.ModLoader;
+using CalamityMod.Items.Materials;
 using Terraria.ID;
+using CalamityMod.Items.Placeables.Ores;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 
 namespace CalamityMod.Items.Armor
 {

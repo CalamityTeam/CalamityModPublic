@@ -2,6 +2,7 @@ using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ModLoader; using CalamityMod.Items.Materials;
 using Terraria.ID;
+using CalamityMod.Items.Placeables;
 
 namespace CalamityMod.Items.Armor
 {
