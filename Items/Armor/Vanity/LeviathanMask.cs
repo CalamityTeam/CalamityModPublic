@@ -1,12 +1,12 @@
 using Terraria.ModLoader;
-namespace CalamityMod.Items
+namespace CalamityMod.Items.Armor.Vanity
 {
     [AutoloadEquip(EquipType.Head)]
-    public class AstrumDeusMask : ModItem
+    public class LeviathanMask : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Astrum Deus Mask");
+            DisplayName.SetDefault("Leviathan Mask");
         }
 
         public override void SetDefaults()

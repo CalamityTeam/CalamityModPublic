@@ -1,18 +1,18 @@
 using Terraria.ModLoader;
-namespace CalamityMod.Items
+namespace CalamityMod.Items.Armor.Vanity
 {
     [AutoloadEquip(EquipType.Head)]
-    public class AureusMask : ModItem
+    public class YharonMask : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Astrum Aureus Mask");
+            DisplayName.SetDefault("Yharon Mask");
         }
 
         public override void SetDefaults()
         {
-            item.width = 30;
-            item.height = 28;
+            item.width = 28;
+            item.height = 20;
             item.rare = 1;
             item.vanity = true;
         }

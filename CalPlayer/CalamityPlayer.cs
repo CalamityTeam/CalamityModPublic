@@ -7,7 +7,6 @@ using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Buffs.Summon;
 using CalamityMod.Dusts;
-using CalamityMod.Items;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.DifficultyItems;
 using CalamityMod.Items.Fishing;

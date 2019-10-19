@@ -1,18 +1,18 @@
 using Terraria.ModLoader;
-namespace CalamityMod.Items
+namespace CalamityMod.Items.Armor.Vanity
 {
     [AutoloadEquip(EquipType.Head)]
-    public class PerforatorMask : ModItem
+    public class AureusMask : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Perforator Mask");
+            DisplayName.SetDefault("Astrum Aureus Mask");
         }
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 20;
+            item.width = 30;
+            item.height = 28;
             item.rare = 1;
             item.vanity = true;
         }

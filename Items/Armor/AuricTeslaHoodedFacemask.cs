@@ -2,7 +2,7 @@
 using Terraria;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Items
+namespace CalamityMod.Items.Armor
 {
     [AutoloadEquip(EquipType.Head)]
     public class AuricTeslaHoodedFacemask : ModItem

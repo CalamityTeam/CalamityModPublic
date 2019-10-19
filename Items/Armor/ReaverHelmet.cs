@@ -5,7 +5,7 @@ using Terraria.ID;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Buffs.Summon;
 
-namespace CalamityMod.Items
+namespace CalamityMod.Items.Armor
 {
     [AutoloadEquip(EquipType.Head)]
     public class ReaverHelmet : ModItem

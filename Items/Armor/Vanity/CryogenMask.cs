@@ -1,12 +1,12 @@
 using Terraria.ModLoader;
-namespace CalamityMod.Items
+namespace CalamityMod.Items.Armor.Vanity
 {
     [AutoloadEquip(EquipType.Head)]
-    public class ProvidenceMask : ModItem
+    public class CryogenMask : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Providence Mask");
+            DisplayName.SetDefault("Cryogen Mask");
         }
 
         public override void SetDefaults()

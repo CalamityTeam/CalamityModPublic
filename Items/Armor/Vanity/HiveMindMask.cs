@@ -1,12 +1,12 @@
 using Terraria.ModLoader;
-namespace CalamityMod.Items
+namespace CalamityMod.Items.Armor.Vanity
 {
     [AutoloadEquip(EquipType.Head)]
-    public class LeviathanMask : ModItem
+    public class HiveMindMask : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Leviathan Mask");
+            DisplayName.SetDefault("Hive Mind Mask");
         }
 
         public override void SetDefaults()

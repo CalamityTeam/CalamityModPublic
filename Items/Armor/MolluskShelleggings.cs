@@ -2,7 +2,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 
-namespace CalamityMod.Items
+namespace CalamityMod.Items.Armor
 {
     [AutoloadEquip(EquipType.Legs)]
     public class MolluskShelleggings : ModItem

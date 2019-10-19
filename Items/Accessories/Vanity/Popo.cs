@@ -2,7 +2,7 @@
 using Terraria;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Items.Accessories
+namespace CalamityMod.Items.Accessories.Vanity
 {
     public class Popo : ModItem
     {

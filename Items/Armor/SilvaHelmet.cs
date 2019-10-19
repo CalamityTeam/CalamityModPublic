@@ -4,7 +4,7 @@ using CalamityMod.Projectiles.Summon;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Items
+namespace CalamityMod.Items.Armor
 {
     [AutoloadEquip(EquipType.Head)]
     public class SilvaHelmet : ModItem
