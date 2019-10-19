@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.height = 40;
             item.value = Item.buyPrice(0, 4, 0, 0);
             item.rare = 3;
-            item.shoot = ModContent.ProjectileType<Projectiles.Lionfish>();
+            item.shoot = ModContent.ProjectileType<Lionfish>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;
         }

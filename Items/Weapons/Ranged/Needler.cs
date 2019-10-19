@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.UseSound = SoundID.Item108;
             item.autoReuse = true;
             item.shootSpeed = 9f;
-            item.shoot = ModContent.ProjectileType<Projectiles.Needler>();
+            item.shoot = ModContent.ProjectileType<Needler>();
             item.useAmmo = 97;
         }
 
@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.Needler>(), damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Needler>(), damage, knockBack, player.whoAmI, 0f, 0f);
             return false;
         }
     }

@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.height = 44;
             item.value = Item.buyPrice(0, 2, 0, 0);
             item.rare = 2;
-            item.shoot = ModContent.ProjectileType<Projectiles.Crystalline>();
+            item.shoot = ModContent.ProjectileType<Crystalline>();
             item.shootSpeed = 10f;
             item.Calamity().rogue = true;
         }

@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.maxStack = 999;
             item.value = 100;
             item.rare = 1;
-            item.shoot = ModContent.ProjectileType<Projectiles.WulfrumKnife>();
+            item.shoot = ModContent.ProjectileType<WulfrumKnife>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;
         }

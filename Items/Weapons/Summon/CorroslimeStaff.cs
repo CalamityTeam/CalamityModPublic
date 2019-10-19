@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.rare = 4;
             item.UseSound = SoundID.Item44;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.Corroslime>();
+            item.shoot = ModContent.ProjectileType<Corroslime>();
             item.shootSpeed = 10f;
             item.summon = true;
         }

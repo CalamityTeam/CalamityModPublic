@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.width = 140;
             item.height = 42;
             item.UseSound = SoundID.Item92;
-            item.shoot = ModContent.ProjectileType<Projectiles.Norfleet>();
+            item.shoot = ModContent.ProjectileType<Norfleet>();
             item.value = Item.buyPrice(1, 80, 0, 0);
             item.rare = 10;
             item.noMelee = true;
@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.Norfleet>(), 0, 0f, player.whoAmI);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Norfleet>(), 0, 0f, player.whoAmI);
             return false;
         }
     }

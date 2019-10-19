@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.maxStack = 999;
             item.value = 1000;
             item.rare = 0;
-            item.shoot = ModContent.ProjectileType<Projectiles.LeadTomahawk>();
+            item.shoot = ModContent.ProjectileType<LeadTomahawk>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;
         }

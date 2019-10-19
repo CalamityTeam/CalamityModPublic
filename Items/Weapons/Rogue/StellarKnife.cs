@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.autoReuse = true;
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.rare = 7;
-            item.shoot = ModContent.ProjectileType<Projectiles.StellarKnife>();
+            item.shoot = ModContent.ProjectileType<StellarKnife>();
             item.shootSpeed = 10f;
             item.Calamity().rogue = true;
         }

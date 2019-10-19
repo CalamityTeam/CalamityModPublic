@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.height = 28;
             item.value = Item.buyPrice(0, 1, 0, 0);
             item.rare = 8;
-            item.shoot = ModContent.ProjectileType<Projectiles.Plaguenade>();
+            item.shoot = ModContent.ProjectileType<Plaguenade>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;
             item.Calamity().postMoonLordRarity = 21;

@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.value = Item.buyPrice(0, 4, 0, 0);
             item.rare = 3;
             item.autoReuse = false;
-            item.shoot = ModContent.ProjectileType<Projectiles.StormSurge>();
+            item.shoot = ModContent.ProjectileType<StormSurge>();
             item.shootSpeed = 12f;
         }
 

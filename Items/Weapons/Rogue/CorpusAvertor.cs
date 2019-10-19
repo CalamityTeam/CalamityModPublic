@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;
             item.Calamity().postMoonLordRarity = 21;
-            item.shoot = ModContent.ProjectileType<Projectiles.CorpusAvertor>();
+            item.shoot = ModContent.ProjectileType<CorpusAvertor>();
             item.shootSpeed = 5f;
             item.Calamity().rogue = true;
         }

@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.height = 20;
             item.value = Item.buyPrice(2, 50, 0, 0);
             item.rare = 10;
-            item.shoot = ModContent.ProjectileType<Projectiles.Celestus>();
+            item.shoot = ModContent.ProjectileType<Celestus>();
             item.shootSpeed = 25f;
             item.Calamity().rogue = true;
             item.Calamity().postMoonLordRarity = 15;

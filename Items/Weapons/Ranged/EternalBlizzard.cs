@@ -29,13 +29,13 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useAmmo = AmmoID.Arrow;
             item.UseSound = SoundID.Item5;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.IcicleArrow>();
+            item.shoot = ModContent.ProjectileType<IcicleArrow>();
             item.shootSpeed = 11f;
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             if (type == ProjectileID.WoodenArrowFriendly)
-                type = ModContent.ProjectileType<Projectiles.IcicleArrow>();
+                type = ModContent.ProjectileType<IcicleArrow>();
 
             return true;
         }
