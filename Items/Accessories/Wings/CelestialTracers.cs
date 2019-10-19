@@ -3,6 +3,9 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
+using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 
 namespace CalamityMod.Items.Accessories.Wings
 {
