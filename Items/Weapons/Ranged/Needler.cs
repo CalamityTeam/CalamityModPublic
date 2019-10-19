@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Ranged;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -29,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.UseSound = SoundID.Item108;
             item.autoReuse = true;
             item.shootSpeed = 9f;
-            item.shoot = ModContent.ProjectileType<Needler>();
+            item.shoot = ModContent.ProjectileType<NeedlerProj>();
             item.useAmmo = 97;
         }
 
@@ -40,7 +41,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Needler>(), damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<NeedlerProj>(), damage, knockBack, player.whoAmI, 0f, 0f);
             return false;
         }
     }

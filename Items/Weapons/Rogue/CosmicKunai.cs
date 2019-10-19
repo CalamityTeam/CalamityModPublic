@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Rogue;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -27,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.height = 48;
             item.value = Item.buyPrice(1, 40, 0, 0);
             item.rare = 10;
-            item.shoot = ModContent.ProjectileType<CosmicKunai>();
+            item.shoot = ModContent.ProjectileType<CosmicKunaiProj>();
             item.shootSpeed = 28f;
             item.rare = 9;
             item.Calamity().rogue = true;

@@ -3,6 +3,7 @@ using Terraria.ModLoader;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using CalamityMod.Items.Materials;
 using Terraria.ID;
+using CalamityMod.Projectiles.Rogue;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {

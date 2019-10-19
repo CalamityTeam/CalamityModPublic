@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Items.Materials;
 using Terraria.ID;
+using CalamityMod.Projectiles.Summon;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
@@ -29,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.rare = 8;
             item.UseSound = SoundID.Item44;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Sandnado>();
+            item.shoot = ModContent.ProjectileType<SandnadoMinion>();
             item.shootSpeed = 10f;
             item.summon = true;
         }

@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Ranged;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -28,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.rare = 10;
             item.UseSound = SoundID.Item5;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<TelluricGlare>();
+            item.shoot = ModContent.ProjectileType<TelluricGlareProj>();
             item.shootSpeed = 12f;
             item.useAmmo = 40;
             item.Calamity().postMoonLordRarity = 12;
@@ -36,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<TelluricGlare>(), damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<TelluricGlareProj>(), damage, knockBack, player.whoAmI, 0f, 0f);
             return false;
         }
     }

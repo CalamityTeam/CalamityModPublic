@@ -3,6 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Buffs.DamageOverTime;
+
 namespace CalamityMod.Projectiles.Rogue
 {
     public class Celestus2 : ModProjectile

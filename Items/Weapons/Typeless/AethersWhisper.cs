@@ -3,6 +3,9 @@ using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Items.Materials;
 using Terraria.ID;
+using CalamityMod.Projectiles.Magic;
+using CalamityMod.Items.Weapons.Magic;
+using CalamityMod.Items.Weapons.Ranged;
 
 namespace CalamityMod.Items.Weapons.Typeless
 {

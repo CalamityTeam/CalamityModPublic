@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Items.Materials;
 using Terraria.ID;
+using CalamityMod.Projectiles.Typeless;
 
 namespace CalamityMod.Items.Weapons.Typeless
 {

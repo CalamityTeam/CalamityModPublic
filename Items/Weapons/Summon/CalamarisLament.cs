@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Summon;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
@@ -28,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.rare = 10;
             item.UseSound = SoundID.Item83;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Calamari>();
+            item.shoot = ModContent.ProjectileType<CalamariMinion>();
             item.shootSpeed = 10f;
             item.summon = true;
             item.Calamity().postMoonLordRarity = 13;

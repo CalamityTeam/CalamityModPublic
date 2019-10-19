@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Rogue;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -31,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.maxStack = 999;
             item.value = 1000;
             item.rare = 0;
-            item.shoot = ModContent.ProjectileType<IronFrancisca>();
+            item.shoot = ModContent.ProjectileType<IronFranciscaProj>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;
         }

@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Ranged;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -44,7 +45,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             for (int index = 0; index < 2; ++index)
             {
                 float speedMult = (float)(index + 1) * 0.15f;
-                Projectile.NewProjectile(position.X, position.Y, speedX * speedMult, speedY * speedMult, ModContent.ProjectileType<FrostsparkBullet>(), (int)((double)damage * 0.75), knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX * speedMult, speedY * speedMult, ModContent.ProjectileType<FrostsparkBulletProj>(), (int)((double)damage * 0.75), knockBack, player.whoAmI, 0f, 0f);
             }
             Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<ShockblastRound>(), damage, knockBack, player.whoAmI, 0f, 0f);
             return false;

@@ -3,6 +3,7 @@ using Terraria.ModLoader;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Materials;
 using Terraria.ID;
+using CalamityMod.Projectiles.Rogue;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -30,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.height = 46;
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.rare = 5;
-            item.shoot = ModContent.ProjectileType<Prismalline>();
+            item.shoot = ModContent.ProjectileType<PrismallineProj>();
             item.shootSpeed = 16f;
             item.Calamity().rogue = true;
         }

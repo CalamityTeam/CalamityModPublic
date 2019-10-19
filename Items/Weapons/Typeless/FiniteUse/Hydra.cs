@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Typeless.FiniteUse;
+using CalamityMod.Items.Ammo.FiniteUse;
 
 namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
 {
@@ -31,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/Hydra");
             item.autoReuse = true;
             item.shootSpeed = 12f;
-            item.shoot = ModContent.ProjectileType<ExplosiveShellBullet>();
+            item.shoot = ModContent.ProjectileType<ExplosiveShotgunShell>();
             item.useAmmo = ModContent.ItemType<ExplosiveShells>();
             if (CalamityPlayer.areThereAnyDamnBosses)
             {

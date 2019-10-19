@@ -3,6 +3,7 @@ using Terraria.ModLoader;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Materials;
 using Terraria.ID;
+using CalamityMod.Projectiles.Rogue;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -30,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.height = 48;
             item.value = Item.buyPrice(0, 95, 0, 0);
             item.rare = 9;
-            item.shoot = ModContent.ProjectileType<RadiantStar>();
+            item.shoot = ModContent.ProjectileType<RadiantStarKnife>();
             item.shootSpeed = 20f;
             item.Calamity().rogue = true;
         }

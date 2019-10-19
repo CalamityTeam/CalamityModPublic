@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Summon;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
@@ -28,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.rare = 5;
             item.UseSound = SoundID.Item44;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<AquaticStar>();
+            item.shoot = ModContent.ProjectileType<AquaticStarMinion>();
             item.shootSpeed = 10f;
             item.summon = true;
         }

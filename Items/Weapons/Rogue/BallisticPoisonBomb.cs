@@ -3,6 +3,7 @@ using Terraria.ModLoader;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Materials;
 using Terraria.ID;
+using CalamityMod.Projectiles.Rogue;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -29,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.height = 38;
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.rare = 7;
-            item.shoot = ModContent.ProjectileType<BallisticPoisonBomb>();
+            item.shoot = ModContent.ProjectileType<BallisticPoisonBombProj>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;
         }

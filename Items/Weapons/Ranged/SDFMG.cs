@@ -5,6 +5,7 @@ using CalamityMod.Items.Placeables;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using CalamityMod.Items.Materials;
 using Terraria.ID;
+using CalamityMod.Projectiles.Ranged;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {

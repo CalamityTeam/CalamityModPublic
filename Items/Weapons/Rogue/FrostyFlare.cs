@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Rogue;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -29,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.knockBack = 2f;
             item.value = Item.buyPrice(0, 0, 5, 0);
             item.rare = 5;
-            item.shoot = ModContent.ProjectileType<FrostyFlare>();
+            item.shoot = ModContent.ProjectileType<FrostyFlareProj>();
             item.shootSpeed = 22f;
             item.maxStack = 999;
             item.consumable = true;

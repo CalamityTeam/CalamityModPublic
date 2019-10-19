@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;

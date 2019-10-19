@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -73,7 +74,7 @@ namespace CalamityMod.Projectiles.Ranged
                         Dust expr_DC94_cp_0 = Main.dust[num299];
                         expr_DC94_cp_0.velocity.Y *= 1.2f;
                         Main.dust[num299].scale *= num296;
-                        Main.dust[num299].velocity += projectile.velocity;
+                        Main.dust[num299].velocity += projectile.velocity/2;
                         if (!Main.dust[num299].noGravity)
                         {
                             Main.dust[num299].velocity *= 0.5f;

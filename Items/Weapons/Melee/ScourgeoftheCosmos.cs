@@ -4,6 +4,7 @@ using CalamityMod.Tiles.Furniture.CraftingStations;
 using CalamityMod.Items.Materials;
 using Terraria.ID;
 using CalamityMod.Projectiles.Melee;
+using CalamityMod.Items.Weapons.Rogue;
 
 namespace CalamityMod.Items.Weapons.Melee
 {

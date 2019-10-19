@@ -2,6 +2,7 @@ using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Items.Materials;
 using Terraria.ID;
+using CalamityMod.Projectiles.Ranged;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -29,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.value = Item.buyPrice(0, 4, 0, 0);
             item.rare = 3;
             item.autoReuse = false;
-            item.shoot = ModContent.ProjectileType<StormSurge>();
+            item.shoot = ModContent.ProjectileType<StormSurgeTornado>();
             item.shootSpeed = 12f;
         }
 

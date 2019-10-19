@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Rogue;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -27,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.height = 60;
             item.value = Item.buyPrice(1, 40, 0, 0);
             item.rare = 10;
-            item.shoot = ModContent.ProjectileType<GhoulishGouger>();
+            item.shoot = ModContent.ProjectileType<GhoulishGougerBoomerang>();
             item.shootSpeed = 20f;
             item.Calamity().rogue = true;
             item.Calamity().postMoonLordRarity = 13;

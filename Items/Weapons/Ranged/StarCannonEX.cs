@@ -3,6 +3,8 @@ using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Items.Materials;
 using Terraria.ID;
+using CalamityMod.Projectiles.Typeless;
+using CalamityMod.Items.Potions;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {

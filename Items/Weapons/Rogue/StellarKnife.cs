@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Rogue;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -29,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.autoReuse = true;
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.rare = 7;
-            item.shoot = ModContent.ProjectileType<StellarKnife>();
+            item.shoot = ModContent.ProjectileType<StellarKnifeProj>();
             item.shootSpeed = 10f;
             item.Calamity().rogue = true;
         }

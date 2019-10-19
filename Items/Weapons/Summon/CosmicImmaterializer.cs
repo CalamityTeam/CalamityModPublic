@@ -7,6 +7,7 @@ using CalamityMod.Items.Placeables.Ores;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using CalamityMod.Items.Materials;
 using Terraria.ID;
+using CalamityMod.Projectiles.Summon;
 
 namespace CalamityMod.Items.Weapons.Summon
 {

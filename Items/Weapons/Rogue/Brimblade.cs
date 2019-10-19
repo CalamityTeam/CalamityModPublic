@@ -2,6 +2,7 @@ using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Items.Materials;
 using Terraria.ID;
+using CalamityMod.Projectiles.Rogue;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -28,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.height = 26;
             item.value = Item.buyPrice(0, 48, 0, 0);
             item.rare = 6;
-            item.shoot = ModContent.ProjectileType<Brimblade>();
+            item.shoot = ModContent.ProjectileType<BrimbladeProj>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;
         }

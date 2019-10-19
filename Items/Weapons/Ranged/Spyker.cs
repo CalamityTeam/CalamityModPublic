@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Items.Materials;
 using Terraria.ID;
+using CalamityMod.Projectiles.Ranged;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -30,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.UseSound = SoundID.Item108;
             item.autoReuse = true;
             item.shootSpeed = 9f;
-            item.shoot = ModContent.ProjectileType<Spyker>();
+            item.shoot = ModContent.ProjectileType<SpykerProj>();
             item.useAmmo = 97;
             item.Calamity().postMoonLordRarity = 12;
         }
@@ -42,7 +43,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Spyker>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<SpykerProj>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
             return false;
         }
 

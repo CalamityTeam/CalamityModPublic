@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Items.Materials;
 using Terraria.ID;
+using CalamityMod.Projectiles.Rogue;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -33,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.value = 1000;
             item.rare = 3;
             item.value = Item.buyPrice(0, 4, 0, 0);
-            item.shoot = ModContent.ProjectileType<Projectiles.Rogue.EnchantedAxe>();
+            item.shoot = ModContent.ProjectileType<EnchantedAxeProj>();
             item.shootSpeed = 30f;
             item.Calamity().rogue = true;
         }

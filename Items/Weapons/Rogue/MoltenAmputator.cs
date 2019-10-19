@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Rogue;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -27,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.height = 60;
             item.value = Item.buyPrice(1, 20, 0, 0);
             item.rare = 10;
-            item.shoot = ModContent.ProjectileType<MoltenAmputator>();
+            item.shoot = ModContent.ProjectileType<MoltenAmputatorProj>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;
             item.Calamity().postMoonLordRarity = 12;

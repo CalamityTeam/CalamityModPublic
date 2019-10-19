@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Rogue;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -27,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.height = 68;
             item.value = Item.buyPrice(0, 48, 0, 0);
             item.rare = 6;
-            item.shoot = ModContent.ProjectileType<Pwnagehammer>();
+            item.shoot = ModContent.ProjectileType<PwnagehammerProj>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;
         }

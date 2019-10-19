@@ -2,6 +2,12 @@ using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Items.Materials;
 using Terraria.ID;
+using CalamityMod.Projectiles.Typeless;
+using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Items.Weapons.Magic;
+using CalamityMod.Items.Accessories.Wings;
+using CalamityMod.Items.Accessories;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -28,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.height = 20;
             item.value = Item.buyPrice(0, 48, 0, 0);
             item.rare = 6;
-            item.shoot = ModContent.ProjectileType<KelvinCatalyst>();
+            item.shoot = ModContent.ProjectileType<KelvinCatalystBoomerang>();
             item.shootSpeed = 8f;
             item.Calamity().rogue = true;
             item.Calamity().postMoonLordRarity = 21;

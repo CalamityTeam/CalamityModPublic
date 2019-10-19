@@ -2,6 +2,7 @@ using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Items.Materials;
 using Terraria.ID;
+using CalamityMod.Projectiles.Rogue;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -28,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.height = 38;
             item.value = Item.buyPrice(1, 20, 0, 0);
             item.rare = 10;
-            item.shoot = ModContent.ProjectileType<AccretionDisk>();
+            item.shoot = ModContent.ProjectileType<AccretionDiskProj>();
             item.shootSpeed = 13f;
             item.Calamity().rogue = true;
             item.Calamity().postMoonLordRarity = 12;

@@ -3,6 +3,7 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Buffs.Summon;
 
 namespace CalamityMod.Items.Weapons.Summon
 {

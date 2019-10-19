@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Rogue;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -27,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.height = 44;
             item.value = Item.buyPrice(0, 2, 0, 0);
             item.rare = 2;
-            item.shoot = ModContent.ProjectileType<ScourgeoftheDesert>();
+            item.shoot = ModContent.ProjectileType<ScourgeoftheDesertProj>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;
         }

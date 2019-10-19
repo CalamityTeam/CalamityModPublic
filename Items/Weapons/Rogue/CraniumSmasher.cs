@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Rogue;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -27,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.UseSound = SoundID.Item1;
             item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;
-            item.shoot = ModContent.ProjectileType<CraniumSmasher>();
+            item.shoot = ModContent.ProjectileType<CraniumSmasherProj>();
             item.shootSpeed = 20f;
             item.Calamity().rogue = true;
         }
@@ -41,7 +42,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             }
             else
             {
-                type = ModContent.ProjectileType<CraniumSmasher>();
+                type = ModContent.ProjectileType<CraniumSmasherProj>();
             }
             Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
             return false;

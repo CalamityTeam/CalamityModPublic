@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Rogue;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -26,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.height = 52;
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.rare = 5;
-            item.shoot = ModContent.ProjectileType<IchorSpear>();
+            item.shoot = ModContent.ProjectileType<IchorSpearProj>();
             item.shootSpeed = 20f;
             item.Calamity().rogue = true;
         }

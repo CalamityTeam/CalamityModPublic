@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Items.Materials;
 using Terraria.ID;
+using CalamityMod.Projectiles.Ranged;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -31,14 +32,14 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.ranged = true;
             item.channel = true;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Butcher>();
+            item.shoot = ModContent.ProjectileType<ButcherProj>();
             item.shootSpeed = 12f;
             item.useAmmo = 97;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Butcher>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<ButcherProj>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
             return false;
         }
 

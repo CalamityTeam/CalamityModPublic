@@ -1,6 +1,8 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items.Materials;
+using CalamityMod.Projectiles.Rogue;
+
 namespace CalamityMod.Items.Weapons.Rogue
 {
     public class WulfrumKnife : RogueWeapon
@@ -27,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.maxStack = 999;
             item.value = 100;
             item.rare = 1;
-            item.shoot = ModContent.ProjectileType<WulfrumKnife>();
+            item.shoot = ModContent.ProjectileType<WulfrumKnifeProj>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;
         }

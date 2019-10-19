@@ -5,6 +5,8 @@ using Terraria.ModLoader;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using CalamityMod.Items.Materials;
 using Terraria.ID;
+using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Items.Weapons.Ranged;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -31,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.height = 20;
             item.value = Item.buyPrice(1, 80, 0, 0);
             item.rare = 10;
-            item.shoot = ModContent.ProjectileType<EmpyreanKnives>();
+            item.shoot = ModContent.ProjectileType<EmpyreanKnife>();
             item.shootSpeed = 15f;
             item.Calamity().rogue = true;
             item.Calamity().postMoonLordRarity = 14;

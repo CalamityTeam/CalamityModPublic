@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Ranged;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -28,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.rare = 3;
             item.UseSound = SoundID.Item11;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Archerfish>();
+            item.shoot = ModContent.ProjectileType<ArcherfishShot>();
             item.shootSpeed = 11f;
             item.useAmmo = 97;
         }
@@ -40,7 +41,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Archerfish>(), damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<ArcherfishShot>(), damage, knockBack, player.whoAmI, 0f, 0f);
             return false;
         }
     }

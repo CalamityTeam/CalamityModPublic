@@ -3,6 +3,8 @@ using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Items.Materials;
 using Terraria.ID;
+using CalamityMod.Projectiles.Summon;
+using CalamityMod.Items.Tools;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
@@ -30,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.rare = 10;
             item.UseSound = SoundID.Item44;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<ElementalAxe>();
+            item.shoot = ModContent.ProjectileType<ElementalAxeMinion>();
             item.shootSpeed = 10f;
             item.Calamity().postMoonLordRarity = 12;
         }

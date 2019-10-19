@@ -1,3 +1,4 @@
+using CalamityMod.Projectiles.Summon;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Weapons.Summon

@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Rogue;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -30,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.height = 58;
             item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;
-            item.shoot = ModContent.ProjectileType<Malachite>();
+            item.shoot = ModContent.ProjectileType<MalachiteProj>();
             item.shootSpeed = 10f;
             item.Calamity().rogue = true;
             item.Calamity().postMoonLordRarity = 17;
@@ -66,7 +67,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             }
             else
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Malachite>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<MalachiteProj>(), damage, knockBack, player.whoAmI, 0f, 0f);
             }
             return false;
         }

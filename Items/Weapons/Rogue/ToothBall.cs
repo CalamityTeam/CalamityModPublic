@@ -1,6 +1,8 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items.Materials;
+using CalamityMod.Projectiles.Rogue;
+
 namespace CalamityMod.Items.Weapons.Rogue
 {
     public class ToothBall : RogueWeapon

@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Typeless;
 
 namespace CalamityMod.Items.Weapons.Typeless
 {
@@ -27,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Typeless
             item.rare = 3;
             item.UseSound = SoundID.Item11;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<GoldenGun>();
+            item.shoot = ModContent.ProjectileType<GoldenGunProj>();
             item.shootSpeed = 12f;
         }
 

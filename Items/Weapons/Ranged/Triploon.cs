@@ -4,6 +4,7 @@ using Terraria.ModLoader;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Materials;
 using Terraria.ID;
+using CalamityMod.Projectiles.Ranged;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -31,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.UseSound = SoundID.Item10;
             item.autoReuse = true;
             item.shootSpeed = 20f;
-            item.shoot = ModContent.ProjectileType<Triploon>();
+            item.shoot = ModContent.ProjectileType<TriploonProj>();
         }
 
         public override Vector2? HoldoutOffset()

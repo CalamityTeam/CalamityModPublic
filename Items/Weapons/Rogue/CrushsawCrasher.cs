@@ -1,6 +1,8 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -32,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<Buffs.BrimstoneFlames>(), 300);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
         }
     }
 }

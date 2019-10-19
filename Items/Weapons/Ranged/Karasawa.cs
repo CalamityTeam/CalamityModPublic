@@ -4,6 +4,8 @@ using Terraria.ModLoader;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using CalamityMod.Items.Materials;
 using Terraria.ID;
+using CalamityMod.Projectiles.Ranged;
+using CalamityMod.Items.Accessories;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
