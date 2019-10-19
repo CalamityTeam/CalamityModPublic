@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Magic;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -30,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.rare = 10;
             item.UseSound = SoundID.Item20;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.SanguineFlare>();
+            item.shoot = ModContent.ProjectileType<SanguineFlareProj>();
             item.shootSpeed = 14f;
             item.Calamity().postMoonLordRarity = 13;
         }

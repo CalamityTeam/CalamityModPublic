@@ -1,6 +1,8 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Buffs.StatDebuffs;
+
 namespace CalamityMod.Items.Weapons.Melee
 {
     public class TeardropCleaver : ModItem

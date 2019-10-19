@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Magic;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -28,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.rare = 7;
             item.UseSound = SoundID.Item20;
-            item.shoot = ModContent.ProjectileType<Projectiles.ShiftingSands>();
+            item.shoot = ModContent.ProjectileType<ShiftingSandsProj>();
             item.shootSpeed = 7f;
         }
 

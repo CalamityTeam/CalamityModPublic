@@ -2,6 +2,10 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Melee;
+using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatDebuffs;
+
 namespace CalamityMod.Items.Weapons.Melee
 {
     public class ElementalShortsword : ModItem

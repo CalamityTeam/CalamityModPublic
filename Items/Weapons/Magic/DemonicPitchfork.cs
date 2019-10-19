@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Magic;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -29,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.rare = 5;
             item.UseSound = SoundID.Item20;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.DemonicPitchfork>();
+            item.shoot = ModContent.ProjectileType<DemonicPitchforkProj>();
             item.shootSpeed = 16f;
         }
 

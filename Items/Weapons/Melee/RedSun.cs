@@ -3,6 +3,9 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Melee;
+using CalamityMod.Buffs.DamageOverTime;
+
 namespace CalamityMod.Items.Weapons.Melee
 {
     public class RedSun : ModItem
@@ -30,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.height = 72;
             item.value = Item.buyPrice(5, 0, 0, 0);
             item.rare = 10;
-            item.shoot = ModContent.ProjectileType<Projectiles.SolarFlare>();
+            item.shoot = ModContent.ProjectileType<RSSolarFlare>();
             item.shootSpeed = 15f;
             item.Calamity().postMoonLordRarity = 16;
         }
@@ -93,7 +96,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 num79 *= num80;
                 float speedX4 = num78 + (float)Main.rand.Next(-1000, 1001) * 0.02f;
                 float speedY5 = num79 + (float)Main.rand.Next(-1000, 1001) * 0.02f;
-                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<Projectiles.SolarFlare>(), (int)((double)damage * 0.7), knockBack, player.whoAmI, 0f, (float)Main.rand.Next(10));
+                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<RSSolarFlare>(), (int)((double)damage * 0.7), knockBack, player.whoAmI, 0f, (float)Main.rand.Next(10));
             }
             return false;
         }

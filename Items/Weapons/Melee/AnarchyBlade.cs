@@ -4,6 +4,9 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Projectiles.Melee;
+
 namespace CalamityMod.Items.Weapons.Melee
 {
     public class AnarchyBlade : ModItem

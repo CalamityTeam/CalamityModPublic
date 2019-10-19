@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Magic;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -28,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.rare = 7;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.SirensSong>();
+            item.shoot = ModContent.ProjectileType<SirensSongNote>();
             item.shootSpeed = 13f;
         }
 

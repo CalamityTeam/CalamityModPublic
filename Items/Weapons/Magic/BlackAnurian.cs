@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Magic;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -30,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.UseSound = SoundID.Item111;
             item.autoReuse = true;
             item.shootSpeed = 8f;
-            item.shoot = ModContent.ProjectileType<Projectiles.BlackAnurian>();
+            item.shoot = ModContent.ProjectileType<BlackAnurianBubble>();
         }
 
         public override Vector2? HoldoutOffset()

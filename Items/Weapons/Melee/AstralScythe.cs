@@ -1,6 +1,9 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Melee;
+using CalamityMod.Buffs.DamageOverTime;
+
 namespace CalamityMod.Items.Weapons.Melee
 {
     public class AstralScythe : ModItem

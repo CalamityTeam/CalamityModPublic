@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Melee;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -29,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.channel = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.Tumbleweed>();
+            item.shoot = ModContent.ProjectileType<TumbleweedFlail>();
             item.shootSpeed = 12f;
         }
 

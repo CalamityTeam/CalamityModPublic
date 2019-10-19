@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Melee;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -30,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.height = 82;
             item.value = Item.buyPrice(0, 95, 0, 0);
             item.rare = 9;
-            item.shoot = ModContent.ProjectileType<Projectiles.StormRuler>();
+            item.shoot = ModContent.ProjectileType<StormRulerProj>();
             item.shootSpeed = 20f;
         }
 

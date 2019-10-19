@@ -1,3 +1,4 @@
+using CalamityMod.Projectiles.Magic;
 using Terraria;
 using Terraria.ModLoader;
 

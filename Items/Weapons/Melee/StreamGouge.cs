@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Melee;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -32,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.height = 100;
             item.value = Item.buyPrice(1, 80, 0, 0);
             item.rare = 10;
-            item.shoot = ModContent.ProjectileType<Projectiles.StreamGouge>();
+            item.shoot = ModContent.ProjectileType<StreamGougeProj>();
             item.shootSpeed = 15f;
             item.Calamity().postMoonLordRarity = 14;
         }

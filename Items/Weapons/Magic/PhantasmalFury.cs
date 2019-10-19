@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Magic;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -29,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.rare = 10;
             item.UseSound = SoundID.Item43;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.PhantasmalFury>();
+            item.shoot = ModContent.ProjectileType<PhantasmalFuryProj>();
             item.shootSpeed = 12f;
             item.Calamity().postMoonLordRarity = 13;
         }

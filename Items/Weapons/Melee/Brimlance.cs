@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Melee;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -29,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.height = 56;
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.rare = 5;
-            item.shoot = ModContent.ProjectileType<Projectiles.Brimlance>();
+            item.shoot = ModContent.ProjectileType<BrimlanceProj>();
             item.shootSpeed = 12f;
         }
     }

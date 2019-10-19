@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Melee;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -29,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.height = 58;
             item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;
-            item.shoot = ModContent.ProjectileType<Projectiles.DiseasedPike>();
+            item.shoot = ModContent.ProjectileType<DiseasedPikeSpear>();
             item.shootSpeed = 10f;
         }
 

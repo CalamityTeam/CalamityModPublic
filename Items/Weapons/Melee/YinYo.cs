@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Melee;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -26,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.rare = 5;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.YinYo>();
+            item.shoot = ModContent.ProjectileType<YinYoyo>();
         }
 
         public override void AddRecipes()

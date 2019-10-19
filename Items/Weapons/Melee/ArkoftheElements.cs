@@ -3,6 +3,10 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Melee;
+using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatDebuffs;
+
 namespace CalamityMod.Items.Weapons.Melee
 {
     public class ArkoftheElements : ModItem

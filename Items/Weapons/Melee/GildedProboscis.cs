@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Melee;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -30,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.height = 66;
             item.value = Item.buyPrice(1, 20, 0, 0);
             item.rare = 10;
-            item.shoot = ModContent.ProjectileType<Projectiles.GildedProboscis>();
+            item.shoot = ModContent.ProjectileType<GildedProboscisProj>();
             item.shootSpeed = 13f;
             item.Calamity().postMoonLordRarity = 12;
         }

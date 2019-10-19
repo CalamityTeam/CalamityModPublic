@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Typeless;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -28,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;
             item.Calamity().postMoonLordRarity = 21;
-            item.shoot = ModContent.ProjectileType<Projectiles.CorpusAvertor>();
+            item.shoot = ModContent.ProjectileType<CorpusAvertorProj>();
             item.shootSpeed = 5f;
             item.melee = true;
         }

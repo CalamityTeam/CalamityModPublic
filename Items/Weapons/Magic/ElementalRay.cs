@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Magic;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -29,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.rare = 10;
             item.UseSound = SoundID.Item60;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<ElementRay>();
+            item.shoot = ModContent.ProjectileType<ElementalRayBeam>();
             item.shootSpeed = 6f;
             item.Calamity().postMoonLordRarity = 12;
         }

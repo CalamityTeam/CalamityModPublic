@@ -3,6 +3,7 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Magic;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -32,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.UseSound = SoundID.Item66;
             item.autoReuse = true;
             item.shootSpeed = 12f;
-            item.shoot = ModContent.ProjectileType<Projectiles.UndinesRetribution>();
+            item.shoot = ModContent.ProjectileType<UndinesRetributionSpear>();
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
