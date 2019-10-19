@@ -1,4 +1,4 @@
-
+using System;
 using CalamityMod.World;
 using Terraria;
 using Terraria.ModLoader;
@@ -79,18 +79,18 @@ namespace CalamityMod.Items.Fishing
             DropHelper.DropItemChance(player, ItemID.TrapsightPotion, 10, 1, 3); //Dangersense Potion
             if (CalamityWorld.downedStarGod)
             {
-                DropHelper.DropItemChance(player, ItemID.SuperHealingPotion, 2, 5, 10);
+                DropHelper.DropItem(player, Main.rand.Next(100) >= 49 ? ItemID.SuperHealingPotion : ItemID.SuperManaPotion, 5, 10);
             }
             else
             {
-                DropHelper.DropItemChance(player, ItemID.GreaterHealingPotion, 2, 5, 10);
+                DropHelper.DropItem(player, Main.rand.Next(100) >= 49 ? ItemID.GreaterHealingPotion : ItemID.GreaterManaPotion, 5, 10);
             }
             if (CalamityWorld.downedAstrageldon)
             {
                 DropHelper.DropItemChance(player, ModContent.ItemType<AstralInjection>(), 4, 1, 3);
                 DropHelper.DropItemChance(player, ModContent.ItemType<GravityNormalizerPotion>(), 4, 1, 3);
             }
-
+			
             //Money
             DropHelper.DropItem(player, ItemID.SilverCoin, 10, 90);
             DropHelper.DropItemChance(player, ItemID.GoldCoin, 0.5f, 1, 5);
