@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Placeables.FurnitureSilva
             recipe.AddIngredient(ModContent.ItemType<NightmareFuel>());
             recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>());
             recipe.SetResult(this, 400);
-            recipe.AddTile(null, "DraedonsForge");
+            recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.CrystalBlock, 200);
@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Placeables.FurnitureSilva
             recipe.AddIngredient(ModContent.ItemType<NightmareFuel>());
             recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>());
             recipe.SetResult(this, 400);
-            recipe.AddTile(null, "DraedonsForge");
+            recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<SilvaWall>(), 4);
@@ -54,7 +54,7 @@ namespace CalamityMod.Items.Placeables.FurnitureSilva
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<SilvaPlatform>(), 2);
             recipe.SetResult(this);
-            recipe.AddTile(null, "SilvaBasin");
+            recipe.AddTile(ModContent.TileType<SilvaBasin>());
             recipe.AddRecipe();
         }
     }

@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Placeables.FurnitureCosmilite
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBrick>(), 6);
             recipe.AddIngredient(ItemID.WaterBucket);
             recipe.SetResult(this, 1);
-            recipe.AddTile(null, "DraedonsForge");
+            recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.AddRecipe();
         }
     }

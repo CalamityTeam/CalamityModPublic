@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Weapons.Magic
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 100);
             recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 50);
-            recipe.AddTile(null, "DraedonsForge");
+            recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

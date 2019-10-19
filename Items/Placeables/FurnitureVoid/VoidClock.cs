@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Placeables.FurnitureVoid
             recipe.AddIngredient(ItemID.Glass, 6);
             recipe.AddIngredient(ModContent.ItemType<SmoothVoidstone>(), 10);
             recipe.SetResult(this, 1);
-            recipe.AddTile(null, "VoidCondenser");
+            recipe.AddTile(ModContent.TileType<VoidCondenser>());
             recipe.AddRecipe();
         }
     }

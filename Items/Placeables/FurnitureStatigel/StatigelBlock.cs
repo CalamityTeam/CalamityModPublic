@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Placeables.FurnitureStatigel
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<PurifiedGel>());
             recipe.SetResult(this, 10);
-            recipe.AddTile(null, "StaticRefiner");
+            recipe.AddTile(ModContent.TileType<StaticRefiner>());
             recipe.AddRecipe();
 
             recipe = new ModRecipe(mod);

@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAshen
             recipe.AddIngredient(ModContent.ItemType<UnholyCore>());
             recipe.AddIngredient(ItemID.Chain);
             recipe.SetResult(this, 1);
-            recipe.AddTile(null, "AshenAltar");
+            recipe.AddTile(ModContent.TileType<AshenAltar>());
             recipe.AddRecipe();
         }
     }

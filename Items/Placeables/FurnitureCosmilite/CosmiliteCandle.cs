@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Placeables.FurnitureCosmilite
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBrick>(), 4);
             recipe.AddIngredient(ItemID.Torch);
             recipe.SetResult(this, 1);
-            recipe.AddTile(null, "DraedonsForge");
+            recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.AddRecipe();
         }
     }

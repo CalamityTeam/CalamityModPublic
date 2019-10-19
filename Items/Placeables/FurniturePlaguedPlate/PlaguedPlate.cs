@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Placeables.FurniturePlaguedPlate
             recipe.anyIronBar = true;
             recipe.AddIngredient(mod.GetItem("PlagueCellCluster"), 5);
             recipe.SetResult(this, 20);
-            recipe.AddTile(null, "PlagueInfuser");
+            recipe.AddTile(ModContent.TileType<PlagueInfuser>());
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<PlaguedPlateWall>(), 4);
@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Placeables.FurniturePlaguedPlate
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<PlaguedPlatePlatform>(), 2);
             recipe.SetResult(this);
-            recipe.AddTile(null, "PlagueInfuser");
+            recipe.AddTile(ModContent.TileType<PlagueInfuser>());
             recipe.AddRecipe();
         }
     }

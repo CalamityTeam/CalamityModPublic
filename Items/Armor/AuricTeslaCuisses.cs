@@ -49,7 +49,7 @@ namespace CalamityMod.Items
             recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>(), 3);
             recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 2);
             recipe.AddIngredient(ItemID.FlyingCarpet);
-            recipe.AddTile(null, "DraedonsForge");
+            recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

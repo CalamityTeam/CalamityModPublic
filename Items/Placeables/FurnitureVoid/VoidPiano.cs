@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Placeables.FurnitureVoid
             recipe.AddIngredient(ModContent.ItemType<SmoothVoidstone>(), 15);
             recipe.AddIngredient(ItemID.Book);
             recipe.SetResult(this, 1);
-            recipe.AddTile(null, "VoidCondenser");
+            recipe.AddTile(ModContent.TileType<VoidCondenser>());
             recipe.AddRecipe();
         }
     }

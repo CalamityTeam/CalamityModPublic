@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Placeables.FurnitureProfaned
             recipe.AddIngredient(ModContent.ItemType<ProfanedRock>(), 4);
             recipe.AddIngredient(ItemID.Torch);
             recipe.SetResult(this, 1);
-            recipe.AddTile(null, "ProfanedBasin");
+            recipe.AddTile(ModContent.TileType<ProfanedBasin>());
             recipe.AddRecipe();
         }
     }

@@ -86,7 +86,7 @@ namespace CalamityMod.Items
             recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>(), 2);
             recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>());
             recipe.AddIngredient(ModContent.ItemType<PsychoticAmulet>());
-            recipe.AddTile(null, "DraedonsForge");
+            recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

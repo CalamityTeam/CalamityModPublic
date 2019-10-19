@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAbyss
             recipe.AddIngredient(ModContent.ItemType<SmoothAbyssGravel>(), 5);
             recipe.AddIngredient(mod.GetItem("Lumenite"), 3);
             recipe.SetResult(this, 1);
-            recipe.AddTile(null, "VoidCondenser");
+            recipe.AddTile(ModContent.TileType<VoidCondenser>());
             recipe.AddRecipe();
         }
     }

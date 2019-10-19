@@ -94,7 +94,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             ModRecipe r = new ModRecipe(mod);
             r.SetResult(this);
-            r.AddTile(mod, "DraedonsForge");
+            r.AddTile(ModContent.TileType<DraedonsForge>());
             r.AddIngredient(ModContent.ItemType<VenusianTrident>());
             r.AddIngredient(ModContent.ItemType<CalamitasInferno>());
             r.AddIngredient(ModContent.ItemType<ForbiddenSun>());

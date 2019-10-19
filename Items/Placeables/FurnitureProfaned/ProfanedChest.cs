@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Placeables.FurnitureProfaned
             recipe.AddIngredient(ItemID.IronBar, 2);
             recipe.anyIronBar = true;
             recipe.SetResult(this, 1);
-            recipe.AddTile(null, "ProfanedBasin");
+            recipe.AddTile(ModContent.TileType<ProfanedBasin>());
             recipe.AddRecipe();
         }
     }

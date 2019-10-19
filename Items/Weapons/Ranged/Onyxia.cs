@@ -79,7 +79,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             r.AddIngredient(ModContent.ItemType<OnyxChainBlaster>());
             r.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
             r.AddIngredient(ModContent.ItemType<DarksunFragment>(), 10);
-            r.AddTile(null, "DraedonsForge");
+            r.AddTile(ModContent.TileType<DraedonsForge>());
             r.SetResult(this);
             r.AddRecipe();
         }

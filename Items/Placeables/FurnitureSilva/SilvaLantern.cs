@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Placeables.FurnitureSilva
             recipe.AddIngredient(ModContent.ItemType<SilvaCrystal>(), 6);
             recipe.AddIngredient(ModContent.ItemType<EffulgentFeather>());
             recipe.SetResult(this);
-            recipe.AddTile(null, "SilvaBasin");
+            recipe.AddTile(ModContent.TileType<SilvaBasin>());
             recipe.AddRecipe();
         }
     }

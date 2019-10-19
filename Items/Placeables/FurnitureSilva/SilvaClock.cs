@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Placeables.FurnitureSilva
             recipe.anyIronBar = true;
             recipe.AddIngredient(ItemID.Glass, 6);
             recipe.SetResult(this);
-            recipe.AddTile(null, "SilvaBasin");
+            recipe.AddTile(ModContent.TileType<SilvaBasin>());
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<SilvaCrystal>(), 10);
@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Placeables.FurnitureSilva
             recipe.anyIronBar = true;
             recipe.AddIngredient(ItemID.Glass, 6);
             recipe.SetResult(this);
-            recipe.AddTile(null, "SilvaBasin");
+            recipe.AddTile(ModContent.TileType<SilvaBasin>());
             recipe.AddRecipe();
         }
     }

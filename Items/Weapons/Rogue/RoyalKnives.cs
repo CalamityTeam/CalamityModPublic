@@ -101,7 +101,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
             recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>(), 3);
             recipe.AddIngredient(ModContent.ItemType<EmpyreanKnivesThrown>());
-            recipe.AddTile(null, "DraedonsForge");
+            recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

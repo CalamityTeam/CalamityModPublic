@@ -144,7 +144,7 @@ namespace CalamityMod.Items.Weapons.Melee
             recipe.AddIngredient(ModContent.ItemType<HellcasterFragment>(), 10);
             recipe.AddIngredient(ItemID.SoulofLight, 50);
             recipe.AddIngredient(ItemID.SoulofNight, 50);
-            recipe.AddTile(null, "DraedonsForge");
+            recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

@@ -54,7 +54,7 @@ namespace CalamityMod.Items
             recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>(), 5);
             recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 3);
             recipe.AddIngredient(ModContent.ItemType<FrostBarrier>());
-            recipe.AddTile(null, "DraedonsForge");
+            recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

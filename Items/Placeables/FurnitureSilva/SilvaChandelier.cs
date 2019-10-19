@@ -29,14 +29,14 @@ namespace CalamityMod.Items.Placeables.FurnitureSilva
             recipe.AddIngredient(ModContent.ItemType<EffulgentFeather>(), 4);
             recipe.AddIngredient(ItemID.GoldBar);
             recipe.SetResult(this);
-            recipe.AddTile(null, "SilvaBasin");
+            recipe.AddTile(ModContent.TileType<SilvaBasin>());
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<SilvaCrystal>(), 4);
             recipe.AddIngredient(ModContent.ItemType<EffulgentFeather>(), 4);
             recipe.AddIngredient(ItemID.PlatinumBar);
             recipe.SetResult(this);
-            recipe.AddTile(null, "SilvaBasin");
+            recipe.AddTile(ModContent.TileType<SilvaBasin>());
             recipe.AddRecipe();
         }
     }

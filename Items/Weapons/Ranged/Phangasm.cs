@@ -48,7 +48,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             recipe.AddIngredient(ItemID.Phantasm);
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
             recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 5);
-            recipe.AddTile(null, "DraedonsForge");
+            recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

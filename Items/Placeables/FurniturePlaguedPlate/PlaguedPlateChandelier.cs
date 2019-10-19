@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Placeables.FurniturePlaguedPlate
             recipe.AddIngredient(ItemID.Wire, 4);
             recipe.AddIngredient(ItemID.Chain);
             recipe.SetResult(this, 1);
-            recipe.AddTile(null, "PlagueInfuser");
+            recipe.AddTile(ModContent.TileType<PlagueInfuser>());
             recipe.AddRecipe();
         }
     }

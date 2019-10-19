@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAncient
             recipe.AddIngredient(ModContent.ItemType<BrimstoneSlag>(), 15);
             recipe.AddIngredient(ItemID.Book);
             recipe.SetResult(this, 1);
-            recipe.AddTile(null, "AncientAltar");
+            recipe.AddTile(ModContent.TileType<AncientAltar>());
             recipe.AddRecipe();
         }
     }

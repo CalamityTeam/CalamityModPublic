@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Placeables.FurnitureStatigel
             recipe.AddIngredient(ItemID.Glass, 6);
             recipe.AddIngredient(ModContent.ItemType<StatigelBlock>(), 10);
             recipe.SetResult(this, 1);
-            recipe.AddTile(null, "StaticRefiner");
+            recipe.AddTile(ModContent.TileType<StaticRefiner>());
             recipe.AddRecipe();
         }
     }

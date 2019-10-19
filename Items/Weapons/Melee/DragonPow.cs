@@ -49,7 +49,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             ModRecipe r = new ModRecipe(mod);
             r.SetResult(this);
-            r.AddTile(null, "DraedonsForge");
+            r.AddTile(ModContent.TileType<DraedonsForge>());
             r.AddIngredient(ModContent.ItemType<Mourningstar>());
             r.AddIngredient(ItemID.DaoofPow);
             r.AddIngredient(ItemID.FlowerPow);

@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Mounts
             recipe.AddIngredient(ItemID.SoulofNight, 100);
             recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 50);
             recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 25);
-            recipe.AddTile(null, "DraedonsForge");
+            recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Placeables.FurnitureOccult
             recipe.AddIngredient(ModContent.ItemType<OccultStone>(), 18);
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBrick>(), 1);
             recipe.SetResult(this, 1);
-            recipe.AddTile(null, "DraedonsForge");
+            recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.AddRecipe();
         }
     }

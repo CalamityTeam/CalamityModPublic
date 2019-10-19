@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAbyss
             recipe.AddIngredient(mod.GetItem("Lumenite"), 4);
             recipe.AddIngredient(ItemID.Chain);
             recipe.SetResult(this, 1);
-            recipe.AddTile(null, "VoidCondenser");
+            recipe.AddTile(ModContent.TileType<VoidCondenser>());
             recipe.AddRecipe();
         }
     }

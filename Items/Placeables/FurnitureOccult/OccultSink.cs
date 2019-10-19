@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Placeables.FurnitureOccult
             recipe.AddIngredient(ModContent.ItemType<OccultStone>(), 6);
             recipe.AddIngredient(ItemID.WaterBucket);
             recipe.SetResult(this, 1);
-            recipe.AddTile(null, "DraedonsForge");
+            recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.AddRecipe();
         }
     }

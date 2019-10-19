@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Placeables.FurnitureEutrophic
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<Navystone>(), 8);
             recipe.SetResult(this, 1);
-            recipe.AddTile(null, "EutrophicCrafting");
+            recipe.AddTile(ModContent.TileType<EutrophicCrafting>());
             recipe.AddRecipe();
         }
     }

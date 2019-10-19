@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Placeables.FurniturePlaguedPlate
             recipe.AddIngredient(mod.GetItem("PlagueCellCluster"), 2);
             recipe.AddIngredient(ItemID.Book);
             recipe.SetResult(this, 1);
-            recipe.AddTile(null, "PlagueInfuser");
+            recipe.AddTile(ModContent.TileType<PlagueInfuser>());
             recipe.AddRecipe();
         }
     }

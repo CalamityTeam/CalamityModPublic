@@ -74,7 +74,7 @@ namespace CalamityMod.Items.Tools
             recipe.AddIngredient(ModContent.ItemType<GallantPickaxe>());
             recipe.AddIngredient(ModContent.ItemType<BlossomPickaxe>());
             recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
-            recipe.AddTile(null, "DraedonsForge");
+            recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

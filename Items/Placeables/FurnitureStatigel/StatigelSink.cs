@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Placeables.FurnitureStatigel
             recipe.AddIngredient(ModContent.ItemType<StatigelBlock>(), 6);
             recipe.AddIngredient(ItemID.WaterBucket);
             recipe.SetResult(this, 1);
-            recipe.AddTile(null, "StaticRefiner");
+            recipe.AddTile(ModContent.TileType<StaticRefiner>());
             recipe.AddRecipe();
         }
     }

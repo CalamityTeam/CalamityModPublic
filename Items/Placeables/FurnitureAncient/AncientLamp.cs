@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAncient
             recipe.AddIngredient(ModContent.ItemType<UnholyCore>(), 1);
             recipe.AddIngredient(ModContent.ItemType<BrimstoneSlag>(), 3);
             recipe.SetResult(this, 1);
-            recipe.AddTile(null, "AncientAltar");
+            recipe.AddTile(ModContent.TileType<AncientAltar>());
             recipe.AddRecipe();
         }
     }

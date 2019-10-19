@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAncient
             recipe.AddIngredient(ModContent.ItemType<BrimstoneSlag>(), 6);
             recipe.AddIngredient(ItemID.LavaBucket);
             recipe.SetResult(this, 1);
-            recipe.AddTile(null, "AncientAltar");
+            recipe.AddTile(ModContent.TileType<AncientAltar>());
             recipe.AddRecipe();
         }
     }

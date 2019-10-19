@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Placeables.FurnitureBotanic
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<UelibloomBrick>());
             recipe.SetResult(this, 2);
-            recipe.AddTile(null, "BotanicPlanter");
+            recipe.AddTile(ModContent.TileType<BotanicPlanter>());
             recipe.AddRecipe();
         }
     }

@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Placeables.FurnitureEutrophic
             recipe.AddIngredient(ModContent.ItemType<Navystone>(), 6);
             recipe.AddIngredient(ItemID.WaterBucket);
             recipe.SetResult(this, 1);
-            recipe.AddTile(null, "EutrophicCrafting");
+            recipe.AddTile(ModContent.TileType<EutrophicCrafting>());
             recipe.AddRecipe();
         }
     }

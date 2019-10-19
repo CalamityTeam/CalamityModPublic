@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Placeables.FurnitureStatigel
             recipe.AddIngredient(ModContent.ItemType<StatigelBlock>(), 4);
             recipe.AddIngredient(ItemID.Torch);
             recipe.SetResult(this, 1);
-            recipe.AddTile(null, "StaticRefiner");
+            recipe.AddTile(ModContent.TileType<StaticRefiner>());
             recipe.AddRecipe();
         }
     }

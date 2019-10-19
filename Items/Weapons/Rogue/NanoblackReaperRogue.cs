@@ -52,7 +52,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             ModRecipe r = new ModRecipe(mod);
             r.SetResult(this);
-            r.AddTile(null, "DraedonsForge");
+            r.AddTile(ModContent.TileType<DraedonsForge>());
             r.AddIngredient(ModContent.ItemType<GhoulishGouger>());
             r.AddIngredient(ModContent.ItemType<SoulHarvester>());
             r.AddIngredient(ModContent.ItemType<EssenceFlayer>());

@@ -133,7 +133,7 @@ namespace CalamityMod.Items.Weapons.Melee
             r.AddIngredient(ModContent.ItemType<BarofLife>(), 15);
             r.AddIngredient(ModContent.ItemType<CoreofCalamity>(), 5);
             r.AddIngredient(ModContent.ItemType<HellcasterFragment>(), 10);
-            r.AddTile(null, "DraedonsForge");
+            r.AddTile(ModContent.TileType<DraedonsForge>());
             r.SetResult(this);
             r.AddRecipe();
         }

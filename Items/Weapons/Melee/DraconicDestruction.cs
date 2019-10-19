@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Weapons.Melee
             recipe.AddIngredient(ModContent.ItemType<CoreofCinder>(), 3);
             recipe.AddIngredient(ModContent.ItemType<CoreofEleum>(), 3);
             recipe.AddIngredient(ItemID.FragmentSolar, 10);
-            recipe.AddTile(null, "DraedonsForge");
+            recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

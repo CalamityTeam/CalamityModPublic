@@ -51,7 +51,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             ModRecipe r = new ModRecipe(mod);
             r.SetResult(this);
-            r.AddTile(null, "DraedonsForge");
+            r.AddTile(ModContent.TileType<DraedonsForge>());
             r.AddIngredient(ModContent.ItemType<StellarContemptRogue>());
             r.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
             r.AddIngredient(ModContent.ItemType<NightmareFuel>(), 10);

@@ -88,7 +88,7 @@ namespace CalamityMod.Items.Accessories.Wings
             recipe.AddIngredient(ModContent.ItemType<DrewsWings>());
             recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 5);
             recipe.AddIngredient(ModContent.ItemType<AuricOre>(), 25);
-            recipe.AddTile(null, "DraedonsForge");
+            recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

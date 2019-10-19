@@ -76,7 +76,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             r.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5);
             r.AddIngredient(ModContent.ItemType<BarofLife>(), 10);
             r.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 15);
-            r.AddTile(null, "DraedonsForge");
+            r.AddTile(ModContent.TileType<DraedonsForge>());
             r.SetResult(this);
             r.AddRecipe();
         }

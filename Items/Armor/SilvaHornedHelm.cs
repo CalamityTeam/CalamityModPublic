@@ -63,7 +63,7 @@ namespace CalamityMod.Items
             recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 6);
             recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 14);
             recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 14);
-            recipe.AddTile(null, "DraedonsForge");
+            recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAbyss
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<SmoothAbyssGravelPlatform>(), 2);
             recipe.SetResult(this);
-            recipe.AddTile(null, "VoidCondenser");
+            recipe.AddTile(ModContent.TileType<VoidCondenser>());
             recipe.AddRecipe();
         }
     }

@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Materials
             recipe.AddIngredient(ModContent.ItemType<CalamitousEssence>());
             recipe.AddIngredient(ModContent.ItemType<DarksunFragment>());
             recipe.AddIngredient(ModContent.ItemType<HellcasterFragment>());
-            recipe.AddTile(null, "DraedonsForge");
+            recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this, 3);
             recipe.AddRecipe();
         }

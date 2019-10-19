@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Placeables.FurnitureVoid
             recipe.AddIngredient(ModContent.ItemType<SmoothVoidstone>(), 4);
             recipe.AddIngredient(mod.GetItem("Lumenite"));
             recipe.SetResult(this, 1);
-            recipe.AddTile(null, "VoidCondenser");
+            recipe.AddTile(ModContent.TileType<VoidCondenser>());
             recipe.AddRecipe();
         }
     }

@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Placeables.FurnitureVoid
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<SmoothVoidstonePlatform>(), 2);
             recipe.SetResult(this);
-            recipe.AddTile(null, "VoidCondenser");
+            recipe.AddTile(ModContent.TileType<VoidCondenser>());
             recipe.AddRecipe();
         }
     }

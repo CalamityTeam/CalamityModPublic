@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Placeables.FurnitureBotanic
             recipe.AddIngredient(ModContent.ItemType<UelibloomBrick>(), 5);
             recipe.AddIngredient(ItemID.Vine, 2);
             recipe.SetResult(this, 1);
-            recipe.AddTile(null, "BotanicPlanter");
+            recipe.AddTile(ModContent.TileType<BotanicPlanter>());
             recipe.AddRecipe();
         }
     }

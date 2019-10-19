@@ -63,7 +63,7 @@ namespace CalamityMod.Items.PermanentBoosters
             recipe.AddIngredient(ItemID.FragmentSolar, 15);
             recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 5);
             recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 5);
-            recipe.AddTile(null, "DraedonsForge");
+            recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

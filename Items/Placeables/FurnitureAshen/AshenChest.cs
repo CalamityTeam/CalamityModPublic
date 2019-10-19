@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAshen
             recipe.AddIngredient(ItemID.IronBar, 2);
             recipe.anyIronBar = true;
             recipe.SetResult(this, 1);
-            recipe.AddTile(null, "AshenAltar");
+            recipe.AddTile(ModContent.TileType<AshenAltar>());
             recipe.AddRecipe();
         }
     }

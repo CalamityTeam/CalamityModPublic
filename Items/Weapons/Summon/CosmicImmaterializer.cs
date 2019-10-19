@@ -97,7 +97,7 @@ namespace CalamityMod.Items.Weapons.Summon
             recipe.AddIngredient(ModContent.ItemType<HellcasterFragment>(), 3);
             recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 5);
             recipe.AddIngredient(ModContent.ItemType<AuricOre>(), 25);
-            recipe.AddTile(null, "DraedonsForge");
+            recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

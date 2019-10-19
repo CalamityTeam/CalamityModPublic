@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAbyss
             recipe.AddIngredient(ModContent.ItemType<SmoothAbyssGravel>(), 6);
             recipe.AddIngredient(ItemID.WaterBucket);
             recipe.SetResult(this, 1);
-            recipe.AddTile(null, "VoidCondenser");
+            recipe.AddTile(ModContent.TileType<VoidCondenser>());
             recipe.AddRecipe();
         }
     }
