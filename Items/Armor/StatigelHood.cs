@@ -2,6 +2,9 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Buffs.Summon;
+using CalamityMod.Projectiles.Summon;
+
 namespace CalamityMod.Items
 {
     [AutoloadEquip(EquipType.Head)]
@@ -41,9 +44,9 @@ namespace CalamityMod.Items
             player.minionDamage += 0.18f;
             if (player.whoAmI == Main.myPlayer)
             {
-                if (player.FindBuffIndex(ModContent.BuffType<MiniSlimeGodBuff>()) == -1)
+                if (player.FindBuffIndex(ModContent.BuffType<StatigelSummonSetBuff>()) == -1)
                 {
-                    player.AddBuff(ModContent.BuffType<MiniSlimeGodBuff>(), 3600, true);
+                    player.AddBuff(ModContent.BuffType<StatigelSummonSetBuff>(), 3600, true);
                 }
                 if (WorldGen.crimson && player.ownedProjectileCounts[ModContent.ProjectileType<CrimsonSlimeGodMinion>()] < 1)
                 {

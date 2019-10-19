@@ -2,6 +2,8 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Summon;
+using CalamityMod.Buffs.Summon;
 
 namespace CalamityMod.Items
 {
@@ -43,13 +45,13 @@ namespace CalamityMod.Items
             modPlayer.reaverOrb = true;
             if (player.whoAmI == Main.myPlayer)
             {
-                if (player.FindBuffIndex(ModContent.BuffType<Buffs.ReaverOrb>()) == -1)
+                if (player.FindBuffIndex(ModContent.BuffType<ReaverSummonSetBuff>()) == -1)
                 {
-                    player.AddBuff(ModContent.BuffType<Buffs.ReaverOrb>(), 3600, true);
+                    player.AddBuff(ModContent.BuffType<ReaverSummonSetBuff>(), 3600, true);
                 }
-                if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.ReaverOrb>()] < 1)
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<ReaverOrb>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<Projectiles.ReaverOrb>(), (int)(80f * player.minionDamage), 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<ReaverOrb>(), (int)(80f * player.minionDamage), 0f, Main.myPlayer, 0f, 0f);
                 }
             }
             player.minionDamage += 0.16f;

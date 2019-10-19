@@ -4,7 +4,7 @@ using Terraria.ModLoader; using CalamityMod.Projectiles.Summon;
 
 namespace CalamityMod.Buffs.Summon
 {
-    public class UrchinBuff : ModBuff
+    public class VictideSummonSetBuff : ModBuff
     {
         public override void SetDefaults()
         {
