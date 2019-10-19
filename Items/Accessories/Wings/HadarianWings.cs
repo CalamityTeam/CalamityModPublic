@@ -6,6 +6,7 @@ using Terraria.ID;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Armor;
 
 namespace CalamityMod.Items.Accessories.Wings
 {

@@ -32,10 +32,10 @@ namespace CalamityMod.Items.Ammo
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.MusketBall, 100);
+            recipe.AddIngredient(ItemID.MusketBall, 150);
             recipe.AddIngredient(ModContent.ItemType<BarofLife>());
             recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this, 100);
+            recipe.SetResult(this, 150);
             recipe.AddRecipe();
         }
     }
