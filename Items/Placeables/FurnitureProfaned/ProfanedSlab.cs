@@ -1,4 +1,5 @@
-﻿using Terraria.ID;
+﻿using CalamityMod.Items.Placeables.Walls;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureProfaned
 {
