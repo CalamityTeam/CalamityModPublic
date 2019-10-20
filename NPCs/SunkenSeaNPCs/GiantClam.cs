@@ -8,6 +8,8 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Weapons.Melee;
@@ -16,6 +18,7 @@ using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Projectiles.Enemy;
+using CalamityMod.NPCs.TownNPCs;
 namespace CalamityMod.NPCs
 {
     public class GiantClam : ModNPC

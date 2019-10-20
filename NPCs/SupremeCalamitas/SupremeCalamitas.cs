@@ -2163,10 +2163,10 @@ namespace CalamityMod.NPCs
             DropHelper.DropItemFromSetCondition(npc, Main.expertMode,
                 ModContent.ItemType<Animus>(), ModContent.ItemType<Animus>(),
                 ModContent.ItemType<Azathoth>(), ModContent.ItemType<Azathoth>(),
-                ModContent.ItemType<Items.Contagion>(), ModContent.ItemType<Items.Contagion>(),
+                ModContent.ItemType<Contagion>(), ModContent.ItemType<Contagion>(),
                 ModContent.ItemType<CrystylCrusher>(), ModContent.ItemType<CrystylCrusher>(),
                 ModContent.ItemType<DraconicDestruction>(), ModContent.ItemType<DraconicDestruction>(),
-                ModContent.ItemType<Items.Earth>(), ModContent.ItemType<Items.Earth>(),
+                ModContent.ItemType<Earth>(), ModContent.ItemType<Earth>(),
                 ModContent.ItemType<Fabstaff>(), ModContent.ItemType<Fabstaff>(),
                 ModContent.ItemType<RoyalKnivesMelee>(), ModContent.ItemType<RoyalKnives>(), // Illustrious Knives
                 ModContent.ItemType<NanoblackReaperMelee>(), ModContent.ItemType<NanoblackReaperRogue>(),
@@ -2175,14 +2175,14 @@ namespace CalamityMod.NPCs
                 ModContent.ItemType<SomaPrime>(), ModContent.ItemType<SomaPrime>(),
                 ModContent.ItemType<BlushieStaff>(), ModContent.ItemType<BlushieStaff>(), // Staff of Blushie
                 ModContent.ItemType<Svantechnical>(), ModContent.ItemType<Svantechnical>(),
-                ModContent.ItemType<Items.Judgement>(), ModContent.ItemType<Items.Judgement>(), // The Dance of Light
+                ModContent.ItemType<Judgement>(), ModContent.ItemType<Judgement>(), // The Dance of Light
                 ModContent.ItemType<TriactisTruePaladinianMageHammerofMightMelee>(), ModContent.ItemType<TriactisTruePaladinianMageHammerofMight>(),
                 ModContent.ItemType<Megafleet>(), ModContent.ItemType<Megafleet>() // Voidragon
             );
             DropHelper.DropItemCondition(npc, ModContent.ItemType<Vehemenc>(), CalamityWorld.revenge);
 
             // Vanity
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Items.Levi>(), CalamityWorld.death);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<Levi>(), CalamityWorld.death);
 
             // Other
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeCalamitas>(), true, !CalamityWorld.downedSCal);

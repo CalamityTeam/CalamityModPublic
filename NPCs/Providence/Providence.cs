@@ -1147,7 +1147,7 @@ namespace CalamityMod.NPCs
                     if ((x == tileCenterX - halfBox || x == tileCenterX + halfBox || y == tileCenterY - halfBox || y == tileCenterY + halfBox)
                         && !Main.tile[x, y].active())
                     {
-                        Main.tile[x, y].type = (ushort)ModContent.TileType<Tiles.ProfanedRock>();
+                        Main.tile[x, y].type = (ushort)ModContent.TileType<ProfanedRock>();
                         Main.tile[x, y].active(true);
                     }
                     Main.tile[x, y].lava(false);
