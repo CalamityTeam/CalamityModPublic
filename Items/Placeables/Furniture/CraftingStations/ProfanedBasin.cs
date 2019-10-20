@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = ModContent.TileType<CalamityMod.Tiles.Furniture.CraftingStations.ProfanedBasin>();
+            item.createTile = ModContent.TileType<Tiles..Furniture.CraftingStations.ProfanedBasin>();
         }
 
         public override void AddRecipes()

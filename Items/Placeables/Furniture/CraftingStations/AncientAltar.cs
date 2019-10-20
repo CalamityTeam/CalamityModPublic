@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
             item.rare = 3;
             item.consumable = true;
             item.value = 0;
-            item.createTile = ModContent.TileType<CalamityMod.Tiles.Furniture.CraftingStations.AncientAltar>();
+            item.createTile = ModContent.TileType<Tiles.Furniture.CraftingStations.AncientAltar>();
         }
 
         public override void AddRecipes()

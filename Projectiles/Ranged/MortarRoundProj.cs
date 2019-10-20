@@ -1,5 +1,5 @@
 ﻿using CalamityMod.Tiles.Abyss;
-using CalamityMod.WallTiles;
+using CalamityMod.Walls;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;

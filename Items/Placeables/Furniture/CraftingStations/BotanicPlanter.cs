@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
             item.useStyle = 1;
             item.value = 0;
             item.consumable = true;
-            item.createTile = ModContent.TileType<CalamityMod.Tiles.Furniture.CraftingStations.BotanicPlanter>();
+            item.createTile = ModContent.TileType<Tiles..Furniture.CraftingStations.BotanicPlanter>();
         }
 
         public override void AddRecipes()
