@@ -7990,21 +7990,35 @@ namespace CalamityMod.CalPlayer
             player.crystalLeaf = false;
 			if (abyssDeath)
 			{
-				if (Main.rand.Next(2) == 0)
+				if (Main.rand.NextBool(2))
+				{
 					PlayerDeathReason damageSource = PlayerDeathReason.ByCustomReason(player.name + " is food for the Wyrms.");
+				}
 				else
+				{
 					PlayerDeathReason damageSource = PlayerDeathReason.ByCustomReason(player.name + " was crushed by the pressure.");
-			}				
+				}
+			}
 			else if (specialDeath)
+			{
 				PlayerDeathReason damageSource = PlayerDeathReason.ByCustomReason(player.name + " was defeated.");
+			}
 			else if (SCalLore)
+			{
 				PlayerDeathReason damageSource = PlayerDeathReason.ByCustomReason(player.Male ? player.name + " was consumed by his inner hatred." : player.name + " was consumed by her inner hatred.");
-			else if (armageddon && areThereAnyDamnBosses)
+			}
+			else if (CalamityWorld.armageddon && areThereAnyDamnBosses)
+			{
 				PlayerDeathReason damageSource = PlayerDeathReason.ByCustomReason(player.name + " failed the challenge at hand.");
+			}
 			else if (CalamityWorld.bossRushActive && bossRushImmunityFrameCurseTimer > 0)
+			{
 				PlayerDeathReason damageSource = PlayerDeathReason.ByCustomReason(player.name + " was destroyed by a mysterious force.");
+			}
 			else
+			{
 				PlayerDeathReason damageSource = PlayerDeathReason.ByOther(player.Male ? 14 : 15);
+			}
             NetworkText deathText = damageSource.GetDeathText(player.name);
             if (Main.netMode == NetmodeID.Server)
             {

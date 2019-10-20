@@ -50,9 +50,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             }
             if (player.statLife <= 0)
             {
-				num1 = player.name + " was vaporized by the imbuement of his life."
-				num2 = player.name + " was vaporized by the imbuement of her life."
-                player.KillMe(PlayerDeathReason.ByCustomReason(player.Male ? num1 : num2), 1000.0, 0, false);
+                player.KillMe(PlayerDeathReason.ByCustomReason(player.Male ? player.name + " was vaporized by the imbuement of his life." : player.name + " was vaporized by the imbuement of her life."), 1000.0, 0, false);
             }
             Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<NullShot>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
             return false;
