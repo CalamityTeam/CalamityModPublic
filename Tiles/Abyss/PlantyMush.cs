@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Walls;
+using CalamityMod.WallTiles;
 
 namespace CalamityMod.Tiles.Abyss
 {

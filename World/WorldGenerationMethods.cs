@@ -1,5 +1,5 @@
 ﻿using CalamityMod.Tiles;
-using CalamityMod.Walls;
+using CalamityMod.WallTiles;
 using CalamityMod.World.Planets;
 using Microsoft.Xna.Framework;
 using System;

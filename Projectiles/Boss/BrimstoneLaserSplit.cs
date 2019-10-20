@@ -2,6 +2,7 @@
 using System;
 using Terraria;
 using Terraria.ModLoader;
+using CalamityMod.Buffs.DamageOverTime;
 namespace CalamityMod.Projectiles.Boss
 {
     public class BrimstoneLaserSplit : ModProjectile

@@ -3,6 +3,7 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Buffs.DamageOverTime;
 namespace CalamityMod.Projectiles.Magic
 {
     public class MadAlchemistsCocktailAlt : ModProjectile

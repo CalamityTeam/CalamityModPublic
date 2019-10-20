@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Magic
             Player player = Main.player[projectile.owner];
             float num = 1.57079637f;
             Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
-            if (projectile.type == ModContent.ProjectileType<Purge>())
+            if (projectile.type == ModContent.ProjectileType<PurgeProj>())
             {
                 projectile.ai[0] += 1f;
                 int num2 = 0;

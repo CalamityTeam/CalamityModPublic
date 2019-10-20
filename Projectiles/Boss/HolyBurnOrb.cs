@@ -4,6 +4,7 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
+using CalamityMod.Buffs.DamageOverTime;
 namespace CalamityMod.Projectiles.Boss
 {
     public class HolyBurnOrb : ModProjectile

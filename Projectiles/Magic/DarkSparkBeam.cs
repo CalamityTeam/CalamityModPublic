@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Magic
             {
                 projectile.velocity = -Vector2.UnitY;
             }
-            if (projectile.type != ModContent.ProjectileType<DarkSparkBeam>() || !Main.projectile[(int)projectile.ai[1]].active || Main.projectile[(int)projectile.ai[1]].type != ModContent.ProjectileType<DarkSpark>())
+            if (projectile.type != ModContent.ProjectileType<DarkSparkBeam>() || !Main.projectile[(int)projectile.ai[1]].active || Main.projectile[(int)projectile.ai[1]].type != ModContent.ProjectileType<DarkSparkPrism>())
             {
                 projectile.Kill();
                 return;

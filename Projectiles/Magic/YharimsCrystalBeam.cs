@@ -116,7 +116,7 @@ namespace CalamityMod.Projectiles.Magic
             {
                 projectile.velocity = -Vector2.UnitY;
             }
-            if (projectile.type != ModContent.ProjectileType<YharimsCrystalBeam>() || !Main.projectile[(int)projectile.ai[1]].active || Main.projectile[(int)projectile.ai[1]].type != ModContent.ProjectileType<YharimsCrystal>())
+            if (projectile.type != ModContent.ProjectileType<YharimsCrystalBeam>() || !Main.projectile[(int)projectile.ai[1]].active || Main.projectile[(int)projectile.ai[1]].type != ModContent.ProjectileType<YharimsCrystalPrism>())
             {
                 projectile.Kill();
                 return;
