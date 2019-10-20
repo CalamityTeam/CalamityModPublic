@@ -4,6 +4,7 @@ using System.IO;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Buffs.DamageOverTime;
 namespace CalamityMod.Projectiles.Boss
 {
     public class HolyShot : ModProjectile

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using CalamityMod.Projectiles.Typeless;
 namespace CalamityMod.Projectiles.Magic
 {
     public class HolyLaser : ModProjectile

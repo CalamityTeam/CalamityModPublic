@@ -2,6 +2,8 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Items.Weapons.Magic;
 namespace CalamityMod.Projectiles.Magic
 {
     public class VolatileStarcore : ModProjectile

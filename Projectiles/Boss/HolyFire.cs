@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
+using CalamityMod.Buffs.DamageOverTime;
 namespace CalamityMod.Projectiles.Boss
 {
     public class HolyFire : ModProjectile
