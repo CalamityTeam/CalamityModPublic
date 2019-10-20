@@ -3,6 +3,8 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Items.Materials;
 namespace CalamityMod.NPCs
 {
     public class ShockstormShuttle : ModNPC
@@ -568,7 +570,10 @@ namespace CalamityMod.NPCs
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.MartianConduitPlating, Main.rand.Next(10, 30));
+			if (NPC.downedGolemBoss)
+			{
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.MartianConduitPlating, Main.rand.Next(10, 30));
+			}
             if (Main.rand.NextBool(3))
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EssenceofCinder>());

@@ -3,6 +3,7 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Items.Placeables.Banners;
 
 namespace CalamityMod.NPCs
 {

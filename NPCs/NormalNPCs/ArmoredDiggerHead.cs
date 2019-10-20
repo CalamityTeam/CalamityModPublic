@@ -3,6 +3,10 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Items.SummonItems;
+using CalamityMod.Items.Materials;
 namespace CalamityMod.NPCs
 {
     public class ArmoredDiggerHead : ModNPC

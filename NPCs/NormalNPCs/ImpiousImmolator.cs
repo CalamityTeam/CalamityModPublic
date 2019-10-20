@@ -4,6 +4,10 @@ using System.IO;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Items.Materials;
+using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.Projectiles.Enemy;
 namespace CalamityMod.NPCs
 {
     public class ImpiousImmolator : ModNPC
@@ -255,12 +259,6 @@ namespace CalamityMod.NPCs
                 return SpawnCondition.Underworld.Chance / 4f;
             }
             return SpawnCondition.OverworldHallow.Chance / 4f;
-        }
-
-        public override void OnHitPlayer(Player player, int damage, bool crit)
-        {
-            player.AddBuff(BuffID.OnFire, 180, true);
-            player.AddBuff(ModContent.BuffType<HolyFlames>(), 180, true);
         }
 
         public override void NPCLoot()

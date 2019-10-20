@@ -4,6 +4,11 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Items.Materials;
+using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.Items.Accessories;
 namespace CalamityMod.NPCs
 {
     public class IceClasper : ModNPC

@@ -21,6 +21,7 @@ using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Projectiles.Boss;
+using CalamityMod.Tiles.Ores;
 namespace CalamityMod.NPCs
 {
     [AutoloadBossHead]
@@ -995,7 +996,7 @@ namespace CalamityMod.NPCs
                 DropHelper.DropItemChance(npc, ModContent.ItemType<EffluviumBow>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<BittercoldStaff>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<SnowstormStaff>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.Icebreaker>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Icebreaker>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<IceStar>(), 4, 100, 150);
 
                 // Equipment
@@ -1021,7 +1022,7 @@ namespace CalamityMod.NPCs
             {
                 string key = "Mods.CalamityMod.IceOreText";
                 Color messageColor = Color.LightSkyBlue;
-                WorldGenerationMethods.SpawnOre(ModContent.TileType<Tiles.CryonicOre>(), 15E-05, .45f, .65f);
+                WorldGenerationMethods.SpawnOre(ModContent.TileType<CryonicOre>(), 15E-05, .45f, .65f);
 
                 if (Main.netMode == NetmodeID.SinglePlayer)
                     Main.NewText(Language.GetTextValue(key), messageColor);

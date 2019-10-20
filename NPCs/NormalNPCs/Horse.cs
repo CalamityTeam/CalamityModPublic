@@ -4,6 +4,10 @@ using System.IO;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Items.Tools.ClimateChange;
+using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Items.Weapons.Ranged;
 namespace CalamityMod.NPCs
 {
     public class Horse : ModNPC

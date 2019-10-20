@@ -711,7 +711,7 @@ namespace CalamityMod.NPCs
             {
                 string key = "Mods.CalamityMod.SkyOreText";
                 Color messageColor = Color.Cyan;
-                WorldGenerationMethods.SpawnOre(ModContent.TileType<Tiles.AerialiteOre>(), 12E-05, .4f, .6f);
+                WorldGenerationMethods.SpawnOre(ModContent.TileType<AerialiteOre>(), 12E-05, .4f, .6f);
 
                 if (Main.netMode == NetmodeID.SinglePlayer)
                     Main.NewText(Language.GetTextValue(key), messageColor);

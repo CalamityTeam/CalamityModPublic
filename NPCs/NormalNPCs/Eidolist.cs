@@ -5,6 +5,9 @@ using System.IO;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Items.Materials;
+using CalamityMod.Items.SummonItems;
 namespace CalamityMod.NPCs
 {
     public class Eidolist : ModNPC
