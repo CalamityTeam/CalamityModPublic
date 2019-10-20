@@ -7988,6 +7988,7 @@ namespace CalamityMod.CalPlayer
             player.palladiumRegen = false;
             player.iceBarrier = false;
             player.crystalLeaf = false;
+			PlayerDeathReason damageSource = PlayerDeathReason.ByOther(player.Male ? 14 : 15);
 			if (abyssDeath)
 			{
 				if (Main.rand.NextBool(2))
@@ -8014,10 +8015,6 @@ namespace CalamityMod.CalPlayer
 			else if (CalamityWorld.bossRushActive && bossRushImmunityFrameCurseTimer > 0)
 			{
 				PlayerDeathReason damageSource = PlayerDeathReason.ByCustomReason(player.name + " was destroyed by a mysterious force.");
-			}
-			else
-			{
-				PlayerDeathReason damageSource = PlayerDeathReason.ByOther(player.Male ? 14 : 15);
 			}
             NetworkText deathText = damageSource.GetDeathText(player.name);
             if (Main.netMode == NetmodeID.Server)
