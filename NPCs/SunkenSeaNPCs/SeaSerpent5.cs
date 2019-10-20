@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Items.Placeables.Banners;
 namespace CalamityMod.NPCs
 {
     public class SeaSerpent5 : ModNPC

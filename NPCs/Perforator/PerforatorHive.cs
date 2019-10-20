@@ -19,6 +19,7 @@ using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
+using CalamityMod.Items.Pets;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Tiles.Ores;
 namespace CalamityMod.NPCs
@@ -309,7 +310,7 @@ namespace CalamityMod.NPCs
                 // Weapons
                 DropHelper.DropItemChance(npc, ModContent.ItemType<VeinBurster>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<BloodyRupture>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.SausageMaker>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<SausageMaker>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Aorta>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Eviscerator>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<BloodBath>(), 4);

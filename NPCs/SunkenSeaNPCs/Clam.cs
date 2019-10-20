@@ -2,6 +2,9 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Items.Placeables;
+using CalamityMod.Items.Materials;
 namespace CalamityMod.NPCs
 {
     public class Clam : ModNPC

@@ -1,11 +1,16 @@
-﻿
-using CalamityMod.World;
+﻿using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Items.Materials;
+using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Items.LoreItems;
+using CalamityMod.Items.Placeables.Furniture.Trophies;
 namespace CalamityMod.NPCs
 {
     [AutoloadBossHead]

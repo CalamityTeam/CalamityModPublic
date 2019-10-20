@@ -23,6 +23,7 @@ using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.SummonItems;
 using CalamityMod.Tiles.Ores;
+using CalamityMod.Tiles.FurnitureProfaned;
 using CalamityMod.Projectiles.Boss;
 namespace CalamityMod.NPCs
 {
