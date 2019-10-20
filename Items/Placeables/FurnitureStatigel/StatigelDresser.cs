@@ -1,3 +1,4 @@
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureStatigel
 {
@@ -18,7 +19,7 @@ namespace CalamityMod.Items.Placeables.FurnitureStatigel
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles.StatigelDresser>();
+            item.createTile = ModContent.TileType<Tiles.FurnitureStatigel.StatigelDresser>();
         }
 
         public override void AddRecipes()

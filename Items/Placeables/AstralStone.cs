@@ -1,4 +1,5 @@
-﻿using Terraria.ModLoader;
+﻿using CalamityMod.Items.Placeables.Walls;
+using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables
 {
     public class AstralStone : ModItem
@@ -10,7 +11,7 @@ namespace CalamityMod.Items.Placeables
 
         public override void SetDefaults()
         {
-            item.createTile = ModContent.TileType<Tiles.AstralStone>();
+            item.createTile = ModContent.TileType<Tiles.Astral.AstralStone>();
             item.useStyle = 1;
             item.useTurn = true;
             item.useAnimation = 15;

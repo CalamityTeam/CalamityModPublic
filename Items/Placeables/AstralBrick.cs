@@ -1,4 +1,6 @@
-﻿using Terraria.ID;
+﻿using CalamityMod.Items.Placeables.Ores;
+using CalamityMod.Items.Placeables.Walls;
+using Terraria.ID;
 using Terraria.ModLoader; // If you are using c# 6, you can use: "using static Terraria.Localization.GameCulture;" which would mean you could just write "DisplayName.AddTranslation(German, "");"
 
 namespace CalamityMod.Items.Placeables

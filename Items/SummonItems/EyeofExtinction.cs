@@ -4,6 +4,10 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using CalamityMod.NPCs;
 using CalamityMod.Tiles;
+using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables.Ores;
+using CalamityMod.Tiles.Furniture.CraftingStations;
+
 namespace CalamityMod.Items.SummonItems
 {
     public class EyeofExtinction : ModItem

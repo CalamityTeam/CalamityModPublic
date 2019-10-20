@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Placeables.Walls
             item.useTime = 7;
             item.useStyle = 1;
             item.consumable = true;
-            item.createWall = ModContent.WallType<Walls.EutrophicSandWallSafe>();
+            item.createWall = ModContent.WallType<WallTiles.EutrophicSandWallSafe>();
         }
 
         public override void AddRecipes()

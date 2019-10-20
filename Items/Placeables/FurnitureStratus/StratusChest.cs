@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Placeables.FurnitureStratus
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles.StratusChest>();
+            item.createTile = ModContent.TileType<Tiles.FurnitureStratus.StratusChest>();
         }
 
         public override void AddRecipes()

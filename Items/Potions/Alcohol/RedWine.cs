@@ -37,7 +37,7 @@ Too dry for my taste");
 
         public override bool UseItem(Player player)
         {
-            player.AddBuff(ModContent.BuffType<Buffs.RedWine>(), 900);
+            player.AddBuff(ModContent.BuffType<Buffs.Alcohol.RedWine>(), 900);
             return true;
         }
     }

@@ -2,6 +2,9 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader; using CalamityMod.Items.Materials;
 using Terraria.ID;
+using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Projectiles.Typeless;
+
 namespace CalamityMod.Items.Tools
 {
     public class InfernaCutter : ModItem

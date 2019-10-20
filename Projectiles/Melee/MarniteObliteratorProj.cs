@@ -1,7 +1,7 @@
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-    public class MarniteObliterator : ModProjectile
+    public class MarniteObliteratorProj : ModProjectile
     {
         public override void SetStaticDefaults()
         {

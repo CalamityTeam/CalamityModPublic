@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Placeables.Walls
             item.useTime = 7;
             item.useStyle = 1;
             item.consumable = true;
-            item.createWall = ModContent.WallType<Walls.VoidstoneWall>();
+            item.createWall = ModContent.WallType<WallTiles.VoidstoneWall>();
         }
 
         public override void AddRecipes()

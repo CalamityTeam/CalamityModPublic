@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Placeables.FurnitureSilva
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles.SilvaClock>();
+            item.createTile = ModContent.TileType<Tiles.FurnitureSilva.SilvaClock>();
         }
 
         public override void AddRecipes()
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Placeables.FurnitureSilva
             recipe.anyIronBar = true;
             recipe.AddIngredient(ItemID.Glass, 6);
             recipe.SetResult(this);
-            recipe.AddTile(ModContent.TileType<SilvaBasin>());
+            recipe.AddTile(ModContent.TileType<Tiles.FurnitureSilva.SilvaBasin>());
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<SilvaCrystal>(), 10);
@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Placeables.FurnitureSilva
             recipe.anyIronBar = true;
             recipe.AddIngredient(ItemID.Glass, 6);
             recipe.SetResult(this);
-            recipe.AddTile(ModContent.TileType<SilvaBasin>());
+            recipe.AddTile(ModContent.TileType<Tiles.FurnitureSilva.SilvaBasin>());
             recipe.AddRecipe();
         }
     }

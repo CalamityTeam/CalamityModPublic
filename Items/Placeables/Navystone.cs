@@ -1,4 +1,7 @@
-﻿using Terraria.ModLoader;
+﻿using CalamityMod.Items.Placeables.FurnitureEutrophic;
+using CalamityMod.Items.Placeables.Walls;
+using CalamityMod.Tiles.Furniture.CraftingStations;
+using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables
 {
     public class Navystone : ModItem
@@ -10,7 +13,7 @@ namespace CalamityMod.Items.Placeables
 
         public override void SetDefaults()
         {
-            item.createTile = ModContent.TileType<Tiles.Navystone>();
+            item.createTile = ModContent.TileType<Tiles.SunkenSea.Navystone>();
             item.useStyle = 1;
             item.useTurn = true;
             item.useAnimation = 15;

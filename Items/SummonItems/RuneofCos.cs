@@ -2,6 +2,8 @@
 using Terraria.ModLoader;
 using Terraria.ID;
 using CalamityMod.NPCs;
+using CalamityMod.Items.Materials;
+using CalamityMod.Projectiles.Typeless;
 
 namespace CalamityMod.Items.SummonItems
 {

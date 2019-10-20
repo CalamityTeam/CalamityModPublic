@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Placeables
 
         public override void SetDefaults()
         {
-            item.createTile = ModContent.TileType<Tiles.BrimstoneSlag>();
+            item.createTile = ModContent.TileType<Tiles.Crags.BrimstoneSlag>();
             item.useStyle = 1;
             item.useTurn = true;
             item.useAnimation = 15;

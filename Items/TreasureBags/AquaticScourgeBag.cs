@@ -3,6 +3,13 @@ using CalamityMod.NPCs;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Items.Weapons.Magic;
+using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Materials;
 
 namespace CalamityMod.Items.TreasureBags
 {

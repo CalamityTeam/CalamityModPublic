@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Placeables.Walls
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createWall = ModContent.WallType<Walls.AstralMonolithWall>();
+            item.createWall = ModContent.WallType<WallTiles.AstralMonolithWall>();
         }
 
         public override void AddRecipes()

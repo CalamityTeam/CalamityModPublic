@@ -1,6 +1,8 @@
 ﻿using Terraria;
 using Terraria.ModLoader; using CalamityMod.Items.Materials;
 using Terraria.ID;
+using CalamityMod.Buffs.Potions;
+
 namespace CalamityMod.Items.Potions
 {
     public class CalciumPotion : ModItem

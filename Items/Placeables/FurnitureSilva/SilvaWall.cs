@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Placeables.FurnitureSilva
             item.useTime = 7;
             item.useStyle = 1;
             item.consumable = true;
-            item.createWall = ModContent.WallType<Walls.SilvaWall>();
+            item.createWall = ModContent.WallType<WallTiles.SilvaWall>();
         }
 
         public override void AddRecipes()

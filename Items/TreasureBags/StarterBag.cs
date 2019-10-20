@@ -2,6 +2,8 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Items.DifficultyItems;
 
 namespace CalamityMod.Items.TreasureBags
 {

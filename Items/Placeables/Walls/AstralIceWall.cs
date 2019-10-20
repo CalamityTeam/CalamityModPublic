@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Placeables.Walls
 
         public override void SetDefaults()
         {
-            item.createWall = ModContent.WallType<Walls.AstralIceWall>();
+            item.createWall = ModContent.WallType<WallTiles.AstralIceWall>();
             item.useStyle = 1;
             item.useTurn = true;
             item.useAnimation = 15;

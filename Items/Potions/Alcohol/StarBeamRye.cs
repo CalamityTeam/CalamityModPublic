@@ -27,7 +27,7 @@ Made from some stuff I found near the Astral Meteor crash site, don't worry it's
             item.useStyle = 2;
             item.UseSound = SoundID.Item3;
             item.consumable = true;
-            item.buffType = ModContent.BuffType<Buffs.StarBeamRye>();
+            item.buffType = ModContent.BuffType<Buffs.Alcohol.StarBeamRye>();
             item.buffTime = 18000; //5 minutes
             item.value = Item.buyPrice(0, 13, 30, 0);
         }
