@@ -6,6 +6,7 @@ using System.IO;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Boss;
 
 namespace CalamityMod.NPCs
 {

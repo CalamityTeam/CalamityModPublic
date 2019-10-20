@@ -6,6 +6,8 @@ using System.IO;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Boss;
+using CalamityMod.Buffs.StatDebuffs;
 namespace CalamityMod.NPCs
 {
     public class PolterghastHook : ModNPC

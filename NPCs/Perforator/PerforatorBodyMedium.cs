@@ -76,7 +76,7 @@ namespace CalamityMod.NPCs
                         num942 += (float)Main.rand.Next(-50, 51) * 0.05f;
                         num943 += (float)Main.rand.Next(-50, 51) * 0.05f;
                         int num945 = expertMode ? 12 : 15;
-                        int num946 = ModContent.ProjectileType<Projectiles.BloodClot>();
+                        int num946 = ModContent.ProjectileType<BloodClot>();
                         vector104.X += num942 * 5f;
                         vector104.Y += num943 * 5f;
                         if (Main.rand.NextBool(2))

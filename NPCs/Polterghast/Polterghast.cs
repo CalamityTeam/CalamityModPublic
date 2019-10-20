@@ -1,5 +1,4 @@
-﻿
-using CalamityMod.World;
+﻿using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
@@ -7,6 +6,20 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.Localization;
+using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Items.Materials;
+using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Items.Weapons.Magic;
+using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Items.LoreItems;
+using CalamityMod.Items.TreasureBags;
+using CalamityMod.Items.Armor.Vanity;
+using CalamityMod.Items.Placeables.Furniture.Trophies;
+using CalamityMod.Projectiles.Boss;
 namespace CalamityMod.NPCs
 {
     [AutoloadBossHead]
@@ -687,15 +700,16 @@ namespace CalamityMod.NPCs
             {
                 // Materials
                 DropHelper.DropItem(npc, ModContent.ItemType<RuinousSoul>(), 5, 8);
+                DropHelper.DropItem(npc, ModContent.ItemType<Phantoplasm>(), 10, 20);
 
                 // Weapons
                 DropHelper.DropItemChance(npc, ModContent.ItemType<TerrorBlade>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.BansheeHook>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.DaemonsFlame>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.FatesReveal>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.GhastlyVisage>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<BansheeHook>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<DaemonsFlame>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<FatesReveal>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<GhastlyVisage>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<EtherealSubjugator>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.GhoulishGouger>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<GhoulishGouger>(), 4);
             }
 
             // If Polterghast has not been killed, notify players about the Abyss minibosses now dropping items

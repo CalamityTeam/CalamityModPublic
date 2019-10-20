@@ -1,5 +1,4 @@
-﻿
-using CalamityMod.World;
+﻿using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -8,6 +7,23 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.Localization;
+using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Items.Materials;
+using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Accessories.Wings;
+using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Items.Weapons.Magic;
+using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Items.LoreItems;
+using CalamityMod.Items.TreasureBags;
+using CalamityMod.Items.Armor.Vanity;
+using CalamityMod.Items.Placeables.Furniture.Trophies;
+using CalamityMod.Items.SummonItems;
+using CalamityMod.Tiles.Ores;
+using CalamityMod.Projectiles.Boss;
 namespace CalamityMod.NPCs
 {
     [AutoloadBossHead]
@@ -1070,11 +1086,11 @@ namespace CalamityMod.NPCs
 
                 // Weapons
                 DropHelper.DropItemChance(npc, ModContent.ItemType<HolyCollider>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.SolarFlare>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.TelluricGlare>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<SolarFlare>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<TelluricGlare>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<BlissfulBombardier>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<PurgeGuzzler>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.MoltenAmputator>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<MoltenAmputator>(), 4);
 
                 // Equipment
                 DropHelper.DropItemChance(npc, ModContent.ItemType<SamuraiBadge>(), 40);
@@ -1099,7 +1115,7 @@ namespace CalamityMod.NPCs
                 string key3 = "Mods.CalamityMod.TreeOreText";
                 Color messageColor3 = Color.LightGreen;
 
-                WorldGenerationMethods.SpawnOre(ModContent.TileType<Tiles.UelibloomOre>(), 15E-05, .4f, .8f);
+                WorldGenerationMethods.SpawnOre(ModContent.TileType<UelibloomOre>(), 15E-05, .4f, .8f);
 
                 if (Main.netMode == NetmodeID.SinglePlayer)
                 {

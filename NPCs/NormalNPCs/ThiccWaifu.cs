@@ -11,6 +11,7 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
+using CalamityMod.Projectiles.Enemy;
 namespace CalamityMod.NPCs
 {
     public class ThiccWaifu : ModNPC

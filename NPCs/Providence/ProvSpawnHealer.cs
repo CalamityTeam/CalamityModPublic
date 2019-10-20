@@ -4,6 +4,8 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatDebuffs;
 namespace CalamityMod.NPCs
 {
     public class ProvSpawnHealer : ModNPC
