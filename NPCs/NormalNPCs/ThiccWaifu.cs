@@ -6,6 +6,11 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Items.Weapons.Magic;
+using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Materials;
 namespace CalamityMod.NPCs
 {
     public class ThiccWaifu : ModNPC

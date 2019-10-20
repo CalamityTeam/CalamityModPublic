@@ -637,7 +637,7 @@ namespace CalamityMod.NPCs
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<Leviatitan>(), Main.hardMode, 4, 1, 1);
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<SirensSong>(), Main.hardMode, 4, 1, 1);
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<Atlantis>(), Main.hardMode, 4, 1, 1);
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<BrackishFlaskProj>(), Main.hardMode, 4, 1, 1);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<BrackishFlask>(), Main.hardMode, 4, 1, 1);
 
                 // Equipment
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<LureofEnthrallment>(), Main.hardMode, 4, 1, 1);

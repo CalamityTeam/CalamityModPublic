@@ -1,6 +1,9 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Items.Materials;
+using CalamityMod.Buffs.DamageOverTime;
 namespace CalamityMod.NPCs
 {
     public class SunBat : ModNPC

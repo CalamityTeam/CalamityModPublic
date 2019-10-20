@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Materials;
-using CalamityMod.Projectiles.Enemy;
+using CalamityMod.Projectiles.Boss;
 namespace CalamityMod.NPCs
 {
     public class PhantomSpiritL : ModNPC
