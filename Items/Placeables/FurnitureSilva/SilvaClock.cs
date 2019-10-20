@@ -1,3 +1,4 @@
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureSilva
@@ -30,7 +31,7 @@ namespace CalamityMod.Items.Placeables.FurnitureSilva
             recipe.anyIronBar = true;
             recipe.AddIngredient(ItemID.Glass, 6);
             recipe.SetResult(this);
-            recipe.AddTile(ModContent.TileType<Tiles.FurnitureSilva.SilvaBasin>());
+            recipe.AddTile(ModContent.TileType<SilvaBasin>());
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<SilvaCrystal>(), 10);
@@ -38,7 +39,7 @@ namespace CalamityMod.Items.Placeables.FurnitureSilva
             recipe.anyIronBar = true;
             recipe.AddIngredient(ItemID.Glass, 6);
             recipe.SetResult(this);
-            recipe.AddTile(ModContent.TileType<Tiles.FurnitureSilva.SilvaBasin>());
+            recipe.AddTile(ModContent.TileType<SilvaBasin>());
             recipe.AddRecipe();
         }
     }

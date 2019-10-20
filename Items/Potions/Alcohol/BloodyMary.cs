@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Buffs.Alcohol;
 
 namespace CalamityMod.Items.Potions.Alcohol
 {
@@ -26,7 +27,7 @@ Extra spicy and bloody!");
             item.useStyle = 2;
             item.UseSound = SoundID.Item3;
             item.consumable = true;
-            item.buffType = ModContent.BuffType<Buffs.Alcohol.BloodyMary>();
+            item.buffType = ModContent.BuffType<BloodyMaryBuff>();
             item.buffTime = 18000; //5 minutes
             item.value = Item.buyPrice(0, 10, 0, 0);
         }

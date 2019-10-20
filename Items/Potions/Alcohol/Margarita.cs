@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Buffs.Alcohol;
 
 namespace CalamityMod.Items.Potions.Alcohol
 {
@@ -30,7 +31,7 @@ One of the best drinks ever created, enjoy it while it lasts");
             item.consumable = true;
             item.potion = true;
             item.healLife = 200;
-            item.buffType = ModContent.BuffType<Buffs.Alcohol.Margarita>();
+            item.buffType = ModContent.BuffType<MargaritaBuff>();
             item.buffTime = 10800;
             item.value = Item.buyPrice(0, 23, 30, 0);
         }
@@ -58,7 +59,7 @@ One of the best drinks ever created, enjoy it while it lasts");
                 player.HealEffect(200, true);
                 player.ManaEffect(200);
             }
-            player.AddBuff(ModContent.BuffType<Buffs.Alcohol.Margarita>(), 10800);
+            player.AddBuff(ModContent.BuffType<MargaritaBuff>(), 10800);
         }
 
         // Zeroes out the hardcoded healing function from having a healLife value. The item still heals in the UseItem hook.

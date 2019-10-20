@@ -1,4 +1,5 @@
 using CalamityMod.Items.Placeables.Ores;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureAncient
 {
@@ -30,7 +31,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAncient
             recipe.AddIngredient(ModContent.ItemType<BrimstoneSlag>(), 10);
             recipe.AddIngredient(ModContent.ItemType<CharredOre>(), 9);
             recipe.SetResult(this, 1);
-            recipe.AddTile(ModContent.TileType<Tiles.FurnitureAncient.AncientAltar>());
+            recipe.AddTile(ModContent.TileType<AncientAltar>());
             recipe.AddRecipe();
         }
     }

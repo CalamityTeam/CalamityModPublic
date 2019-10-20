@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Buffs.Alcohol;
 
 namespace CalamityMod.Items.Potions.Alcohol
 {
@@ -28,7 +29,7 @@ A great-tasting cinnamon whiskey");
             item.useStyle = 2;
             item.UseSound = SoundID.Item3;
             item.consumable = true;
-            item.buffType = ModContent.BuffType<Buffs.Alcohol.Fireball>();
+            item.buffType = ModContent.BuffType<FireballBuff>();
             item.buffTime = 18000; //5 minutes
             item.value = Item.buyPrice(0, 6, 60, 0);
         }

@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Buffs.Alcohol;
 
 namespace CalamityMod.Items.Potions.Alcohol
 {
@@ -27,14 +28,14 @@ I drank a full barrel of this stuff once in one night, I couldn't remember who I
             item.UseSound = SoundID.Item3;
             item.consumable = true;
             item.healMana = 400;
-            item.buffType = ModContent.BuffType<Buffs.Alcohol.WhiteWine>();
+            item.buffType = ModContent.BuffType<WhiteWineBuff>();
             item.buffTime = 10800; //3 minutes
             item.value = Item.buyPrice(0, 16, 60, 0);
         }
 
         public override void OnConsumeItem(Player player)
         {
-            player.AddBuff(ModContent.BuffType<Buffs.Alcohol.WhiteWine>(), 10800);
+            player.AddBuff(ModContent.BuffType<WhiteWineBuff>(), 10800);
         }
     }
 }

@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Buffs.Alcohol;
 
 namespace CalamityMod.Items.Potions.Alcohol
 {
@@ -26,7 +27,7 @@ Great for mixing up daytime drinks");
             item.useStyle = 2;
             item.UseSound = SoundID.Item3;
             item.consumable = true;
-            item.buffType = ModContent.BuffType<Buffs.Alcohol.Tequila>();
+            item.buffType = ModContent.BuffType<TequilaBuff>();
             item.buffTime = 18000; //5 minutes
             item.value = Item.buyPrice(0, 5, 0, 0);
         }

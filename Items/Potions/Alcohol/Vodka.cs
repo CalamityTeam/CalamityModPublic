@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Buffs.Alcohol;
 
 namespace CalamityMod.Items.Potions.Alcohol
 {
@@ -26,7 +27,7 @@ The number one alcohol for creating great mixed drinks");
             item.useStyle = 2;
             item.UseSound = SoundID.Item3;
             item.consumable = true;
-            item.buffType = ModContent.BuffType<Buffs.Alcohol.Vodka>();
+            item.buffType = ModContent.BuffType<VodkaBuff>();
             item.buffTime = 18000; //5 minutes
             item.value = Item.buyPrice(0, 3, 30, 0);
         }

@@ -1,4 +1,5 @@
-﻿using Terraria.ID;
+﻿using CalamityMod.Tiles.Furniture.CraftingStations;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureAshen
 {
@@ -38,7 +39,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAshen
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<AshenPlatform>(), 2);
             recipe.SetResult(this);
-            recipe.AddTile(ModContent.TileType<Tiles.FurnitureAshen.AshenAltar>());
+            recipe.AddTile(ModContent.TileType<AshenAltar>());
             recipe.AddRecipe();
         }
     }

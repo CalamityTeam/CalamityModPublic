@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Buffs.Alcohol;
 
 namespace CalamityMod.Items.Potions.Alcohol
 {
@@ -26,7 +27,7 @@ I once heard the copper mug can be toxic and I told 'em 'listen dummy, I'm alrea
             item.useStyle = 2;
             item.UseSound = SoundID.Item3;
             item.consumable = true;
-            item.buffType = ModContent.BuffType<Buffs.Alcohol.MoscowMule>();
+            item.buffType = ModContent.BuffType<MoscowMuleBuff>();
             item.buffTime = 18000; //5 minutes
             item.value = Item.buyPrice(0, 16, 60, 0);
         }

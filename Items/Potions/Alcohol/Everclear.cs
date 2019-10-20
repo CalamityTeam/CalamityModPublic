@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Buffs.Alcohol;
 
 namespace CalamityMod.Items.Potions.Alcohol
 {
@@ -26,7 +27,7 @@ This is the most potent booze I have, be careful with it");
             item.useStyle = 2;
             item.UseSound = SoundID.Item3;
             item.consumable = true;
-            item.buffType = ModContent.BuffType<Buffs.Alcohol.Everclear>();
+            item.buffType = ModContent.BuffType<EverclearBuff>();
             item.buffTime = 900; //15 seconds
             item.value = Item.buyPrice(0, 6, 60, 0);
         }

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Buffs.Alcohol;
 
 namespace CalamityMod.Items.Potions.Alcohol
 {
@@ -55,7 +56,7 @@ This crap is abhorrent but you might like it");
                 player.HealEffect(100, true);
                 player.ManaEffect(100);
             }
-            player.AddBuff(ModContent.BuffType<Buffs.Alcohol.GrapeBeer>(), 3600);
+            player.AddBuff(ModContent.BuffType<GrapeBeerBuff>(), 3600);
         }
 
         // Zeroes out the hardcoded healing function from having a healLife value. The item still heals in the UseItem hook.

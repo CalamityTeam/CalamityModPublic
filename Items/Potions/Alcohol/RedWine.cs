@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Buffs.Alcohol;
 
 namespace CalamityMod.Items.Potions.Alcohol
 {
@@ -37,7 +38,7 @@ Too dry for my taste");
 
         public override bool UseItem(Player player)
         {
-            player.AddBuff(ModContent.BuffType<Buffs.Alcohol.RedWine>(), 900);
+            player.AddBuff(ModContent.BuffType<RedWineBuff>(), 900);
             return true;
         }
     }

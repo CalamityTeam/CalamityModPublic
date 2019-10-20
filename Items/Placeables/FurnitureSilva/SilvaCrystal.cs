@@ -56,7 +56,7 @@ namespace CalamityMod.Items.Placeables.FurnitureSilva
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<SilvaPlatform>(), 2);
             recipe.SetResult(this);
-            recipe.AddTile(ModContent.TileType<Tiles.FurnitureSilva.SilvaBasin>());
+            recipe.AddTile(ModContent.TileType<SilvaBasin>());
             recipe.AddRecipe();
         }
     }

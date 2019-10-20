@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Potions.Alcohol
             item.useStyle = 2;
             item.UseSound = SoundID.Item3;
             item.consumable = true;
-            item.buffType = ModContent.BuffType<FabsolVodka>();
+            item.buffType = ModContent.BuffType<FabsolVodkaBuff>();
             item.buffTime = 54000;
             item.value = Item.buyPrice(0, 10, 0, 0);
         }
