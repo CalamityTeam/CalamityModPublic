@@ -8,6 +8,7 @@ using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Buffs.Summon;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Accessories.Vanity;
 using CalamityMod.Items.DifficultyItems;
 using CalamityMod.Items.Fishing;
 using CalamityMod.Items.Mounts;
@@ -7497,11 +7498,11 @@ namespace CalamityMod.CalPlayer
                     { player.ClearBuff(ModContent.BuffType<PolarisBuff>()); }
                 }
             }
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Ranged.Drataliornus>()] != 0)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Ranged.DrataliornusProj>()] != 0)
             {
                 for (int i = 0; i < 1000; i++)
                 {
-                    if (Main.projectile[i].active && Main.projectile[i].type == ModContent.ProjectileType<Projectiles.Ranged.Drataliornus>() && Main.projectile[i].owner == player.whoAmI)
+                    if (Main.projectile[i].active && Main.projectile[i].type == ModContent.ProjectileType<Projectiles.Ranged.DrataliornusProj>() && Main.projectile[i].owner == player.whoAmI)
                     {
                         Main.projectile[i].Kill();
                         break;

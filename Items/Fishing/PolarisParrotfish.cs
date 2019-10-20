@@ -39,12 +39,12 @@ namespace CalamityMod.Items.Fishing
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            if (modPlayer.polarisBoostThree)
+            if (modPlayer.polarisBoostThree) //Homes in and explodes
             {
                 Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<PolarStar>(), damage, knockBack, player.whoAmI, 0f, 2f);
                 return false;
             }
-			else if (modPlayer.polarisBoostTwo)
+			else if (modPlayer.polarisBoostTwo) //Splits on enemy or tile hits
             {
                 Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<PolarStar>(), (int)((double)damage * 1.25), knockBack, player.whoAmI, 0f, 1f);
                 return false;
@@ -52,7 +52,7 @@ namespace CalamityMod.Items.Fishing
             return true;
         }
 
-        public override Vector2? HoldoutOrigin()
+        public override Vector2? HoldoutOrigin() //so it looks normal when holding
         {
             return new Vector2(10, 10);
         }
