@@ -1,5 +1,6 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
+using CalamityMod.Projectiles.Summon;
 namespace CalamityMod.Projectiles.Typeless
 {
     public class StormBolt : ModProjectile

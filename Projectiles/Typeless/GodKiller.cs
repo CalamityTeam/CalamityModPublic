@@ -4,6 +4,7 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Buffs.DamageOverTime;
 namespace CalamityMod.Projectiles.Typeless
 {
     public class GodKiller : ModProjectile
