@@ -16,7 +16,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Containers };
             chest = "Abyss Chest";
-            chestDrop = ModContent.ItemType<Items.AbyssChest>();
+            chestDrop = ModContent.ItemType<Items.Placeables.FurnitureAbyss.AbyssChest>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)

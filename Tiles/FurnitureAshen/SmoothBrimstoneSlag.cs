@@ -21,7 +21,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
             soundType = 21;
             mineResist = 5f;
             minPick = 180;
-            drop = ModContent.ItemType<Items.SmoothBrimstoneSlag>();
+            drop = ModContent.ItemType<Items.Placeables.FurnitureAshen.SmoothBrimstoneSlag>();
             AddMapEntry(new Color(61, 40, 61));
         }
 

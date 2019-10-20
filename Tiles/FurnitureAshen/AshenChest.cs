@@ -19,7 +19,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Containers };
             chest = "Ashen Chest";
-            chestDrop = ModContent.ItemType<Items.AshenChest>();
+            chestDrop = ModContent.ItemType<Items.Placeables.FurnitureAshen.AshenChest>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)

@@ -19,7 +19,7 @@ namespace CalamityMod.Tiles.Abyss
             TileMerge.MergeAbyssTiles(Type);
 
             dustType = 44;
-            drop = ModContent.ItemType<Items.Tenebris>();
+            drop = ModContent.ItemType<Items.Placeables.Tenebris>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Tenebris");
             AddMapEntry(new Color(0, 100, 100), name);

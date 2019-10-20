@@ -22,7 +22,7 @@ namespace CalamityMod.Tiles.Abyss
             soundType = 21;
             mineResist = 10f;
             minPick = 190;
-            drop = ModContent.ItemType<Items.Voidstone>();
+            drop = ModContent.ItemType<Items.Placeables.Voidstone>();
             AddMapEntry(new Color(10, 10, 10));
         }
         int animationFrameWidth = 288;

@@ -15,7 +15,7 @@ namespace CalamityMod.Tiles.Abyss
             TileMerge.MergeGeneralTiles(Type);
             TileMerge.MergeAbyssTiles(Type);
 
-            drop = ModContent.ItemType<Items.AbyssGravel>();
+            drop = ModContent.ItemType<Items.Placeables.AbyssGravel>();
             AddMapEntry(new Color(0, 0, 0));
             mineResist = 10f;
             minPick = 65;

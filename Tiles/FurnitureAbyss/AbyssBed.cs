@@ -36,7 +36,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 64, 32, ModContent.ItemType<Items.AbyssBed>());
+            Item.NewItem(i * 16, j * 16, 64, 32, ModContent.ItemType<Items.Placeables.FurnitureAbyss.AbyssBed>());
         }
 
         public override bool NewRightClick(int i, int j)
@@ -49,7 +49,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
             Player player = Main.LocalPlayer;
             player.noThrow = 2;
             player.showItemIcon = true;
-            player.showItemIcon2 = ModContent.ItemType<Items.AbyssBed>();
+            player.showItemIcon2 = ModContent.ItemType<Items.Placeables.FurnitureAbyss.AbyssBed>();
         }
     }
 }

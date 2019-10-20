@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.ObjectData;
+using CalamityMod.Buffs.Placeables;
 
 namespace CalamityMod.Tiles.Furniture
 {
@@ -65,7 +66,7 @@ namespace CalamityMod.Tiles.Furniture
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<Items.YellowCandle>());
+            Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<Items.Placeables.Furniture.YellowCandle>());
         }
     }
 }

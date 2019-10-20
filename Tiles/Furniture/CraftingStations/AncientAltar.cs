@@ -55,7 +55,7 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<Items.AncientAltar>());
+            Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<Items.Placeables.Furniture.CraftingStations.AncientAltar>());
         }
     }
 }

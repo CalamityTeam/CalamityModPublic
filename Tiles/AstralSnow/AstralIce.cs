@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Tiles.Astral;
 
 namespace CalamityMod.Tiles.AstralSnow
 {
@@ -19,7 +20,7 @@ namespace CalamityMod.Tiles.AstralSnow
             TileMerge.MergeAstralTiles(Type);
 
             dustType = 173;
-            drop = ModContent.ItemType<Items.AstralIce>();
+            drop = ModContent.ItemType<Items.Placeables.AstralIce>();
 
             soundType = 2;
             soundStyle = 50;

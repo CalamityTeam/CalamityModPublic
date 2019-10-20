@@ -1,3 +1,4 @@
+using CalamityMod.Items.Placeables.Furniture.Trophies;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;

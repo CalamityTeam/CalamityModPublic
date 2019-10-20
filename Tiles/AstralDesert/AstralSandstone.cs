@@ -19,7 +19,7 @@ namespace CalamityMod.Tiles.AstralDesert
             TileMerge.MergeAstralTiles(Type);
 
             dustType = ModContent.DustType<AstralBasic>();
-            drop = ModContent.ItemType<Items.AstralSandstone>();
+            drop = ModContent.ItemType<Items.Placeables.AstralSandstone>();
 
             AddMapEntry(new Color(79, 61, 97));
 
