@@ -3,6 +3,8 @@ using System;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.NPCs;
+using CalamityMod.Items.SummonItems;
+using CalamityMod.Items.Potions.Alcohol;
 namespace CalamityMod
 {
     internal class WeakReferenceSupport

@@ -12,6 +12,13 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader.IO;
 using Terraria.World.Generation;
+using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Tiles.SunkenSea;
+using CalamityMod.Tiles.Abyss;
+using CalamityMod.Tiles.Crags;
+using CalamityMod.Tiles.Astral;
+using CalamityMod.Tiles.AstralDesert;
+using CalamityMod.Tiles.AstralSnow;
 
 namespace CalamityMod.World
 {

@@ -3,6 +3,11 @@ using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Items.Materials;
+using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Fishing;
+using CalamityMod.Items.Placeables;
 
 namespace CalamityMod
 {

@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.World.Generation;
+using CalamityMod.Tiles.SunkenSea;
+using CalamityMod.WallTiles;
 
 namespace CalamityMod.World
 {

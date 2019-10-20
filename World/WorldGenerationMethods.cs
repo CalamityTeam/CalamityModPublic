@@ -1,4 +1,10 @@
 ﻿using CalamityMod.Tiles;
+using CalamityMod.Tiles.SunkenSea;
+using CalamityMod.Tiles.Abyss;
+using CalamityMod.Tiles.Crags;
+using CalamityMod.Tiles.Astral;
+using CalamityMod.Tiles.AstralDesert;
+using CalamityMod.Tiles.AstralSnow;
 using CalamityMod.WallTiles;
 using CalamityMod.World.Planets;
 using Microsoft.Xna.Framework;
@@ -10,6 +16,18 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.Utilities;
 using Terraria.World.Generation;
+using CalamityMod.Items.SummonItems;
+using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Mounts;
+using CalamityMod.Items.Placeables.Furniture;
+using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Items.Weapons.Magic;
+using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.Items.Pets;
+using CalamityMod.Items.Tools.ClimateChange;
+using CalamityMod.Items.Potions;
 
 namespace CalamityMod.World
 {

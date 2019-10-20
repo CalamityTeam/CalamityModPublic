@@ -2,6 +2,8 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using CalamityMod.WallTiles;
+using CalamityMod.Tiles.Abyss;
+using CalamityMod.Tiles.FurnitureVoid;
 
 namespace CalamityMod.World
 {
