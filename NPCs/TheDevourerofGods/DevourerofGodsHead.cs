@@ -7,6 +7,8 @@ using Terraria.ModLoader;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.Localization;
+using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatDebuffs;
 namespace CalamityMod.NPCs
 {
     [AutoloadBossHead]

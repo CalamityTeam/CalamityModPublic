@@ -4,6 +4,9 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.Localization;
+using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Items.Accessories;
+using CalamityMod.Projectiles.Rogue;
 namespace CalamityMod.NPCs
 {
     [AutoloadHead]
@@ -122,7 +125,7 @@ namespace CalamityMod.NPCs
                 PossibleDialogs.Add("Providence HATES it when you take her stuff. I learned that the hard way.");
                 PossibleDialogs.Add("You think I can get away with looting from ghosts? It ain't like they can pick things up.");
             }
-            if (Main.LocalPlayer.InventoryHas(ModContent.ItemType<Items.Valediction>()) ||
+            if (Main.LocalPlayer.InventoryHas(ModContent.ItemType<Valediction>()) ||
                 Main.LocalPlayer.InventoryHas(ModContent.ItemType<TheReaper>()))
             {
                 PossibleDialogs.Add("Oh man, did you rip that off a shark!? Now that's a weapon!");

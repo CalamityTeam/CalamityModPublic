@@ -5,6 +5,18 @@ using Terraria.ModLoader;
 using Terraria.GameContent.Events;
 using Terraria.ID;
 using Terraria.Localization;
+using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Items.Weapons.Magic;
+using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Accessories.Vanity;
+using CalamityMod.Items.Pets;
+using CalamityMod.Items.SummonItems;
+using CalamityMod.Items.Ammo;
+using CalamityMod.Items.Potions;
+using CalamityMod.Projectiles.Typeless;
 namespace CalamityMod.NPCs
 {
     [AutoloadHead]
@@ -135,21 +147,21 @@ namespace CalamityMod.NPCs
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<EternalBlizzard>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.WintersFury>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<WintersFury>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.ArcticBearPaw>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<ArcticBearPaw>());
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<IcicleTrident>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.FrostyFlare>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<FrostyFlare>());
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<CryogenicStaff>());
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<PermafrostsConcoction>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.IcyBullet>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<IcyBullet>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.IcicleArrow>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<IcicleArrow>());
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ItemID.SuperManaPotion);
             nextSlot++;
@@ -161,7 +173,7 @@ namespace CalamityMod.NPCs
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<Popo>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(mod.ItemType("CryoKey"));
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<CryoKey>());
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 15, 0, 0);
             nextSlot++;
         }

@@ -1,5 +1,4 @@
-﻿
-using CalamityMod.World;
+﻿using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -10,6 +9,22 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.Utilities;
+using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Items.Materials;
+using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Items.Weapons.Magic;
+using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Items.LoreItems;
+using CalamityMod.Items.TreasureBags;
+using CalamityMod.Items.Armor.Vanity;
+using CalamityMod.Items.Pets;
+using CalamityMod.Items.Placeables.Furniture.Trophies;
+using CalamityMod.Tiles.Ores;
+using CalamityMod.Projectiles.Boss;
 
 namespace CalamityMod.NPCs
 {
@@ -2768,7 +2783,7 @@ namespace CalamityMod.NPCs
             if (!Main.expertMode)
             {
                 // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.DragonRage>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<DragonRage>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<TheBurningSky>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<DragonsBreath>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<ChickenCannon>(), 4);
@@ -2794,7 +2809,7 @@ namespace CalamityMod.NPCs
 
                 // Weapons
                 DropHelper.DropItemChance(npc, ModContent.ItemType<VoidVortex>(), DropHelper.RareVariantDropRateInt);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.YharimsCrystal>(), DropHelper.LegendaryDropRateInt);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<YharimsCrystal>(), DropHelper.LegendaryDropRateInt);
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<YharonTrophy>(), 10);
@@ -2807,7 +2822,7 @@ namespace CalamityMod.NPCs
                 // If Yharon has not been killed yet, notify players of Auric Ore
                 if (!CalamityWorld.downedYharon)
                 {
-                    WorldGenerationMethods.SpawnOre(ModContent.TileType<Tiles.AuricOre>(), 2E-05, .6f, .8f);
+                    WorldGenerationMethods.SpawnOre(ModContent.TileType<AuricOre>(), 2E-05, .6f, .8f);
 
                     string key = "Mods.CalamityMod.AuricOreText";
                     Color messageColor = Color.Gold;

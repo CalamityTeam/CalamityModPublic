@@ -4,6 +4,14 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.Localization;
+using CalamityMod.Buffs.StatBuffs;
+using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Items.Weapons.Magic;
+using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Items.SummonItems;
+using CalamityMod.Projectiles.Rogue;
 namespace CalamityMod.NPCs
 {
     [AutoloadHead]
@@ -260,13 +268,13 @@ namespace CalamityMod.NPCs
             nextSlot++;
             if (CalamityWorld.downedDesertScourge)
             {
-                shop.item[nextSlot].SetDefaults(mod.ItemType("DriedSeafood"));
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<DriedSeafood>());
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 2, 0, 0);
                 nextSlot++;
             }
             if (CalamityWorld.downedAquaticScourge)
             {
-                shop.item[nextSlot].SetDefaults(mod.ItemType("Seafood"));
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<Seafood>());
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 20, 0, 0);
                 nextSlot++;
             }

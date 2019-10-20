@@ -6,6 +6,9 @@ using Terraria.DataStructures;
 using Terraria.GameContent.Events;
 using Terraria.ID;
 using Terraria.Localization;
+using CalamityMod.Items.Potions.Alcohol;
+using CalamityMod.Items.Placeables.Furniture;
+using CalamityMod.Projectiles.Magic;
 namespace CalamityMod.NPCs
 {
     [AutoloadHead]

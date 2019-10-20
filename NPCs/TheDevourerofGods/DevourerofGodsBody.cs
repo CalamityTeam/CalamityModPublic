@@ -5,6 +5,9 @@ using System.IO;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Projectiles.Boss;
 namespace CalamityMod.NPCs
 {
     public class DevourerofGodsBody : ModNPC
