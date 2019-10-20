@@ -2,6 +2,7 @@
 using System;
 using Terraria;
 using Terraria.ModLoader;
+using CalamityMod.Projectiles.Healing;
 namespace CalamityMod.Projectiles.Melee
 {
     public class Earth4 : ModProjectile
