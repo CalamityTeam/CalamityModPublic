@@ -30,6 +30,8 @@ using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Projectiles.Summon;
+using CalamityMod.Projectiles.Typeless;
 
 namespace CalamityMod.NPCs
 {
@@ -3427,7 +3429,7 @@ namespace CalamityMod.NPCs
         {
             if (type == NPCID.Merchant)
             {
-                SetShopItem(ref shop, ref nextSlot, ItemID.Flare, Main.LocalPlayer.HasItem(ModContent.ItemType<Items.FirestormCannon>()) || Main.LocalPlayer.HasItem(ModContent.ItemType<Items.SpectralstormCannon>()));
+                SetShopItem(ref shop, ref nextSlot, ItemID.Flare, Main.LocalPlayer.HasItem(ModContent.ItemType<FirestormCannon>()) || Main.LocalPlayer.HasItem(ModContent.ItemType<SpectralstormCannon>()));
                 SetShopItem(ref shop, ref nextSlot, ItemID.ApprenticeBait, NPC.downedBoss1);
                 SetShopItem(ref shop, ref nextSlot, ItemID.JourneymanBait, NPC.downedBoss2);
                 SetShopItem(ref shop, ref nextSlot, WorldGen.crimson ? ItemID.Vilethorn : ItemID.TheRottedFork, NPC.downedBoss2);
@@ -3436,7 +3438,7 @@ namespace CalamityMod.NPCs
 
             if (type == NPCID.ArmsDealer)
             {
-                SetShopItem(ref shop, ref nextSlot, ItemID.Stake, Main.LocalPlayer.HasItem(ModContent.ItemType<Items.Impaler>()));
+                SetShopItem(ref shop, ref nextSlot, ItemID.Stake, Main.LocalPlayer.HasItem(ModContent.ItemType<Impaler>()));
                 SetShopItem(ref shop, ref nextSlot, WorldGen.crimson ? ItemID.Musket : ItemID.TheUndertaker, NPC.downedBoss2);
                 SetShopItem(ref shop, ref nextSlot, ItemID.Boomstick, NPC.downedQueenBee, price: Item.buyPrice(0, 20, 0, 0));
             }
@@ -3447,44 +3449,44 @@ namespace CalamityMod.NPCs
                 SetShopItem(ref shop, ref nextSlot, ItemID.NaturesGift, price: Item.buyPrice(0, 10));
                 SetShopItem(ref shop, ref nextSlot, ItemID.GoblinBattleStandard, price: Item.buyPrice(0, 1));
                 SetShopItem(ref shop, ref nextSlot, ItemID.SlimeCrown, NPC.downedSlimeKing, Item.buyPrice(0, 2));
-                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.DriedSeafood>(), CalamityWorld.downedDesertScourge, Item.buyPrice(0, 2));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<DriedSeafood>(), CalamityWorld.downedDesertScourge, Item.buyPrice(0, 2));
                 SetShopItem(ref shop, ref nextSlot, ItemID.SuspiciousLookingEye, NPC.downedBoss1, Item.buyPrice(0, 3));
-                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.DecapoditaSprout>(), CalamityWorld.downedCrabulon, Item.buyPrice(0, 4));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<DecapoditaSprout>(), CalamityWorld.downedCrabulon, Item.buyPrice(0, 4));
                 SetShopItem(ref shop, ref nextSlot, ItemID.BloodySpine, NPC.downedBoss2, Item.buyPrice(0, 6));
                 SetShopItem(ref shop, ref nextSlot, ItemID.WormFood, NPC.downedBoss2, Item.buyPrice(0, 6));
                 SetShopItem(ref shop, ref nextSlot, WorldGen.crimson ? ItemID.BandofStarpower : ItemID.PanicNecklace, NPC.downedBoss2);
                 SetShopItem(ref shop, ref nextSlot, WorldGen.crimson ? ItemID.WormScarf : ItemID.BrainOfConfusion, Main.expertMode && NPC.downedBoss2);
-                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.BloodyWormFood>(), CalamityWorld.downedPerforator, Item.buyPrice(0, 10));
-                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.RottenBrain>(), CalamityWorld.downedPerforator && Main.expertMode);
-                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.Teratoma>(), CalamityWorld.downedHiveMind, Item.buyPrice(0, 10));
-                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.BloodyWormTooth>(), CalamityWorld.downedHiveMind && Main.expertMode);
-                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.OverloadedSludge>(), CalamityWorld.downedSlimeGod, Item.buyPrice(0, 15));
-                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.Seafood>(), CalamityWorld.downedAquaticScourge, Item.buyPrice(0, 20));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<BloodyWormFood>(), CalamityWorld.downedPerforator, Item.buyPrice(0, 10));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<RottenBrain>(), CalamityWorld.downedPerforator && Main.expertMode);
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Teratoma>(), CalamityWorld.downedHiveMind, Item.buyPrice(0, 10));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<BloodyWormTooth>(), CalamityWorld.downedHiveMind && Main.expertMode);
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<OverloadedSludge>(), CalamityWorld.downedSlimeGod, Item.buyPrice(0, 15));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Seafood>(), CalamityWorld.downedAquaticScourge, Item.buyPrice(0, 20));
                 SetShopItem(ref shop, ref nextSlot, ItemID.PumpkinMoonMedallion, NPC.downedHalloweenKing, Item.buyPrice(0, 25));
                 SetShopItem(ref shop, ref nextSlot, ItemID.NaughtyPresent, NPC.downedChristmasIceQueen, Item.buyPrice(0, 25));
-                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.RomajedaOrchid>());
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<RomajedaOrchid>());
             }
 
             if (type == NPCID.GoblinTinkerer)
             {
-                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.MeleeLevelMeter>(), price: Item.buyPrice(0, 5));
-                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.RangedLevelMeter>(), price: Item.buyPrice(0, 5));
-                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.MagicLevelMeter>(), price: Item.buyPrice(0, 5));
-                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.SummonLevelMeter>(), price: Item.buyPrice(0, 5));
-                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.RogueLevelMeter>(), price: Item.buyPrice(0, 5));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<MeleeLevelMeter>(), price: Item.buyPrice(0, 5));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<RangedLevelMeter>(), price: Item.buyPrice(0, 5));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<MagicLevelMeter>(), price: Item.buyPrice(0, 5));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<SummonLevelMeter>(), price: Item.buyPrice(0, 5));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<RogueLevelMeter>(), price: Item.buyPrice(0, 5));
             }
 
             if (type == NPCID.Clothier)
             {
-                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.BlueBrickWallUnsafe>(), price: Item.buyPrice(copper: 10));
-                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.BlueSlabWallUnsafe>(), price: Item.buyPrice(copper: 10));
-                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.BlueTiledWallUnsafe>(), price: Item.buyPrice(copper: 10));
-                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.GreenBrickWallUnsafe>(), price: Item.buyPrice(copper: 10));
-                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.GreenSlabWallUnsafe>(), price: Item.buyPrice(copper: 10));
-                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.GreenTiledWallUnsafe>(), price: Item.buyPrice(copper: 10));
-                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.PinkBrickWallUnsafe>(), price: Item.buyPrice(copper: 10));
-                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.PinkSlabWallUnsafe>(), price: Item.buyPrice(copper: 10));
-                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.PinkTiledWallUnsafe>(), price: Item.buyPrice(copper: 10));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<BlueBrickWallUnsafe>(), price: Item.buyPrice(copper: 10));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<BlueSlabWallUnsafe>(), price: Item.buyPrice(copper: 10));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<BlueTiledWallUnsafe>(), price: Item.buyPrice(copper: 10));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<GreenBrickWallUnsafe>(), price: Item.buyPrice(copper: 10));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<GreenSlabWallUnsafe>(), price: Item.buyPrice(copper: 10));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<GreenTiledWallUnsafe>(), price: Item.buyPrice(copper: 10));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<PinkBrickWallUnsafe>(), price: Item.buyPrice(copper: 10));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<PinkSlabWallUnsafe>(), price: Item.buyPrice(copper: 10));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<PinkTiledWallUnsafe>(), price: Item.buyPrice(copper: 10));
                 SetShopItem(ref shop, ref nextSlot, ItemID.GoldenKey, Main.hardMode, Item.buyPrice(0, 5));
             }
 
@@ -3498,31 +3500,31 @@ namespace CalamityMod.NPCs
                 SetShopItem(ref shop, ref nextSlot, ItemID.MechanicalWorm, NPC.downedMechBoss1, Item.buyPrice(0, 20));
                 SetShopItem(ref shop, ref nextSlot, ItemID.MechanicalEye, NPC.downedMechBoss2, Item.buyPrice(0, 20));
                 SetShopItem(ref shop, ref nextSlot, ItemID.MechanicalSkull, NPC.downedMechBoss3, Item.buyPrice(0, 20));
-                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.AstralSolution>(), Main.LocalPlayer.Calamity().ZoneAstral && Main.hardMode, Item.buyPrice(0, 0, 5));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<AstralSolution>(), Main.LocalPlayer.Calamity().ZoneAstral && Main.hardMode, Item.buyPrice(0, 0, 5));
             }
 
             if (type == NPCID.Wizard)
             {
-                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.CryoKey>(), CalamityWorld.downedCryogen, Item.buyPrice(0, 15));
-                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.CharredIdol>(), CalamityWorld.downedBrimstoneElemental, Item.buyPrice(0, 20));
-                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.AstralChunk>(), CalamityWorld.downedAstrageldon, Item.buyPrice(0, 25));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<CryoKey>(), CalamityWorld.downedCryogen, Item.buyPrice(0, 15));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<CharredIdol>(), CalamityWorld.downedBrimstoneElemental, Item.buyPrice(0, 20));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<AstralChunk>(), CalamityWorld.downedAstrageldon, Item.buyPrice(0, 25));
                 SetShopItem(ref shop, ref nextSlot, ItemID.MagicMissile, price: Item.buyPrice(0, 5));
                 SetShopItem(ref shop, ref nextSlot, ItemID.SpectreStaff, NPC.downedGolemBoss, Item.buyPrice(0, 25));
                 SetShopItem(ref shop, ref nextSlot, ItemID.InfernoFork, NPC.downedGolemBoss, Item.buyPrice(0, 25));
                 SetShopItem(ref shop, ref nextSlot, ItemID.ShadowbeamStaff, NPC.downedGolemBoss, Item.buyPrice(0, 25));
                 SetShopItem(ref shop, ref nextSlot, ItemID.CelestialSigil, NPC.downedMoonlord, Item.buyPrice(3));
-                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.ProfanedShard>(), CalamityWorld.downedGuardians, Item.buyPrice(10));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<ProfanedShard>(), CalamityWorld.downedGuardians, Item.buyPrice(10));
             }
 
             if (type == NPCID.WitchDoctor)
             {
                 SetShopItem(ref shop, ref nextSlot, ItemID.Abeemination, price: Item.buyPrice(0, 8));
-                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.BulbofDoom>(), NPC.downedPlantBoss, Item.buyPrice(0, 20));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<BulbofDoom>(), NPC.downedPlantBoss, Item.buyPrice(0, 20));
                 SetShopItem(ref shop, ref nextSlot, ItemID.SolarTablet, NPC.downedGolemBoss, Item.buyPrice(0, 25));
                 SetShopItem(ref shop, ref nextSlot, ItemID.LihzahrdPowerCell, NPC.downedGolemBoss, Item.buyPrice(0, 30));
-                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.AncientMedallion>(), CalamityWorld.downedScavenger, Item.buyPrice(0, 50));
-                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.Abomination>(), CalamityWorld.downedPlaguebringer, Item.buyPrice(0, 50));
-                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Items.BirbPheromones>(), CalamityWorld.downedBumble, Item.buyPrice(5));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<AncientMedallion>(), CalamityWorld.downedScavenger, Item.buyPrice(0, 50));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Abomination>(), CalamityWorld.downedPlaguebringer, Item.buyPrice(0, 50));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<BirbPheromones>(), CalamityWorld.downedBumble, Item.buyPrice(5));
             }
         }
 
@@ -3530,7 +3532,7 @@ namespace CalamityMod.NPCs
         {
             if (Main.moonPhase == 0)
             {
-                shop[nextSlot] = ModContent.ItemType<Items.FrostBarrier>();
+                shop[nextSlot] = ModContent.ItemType<FrostBarrier>();
                 nextSlot++;
             }
         }

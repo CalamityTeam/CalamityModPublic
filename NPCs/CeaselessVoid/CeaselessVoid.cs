@@ -12,6 +12,7 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.LoreItems;
+using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Projectiles.Boss;
 namespace CalamityMod.NPCs
 {
@@ -317,7 +318,7 @@ namespace CalamityMod.NPCs
                         }
                         for (int num662 = 0; num662 < glob; num662++)
                         {
-                            Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, 0f, ModContent.ProjectileType<DarkEnergySpawn>(), 0, 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, 0f, ModContent.ProjectileType<DarkEnergyBall>(), 0, 0f, Main.myPlayer, 0f, 0f);
                         }
                     }
                 }

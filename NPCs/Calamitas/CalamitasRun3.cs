@@ -1,5 +1,4 @@
-﻿
-using CalamityMod.World;
+﻿using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -19,6 +18,8 @@ using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.TreasureBags;
+using CalamityMod.Items.Armor.Vanity;
+using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Projectiles.Boss;
 namespace CalamityMod.NPCs
 {

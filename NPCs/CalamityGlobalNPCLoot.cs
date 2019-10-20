@@ -18,6 +18,8 @@ using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Pets;
+using CalamityMod.Items.DifficultyItems;
+using CalamityMod.Items.PermanentBoosters;
 using CalamityMod.Projectiles.Boss;
 
 namespace CalamityMod.NPCs
@@ -167,7 +169,7 @@ namespace CalamityMod.NPCs
                     string key2 = "Mods.CalamityMod.PlantOreText";
                     Color messageColor2 = Color.GreenYellow;
 
-                    WorldGenerationMethods.SpawnOre(ModContent.TileType<Tiles.PerennialOre>(), 12E-05, .5f, .7f);
+                    WorldGenerationMethods.SpawnOre(ModContent.TileType<PerennialOre>(), 12E-05, .5f, .7f);
                     ;
 
                     if (Main.netMode == NetmodeID.SinglePlayer)
@@ -288,7 +290,7 @@ namespace CalamityMod.NPCs
                 // Spawn Exodium and send messages about Providence, Bloodstone, Phantoplasm, etc. if ML has not been killed yet
                 if (!NPC.downedMoonlord)
                 {
-                    WorldGenerationMethods.SpawnOre(ModContent.TileType<Tiles.ExodiumOre>(), 12E-05, .01f, .07f);
+                    WorldGenerationMethods.SpawnOre(ModContent.TileType<ExodiumOre>(), 12E-05, .01f, .07f);
 
                     if (Main.netMode == NetmodeID.SinglePlayer)
                     {
