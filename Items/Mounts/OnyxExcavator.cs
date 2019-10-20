@@ -7,6 +7,7 @@ using Terraria.GameContent.Achievements;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using CalamityMod.Buffs.Mounts;
+using CalamityMod.Tiles;
 using CalamityMod.Tiles.Abyss;
 using CalamityMod.Tiles.Ores;
 
@@ -141,11 +142,11 @@ namespace CalamityMod.Items.Mounts
                             {
                                 if (tile != null && tile.active() && tile.type != (ushort)ModContent.TileType<AbyssGravel>() &&
                                     tile.type != (ushort)ModContent.TileType<Voidstone>() && (tile.type != TileID.Hellstone || Main.hardMode) &&
-                                    (tile.type != TileID.LihzahrdBrick || NPC.downedGolemBoss) && tile.type != TileID.BlueDungeonBrick &&
-                                    tile.type != TileID.GreenDungeonBrick && tile.type != TileID.PinkDungeonBrick && tile.type != TileID.DemonAltar &&
+                                    (tile.type != TileID.LihzahrdBrick || NPC.downedGolemBoss) && (tile.type != TileID.BlueDungeonBrick || NPC.downedBoss3) &&
+                                    (tile.type != TileID.GreenDungeonBrick || NPC.downedBoss3) && (tile.type != TileID.PinkDungeonBrick || NPC.downedBoss3) && tile.type != TileID.DemonAltar &&
                                     (tile.type != (ushort)ModContent.TileType<AstralOre>() || CalamityWorld.downedStarGod) &&
                                     ((tile.type != (ushort)ModContent.TileType<Tenebris>() && tile.type != (ushort)ModContent.TileType<PlantyMush>()) || NPC.downedPlantBoss || CalamityWorld.downedCalamitas) &&
-                                    (!player.Calamity().ZoneSunkenSea || CalamityWorld.downedDesertScourge) &&
+                                    (!player.Calamity().ZoneSunkenSea || CalamityWorld.downedDesertScourge) && tile.type != (ushort)ModContent.TileType<ArenaTile>() &&
                                     (Main.tileValue[tile.type] < tileValueLimit || tile.type == TileID.Heart || tile.type == TileID.LifeFruit) &&
                                     !player.noBuilding && tile.type != TileID.ElderCrystalStand && tile.type != TileID.Containers)
                                 {
