@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Magic
             //chunks
             for (int i = 0; i < Main.rand.Next(5, 9); i++)
             {
-                Dust d = Dust.NewDustPerfect(projectile.Center, ModContent.DustType<AstralChunk>());
+                Dust d = Dust.NewDustPerfect(projectile.Center, ModContent.DustType<AstralChunkDust>());
             }
 
             Main.PlaySound(SoundID.Item27, projectile.Center);
@@ -124,7 +124,7 @@ namespace CalamityMod.Projectiles.Magic
             //Astral chunk dust
             if (Main.rand.NextBool(30))
             {
-                Dust dust = Dust.NewDustPerfect(projectile.Center, ModContent.DustType<AstralChunk>());
+                Dust dust = Dust.NewDustPerfect(projectile.Center, ModContent.DustType<AstralChunkDust>());
                 dust.velocity *= 0.3f;
             }
         }

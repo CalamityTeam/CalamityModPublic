@@ -6,6 +6,7 @@ using System.IO;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Accessories;
@@ -738,8 +739,8 @@ namespace CalamityMod.NPCs
                 DropHelper.DropItem(npc, ModContent.ItemType<TwistingNether>(), true, 2, 3);
 
                 // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.Cosmilamp>(), 3);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Items.CosmicKunai>(), 3);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Cosmilamp>(), 3);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<CosmicKunai>(), 3);
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<SignusTrophy>(), 10);

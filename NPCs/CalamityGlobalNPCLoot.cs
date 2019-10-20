@@ -21,6 +21,7 @@ using CalamityMod.Items.Pets;
 using CalamityMod.Items.DifficultyItems;
 using CalamityMod.Items.PermanentBoosters;
 using CalamityMod.Projectiles.Boss;
+using CalamityMod.Tiles.Ores;
 
 namespace CalamityMod.NPCs
 {
