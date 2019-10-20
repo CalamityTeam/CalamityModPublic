@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Placeables.FurnitureBotanic
             item.useStyle = 1;
             item.value = 0;
             item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles.BotanicLantern>();
+            item.createTile = ModContent.TileType<Tiles.FurnitureBotanic.BotanicLantern>();
         }
 
         public override void AddRecipes()
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Placeables.FurnitureBotanic
             recipe.AddIngredient(ModContent.ItemType<UelibloomBrick>(), 6);
             recipe.AddIngredient(ItemID.JungleSpores);
             recipe.SetResult(this, 1);
-            recipe.AddTile(ModContent.TileType<BotanicPlanter>());
+            recipe.AddTile(ModContent.TileType<Tiles.FurnitureBotanic.BotanicPlanter>());
             recipe.AddRecipe();
         }
     }

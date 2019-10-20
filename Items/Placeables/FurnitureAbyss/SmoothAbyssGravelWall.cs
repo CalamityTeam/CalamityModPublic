@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAbyss
             item.useTime = 7;
             item.useStyle = 1;
             item.consumable = true;
-            item.createWall = ModContent.WallType<Walls.SmoothAbyssGravelWall>();
+            item.createWall = ModContent.WallType<WallTiles.SmoothAbyssGravelWall>();
         }
 
         public override void AddRecipes()

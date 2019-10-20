@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAncient
             item.rare = 3;
             item.consumable = true;
             item.value = 0;
-            item.createTile = ModContent.TileType<Tiles.AncientLantern>();
+            item.createTile = ModContent.TileType<Tiles.FurnitureAncient.AncientLantern>();
         }
 
         public override void AddRecipes()
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAncient
             recipe.AddIngredient(ModContent.ItemType<BrimstoneSlag>(), 6);
             recipe.AddIngredient(ItemID.Torch);
             recipe.SetResult(this, 1);
-            recipe.AddTile(ModContent.TileType<AncientAltar>());
+            recipe.AddTile(ModContent.TileType<Tiles.FurnitureAncient.AncientAltar>());
             recipe.AddRecipe();
         }
     }

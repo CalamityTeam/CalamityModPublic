@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Placeables.FurnitureEutrophic
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles.SmoothNavystone>();
+            item.createTile = ModContent.TileType<Tiles.FurnitureEutrophic.SmoothNavystone>();
         }
 
         public override void AddRecipes()

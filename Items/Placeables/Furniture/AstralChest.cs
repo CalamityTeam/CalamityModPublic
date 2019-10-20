@@ -1,3 +1,4 @@
+using CalamityMod.Tiles.Astral;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.Furniture
 {

@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Placeables.FurnitureProfaned
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles.ProfanedPiano>();
+            item.createTile = ModContent.TileType<Tiles.FurnitureProfaned.ProfanedPiano>();
         }
 
         public override void AddRecipes()
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Placeables.FurnitureProfaned
             recipe.AddIngredient(ModContent.ItemType<ProfanedRock>(), 15);
             recipe.AddIngredient(ItemID.Book);
             recipe.SetResult(this, 1);
-            recipe.AddTile(ModContent.TileType<ProfanedBasin>());
+            recipe.AddTile(ModContent.TileType<Tiles.FurnitureProfaned.ProfanedBasin>());
             recipe.AddRecipe();
         }
     }

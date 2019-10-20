@@ -1,3 +1,4 @@
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureAbyss
@@ -20,7 +21,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAbyss
             item.useStyle = 1;
             item.consumable = true;
             item.value = 0;
-            item.createTile = ModContent.TileType<Tiles.AbyssSofa>();
+            item.createTile = ModContent.TileType<Tiles.FurnitureAbyss.AbyssSofa>();
         }
 
         public override void AddRecipes()

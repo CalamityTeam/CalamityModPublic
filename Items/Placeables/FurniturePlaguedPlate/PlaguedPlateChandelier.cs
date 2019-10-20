@@ -1,3 +1,4 @@
+using CalamityMod.Items.Materials;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurniturePlaguedPlate
@@ -19,7 +20,7 @@ namespace CalamityMod.Items.Placeables.FurniturePlaguedPlate
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles.PlaguedPlateChandelier>();
+            item.createTile = ModContent.TileType<Tiles.FurniturePlaguedPlate.PlaguedPlateChandelier>();
         }
 
         public override void AddRecipes()
@@ -30,7 +31,7 @@ namespace CalamityMod.Items.Placeables.FurniturePlaguedPlate
             recipe.AddIngredient(ItemID.Wire, 4);
             recipe.AddIngredient(ItemID.Chain);
             recipe.SetResult(this, 1);
-            recipe.AddTile(ModContent.TileType<PlagueInfuser>());
+            recipe.AddTile(ModContent.TileType<Tiles.FurniturePlaguedPlate.PlagueInfuser>());
             recipe.AddRecipe();
         }
     }

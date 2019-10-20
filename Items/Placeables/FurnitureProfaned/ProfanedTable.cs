@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Placeables.FurnitureProfaned
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles.ProfanedTable>();
+            item.createTile = ModContent.TileType<Tiles.FurnitureProfaned.ProfanedTable>();
         }
 
         public override void AddRecipes()
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Placeables.FurnitureProfaned
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<ProfanedRock>(), 8);
             recipe.SetResult(this, 1);
-            recipe.AddTile(ModContent.TileType<ProfanedBasin>());
+            recipe.AddTile(ModContent.TileType<Tiles.FurnitureProfaned.ProfanedBasin>());
             recipe.AddRecipe();
         }
     }

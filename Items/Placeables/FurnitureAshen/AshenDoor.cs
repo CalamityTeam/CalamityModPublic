@@ -1,3 +1,4 @@
+using CalamityMod.Tiles.FurnitureAshen;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureAshen
 {
@@ -28,7 +29,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAshen
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<SmoothBrimstoneSlag>(), 6);
             recipe.SetResult(this, 1);
-            recipe.AddTile(ModContent.TileType<AshenAltar>());
+            recipe.AddTile(ModContent.TileType<Tiles.FurnitureAshen.AshenAltar>());
             recipe.AddRecipe();
         }
     }

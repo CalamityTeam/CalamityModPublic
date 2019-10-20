@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Placeables.FurnitureEutrophic
             item.useTime = 7;
             item.useStyle = 1;
             item.consumable = true;
-            item.createWall = ModContent.WallType<Walls.SmoothNavystoneWall>();
+            item.createWall = ModContent.WallType<WallTiles.SmoothNavystoneWall>();
         }
 
         public override void AddRecipes()

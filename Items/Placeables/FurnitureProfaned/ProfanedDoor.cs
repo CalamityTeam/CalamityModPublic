@@ -1,3 +1,4 @@
+using CalamityMod.Tiles.FurnitureProfaned;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureProfaned
 {
@@ -26,7 +27,7 @@ namespace CalamityMod.Items.Placeables.FurnitureProfaned
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<ProfanedRock>(), 6);
             recipe.SetResult(this, 1);
-            recipe.AddTile(ModContent.TileType<ProfanedBasin>());
+            recipe.AddTile(ModContent.TileType<Tiles.FurnitureProfaned.ProfanedBasin>());
             recipe.AddRecipe();
         }
     }

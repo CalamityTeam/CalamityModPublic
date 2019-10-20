@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using CalamityMod.Buffs.StatBuffs;
+using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.LoreItems
 {

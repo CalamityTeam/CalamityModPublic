@@ -1,3 +1,4 @@
+using CalamityMod.Items.Placeables.Ores;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureAncient
@@ -22,7 +23,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAncient
             item.rare = 3;
             item.consumable = true;
             item.value = 0;
-            item.createTile = ModContent.TileType<Tiles.AncientAltar>();
+            item.createTile = ModContent.TileType<Tiles.FurnitureAncient.AncientAltar>();
         }
 
         public override void AddRecipes()

@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Placeables.FurniturePlaguedPlate
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles.PlaguedPlatePlatform>();
+            item.createTile = ModContent.TileType<Tiles.FurniturePlaguedPlate.PlaguedPlatePlatform>();
         }
 
         public override void AddRecipes()
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Placeables.FurniturePlaguedPlate
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<PlaguedPlate>());
             recipe.SetResult(this, 2);
-            recipe.AddTile(ModContent.TileType<PlagueInfuser>());
+            recipe.AddTile(ModContent.TileType<Tiles.FurniturePlaguedPlate.PlagueInfuser>());
             recipe.AddRecipe();
         }
     }

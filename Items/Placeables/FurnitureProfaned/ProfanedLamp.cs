@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Placeables.FurnitureProfaned
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles.ProfanedLamp>();
+            item.createTile = ModContent.TileType<Tiles.FurnitureProfaned.ProfanedLamp>();
         }
 
         public override void AddRecipes()
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Placeables.FurnitureProfaned
             recipe.AddIngredient(ItemID.Torch);
             recipe.AddIngredient(ModContent.ItemType<ProfanedRock>(), 3);
             recipe.SetResult(this, 1);
-            recipe.AddTile(ModContent.TileType<ProfanedBasin>());
+            recipe.AddTile(ModContent.TileType<Tiles.FurnitureProfaned.ProfanedBasin>());
             recipe.AddRecipe();
         }
     }

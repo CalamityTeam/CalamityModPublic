@@ -1,4 +1,5 @@
-﻿using Terraria.ID;
+﻿using CalamityMod.Items.Materials;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureAshen
 {
@@ -20,7 +21,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAshen
             item.useStyle = 1;
             item.rare = 3;
             item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles.AshenSlab>();
+            item.createTile = ModContent.TileType<Tiles.FurnitureAshen.AshenSlab>();
         }
 
         public override void AddRecipes()
@@ -29,7 +30,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAshen
             recipe.AddIngredient(ModContent.ItemType<SmoothBrimstoneSlag>(), 4);
             recipe.AddIngredient(ModContent.ItemType<UnholyCore>(), 1);
             recipe.SetResult(this, 5);
-            recipe.AddTile(ModContent.TileType<AshenAltar>());
+            recipe.AddTile(ModContent.TileType<Tiles.FurnitureAshen.AshenAltar>());
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<AshenSlabWall>(), 4);

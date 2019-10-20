@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Placeables.FurnitureBotanic
             item.useStyle = 1;
             item.value = 0;
             item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles.BotanicPiano>();
+            item.createTile = ModContent.TileType<Tiles.FurnitureBotanic.BotanicPiano>();
         }
 
         public override void AddRecipes()
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Placeables.FurnitureBotanic
             recipe.AddIngredient(ItemID.Bone, 4);
             recipe.AddIngredient(ItemID.Book);
             recipe.SetResult(this, 1);
-            recipe.AddTile(ModContent.TileType<BotanicPlanter>());
+            recipe.AddTile(ModContent.TileType<Tiles.FurnitureBotanic.BotanicPlanter>());
             recipe.AddRecipe();
         }
     }

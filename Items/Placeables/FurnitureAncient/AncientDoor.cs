@@ -1,3 +1,4 @@
+using CalamityMod.Tiles.FurnitureAncient;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureAncient
 {
@@ -28,7 +29,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAncient
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<BrimstoneSlag>(), 6);
             recipe.SetResult(this, 1);
-            recipe.AddTile(ModContent.TileType<AncientAltar>());
+            recipe.AddTile(ModContent.TileType<Tiles.FurnitureAncient.AncientAltar>());
             recipe.AddRecipe();
         }
     }

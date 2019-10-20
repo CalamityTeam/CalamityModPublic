@@ -1,3 +1,4 @@
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureCosmilite
 {
@@ -18,7 +19,7 @@ namespace CalamityMod.Items.Placeables.FurnitureCosmilite
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles.CosmilitePlatform>();
+            item.createTile = ModContent.TileType<Tiles.FurnitureCosmilite.CosmilitePlatform>();
         }
 
         public override void AddRecipes()

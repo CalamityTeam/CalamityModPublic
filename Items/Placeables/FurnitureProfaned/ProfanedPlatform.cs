@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Placeables.FurnitureProfaned
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles.ProfanedPlatform>();
+            item.createTile = ModContent.TileType<Tiles.FurnitureProfaned.ProfanedPlatform>();
         }
 
         public override void AddRecipes()

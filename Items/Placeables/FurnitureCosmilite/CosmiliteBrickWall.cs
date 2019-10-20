@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Placeables.FurnitureCosmilite
             item.useTime = 7;
             item.useStyle = 1;
             item.consumable = true;
-            item.createWall = ModContent.WallType<Walls.CosmiliteBrickWall>();
+            item.createWall = ModContent.WallType<WallTiles.CosmiliteBrickWall>();
         }
 
         public override void AddRecipes()

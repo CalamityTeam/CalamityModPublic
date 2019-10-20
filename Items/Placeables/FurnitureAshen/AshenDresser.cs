@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAshen
             item.rare = 3;
             item.consumable = true;
             item.value = 0;
-            item.createTile = ModContent.TileType<Tiles.AshenDresser>();
+            item.createTile = ModContent.TileType<Tiles.FurnitureAshen.AshenDresser>();
         }
 
         public override void AddRecipes()
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAshen
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<SmoothBrimstoneSlag>(), 16);
             recipe.SetResult(this, 1);
-            recipe.AddTile(ModContent.TileType<AshenAltar>());
+            recipe.AddTile(ModContent.TileType<Tiles.FurnitureAshen.AshenAltar>());
             recipe.AddRecipe();
         }
     }

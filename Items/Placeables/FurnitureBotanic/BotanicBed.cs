@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Placeables.FurnitureBotanic
             item.useStyle = 1;
             item.value = 0;
             item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles.BotanicBed>();
+            item.createTile = ModContent.TileType<Tiles.FurnitureBotanic.BotanicBed>();
         }
 
         public override void AddRecipes()
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Placeables.FurnitureBotanic
             recipe.AddIngredient(ModContent.ItemType<UelibloomBrick>(), 15);
             recipe.AddIngredient(ItemID.Vine, 5);
             recipe.SetResult(this, 1);
-            recipe.AddTile(ModContent.TileType<BotanicPlanter>());
+            recipe.AddTile(ModContent.TileType<Tiles.FurnitureBotanic.BotanicPlanter>());
             recipe.AddRecipe();
         }
     }

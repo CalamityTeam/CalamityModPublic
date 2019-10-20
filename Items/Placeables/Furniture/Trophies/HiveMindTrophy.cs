@@ -1,3 +1,4 @@
+using CalamityMod.Tiles.Furniture;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.Furniture.Trophies
 {

@@ -1,3 +1,4 @@
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureEutrophic
 {
@@ -18,7 +19,7 @@ namespace CalamityMod.Items.Placeables.FurnitureEutrophic
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles.EutrophicDresser>();
+            item.createTile = ModContent.TileType<Tiles.FurnitureEutrophic.EutrophicDresser>();
         }
 
         public override void AddRecipes()

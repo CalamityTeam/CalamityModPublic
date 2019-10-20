@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
+using CalamityMod.Buffs.Mounts;
 
 namespace CalamityMod.Items.Mounts
 {

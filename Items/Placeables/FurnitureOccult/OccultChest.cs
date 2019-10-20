@@ -1,3 +1,5 @@
+using CalamityMod.Items.Placeables.FurnitureCosmilite;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureOccult
 {
@@ -19,7 +21,7 @@ namespace CalamityMod.Items.Placeables.FurnitureOccult
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles.OccultChest>();
+            item.createTile = ModContent.TileType<Tiles.FurnitureOccult.OccultChest>();
         }
 
         public override void AddRecipes()

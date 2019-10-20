@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Placeables.FurnitureBotanic
             item.useStyle = 1;
             item.value = 0;
             item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles.BotanicPlanter>();
+            item.createTile = ModContent.TileType<Tiles.FurnitureBotanic.BotanicPlanter>();
         }
 
         public override void AddRecipes()

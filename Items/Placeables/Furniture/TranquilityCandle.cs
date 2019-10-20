@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Items.Potions;
 
 namespace CalamityMod.Items.Placeables.Furniture
 {
@@ -24,7 +25,7 @@ namespace CalamityMod.Items.Placeables.Furniture
             item.useStyle = 1;
             item.consumable = true;
             item.value = 500;
-            item.createTile = ModContent.TileType<Tiles.TranquilityCandle>();
+            item.createTile = ModContent.TileType<Tiles.Furniture.TranquilityCandle>();
         }
 
         public override void HoldItem(Player player)

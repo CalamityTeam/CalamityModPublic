@@ -3,6 +3,16 @@ using CalamityMod.World;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Items.Materials;
+using CalamityMod.Items.Potions;
+using CalamityMod.Items.Placeables.Ores;
+using CalamityMod.Items.Placeables;
+using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Items.Weapons.Magic;
+using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Tiles.Astral;
 
 namespace CalamityMod.Items.Fishing
 {
@@ -22,7 +32,7 @@ namespace CalamityMod.Items.Fishing
             item.height = 32;
             item.rare = 2;
             item.value = Item.sellPrice(gold: 1);
-            item.createTile = ModContent.TileType<Tiles.AstralCrate>();
+            item.createTile = ModContent.TileType<AstralCrateTile>();
             item.useTurn = true;
             item.autoReuse = true;
             item.useAnimation = 15;

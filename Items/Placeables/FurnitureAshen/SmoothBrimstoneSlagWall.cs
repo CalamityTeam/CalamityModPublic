@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAshen
             item.useStyle = 1;
             item.rare = 3;
             item.consumable = true;
-            item.createWall = ModContent.WallType<Walls.SmoothBrimstoneSlagWall>();
+            item.createWall = ModContent.WallType<WallTiles.SmoothBrimstoneSlagWall>();
         }
 
         public override void AddRecipes()

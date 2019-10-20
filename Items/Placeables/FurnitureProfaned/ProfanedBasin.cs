@@ -1,3 +1,4 @@
+using CalamityMod.Items.Materials;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureProfaned
 {
@@ -20,7 +21,7 @@ namespace CalamityMod.Items.Placeables.FurnitureProfaned
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles.ProfanedBasin>();
+            item.createTile = ModContent.TileType<Tiles.FurnitureProfaned.ProfanedBasin>();
         }
 
         public override void AddRecipes()

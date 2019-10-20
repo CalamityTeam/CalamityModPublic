@@ -1,3 +1,4 @@
+using CalamityMod.Items.Placeables.FurnitureVoid;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
@@ -20,7 +21,7 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles.VoidCondenser>();
+            item.createTile = ModContent.TileType<Tiles.Furniture.CraftingStations.VoidCondenser>();
         }
 
         public override void AddRecipes()

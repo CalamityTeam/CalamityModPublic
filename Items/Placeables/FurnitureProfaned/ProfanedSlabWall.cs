@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Placeables.FurnitureProfaned
             item.useTime = 7;
             item.useStyle = 1;
             item.consumable = true;
-            item.createWall = ModContent.WallType<Walls.ProfanedSlabWall>();
+            item.createWall = ModContent.WallType<WallTiles.ProfanedSlabWall>();
         }
 
         public override void AddRecipes()

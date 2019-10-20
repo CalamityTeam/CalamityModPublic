@@ -1,6 +1,9 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Pets;
+using CalamityMod.Buffs.Pets;
+
 namespace CalamityMod.Items.Pets
 {
     public class StrangeOrb : ModItem

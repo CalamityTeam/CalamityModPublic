@@ -1,3 +1,4 @@
+using CalamityMod.Items.Materials;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
@@ -23,7 +24,7 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
             item.consumable = true;
             item.value = 5000000;
             item.rare = 10;
-            item.createTile = ModContent.TileType<Tiles.DraedonsForge>();
+            item.createTile = ModContent.TileType<Tiles.Furniture.CraftingStations.DraedonsForge>();
             item.Calamity().postMoonLordRarity = 20;
         }
 

@@ -1,3 +1,5 @@
+using CalamityMod.Items.Materials;
+using CalamityMod.Tiles.FurniturePlaguedPlate;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurniturePlaguedPlate
 {
@@ -27,7 +29,7 @@ namespace CalamityMod.Items.Placeables.FurniturePlaguedPlate
             recipe.AddIngredient(ModContent.ItemType<PlaguedPlate>(), 6);
             recipe.AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 2);
             recipe.SetResult(this, 1);
-            recipe.AddTile(ModContent.TileType<PlagueInfuser>());
+            recipe.AddTile(ModContent.TileType<Tiles.FurniturePlaguedPlate.PlagueInfuser>());
             recipe.AddRecipe();
         }
     }

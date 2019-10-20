@@ -1,6 +1,8 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Pets;
+using CalamityMod.Buffs.Pets;
 
 namespace CalamityMod.Items.Pets
 {
@@ -16,7 +18,7 @@ namespace CalamityMod.Items.Pets
         {
             item.CloneDefaults(ItemID.ZephyrFish);
             item.shoot = ModContent.ProjectileType<LeviPet>();
-            item.buffType = ModContent.BuffType<Buffs.Levi>();
+            item.buffType = ModContent.BuffType<LeviBuff>();
             item.rare = 10;
         }
 
