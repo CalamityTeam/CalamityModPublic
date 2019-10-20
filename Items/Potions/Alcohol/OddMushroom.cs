@@ -1,6 +1,8 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Buffs.Alcohol;
+
 namespace CalamityMod.Items.Potions.Alcohol
 {
     public class OddMushroom : ModItem

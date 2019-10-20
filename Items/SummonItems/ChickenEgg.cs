@@ -3,6 +3,8 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using CalamityMod.NPCs;
+using CalamityMod.Items.Materials;
+
 namespace CalamityMod.Items.SummonItems
 {
     public class ChickenEgg : ModItem

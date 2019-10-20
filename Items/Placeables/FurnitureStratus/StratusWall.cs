@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Placeables.FurnitureStratus
             item.useTime = 7;
             item.useStyle = 1;
             item.consumable = true;
-            item.createWall = ModContent.WallType<Walls.StratusWall>();
+            item.createWall = ModContent.WallType<WallTiles.StratusWall>();
         }
 
         public override void AddRecipes()

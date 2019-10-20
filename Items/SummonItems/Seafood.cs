@@ -3,6 +3,8 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using CalamityMod.NPCs;
+using CalamityMod.Items.Placeables;
+
 namespace CalamityMod.Items.SummonItems
 {
     public class Seafood : ModItem

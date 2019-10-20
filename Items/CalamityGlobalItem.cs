@@ -11,6 +11,23 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using CalamityMod.NPCs;
 using Terraria.ModLoader.IO;
+using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Projectiles.Melee;
+using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Projectiles.Ranged;
+using CalamityMod.Projectiles.Magic;
+using CalamityMod.Projectiles.Summon;
+using CalamityMod.Projectiles.Typeless;
+using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Materials;
+using CalamityMod.Items.Weapons.Magic;
+using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Items.DifficultyItems;
+using CalamityMod.Items.Potions;
+using CalamityMod.Buffs.Potions;
+using CalamityMod.Items.PermanentBoosters;
 
 namespace CalamityMod.Items
 {

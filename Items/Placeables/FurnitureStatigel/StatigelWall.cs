@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Placeables.FurnitureStatigel
             item.useTime = 7;
             item.useStyle = 1;
             item.consumable = true;
-            item.createWall = ModContent.WallType<Walls.StatigelWall>();
+            item.createWall = ModContent.WallType<WallTiles.StatigelWall>();
         }
 
         public override void AddRecipes()

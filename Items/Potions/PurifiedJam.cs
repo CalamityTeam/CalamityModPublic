@@ -2,6 +2,8 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Buffs.Potions;
+
 namespace CalamityMod.Items.Potions
 {
     public class PurifiedJam : ModItem

@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Placeables.Ores
 
         public override void SetDefaults()
         {
-            item.createTile = ModContent.TileType<Tiles.CryonicOre>();
+            item.createTile = ModContent.TileType<Tiles.Ores.CryonicOre>();
             item.useStyle = 1;
             item.useTurn = true;
             item.useAnimation = 15;

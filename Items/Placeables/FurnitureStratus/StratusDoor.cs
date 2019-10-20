@@ -1,3 +1,4 @@
+using CalamityMod.Tiles.FurnitureStratus;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureStratus
 {

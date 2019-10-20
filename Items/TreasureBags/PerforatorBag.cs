@@ -2,6 +2,16 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using CalamityMod.NPCs;
+using CalamityMod.Items.Materials;
+using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Items.Weapons.Magic;
+using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Pets;
+using CalamityMod.Items.Armor.Vanity;
+
 namespace CalamityMod.Items.TreasureBags
 {
     public class PerforatorBag : ModItem

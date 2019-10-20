@@ -1,3 +1,4 @@
+using CalamityMod.Projectiles.Melee;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -30,7 +31,7 @@ namespace CalamityMod.Items.Tools
             item.rare = 2;
             item.UseSound = SoundID.Item23;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Projectiles.MarniteObliterator>();
+            item.shoot = ModContent.ProjectileType<MarniteObliteratorProj>();
             item.shootSpeed = 40f;
         }
 

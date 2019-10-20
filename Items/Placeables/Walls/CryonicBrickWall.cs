@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Placeables.Walls
             item.useTime = 7;
             item.useStyle = 1;
             item.consumable = true;
-            item.createWall = ModContent.WallType<Walls.CryonicBrickWall>();
+            item.createWall = ModContent.WallType<WallTiles.CryonicBrickWall>();
         }
 
         public override void AddRecipes()

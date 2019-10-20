@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Placeables.Walls
             item.useTime = 7;
             item.useStyle = 1;
             item.consumable = true;
-            item.createWall = ModContent.WallType<Walls.CinderplateWall>();
+            item.createWall = ModContent.WallType<WallTiles.CinderplateWall>();
         }
 
         public override void AddRecipes()

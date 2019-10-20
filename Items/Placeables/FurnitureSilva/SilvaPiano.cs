@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Placeables.FurnitureSilva
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles.SilvaPiano>();
+            item.createTile = ModContent.TileType<Tiles.FurnitureSilva.SilvaPiano>();
         }
 
         public override void AddRecipes()
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Placeables.FurnitureSilva
             recipe.AddIngredient(ItemID.Bone, 4);
             recipe.AddIngredient(ItemID.Book);
             recipe.SetResult(this);
-            recipe.AddTile(ModContent.TileType<SilvaBasin>());
+            recipe.AddTile(ModContent.TileType<Tiles.FurnitureSilva.SilvaBasin>());
             recipe.AddRecipe();
         }
     }

@@ -26,7 +26,7 @@ This stuff is pretty strong but I'm sure you can handle it");
             item.useStyle = 2;
             item.UseSound = SoundID.Item3;
             item.consumable = true;
-            item.buffType = ModContent.BuffType<Buffs.Moonshine>();
+            item.buffType = ModContent.BuffType<Buffs.Alcohol.Moonshine>();
             item.buffTime = 18000; //5 minutes
             item.value = Item.buyPrice(0, 3, 30, 0);
         }

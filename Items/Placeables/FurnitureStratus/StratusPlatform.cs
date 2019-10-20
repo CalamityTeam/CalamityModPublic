@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Placeables.FurnitureStratus
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles.StratusPlatform>();
+            item.createTile = ModContent.TileType<Tiles.FurnitureStratus.StratusPlatform>();
         }
 
         public override void AddRecipes()

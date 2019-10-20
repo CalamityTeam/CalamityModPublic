@@ -1,3 +1,4 @@
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureSilva
@@ -21,7 +22,7 @@ namespace CalamityMod.Items.Placeables.FurnitureSilva
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles.SilvaBasin>();
+            item.createTile = ModContent.TileType<Tiles.FurnitureSilva.SilvaBasin>();
         }
 
         public override void AddRecipes()

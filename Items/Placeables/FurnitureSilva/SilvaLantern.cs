@@ -1,3 +1,4 @@
+using CalamityMod.Items.Materials;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureSilva
 {
@@ -18,7 +19,7 @@ namespace CalamityMod.Items.Placeables.FurnitureSilva
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles.SilvaLantern>();
+            item.createTile = ModContent.TileType<Tiles.FurnitureSilva.SilvaLantern>();
         }
 
         public override void AddRecipes()
@@ -27,7 +28,7 @@ namespace CalamityMod.Items.Placeables.FurnitureSilva
             recipe.AddIngredient(ModContent.ItemType<SilvaCrystal>(), 6);
             recipe.AddIngredient(ModContent.ItemType<EffulgentFeather>());
             recipe.SetResult(this);
-            recipe.AddTile(ModContent.TileType<SilvaBasin>());
+            recipe.AddTile(ModContent.TileType<Tiles.FurnitureSilva.SilvaBasin>());
             recipe.AddRecipe();
         }
     }

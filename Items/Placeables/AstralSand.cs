@@ -1,4 +1,5 @@
-﻿using Terraria.ModLoader;
+﻿using CalamityMod.Projectiles.Ranged;
+using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables
 {
     public class AstralSand : ModItem
@@ -10,7 +11,7 @@ namespace CalamityMod.Items.Placeables
 
         public override void SetDefaults()
         {
-            item.createTile = ModContent.TileType<Tiles.AstralSand>();
+            item.createTile = ModContent.TileType<Tiles.AstralDesert.AstralSand>();
             item.useStyle = 1;
             item.useTurn = true;
             item.useAnimation = 15;
