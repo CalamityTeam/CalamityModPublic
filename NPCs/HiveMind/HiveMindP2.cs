@@ -20,7 +20,7 @@ using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Projectiles.Boss;
-using CalamityMod.Tiles.Ore;
+using CalamityMod.Tiles.Ores;
 /* states:
  * 0 = slow drift
  * 1 = reelback and teleport after spawn enemy
