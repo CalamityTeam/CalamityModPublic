@@ -4,6 +4,8 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Items.Weapons.Melee;
 namespace CalamityMod.Projectiles.Melee
 {
     public class DragonPowFlail : ModProjectile

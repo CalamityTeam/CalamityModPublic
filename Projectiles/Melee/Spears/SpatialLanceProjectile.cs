@@ -2,6 +2,8 @@
 using System;
 using Terraria;
 using Terraria.ModLoader;
+using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatDebuffs;
 namespace CalamityMod.Projectiles.Melee
 {
     public class SpatialLanceProjectile : ModProjectile

@@ -3,6 +3,7 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.Enums;
+using CalamityMod.Buffs.DamageOverTime;
 namespace CalamityMod.Projectiles.Melee
 {
     public class TyphonsGreedStaff : ModProjectile
