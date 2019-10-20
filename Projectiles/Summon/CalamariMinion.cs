@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.Summon
             bool flag64 = projectile.type == ModContent.ProjectileType<CalamariMinion>();
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            player.AddBuff(ModContent.BuffType<Buffs.Calamari>(), 3600);
+            player.AddBuff(ModContent.BuffType<Calamari>(), 3600);
             if (flag64)
             {
                 if (player.dead)

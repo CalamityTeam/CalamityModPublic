@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-    public class Judgement : ModProjectile
+    public class JudgementProj : ModProjectile
     {
         int whiteLightTimer = 5;
 

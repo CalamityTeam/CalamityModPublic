@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables;
 namespace CalamityMod.Items.Tools
 {
     public class AstralHamaxe : ModItem

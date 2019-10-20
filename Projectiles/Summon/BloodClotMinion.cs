@@ -77,7 +77,7 @@ namespace CalamityMod.Projectiles.Summon
             bool flag64 = projectile.type == ModContent.ProjectileType<BloodClotMinion>();
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            player.AddBuff(ModContent.BuffType<Buffs.BloodClot>(), 3600);
+            player.AddBuff(ModContent.BuffType<BloodClot>(), 3600);
             if (flag64)
             {
                 if (player.dead)

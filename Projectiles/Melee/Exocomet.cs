@@ -5,6 +5,7 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Projectiles.Healing;
 namespace CalamityMod.Projectiles.Melee
 {
     public class Exocomet : ModProjectile

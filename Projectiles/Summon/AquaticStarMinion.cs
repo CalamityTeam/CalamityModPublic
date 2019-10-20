@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Summon
             bool flag64 = projectile.type == ModContent.ProjectileType<AquaticStarMinion>();
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            player.AddBuff(ModContent.BuffType<Buffs.AquaticStar>(), 3600);
+            player.AddBuff(ModContent.BuffType<AquaticStar>(), 3600);
             if (flag64)
             {
                 if (player.dead)
