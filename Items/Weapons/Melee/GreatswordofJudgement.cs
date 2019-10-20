@@ -1,7 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Items.Weapons.Magic;
+using CalamityMod.Items.Weapons.Melee;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
