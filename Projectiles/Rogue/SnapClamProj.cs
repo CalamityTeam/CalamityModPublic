@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using CalamityMod.Buffs.DamageOverTime;
 namespace CalamityMod.Projectiles.Rogue
 {
     public class SnapClamProj : ModProjectile

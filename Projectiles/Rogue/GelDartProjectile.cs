@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Items.Weapons.Rogue;
 namespace CalamityMod.Projectiles.Rogue
 {
     public class GelDartProjectile : ModProjectile

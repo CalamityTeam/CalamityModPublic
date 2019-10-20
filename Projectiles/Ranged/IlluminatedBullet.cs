@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Buffs.DamageOverTime;
 namespace CalamityMod.Projectiles.Ranged
 {
     public class IlluminatedBullet : ModProjectile

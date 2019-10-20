@@ -4,6 +4,7 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Buffs.StatDebuffs;
 namespace CalamityMod.Projectiles.Ranged
 {
     public class BallistaGreatArrow : ModProjectile

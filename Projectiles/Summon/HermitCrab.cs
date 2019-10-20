@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Buffs.Summon;
 namespace CalamityMod.Projectiles.Summon
 {
     public class HermitCrabMinion : ModProjectile

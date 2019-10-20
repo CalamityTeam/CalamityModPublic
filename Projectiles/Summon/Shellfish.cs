@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.Summon;
 namespace CalamityMod.Projectiles.Summon
 {
     public class Shellfish : ModProjectile

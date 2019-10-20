@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Typeless;
 
 namespace CalamityMod.Projectiles.Ranged
 {

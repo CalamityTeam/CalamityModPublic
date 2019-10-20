@@ -1,5 +1,6 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
+using CalamityMod.Buffs.StatDebuffs;
 namespace CalamityMod.Projectiles.Rogue
 {
     public class FossilShardThrown : ModProjectile

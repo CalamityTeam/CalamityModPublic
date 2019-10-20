@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
+using CalamityMod.Items.Weapons.Rogue;
 namespace CalamityMod.Projectiles.Rogue
 {
     public class ToothBallProjectile : ModProjectile

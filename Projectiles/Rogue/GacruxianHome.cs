@@ -3,6 +3,7 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Dusts;
+using CalamityMod.Projectiles.Melee;
 
 namespace CalamityMod.Projectiles.Rogue
 {

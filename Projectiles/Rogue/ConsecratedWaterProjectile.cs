@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.World.Generation;
+using CalamityMod.Items.Weapons.Rogue;
 
 namespace CalamityMod.Projectiles.Rogue
 {
