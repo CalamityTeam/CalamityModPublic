@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
             item.rare = 3;
             item.value = 0;
             item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles..Furniture.CraftingStations.AshenAltar>();
+            item.createTile = ModContent.TileType<Tiles.Furniture.CraftingStations.AshenAltar>();
         }
 
         public override void AddRecipes()

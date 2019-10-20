@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles..Furniture.CraftingStations.PlagueInfuser>();
+            item.createTile = ModContent.TileType<Tiles.Furniture.CraftingStations.PlagueInfuser>();
         }
 
         public override void AddRecipes()
