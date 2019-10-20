@@ -1,10 +1,9 @@
-﻿
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Dusts
 {
-    public class AstralChunk : ModDust
+    public class AstralChunkDust : ModDust
     {
         public override void OnSpawn(Dust dust)
         {
