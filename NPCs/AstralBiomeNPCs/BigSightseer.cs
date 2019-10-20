@@ -6,6 +6,10 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Items.Materials;
+
 namespace CalamityMod.NPCs
 {
     public class BigSightseer : ModNPC

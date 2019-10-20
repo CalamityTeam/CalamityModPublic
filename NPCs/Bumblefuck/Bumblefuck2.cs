@@ -2,6 +2,8 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Buffs.StatDebuffs;
+
 namespace CalamityMod.NPCs
 {
     public class Bumblefuck2 : ModNPC

@@ -1,4 +1,5 @@
 using CalamityMod.Dusts;
+using CalamityMod.Items.Fishing;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

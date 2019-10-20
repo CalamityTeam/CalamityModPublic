@@ -5,6 +5,11 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ModLoader;
+using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Items.Materials;
+using CalamityMod.Items.Weapons.Summon;
+
 namespace CalamityMod.NPCs
 {
     public class Hive : ModNPC

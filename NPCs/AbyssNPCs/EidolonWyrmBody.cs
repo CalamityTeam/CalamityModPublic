@@ -3,6 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Buffs.DamageOverTime;
+
 namespace CalamityMod.NPCs
 {
     public class EidolonWyrmBody : ModNPC

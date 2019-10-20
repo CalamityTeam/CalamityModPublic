@@ -7,6 +7,11 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
 using Terraria.ID;
+using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Items.Materials;
+using CalamityMod.Items.Weapons.Ranged;
+
 namespace CalamityMod.NPCs
 {
     public class Nova : ModNPC

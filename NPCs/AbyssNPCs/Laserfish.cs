@@ -6,6 +6,11 @@ using System.IO;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Items.Materials;
+
 namespace CalamityMod.NPCs
 {
     public class Laserfish : ModNPC

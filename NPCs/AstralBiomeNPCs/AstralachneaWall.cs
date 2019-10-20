@@ -6,6 +6,11 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Items.Materials;
+using CalamityMod.Items.Weapons.Magic;
+
 namespace CalamityMod.NPCs
 {
     public class AstralachneaWall : ModNPC

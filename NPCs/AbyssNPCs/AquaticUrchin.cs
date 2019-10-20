@@ -1,4 +1,6 @@
-﻿using CalamityMod.World;
+﻿using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;

@@ -5,6 +5,13 @@ using System.IO;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Melee;
+using CalamityMod.Projectiles.Summon;
+using CalamityMod.Projectiles.Magic;
+using CalamityMod.Projectiles.Ranged;
+using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Buffs.DamageOverTime;
+
 namespace CalamityMod.NPCs
 {
     public class AstrumDeusTail : ModNPC

@@ -5,6 +5,12 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Items.Materials;
+
 namespace CalamityMod.NPCs
 {
     public class BobbitWormHead : ModNPC
