@@ -12,7 +12,7 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.LoreItems;
-using CalamityMod.Projectiles.Bosses;
+using CalamityMod.Projectiles.Boss;
 namespace CalamityMod.NPCs
 {
     [AutoloadBossHead]

@@ -10,7 +10,7 @@ using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
-using CalamityMod.Projectiles.Bosses;
+using CalamityMod.Projectiles.Boss;
 namespace CalamityMod.NPCs
 {
     [AutoloadBossHead]

@@ -26,7 +26,7 @@ using CalamityMod.Items.SummonItems;
 using CalamityMod.Items.Ammo;
 using CalamityMod.Items.Placeables.Walls;
 using CalamityMod.Items.Pets;
-using CalamityMod.Projectiles.Bosses;
+using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;

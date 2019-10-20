@@ -18,7 +18,7 @@ using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Pets;
-using CalamityMod.Projectiles.Bosses;
+using CalamityMod.Projectiles.Boss;
 
 namespace CalamityMod.NPCs
 {
