@@ -1,4 +1,5 @@
 
+using CalamityMod.Tiles.Ores;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -22,7 +23,7 @@ namespace CalamityMod.Tiles.Crags
             soundType = 21;
             mineResist = 3f;
             minPick = 180;
-            drop = ModContent.ItemType<Items.BrimstoneSlag>();
+            drop = ModContent.ItemType<Items.Placeables.BrimstoneSlag>();
             AddMapEntry(new Color(53, 33, 56));
         }
 

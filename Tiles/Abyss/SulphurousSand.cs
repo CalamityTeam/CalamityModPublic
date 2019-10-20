@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Projectiles.Enemy;
 
 namespace CalamityMod.Tiles.Abyss
 {
@@ -18,7 +19,7 @@ namespace CalamityMod.Tiles.Abyss
             TileMerge.MergeAbyssTiles(Type);
 
             dustType = 32;
-            drop = ModContent.ItemType<Items.SulphurousSand>();
+            drop = ModContent.ItemType<Items.Placeables.SulphurousSand>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Sulphurous Sand");
             AddMapEntry(new Color(150, 100, 50), name);
@@ -124,7 +125,7 @@ namespace CalamityMod.Tiles.Abyss
                     if (Main.tile[i, tileLocationY].liquid == 255 && Main.tile[i, tileLocationY - 1].liquid == 255 &&
                         Main.tile[i, tileLocationY - 2].liquid == 255 && Main.netMode != 1)
                     {
-                        Projectile.NewProjectile((float)(i * 16 + 16), (float)(tileLocationY * 16 + 16), 0f, -0.1f, ModContent.ProjectileType<Projectiles.SulphuricAcidBubble>(), 0, 2f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile((float)(i * 16 + 16), (float)(tileLocationY * 16 + 16), 0f, -0.1f, ModContent.ProjectileType<SulphuricAcidBubble>(), 0, 2f, Main.myPlayer, 0f, 0f);
                     }
                     if (i < 250 || i > Main.maxTilesX - 250)
                     {

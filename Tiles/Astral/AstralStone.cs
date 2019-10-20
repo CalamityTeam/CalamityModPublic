@@ -20,7 +20,7 @@ namespace CalamityMod.Tiles.Astral
             TileMerge.MergeOreTiles(Type);
 
             dustType = ModContent.DustType<AstralBasic>();
-            drop = ModContent.ItemType<Items.AstralStone>();
+            drop = ModContent.ItemType<Items.Placeables.AstralStone>();
 
             soundType = 21;
 

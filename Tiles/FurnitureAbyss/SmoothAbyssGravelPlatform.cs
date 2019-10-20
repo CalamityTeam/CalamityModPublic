@@ -12,7 +12,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
             CalamityUtils.SetUpPlatform(Type);
             soundType = 21;
             AddMapEntry(new Color(191, 142, 111));
-            drop = ModContent.ItemType<Items.SmoothAbyssGravelPlatform>();
+            drop = ModContent.ItemType<Items.Placeables.FurnitureAbyss.SmoothAbyssGravelPlatform>();
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Platforms };
         }

@@ -11,7 +11,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
         {
             CalamityUtils.SetUpPlatform(Type, true);
             AddMapEntry(new Color(191, 142, 111));
-            drop = ModContent.ItemType<Items.AshenPlatform>();
+            drop = ModContent.ItemType<Items.Placeables.FurnitureAshen.AshenPlatform>();
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Platforms };
         }

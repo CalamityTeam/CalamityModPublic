@@ -16,7 +16,7 @@ namespace CalamityMod.Tiles.FurnitureAncient
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Dressers };
             dresser = "Ancient Dresser";
-            dresserDrop = ModContent.ItemType<Items.AncientDresser>();
+            dresserDrop = ModContent.ItemType<Items.Placeables.FurnitureAncient.AncientDresser>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)

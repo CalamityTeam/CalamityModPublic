@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.ObjectData;
+using CalamityMod.Dusts.Furniture;
 
 namespace CalamityMod.Tiles.Furniture.CraftingStations
 {
@@ -62,7 +63,7 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<Items.ProfanedBasin>());
+            Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<Items.Placeables.Furniture.CraftingStations.ProfanedBasin>());
         }
 
         public override void HitWire(int i, int j)

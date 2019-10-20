@@ -19,7 +19,7 @@ namespace CalamityMod.Tiles.AstralDesert
 
 
             dustType = 108;
-            drop = ModContent.ItemType<Items.HardenedAstralSand>();
+            drop = ModContent.ItemType<Items.Placeables.HardenedAstralSand>();
 
             AddMapEntry(new Color(45, 36, 63));
 

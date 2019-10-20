@@ -22,7 +22,7 @@ namespace CalamityMod.Tiles.Astral
             TileMerge.MergeTile(Type, TileID.LivingWood);
             TileMerge.MergeTile(Type, TileID.LivingMahogany);
 
-            drop = ModContent.ItemType<Items.AstralMonolith>();
+            drop = ModContent.ItemType<Items.Placeables.AstralMonolith>();
             AddMapEntry(new Color(45, 36, 63));
             animationFrameHeight = 270;
         }

@@ -19,7 +19,7 @@ namespace CalamityMod.Tiles.Abyss
             TileMerge.MergeAbyssTiles(Type);
 
             dustType = 2;
-            drop = ModContent.ItemType<Items.PlantyMush>();
+            drop = ModContent.ItemType<Items.Placeables.PlantyMush>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Planty Mush");
             AddMapEntry(new Color(0, 120, 0), name);

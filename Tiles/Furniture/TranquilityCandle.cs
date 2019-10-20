@@ -15,7 +15,7 @@ namespace CalamityMod.Tiles.Furniture
             Main.tileLavaDeath[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.StyleOnTable1x1);
             TileObjectData.addTile(Type);
-            drop = ModContent.ItemType<Items.TranquilityCandle>();
+            drop = ModContent.ItemType<Items.Placeables.Furniture.TranquilityCandle>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Tranquility Candle");
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
@@ -38,14 +38,14 @@ namespace CalamityMod.Tiles.Furniture
             Player player = Main.LocalPlayer;
             player.noThrow = 2;
             player.showItemIcon = true;
-            player.showItemIcon2 = ModContent.ItemType<Items.TranquilityCandle>();
+            player.showItemIcon2 = ModContent.ItemType<Items.Placeables.Furniture.TranquilityCandle>();
         }
 
         public override void NearbyEffects(int i, int j, bool closer)
         {
             Player player = Main.LocalPlayer;
             if (!player.dead && player.active)
-                player.AddBuff(ModContent.BuffType<Buffs.TranquilityCandle>(), 20);
+                player.AddBuff(ModContent.BuffType<Buffs.Placeables.TranquilityCandle>(), 20);
         }
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)

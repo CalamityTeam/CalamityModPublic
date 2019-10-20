@@ -46,7 +46,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 16, 16, ModContent.ItemType<Items.AbyssCandelabra>());
+            Item.NewItem(i * 16, j * 16, 16, 16, ModContent.ItemType<Items.Placeables.FurnitureAbyss.AbyssCandelabra>());
         }
 
         public override void HitWire(int i, int j)

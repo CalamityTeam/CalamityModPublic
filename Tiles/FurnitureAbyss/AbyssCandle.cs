@@ -22,7 +22,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
             AddMapEntry(new Color(191, 142, 111), name);
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Torches };
-            drop = ModContent.ItemType<Items.AbyssCandle>();
+            drop = ModContent.ItemType<Items.Placeables.FurnitureAbyss.AbyssCandle>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)

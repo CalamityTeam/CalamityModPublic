@@ -27,7 +27,7 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 32, 16, ModContent.ItemType<Items.DraedonsForge>());
+            Item.NewItem(i * 16, j * 16, 32, 16, ModContent.ItemType<Items.Placeables.Furniture.CraftingStations.DraedonsForge>());
         }
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)

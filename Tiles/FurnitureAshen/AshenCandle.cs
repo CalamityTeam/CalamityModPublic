@@ -16,7 +16,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
             animationFrameHeight = 22;
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Torches };
-            drop = ModContent.ItemType<Items.AshenCandle>();
+            drop = ModContent.ItemType<Items.Placeables.FurnitureAshen.AshenCandle>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)

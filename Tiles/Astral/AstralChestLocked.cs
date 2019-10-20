@@ -4,6 +4,8 @@ using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Dusts;
 using Terraria.ID;
+using CalamityMod.Items.Placeables.Furniture;
+
 namespace CalamityMod.Tiles.Astral
 {
     public class AstralChestLocked : ModTile

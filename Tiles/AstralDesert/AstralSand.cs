@@ -4,6 +4,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Tiles.Astral;
+using CalamityMod.Projectiles.Typeless;
 
 namespace CalamityMod.Tiles.AstralDesert
 {
@@ -21,7 +23,7 @@ namespace CalamityMod.Tiles.AstralDesert
             TileMerge.MergeAstralTiles(Type);
 
             dustType = 108;
-            drop = ModContent.ItemType<Items.AstralSand>();
+            drop = ModContent.ItemType<Items.Placeables.AstralSand>();
 
             AddMapEntry(new Color(149, 156, 155));
 
