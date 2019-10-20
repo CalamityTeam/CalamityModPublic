@@ -15,6 +15,7 @@ using CalamityMod.Items.Accessories.Vanity;
 using CalamityMod.Items.Pets;
 using CalamityMod.Items.SummonItems;
 using CalamityMod.Items.Ammo;
+using CalamityMod.Items.Materials;
 using CalamityMod.Items.Potions;
 using CalamityMod.Projectiles.Typeless;
 namespace CalamityMod.NPCs

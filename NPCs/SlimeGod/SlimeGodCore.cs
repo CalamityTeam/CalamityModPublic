@@ -19,7 +19,7 @@ using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Potions;
-using CalamityMod.Items.Placeables.FurnitureStatigel;
+using CalamityMod.Items.Placeables.Furniture.CraftingStations;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Projectiles.Boss;
 namespace CalamityMod.NPCs
