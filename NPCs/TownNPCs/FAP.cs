@@ -98,7 +98,7 @@ namespace CalamityMod.NPCs
                 }
                 else
                 {
-                    Main.player[Main.myPlayer].Hurt(PlayerDeathReason.ByOther(4), Main.player[Main.myPlayer].statLife / 2, -Main.player[Main.myPlayer].direction, false, false, false, -1);
+                    Main.player[Main.myPlayer].Hurt(PlayerDeathReason.ByCustomReason(player.name + " was slapped too hard."), Main.player[Main.myPlayer].statLife / 2, -Main.player[Main.myPlayer].direction, false, false, false, -1);
                     return "Being drunk I have no moral compass atm.";
                 }
             }

@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Accessories
             }
             else if (!player.immune)
             {
-                player.KillMe(PlayerDeathReason.ByOther(12), 1000.0, 0, false);
+                player.KillMe(PlayerDeathReason.ByCustomReason(player.name + " isn't worthy."), 1000.0, 0, false);
             }
         }
     }

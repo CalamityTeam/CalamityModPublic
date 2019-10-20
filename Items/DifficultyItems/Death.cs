@@ -51,7 +51,7 @@ namespace CalamityMod.Items.DifficultyItems
                 if (Main.npc[doom].active && (Main.npc[doom].boss || Main.npc[doom].type == NPCID.EaterofWorldsHead || Main.npc[doom].type == NPCID.EaterofWorldsTail || Main.npc[doom].type == ModContent.NPCType<SlimeGodRun>() ||
                     Main.npc[doom].type == ModContent.NPCType<SlimeGodRunSplit>() || Main.npc[doom].type == ModContent.NPCType<SlimeGod>() || Main.npc[doom].type == ModContent.NPCType<SlimeGodSplit>()))
                 {
-                    player.KillMe(PlayerDeathReason.ByOther(12), 1000.0, 0, false);
+                    player.KillMe(PlayerDeathReason.ByCustomReason(player.name + " tried to change the rules."), 1000.0, 0, false);
                     Main.npc[doom].active = false;
                     Main.npc[doom].netUpdate = true;
                 }

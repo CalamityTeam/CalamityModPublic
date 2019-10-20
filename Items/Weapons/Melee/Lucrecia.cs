@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Weapons.Melee
             }
             if (player.statLife <= 0)
             {
-                player.KillMe(PlayerDeathReason.ByOther(10), 1000.0, 0, false);
+                player.KillMe(PlayerDeathReason.ByCustomReason(player.name + "'s DNA was destroyed."), 1000.0, 0, false);
             }
             Projectile.NewProjectile(position.X, position.Y, item.shootSpeed * player.direction, 0f, type, damage, knockBack, player.whoAmI, 0f, 0f);
             return false;

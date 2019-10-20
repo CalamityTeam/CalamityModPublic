@@ -1038,7 +1038,7 @@ namespace CalamityMod.NPCs
             player.AddBuff(ModContent.BuffType<WhisperingDeath>(), 420, true);
             if ((CalamityWorld.death || CalamityWorld.bossRushActive) && npc.alpha <= 0)
             {
-                player.KillMe(PlayerDeathReason.ByOther(10), 1000.0, 0, false);
+                player.KillMe(PlayerDeathReason.ByCustomReason(player.name + "'s essence was consumed by the devourer."), 1000.0, 0, false);
             }
             int num = Main.rand.Next(5);
             string key = "Mods.CalamityMod.EdgyBossText3";

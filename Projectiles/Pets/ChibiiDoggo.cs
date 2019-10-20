@@ -231,7 +231,14 @@ namespace CalamityMod.Projectiles.Pets
                 {
                     notlocalai1 = (float)(Main.rand.Next(30) * -10 - 300);
                     Main.PlaySound(SoundID.Item1, projectile.Center);
-                    player.Hurt(PlayerDeathReason.ByOther(6), 500, 0, false, false, false, -1);
+                    if (Main.rand.NextBool(2))
+					{
+						player.Hurt(PlayerDeathReason.ByOther(6), 500, 0, false, false, false, -1);
+					}
+					else
+					{
+						player.Hurt(PlayerDeathReason.ByCustomReason(player.name + " couldn't stand the sharp objects."), 500, 0, false, false, false, -1);
+					}
                     player.immune = false;
                     player.immuneTime = 0;
 

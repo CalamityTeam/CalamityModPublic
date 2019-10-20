@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Weapons.Magic
             player.statLife -= 5;
             if (player.statLife <= 0)
             {
-                player.KillMe(PlayerDeathReason.ByOther(10), 1000.0, 0, false);
+                player.KillMe(PlayerDeathReason.ByCustomReason(player.name + " was violently pricked by a flower."), 1000.0, 0, false);
             }
             for (int index = 0; index < 3; ++index)
             {

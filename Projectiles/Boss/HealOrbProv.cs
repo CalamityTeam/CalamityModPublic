@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Boss
                     }
                     if (Main.player[num487].statLife < 0)
                     {
-                        Main.player[num487].KillMe(PlayerDeathReason.ByOther(12), 1000.0, 0, false);
+                        Main.player[num487].KillMe(PlayerDeathReason.ByCustomReason(player.name + " burst into sinless ash."), 1000.0, 0, false);
                     }
                     NetMessage.SendData(66, -1, -1, null, num487, (float)num492, 0f, 0f, 0, 0, 0);
                 }

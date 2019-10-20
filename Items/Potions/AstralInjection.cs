@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Potions
             }
             if (player.statLife <= 0)
             {
-                player.KillMe(PlayerDeathReason.ByOther(10), 1000.0, 0, false);
+                player.KillMe(PlayerDeathReason.ByCustomReason(player.name + "'s blood vessels burst from drug overdose."), 1000.0, 0, false);
             }
         }
 
