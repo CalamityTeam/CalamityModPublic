@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Dusts.Furniture;
 namespace CalamityMod.Tiles.FurnitureOccult
 {
     class OccultBathtub : ModTile
@@ -28,7 +28,7 @@ namespace CalamityMod.Tiles.FurnitureOccult
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<Items.OccultBathtub>());
+            Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<Items.Placeables.FurnitureOccult.OccultBathtub>());
         }
     }
 }

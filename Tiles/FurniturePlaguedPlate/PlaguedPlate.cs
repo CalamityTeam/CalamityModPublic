@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Dusts.Furniture;
 namespace CalamityMod.Tiles.FurniturePlaguedPlate
 {
     public class PlaguedPlate : ModTile
@@ -14,7 +14,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
             soundType = 21;
             mineResist = 3f;
             minPick = 210;
-            drop = ModContent.ItemType<Items.PlaguedPlate>();
+            drop = ModContent.ItemType<Items.Placeables.FurniturePlaguedPlate.PlaguedPlate>();
             AddMapEntry(new Color(51, 99, 75));
         }
 

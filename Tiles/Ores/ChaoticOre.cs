@@ -1,4 +1,6 @@
 
+using CalamityMod.Projectiles.Enemy;
+using CalamityMod.Tiles.Abyss;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -17,7 +19,7 @@ namespace CalamityMod.Tiles.Ores
             TileMerge.MergeAbyssTiles(Type);
 
             dustType = 105;
-            drop = ModContent.ItemType<Items.ChaoticOre>();
+            drop = ModContent.ItemType<Items.Placeables.Ores.ChaoticOre>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Chaotic Ore");
             AddMapEntry(new Color(255, 0, 0), name);

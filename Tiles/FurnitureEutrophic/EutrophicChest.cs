@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Dusts.Furniture;
 using Terraria.ID;
 
 namespace CalamityMod.Tiles.FurnitureEutrophic
@@ -16,7 +16,7 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Containers };
             chest = "Eutrophic Chest";
-            chestDrop = ModContent.ItemType<Items.EutrophicChest>();
+            chestDrop = ModContent.ItemType<Items.Placeables.FurnitureEutrophic.EutrophicChest>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)

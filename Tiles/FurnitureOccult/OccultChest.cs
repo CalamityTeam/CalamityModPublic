@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Dusts.Furniture;
 using Terraria.ID;
 
 namespace CalamityMod.Tiles.FurnitureOccult
@@ -16,7 +16,7 @@ namespace CalamityMod.Tiles.FurnitureOccult
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Containers };
             chest = "Otherworldly Chest";
-            chestDrop = ModContent.ItemType<Items.OccultChest>();
+            chestDrop = ModContent.ItemType<Items.Placeables.FurnitureOccult.OccultChest>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)

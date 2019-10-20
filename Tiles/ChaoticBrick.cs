@@ -11,7 +11,7 @@ namespace CalamityMod.Tiles
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
             dustType = 105;
-            drop = ModContent.ItemType<Items.ChaoticBrick>();
+            drop = ModContent.ItemType<Items.Placeables.ChaoticBrick>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Chaotic Brick");
             AddMapEntry(new Color(255, 0, 0), name);

@@ -19,7 +19,7 @@ namespace CalamityMod.Tiles.SunkenSea
 
             TileID.Sets.ChecksForMerge[Type] = true;
             dustType = 96;
-            drop = ModContent.ItemType<Items.Navystone>();
+            drop = ModContent.ItemType<Items.Placeables.Navystone>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Navystone");
             AddMapEntry(new Color(0, 50, 50), name);

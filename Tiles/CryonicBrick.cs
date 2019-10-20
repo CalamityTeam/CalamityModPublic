@@ -18,7 +18,7 @@ namespace CalamityMod.Tiles
 
             soundType = 21;
             minPick = 100;
-            drop = ModContent.ItemType<Items.CryonicBrick>();
+            drop = ModContent.ItemType<Items.Placeables.CryonicBrick>();
             AddMapEntry(new Color(99, 131, 199));
         }
 

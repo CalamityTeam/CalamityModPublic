@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Dusts.Furniture;
 using Terraria.ID;
 
 namespace CalamityMod.Tiles.FurnitureStratus
@@ -20,7 +20,7 @@ namespace CalamityMod.Tiles.FurnitureStratus
             soundType = 21;
             mineResist = 5f;
             minPick = 250;
-            drop = ModContent.ItemType<Items.StratusBricks>();
+            drop = ModContent.ItemType<Items.Placeables.FurnitureStratus.StratusBricks>();
             AddMapEntry(new Color(53, 57, 74));
         }
 

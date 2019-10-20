@@ -19,7 +19,7 @@ namespace CalamityMod.Tiles.SunkenSea
 
             TileID.Sets.ChecksForMerge[Type] = true;
             dustType = 108;
-            drop = ModContent.ItemType<Items.EutrophicSand>();
+            drop = ModContent.ItemType<Items.Placeables.EutrophicSand>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Eutrophic Sand");
             AddMapEntry(new Color(100, 100, 150), name);

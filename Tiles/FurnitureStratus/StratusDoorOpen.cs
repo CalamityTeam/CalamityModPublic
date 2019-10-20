@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Dusts.Furniture;
 using Terraria.ID;
 
 namespace CalamityMod.Tiles.FurnitureStratus
@@ -37,7 +37,7 @@ namespace CalamityMod.Tiles.FurnitureStratus
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 32, 48, ModContent.ItemType<Items.StratusDoor>());
+            Item.NewItem(i * 16, j * 16, 32, 48, ModContent.ItemType<Items.Placeables.FurnitureStratus.StratusDoor>());
         }
 
         public override void MouseOver(int i, int j)
@@ -45,7 +45,7 @@ namespace CalamityMod.Tiles.FurnitureStratus
             Player player = Main.LocalPlayer;
             player.noThrow = 2;
             player.showItemIcon = true;
-            player.showItemIcon2 = ModContent.ItemType<Items.StratusDoor>();
+            player.showItemIcon2 = ModContent.ItemType<Items.Placeables.FurnitureStratus.StratusDoor>();
         }
     }
 }

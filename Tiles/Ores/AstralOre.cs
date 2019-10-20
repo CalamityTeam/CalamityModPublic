@@ -4,6 +4,8 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Tiles.Astral;
 
 namespace CalamityMod.Tiles.Ores
 {
@@ -23,7 +25,7 @@ namespace CalamityMod.Tiles.Ores
 
             minPick = 200;
             dustType = 173;
-            drop = ModContent.ItemType<Items.AstralOre>();
+            drop = ModContent.ItemType<Items.Placeables.Ores.AstralOre>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Astral Ore");
             AddMapEntry(new Color(255, 153, 255), name);

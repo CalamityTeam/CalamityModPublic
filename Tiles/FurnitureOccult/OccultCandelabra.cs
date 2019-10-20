@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Dusts.Furniture;
 using Terraria.ID;
 
 namespace CalamityMod.Tiles.FurnitureOccult
@@ -47,7 +47,7 @@ namespace CalamityMod.Tiles.FurnitureOccult
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 16, 16, ModContent.ItemType<Items.OccultCandelabra>());
+            Item.NewItem(i * 16, j * 16, 16, 16, ModContent.ItemType<Items.Placeables.FurnitureOccult.OccultCandelabra>());
         }
 
         public override void HitWire(int i, int j)

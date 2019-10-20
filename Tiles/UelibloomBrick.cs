@@ -21,7 +21,7 @@ namespace CalamityMod.Tiles
 
             soundType = 21;
             minPick = 200;
-            drop = ModContent.ItemType<Items.UelibloomBrick>();
+            drop = ModContent.ItemType<Items.Placeables.UelibloomBrick>();
             AddMapEntry(new Color(174, 108, 46));
         }
 

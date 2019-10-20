@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Dusts.Furniture;
 using Terraria.ID;
 
 namespace CalamityMod.Tiles.FurniturePlaguedPlate
@@ -47,7 +47,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 48, 32, ModContent.ItemType<Items.PlaguedPlateClock>());
+            Item.NewItem(i * 16, j * 16, 48, 32, ModContent.ItemType<Items.Placeables.FurniturePlaguedPlate.PlaguedPlateClock>());
         }
     }
 }

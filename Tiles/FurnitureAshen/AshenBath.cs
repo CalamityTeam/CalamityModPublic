@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Dusts.Furniture;
 namespace CalamityMod.Tiles.FurnitureAshen
 {
     class AshenBath : ModTile

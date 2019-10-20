@@ -1,7 +1,7 @@
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Dusts.Furniture;
 using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.Furniture

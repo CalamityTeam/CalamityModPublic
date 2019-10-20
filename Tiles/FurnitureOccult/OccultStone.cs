@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Dusts.Furniture;
 namespace CalamityMod.Tiles.FurnitureOccult
 {
     public class OccultStone : ModTile
@@ -22,7 +22,7 @@ namespace CalamityMod.Tiles.FurnitureOccult
             soundType = 21;
             mineResist = 10f;
             minPick = 200;
-            drop = ModContent.ItemType<Items.OccultStone>();
+            drop = ModContent.ItemType<Items.Placeables.FurnitureOccult.OccultStone>();
             AddMapEntry(new Color(60, 42, 61));
         }
 

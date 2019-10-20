@@ -19,7 +19,7 @@ namespace CalamityMod.Tiles.Ores
             TileMerge.MergeGeneralTiles(Type);
             TileMerge.MergeSnowTiles(Type);
 
-            drop = ModContent.ItemType<Items.CryonicOre>();
+            drop = ModContent.ItemType<Items.Placeables.Ores.CryonicOre>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Cryonic Ore");
             AddMapEntry(new Color(0, 0, 150), name);

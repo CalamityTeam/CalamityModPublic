@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Dusts.Furniture;
 using Terraria.ID;
 
 namespace CalamityMod.Tiles.FurniturePlaguedPlate
@@ -16,7 +16,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Containers };
             chest = "Plagued Plate Chest";
-            chestDrop = ModContent.ItemType<Items.PlaguedPlateChest>();
+            chestDrop = ModContent.ItemType<Items.Placeables.FurniturePlaguedPlate.PlaguedPlateChest>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)

@@ -19,7 +19,7 @@ namespace CalamityMod.Tiles.Ores
             TileMerge.MergeGeneralTiles(Type);
 
             dustType = 55;
-            drop = ModContent.ItemType<Items.AuricOre>();
+            drop = ModContent.ItemType<Items.Placeables.Ores.AuricOre>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Auric Ore");
             AddMapEntry(new Color(255, 200, 0), name);

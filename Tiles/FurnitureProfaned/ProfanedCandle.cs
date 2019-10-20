@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Dusts.Furniture;
 using Terraria.ID;
 
 namespace CalamityMod.Tiles.FurnitureProfaned
@@ -15,7 +15,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
             AddMapEntry(new Color(191, 142, 111), name);
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Torches };
-            drop = ModContent.ItemType<Items.ProfanedCandle>();
+            drop = ModContent.ItemType<Items.Placeables.FurnitureProfaned.ProfanedCandle>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)

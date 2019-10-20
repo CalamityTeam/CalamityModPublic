@@ -3452,7 +3452,7 @@ namespace CalamityMod.NPCs
 
             if (type == NPCID.Pirate)
             {
-                SetShopItem(ref shop, ref nextSlot, ItemID.PirateMap, Item.buyPrice(0, 5));
+                SetShopItem(ref shop, ref nextSlot, ItemID.PirateMap, price: Item.buyPrice(gold: 5));
             }
 
             if (type == NPCID.Dryad)

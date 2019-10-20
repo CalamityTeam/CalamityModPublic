@@ -16,7 +16,7 @@ namespace CalamityMod.Tiles.Ores
 
             TileMerge.MergeGeneralTiles(Type);
 
-            drop = ModContent.ItemType<Items.UelibloomOre>();
+            drop = ModContent.ItemType<Items.Placeables.Ores.UelibloomOre>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Uelibloom Ore");
             AddMapEntry(new Color(0, 255, 0), name);

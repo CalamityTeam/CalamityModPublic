@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Dusts.Furniture;
 namespace CalamityMod.Tiles.FurnitureCosmilite
 {
     public class CosmiliteBrick : ModTile
@@ -14,7 +14,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
             soundType = 21;
             mineResist = 5f;
             minPick = 275;
-            drop = ModContent.ItemType<Items.CosmiliteBrick>();
+            drop = ModContent.ItemType<Items.Placeables.FurnitureCosmilite.CosmiliteBrick>();
             AddMapEntry(new Color(76, 79, 133));
         }
 

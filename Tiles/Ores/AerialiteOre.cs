@@ -14,7 +14,7 @@ namespace CalamityMod.Tiles.Ores
             Main.tileBlockLight[Type] = true;
 
             TileMerge.MergeGeneralTiles(Type);
-            drop = ModContent.ItemType<Items.AerialiteOre>();
+            drop = ModContent.ItemType<Items.Placeables.Ores.AerialiteOre>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Aerialite Ore");
             AddMapEntry(new Color(0, 255, 255), name);

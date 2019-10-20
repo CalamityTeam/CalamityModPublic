@@ -5,7 +5,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.World.Generation;
 using CalamityMod.Tiles.SunkenSea;
-using CalamityMod.WallTiles;
+using CalamityMod.Walls;
 
 namespace CalamityMod.World
 {

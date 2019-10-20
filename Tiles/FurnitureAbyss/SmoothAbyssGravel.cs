@@ -1,7 +1,7 @@
 
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Dusts.Furniture;
 namespace CalamityMod.Tiles.FurnitureAbyss
 {
     public class SmoothAbyssGravel : ModTile

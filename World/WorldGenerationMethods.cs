@@ -6,7 +6,7 @@ using CalamityMod.Tiles.Astral;
 using CalamityMod.Tiles.AstralDesert;
 using CalamityMod.Tiles.AstralSnow;
 using CalamityMod.Tiles.Ores;
-using CalamityMod.WallTiles;
+using CalamityMod.Walls;
 using CalamityMod.World.Planets;
 using Microsoft.Xna.Framework;
 using System;

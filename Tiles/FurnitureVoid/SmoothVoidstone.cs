@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Dusts.Furniture;
 namespace CalamityMod.Tiles.FurnitureVoid
 {
     public class SmoothVoidstone : ModTile
@@ -21,7 +21,7 @@ namespace CalamityMod.Tiles.FurnitureVoid
             soundType = 21;
             mineResist = 7f;
             minPick = 190;
-            drop = ModContent.ItemType<Items.SmoothVoidstone>();
+            drop = ModContent.ItemType<Items.Placeables.FurnitureVoid.SmoothVoidstone>();
             AddMapEntry(new Color(27, 24, 31));
         }
         int animationFrameWidth = 288;

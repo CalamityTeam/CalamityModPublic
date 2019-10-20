@@ -1,7 +1,7 @@
 
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Dusts.Furniture;
 
 namespace CalamityMod.Tiles.FurnitureSilva
 {
@@ -15,7 +15,7 @@ namespace CalamityMod.Tiles.FurnitureSilva
             soundType = 21;
             mineResist = 2f;
             minPick = 275;
-            drop = ModContent.ItemType<Items.SilvaCrystal>();
+            drop = ModContent.ItemType<Items.Placeables.FurnitureSilva.SilvaCrystal>();
             AddMapEntry(new Color(49, 100, 99));
         }
 

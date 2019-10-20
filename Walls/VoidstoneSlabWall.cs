@@ -11,7 +11,7 @@ namespace CalamityMod.Walls
         {
             Main.wallHouse[Type] = true;
 
-            drop = ModContent.ItemType<CalamityMod.Items.Placeables.Walls.VoidstoneSlabWall>();
+            drop = ModContent.ItemType<Items.Placeables.Walls.VoidstoneSlabWall>();
             AddMapEntry(new Color(19, 17, 22));
         }
 

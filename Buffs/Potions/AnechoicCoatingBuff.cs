@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.Potions
 {
-    public class AnechoicCoating : ModBuff
+    public class AnechoicCoatingBuff : ModBuff
     {
         public override void SetDefaults()
         {

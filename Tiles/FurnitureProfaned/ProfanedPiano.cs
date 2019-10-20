@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Dusts.Furniture;
 using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.FurnitureProfaned
@@ -34,7 +34,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<Items.ProfanedPiano>());
+            Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<Items.Placeables.FurnitureProfaned.ProfanedPiano>());
         }
     }
 }

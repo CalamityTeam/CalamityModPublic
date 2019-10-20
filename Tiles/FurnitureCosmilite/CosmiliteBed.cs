@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Dusts.Furniture;
 using Terraria.ID;
 
 namespace CalamityMod.Tiles.FurnitureCosmilite
@@ -37,7 +37,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 64, 32, ModContent.ItemType<Items.CosmiliteBed>());
+            Item.NewItem(i * 16, j * 16, 64, 32, ModContent.ItemType<Items.Placeables.FurnitureCosmilite.CosmiliteBed>());
         }
 
         public override bool NewRightClick(int i, int j)
@@ -50,7 +50,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
             Player player = Main.LocalPlayer;
             player.noThrow = 2;
             player.showItemIcon = true;
-            player.showItemIcon2 = ModContent.ItemType<Items.CosmiliteBed>();
+            player.showItemIcon2 = ModContent.ItemType<Items.Placeables.FurnitureCosmilite.CosmiliteBed>();
         }
     }
 }

@@ -10,7 +10,7 @@ namespace CalamityMod.Walls
         {
             Main.wallHouse[Type] = true;
 
-            drop = ModContent.ItemType<CalamityMod.Items.Placeables.Walls.SmoothAbyssGravelWall>();
+            drop = ModContent.ItemType<Items.Placeables.Walls.SmoothAbyssGravelWall>();
             AddMapEntry(new Color(28, 32, 44));
         }
 

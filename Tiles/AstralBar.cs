@@ -21,7 +21,7 @@ namespace CalamityMod.Tiles
             TileObjectData.addTile(Type);
 
             dustType = ModContent.DustType<AstralBlue>();
-            drop = ModContent.ItemType<Items.AstralBar>();
+            drop = ModContent.ItemType<Items.Placeables.AstralBar>();
 
             AddMapEntry(new Color(47, 66, 90));
         }

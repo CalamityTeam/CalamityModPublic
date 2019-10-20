@@ -19,7 +19,7 @@ namespace CalamityMod.Tiles.SunkenSea
 
             TileID.Sets.ChecksForMerge[Type] = true;
             dustType = 33;
-            drop = ModContent.ItemType<Items.SeaPrism>();
+            drop = ModContent.ItemType<Items.Placeables.SeaPrism>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Sea Prism");
             AddMapEntry(new Color(0, 150, 200), name);

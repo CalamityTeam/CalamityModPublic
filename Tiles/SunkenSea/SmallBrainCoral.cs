@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.ObjectData;
+using CalamityMod.Projectiles.Typeless;
 
 namespace CalamityMod.Tiles.SunkenSea
 {

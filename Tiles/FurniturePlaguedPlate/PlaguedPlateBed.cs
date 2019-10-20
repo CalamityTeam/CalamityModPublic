@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Dusts.Furniture;
 using Terraria.ID;
 using Terraria.ObjectData;
 
@@ -42,7 +42,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 64, 32, ModContent.ItemType<Items.PlaguedPlateBed>());
+            Item.NewItem(i * 16, j * 16, 64, 32, ModContent.ItemType<Items.Placeables.FurniturePlaguedPlate.PlaguedPlateBed>());
         }
 
         public override bool NewRightClick(int i, int j)
@@ -72,7 +72,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
             Player player = Main.LocalPlayer;
             player.noThrow = 2;
             player.showItemIcon = true;
-            player.showItemIcon2 = ModContent.ItemType<Items.PlaguedPlateBed>();
+            player.showItemIcon2 = ModContent.ItemType<Items.Placeables.FurniturePlaguedPlate.PlaguedPlateBed>();
         }
     }
 }

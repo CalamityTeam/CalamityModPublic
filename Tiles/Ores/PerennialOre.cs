@@ -16,7 +16,7 @@ namespace CalamityMod.Tiles.Ores
 
             TileMerge.MergeGeneralTiles(Type);
 
-            drop = ModContent.ItemType<Items.PerennialOre>();
+            drop = ModContent.ItemType<Items.Placeables.Ores.PerennialOre>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Perennial Ore");
             AddMapEntry(new Color(200, 250, 100), name);

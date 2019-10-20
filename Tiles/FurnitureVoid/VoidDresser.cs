@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Dusts.Furniture;
 using Terraria.ID;
 
 namespace CalamityMod.Tiles.FurnitureVoid
@@ -16,7 +16,7 @@ namespace CalamityMod.Tiles.FurnitureVoid
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Dressers };
             dresser = "Void Dresser";
-            dresserDrop = ModContent.ItemType<Items.VoidDresser>();
+            dresserDrop = ModContent.ItemType<Items.Placeables.FurnitureVoid.VoidDresser>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)

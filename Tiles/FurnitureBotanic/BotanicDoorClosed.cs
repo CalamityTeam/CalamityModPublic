@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Dusts.Furniture;
 using Terraria.ID;
 
 namespace CalamityMod.Tiles.FurnitureBotanic
@@ -37,7 +37,7 @@ namespace CalamityMod.Tiles.FurnitureBotanic
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 16, 48, ModContent.ItemType<Items.BotanicDoor>());
+            Item.NewItem(i * 16, j * 16, 16, 48, ModContent.ItemType<Items.Placeables.FurnitureBotanic.BotanicDoor>());
         }
 
         public override void MouseOver(int i, int j)
@@ -45,7 +45,7 @@ namespace CalamityMod.Tiles.FurnitureBotanic
             Player player = Main.LocalPlayer;
             player.noThrow = 2;
             player.showItemIcon = true;
-            player.showItemIcon2 = ModContent.ItemType<Items.BotanicDoor>();
+            player.showItemIcon2 = ModContent.ItemType<Items.Placeables.FurnitureBotanic.BotanicDoor>();
         }
     }
 }

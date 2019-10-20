@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Dusts.Furniture;
 using Terraria.ID;
 
 namespace CalamityMod.Tiles.FurnitureBotanic
@@ -15,7 +15,7 @@ namespace CalamityMod.Tiles.FurnitureBotanic
             AddMapEntry(new Color(191, 142, 111), name);
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Torches };
-            drop = ModContent.ItemType<Items.BotanicCandle>();
+            drop = ModContent.ItemType<Items.Placeables.FurnitureBotanic.BotanicCandle>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)

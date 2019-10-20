@@ -1,7 +1,7 @@
 
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Dusts.Furniture;
 
 namespace CalamityMod.Tiles.FurnitureProfaned
 {
@@ -20,7 +20,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
             soundType = 21;
             mineResist = 10f;
             minPick = 225;
-            drop = ModContent.ItemType<Items.ProfanedSlab>();
+            drop = ModContent.ItemType<Items.Placeables.FurnitureProfaned.ProfanedSlab>();
             AddMapEntry(new Color(122, 66, 59));
             animationFrameHeight = 90;
         }

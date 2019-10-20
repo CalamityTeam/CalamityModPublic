@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Dusts.Furniture;
 using Terraria.ID;
 
 namespace CalamityMod.Tiles.FurnitureStatigel
@@ -47,7 +47,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 48, 32, ModContent.ItemType<Items.StatigelClock>());
+            Item.NewItem(i * 16, j * 16, 48, 32, ModContent.ItemType<Items.Placeables.FurnitureStatigel.StatigelClock>());
         }
     }
 }

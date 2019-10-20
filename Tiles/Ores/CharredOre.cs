@@ -1,4 +1,5 @@
 
+using CalamityMod.Tiles.Crags;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -19,7 +20,7 @@ namespace CalamityMod.Tiles.Ores
             TileMerge.MergeGeneralTiles(Type);
             TileMerge.MergeHellTiles(Type);
 
-            drop = ModContent.ItemType<Items.CharredOre>();
+            drop = ModContent.ItemType<Items.Placeables.Ores.CharredOre>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Charred Ore");
             AddMapEntry(new Color(17, 16, 26), name);

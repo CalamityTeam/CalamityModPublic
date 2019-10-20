@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Dusts.Furniture;
 using Terraria.ID;
 
 namespace CalamityMod.Tiles.FurnitureSilva
@@ -37,7 +37,7 @@ namespace CalamityMod.Tiles.FurnitureSilva
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 32, 48, ModContent.ItemType<Items.SilvaDoor>());
+            Item.NewItem(i * 16, j * 16, 32, 48, ModContent.ItemType<Items.Placeables.FurnitureSilva.SilvaDoor>());
         }
 
         public override void MouseOver(int i, int j)
@@ -45,7 +45,7 @@ namespace CalamityMod.Tiles.FurnitureSilva
             Player player = Main.LocalPlayer;
             player.noThrow = 2;
             player.showItemIcon = true;
-            player.showItemIcon2 = ModContent.ItemType<Items.SilvaDoor>();
+            player.showItemIcon2 = ModContent.ItemType<Items.Placeables.FurnitureSilva.SilvaDoor>();
         }
     }
 }

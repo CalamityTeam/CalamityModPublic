@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Dusts.Furniture;
 using Terraria.ID;
 
 namespace CalamityMod.Tiles.FurniturePlaguedPlate
@@ -16,7 +16,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Dressers };
             dresser = "Plagued Plate Dresser";
-            dresserDrop = ModContent.ItemType<Items.PlaguedPlateDresser>();
+            dresserDrop = ModContent.ItemType<Items.Placeables.FurniturePlaguedPlate.PlaguedPlateDresser>();
         }
 
         public override bool HasSmartInteract()

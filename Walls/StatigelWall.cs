@@ -10,7 +10,7 @@ namespace CalamityMod.Walls
         {
             Main.wallHouse[Type] = true;
 
-            drop = ModContent.ItemType<CalamityMod.Items.Placeables.Walls.StatigelWall>();
+            drop = ModContent.ItemType<Items.Placeables.Walls.StatigelWall>();
             AddMapEntry(new Color(162, 54, 90));
         }
 

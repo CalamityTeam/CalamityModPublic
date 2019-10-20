@@ -1,7 +1,7 @@
 
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Dusts.Furniture;
 using Terraria.ID;
 
 namespace CalamityMod.Tiles.FurnitureEutrophic
@@ -22,7 +22,7 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
             TileID.Sets.ChecksForMerge[Type] = true;
             soundType = 21;
             minPick = 55;
-            drop = ModContent.ItemType<Items.SmoothNavystone>();
+            drop = ModContent.ItemType<Items.Placeables.FurnitureEutrophic.SmoothNavystone>();
             AddMapEntry(new Color(39, 48, 53));
         }
 

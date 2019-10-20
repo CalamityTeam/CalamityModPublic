@@ -15,7 +15,7 @@ namespace CalamityMod.Tiles
             TileMerge.MergeGeneralTiles(Type);
             TileMerge.MergeDecorativeTiles(Type);
 
-            drop = ModContent.ItemType<Items.PerennialBrick>();
+            drop = ModContent.ItemType<Items.Placeables.PerennialBrick>();
             soundType = 21;
             minPick = 150;
             AddMapEntry(new Color(17, 133, 46));

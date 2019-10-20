@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Dusts.Furniture;
 using Terraria.ID;
 
 namespace CalamityMod.Tiles.FurnitureBotanic
@@ -11,7 +11,7 @@ namespace CalamityMod.Tiles.FurnitureBotanic
         {
             CalamityUtils.SetUpPlatform(Type);
             AddMapEntry(new Color(191, 142, 111));
-            drop = ModContent.ItemType<Items.BotanicPlatform>();
+            drop = ModContent.ItemType<Items.Placeables.FurnitureBotanic.BotanicPlatform>();
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Platforms };
         }

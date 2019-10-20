@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using Terraria.ModLoader; using CalamityMod.Dusts.Furniture;
 using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.Furniture
@@ -57,7 +57,7 @@ namespace CalamityMod.Tiles.Furniture
 
         /*public override void RightClick(int i, int j)
         {
-            Item.NewItem(i * 16, j * 16, 8, 8, ModContent.ItemType<Items.TranquilityCandle>());
+            Item.NewItem(i * 16, j * 16, 8, 8, ModContent.ItemType<Items.Placeables.TranquilityCandle>());
             ?? KillTile( i, j);
         }*/
     }
