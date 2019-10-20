@@ -57,7 +57,7 @@ namespace CalamityMod
             if (censusMod != null)
             {
                 censusMod.Call("TownNPCCondition", ModContent.NPCType<SEAHOE>(), "Defeat a Giant Clam");
-                censusMod.Call("TownNPCCondition", ModContent.NPCType<Bandit>(), "Have a [i:" + ItemID.PlatinumCoin + "] in your inventory after defeating Skeletron");
+                censusMod.Call("TownNPCCondition", ModContent.NPCType<THIEF>(), "Have a [i:" + ItemID.PlatinumCoin + "] in your inventory after defeating Skeletron");
                 censusMod.Call("TownNPCCondition", ModContent.NPCType<FAP>(), "Have [i:" + ModContent.ItemType<FabsolsVodka>() + "] in your inventory in Hardmode");
                 censusMod.Call("TownNPCCondition", ModContent.NPCType<DILF>(), "Defeat Cryogen");
             }

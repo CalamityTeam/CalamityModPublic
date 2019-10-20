@@ -2401,7 +2401,7 @@ namespace CalamityMod.Items
         #region Goblin Money Theft (PostReforge)
         public override void PostReforge(Item item)
         {
-            if (NPC.AnyNPCs(ModContent.NPCType<Bandit>()))
+            if (NPC.AnyNPCs(ModContent.NPCType<THIEF>()))
             {
                 int value = item.value;
                 ItemLoader.ReforgePrice(item, ref value, ref Main.LocalPlayer.discount);

@@ -10,7 +10,7 @@ using CalamityMod.Projectiles.Rogue;
 namespace CalamityMod.NPCs
 {
     [AutoloadHead]
-    public class Bandit : ModNPC
+    public class THIEF : ModNPC
     {
         public static List<string> PossibleNames = new List<string>()
         {
@@ -272,6 +272,23 @@ namespace CalamityMod.NPCs
 				nextSlot++;
             }
         }
+
+        public override void HitEffect(int hitDirection, double damage)
+        {
+            if (npc.life <= 0)
+            {
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Bandit/Bandit"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Bandit/Bandit2"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Bandit/Bandit3"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Bandit/Bandit4"), 1f);
+            }
+        }
+
+		// Make this Town NPC teleport to the King and/or Queen statue when triggered.
+		public override bool CanGoToStatue(bool toKingStatue) //I don't think you can differentiate male vs female with this.
+		{
+			return true;
+		}
 
         public override void TownNPCAttackStrength(ref int damage, ref float knockback)
         {
