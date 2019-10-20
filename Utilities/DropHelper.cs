@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Items.Accessories;
-using CalamityMod.Items.Ammo.Finite;
+using CalamityMod.Items.Ammo.FiniteUse;
 namespace CalamityMod
 {
     public class DropHelper
