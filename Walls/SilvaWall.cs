@@ -11,7 +11,7 @@ namespace CalamityMod.Walls
         {
             Main.wallHouse[Type] = true;
 
-            drop = ModContent.ItemType<Items.Placeables.FurnitureSilva.SilvaWall>();
+            drop = ModContent.ItemType<CalamityMod.Items.Placeables.Walls.SilvaWall>();
             AddMapEntry(new Color(28, 32, 44));
         }
 

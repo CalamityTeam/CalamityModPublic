@@ -1,5 +1,7 @@
+using CalamityMod.Items.Placeables.FurnitureSilva;
 using Terraria.ModLoader;
-namespace CalamityMod.Items.Placeables.FurnitureSilva
+using WallTiles = CalamityMod.Walls;
+namespace CalamityMod.Items.Placeables.Walls
 {
     public class SilvaWall : ModItem
     {

@@ -1,5 +1,7 @@
+using CalamityMod.Items.Placeables.FurnitureCosmilite;
 using Terraria.ModLoader;
-namespace CalamityMod.Items.Placeables.FurnitureCosmilite
+using WallTiles = CalamityMod.Walls;
+namespace CalamityMod.Items.Placeables.Walls
 {
     public class CosmiliteBrickWall : ModItem
     {
