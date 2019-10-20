@@ -42,7 +42,7 @@ namespace CalamityMod.World
             int MaxX = (int)typeof(WorldGen).GetField("dMaxX", BindingFlags.Static | BindingFlags.NonPublic).GetValue(null) - 25;
             int MaxY = (int)typeof(WorldGen).GetField("dMaxY", BindingFlags.Static | BindingFlags.NonPublic).GetValue(null) - 25;
             int[] ChestTypes = new int[] { ModContent.TileType<AstralChestLocked>() };
-            int[] ItemTypes = new int[] { ModContent.ItemType<Items.HeavenfallenStardisk>() };
+            int[] ItemTypes = new int[] { ModContent.ItemType<HeavenfallenStardisk>() };
 
             progress.Message = "Calamity Mod: Biome Chests";
 
@@ -110,7 +110,7 @@ namespace CalamityMod.World
                     }
                     if (AstralChest)
                     {
-                        chest.item[itemIndex].SetDefaults(ModContent.ItemType<Items.AstralJelly>(), false);
+                        chest.item[itemIndex].SetDefaults(ModContent.ItemType<AstralJelly>(), false);
                         chest.item[itemIndex].stack = WorldGen.genRand.Next(3, 6);
                         itemIndex++;
                     }
@@ -122,7 +122,7 @@ namespace CalamityMod.World
                         };
                         if (AstralChest)
                         {
-                            items[1] = ModContent.ItemType<Items.RevivifyPotion>();
+                            items[1] = ModContent.ItemType<RevivifyPotion>();
                             items[4] = ItemID.ShinePotion;
                             items[5] = ItemID.HunterPotion;
                         }
@@ -139,8 +139,8 @@ namespace CalamityMod.World
                         if (AstralChest)
                         {
                             items[1] = ItemID.MagicPowerPotion;
-                            items[2] = ModContent.ItemType<Items.ZenPotion>();
-                            items[5] = ModContent.ItemType<Items.CadencePotion>();
+                            items[2] = ModContent.ItemType<ZenPotion>();
+                            items[5] = ModContent.ItemType<CadencePotion>();
                         }
                         chest.item[itemIndex].SetDefaults(WorldGen.genRand.Next(items), false);
                         chest.item[itemIndex].stack = WorldGen.genRand.Next(1, 3);
@@ -2582,34 +2582,34 @@ namespace CalamityMod.World
             switch (itemChoice)
             {
                 case 0:
-                    itemChoice = ModContent.ItemType<Items.TorrentialTear>();
+                    itemChoice = ModContent.ItemType<TorrentialTear>();
                     break; //rain item
                 case 1:
-                    itemChoice = ModContent.ItemType<Items.IronBoots>();
+                    itemChoice = ModContent.ItemType<IronBoots>();
                     break; //movement acc
                 case 2:
-                    itemChoice = ModContent.ItemType<Items.DepthCharm>();
+                    itemChoice = ModContent.ItemType<DepthCharm>();
                     break; //regen acc
                 case 3:
-                    itemChoice = ModContent.ItemType<Items.Archerfish>();
+                    itemChoice = ModContent.ItemType<Archerfish>();
                     break; //ranged
                 case 4:
-                    itemChoice = ModContent.ItemType<Items.AnechoicPlating>();
+                    itemChoice = ModContent.ItemType<AnechoicPlating>();
                     break; //defense acc
                 case 5:
-                    itemChoice = ModContent.ItemType<Items.BallOFugu>();
+                    itemChoice = ModContent.ItemType<BallOFugu>();
                     break; //melee
                 case 6:
-                    itemChoice = ModContent.ItemType<Items.StrangeOrb>();
+                    itemChoice = ModContent.ItemType<StrangeOrb>();
                     break; //light pet
                 case 7:
-                    itemChoice = ModContent.ItemType<Items.HerringStaff>();
+                    itemChoice = ModContent.ItemType<HerringStaff>();
                     break; //summon
                 case 8:
-                    itemChoice = ModContent.ItemType<Items.BlackAnurian>();
+                    itemChoice = ModContent.ItemType<BlackAnurian>();
                     break; //magic
                 case 9:
-                    itemChoice = ModContent.ItemType<Items.Lionfish>();
+                    itemChoice = ModContent.ItemType<Lionfish>();
                     break; //throwing
                 default:
                     itemChoice = 497;
@@ -2959,42 +2959,42 @@ namespace CalamityMod.World
             switch (itemChoice) //0 to 9
             {
                 case 0:
-                    item = ModContent.ItemType<Items.TrinketofChi>();
+                    item = ModContent.ItemType<TrinketofChi>();
                     break;
                 case 1:
-                    item = WorldGen.crimson ? ModContent.ItemType<Items.CrimsonEffigy>() : ModContent.ItemType<Items.CorruptionEffigy>();
+                    item = WorldGen.crimson ? ModContent.ItemType<CrimsonEffigy>() : ModContent.ItemType<CorruptionEffigy>();
                     chestType = WorldGen.crimson ? 43 : 3;
                     break;
                 case 2:
-                    item = ModContent.ItemType<Items.OnyxExcavatorKey>();
+                    item = ModContent.ItemType<OnyxExcavatorKey>();
                     chestType = 44;
                     break;
                 case 3:
-                    item = ModContent.ItemType<Items.TundraLeash>();
+                    item = ModContent.ItemType<TundraLeash>();
                     chestType = 47;
                     break;
                 case 4:
-                    item = ModContent.ItemType<Items.LuxorsGift>();
+                    item = ModContent.ItemType<LuxorsGift>();
                     chestType = 30;
                     break;
                 case 5:
-                    item = ModContent.ItemType<Items.FungalSymbiote>();
+                    item = ModContent.ItemType<FungalSymbiote>();
                     chestType = 32;
                     break;
                 case 6:
-                    item = ModContent.ItemType<Items.UnstablePrism>();
+                    item = ModContent.ItemType<UnstablePrism>();
                     chestType = 50;
                     break;
                 case 7:
-                    item = ModContent.ItemType<Items.GladiatorsLocket>();
+                    item = ModContent.ItemType<GladiatorsLocket>();
                     chestType = 51;
                     break;
                 case 8:
-                    item = ModContent.ItemType<Items.Murasama>();
+                    item = ModContent.ItemType<Murasama>();
                     chestType = 44;
                     break;
                 case 9:
-                    item = ModContent.ItemType<Items.BossRush>();
+                    item = ModContent.ItemType<BossRush>();
                     chestType = 4;
                     break;
             }

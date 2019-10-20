@@ -5,6 +5,7 @@ using CalamityMod.Tiles.Crags;
 using CalamityMod.Tiles.Astral;
 using CalamityMod.Tiles.AstralDesert;
 using CalamityMod.Tiles.AstralSnow;
+using CalamityMod.Tiles.Ores;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;

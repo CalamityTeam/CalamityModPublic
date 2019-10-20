@@ -243,7 +243,7 @@ namespace CalamityMod.World
                     if (num10 > 3.5f) //Adjust num10 for all cases if you want different tile frequencies; higher is less frequent, lower is more frequent
                     {
                         tile.ClearEverything();
-                        tile.wall = (ushort)ModContent.WallType<Walls.NavystoneWall>();
+                        tile.wall = (ushort)ModContent.WallType<NavystoneWall>();
                         tile.liquid = 192;
                         if (num4 % 15 == 2)
                         {
@@ -255,7 +255,7 @@ namespace CalamityMod.World
                     }
                     else if (num10 > 1.8f)
                     {
-                        tile.wall = (ushort)ModContent.WallType<Walls.NavystoneWall>();
+                        tile.wall = (ushort)ModContent.WallType<NavystoneWall>();
                         tile.liquid = 192;
                         if (!flag || tile.active())
                         {
@@ -275,7 +275,7 @@ namespace CalamityMod.World
                             Tile.SmoothSlope(num6, num7, true);
                             tile.liquid = 0;
                         }
-                        tile.wall = (ushort)ModContent.WallType<Walls.EutrophicSandWall>();
+                        tile.wall = (ushort)ModContent.WallType<EutrophicSandWall>();
                     }
                     else if (num10 > 0.25f)
                     {
@@ -287,12 +287,12 @@ namespace CalamityMod.World
                                 tile.ResetToType((ushort)ModContent.TileType<EutrophicSand>());
                                 tile.active(true);
                                 Tile.SmoothSlope(num6, num7, true);
-                                tile.wall = (ushort)ModContent.WallType<Walls.EutrophicSandWall>();
+                                tile.wall = (ushort)ModContent.WallType<EutrophicSandWall>();
                                 tile.liquid = 0;
                             }
                             else
                             {
-                                tile.wall = (ushort)ModContent.WallType<Walls.NavystoneWall>();
+                                tile.wall = (ushort)ModContent.WallType<NavystoneWall>();
                                 tile.liquid = 192;
                             }
                         }
@@ -533,7 +533,7 @@ namespace CalamityMod.World
                     }
                     if (!tile2.active())
                     {
-                        if (tile2.wall == ModContent.WallType<Walls.NavystoneWall>() || tile2.wall == ModContent.WallType<Walls.EutrophicSandWall>())
+                        if (tile2.wall == ModContent.WallType<NavystoneWall>() || tile2.wall == ModContent.WallType<EutrophicSandWall>())
                         {
                             if (WorldGen.genRand.Next(5) == 0)
                             {
