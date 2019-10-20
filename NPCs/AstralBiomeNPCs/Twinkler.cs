@@ -76,7 +76,7 @@ namespace CalamityMod.NPCs
                 if (!WorldGen.SolidTile(npcCenter.X, npcCenter.Y) && Main.tile[npcCenter.X, npcCenter.Y].liquid == 0)
                 {
                     Main.tile[npcCenter.X, npcCenter.Y].liquid = (byte)Main.rand.Next(50, 150);
-                    Main.tile[npcCenter.X, npcCenter.Y].lava(true);
+                    Main.tile[npcCenter.X, npcCenter.Y].lava(false);
                     Main.tile[npcCenter.X, npcCenter.Y].honey(false);
                     WorldGen.SquareTileFrame(npcCenter.X, npcCenter.Y, true);
                 }
