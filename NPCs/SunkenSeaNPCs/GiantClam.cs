@@ -18,7 +18,6 @@ using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Projectiles.Enemy;
-using CalamityMod.NPCs.TownNPCs;
 namespace CalamityMod.NPCs
 {
     public class GiantClam : ModNPC
