@@ -11,7 +11,6 @@ namespace CalamityMod.World
     {
         public static void PlaceSulphurSea()
         {
-            Mod mod = ModLoader.GetMod("CalamityMod");
 
             int x = Main.maxTilesX;
             int y = Main.maxTilesY;
@@ -128,7 +127,6 @@ namespace CalamityMod.World
 
         public static void PlaceAbyss()
         {
-            Mod mod = ModLoader.GetMod("CalamityMod");
 
             int x = Main.maxTilesX;
             int y = Main.maxTilesY;

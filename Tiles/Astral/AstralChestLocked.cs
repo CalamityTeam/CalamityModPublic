@@ -91,12 +91,12 @@ namespace CalamityMod.Tiles.Astral
 
         public override void MouseOver(int i, int j)
         {
-            CalamityUtils.ChestMouseOver("AstralChest", "Astral Chest", i, j);
+            CalamityUtils.ChestMouseOver<AstralChest>("Astral Chest", i, j);
         }
 
         public override void MouseOverFar(int i, int j)
         {
-            CalamityUtils.ChestMouseFar("AstralChest", "Astral Chest", i, j);
+            CalamityUtils.ChestMouseFar<AstralChest>("Astral Chest", i, j);
         }
     }
 }

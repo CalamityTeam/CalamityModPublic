@@ -342,1722 +342,1715 @@ namespace CalamityMod
         #region SetupLists
         public static void SetupLists()
         {
-            Mod calamity = ModLoader.GetMod("CalamityMod");
+            
+            donatorList = new List<string>()
+            {
+                "Vorbis",
+                "SoloMael",
+                "Chaotic Reks",
+                "The Buildmonger",
+                "Yuh",
+                "Littlepiggy",
+                "LompL",
+                "Lilith Saintclaire",
+                "Ben Shapiro",
+                "Frederik Henschel",
+                "Faye",
+                "Gibb50",
+                "Braden Hajer",
+                "Hannes Holmlund",
+                "profoundmango69",
+                "Jack M Sargent",
+                "Hans Volter",
+                "Krankwagon",
+                "MishiroUsui",
+                "pixlgray",
+                "Arkhine",
+                "Lodude",
+                "DevAesthetic",
+                "Mister Winchester",
+                "Zacky",
+                "Veine",
+                "Javyz",
+                "Shifter",
+                "Crysthamyr",
+                "Elfinlocks",
+                "Ein",
+                "2Larry2",
+                "Jenonen",
+                "Dodu",
+                "Arti",
+                "Tervastator",
+                "Luis Arguello",
+                "Alexander Davis",
+                "BakaQing",
+                "Laura Coonrod",
+                "Xaphlactus",
+                "MajinBagel",
+                "Bendy",
+                "Rando Calrissian",
+                "Tails the Fox 92",
+                "Bread",
+                "Minty Candy",
+                "Preston Card",
+                "MovingTarget_086",
+                "Shiro",
+                "Chip",
+                "Taylor Riverpaw",
+                "ShotgunAngel",
+                "Sandblast",
+                "ThomasThePencil",
+                "Aero (Aero#4599)",
+                "GlitchOut",
+                "Daawnz",
+                "CrabBar",
+                "Yatagarasu",
+                "Jarod Isaac Gordon",
+                "Zombieh",
+                "MingWhy",
+                "Random Weeb",
+                "Ahmed Fahad Zamel Al Sharif",
+                "Eragon3942",
+                "TheBlackHand",
+                "william",
+                "Samuel Foreman",
+                "Christopher Pham",
+                "DemoN K!ng",
+                "Malik Ciaramella",
+                "Ryan Baker-Ortiz",
+                "Aleksanders Denisovs",
+                "TheSilverGhost",
+                "Lucazii",
+                "Shay",
+                "Prism",
+                "BobIsNotMyRealName",
+                "Guwahavel",
+                "Azura",
+                "Joshua Miranda",
+                "Doveda",
+                "William Chang",
+                "Arche",
+                "DevilSunrise",
+                "Yanmei",
+                "Chaos",
+                "Ryan Tucker",
+                "Fish Repairs",
+                "Melvin Brouwers",
+                "Vroomy Has -3,000 IQ",
+                "The Goliath",
+                "DaPyRo"
+            };
+
+            rangedProjectileExceptionList = new List<int>()
+            {
+                ProjectileID.Phantasm,
+                ProjectileID.VortexBeater,
+                ProjectileID.DD2PhoenixBow,
+                ProjectileID.IchorDart,
+                ProjectileID.PhantasmArrow,
+                ModContent.ProjectileType<PhangasmBow>(),
+                ModContent.ProjectileType<ContagionBow>(),
+                ModContent.ProjectileType<DaemonsFlameBow>(),
+                ModContent.ProjectileType<ExoTornado>(),
+                ModContent.ProjectileType<DrataliornusBow>(),
+                ModContent.ProjectileType<FlakKrakenGun>(),
+                ModContent.ProjectileType<ButcherGun>(),
+                ModContent.ProjectileType<StarfleetMK2Gun>(),
+                ModContent.ProjectileType<TerraBulletSplit>(),
+                ModContent.ProjectileType<TerraArrowSplit>(),
+                ModContent.ProjectileType<OMGWTH>(),
+                ModContent.ProjectileType<NorfleetCannon>(),
+                ModContent.ProjectileType<NorfleetComet>(),
+                ModContent.ProjectileType<NorfleetExplosion>()
+            };
+
+            projectileMinionList = new List<int>()
+            {
+                ProjectileID.PygmySpear,
+                ProjectileID.UFOMinion,
+                ProjectileID.UFOLaser,
+                ProjectileID.StardustCellMinionShot,
+                ProjectileID.MiniSharkron,
+                ProjectileID.MiniRetinaLaser,
+                ProjectileID.ImpFireball,
+                ProjectileID.HornetStinger,
+                ProjectileID.DD2FlameBurstTowerT1Shot,
+                ProjectileID.DD2FlameBurstTowerT2Shot,
+                ProjectileID.DD2FlameBurstTowerT3Shot,
+                ProjectileID.DD2BallistraProj,
+                ProjectileID.DD2ExplosiveTrapT1Explosion,
+                ProjectileID.DD2ExplosiveTrapT2Explosion,
+                ProjectileID.DD2ExplosiveTrapT3Explosion,
+                ProjectileID.SpiderEgg,
+                ProjectileID.BabySpider,
+                ProjectileID.FrostBlastFriendly,
+                ProjectileID.MoonlordTurretLaser,
+                ProjectileID.RainbowCrystalExplosion
+            };
+
+            enemyImmunityList = new List<int>()
+            {
+                NPCID.KingSlime,
+                NPCID.EaterofWorldsHead,
+                NPCID.EaterofWorldsBody,
+                NPCID.EaterofWorldsTail,
+                NPCID.BrainofCthulhu,
+                NPCID.Creeper,
+                NPCID.EyeofCthulhu,
+                NPCID.QueenBee,
+                NPCID.SkeletronHead,
+                NPCID.SkeletronHand,
+                NPCID.WallofFlesh,
+                NPCID.WallofFleshEye,
+                NPCID.Retinazer,
+                NPCID.Spazmatism,
+                NPCID.SkeletronPrime,
+                NPCID.PrimeCannon,
+                NPCID.PrimeSaw,
+                NPCID.PrimeLaser,
+                NPCID.PrimeVice,
+                NPCID.Plantera,
+                NPCID.IceQueen,
+                NPCID.Pumpking,
+                NPCID.Mothron,
+                NPCID.Golem,
+                NPCID.GolemHead,
+                NPCID.GolemFistRight,
+                NPCID.GolemFistLeft,
+                NPCID.DukeFishron,
+                NPCID.CultistBoss,
+                NPCID.MoonLordHead,
+                NPCID.MoonLordHand,
+                NPCID.MoonLordCore,
+                NPCID.MoonLordFreeEye,
+                NPCID.DD2Betsy
+            };
+
+            dungeonEnemyBuffList = new List<int>()
+            {
+                NPCID.SkeletonSniper,
+                NPCID.TacticalSkeleton,
+                NPCID.SkeletonCommando,
+                NPCID.Paladin,
+                NPCID.GiantCursedSkull,
+                NPCID.BoneLee,
+                NPCID.DiabolistWhite,
+                NPCID.DiabolistRed,
+                NPCID.NecromancerArmored,
+                NPCID.Necromancer,
+                NPCID.RaggedCasterOpenCoat,
+                NPCID.RaggedCaster,
+                NPCID.HellArmoredBonesSword,
+                NPCID.HellArmoredBonesMace,
+                NPCID.HellArmoredBonesSpikeShield,
+                NPCID.HellArmoredBones,
+                NPCID.BlueArmoredBonesSword,
+                NPCID.BlueArmoredBonesNoPants,
+                NPCID.BlueArmoredBonesMace,
+                NPCID.BlueArmoredBones,
+                NPCID.RustyArmoredBonesSwordNoArmor,
+                NPCID.RustyArmoredBonesSword,
+                NPCID.RustyArmoredBonesFlail,
+                NPCID.RustyArmoredBonesAxe
+            };
+
+            dungeonProjectileBuffList = new List<int>()
+            {
+                ProjectileID.PaladinsHammerHostile,
+                ProjectileID.ShadowBeamHostile,
+                ProjectileID.InfernoHostileBolt,
+                ProjectileID.InfernoHostileBlast,
+                ProjectileID.LostSoulHostile,
+                ProjectileID.SniperBullet,
+                ProjectileID.RocketSkeleton,
+                ProjectileID.BulletDeadeye,
+                ProjectileID.Shadowflames
+            };
+
+            bossScaleList = new List<int>()
+            {
+                NPCID.EaterofWorldsHead,
+                NPCID.EaterofWorldsBody,
+                NPCID.EaterofWorldsTail,
+                NPCID.Creeper,
+                NPCID.SkeletronHand,
+                NPCID.WallofFleshEye,
+                NPCID.TheHungry,
+                NPCID.TheHungryII,
+                NPCID.TheDestroyerBody,
+                NPCID.TheDestroyerTail,
+                NPCID.PrimeCannon,
+                NPCID.PrimeVice,
+                NPCID.PrimeSaw,
+                NPCID.PrimeLaser,
+                NPCID.PlanterasTentacle,
+                NPCID.Pumpking,
+                NPCID.IceQueen,
+                NPCID.Mothron,
+                NPCID.GolemHead
+            };
+
+            bossHPScaleList = new List<int>()
+            {
+                NPCID.EaterofWorldsHead,
+                NPCID.EaterofWorldsBody,
+                NPCID.EaterofWorldsTail,
+                NPCID.SkeletronHand,
+                NPCID.WallofFleshEye,
+                NPCID.TheDestroyerBody,
+                NPCID.TheDestroyerTail,
+                NPCID.PrimeCannon,
+                NPCID.PrimeLaser,
+                NPCID.PrimeVice,
+                NPCID.PrimeSaw,
+                NPCID.GolemHead,
+                NPCID.GolemHeadFree,
+                NPCID.GolemFistRight,
+                NPCID.GolemFistLeft,
+                NPCID.MoonLordHead,
+                NPCID.MoonLordHand
+            };
+
+            beeEnemyList = new List<int>()
+            {
+                NPCID.GiantMossHornet,
+                NPCID.BigMossHornet,
+                NPCID.LittleMossHornet,
+                NPCID.TinyMossHornet,
+                NPCID.MossHornet,
+                NPCID.VortexHornetQueen,
+                NPCID.VortexHornet,
+                NPCID.Bee,
+                NPCID.BeeSmall,
+                NPCID.QueenBee,
+                ModContent.NPCType<PlaguebringerGoliath>(),
+                ModContent.NPCType<PlaguebringerShade>(),
+                ModContent.NPCType<PlagueBeeLargeG>(),
+                ModContent.NPCType<PlagueBeeLarge>(),
+                ModContent.NPCType<PlagueBeeG>(),
+                ModContent.NPCType<PlagueBee>()
+            };
+
+            beeProjectileList = new List<int>()
+            {
+                ProjectileID.Stinger,
+                ProjectileID.HornetStinger,
+                ModContent.ProjectileType<PlagueStingerGoliath>(),
+                ModContent.ProjectileType<PlagueStingerGoliathV2>(),
+                ModContent.ProjectileType<PlagueExplosion>()
+            };
+
+            hardModeNerfList = new List<int>()
+            {
+                ProjectileID.WebSpit,
+                ProjectileID.PinkLaser,
+                ProjectileID.FrostBlastHostile,
+                ProjectileID.RuneBlast,
+                ProjectileID.GoldenShowerHostile,
+                ProjectileID.RainNimbus,
+                ProjectileID.Stinger,
+                ProjectileID.FlamingArrow,
+                ProjectileID.BulletDeadeye,
+                ProjectileID.CannonballHostile
+            };
+
+            debuffList = new List<int>()
+            {
+                BuffID.Poisoned,
+                BuffID.Darkness,
+                BuffID.Cursed,
+                BuffID.OnFire,
+                BuffID.Bleeding,
+                BuffID.Confused,
+                BuffID.Slow,
+                BuffID.Weak,
+                BuffID.Silenced,
+                BuffID.BrokenArmor,
+                BuffID.CursedInferno,
+                BuffID.Frostburn,
+                BuffID.Chilled,
+                BuffID.Frozen,
+                BuffID.Burning,
+                BuffID.Suffocation,
+                BuffID.Ichor,
+                BuffID.Venom,
+                BuffID.Blackout,
+                BuffID.Electrified,
+                BuffID.Rabies,
+                BuffID.Webbed,
+                BuffID.Stoned,
+                BuffID.Dazed,
+                BuffID.VortexDebuff,
+                BuffID.WitheredArmor,
+                BuffID.WitheredWeapon,
+                BuffID.OgreSpit,
+                BuffID.BetsysCurse,
+                ModContent.BuffType<Shadowflame>(),
+                ModContent.BuffType<BrimstoneFlames>(),
+                ModContent.BuffType<BurningBlood>(),
+                ModContent.BuffType<GlacialState>(),
+                ModContent.BuffType<GodSlayerInferno>(),
+                ModContent.BuffType<AstralInfectionDebuff>(),
+                ModContent.BuffType<HolyFlames>(),
+                ModContent.BuffType<Irradiated>(),
+                ModContent.BuffType<Plague>(),
+                ModContent.BuffType<AbyssalFlames>(),
+                ModContent.BuffType<CrushDepth>(),
+                ModContent.BuffType<Horror>(),
+                ModContent.BuffType<MarkedforDeath>()
+            };
+
+            fireWeaponList = new List<int>()
+            {
+                ItemID.FieryGreatsword,
+                ItemID.DD2SquireDemonSword,
+                ItemID.TheHorsemansBlade,
+                ItemID.DD2SquireBetsySword,
+                ItemID.Cascade,
+                ItemID.HelFire,
+                ItemID.MonkStaffT2,
+                ItemID.Flamarang,
+                ItemID.MoltenFury,
+                ItemID.Sunfury,
+                ItemID.PhoenixBlaster,
+                ItemID.Flamelash,
+                ItemID.SolarEruption,
+                ItemID.DayBreak,
+                ItemID.MonkStaffT3,
+                ItemID.HellwingBow,
+                ItemID.DD2PhoenixBow,
+                ItemID.DD2BetsyBow,
+                ItemID.FlareGun,
+                ItemID.Flamethrower,
+                ItemID.EldMelter,
+                ItemID.FlowerofFire,
+                ItemID.MeteorStaff,
+                ItemID.ApprenticeStaffT3,
+                ItemID.InfernoFork,
+                ItemID.HeatRay,
+                ItemID.BookofSkulls,
+                ItemID.ImpStaff,
+                ItemID.DD2FlameburstTowerT1Popper,
+                ItemID.DD2FlameburstTowerT2Popper,
+                ItemID.DD2FlameburstTowerT3Popper,
+                ItemID.MolotovCocktail,
+                ModContent.ItemType<AegisBlade>(),
+                ModContent.ItemType<BalefulHarvester>(),
+                ModContent.ItemType<Chaotrix>(),
+                ModContent.ItemType<CometQuasher>(),
+                ModContent.ItemType<DraconicDestruction>(),
+                ModContent.ItemType<Drataliornus>(),
+                ModContent.ItemType<EnergyStaff>(),
+                ModContent.ItemType<ExsanguinationLance>(),
+                ModContent.ItemType<FirestormCannon>(),
+                ModContent.ItemType<FlameburstShortsword>(),
+                ModContent.ItemType<FlameScythe>(),
+                ModContent.ItemType<FlameScytheMelee>(),
+                ModContent.ItemType<FlareBolt>(),
+                ModContent.ItemType<FlarefrostBlade>(),
+                ModContent.ItemType<FlarewingBow>(),
+                ModContent.ItemType<ForbiddenSun>(),
+                ModContent.ItemType<FrigidflashBolt>(),
+                ModContent.ItemType<GreatbowofTurmoil>(),
+                ModContent.ItemType<HarvestStaff>(),
+                ModContent.ItemType<Hellborn>(),
+                ModContent.ItemType<HellBurst>(),
+                ModContent.ItemType<HellfireFlamberge>(),
+                ModContent.ItemType<Hellkite>(),
+                ModContent.ItemType<HellwingStaff>(),
+                ModContent.ItemType<Helstorm>(),
+                ModContent.ItemType<InfernaCutter>(),
+                ModContent.ItemType<Lazhar>(),
+                ModContent.ItemType<MeteorFist>(),
+                ModContent.ItemType<Mourningstar>(),
+                ModContent.ItemType<PhoenixBlade>(),
+                ModContent.ItemType<Photoviscerator>(),
+                ModContent.ItemType<RedSun>(),
+                ModContent.ItemType<SpectralstormCannon>(),
+                ModContent.ItemType<SunGodStaff>(),
+                ModContent.ItemType<SunSpiritStaff>(),
+                ModContent.ItemType<TearsofHeaven>(),
+                ModContent.ItemType<TerraFlameburster>(),
+                ModContent.ItemType<TheEmpyrean>(),
+                ModContent.ItemType<TheLastMourning>(),
+                ModContent.ItemType<TheWand>(),
+                ModContent.ItemType<VenusianTrident>(),
+                ModContent.ItemType<Vesuvius>(),
+                ModContent.ItemType<BlissfulBombardier>(),
+                ModContent.ItemType<HolyCollider>(),
+                ModContent.ItemType<MoltenAmputator>(),
+                ModContent.ItemType<PurgeGuzzler>(),
+                ModContent.ItemType<SolarFlare>(),
+                ModContent.ItemType<TelluricGlare>(),
+                ModContent.ItemType<AngryChickenStaff>(),
+                ModContent.ItemType<ChickenCannon>(),
+                ModContent.ItemType<DragonRage>(),
+                ModContent.ItemType<DragonsBreath>(),
+                ModContent.ItemType<PhoenixFlameBarrage>(),
+                ModContent.ItemType<ProfanedTrident>(),
+                ModContent.ItemType<TheBurningSky>(),
+                ModContent.ItemType<HeliumFlash>()
+            };
+
+            natureWeaponList = new List<int>()
+            {
+                ItemID.BladeofGrass,
+                ItemID.ChlorophyteClaymore,
+                ItemID.ChlorophyteSaber,
+                ItemID.ChlorophytePartisan,
+                ItemID.ChlorophyteShotbow,
+                ItemID.Seedler,
+                ItemID.ChristmasTreeSword,
+                ItemID.TerraBlade,
+                ItemID.JungleYoyo,
+                ItemID.Yelets,
+                ItemID.MushroomSpear,
+                ItemID.ThornChakram,
+                ItemID.Bananarang,
+                ItemID.FlowerPow,
+                ItemID.BeesKnees,
+                ItemID.Toxikarp,
+                ItemID.Bladetongue,
+                ItemID.PoisonStaff,
+                ItemID.VenomStaff,
+                ItemID.StaffofEarth,
+                ItemID.BeeGun,
+                ItemID.LeafBlower,
+                ItemID.WaspGun,
+                ItemID.CrystalSerpent,
+                ItemID.Razorpine,
+                ItemID.HornetStaff,
+                ItemID.QueenSpiderStaff,
+                ItemID.SlimeStaff,
+                ItemID.PygmyStaff,
+                ItemID.RavenStaff,
+                ItemID.BatScepter,
+                ItemID.SpiderStaff,
+                ItemID.Beenade,
+                ItemID.FrostDaggerfish,
+                ModContent.ItemType<DepthBlade>(),
+                ModContent.ItemType<AbyssBlade>(),
+                ModContent.ItemType<NeptunesBounty>(),
+                ModContent.ItemType<AquaticDissolution>(),
+                ModContent.ItemType<ArchAmaryllis>(),
+                ModContent.ItemType<ThornBlossom>(),
+                ModContent.ItemType<BiomeBlade>(),
+                ModContent.ItemType<TrueBiomeBlade>(),
+                ModContent.ItemType<OmegaBiomeBlade>(),
+                ModContent.ItemType<BladedgeGreatbow>(),
+                ModContent.ItemType<BlossomFlux>(),
+                ModContent.ItemType<EvergladeSpray>(),
+                ModContent.ItemType<FeralthornClaymore>(),
+                ModContent.ItemType<Floodtide>(),
+                ModContent.ItemType<FourSeasonsGalaxia>(),
+                ModContent.ItemType<GammaFusillade>(),
+                ModContent.ItemType<GleamingMagnolia>(),
+                ModContent.ItemType<HarvestStaff>(),
+                ModContent.ItemType<HellionFlowerSpear>(),
+                ModContent.ItemType<Lazhar>(),
+                ModContent.ItemType<LifefruitScythe>(),
+                ModContent.ItemType<ManaRose>(),
+                ModContent.ItemType<MangroveChakram>(),
+                ModContent.ItemType<MangroveChakramMelee>(),
+                ModContent.ItemType<MantisClaws>(),
+                ModContent.ItemType<Mariana>(),
+                ModContent.ItemType<Mistlestorm>(),
+                ModContent.ItemType<Monsoon>(),
+                ModContent.ItemType<Alluvion>(),
+                ModContent.ItemType<Needler>(),
+                ModContent.ItemType<NettlelineGreatbow>(),
+                ModContent.ItemType<Quagmire>(),
+                ModContent.ItemType<Shroomer>(),
+                ModContent.ItemType<SolsticeClaymore>(),
+                ModContent.ItemType<SporeKnife>(),
+                ModContent.ItemType<Spyker>(),
+                ModContent.ItemType<StormSaber>(),
+                ModContent.ItemType<StormRuler>(),
+                ModContent.ItemType<StormSurge>(),
+                ModContent.ItemType<TarragonThrowingDart>(),
+                ModContent.ItemType<TerraEdge>(),
+                ModContent.ItemType<TerraLance>(),
+                ModContent.ItemType<TerraRay>(),
+                ModContent.ItemType<TerraShiv>(),
+                ModContent.ItemType<Terratomere>(),
+                ModContent.ItemType<TerraFlameburster>(),
+                ModContent.ItemType<TheSwarmer>(),
+                ModContent.ItemType<Verdant>(),
+                ModContent.ItemType<Barinautical>(),
+                ModContent.ItemType<DeepseaStaff>(),
+                ModContent.ItemType<Downpour>(),
+                ModContent.ItemType<SubmarineShocker>(),
+                ModContent.ItemType<Archerfish>(),
+                ModContent.ItemType<BallOFugu>(),
+                ModContent.ItemType<BlackAnurian>(),
+                ModContent.ItemType<CalamarisLament>(),
+                ModContent.ItemType<HerringStaff>(),
+                ModContent.ItemType<Lionfish>()
+            };
+
+            alcoholList = new List<int>()
+            {
+                ModContent.BuffType<BloodyMaryBuff>(),
+                ModContent.BuffType<CaribbeanRumBuff>(),
+                ModContent.BuffType<CinnamonRollBuff>(),
+                ModContent.BuffType<EverclearBuff>(),
+                ModContent.BuffType<EvergreenGinBuff>(),
+                ModContent.BuffType<FireballBuff>(),
+                ModContent.BuffType<GrapeBeerBuff>(),
+                ModContent.BuffType<MargaritaBuff>(),
+                ModContent.BuffType<MoonshineBuff>(),
+                ModContent.BuffType<MoscowMuleBuff>(),
+                ModContent.BuffType<RedWineBuff>(),
+                ModContent.BuffType<RumBuff>(),
+                ModContent.BuffType<ScrewdriverBuff>(),
+                ModContent.BuffType<StarBeamRyeBuff>(),
+                ModContent.BuffType<TequilaBuff>(),
+                ModContent.BuffType<TequilaSunriseBuff>(),
+                ModContent.BuffType<VodkaBuff>(),
+                ModContent.BuffType<WhiskeyBuff>(),
+                ModContent.BuffType<WhiteWineBuff>()
+            };
+
+            doubleDamageBuffList = new List<int>()
+            {
+                ItemID.BallOHurt,
+                ItemID.TheMeatball,
+                ItemID.BlueMoon,
+                ItemID.Sunfury,
+                ItemID.DaoofPow,
+                ItemID.FlowerPow,
+                ItemID.Anchor,
+                ItemID.KOCannon,
+                ItemID.GolemFist,
+                ItemID.BreakerBlade,
+                ItemID.MonkStaffT2,
+                ItemID.ProximityMineLauncher,
+                ItemID.FireworksLauncher
+            };
+
+            sixtySixDamageBuffList = new List<int>()
+            {
+                ItemID.TrueNightsEdge,
+                ItemID.WandofSparking,
+                ItemID.MedusaHead,
+                ItemID.StaffofEarth,
+                ItemID.ChristmasTreeSword,
+                ItemID.MonkStaffT1,
+                ItemID.InfernoFork,
+                ItemID.VenomStaff
+            };
+
+            fiftyDamageBuffList = new List<int>()
+            {
+                ItemID.NightsEdge,
+                ItemID.EldMelter,
+                ItemID.Flamethrower,
+                ItemID.MoonlordTurretStaff,
+                ItemID.WaspGun,
+                ItemID.Keybrand,
+                ItemID.PulseBow,
+                ItemID.PaladinsHammer
+            };
+
+            thirtyThreeDamageBuffList = new List<int>()
+            {
+                ItemID.CrystalVileShard,
+                ItemID.SoulDrain,
+                ItemID.ClingerStaff,
+                ItemID.ChargedBlasterCannon,
+                ItemID.NettleBurst,
+                ItemID.Excalibur,
+                ItemID.AmberStaff,
+                ItemID.BluePhasesaber,
+                ItemID.RedPhasesaber,
+                ItemID.GreenPhasesaber,
+                ItemID.WhitePhasesaber,
+                ItemID.YellowPhasesaber,
+                ItemID.PurplePhasesaber,
+                ItemID.TheRottedFork,
+                ItemID.VampireKnives,
+                ItemID.Cascade
+            };
+
+            twentyFiveDamageBuffList = new List<int>()
+            {
+                ItemID.Muramasa,
+                ItemID.StakeLauncher,
+                ItemID.BookStaff
+            };
+
+            twentyDamageBuffList = new List<int>()
+            {
+                ItemID.TerraBlade,
+                ItemID.ChainGuillotines,
+                ItemID.FlowerofFrost,
+                ItemID.PoisonStaff,
+                ItemID.Gungnir
+            };
+
+            weaponAutoreuseList = new List<int>()
+            {
+                ItemID.NightsEdge,
+                ItemID.TrueNightsEdge,
+                ItemID.TrueExcalibur,
+                ItemID.PhoenixBlaster,
+                ItemID.VenusMagnum,
+                ItemID.MagicDagger,
+                ItemID.BeamSword,
+                ItemID.MonkStaffT2,
+                ItemID.PaladinsHammer
+            };
+
+            quarterDamageNerfList = new List<int>()
+            {
+                ItemID.DaedalusStormbow,
+                ItemID.PhoenixBlaster,
+                ItemID.VenusMagnum,
+                ItemID.BlizzardStaff,
+                ItemID.Phantasm
+            };
+
+            pumpkinMoonBuffList = new List<int>()
+            {
+                NPCID.Scarecrow1,
+                NPCID.Scarecrow2,
+                NPCID.Scarecrow3,
+                NPCID.Scarecrow4,
+                NPCID.Scarecrow5,
+                NPCID.Scarecrow6,
+                NPCID.Scarecrow7,
+                NPCID.Scarecrow8,
+                NPCID.Scarecrow9,
+                NPCID.Scarecrow10,
+                NPCID.HeadlessHorseman,
+                NPCID.MourningWood,
+                NPCID.Splinterling,
+                NPCID.Pumpking,
+                NPCID.PumpkingBlade,
+                NPCID.Hellhound,
+                NPCID.Poltergeist
+            };
+
+            frostMoonBuffList = new List<int>()
+            {
+                NPCID.ZombieElf,
+                NPCID.ZombieElfBeard,
+                NPCID.ZombieElfGirl,
+                NPCID.PresentMimic,
+                NPCID.GingerbreadMan,
+                NPCID.Yeti,
+                NPCID.Everscream,
+                NPCID.IceQueen,
+                NPCID.SantaNK1,
+                NPCID.ElfCopter,
+                NPCID.Nutcracker,
+                NPCID.NutcrackerSpinning,
+                NPCID.ElfArcher,
+                NPCID.Krampus,
+                NPCID.Flocko
+            };
+
+            eclipseBuffList = new List<int>()
+            {
+                NPCID.Eyezor,
+                NPCID.Reaper,
+                NPCID.Frankenstein,
+                NPCID.SwampThing,
+                NPCID.Vampire,
+                NPCID.VampireBat,
+                NPCID.Butcher,
+                NPCID.CreatureFromTheDeep,
+                NPCID.Fritz,
+                NPCID.Nailhead,
+                NPCID.Psycho,
+                NPCID.DeadlySphere,
+                NPCID.DrManFly,
+                NPCID.ThePossessed,
+                NPCID.Mothron,
+                NPCID.MothronEgg,
+                NPCID.MothronSpawn
+            };
+
+            eventProjectileBuffList = new List<int>()
+            {
+                ProjectileID.FlamingWood,
+                ProjectileID.GreekFire1,
+                ProjectileID.GreekFire2,
+                ProjectileID.GreekFire3,
+                ProjectileID.FlamingScythe,
+                ProjectileID.FlamingArrow,
+                ProjectileID.PineNeedleHostile,
+                ProjectileID.OrnamentHostile,
+                ProjectileID.OrnamentHostileShrapnel,
+                ProjectileID.FrostWave,
+                ProjectileID.FrostShard,
+                ProjectileID.Missile,
+                ProjectileID.Present,
+                ProjectileID.Spike,
+                ProjectileID.BulletDeadeye,
+                ProjectileID.EyeLaser,
+                ProjectileID.Nail,
+                ProjectileID.DrManFlyFlask
+            };
+
+            revengeanceEnemyBuffList = new List<int>()
+            {
+                NPCID.KingSlime,
+
+                NPCID.ServantofCthulhu,
+                NPCID.EyeofCthulhu,
+
+                NPCID.EaterofWorldsHead,
+                NPCID.EaterofWorldsBody,
+                NPCID.EaterofWorldsTail,
+
+                NPCID.BrainofCthulhu,
+                NPCID.Creeper,
+
+                NPCID.QueenBee,
+                NPCID.Bee,
+                NPCID.BeeSmall,
+
+                NPCID.SkeletronHead,
+                NPCID.SkeletronHand,
+
+                NPCID.WallofFlesh,
+                NPCID.TheHungryII,
+                NPCID.LeechHead,
+
+                NPCID.Spazmatism,
+                NPCID.Retinazer,
+
+                NPCID.SkeletronPrime,
+                NPCID.PrimeSaw,
+                NPCID.PrimeVice,
+                NPCID.PrimeLaser,
+                NPCID.PrimeCannon,
+
+                NPCID.TheDestroyer,
+                NPCID.TheDestroyerBody,
+                NPCID.TheDestroyerTail,
+                NPCID.Probe,
+
+                NPCID.Plantera,
+                NPCID.PlanterasTentacle,
+                NPCID.Spore,
+
+                NPCID.Golem,
+                NPCID.GolemHead,
+                NPCID.GolemHeadFree,
+                NPCID.GolemFistLeft,
+                NPCID.GolemFistRight,
+
+                NPCID.DukeFishron,
+                NPCID.DetonatingBubble,
+                NPCID.Sharkron,
+                NPCID.Sharkron2,
+
+                NPCID.DD2Betsy,
+
+                NPCID.CultistDragonHead,
+                NPCID.AncientCultistSquidhead,
+                NPCID.AncientLight,
+
+                NPCID.MoonLordHand,
+
+                NPCID.DevourerHead,
+                NPCID.GiantWormHead,
+                NPCID.MeteorHead,
+                NPCID.BoneSerpentHead,
+                NPCID.ManEater,
+                NPCID.Snatcher,
+                NPCID.Piranha,
+                NPCID.Shark,
+                NPCID.SpikeBall,
+                NPCID.BlazingWheel,
+                NPCID.Mimic,
+                NPCID.WyvernHead,
+                NPCID.DiggerHead,
+                NPCID.SeekerHead,
+                NPCID.AnglerFish,
+                NPCID.Werewolf,
+                NPCID.Wraith,
+                NPCID.Arapaima,
+                NPCID.BlackRecluse,
+                NPCID.WallCreeper,
+                NPCID.WallCreeperWall,
+                NPCID.BlackRecluseWall,
+                NPCID.AngryTrapper,
+                NPCID.Lihzahrd,
+                NPCID.LihzahrdCrawler,
+                NPCID.PirateCaptain,
+                NPCID.FlyingSnake,
+                NPCID.Reaper,
+                NPCID.Paladin,
+                NPCID.BoneLee,
+                NPCID.MourningWood,
+                NPCID.Pumpking,
+                NPCID.PumpkingBlade,
+                NPCID.PresentMimic,
+                NPCID.Everscream,
+                NPCID.IceQueen,
+                NPCID.SantaNK1,
+                NPCID.StardustWormHead,
+                NPCID.SolarCrawltipedeHead,
+                NPCID.Butcher,
+                NPCID.Psycho,
+                NPCID.DeadlySphere,
+                NPCID.BigMimicCorruption,
+                NPCID.BigMimicCrimson,
+                NPCID.BigMimicHallow,
+                NPCID.Mothron,
+                NPCID.DuneSplicerHead,
+                NPCID.SlimeSpiked,
+                NPCID.SandShark,
+                NPCID.SandsharkCorrupt,
+                NPCID.SandsharkCrimson,
+                NPCID.SandsharkHallow,
+
+                ModContent.NPCType<DesertScourgeHead>(),
+                ModContent.NPCType<DesertScourgeHeadSmall>(),
+                ModContent.NPCType<DriedSeekerHead>(),
+
+                ModContent.NPCType<CrabulonIdle>(),
+                ModContent.NPCType<CrabShroom>(),
+
+                ModContent.NPCType<HiveMind>(),
+                ModContent.NPCType<HiveMindP2>(),
+                ModContent.NPCType<DankCreeper>(),
+
+                ModContent.NPCType<PerforatorHeadLarge>(),
+                ModContent.NPCType<PerforatorHeadMedium>(),
+                ModContent.NPCType<PerforatorHeadSmall>(),
+                ModContent.NPCType<PerforatorHive>(),
+
+                ModContent.NPCType<SlimeGod>(),
+                ModContent.NPCType<SlimeGodRun>(),
+                ModContent.NPCType<SlimeGodCore>(),
+                ModContent.NPCType<SlimeGodSplit>(),
+                ModContent.NPCType<SlimeGodRunSplit>(),
+                ModContent.NPCType<SlimeSpawnCorrupt>(),
+                ModContent.NPCType<SlimeSpawnCrimson2>(),
+
+                ModContent.NPCType<Cryogen>(),
+                ModContent.NPCType<CryogenIce>(),
+                ModContent.NPCType<Cryocore>(),
+                ModContent.NPCType<Cryocore2>(),
+                ModContent.NPCType<IceMass>(),
+
+                ModContent.NPCType<AquaticScourgeHead>(),
+                ModContent.NPCType<AquaticScourgeBody>(),
+                ModContent.NPCType<AquaticScourgeBodyAlt>(),
+                ModContent.NPCType<AquaticScourgeTail>(),
+
+                ModContent.NPCType<BrimstoneElemental>(),
+
+                ModContent.NPCType<Calamitas>(),
+                ModContent.NPCType<CalamitasRun3>(),
+                ModContent.NPCType<CalamitasRun>(),
+                ModContent.NPCType<CalamitasRun2>(),
+                ModContent.NPCType<LifeSeeker>(),
+                ModContent.NPCType<SoulSeeker>(),
+
+                ModContent.NPCType<Parasea>(),
+                ModContent.NPCType<AquaticAberration>(),
+                ModContent.NPCType<Leviathan>(),
+                ModContent.NPCType<SirenIce>(),
+                ModContent.NPCType<Siren>(),
+
+                ModContent.NPCType<AstrumAureus>(),
+
+                ModContent.NPCType<PlaguebringerGoliath>(),
+                ModContent.NPCType<PlaguebringerShade>(),
+                ModContent.NPCType<PlagueHomingMissile>(),
+                ModContent.NPCType<PlagueBeeG>(),
+                ModContent.NPCType<PlagueBeeLargeG>(),
+
+                ModContent.NPCType<FlamePillar>(),
+                ModContent.NPCType<RockPillar>(),
+                ModContent.NPCType<RavagerHead2>(),
+                ModContent.NPCType<RavagerBody>(),
+                ModContent.NPCType<RavagerClawRight>(),
+                ModContent.NPCType<RavagerClawLeft>(),
+
+                ModContent.NPCType<AstrumDeusHead>(),
+                ModContent.NPCType<AstrumDeusHeadSpectral>(),
+
+                ModContent.NPCType<ProfanedGuardianBoss>(),
+                ModContent.NPCType<ProfanedGuardianBoss2>(),
+                ModContent.NPCType<ProfanedGuardianBoss3>(),
+
+                ModContent.NPCType<Bumblefuck>(),
+                ModContent.NPCType<Bumblefuck2>(),
+
+                // TODO -- Old Duke isn't added yet.
+                // ModContent.NPCType<OldDuke>(),
+                // ModContent.NPCType<DukeUrchin>(),
+
+                ModContent.NPCType<ProvSpawnDefense>(),
+                ModContent.NPCType<ProvSpawnOffense>(),
+
+                ModContent.NPCType<CeaselessVoid>(),
+
+                ModContent.NPCType<StormWeaverHead>(),
+                ModContent.NPCType<StormWeaverHeadNaked>(),
+
+                ModContent.NPCType<Signus>(),
+                ModContent.NPCType<CosmicLantern>(),
+
+                ModContent.NPCType<Polterghast>(),
+                ModContent.NPCType<PolterPhantom>(),
+
+                ModContent.NPCType<DevourerofGodsHead>(),
+                ModContent.NPCType<DevourerofGodsBody>(),
+                ModContent.NPCType<DevourerofGodsTail>(),
+                ModContent.NPCType<DevourerofGodsHead2>(),
+                ModContent.NPCType<DevourerofGodsHeadS>(),
+                ModContent.NPCType<DevourerofGodsBodyS>(),
+                ModContent.NPCType<DevourerofGodsTailS>(),
+
+                ModContent.NPCType<Yharon>(),
+                ModContent.NPCType<DetonatingFlare>(),
+                ModContent.NPCType<DetonatingFlare2>(),
+
+                ModContent.NPCType<SupremeCalamitas>(),
+
+                ModContent.NPCType<BobbitWormHead>(),
+                ModContent.NPCType<AquaticSeekerHead>(),
+                ModContent.NPCType<ColossalSquid>(),
+                ModContent.NPCType<EidolonWyrmHead>(),
+                ModContent.NPCType<EidolonWyrmHeadHuge>(),
+                ModContent.NPCType<GulperEelHead>(),
+                ModContent.NPCType<Mauler>(),
+                ModContent.NPCType<Reaper>(),
+
+                ModContent.NPCType<Atlas>(),
+                ModContent.NPCType<ArmoredDiggerHead>(),
+                ModContent.NPCType<Cnidrion>(),
+                ModContent.NPCType<GreatSandShark>(),
+                ModContent.NPCType<Horse>(),
+                ModContent.NPCType<ScornEater>(),
+
+                ModContent.NPCType<PrismTurtle>(),
+                ModContent.NPCType<GhostBell>(),
+                ModContent.NPCType<EutrophicRay>(),
+                ModContent.NPCType<Clam>(),
+                ModContent.NPCType<SeaSerpent1>(),
+                ModContent.NPCType<BlindedAngler>(),
+                ModContent.NPCType<GiantClam>()
+            };
+
+            revengeanceProjectileBuffList = new List<int>()
+            {
+                ProjectileID.Sharknado,
+                ProjectileID.Cthulunado,
+                ProjectileID.DD2BetsyFireball,
+                ProjectileID.DD2BetsyFlameBreath,
+
+                ProjectileID.SandBallFalling,
+                ProjectileID.AshBallFalling,
+                ProjectileID.DemonSickle,
+                ProjectileID.EbonsandBallFalling,
+                ProjectileID.PearlSandBallFalling,
+                ProjectileID.Boulder,
+                ProjectileID.PoisonDartTrap,
+                ProjectileID.SpikyBallTrap,
+                ProjectileID.SpearTrap,
+                ProjectileID.FlamethrowerTrap,
+                ProjectileID.FlamesTrap,
+                ProjectileID.CrimsandBallFalling,
+                ProjectileID.Fireball,
+                ProjectileID.PaladinsHammerHostile,
+                ProjectileID.FlamingWood,
+                ProjectileID.FlamingScythe,
+                ProjectileID.FrostWave,
+                ProjectileID.Present,
+                ProjectileID.Spike,
+                ProjectileID.SaucerDeathray,
+                ProjectileID.NebulaBolt,
+                ProjectileID.NebulaSphere,
+                ProjectileID.NebulaLaser,
+                ProjectileID.StardustSoldierLaser,
+                ProjectileID.VortexLaser,
+                ProjectileID.VortexVortexLightning,
+                ProjectileID.VortexLightning,
+                ProjectileID.VortexAcid,
+                ProjectileID.GeyserTrap,
+                ProjectileID.SandnadoHostile,
+
+                ModContent.ProjectileType<SandBlast>(),
+
+                ModContent.ProjectileType<MushBomb>(),
+                ModContent.ProjectileType<MushBombFall>(),
+                ModContent.ProjectileType<Mushmash>(),
+
+                ModContent.ProjectileType<ShaderainHostile>(),
+
+                ModContent.ProjectileType<BloodGeyser>(),
+                ModContent.ProjectileType<IchorShot>(),
+
+                ModContent.ProjectileType<AbyssMine>(),
+                ModContent.ProjectileType<AbyssMine2>(),
+                ModContent.ProjectileType<AbyssBallVolley>(),
+                ModContent.ProjectileType<AbyssBallVolley2>(),
+
+                ModContent.ProjectileType<IceBlast>(),
+                ModContent.ProjectileType<IceBomb>(),
+                ModContent.ProjectileType<IceRain>(),
+
+                ModContent.ProjectileType<SandPoisonCloud>(),
+                ModContent.ProjectileType<SandTooth>(),
+
+                ModContent.ProjectileType<BrimstoneHellfireball>(),
+                ModContent.ProjectileType<HellfireExplosion>(),
+                ModContent.ProjectileType<BrimstoneBarrage>(),
+                ModContent.ProjectileType<BrimstoneHellblast>(),
+
+                ModContent.ProjectileType<BrimstoneLaser>(),
+                ModContent.ProjectileType<BrimstoneLaserSplit>(),
+                ModContent.ProjectileType<BrimstoneBall>(),
+                ModContent.ProjectileType<BrimstoneFire>(),
+
+                ModContent.ProjectileType<LeviathanBomb>(),
+                ModContent.ProjectileType<WaterSpear>(),
+                ModContent.ProjectileType<FrostMist>(),
+                ModContent.ProjectileType<SirenSong>(),
+
+                ModContent.ProjectileType<AstralFlame>(),
+                ModContent.ProjectileType<AstralLaser>(),
+
+                ModContent.ProjectileType<PlagueExplosion>(),
+                ModContent.ProjectileType<PlagueStingerGoliath>(),
+                ModContent.ProjectileType<PlagueStingerGoliathV2>(),
+                ModContent.ProjectileType<HiveBombGoliath>(),
+
+                ModContent.ProjectileType<ScavengerNuke>(),
+
+                ModContent.ProjectileType<AstralShot2>(),
+                ModContent.ProjectileType<DeusMine>(),
+
+                ModContent.ProjectileType<ProfanedSpear>(),
+                ModContent.ProjectileType<FlareDust>(),
+
+                ModContent.ProjectileType<RedLightningFeather>(),
+
+                ModContent.ProjectileType<HolyBlast>(),
+                ModContent.ProjectileType<HolyBomb>(),
+                ModContent.ProjectileType<HolyFire>(),
+                ModContent.ProjectileType<HolyFire2>(),
+                ModContent.ProjectileType<HolyFlare>(),
+                ModContent.ProjectileType<HolyShot>(),
+                ModContent.ProjectileType<HolySpear>(),
+                ModContent.ProjectileType<MoltenBlast>(),
+                ModContent.ProjectileType<MoltenBlob>(),
+                ModContent.ProjectileType<ProvidenceCrystalShard>(),
+                ModContent.ProjectileType<ProvidenceHolyRay>(),
+
+                ModContent.ProjectileType<DarkEnergyBall>(),
+                ModContent.ProjectileType<DoGBeam>(),
+
+                ModContent.ProjectileType<CosmicFlameBurst>(),
+                ModContent.ProjectileType<SignusScythe>(),
+                ModContent.ProjectileType<EssenceDust>(),
+
+                ModContent.ProjectileType<PhantomBlast>(),
+                ModContent.ProjectileType<PhantomBlast2>(),
+                ModContent.ProjectileType<PhantomGhostShot>(),
+                ModContent.ProjectileType<PhantomHookShot>(),
+                ModContent.ProjectileType<PhantomMine>(),
+                ModContent.ProjectileType<PhantomShot>(),
+                ModContent.ProjectileType<PhantomShot2>(),
+
+                ModContent.ProjectileType<DoGDeath>(),
+                ModContent.ProjectileType<DoGFire>(),
+                ModContent.ProjectileType<DoGNebulaShot>(),
+
+                ModContent.ProjectileType<FlareBomb>(),
+                ModContent.ProjectileType<FlareDust2>(),
+                ModContent.ProjectileType<Flarenado>(),
+                ModContent.ProjectileType<Infernado>(),
+                ModContent.ProjectileType<Infernado2>(),
+                ModContent.ProjectileType<YharonFireball>(),
+                ModContent.ProjectileType<YharonFireball2>(),
+
+                ModContent.ProjectileType<BrimstoneFireblast>(),
+                ModContent.ProjectileType<BrimstoneGigaBlast>(),
+                ModContent.ProjectileType<BrimstoneHellblast2>(),
+                ModContent.ProjectileType<BrimstoneMonster>(),
+                ModContent.ProjectileType<BrimstoneWave>(),
+
+                ModContent.ProjectileType<GreatSandBlast>(),
+                ModContent.ProjectileType<PearlBurst>(),
+                ModContent.ProjectileType<PearlRain>()
+            };
+
+            revengeanceLifeStealExceptionList = new List<int>()
+            {
+                NPCID.Probe,
+                NPCID.MoonLordFreeEye,
+                NPCID.CultistDragonHead,
+                NPCID.CultistDragonBody1,
+                NPCID.CultistDragonBody2,
+                NPCID.CultistDragonBody3,
+                NPCID.CultistDragonBody4,
+                NPCID.CultistDragonTail,
+                NPCID.AncientCultistSquidhead,
+                NPCID.AncientLight,
+                NPCID.Sharkron,
+                NPCID.Sharkron2,
+                NPCID.PlanterasTentacle,
+                NPCID.Spore,
+                NPCID.TheHungryII,
+                NPCID.LeechHead,
+                NPCID.LeechBody,
+                NPCID.LeechTail,
+                NPCID.TheDestroyerBody,
+                NPCID.TheDestroyerTail,
+                NPCID.EaterofWorldsBody,
+                NPCID.EaterofWorldsTail,
+                NPCID.GolemHead,
+                NPCID.GolemHeadFree,
+                NPCID.GolemFistRight,
+                NPCID.GolemFistLeft,
+                NPCID.MoonLordCore
+            };
+
+            movementImpairImmuneList = new List<int>()
+            {
+                NPCID.QueenBee,
+            };
+
+            trapProjectileList = new List<int>()
+            {
+                ProjectileID.PoisonDartTrap,
+                ProjectileID.SpikyBallTrap,
+                ProjectileID.SpearTrap,
+                ProjectileID.FlamethrowerTrap,
+                ProjectileID.FlamesTrap,
+                ProjectileID.PoisonDart,
+                ProjectileID.GeyserTrap
+            };
+
+            scopedWeaponList = new List<int>()
+            {
+                ModContent.ItemType<AMR>(),
+                ModContent.ItemType<HalleysInferno>(),
+                ModContent.ItemType<Shroomer>(),
+                ModContent.ItemType<SpectreRifle>(),
+                ModContent.ItemType<Svantechnical>(),
+                ModContent.ItemType<Skullmasher>()
+            };
+
+            trueMeleeBoostExceptionList = new List<int>()
+            {
+                ItemID.FlowerPow,
+                ItemID.Flairon,
+                ItemID.ChlorophytePartisan,
+                ItemID.MushroomSpear,
+                ItemID.NorthPole,
+                ItemID.WoodYoyo,
+                ItemID.CorruptYoyo,
+                ItemID.CrimsonYoyo,
+                ItemID.JungleYoyo,
+                ItemID.Cascade,
+                ItemID.Chik,
+                ItemID.Code2,
+                ItemID.Rally,
+                ItemID.Yelets,
+                ItemID.RedsYoyo,
+                ItemID.ValkyrieYoyo,
+                ItemID.Amarok,
+                ItemID.HelFire,
+                ItemID.Kraken,
+                ItemID.TheEyeOfCthulhu,
+                ItemID.FormatC,
+                ItemID.Gradient,
+                ItemID.Valor,
+                ItemID.Terrarian,
+
+                // flails
+                ModContent.ItemType<BallOFugu>(),
+                ModContent.ItemType<DragonPow>(),
+
+                // spears
+                ModContent.ItemType<AmidiasTrident>(),
+                ModContent.ItemType<EarthenPike>(),
+                ModContent.ItemType<GoldplumeSpear>(),
+                ModContent.ItemType<HellionFlowerSpear>(),
+                ModContent.ItemType<SpatialLance>(),
+                ModContent.ItemType<StarnightLance>(),
+                ModContent.ItemType<StreamGouge>(),
+                ModContent.ItemType<TerraLance>(),
+                ModContent.ItemType<UrchinSpear>(),
+
+                // yoyos
+                ModContent.ItemType<AirSpinner>(),
+                ModContent.ItemType<Aorta>(),
+                ModContent.ItemType<Azathoth>(),
+                ModContent.ItemType<Chaotrix>(),
+                ModContent.ItemType<Cnidarian>(),
+                ModContent.ItemType<Lacerator>(),
+                ModContent.ItemType<Oracle>(),
+                ModContent.ItemType<Quagmire>(),
+                ModContent.ItemType<Shimmerspark>(),
+                ModContent.ItemType<SolarFlare>(),
+                ModContent.ItemType<TheEyeofCalamitas>(),
+                ModContent.ItemType<TheGodsGambit>(),
+                ModContent.ItemType<TheObliterator>(),
+                ModContent.ItemType<ThePlaguebringer>(),
+                ModContent.ItemType<Verdant>(),
+                ModContent.ItemType<YinYo>(),
+
+                // other
+                ModContent.ItemType<BansheeHook>(),
+                ModContent.ItemType<TyphonsGreed>()
+            };
+
+            tableList = new List<int>()
+            {
+                ModContent.TileType<AbyssBath>(),
+                ModContent.TileType<AbyssBookcase>(),
+                ModContent.TileType<AbyssDresser>(),
+                ModContent.TileType<AbyssPiano>(),
+                ModContent.TileType<AbyssTable>(),
+                ModContent.TileType<AbyssWorkbench>(),
+                ModContent.TileType<AncientBath>(),
+                ModContent.TileType<AncientBookcase>(),
+                ModContent.TileType<AncientDresser>(),
+                ModContent.TileType<AncientPiano>(),
+                ModContent.TileType<AncientTable>(),
+                ModContent.TileType<AncientWorkbench>(),
+                ModContent.TileType<AshenBath>(),
+                ModContent.TileType<AshenBookcase>(),
+                ModContent.TileType<AshenDresser>(),
+                ModContent.TileType<AshenPiano>(),
+                ModContent.TileType<AshenTable>(),
+                ModContent.TileType<AshenWorkbench>(),
+                ModContent.TileType<BotanicBathtub>(),
+                ModContent.TileType<BotanicBookcase>(),
+                ModContent.TileType<BotanicDresser>(),
+                ModContent.TileType<BotanicPiano>(),
+                ModContent.TileType<BotanicTable>(),
+                ModContent.TileType<BotanicWorkBench>(),
+                ModContent.TileType<CosmiliteBath>(),
+                ModContent.TileType<CosmiliteBookcase>(),
+                ModContent.TileType<CosmiliteDresser>(),
+                ModContent.TileType<CosmilitePiano>(),
+                ModContent.TileType<CosmiliteTable>(),
+                ModContent.TileType<CosmiliteWorkbench>(),
+                ModContent.TileType<EutrophicBathtub>(),
+                ModContent.TileType<EutrophicBookcase>(),
+                ModContent.TileType<EutrophicDresser>(),
+                ModContent.TileType<EutrophicPiano>(),
+                ModContent.TileType<EutrophicTable>(),
+                ModContent.TileType<EutrophicWorkBench>(),
+                ModContent.TileType<OccultBathtub>(),
+                ModContent.TileType<OccultBookcase>(),
+                ModContent.TileType<OccultDresser>(),
+                ModContent.TileType<OccultPiano>(),
+                ModContent.TileType<OccultTable>(),
+                ModContent.TileType<OccultWorkBench>(),
+                ModContent.TileType<PlaguedPlateBathtub>(),
+                ModContent.TileType<PlaguedPlateBookcase>(),
+                ModContent.TileType<PlaguedPlateDresser>(),
+                ModContent.TileType<PlaguedPlatePiano>(),
+                ModContent.TileType<PlaguedPlateTable>(),
+                ModContent.TileType<PlaguedPlateWorkbench>(),
+                ModContent.TileType<ProfanedBath>(),
+                ModContent.TileType<ProfanedBookcase>(),
+                ModContent.TileType<ProfanedDresser>(),
+                ModContent.TileType<ProfanedPiano>(),
+                ModContent.TileType<ProfanedTable>(),
+                ModContent.TileType<ProfanedWorkbench>(),
+                ModContent.TileType<SilvaBathtub>(),
+                ModContent.TileType<SilvaBookcase>(),
+                ModContent.TileType<SilvaDresser>(),
+                ModContent.TileType<SilvaPiano>(),
+                ModContent.TileType<SilvaTable>(),
+                ModContent.TileType<SilvaWorkBench>(),
+                ModContent.TileType<StatigelBath>(),
+                ModContent.TileType<StatigelBookcase>(),
+                ModContent.TileType<StatigelDresser>(),
+                ModContent.TileType<StatigelPiano>(),
+                ModContent.TileType<StatigelTable>(),
+                ModContent.TileType<StatigelWorkbench>(),
+                ModContent.TileType<StratusBathtub>(),
+                ModContent.TileType<StratusBookcase>(),
+                ModContent.TileType<StratusDresser>(),
+                ModContent.TileType<StratusPiano>(),
+                ModContent.TileType<StratusTable>(),
+                ModContent.TileType<StratusWorkbench>(),
+                ModContent.TileType<VoidBath>(),
+                ModContent.TileType<VoidBookcase>(),
+                ModContent.TileType<VoidDresser>(),
+                ModContent.TileType<VoidPiano>(),
+                ModContent.TileType<VoidTable>(),
+                ModContent.TileType<VoidWorkbench>()
+            };
+
+            chairList = new List<int>()
+            {
+                ModContent.TileType<AbyssBed>(),
+                ModContent.TileType<AbyssChair>(),
+                ModContent.TileType<AbyssSofa>(),
+                ModContent.TileType<AncientBed>(),
+                ModContent.TileType<AncientChair>(),
+                ModContent.TileType<AncientSofa>(),
+                ModContent.TileType<AshenBed>(),
+                ModContent.TileType<AshenChair>(),
+                ModContent.TileType<AshenSofa>(),
+                ModContent.TileType<BotanicBed>(),
+                ModContent.TileType<BotanicBench>(),
+                ModContent.TileType<BotanicChair>(),
+                ModContent.TileType<CosmiliteBed>(),
+                ModContent.TileType<CosmiliteChair>(),
+                ModContent.TileType<CosmiliteSofa>(),
+                ModContent.TileType<EutrophicBed>(),
+                ModContent.TileType<EutrophicBench>(),
+                ModContent.TileType<EutrophicChair>(),
+                ModContent.TileType<OccultBed>(),
+                ModContent.TileType<OccultChair>(),
+                ModContent.TileType<OccultSofa>(),
+                ModContent.TileType<PlaguedPlateBed>(),
+                ModContent.TileType<PlaguedPlateChair>(),
+                ModContent.TileType<PlaguedPlateSofa>(),
+                ModContent.TileType<ProfanedBed>(),
+                ModContent.TileType<ProfanedChair>(),
+                ModContent.TileType<ProfanedBench>(),
+                ModContent.TileType<SilvaBed>(),
+                ModContent.TileType<SilvaChair>(),
+                ModContent.TileType<SilvaBench>(),
+                ModContent.TileType<StatigelBed>(),
+                ModContent.TileType<StatigelChair>(),
+                ModContent.TileType<StatigelSofa>(),
+                ModContent.TileType<StratusBed>(),
+                ModContent.TileType<StratusChair>(),
+                ModContent.TileType<StratusSofa>(),
+                ModContent.TileType<VoidBed>(),
+                ModContent.TileType<VoidChair>(),
+                ModContent.TileType<VoidSofa>()
+            };
+
+            lightList = new List<int>()
+            {
+                ModContent.TileType<BlueCandle>(),
+                ModContent.TileType<ChaosCandle>(),
+                ModContent.TileType<LumenylCrystals>(),
+                ModContent.TileType<PinkCandle>(),
+                ModContent.TileType<PurpleCandle>(),
+                ModContent.TileType<TranquilityCandle>(),
+                ModContent.TileType<YellowCandle>(),
+                ModContent.TileType<SeaPrismCrystals>(),
+
+                ModContent.TileType<AbyssCandelabra>(),
+                ModContent.TileType<AbyssCandle>(),
+                ModContent.TileType<AbyssChandelier>(),
+                ModContent.TileType<AbyssLamp>(),
+                ModContent.TileType<AbyssLantern>(),
+                ModContent.TileType<AbyssTorch>(),
+                ModContent.TileType<AncientAltar>(),
+                ModContent.TileType<AncientBasin>(),
+                ModContent.TileType<AncientChandelier>(),
+                ModContent.TileType<AncientLamp>(),
+                ModContent.TileType<AncientLantern>(),
+                ModContent.TileType<AshenAltar>(),
+                ModContent.TileType<AshenBasin>(),
+                ModContent.TileType<AshenChandelier>(),
+                ModContent.TileType<AshenCandle>(),
+                ModContent.TileType<AshenCandelabra>(),
+                ModContent.TileType<AshenLamp>(),
+                ModContent.TileType<AshenLantern>(),
+                ModContent.TileType<BotanicCandle>(),
+                ModContent.TileType<BotanicCandelabra>(),
+                ModContent.TileType<BotanicChandelier>(),
+                ModContent.TileType<BotanicLamp>(),
+                ModContent.TileType<BotanicLantern>(),
+                ModContent.TileType<CosmiliteCandle>(),
+                ModContent.TileType<CosmiliteCandelabra>(),
+                ModContent.TileType<CosmiliteChandelier>(),
+                ModContent.TileType<CosmiliteLamp>(),
+                ModContent.TileType<CosmiliteLantern>(),
+                ModContent.TileType<CosmiliteSconce>(),
+                ModContent.TileType<EutrophicCandle>(),
+                ModContent.TileType<EutrophicCandelabra>(),
+                ModContent.TileType<EutrophicChandelier>(),
+                ModContent.TileType<EutrophicLamp>(),
+                ModContent.TileType<EutrophicLantern>(),
+                ModContent.TileType<PlaguedPlateBasin>(),
+                ModContent.TileType<PlaguedPlateCandle>(),
+                ModContent.TileType<PlaguedPlateCandelabra>(),
+                ModContent.TileType<PlaguedPlateChandelier>(),
+                ModContent.TileType<PlaguedPlateLamp>(),
+                ModContent.TileType<PlaguedPlateLantern>(),
+                ModContent.TileType<OccultCandle>(),
+                ModContent.TileType<OccultCandelabra>(),
+                ModContent.TileType<OccultChandelier>(),
+                ModContent.TileType<OccultLamp>(),
+                ModContent.TileType<OccultLantern>(),
+                ModContent.TileType<ProfanedBasin>(),
+                ModContent.TileType<ProfanedCandle>(),
+                ModContent.TileType<ProfanedCandelabra>(),
+                ModContent.TileType<ProfanedChandelier>(),
+                ModContent.TileType<ProfanedLamp>(),
+                ModContent.TileType<ProfanedLantern>(),
+                ModContent.TileType<SilvaBasin>(),
+                ModContent.TileType<SilvaCandle>(),
+                ModContent.TileType<SilvaCandelabra>(),
+                ModContent.TileType<SilvaChandelier>(),
+                ModContent.TileType<SilvaLamp>(),
+                ModContent.TileType<SilvaLantern>(),
+                ModContent.TileType<StatigelChandelier>(),
+                ModContent.TileType<StatigelCandle>(),
+                ModContent.TileType<StatigelCandelabra>(),
+                ModContent.TileType<StatigelLamp>(),
+                ModContent.TileType<StatigelLantern>(),
+                ModContent.TileType<StratusCandle>(),
+                ModContent.TileType<StratusCandelabra>(),
+                ModContent.TileType<StratusChandelier>(),
+                ModContent.TileType<StratusLantern>(),
+                ModContent.TileType<StratusLamp>(),
+                ModContent.TileType<VoidCandle>(),
+                ModContent.TileType<VoidCandelabra>(),
+                ModContent.TileType<VoidChandelier>(),
+                ModContent.TileType<VoidLamp>(),
+                ModContent.TileType<VoidLantern>()
+            };
+
+            doorList = new List<int>()
+            {
+                ModContent.TileType<AbyssDoorOpen>(),
+                ModContent.TileType<AbyssDoorClosed>(),
+                ModContent.TileType<AncientDoorOpen>(),
+                ModContent.TileType<AncientDoorClosed>(),
+                ModContent.TileType<AshenDoorClosed>(),
+                ModContent.TileType<AshenDoorOpen>(),
+                ModContent.TileType<AshenPlatform>(),
+                ModContent.TileType<BotanicDoorOpen>(),
+                ModContent.TileType<BotanicDoorClosed>(),
+                ModContent.TileType<BotanicPlatform>(),
+                ModContent.TileType<CosmiliteDoorOpen>(),
+                ModContent.TileType<CosmiliteDoorClosed>(),
+                ModContent.TileType<CosmilitePlatform>(),
+                ModContent.TileType<EutrophicDoorOpen>(),
+                ModContent.TileType<EutrophicDoorClosed>(),
+                ModContent.TileType<EutrophicPlatform>(),
+                ModContent.TileType<OccultDoorOpen>(),
+                ModContent.TileType<OccultDoorClosed>(),
+                ModContent.TileType<OccultPlatform>(),
+                ModContent.TileType<PlaguedPlateDoorOpen>(),
+                ModContent.TileType<PlaguedPlateDoorClosed>(),
+                ModContent.TileType<PlaguedPlatePlatform>(),
+                ModContent.TileType<ProfanedDoorOpen>(),
+                ModContent.TileType<ProfanedDoorClosed>(),
+                ModContent.TileType<ProfanedPlatform>(),
+                ModContent.TileType<SilvaDoorOpen>(),
+                ModContent.TileType<SilvaDoorClosed>(),
+                ModContent.TileType<SilvaPlatform>(),
+                ModContent.TileType<SmoothAbyssGravelPlatform>(),
+                ModContent.TileType<SmoothVoidstonePlatform>(),
+                ModContent.TileType<StratusDoorOpen>(),
+                ModContent.TileType<StratusDoorClosed>(),
+                ModContent.TileType<StatigelPlatform>(),
+                ModContent.TileType<StratusPlatform>(),
+                ModContent.TileType<VoidDoorOpen>(),
+                ModContent.TileType<VoidDoorClosed>()
+            };
+
+            zombieList = new List<int>()
+            {
+                NPCID.Zombie,
+                NPCID.ArmedZombie,
+                NPCID.BaldZombie,
+                NPCID.PincushionZombie,
+                NPCID.ArmedZombiePincussion, // what is this spelling
+                NPCID.SlimedZombie,
+                NPCID.ArmedZombieSlimed,
+                NPCID.SwampZombie,
+                NPCID.ArmedZombieSwamp,
+                NPCID.TwiggyZombie,
+                NPCID.ArmedZombieTwiggy,
+                NPCID.FemaleZombie,
+                NPCID.ArmedZombieCenx,
+                NPCID.ZombieRaincoat,
+                NPCID.ZombieEskimo,
+                NPCID.ArmedZombieEskimo
+                // halloween zombies not included because they don't drop shackles or zombie arms
+            };
+
+            demonEyeList = new List<int>()
+            {
+                NPCID.DemonEye,
+                NPCID.CataractEye,
+                NPCID.SleepyEye,
+                NPCID.DialatedEye, // it is spelled "dilated"
+                NPCID.GreenEye,
+                NPCID.PurpleEye,
+                NPCID.DemonEyeOwl,
+                NPCID.DemonEyeSpaceship
+            };
+
+            skeletonList = new List<int>()
+            {
+                NPCID.Skeleton,
+                NPCID.ArmoredSkeleton,
+                NPCID.SkeletonArcher,
+                NPCID.HeadacheSkeleton,
+                NPCID.MisassembledSkeleton,
+                NPCID.PantlessSkeleton,
+                NPCID.SkeletonTopHat,
+                NPCID.SkeletonAstonaut,
+                NPCID.SkeletonAlien,
+                NPCID.BoneThrowingSkeleton,
+                NPCID.BoneThrowingSkeleton2,
+                NPCID.BoneThrowingSkeleton3,
+                NPCID.BoneThrowingSkeleton4,
+                NPCID.GreekSkeleton
+            };
+
+            angryBonesList = new List<int>()
+            {
+                NPCID.AngryBones,
+                NPCID.AngryBonesBig,
+                NPCID.AngryBonesBigMuscle,
+                NPCID.AngryBonesBigHelmet
+            };
+
+            hornetList = new List<int>()
+            {
+                NPCID.Hornet,
+                NPCID.HornetFatty,
+                NPCID.HornetHoney,
+                NPCID.HornetLeafy,
+                NPCID.HornetSpikey,
+                NPCID.HornetStingy
+            };
+
+            mossHornetList = new List<int>()
+            {
+                NPCID.MossHornet,
+                NPCID.TinyMossHornet,
+                NPCID.LittleMossHornet,
+                NPCID.BigMossHornet,
+                NPCID.GiantMossHornet
+            };
+
             Mod thorium = ModLoader.GetMod("ThoriumMod");
-            if (calamity != null)
+            if (Config.RevengeanceAndDeathThoriumBossBuff && thorium != null)
             {
-                donatorList = new List<string>()
-                {
-                    "Vorbis",
-                    "SoloMael",
-                    "Chaotic Reks",
-                    "The Buildmonger",
-                    "Yuh",
-                    "Littlepiggy",
-                    "LompL",
-                    "Lilith Saintclaire",
-                    "Ben Shapiro",
-                    "Frederik Henschel",
-                    "Faye",
-                    "Gibb50",
-                    "Braden Hajer",
-                    "Hannes Holmlund",
-                    "profoundmango69",
-                    "Jack M Sargent",
-                    "Hans Volter",
-                    "Krankwagon",
-                    "MishiroUsui",
-                    "pixlgray",
-                    "Arkhine",
-                    "Lodude",
-                    "DevAesthetic",
-                    "Mister Winchester",
-                    "Zacky",
-                    "Veine",
-                    "Javyz",
-                    "Shifter",
-                    "Crysthamyr",
-                    "Elfinlocks",
-                    "Ein",
-                    "2Larry2",
-                    "Jenonen",
-                    "Dodu",
-                    "Arti",
-                    "Tervastator",
-                    "Luis Arguello",
-                    "Alexander Davis",
-                    "BakaQing",
-                    "Laura Coonrod",
-                    "Xaphlactus",
-                    "MajinBagel",
-                    "Bendy",
-                    "Rando Calrissian",
-                    "Tails the Fox 92",
-                    "Bread",
-                    "Minty Candy",
-                    "Preston Card",
-                    "MovingTarget_086",
-                    "Shiro",
-                    "Chip",
-                    "Taylor Riverpaw",
-                    "ShotgunAngel",
-                    "Sandblast",
-                    "ThomasThePencil",
-                    "Aero (Aero#4599)",
-                    "GlitchOut",
-                    "Daawnz",
-                    "CrabBar",
-                    "Yatagarasu",
-                    "Jarod Isaac Gordon",
-                    "Zombieh",
-                    "MingWhy",
-                    "Random Weeb",
-                    "Ahmed Fahad Zamel Al Sharif",
-                    "Eragon3942",
-                    "TheBlackHand",
-                    "william",
-                    "Samuel Foreman",
-                    "Christopher Pham",
-                    "DemoN K!ng",
-                    "Malik Ciaramella",
-                    "Ryan Baker-Ortiz",
-                    "Aleksanders Denisovs",
-                    "TheSilverGhost",
-                    "Lucazii",
-                    "Shay",
-                    "Prism",
-                    "BobIsNotMyRealName",
-                    "Guwahavel",
-                    "Azura",
-                    "Joshua Miranda",
-                    "Doveda",
-                    "William Chang",
-                    "Arche",
-                    "DevilSunrise",
-                    "Yanmei",
-                    "Chaos",
-                    "Ryan Tucker",
-                    "Fish Repairs",
-                    "Melvin Brouwers",
-                    "Vroomy Has -3,000 IQ",
-                    "The Goliath",
-                    "DaPyRo"
-                };
-
-                rangedProjectileExceptionList = new List<int>()
-                {
-                    ProjectileID.Phantasm,
-                    ProjectileID.VortexBeater,
-                    ProjectileID.DD2PhoenixBow,
-                    ProjectileID.IchorDart,
-                    ProjectileID.PhantasmArrow,
-                    ModContent.ProjectileType<PhangasmBow>(),
-                    ModContent.ProjectileType<ContagionBow>(),
-                    ModContent.ProjectileType<DaemonsFlameBow>(),
-                    ModContent.ProjectileType<ExoTornado>(),
-                    ModContent.ProjectileType<DrataliornusBow>(),
-                    ModContent.ProjectileType<FlakKrakenGun>(),
-                    ModContent.ProjectileType<ButcherGun>(),
-                    ModContent.ProjectileType<StarfleetMK2Gun>(),
-                    ModContent.ProjectileType<TerraBulletSplit>(),
-                    ModContent.ProjectileType<TerraArrowSplit>(),
-                    ModContent.ProjectileType<OMGWTH>(),
-                    ModContent.ProjectileType<NorfleetCannon>(),
-                    ModContent.ProjectileType<NorfleetComet>(),
-                    ModContent.ProjectileType<NorfleetExplosion>()
-                };
-
-                projectileMinionList = new List<int>()
-                {
-                    ProjectileID.PygmySpear,
-                    ProjectileID.UFOMinion,
-                    ProjectileID.UFOLaser,
-                    ProjectileID.StardustCellMinionShot,
-                    ProjectileID.MiniSharkron,
-                    ProjectileID.MiniRetinaLaser,
-                    ProjectileID.ImpFireball,
-                    ProjectileID.HornetStinger,
-                    ProjectileID.DD2FlameBurstTowerT1Shot,
-                    ProjectileID.DD2FlameBurstTowerT2Shot,
-                    ProjectileID.DD2FlameBurstTowerT3Shot,
-                    ProjectileID.DD2BallistraProj,
-                    ProjectileID.DD2ExplosiveTrapT1Explosion,
-                    ProjectileID.DD2ExplosiveTrapT2Explosion,
-                    ProjectileID.DD2ExplosiveTrapT3Explosion,
-                    ProjectileID.SpiderEgg,
-                    ProjectileID.BabySpider,
-                    ProjectileID.FrostBlastFriendly,
-                    ProjectileID.MoonlordTurretLaser,
-                    ProjectileID.RainbowCrystalExplosion
-                };
-
-                enemyImmunityList = new List<int>()
-                {
-                    NPCID.KingSlime,
-                    NPCID.EaterofWorldsHead,
-                    NPCID.EaterofWorldsBody,
-                    NPCID.EaterofWorldsTail,
-                    NPCID.BrainofCthulhu,
-                    NPCID.Creeper,
-                    NPCID.EyeofCthulhu,
-                    NPCID.QueenBee,
-                    NPCID.SkeletronHead,
-                    NPCID.SkeletronHand,
-                    NPCID.WallofFlesh,
-                    NPCID.WallofFleshEye,
-                    NPCID.Retinazer,
-                    NPCID.Spazmatism,
-                    NPCID.SkeletronPrime,
-                    NPCID.PrimeCannon,
-                    NPCID.PrimeSaw,
-                    NPCID.PrimeLaser,
-                    NPCID.PrimeVice,
-                    NPCID.Plantera,
-                    NPCID.IceQueen,
-                    NPCID.Pumpking,
-                    NPCID.Mothron,
-                    NPCID.Golem,
-                    NPCID.GolemHead,
-                    NPCID.GolemFistRight,
-                    NPCID.GolemFistLeft,
-                    NPCID.DukeFishron,
-                    NPCID.CultistBoss,
-                    NPCID.MoonLordHead,
-                    NPCID.MoonLordHand,
-                    NPCID.MoonLordCore,
-                    NPCID.MoonLordFreeEye,
-                    NPCID.DD2Betsy
-                };
-
-                dungeonEnemyBuffList = new List<int>()
-                {
-                    NPCID.SkeletonSniper,
-                    NPCID.TacticalSkeleton,
-                    NPCID.SkeletonCommando,
-                    NPCID.Paladin,
-                    NPCID.GiantCursedSkull,
-                    NPCID.BoneLee,
-                    NPCID.DiabolistWhite,
-                    NPCID.DiabolistRed,
-                    NPCID.NecromancerArmored,
-                    NPCID.Necromancer,
-                    NPCID.RaggedCasterOpenCoat,
-                    NPCID.RaggedCaster,
-                    NPCID.HellArmoredBonesSword,
-                    NPCID.HellArmoredBonesMace,
-                    NPCID.HellArmoredBonesSpikeShield,
-                    NPCID.HellArmoredBones,
-                    NPCID.BlueArmoredBonesSword,
-                    NPCID.BlueArmoredBonesNoPants,
-                    NPCID.BlueArmoredBonesMace,
-                    NPCID.BlueArmoredBones,
-                    NPCID.RustyArmoredBonesSwordNoArmor,
-                    NPCID.RustyArmoredBonesSword,
-                    NPCID.RustyArmoredBonesFlail,
-                    NPCID.RustyArmoredBonesAxe
-                };
-
-                dungeonProjectileBuffList = new List<int>()
-                {
-                    ProjectileID.PaladinsHammerHostile,
-                    ProjectileID.ShadowBeamHostile,
-                    ProjectileID.InfernoHostileBolt,
-                    ProjectileID.InfernoHostileBlast,
-                    ProjectileID.LostSoulHostile,
-                    ProjectileID.SniperBullet,
-                    ProjectileID.RocketSkeleton,
-                    ProjectileID.BulletDeadeye,
-                    ProjectileID.Shadowflames
-                };
-
-                bossScaleList = new List<int>()
-                {
-                    NPCID.EaterofWorldsHead,
-                    NPCID.EaterofWorldsBody,
-                    NPCID.EaterofWorldsTail,
-                    NPCID.Creeper,
-                    NPCID.SkeletronHand,
-                    NPCID.WallofFleshEye,
-                    NPCID.TheHungry,
-                    NPCID.TheHungryII,
-                    NPCID.TheDestroyerBody,
-                    NPCID.TheDestroyerTail,
-                    NPCID.PrimeCannon,
-                    NPCID.PrimeVice,
-                    NPCID.PrimeSaw,
-                    NPCID.PrimeLaser,
-                    NPCID.PlanterasTentacle,
-                    NPCID.Pumpking,
-                    NPCID.IceQueen,
-                    NPCID.Mothron,
-                    NPCID.GolemHead
-                };
-
-                bossHPScaleList = new List<int>()
-                {
-                    NPCID.EaterofWorldsHead,
-                    NPCID.EaterofWorldsBody,
-                    NPCID.EaterofWorldsTail,
-                    NPCID.SkeletronHand,
-                    NPCID.WallofFleshEye,
-                    NPCID.TheDestroyerBody,
-                    NPCID.TheDestroyerTail,
-                    NPCID.PrimeCannon,
-                    NPCID.PrimeLaser,
-                    NPCID.PrimeVice,
-                    NPCID.PrimeSaw,
-                    NPCID.GolemHead,
-                    NPCID.GolemHeadFree,
-                    NPCID.GolemFistRight,
-                    NPCID.GolemFistLeft,
-                    NPCID.MoonLordHead,
-                    NPCID.MoonLordHand
-                };
-
-                beeEnemyList = new List<int>()
-                {
-                    NPCID.GiantMossHornet,
-                    NPCID.BigMossHornet,
-                    NPCID.LittleMossHornet,
-                    NPCID.TinyMossHornet,
-                    NPCID.MossHornet,
-                    NPCID.VortexHornetQueen,
-                    NPCID.VortexHornet,
-                    NPCID.Bee,
-                    NPCID.BeeSmall,
-                    NPCID.QueenBee,
-                    ModContent.NPCType<PlaguebringerGoliath>(),
-                    ModContent.NPCType<PlaguebringerShade>(),
-                    ModContent.NPCType<PlagueBeeLargeG>(),
-                    ModContent.NPCType<PlagueBeeLarge>(),
-                    ModContent.NPCType<PlagueBeeG>(),
-                    ModContent.NPCType<PlagueBee>()
-                };
-
-                beeProjectileList = new List<int>()
-                {
-                    ProjectileID.Stinger,
-                    ProjectileID.HornetStinger,
-                    ModContent.ProjectileType<PlagueStingerGoliath>(),
-                    ModContent.ProjectileType<PlagueStingerGoliathV2>(),
-                    ModContent.ProjectileType<PlagueExplosion>()
-                };
-
-                hardModeNerfList = new List<int>()
-                {
-                    ProjectileID.WebSpit,
-                    ProjectileID.PinkLaser,
-                    ProjectileID.FrostBlastHostile,
-                    ProjectileID.RuneBlast,
-                    ProjectileID.GoldenShowerHostile,
-                    ProjectileID.RainNimbus,
-                    ProjectileID.Stinger,
-                    ProjectileID.FlamingArrow,
-                    ProjectileID.BulletDeadeye,
-                    ProjectileID.CannonballHostile
-                };
-
-                debuffList = new List<int>()
-                {
-                    BuffID.Poisoned,
-                    BuffID.Darkness,
-                    BuffID.Cursed,
-                    BuffID.OnFire,
-                    BuffID.Bleeding,
-                    BuffID.Confused,
-                    BuffID.Slow,
-                    BuffID.Weak,
-                    BuffID.Silenced,
-                    BuffID.BrokenArmor,
-                    BuffID.CursedInferno,
-                    BuffID.Frostburn,
-                    BuffID.Chilled,
-                    BuffID.Frozen,
-                    BuffID.Burning,
-                    BuffID.Suffocation,
-                    BuffID.Ichor,
-                    BuffID.Venom,
-                    BuffID.Blackout,
-                    BuffID.Electrified,
-                    BuffID.Rabies,
-                    BuffID.Webbed,
-                    BuffID.Stoned,
-                    BuffID.Dazed,
-                    BuffID.VortexDebuff,
-                    BuffID.WitheredArmor,
-                    BuffID.WitheredWeapon,
-                    BuffID.OgreSpit,
-                    BuffID.BetsysCurse,
-                    ModContent.BuffType<Shadowflame>(),
-                    ModContent.BuffType<BrimstoneFlames>(),
-                    ModContent.BuffType<BurningBlood>(),
-                    ModContent.BuffType<GlacialState>(),
-                    ModContent.BuffType<GodSlayerInferno>(),
-                    ModContent.BuffType<AstralInfectionDebuff>(),
-                    ModContent.BuffType<HolyFlames>(),
-                    ModContent.BuffType<Irradiated>(),
-                    ModContent.BuffType<Plague>(),
-                    ModContent.BuffType<AbyssalFlames>(),
-                    ModContent.BuffType<CrushDepth>(),
-                    ModContent.BuffType<Horror>(),
-                    ModContent.BuffType<MarkedforDeath>()
-                };
-
-                fireWeaponList = new List<int>()
-                {
-                    ItemID.FieryGreatsword,
-                    ItemID.DD2SquireDemonSword,
-                    ItemID.TheHorsemansBlade,
-                    ItemID.DD2SquireBetsySword,
-                    ItemID.Cascade,
-                    ItemID.HelFire,
-                    ItemID.MonkStaffT2,
-                    ItemID.Flamarang,
-                    ItemID.MoltenFury,
-                    ItemID.Sunfury,
-                    ItemID.PhoenixBlaster,
-                    ItemID.Flamelash,
-                    ItemID.SolarEruption,
-                    ItemID.DayBreak,
-                    ItemID.MonkStaffT3,
-                    ItemID.HellwingBow,
-                    ItemID.DD2PhoenixBow,
-                    ItemID.DD2BetsyBow,
-                    ItemID.FlareGun,
-                    ItemID.Flamethrower,
-                    ItemID.EldMelter,
-                    ItemID.FlowerofFire,
-                    ItemID.MeteorStaff,
-                    ItemID.ApprenticeStaffT3,
-                    ItemID.InfernoFork,
-                    ItemID.HeatRay,
-                    ItemID.BookofSkulls,
-                    ItemID.ImpStaff,
-                    ItemID.DD2FlameburstTowerT1Popper,
-                    ItemID.DD2FlameburstTowerT2Popper,
-                    ItemID.DD2FlameburstTowerT3Popper,
-                    ItemID.MolotovCocktail,
-                    ModContent.ItemType<AegisBlade>(),
-                    ModContent.ItemType<BalefulHarvester>(),
-                    ModContent.ItemType<Chaotrix>(),
-                    ModContent.ItemType<CometQuasher>(),
-                    ModContent.ItemType<DraconicDestruction>(),
-                    ModContent.ItemType<Drataliornus>(),
-                    ModContent.ItemType<EnergyStaff>(),
-                    ModContent.ItemType<ExsanguinationLance>(),
-                    ModContent.ItemType<FirestormCannon>(),
-                    ModContent.ItemType<FlameburstShortsword>(),
-                    ModContent.ItemType<FlameScythe>(),
-                    ModContent.ItemType<FlameScytheMelee>(),
-                    ModContent.ItemType<FlareBolt>(),
-                    ModContent.ItemType<FlarefrostBlade>(),
-                    ModContent.ItemType<FlarewingBow>(),
-                    ModContent.ItemType<ForbiddenSun>(),
-                    ModContent.ItemType<FrigidflashBolt>(),
-                    ModContent.ItemType<GreatbowofTurmoil>(),
-                    ModContent.ItemType<HarvestStaff>(),
-                    ModContent.ItemType<Hellborn>(),
-                    ModContent.ItemType<HellBurst>(),
-                    ModContent.ItemType<HellfireFlamberge>(),
-                    ModContent.ItemType<Hellkite>(),
-                    ModContent.ItemType<HellwingStaff>(),
-                    ModContent.ItemType<Helstorm>(),
-                    ModContent.ItemType<InfernaCutter>(),
-                    ModContent.ItemType<Lazhar>(),
-                    ModContent.ItemType<MeteorFist>(),
-                    ModContent.ItemType<Mourningstar>(),
-                    ModContent.ItemType<PhoenixBlade>(),
-                    ModContent.ItemType<Photoviscerator>(),
-                    ModContent.ItemType<RedSun>(),
-                    ModContent.ItemType<SpectralstormCannon>(),
-                    ModContent.ItemType<SunGodStaff>(),
-                    ModContent.ItemType<SunSpiritStaff>(),
-                    ModContent.ItemType<TearsofHeaven>(),
-                    ModContent.ItemType<TerraFlameburster>(),
-                    ModContent.ItemType<TheEmpyrean>(),
-                    ModContent.ItemType<TheLastMourning>(),
-                    ModContent.ItemType<TheWand>(),
-                    ModContent.ItemType<VenusianTrident>(),
-                    ModContent.ItemType<Vesuvius>(),
-                    ModContent.ItemType<BlissfulBombardier>(),
-                    ModContent.ItemType<HolyCollider>(),
-                    ModContent.ItemType<MoltenAmputator>(),
-                    ModContent.ItemType<PurgeGuzzler>(),
-                    ModContent.ItemType<SolarFlare>(),
-                    ModContent.ItemType<TelluricGlare>(),
-                    ModContent.ItemType<AngryChickenStaff>(),
-                    ModContent.ItemType<ChickenCannon>(),
-                    ModContent.ItemType<DragonRage>(),
-                    ModContent.ItemType<DragonsBreath>(),
-                    ModContent.ItemType<PhoenixFlameBarrage>(),
-                    ModContent.ItemType<ProfanedTrident>(),
-                    ModContent.ItemType<TheBurningSky>(),
-                    ModContent.ItemType<HeliumFlash>()
-                };
-
-                natureWeaponList = new List<int>()
-                {
-                    ItemID.BladeofGrass,
-                    ItemID.ChlorophyteClaymore,
-                    ItemID.ChlorophyteSaber,
-                    ItemID.ChlorophytePartisan,
-                    ItemID.ChlorophyteShotbow,
-                    ItemID.Seedler,
-                    ItemID.ChristmasTreeSword,
-                    ItemID.TerraBlade,
-                    ItemID.JungleYoyo,
-                    ItemID.Yelets,
-                    ItemID.MushroomSpear,
-                    ItemID.ThornChakram,
-                    ItemID.Bananarang,
-                    ItemID.FlowerPow,
-                    ItemID.BeesKnees,
-                    ItemID.Toxikarp,
-                    ItemID.Bladetongue,
-                    ItemID.PoisonStaff,
-                    ItemID.VenomStaff,
-                    ItemID.StaffofEarth,
-                    ItemID.BeeGun,
-                    ItemID.LeafBlower,
-                    ItemID.WaspGun,
-                    ItemID.CrystalSerpent,
-                    ItemID.Razorpine,
-                    ItemID.HornetStaff,
-                    ItemID.QueenSpiderStaff,
-                    ItemID.SlimeStaff,
-                    ItemID.PygmyStaff,
-                    ItemID.RavenStaff,
-                    ItemID.BatScepter,
-                    ItemID.SpiderStaff,
-                    ItemID.Beenade,
-                    ItemID.FrostDaggerfish,
-                    ModContent.ItemType<DepthBlade>(),
-                    ModContent.ItemType<AbyssBlade>(),
-                    ModContent.ItemType<NeptunesBounty>(),
-                    ModContent.ItemType<AquaticDissolution>(),
-                    ModContent.ItemType<ArchAmaryllis>(),
-                    ModContent.ItemType<ThornBlossom>(),
-                    ModContent.ItemType<BiomeBlade>(),
-                    ModContent.ItemType<TrueBiomeBlade>(),
-                    ModContent.ItemType<OmegaBiomeBlade>(),
-                    ModContent.ItemType<BladedgeGreatbow>(),
-                    ModContent.ItemType<BlossomFlux>(),
-                    ModContent.ItemType<EvergladeSpray>(),
-                    ModContent.ItemType<FeralthornClaymore>(),
-                    ModContent.ItemType<Floodtide>(),
-                    ModContent.ItemType<FourSeasonsGalaxia>(),
-                    ModContent.ItemType<GammaFusillade>(),
-                    ModContent.ItemType<GleamingMagnolia>(),
-                    ModContent.ItemType<HarvestStaff>(),
-                    ModContent.ItemType<HellionFlowerSpear>(),
-                    ModContent.ItemType<Lazhar>(),
-                    ModContent.ItemType<LifefruitScythe>(),
-                    ModContent.ItemType<ManaRose>(),
-                    ModContent.ItemType<MangroveChakram>(),
-                    ModContent.ItemType<MangroveChakramMelee>(),
-                    ModContent.ItemType<MantisClaws>(),
-                    ModContent.ItemType<Mariana>(),
-                    ModContent.ItemType<Mistlestorm>(),
-                    ModContent.ItemType<Monsoon>(),
-                    ModContent.ItemType<Alluvion>(),
-                    ModContent.ItemType<Needler>(),
-                    ModContent.ItemType<NettlelineGreatbow>(),
-                    ModContent.ItemType<Quagmire>(),
-                    ModContent.ItemType<Shroomer>(),
-                    ModContent.ItemType<SolsticeClaymore>(),
-                    ModContent.ItemType<SporeKnife>(),
-                    ModContent.ItemType<Spyker>(),
-                    ModContent.ItemType<StormSaber>(),
-                    ModContent.ItemType<StormRuler>(),
-                    ModContent.ItemType<StormSurge>(),
-                    ModContent.ItemType<TarragonThrowingDart>(),
-                    ModContent.ItemType<TerraEdge>(),
-                    ModContent.ItemType<TerraLance>(),
-                    ModContent.ItemType<TerraRay>(),
-                    ModContent.ItemType<TerraShiv>(),
-                    ModContent.ItemType<Terratomere>(),
-                    ModContent.ItemType<TerraFlameburster>(),
-                    ModContent.ItemType<TheSwarmer>(),
-                    ModContent.ItemType<Verdant>(),
-                    ModContent.ItemType<Barinautical>(),
-                    ModContent.ItemType<DeepseaStaff>(),
-                    ModContent.ItemType<Downpour>(),
-                    ModContent.ItemType<SubmarineShocker>(),
-                    ModContent.ItemType<Archerfish>(),
-                    ModContent.ItemType<BallOFugu>(),
-                    ModContent.ItemType<BlackAnurian>(),
-                    ModContent.ItemType<CalamarisLament>(),
-                    ModContent.ItemType<HerringStaff>(),
-                    ModContent.ItemType<Lionfish>()
-                };
-
-                alcoholList = new List<int>()
-                {
-                    ModContent.BuffType<BloodyMaryBuff>(),
-                    ModContent.BuffType<CaribbeanRumBuff>(),
-                    ModContent.BuffType<CinnamonRollBuff>(),
-                    ModContent.BuffType<EverclearBuff>(),
-                    ModContent.BuffType<EvergreenGinBuff>(),
-                    ModContent.BuffType<FireballBuff>(),
-                    ModContent.BuffType<GrapeBeerBuff>(),
-                    ModContent.BuffType<MargaritaBuff>(),
-                    ModContent.BuffType<MoonshineBuff>(),
-                    ModContent.BuffType<MoscowMuleBuff>(),
-                    ModContent.BuffType<RedWineBuff>(),
-                    ModContent.BuffType<RumBuff>(),
-                    ModContent.BuffType<ScrewdriverBuff>(),
-                    ModContent.BuffType<StarBeamRyeBuff>(),
-                    ModContent.BuffType<TequilaBuff>(),
-                    ModContent.BuffType<TequilaSunriseBuff>(),
-                    ModContent.BuffType<VodkaBuff>(),
-                    ModContent.BuffType<WhiskeyBuff>(),
-                    ModContent.BuffType<WhiteWineBuff>()
-                };
-
-                doubleDamageBuffList = new List<int>()
-                {
-                    ItemID.BallOHurt,
-                    ItemID.TheMeatball,
-                    ItemID.BlueMoon,
-                    ItemID.Sunfury,
-                    ItemID.DaoofPow,
-                    ItemID.FlowerPow,
-                    ItemID.Anchor,
-                    ItemID.KOCannon,
-                    ItemID.GolemFist,
-                    ItemID.BreakerBlade,
-                    ItemID.MonkStaffT2,
-                    ItemID.ProximityMineLauncher,
-                    ItemID.FireworksLauncher
-                };
-
-                sixtySixDamageBuffList = new List<int>()
-                {
-                    ItemID.TrueNightsEdge,
-                    ItemID.WandofSparking,
-                    ItemID.MedusaHead,
-                    ItemID.StaffofEarth,
-                    ItemID.ChristmasTreeSword,
-                    ItemID.MonkStaffT1,
-                    ItemID.InfernoFork,
-                    ItemID.VenomStaff
-                };
-
-                fiftyDamageBuffList = new List<int>()
-                {
-                    ItemID.NightsEdge,
-                    ItemID.EldMelter,
-                    ItemID.Flamethrower,
-                    ItemID.MoonlordTurretStaff,
-                    ItemID.WaspGun,
-                    ItemID.Keybrand,
-                    ItemID.PulseBow,
-                    ItemID.PaladinsHammer
-                };
-
-                thirtyThreeDamageBuffList = new List<int>()
-                {
-                    ItemID.CrystalVileShard,
-                    ItemID.SoulDrain,
-                    ItemID.ClingerStaff,
-                    ItemID.ChargedBlasterCannon,
-                    ItemID.NettleBurst,
-                    ItemID.Excalibur,
-                    ItemID.AmberStaff,
-                    ItemID.BluePhasesaber,
-                    ItemID.RedPhasesaber,
-                    ItemID.GreenPhasesaber,
-                    ItemID.WhitePhasesaber,
-                    ItemID.YellowPhasesaber,
-                    ItemID.PurplePhasesaber,
-                    ItemID.TheRottedFork,
-                    ItemID.VampireKnives,
-                    ItemID.Cascade
-                };
-
-                twentyFiveDamageBuffList = new List<int>()
-                {
-                    ItemID.Muramasa,
-                    ItemID.StakeLauncher,
-                    ItemID.BookStaff
-                };
-
-                twentyDamageBuffList = new List<int>()
-                {
-                    ItemID.TerraBlade,
-                    ItemID.ChainGuillotines,
-                    ItemID.FlowerofFrost,
-                    ItemID.PoisonStaff,
-                    ItemID.Gungnir
-                };
-
-                weaponAutoreuseList = new List<int>()
-                {
-                    ItemID.NightsEdge,
-                    ItemID.TrueNightsEdge,
-                    ItemID.TrueExcalibur,
-                    ItemID.PhoenixBlaster,
-                    ItemID.VenusMagnum,
-                    ItemID.MagicDagger,
-                    ItemID.BeamSword,
-                    ItemID.MonkStaffT2,
-                    ItemID.PaladinsHammer
-                };
-
-                quarterDamageNerfList = new List<int>()
-                {
-                    ItemID.DaedalusStormbow,
-                    ItemID.PhoenixBlaster,
-                    ItemID.VenusMagnum,
-                    ItemID.BlizzardStaff,
-                    ItemID.Phantasm
-                };
-
-                pumpkinMoonBuffList = new List<int>()
-                {
-                    NPCID.Scarecrow1,
-                    NPCID.Scarecrow2,
-                    NPCID.Scarecrow3,
-                    NPCID.Scarecrow4,
-                    NPCID.Scarecrow5,
-                    NPCID.Scarecrow6,
-                    NPCID.Scarecrow7,
-                    NPCID.Scarecrow8,
-                    NPCID.Scarecrow9,
-                    NPCID.Scarecrow10,
-                    NPCID.HeadlessHorseman,
-                    NPCID.MourningWood,
-                    NPCID.Splinterling,
-                    NPCID.Pumpking,
-                    NPCID.PumpkingBlade,
-                    NPCID.Hellhound,
-                    NPCID.Poltergeist
-                };
-
-                frostMoonBuffList = new List<int>()
-                {
-                    NPCID.ZombieElf,
-                    NPCID.ZombieElfBeard,
-                    NPCID.ZombieElfGirl,
-                    NPCID.PresentMimic,
-                    NPCID.GingerbreadMan,
-                    NPCID.Yeti,
-                    NPCID.Everscream,
-                    NPCID.IceQueen,
-                    NPCID.SantaNK1,
-                    NPCID.ElfCopter,
-                    NPCID.Nutcracker,
-                    NPCID.NutcrackerSpinning,
-                    NPCID.ElfArcher,
-                    NPCID.Krampus,
-                    NPCID.Flocko
-                };
-
-                eclipseBuffList = new List<int>()
-                {
-                    NPCID.Eyezor,
-                    NPCID.Reaper,
-                    NPCID.Frankenstein,
-                    NPCID.SwampThing,
-                    NPCID.Vampire,
-                    NPCID.VampireBat,
-                    NPCID.Butcher,
-                    NPCID.CreatureFromTheDeep,
-                    NPCID.Fritz,
-                    NPCID.Nailhead,
-                    NPCID.Psycho,
-                    NPCID.DeadlySphere,
-                    NPCID.DrManFly,
-                    NPCID.ThePossessed,
-                    NPCID.Mothron,
-                    NPCID.MothronEgg,
-                    NPCID.MothronSpawn
-                };
-
-                eventProjectileBuffList = new List<int>()
-                {
-                    ProjectileID.FlamingWood,
-                    ProjectileID.GreekFire1,
-                    ProjectileID.GreekFire2,
-                    ProjectileID.GreekFire3,
-                    ProjectileID.FlamingScythe,
-                    ProjectileID.FlamingArrow,
-                    ProjectileID.PineNeedleHostile,
-                    ProjectileID.OrnamentHostile,
-                    ProjectileID.OrnamentHostileShrapnel,
-                    ProjectileID.FrostWave,
-                    ProjectileID.FrostShard,
-                    ProjectileID.Missile,
-                    ProjectileID.Present,
-                    ProjectileID.Spike,
-                    ProjectileID.BulletDeadeye,
-                    ProjectileID.EyeLaser,
-                    ProjectileID.Nail,
-                    ProjectileID.DrManFlyFlask
-                };
-
-                revengeanceEnemyBuffList = new List<int>()
-                {
-                    NPCID.KingSlime,
-
-                    NPCID.ServantofCthulhu,
-                    NPCID.EyeofCthulhu,
-
-                    NPCID.EaterofWorldsHead,
-                    NPCID.EaterofWorldsBody,
-                    NPCID.EaterofWorldsTail,
-
-                    NPCID.BrainofCthulhu,
-                    NPCID.Creeper,
-
-                    NPCID.QueenBee,
-                    NPCID.Bee,
-                    NPCID.BeeSmall,
-
-                    NPCID.SkeletronHead,
-                    NPCID.SkeletronHand,
-
-                    NPCID.WallofFlesh,
-                    NPCID.TheHungryII,
-                    NPCID.LeechHead,
-
-                    NPCID.Spazmatism,
-                    NPCID.Retinazer,
-
-                    NPCID.SkeletronPrime,
-                    NPCID.PrimeSaw,
-                    NPCID.PrimeVice,
-                    NPCID.PrimeLaser,
-                    NPCID.PrimeCannon,
-
-                    NPCID.TheDestroyer,
-                    NPCID.TheDestroyerBody,
-                    NPCID.TheDestroyerTail,
-                    NPCID.Probe,
-
-                    NPCID.Plantera,
-                    NPCID.PlanterasTentacle,
-                    NPCID.Spore,
-
-                    NPCID.Golem,
-                    NPCID.GolemHead,
-                    NPCID.GolemHeadFree,
-                    NPCID.GolemFistLeft,
-                    NPCID.GolemFistRight,
-
-                    NPCID.DukeFishron,
-                    NPCID.DetonatingBubble,
-                    NPCID.Sharkron,
-                    NPCID.Sharkron2,
-
-                    NPCID.DD2Betsy,
-
-                    NPCID.CultistDragonHead,
-                    NPCID.AncientCultistSquidhead,
-                    NPCID.AncientLight,
-
-                    NPCID.MoonLordHand,
-
-                    NPCID.DevourerHead,
-                    NPCID.GiantWormHead,
-                    NPCID.MeteorHead,
-                    NPCID.BoneSerpentHead,
-                    NPCID.ManEater,
-                    NPCID.Snatcher,
-                    NPCID.Piranha,
-                    NPCID.Shark,
-                    NPCID.SpikeBall,
-                    NPCID.BlazingWheel,
-                    NPCID.Mimic,
-                    NPCID.WyvernHead,
-                    NPCID.DiggerHead,
-                    NPCID.SeekerHead,
-                    NPCID.AnglerFish,
-                    NPCID.Werewolf,
-                    NPCID.Wraith,
-                    NPCID.Arapaima,
-                    NPCID.BlackRecluse,
-                    NPCID.WallCreeper,
-                    NPCID.WallCreeperWall,
-                    NPCID.BlackRecluseWall,
-                    NPCID.AngryTrapper,
-                    NPCID.Lihzahrd,
-                    NPCID.LihzahrdCrawler,
-                    NPCID.PirateCaptain,
-                    NPCID.FlyingSnake,
-                    NPCID.Reaper,
-                    NPCID.Paladin,
-                    NPCID.BoneLee,
-                    NPCID.MourningWood,
-                    NPCID.Pumpking,
-                    NPCID.PumpkingBlade,
-                    NPCID.PresentMimic,
-                    NPCID.Everscream,
-                    NPCID.IceQueen,
-                    NPCID.SantaNK1,
-                    NPCID.StardustWormHead,
-                    NPCID.SolarCrawltipedeHead,
-                    NPCID.Butcher,
-                    NPCID.Psycho,
-                    NPCID.DeadlySphere,
-                    NPCID.BigMimicCorruption,
-                    NPCID.BigMimicCrimson,
-                    NPCID.BigMimicHallow,
-                    NPCID.Mothron,
-                    NPCID.DuneSplicerHead,
-                    NPCID.SlimeSpiked,
-                    NPCID.SandShark,
-                    NPCID.SandsharkCorrupt,
-                    NPCID.SandsharkCrimson,
-                    NPCID.SandsharkHallow,
-
-                    ModContent.NPCType<DesertScourgeHead>(),
-                    ModContent.NPCType<DesertScourgeHeadSmall>(),
-                    ModContent.NPCType<DriedSeekerHead>(),
-
-                    ModContent.NPCType<CrabulonIdle>(),
-                    ModContent.NPCType<CrabShroom>(),
-
-                    ModContent.NPCType<HiveMind>(),
-                    ModContent.NPCType<HiveMindP2>(),
-                    ModContent.NPCType<DankCreeper>(),
-
-                    ModContent.NPCType<PerforatorHeadLarge>(),
-                    ModContent.NPCType<PerforatorHeadMedium>(),
-                    ModContent.NPCType<PerforatorHeadSmall>(),
-                    ModContent.NPCType<PerforatorHive>(),
-
-                    ModContent.NPCType<SlimeGod>(),
-                    ModContent.NPCType<SlimeGodRun>(),
-                    ModContent.NPCType<SlimeGodCore>(),
-                    ModContent.NPCType<SlimeGodSplit>(),
-                    ModContent.NPCType<SlimeGodRunSplit>(),
-                    ModContent.NPCType<SlimeSpawnCorrupt>(),
-                    ModContent.NPCType<SlimeSpawnCrimson2>(),
-
-                    ModContent.NPCType<Cryogen>(),
-                    ModContent.NPCType<CryogenIce>(),
-                    ModContent.NPCType<Cryocore>(),
-                    ModContent.NPCType<Cryocore2>(),
-                    ModContent.NPCType<IceMass>(),
-
-                    ModContent.NPCType<AquaticScourgeHead>(),
-                    ModContent.NPCType<AquaticScourgeBody>(),
-                    ModContent.NPCType<AquaticScourgeBodyAlt>(),
-                    ModContent.NPCType<AquaticScourgeTail>(),
-
-                    ModContent.NPCType<BrimstoneElemental>(),
-
-                    ModContent.NPCType<Calamitas>(),
-                    ModContent.NPCType<CalamitasRun3>(),
-                    ModContent.NPCType<CalamitasRun>(),
-                    ModContent.NPCType<CalamitasRun2>(),
-                    ModContent.NPCType<LifeSeeker>(),
-                    ModContent.NPCType<SoulSeeker>(),
-
-                    ModContent.NPCType<Parasea>(),
-                    ModContent.NPCType<AquaticAberration>(),
-                    ModContent.NPCType<Leviathan>(),
-                    ModContent.NPCType<SirenIce>(),
-                    ModContent.NPCType<Siren>(),
-
-                    ModContent.NPCType<AstrumAureus>(),
-
-                    ModContent.NPCType<PlaguebringerGoliath>(),
-                    ModContent.NPCType<PlaguebringerShade>(),
-                    ModContent.NPCType<PlagueHomingMissile>(),
-                    ModContent.NPCType<PlagueBeeG>(),
-                    ModContent.NPCType<PlagueBeeLargeG>(),
-
-                    ModContent.NPCType<FlamePillar>(),
-                    ModContent.NPCType<RockPillar>(),
-                    ModContent.NPCType<RavagerHead2>(),
-                    ModContent.NPCType<RavagerBody>(),
-                    ModContent.NPCType<RavagerClawRight>(),
-                    ModContent.NPCType<RavagerClawLeft>(),
-
-                    ModContent.NPCType<AstrumDeusHead>(),
-                    ModContent.NPCType<AstrumDeusHeadSpectral>(),
-
-                    ModContent.NPCType<ProfanedGuardianBoss>(),
-                    ModContent.NPCType<ProfanedGuardianBoss2>(),
-                    ModContent.NPCType<ProfanedGuardianBoss3>(),
-
-                    ModContent.NPCType<Bumblefuck>(),
-                    ModContent.NPCType<Bumblefuck2>(),
-
-                    /*
-                    ModContent.NPCType<OldDuke>(),
-                    ModContent.NPCType<DukeUrchin>(),
-                    */
-
-                    ModContent.NPCType<ProvSpawnDefense>(),
-                    ModContent.NPCType<ProvSpawnOffense>(),
-
-                    ModContent.NPCType<CeaselessVoid>(),
-
-                    ModContent.NPCType<StormWeaverHead>(),
-                    ModContent.NPCType<StormWeaverHeadNaked>(),
-
-                    ModContent.NPCType<Signus>(),
-                    ModContent.NPCType<CosmicLantern>(),
-
-                    ModContent.NPCType<Polterghast>(),
-                    ModContent.NPCType<PolterPhantom>(),
-
-                    ModContent.NPCType<DevourerofGodsHead>(),
-                    ModContent.NPCType<DevourerofGodsBody>(),
-                    ModContent.NPCType<DevourerofGodsTail>(),
-                    ModContent.NPCType<DevourerofGodsHead2>(),
-                    ModContent.NPCType<DevourerofGodsHeadS>(),
-                    ModContent.NPCType<DevourerofGodsBodyS>(),
-                    ModContent.NPCType<DevourerofGodsTailS>(),
-
-                    ModContent.NPCType<Yharon>(),
-                    ModContent.NPCType<DetonatingFlare>(),
-                    ModContent.NPCType<DetonatingFlare2>(),
-
-                    ModContent.NPCType<SupremeCalamitas>(),
-
-                    ModContent.NPCType<BobbitWormHead>(),
-                    ModContent.NPCType<AquaticSeekerHead>(),
-                    ModContent.NPCType<ColossalSquid>(),
-                    ModContent.NPCType<EidolonWyrmHead>(),
-                    ModContent.NPCType<EidolonWyrmHeadHuge>(),
-                    ModContent.NPCType<GulperEelHead>(),
-                    ModContent.NPCType<Mauler>(),
-                    ModContent.NPCType<Reaper>(),
-
-                    ModContent.NPCType<Atlas>(),
-                    ModContent.NPCType<ArmoredDiggerHead>(),
-                    ModContent.NPCType<Cnidrion>(),
-                    ModContent.NPCType<GreatSandShark>(),
-                    ModContent.NPCType<Horse>(),
-                    ModContent.NPCType<ScornEater>(),
-
-                    ModContent.NPCType<PrismTurtle>(),
-                    ModContent.NPCType<GhostBell>(),
-                    ModContent.NPCType<EutrophicRay>(),
-                    ModContent.NPCType<Clam>(),
-                    ModContent.NPCType<SeaSerpent1>(),
-                    ModContent.NPCType<BlindedAngler>(),
-                    ModContent.NPCType<GiantClam>()
-                };
-
-                revengeanceProjectileBuffList = new List<int>()
-                {
-                    ProjectileID.Sharknado,
-                    ProjectileID.Cthulunado,
-                    ProjectileID.DD2BetsyFireball,
-                    ProjectileID.DD2BetsyFlameBreath,
-
-                    ProjectileID.SandBallFalling,
-                    ProjectileID.AshBallFalling,
-                    ProjectileID.DemonSickle,
-                    ProjectileID.EbonsandBallFalling,
-                    ProjectileID.PearlSandBallFalling,
-                    ProjectileID.Boulder,
-                    ProjectileID.PoisonDartTrap,
-                    ProjectileID.SpikyBallTrap,
-                    ProjectileID.SpearTrap,
-                    ProjectileID.FlamethrowerTrap,
-                    ProjectileID.FlamesTrap,
-                    ProjectileID.CrimsandBallFalling,
-                    ProjectileID.Fireball,
-                    ProjectileID.PaladinsHammerHostile,
-                    ProjectileID.FlamingWood,
-                    ProjectileID.FlamingScythe,
-                    ProjectileID.FrostWave,
-                    ProjectileID.Present,
-                    ProjectileID.Spike,
-                    ProjectileID.SaucerDeathray,
-                    ProjectileID.NebulaBolt,
-                    ProjectileID.NebulaSphere,
-                    ProjectileID.NebulaLaser,
-                    ProjectileID.StardustSoldierLaser,
-                    ProjectileID.VortexLaser,
-                    ProjectileID.VortexVortexLightning,
-                    ProjectileID.VortexLightning,
-                    ProjectileID.VortexAcid,
-                    ProjectileID.GeyserTrap,
-                    ProjectileID.SandnadoHostile,
-
-                    ModContent.ProjectileType<SandBlast>(),
-
-                    ModContent.ProjectileType<MushBomb>(),
-                    ModContent.ProjectileType<MushBombFall>(),
-                    ModContent.ProjectileType<Mushmash>(),
-
-                    ModContent.ProjectileType<ShaderainHostile>(),
-
-                    ModContent.ProjectileType<BloodGeyser>(),
-                    ModContent.ProjectileType<IchorShot>(),
-
-                    ModContent.ProjectileType<AbyssMine>(),
-                    ModContent.ProjectileType<AbyssMine2>(),
-                    ModContent.ProjectileType<AbyssBallVolley>(),
-                    ModContent.ProjectileType<AbyssBallVolley2>(),
-
-                    ModContent.ProjectileType<IceBlast>(),
-                    ModContent.ProjectileType<IceBomb>(),
-                    ModContent.ProjectileType<IceRain>(),
-
-                    ModContent.ProjectileType<SandPoisonCloud>(),
-                    ModContent.ProjectileType<SandTooth>(),
-
-                    ModContent.ProjectileType<BrimstoneHellfireball>(),
-                    ModContent.ProjectileType<HellfireExplosion>(),
-                    ModContent.ProjectileType<BrimstoneBarrage>(),
-                    ModContent.ProjectileType<BrimstoneHellblast>(),
-
-                    ModContent.ProjectileType<BrimstoneLaser>(),
-                    ModContent.ProjectileType<BrimstoneLaserSplit>(),
-                    ModContent.ProjectileType<BrimstoneBall>(),
-                    ModContent.ProjectileType<BrimstoneFire>(),
-
-                    ModContent.ProjectileType<LeviathanBomb>(),
-                    ModContent.ProjectileType<WaterSpear>(),
-                    ModContent.ProjectileType<FrostMist>(),
-                    ModContent.ProjectileType<SirenSong>(),
-
-                    ModContent.ProjectileType<AstralFlame>(),
-                    ModContent.ProjectileType<AstralLaser>(),
-
-                    ModContent.ProjectileType<PlagueExplosion>(),
-                    ModContent.ProjectileType<PlagueStingerGoliath>(),
-                    ModContent.ProjectileType<PlagueStingerGoliathV2>(),
-                    ModContent.ProjectileType<HiveBombGoliath>(),
-
-                    ModContent.ProjectileType<ScavengerNuke>(),
-
-                    ModContent.ProjectileType<AstralShot2>(),
-                    ModContent.ProjectileType<DeusMine>(),
-
-                    ModContent.ProjectileType<ProfanedSpear>(),
-                    ModContent.ProjectileType<FlareDust>(),
-
-                    ModContent.ProjectileType<RedLightningFeather>(),
-
-                    ModContent.ProjectileType<HolyBlast>(),
-                    ModContent.ProjectileType<HolyBomb>(),
-                    ModContent.ProjectileType<HolyFire>(),
-                    ModContent.ProjectileType<HolyFire2>(),
-                    ModContent.ProjectileType<HolyFlare>(),
-                    ModContent.ProjectileType<HolyShot>(),
-                    ModContent.ProjectileType<HolySpear>(),
-                    ModContent.ProjectileType<MoltenBlast>(),
-                    ModContent.ProjectileType<MoltenBlob>(),
-                    ModContent.ProjectileType<ProvidenceCrystalShard>(),
-                    ModContent.ProjectileType<ProvidenceHolyRay>(),
-
-                    ModContent.ProjectileType<DarkEnergyBall>(),
-                    ModContent.ProjectileType<DoGBeam>(),
-
-                    ModContent.ProjectileType<CosmicFlameBurst>(),
-                    ModContent.ProjectileType<SignusScythe>(),
-                    ModContent.ProjectileType<EssenceDust>(),
-
-                    ModContent.ProjectileType<PhantomBlast>(),
-                    ModContent.ProjectileType<PhantomBlast2>(),
-                    ModContent.ProjectileType<PhantomGhostShot>(),
-                    ModContent.ProjectileType<PhantomHookShot>(),
-                    ModContent.ProjectileType<PhantomMine>(),
-                    ModContent.ProjectileType<PhantomShot>(),
-                    ModContent.ProjectileType<PhantomShot2>(),
-
-                    ModContent.ProjectileType<DoGDeath>(),
-                    ModContent.ProjectileType<DoGFire>(),
-                    ModContent.ProjectileType<DoGNebulaShot>(),
-
-                    ModContent.ProjectileType<FlareBomb>(),
-                    ModContent.ProjectileType<FlareDust2>(),
-                    ModContent.ProjectileType<Flarenado>(),
-                    ModContent.ProjectileType<Infernado>(),
-                    ModContent.ProjectileType<Infernado2>(),
-                    ModContent.ProjectileType<YharonFireball>(),
-                    ModContent.ProjectileType<YharonFireball2>(),
-
-                    ModContent.ProjectileType<BrimstoneFireblast>(),
-                    ModContent.ProjectileType<BrimstoneGigaBlast>(),
-                    ModContent.ProjectileType<BrimstoneHellblast2>(),
-                    ModContent.ProjectileType<BrimstoneMonster>(),
-                    ModContent.ProjectileType<BrimstoneWave>(),
-
-                    ModContent.ProjectileType<GreatSandBlast>(),
-                    ModContent.ProjectileType<PearlBurst>(),
-                    ModContent.ProjectileType<PearlRain>()
-                };
-
-                revengeanceLifeStealExceptionList = new List<int>()
-                {
-                    NPCID.Probe,
-                    NPCID.MoonLordFreeEye,
-                    NPCID.CultistDragonHead,
-                    NPCID.CultistDragonBody1,
-                    NPCID.CultistDragonBody2,
-                    NPCID.CultistDragonBody3,
-                    NPCID.CultistDragonBody4,
-                    NPCID.CultistDragonTail,
-                    NPCID.AncientCultistSquidhead,
-                    NPCID.AncientLight,
-                    NPCID.Sharkron,
-                    NPCID.Sharkron2,
-                    NPCID.PlanterasTentacle,
-                    NPCID.Spore,
-                    NPCID.TheHungryII,
-                    NPCID.LeechHead,
-                    NPCID.LeechBody,
-                    NPCID.LeechTail,
-                    NPCID.TheDestroyerBody,
-                    NPCID.TheDestroyerTail,
-                    NPCID.EaterofWorldsBody,
-                    NPCID.EaterofWorldsTail,
-                    NPCID.GolemHead,
-                    NPCID.GolemHeadFree,
-                    NPCID.GolemFistRight,
-                    NPCID.GolemFistLeft,
-                    NPCID.MoonLordCore
-                };
-
-                movementImpairImmuneList = new List<int>()
-                {
-                    NPCID.QueenBee,
-                };
-
-                trapProjectileList = new List<int>()
-                {
-                    ProjectileID.PoisonDartTrap,
-                    ProjectileID.SpikyBallTrap,
-                    ProjectileID.SpearTrap,
-                    ProjectileID.FlamethrowerTrap,
-                    ProjectileID.FlamesTrap,
-                    ProjectileID.PoisonDart,
-                    ProjectileID.GeyserTrap
-                };
-
-                scopedWeaponList = new List<int>()
-                {
-                    ModContent.ItemType<AMR>(),
-                    ModContent.ItemType<HalleysInferno>(),
-                    ModContent.ItemType<Shroomer>(),
-                    ModContent.ItemType<SpectreRifle>(),
-                    ModContent.ItemType<Svantechnical>(),
-                    ModContent.ItemType<Skullmasher>()
-                };
-
-                trueMeleeBoostExceptionList = new List<int>()
-                {
-                    ItemID.FlowerPow,
-                    ItemID.Flairon,
-                    ItemID.ChlorophytePartisan,
-                    ItemID.MushroomSpear,
-                    ItemID.NorthPole,
-                    ItemID.WoodYoyo,
-                    ItemID.CorruptYoyo,
-                    ItemID.CrimsonYoyo,
-                    ItemID.JungleYoyo,
-                    ItemID.Cascade,
-                    ItemID.Chik,
-                    ItemID.Code2,
-                    ItemID.Rally,
-                    ItemID.Yelets,
-                    ItemID.RedsYoyo,
-                    ItemID.ValkyrieYoyo,
-                    ItemID.Amarok,
-                    ItemID.HelFire,
-                    ItemID.Kraken,
-                    ItemID.TheEyeOfCthulhu,
-                    ItemID.FormatC,
-                    ItemID.Gradient,
-                    ItemID.Valor,
-                    ItemID.Terrarian,
-
-                    // flails
-                    ModContent.ItemType<BallOFugu>(),
-                    ModContent.ItemType<DragonPow>(),
-
-                    // spears
-                    ModContent.ItemType<AmidiasTrident>(),
-                    ModContent.ItemType<EarthenPike>(),
-                    ModContent.ItemType<GoldplumeSpear>(),
-                    ModContent.ItemType<HellionFlowerSpear>(),
-                    ModContent.ItemType<SpatialLance>(),
-                    ModContent.ItemType<StarnightLance>(),
-                    ModContent.ItemType<StreamGouge>(),
-                    ModContent.ItemType<TerraLance>(),
-                    ModContent.ItemType<UrchinSpear>(),
-
-                    // yoyos
-                    ModContent.ItemType<AirSpinner>(),
-                    ModContent.ItemType<Aorta>(),
-                    ModContent.ItemType<Azathoth>(),
-                    ModContent.ItemType<Chaotrix>(),
-                    ModContent.ItemType<Cnidarian>(),
-                    ModContent.ItemType<Lacerator>(),
-                    ModContent.ItemType<Oracle>(),
-                    ModContent.ItemType<Quagmire>(),
-                    ModContent.ItemType<Shimmerspark>(),
-                    ModContent.ItemType<SolarFlare>(),
-                    ModContent.ItemType<TheEyeofCalamitas>(),
-                    ModContent.ItemType<TheGodsGambit>(),
-                    ModContent.ItemType<TheObliterator>(),
-                    ModContent.ItemType<ThePlaguebringer>(),
-                    ModContent.ItemType<Verdant>(),
-                    ModContent.ItemType<YinYo>(),
-
-                    // other
-                    ModContent.ItemType<BansheeHook>(),
-                    ModContent.ItemType<TyphonsGreed>()
-                };
-
-                tableList = new List<int>()
-                {
-                    ModContent.TileType<AbyssBath>(),
-                    ModContent.TileType<AbyssBookcase>(),
-                    ModContent.TileType<AbyssDresser>(),
-                    ModContent.TileType<AbyssPiano>(),
-                    ModContent.TileType<AbyssTable>(),
-                    ModContent.TileType<AbyssWorkbench>(),
-                    ModContent.TileType<AncientBath>(),
-                    ModContent.TileType<AncientBookcase>(),
-                    ModContent.TileType<AncientDresser>(),
-                    ModContent.TileType<AncientPiano>(),
-                    ModContent.TileType<AncientTable>(),
-                    ModContent.TileType<AncientWorkbench>(),
-                    ModContent.TileType<AshenBath>(),
-                    ModContent.TileType<AshenBookcase>(),
-                    ModContent.TileType<AshenDresser>(),
-                    ModContent.TileType<AshenPiano>(),
-                    ModContent.TileType<AshenTable>(),
-                    ModContent.TileType<AshenWorkbench>(),
-                    ModContent.TileType<BotanicBathtub>(),
-                    ModContent.TileType<BotanicBookcase>(),
-                    ModContent.TileType<BotanicDresser>(),
-                    ModContent.TileType<BotanicPiano>(),
-                    ModContent.TileType<BotanicTable>(),
-                    ModContent.TileType<BotanicWorkBench>(),
-                    ModContent.TileType<CosmiliteBath>(),
-                    ModContent.TileType<CosmiliteBookcase>(),
-                    ModContent.TileType<CosmiliteDresser>(),
-                    ModContent.TileType<CosmilitePiano>(),
-                    ModContent.TileType<CosmiliteTable>(),
-                    ModContent.TileType<CosmiliteWorkbench>(),
-                    ModContent.TileType<EutrophicBathtub>(),
-                    ModContent.TileType<EutrophicBookcase>(),
-                    ModContent.TileType<EutrophicDresser>(),
-                    ModContent.TileType<EutrophicPiano>(),
-                    ModContent.TileType<EutrophicTable>(),
-                    ModContent.TileType<EutrophicWorkBench>(),
-                    ModContent.TileType<OccultBathtub>(),
-                    ModContent.TileType<OccultBookcase>(),
-                    ModContent.TileType<OccultDresser>(),
-                    ModContent.TileType<OccultPiano>(),
-                    ModContent.TileType<OccultTable>(),
-                    ModContent.TileType<OccultWorkBench>(),
-                    ModContent.TileType<PlaguedPlateBathtub>(),
-                    ModContent.TileType<PlaguedPlateBookcase>(),
-                    ModContent.TileType<PlaguedPlateDresser>(),
-                    ModContent.TileType<PlaguedPlatePiano>(),
-                    ModContent.TileType<PlaguedPlateTable>(),
-                    ModContent.TileType<PlaguedPlateWorkbench>(),
-                    ModContent.TileType<ProfanedBath>(),
-                    ModContent.TileType<ProfanedBookcase>(),
-                    ModContent.TileType<ProfanedDresser>(),
-                    ModContent.TileType<ProfanedPiano>(),
-                    ModContent.TileType<ProfanedTable>(),
-                    ModContent.TileType<ProfanedWorkbench>(),
-                    ModContent.TileType<SilvaBathtub>(),
-                    ModContent.TileType<SilvaBookcase>(),
-                    ModContent.TileType<SilvaDresser>(),
-                    ModContent.TileType<SilvaPiano>(),
-                    ModContent.TileType<SilvaTable>(),
-                    ModContent.TileType<SilvaWorkBench>(),
-                    ModContent.TileType<StatigelBath>(),
-                    ModContent.TileType<StatigelBookcase>(),
-                    ModContent.TileType<StatigelDresser>(),
-                    ModContent.TileType<StatigelPiano>(),
-                    ModContent.TileType<StatigelTable>(),
-                    ModContent.TileType<StatigelWorkbench>(),
-                    ModContent.TileType<StratusBathtub>(),
-                    ModContent.TileType<StratusBookcase>(),
-                    ModContent.TileType<StratusDresser>(),
-                    ModContent.TileType<StratusPiano>(),
-                    ModContent.TileType<StratusTable>(),
-                    ModContent.TileType<StratusWorkbench>(),
-                    ModContent.TileType<VoidBath>(),
-                    ModContent.TileType<VoidBookcase>(),
-                    ModContent.TileType<VoidDresser>(),
-                    ModContent.TileType<VoidPiano>(),
-                    ModContent.TileType<VoidTable>(),
-                    ModContent.TileType<VoidWorkbench>()
-                };
-
-                chairList = new List<int>()
-                {
-                    ModContent.TileType<AbyssBed>(),
-                    ModContent.TileType<AbyssChair>(),
-                    ModContent.TileType<AbyssSofa>(),
-                    ModContent.TileType<AncientBed>(),
-                    ModContent.TileType<AncientChair>(),
-                    ModContent.TileType<AncientSofa>(),
-                    ModContent.TileType<AshenBed>(),
-                    ModContent.TileType<AshenChair>(),
-                    ModContent.TileType<AshenSofa>(),
-                    ModContent.TileType<BotanicBed>(),
-                    ModContent.TileType<BotanicBench>(),
-                    ModContent.TileType<BotanicChair>(),
-                    ModContent.TileType<CosmiliteBed>(),
-                    ModContent.TileType<CosmiliteChair>(),
-                    ModContent.TileType<CosmiliteSofa>(),
-                    ModContent.TileType<EutrophicBed>(),
-                    ModContent.TileType<EutrophicBench>(),
-                    ModContent.TileType<EutrophicChair>(),
-                    ModContent.TileType<OccultBed>(),
-                    ModContent.TileType<OccultChair>(),
-                    ModContent.TileType<OccultSofa>(),
-                    ModContent.TileType<PlaguedPlateBed>(),
-                    ModContent.TileType<PlaguedPlateChair>(),
-                    ModContent.TileType<PlaguedPlateSofa>(),
-                    ModContent.TileType<ProfanedBed>(),
-                    ModContent.TileType<ProfanedChair>(),
-                    ModContent.TileType<ProfanedBench>(),
-                    ModContent.TileType<SilvaBed>(),
-                    ModContent.TileType<SilvaChair>(),
-                    ModContent.TileType<SilvaBench>(),
-                    ModContent.TileType<StatigelBed>(),
-                    ModContent.TileType<StatigelChair>(),
-                    ModContent.TileType<StatigelSofa>(),
-                    ModContent.TileType<StratusBed>(),
-                    ModContent.TileType<StratusChair>(),
-                    ModContent.TileType<StratusSofa>(),
-                    ModContent.TileType<VoidBed>(),
-                    ModContent.TileType<VoidChair>(),
-                    ModContent.TileType<VoidSofa>()
-                };
-
-                lightList = new List<int>()
-                {
-                    ModContent.TileType<BlueCandle>(),
-                    ModContent.TileType<ChaosCandle>(),
-                    ModContent.TileType<LumenylCrystals>(),
-                    ModContent.TileType<PinkCandle>(),
-                    ModContent.TileType<PurpleCandle>(),
-                    ModContent.TileType<TranquilityCandle>(),
-                    ModContent.TileType<YellowCandle>(),
-                    ModContent.TileType<SeaPrismCrystals>(),
-
-                    ModContent.TileType<AbyssCandelabra>(),
-                    ModContent.TileType<AbyssCandle>(),
-                    ModContent.TileType<AbyssChandelier>(),
-                    ModContent.TileType<AbyssLamp>(),
-                    ModContent.TileType<AbyssLantern>(),
-                    ModContent.TileType<AbyssTorch>(),
-                    ModContent.TileType<AncientAltar>(),
-                    ModContent.TileType<AncientBasin>(),
-                    ModContent.TileType<AncientChandelier>(),
-                    ModContent.TileType<AncientLamp>(),
-                    ModContent.TileType<AncientLantern>(),
-                    ModContent.TileType<AshenAltar>(),
-                    ModContent.TileType<AshenBasin>(),
-                    ModContent.TileType<AshenChandelier>(),
-                    ModContent.TileType<AshenCandle>(),
-                    ModContent.TileType<AshenCandelabra>(),
-                    ModContent.TileType<AshenLamp>(),
-                    ModContent.TileType<AshenLantern>(),
-                    ModContent.TileType<BotanicCandle>(),
-                    ModContent.TileType<BotanicCandelabra>(),
-                    ModContent.TileType<BotanicChandelier>(),
-                    ModContent.TileType<BotanicLamp>(),
-                    ModContent.TileType<BotanicLantern>(),
-                    ModContent.TileType<CosmiliteCandle>(),
-                    ModContent.TileType<CosmiliteCandelabra>(),
-                    ModContent.TileType<CosmiliteChandelier>(),
-                    ModContent.TileType<CosmiliteLamp>(),
-                    ModContent.TileType<CosmiliteLantern>(),
-                    ModContent.TileType<CosmiliteSconce>(),
-                    ModContent.TileType<EutrophicCandle>(),
-                    ModContent.TileType<EutrophicCandelabra>(),
-                    ModContent.TileType<EutrophicChandelier>(),
-                    ModContent.TileType<EutrophicLamp>(),
-                    ModContent.TileType<EutrophicLantern>(),
-                    ModContent.TileType<PlaguedPlateBasin>(),
-                    ModContent.TileType<PlaguedPlateCandle>(),
-                    ModContent.TileType<PlaguedPlateCandelabra>(),
-                    ModContent.TileType<PlaguedPlateChandelier>(),
-                    ModContent.TileType<PlaguedPlateLamp>(),
-                    ModContent.TileType<PlaguedPlateLantern>(),
-                    ModContent.TileType<OccultCandle>(),
-                    ModContent.TileType<OccultCandelabra>(),
-                    ModContent.TileType<OccultChandelier>(),
-                    ModContent.TileType<OccultLamp>(),
-                    ModContent.TileType<OccultLantern>(),
-                    ModContent.TileType<ProfanedBasin>(),
-                    ModContent.TileType<ProfanedCandle>(),
-                    ModContent.TileType<ProfanedCandelabra>(),
-                    ModContent.TileType<ProfanedChandelier>(),
-                    ModContent.TileType<ProfanedLamp>(),
-                    ModContent.TileType<ProfanedLantern>(),
-                    ModContent.TileType<SilvaBasin>(),
-                    ModContent.TileType<SilvaCandle>(),
-                    ModContent.TileType<SilvaCandelabra>(),
-                    ModContent.TileType<SilvaChandelier>(),
-                    ModContent.TileType<SilvaLamp>(),
-                    ModContent.TileType<SilvaLantern>(),
-                    ModContent.TileType<StatigelChandelier>(),
-                    ModContent.TileType<StatigelCandle>(),
-                    ModContent.TileType<StatigelCandelabra>(),
-                    ModContent.TileType<StatigelLamp>(),
-                    ModContent.TileType<StatigelLantern>(),
-                    ModContent.TileType<StratusCandle>(),
-                    ModContent.TileType<StratusCandelabra>(),
-                    ModContent.TileType<StratusChandelier>(),
-                    ModContent.TileType<StratusLantern>(),
-                    ModContent.TileType<StratusLamp>(),
-                    ModContent.TileType<VoidCandle>(),
-                    ModContent.TileType<VoidCandelabra>(),
-                    ModContent.TileType<VoidChandelier>(),
-                    ModContent.TileType<VoidLamp>(),
-                    ModContent.TileType<VoidLantern>()
-                };
-
-                doorList = new List<int>()
-                {
-                    ModContent.TileType<AbyssDoorOpen>(),
-                    ModContent.TileType<AbyssDoorClosed>(),
-                    ModContent.TileType<AncientDoorOpen>(),
-                    ModContent.TileType<AncientDoorClosed>(),
-                    ModContent.TileType<AshenDoorClosed>(),
-                    ModContent.TileType<AshenDoorOpen>(),
-                    ModContent.TileType<AshenPlatform>(),
-                    ModContent.TileType<BotanicDoorOpen>(),
-                    ModContent.TileType<BotanicDoorClosed>(),
-                    ModContent.TileType<BotanicPlatform>(),
-                    ModContent.TileType<CosmiliteDoorOpen>(),
-                    ModContent.TileType<CosmiliteDoorClosed>(),
-                    ModContent.TileType<CosmilitePlatform>(),
-                    ModContent.TileType<EutrophicDoorOpen>(),
-                    ModContent.TileType<EutrophicDoorClosed>(),
-                    ModContent.TileType<EutrophicPlatform>(),
-                    ModContent.TileType<OccultDoorOpen>(),
-                    ModContent.TileType<OccultDoorClosed>(),
-                    ModContent.TileType<OccultPlatform>(),
-                    ModContent.TileType<PlaguedPlateDoorOpen>(),
-                    ModContent.TileType<PlaguedPlateDoorClosed>(),
-                    ModContent.TileType<PlaguedPlatePlatform>(),
-                    ModContent.TileType<ProfanedDoorOpen>(),
-                    ModContent.TileType<ProfanedDoorClosed>(),
-                    ModContent.TileType<ProfanedPlatform>(),
-                    ModContent.TileType<SilvaDoorOpen>(),
-                    ModContent.TileType<SilvaDoorClosed>(),
-                    ModContent.TileType<SilvaPlatform>(),
-                    ModContent.TileType<SmoothAbyssGravelPlatform>(),
-                    ModContent.TileType<SmoothVoidstonePlatform>(),
-                    ModContent.TileType<StratusDoorOpen>(),
-                    ModContent.TileType<StratusDoorClosed>(),
-                    ModContent.TileType<StatigelPlatform>(),
-                    ModContent.TileType<StratusPlatform>(),
-                    ModContent.TileType<VoidDoorOpen>(),
-                    ModContent.TileType<VoidDoorClosed>()
-                };
-
-                zombieList = new List<int>()
-                {
-                    NPCID.Zombie,
-                    NPCID.ArmedZombie,
-                    NPCID.BaldZombie,
-                    NPCID.PincushionZombie,
-                    NPCID.ArmedZombiePincussion, // what is this spelling
-                    NPCID.SlimedZombie,
-                    NPCID.ArmedZombieSlimed,
-                    NPCID.SwampZombie,
-                    NPCID.ArmedZombieSwamp,
-                    NPCID.TwiggyZombie,
-                    NPCID.ArmedZombieTwiggy,
-                    NPCID.FemaleZombie,
-                    NPCID.ArmedZombieCenx,
-                    NPCID.ZombieRaincoat,
-                    NPCID.ZombieEskimo,
-                    NPCID.ArmedZombieEskimo
-                    // halloween zombies not included because they don't drop shackles or zombie arms
-                };
-
-                demonEyeList = new List<int>()
-                {
-                    NPCID.DemonEye,
-                    NPCID.CataractEye,
-                    NPCID.SleepyEye,
-                    NPCID.DialatedEye, // it is spelled "dilated"
-                    NPCID.GreenEye,
-                    NPCID.PurpleEye,
-                    NPCID.DemonEyeOwl,
-                    NPCID.DemonEyeSpaceship
-                };
-
-                skeletonList = new List<int>()
-                {
-                    NPCID.Skeleton,
-                    NPCID.ArmoredSkeleton,
-                    NPCID.SkeletonArcher,
-                    NPCID.HeadacheSkeleton,
-                    NPCID.MisassembledSkeleton,
-                    NPCID.PantlessSkeleton,
-                    NPCID.SkeletonTopHat,
-                    NPCID.SkeletonAstonaut,
-                    NPCID.SkeletonAlien,
-                    NPCID.BoneThrowingSkeleton,
-                    NPCID.BoneThrowingSkeleton2,
-                    NPCID.BoneThrowingSkeleton3,
-                    NPCID.BoneThrowingSkeleton4,
-                    NPCID.GreekSkeleton
-                };
-
-                angryBonesList = new List<int>()
-                {
-                    NPCID.AngryBones,
-                    NPCID.AngryBonesBig,
-                    NPCID.AngryBonesBigMuscle,
-                    NPCID.AngryBonesBigHelmet
-                };
-
-                hornetList = new List<int>()
-                {
-                    NPCID.Hornet,
-                    NPCID.HornetFatty,
-                    NPCID.HornetHoney,
-                    NPCID.HornetLeafy,
-                    NPCID.HornetSpikey,
-                    NPCID.HornetStingy
-                };
-
-                mossHornetList = new List<int>()
-                {
-                    NPCID.MossHornet,
-                    NPCID.TinyMossHornet,
-                    NPCID.LittleMossHornet,
-                    NPCID.BigMossHornet,
-                    NPCID.GiantMossHornet
-                };
-            }
-
-            if (Config.RevengeanceAndDeathThoriumBossBuff)
-            {
-                if (thorium != null)
-                {
-                    enemyImmunityList.Add(thorium.NPCType("TheGrandThunderBirdv2"));
-                    enemyImmunityList.Add(thorium.NPCType("QueenJelly"));
-                    enemyImmunityList.Add(thorium.NPCType("Viscount"));
-                    enemyImmunityList.Add(thorium.NPCType("GraniteEnergyStorm"));
-                    enemyImmunityList.Add(thorium.NPCType("TheBuriedWarrior"));
-                    enemyImmunityList.Add(thorium.NPCType("ThePrimeScouter"));
-                    enemyImmunityList.Add(thorium.NPCType("BoreanStrider"));
-                    enemyImmunityList.Add(thorium.NPCType("BoreanStriderPopped"));
-                    enemyImmunityList.Add(thorium.NPCType("FallenDeathBeholder"));
-                    enemyImmunityList.Add(thorium.NPCType("FallenDeathBeholder2"));
-                    enemyImmunityList.Add(thorium.NPCType("Lich"));
-                    enemyImmunityList.Add(thorium.NPCType("LichHeadless"));
-                    enemyImmunityList.Add(thorium.NPCType("Abyssion"));
-                    enemyImmunityList.Add(thorium.NPCType("AbyssionCracked"));
-                    enemyImmunityList.Add(thorium.NPCType("AbyssionReleased"));
-                    enemyImmunityList.Add(thorium.NPCType("SlagFury"));
-                    enemyImmunityList.Add(thorium.NPCType("Omnicide"));
-                    enemyImmunityList.Add(thorium.NPCType("RealityBreaker"));
-                    enemyImmunityList.Add(thorium.NPCType("Aquaius"));
-                    enemyImmunityList.Add(thorium.NPCType("Aquaius2"));
-
-                    revengeanceEnemyBuffList.Add(thorium.NPCType("TheGrandThunderBirdv2"));
-                    revengeanceEnemyBuffList.Add(thorium.NPCType("QueenJelly"));
-                    revengeanceEnemyBuffList.Add(thorium.NPCType("Viscount"));
-                    revengeanceEnemyBuffList.Add(thorium.NPCType("GraniteEnergyStorm"));
-                    revengeanceEnemyBuffList.Add(thorium.NPCType("TheBuriedWarrior"));
-                    revengeanceEnemyBuffList.Add(thorium.NPCType("ThePrimeScouter"));
-                    revengeanceEnemyBuffList.Add(thorium.NPCType("BoreanStrider"));
-                    revengeanceEnemyBuffList.Add(thorium.NPCType("BoreanStriderPopped"));
-                    revengeanceEnemyBuffList.Add(thorium.NPCType("FallenDeathBeholder"));
-                    revengeanceEnemyBuffList.Add(thorium.NPCType("FallenDeathBeholder2"));
-                    revengeanceEnemyBuffList.Add(thorium.NPCType("Lich"));
-                    revengeanceEnemyBuffList.Add(thorium.NPCType("LichHeadless"));
-                    revengeanceEnemyBuffList.Add(thorium.NPCType("Abyssion"));
-                    revengeanceEnemyBuffList.Add(thorium.NPCType("AbyssionCracked"));
-                    revengeanceEnemyBuffList.Add(thorium.NPCType("AbyssionReleased"));
-                    revengeanceEnemyBuffList.Add(thorium.NPCType("SlagFury"));
-                    revengeanceEnemyBuffList.Add(thorium.NPCType("Omnicide"));
-                    revengeanceEnemyBuffList.Add(thorium.NPCType("RealityBreaker"));
-                    revengeanceEnemyBuffList.Add(thorium.NPCType("Aquaius"));
-                    revengeanceEnemyBuffList.Add(thorium.NPCType("Aquaius2"));
-
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("GrandThunderBirdZap"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("ThunderGust"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("BubbleBomb"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("QueenJellyArm"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("QueenTorrent"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("ViscountRipple"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("ViscountRipple2"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("ViscountBlood"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("ViscountStomp"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("ViscountStomp2"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("ViscountRockFall"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("GraniteCharge"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("BuriedShock"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("BuriedDagger"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("BuriedArrow"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("BuriedArrow2"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("BuriedArrowF"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("BuriedArrowP"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("BuriedArrowC"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("BuriedMagic"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("BuriedMagicPop"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("MainBeamOuter"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("MainBeam"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("MainBeamCheese"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("VaporizeBlast"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("GravitonSurge"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("Vaporize"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("GravitonCharge"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("GravitySpark"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("DoomBeholderBeam"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("VoidLaserPro"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("BeholderBeam"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("BlizzardBarrage"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("FrostSurge"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("FrostSurgeR"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("BlizzardCascade"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("BlizzardBoom"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("BlizzardFang"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("FrostMytePro"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("IceAnomaly"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("LichGaze"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("LichGazeB"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("LichFlareSpawn"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("LichFlare"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("LichPulse"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("LichMatter"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("SoulRenderLich"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("LichFlareDeathD"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("LichFlareDeathU"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("Whirlpool"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("AbyssionSpit"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("AbyssionSpit2"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("AquaRipple"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("AbyssalStrike2"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("OldGodSpit"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("OldGodSpit2"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("WaterPulse"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("TyphoonBlastHostile"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("TyphoonBlastHostileSmaller"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("AquaBarrage"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("DeathRaySpawnR"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("DeathRaySpawnL"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("DeathRaySpawn"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("OmniDeath"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("OmniSphereOrb"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("FlameLash"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("FlamePulse"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("FlamePulseTorn"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("FlameNova"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("MoltenFury"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("RealityFury"));
-                    revengeanceProjectileBuffList.Add(thorium.ProjectileType("UFOBlast"));
-                }
+                enemyImmunityList.Add(thorium.NPCType("TheGrandThunderBirdv2"));
+                enemyImmunityList.Add(thorium.NPCType("QueenJelly"));
+                enemyImmunityList.Add(thorium.NPCType("Viscount"));
+                enemyImmunityList.Add(thorium.NPCType("GraniteEnergyStorm"));
+                enemyImmunityList.Add(thorium.NPCType("TheBuriedWarrior"));
+                enemyImmunityList.Add(thorium.NPCType("ThePrimeScouter"));
+                enemyImmunityList.Add(thorium.NPCType("BoreanStrider"));
+                enemyImmunityList.Add(thorium.NPCType("BoreanStriderPopped"));
+                enemyImmunityList.Add(thorium.NPCType("FallenDeathBeholder"));
+                enemyImmunityList.Add(thorium.NPCType("FallenDeathBeholder2"));
+                enemyImmunityList.Add(thorium.NPCType("Lich"));
+                enemyImmunityList.Add(thorium.NPCType("LichHeadless"));
+                enemyImmunityList.Add(thorium.NPCType("Abyssion"));
+                enemyImmunityList.Add(thorium.NPCType("AbyssionCracked"));
+                enemyImmunityList.Add(thorium.NPCType("AbyssionReleased"));
+                enemyImmunityList.Add(thorium.NPCType("SlagFury"));
+                enemyImmunityList.Add(thorium.NPCType("Omnicide"));
+                enemyImmunityList.Add(thorium.NPCType("RealityBreaker"));
+                enemyImmunityList.Add(thorium.NPCType("Aquaius"));
+                enemyImmunityList.Add(thorium.NPCType("Aquaius2"));
+
+                revengeanceEnemyBuffList.Add(thorium.NPCType("TheGrandThunderBirdv2"));
+                revengeanceEnemyBuffList.Add(thorium.NPCType("QueenJelly"));
+                revengeanceEnemyBuffList.Add(thorium.NPCType("Viscount"));
+                revengeanceEnemyBuffList.Add(thorium.NPCType("GraniteEnergyStorm"));
+                revengeanceEnemyBuffList.Add(thorium.NPCType("TheBuriedWarrior"));
+                revengeanceEnemyBuffList.Add(thorium.NPCType("ThePrimeScouter"));
+                revengeanceEnemyBuffList.Add(thorium.NPCType("BoreanStrider"));
+                revengeanceEnemyBuffList.Add(thorium.NPCType("BoreanStriderPopped"));
+                revengeanceEnemyBuffList.Add(thorium.NPCType("FallenDeathBeholder"));
+                revengeanceEnemyBuffList.Add(thorium.NPCType("FallenDeathBeholder2"));
+                revengeanceEnemyBuffList.Add(thorium.NPCType("Lich"));
+                revengeanceEnemyBuffList.Add(thorium.NPCType("LichHeadless"));
+                revengeanceEnemyBuffList.Add(thorium.NPCType("Abyssion"));
+                revengeanceEnemyBuffList.Add(thorium.NPCType("AbyssionCracked"));
+                revengeanceEnemyBuffList.Add(thorium.NPCType("AbyssionReleased"));
+                revengeanceEnemyBuffList.Add(thorium.NPCType("SlagFury"));
+                revengeanceEnemyBuffList.Add(thorium.NPCType("Omnicide"));
+                revengeanceEnemyBuffList.Add(thorium.NPCType("RealityBreaker"));
+                revengeanceEnemyBuffList.Add(thorium.NPCType("Aquaius"));
+                revengeanceEnemyBuffList.Add(thorium.NPCType("Aquaius2"));
+
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("GrandThunderBirdZap"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("ThunderGust"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("BubbleBomb"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("QueenJellyArm"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("QueenTorrent"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("ViscountRipple"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("ViscountRipple2"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("ViscountBlood"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("ViscountStomp"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("ViscountStomp2"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("ViscountRockFall"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("GraniteCharge"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("BuriedShock"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("BuriedDagger"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("BuriedArrow"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("BuriedArrow2"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("BuriedArrowF"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("BuriedArrowP"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("BuriedArrowC"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("BuriedMagic"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("BuriedMagicPop"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("MainBeamOuter"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("MainBeam"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("MainBeamCheese"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("VaporizeBlast"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("GravitonSurge"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("Vaporize"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("GravitonCharge"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("GravitySpark"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("DoomBeholderBeam"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("VoidLaserPro"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("BeholderBeam"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("BlizzardBarrage"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("FrostSurge"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("FrostSurgeR"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("BlizzardCascade"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("BlizzardBoom"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("BlizzardFang"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("FrostMytePro"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("IceAnomaly"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("LichGaze"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("LichGazeB"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("LichFlareSpawn"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("LichFlare"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("LichPulse"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("LichMatter"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("SoulRenderLich"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("LichFlareDeathD"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("LichFlareDeathU"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("Whirlpool"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("AbyssionSpit"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("AbyssionSpit2"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("AquaRipple"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("AbyssalStrike2"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("OldGodSpit"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("OldGodSpit2"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("WaterPulse"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("TyphoonBlastHostile"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("TyphoonBlastHostileSmaller"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("AquaBarrage"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("DeathRaySpawnR"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("DeathRaySpawnL"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("DeathRaySpawn"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("OmniDeath"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("OmniSphereOrb"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("FlameLash"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("FlamePulse"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("FlamePulseTorn"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("FlameNova"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("MoltenFury"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("RealityFury"));
+                revengeanceProjectileBuffList.Add(thorium.ProjectileType("UFOBlast"));
             }
         }
         #endregion
@@ -2318,10 +2311,9 @@ namespace CalamityMod
         #region DrawingStuff
         public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
         {
-            Mod mod = ModLoader.GetMod("CalamityMod");
             if (CalamityWorld.revenge && Config.AdrenalineAndRage)
             {
-                UIHandler.ModifyInterfaceLayers(mod, layers);
+                UIHandler.ModifyInterfaceLayers(ModContent.GetInstance<CalamityMod>(), layers);
             }
             int index = layers.FindIndex(layer => layer.Name == "Vanilla: Mouse Text");
             if (index != -1)

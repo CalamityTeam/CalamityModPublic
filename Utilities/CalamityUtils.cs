@@ -317,6 +317,7 @@ namespace CalamityMod
                 }
             }
         }
+
         public static bool BedRightClick(int i, int j)
         {
             Player player = Main.LocalPlayer;
@@ -341,6 +342,7 @@ namespace CalamityMod
             }
             return true;
         }
+
         public static bool ChestRightClick(int i, int j)
         {
             Player player = Main.LocalPlayer;
@@ -414,9 +416,9 @@ namespace CalamityMod
             }
             return true;
         }
-        public static void ChestMouseOver(string itemType, string name, int i, int j)
+
+        public static void ChestMouseOver<T>(string chestName, int i, int j) where T : ModItem
         {
-            Mod calamity = ModLoader.GetMod("CalamityMod");
             Player player = Main.LocalPlayer;
             Tile tile = Main.tile[i, j];
             int left = i;
@@ -437,19 +439,20 @@ namespace CalamityMod
             }
             else
             {
-                player.showItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : name;
-                if (player.showItemIconText == name)
+                player.showItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : chestName;
+                if (player.showItemIconText == chestName)
                 {
-                    player.showItemIcon2 = calamity.ItemType(itemType);
+                    player.showItemIcon2 = ModContent.ItemType<T>();
                     player.showItemIconText = "";
                 }
             }
             player.noThrow = 2;
             player.showItemIcon = true;
         }
-        public static void ChestMouseFar(string itemType, string name, int i, int j)
+
+        public static void ChestMouseFar<T>(string name, int i, int j) where T : ModItem
         {
-            ChestMouseOver(itemType, name, i, j);
+            ChestMouseOver<T>(name, i, j);
             Player player = Main.LocalPlayer;
             if (player.showItemIconText == "")
             {
@@ -457,56 +460,56 @@ namespace CalamityMod
                 player.showItemIcon2 = 0;
             }
         }
+
         public static bool ClockRightClick()
         {
             string text = "AM";
-            //Get current weird time
+
+            // Get Terraria's current strange time variable
             double time = Main.time;
+
+            // Correct for night time (which for some reason isn't just a different number) by adding 54000.
             if (!Main.dayTime)
-            {
-                //if it's night add this number
-                time += 54000.0;
-            }
-            //Divide by seconds in a day * 24
-            time = time / 86400.0 * 24.0;
-            //Dunno why we're taking 19.5. Something about hour formatting
-            time = time - 7.5 - 12.0;
-            //Format in readable time
-            if (time < 0.0)
-            {
-                time += 24.0;
-            }
-            if (time >= 12.0)
-            {
+                time += 54000D;
+
+            // Divide by seconds in an hour
+            time = time / 3600D;
+
+            // Terraria night starts at 7:30 PM, so offset accordingly
+            time = time - 19.5;
+
+            // Offset time to ensure it is not negative, then change to PM if necessary
+            if (time < 0D)
+                time += 24D;
+            if (time >= 12D)
                 text = "PM";
-            }
+
+            // Get the decimal (smaller than hours, so minutes) component of time.
             int intTime = (int)time;
-            //Get the decimal points of time.
             double deltaTime = time - intTime;
-            //multiply them by 60. Minutes, probably
-            deltaTime = (int)(deltaTime * 60.0);
-            //This could easily be replaced by deltaTime.ToString()
-            string text2 = string.Concat(deltaTime);
-            if (deltaTime < 10.0)
-            {
-                //if deltaTime is eg "1" (which would cause time to display as HH:M instead of HH:MM)
-                text2 = "0" + text2;
-            }
+
+            // Convert decimal time into an exact number of minutes.
+            deltaTime = (int)(deltaTime * 60D);
+
+            string minuteText = deltaTime.ToString();
+
+            // Ensure minutes has a leading zero
+            if (deltaTime < 10D)
+                minuteText = "0" + minuteText;
+
+            // Convert from 24 to 12 hour time (PM already handled earlier)
             if (intTime > 12)
-            {
-                //This is for AM/PM time rather than 24hour time
                 intTime -= 12;
-            }
+            // 12 AM is actually hour zero in 24 hour time
             if (intTime == 0)
-            {
-                //0AM = 12AM
                 intTime = 12;
-            }
-            //Whack it all together to get a HH:MM format
-            var newText = string.Concat("Time: ", intTime, ":", text2, " ", text);
+
+            // Create an overall time readout and send it to chat
+            var newText = string.Concat("Time: ", intTime, ":", minuteText, " ", text);
             Main.NewText(newText, 255, 240, 20);
             return true;
         }
+
         public static bool DresserRightClick()
         {
             Player player = Main.LocalPlayer;
@@ -600,9 +603,9 @@ namespace CalamityMod
 
             return false;
         }
-        public static void DresserMouseFar(string itemType, string chest, int i, int j)
+
+        public static void DresserMouseFar<T>(string chestName) where T : ModItem
         {
-            Mod calamity = ModLoader.GetMod("CalamityMod");
             Player player = Main.LocalPlayer;
             Tile tile = Main.tile[Player.tileTargetX, Player.tileTargetY];
             int left = Player.tileTargetX;
@@ -626,11 +629,11 @@ namespace CalamityMod
                 }
                 else
                 {
-                    player.showItemIconText = chest;
+                    player.showItemIconText = chestName;
                 }
-                if (player.showItemIconText == chest)
+                if (player.showItemIconText == chestName)
                 {
-                    player.showItemIcon2 = calamity.ItemType(itemType);
+                    player.showItemIcon2 = ModContent.ItemType<T>();
                     player.showItemIconText = "";
                 }
             }
@@ -642,9 +645,9 @@ namespace CalamityMod
                 player.showItemIcon2 = 0;
             }
         }
-        public static void DresserMouseOver(string itemType, string chest, int i, int j)
+
+        public static void DresserMouseOver<T>(string chestName) where T : ModItem
         {
-            Mod calamity = ModLoader.GetMod("CalamityMod");
             Player player = Main.LocalPlayer;
             Tile tile = Main.tile[Player.tileTargetX, Player.tileTargetY];
             int left = Player.tileTargetX;
@@ -654,25 +657,25 @@ namespace CalamityMod
             {
                 top--;
             }
-            int num138 = Chest.FindChest(left, top);
+            int chestIndex = Chest.FindChest(left, top);
             player.showItemIcon2 = -1;
-            if (num138 < 0)
+            if (chestIndex < 0)
             {
                 player.showItemIconText = Language.GetTextValue("LegacyDresserType.0");
             }
             else
             {
-                if (Main.chest[num138].name != "")
+                if (Main.chest[chestIndex].name != "")
                 {
-                    player.showItemIconText = Main.chest[num138].name;
+                    player.showItemIconText = Main.chest[chestIndex].name;
                 }
                 else
                 {
-                    player.showItemIconText = chest;
+                    player.showItemIconText = chestName;
                 }
-                if (player.showItemIconText == chest)
+                if (player.showItemIconText == chestName)
                 {
-                    player.showItemIcon2 = calamity.ItemType(itemType);
+                    player.showItemIcon2 = ModContent.ItemType<T>();
                     player.showItemIconText = "";
                 }
             }
@@ -683,6 +686,7 @@ namespace CalamityMod
                 player.showItemIcon2 = ItemID.FamiliarShirt;
             }
         }
+
         public static bool LockedChestRightClick(bool isLocked, int left, int top, int i, int j)
         {
             Player player = Main.LocalPlayer;
@@ -729,7 +733,6 @@ namespace CalamityMod
                 }
                 return true;
             }
-
 
             else
             {
@@ -779,9 +782,10 @@ namespace CalamityMod
             // This only occurs when the chest is locked and cannot be unlocked. You did not interact with the chest.
             return false;
         }
-        public static void LockedChestMouseOver(string keyType, string chestType, string chestName, int i, int j)
+
+        public static void LockedChestMouseOver<K, C>(string chestName, int i, int j)
+            where K : ModItem where C : ModItem
         {
-            Mod calamity = ModLoader.GetMod("CalamityMod");
             Player player = Main.LocalPlayer;
             Tile tile = Main.tile[i, j];
             int left = i;
@@ -805,18 +809,20 @@ namespace CalamityMod
                 player.showItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : chestName;
                 if (player.showItemIconText == chestName)
                 {
-                    player.showItemIcon2 = calamity.ItemType(chestType);
+                    player.showItemIcon2 = ModContent.ItemType<C>();
                     if (Main.tile[left, top].frameX / 36 == 1)
-                        player.showItemIcon2 = calamity.ItemType(keyType);
+                        player.showItemIcon2 = ModContent.ItemType<K>();
                     player.showItemIconText = "";
                 }
             }
             player.noThrow = 2;
             player.showItemIcon = true;
         }
-        public static void LockedChestMouseOverFar(string keyType, string chestType, string chestName, int i, int j)
+
+        public static void LockedChestMouseOverFar<K, C>(string chestName, int i, int j)
+            where K : ModItem where C : ModItem
         {
-            LockedChestMouseOver(keyType, chestType, chestName, i, j);
+            LockedChestMouseOver<K, C>(chestName, i, j);
             Player player = Main.LocalPlayer;
             if (player.showItemIconText == "")
             {

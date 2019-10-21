@@ -94,7 +94,7 @@ namespace CalamityMod.Projectiles.Rogue
                     }
                     newAxeVelocity.Normalize();
                     newAxeVelocity *= 30f;
-                    int p = Projectile.NewProjectile(projectile.position, newAxeVelocity, ModContent.ProjectileType<EnchantedAxe2>(),(int)(projectile.damage * 1.2f), 2, projectile.owner, 0, 0);
+                    int p = Projectile.NewProjectile(projectile.position, newAxeVelocity, ModContent.ProjectileType<EnchantedAxe2>(), (int)(projectile.damage * 1.2f), 2, projectile.owner, 0, 0);
                     Main.projectile[p].Calamity().stealthStrike = projectile.Calamity().stealthStrike;
                     summonAxe = false;
                 }

@@ -73,12 +73,12 @@ namespace CalamityMod.Tiles.FurnitureStratus
 
         public override void MouseOver(int i, int j)
         {
-            CalamityUtils.ChestMouseOver("StratusChest", "Stratus Chest", i, j);
+            CalamityUtils.ChestMouseOver<Items.Placeables.FurnitureStratus.StratusChest>("Stratus Chest", i, j);
         }
 
         public override void MouseOverFar(int i, int j)
         {
-            CalamityUtils.ChestMouseFar("StratusChest", "Stratus Chest", i, j);
+            CalamityUtils.ChestMouseFar<Items.Placeables.FurnitureStratus.StratusChest>("Stratus Chest", i, j);
         }
     }
 }

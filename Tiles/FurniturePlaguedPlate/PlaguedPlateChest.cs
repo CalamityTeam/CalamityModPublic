@@ -72,12 +72,12 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
 
         public override void MouseOver(int i, int j)
         {
-            CalamityUtils.ChestMouseOver("PlaguedPlateChest", "Plagued Plate Chest", i, j);
+            CalamityUtils.ChestMouseOver<Items.Placeables.FurniturePlaguedPlate.PlaguedPlateChest>("PlaguedPlate Chest", i, j);
         }
 
         public override void MouseOverFar(int i, int j)
         {
-            CalamityUtils.ChestMouseFar("PlaguedPlateChest", "Plagued Plate Chest", i, j);
+            CalamityUtils.ChestMouseFar<Items.Placeables.FurniturePlaguedPlate.PlaguedPlateChest>("PlaguedPlate Chest", i, j);
         }
     }
 }

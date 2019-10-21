@@ -72,12 +72,12 @@ namespace CalamityMod.Tiles.FurnitureVoid
 
         public override void MouseOver(int i, int j)
         {
-            CalamityUtils.ChestMouseOver("VoidChest", "Void Chest", i, j);
+            CalamityUtils.ChestMouseOver<Items.Placeables.FurnitureVoid.VoidChest>("Void Chest", i, j);
         }
 
         public override void MouseOverFar(int i, int j)
         {
-            CalamityUtils.ChestMouseFar("VoidChest", "Void Chest", i, j);
+            CalamityUtils.ChestMouseFar<Items.Placeables.FurnitureVoid.VoidChest>("Void Chest", i, j);
         }
     }
 }

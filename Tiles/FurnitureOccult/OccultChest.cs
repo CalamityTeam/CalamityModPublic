@@ -74,12 +74,12 @@ namespace CalamityMod.Tiles.FurnitureOccult
 
         public override void MouseOver(int i, int j)
         {
-            CalamityUtils.ChestMouseOver("OccultChest", "Otherworldly Chest", i, j);
+            CalamityUtils.ChestMouseOver<Items.Placeables.FurnitureOccult.OccultChest>("Occult Chest", i, j);
         }
 
         public override void MouseOverFar(int i, int j)
         {
-            CalamityUtils.ChestMouseFar("OccultChest", "Otherworldly Chest", i, j);
+            CalamityUtils.ChestMouseFar<Items.Placeables.FurnitureOccult.OccultChest>("Occult Chest", i, j);
         }
     }
 }

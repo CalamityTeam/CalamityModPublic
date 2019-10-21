@@ -37,12 +37,12 @@ namespace CalamityMod.Tiles.FurnitureStatigel
 
         public override void MouseOverFar(int i, int j)
         {
-            CalamityUtils.DresserMouseFar("StatigelDresser", chest, i, j);
+            CalamityUtils.DresserMouseFar<Items.Placeables.FurnitureStatigel.StatigelDresser>(chest);
         }
 
         public override void MouseOver(int i, int j)
         {
-            CalamityUtils.DresserMouseOver("StatigelDresser", chest, i, j);
+            CalamityUtils.DresserMouseOver<Items.Placeables.FurnitureStatigel.StatigelDresser>(chest);
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)

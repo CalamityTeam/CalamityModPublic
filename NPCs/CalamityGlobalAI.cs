@@ -2556,7 +2556,7 @@ namespace CalamityMod.NPCs
             {
                 // Number of charges
                 int chargeAmt = 2;
-                if (npc.life < npc.lifeMax / 3)
+                if (npc.life < npc.lifeMax / 3 || enrage)
                     chargeAmt++;
 
                 // Switch to a random phase if chargeAmt has been exceeded
@@ -2579,19 +2579,21 @@ namespace CalamityMod.NPCs
                         npc.ai[1] += 1f;
                         npc.ai[2] = 0f;
                         float speed = 16f;
-                        if (CalamityWorld.bossRushActive)
-                            speed += 12f;
-                        else if (CalamityWorld.death)
-                            speed += 6f;
-                        else
-                        {
-                            if ((double)npc.life < (double)npc.lifeMax * 0.75)
-                                speed += 2f;
-                            if ((double)npc.life < (double)npc.lifeMax * 0.5)
-                                speed += 2f;
-                            if ((double)npc.life < (double)npc.lifeMax * 0.25)
-                                speed += 2f;
-                        }
+						if (CalamityWorld.bossRushActive)
+							speed += 12f;
+						else if (enrage)
+							speed += 8f;
+						else if (CalamityWorld.death)
+							speed += 6f;
+						else
+						{
+							if ((double)npc.life < (double)npc.lifeMax * 0.75)
+								speed += 2f;
+							if ((double)npc.life < (double)npc.lifeMax * 0.5)
+								speed += 2f;
+							if ((double)npc.life < (double)npc.lifeMax * 0.25)
+								speed += 2f;
+						}
                         if ((double)npc.life < (double)npc.lifeMax * 0.1)
                             speed += 2f;
 
@@ -2619,6 +2621,11 @@ namespace CalamityMod.NPCs
                         num602 *= 1.5f;
                         num603 *= 1.5f;
                     }
+					else if (enrage)
+					{
+						num602 += 6f;
+						num603 += 0.2f;
+					}
                     else if (CalamityWorld.death)
                     {
                         num602 += 4f;
@@ -2687,7 +2694,7 @@ namespace CalamityMod.NPCs
                     // Charging distance from player
                     int num604 = 500;
                     if (enrage)
-                        num604 = 250;
+                        num604 = 225;
                     else if ((double)npc.life < (double)npc.lifeMax * 0.33)
                         num604 = 300;
                     else if ((double)npc.life < (double)npc.lifeMax * 0.66)
@@ -2715,12 +2722,12 @@ namespace CalamityMod.NPCs
                     npc.localAI[0] = 0f;
                     npc.velocity *= 0.9f;
                     float num606 = 0.1f;
-                    if (npc.life < npc.lifeMax / 2 || CalamityWorld.death || CalamityWorld.bossRushActive)
+                    if (npc.life < npc.lifeMax / 2 || CalamityWorld.death || CalamityWorld.bossRushActive || enrage)
                     {
                         npc.velocity *= 0.9f;
                         num606 += 0.05f;
                     }
-                    if (npc.life < npc.lifeMax / 3 || CalamityWorld.death || CalamityWorld.bossRushActive)
+                    if (npc.life < npc.lifeMax / 3 || CalamityWorld.death || CalamityWorld.bossRushActive || enrage)
                     {
                         npc.velocity *= 0.9f;
                         num606 += 0.05f;
@@ -2933,7 +2940,7 @@ namespace CalamityMod.NPCs
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         float num624 = CalamityWorld.bossRushActive ? 16f : 12f;
-                        if ((double)npc.life < (double)npc.lifeMax * 0.33 || CalamityWorld.bossRushActive)
+                        if ((double)npc.life < (double)npc.lifeMax * 0.33 || enrage || CalamityWorld.bossRushActive)
                             num624 += 3f;
                         if (CalamityWorld.death || CalamityWorld.bossRushActive)
                             num624 += 1f;

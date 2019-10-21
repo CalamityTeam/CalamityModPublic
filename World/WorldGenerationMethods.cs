@@ -37,7 +37,6 @@ namespace CalamityMod.World
         #region BiomeChests
         public static void GenerateBiomeChests(GenerationProgress progress)
         {
-            Mod mod = ModLoader.GetMod("CalamityMod");
             // Get dungeon size field infos. These fields are private for some reason
             int MinX = (int)typeof(WorldGen).GetField("dMinX", BindingFlags.Static | BindingFlags.NonPublic).GetValue(null) + 25;
             int MaxX = (int)typeof(WorldGen).GetField("dMaxX", BindingFlags.Static | BindingFlags.NonPublic).GetValue(null) - 25;
@@ -89,7 +88,6 @@ namespace CalamityMod.World
                 uint itemIndex = emptySlots;
                 while (itemIndex == emptySlots)
                 {
-                    Mod mod = ModLoader.GetMod("CalamityMod");
                     bool AstralChest = type == ModContent.TileType<AstralChestLocked>();
                     int cItem;
                     cItem = WorldGen.genRand.NextBool() ? WorldGen.goldBar : WorldGen.silverBar;
@@ -174,7 +172,6 @@ namespace CalamityMod.World
         #region Place Rox Shrine
         public static void PlaceRoxShrine()
         {
-            Mod mod = ModLoader.GetMod("CalamityMod");
             while (!CalamityWorld.roxShrinePlaced)
             {
                 CalamityWorld.roxShrinePlaced = true;
@@ -250,7 +247,6 @@ namespace CalamityMod.World
         #region OreSpawn
         public static void SpawnOre(int type, double frequency, float depth, float depthLimit)
         {
-            Mod mod = ModLoader.GetMod("CalamityMod");
             int x = Main.maxTilesX;
             int y = Main.maxTilesY;
             if (type == ModContent.TileType<ExodiumOre>())
@@ -302,7 +298,6 @@ namespace CalamityMod.World
         #region AstralMeteor
         public static bool CanAstralMeteorSpawn()
         {
-            Mod mod = ModLoader.GetMod("CalamityMod");
             int astralOreCount = 0;
             float worldSizeFactor = Main.maxTilesX / 4200f; // Small = 4200, Medium = 6400, Large = 8400
             int astralOreAllowed = (int)(200f * worldSizeFactor); // Small = 201 Medium = 305 Large = 401
@@ -325,7 +320,6 @@ namespace CalamityMod.World
 
         public static bool CanAstralBiomeSpawn()
         {
-            Mod mod = ModLoader.GetMod("CalamityMod");
             int astralTileCount = 0;
             float worldSizeFactor = Main.maxTilesX / 4200f; // Small = 4200, Medium = 6400, Large = 8400
             int astralTilesAllowed = (int)(400f * worldSizeFactor); // Small = 401 Medium = 605 Large = 801
@@ -357,7 +351,6 @@ namespace CalamityMod.World
 
         public static void PlaceAstralMeteor()
         {
-            Mod mod = ModLoader.GetMod("CalamityMod");
             Mod ancientsAwakened = ModLoader.GetMod("AAMod");
 
             // This flag is also used to determine whether players are nearby.
@@ -472,7 +465,6 @@ namespace CalamityMod.World
         public static bool GenerateAstralMeteor(int i, int j)
         {
             UnifiedRandom rand = WorldGen.genRand;
-            Mod mod = ModLoader.GetMod("CalamityMod");
             if (i < 50 || i > Main.maxTilesX - 50)
             {
                 return false;
@@ -710,7 +702,6 @@ namespace CalamityMod.World
 
         public static void ConvertToAstral(int x, int y, bool tileframe = true)
         {
-            Mod mod = ModLoader.GetMod("CalamityMod");
             if (WorldGen.InWorld(x, y, 1))
             {
                 int type = Main.tile[x, y].type;
@@ -1781,7 +1772,6 @@ namespace CalamityMod.World
         #region UnderworldIsland
         public static void UnderworldIsland(int i, int j, int sizeMin, int sizeMax, int sizeMin2, int sizeMax2)
         {
-            Mod mod = ModLoader.GetMod("CalamityMod");
             double num = (double)WorldGen.genRand.Next(sizeMin, sizeMax); //100 150
             float num2 = (float)WorldGen.genRand.Next(sizeMin / 5, sizeMax / 5); //20 30
             int num3 = i;
@@ -2044,7 +2034,6 @@ namespace CalamityMod.World
         #region UnderworldIslandHouse
         public static void UnderworldIslandHouse(int i, int j, int item)
         {
-            Mod mod = ModLoader.GetMod("CalamityMod");
             ushort type = (ushort)ModContent.TileType<BrimstoneSlag>(); //tile
             byte wall = (byte)14; //wall
             Vector2 vector = new Vector2((float)i, (float)j);
@@ -2165,7 +2154,6 @@ namespace CalamityMod.World
         #region AbyssIsland
         public static void AbyssIsland(int i, int j, int sizeMin, int sizeMax, int sizeMin2, int sizeMax2, bool hasChest, bool hasTenebris, bool isVoid)
         {
-            Mod mod = ModLoader.GetMod("CalamityMod");
             int sizeMinSmall = sizeMin / 5;
             int sizeMaxSmall = sizeMax / 5;
             double num = (double)WorldGen.genRand.Next(sizeMin, sizeMax); //100 150
@@ -2487,7 +2475,6 @@ namespace CalamityMod.World
         #region AbyssIslandHouse
         public static void AbyssIslandHouse(int i, int j, int itemChoice, bool isVoid)
         {
-            Mod mod = ModLoader.GetMod("CalamityMod");
             ushort type = (ushort)(isVoid ? ModContent.TileType<Voidstone>() : ModContent.TileType<AbyssGravel>()); //tile
             ushort wall = (ushort)(isVoid ? ModContent.WallType<VoidstoneWallUnsafe>() : ModContent.WallType<AbyssGravelWall>()); //wall
             Vector2 vector = new Vector2((float)i, (float)j);
@@ -2953,7 +2940,6 @@ namespace CalamityMod.World
         // Special Chest: Used for placing shrine chests, takes argument of item choice which dictates what item will spawn in the first slot of this chest
         public static void SpecialChest(int itemChoice)
         {
-            Mod mod = ModLoader.GetMod("CalamityMod");
             int item = 0;
             int chestType = 0;
 
@@ -3028,7 +3014,6 @@ namespace CalamityMod.World
         #region ChasmGenerator
         public static void ChasmGenerator(int i, int j, int steps, bool ocean = false)
         {
-            Mod mod = ModLoader.GetMod("CalamityMod");
             float num = (float)steps; //850 small 1450 medium 2050 large
             if (ocean)
             {
@@ -3264,7 +3249,6 @@ namespace CalamityMod.World
         #region PlaceTits
         public static void PlaceTit(int x, int y, ushort type = 165)
         {
-            Mod mod = ModLoader.GetMod("CalamityMod");
             if (Main.tile[x, y - 1] == null)
             {
                 Main.tile[x, y - 1] = new Tile();

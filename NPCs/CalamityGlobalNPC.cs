@@ -551,7 +551,7 @@ namespace CalamityMod.NPCs
 
             // Apply DR to vanilla NPCs. No vanilla NPCs have DR except in Rev+.
             // This also applies DR to other mods' NPCs who have set up their NPCs to have DR in Rev+.
-            if (CalamityWorld.revenge)
+            if (CalamityWorld.revenge && CalamityMod.DRValues.ContainsKey(npc.type))
             {
                 CalamityMod.DRValues.TryGetValue(npc.type, out float revDR);
                 DR = revDR;
@@ -3586,7 +3586,6 @@ namespace CalamityMod.NPCs
         #region Any Boss NPCs
         public static bool AnyBossNPCS()
         {
-            Mod mod = ModLoader.GetMod("CalamityMod");
 
             for (int i = 0; i < 200; i++)
             {
@@ -3618,7 +3617,6 @@ namespace CalamityMod.NPCs
         #region Should Affect NPC
         public static bool ShouldAffectNPC(NPC target)
         {
-            Mod mod = ModLoader.GetMod("CalamityMod");
 
             if (target.damage > 0 && !target.boss && !target.friendly && !target.dontTakeDamage && target.type != NPCID.Mothron &&
                 target.type != NPCID.Pumpking && target.type != NPCID.TheDestroyerBody && target.type != NPCID.TheDestroyerTail &&
@@ -3635,7 +3633,6 @@ namespace CalamityMod.NPCs
         #region Old Duke Spawn
         public static void OldDukeSpawn(int plr, int Type)
         {
-            Mod mod = ModLoader.GetMod("CalamityMod");
             Player player = Main.player[plr];
 
             if (!player.active || player.dead)

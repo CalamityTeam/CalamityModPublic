@@ -28,8 +28,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-            projectile.velocity.X *= 1.01f;
-            projectile.velocity.Y *= 1.01f;
+            projectile.velocity *= 1.01f;
 
             if (projectile.position.Y > projectile.ai[1])
                 projectile.tileCollide = true;

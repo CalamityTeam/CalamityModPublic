@@ -65,8 +65,8 @@ namespace CalamityMod.Projectiles.Boss
             }
         }
 
-        public override bool CanDamage()
-        {
+        public override bool CanHitPlayer(Player target)
+		{
             if (projectile.timeLeft > 815 || projectile.timeLeft < 85)
             {
                 return false;

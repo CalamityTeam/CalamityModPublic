@@ -37,12 +37,12 @@ namespace CalamityMod.Tiles.FurnitureVoid
 
         public override void MouseOverFar(int i, int j)
         {
-            CalamityUtils.DresserMouseFar("VoidDresser", chest, i, j);
+            CalamityUtils.DresserMouseFar<Items.Placeables.FurnitureVoid.VoidDresser>(chest);
         }
 
         public override void MouseOver(int i, int j)
         {
-            CalamityUtils.DresserMouseOver("VoidDresser", chest, i, j);
+            CalamityUtils.DresserMouseOver<Items.Placeables.FurnitureVoid.VoidDresser>(chest);
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)

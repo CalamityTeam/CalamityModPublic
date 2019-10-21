@@ -23,7 +23,7 @@ namespace CalamityMod.NPCs.Leviathan
             npc.width = 70;
             npc.height = 40;
             npc.defense = 14;
-            npc.lifeMax = CalamityWorld.death ? 2200 : 1100;
+            npc.lifeMax = 1600;
             if (CalamityWorld.bossRushActive)
             {
                 npc.lifeMax = 100000;
@@ -49,12 +49,6 @@ namespace CalamityMod.NPCs.Leviathan
 
         public override void AI()
         {
-            if (CalamityGlobalNPC.leviathan < 0 || !Main.npc[CalamityGlobalNPC.leviathan].active)
-            {
-                npc.active = false;
-                npc.netUpdate = true;
-                return;
-            }
             npc.TargetClosest(false);
             npc.rotation = npc.velocity.ToRotation();
             if (Math.Sign(npc.velocity.X) != 0)
@@ -195,7 +189,16 @@ namespace CalamityMod.NPCs.Leviathan
             }
         }
 
-        public override void OnHitPlayer(Player player, int damage, bool crit)
+		public override float SpawnChance(NPCSpawnInfo spawnInfo)
+		{
+			if (spawnInfo.playerSafe || spawnInfo.player.Calamity().ZoneSulphur || (!NPC.downedPlantBoss && !CalamityWorld.downedCalamitas))
+			{
+				return 0f;
+			}
+			return SpawnCondition.OceanMonster.Chance * 0.02f;
+		}
+
+		public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             player.AddBuff(BuffID.Wet, 120, true);
             if (CalamityWorld.revenge)

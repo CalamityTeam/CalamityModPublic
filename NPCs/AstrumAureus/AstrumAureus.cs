@@ -66,7 +66,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             npc.DeathSound = SoundID.NPCDeath14;
             Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
             if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/AstrumAureus");
+                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Astrageldon");
             else
                 music = MusicID.Boss3;
             bossBag = ModContent.ItemType<AstrageldonBag>();
@@ -210,7 +210,6 @@ namespace CalamityMod.NPCs.AstrumAureus
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            Mod mod = ModLoader.GetMod("CalamityMod");
             Texture2D NPCTexture = Main.npcTexture[npc.type];
             Texture2D GlowMaskTexture = Main.npcTexture[npc.type];
             SpriteEffects spriteEffects = SpriteEffects.None;

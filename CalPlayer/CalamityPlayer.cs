@@ -6880,7 +6880,19 @@ namespace CalamityMod.CalPlayer
                 if (CalamityMod.revengeanceProjectileBuffList.Contains(proj.type))
                     damage = (int)((double)damage * 1.25);
             }
-            if (player.whoAmI == Main.myPlayer && gainRageCooldown <= 0)
+
+			// Reduce damage from vanilla traps
+			// 350 in normal, 450 in expert
+			if (proj.type == ProjectileID.Explosives)
+				damage = (int)((double)damage * (Main.expertMode ? 0.225 : 0.35));
+			if (Main.expertMode)
+			{
+				// 140 in normal, 182 in expert
+				if (proj.type == ProjectileID.Boulder)
+					damage = (int)((double)damage * 0.65);
+			}
+
+			if (player.whoAmI == Main.myPlayer && gainRageCooldown <= 0)
             {
                 if (CalamityWorld.revenge && Config.AdrenalineAndRage && !CalamityMod.trapProjectileList.Contains(proj.type))
                 {
@@ -7383,7 +7395,7 @@ namespace CalamityMod.CalPlayer
                 {
                     stress = 0;
                     if (player.FindBuffIndex(ModContent.BuffType<RageMode>()) > -1)
-                    { player.ClearBuff(ModContent.BuffType<RageMode>()); }
+						player.ClearBuff(ModContent.BuffType<RageMode>());
                 }
                 if (amidiasBlessing)
                 {
@@ -9157,7 +9169,6 @@ namespace CalamityMod.CalPlayer
                 return;
             }
             Player drawPlayer = drawInfo.drawPlayer;
-            Mod mod = ModLoader.GetMod("CalamityMod");
             CalamityPlayer modPlayer = drawPlayer.Calamity();
             if (modPlayer.sirenIce)
             {
@@ -9183,7 +9194,6 @@ namespace CalamityMod.CalPlayer
                 return;
 
             Player drawPlayer = drawInfo.drawPlayer;
-            Mod mod = ModLoader.GetMod("CalamityMod");
             Item item = drawPlayer.inventory[drawPlayer.selectedItem];
 
             if (!drawPlayer.frozen &&
@@ -9339,7 +9349,6 @@ namespace CalamityMod.CalPlayer
 
         public PlayerLayer clAfterAll = new PlayerLayer("Calamity", "clAfterAll", PlayerLayer.MiscEffectsFront, delegate (PlayerDrawInfo edi)
         {
-            Mod mod = ModLoader.GetMod("CalamityMod");
             Player drawPlayer = edi.drawPlayer;
             if (drawPlayer.mount != null && (drawPlayer.Calamity().fab || drawPlayer.Calamity().crysthamyr ||
                 drawPlayer.Calamity().onyxExcavator))

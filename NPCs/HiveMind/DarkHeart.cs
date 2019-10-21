@@ -22,10 +22,10 @@ namespace CalamityMod.NPCs.HiveMind
             npc.width = 32;
             npc.height = 32;
             npc.defense = 2;
-            npc.lifeMax = 80;
+            npc.lifeMax = 150;
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = 12000;
+                npc.lifeMax = 18000;
             }
             npc.aiStyle = -1;
             aiType = -1;
@@ -59,7 +59,7 @@ namespace CalamityMod.NPCs.HiveMind
 
             Vector2 vector133 = new Vector2(npc.Center.X, npc.Center.Y);
             float num1166 = Main.player[npc.target].Center.X - vector133.X;
-            float num1167 = Main.player[npc.target].Center.Y - vector133.Y - 300f;
+            float num1167 = Main.player[npc.target].Center.Y - vector133.Y - 400f;
             float num1168 = (float)Math.Sqrt((double)(num1166 * num1166 + num1167 * num1167));
             if (num1168 < 20f)
             {
@@ -106,8 +106,8 @@ namespace CalamityMod.NPCs.HiveMind
             }
             if (npc.position.X + (float)npc.width > Main.player[npc.target].position.X && npc.position.X < Main.player[npc.target].position.X + (float)Main.player[npc.target].width && npc.position.Y + (float)npc.height < Main.player[npc.target].position.Y && Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height) && Main.netMode != NetmodeID.MultiplayerClient)
             {
-                npc.ai[0] += 4f;
-                if (npc.ai[0] > 16f)
+                npc.ai[0] += 1f;
+                if (npc.ai[0] >= 30f)
                 {
                     npc.ai[0] = 0f;
                     int num1169 = (int)(npc.position.X + 10f + (float)Main.rand.Next(npc.width - 20));

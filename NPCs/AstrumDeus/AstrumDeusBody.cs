@@ -163,7 +163,6 @@ namespace CalamityMod.NPCs.AstrumDeus
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            Mod mod = ModLoader.GetMod("CalamityMod");
             Color lightColor = new Color(125, 75, Main.DiscoB, npc.alpha); //250 150 Disco
             Color newColor = npc.dontTakeDamage ? lightColor : drawColor;
             Texture2D texture = ModContent.GetTexture("CalamityMod/NPCs/AstrumDeus/AstrumDeusBodyAlt");

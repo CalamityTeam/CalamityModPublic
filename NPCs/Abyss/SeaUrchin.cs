@@ -20,8 +20,8 @@ namespace CalamityMod.NPCs.Abyss
             npc.aiStyle = -1;
             aiType = -1;
             npc.damage = 20;
-            npc.width = 40; //324
-            npc.height = 40; //216
+            npc.width = 40;
+            npc.height = 40;
             npc.defense = 10;
             npc.lifeMax = 30;
             npc.knockBackResist = 0.8f;

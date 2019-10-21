@@ -73,12 +73,12 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
 
         public override void MouseOver(int i, int j)
         {
-            CalamityUtils.ChestMouseOver("CosmiliteChest", "Cosmilite Chest", i, j);
+            CalamityUtils.ChestMouseOver<Items.Placeables.FurnitureCosmilite.CosmiliteChest>("Cosmilite Chest", i, j);
         }
 
         public override void MouseOverFar(int i, int j)
         {
-            CalamityUtils.ChestMouseFar("CosmiliteChest", "Cosmilite Chest", i, j);
+            CalamityUtils.ChestMouseFar<Items.Placeables.FurnitureCosmilite.CosmiliteChest>("Cosmilite Chest", i, j);
         }
     }
 }

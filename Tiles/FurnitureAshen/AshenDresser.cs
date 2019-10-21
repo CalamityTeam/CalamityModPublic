@@ -39,12 +39,12 @@ namespace CalamityMod.Tiles.FurnitureAshen
 
         public override void MouseOverFar(int i, int j)
         {
-            CalamityUtils.DresserMouseFar("AshenDresser", chest, i, j);
+            CalamityUtils.DresserMouseFar<Items.Placeables.FurnitureAshen.AshenDresser>(chest);
         }
 
         public override void MouseOver(int i, int j)
         {
-            CalamityUtils.DresserMouseOver("AshenDresser", chest, i, j);
+            CalamityUtils.DresserMouseOver<Items.Placeables.FurnitureAshen.AshenDresser>(chest);
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)

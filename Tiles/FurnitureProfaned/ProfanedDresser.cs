@@ -44,12 +44,12 @@ namespace CalamityMod.Tiles.FurnitureProfaned
 
         public override void MouseOverFar(int i, int j)
         {
-            CalamityUtils.DresserMouseFar("ProfanedDresser", chest, i, j);
+            CalamityUtils.DresserMouseFar<Items.Placeables.FurnitureProfaned.ProfanedDresser>(chest);
         }
 
         public override void MouseOver(int i, int j)
         {
-            CalamityUtils.DresserMouseOver("ProfanedDresser", chest, i, j);
+            CalamityUtils.DresserMouseOver<Items.Placeables.FurnitureProfaned.ProfanedDresser>(chest);
         }
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)

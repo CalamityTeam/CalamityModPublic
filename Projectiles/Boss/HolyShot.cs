@@ -43,8 +43,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-            projectile.velocity.X *= 1.03f;
-            projectile.velocity.Y *= 1.03f;
+            projectile.velocity *= 1.03f;
             projectile.rotation = projectile.velocity.ToRotation() + 1.57079637f;
             if (projectile.localAI[0] == 0f)
             {
@@ -53,8 +52,8 @@ namespace CalamityMod.Projectiles.Boss
             }
         }
 
-        public override bool CanDamage()
-        {
+        public override bool CanHitPlayer(Player target)
+		{
             if (projectile.timeLeft > 883 || projectile.timeLeft < 85)
             {
                 return false;

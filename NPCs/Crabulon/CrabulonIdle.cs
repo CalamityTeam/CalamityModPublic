@@ -473,7 +473,6 @@ namespace CalamityMod.NPCs.Crabulon
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            Mod mod = ModLoader.GetMod("CalamityMod");
             Texture2D texture = ModContent.GetTexture("CalamityMod/NPCs/Crabulon/CrabulonIdleAlt");
             Texture2D textureAttack = ModContent.GetTexture("CalamityMod/NPCs/Crabulon/CrabulonAttack");
             if (npc.ai[0] > 2f)

@@ -17,7 +17,6 @@ namespace CalamityMod
 
         private static void BossChecklistSupport()
         {
-            Mod mod = ModLoader.GetMod("CalamityMod");
             Mod bossChecklist = ModLoader.GetMod("BossChecklist");
 
             if (bossChecklist != null)
@@ -52,7 +51,6 @@ namespace CalamityMod
 
         private static void CensusSupport()
         {
-            Mod mod = ModLoader.GetMod("CalamityMod");
             Mod censusMod = ModLoader.GetMod("Census");
             if (censusMod != null)
             {

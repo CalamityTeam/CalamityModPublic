@@ -74,12 +74,12 @@ namespace CalamityMod.Tiles.FurnitureBotanic
 
         public override void MouseOver(int i, int j)
         {
-            CalamityUtils.ChestMouseOver("BotanicChest", "Botanic Chest", i, j);
+            CalamityUtils.ChestMouseOver<Items.Placeables.FurnitureBotanic.BotanicChest>("Botanic Chest", i, j);
         }
 
         public override void MouseOverFar(int i, int j)
         {
-            CalamityUtils.ChestMouseFar("BotanicChest", "Botanic Chest", i, j);
+            CalamityUtils.ChestMouseFar<Items.Placeables.FurnitureBotanic.BotanicChest>("Botanic Chest", i, j);
         }
     }
 }

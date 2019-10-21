@@ -64,8 +64,7 @@ namespace CalamityMod.Projectiles.Boss
                 {
                     if (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y) < 18f)
                     {
-                        projectile.velocity.X *= 1.01f;
-                        projectile.velocity.Y *= 1.01f;
+                        projectile.velocity *= 1.01f;
                     }
                     float scaleFactor2 = projectile.velocity.Length();
                     Vector2 vector11 = Main.player[num103].Center - projectile.Center;

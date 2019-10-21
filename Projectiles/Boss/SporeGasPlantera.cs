@@ -58,8 +58,8 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.velocity *= 0.98f;
         }
 
-        public override bool CanDamage()
-        {
+        public override bool CanHitPlayer(Player target)
+		{
             if (projectile.ai[1] > 570f)
             {
                 return false;

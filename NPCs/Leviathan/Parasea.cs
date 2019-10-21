@@ -41,12 +41,6 @@ namespace CalamityMod.NPCs.Leviathan
         public override void AI()
         {
             bool revenge = CalamityWorld.revenge;
-            if (CalamityGlobalNPC.leviathan < 0 || !Main.npc[CalamityGlobalNPC.leviathan].active)
-            {
-                npc.active = false;
-                npc.netUpdate = true;
-                return;
-            }
             npc.TargetClosest(true);
             Vector2 vector145 = new Vector2(npc.Center.X, npc.Center.Y);
             float num1258 = Main.player[npc.target].Center.X - vector145.X;
@@ -64,7 +58,16 @@ namespace CalamityMod.NPCs.Leviathan
             npc.rotation = (float)Math.Atan2((double)num1259, (double)num1258) + 3.14f;
         }
 
-        public override void FindFrame(int frameHeight)
+		public override float SpawnChance(NPCSpawnInfo spawnInfo)
+		{
+			if (spawnInfo.playerSafe || spawnInfo.player.Calamity().ZoneSulphur || (!NPC.downedPlantBoss && !CalamityWorld.downedCalamitas))
+			{
+				return 0f;
+			}
+			return SpawnCondition.OceanMonster.Chance * 0.06f;
+		}
+
+		public override void FindFrame(int frameHeight)
         {
             npc.frameCounter += 0.15f;
             npc.frameCounter %= Main.npcFrameCount[npc.type];
