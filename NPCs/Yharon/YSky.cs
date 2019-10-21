@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.Graphics.Effects;
 
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.Yharon
 {
     public class YSky : CustomSky
     {

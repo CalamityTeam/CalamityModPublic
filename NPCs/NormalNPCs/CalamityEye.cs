@@ -4,7 +4,7 @@ using Terraria.ID;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Materials;
 using CalamityMod.Buffs.DamageOverTime;
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.NormalNPCs
 {
     public class CalamityEye : ModNPC
     {

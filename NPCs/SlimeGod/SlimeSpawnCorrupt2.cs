@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.SlimeGod
 {
     public class SlimeSpawnCorrupt2 : ModNPC
     {

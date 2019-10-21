@@ -11,7 +11,7 @@ using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Projectiles.Boss;
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.GreatSandShark
 {
     public class GreatSandShark : ModNPC
     {

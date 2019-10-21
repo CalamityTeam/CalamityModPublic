@@ -29,7 +29,7 @@ using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Tiles.Ores;
 using CalamityMod.Projectiles.Boss;
 
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.Yharon
 {
     [AutoloadBossHead]
     public class Yharon : ModNPC

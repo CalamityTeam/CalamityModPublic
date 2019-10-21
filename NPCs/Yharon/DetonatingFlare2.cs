@@ -5,7 +5,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using CalamityMod.Buffs.StatDebuffs;
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.Yharon
 {
     public class DetonatingFlare2 : ModNPC
     {

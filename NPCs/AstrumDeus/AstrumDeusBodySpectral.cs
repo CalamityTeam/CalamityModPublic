@@ -15,7 +15,7 @@ using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Buffs.DamageOverTime;
 
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.AstrumDeus
 {
     public class AstrumDeusBodySpectral : ModNPC
     {

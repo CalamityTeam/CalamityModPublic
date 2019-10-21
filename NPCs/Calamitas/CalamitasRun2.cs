@@ -12,7 +12,7 @@ using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.Calamitas
 {
     [AutoloadBossHead]
     public class CalamitasRun2 : ModNPC

@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using CalamityMod.Projectiles.Boss;
 
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.Leviathan
 {
     public class SirenClone : ModNPC
     {

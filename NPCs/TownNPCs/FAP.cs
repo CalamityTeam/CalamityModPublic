@@ -9,7 +9,7 @@ using Terraria.Localization;
 using CalamityMod.Items.Potions.Alcohol;
 using CalamityMod.Items.Placeables.Furniture;
 using CalamityMod.Projectiles.Magic;
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.TownNPCs
 {
     [AutoloadHead]
     public class FAP : ModNPC

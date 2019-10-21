@@ -6,7 +6,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.PlaguebringerGoliath
 {
     public class PlagueMine : ModNPC
     {

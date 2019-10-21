@@ -9,7 +9,7 @@ using CalamityMod.Items.Tools.ClimateChange;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Projectiles.Enemy;
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.NormalNPCs
 {
     public class Horse : ModNPC
     {

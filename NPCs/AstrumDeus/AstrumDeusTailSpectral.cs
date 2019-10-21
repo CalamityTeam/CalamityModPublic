@@ -13,7 +13,7 @@ using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Buffs.DamageOverTime;
 
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.AstrumDeus
 {
     public class AstrumDeusTailSpectral : ModNPC
     {

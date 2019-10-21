@@ -3,6 +3,7 @@ using CalamityMod.Localization;
 using CalamityMod.NPCs;
 using CalamityMod.Skies;
 using CalamityMod.UI;
+using CalamityMod.Buffs.Alcohol;
 
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -19,6 +20,15 @@ using Terraria.ID;
 using Terraria.UI;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Accessories.Vanity;
+using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.NPCs.DevourerofGods;
+using CalamityMod.NPCs.Calamitas;
+using CalamityMod.NPCs.PlaguebringerGoliath;
+using CalamityMod.NPCs.Yharon;
+using CalamityMod.NPCs.Leviathan;
+using CalamityMod.NPCs.Providence;
+using CalamityMod.NPCs.SupremeCalamitas;
 
 namespace CalamityMod
 {
@@ -632,19 +642,19 @@ namespace CalamityMod
                     BuffID.WitheredWeapon,
                     BuffID.OgreSpit,
                     BuffID.BetsysCurse,
-                    calamity.BuffType("Shadowflame"),
-                    calamity.BuffType("BrimstoneFlames"),
-                    calamity.BuffType("BurningBlood"),
-                    calamity.BuffType("GlacialState"),
-                    calamity.BuffType("GodSlayerInferno"),
-                    calamity.BuffType("AstralInfectionDebuff"),
-                    calamity.BuffType("HolyLight"),
-                    calamity.BuffType("Irradiated"),
-                    calamity.BuffType("Plague"),
-                    calamity.BuffType("AbyssalFlames"),
-                    calamity.BuffType("CrushDepth"),
-                    calamity.BuffType("Horror"),
-                    calamity.BuffType("MarkedforDeath")
+                    ModContent.BuffType<Shadowflame>(),
+                    ModContent.BuffType<BrimstoneFlames>(),
+                    ModContent.BuffType<BurningBlood>(),
+                    ModContent.BuffType<GlacialState>(),
+                    ModContent.BuffType<GodSlayerInferno>(),
+                    ModContent.BuffType<AstralInfectionDebuff>(),
+                    ModContent.BuffType<HolyFlames>(),
+                    ModContent.BuffType<Irradiated>(),
+                    ModContent.BuffType<Plague>(),
+                    ModContent.BuffType<AbyssalFlames>(),
+                    ModContent.BuffType<CrushDepth>(),
+                    ModContent.BuffType<Horror>(),
+                    ModContent.BuffType<MarkedforDeath>()
                 };
 
                 fireWeaponList = new List<int>()
@@ -837,25 +847,25 @@ namespace CalamityMod
 
                 alcoholList = new List<int>()
                 {
-                    calamity.BuffType("BloodyMary"),
-                    calamity.BuffType("CaribbeanRum"),
-                    calamity.BuffType("CinnamonRoll"),
-                    calamity.BuffType("Everclear"),
-                    calamity.BuffType("EvergreenGin"),
-                    calamity.BuffType("Fireball"),
-                    calamity.BuffType("GrapeBeer"),
-                    calamity.BuffType("Margarita"),
-                    calamity.BuffType("Moonshine"),
-                    calamity.BuffType("MoscowMule"),
-                    calamity.BuffType("RedWine"),
-                    calamity.BuffType("Rum"),
-                    calamity.BuffType("Screwdriver"),
-                    calamity.BuffType("StarBeamRye"),
-                    calamity.BuffType("Tequila"),
-                    calamity.BuffType("TequilaSunrise"),
-                    calamity.BuffType("Vodka"),
-                    calamity.BuffType("Whiskey"),
-                    calamity.BuffType("WhiteWine")
+                    ModContent.BuffType<BloodyMaryBuff>(),
+                    ModContent.BuffType<CaribbeanRumBuff>(),
+                    ModContent.BuffType<CinnamonRollBuff>(),
+                    ModContent.BuffType<EverclearBuff>(),
+                    ModContent.BuffType<EvergreenGinBuff>(),
+                    ModContent.BuffType<FireballBuff>(),
+                    ModContent.BuffType<GrapeBeerBuff>(),
+                    ModContent.BuffType<MargaritaBuff>(),
+                    ModContent.BuffType<MoonshineBuff>(),
+                    ModContent.BuffType<MoscowMuleBuff>(),
+                    ModContent.BuffType<RedWineBuff>(),
+                    ModContent.BuffType<RumBuff>(),
+                    ModContent.BuffType<ScrewdriverBuff>(),
+                    ModContent.BuffType<StarBeamRyeBuff>(),
+                    ModContent.BuffType<TequilaBuff>(),
+                    ModContent.BuffType<TequilaSunriseBuff>(),
+                    ModContent.BuffType<VodkaBuff>(),
+                    ModContent.BuffType<WhiskeyBuff>(),
+                    ModContent.BuffType<WhiteWineBuff>()
                 };
 
                 doubleDamageBuffList = new List<int>()

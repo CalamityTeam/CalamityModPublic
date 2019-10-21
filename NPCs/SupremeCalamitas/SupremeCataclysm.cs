@@ -9,7 +9,7 @@ using Terraria.ID;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Summon;
 
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.SupremeCalamitas
 {
     [AutoloadBossHead]
     public class SupremeCataclysm : ModNPC

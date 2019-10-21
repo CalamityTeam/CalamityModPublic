@@ -4,7 +4,7 @@ using Terraria.ID;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Materials;
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.NormalNPCs
 {
     public class CrimulanBlightSlime : ModNPC
     {

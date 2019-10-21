@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Placeables.Ores;
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.NormalNPCs
 {
     public class AeroSlime : ModNPC
     {

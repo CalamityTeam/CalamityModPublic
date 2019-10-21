@@ -31,7 +31,7 @@ using CalamityMod.Tiles.Ores;
  * 6 = deceleration
  */
 
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.HiveMind
 {
     [AutoloadBossHead]
     public class HiveMindP2 : ModNPC

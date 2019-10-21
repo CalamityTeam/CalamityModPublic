@@ -5,7 +5,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using CalamityMod.Buffs.DamageOverTime;
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.PlaguebringerGoliath
 {
     public class PlagueBeeLargeG : ModNPC
     {

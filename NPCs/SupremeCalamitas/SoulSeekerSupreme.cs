@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using CalamityMod.Projectiles.Boss;
 
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.SupremeCalamitas
 {
     public class SoulSeekerSupreme : ModNPC
     {

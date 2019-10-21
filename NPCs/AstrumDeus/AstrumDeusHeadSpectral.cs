@@ -22,7 +22,7 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.AstrumDeus
 {
     [AutoloadBossHead]
     public class AstrumDeusHeadSpectral : ModNPC

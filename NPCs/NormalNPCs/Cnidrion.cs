@@ -7,7 +7,7 @@ using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.NormalNPCs
 {
     public class Cnidrion : ModNPC
     {

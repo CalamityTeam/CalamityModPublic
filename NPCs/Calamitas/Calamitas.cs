@@ -17,7 +17,7 @@ using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Projectiles.Boss;
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.Calamitas
 {
     [AutoloadBossHead]
     public class Calamitas : ModNPC

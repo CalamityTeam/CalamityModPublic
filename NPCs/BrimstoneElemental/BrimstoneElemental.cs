@@ -18,7 +18,7 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.BrimstoneElemental
 {
     [AutoloadBossHead]
     public class BrimstoneElemental : ModNPC

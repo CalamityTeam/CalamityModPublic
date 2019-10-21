@@ -7,7 +7,7 @@ using Terraria.Localization;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Projectiles.Rogue;
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.TownNPCs
 {
     [AutoloadHead]
     public class THIEF : ModNPC

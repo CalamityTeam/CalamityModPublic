@@ -8,7 +8,7 @@ using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Items.TreasureBags;
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.SlimeGod
 {
     [AutoloadBossHead]
     public class SlimeGod : ModNPC

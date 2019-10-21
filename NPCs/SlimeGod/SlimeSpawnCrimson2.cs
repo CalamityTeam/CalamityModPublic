@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using CalamityMod.Projectiles.Enemy;
 
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.SlimeGod
 {
     public class SlimeSpawnCrimson2 : ModNPC
     {

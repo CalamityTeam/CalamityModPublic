@@ -8,7 +8,7 @@ using Terraria.ID;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.AstrumDeus
 {
     public class AstrumDeusProbe3 : ModNPC
     {

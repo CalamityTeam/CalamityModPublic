@@ -5,7 +5,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.DesertScourge
 {
     public class DesertScourgeTail : ModNPC
     {

@@ -22,7 +22,7 @@ using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Pets;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Tiles.Ores;
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.Perforator
 {
     [AutoloadBossHead]
     public class PerforatorHive : ModNPC

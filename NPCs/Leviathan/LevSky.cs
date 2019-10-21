@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.Graphics.Effects;
 
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.Leviathan
 {
     public class LevSky : CustomSky
     {

@@ -22,7 +22,7 @@ using CalamityMod.Items.Potions;
 using CalamityMod.Items.Placeables.Furniture.CraftingStations;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Projectiles.Boss;
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.SlimeGod
 {
     [AutoloadBossHead]
     public class SlimeGodCore : ModNPC

@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Placeables.Banners;
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.Leviathan
 {
     public class AquaticAberration : ModNPC
     {

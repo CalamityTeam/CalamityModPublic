@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.Cryogen
 {
     public class IceMass : ModNPC
     {

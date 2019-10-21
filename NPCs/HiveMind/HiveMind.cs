@@ -5,7 +5,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using CalamityMod.Buffs.StatDebuffs;
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.HiveMind
 {
     [AutoloadBossHead]
     public class HiveMind : ModNPC

@@ -6,7 +6,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using CalamityMod.Buffs.StatDebuffs;
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.CeaselessVoid
 {
     public class DarkEnergy3 : ModNPC
     {

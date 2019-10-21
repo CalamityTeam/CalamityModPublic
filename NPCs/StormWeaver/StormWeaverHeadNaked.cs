@@ -11,7 +11,7 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.StormWeaver
 {
     [AutoloadBossHead]
     public class StormWeaverHeadNaked : ModNPC

@@ -12,7 +12,7 @@ using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Enemy;
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.NormalNPCs
 {
     public class ThiccWaifu : ModNPC
     {

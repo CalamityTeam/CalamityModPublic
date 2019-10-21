@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using CalamityMod.Projectiles.Rogue;
 
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.SupremeCalamitas
 {
     public class SCalWormHeart : ModNPC
     {

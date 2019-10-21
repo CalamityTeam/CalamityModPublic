@@ -22,7 +22,7 @@ using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Tiles.Ores;
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.Cryogen
 {
     [AutoloadBossHead]
     public class Cryogen : ModNPC

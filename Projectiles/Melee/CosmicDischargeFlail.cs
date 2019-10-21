@@ -7,6 +7,7 @@ using Terraria.Enums;
 using Terraria.ID;
 using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -224,7 +225,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             Player player = Main.player[projectile.owner];
             target.AddBuff(BuffID.Frostburn, 300);
-            target.AddBuff(mod.BuffType("Nightwither"), 300);
+            target.AddBuff(ModContent.BuffType<Nightwither>(), 300);
             if (Main.rand.NextBool(3))
             {
                 target.AddBuff(ModContent.BuffType<GlacialState>(), 120);

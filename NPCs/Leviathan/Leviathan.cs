@@ -21,7 +21,7 @@ using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Projectiles.Boss;
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.Leviathan
 {
     [AutoloadBossHead]
     public class Leviathan : ModNPC

@@ -2,7 +2,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
 
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.Providence
 {
     public class ProvScreenShaderData : ScreenShaderData
     {

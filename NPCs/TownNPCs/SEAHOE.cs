@@ -12,7 +12,7 @@ using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.SummonItems;
 using CalamityMod.Projectiles.Rogue;
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.TownNPCs
 {
     [AutoloadHead]
     public class SEAHOE : ModNPC

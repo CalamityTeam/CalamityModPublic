@@ -18,7 +18,7 @@ using CalamityMod.Items.Ammo;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Potions;
 using CalamityMod.Projectiles.Typeless;
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.TownNPCs
 {
     [AutoloadHead]
     public class DILF : ModNPC

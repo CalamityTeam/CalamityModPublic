@@ -22,7 +22,7 @@ using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Potions;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Summon;
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.SupremeCalamitas
 {
     [AutoloadBossHead]
     public class SupremeCalamitas : ModNPC

@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -117,7 +118,7 @@ namespace CalamityMod.Projectiles.Melee
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.Frostburn, 300);
-            target.AddBuff(mod.BuffType("Nightwither"), 300);
+            target.AddBuff(ModContent.BuffType<Nightwither>(), 300);
             projectile.direction = Main.player[projectile.owner].direction;
         }
     }

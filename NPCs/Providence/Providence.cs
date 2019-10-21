@@ -25,7 +25,7 @@ using CalamityMod.Items.SummonItems;
 using CalamityMod.Tiles.Ores;
 using CalamityMod.Tiles.FurnitureProfaned;
 using CalamityMod.Projectiles.Boss;
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.Providence
 {
     [AutoloadBossHead]
     public class Providence : ModNPC

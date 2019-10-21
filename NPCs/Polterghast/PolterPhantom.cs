@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.Polterghast
 {
     public class PolterPhantom : ModNPC
     {

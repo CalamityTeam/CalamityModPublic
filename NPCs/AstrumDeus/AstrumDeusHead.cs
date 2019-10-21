@@ -13,7 +13,7 @@ using CalamityMod.Projectiles.Magic;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Projectiles.Rogue;
 
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.AstrumDeus
 {
     [AutoloadBossHead]
     public class AstrumDeusHead : ModNPC

@@ -7,7 +7,7 @@ using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.SummonItems;
 using CalamityMod.Items.Materials;
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.NormalNPCs
 {
     public class ArmoredDiggerHead : ModNPC
     {

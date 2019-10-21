@@ -5,7 +5,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using CalamityMod.Items.Placeables.Banners;
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.Leviathan
 {
     public class Parasea : ModNPC
     {

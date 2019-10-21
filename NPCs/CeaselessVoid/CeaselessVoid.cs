@@ -14,7 +14,7 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Projectiles.Boss;
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.CeaselessVoid
 {
     [AutoloadBossHead]
     public class CeaselessVoid : ModNPC

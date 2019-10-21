@@ -10,7 +10,7 @@ using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Projectiles.Boss;
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.Leviathan
 {
     [AutoloadBossHead]
     public class Siren : ModNPC

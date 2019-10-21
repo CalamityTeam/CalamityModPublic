@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using CalamityMod.Projectiles.Boss;
 
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.Polterghast
 {
     public class PhantomFuckYou : ModNPC
     {

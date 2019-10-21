@@ -9,7 +9,7 @@ using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Projectiles.Boss;
 
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.BrimstoneElemental
 {
     public class Brimling : ModNPC
     {

@@ -5,7 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles.Ranged;
 
-namespace CalamityMod.NPCs
+namespace CalamityMod.NPCs.Leviathan
 {
     public class SirenIce : ModNPC
     {
