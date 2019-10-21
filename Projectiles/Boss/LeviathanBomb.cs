@@ -40,8 +40,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-            projectile.velocity.X *= 1.005f;
-            projectile.velocity.Y *= 1.005f;
+            projectile.velocity *= 1.005f;
             projectile.rotation += 0.1f;
             if (visible && projectile.alpha > 0)
                 projectile.alpha -= 15;

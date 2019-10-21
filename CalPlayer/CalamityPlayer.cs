@@ -6880,12 +6880,19 @@ namespace CalamityMod.CalPlayer
                 if (CalamityMod.revengeanceProjectileBuffList.Contains(proj.type))
                     damage = (int)((double)damage * 1.25);
             }
+
+			// Reduce damage from vanilla traps
+			// 350 in normal, 450 in expert
+			if (proj.type == ProjectileID.Explosives)
+				damage = (int)((double)damage * (Main.expertMode ? 0.225 : 0.35));
 			if (Main.expertMode)
 			{
+				// 140 in normal, 182 in expert
 				if (proj.type == ProjectileID.Boulder)
 					damage = (int)((double)damage * 0.65);
 			}
-            if (player.whoAmI == Main.myPlayer && gainRageCooldown <= 0)
+
+			if (player.whoAmI == Main.myPlayer && gainRageCooldown <= 0)
             {
                 if (CalamityWorld.revenge && Config.AdrenalineAndRage && !CalamityMod.trapProjectileList.Contains(proj.type))
                 {

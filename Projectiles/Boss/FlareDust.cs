@@ -37,8 +37,7 @@ namespace CalamityMod.Projectiles.Boss
             {
                 projectile.frame = 0;
             }
-            projectile.velocity.X *= 0.975f;
-            projectile.velocity.Y *= 0.975f;
+            projectile.velocity *= 0.975f;
             Lighting.AddLight(projectile.Center, 0.5f, 0.25f, 0f);
         }
 
@@ -117,7 +116,7 @@ namespace CalamityMod.Projectiles.Boss
                 Gore expr_13D1F_cp_0 = Main.gore[num626];
                 expr_13D1F_cp_0.velocity.Y -= 1f;
             }
-            projectile.damage = Main.expertMode ? 300 : 180;
+            projectile.damage = Main.expertMode ? 75 : 90;
             projectile.Damage();
         }
     }

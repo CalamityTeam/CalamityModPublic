@@ -81,8 +81,8 @@ namespace CalamityMod.Projectiles.Boss
             }
         }
 
-        public override bool CanDamage()
-        {
+        public override bool CanHitPlayer(Player target)
+		{
             if (projectile.velocity.Y < -16f)
             {
                 return false;

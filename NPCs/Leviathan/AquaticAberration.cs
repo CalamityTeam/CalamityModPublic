@@ -191,7 +191,7 @@ namespace CalamityMod.NPCs.Leviathan
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (spawnInfo.playerSafe || spawnInfo.player.Calamity().ZoneSulphur || !NPC.downedPlantBoss)
+			if (spawnInfo.playerSafe || spawnInfo.player.Calamity().ZoneSulphur || (!NPC.downedPlantBoss && !CalamityWorld.downedCalamitas))
 			{
 				return 0f;
 			}

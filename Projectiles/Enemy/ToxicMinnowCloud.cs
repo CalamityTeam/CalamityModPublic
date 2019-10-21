@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Enemy
             }
             else if (Main.rand.NextBool(2))
             {
-                projectile.velocity *= 0.90f;
+                projectile.velocity *= 0.9f;
             }
             else if (Main.rand.NextBool(2))
             {
@@ -51,10 +51,10 @@ namespace CalamityMod.Projectiles.Enemy
             }
             else
             {
-                projectile.velocity *= 0.80f;
+                projectile.velocity *= 0.8f;
             }
             projectile.ai[0] += 1f;
-            if (projectile.ai[0] >= 1500f)
+            if (projectile.ai[0] >= 560f)
             {
                 if (projectile.alpha < 255)
                 {
@@ -79,12 +79,30 @@ namespace CalamityMod.Projectiles.Enemy
             }
         }
 
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+		public override bool CanHitPlayer(Player target)
+		{
+			if (projectile.timeLeft < 40)
+			{
+				return false;
+			}
+			return true;
+		}
+
+		public override void OnHitPlayer(Player target, int damage, bool crit)
         {
             target.AddBuff(BuffID.Poisoned, 600);
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		public override bool? CanHitNPC(NPC target)
+		{
+			if (projectile.timeLeft < 40)
+			{
+				return false;
+			}
+			return null;
+		}
+
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.Poisoned, 600);
         }

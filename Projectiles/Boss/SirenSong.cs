@@ -34,8 +34,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-            projectile.velocity.X *= 0.985f;
-            projectile.velocity.Y *= 0.985f;
+            projectile.velocity *= 0.985f;
             if (projectile.localAI[0] == 0f)
             {
                 projectile.scale += 0.01f;
