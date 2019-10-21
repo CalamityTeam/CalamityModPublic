@@ -66,7 +66,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             npc.DeathSound = SoundID.NPCDeath14;
             Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
             if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/AstrumAureus");
+                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Astrageldon");
             else
                 music = MusicID.Boss3;
             bossBag = ModContent.ItemType<AstrageldonBag>();
