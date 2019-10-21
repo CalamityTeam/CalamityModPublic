@@ -339,8 +339,8 @@ namespace CalamityMod.NPCs.Cryogen
                 }
                 if (npc.position.X + (float)npc.width > player.position.X && npc.position.X < player.position.X + (float)player.width && npc.position.Y + (float)npc.height < player.position.Y && Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height) && Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    iceShard += 4;
-                    if (iceShard > 8)
+                    iceShard += 1;
+                    if (iceShard >= 30)
                     {
                         iceShard = 0;
                         int num1169 = (int)(npc.position.X + 10f + (float)Main.rand.Next(npc.width - 20));
@@ -547,8 +547,8 @@ namespace CalamityMod.NPCs.Cryogen
                 }
                 if (npc.position.X + (float)npc.width > player.position.X && npc.position.X < player.position.X + (float)player.width && npc.position.Y + (float)npc.height < player.position.Y && Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height) && Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    iceShard += 4;
-                    if (iceShard > 8)
+                    iceShard += 1;
+                    if (iceShard >= 15)
                     {
                         iceShard = 0;
                         int num1169 = (int)(npc.position.X + 10f + (float)Main.rand.Next(npc.width - 20));
@@ -835,7 +835,7 @@ namespace CalamityMod.NPCs.Cryogen
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    int num660 = (int)((double)npc.lifeMax * 0.05);
+                    int num660 = (int)((double)npc.lifeMax * 0.075);
                     if ((float)(npc.life + num660) < npc.ai[3])
                     {
                         npc.ai[3] = (float)npc.life;
@@ -843,7 +843,24 @@ namespace CalamityMod.NPCs.Cryogen
                         {
                             int x = (int)(npc.position.X + (float)Main.rand.Next(npc.width - 32));
                             int y = (int)(npc.position.Y + (float)Main.rand.Next(npc.height - 32));
-                            int randomSpawn = Main.rand.Next(3);
+							int random = 1;
+							switch ((int)npc.ai[0])
+							{
+								case 0:
+								case 1:
+									break;
+								case 2:
+								case 3:
+									random = 2;
+									break;
+								case 4:
+								case 5:
+									random = 3;
+									break;
+								default:
+									break;
+							}
+                            int randomSpawn = Main.rand.Next(random);
                             if (randomSpawn == 0)
                             {
                                 randomSpawn = ModContent.NPCType<Cryocore>();

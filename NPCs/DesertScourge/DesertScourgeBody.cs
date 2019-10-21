@@ -135,8 +135,7 @@ namespace CalamityMod.NPCs.DesertScourge
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            int wormCount = 5;
-            if (npc.life <= (npc.lifeMax * 0.75f) && NPC.CountNPCS(ModContent.NPCType<DriedSeekerHead>()) < wormCount)
+            if (npc.life <= npc.lifeMax * 0.75f && NPC.CountNPCS(ModContent.NPCType<DriedSeekerHead>()) < 3)
             {
                 if (Main.rand.NextBool(10) && Main.netMode != NetmodeID.MultiplayerClient)
                 {

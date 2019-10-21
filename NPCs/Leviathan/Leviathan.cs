@@ -295,8 +295,7 @@ namespace CalamityMod.NPCs.Leviathan
                     }
 
                     bool flag103 = false;
-                    int spawnLimit = sirenAlive ? 2 : 4;
-                    int spawnLimit2 = sirenAlive ? 5 : 10;
+                    int spawnLimit = sirenAlive ? 3 : 6;
 
                     if (npc.ai[1] > 80f)
                     {
@@ -307,25 +306,19 @@ namespace CalamityMod.NPCs.Leviathan
                     if (flag103)
                     {
                         Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, soundChoice);
-                        if (Main.netMode != NetmodeID.MultiplayerClient && NPC.CountNPCS(ModContent.NPCType<Parasea>()) < spawnLimit2 && NPC.CountNPCS(ModContent.NPCType<AquaticAberration>()) < spawnLimit)
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            int num1061;
-                            int value = CalamityWorld.death ? 2 : 3;
-                            if (CalamityWorld.bossRushActive)
-                                value++;
-                            if (Main.rand.Next(value) == 0)
-                            {
-                                num1061 = ModContent.NPCType<AquaticAberration>();
-                            }
-                            else
-                            {
-                                num1061 = ModContent.NPCType<Parasea>();
-                            }
-                            int num1062 = NPC.NewNPC((int)vector119.X, (int)vector119.Y, num1061, 0, 0f, 0f, 0f, 0f, 255);
-                            Main.npc[num1062].velocity.X = (float)Main.rand.Next(-200, 201) * 0.01f;
-                            Main.npc[num1062].velocity.Y = (float)Main.rand.Next(-200, 201) * 0.01f;
-                            Main.npc[num1062].netUpdate = true;
-                        }
+							int type = 0;
+							if (NPC.CountNPCS(ModContent.NPCType<Parasea>()) < spawnLimit)
+								type = ModContent.NPCType<Parasea>();
+							if (!sirenAlive && NPC.CountNPCS(ModContent.NPCType<AquaticAberration>()) < 2)
+								type = ModContent.NPCType<AquaticAberration>();
+
+							int num1062 = NPC.NewNPC((int)vector119.X, (int)vector119.Y, type, 0, 0f, 0f, 0f, 0f, 255);
+							Main.npc[num1062].velocity.X = (float)Main.rand.Next(-200, 201) * 0.01f;
+							Main.npc[num1062].velocity.Y = (float)Main.rand.Next(-200, 201) * 0.01f;
+							Main.npc[num1062].netUpdate = true;
+						}
                     }
 
                     if (num1060 > 600f || !Collision.CanHit(new Vector2(vector119.X, vector119.Y - 30f), 1, 1, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
@@ -384,7 +377,7 @@ namespace CalamityMod.NPCs.Leviathan
 
                     npc.spriteDirection = npc.direction;
 
-                    if (npc.ai[2] > 3f)
+                    if (npc.ai[2] > (sirenAlive ? 2f : 3f))
                     {
                         npc.ai[0] = (double)npc.life < (double)npc.lifeMax * 0.5 ? 2f : 0f;
                         npc.ai[1] = 0f;

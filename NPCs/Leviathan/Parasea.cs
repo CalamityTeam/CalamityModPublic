@@ -64,7 +64,16 @@ namespace CalamityMod.NPCs.Leviathan
             npc.rotation = (float)Math.Atan2((double)num1259, (double)num1258) + 3.14f;
         }
 
-        public override void FindFrame(int frameHeight)
+		public override float SpawnChance(NPCSpawnInfo spawnInfo)
+		{
+			if (spawnInfo.playerSafe || spawnInfo.player.Calamity().ZoneSulphur || !NPC.downedPlantBoss)
+			{
+				return 0f;
+			}
+			return SpawnCondition.OceanMonster.Chance * 0.06f;
+		}
+
+		public override void FindFrame(int frameHeight)
         {
             npc.frameCounter += 0.15f;
             npc.frameCounter %= Main.npcFrameCount[npc.type];

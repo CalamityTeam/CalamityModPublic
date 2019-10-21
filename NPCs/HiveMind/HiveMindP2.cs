@@ -224,7 +224,7 @@ namespace CalamityMod.NPCs.HiveMind
                         break;
                     case 2:
                         type = ModContent.NPCType<DankCreeper>();
-                        maxAmount = 2;
+                        maxAmount = 1;
                         break;
                     case 3:
                         type = ModContent.NPCType<HiveBlob2>();
@@ -236,7 +236,7 @@ namespace CalamityMod.NPCs.HiveMind
                         break;
                     case 5:
                         type = ModContent.NPCType<DarkHeart>();
-                        maxAmount = 2;
+                        maxAmount = 1;
                         break;
                 }
                 int numToSpawn = maxAmount - NPC.CountNPCS(type);
@@ -514,7 +514,7 @@ namespace CalamityMod.NPCs.HiveMind
                                 {
                                     if (npc.ai[0] == 2 || npc.ai[0] == 4)
                                     {
-                                        if ((Main.expertMode || CalamityWorld.bossRushActive) && NPC.CountNPCS(ModContent.NPCType<DarkHeart>()) < 2)
+                                        if ((Main.expertMode || CalamityWorld.bossRushActive) && !NPC.AnyNPCs(ModContent.NPCType<DarkHeart>()))
                                         {
                                             NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<DarkHeart>());
                                         }

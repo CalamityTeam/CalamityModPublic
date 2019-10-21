@@ -6880,6 +6880,11 @@ namespace CalamityMod.CalPlayer
                 if (CalamityMod.revengeanceProjectileBuffList.Contains(proj.type))
                     damage = (int)((double)damage * 1.25);
             }
+			if (Main.expertMode)
+			{
+				if (proj.type == ProjectileID.Boulder)
+					damage = (int)((double)damage * 0.65);
+			}
             if (player.whoAmI == Main.myPlayer && gainRageCooldown <= 0)
             {
                 if (CalamityWorld.revenge && Config.AdrenalineAndRage && !CalamityMod.trapProjectileList.Contains(proj.type))
@@ -7383,7 +7388,7 @@ namespace CalamityMod.CalPlayer
                 {
                     stress = 0;
                     if (player.FindBuffIndex(ModContent.BuffType<RageMode>()) > -1)
-                    { player.ClearBuff(ModContent.BuffType<RageMode>()); }
+						player.ClearBuff(ModContent.BuffType<RageMode>());
                 }
                 if (amidiasBlessing)
                 {
