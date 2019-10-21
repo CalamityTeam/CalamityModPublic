@@ -240,7 +240,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<MonkeyDarts>());
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 4, 0);
                 nextSlot++;
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<GloveofPrecision>());
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<GloveOfPrecision>());
                 nextSlot++;
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<GloveOfRecklessness>());
                 nextSlot++;

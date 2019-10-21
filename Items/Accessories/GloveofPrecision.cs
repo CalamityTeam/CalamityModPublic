@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class GloveofPrecision : ModItem
+    public class GloveOfPrecision : ModItem
     {
         public override void SetStaticDefaults()
         {

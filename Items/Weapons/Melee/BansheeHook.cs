@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Melee;
+using CalamityMod.Projectiles.Melee.Spears;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;

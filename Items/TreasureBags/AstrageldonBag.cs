@@ -5,6 +5,7 @@ using CalamityMod.Items.Mounts;
 using CalamityMod.Items.PermanentBoosters;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.NPCs.AstrumAureus;
 using CalamityMod.World;
 using Terraria;
 using Terraria.ID;

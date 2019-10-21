@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using CalamityMod.NPCs.Astral;
+using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Fishing

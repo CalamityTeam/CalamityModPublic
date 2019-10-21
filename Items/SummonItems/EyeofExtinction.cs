@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Ores;
+using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.Tiles;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using CalamityMod.World;

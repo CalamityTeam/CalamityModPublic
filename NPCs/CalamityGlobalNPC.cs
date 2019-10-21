@@ -11,6 +11,33 @@ using CalamityMod.Items.Pets;
 using CalamityMod.Items.Placeables.Walls;
 using CalamityMod.Items.SummonItems;
 using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.NPCs.Abyss;
+using CalamityMod.NPCs.AquaticScourge;
+using CalamityMod.NPCs.AstrumAureus;
+using CalamityMod.NPCs.AstrumDeus;
+using CalamityMod.NPCs.BrimstoneElemental;
+using CalamityMod.NPCs.Bumblebirb;
+using CalamityMod.NPCs.Calamitas;
+using CalamityMod.NPCs.CeaselessVoid;
+using CalamityMod.NPCs.Crabulon;
+using CalamityMod.NPCs.Cryogen;
+using CalamityMod.NPCs.DesertScourge;
+using CalamityMod.NPCs.DevourerofGods;
+using CalamityMod.NPCs.HiveMind;
+using CalamityMod.NPCs.Leviathan;
+using CalamityMod.NPCs.NormalNPCs;
+using CalamityMod.NPCs.Perforator;
+using CalamityMod.NPCs.PlaguebringerGoliath;
+using CalamityMod.NPCs.Polterghast;
+using CalamityMod.NPCs.ProfanedGuardians;
+using CalamityMod.NPCs.Providence;
+using CalamityMod.NPCs.Ravager;
+using CalamityMod.NPCs.Signus;
+using CalamityMod.NPCs.SlimeGod;
+using CalamityMod.NPCs.StormWeaver;
+using CalamityMod.NPCs.SupremeCalamitas;
+using CalamityMod.NPCs.TownNPCs;
+using CalamityMod.NPCs.Yharon;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
@@ -532,7 +559,7 @@ namespace CalamityMod.NPCs
 
             if (npc.boss && CalamityWorld.revenge)
             {
-                if (npc.type != ModContent.NPCType<HiveMindP2>() && npc.type != ModContent.NPCType<Leviathan>() && npc.type != ModContent.NPCType<StormWeaverHeadNaked>() &&
+                if (npc.type != ModContent.NPCType<HiveMindP2>() && npc.type != ModContent.NPCType<Leviathan.Leviathan>() && npc.type != ModContent.NPCType<StormWeaverHeadNaked>() &&
                     npc.type != ModContent.NPCType<StormWeaverBodyNaked>() && npc.type != ModContent.NPCType<StormWeaverTailNaked>() &&
                     npc.type != ModContent.NPCType<DevourerofGodsHeadS>() && npc.type != ModContent.NPCType<DevourerofGodsBodyS>() &&
                     npc.type != ModContent.NPCType<DevourerofGodsTailS>())
@@ -1683,7 +1710,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case 8:
-                    if (npc.type != ModContent.NPCType<AstrumAureus>() && npc.type != ModContent.NPCType<AureusSpawn>())
+                    if (npc.type != ModContent.NPCType<AstrumAureus.AstrumAureus>() && npc.type != ModContent.NPCType<AureusSpawn>())
                     {
                         npc.active = false;
                         npc.netUpdate = true;
@@ -1732,7 +1759,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case 13:
-                    if (npc.type != ModContent.NPCType<HiveMind>() && npc.type != ModContent.NPCType<HiveMindP2>() &&
+                    if (npc.type != ModContent.NPCType<HiveMind.HiveMind>() && npc.type != ModContent.NPCType<HiveMindP2>() &&
                         npc.type != ModContent.NPCType<DarkHeart>() && npc.type != ModContent.NPCType<HiveBlob>() &&
                         npc.type != ModContent.NPCType<DankCreeper>() && npc.type != ModContent.NPCType<HiveBlob2>())
                     {
@@ -1821,7 +1848,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case 21:
-                    if (npc.type != ModContent.NPCType<CeaselessVoid>() && npc.type != ModContent.NPCType<DarkEnergy>() &&
+                    if (npc.type != ModContent.NPCType<CeaselessVoid.CeaselessVoid>() && npc.type != ModContent.NPCType<DarkEnergy>() &&
                         npc.type != ModContent.NPCType<DarkEnergy2>() && npc.type != ModContent.NPCType<DarkEnergy3>())
                     {
                         npc.active = false;
@@ -1844,7 +1871,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case 23:
-                    if (npc.type != ModContent.NPCType<Cryogen>() && npc.type != ModContent.NPCType<CryogenIce>() &&
+                    if (npc.type != ModContent.NPCType<Cryogen.Cryogen>() && npc.type != ModContent.NPCType<CryogenIce>() &&
                         npc.type != ModContent.NPCType<IceMass>() && npc.type != ModContent.NPCType<Cryocore>() &&
                         npc.type != ModContent.NPCType<Cryocore2>())
                     {
@@ -1855,7 +1882,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case 24:
-                    if (npc.type != ModContent.NPCType<BrimstoneElemental>() && npc.type != ModContent.NPCType<Brimling>())
+                    if (npc.type != ModContent.NPCType<BrimstoneElemental.BrimstoneElemental>() && npc.type != ModContent.NPCType<Brimling>())
                     {
                         npc.active = false;
                         npc.netUpdate = true;
@@ -1864,7 +1891,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case 25:
-                    if (npc.type != ModContent.NPCType<CosmicWraith>() && npc.type != ModContent.NPCType<SignusBomb>() &&
+                    if (npc.type != ModContent.NPCType<Signus.Signus>() && npc.type != ModContent.NPCType<SignusBomb>() &&
                         npc.type != ModContent.NPCType<CosmicLantern>())
                     {
                         npc.active = false;
@@ -1920,7 +1947,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case 30:
-                    if (npc.type != ModContent.NPCType<Polterghast>() && npc.type != ModContent.NPCType<PhantomFuckYou>() &&
+                    if (npc.type != ModContent.NPCType<Polterghast.Polterghast>() && npc.type != ModContent.NPCType<PhantomFuckYou>() &&
                         npc.type != ModContent.NPCType<PolterghastHook>() && npc.type != ModContent.NPCType<PolterPhantom>())
                     {
                         npc.active = false;
@@ -1930,7 +1957,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case 31:
-                    if (npc.type != ModContent.NPCType<PlaguebringerGoliath>() && npc.type != ModContent.NPCType<PlagueBeeG>() &&
+                    if (npc.type != ModContent.NPCType<PlaguebringerGoliath.PlaguebringerGoliath>() && npc.type != ModContent.NPCType<PlagueBeeG>() &&
                         npc.type != ModContent.NPCType<PlagueBeeLargeG>() && npc.type != ModContent.NPCType<PlagueHomingMissile>() &&
                         npc.type != ModContent.NPCType<PlagueMine>() && npc.type != ModContent.NPCType<PlaguebringerShade>())
                     {
@@ -1941,7 +1968,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case 32:
-                    if (npc.type != ModContent.NPCType<Calamitas>() && npc.type != ModContent.NPCType<CalamitasRun>() &&
+                    if (npc.type != ModContent.NPCType<Calamitas.Calamitas>() && npc.type != ModContent.NPCType<CalamitasRun>() &&
                         npc.type != ModContent.NPCType<CalamitasRun2>() && npc.type != ModContent.NPCType<CalamitasRun3>() &&
                         npc.type != ModContent.NPCType<LifeSeeker>() && npc.type != ModContent.NPCType<SoulSeeker>())
                     {
@@ -1952,7 +1979,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case 33:
-                    if (npc.type != ModContent.NPCType<Siren>() && npc.type != ModContent.NPCType<Leviathan>() &&
+                    if (npc.type != ModContent.NPCType<Siren>() && npc.type != ModContent.NPCType<Leviathan.Leviathan>() &&
                         npc.type != ModContent.NPCType<AquaticAberration>() && npc.type != ModContent.NPCType<Parasea>() &&
                         npc.type != ModContent.NPCType<SirenClone>() && npc.type != ModContent.NPCType<SirenIce>())
                     {
@@ -1963,7 +1990,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case 34:
-                    if (npc.type != ModContent.NPCType<SlimeGod>() && npc.type != ModContent.NPCType<SlimeGodRun>() &&
+                    if (npc.type != ModContent.NPCType<SlimeGod.SlimeGod>() && npc.type != ModContent.NPCType<SlimeGodRun>() &&
                         npc.type != ModContent.NPCType<SlimeGodCore>() && npc.type != ModContent.NPCType<SlimeGodSplit>() &&
                         npc.type != ModContent.NPCType<SlimeGodRunSplit>() && npc.type != ModContent.NPCType<SlimeSpawnCorrupt>() &&
                         npc.type != ModContent.NPCType<SlimeSpawnCorrupt2>() && npc.type != ModContent.NPCType<SlimeSpawnCrimson>() &&
@@ -1976,7 +2003,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case 35:
-                    if (npc.type != ModContent.NPCType<Providence>() && npc.type != ModContent.NPCType<ProvSpawnDefense>() &&
+                    if (npc.type != ModContent.NPCType<Providence.Providence>() && npc.type != ModContent.NPCType<ProvSpawnDefense>() &&
                         npc.type != ModContent.NPCType<ProvSpawnOffense>() && npc.type != ModContent.NPCType<ProvSpawnHealer>())
                     {
                         npc.active = false;
@@ -1986,7 +2013,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case 36:
-                    if (npc.type != ModContent.NPCType<SupremeCalamitas>() && npc.type != ModContent.NPCType<SCalWormBody>() &&
+                    if (npc.type != ModContent.NPCType<SupremeCalamitas.SupremeCalamitas>() && npc.type != ModContent.NPCType<SCalWormBody>() &&
                         npc.type != ModContent.NPCType<SCalWormBodyWeak>() && npc.type != ModContent.NPCType<SCalWormHead>() &&
                         npc.type != ModContent.NPCType<SCalWormTail>() && npc.type != ModContent.NPCType<SoulSeekerSupreme>() &&
                         npc.type != ModContent.NPCType<SCalWormHeart>() && npc.type != ModContent.NPCType<SupremeCataclysm>() &&
@@ -1999,7 +2026,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case 37:
-                    if (npc.type != ModContent.NPCType<Yharon>() && npc.type != ModContent.NPCType<DetonatingFlare>() &&
+                    if (npc.type != ModContent.NPCType<Yharon.Yharon>() && npc.type != ModContent.NPCType<DetonatingFlare>() &&
                         npc.type != ModContent.NPCType<DetonatingFlare2>())
                     {
                         npc.active = false;
@@ -2027,9 +2054,9 @@ namespace CalamityMod.NPCs
             if (!CalamityWorld.spawnedHardBoss)
             {
                 if (npc.type == NPCID.TheDestroyer || npc.type == NPCID.Spazmatism || npc.type == NPCID.Retinazer || npc.type == NPCID.SkeletronPrime ||
-                    npc.type == NPCID.Plantera || npc.type == ModContent.NPCType<Cryogen>() || npc.type == ModContent.NPCType<AquaticScourgeHead>() ||
-                    npc.type == ModContent.NPCType<BrimstoneElemental>() || npc.type == ModContent.NPCType<AstrumAureus>() || npc.type == ModContent.NPCType<AstrumDeusHeadSpectral>() ||
-                    npc.type == ModContent.NPCType<Calamitas>() || npc.type == ModContent.NPCType<Siren>() || npc.type == ModContent.NPCType<PlaguebringerGoliath>() ||
+                    npc.type == NPCID.Plantera || npc.type == ModContent.NPCType<Cryogen.Cryogen>() || npc.type == ModContent.NPCType<AquaticScourgeHead>() ||
+                    npc.type == ModContent.NPCType<BrimstoneElemental.BrimstoneElemental>() || npc.type == ModContent.NPCType<AstrumAureus.AstrumAureus>() || npc.type == ModContent.NPCType<AstrumDeusHeadSpectral>() ||
+                    npc.type == ModContent.NPCType<Calamitas.Calamitas>() || npc.type == ModContent.NPCType<Siren>() || npc.type == ModContent.NPCType<PlaguebringerGoliath.PlaguebringerGoliath>() ||
                     npc.type == ModContent.NPCType<RavagerBody>() || npc.type == NPCID.DukeFishron || npc.type == NPCID.CultistBoss || npc.type == NPCID.Golem)
                 {
                     CalamityWorld.spawnedHardBoss = true;
@@ -3075,6 +3102,7 @@ namespace CalamityMod.NPCs
         {
             int fapsol = NPC.FindFirstNPC(ModContent.NPCType<FAP>());
             int permadong = NPC.FindFirstNPC(ModContent.NPCType<DILF>());
+            // int thief = NPC.FindFirstNPC(ModContent.NPCType<THIEF>());
 
             switch (npc.type)
             {
@@ -3564,7 +3592,7 @@ namespace CalamityMod.NPCs
             {
                 if (Main.npc[i].active && Main.npc[i].type != NPCID.MartianSaucerCore &&
                     (Main.npc[i].boss || Main.npc[i].type == NPCID.EaterofWorldsHead || Main.npc[i].type == NPCID.EaterofWorldsTail || Main.npc[i].type == ModContent.NPCType<SlimeGodRun>() ||
-                    Main.npc[i].type == ModContent.NPCType<SlimeGodRunSplit>() || Main.npc[i].type == ModContent.NPCType<SlimeGod>() || Main.npc[i].type == ModContent.NPCType<SlimeGodSplit>()))
+                    Main.npc[i].type == ModContent.NPCType<SlimeGodRunSplit>() || Main.npc[i].type == ModContent.NPCType<SlimeGod.SlimeGod>() || Main.npc[i].type == ModContent.NPCType<SlimeGodSplit>()))
                 {
                     return true;
                 }

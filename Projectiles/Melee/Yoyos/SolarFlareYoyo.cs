@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-namespace CalamityMod.Projectiles.Melee
+namespace CalamityMod.Projectiles.Melee.Yoyos
 {
     public class SolarFlareYoyo : ModProjectile
     {
@@ -31,9 +31,7 @@ namespace CalamityMod.Projectiles.Melee
         public override void AI()
         {
             if (Main.rand.NextBool(5))
-            {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 244, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-            }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

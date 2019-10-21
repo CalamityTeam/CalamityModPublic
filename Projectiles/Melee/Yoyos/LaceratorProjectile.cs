@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Projectiles.Melee
+namespace CalamityMod.Projectiles.Melee.Yoyos
 {
     public class LaceratorProjectile : ModProjectile
     {
@@ -30,9 +30,7 @@ namespace CalamityMod.Projectiles.Melee
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             if (target.type == NPCID.TargetDummy || !target.canGhostHeal)
-            {
                 return;
-            }
             Player player = Main.player[projectile.owner];
             if (Main.rand.NextBool(5))
             {

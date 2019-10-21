@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Projectiles.Melee
+namespace CalamityMod.Projectiles.Melee.Yoyos
 {
     public class QuagmireProjectile : ModProjectile
     {
@@ -27,29 +27,27 @@ namespace CalamityMod.Projectiles.Melee
         public override void AI()
         {
             if (Main.rand.NextBool(5))
-            {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 44, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-            }
             if (projectile.owner == Main.myPlayer)
             {
                 int proj;
                 if (Main.rand.NextBool(10))
                 {
-                    proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0.35f, projectile.velocity.Y * 0.35f, 569, (int)((double)projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
+                    proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0.35f, projectile.velocity.Y * 0.35f, 569, (int)(projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
                     Main.projectile[proj].Calamity().forceMelee = true;
                     Main.projectile[proj].usesLocalNPCImmunity = true;
                     Main.projectile[proj].localNPCHitCooldown = 30;
                 }
                 if (Main.rand.NextBool(30))
                 {
-                    proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f, 570, (int)((double)projectile.damage * 0.6), projectile.knockBack, projectile.owner, 0f, 0f);
+                    proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f, 570, (int)(projectile.damage * 0.6), projectile.knockBack, projectile.owner, 0f, 0f);
                     Main.projectile[proj].Calamity().forceMelee = true;
                     Main.projectile[proj].usesLocalNPCImmunity = true;
                     Main.projectile[proj].localNPCHitCooldown = 30;
                 }
                 if (Main.rand.NextBool(50))
                 {
-                    proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0.15f, projectile.velocity.Y * 0.15f, 571, (int)((double)projectile.damage * 0.7), projectile.knockBack, projectile.owner, 0f, 0f);
+                    proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0.15f, projectile.velocity.Y * 0.15f, 571, (int)(projectile.damage * 0.7), projectile.knockBack, projectile.owner, 0f, 0f);
                     Main.projectile[proj].Calamity().forceMelee = true;
                     Main.projectile[proj].usesLocalNPCImmunity = true;
                     Main.projectile[proj].localNPCHitCooldown = 30;

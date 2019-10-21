@@ -1,5 +1,6 @@
 ﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Placeables;
+using CalamityMod.NPCs.AquaticScourge;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

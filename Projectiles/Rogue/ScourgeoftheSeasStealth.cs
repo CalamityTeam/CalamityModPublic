@@ -1,3 +1,6 @@
+using CalamityMod.NPCs.Abyss;
+using CalamityMod.NPCs.BrimstoneElemental;
+using CalamityMod.NPCs.Cryogen;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;

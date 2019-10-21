@@ -5,6 +5,7 @@ using CalamityMod.Items.Mounts;
 using CalamityMod.Items.Pets;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.NPCs.BrimstoneElemental;
 using CalamityMod.World;
 using Terraria;
 using Terraria.ID;

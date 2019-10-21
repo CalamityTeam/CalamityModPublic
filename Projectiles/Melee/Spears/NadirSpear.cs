@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Projectiles.Melee
+namespace CalamityMod.Projectiles.Melee.Spears
 {
     public class NadirSpear : ModProjectile
     {
@@ -52,8 +52,8 @@ namespace CalamityMod.Projectiles.Melee
             player.itemTime = player.itemAnimation;
 
             // Update the spear so that it continues to be "held" by the player every frame
-            projectile.position.X = player.position.X + (player.width / 2) - (projectile.width / 2);
-            projectile.position.Y = player.position.Y + (player.height / 2) - (projectile.height / 2);
+            projectile.position.X = player.position.X + player.width / 2 - projectile.width / 2;
+            projectile.position.Y = player.position.Y + player.height / 2 - projectile.height / 2;
 
             // Move the spear based on its current offset
             projectile.position += projectile.velocity * projectile.ai[0];

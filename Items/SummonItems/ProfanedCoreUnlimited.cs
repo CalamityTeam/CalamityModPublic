@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Items.Materials;
+using CalamityMod.NPCs.Providence;
 using CalamityMod.World;
 using Terraria;
 using Terraria.ID;

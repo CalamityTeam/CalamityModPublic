@@ -12,6 +12,22 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.NPCs.AquaticScourge;
+using CalamityMod.NPCs.Astral;
+using CalamityMod.NPCs.AstrumDeus;
+using CalamityMod.NPCs.Bumblebirb;
+using CalamityMod.NPCs.Calamitas;
+using CalamityMod.NPCs.Crabulon;
+using CalamityMod.NPCs.DesertScourge;
+using CalamityMod.NPCs.DevourerofGods;
+using CalamityMod.NPCs.HiveMind;
+using CalamityMod.NPCs.Leviathan;
+using CalamityMod.NPCs.NormalNPCs;
+using CalamityMod.NPCs.Perforator;
+using CalamityMod.NPCs.ProfanedGuardians;
+using CalamityMod.NPCs.Ravager;
+using CalamityMod.NPCs.SlimeGod;
+using CalamityMod.NPCs.StormWeaver;
 using CalamityMod.Tiles.Ores;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -339,7 +355,7 @@ namespace CalamityMod.NPCs
                     DespawnProj();
                 }
             }
-            else if (npc.type == ModContent.NPCType<AstrumAureus>())
+            else if (npc.type == ModContent.NPCType<AstrumAureus.AstrumAureus>())
             {
                 CalamityWorld.bossRushStage = 9;
                 DespawnProj();
@@ -374,7 +390,7 @@ namespace CalamityMod.NPCs
                 CalamityWorld.bossRushStage = 20;
                 DespawnProj();
             }
-            else if (npc.type == ModContent.NPCType<CeaselessVoid>())
+            else if (npc.type == ModContent.NPCType<CeaselessVoid.CeaselessVoid>())
             {
                 CalamityWorld.bossRushStage = 22;
                 DespawnProj();
@@ -384,17 +400,17 @@ namespace CalamityMod.NPCs
                 CalamityWorld.bossRushStage = 23;
                 DespawnProj();
             }
-            else if (npc.type == ModContent.NPCType<Cryogen>())
+            else if (npc.type == ModContent.NPCType<Cryogen.Cryogen>())
             {
                 CalamityWorld.bossRushStage = 24;
                 DespawnProj();
             }
-            else if (npc.type == ModContent.NPCType<BrimstoneElemental>())
+            else if (npc.type == ModContent.NPCType<BrimstoneElemental.BrimstoneElemental>())
             {
                 CalamityWorld.bossRushStage = 25;
                 DespawnProj();
             }
-            else if (npc.type == ModContent.NPCType<CosmicWraith>())
+            else if (npc.type == ModContent.NPCType<Signus.Signus>())
             {
                 CalamityWorld.bossRushStage = 26;
                 DespawnProj();
@@ -409,12 +425,12 @@ namespace CalamityMod.NPCs
                 CalamityWorld.bossRushStage = 30;
                 DespawnProj();
             }
-            else if (npc.type == ModContent.NPCType<Polterghast>())
+            else if (npc.type == ModContent.NPCType<Polterghast.Polterghast>())
             {
                 CalamityWorld.bossRushStage = 31;
                 DespawnProj();
             }
-            else if (npc.type == ModContent.NPCType<PlaguebringerGoliath>())
+            else if (npc.type == ModContent.NPCType<PlaguebringerGoliath.PlaguebringerGoliath>())
             {
                 CalamityWorld.bossRushStage = 32;
                 DespawnProj();
@@ -424,9 +440,9 @@ namespace CalamityMod.NPCs
                 CalamityWorld.bossRushStage = 33;
                 DespawnProj();
             }
-            else if (npc.type == ModContent.NPCType<Siren>() || npc.type == ModContent.NPCType<Leviathan>())
+            else if (npc.type == ModContent.NPCType<Siren>() || npc.type == ModContent.NPCType<Leviathan.Leviathan>())
             {
-                int bossType = (npc.type == ModContent.NPCType<Siren>()) ? ModContent.NPCType<Leviathan>() : ModContent.NPCType<Siren>();
+                int bossType = (npc.type == ModContent.NPCType<Siren>()) ? ModContent.NPCType<Leviathan.Leviathan>() : ModContent.NPCType<Siren>();
                 if (!NPC.AnyNPCs(bossType))
                 {
                     CalamityWorld.bossRushStage = 34;
@@ -436,7 +452,7 @@ namespace CalamityMod.NPCs
             else if (npc.type == ModContent.NPCType<SlimeGodCore>() || npc.type == ModContent.NPCType<SlimeGodSplit>() || npc.type == ModContent.NPCType<SlimeGodRunSplit>())
             {
                 if (npc.type == ModContent.NPCType<SlimeGodCore>() && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodSplit>()) && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodRunSplit>()) &&
-                    !NPC.AnyNPCs(ModContent.NPCType<SlimeGod>()) && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodRun>()))
+                    !NPC.AnyNPCs(ModContent.NPCType<SlimeGod.SlimeGod>()) && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodRun>()))
                 {
                     CalamityWorld.bossRushStage = 35;
                     DespawnProj();
@@ -448,13 +464,13 @@ namespace CalamityMod.NPCs
                     DespawnProj();
                 }
                 else if (npc.type == ModContent.NPCType<SlimeGodRunSplit>() && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodCore>()) && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodSplit>()) &&
-                    NPC.CountNPCS(ModContent.NPCType<SlimeGodRunSplit>()) < 2 && !NPC.AnyNPCs(ModContent.NPCType<SlimeGod>()))
+                    NPC.CountNPCS(ModContent.NPCType<SlimeGodRunSplit>()) < 2 && !NPC.AnyNPCs(ModContent.NPCType<SlimeGod.SlimeGod>()))
                 {
                     CalamityWorld.bossRushStage = 35;
                     DespawnProj();
                 }
             }
-            else if (npc.type == ModContent.NPCType<Providence>())
+            else if (npc.type == ModContent.NPCType<Providence.Providence>())
             {
                 CalamityWorld.bossRushStage = 36;
                 DespawnProj();
@@ -470,12 +486,12 @@ namespace CalamityMod.NPCs
                     NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
                 }
             }
-            else if (npc.type == ModContent.NPCType<SupremeCalamitas>())
+            else if (npc.type == ModContent.NPCType<SupremeCalamitas.SupremeCalamitas>())
             {
                 CalamityWorld.bossRushStage = 37;
                 DespawnProj();
             }
-            else if (npc.type == ModContent.NPCType<Yharon>())
+            else if (npc.type == ModContent.NPCType<Yharon.Yharon>())
             {
                 CalamityWorld.bossRushStage = 38;
                 DespawnProj();
@@ -700,7 +716,7 @@ namespace CalamityMod.NPCs
 
             if (npc.boss && revenge)
             {
-                if (npc.type != ModContent.NPCType<HiveMind>() && npc.type != ModContent.NPCType<Leviathan>() && npc.type != ModContent.NPCType<Siren>() &&
+                if (npc.type != ModContent.NPCType<HiveMind.HiveMind>() && npc.type != ModContent.NPCType<Leviathan.Leviathan>() && npc.type != ModContent.NPCType<Siren>() &&
                     npc.type != ModContent.NPCType<StormWeaverHead>() && npc.type != ModContent.NPCType<StormWeaverBody>() &&
                     npc.type != ModContent.NPCType<StormWeaverTail>() && npc.type != ModContent.NPCType<DevourerofGodsHead>() &&
                     npc.type != ModContent.NPCType<DevourerofGodsBody>() && npc.type != ModContent.NPCType<DevourerofGodsTail>())
@@ -1100,7 +1116,7 @@ namespace CalamityMod.NPCs
         private void CheckBossSpawn(NPC npc, Mod mod)
         {
             if ((npc.type == ModContent.NPCType<PhantomSpirit>() || npc.type == ModContent.NPCType<PhantomSpiritS>() || npc.type == ModContent.NPCType<PhantomSpiritM>() ||
-                npc.type == ModContent.NPCType<PhantomSpiritL>()) && !NPC.AnyNPCs(ModContent.NPCType<Polterghast>()) && !CalamityWorld.downedPolterghast)
+                npc.type == ModContent.NPCType<PhantomSpiritL>()) && !NPC.AnyNPCs(ModContent.NPCType<Polterghast.Polterghast>()) && !CalamityWorld.downedPolterghast)
             {
                 CalamityMod.ghostKillCount++;
                 if (CalamityMod.ghostKillCount == 10)
@@ -1143,13 +1159,13 @@ namespace CalamityMod.NPCs
 
                     if (lastPlayer >= 0)
                     {
-                        NPC.SpawnOnPlayer(lastPlayer, ModContent.NPCType<Polterghast>());
+                        NPC.SpawnOnPlayer(lastPlayer, ModContent.NPCType<Polterghast.Polterghast>());
                         CalamityMod.ghostKillCount = 0;
                     }
                 }
             }
 
-            if (NPC.downedPlantBoss && npc.type == NPCID.SandShark && !NPC.AnyNPCs(ModContent.NPCType<GreatSandShark>()))
+            if (NPC.downedPlantBoss && npc.type == NPCID.SandShark && !NPC.AnyNPCs(ModContent.NPCType<GreatSandShark.GreatSandShark>()))
             {
                 CalamityMod.sharkKillCount++;
                 if (CalamityMod.sharkKillCount == 4)
@@ -1197,7 +1213,7 @@ namespace CalamityMod.NPCs
 
                     if (lastPlayer >= 0)
                     {
-                        NPC.SpawnOnPlayer(lastPlayer, ModContent.NPCType<GreatSandShark>());
+                        NPC.SpawnOnPlayer(lastPlayer, ModContent.NPCType<GreatSandShark.GreatSandShark>());
                         CalamityMod.sharkKillCount = -5;
                     }
                 }

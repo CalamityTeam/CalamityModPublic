@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Potions;
+using CalamityMod.NPCs.AstrumDeus;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

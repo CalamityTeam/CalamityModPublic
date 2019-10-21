@@ -3,7 +3,7 @@ using CalamityMod.Items.PermanentBoosters;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
-
+using CalamityMod.NPCs.Bumblebirb;
 using CalamityMod.World;
 using Terraria;
 using Terraria.ModLoader;

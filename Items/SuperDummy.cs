@@ -34,13 +34,14 @@ namespace CalamityMod.Items
             return true;
         }
 
+        // TODO -- Make Super Dummies work in multiplayer by spawning correctly.
         public override bool UseItem(Player player)
         {
             if (player.altFunctionUse == 2)
             {
                 for (int i = 0; i < 200; i++)
                 {
-                    if (Main.npc[i].type == ModContent.NPCType<NPCs.SuperDummy>())
+                    if (Main.npc[i].type == ModContent.NPCType<NPCs.NormalNPCs.SuperDummy>())
                     {
                         Main.npc[i].life = 0;
                         Main.npc[i].lifeRegen = 0;
@@ -52,7 +53,7 @@ namespace CalamityMod.Items
             {
                 int x = (int)Main.MouseWorld.X - 9;
                 int y = (int)Main.MouseWorld.Y - 20;
-                NPC.NewNPC(x, y, ModContent.NPCType<NPCs.SuperDummy>());
+                NPC.NewNPC(x, y, ModContent.NPCType<NPCs.NormalNPCs.SuperDummy>());
             }
             return true;
         }

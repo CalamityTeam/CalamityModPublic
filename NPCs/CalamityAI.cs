@@ -1,4 +1,5 @@
 using CalamityMod.Dusts;
+using CalamityMod.NPCs.AstrumAureus;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;

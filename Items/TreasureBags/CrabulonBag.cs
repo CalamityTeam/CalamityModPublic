@@ -6,6 +6,7 @@ using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.NPCs.Crabulon;
 using CalamityMod.World;
 using Terraria;
 using Terraria.ID;

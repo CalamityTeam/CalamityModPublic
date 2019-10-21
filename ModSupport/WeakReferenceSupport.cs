@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Items.Potions.Alcohol;
 using CalamityMod.Items.SummonItems;
+using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.World;
 using System;
 using Terraria.ID;

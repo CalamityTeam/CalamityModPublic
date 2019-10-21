@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Items.Materials;
+using CalamityMod.NPCs.PlaguebringerGoliath;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

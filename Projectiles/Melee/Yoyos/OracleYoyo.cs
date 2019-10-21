@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Projectiles.Melee
+namespace CalamityMod.Projectiles.Melee.Yoyos
 {
     public class OracleYoyo : ModProjectile
     {
@@ -115,7 +115,7 @@ namespace CalamityMod.Projectiles.Melee
             // Number of particles on the circumference scales directly with the circumference
             float dustDensity = 0.2f;
             int numDust = (int)(dustDensity * MathHelper.TwoPi * radius);
-            float angleIncrement = MathHelper.TwoPi / (float)numDust;
+            float angleIncrement = MathHelper.TwoPi / numDust;
 
             // Incrementally rotate the vector as a ring of dust is drawn
             Vector2 dustOffset = new Vector2(radius, 0f);
@@ -209,7 +209,7 @@ namespace CalamityMod.Projectiles.Melee
             int orbID = ModContent.ProjectileType<Orbacle>();
             int orbDamage = Oracle.BaseDamage * 3;
             float orbKB = 8f;
-            float angleVariance = MathHelper.TwoPi / (float)numOrbs;
+            float angleVariance = MathHelper.TwoPi / numOrbs;
             float spinOffsetAngle = MathHelper.Pi / (2f * numOrbs);
             Vector2 posVec = new Vector2(2f, 0f).RotatedByRandom(MathHelper.TwoPi);
 

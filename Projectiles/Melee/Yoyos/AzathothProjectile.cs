@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Projectiles.Melee
+namespace CalamityMod.Projectiles.Melee.Yoyos
 {
     public class AzathothProjectile : ModProjectile
     {
@@ -32,9 +32,7 @@ namespace CalamityMod.Projectiles.Melee
             if (Main.rand.NextBool(6))
             {
                 if (projectile.owner == Main.myPlayer)
-                {
                     Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0.35f, projectile.velocity.Y * 0.35f, ModContent.ProjectileType<CosmicOrb>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-                }
             }
         }
 

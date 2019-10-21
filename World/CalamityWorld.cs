@@ -1,6 +1,32 @@
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.NPCs;
+using CalamityMod.NPCs.Abyss;
+using CalamityMod.NPCs.AquaticScourge;
+using CalamityMod.NPCs.AstrumAureus;
+using CalamityMod.NPCs.AstrumDeus;
+using CalamityMod.NPCs.BrimstoneElemental;
+using CalamityMod.NPCs.Bumblebirb;
+using CalamityMod.NPCs.Calamitas;
+using CalamityMod.NPCs.CeaselessVoid;
+using CalamityMod.NPCs.Crabulon;
+using CalamityMod.NPCs.Cryogen;
+using CalamityMod.NPCs.DesertScourge;
+using CalamityMod.NPCs.DevourerofGods;
+using CalamityMod.NPCs.HiveMind;
+using CalamityMod.NPCs.Leviathan;
+using CalamityMod.NPCs.NormalNPCs;
+using CalamityMod.NPCs.Perforator;
+using CalamityMod.NPCs.PlaguebringerGoliath;
+using CalamityMod.NPCs.Polterghast;
+using CalamityMod.NPCs.ProfanedGuardians;
+using CalamityMod.NPCs.Providence;
+using CalamityMod.NPCs.Ravager;
+using CalamityMod.NPCs.Signus;
+using CalamityMod.NPCs.SlimeGod;
+using CalamityMod.NPCs.StormWeaver;
+using CalamityMod.NPCs.SupremeCalamitas;
+using CalamityMod.NPCs.Yharon;
 using CalamityMod.Tiles.Abyss;
 using CalamityMod.Tiles.Astral;
 using CalamityMod.Tiles.AstralDesert;
@@ -979,7 +1005,7 @@ namespace CalamityMod.World
                                     NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<BrimstoneElemental>());
                                     break;
                                 case 25:
-                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<CosmicWraith>());
+                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<Signus>());
                                     break;
                                 case 26:
                                     NPC.NewNPC((int)(Main.player[closestPlayer].position.X + (float)Main.rand.Next(-100, 101)), (int)(Main.player[closestPlayer].position.Y - 400f), ModContent.NPCType<RavagerBody>(), 0, 0f, 0f, 0f, 0f, 255);
@@ -1075,7 +1101,7 @@ namespace CalamityMod.World
                     }
                     if (DoGSecondStageCountdown == 7140)
                     {
-                        NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<CosmicWraith>());
+                        NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<Signus>());
                     }
                     if (DoGSecondStageCountdown <= 60)
                     {
@@ -1169,6 +1195,7 @@ namespace CalamityMod.World
                 }
             }
 
+            // TODO -- remove random lorde spawn code
             /*if (Main.rand.NextBool(100000000))
             {
                 string key = "Mods.CalamityMod.AprilFools";

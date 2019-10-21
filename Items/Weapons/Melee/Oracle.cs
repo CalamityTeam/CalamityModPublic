@@ -1,6 +1,6 @@
 ﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Ores;
-using CalamityMod.Projectiles.Melee;
+using CalamityMod.Projectiles.Melee.Yoyos;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;

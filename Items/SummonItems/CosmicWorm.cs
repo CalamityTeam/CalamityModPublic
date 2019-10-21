@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Items.Materials;
+using CalamityMod.NPCs.DevourerofGods;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;

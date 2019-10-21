@@ -6,7 +6,7 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Projectiles.Melee
+namespace CalamityMod.Projectiles.Melee.Spears
 {
     public class AstralPikeProj : ModProjectile
     {
@@ -37,13 +37,11 @@ namespace CalamityMod.Projectiles.Melee
             Main.player[projectile.owner].direction = projectile.direction;
             Main.player[projectile.owner].heldProj = projectile.whoAmI;
             Main.player[projectile.owner].itemTime = Main.player[projectile.owner].itemAnimation;
-            projectile.position.X = Main.player[projectile.owner].position.X + (float)(Main.player[projectile.owner].width / 2) - (float)(projectile.width / 2);
-            projectile.position.Y = Main.player[projectile.owner].position.Y + (float)(Main.player[projectile.owner].height / 2) - (float)(projectile.height / 2);
+            projectile.position.X = Main.player[projectile.owner].position.X + Main.player[projectile.owner].width / 2 - projectile.width / 2;
+            projectile.position.Y = Main.player[projectile.owner].position.Y + Main.player[projectile.owner].height / 2 - projectile.height / 2;
             projectile.position += projectile.velocity * projectile.ai[0];
             if (Main.rand.NextBool(5))
-            {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, ModContent.DustType<AstralOrange>(), projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-            }
             if (projectile.ai[0] == 0f)
             {
                 projectile.ai[0] = 3f;
@@ -53,9 +51,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 projectile.ai[0] -= 2.4f;
                 if (projectile.localAI[0] == 0f && Main.myPlayer == projectile.owner)
-                {
                     projectile.localAI[0] = 1f;
-                }
             }
             else
             {
@@ -63,15 +59,11 @@ namespace CalamityMod.Projectiles.Melee
             }
 
             if (Main.player[projectile.owner].itemAnimation == 0)
-            {
                 projectile.Kill();
-            }
 
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 2.355f;
+            projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + 2.355f;
             if (projectile.spriteDirection == -1)
-            {
                 projectile.rotation -= 1.57f;
-            }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -85,31 +77,23 @@ namespace CalamityMod.Projectiles.Melee
                     float xPos = Main.rand.NextBool(2) ? projectile.position.X + 800 : projectile.position.X - 800;
                     Vector2 vector2 = new Vector2(xPos, projectile.position.Y - Main.rand.Next(-800, 801));
                     float num80 = xPos;
-                    float speedX = (float)target.position.X - vector2.X;
-                    float speedY = (float)target.position.Y - vector2.Y;
-                    float dir = (float)Math.Sqrt((double)(speedX * speedX + speedY * speedY));
+                    float speedX = target.position.X - vector2.X;
+                    float speedY = target.position.Y - vector2.Y;
+                    float dir = (float)Math.Sqrt(speedX * speedX + speedY * speedY);
                     dir = 10 / num80;
                     speedX *= dir * 150;
                     speedY *= dir * 150;
                     if (speedX > 15f)
-                    {
                         speedX = 15f;
-                    }
                     if (speedX < -15f)
-                    {
                         speedX = -15f;
-                    }
                     if (speedY > 15f)
-                    {
                         speedY = 15f;
-                    }
                     if (speedY < -15f)
-                    {
                         speedY = -15f;
-                    }
                     if (projectile.owner == Main.myPlayer)
                     {
-                        int proj = Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, ModContent.ProjectileType<AstralStar>(), (int)((double)projectile.damage * 0.2), 1f, projectile.owner);
+                        int proj = Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, ModContent.ProjectileType<AstralStar>(), (int)(projectile.damage * 0.2), 1f, projectile.owner);
                         Main.projectile[proj].Calamity().forceMelee = true;
                     }
                 }

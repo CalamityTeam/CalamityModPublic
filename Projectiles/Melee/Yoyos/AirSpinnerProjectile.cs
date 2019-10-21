@@ -5,7 +5,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Projectiles.Melee
+namespace CalamityMod.Projectiles.Melee.Yoyos
 {
     public class AirSpinnerProjectile : ModProjectile
     {
@@ -38,9 +38,9 @@ namespace CalamityMod.Projectiles.Melee
             {
                 if (Main.npc[num430].CanBeChasedBy(projectile, false))
                 {
-                    float num431 = Main.npc[num430].position.X + (float)(Main.npc[num430].width / 2);
-                    float num432 = Main.npc[num430].position.Y + (float)(Main.npc[num430].height / 2);
-                    float num433 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num431) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num432);
+                    float num431 = Main.npc[num430].position.X + Main.npc[num430].width / 2;
+                    float num432 = Main.npc[num430].position.Y + Main.npc[num430].height / 2;
+                    float num433 = Math.Abs(projectile.position.X + projectile.width / 2 - num431) + Math.Abs(projectile.position.Y + projectile.height / 2 - num432);
                     if (num433 < num429 && Collision.CanHit(projectile.Center, 1, 1, Main.npc[num430].Center, 1, 1))
                     {
                         if (num428 < 20)
@@ -56,25 +56,23 @@ namespace CalamityMod.Projectiles.Melee
             {
                 int num434 = Main.rand.Next(num428);
                 num434 = array[num434];
-                float num435 = Main.npc[num434].position.X + (float)(Main.npc[num434].width / 2);
-                float num436 = Main.npc[num434].position.Y + (float)(Main.npc[num434].height / 2);
+                float num435 = Main.npc[num434].position.X + Main.npc[num434].width / 2;
+                float num436 = Main.npc[num434].position.Y + Main.npc[num434].height / 2;
                 projectile.localAI[0] += 1f;
                 if (projectile.localAI[0] > 60f)
                 {
                     projectile.localAI[0] = 0f;
                     float num437 = 6f;
-                    Vector2 value10 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
+                    Vector2 value10 = new Vector2(projectile.position.X + projectile.width * 0.5f, projectile.position.Y + projectile.height * 0.5f);
                     value10 += projectile.velocity * 4f;
                     float num438 = num435 - value10.X;
                     float num439 = num436 - value10.Y;
-                    float num440 = (float)Math.Sqrt((double)(num438 * num438 + num439 * num439));
+                    float num440 = (float)Math.Sqrt(num438 * num438 + num439 * num439);
                     num440 = num437 / num440;
                     num438 *= num440;
                     num439 *= num440;
                     if (projectile.owner == Main.myPlayer)
-                    {
                         Projectile.NewProjectile(value10.X, value10.Y, num438, num439, ModContent.ProjectileType<Feather>(), projectile.damage / 4, 0f, projectile.owner, 0f, 0f);
-                    }
                 }
             }
         }

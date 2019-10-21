@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Items.Materials;
+using CalamityMod.NPCs.Polterghast;
 using CalamityMod.World;
 using Terraria;
 using Terraria.ID;

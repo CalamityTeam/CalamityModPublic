@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Items.Materials;
+using CalamityMod.NPCs.AstrumAureus;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
