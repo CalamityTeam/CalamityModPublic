@@ -783,8 +783,8 @@ namespace CalamityMod
             return false;
         }
 
-        public static void LockedChestMouseOver<K,C>(string chestName, int i, int j)
-            where K: ModItem where C: ModItem
+        public static void LockedChestMouseOver<K, C>(string chestName, int i, int j)
+            where K : ModItem where C : ModItem
         {
             Player player = Main.LocalPlayer;
             Tile tile = Main.tile[i, j];
@@ -819,10 +819,10 @@ namespace CalamityMod
             player.showItemIcon = true;
         }
 
-        public static void LockedChestMouseOverFar<K,C>(string chestName, int i, int j)
+        public static void LockedChestMouseOverFar<K, C>(string chestName, int i, int j)
             where K : ModItem where C : ModItem
         {
-            LockedChestMouseOver<K,C>(chestName, i, j);
+            LockedChestMouseOver<K, C>(chestName, i, j);
             Player player = Main.LocalPlayer;
             if (player.showItemIconText == "")
             {

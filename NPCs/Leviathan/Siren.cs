@@ -708,7 +708,7 @@ namespace CalamityMod.NPCs.Leviathan
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor) // 2 total states (ice shield or no ice shield)
         {
-                        Texture2D texture = Main.npcTexture[npc.type];
+            Texture2D texture = Main.npcTexture[npc.type];
             if (npc.dontTakeDamage)
             {
                 switch (frameUsed)

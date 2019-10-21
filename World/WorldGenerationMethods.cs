@@ -88,7 +88,7 @@ namespace CalamityMod.World
                 uint itemIndex = emptySlots;
                 while (itemIndex == emptySlots)
                 {
-                                        bool AstralChest = type == ModContent.TileType<AstralChestLocked>();
+                    bool AstralChest = type == ModContent.TileType<AstralChestLocked>();
                     int cItem;
                     cItem = WorldGen.genRand.NextBool() ? WorldGen.goldBar : WorldGen.silverBar;
                     int addAmount = 0;
@@ -247,7 +247,7 @@ namespace CalamityMod.World
         #region OreSpawn
         public static void SpawnOre(int type, double frequency, float depth, float depthLimit)
         {
-                        int x = Main.maxTilesX;
+            int x = Main.maxTilesX;
             int y = Main.maxTilesY;
             if (type == ModContent.TileType<ExodiumOre>())
             {
@@ -298,7 +298,7 @@ namespace CalamityMod.World
         #region AstralMeteor
         public static bool CanAstralMeteorSpawn()
         {
-                        int astralOreCount = 0;
+            int astralOreCount = 0;
             float worldSizeFactor = Main.maxTilesX / 4200f; // Small = 4200, Medium = 6400, Large = 8400
             int astralOreAllowed = (int)(200f * worldSizeFactor); // Small = 201 Medium = 305 Large = 401
             for (int x = 5; x < Main.maxTilesX - 5; x++)
@@ -320,7 +320,7 @@ namespace CalamityMod.World
 
         public static bool CanAstralBiomeSpawn()
         {
-                        int astralTileCount = 0;
+            int astralTileCount = 0;
             float worldSizeFactor = Main.maxTilesX / 4200f; // Small = 4200, Medium = 6400, Large = 8400
             int astralTilesAllowed = (int)(400f * worldSizeFactor); // Small = 401 Medium = 605 Large = 801
             for (int x = 5; x < Main.maxTilesX - 5; x++)
@@ -351,7 +351,7 @@ namespace CalamityMod.World
 
         public static void PlaceAstralMeteor()
         {
-                        Mod ancientsAwakened = ModLoader.GetMod("AAMod");
+            Mod ancientsAwakened = ModLoader.GetMod("AAMod");
 
             // This flag is also used to determine whether players are nearby.
             bool meteorDropped = true;
@@ -465,7 +465,7 @@ namespace CalamityMod.World
         public static bool GenerateAstralMeteor(int i, int j)
         {
             UnifiedRandom rand = WorldGen.genRand;
-                        if (i < 50 || i > Main.maxTilesX - 50)
+            if (i < 50 || i > Main.maxTilesX - 50)
             {
                 return false;
             }
@@ -702,7 +702,7 @@ namespace CalamityMod.World
 
         public static void ConvertToAstral(int x, int y, bool tileframe = true)
         {
-                        if (WorldGen.InWorld(x, y, 1))
+            if (WorldGen.InWorld(x, y, 1))
             {
                 int type = Main.tile[x, y].type;
                 int wallType = Main.tile[x, y].wall;
@@ -1772,7 +1772,7 @@ namespace CalamityMod.World
         #region UnderworldIsland
         public static void UnderworldIsland(int i, int j, int sizeMin, int sizeMax, int sizeMin2, int sizeMax2)
         {
-                        double num = (double)WorldGen.genRand.Next(sizeMin, sizeMax); //100 150
+            double num = (double)WorldGen.genRand.Next(sizeMin, sizeMax); //100 150
             float num2 = (float)WorldGen.genRand.Next(sizeMin / 5, sizeMax / 5); //20 30
             int num3 = i;
             int num4 = i;
@@ -2034,7 +2034,7 @@ namespace CalamityMod.World
         #region UnderworldIslandHouse
         public static void UnderworldIslandHouse(int i, int j, int item)
         {
-                        ushort type = (ushort)ModContent.TileType<BrimstoneSlag>(); //tile
+            ushort type = (ushort)ModContent.TileType<BrimstoneSlag>(); //tile
             byte wall = (byte)14; //wall
             Vector2 vector = new Vector2((float)i, (float)j);
             int num = 1;
@@ -2154,7 +2154,7 @@ namespace CalamityMod.World
         #region AbyssIsland
         public static void AbyssIsland(int i, int j, int sizeMin, int sizeMax, int sizeMin2, int sizeMax2, bool hasChest, bool hasTenebris, bool isVoid)
         {
-                        int sizeMinSmall = sizeMin / 5;
+            int sizeMinSmall = sizeMin / 5;
             int sizeMaxSmall = sizeMax / 5;
             double num = (double)WorldGen.genRand.Next(sizeMin, sizeMax); //100 150
             float num2 = (float)WorldGen.genRand.Next(sizeMinSmall, sizeMaxSmall); //20 30
@@ -2475,7 +2475,7 @@ namespace CalamityMod.World
         #region AbyssIslandHouse
         public static void AbyssIslandHouse(int i, int j, int itemChoice, bool isVoid)
         {
-                        ushort type = (ushort)(isVoid ? ModContent.TileType<Voidstone>() : ModContent.TileType<AbyssGravel>()); //tile
+            ushort type = (ushort)(isVoid ? ModContent.TileType<Voidstone>() : ModContent.TileType<AbyssGravel>()); //tile
             ushort wall = (ushort)(isVoid ? ModContent.WallType<VoidstoneWallUnsafe>() : ModContent.WallType<AbyssGravelWall>()); //wall
             Vector2 vector = new Vector2((float)i, (float)j);
             int num = 1;
@@ -2940,7 +2940,7 @@ namespace CalamityMod.World
         // Special Chest: Used for placing shrine chests, takes argument of item choice which dictates what item will spawn in the first slot of this chest
         public static void SpecialChest(int itemChoice)
         {
-                        int item = 0;
+            int item = 0;
             int chestType = 0;
 
             switch (itemChoice) //0 to 9
@@ -3014,7 +3014,7 @@ namespace CalamityMod.World
         #region ChasmGenerator
         public static void ChasmGenerator(int i, int j, int steps, bool ocean = false)
         {
-                        float num = (float)steps; //850 small 1450 medium 2050 large
+            float num = (float)steps; //850 small 1450 medium 2050 large
             if (ocean)
             {
                 int tileYLookup = j;
@@ -3249,7 +3249,7 @@ namespace CalamityMod.World
         #region PlaceTits
         public static void PlaceTit(int x, int y, ushort type = 165)
         {
-                        if (Main.tile[x, y - 1] == null)
+            if (Main.tile[x, y - 1] == null)
             {
                 Main.tile[x, y - 1] = new Tile();
             }

@@ -666,7 +666,7 @@ namespace CalamityMod.NPCs.Signus
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-                        Texture2D NPCTexture = Main.npcTexture[npc.type];
+            Texture2D NPCTexture = Main.npcTexture[npc.type];
             SpriteEffects spriteEffects = SpriteEffects.None;
             if (npc.spriteDirection == 1)
             {

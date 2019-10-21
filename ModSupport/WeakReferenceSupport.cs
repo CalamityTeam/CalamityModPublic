@@ -17,7 +17,7 @@ namespace CalamityMod
 
         private static void BossChecklistSupport()
         {
-                        Mod bossChecklist = ModLoader.GetMod("BossChecklist");
+            Mod bossChecklist = ModLoader.GetMod("BossChecklist");
 
             if (bossChecklist != null)
             {
@@ -51,7 +51,7 @@ namespace CalamityMod
 
         private static void CensusSupport()
         {
-                        Mod censusMod = ModLoader.GetMod("Census");
+            Mod censusMod = ModLoader.GetMod("Census");
             if (censusMod != null)
             {
                 censusMod.Call("TownNPCCondition", ModContent.NPCType<SEAHOE>(), "Defeat a Giant Clam");

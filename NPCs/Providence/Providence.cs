@@ -1167,7 +1167,7 @@ namespace CalamityMod.NPCs.Providence
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-                        Texture2D texture = Main.npcTexture[npc.type];
+            Texture2D texture = Main.npcTexture[npc.type];
 
             if (npc.ai[0] == 2f || npc.ai[0] == 5f)
             {

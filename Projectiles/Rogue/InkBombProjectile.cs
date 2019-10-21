@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.tileCollide = true;
             projectile.ignoreWater = true;
             projectile.timeLeft = 50;
-                        projectile.Calamity().rogue = true;
+            projectile.Calamity().rogue = true;
         }
 
         public override void AI()

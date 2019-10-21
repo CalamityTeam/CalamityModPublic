@@ -40,7 +40,7 @@ namespace CalamityMod.UI
         public static int tick; //for testing
         public static int GetTickedValue() //ditto
         {
-                        tick = Main.player[Main.myPlayer].Calamity().stress;
+            tick = Main.player[Main.myPlayer].Calamity().stress;
             return tick;
         }
 
@@ -111,7 +111,7 @@ namespace CalamityMod.UI
 
         public override void Update(GameTime gameTime)
         {
-                        base.Update(gameTime);
+            base.Update(gameTime);
             Recalculate(); //THIS IS IMPORTANT! IDK why but when this is included it updates the drawing every tick.
             tick = Main.player[Main.myPlayer].Calamity().stress; //updates the testing tick
             if (tick >= 10000)

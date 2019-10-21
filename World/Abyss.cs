@@ -11,7 +11,7 @@ namespace CalamityMod.World
     {
         public static void PlaceSulphurSea()
         {
-            
+
             int x = Main.maxTilesX;
             int y = Main.maxTilesY;
             int genLimit = x / 2;
@@ -127,7 +127,7 @@ namespace CalamityMod.World
 
         public static void PlaceAbyss()
         {
-            
+
             int x = Main.maxTilesX;
             int y = Main.maxTilesY;
             int genLimit = x / 2;

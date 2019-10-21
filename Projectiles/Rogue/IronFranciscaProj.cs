@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.friendly = true;
             projectile.penetrate = 2;
             projectile.timeLeft = 600;
-                        projectile.Calamity().rogue = true;
+            projectile.Calamity().rogue = true;
         }
 
         public override void AI()

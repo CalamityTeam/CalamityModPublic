@@ -346,7 +346,7 @@ namespace CalamityMod
         /// <returns>Whether the player currently has the set bonus.</returns>
         public static bool GetSetBonus(Player p, string setBonus)
         {
-                        CalamityPlayer mp = p.Calamity();
+            CalamityPlayer mp = p.Calamity();
 
             setBonus = setBonus.ToLower();
 
