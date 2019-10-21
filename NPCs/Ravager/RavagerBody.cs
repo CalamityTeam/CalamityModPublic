@@ -74,7 +74,7 @@ namespace CalamityMod.NPCs.Ravager
             npc.DeathSound = SoundID.NPCDeath14;
             Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
             if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Ravager");
+                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Scavenger");
             else
                 music = MusicID.Boss4;
             bossBag = ModContent.ItemType<RavagerBag>();
