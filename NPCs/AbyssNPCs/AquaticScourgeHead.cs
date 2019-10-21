@@ -8,6 +8,7 @@ using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -195,7 +196,7 @@ namespace CalamityMod.NPCs
             bool notOcean = Main.player[npc.target].position.Y < 800f ||
                 (double)Main.player[npc.target].position.Y > Main.worldSurface * 16.0 ||
                 (Main.player[npc.target].position.X > 6400f && Main.player[npc.target].position.X < (float)(Main.maxTilesX * 16 - 6400));
-            if (Main.player[npc.target].dead || (notOcean && !CalamityWorld.bossRushActive))
+            if (Main.player[npc.target].dead || (notOcean && !CalamityWorld.bossRushActive && !Main.player[npc.target].Calamity().ZoneSulphur))
             {
                 despawning = true;
                 npc.TargetClosest(false);
@@ -593,6 +594,7 @@ namespace CalamityMod.NPCs
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<Barinautical>(), Main.hardMode, 4, 1, 1);
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<Downpour>(), Main.hardMode, 4, 1, 1);
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<DeepseaStaff>(), Main.hardMode, 4, 1, 1);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<ScourgeoftheSeas>(), Main.hardMode, 4, 1, 1);
 
                 // Equipment
                 DropHelper.DropItemChance(npc, ModContent.ItemType<AeroStone>(), 9);
