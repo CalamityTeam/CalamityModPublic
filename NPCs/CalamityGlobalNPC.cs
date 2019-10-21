@@ -551,7 +551,7 @@ namespace CalamityMod.NPCs
 
             // Apply DR to vanilla NPCs. No vanilla NPCs have DR except in Rev+.
             // This also applies DR to other mods' NPCs who have set up their NPCs to have DR in Rev+.
-            if (CalamityWorld.revenge)
+            if (CalamityWorld.revenge && CalamityMod.DRValues.ContainsKey(npc.type))
             {
                 CalamityMod.DRValues.TryGetValue(npc.type, out float revDR);
                 DR = revDR;
