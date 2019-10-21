@@ -72,12 +72,12 @@ namespace CalamityMod.Tiles.FurnitureStatigel
 
         public override void MouseOver(int i, int j)
         {
-            CalamityUtils.ChestMouseOver("StatigelChest", "Statigel Chest", i, j);
+            CalamityUtils.ChestMouseOver<Items.Placeables.FurnitureStatigel.StatigelChest>("Statigel Chest", i, j);
         }
 
         public override void MouseOverFar(int i, int j)
         {
-            CalamityUtils.ChestMouseFar("StatigelChest", "Statigel Chest", i, j);
+            CalamityUtils.ChestMouseFar<Items.Placeables.FurnitureStatigel.StatigelChest>("Statigel Chest", i, j);
         }
     }
 }

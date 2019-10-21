@@ -673,8 +673,7 @@ namespace CalamityMod.NPCs.Leviathan
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            Mod mod = ModLoader.GetMod("CalamityMod");
-            Texture2D texture = Main.npcTexture[npc.type];
+                        Texture2D texture = Main.npcTexture[npc.type];
             Texture2D texture2 = ModContent.GetTexture("CalamityMod/NPCs/Leviathan/LeviathanTexTwo");
             Texture2D texture3 = ModContent.GetTexture("CalamityMod/NPCs/Leviathan/LeviathanAltTexOne");
             Texture2D texture4 = ModContent.GetTexture("CalamityMod/NPCs/Leviathan/LeviathanAltTexTwo");

@@ -37,12 +37,12 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
 
         public override void MouseOverFar(int i, int j)
         {
-            CalamityUtils.DresserMouseFar("EutrophicDresser", chest, i, j);
+            CalamityUtils.DresserMouseFar<Items.Placeables.FurnitureEutrophic.EutrophicDresser>(chest);
         }
 
         public override void MouseOver(int i, int j)
         {
-            CalamityUtils.DresserMouseOver("EutrophicDresser", chest, i, j);
+            CalamityUtils.DresserMouseOver<Items.Placeables.FurnitureEutrophic.EutrophicDresser>(chest);
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)

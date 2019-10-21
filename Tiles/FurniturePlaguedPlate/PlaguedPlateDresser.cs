@@ -42,12 +42,12 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
 
         public override void MouseOverFar(int i, int j)
         {
-            CalamityUtils.DresserMouseFar("PlaguedPlateDresser", chest, i, j);
+            CalamityUtils.DresserMouseFar<Items.Placeables.FurniturePlaguedPlate.PlaguedPlateDresser>(chest);
         }
 
         public override void MouseOver(int i, int j)
         {
-            CalamityUtils.DresserMouseOver("PlaguedPlateDresser", chest, i, j);
+            CalamityUtils.DresserMouseOver<Items.Placeables.FurniturePlaguedPlate.PlaguedPlateDresser>(chest);
         }
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)

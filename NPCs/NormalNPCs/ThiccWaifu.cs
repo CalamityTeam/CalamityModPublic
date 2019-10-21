@@ -249,8 +249,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            Mod mod = ModLoader.GetMod("CalamityMod");
-            Texture2D texture = ModContent.GetTexture("CalamityMod/NPCs/NormalNPCs/ThiccWaifuAttack");
+                        Texture2D texture = ModContent.GetTexture("CalamityMod/NPCs/NormalNPCs/ThiccWaifuAttack");
             if (npc.ai[0] > 0f)
             {
                 CalamityMod.DrawTexture(spriteBatch, texture, 0, npc, drawColor);

@@ -3586,8 +3586,7 @@ namespace CalamityMod.NPCs
         #region Any Boss NPCs
         public static bool AnyBossNPCS()
         {
-            Mod mod = ModLoader.GetMod("CalamityMod");
-
+            
             for (int i = 0; i < 200; i++)
             {
                 if (Main.npc[i].active && Main.npc[i].type != NPCID.MartianSaucerCore &&
@@ -3618,8 +3617,7 @@ namespace CalamityMod.NPCs
         #region Should Affect NPC
         public static bool ShouldAffectNPC(NPC target)
         {
-            Mod mod = ModLoader.GetMod("CalamityMod");
-
+            
             if (target.damage > 0 && !target.boss && !target.friendly && !target.dontTakeDamage && target.type != NPCID.Mothron &&
                 target.type != NPCID.Pumpking && target.type != NPCID.TheDestroyerBody && target.type != NPCID.TheDestroyerTail &&
                 target.type != NPCID.MourningWood && target.type != NPCID.Everscream && target.type != NPCID.SantaNK1 && target.type != NPCID.IceQueen &&
@@ -3635,8 +3633,7 @@ namespace CalamityMod.NPCs
         #region Old Duke Spawn
         public static void OldDukeSpawn(int plr, int Type)
         {
-            Mod mod = ModLoader.GetMod("CalamityMod");
-            Player player = Main.player[plr];
+                        Player player = Main.player[plr];
 
             if (!player.active || player.dead)
             {

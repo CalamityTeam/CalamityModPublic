@@ -941,8 +941,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            Mod mod = ModLoader.GetMod("CalamityMod");
-            Texture2D texture = Main.npcTexture[npc.type];
+                        Texture2D texture = Main.npcTexture[npc.type];
             if (charging)
             {
                 texture = ModContent.GetTexture("CalamityMod/NPCs/PlaguebringerGoliath/PlaguebringerGoliathChargeTex");

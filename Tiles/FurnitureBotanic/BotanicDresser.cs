@@ -39,12 +39,12 @@ namespace CalamityMod.Tiles.FurnitureBotanic
 
         public override void MouseOverFar(int i, int j)
         {
-            CalamityUtils.DresserMouseOver("BotanicDresser", "Botanic Dresser", i, j);
+            CalamityUtils.DresserMouseFar<Items.Placeables.FurnitureBotanic.BotanicDresser>(chest);
         }
 
         public override void MouseOver(int i, int j)
         {
-            CalamityUtils.DresserMouseFar("BotanicDresser", "Botanic Dresser", i, j);
+            CalamityUtils.DresserMouseOver<Items.Placeables.FurnitureBotanic.BotanicDresser>(chest);
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)

@@ -342,8 +342,7 @@ namespace CalamityMod
         #region SetupLists
         public static void SetupLists()
         {
-            Mod calamity = ModLoader.GetMod("CalamityMod");
-            Mod thorium = ModLoader.GetMod("ThoriumMod");
+                        Mod thorium = ModLoader.GetMod("ThoriumMod");
             if (calamity != null)
             {
                 donatorList = new List<string>()
@@ -2318,8 +2317,7 @@ namespace CalamityMod
         #region DrawingStuff
         public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
         {
-            Mod mod = ModLoader.GetMod("CalamityMod");
-            if (CalamityWorld.revenge && Config.AdrenalineAndRage)
+                        if (CalamityWorld.revenge && Config.AdrenalineAndRage)
             {
                 UIHandler.ModifyInterfaceLayers(mod, layers);
             }

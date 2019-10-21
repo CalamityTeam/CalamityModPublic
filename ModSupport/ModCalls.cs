@@ -187,7 +187,6 @@ namespace CalamityMod
         /// <returns>Whether the player is currently in the zone.</returns>
         public static bool GetInZone(Player p, string zone)
         {
-            Mod calamity = ModLoader.GetMod("CalamityMod");
             CalamityPlayer mp = p.Calamity();
             switch (zone.ToLower())
             {
@@ -347,8 +346,7 @@ namespace CalamityMod
         /// <returns>Whether the player currently has the set bonus.</returns>
         public static bool GetSetBonus(Player p, string setBonus)
         {
-            Mod calamity = ModLoader.GetMod("CalamityMod");
-            CalamityPlayer mp = p.Calamity();
+                        CalamityPlayer mp = p.Calamity();
 
             setBonus = setBonus.ToLower();
 

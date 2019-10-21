@@ -39,12 +39,12 @@ namespace CalamityMod.Tiles.FurnitureOccult
 
         public override void MouseOverFar(int i, int j)
         {
-            CalamityUtils.DresserMouseFar("OccultDresser", chest, i, j);
+            CalamityUtils.DresserMouseFar<Items.Placeables.FurnitureOccult.OccultDresser>(chest);
         }
 
         public override void MouseOver(int i, int j)
         {
-            CalamityUtils.DresserMouseOver("OccultDresser", chest, i, j);
+            CalamityUtils.DresserMouseOver<Items.Placeables.FurnitureOccult.OccultDresser>(chest);
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)

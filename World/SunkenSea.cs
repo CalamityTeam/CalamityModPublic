@@ -196,8 +196,7 @@ namespace CalamityMod.World
 
         private static void PlaceClusters(ClusterGroup clusters, Point start, Vector2 scale) //Places tile/wall clusters in Sunken Sea area
         {
-            Mod mod = ModLoader.GetMod("CalamityMod");
-            int num = (int)(scale.X * (float)clusters.Width);
+                        int num = (int)(scale.X * (float)clusters.Width);
             int num2 = (int)(scale.Y * (float)clusters.Height);
             Vector2 value = new Vector2((float)num, (float)num2);
             Vector2 value2 = new Vector2((float)clusters.Width, (float)clusters.Height);
@@ -304,8 +303,7 @@ namespace CalamityMod.World
         private static void AddTileVariance(ClusterGroup clusters, Point start, Vector2 scale, float size) /*Adds tile variation to the generated tile clusters and generates open areas with sea prism ore;
             Generates sea prism crystals on prism ore and occasionally on navystone*/
         {
-            Mod mod = ModLoader.GetMod("CalamityMod");
-            int num = (int)(scale.X * (float)clusters.Width);
+                        int num = (int)(scale.X * (float)clusters.Width);
             int num2 = (int)(scale.Y * (float)clusters.Height);
             bool genCentalHole = true;
             Rectangle rectangle = default;

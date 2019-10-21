@@ -72,12 +72,12 @@ namespace CalamityMod.Tiles.FurnitureAbyss
 
         public override void MouseOver(int i, int j)
         {
-            CalamityUtils.ChestMouseOver("AbyssChest", "Abyss Chest", i, j);
+            CalamityUtils.ChestMouseOver<Items.Placeables.FurnitureAbyss.AbyssChest>("Abyss Chest", i, j);
         }
 
         public override void MouseOverFar(int i, int j)
         {
-            CalamityUtils.ChestMouseFar("AbyssChest", "Abyss Chest", i, j);
+            CalamityUtils.ChestMouseFar<Items.Placeables.FurnitureAbyss.AbyssChest>("Abyss Chest", i, j);
         }
     }
 }

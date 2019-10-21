@@ -96,12 +96,12 @@ namespace CalamityMod.Tiles.FurnitureAshen
 
         public override void MouseOver(int i, int j)
         {
-            CalamityUtils.LockedChestMouseOver("BrimstoneKey", "AshenChest", "Ashen Chest", i, j);
+            CalamityUtils.ChestMouseOver<Items.Placeables.FurnitureAshen.AshenChest>("Ashen Chest", i, j);
         }
 
         public override void MouseOverFar(int i, int j)
         {
-            CalamityUtils.LockedChestMouseOverFar("BrimstoneKey", "AshenChest", "Ashen Chest", i, j);
+            CalamityUtils.ChestMouseFar<Items.Placeables.FurnitureAshen.AshenChest>("Ashen Chest", i, j);
         }
     }
 }

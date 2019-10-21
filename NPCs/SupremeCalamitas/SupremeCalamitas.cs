@@ -2273,8 +2273,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            Mod mod = ModLoader.GetMod("CalamityMod");
-            Texture2D texture = Main.npcTexture[npc.type];
+                        Texture2D texture = Main.npcTexture[npc.type];
             if (npc.ai[0] > 1f)
             {
                 texture = ModContent.GetTexture("CalamityMod/NPCs/SupremeCalamitas/SupremeCalamitas2");

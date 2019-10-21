@@ -9157,7 +9157,6 @@ namespace CalamityMod.CalPlayer
                 return;
             }
             Player drawPlayer = drawInfo.drawPlayer;
-            Mod mod = ModLoader.GetMod("CalamityMod");
             CalamityPlayer modPlayer = drawPlayer.Calamity();
             if (modPlayer.sirenIce)
             {
@@ -9183,7 +9182,6 @@ namespace CalamityMod.CalPlayer
                 return;
 
             Player drawPlayer = drawInfo.drawPlayer;
-            Mod mod = ModLoader.GetMod("CalamityMod");
             Item item = drawPlayer.inventory[drawPlayer.selectedItem];
 
             if (!drawPlayer.frozen &&
@@ -9339,7 +9337,6 @@ namespace CalamityMod.CalPlayer
 
         public PlayerLayer clAfterAll = new PlayerLayer("Calamity", "clAfterAll", PlayerLayer.MiscEffectsFront, delegate (PlayerDrawInfo edi)
         {
-            Mod mod = ModLoader.GetMod("CalamityMod");
             Player drawPlayer = edi.drawPlayer;
             if (drawPlayer.mount != null && (drawPlayer.Calamity().fab || drawPlayer.Calamity().crysthamyr ||
                 drawPlayer.Calamity().onyxExcavator))

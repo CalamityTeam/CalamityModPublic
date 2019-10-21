@@ -74,12 +74,12 @@ namespace CalamityMod.Tiles.FurnitureProfaned
 
         public override void MouseOver(int i, int j)
         {
-            CalamityUtils.ChestMouseOver("ProfanedChest", "Profaned Chest", i, j);
+            CalamityUtils.ChestMouseOver<Items.Placeables.FurnitureProfaned.ProfanedChest>("Profaned Chest", i, j);
         }
 
         public override void MouseOverFar(int i, int j)
         {
-            CalamityUtils.ChestMouseFar("ProfanedChest", "Profaned Chest", i, j);
+            CalamityUtils.ChestMouseFar<Items.Placeables.FurnitureProfaned.ProfanedChest>("Profaned Chest", i, j);
         }
     }
 }

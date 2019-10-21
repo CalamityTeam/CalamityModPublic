@@ -39,12 +39,12 @@ namespace CalamityMod.Tiles.FurnitureSilva
 
         public override void MouseOverFar(int i, int j)
         {
-            CalamityUtils.DresserMouseFar("SilvaDresser", chest, i, j);
+            CalamityUtils.DresserMouseFar<Items.Placeables.FurnitureSilva.SilvaDresser>(chest);
         }
 
         public override void MouseOver(int i, int j)
         {
-            CalamityUtils.DresserMouseOver("SilvaDresser", chest, i, j);
+            CalamityUtils.DresserMouseOver<Items.Placeables.FurnitureSilva.SilvaDresser>(chest);
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)
