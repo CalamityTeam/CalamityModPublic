@@ -1,25 +1,25 @@
-﻿using CalamityMod.World;
+﻿using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Items.Armor.Vanity;
+using CalamityMod.Items.LoreItems;
+using CalamityMod.Items.Materials;
+using CalamityMod.Items.Pets;
+using CalamityMod.Items.Placeables.Furniture.Trophies;
+using CalamityMod.Items.TreasureBags;
+using CalamityMod.Items.Weapons.Magic;
+using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.Projectiles.Boss;
+using CalamityMod.Tiles.Ores;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.Localization;
-using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.Items.Materials;
-using CalamityMod.Items.Weapons.Melee;
-using CalamityMod.Items.Weapons.Ranged;
-using CalamityMod.Items.Weapons.Magic;
-using CalamityMod.Items.Weapons.Summon;
-using CalamityMod.Items.Weapons.Rogue;
-using CalamityMod.Items.LoreItems;
-using CalamityMod.Items.TreasureBags;
-using CalamityMod.Items.Armor.Vanity;
-using CalamityMod.Items.Placeables.Furniture.Trophies;
-using CalamityMod.Items.Pets;
-using CalamityMod.Projectiles.Boss;
-using CalamityMod.Tiles.Ores;
+using Terraria.ModLoader;
 namespace CalamityMod.NPCs.Perforator
 {
     [AutoloadBossHead]
@@ -42,7 +42,7 @@ namespace CalamityMod.NPCs.Perforator
             npc.width = 110;
             npc.height = 100;
             npc.defense = 4;
-			npc.LifeMaxNERD(3750, 5400, 7600, 2700000, 3000000);
+            npc.LifeMaxNERD(3750, 5400, 7600, 2700000, 3000000);
             double HPBoost = Config.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;

@@ -1,7 +1,8 @@
-﻿using Terraria;
-using Terraria.ModLoader; using CalamityMod.Items.Materials;
+﻿using CalamityMod.Buffs.Alcohol;
+using CalamityMod.Items.Materials;
+using Terraria;
 using Terraria.ID;
-using CalamityMod.Buffs.Alcohol;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Potions.Alcohol
 {

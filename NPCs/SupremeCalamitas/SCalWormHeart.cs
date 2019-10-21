@@ -1,8 +1,8 @@
-﻿using CalamityMod.World;
+﻿using CalamityMod.Projectiles.Rogue;
+using CalamityMod.World;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Projectiles.Rogue;
+using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.SupremeCalamitas
 {

@@ -1,6 +1,6 @@
 using CalamityMod.Items.Placeables.FurnitureAbyss;
-using WallTiles = CalamityMod.Walls;
 using Terraria.ModLoader;
+using WallTiles = CalamityMod.Walls;
 namespace CalamityMod.Items.Placeables.Walls
 {
     public class SmoothAbyssGravelWall : ModItem

@@ -1,8 +1,8 @@
-﻿using CalamityMod.World;
+﻿using CalamityMod.Items.Accessories;
+using CalamityMod.World;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Items.Accessories;
+using Terraria.ModLoader;
 namespace CalamityMod.NPCs.Leviathan
 {
     public class LeviathanStart : ModNPC

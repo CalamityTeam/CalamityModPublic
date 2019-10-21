@@ -1,7 +1,7 @@
-﻿using Terraria;
-using Terraria.ModLoader;
+﻿using CalamityMod.Items.Placeables.Walls;
+using Terraria;
 using Terraria.ID;
-using CalamityMod.Items.Placeables.Walls;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables
 {

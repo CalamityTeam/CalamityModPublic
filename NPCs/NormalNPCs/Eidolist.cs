@@ -1,13 +1,13 @@
-﻿using CalamityMod.World;
+﻿using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Items.SummonItems;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Items.Placeables.Banners;
-using CalamityMod.Items.Materials;
-using CalamityMod.Items.SummonItems;
+using Terraria.ModLoader;
 namespace CalamityMod.NPCs.NormalNPCs
 {
     public class Eidolist : ModNPC

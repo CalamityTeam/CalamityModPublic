@@ -1,6 +1,6 @@
-﻿using Terraria;
+﻿using CalamityMod.Projectiles.Magic;
+using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.Projectiles.Magic;
 namespace CalamityMod.Projectiles.Typeless
 {
     public class SparkInfernal : ModProjectile

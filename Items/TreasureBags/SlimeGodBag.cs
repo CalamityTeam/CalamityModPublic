@@ -1,16 +1,16 @@
-using CalamityMod.World;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.ID;
+using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Materials;
-using CalamityMod.Items.Weapons.Summon;
-using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Items.PermanentBoosters;
+using CalamityMod.Items.Placeables.Furniture.CraftingStations;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Ranged;
-using CalamityMod.Items.Accessories;
-using CalamityMod.Items.PermanentBoosters;
-using CalamityMod.Items.Armor.Vanity;
-using CalamityMod.Items.Placeables.Furniture.CraftingStations;
+using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.World;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.TreasureBags
 {

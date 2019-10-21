@@ -1,12 +1,12 @@
-﻿using CalamityMod.CalPlayer;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.CalPlayer;
+using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ModLoader;
-using CalamityMod.Dusts;
 using Terraria.ID;
-using CalamityMod.Buffs.DamageOverTime;
+using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
     public class Quasar2 : ModProjectile

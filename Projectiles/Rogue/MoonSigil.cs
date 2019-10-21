@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ModLoader;
-using System;
 namespace CalamityMod.Projectiles.Rogue
 {
     public class MoonSigil : ModProjectile

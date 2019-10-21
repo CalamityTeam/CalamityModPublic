@@ -1,9 +1,9 @@
-﻿using CalamityMod.World;
+﻿using CalamityMod.Projectiles.Ranged;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Projectiles.Ranged;
 
 namespace CalamityMod.NPCs.Leviathan
 {

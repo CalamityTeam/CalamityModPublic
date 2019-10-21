@@ -1,7 +1,7 @@
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.ID;
 using CalamityMod.Projectiles.Ranged;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 //using TerrariaOverhaul;
 
 namespace CalamityMod.Items.Weapons.Ranged

@@ -1,5 +1,6 @@
 using Terraria.ID;
-using Terraria.ModLoader; using WallTiles = CalamityMod.Walls;
+using Terraria.ModLoader;
+using WallTiles = CalamityMod.Walls;
 namespace CalamityMod.Items.Placeables.Walls
 {
     public class VoidstoneWall : ModItem

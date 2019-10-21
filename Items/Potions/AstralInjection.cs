@@ -1,8 +1,9 @@
-﻿using Terraria;
-using Terraria.ModLoader; using CalamityMod.Items.Materials;
+﻿using CalamityMod.Buffs.Potions;
+using CalamityMod.Items.Materials;
+using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
-using CalamityMod.Buffs.Potions;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Potions
 {

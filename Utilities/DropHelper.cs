@@ -1,10 +1,10 @@
+using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Ammo.FiniteUse;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.Items.Accessories;
-using CalamityMod.Items.Ammo.FiniteUse;
 namespace CalamityMod
 {
     public class DropHelper

@@ -1,21 +1,21 @@
-﻿using CalamityMod.World;
+﻿using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables;
+using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Items.Weapons.Magic;
+using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.Projectiles.Enemy;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.Items.Placeables.Banners;
-using CalamityMod.Items.Placeables;
-using CalamityMod.Items.Materials;
-using CalamityMod.Items.Accessories;
-using CalamityMod.Items.Weapons.Melee;
-using CalamityMod.Items.Weapons.Ranged;
-using CalamityMod.Items.Weapons.Magic;
-using CalamityMod.Items.Weapons.Summon;
-using CalamityMod.Projectiles.Enemy;
+using Terraria.ModLoader;
 namespace CalamityMod.NPCs.SunkenSea
 {
     public class GiantClam : ModNPC

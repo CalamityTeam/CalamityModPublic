@@ -1,8 +1,8 @@
-﻿using Terraria;
-using Terraria.ModLoader;
-using Terraria.ID;
+﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Placeables.Banners;
-using CalamityMod.Items.Accessories;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 namespace CalamityMod.NPCs.NormalNPCs
 {
     public class IrradiatedSlime : ModNPC

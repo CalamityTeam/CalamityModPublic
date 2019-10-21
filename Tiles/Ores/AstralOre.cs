@@ -1,11 +1,11 @@
+using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Tiles.Astral;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Tiles.Astral;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.Ores
 {

@@ -1,23 +1,23 @@
-﻿using CalamityMod.World;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Items.Accessories;
+using CalamityMod.Items.LoreItems;
+using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables.Furniture.Trophies;
+using CalamityMod.Items.TreasureBags;
+using CalamityMod.Items.Weapons.Magic;
+using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.Items.Materials;
-using CalamityMod.Items.Accessories;
-using CalamityMod.Items.Weapons.Melee;
-using CalamityMod.Items.Weapons.Ranged;
-using CalamityMod.Items.Weapons.Magic;
-using CalamityMod.Items.Weapons.Summon;
-using CalamityMod.Items.Weapons.Rogue;
-using CalamityMod.Items.LoreItems;
-using CalamityMod.Items.TreasureBags;
-using CalamityMod.Items.Placeables.Furniture.Trophies;
+using Terraria.ModLoader;
 namespace CalamityMod.NPCs.Ravager
 {
     [AutoloadBossHead]
@@ -38,19 +38,19 @@ namespace CalamityMod.NPCs.Ravager
             npc.width = 332;
             npc.height = 214;
             npc.defense = 55;
-			npc.value = Item.buyPrice(0, 25, 0, 0);
-			npc.Calamity().RevPlusDR(0.4f);
-			npc.LifeMaxNERD(42700, 53500, 90000, 4600000, 4800000);
-			if (CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive)
-			{
-				npc.damage *= 2;
-				npc.defense *= 2;
-				npc.lifeMax *= 7;
-				npc.value *= 1.5f;
-			}
-			double HPBoost = Config.BossHealthPercentageBoost * 0.01;
-			npc.lifeMax += (int)(npc.lifeMax * HPBoost);
-			npc.knockBackResist = 0f;
+            npc.value = Item.buyPrice(0, 25, 0, 0);
+            npc.Calamity().RevPlusDR(0.4f);
+            npc.LifeMaxNERD(42700, 53500, 90000, 4600000, 4800000);
+            if (CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive)
+            {
+                npc.damage *= 2;
+                npc.defense *= 2;
+                npc.lifeMax *= 7;
+                npc.value *= 1.5f;
+            }
+            double HPBoost = Config.BossHealthPercentageBoost * 0.01;
+            npc.lifeMax += (int)(npc.lifeMax * HPBoost);
+            npc.knockBackResist = 0f;
             aiType = -1;
             for (int k = 0; k < npc.buffImmune.Length; k++)
             {

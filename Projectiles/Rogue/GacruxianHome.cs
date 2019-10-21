@@ -1,9 +1,9 @@
+using CalamityMod.Dusts;
+using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.Dusts;
-using CalamityMod.Projectiles.Melee;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -42,8 +42,8 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0f, projectile.velocity.Y * 0f, ModContent.ProjectileType<UltimusCleaverDust>(), (int)((double)projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
                 Main.projectile[proj].Calamity().forceRogue = true;
-				Main.projectile[proj].localNPCHitCooldown = 10;
-				Main.projectile[proj].penetrate = 3;
+                Main.projectile[proj].localNPCHitCooldown = 10;
+                Main.projectile[proj].penetrate = 3;
                 stealthTrailTimer = 10;
             }
             float num472 = projectile.Center.X;

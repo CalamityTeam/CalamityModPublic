@@ -1,9 +1,9 @@
+using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
-using CalamityMod.Items.Placeables;
-using CalamityMod.Items.Materials;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {

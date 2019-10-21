@@ -1,8 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Buffs.StatDebuffs;
+using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Buffs.StatDebuffs;
+using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Bumblebirb
 {
@@ -24,7 +24,7 @@ namespace CalamityMod.NPCs.Bumblebirb
             npc.height = 80;
             npc.scale = 0.66f;
             npc.defense = 20;
-			npc.LifeMaxNERD(25000, 30000, 35000, 60000, 65000);
+            npc.LifeMaxNERD(25000, 30000, 35000, 60000, 65000);
             npc.knockBackResist = 0f;
             for (int k = 0; k < npc.buffImmune.Length; k++)
             {

@@ -1,8 +1,8 @@
-﻿using CalamityMod.World;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.World;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Buffs.DamageOverTime;
+using Terraria.ModLoader;
 namespace CalamityMod.NPCs.Calamitas
 {
     public class LifeSeeker : ModNPC

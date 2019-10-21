@@ -1,9 +1,9 @@
-﻿using CalamityMod.CalPlayer;
+﻿using CalamityMod.Buffs.Pets;
+using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.Buffs.Pets;
 namespace CalamityMod.Projectiles.Pets
 {
     public class PerforaMini : ModProjectile

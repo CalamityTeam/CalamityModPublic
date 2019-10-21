@@ -1,9 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Items.Placeables.Banners;
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Items.Placeables.Banners;
+using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.AquaticScourge
 {

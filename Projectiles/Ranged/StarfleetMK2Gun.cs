@@ -1,10 +1,10 @@
+using CalamityMod.Projectiles.Melee;
+using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Projectiles.Typeless;
-using CalamityMod.Projectiles.Melee;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {

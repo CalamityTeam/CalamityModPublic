@@ -1,9 +1,9 @@
+using CalamityMod.Dusts;
+using CalamityMod.Items.Fishing;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.Dusts;
 using Terraria.ObjectData;
-using CalamityMod.Items.Fishing;
 
 namespace CalamityMod.Tiles.Astral
 {

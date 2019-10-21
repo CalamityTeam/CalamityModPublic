@@ -1,15 +1,15 @@
-﻿using CalamityMod.World;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Items.TreasureBags;
+using CalamityMod.Projectiles.Boss;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.Items.TreasureBags;
-using CalamityMod.Projectiles.Boss;
+using Terraria.ModLoader;
 namespace CalamityMod.NPCs.Leviathan
 {
     [AutoloadBossHead]
@@ -34,7 +34,7 @@ namespace CalamityMod.NPCs.Leviathan
             npc.height = 100;
             npc.defense = 20;
             npc.Calamity().RevPlusDR(0.05f);
-			npc.LifeMaxNERD(27400, 41600, 58650, 2600000, 2800000);
+            npc.LifeMaxNERD(27400, 41600, 58650, 2600000, 2800000);
             double HPBoost = Config.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
@@ -450,7 +450,7 @@ namespace CalamityMod.NPCs.Leviathan
                         if (isNotOcean)
                             num1074 *= 2;
 
-						float ai0 = ((!leviAlive && num1075 == ModContent.ProjectileType<FrostMist>()) ? 1f : 0f);
+                        float ai0 = ((!leviAlive && num1075 == ModContent.ProjectileType<FrostMist>()) ? 1f : 0f);
                         Projectile.NewProjectile(vector121.X, vector121.Y, num1071, num1072, num1075, num1074, 0f, Main.myPlayer, ai0, 0f);
                     }
                 }

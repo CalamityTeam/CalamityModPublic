@@ -1,12 +1,12 @@
-﻿using CalamityMod.World;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Projectiles.Boss;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.Projectiles.Boss;
+using Terraria.ModLoader;
 namespace CalamityMod.NPCs.ProfanedGuardians
 {
     [AutoloadBossHead]
@@ -27,9 +27,9 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             npc.height = 80;
             npc.defense = 50;
             npc.Calamity().RevPlusDR(0.25f);
-			npc.LifeMaxNERD(40000, 50000, 80000, 300000, 400000);
-			double HPBoost = Config.BossHealthPercentageBoost * 0.01;
-			npc.lifeMax += (int)(npc.lifeMax * HPBoost);
+            npc.LifeMaxNERD(40000, 50000, 80000, 300000, 400000);
+            double HPBoost = Config.BossHealthPercentageBoost * 0.01;
+            npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
             npc.noGravity = true;
             npc.noTileCollide = true;

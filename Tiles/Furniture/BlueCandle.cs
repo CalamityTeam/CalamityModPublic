@@ -1,9 +1,9 @@
+using CalamityMod.Buffs.Placeables;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.ModLoader;
 using Terraria.ObjectData;
-using CalamityMod.Buffs.Placeables;
 
 namespace CalamityMod.Tiles.Furniture
 {

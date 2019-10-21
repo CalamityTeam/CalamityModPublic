@@ -1,17 +1,17 @@
-using CalamityMod.World;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.ID;
 using CalamityMod.Items.Materials;
-using CalamityMod.Items.Potions;
-using CalamityMod.Items.Placeables.Ores;
 using CalamityMod.Items.Placeables;
-using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Items.Placeables.Ores;
+using CalamityMod.Items.Potions;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
-using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Tiles.Astral;
+using CalamityMod.World;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Fishing
 {
@@ -99,7 +99,7 @@ namespace CalamityMod.Items.Fishing
                 DropHelper.DropItemChance(player, ModContent.ItemType<AstralInjection>(), 4, 1, 3);
                 DropHelper.DropItemChance(player, ModContent.ItemType<GravityNormalizerPotion>(), 4, 1, 3);
             }
-			
+
             //Money
             DropHelper.DropItem(player, ItemID.SilverCoin, 10, 90);
             DropHelper.DropItemChance(player, ItemID.GoldCoin, 0.5f, 1, 5);

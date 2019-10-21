@@ -1,17 +1,17 @@
-﻿using CalamityMod.World;
+﻿using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Items.Weapons.Magic;
+using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Projectiles.Enemy;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Items.Placeables.Banners;
-using CalamityMod.Items.Weapons.Melee;
-using CalamityMod.Items.Weapons.Magic;
-using CalamityMod.Items.Accessories;
-using CalamityMod.Items.Materials;
-using CalamityMod.Projectiles.Enemy;
+using Terraria.ModLoader;
 namespace CalamityMod.NPCs.NormalNPCs
 {
     public class ThiccWaifu : ModNPC

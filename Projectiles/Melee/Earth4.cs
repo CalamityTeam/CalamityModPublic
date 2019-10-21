@@ -1,8 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Projectiles.Healing;
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.Projectiles.Healing;
 namespace CalamityMod.Projectiles.Melee
 {
     public class Earth4 : ModProjectile

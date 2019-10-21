@@ -1,8 +1,8 @@
-using Terraria;
-using Terraria.ModLoader;
 using CalamityMod.Items.Materials;
-using Terraria.ID;
 using CalamityMod.Projectiles.Rogue;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Eclipse's Fall");
             Tooltip.SetDefault("When the sun goes dark, you will know judgment\n" +
-			"Summons spears from the sky on hit\n" +
+            "Summons spears from the sky on hit\n" +
             "Stealth strikes impale enemies and summon a constant barrage of spears");
         }
 

@@ -1,8 +1,8 @@
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.World;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Buffs.StatDebuffs;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs
 {

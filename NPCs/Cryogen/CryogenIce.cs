@@ -1,10 +1,10 @@
-﻿using CalamityMod.World;
+﻿using CalamityMod.Projectiles.Boss;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Projectiles.Boss;
+using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Cryogen
 {

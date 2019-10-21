@@ -1,6 +1,6 @@
-﻿using Terraria;
+﻿using CalamityMod.Projectiles.Ranged;
+using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.Projectiles.Ranged;
 namespace CalamityMod.Projectiles.Melee
 {
     public class LaserFountain : ModProjectile

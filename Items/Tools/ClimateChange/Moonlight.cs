@@ -1,7 +1,8 @@
-﻿using CalamityMod.NPCs;
+﻿using CalamityMod.Items.Materials;
+using CalamityMod.NPCs;
 using Terraria;
-using Terraria.ModLoader; using CalamityMod.Items.Materials;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Tools.ClimateChange
 {

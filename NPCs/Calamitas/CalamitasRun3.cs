@@ -1,25 +1,25 @@
-﻿using CalamityMod.World;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Armor.Vanity;
+using CalamityMod.Items.LoreItems;
+using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables.Furniture.Trophies;
+using CalamityMod.Items.TreasureBags;
+using CalamityMod.Items.Weapons.Magic;
+using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.Projectiles.Boss;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.Localization;
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.Items.Materials;
-using CalamityMod.Items.Accessories;
-using CalamityMod.Items.Weapons.Melee;
-using CalamityMod.Items.Weapons.Ranged;
-using CalamityMod.Items.Weapons.Magic;
-using CalamityMod.Items.Weapons.Summon;
-using CalamityMod.Items.LoreItems;
-using CalamityMod.Items.TreasureBags;
-using CalamityMod.Items.Armor.Vanity;
-using CalamityMod.Items.Placeables.Furniture.Trophies;
-using CalamityMod.Projectiles.Boss;
+using Terraria.ModLoader;
 namespace CalamityMod.NPCs.Calamitas
 {
     [AutoloadBossHead]
@@ -42,18 +42,18 @@ namespace CalamityMod.NPCs.Calamitas
             npc.width = 120;
             npc.height = 120;
             npc.defense = 25;
-			npc.value = Item.buyPrice(0, 15, 0, 0);
-			npc.Calamity().RevPlusDR(0.15f);
-			npc.LifeMaxNERD(28125, 38812, 62062, 3900000, 4125000);
-			if (CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive)
-			{
-				npc.damage *= 3;
-				npc.defense *= 3;
-				npc.lifeMax *= 3;
-				npc.value *= 2.5f;
-			}
-			double HPBoost = Config.BossHealthPercentageBoost * 0.01;
-			npc.lifeMax += (int)(npc.lifeMax * HPBoost);
+            npc.value = Item.buyPrice(0, 15, 0, 0);
+            npc.Calamity().RevPlusDR(0.15f);
+            npc.LifeMaxNERD(28125, 38812, 62062, 3900000, 4125000);
+            if (CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive)
+            {
+                npc.damage *= 3;
+                npc.defense *= 3;
+                npc.lifeMax *= 3;
+                npc.value *= 2.5f;
+            }
+            double HPBoost = Config.BossHealthPercentageBoost * 0.01;
+            npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
@@ -265,12 +265,12 @@ namespace CalamityMod.NPCs.Calamitas
             {
                 float num823 = expertMode ? 10f : 8.5f;
                 float num824 = expertMode ? 0.18f : 0.155f;
-				if (provy)
-				{
-					num823 *= 1.25f;
-					num824 *= 1.25f;
-				}
-				if (CalamityWorld.bossRushActive)
+                if (provy)
+                {
+                    num823 *= 1.25f;
+                    num824 *= 1.25f;
+                }
+                if (CalamityWorld.bossRushActive)
                 {
                     num823 *= 1.5f;
                     num824 *= 1.5f;
@@ -363,12 +363,12 @@ namespace CalamityMod.NPCs.Calamitas
 
                 float num832 = expertMode ? 10f : 8.5f;
                 float num833 = expertMode ? 0.255f : 0.205f;
-				if (provy)
-				{
-					num832 *= 1.25f;
-					num833 *= 1.25f;
-				}
-				if (CalamityWorld.bossRushActive)
+                if (provy)
+                {
+                    num832 *= 1.25f;
+                    num833 *= 1.25f;
+                }
+                if (CalamityWorld.bossRushActive)
                 {
                     num832 *= 1.5f;
                     num833 *= 1.5f;

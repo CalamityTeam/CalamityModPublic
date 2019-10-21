@@ -1,13 +1,13 @@
-using Terraria;
-using Terraria.ModLoader;
+using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Accessories.Wings;
 using CalamityMod.Items.Materials;
-using Terraria.ID;
-using CalamityMod.Projectiles.Typeless;
-using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Ranged;
-using CalamityMod.Items.Accessories.Wings;
-using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Projectiles.Typeless;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {

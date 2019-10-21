@@ -1,12 +1,12 @@
-﻿using CalamityMod.World;
+﻿using CalamityMod.Dusts;
+using CalamityMod.Projectiles.Boss;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using CalamityMod.Dusts;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Projectiles.Boss;
+using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.AstrumDeus
 {

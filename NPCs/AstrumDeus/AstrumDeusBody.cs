@@ -1,17 +1,17 @@
-﻿using CalamityMod.World;
-using Microsoft.Xna.Framework;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
+using CalamityMod.Projectiles.Magic;
+using CalamityMod.Projectiles.Melee;
+using CalamityMod.Projectiles.Ranged;
+using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Projectiles.Summon;
+using CalamityMod.World;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Projectiles.Melee;
-using CalamityMod.Projectiles.Summon;
-using CalamityMod.Projectiles.Ranged;
-using CalamityMod.Projectiles.Magic;
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Projectiles.Rogue;
+using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.AstrumDeus
 {

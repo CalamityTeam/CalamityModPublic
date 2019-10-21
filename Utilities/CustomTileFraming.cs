@@ -1,16 +1,16 @@
 ﻿using CalamityMod.Tiles;
-using CalamityMod.Tiles.SunkenSea;
 using CalamityMod.Tiles.Abyss;
-using CalamityMod.Tiles.Crags;
 using CalamityMod.Tiles.Astral;
 using CalamityMod.Tiles.AstralDesert;
 using CalamityMod.Tiles.AstralSnow;
+using CalamityMod.Tiles.Crags;
 using CalamityMod.Tiles.Ores;
+using CalamityMod.Tiles.SunkenSea;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod
 {

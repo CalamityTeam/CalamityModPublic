@@ -1,12 +1,12 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Projectiles.Ranged;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Projectiles.Ranged;
-using CalamityMod.Items.Weapons.Melee;
+using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Typeless
 {
     public class GalaxySmasherHammer : ModProjectile

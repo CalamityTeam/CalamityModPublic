@@ -1,8 +1,8 @@
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.ID;
-using CalamityMod.Items.Potions;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Potions;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.Furniture
 {

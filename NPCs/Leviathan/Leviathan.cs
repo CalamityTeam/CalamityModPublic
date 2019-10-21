@@ -1,24 +1,24 @@
-﻿using CalamityMod.World;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Items;
+using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Armor.Vanity;
+using CalamityMod.Items.LoreItems;
+using CalamityMod.Items.Placeables.Furniture.Trophies;
+using CalamityMod.Items.TreasureBags;
+using CalamityMod.Items.Weapons.Magic;
+using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Projectiles.Boss;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Items;
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.Items.Accessories;
-using CalamityMod.Items.Weapons.Melee;
-using CalamityMod.Items.Weapons.Ranged;
-using CalamityMod.Items.Weapons.Magic;
-using CalamityMod.Items.Weapons.Rogue;
-using CalamityMod.Items.LoreItems;
-using CalamityMod.Items.TreasureBags;
-using CalamityMod.Items.Armor.Vanity;
-using CalamityMod.Items.Placeables.Furniture.Trophies;
-using CalamityMod.Projectiles.Boss;
+using Terraria.ModLoader;
 namespace CalamityMod.NPCs.Leviathan
 {
     [AutoloadBossHead]
@@ -40,7 +40,7 @@ namespace CalamityMod.NPCs.Leviathan
             npc.height = 450;
             npc.defense = 40;
             npc.Calamity().RevPlusDR(0.35f);
-			npc.LifeMaxNERD(69000, 90700, 189750, 7000000, 7500000);
+            npc.LifeMaxNERD(69000, 90700, 189750, 7000000, 7500000);
             double HPBoost = Config.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;

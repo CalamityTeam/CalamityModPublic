@@ -1,10 +1,10 @@
 ﻿using CalamityMod.CalPlayer;
+using CalamityMod.Items.Placeables;
+using CalamityMod.Items.Placeables.Ores;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.DataStructures;
 using Terraria.ID;
-using CalamityMod.Items.Placeables.Ores;
-using CalamityMod.Items.Placeables;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items
 {

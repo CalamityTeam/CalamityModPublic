@@ -1,10 +1,10 @@
-﻿using CalamityMod.World;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.ID;
-using CalamityMod.Items.Placeables.Banners;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
-using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.World;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 namespace CalamityMod.NPCs.NormalNPCs
 {
     public class OverloadedSoldier : ModNPC

@@ -1,14 +1,14 @@
-﻿using CalamityMod.World;
+﻿using CalamityMod.Items.LoreItems;
+using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables.Furniture.Trophies;
+using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Items.Materials;
-using CalamityMod.Items.Weapons.Ranged;
-using CalamityMod.Items.LoreItems;
-using CalamityMod.Items.Placeables.Furniture.Trophies;
+using Terraria.ModLoader;
 namespace CalamityMod.NPCs.StormWeaver
 {
     [AutoloadBossHead]

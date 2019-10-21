@@ -2,10 +2,10 @@ using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.Localization;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Pets
 {
@@ -232,13 +232,13 @@ namespace CalamityMod.Projectiles.Pets
                     notlocalai1 = (float)(Main.rand.Next(30) * -10 - 300);
                     Main.PlaySound(SoundID.Item1, projectile.Center);
                     if (Main.rand.NextBool(2))
-					{
-						player.Hurt(PlayerDeathReason.ByOther(6), 500, 0, false, false, false, -1);
-					}
-					else
-					{
-						player.Hurt(PlayerDeathReason.ByCustomReason(player.name + " couldn't stand the sharp objects."), 500, 0, false, false, false, -1);
-					}
+                    {
+                        player.Hurt(PlayerDeathReason.ByOther(6), 500, 0, false, false, false, -1);
+                    }
+                    else
+                    {
+                        player.Hurt(PlayerDeathReason.ByCustomReason(player.name + " couldn't stand the sharp objects."), 500, 0, false, false, false, -1);
+                    }
                     player.immune = false;
                     player.immuneTime = 0;
 

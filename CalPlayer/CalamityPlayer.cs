@@ -598,7 +598,7 @@ namespace CalamityMod.CalPlayer
         public bool ZoneAbyssLayer2 = false;
         public bool ZoneAbyssLayer3 = false;
         public bool ZoneAbyssLayer4 = false;
-		public bool abyssDeath = false;
+        public bool abyssDeath = false;
         public int abyssBreathCD;
 
         // Transformation
@@ -2999,7 +2999,7 @@ namespace CalamityMod.CalPlayer
                             player.statLife -= lifeLossAtZeroBreath;
                             if (player.statLife <= 0)
                             {
-								abyssDeath = true;
+                                abyssDeath = true;
                                 KillPlayer();
                             }
                         }
@@ -3009,7 +3009,7 @@ namespace CalamityMod.CalPlayer
             else
             {
                 abyssBreathCD = 0;
-				abyssDeath = false;
+                abyssDeath = false;
             }
             if (!player.mount.Active)
             {
@@ -3307,17 +3307,17 @@ namespace CalamityMod.CalPlayer
                     player.statDefense += 2;
                     player.moveSpeed += 0.05f;
                 }
-			}
-			if (seaShell)
-			{
-				if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
-				{
-					player.statDefense += 3;
-					player.endurance += 0.05f;
-					player.moveSpeed += 0.15f;
-					player.ignoreWater = true;
-				}
-			}
+            }
+            if (seaShell)
+            {
+                if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
+                {
+                    player.statDefense += 3;
+                    player.endurance += 0.05f;
+                    player.moveSpeed += 0.15f;
+                    player.ignoreWater = true;
+                }
+            }
             if (coreOfTheBloodGod)
             {
                 player.statLifeMax2 += player.statLifeMax2 / 5 / 20 * 10;
@@ -3414,31 +3414,31 @@ namespace CalamityMod.CalPlayer
                 player.rangedDamage -= (1f - player.stealth) * 0.4f; //change 80 to 40
                 player.rangedCrit -= (int)((1f - player.stealth) * 5f); //change 20 to 15
             }
-			if (polarisBoost)
-			{
+            if (polarisBoost)
+            {
                 player.lifeRegen += 1;
                 player.lifeRegenTime += 1;
-				player.endurance += 0.01f;
-				player.statDefense += 2;
+                player.endurance += 0.01f;
+                player.statDefense += 2;
             }
-			if (!polarisBoost || player.inventory[player.selectedItem].type != ModContent.ItemType<PolarisParrotfish>())
-			{
-				polarisBoost = false;
+            if (!polarisBoost || player.inventory[player.selectedItem].type != ModContent.ItemType<PolarisParrotfish>())
+            {
+                polarisBoost = false;
                 if (player.FindBuffIndex(ModContent.BuffType<PolarisBuff>()) > -1)
                 { player.ClearBuff(ModContent.BuffType<PolarisBuff>()); }
-				polarisBoostCounter = 0;
-				polarisBoostTwo = false;
-				polarisBoostThree = false;
-			}
-			if (polarisBoostCounter >= 20)
-			{
-				polarisBoostTwo = false;
-				polarisBoostThree = true;
-			}
-			else if (polarisBoostCounter >= 10)
-			{
-				polarisBoostTwo = true;
-			}
+                polarisBoostCounter = 0;
+                polarisBoostTwo = false;
+                polarisBoostThree = false;
+            }
+            if (polarisBoostCounter >= 20)
+            {
+                polarisBoostTwo = false;
+                polarisBoostThree = true;
+            }
+            else if (polarisBoostCounter >= 10)
+            {
+                polarisBoostTwo = true;
+            }
             if (projRefRareLifeRegenCounter > 0)
             {
                 projRefRareLifeRegenCounter--;
@@ -5114,10 +5114,10 @@ namespace CalamityMod.CalPlayer
                 }
                 return false;
             }
-			
-			//Custom Death Messages
-            if ((bloodyMary || everclear || evergreenGin || fireball || margarita || moonshine || moscowMule || redWine || screwdriver || starBeamRye || tequila || tequilaSunrise || vodka || whiteWine) 
-				&& damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
+
+            //Custom Death Messages
+            if ((bloodyMary || everclear || evergreenGin || fireball || margarita || moonshine || moscowMule || redWine || screwdriver || starBeamRye || tequila || tequilaSunrise || vodka || whiteWine)
+                && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
             {
                 damageSource = PlayerDeathReason.ByCustomReason(player.name + " succumbed to alcohol sickness.");
             }
@@ -5151,17 +5151,17 @@ namespace CalamityMod.CalPlayer
             }
             if (pFlames && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
             {
-				if (Main.rand.NextBool(2))
-					damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s flesh was melted by the plague.");
-				else
-            		damageSource = PlayerDeathReason.ByCustomReason(player.name + " didn't vaccinate.");
+                if (Main.rand.NextBool(2))
+                    damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s flesh was melted by the plague.");
+                else
+                    damageSource = PlayerDeathReason.ByCustomReason(player.name + " didn't vaccinate.");
             }
             if (astralInfection && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
             {
-				if (Main.rand.NextBool(2))
-					damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s infection spread too far.");
-				else
-            		damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s skin was replaced by the astral virus.");
+                if (Main.rand.NextBool(2))
+                    damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s infection spread too far.");
+                else
+                    damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s skin was replaced by the astral virus.");
             }
             if (hFlames && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
             {
@@ -5181,12 +5181,12 @@ namespace CalamityMod.CalPlayer
             }
             if (alcoholPoisonLevel > 3 && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
             {
-				if (Main.rand.Next(2) == 0)
-					damageSource = PlayerDeathReason.ByCustomReason(player.name + " downed too many shots.");
-				else
-            		damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s liver failed.");
-			}
-			
+                if (Main.rand.Next(2) == 0)
+                    damageSource = PlayerDeathReason.ByCustomReason(player.name + " downed too many shots.");
+                else
+                    damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s liver failed.");
+            }
+
             if (NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>()))
             {
                 if (sCalDeathCount < 51)
@@ -6636,10 +6636,10 @@ namespace CalamityMod.CalPlayer
                         player.HealEffect(healAmount);
                     }
                 }
-				if (proj.type == ModContent.ProjectileType<PolarStar>())
-				{
-					polarisBoostCounter += 1;
-				}
+                if (proj.type == ModContent.ProjectileType<PolarStar>())
+                {
+                    polarisBoostCounter += 1;
+                }
                 if (Config.ProficiencyEnabled)
                 {
                     if (gainLevelCooldown <= 0) //max is 12501 to avoid setting off fireworks forever
@@ -7561,9 +7561,9 @@ namespace CalamityMod.CalPlayer
                 if (polarisBoost)
                 {
                     polarisBoostCounter = 0;
-					polarisBoost = false;
-					polarisBoostTwo = false;
-					polarisBoostThree = false;
+                    polarisBoost = false;
+                    polarisBoostTwo = false;
+                    polarisBoostThree = false;
                     if (player.FindBuffIndex(ModContent.BuffType<PolarisBuff>()) > -1)
                     { player.ClearBuff(ModContent.BuffType<PolarisBuff>()); }
                 }
@@ -7998,163 +7998,163 @@ namespace CalamityMod.CalPlayer
             player.palladiumRegen = false;
             player.iceBarrier = false;
             player.crystalLeaf = false;
-			if (abyssDeath)
-			{
-				if (Main.rand.NextBool(2))
-				{
-					PlayerDeathReason damageSource = PlayerDeathReason.ByCustomReason(player.name + " is food for the Wyrms.");
-					NetworkText deathText = damageSource.GetDeathText(player.name);
-					if (Main.netMode == NetmodeID.MultiplayerClient && player.whoAmI == Main.myPlayer)
-					{
-						NetMessage.SendPlayerDeath(player.whoAmI, damageSource, (int)1000.0, 0, false, -1, -1);
-					}
-					if (Main.netMode == NetmodeID.Server)
-					{
-						NetMessage.BroadcastChatMessage(deathText, new Color(225, 25, 25), -1);
-					}
-					else if (Main.netMode == NetmodeID.SinglePlayer)
-					{
-						Main.NewText(deathText.ToString(), 225, 25, 25, false);
-					}
-					if (player.whoAmI == Main.myPlayer && player.difficulty == 0)
-					{
-						player.DropCoins();
-					}
-					player.DropTombstone(coinsOwned, deathText, 0);
-				}
-				else
-				{
-					PlayerDeathReason damageSource = PlayerDeathReason.ByCustomReason(player.name + " was crushed by the pressure.");
-					NetworkText deathText = damageSource.GetDeathText(player.name);
-					if (Main.netMode == NetmodeID.MultiplayerClient && player.whoAmI == Main.myPlayer)
-					{
-						NetMessage.SendPlayerDeath(player.whoAmI, damageSource, (int)1000.0, 0, false, -1, -1);
-					}
-					if (Main.netMode == NetmodeID.Server)
-					{
-						NetMessage.BroadcastChatMessage(deathText, new Color(225, 25, 25), -1);
-					}
-					else if (Main.netMode == NetmodeID.SinglePlayer)
-					{
-						Main.NewText(deathText.ToString(), 225, 25, 25, false);
-					}
-					if (player.whoAmI == Main.myPlayer && player.difficulty == 0)
-					{
-						player.DropCoins();
-					}
-					player.DropTombstone(coinsOwned, deathText, 0);
-				}
-			}
-			else if (specialDeath)
-			{
-				PlayerDeathReason damageSource = PlayerDeathReason.ByCustomReason(player.name + " was defeated.");
-				NetworkText deathText = damageSource.GetDeathText(player.name);
-				if (Main.netMode == NetmodeID.MultiplayerClient && player.whoAmI == Main.myPlayer)
-				{
-					NetMessage.SendPlayerDeath(player.whoAmI, damageSource, (int)1000.0, 0, false, -1, -1);
-				}
-				if (Main.netMode == NetmodeID.Server)
-				{
-					NetMessage.BroadcastChatMessage(deathText, new Color(225, 25, 25), -1);
-				}
-				else if (Main.netMode == NetmodeID.SinglePlayer)
-				{
-					Main.NewText(deathText.ToString(), 225, 25, 25, false);
-				}
-				if (player.whoAmI == Main.myPlayer && player.difficulty == 0)
-				{
-					player.DropCoins();
-				}
-				player.DropTombstone(coinsOwned, deathText, 0);
-			}
-			else if (SCalLore)
-			{
-				PlayerDeathReason damageSource = PlayerDeathReason.ByCustomReason(player.Male ? player.name + " was consumed by his inner hatred." : player.name + " was consumed by her inner hatred.");
-				NetworkText deathText = damageSource.GetDeathText(player.name);
-				if (Main.netMode == NetmodeID.MultiplayerClient && player.whoAmI == Main.myPlayer)
-				{
-					NetMessage.SendPlayerDeath(player.whoAmI, damageSource, (int)1000.0, 0, false, -1, -1);
-				}
-				if (Main.netMode == NetmodeID.Server)
-				{
-					NetMessage.BroadcastChatMessage(deathText, new Color(225, 25, 25), -1);
-				}
-				else if (Main.netMode == NetmodeID.SinglePlayer)
-				{
-					Main.NewText(deathText.ToString(), 225, 25, 25, false);
-				}
-				if (player.whoAmI == Main.myPlayer && player.difficulty == 0)
-				{
-					player.DropCoins();
-				}
-				player.DropTombstone(coinsOwned, deathText, 0);
-			}
-			else if (CalamityWorld.armageddon && areThereAnyDamnBosses)
-			{
-				PlayerDeathReason damageSource = PlayerDeathReason.ByCustomReason(player.name + " failed the challenge at hand.");
-				NetworkText deathText = damageSource.GetDeathText(player.name);
-				if (Main.netMode == NetmodeID.MultiplayerClient && player.whoAmI == Main.myPlayer)
-				{
-					NetMessage.SendPlayerDeath(player.whoAmI, damageSource, (int)1000.0, 0, false, -1, -1);
-				}
-				if (Main.netMode == NetmodeID.Server)
-				{
-					NetMessage.BroadcastChatMessage(deathText, new Color(225, 25, 25), -1);
-				}
-				else if (Main.netMode == NetmodeID.SinglePlayer)
-				{
-					Main.NewText(deathText.ToString(), 225, 25, 25, false);
-				}
-				if (player.whoAmI == Main.myPlayer && player.difficulty == 0)
-				{
-					player.DropCoins();
-				}
-				player.DropTombstone(coinsOwned, deathText, 0);
-			}
-			else if (CalamityWorld.bossRushActive && bossRushImmunityFrameCurseTimer > 0)
-			{
-				PlayerDeathReason damageSource = PlayerDeathReason.ByCustomReason(player.name + " was destroyed by a mysterious force.");
-				NetworkText deathText = damageSource.GetDeathText(player.name);
-				if (Main.netMode == NetmodeID.MultiplayerClient && player.whoAmI == Main.myPlayer)
-				{
-					NetMessage.SendPlayerDeath(player.whoAmI, damageSource, (int)1000.0, 0, false, -1, -1);
-				}
-				if (Main.netMode == NetmodeID.Server)
-				{
-					NetMessage.BroadcastChatMessage(deathText, new Color(225, 25, 25), -1);
-				}
-				else if (Main.netMode == NetmodeID.SinglePlayer)
-				{
-					Main.NewText(deathText.ToString(), 225, 25, 25, false);
-				}
-				if (player.whoAmI == Main.myPlayer && player.difficulty == 0)
-				{
-					player.DropCoins();
-				}
-				player.DropTombstone(coinsOwned, deathText, 0);
-			}
-			else 
-			{
-				PlayerDeathReason damageSource = PlayerDeathReason.ByOther(player.Male ? 14 : 15);
-				NetworkText deathText = damageSource.GetDeathText(player.name);
-				if (Main.netMode == NetmodeID.MultiplayerClient && player.whoAmI == Main.myPlayer)
-				{
-					NetMessage.SendPlayerDeath(player.whoAmI, damageSource, (int)1000.0, 0, false, -1, -1);
-				}
-				if (Main.netMode == NetmodeID.Server)
-				{
-					NetMessage.BroadcastChatMessage(deathText, new Color(225, 25, 25), -1);
-				}
-				else if (Main.netMode == NetmodeID.SinglePlayer)
-				{
-					Main.NewText(deathText.ToString(), 225, 25, 25, false);
-				}
-				if (player.whoAmI == Main.myPlayer && player.difficulty == 0)
-				{
-					player.DropCoins();
-				}
-				player.DropTombstone(coinsOwned, deathText, 0);
-			}
+            if (abyssDeath)
+            {
+                if (Main.rand.NextBool(2))
+                {
+                    PlayerDeathReason damageSource = PlayerDeathReason.ByCustomReason(player.name + " is food for the Wyrms.");
+                    NetworkText deathText = damageSource.GetDeathText(player.name);
+                    if (Main.netMode == NetmodeID.MultiplayerClient && player.whoAmI == Main.myPlayer)
+                    {
+                        NetMessage.SendPlayerDeath(player.whoAmI, damageSource, (int)1000.0, 0, false, -1, -1);
+                    }
+                    if (Main.netMode == NetmodeID.Server)
+                    {
+                        NetMessage.BroadcastChatMessage(deathText, new Color(225, 25, 25), -1);
+                    }
+                    else if (Main.netMode == NetmodeID.SinglePlayer)
+                    {
+                        Main.NewText(deathText.ToString(), 225, 25, 25, false);
+                    }
+                    if (player.whoAmI == Main.myPlayer && player.difficulty == 0)
+                    {
+                        player.DropCoins();
+                    }
+                    player.DropTombstone(coinsOwned, deathText, 0);
+                }
+                else
+                {
+                    PlayerDeathReason damageSource = PlayerDeathReason.ByCustomReason(player.name + " was crushed by the pressure.");
+                    NetworkText deathText = damageSource.GetDeathText(player.name);
+                    if (Main.netMode == NetmodeID.MultiplayerClient && player.whoAmI == Main.myPlayer)
+                    {
+                        NetMessage.SendPlayerDeath(player.whoAmI, damageSource, (int)1000.0, 0, false, -1, -1);
+                    }
+                    if (Main.netMode == NetmodeID.Server)
+                    {
+                        NetMessage.BroadcastChatMessage(deathText, new Color(225, 25, 25), -1);
+                    }
+                    else if (Main.netMode == NetmodeID.SinglePlayer)
+                    {
+                        Main.NewText(deathText.ToString(), 225, 25, 25, false);
+                    }
+                    if (player.whoAmI == Main.myPlayer && player.difficulty == 0)
+                    {
+                        player.DropCoins();
+                    }
+                    player.DropTombstone(coinsOwned, deathText, 0);
+                }
+            }
+            else if (specialDeath)
+            {
+                PlayerDeathReason damageSource = PlayerDeathReason.ByCustomReason(player.name + " was defeated.");
+                NetworkText deathText = damageSource.GetDeathText(player.name);
+                if (Main.netMode == NetmodeID.MultiplayerClient && player.whoAmI == Main.myPlayer)
+                {
+                    NetMessage.SendPlayerDeath(player.whoAmI, damageSource, (int)1000.0, 0, false, -1, -1);
+                }
+                if (Main.netMode == NetmodeID.Server)
+                {
+                    NetMessage.BroadcastChatMessage(deathText, new Color(225, 25, 25), -1);
+                }
+                else if (Main.netMode == NetmodeID.SinglePlayer)
+                {
+                    Main.NewText(deathText.ToString(), 225, 25, 25, false);
+                }
+                if (player.whoAmI == Main.myPlayer && player.difficulty == 0)
+                {
+                    player.DropCoins();
+                }
+                player.DropTombstone(coinsOwned, deathText, 0);
+            }
+            else if (SCalLore)
+            {
+                PlayerDeathReason damageSource = PlayerDeathReason.ByCustomReason(player.Male ? player.name + " was consumed by his inner hatred." : player.name + " was consumed by her inner hatred.");
+                NetworkText deathText = damageSource.GetDeathText(player.name);
+                if (Main.netMode == NetmodeID.MultiplayerClient && player.whoAmI == Main.myPlayer)
+                {
+                    NetMessage.SendPlayerDeath(player.whoAmI, damageSource, (int)1000.0, 0, false, -1, -1);
+                }
+                if (Main.netMode == NetmodeID.Server)
+                {
+                    NetMessage.BroadcastChatMessage(deathText, new Color(225, 25, 25), -1);
+                }
+                else if (Main.netMode == NetmodeID.SinglePlayer)
+                {
+                    Main.NewText(deathText.ToString(), 225, 25, 25, false);
+                }
+                if (player.whoAmI == Main.myPlayer && player.difficulty == 0)
+                {
+                    player.DropCoins();
+                }
+                player.DropTombstone(coinsOwned, deathText, 0);
+            }
+            else if (CalamityWorld.armageddon && areThereAnyDamnBosses)
+            {
+                PlayerDeathReason damageSource = PlayerDeathReason.ByCustomReason(player.name + " failed the challenge at hand.");
+                NetworkText deathText = damageSource.GetDeathText(player.name);
+                if (Main.netMode == NetmodeID.MultiplayerClient && player.whoAmI == Main.myPlayer)
+                {
+                    NetMessage.SendPlayerDeath(player.whoAmI, damageSource, (int)1000.0, 0, false, -1, -1);
+                }
+                if (Main.netMode == NetmodeID.Server)
+                {
+                    NetMessage.BroadcastChatMessage(deathText, new Color(225, 25, 25), -1);
+                }
+                else if (Main.netMode == NetmodeID.SinglePlayer)
+                {
+                    Main.NewText(deathText.ToString(), 225, 25, 25, false);
+                }
+                if (player.whoAmI == Main.myPlayer && player.difficulty == 0)
+                {
+                    player.DropCoins();
+                }
+                player.DropTombstone(coinsOwned, deathText, 0);
+            }
+            else if (CalamityWorld.bossRushActive && bossRushImmunityFrameCurseTimer > 0)
+            {
+                PlayerDeathReason damageSource = PlayerDeathReason.ByCustomReason(player.name + " was destroyed by a mysterious force.");
+                NetworkText deathText = damageSource.GetDeathText(player.name);
+                if (Main.netMode == NetmodeID.MultiplayerClient && player.whoAmI == Main.myPlayer)
+                {
+                    NetMessage.SendPlayerDeath(player.whoAmI, damageSource, (int)1000.0, 0, false, -1, -1);
+                }
+                if (Main.netMode == NetmodeID.Server)
+                {
+                    NetMessage.BroadcastChatMessage(deathText, new Color(225, 25, 25), -1);
+                }
+                else if (Main.netMode == NetmodeID.SinglePlayer)
+                {
+                    Main.NewText(deathText.ToString(), 225, 25, 25, false);
+                }
+                if (player.whoAmI == Main.myPlayer && player.difficulty == 0)
+                {
+                    player.DropCoins();
+                }
+                player.DropTombstone(coinsOwned, deathText, 0);
+            }
+            else
+            {
+                PlayerDeathReason damageSource = PlayerDeathReason.ByOther(player.Male ? 14 : 15);
+                NetworkText deathText = damageSource.GetDeathText(player.name);
+                if (Main.netMode == NetmodeID.MultiplayerClient && player.whoAmI == Main.myPlayer)
+                {
+                    NetMessage.SendPlayerDeath(player.whoAmI, damageSource, (int)1000.0, 0, false, -1, -1);
+                }
+                if (Main.netMode == NetmodeID.Server)
+                {
+                    NetMessage.BroadcastChatMessage(deathText, new Color(225, 25, 25), -1);
+                }
+                else if (Main.netMode == NetmodeID.SinglePlayer)
+                {
+                    Main.NewText(deathText.ToString(), 225, 25, 25, false);
+                }
+                if (player.whoAmI == Main.myPlayer && player.difficulty == 0)
+                {
+                    player.DropCoins();
+                }
+                player.DropTombstone(coinsOwned, deathText, 0);
+            }
             if (player.whoAmI == Main.myPlayer)
             {
                 try

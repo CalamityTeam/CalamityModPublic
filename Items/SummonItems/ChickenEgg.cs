@@ -1,8 +1,8 @@
-﻿using CalamityMod.World;
+﻿using CalamityMod.Items.Materials;
+using CalamityMod.World;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Items.Materials;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.SummonItems
 {

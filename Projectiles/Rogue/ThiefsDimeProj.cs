@@ -80,20 +80,20 @@ namespace CalamityMod.Projectiles.Rogue
             target.AddBuff(BuffID.Midas, 360);
             Player player = Main.player[projectile.owner];
             if ((target.damage > 5 || target.boss) && player.whoAmI == Main.myPlayer && !target.SpawnedFromStatue)
-			{
-				if (Main.rand.NextBool(5))
-				{
-					Item.NewItem((int)target.position.X, (int)target.position.Y, target.width, target.height, ItemID.SilverCoin, Main.rand.Next(10, 21));
-				}
-				if (Main.rand.NextBool(10))
-				{
-					Item.NewItem((int)target.position.X, (int)target.position.Y, target.width, target.height, ItemID.GoldCoin);
-				}
-			}
-			else
-			{
-				return;
-			}
+            {
+                if (Main.rand.NextBool(5))
+                {
+                    Item.NewItem((int)target.position.X, (int)target.position.Y, target.width, target.height, ItemID.SilverCoin, Main.rand.Next(10, 21));
+                }
+                if (Main.rand.NextBool(10))
+                {
+                    Item.NewItem((int)target.position.X, (int)target.position.Y, target.width, target.height, ItemID.GoldCoin);
+                }
+            }
+            else
+            {
+                return;
+            }
         }
     }
 }

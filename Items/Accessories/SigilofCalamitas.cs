@@ -1,8 +1,8 @@
-﻿using Terraria;
-using Terraria.ModLoader;
+﻿using CalamityMod.Items.Materials;
+using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
-using CalamityMod.Items.Materials;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Accessories
             player.magicCuffs = true;
             player.manaMagnet = true;
             if (!hideVisual)
-				player.findTreasure = true;
+                player.findTreasure = true;
             player.statManaMax2 += 100;
             player.magicDamage += 0.1f;
             player.manaCost *= 0.9f;

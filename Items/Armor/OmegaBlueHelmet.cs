@@ -1,9 +1,9 @@
+using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
-using CalamityMod.Items.Materials;
 using Terraria.ID;
-using CalamityMod.Items.Placeables;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Armor
 {

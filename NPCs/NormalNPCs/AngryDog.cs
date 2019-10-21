@@ -1,12 +1,12 @@
-﻿using CalamityMod.World;
+﻿using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Items.Weapons.Magic;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Items.Placeables.Banners;
-using CalamityMod.Items.Weapons.Magic;
+using Terraria.ModLoader;
 namespace CalamityMod.NPCs.NormalNPCs
 {
     public class AngryDog : ModNPC

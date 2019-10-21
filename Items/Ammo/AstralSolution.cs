@@ -1,7 +1,7 @@
-﻿using Terraria;
-using Terraria.ModLoader;
+﻿using CalamityMod.Projectiles.Typeless;
+using Terraria;
 using Terraria.ID;
-using CalamityMod.Projectiles.Typeless;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Ammo
 {

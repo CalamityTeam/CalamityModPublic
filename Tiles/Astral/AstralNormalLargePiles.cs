@@ -1,8 +1,8 @@
 ﻿
+using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.Dusts;
 using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.Astral

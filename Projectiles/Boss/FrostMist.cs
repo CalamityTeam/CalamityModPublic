@@ -3,8 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
@@ -105,25 +105,25 @@ namespace CalamityMod.Projectiles.Boss
                     projectile.localAI[0] = 0f;
                 }
             }
-			if (projectile.ai[0] == 1f)
-			{
-				int num103 = (int)Player.FindClosest(projectile.Center, 1, 1);
-				projectile.ai[1] += 1f;
-				if (projectile.ai[1] < 110f && projectile.ai[1] > 30f)
-				{
-					float scaleFactor2 = projectile.velocity.Length();
-					Vector2 vector11 = Main.player[num103].Center - projectile.Center;
-					vector11.Normalize();
-					vector11 *= scaleFactor2;
-					projectile.velocity = (projectile.velocity * 24f + vector11) / 25f;
-					projectile.velocity.Normalize();
-					projectile.velocity *= scaleFactor2;
-				}
-				if (projectile.velocity.Length() < 12f)
-				{
-					projectile.velocity *= 1.02f;
-				}
-			}
+            if (projectile.ai[0] == 1f)
+            {
+                int num103 = (int)Player.FindClosest(projectile.Center, 1, 1);
+                projectile.ai[1] += 1f;
+                if (projectile.ai[1] < 110f && projectile.ai[1] > 30f)
+                {
+                    float scaleFactor2 = projectile.velocity.Length();
+                    Vector2 vector11 = Main.player[num103].Center - projectile.Center;
+                    vector11.Normalize();
+                    vector11 *= scaleFactor2;
+                    projectile.velocity = (projectile.velocity * 24f + vector11) / 25f;
+                    projectile.velocity.Normalize();
+                    projectile.velocity *= scaleFactor2;
+                }
+                if (projectile.velocity.Length() < 12f)
+                {
+                    projectile.velocity *= 1.02f;
+                }
+            }
             projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
             Lighting.AddLight(projectile.Center, 0f, (255 - projectile.alpha) * 0.35f / 255f, (255 - projectile.alpha) * 0.35f / 255f);
         }

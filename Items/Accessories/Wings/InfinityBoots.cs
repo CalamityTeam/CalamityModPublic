@@ -1,10 +1,10 @@
 ﻿using CalamityMod.CalPlayer;
+using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
-using CalamityMod.Items.Materials;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories.Wings
 {

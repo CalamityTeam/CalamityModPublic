@@ -1,9 +1,10 @@
+using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Items.Materials;
+using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader; using CalamityMod.Items.Materials;
 using Terraria.ID;
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Projectiles.Typeless;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Tools
 {

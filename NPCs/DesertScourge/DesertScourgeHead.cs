@@ -1,22 +1,22 @@
-﻿using CalamityMod.World;
+﻿using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Armor.Vanity;
+using CalamityMod.Items.LoreItems;
+using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables.Furniture.Trophies;
+using CalamityMod.Items.TreasureBags;
+using CalamityMod.Items.Weapons.Magic;
+using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System.IO;
 using System.Reflection;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.Localization;
-using CalamityMod.Items.Materials;
-using CalamityMod.Items.Accessories;
-using CalamityMod.Items.Weapons.Melee;
-using CalamityMod.Items.Weapons.Ranged;
-using CalamityMod.Items.Weapons.Magic;
-using CalamityMod.Items.Weapons.Summon;
-using CalamityMod.Items.Weapons.Rogue;
-using CalamityMod.Items.LoreItems;
-using CalamityMod.Items.TreasureBags;
-using CalamityMod.Items.Armor.Vanity;
-using CalamityMod.Items.Placeables.Furniture.Trophies;
+using Terraria.ModLoader;
 namespace CalamityMod.NPCs.DesertScourge
 {
     [AutoloadBossHead]
@@ -40,7 +40,7 @@ namespace CalamityMod.NPCs.DesertScourge
             npc.npcSlots = 12f;
             npc.width = 32;
             npc.height = 80;
-			npc.LifeMaxNERD(2300, 2650, 5100, 16500000, 17500000);
+            npc.LifeMaxNERD(2300, 2650, 5100, 16500000, 17500000);
             double HPBoost = Config.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = 6;

@@ -1,7 +1,7 @@
-﻿using Terraria;
-using Terraria.ModLoader;
+﻿using CalamityMod.Tiles.Furniture.CraftingStations;
+using Terraria;
 using Terraria.DataStructures;
-using CalamityMod.Tiles.Furniture.CraftingStations;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Materials
 {

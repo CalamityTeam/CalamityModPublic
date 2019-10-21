@@ -1,10 +1,10 @@
+using CalamityMod.Items.Materials;
+using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Projectiles.Ranged;
-using CalamityMod.Items.Materials;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Ammo
 {

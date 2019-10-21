@@ -1,11 +1,11 @@
+using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables;
+using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ModLoader;
-using CalamityMod.Items.Placeables;
-using CalamityMod.Items.Materials;
 using Terraria.ID;
-using CalamityMod.Projectiles.Magic;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
 {

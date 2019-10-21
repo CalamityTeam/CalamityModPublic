@@ -1,15 +1,15 @@
-﻿using CalamityMod.World;
-using Microsoft.Xna.Framework;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
+using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Projectiles.Enemy;
+using CalamityMod.World;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.Items.Placeables.Banners;
-using CalamityMod.Projectiles.Enemy;
-using CalamityMod.Items.Materials;
-using CalamityMod.Items.Weapons.Melee;
-using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.NPCs.Astral
 {

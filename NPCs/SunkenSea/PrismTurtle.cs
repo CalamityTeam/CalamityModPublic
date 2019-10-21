@@ -1,13 +1,13 @@
-﻿using CalamityMod.World;
+﻿using CalamityMod.Items.Placeables;
+using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Items.Placeables.Banners;
-using CalamityMod.Items.Placeables;
+using Terraria.ModLoader;
 namespace CalamityMod.NPCs.SunkenSea
 {
     public class PrismTurtle : ModNPC

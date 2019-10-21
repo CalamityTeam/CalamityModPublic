@@ -1,17 +1,17 @@
-﻿using CalamityMod.World;
-using Microsoft.Xna.Framework;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
+using CalamityMod.Projectiles.Magic;
+using CalamityMod.Projectiles.Melee;
+using CalamityMod.Projectiles.Ranged;
+using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Projectiles.Summon;
+using CalamityMod.World;
+using Microsoft.Xna.Framework;
 using System;
 using System.IO;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Projectiles.Ranged;
-using CalamityMod.Projectiles.Summon;
-using CalamityMod.Projectiles.Melee;
-using CalamityMod.Projectiles.Magic;
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Projectiles.Rogue;
+using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.AstrumDeus
 {
@@ -186,12 +186,12 @@ namespace CalamityMod.NPCs.AstrumDeus
                 npc.TargetClosest(true);
             }
             npc.velocity.Length();
-			float speedAdd = expertMode ? 0.06f : 0.045f;
+            float speedAdd = expertMode ? 0.06f : 0.045f;
             float turnSpeedAdd = expertMode ? 0.04f : 0.03f;
             if (CalamityWorld.death || CalamityWorld.bossRushActive)
             {
-				speedAdd *= 1.25f;
-				turnSpeedAdd *= 1.25f;
+                speedAdd *= 1.25f;
+                turnSpeedAdd *= 1.25f;
             }
             float life = (float)npc.life;
             float totalLife = (float)npc.lifeMax;

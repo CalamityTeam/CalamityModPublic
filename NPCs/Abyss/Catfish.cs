@@ -1,9 +1,9 @@
-﻿using System;
+﻿using CalamityMod.Items.Placeables.Banners;
+using System;
 using System.IO;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Items.Placeables.Banners;
+using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Abyss
 {

@@ -1,8 +1,8 @@
-﻿using System;
+﻿using CalamityMod.Tiles.AstralDesert;
+using System;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Tiles.AstralDesert;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Typeless
 {

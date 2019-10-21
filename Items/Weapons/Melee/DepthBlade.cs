@@ -1,8 +1,8 @@
+using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Buffs.DamageOverTime;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {

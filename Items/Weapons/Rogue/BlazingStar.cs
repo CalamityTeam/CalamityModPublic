@@ -1,9 +1,9 @@
+using CalamityMod.Items.Materials;
+using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
-using CalamityMod.Items.Materials;
 using Terraria.ID;
-using CalamityMod.Projectiles.Rogue;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -54,7 +54,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                         int projectileIndex = Projectile.NewProjectile(position, perturbedSpeed, type, damage, knockBack, player.whoAmI, 0f);
                         Main.projectile[projectileIndex].penetrate = -1;
                         Main.projectile[projectileIndex].Calamity().stealthStrike = true;
-                        
+
                     }
                     return false;
                 }

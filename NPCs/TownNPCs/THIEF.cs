@@ -1,12 +1,12 @@
+using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Projectiles.Rogue;
 using CalamityMod.World;
 using System.Collections.Generic;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.Localization;
-using CalamityMod.Items.Weapons.Rogue;
-using CalamityMod.Items.Accessories;
-using CalamityMod.Projectiles.Rogue;
+using Terraria.ModLoader;
 namespace CalamityMod.NPCs.TownNPCs
 {
     [AutoloadHead]
@@ -205,61 +205,61 @@ namespace CalamityMod.NPCs.TownNPCs
         public override void SetupShop(Chest shop, ref int nextSlot)
         {
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<Cinquedea>());
-			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 9, 0, 0);
+            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 9, 0, 0);
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<Glaive>());
-			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 3, 0, 0);
+            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 3, 0, 0);
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<Kylie>());
-			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 9, 0, 0);
+            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 9, 0, 0);
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<OldDie>());
-			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 40, 0, 0);
-			nextSlot++;
-			if (Main.hardMode)
-			{
-				shop.item[nextSlot].SetDefaults(ModContent.ItemType<SlickCane>());
-				shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 25, 0, 0);
-				nextSlot++;
-			}
-			if (NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3)
-			{
-				shop.item[nextSlot].SetDefaults(ModContent.ItemType<MomentumCapacitor>());
-				shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 60, 0, 0);
-				nextSlot++;
-			}
-			/*if (NPC.downedMechBoss1 || NPC.downedMechBoss2 || NPC.downedMechBoss3)
+            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 40, 0, 0);
+            nextSlot++;
+            if (Main.hardMode)
+            {
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<SlickCane>());
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 25, 0, 0);
+                nextSlot++;
+            }
+            if (NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3)
+            {
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<MomentumCapacitor>());
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 60, 0, 0);
+                nextSlot++;
+            }
+            /*if (NPC.downedMechBoss1 || NPC.downedMechBoss2 || NPC.downedMechBoss3)
 			{
 				shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.BouncingBetty>());
 				nextSlot++;
 				shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.LatcherMines>());
 				nextSlot++;
 			}*/
-			if (NPC.downedPlantBoss)
-			{
-				shop.item[nextSlot].SetDefaults(ModContent.ItemType<MonkeyDarts>());
-				shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 4, 0);
-				nextSlot++;
+            if (NPC.downedPlantBoss)
+            {
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<MonkeyDarts>());
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 4, 0);
+                nextSlot++;
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<GloveofPrecision>());
                 nextSlot++;
-				shop.item[nextSlot].SetDefaults(ModContent.ItemType<GloveOfRecklessness>());
-				nextSlot++;
-				/*shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.DeepWounder>());
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<GloveOfRecklessness>());
+                nextSlot++;
+                /*shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.DeepWounder>());
 				nextSlot++;*/
-			}
-			/*if (NPC.downedGolemBoss)
+            }
+            /*if (NPC.downedGolemBoss)
 			{
 				shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.EtherealExtorter>());
 				shop.item[nextSlot].shopCustomPrice = Item.buyPrice(1, 0, 0, 0);
 				nextSlot++;
 			}*/
-			if (NPC.downedMoonlord)
-			{
+            if (NPC.downedMoonlord)
+            {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<CelestialReaper>());
-				shop.item[nextSlot].shopCustomPrice = Item.buyPrice(2, 0, 0, 0);
-				nextSlot++;
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(2, 0, 0, 0);
+                nextSlot++;
             }
-			/*if (CalamityWorld.downedProvidence)
+            /*if (CalamityWorld.downedProvidence)
 			{
 				shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.SylvanSlasher>());
 				shop.item[nextSlot].shopCustomPrice = Item.buyPrice(5, 0, 0, 0);
@@ -268,8 +268,8 @@ namespace CalamityMod.NPCs.TownNPCs
             if (CalamityWorld.buffedEclipse && !CalamityWorld.dragonScalesBought)
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<DragonScales>());
-				shop.item[nextSlot].shopCustomPrice = Item.buyPrice(40, 0, 0, 0);
-				nextSlot++;
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(40, 0, 0, 0);
+                nextSlot++;
             }
         }
 
@@ -284,11 +284,11 @@ namespace CalamityMod.NPCs.TownNPCs
             }
         }
 
-		// Make this Town NPC teleport to the King and/or Queen statue when triggered.
-		public override bool CanGoToStatue(bool toKingStatue) //I don't think you can differentiate male vs female with this.
-		{
-			return true;
-		}
+        // Make this Town NPC teleport to the King and/or Queen statue when triggered.
+        public override bool CanGoToStatue(bool toKingStatue) //I don't think you can differentiate male vs female with this.
+        {
+            return true;
+        }
 
         public override void TownNPCAttackStrength(ref int damage, ref float knockback)
         {

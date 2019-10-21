@@ -1,15 +1,15 @@
 
+using CalamityMod.Items.Potions;
+using CalamityMod.Tiles.Abyss;
+using CalamityMod.Tiles.Astral;
+using CalamityMod.Tiles.AstralDesert;
+using CalamityMod.Tiles.SunkenSea;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Tiles.Astral;
-using CalamityMod.Tiles.AstralDesert;
-using CalamityMod.Tiles.Abyss;
-using CalamityMod.Tiles.SunkenSea;
-using CalamityMod.Items.Potions;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles
 {

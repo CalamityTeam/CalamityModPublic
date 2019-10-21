@@ -1,16 +1,16 @@
-﻿using CalamityMod.CalPlayer;
+﻿using CalamityMod.Buffs.Summon;
+using CalamityMod.CalPlayer;
+using CalamityMod.Items.Materials;
+using CalamityMod.Projectiles.Magic;
+using CalamityMod.Projectiles.Summon;
+using CalamityMod.Projectiles.Typeless;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.DataStructures;
 using Terraria.ID;
-using CalamityMod.Buffs.Summon;
-using CalamityMod.Projectiles.Summon;
-using CalamityMod.Projectiles.Typeless;
-using CalamityMod.Projectiles.Magic;
-using CalamityMod.Items.Materials;
-using CalamityMod.Tiles.Furniture.CraftingStations;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {

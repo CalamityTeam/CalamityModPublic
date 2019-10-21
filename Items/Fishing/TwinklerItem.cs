@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Fishing
             item.width = 26;
             item.height = 24;
             item.bait = 40;
-            item.makeNPC = (short) ModContent.NPCType<Twinkler>();
+            item.makeNPC = (short)ModContent.NPCType<Twinkler>();
             item.rare = 2;
         }
     }

@@ -1,8 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.CalPlayer;
+using CalamityMod.Projectiles.Rogue;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
-using CalamityMod.Projectiles.Rogue;
 namespace CalamityMod.Projectiles.Typeless
 {
     public class MomentumCapacitorOrb : ModProjectile
@@ -51,7 +51,8 @@ namespace CalamityMod.Projectiles.Typeless
             {
                 if (Main.projectile[k].type == ModContent.ProjectileType<SlickCaneProjectile>() ||
                     Main.projectile[k].type == ModContent.ProjectileType<MalachiteProj>() ||
-                    Main.projectile[k].type == ModContent.ProjectileType<DuneHopperProjectile>()) continue;
+                    Main.projectile[k].type == ModContent.ProjectileType<DuneHopperProjectile>())
+                    continue;
                 if (Main.projectile[k].owner == projectile.owner && Main.projectile[k].Calamity().rogue &&
                     !Main.projectile[k].Calamity().momentumCapacitatorBoost && Main.projectile[k].friendly)
                 {

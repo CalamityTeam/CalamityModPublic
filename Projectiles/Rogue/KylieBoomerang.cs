@@ -1,9 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Items.Weapons.Rogue;
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Items.Weapons.Rogue;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.penetrate = -1;
             projectile.timeLeft = 360;
             projectile.tileCollide = false;
-            
+
             projectile.Calamity().rogue = true;
         }
 
@@ -56,7 +56,7 @@ namespace CalamityMod.Projectiles.Rogue
                 ReboundTime = 27f;
             else
                 ReboundTime = 55f;
-            
+
             // ai[0] stores whether the boomerang is returning. If 0, it isn't. If 1, it is.
             if (projectile.ai[0] == 0f)
             {

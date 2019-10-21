@@ -1,11 +1,11 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Dusts;
+using CalamityMod.Projectiles.Typeless;
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ModLoader;
-using CalamityMod.Dusts;
 using Terraria.ID;
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Projectiles.Typeless;
+using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
     public class RadiantExplosion : ModProjectile

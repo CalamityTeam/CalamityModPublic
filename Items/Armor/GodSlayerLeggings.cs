@@ -1,6 +1,7 @@
-﻿using Terraria;
-using Terraria.ModLoader; using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
+using Terraria;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Armor
 {

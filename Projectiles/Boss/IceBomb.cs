@@ -1,8 +1,8 @@
-﻿using System;
+﻿using CalamityMod.Buffs.StatDebuffs;
+using System;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Buffs.StatDebuffs;
+using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Boss
 {
     public class IceBomb : ModProjectile

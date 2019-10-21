@@ -1,8 +1,8 @@
-﻿using System;
+﻿using CalamityMod.Items.Placeables.Banners;
+using System;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Items.Placeables.Banners;
+using Terraria.ModLoader;
 namespace CalamityMod.NPCs.SunkenSea
 {
     public class SeaMinnow : ModNPC

@@ -1,10 +1,10 @@
-﻿using CalamityMod.World;
+﻿using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System.IO;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Buffs.StatDebuffs;
+using Terraria.ModLoader;
 namespace CalamityMod.NPCs.HiveMind
 {
     [AutoloadBossHead]
@@ -25,7 +25,7 @@ namespace CalamityMod.NPCs.HiveMind
             npc.width = 150;
             npc.height = 120;
             npc.defense = 10;
-			npc.LifeMaxNERD(1200, 1800, 3300, 350000, 400000);
+            npc.LifeMaxNERD(1200, 1800, 3300, 350000, 400000);
             double HPBoost = Config.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;

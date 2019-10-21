@@ -1,9 +1,9 @@
+using CalamityMod.Items.Weapons.Magic;
+using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Projectiles.Ranged;
-using CalamityMod.Items.Weapons.Magic;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {

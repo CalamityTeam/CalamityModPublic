@@ -63,18 +63,18 @@ namespace CalamityMod.Projectiles.Pets
                 projectile.frameCounter = 0;
             }
             else
-			{
-				projectile.frameCounter++;
-				if (projectile.frameCounter > 6)
-				{
-					projectile.frame++;
-					projectile.frameCounter = 0;
-				}
-				if (projectile.frame > 4)
-				{
-					projectile.frame = 0;
-				}
-			}
+            {
+                projectile.frameCounter++;
+                if (projectile.frameCounter > 6)
+                {
+                    projectile.frame++;
+                    projectile.frameCounter = 0;
+                }
+                if (projectile.frame > 4)
+                {
+                    projectile.frame = 0;
+                }
+            }
             Vector2 vector46 = projectile.position;
             if (!fly)
             {
@@ -137,14 +137,14 @@ namespace CalamityMod.Projectiles.Pets
             }
             else if (fly)
             {
-				projectile.alpha +=15;
-				if (projectile.alpha >= 255)
-				{
-					projectile.position.X = player.position.X;
-					projectile.position.Y = player.position.Y;
-					fly = false;
-					projectile.alpha = 0;
-				}
+                projectile.alpha += 15;
+                if (projectile.alpha >= 255)
+                {
+                    projectile.position.X = player.position.X;
+                    projectile.position.Y = player.position.Y;
+                    fly = false;
+                    projectile.alpha = 0;
+                }
             }
             if (projectile.velocity.X > 0.25f)
             {

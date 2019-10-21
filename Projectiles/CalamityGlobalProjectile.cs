@@ -1,3 +1,12 @@
+using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Items.Weapons.Magic;
+using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Projectiles.Healing;
+using CalamityMod.Projectiles.Magic;
+using CalamityMod.Projectiles.Melee;
+using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Projectiles.Typeless;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -5,15 +14,6 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Projectiles.Magic;
-using CalamityMod.Projectiles.Melee;
-using CalamityMod.Projectiles.Typeless;
-using CalamityMod.Projectiles.Healing;
-using CalamityMod.Projectiles.Rogue;
-using CalamityMod.Items.Weapons.Magic;
-using CalamityMod.Items.Weapons.Melee;
-using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles
 {
@@ -663,7 +663,7 @@ namespace CalamityMod.Projectiles
                 if (Main.player[projectile.owner].Calamity().moonCrown && !Main.player[projectile.owner].Calamity().nanotech)
                 {
                     //Summon moon sigils infrequently
-                    if (Main.rand.NextBool(300) && projectile.type != ModContent.ProjectileType<MoonSigil>()) 
+                    if (Main.rand.NextBool(300) && projectile.type != ModContent.ProjectileType<MoonSigil>())
                     {
                         Projectile.NewProjectile(projectile.position, Vector2.Zero, ModContent.ProjectileType<MoonSigil>(), (int)(projectile.damage * 0.2), 0, projectile.owner);
                     }
@@ -1285,7 +1285,7 @@ namespace CalamityMod.Projectiles
                         }
                     }
 
-                    
+
                     if (playerC.Calamity().moonCrown && stealthStrike && playerC.Calamity().moonCrownCooldown <= 0)
                     {
                         for (int i = 0; i < 20; i++)
@@ -1293,7 +1293,7 @@ namespace CalamityMod.Projectiles
                             Vector2 pos = new Vector2(target.Center.X + (float)target.width * 0.5f + (float)Main.rand.Next(-201, 201), Main.screenPosition.Y - 600f - Main.rand.Next(50));
                             Vector2 velocity = (target.Center - pos) / 10f;
                             float AI1 = (float)Main.rand.Next(3);
-                            int flare = Projectile.NewProjectile(pos, velocity, ProjectileID.LunarFlare, 50, 3, projectile.owner,0f,AI1);
+                            int flare = Projectile.NewProjectile(pos, velocity, ProjectileID.LunarFlare, 50, 3, projectile.owner, 0f, AI1);
                             Main.projectile[flare].magic = false;
                             Main.projectile[flare].Calamity().forceRogue = true;
                             playerC.Calamity().moonCrownCooldown = 15;

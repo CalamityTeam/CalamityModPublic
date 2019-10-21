@@ -1,14 +1,14 @@
-﻿using CalamityMod.World;
+﻿using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.Items.Placeables.Banners;
-using CalamityMod.Items.Materials;
-using CalamityMod.Items.Weapons.Summon;
-using CalamityMod.Items.Accessories;
+using Terraria.ModLoader;
 namespace CalamityMod.NPCs.NormalNPCs
 {
     public class IceClasper : ModNPC

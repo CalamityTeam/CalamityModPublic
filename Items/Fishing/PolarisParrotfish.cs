@@ -1,8 +1,8 @@
+using CalamityMod.CalPlayer;
+using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
-using CalamityMod.Projectiles.Ranged;
 
 namespace CalamityMod.Items.Fishing
 {
@@ -12,8 +12,8 @@ namespace CalamityMod.Items.Fishing
         {
             DisplayName.SetDefault("Polaris Parrotfish");
             Tooltip.SetDefault("It carries the mark of the Northern Star\n" +
-				"Projectile hits grant buffs to the weapon and the player\n" +
-				"Buffs are removed on hit");
+                "Projectile hits grant buffs to the weapon and the player\n" +
+                "Buffs are removed on hit");
             Item.staff[item.type] = true; //so it doesn't look weird af when holding it
         }
 
@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Fishing
                 Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<PolarStar>(), damage, knockBack, player.whoAmI, 0f, 2f);
                 return false;
             }
-			else if (modPlayer.polarisBoostTwo) //Splits on enemy or tile hits
+            else if (modPlayer.polarisBoostTwo) //Splits on enemy or tile hits
             {
                 Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<PolarStar>(), (int)((double)damage * 1.25), knockBack, player.whoAmI, 0f, 1f);
                 return false;

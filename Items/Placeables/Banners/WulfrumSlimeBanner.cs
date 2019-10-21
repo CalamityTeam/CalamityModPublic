@@ -1,6 +1,6 @@
+using CalamityMod.Tiles;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.Tiles;
 namespace CalamityMod.Items.Placeables.Banners
 {
     public class WulfrumSlimeBanner : ModItem

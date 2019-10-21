@@ -1,14 +1,14 @@
-﻿using CalamityMod.World;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Projectiles.Boss;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.Localization;
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.Projectiles.Boss;
+using Terraria.ModLoader;
 namespace CalamityMod.NPCs.Calamitas
 {
     [AutoloadBossHead]
@@ -29,16 +29,16 @@ namespace CalamityMod.NPCs.Calamitas
             npc.defense = 15;
             npc.Calamity().RevPlusDR(0.15f);
             npc.value = 0f;
-			npc.LifeMaxNERD(37500, 51750, 82750, 5200000, 5500000);
-			if (CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive)
-			{
-				npc.damage *= 3;
-				npc.defense *= 3;
-				npc.lifeMax *= 3;
-			}
-			double HPBoost = Config.BossHealthPercentageBoost * 0.01;
-			npc.lifeMax += (int)(npc.lifeMax * HPBoost);
-			npc.aiStyle = -1;
+            npc.LifeMaxNERD(37500, 51750, 82750, 5200000, 5500000);
+            if (CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive)
+            {
+                npc.damage *= 3;
+                npc.defense *= 3;
+                npc.lifeMax *= 3;
+            }
+            double HPBoost = Config.BossHealthPercentageBoost * 0.01;
+            npc.lifeMax += (int)(npc.lifeMax * HPBoost);
+            npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
             NPCID.Sets.TrailCacheLength[npc.type] = 8;
@@ -159,12 +159,12 @@ namespace CalamityMod.NPCs.Calamitas
             {
                 float num823 = expertMode ? 9.5f : 8f;
                 float num824 = expertMode ? 0.175f : 0.15f;
-				if (provy)
-				{
-					num823 *= 1.25f;
-					num824 *= 1.25f;
-				}
-				if (CalamityWorld.bossRushActive)
+                if (provy)
+                {
+                    num823 *= 1.25f;
+                    num824 *= 1.25f;
+                }
+                if (CalamityWorld.bossRushActive)
                 {
                     num823 *= 1.5f;
                     num824 *= 1.5f;
@@ -248,12 +248,12 @@ namespace CalamityMod.NPCs.Calamitas
 
                 float num832 = expertMode ? 9.5f : 8f;
                 float num833 = expertMode ? 0.25f : 0.2f;
-				if (provy)
-				{
-					num832 *= 1.25f;
-					num833 *= 1.25f;
-				}
-				if (CalamityWorld.bossRushActive)
+                if (provy)
+                {
+                    num832 *= 1.25f;
+                    num833 *= 1.25f;
+                }
+                if (CalamityWorld.bossRushActive)
                 {
                     num832 *= 1.5f;
                     num833 *= 1.5f;

@@ -1,17 +1,17 @@
+using CalamityMod.Buffs.StatBuffs;
+using CalamityMod.Items.SummonItems;
+using CalamityMod.Items.Weapons.Magic;
+using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.Projectiles.Rogue;
 using CalamityMod.World;
 using System.Collections.Generic;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.Localization;
-using CalamityMod.Buffs.StatBuffs;
-using CalamityMod.Items.Weapons.Melee;
-using CalamityMod.Items.Weapons.Ranged;
-using CalamityMod.Items.Weapons.Magic;
-using CalamityMod.Items.Weapons.Summon;
-using CalamityMod.Items.Weapons.Rogue;
-using CalamityMod.Items.SummonItems;
-using CalamityMod.Projectiles.Rogue;
+using Terraria.ModLoader;
 namespace CalamityMod.NPCs.TownNPCs
 {
     [AutoloadHead]
@@ -297,11 +297,11 @@ namespace CalamityMod.NPCs.TownNPCs
             }
         }
 
-		// Make this Town NPC teleport to the King and/or Queen statue when triggered.
-		public override bool CanGoToStatue(bool toKingStatue) //I don't think you can differentiate male vs female with this.
-		{
-			return true;
-		}
+        // Make this Town NPC teleport to the King and/or Queen statue when triggered.
+        public override bool CanGoToStatue(bool toKingStatue) //I don't think you can differentiate male vs female with this.
+        {
+            return true;
+        }
 
         public override void TownNPCAttackStrength(ref int damage, ref float knockback)
         {

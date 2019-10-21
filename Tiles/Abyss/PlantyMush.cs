@@ -1,8 +1,8 @@
+using CalamityMod.Walls;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Walls;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.Abyss
 {

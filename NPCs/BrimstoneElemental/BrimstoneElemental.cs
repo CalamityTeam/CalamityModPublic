@@ -36,18 +36,18 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             npc.width = 100;
             npc.height = 150;
             npc.defense = 15;
-			npc.value = Item.buyPrice(0, 12, 0, 0);
-			npc.LifeMaxNERD(26000, 35708, 54050, 6500000, 7000000);
-			if (CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive)
-			{
-				npc.damage *= 3;
-				npc.defense *= 4;
-				npc.lifeMax *= 8;
-				npc.value *= 3f;
-			}
-			double HPBoost = Config.BossHealthPercentageBoost * 0.01;
-			npc.lifeMax += (int)(npc.lifeMax * HPBoost);
-			npc.knockBackResist = 0f;
+            npc.value = Item.buyPrice(0, 12, 0, 0);
+            npc.LifeMaxNERD(26000, 35708, 54050, 6500000, 7000000);
+            if (CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive)
+            {
+                npc.damage *= 3;
+                npc.defense *= 4;
+                npc.lifeMax *= 8;
+                npc.value *= 3f;
+            }
+            double HPBoost = Config.BossHealthPercentageBoost * 0.01;
+            npc.lifeMax += (int)(npc.lifeMax * HPBoost);
+            npc.knockBackResist = 0f;
             npc.aiStyle = -1;
             aiType = -1;
             for (int k = 0; k < npc.buffImmune.Length; k++)
@@ -108,10 +108,10 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
             bool calamity = modPlayer.ZoneCalamity;
 
-			npc.defense = npc.defDefense;
+            npc.defense = npc.defDefense;
 
-			// Percent life remaining
-			float lifeRatio = (float)npc.life / (float)npc.lifeMax;
+            // Percent life remaining
+            float lifeRatio = (float)npc.life / (float)npc.lifeMax;
 
             Vector2 center = new Vector2(npc.Center.X, npc.Center.Y);
             Vector2 vectorCenter = npc.Center;

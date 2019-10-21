@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Thief's Dime");
             Tooltip.SetDefault("Those scurvy dogs don’t know the first thing about making bank\n" +
-			"Summons a coin that revolves around you and steals money from enemies");
+            "Summons a coin that revolves around you and steals money from enemies");
         }
 
         public override void SetDefaults()

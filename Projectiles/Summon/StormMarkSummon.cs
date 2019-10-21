@@ -1,9 +1,9 @@
-﻿using CalamityMod.World;
+﻿using CalamityMod.Projectiles.Melee;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.Projectiles.Melee;
 namespace CalamityMod.Projectiles.Summon
 {
     public class StormMarkSummon : ModProjectile

@@ -1,7 +1,7 @@
-﻿using Terraria;
-using Terraria.ModLoader;
+﻿using CalamityMod.Tiles.Ores;
+using Terraria;
 using Terraria.ID;
-using CalamityMod.Tiles.Ores;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.Ores
 {

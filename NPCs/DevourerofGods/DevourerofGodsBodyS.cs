@@ -1,11 +1,11 @@
-﻿using CalamityMod.World;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System.IO;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
+using Terraria.ModLoader;
 namespace CalamityMod.NPCs.DevourerofGods
 {
     [AutoloadBossHead]
@@ -29,10 +29,10 @@ namespace CalamityMod.NPCs.DevourerofGods
             CalamityGlobalNPC global = npc.Calamity();
             global.DR = CalamityWorld.death ? 0.97f : 0.955f;
             global.unbreakableDR = true;
-			npc.LifeMaxNERD(1150000, 1350000, 2100000, 9200000, 10000000);
-			double HPBoost = Config.BossHealthPercentageBoost * 0.01;
-			npc.lifeMax += (int)(npc.lifeMax * HPBoost);
-			npc.aiStyle = -1;
+            npc.LifeMaxNERD(1150000, 1350000, 2100000, 9200000, 10000000);
+            double HPBoost = Config.BossHealthPercentageBoost * 0.01;
+            npc.lifeMax += (int)(npc.lifeMax * HPBoost);
+            npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
             npc.alpha = 255;

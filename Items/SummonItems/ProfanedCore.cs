@@ -1,7 +1,7 @@
 ﻿using CalamityMod.World;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.ModLoader;
 namespace CalamityMod.Items.SummonItems
 {
     public class ProfanedCore : ModItem

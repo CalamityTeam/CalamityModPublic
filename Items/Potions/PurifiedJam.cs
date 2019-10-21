@@ -1,8 +1,8 @@
-﻿using CalamityMod.World;
+﻿using CalamityMod.Buffs.Potions;
+using CalamityMod.World;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Buffs.Potions;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Potions
 {

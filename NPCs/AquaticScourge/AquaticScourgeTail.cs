@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using System.IO;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.AquaticScourge
 {
@@ -26,8 +26,8 @@ namespace CalamityMod.NPCs.AquaticScourge
             aiType = -1;
             npc.knockBackResist = 0f;
             npc.alpha = 255;
-			npc.LifeMaxNERD(73000, 85000, 100000, 10000000, 11000000);
-			double HPBoost = Config.BossHealthPercentageBoost * 0.01;
+            npc.LifeMaxNERD(73000, 85000, 100000, 10000000, 11000000);
+            double HPBoost = Config.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             for (int k = 0; k < npc.buffImmune.Length; k++)
             {

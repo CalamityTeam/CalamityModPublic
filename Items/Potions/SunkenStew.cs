@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using CalamityMod.Items.Materials;
+using System.Collections.Generic;
 using Terraria;
-using Terraria.ModLoader; using CalamityMod.Items.Materials;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Potions
 {

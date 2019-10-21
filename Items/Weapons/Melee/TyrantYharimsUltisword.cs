@@ -1,9 +1,9 @@
+using CalamityMod.Buffs.StatBuffs;
+using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Projectiles.Melee;
-using CalamityMod.Buffs.StatBuffs;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {

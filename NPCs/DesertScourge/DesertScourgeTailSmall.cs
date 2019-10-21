@@ -1,9 +1,9 @@
-﻿using CalamityMod.World;
+﻿using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Buffs.StatDebuffs;
+using Terraria.ModLoader;
 namespace CalamityMod.NPCs.DesertScourge
 {
     public class DesertScourgeTailSmall : ModNPC

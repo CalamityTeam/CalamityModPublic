@@ -1,8 +1,8 @@
-using Terraria;
-using Terraria.ModLoader;
-using CalamityMod.Items.Materials;
-using Terraria.ID;
 using CalamityMod.Buffs.StatBuffs;
+using CalamityMod.Items.Materials;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 namespace CalamityMod.Items.Tools
 {
     public class Grax : ModItem

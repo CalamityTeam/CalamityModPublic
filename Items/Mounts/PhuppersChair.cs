@@ -1,7 +1,7 @@
-﻿using Terraria;
-using Terraria.ModLoader;
+﻿using CalamityMod.Buffs.Mounts;
+using Terraria;
 using Terraria.ID;
-using CalamityMod.Buffs.Mounts;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Mounts
 {

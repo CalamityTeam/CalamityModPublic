@@ -1,8 +1,8 @@
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.ID;
-using CalamityMod.Projectiles.Pets;
 using CalamityMod.Buffs.Pets;
+using CalamityMod.Projectiles.Pets;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Pets
 {

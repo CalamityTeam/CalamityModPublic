@@ -1,10 +1,10 @@
 using CalamityMod.CalPlayer;
+using CalamityMod.Items.Ammo.FiniteUse;
+using CalamityMod.Projectiles.Typeless.FiniteUse;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Projectiles.Typeless.FiniteUse;
-using CalamityMod.Items.Ammo.FiniteUse;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
 {

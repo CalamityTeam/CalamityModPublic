@@ -1,11 +1,11 @@
 ﻿using CalamityMod.CalPlayer;
+using CalamityMod.Projectiles.Healing;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Projectiles.Healing;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {

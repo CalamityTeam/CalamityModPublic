@@ -1,7 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Buffs.StatDebuffs;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.Buffs.StatDebuffs;
 namespace CalamityMod.Projectiles.Ranged
 {
     public class BigCoral : ModProjectile

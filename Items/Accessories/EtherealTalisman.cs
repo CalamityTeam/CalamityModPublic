@@ -1,9 +1,9 @@
 ﻿using CalamityMod.CalPlayer;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.ID;
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -33,10 +33,10 @@ namespace CalamityMod.Items.Accessories
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.eTalisman = true;
             if (!hideVisual)
-			{
-				player.findTreasure = true;
+            {
+                player.findTreasure = true;
                 player.manaFlower = true;
-			}
+            }
             player.magicCuffs = true;
             player.manaMagnet = true;
             player.statManaMax2 += 150;

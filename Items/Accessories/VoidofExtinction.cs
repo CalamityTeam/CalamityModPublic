@@ -1,11 +1,11 @@
 ﻿using CalamityMod.CalPlayer;
+using CalamityMod.Projectiles.Magic;
+using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Projectiles.Typeless;
-using CalamityMod.Projectiles.Magic;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {

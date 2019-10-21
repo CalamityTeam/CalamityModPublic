@@ -1,9 +1,9 @@
+using CalamityMod.Projectiles.Magic;
+using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Projectiles.Rogue;
-using CalamityMod.Projectiles.Magic;
 
 namespace CalamityMod.Projectiles.Summon
 {

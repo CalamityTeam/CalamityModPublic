@@ -1,10 +1,10 @@
+using CalamityMod.Dusts;
+using CalamityMod.Items.Placeables.Furniture;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
-using CalamityMod.Dusts;
 using Terraria.ID;
-using CalamityMod.Items.Placeables.Furniture;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.Astral
 {

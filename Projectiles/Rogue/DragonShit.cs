@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ModLoader;
-using System;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
             else
             {
-                projectile.timeLeft = Math.Min(projectile.timeLeft,15);
+                projectile.timeLeft = Math.Min(projectile.timeLeft, 15);
                 projectile.alpha += 17;
                 projectile.velocity = rotationVector;
                 rotationVector = rotationVector.RotatedBy(MathHelper.ToRadians(14.975f * projectile.ai[0]));

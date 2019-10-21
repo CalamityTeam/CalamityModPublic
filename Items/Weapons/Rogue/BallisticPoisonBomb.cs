@@ -1,9 +1,9 @@
-using Terraria;
-using Terraria.ModLoader;
-using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Materials;
-using Terraria.ID;
+using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Rogue;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {

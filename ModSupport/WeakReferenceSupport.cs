@@ -1,9 +1,9 @@
-﻿using CalamityMod.World;
+﻿using CalamityMod.Items.Potions.Alcohol;
+using CalamityMod.Items.SummonItems;
+using CalamityMod.World;
 using System;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items.SummonItems;
-using CalamityMod.Items.Potions.Alcohol;
 namespace CalamityMod
 {
     internal class WeakReferenceSupport
@@ -35,7 +35,7 @@ namespace CalamityMod
                 bossChecklist.Call("AddBossWithInfo", "Plaguebringer Goliath", 11.5f, (Func<bool>)(() => CalamityWorld.downedPlaguebringer), "Use an [i:" + ModContent.ItemType<Abomination>() + "] in the Jungle Biome"); //9
                 bossChecklist.Call("AddBossWithInfo", "Ravager", 12.5f, (Func<bool>)(() => CalamityWorld.downedScavenger), "Use an [i:" + ModContent.ItemType<AncientMedallion>() + "]"); //9.5
                 bossChecklist.Call("AddBossWithInfo", "Astrum Deus", 13.5f, (Func<bool>)(() => CalamityWorld.downedStarGod), "Use a [i:" + ModContent.ItemType<Starcore>() + "] at Night or defeat 3 empowered astral titans"); //9.6
-                                                                                                                                                                                                                         //bossChecklist.Call("AddBossWithInfo", "The Old Duke", 13.6f, (Func<bool>)(() => CalamityWorld.downedOldDuke), "Fishing with some type of bait in the Sulphuric Sea"); //9.7
+                                                                                                                                                                                                                                //bossChecklist.Call("AddBossWithInfo", "The Old Duke", 13.6f, (Func<bool>)(() => CalamityWorld.downedOldDuke), "Fishing with some type of bait in the Sulphuric Sea"); //9.7
                 bossChecklist.Call("AddBossWithInfo", "Profaned Guardians", 14.5f, (Func<bool>)(() => CalamityWorld.downedGuardians), "Use a [i:" + ModContent.ItemType<ProfanedShard>() + "] in the Hallow or Underworld Biomes"); //10
                 bossChecklist.Call("AddBossWithInfo", "Bumblebirb", 14.6f, (Func<bool>)(() => CalamityWorld.downedBumble), "Use [i:" + ModContent.ItemType<BirbPheromones>() + "] in the Jungle Biome"); //16
                 bossChecklist.Call("AddBossWithInfo", "Providence", 15f, (Func<bool>)(() => CalamityWorld.downedProvidence), "Use a [i:" + ModContent.ItemType<ProfanedCore>() + "] in the Hallow or Underworld Biomes"); //11

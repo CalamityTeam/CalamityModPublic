@@ -1,6 +1,6 @@
-﻿using Terraria;
+﻿using CalamityMod.Tiles.Abyss;
+using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.Tiles.Abyss;
 namespace CalamityMod.Items.Materials
 {
     public class Lumenite : ModItem

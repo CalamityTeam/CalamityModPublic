@@ -1,9 +1,9 @@
-﻿using CalamityMod.CalPlayer;
+﻿using CalamityMod.Buffs.Summon;
+using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Buffs.Summon;
+using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
     public class CorruptionSlimeGodMinion : ModProjectile

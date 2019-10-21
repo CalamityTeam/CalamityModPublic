@@ -1,10 +1,10 @@
-﻿using CalamityMod.CalPlayer;
+﻿using CalamityMod.Buffs.Mounts;
+using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Buffs.Mounts;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Mounts
 {

@@ -1,15 +1,15 @@
-﻿using CalamityMod.World;
-using Microsoft.Xna.Framework;
-using System;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.GameContent.Achievements;
-using Terraria.Graphics.Shaders;
-using Terraria.ID;
-using CalamityMod.Buffs.Mounts;
+﻿using CalamityMod.Buffs.Mounts;
 using CalamityMod.Tiles;
 using CalamityMod.Tiles.Abyss;
 using CalamityMod.Tiles.Ores;
+using CalamityMod.World;
+using Microsoft.Xna.Framework;
+using System;
+using Terraria;
+using Terraria.GameContent.Achievements;
+using Terraria.Graphics.Shaders;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Mounts
 {

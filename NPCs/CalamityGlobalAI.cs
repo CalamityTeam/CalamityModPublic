@@ -1,12 +1,12 @@
+using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.GameContent.Events;
 using Terraria.ID;
-using CalamityMod.Projectiles.Boss;
+using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs
 {
@@ -11752,8 +11752,8 @@ namespace CalamityMod.NPCs
                     if (value4.Length() > 20f)
                     {
                         float velocity = CalamityWorld.bossRushActive ? 14f : 10f;
-						if (Main.npc[(int)npc.localAI[2]].ai[0] == 1f)
-							velocity = 8f;
+                        if (Main.npc[(int)npc.localAI[2]].ai[0] == 1f)
+                            velocity = 8f;
 
                         Vector2 desiredVelocity = Vector2.Normalize(value4 - npc.velocity) * velocity;
                         Vector2 velocity2 = npc.velocity;
@@ -11809,10 +11809,10 @@ namespace CalamityMod.NPCs
                     if (value5.Length() > 20f)
                     {
                         float velocity = CalamityWorld.bossRushActive ? 14f : 10f;
-						if (Main.npc[(int)npc.localAI[2]].ai[0] == 1f)
-							velocity = 8f;
+                        if (Main.npc[(int)npc.localAI[2]].ai[0] == 1f)
+                            velocity = 8f;
 
-						Vector2 desiredVelocity2 = Vector2.Normalize(value5 - npc.velocity) * velocity;
+                        Vector2 desiredVelocity2 = Vector2.Normalize(value5 - npc.velocity) * velocity;
                         Vector2 velocity3 = npc.velocity;
                         npc.SimpleFlyMovement(desiredVelocity2, 0.5f);
                         npc.velocity = Vector2.Lerp(npc.velocity, velocity3, 0.5f);

@@ -1,14 +1,14 @@
+using CalamityMod.Items.Placeables.Furniture;
+using CalamityMod.Items.Potions.Alcohol;
+using CalamityMod.Projectiles.Magic;
 using CalamityMod.World;
 using System.Collections.Generic;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.DataStructures;
 using Terraria.GameContent.Events;
 using Terraria.ID;
 using Terraria.Localization;
-using CalamityMod.Items.Potions.Alcohol;
-using CalamityMod.Items.Placeables.Furniture;
-using CalamityMod.Projectiles.Magic;
+using Terraria.ModLoader;
 namespace CalamityMod.NPCs.TownNPCs
 {
     [AutoloadHead]
@@ -348,11 +348,11 @@ namespace CalamityMod.NPCs.TownNPCs
             nextSlot++;
         }
 
-		// Make this Town NPC teleport to the King and/or Queen statue when triggered.
-		public override bool CanGoToStatue(bool toKingStatue) //I don't think you can differentiate male vs female with this.
-		{
-			return true;
-		}
+        // Make this Town NPC teleport to the King and/or Queen statue when triggered.
+        public override bool CanGoToStatue(bool toKingStatue) //I don't think you can differentiate male vs female with this.
+        {
+            return true;
+        }
 
         public override void TownNPCAttackStrength(ref int damage, ref float knockback)
         {

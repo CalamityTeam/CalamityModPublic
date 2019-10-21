@@ -1,16 +1,16 @@
-﻿using CalamityMod.World;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Items.Placeables.Furniture.Trophies;
+using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Projectiles.Boss;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.Items.Weapons.Rogue;
-using CalamityMod.Projectiles.Boss;
-using CalamityMod.Items.Placeables.Furniture.Trophies;
+using Terraria.ModLoader;
 namespace CalamityMod.NPCs.Calamitas
 {
     [AutoloadBossHead]
@@ -32,15 +32,15 @@ namespace CalamityMod.NPCs.Calamitas
             npc.height = 120;
             npc.defense = 10;
             npc.Calamity().RevPlusDR(0.15f);
-			npc.LifeMaxNERD(7500, 11025, 13200, 800000, 900000);
-			if (CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive)
-			{
-				npc.damage *= 3;
-				npc.defense *= 5;
-				npc.lifeMax *= 3;
-			}
-			double HPBoost = Config.BossHealthPercentageBoost * 0.01;
-			npc.lifeMax += (int)(npc.lifeMax * HPBoost);
+            npc.LifeMaxNERD(7500, 11025, 13200, 800000, 900000);
+            if (CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive)
+            {
+                npc.damage *= 3;
+                npc.defense *= 5;
+                npc.lifeMax *= 3;
+            }
+            double HPBoost = Config.BossHealthPercentageBoost * 0.01;
+            npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
@@ -185,12 +185,12 @@ namespace CalamityMod.NPCs.Calamitas
             {
                 float num861 = 4.5f;
                 float num862 = 0.2f;
-				if (provy)
-				{
-					num861 *= 1.25f;
-					num862 *= 1.25f;
-				}
-				if (CalamityWorld.bossRushActive)
+                if (provy)
+                {
+                    num861 *= 1.25f;
+                    num862 *= 1.25f;
+                }
+                if (CalamityWorld.bossRushActive)
                 {
                     num861 *= 1.5f;
                     num862 *= 1.5f;
@@ -338,11 +338,11 @@ namespace CalamityMod.NPCs.Calamitas
                     {
                         num870 += 4f;
                     }
-					if (provy)
-					{
-						num870 *= 1.15f;
-					}
-					if (CalamityWorld.bossRushActive)
+                    if (provy)
+                    {
+                        num870 *= 1.15f;
+                    }
+                    if (CalamityWorld.bossRushActive)
                     {
                         num870 *= 1.25f;
                     }

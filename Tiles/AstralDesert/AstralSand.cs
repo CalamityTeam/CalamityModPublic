@@ -1,11 +1,11 @@
 
+using CalamityMod.Projectiles.Typeless;
+using CalamityMod.Tiles.Astral;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Tiles.Astral;
-using CalamityMod.Projectiles.Typeless;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.AstralDesert
 {

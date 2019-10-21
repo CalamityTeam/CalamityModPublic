@@ -2,8 +2,8 @@
 using Microsoft.Xna.Framework;
 using System.IO;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.DesertScourge
 {
@@ -22,8 +22,8 @@ namespace CalamityMod.NPCs.DesertScourge
             npc.height = 48;
             npc.defense = 9;
             npc.Calamity().RevPlusDR(0.1f);
-			npc.LifeMaxNERD(2300, 2650, 5100, 16500000, 17500000);
-			double HPBoost = Config.BossHealthPercentageBoost * 0.01;
+            npc.LifeMaxNERD(2300, 2650, 5100, 16500000, 17500000);
+            double HPBoost = Config.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = 6;
             aiType = -1;

@@ -1,7 +1,7 @@
-﻿using Terraria;
-using Terraria.ModLoader;
+﻿using CalamityMod.Items.Placeables.Ores;
+using Terraria;
 using Terraria.ID;
-using CalamityMod.Items.Placeables.Ores;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Materials
 {

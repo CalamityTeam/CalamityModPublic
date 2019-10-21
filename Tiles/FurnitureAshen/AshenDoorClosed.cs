@@ -1,8 +1,8 @@
+using CalamityMod.Items.Placeables.FurnitureAshen;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Items.Placeables.FurnitureAshen;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureAshen
 {

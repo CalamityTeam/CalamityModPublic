@@ -1,10 +1,10 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Items.Weapons.Rogue;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Items.Weapons.Rogue;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 projectile.tileCollide = false;
 
-                float returnSpeed = BlazingStar.Speed* 2.5f;
+                float returnSpeed = BlazingStar.Speed * 2.5f;
                 float acceleration = 2f;
                 Player owner = Main.player[projectile.owner];
 

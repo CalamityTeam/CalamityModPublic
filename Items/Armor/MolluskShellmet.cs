@@ -1,11 +1,11 @@
-using CalamityMod.CalPlayer;
-using Terraria;
-using Terraria.ModLoader;
-using CalamityMod.Items.Materials;
-using Terraria.ID;
 using CalamityMod.Buffs.Summon;
-using CalamityMod.Projectiles.Summon;
+using CalamityMod.CalPlayer;
+using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
+using CalamityMod.Projectiles.Summon;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Armor
 {

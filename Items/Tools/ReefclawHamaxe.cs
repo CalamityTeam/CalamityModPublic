@@ -1,6 +1,7 @@
-﻿using Terraria;
-using Terraria.ModLoader; using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
+using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Tools
 {

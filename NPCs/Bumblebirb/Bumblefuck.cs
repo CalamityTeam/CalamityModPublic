@@ -35,7 +35,7 @@ namespace CalamityMod.NPCs.Bumblebirb
             npc.width = 80;
             npc.height = 80;
             npc.defense = 40;
-			npc.LifeMaxNERD(227500, 252500, 302500, 3000000, 3200000);
+            npc.LifeMaxNERD(227500, 252500, 302500, 3000000, 3200000);
             double HPBoost = Config.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
