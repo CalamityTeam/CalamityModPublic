@@ -1,4 +1,3 @@
-using CalamityMod.NPCs;
 
 using Terraria;
 using Terraria.ModLoader;

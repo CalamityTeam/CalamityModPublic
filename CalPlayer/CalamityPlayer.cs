@@ -20,6 +20,15 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.NPCs;
+using CalamityMod.NPCs.Astral;
+using CalamityMod.NPCs.Calamitas;
+using CalamityMod.NPCs.DevourerofGods;
+using CalamityMod.NPCs.Leviathan;
+using CalamityMod.NPCs.NormalNPCs;
+using CalamityMod.NPCs.PlaguebringerGoliath;
+using CalamityMod.NPCs.Providence;
+using CalamityMod.NPCs.SupremeCalamitas;
+using CalamityMod.NPCs.Yharon;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
@@ -4621,7 +4630,8 @@ namespace CalamityMod.CalPlayer
                 player.npcTypeNoAggro[ModContent.NPCType<PerennialSlime>()] = true;
                 player.npcTypeNoAggro[ModContent.NPCType<PlaguedJungleSlime>()] = true;
                 player.npcTypeNoAggro[ModContent.NPCType<AstralSlime>()] = true;
-                player.npcTypeNoAggro[ModContent.NPCType<WulfrumSlime>()] = true; //remove when wulfrum slime redesigned
+                // TODO -- When Wulfrum Slimes start being definitely robots, remove this immunity.
+                player.npcTypeNoAggro[ModContent.NPCType<WulfrumSlime>()] = true;
             }
             #endregion
 
@@ -7558,11 +7568,11 @@ namespace CalamityMod.CalPlayer
                     { player.ClearBuff(ModContent.BuffType<PolarisBuff>()); }
                 }
             }
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Ranged.DrataliornusProj>()] != 0)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Ranged.DrataliornusBow>()] != 0)
             {
                 for (int i = 0; i < 1000; i++)
                 {
-                    if (Main.projectile[i].active && Main.projectile[i].type == ModContent.ProjectileType<Projectiles.Ranged.DrataliornusProj>() && Main.projectile[i].owner == player.whoAmI)
+                    if (Main.projectile[i].active && Main.projectile[i].type == ModContent.ProjectileType<Projectiles.Ranged.DrataliornusBow>() && Main.projectile[i].owner == player.whoAmI)
                     {
                         Main.projectile[i].Kill();
                         break;

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader; using CalamityMod.Dusts.Furniture;
+using Terraria.ModLoader;
 using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.ID;

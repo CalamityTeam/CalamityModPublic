@@ -1,7 +1,6 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.NPCs;
 namespace CalamityMod.Items.Weapons.Melee
 {
     public class ColdheartIcicle : ModItem

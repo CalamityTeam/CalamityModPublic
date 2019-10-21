@@ -15,7 +15,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
         private void UpdatePbGIndex()
         {
-            int PbGType = ModLoader.GetMod("CalamityMod").NPCType("CalamitasRun3");
+            int PbGType = ModContent.NPCType<CalamitasRun3>();
             if (PbGIndex >= 0 && Main.npc[PbGIndex].active && Main.npc[PbGIndex].type == PbGType)
             {
                 return;

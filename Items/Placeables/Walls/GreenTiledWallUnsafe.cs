@@ -1,5 +1,5 @@
 ﻿using Terraria.ID;
-using Terraria.ModLoader; using WallTiles = CalamityMod.Walls;
+using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.Walls
 {
     public class GreenTiledWallUnsafe : ModItem

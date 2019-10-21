@@ -1,3 +1,4 @@
+using CalamityMod.Tiles.AstralDesert;
 using System;
 
 using Terraria;
@@ -33,7 +34,7 @@ namespace CalamityMod.Projectiles.Ranged
                 if (Main.tile[tileX, tileY].type == TileID.MinecartTrack)
                     return;
 
-                WorldGen.PlaceTile(tileX, tileY, mod.TileType("AstralSand"), false, true);
+                WorldGen.PlaceTile(tileX, tileY, ModContent.TileType<AstralSand>(), false, true);
                 WorldGen.SquareTileFrame(tileX, tileY);
             }
         }

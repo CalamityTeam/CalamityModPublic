@@ -1,7 +1,7 @@
 
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader; using CalamityMod.Dusts.Furniture;
+using Terraria.ModLoader;
 namespace CalamityMod.Tiles.FurnitureProfaned
 {
     public class ProfanedCrystal : ModTile

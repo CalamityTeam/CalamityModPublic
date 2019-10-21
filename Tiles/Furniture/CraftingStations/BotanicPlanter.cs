@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader; using CalamityMod.Dusts.Furniture;
+using Terraria.ModLoader;
+using CalamityMod.Dusts.Furniture;
 using Terraria.ID;
 using Terraria.ObjectData;
-using CalamityMod.Dusts.Furniture;
 
 namespace CalamityMod.Tiles.Furniture.CraftingStations
 {

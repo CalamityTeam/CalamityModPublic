@@ -2,7 +2,6 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Projectiles.Melee;
 using CalamityMod.Items.Weapons.Melee;
 
 namespace CalamityMod.Projectiles.Melee

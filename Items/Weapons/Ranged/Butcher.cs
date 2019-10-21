@@ -32,14 +32,14 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.ranged = true;
             item.channel = true;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<ButcherProj>();
+            item.shoot = ModContent.ProjectileType<ButcherGun>();
             item.shootSpeed = 12f;
             item.useAmmo = 97;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<ButcherProj>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<ButcherGun>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
             return false;
         }
 

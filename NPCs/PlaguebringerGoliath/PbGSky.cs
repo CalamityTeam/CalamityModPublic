@@ -46,7 +46,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
         private bool UpdatePbGIndex()
         {
-            int PbGType = ModLoader.GetMod("CalamityMod").NPCType("PlaguebringerGoliath");
+            int PbGType = ModContent.NPCType<PlaguebringerGoliath>();
             if (PbGIndex >= 0 && Main.npc[PbGIndex].active && Main.npc[PbGIndex].type == PbGType)
             {
                 return true;

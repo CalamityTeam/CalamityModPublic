@@ -6,7 +6,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class ButcherProj : ModProjectile
+    public class ButcherGun : ModProjectile
     {
         public override void SetStaticDefaults()
         {

@@ -46,7 +46,7 @@ namespace CalamityMod.NPCs.Yharon
 
         private bool UpdateYIndex()
         {
-            int YType = ModLoader.GetMod("CalamityMod").NPCType("Yharon");
+            int YType = ModContent.NPCType<Yharon>();
             if (YIndex >= 0 && Main.npc[YIndex].active && Main.npc[YIndex].type == YType)
             {
                 return true;

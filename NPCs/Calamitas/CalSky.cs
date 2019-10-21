@@ -46,7 +46,7 @@ namespace CalamityMod.NPCs.Calamitas
 
         private bool UpdateCalIndex()
         {
-            int CalType = ModLoader.GetMod("CalamityMod").NPCType("CalamitasRun3");
+            int CalType = ModContent.NPCType<CalamitasRun3>();
             if (CalIndex >= 0 && Main.npc[CalIndex].active && Main.npc[CalIndex].type == CalType)
             {
                 return true;

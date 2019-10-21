@@ -6,7 +6,6 @@ using System.IO;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.Enums;
-using CalamityMod.NPCs;
 using CalamityMod.Buffs.DamageOverTime;
 namespace CalamityMod.Projectiles.Boss
 {

@@ -9,7 +9,6 @@ using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.NPCs;
 using Terraria.ModLoader.IO;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Projectiles.Melee;

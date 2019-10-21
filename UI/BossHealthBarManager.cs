@@ -8,7 +8,25 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.GameContent.Events;
 using Terraria.ID;
-using CalamityMod.NPCs;
+using CalamityMod.NPCs.AstrumDeus;
+using CalamityMod.NPCs.Calamitas;
+using CalamityMod.NPCs.CeaselessVoid;
+using CalamityMod.NPCs.Perforator;
+using CalamityMod.NPCs.Ravager;
+using CalamityMod.NPCs.SlimeGod;
+using CalamityMod.NPCs.DevourerofGods;
+using CalamityMod.NPCs.StormWeaver;
+using CalamityMod.NPCs.DesertScourge;
+using CalamityMod.NPCs.AquaticScourge;
+using CalamityMod.NPCs.SunkenSea;
+using CalamityMod.NPCs.NormalNPCs;
+using CalamityMod.NPCs.GreatSandShark;
+using CalamityMod.NPCs.PlaguebringerGoliath;
+using CalamityMod.NPCs.Abyss;
+using CalamityMod.NPCs.SupremeCalamitas;
+using CalamityMod.NPCs.Providence;
+using CalamityMod.NPCs.Polterghast;
+
 namespace CalamityMod.UI
 {
     /*
@@ -159,92 +177,85 @@ namespace CalamityMod.UI
 
         private static void SetupExclusionList()
         {
-            ExclusionList = new List<int>();
-
-            ExclusionList.Add(NPCID.MoonLordFreeEye);
-            ExclusionList.Add(NPCID.MoonLordHead);
-            ExclusionList.Add(NPCID.MoonLordHand);
-            ExclusionList.Add(NPCID.MoonLordCore);
-
-            Mod calamity = ModLoader.GetMod("CalamityMod");
-            if (calamity != null)
+            ExclusionList = new List<int>
             {
-                ExclusionList.Add(calamity.NPCType("AquaticScourgeBody"));
-                ExclusionList.Add(calamity.NPCType("AquaticScourgeBodyAlt"));
-                ExclusionList.Add(calamity.NPCType("AquaticScourgeTail"));
-                ExclusionList.Add(calamity.NPCType("AstrumDeusBodySpectral"));
-                ExclusionList.Add(calamity.NPCType("AstrumDeusTailSpectral"));
-                ExclusionList.Add(calamity.NPCType("DesertScourgeBody"));
-                ExclusionList.Add(calamity.NPCType("DesertScourgeTail"));
-                ExclusionList.Add(calamity.NPCType("StormWeaverHead"));
-                ExclusionList.Add(calamity.NPCType("StormWeaverBody"));
-                ExclusionList.Add(calamity.NPCType("StormWeaverTail"));
-                ExclusionList.Add(calamity.NPCType("StormWeaverBodyNaked"));
-                ExclusionList.Add(calamity.NPCType("StormWeaverTailNaked"));
-                ExclusionList.Add(calamity.NPCType("DevourerofGodsBody"));
-                ExclusionList.Add(calamity.NPCType("DevourerofGodsTail"));
-                ExclusionList.Add(calamity.NPCType("DevourerofGodsBodyS"));
-                ExclusionList.Add(calamity.NPCType("DevourerofGodsTailS"));
-            }
+                NPCID.MoonLordFreeEye,
+                NPCID.MoonLordHead,
+                NPCID.MoonLordHand,
+                NPCID.MoonLordCore,
+                ModContent.NPCType<AquaticScourgeBody>(),
+                ModContent.NPCType<AquaticScourgeBodyAlt>(),
+                ModContent.NPCType<AquaticScourgeTail>(),
+                ModContent.NPCType<AstrumDeusBodySpectral>(),
+                ModContent.NPCType<AstrumDeusTailSpectral>(),
+                ModContent.NPCType<DesertScourgeBody>(),
+                ModContent.NPCType<DesertScourgeTail>(),
+                ModContent.NPCType<StormWeaverHead>(),
+                ModContent.NPCType<StormWeaverBody>(),
+                ModContent.NPCType<StormWeaverTail>(),
+                ModContent.NPCType<StormWeaverBodyNaked>(),
+                ModContent.NPCType<StormWeaverTailNaked>(),
+                ModContent.NPCType<DevourerofGodsBody>(),
+                ModContent.NPCType<DevourerofGodsTail>(),
+                ModContent.NPCType<DevourerofGodsBodyS>(),
+                ModContent.NPCType<DevourerofGodsTailS>()
+            };
         }
 
         private static void SetupMinibossHPBarList()
         {
-            MinibossHPBarList = new List<int>();
-
-            //DD2 Event
-            MinibossHPBarList.Add(NPCID.DD2Betsy);
-            MinibossHPBarList.Add(NPCID.DD2OgreT2);
-            MinibossHPBarList.Add(NPCID.DD2OgreT3);
-            MinibossHPBarList.Add(NPCID.DD2DarkMageT1); //800 HP
-            MinibossHPBarList.Add(NPCID.DD2DarkMageT3);
-
-            //Prehardmode
-            MinibossHPBarList.Add(NPCID.DungeonGuardian);
-
-            //Hardmode
-            MinibossHPBarList.Add(NPCID.GoblinSummoner); //2000 HP
-            MinibossHPBarList.Add(NPCID.Paladin);
-            MinibossHPBarList.Add(NPCID.IceGolem);
-            MinibossHPBarList.Add(NPCID.SandElemental);
-            MinibossHPBarList.Add(NPCID.BigMimicCorruption);
-            MinibossHPBarList.Add(NPCID.BigMimicCrimson);
-            MinibossHPBarList.Add(NPCID.BigMimicHallow);
-
-            //Moon Events
-            MinibossHPBarList.Add(NPCID.MourningWood);
-            MinibossHPBarList.Add(NPCID.Pumpking);
-            MinibossHPBarList.Add(NPCID.Everscream);
-            MinibossHPBarList.Add(NPCID.SantaNK1);
-            MinibossHPBarList.Add(NPCID.IceQueen);
-
-            //Eclipse
-            MinibossHPBarList.Add(NPCID.Mothron);
-
-            Mod calamity = ModLoader.GetMod("CalamityMod");
-            if (calamity != null)
+            MinibossHPBarList = new List<int>
             {
+                //DD2 Event
+                NPCID.DD2Betsy,
+                NPCID.DD2OgreT2,
+                NPCID.DD2OgreT3,
+                NPCID.DD2DarkMageT1, //800 HP
+                NPCID.DD2DarkMageT3,
+
                 //Prehardmode
-                MinibossHPBarList.Add(calamity.NPCType("GiantClam"));
+                NPCID.DungeonGuardian,
 
                 //Hardmode
-                MinibossHPBarList.Add(calamity.NPCType("ThiccWaifu"));
-                MinibossHPBarList.Add(calamity.NPCType("Horse"));
-                MinibossHPBarList.Add(calamity.NPCType("GreatSandShark"));
-                MinibossHPBarList.Add(calamity.NPCType("PlaguebringerShade"));
-                MinibossHPBarList.Add(calamity.NPCType("ArmoredDiggerHead"));
+                NPCID.GoblinSummoner, //2000 HP
+                NPCID.Paladin,
+                NPCID.IceGolem,
+                NPCID.SandElemental,
+                NPCID.BigMimicCorruption,
+                NPCID.BigMimicCrimson,
+                NPCID.BigMimicHallow,
+
+                //Moon Events
+                NPCID.MourningWood,
+                NPCID.Pumpking,
+                NPCID.Everscream,
+                NPCID.SantaNK1,
+                NPCID.IceQueen,
+
+                //Eclipse
+                NPCID.Mothron,
+
+                //Prehardmode
+                ModContent.NPCType<GiantClam>(),
+
+                //Hardmode
+                ModContent.NPCType<ThiccWaifu>(),
+                ModContent.NPCType<Horse>(),
+                ModContent.NPCType<GreatSandShark>(),
+                ModContent.NPCType<PlaguebringerShade>(),
+                ModContent.NPCType<ArmoredDiggerHead>(),
 
                 //Abyss
-                MinibossHPBarList.Add(calamity.NPCType("EidolonWyrmHeadHuge"));
+                ModContent.NPCType<EidolonWyrmHeadHuge>(),
 
                 //Post-ML
-                MinibossHPBarList.Add(calamity.NPCType("SupremeCataclysm"));
-                MinibossHPBarList.Add(calamity.NPCType("SupremeCatastrophe"));
-                MinibossHPBarList.Add(calamity.NPCType("ProvSpawnDefense"));
-                MinibossHPBarList.Add(calamity.NPCType("ProvSpawnOffense"));
-                MinibossHPBarList.Add(calamity.NPCType("ProvSpawnHealer"));
-                MinibossHPBarList.Add(calamity.NPCType("PolterPhantom"));
-            }
+                ModContent.NPCType<SupremeCataclysm>(),
+                ModContent.NPCType<SupremeCatastrophe>(),
+                ModContent.NPCType<ProvSpawnDefense>(),
+                ModContent.NPCType<ProvSpawnOffense>(),
+                ModContent.NPCType<ProvSpawnHealer>(),
+                ModContent.NPCType<PolterPhantom>()
+            };
         }
 
         public static void Unload()
@@ -300,29 +311,29 @@ namespace CalamityMod.UI
                 {
                     AttemptAddBar(i, NPCID.PirateShip);
                 }
-                else if (Main.npc[i].type == ModLoader.GetMod("CalamityMod").NPCType("AstrumDeusHeadSpectral"))
+                else if (Main.npc[i].type == ModContent.NPCType<AstrumDeusHeadSpectral>())
                 {
-                    AttemptAddBar(i, ModLoader.GetMod("CalamityMod").NPCType("AstrumDeusHeadSpectral"));
+                    AttemptAddBar(i, ModContent.NPCType<AstrumDeusHeadSpectral>());
                 }
-                else if (Main.npc[i].type == ModLoader.GetMod("CalamityMod").NPCType("CalamitasRun3"))
+                else if (Main.npc[i].type == ModContent.NPCType<CalamitasRun3>())
                 {
-                    AttemptAddBar(i, ModLoader.GetMod("CalamityMod").NPCType("CalamitasRun3"));
+                    AttemptAddBar(i, ModContent.NPCType<CalamitasRun3>());
                 }
-                else if (Main.npc[i].type == ModLoader.GetMod("CalamityMod").NPCType("CeaselessVoid"))
+                else if (Main.npc[i].type == ModContent.NPCType<CeaselessVoid>())
                 {
-                    AttemptAddBar(i, ModLoader.GetMod("CalamityMod").NPCType("CeaselessVoid"));
+                    AttemptAddBar(i, ModContent.NPCType<CeaselessVoid>());
                 }
-                else if (Main.npc[i].type == ModLoader.GetMod("CalamityMod").NPCType("PerforatorHive"))
+                else if (Main.npc[i].type == ModContent.NPCType<PerforatorHive>())
                 {
-                    AttemptAddBar(i, ModLoader.GetMod("CalamityMod").NPCType("PerforatorHive"));
+                    AttemptAddBar(i, ModContent.NPCType<PerforatorHive>());
                 }
-                else if (Main.npc[i].type == ModLoader.GetMod("CalamityMod").NPCType("ScavengerBody"))
+                else if (Main.npc[i].type == ModContent.NPCType<RavagerBody>())
                 {
-                    AttemptAddBar(i, ModLoader.GetMod("CalamityMod").NPCType("ScavengerBody"));
+                    AttemptAddBar(i, ModContent.NPCType<RavagerBody>());
                 }
-                else if (Main.npc[i].type == ModLoader.GetMod("CalamityMod").NPCType("SlimeGodCore"))
+                else if (Main.npc[i].type == ModContent.NPCType<SlimeGodCore>())
                 {
-                    AttemptAddBar(i, ModLoader.GetMod("CalamityMod").NPCType("SlimeGodCore"));
+                    AttemptAddBar(i, ModContent.NPCType<SlimeGodCore>());
                 }
                 else if (Main.npc[i].boss || MinibossHPBarList.Contains(type))
                 {
@@ -474,27 +485,27 @@ namespace CalamityMod.UI
                 {
                     _special2 = SpecialType2.MoonCore;
                 }
-                else if (type == ModLoader.GetMod("CalamityMod").NPCType("SlimeGodCore"))
+                else if (type == ModContent.NPCType<SlimeGodCore>())
                 {
                     _special2 = SpecialType2.SlimeCore;
                 }
-                else if (type == ModLoader.GetMod("CalamityMod").NPCType("ScavengerBody"))
+                else if (type == ModContent.NPCType<RavagerBody>())
                 {
                     _special2 = SpecialType2.Ravage;
                 }
-                else if (type == ModLoader.GetMod("CalamityMod").NPCType("PerforatorHive"))
+                else if (type == ModContent.NPCType<PerforatorHive>())
                 {
                     _special2 = SpecialType2.Perforator;
                 }
-                else if (type == ModLoader.GetMod("CalamityMod").NPCType("CeaselessVoid"))
+                else if (type == ModContent.NPCType<CeaselessVoid>())
                 {
                     _special2 = SpecialType2.Ceaseless;
                 }
-                else if (type == ModLoader.GetMod("CalamityMod").NPCType("CalamitasRun3"))
+                else if (type == ModContent.NPCType<CalamitasRun3>())
                 {
                     _special2 = SpecialType2.Calam;
                 }
-                else if (type == ModLoader.GetMod("CalamityMod").NPCType("AstrumDeusHeadSpectral"))
+                else if (type == ModContent.NPCType<AstrumDeusHeadSpectral>())
                 {
                     _special = SpecialType.Astrum;
                 }
@@ -677,7 +688,7 @@ namespace CalamityMod.UI
                         _specialData[5] = count6;
                         break;
                     case SpecialType.Astrum:
-                        int count7 = NPC.CountNPCS(ModLoader.GetMod("CalamityMod").NPCType("AstrumDeusHead"));
+                        int count7 = NPC.CountNPCS(ModContent.NPCType<AstrumDeusHead>());
                         _specialData[6] = count7;
                         break;
                 }
@@ -687,35 +698,35 @@ namespace CalamityMod.UI
                     default:
                         break;
                     case SpecialType2.Calam:
-                        int count = NPC.CountNPCS(ModLoader.GetMod("CalamityMod").NPCType("CalamitasRun")) +
-                            NPC.CountNPCS(ModLoader.GetMod("CalamityMod").NPCType("CalamitasRun2"));
+                        int count = NPC.CountNPCS(ModContent.NPCType<CalamitasRun>()) +
+                            NPC.CountNPCS(ModContent.NPCType<CalamitasRun2>());
                         _specialData2[0] = count;
                         break;
                     case SpecialType2.Ceaseless:
-                        int count2 = NPC.CountNPCS(ModLoader.GetMod("CalamityMod").NPCType("DarkEnergy")) +
-                            NPC.CountNPCS(ModLoader.GetMod("CalamityMod").NPCType("DarkEnergy2")) +
-                            NPC.CountNPCS(ModLoader.GetMod("CalamityMod").NPCType("DarkEnergy3"));
+                        int count2 = NPC.CountNPCS(ModContent.NPCType<DarkEnergy>()) +
+                            NPC.CountNPCS(ModContent.NPCType<DarkEnergy2>()) +
+                            NPC.CountNPCS(ModContent.NPCType<DarkEnergy3>());
                         _specialData2[1] = count2;
                         break;
                     case SpecialType2.Perforator:
-                        int count3 = NPC.CountNPCS(ModLoader.GetMod("CalamityMod").NPCType("PerforatorHeadSmall")) +
-                            NPC.CountNPCS(ModLoader.GetMod("CalamityMod").NPCType("PerforatorHeadMedium")) +
-                            NPC.CountNPCS(ModLoader.GetMod("CalamityMod").NPCType("PerforatorHeadLarge"));
+                        int count3 = NPC.CountNPCS(ModContent.NPCType<PerforatorHeadSmall>()) +
+                            NPC.CountNPCS(ModContent.NPCType<PerforatorHeadMedium>()) +
+                            NPC.CountNPCS(ModContent.NPCType<PerforatorHeadLarge>());
                         _specialData2[2] = count3;
                         break;
                     case SpecialType2.Ravage:
-                        int count4 = NPC.CountNPCS(ModLoader.GetMod("CalamityMod").NPCType("ScavengerClawRight")) +
-                            NPC.CountNPCS(ModLoader.GetMod("CalamityMod").NPCType("ScavengerClawLeft")) +
-                            NPC.CountNPCS(ModLoader.GetMod("CalamityMod").NPCType("ScavengerLegRight")) +
-                            NPC.CountNPCS(ModLoader.GetMod("CalamityMod").NPCType("ScavengerLegLeft")) +
-                            NPC.CountNPCS(ModLoader.GetMod("CalamityMod").NPCType("ScavengerHead"));
+                        int count4 = NPC.CountNPCS(ModContent.NPCType<RavagerClawRight>()) +
+                            NPC.CountNPCS(ModContent.NPCType<RavagerClawLeft>()) +
+                            NPC.CountNPCS(ModContent.NPCType<RavagerLegRight>()) +
+                            NPC.CountNPCS(ModContent.NPCType<RavagerLegLeft>()) +
+                            NPC.CountNPCS(ModContent.NPCType<RavagerHead>());
                         _specialData2[3] = count4;
                         break;
                     case SpecialType2.SlimeCore:
-                        int count5 = NPC.CountNPCS(ModLoader.GetMod("CalamityMod").NPCType("SlimeGod")) +
-                            NPC.CountNPCS(ModLoader.GetMod("CalamityMod").NPCType("SlimeGodSplit")) +
-                            NPC.CountNPCS(ModLoader.GetMod("CalamityMod").NPCType("SlimeGodRun")) +
-                            NPC.CountNPCS(ModLoader.GetMod("CalamityMod").NPCType("SlimeGodRunSplit"));
+                        int count5 = NPC.CountNPCS(ModContent.NPCType<SlimeGod>()) +
+                            NPC.CountNPCS(ModContent.NPCType<SlimeGodSplit>()) +
+                            NPC.CountNPCS(ModContent.NPCType<SlimeGodRun>()) +
+                            NPC.CountNPCS(ModContent.NPCType<SlimeGodRunSplit>());
                         _specialData2[4] = count5;
                         break;
                     case SpecialType2.MoonCore:

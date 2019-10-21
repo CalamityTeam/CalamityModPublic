@@ -15,7 +15,7 @@ namespace CalamityMod.NPCs.Providence
 
         private void UpdatePIndex()
         {
-            int ProvType = ModLoader.GetMod("CalamityMod").NPCType("Providence");
+            int ProvType = ModContent.NPCType<Providence>();
             if (ProvIndex >= 0 && Main.npc[ProvIndex].active && Main.npc[ProvIndex].type == ProvType)
             {
                 return;

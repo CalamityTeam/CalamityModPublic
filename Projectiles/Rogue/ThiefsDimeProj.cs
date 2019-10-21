@@ -44,7 +44,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 projectile.frame = 0;
             }
-            bool flag64 = projectile.type == mod.ProjectileType("ThiefsDimeProj");
+            bool flag64 = projectile.type == ModContent.ProjectileType<ThiefsDimeProj>();
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
             if (!modPlayer.thiefsDime)

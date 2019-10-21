@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.NPCs;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.FurnitureCosmilite;
 using CalamityMod.Items.Weapons.Melee;

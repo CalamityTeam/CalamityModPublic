@@ -6,7 +6,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class DrataliornusProj : ModProjectile
+    public class DrataliornusBow : ModProjectile
     {
         public override void SetStaticDefaults()
         {

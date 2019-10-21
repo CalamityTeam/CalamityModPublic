@@ -46,7 +46,7 @@ namespace CalamityMod.NPCs.Leviathan
 
         private bool UpdateLIndex()
         {
-            int LevType = ModLoader.GetMod("CalamityMod").NPCType("Leviathan");
+            int LevType = ModContent.NPCType<Leviathan>();
             if (LevIndex >= 0 && Main.npc[LevIndex].active && Main.npc[LevIndex].type == LevType)
             {
                 return true;

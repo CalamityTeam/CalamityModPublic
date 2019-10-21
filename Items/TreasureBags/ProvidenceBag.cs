@@ -1,6 +1,5 @@
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.NPCs;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;

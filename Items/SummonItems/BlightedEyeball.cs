@@ -1,5 +1,4 @@
-﻿using CalamityMod.NPCs;
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using CalamityMod.Items.Materials;

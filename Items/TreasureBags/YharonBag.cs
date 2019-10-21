@@ -1,7 +1,6 @@
 using CalamityMod.World;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.NPCs;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Ranged;

@@ -2,7 +2,6 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.NPCs;
 namespace CalamityMod.Items.SummonItems
 {
     public class ProfanedCore : ModItem

@@ -47,7 +47,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         private bool UpdateDoGIndex()
         {
-            int DoGType = ModLoader.GetMod("CalamityMod").NPCType("DevourerofGodsHead");
+            int DoGType = ModContent.NPCType<DevourerofGodsHead>();
             if (DoGIndex >= 0 && Main.npc[DoGIndex].active && Main.npc[DoGIndex].type == DoGType)
             {
                 return true;

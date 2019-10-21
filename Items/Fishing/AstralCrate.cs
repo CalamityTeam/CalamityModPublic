@@ -1,4 +1,3 @@
-using System;
 using CalamityMod.World;
 using Terraria;
 using Terraria.ModLoader;

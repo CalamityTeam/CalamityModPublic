@@ -35,7 +35,7 @@ Right click to fire two devastating barrages of five empowered fireballs.
             item.width = 64;
             item.height = 84;
             item.UseSound = SoundID.Item5;
-            item.shoot = ModContent.ProjectileType<DrataliornusProj>();
+            item.shoot = ModContent.ProjectileType<DrataliornusBow>();
             item.value = Item.buyPrice(5, 0, 0, 0);
             item.rare = 10;
             item.noMelee = true;
@@ -90,7 +90,7 @@ Right click to fire two devastating barrages of five empowered fireballs.
             }
             else
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<DrataliornusProj>(), 0, 0f, player.whoAmI);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<DrataliornusBow>(), 0, 0f, player.whoAmI);
             }
 
             return false;

@@ -8,6 +8,7 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Fishing;
 using CalamityMod.Items.Placeables;
+using CalamityMod.Items.Accessories.Wings;
 
 namespace CalamityMod
 {
@@ -120,7 +121,7 @@ namespace CalamityMod
                 s.requiredItem[0].stack = 1;
                 s.requiredItem[1].SetDefaults(ItemID.TrueExcalibur, false);
                 s.requiredItem[1].stack = 1;
-                s.requiredItem[2].SetDefaults(ModContent.GetInstance<CalamityMod>().ItemType("LivingShard"), false);
+                s.requiredItem[2].SetDefaults(ModContent.ItemType<LivingShard>(), false);
                 s.requiredItem[2].stack = 7;
 
                 s.createItem.SetDefaults(ItemID.TerraBlade, false);
@@ -770,13 +771,13 @@ namespace CalamityMod
                 ItemID.BetsyWings,
                 ItemID.ArkhalisWings,
                 ItemID.LeinforsWings,
-                ModContent.GetInstance<CalamityMod>().ItemType("SkylineWings"),
-                ModContent.GetInstance<CalamityMod>().ItemType("StarlightWings"),
-                ModContent.GetInstance<CalamityMod>().ItemType("AureateWings"),
-                ModContent.GetInstance<CalamityMod>().ItemType("DiscordianWings"),
-                ModContent.GetInstance<CalamityMod>().ItemType("TarragonWings"),
-                ModContent.GetInstance<CalamityMod>().ItemType("XerocWings"),
-                ModContent.GetInstance<CalamityMod>().ItemType("HadarianWings")
+                ModContent.ItemType<SkylineWings>(),
+                ModContent.ItemType<StarlightWings>(),
+                ModContent.ItemType<AureateWings>(),
+                ModContent.ItemType<DiscordianWings>(),
+                ModContent.ItemType<TarragonWings>(),
+                ModContent.ItemType<XerocWings>(),
+                ModContent.ItemType<HadarianWings>()
             });
             RecipeGroup.RegisterGroup("WingsGroup", group);
         }

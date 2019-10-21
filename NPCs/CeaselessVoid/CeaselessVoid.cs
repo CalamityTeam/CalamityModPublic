@@ -6,8 +6,6 @@ using System.IO;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Weapons.Melee;

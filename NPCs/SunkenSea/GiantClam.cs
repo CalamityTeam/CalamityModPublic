@@ -6,7 +6,6 @@ using System.IO;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Placeables;
@@ -16,7 +15,6 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Summon;
-using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Projectiles.Enemy;
 namespace CalamityMod.NPCs.SunkenSea
 {

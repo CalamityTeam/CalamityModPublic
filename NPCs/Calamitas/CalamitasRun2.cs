@@ -8,7 +8,6 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Items.Placeables.Furniture.Trophies;

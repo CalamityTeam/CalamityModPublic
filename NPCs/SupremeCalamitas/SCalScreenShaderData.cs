@@ -15,7 +15,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         private void UpdateSCalIndex()
         {
-            int SCalType = ModLoader.GetMod("CalamityMod").NPCType("SupremeCalamitas");
+            int SCalType = ModContent.NPCType<SupremeCalamitas>();
             if (SCalIndex >= 0 && Main.npc[SCalIndex].active && Main.npc[SCalIndex].type == SCalType)
             {
                 return;

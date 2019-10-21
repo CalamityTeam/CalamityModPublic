@@ -3,7 +3,6 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Typeless;
 
 namespace CalamityMod.Projectiles.Melee
