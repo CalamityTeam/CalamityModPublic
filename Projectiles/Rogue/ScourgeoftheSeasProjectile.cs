@@ -4,6 +4,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -51,6 +52,10 @@ namespace CalamityMod.Projectiles.Rogue
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.Venom, 600);
+            if (projectile.Calamity().stealthStrike == true) //stealth strike attack
+            {
+				target.AddBuff(ModContent.BuffType<MaxVenom>(), 600);
+			}
         }
 
         public override void Kill(int timeLeft)
@@ -63,16 +68,32 @@ namespace CalamityMod.Projectiles.Rogue
             }
             if (projectile.owner == Main.myPlayer)
             {
-                int num320 = Main.rand.Next(2, 6);
-                int num3;
-                for (int num321 = 0; num321 < num320; num321 = num3 + 1)
-                {
-                    Vector2 vector15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                    vector15.Normalize();
-                    vector15 *= (float)Main.rand.Next(10, 201) * 0.01f;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector15.X, vector15.Y, ModContent.ProjectileType<ScourgeVenomCloud>(), (int)((double)projectile.damage * 0.25), 1f, projectile.owner, 0f, (float)Main.rand.Next(-45, 1));
-                    num3 = num321;
-                }
+				if (projectile.Calamity().stealthStrike == true)
+				{
+					int num320 = Main.rand.Next(2, 6);
+					int num3;
+					for (int num321 = 0; num321 < num320; num321 = num3 + 1)
+					{
+						Vector2 vector15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+						vector15.Normalize();
+						vector15 *= (float)Main.rand.Next(10, 201) * 0.01f;
+						Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector15.X, vector15.Y, ModContent.ProjectileType<ScourgeVenomCloud>(), (int)((double)projectile.damage * 0.25), 1f, projectile.owner, 0f, 1f);
+						num3 = num321;
+					}
+				}
+				else
+				{
+					int num320 = Main.rand.Next(2, 6);
+					int num3;
+					for (int num321 = 0; num321 < num320; num321 = num3 + 1)
+					{
+						Vector2 vector15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+						vector15.Normalize();
+						vector15 *= (float)Main.rand.Next(10, 201) * 0.01f;
+						Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector15.X, vector15.Y, ModContent.ProjectileType<ScourgeVenomCloud>(), (int)((double)projectile.damage * 0.25), 1f, projectile.owner, 0f, 0f);
+						num3 = num321;
+					}
+				}
             }
         }
 

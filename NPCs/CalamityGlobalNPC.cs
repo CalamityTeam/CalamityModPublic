@@ -112,6 +112,7 @@ namespace CalamityMod.NPCs
         public bool pearlAura = false;
         public bool shellfishVore = false;
         public bool clamDebuff = false;
+        public bool maxVenom = false;
 
         // whoAmI Variables
         public static int bobbitWormBottom = -1;
@@ -314,6 +315,7 @@ namespace CalamityMod.NPCs
             pearlAura = false;
             shellfishVore = false;
             clamDebuff = false;
+            maxVenom = false;
         }
         #endregion
 
@@ -377,15 +379,6 @@ namespace CalamityMod.NPCs
                         Main.projectile[j].ai[0] == 1f && Main.projectile[j].ai[1] == npc.whoAmI)
                     {
                         projectileCount++;
-                    }
-                }
-                for (int j = 0; j < 1000; j++)
-                {
-                    if (Main.projectile[j].active &&
-                        (Main.projectile[j].type == ModContent.ProjectileType<ScourgeoftheSeasStealth>()) &&
-                        Main.projectile[j].ai[0] == 1f && Main.projectile[j].ai[1] == npc.whoAmI)
-                    {
-                        projectileCount += 6;
                     }
                 }
 
@@ -520,6 +513,7 @@ namespace CalamityMod.NPCs
             ApplyDPSDebuff(nightwither, 200, 40, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(dFlames, 2500, 500, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(bBlood, 50, 10, ref npc.lifeRegen, ref damage);
+            ApplyDPSDebuff(maxVenom, 180, 36, ref npc.lifeRegen, ref damage);
         }
 
         public void ApplyDPSDebuff(bool debuff, int lifeRegenValue, int damageValue, ref int lifeRegen, ref int damage)
@@ -605,6 +599,11 @@ namespace CalamityMod.NPCs
                     }
                 }
             }
+			
+			if (npc.buffImmune[BuffID.Venom] == false)
+			{
+				npc.buffImmune[ModContent.BuffType<MaxVenom>()] = false;
+			}
 
             npc.buffImmune[ModContent.BuffType<Enraged>()] = false;
 
@@ -2940,13 +2939,28 @@ namespace CalamityMod.NPCs
                 }
                 Lighting.AddLight(npc.position, 0.1f, 0f, 0.135f);
             }
+            if (maxVenom)
+            {
+                if (Main.rand.Next(5) < 4)
+                {
+                    int dust = Dust.NewDust(npc.position - new Vector2(2f, 2f), npc.width + 4, npc.height + 4, 171, npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 100, default, 1.5f);
+                    Main.dust[dust].noGravity = true;
+                    Main.dust[dust].velocity *= 1.1f;
+                    Main.dust[dust].velocity.Y += 0.25f;
+                    if (Main.rand.NextBool(2))
+                    {
+                        Main.dust[dust].noGravity = false;
+                        Main.dust[dust].scale *= 0.5f;
+                    }
+                }
+            }
 
             if (gState || eFreeze)
             {
                 drawColor = Color.Cyan;
             }
 
-            if (marked)
+            if (marked || maxVenom)
             {
                 drawColor = Color.Fuchsia;
             }
