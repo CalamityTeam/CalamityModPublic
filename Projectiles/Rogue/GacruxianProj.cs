@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Rogue
                 }
                 else
                 {
-                    int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0f, projectile.velocity.Y * 0f, ModContent.ProjectileType<UltimusCleaverDust>(), (int)((double)projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
+                    int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0f, projectile.velocity.Y * 0f, ModContent.ProjectileType<UltimusCleaverDust>(), (int)((double)projectile.damage * 0.75), projectile.knockBack, projectile.owner, 0f, 0f);
                     Main.projectile[proj].Calamity().forceRogue = true;
                     Main.projectile[proj].localNPCHitCooldown = 10;
                     Main.projectile[proj].penetrate = 3;
