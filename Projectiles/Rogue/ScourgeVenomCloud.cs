@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -69,6 +70,10 @@ namespace CalamityMod.Projectiles.Rogue
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.Venom, 240);
+            if (projectile.ai[1] == 1f && projectile.owner == Main.myPlayer) //stealth strike attack
+            {
+				target.AddBuff(ModContent.BuffType<MaxVenom>(), 240);
+			}
         }
     }
 }

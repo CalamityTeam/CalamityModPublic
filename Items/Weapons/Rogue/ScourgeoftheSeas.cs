@@ -1,4 +1,5 @@
 using CalamityMod.Projectiles.Rogue;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Scourge of the Seas");
             Tooltip.SetDefault("Snaps apart into a venomous cloud upon striking an enemy\n" +
-            "Stealth strikes stick to enemies and apply a powerful venom");
+            "Stealth strikes are coated with vile toxins, afflicting enemies with a powerful debuff");
         }
 
         public override void SafeSetDefaults()
@@ -36,16 +37,13 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            if (player.Calamity().StealthStrikeAvailable())
+            if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
-                int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<ScourgeoftheSeasStealth>(), damage, knockBack, player.whoAmI, 0f, 0f);
-                Main.projectile[p].Calamity().stealthStrike = true;
+                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<ScourgeoftheSeasProjectile>(), damage, knockBack, player.whoAmI, 0f, 1f);
+                Main.projectile[stealth].Calamity().stealthStrike = true;
+                return false;
             }
-            else
-            {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
-            }
-            return false;
+            return true;
         }
     }
 }

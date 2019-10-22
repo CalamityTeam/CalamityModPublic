@@ -5179,6 +5179,10 @@ namespace CalamityMod.CalPlayer
             {
                 damageSource = PlayerDeathReason.ByCustomReason(player.name + " was charred by the brimstone inferno.");
             }
+            if (!Collision.DrownCollision(player.position, player.width, player.height, player.gravDir) && ZoneAbyss && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
+            {
+                damageSource = PlayerDeathReason.ByCustomReason("Oxygen couldn't reach " + player.name + " from the depths of the Abyss.");
+            }
             if (alcoholPoisonLevel > 3 && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
             {
                 if (Main.rand.Next(2) == 0)
