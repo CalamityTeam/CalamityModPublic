@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.damage = 130;
+            item.damage = 155;
             item.knockBack = 4;
             item.crit = 18;
             item.noMelee = true;
@@ -30,8 +30,8 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.useTime = 20;
             item.useAnimation = 20;
             item.value = Item.buyPrice(0, 0, 1, 0);
-            item.rare = 3;
-            item.shootSpeed = 10.5f;
+            item.rare = 7;
+            item.shootSpeed = 8f;
             item.shoot = ModContent.ProjectileType<MonkeyDart>();
             item.autoReuse = true;
             item.Calamity().rogue = true;
@@ -45,7 +45,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                 float spread = 7;
                 for (int i = 0; i < 3; i++)
                 {
-                    Vector2 perturbedspeed = new Vector2(speedX * 1.4f, speedY * 1.4f).RotatedBy(MathHelper.ToRadians(spread));
+                    Vector2 perturbedspeed = new Vector2(speedX * 1.25f, speedY * 1.25f).RotatedBy(MathHelper.ToRadians(spread));
                     int p = Projectile.NewProjectile(position.X, position.Y, perturbedspeed.X, perturbedspeed.Y, ModContent.ProjectileType<MonkeyDart>(), damage, knockBack, player.whoAmI, 1);
                     Main.projectile[p].Calamity().stealthStrike = true;
                     spread -= 7;
