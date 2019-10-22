@@ -35,7 +35,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(4, (int)projectile.position.X, (int)projectile.position.Y, 43, 0.65f, 0f);
+            Main.PlaySound(4, (int)projectile.position.X, (int)projectile.position.Y, 43, 0.35f, 0f);
 
             projectile.position = projectile.Center;
             projectile.width = projectile.height = 36;
