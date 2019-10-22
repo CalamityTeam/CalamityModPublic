@@ -27,12 +27,13 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.extraUpdates = 1;
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
+            projectile.timeLeft = 300;
             projectile.Calamity().rogue = true;
         }
 
         public override void AI()
         {
-            if (Main.rand.Next(5) == 0)
+            if (Main.rand.Next(8) == 0)
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 138, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             }

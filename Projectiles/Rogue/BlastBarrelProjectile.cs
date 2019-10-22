@@ -26,6 +26,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.friendly = true;
             projectile.penetrate = -1;
             projectile.timeLeft = 480;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = -1;
             projectile.Calamity().rogue = true;
         }
         //Jesus christ, why isn't this in the Entity class instead of just NPC???

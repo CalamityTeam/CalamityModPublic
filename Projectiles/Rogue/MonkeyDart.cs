@@ -21,13 +21,13 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 14;
             projectile.height = 14;
             projectile.friendly = true;
-            projectile.penetrate = 4;
+            projectile.penetrate = 6;
             drawOffsetX = -10;
             drawOriginOffsetY = 0;
             drawOriginOffsetX = 0;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 40;
-            projectile.extraUpdates = 1;
+            projectile.extraUpdates = 2;
             projectile.Calamity().rogue = true;
         }
 
@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
             projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
             //Gravity
-            projectile.velocity.Y = projectile.velocity.Y + 0.1f;
+            projectile.velocity.Y = projectile.velocity.Y + 0.04f;
             if (projectile.velocity.Y > 16f)
             {
                 projectile.velocity.Y = 16f;

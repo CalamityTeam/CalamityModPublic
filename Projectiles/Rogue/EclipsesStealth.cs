@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (projectile.ai[0] == 0f)
             {
                 projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 0.785f;
-                if (Main.rand.Next(5) == 0) //dust
+                if (Main.rand.Next(8) == 0) //dust
                 {
                     Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 138, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
                 }

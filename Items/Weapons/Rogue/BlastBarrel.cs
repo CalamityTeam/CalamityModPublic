@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class BlastBarrel : RogueWeapon
     {
-        public const int BaseDamage = 45;
+        public const int BaseDamage = 32;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blast Barrel");

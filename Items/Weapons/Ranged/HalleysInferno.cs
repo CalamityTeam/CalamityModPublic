@@ -15,7 +15,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             DisplayName.SetDefault("Halley's Inferno");
             Tooltip.SetDefault("Halley came sooner than expected\n" +
             "Fires a flaming comet\n" +
-            "50% chance to not consume gel");
+            "50% chance to not consume gel\n" +
+            "Right click to zoom out");
         }
 
         public override void SetDefaults()
@@ -57,6 +58,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 4);
             recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 12);
+            recipe.AddIngredient(ItemID.SniperScope);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

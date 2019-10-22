@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Main.PlaySound(4, (int)projectile.position.X, (int)projectile.position.Y, 43, 1f, 0f);
+            Main.PlaySound(4, (int)projectile.position.X, (int)projectile.position.Y, 43, 0.65f, 0f);
 
             if (projectile.velocity.X != oldVelocity.X)
                 projectile.velocity.X = -oldVelocity.X;
@@ -117,7 +117,7 @@ namespace CalamityMod.Projectiles.Rogue
 
             target.AddBuff(ModContent.BuffType<CrushDepth>(), 600);
 
-            Main.PlaySound(4, (int)projectile.position.X, (int)projectile.position.Y, 43, 1f, 0f);
+            Main.PlaySound(4, (int)projectile.position.X, (int)projectile.position.Y, 43, 0.65f, 0f);
 
             projectile.velocity.X = -projectile.velocity.X;
             projectile.velocity.Y = -projectile.velocity.Y;
