@@ -13,7 +13,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Svantechnical");
-            Tooltip.SetDefault("Fires several barrages of bullets");
+            Tooltip.SetDefault("Fires several barrages of bullets\n" +
+                               "Right click to zoom out");
         }
 
         public override void SetDefaults()

@@ -15,7 +15,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             DisplayName.SetDefault("Halley's Inferno");
             Tooltip.SetDefault("Halley came sooner than expected\n" +
             "Fires a flaming comet\n" +
-            "50% chance to not consume gel");
+            "50% chance to not consume gel\n" +
+            "Right click to zoom out");
         }
 
         public override void SetDefaults()
