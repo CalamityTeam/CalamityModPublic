@@ -6956,7 +6956,15 @@ namespace CalamityMod.CalPlayer
         {
             if (CalamityWorld.revenge && proj.hostile)
             {
-                if (proj.type == ProjectileID.FrostBeam && !player.frozen && !gState)
+				if (proj.type == ProjectileID.Explosives)
+				{
+					player.AddBuff(BuffID.OnFire, 600);
+				}
+				else if (proj.type == ProjectileID.Boulder)
+				{
+					player.AddBuff(BuffID.BrokenArmor, 600);
+				}
+				else if (proj.type == ProjectileID.FrostBeam && !player.frozen && !gState)
                 {
                     player.AddBuff(ModContent.BuffType<GlacialState>(), 120);
                 }

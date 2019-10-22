@@ -316,8 +316,10 @@ namespace CalamityMod.NPCs.CeaselessVoid
                         }
                         for (int num662 = 0; num662 < glob; num662++)
                         {
-                            Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, 0f, ModContent.ProjectileType<DarkEnergyBall>(), 0, 0f, Main.myPlayer, 0f, 0f);
-                        }
+							NPC.NewNPC((int)npc.Center.X - 200, (int)npc.Center.Y - 200, ModContent.NPCType<DarkEnergy>());
+							NPC.NewNPC((int)npc.Center.X + 200, (int)npc.Center.Y - 200, ModContent.NPCType<DarkEnergy2>());
+							NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y + 200, ModContent.NPCType<DarkEnergy3>());
+						}
                     }
                 }
             }
