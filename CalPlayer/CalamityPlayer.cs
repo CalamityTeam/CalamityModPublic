@@ -9816,7 +9816,7 @@ namespace CalamityMod.CalPlayer
         private void UpdateRogueStealth()
         {
             // If the player un-equips rogue armor, then reset the sound so it'll play again when they re-equip it
-            if (rogueStealthMax <= 0f)
+            if (!wearingRogueArmor)
             {
                 rogueStealth = 0f;
                 playRogueStealthSound = false;
@@ -9835,10 +9835,13 @@ namespace CalamityMod.CalPlayer
                 playRogueStealthSound = true;
 
             // Calculate stealth generation and gain stealth accordingly
-            float currentStealthGen = UpdateStealthGenStats();
-            rogueStealth += rogueStealthMax * 0.006f * currentStealthGen;
-            if (rogueStealth > rogueStealthMax)
-                rogueStealth = rogueStealthMax;
+            if (wearingRogueArmor)
+            {
+                float currentStealthGen = UpdateStealthGenStats();
+                rogueStealth += rogueStealthMax * 0.006f * currentStealthGen;
+                if (rogueStealth > rogueStealthMax)
+                    rogueStealth = rogueStealthMax;
+            }
 
             ProvideStealthStatBonuses();
 

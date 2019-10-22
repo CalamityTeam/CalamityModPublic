@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.penetrate = 1;
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
-            projectile.timeLeft = 300;
+            projectile.timeLeft = 150;
             projectile.extraUpdates = 1;
             projectile.Calamity().rogue = true;
         }
@@ -66,7 +66,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 14);
-            for (int num621 = 0; num621 < 60; num621++)
+            for (int num621 = 0; num621 < 20; num621++)
             {
                 if (Main.rand.Next(10) == 0)
                 {
@@ -79,7 +79,7 @@ namespace CalamityMod.Projectiles.Rogue
                     }
                 }
             }
-            for (int num623 = 0; num623 < 90; num623++)
+            for (int num623 = 0; num623 < 35; num623++)
             {
                 if (Main.rand.Next(10) == 0)
                 {

@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 14;
             projectile.height = 14;
             projectile.friendly = true;
-            projectile.penetrate = 4;
+            projectile.penetrate = 6;
             drawOffsetX = -10;
             drawOriginOffsetY = 0;
             drawOriginOffsetX = 0;
