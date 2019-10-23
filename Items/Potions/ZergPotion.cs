@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Potions
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofChaos>(), 3);
+            recipe.AddIngredient(ModContent.ItemType<CoreofChaos>(), 3);
             recipe.AddIngredient(ModContent.ItemType<MurkySludge>(), 2);
             recipe.AddIngredient(ModContent.ItemType<DemonicBoneAsh>());
             recipe.AddIngredient(ItemID.BottledWater);
@@ -43,7 +43,8 @@ namespace CalamityMod.Items.Potions
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<BloodOrb>(), 20);
-            recipe.AddIngredient(ItemID.BottledWater);
+			recipe.AddIngredient(ModContent.ItemType<CoreofChaos>());
+			recipe.AddIngredient(ItemID.BottledWater);
             recipe.AddTile(TileID.AlchemyTable);
             recipe.SetResult(this);
             recipe.AddRecipe();

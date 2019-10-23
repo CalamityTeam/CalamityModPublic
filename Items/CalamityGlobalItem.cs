@@ -1666,45 +1666,77 @@ namespace CalamityMod.Items
                 }
                 if (item.prefix == 62)
                 {
+					string defenseBoost = "+1 defense\n";
+					if (NPC.downedMoonlord)
+					{
+						defenseBoost = "+3 defense\n";
+					}
+					else if (Main.hardMode)
+					{
+						defenseBoost = "+2 defense\n";
+					}
                     foreach (TooltipLine line2 in tooltips)
                     {
                         if (line2.mod == "Terraria" && line2.Name == "PrefixAccDefense")
                         {
-                            line2.text = "+1 defense\n" +
-                                "+0.25% damage reduction";
+                            line2.text = defenseBoost + "+0.25% damage reduction";
                         }
                     }
                 }
                 if (item.prefix == 63)
                 {
-                    foreach (TooltipLine line2 in tooltips)
+					string defenseBoost = "+2 defense\n";
+					if (NPC.downedMoonlord)
+					{
+						defenseBoost = "+4 defense\n";
+					}
+					else if (Main.hardMode)
+					{
+						defenseBoost = "+3 defense\n";
+					}
+					foreach (TooltipLine line2 in tooltips)
                     {
                         if (line2.mod == "Terraria" && line2.Name == "PrefixAccDefense")
                         {
-                            line2.text = "+2 defense\n" +
-                                "+0.5% damage reduction";
+                            line2.text = defenseBoost + "+0.5% damage reduction";
                         }
                     }
                 }
                 if (item.prefix == 64)
                 {
-                    foreach (TooltipLine line2 in tooltips)
+					string defenseBoost = "+3 defense\n";
+					if (NPC.downedMoonlord)
+					{
+						defenseBoost = "+6 defense\n";
+					}
+					else if (Main.hardMode)
+					{
+						defenseBoost = "+4 defense\n";
+					}
+					foreach (TooltipLine line2 in tooltips)
                     {
                         if (line2.mod == "Terraria" && line2.Name == "PrefixAccDefense")
                         {
-                            line2.text = "+3 defense\n" +
-                                "+0.75% damage reduction";
+                            line2.text = defenseBoost + "+0.75% damage reduction";
                         }
                     }
                 }
                 if (item.prefix == 65)
                 {
-                    foreach (TooltipLine line2 in tooltips)
+					string defenseBoost = "+4 defense\n";
+					if (NPC.downedMoonlord)
+					{
+						defenseBoost = "+8 defense\n";
+					}
+					else if (Main.hardMode)
+					{
+						defenseBoost = "+6 defense\n";
+					}
+					foreach (TooltipLine line2 in tooltips)
                     {
                         if (line2.mod == "Terraria" && line2.Name == "PrefixAccDefense")
                         {
-                            line2.text = "+4 defense\n" +
-                                "+1% damage reduction";
+                            line2.text = defenseBoost + "+1% damage reduction";
                         }
                     }
                 }
@@ -2227,15 +2259,43 @@ namespace CalamityMod.Items
             if (item.type == ItemID.PutridScent)
                 player.Calamity().throwingCrit += 5;
 
-            // Hard / Guarding / Armored / Warding give 0.25% / 0.5% / 0.75% / 1% DR
-            if (item.prefix == 62)
-                player.endurance += 0.0025f;
-            if (item.prefix == 63)
-                player.endurance += 0.005f;
-            if (item.prefix == 64)
-                player.endurance += 0.0075f;
-            if (item.prefix == 65)
-                player.endurance += 0.01f;
+			// Hard / Guarding / Armored / Warding give 0.25% / 0.5% / 0.75% / 1% DR
+			if (item.prefix == 62)
+			{
+				if (NPC.downedMoonlord)
+					player.statDefense += 2;
+				else if (Main.hardMode)
+					player.statDefense += 1;
+
+				player.endurance += 0.0025f;
+			}
+			if (item.prefix == 63)
+			{
+				if (NPC.downedMoonlord)
+					player.statDefense += 2;
+				else if (Main.hardMode)
+					player.statDefense += 1;
+
+				player.endurance += 0.005f;
+			}
+			if (item.prefix == 64)
+			{
+				if (NPC.downedMoonlord)
+					player.statDefense += 3;
+				else if (Main.hardMode)
+					player.statDefense += 1;
+
+				player.endurance += 0.0075f;
+			}
+			if (item.prefix == 65)
+			{
+				if (NPC.downedMoonlord)
+					player.statDefense += 4;
+				else if (Main.hardMode)
+					player.statDefense += 2;
+
+				player.endurance += 0.01f;
+			}
 
             // Precise only gives 1% crit and Lucky only gives 3% crit
             if (item.prefix == 67 || item.prefix == 68)
