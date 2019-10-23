@@ -725,7 +725,7 @@ namespace CalamityMod.NPCs
             }
             else if (npc.type == NPCID.MoonLordCore)
             {
-                npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 2.4) : (int)(npc.lifeMax * 1.9);
+                npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 2.7) : (int)(npc.lifeMax * 2.2);
                 npc.npcSlots = 36f;
             }
             else if (npc.type == NPCID.MoonLordHand || npc.type == NPCID.MoonLordHead || npc.type == NPCID.MoonLordLeechBlob)
@@ -2635,6 +2635,7 @@ namespace CalamityMod.NPCs
         #region Edit Spawn Rate
         public override void EditSpawnRate(Player player, ref int spawnRate, ref int maxSpawns)
         {
+			// Biomes
             if (player.Calamity().ZoneSulphur)
             {
                 spawnRate = (int)(spawnRate * 1.1);
@@ -2666,58 +2667,70 @@ namespace CalamityMod.NPCs
                 maxSpawns = (int)(maxSpawns * 1.1f);
             }
 
-            if (player.Calamity().clamity)
-            {
-                spawnRate = (int)(spawnRate * 0.02);
-                maxSpawns = (int)(maxSpawns * 1.5f);
-            }
+			// Boosts
+			if (player.Calamity().clamity)
+			{
+				spawnRate = (int)(spawnRate * 0.02);
+				maxSpawns = (int)(maxSpawns * 1.5f);
+			}
 
-            if (CalamityWorld.death)
-            {
-                spawnRate = (int)(spawnRate * 0.75);
-            }
-            else if (CalamityWorld.revenge)
-            {
-                spawnRate = (int)(spawnRate * 0.85);
-            }
+			if (CalamityWorld.death)
+			{
+				spawnRate = (int)(spawnRate * 0.75);
+			}
+			else if (CalamityWorld.revenge)
+			{
+				spawnRate = (int)(spawnRate * 0.85);
+			}
 
-            if (CalamityWorld.demonMode)
-            {
-                spawnRate = (int)(spawnRate * 0.75);
-            }
+			if (CalamityWorld.demonMode)
+			{
+				spawnRate = (int)(spawnRate * 0.75);
+			}
 
-            if (player.Calamity().zerg && player.Calamity().chaosCandle)
+			if (Main.waterCandles > 0)
+			{
+				spawnRate = (int)(spawnRate * 0.9);
+				maxSpawns = (int)(maxSpawns * 1.1f);
+			}
+			if (player.enemySpawns)
+			{
+				spawnRate = (int)(spawnRate * 0.8);
+				maxSpawns = (int)(maxSpawns * 1.2f);
+			}
+			if (player.Calamity().chaosCandle)
+			{
+				spawnRate = (int)(spawnRate * 0.6);
+				maxSpawns = (int)(maxSpawns * 2f);
+			}
+			if (player.Calamity().zerg)
             {
-                spawnRate = (int)(spawnRate * 0.005);
-                maxSpawns = (int)(maxSpawns * 7.5f);
-            }
-            else if (player.Calamity().zerg)
-            {
-                spawnRate = (int)(spawnRate * 0.01);
+                spawnRate = (int)(spawnRate * 0.5);
                 maxSpawns = (int)(maxSpawns * 5f);
             }
-            else if (player.Calamity().chaosCandle)
-            {
-                spawnRate = (int)(spawnRate * 0.02);
-                maxSpawns = (int)(maxSpawns * 2.5f);
-            }
 
-            if (player.Calamity().zen && player.Calamity().tranquilityCandle)
+			// Reductions
+			if (Main.peaceCandles > 0)
+			{
+				spawnRate = (int)(spawnRate * 1.1);
+				maxSpawns = (int)(maxSpawns * 0.9f);
+			}
+			if (player.calmed)
+			{
+				spawnRate = (int)(spawnRate * 1.2);
+				maxSpawns = (int)(maxSpawns * 0.8f);
+			}
+            if (player.Calamity().tranquilityCandle)
             {
-                spawnRate = (int)(spawnRate * (player.Calamity().ZoneAbyss ? 1.75 : 75));
-                maxSpawns = (int)(maxSpawns * (player.Calamity().ZoneAbyss ? 0.625f : 0.005f));
+                spawnRate = (int)(spawnRate * 1.4);
+                maxSpawns = (int)(maxSpawns * 0.4f);
             }
-            else if (CalamityPlayer.areThereAnyDamnBosses || player.Calamity().zen || (Config.DisableExpertEnemySpawnsNearHouse && player.townNPCs > 1f && Main.expertMode))
-            {
-                spawnRate = (int)(spawnRate * (player.Calamity().ZoneAbyss ? 1.5 : 50));
-                maxSpawns = (int)(maxSpawns * (player.Calamity().ZoneAbyss ? 0.75f : 0.01f));
-            }
-            else if (player.Calamity().tranquilityCandle)
-            {
-                spawnRate = (int)(spawnRate * (player.Calamity().ZoneAbyss ? 1.25 : 25));
-                maxSpawns = (int)(maxSpawns * (player.Calamity().ZoneAbyss ? 0.875f : 0.02f));
-            }
-        }
+			if (CalamityPlayer.areThereAnyDamnBosses || player.Calamity().zen || (Config.DisableExpertEnemySpawnsNearHouse && player.townNPCs > 1f && Main.expertMode))
+			{
+				spawnRate = (int)(spawnRate * 1.5);
+				maxSpawns = (int)(maxSpawns * 0.01f);
+			}
+		}
         #endregion
 
         #region Edit Spawn Range

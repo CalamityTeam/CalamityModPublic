@@ -1,3 +1,4 @@
+using CalamityMod.Items.Materials;
 using CalamityMod.Items.Potions;
 using Terraria;
 using Terraria.ID;
@@ -38,9 +39,9 @@ namespace CalamityMod.Items.Placeables.Furniture
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.PeaceCandle, 3);
             recipe.AddIngredient(ItemID.SoulofLight, 3);
-            recipe.AddIngredient(ItemID.PixieDust, 4);
-            recipe.AddIngredient(ModContent.ItemType<ZenPotion>());
-            recipe.SetResult(this, 1);
+			recipe.AddIngredient(ModContent.ItemType<CoreofEleum>(), 2);
+			recipe.AddIngredient(ModContent.ItemType<ZenPotion>());
+            recipe.SetResult(this);
             recipe.AddTile(18);
             recipe.AddRecipe();
         }

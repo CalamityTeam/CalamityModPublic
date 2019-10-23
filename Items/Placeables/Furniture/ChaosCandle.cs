@@ -39,9 +39,9 @@ namespace CalamityMod.Items.Placeables.Furniture
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.WaterCandle, 3);
             recipe.AddIngredient(ItemID.SoulofNight, 3);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofChaos>(), 4);
+            recipe.AddIngredient(ModContent.ItemType<CoreofChaos>(), 2);
             recipe.AddIngredient(ModContent.ItemType<ZergPotion>());
-            recipe.SetResult(this, 1);
+            recipe.SetResult(this);
             recipe.AddTile(18);
             recipe.AddRecipe();
         }
