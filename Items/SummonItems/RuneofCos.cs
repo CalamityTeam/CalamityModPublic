@@ -43,10 +43,15 @@ namespace CalamityMod.Items.SummonItems
         {
             if (player.ZoneDungeon)
             {
-                for (int num662 = 0; num662 < 2; num662++)
-                {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<DarkEnergySpawn>(), 0, 0f, Main.myPlayer, 0f, 0f);
-                }
+				if (Main.netMode != NetmodeID.MultiplayerClient)
+				{
+					for (int num662 = 0; num662 < 2; num662++)
+					{
+						NPC.NewNPC((int)player.Center.X - 200, (int)player.Center.Y - 200, ModContent.NPCType<DarkEnergy>());
+						NPC.NewNPC((int)player.Center.X + 200, (int)player.Center.Y - 200, ModContent.NPCType<DarkEnergy2>());
+						NPC.NewNPC((int)player.Center.X, (int)player.Center.Y + 200, ModContent.NPCType<DarkEnergy3>());
+					}
+				}
                 NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<CeaselessVoid>());
             }
             else if (player.ZoneUnderworldHeight)

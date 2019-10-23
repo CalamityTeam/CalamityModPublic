@@ -22,7 +22,9 @@ namespace CalamityMod
         public static void AddRecipes()
         {
             EditTerraBladeRecipe();
-            AddPotionRecipes();
+			EditFireGauntletRecipe();
+
+			AddPotionRecipes();
             AddToolRecipes();
             AddProgressionRecipes();
             AddEarlyGameWeaponRecipes();
@@ -129,9 +131,31 @@ namespace CalamityMod
             });
         }
 
-        #region Potions
-        // Equivalent Blood Orb recipes for almost all vanilla potions
-        private static void AddPotionRecipes()
+		// Change Fire Gauntlet's recipe to require 5 Chaotic Bars (forces the item to be post-Golem)
+		private static void EditFireGauntletRecipe()
+		{
+			List<Recipe> rec = Main.recipe.ToList();
+			rec.Where(x => x.createItem.type == ItemID.FireGauntlet).ToList().ForEach(s =>
+			{
+				for (int i = 0; i < s.requiredItem.Length; i++)
+				{
+					s.requiredItem[i] = new Item();
+				}
+				s.requiredItem[0].SetDefaults(ItemID.MagmaStone, false);
+				s.requiredItem[0].stack = 1;
+				s.requiredItem[1].SetDefaults(ItemID.MechanicalGlove, false);
+				s.requiredItem[1].stack = 1;
+				s.requiredItem[2].SetDefaults(ModContent.ItemType<CruptixBar>(), false);
+				s.requiredItem[2].stack = 5;
+
+				s.createItem.SetDefaults(ItemID.FireGauntlet, false);
+				s.createItem.stack = 1;
+			});
+		}
+
+		#region Potions
+		// Equivalent Blood Orb recipes for almost all vanilla potions
+		private static void AddPotionRecipes()
         {
             short[] potions = new[]
             {
