@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Rogue
                 projectile.velocity.Y = projectile.velocity.Y + 0.2f;
             }
             projectile.rotation += projectile.velocity.X * 0.1f;
-			if (Main.rand.NextBool(2))
+			if (Main.rand.NextBool(4))
 			{
 				int num199 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 89, 0f, 0f, 100, default, 1f);
 				Dust expr_8976_cp_0 = Main.dust[num199];
@@ -66,7 +66,7 @@ namespace CalamityMod.Projectiles.Rogue
 				Dust expr_89E7_cp_0 = Main.dust[num199];
 				expr_89E7_cp_0.velocity.Y -= 2f;
 			}
-            if (Main.rand.NextBool(8))
+            if (Main.rand.NextBool(10))
             {
                 int num200 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 89, 0f, 0f, 100, default, 1f);
                 Dust expr_8A4E_cp_0 = Main.dust[num200];
