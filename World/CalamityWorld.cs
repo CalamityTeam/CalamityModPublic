@@ -75,6 +75,10 @@ namespace CalamityMod.World
         public static bool armageddon = false; //Armageddon Mode
         public static bool ironHeart = false; //Iron Heart Mode
 
+		// New Temple Altar
+		public static int newAltarX = 0;
+		public static int newAltarY = 0;
+
         //Evil Islands
         public static int fehX = 0;
         public static int fehY = 0;
@@ -169,6 +173,8 @@ namespace CalamityMod.World
             bossRushSpawnCountdown = 180;
             bossSpawnCountdown = 0;
             bossType = 0;
+			newAltarX = 0;
+			newAltarY = 0;
             abyssChasmBottom = 0;
             abyssSide = false;
             downedDesertScourge = false;
@@ -678,7 +684,31 @@ namespace CalamityMod.World
                 }));
             }
 
-            int SulphurIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Micro Biomes"));
+			int JungleTempleIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Jungle Temple"));
+			tasks[JungleTempleIndex] = new PassLegacy("Actually Good Jungle Temple", delegate (GenerationProgress progress)
+			{
+				progress.Message = "A good jungle temple";
+				WorldGenerationMethods.NewJungleTemple();
+			});
+
+			int JungleTempleIndex2 = tasks.FindIndex(genpass => genpass.Name.Equals("Temple"));
+			tasks[JungleTempleIndex2] = new PassLegacy("Actually Good Jungle Temple Part 2", delegate (GenerationProgress progress)
+			{
+				progress.Message = "A good jungle temple part 2";
+				Main.tileSolid[162] = false;
+				Main.tileSolid[226] = true;
+				WorldGenerationMethods.NewJungleTemplePart2();
+				Main.tileSolid[232] = false;
+			});
+
+			int LihzahrdAltarIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Lihzahrd Altars"));
+			tasks[LihzahrdAltarIndex] = new PassLegacy("Lihzahrd Altar", delegate (GenerationProgress progress)
+			{
+				progress.Message = "A good jungle temple altar";
+				WorldGenerationMethods.NewJungleTempleLihzahrdAltar();
+			});
+
+			int SulphurIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Micro Biomes"));
             if (SulphurIndex != -1)
             {
                 tasks.Insert(SulphurIndex + 1, new PassLegacy("Sulphur", delegate (GenerationProgress progress)
