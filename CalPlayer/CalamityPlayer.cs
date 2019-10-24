@@ -1713,7 +1713,7 @@ namespace CalamityMod.CalPlayer
         public override void ProcessTriggers(TriggersSet triggersSet)
         {
             if (CalamityMod.MomentumCapacitatorHotkey.JustPressed && momentumCapacitor && Main.myPlayer == player.whoAmI && player.Calamity().rogueStealth >= player.Calamity().rogueStealthMax * 0.3f &&
-                CalamityUtils.CountProjectiles(ModContent.ProjectileType<MomentumCapacitorOrb>()) == 0)
+                wearingRogueArmor && player.Calamity().rogueStealthMax > 0 && CalamityUtils.CountProjectiles(ModContent.ProjectileType<MomentumCapacitorOrb>()) == 0)
             {
                 player.Calamity().rogueStealth -= player.Calamity().rogueStealthMax * 0.3f;
                 Vector2 fieldSpawnCenter = new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition;

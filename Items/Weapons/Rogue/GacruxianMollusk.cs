@@ -7,7 +7,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class GacruxianMollusk : RogueWeapon
     {
-        public static int BaseDamage = 38;
+        public static int BaseDamage = 36;
         public static float Knockback = 5f;
         public static float Speed = 15f;
 
@@ -24,8 +24,8 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.rare = 4;
             item.knockBack = Knockback;
             item.autoReuse = true;
-            item.useTime = 22;
-            item.useAnimation = 22;
+            item.useTime = 26;
+            item.useAnimation = 26;
             item.useStyle = 1;
             item.width = 24;
             item.height = 22;
