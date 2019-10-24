@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             item.width = 16;
             item.height = 16;
-            item.damage = 650;
+            item.damage = 235;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.channel = true;
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useStyle = 5;
             item.knockBack = 2.5f;
             item.UseSound = SoundID.Item116;
-            item.value = Item.buyPrice(1, 80, 0, 0);
+            item.value = Item.buyPrice(1, 35, 0, 0);
             item.rare = 10;
             item.shootSpeed = 24f;
             item.shoot = ModContent.ProjectileType<MourningstarFlail>();
@@ -40,10 +40,11 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<CoreofChaos>(), 6);
+            recipe.AddIngredient(ModContent.ItemType<CoreofCinder>(), 6);
+            recipe.AddIngredient(ModContent.ItemType<DivineGeode>(), 6);//Quantities may or may not be intentional hue
             recipe.AddIngredient(ItemID.SolarEruption);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
