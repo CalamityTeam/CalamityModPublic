@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.timeLeft = 120;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
-            projectile.melee = true;
+            projectile.Calamity().rogue = true;
         }
 
         public override void AI()
