@@ -5242,6 +5242,12 @@ namespace CalamityMod.CalPlayer
             bool isTrueMelee = item.melee && (item.shoot == 0 || (item.noMelee && item.noUseGraphic && item.useStyle == 5 && !CalamityMod.trueMeleeBoostExceptionList.Contains(item.type)));
             if (isTrueMelee)
             {
+				if (tScale)
+				{
+					player.statDefense += 25;
+					player.endurance += 0.1f;
+				}
+
                 float damageAdd = (dodgeScarf ? 0.2f : 0f) +
                     ((aBulwarkRare && aBulwarkRareMeleeBoostTimer > 0) ? 2f : 0f) +
                     (DoGLore ? 0.5f : 0f) +
@@ -6122,8 +6128,10 @@ namespace CalamityMod.CalPlayer
         #region Modify Hit NPC
         public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
         {
-            #region MultiplierBoosts
-            double damageMult = 1.0;
+			bool isTrueMelee = item.melee && item.shoot == 0;
+
+			#region MultiplierBoosts
+			double damageMult = 1.0;
             if (silvaMelee && Main.rand.NextBool(4) && item.melee)
             {
                 damageMult += 4.0;
@@ -6182,9 +6190,13 @@ namespace CalamityMod.CalPlayer
 
             if ((target.damage > 5 || target.boss) && player.whoAmI == Main.myPlayer && !target.SpawnedFromStatue)
             {
-                if (item.melee && !item.noMelee && !item.noUseGraphic)
+				if (isTrueMelee && soaring)
+				{
+					player.wingTime = player.wingTimeMax;
+				}
+				if (item.melee && !item.noMelee && !item.noUseGraphic)
                 {
-                    if (ataxiaGeyser)
+					if (ataxiaGeyser)
                     {
                         if (player.ownedProjectileCounts[ModContent.ProjectileType<ChaosGeyser>()] < 3)
                         {
@@ -6307,6 +6319,11 @@ namespace CalamityMod.CalPlayer
             bool isTrueMelee = proj.Calamity().trueMelee;
             bool isSummon = proj.minion || proj.sentry || CalamityMod.projectileMinionList.Contains(proj.type);
             bool hasClassType = proj.melee || proj.ranged || proj.magic || isSummon || proj.Calamity().rogue;
+
+			if (isTrueMelee && soaring)
+			{
+				player.wingTime = player.wingTimeMax;
+			}
 
             if (proj.Calamity().rogue)
             {

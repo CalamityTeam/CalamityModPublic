@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Potions
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Revivify Potion");
-            Tooltip.SetDefault("Causes enemy attacks to heal you for a fraction of their damage for 15 seconds");
+            Tooltip.SetDefault("Causes enemy attacks to heal you for a fraction of their damage for 30 seconds");
         }
 
         public override void SetDefaults()
@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Potions
             {
                 player.itemTime = item.useTime;
                 CalamityPlayer modPlayer = player.Calamity();
-                modPlayer.revivifyTimer = 900;
+                modPlayer.revivifyTimer = 1800;
             }
             return true;
         }

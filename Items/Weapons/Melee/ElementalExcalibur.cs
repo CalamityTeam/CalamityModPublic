@@ -21,7 +21,8 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Elemental Excalibur");
             Tooltip.SetDefault("Freezes enemies and heals the player on hit\n" +
-                "Fires rainbow beams that change their behavior based on their color");
+                "Fires rainbow beams that change their behavior based on their color\n" +
+				"Right click for true melee");
         }
 
         public override void SetDefaults()
@@ -62,7 +63,29 @@ namespace CalamityMod.Items.Weapons.Melee
             return false;
         }
 
-        public override void MeleeEffects(Player player, Rectangle hitbox)
+		public override bool AltFunctionUse(Player player)
+		{
+			return true;
+		}
+
+		public override bool CanUseItem(Player player)
+		{
+			if (player.altFunctionUse == 2)
+			{
+				item.shoot = 0;
+				item.shootSpeed = 0f;
+				item.damage = BaseDamage * 3;
+			}
+			else
+			{
+				item.shoot = ModContent.ProjectileType<ElementalExcaliburBeam>();
+				item.shootSpeed = 12f;
+				item.damage = BaseDamage;
+			}
+			return base.CanUseItem(player);
+		}
+
+		public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(4))
             {

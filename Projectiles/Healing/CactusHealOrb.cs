@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Healing
 
         public override void AI()
         {
-            projectile.velocity.Y *= 0.985f;
+            projectile.velocity.Y *= 0.98f;
             int num487 = projectile.owner;
             Vector2 vector36 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
             float num489 = Main.player[num487].Center.X - vector36.X;
@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Healing
             {
                 if (projectile.owner == Main.myPlayer)
                 {
-                    int num492 = 15;
+                    int num492 = 25;
                     Main.player[num487].HealEffect(num492, false);
                     Main.player[num487].statLife += num492;
                     if (Main.player[num487].statLife > Main.player[num487].statLifeMax2)
@@ -54,7 +54,6 @@ namespace CalamityMod.Projectiles.Healing
             expr_154F9_cp_0.position.X -= num498;
             Dust expr_15518_cp_0 = Main.dust[num500];
             expr_15518_cp_0.position.Y -= num499;
-            return;
         }
     }
 }
