@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.CloneDefaults(ItemID.Kraken);
-            item.damage = 247;
+            item.damage = 218;
             item.useTime = 22;
             item.useAnimation = 22;
             item.useStyle = 5;
