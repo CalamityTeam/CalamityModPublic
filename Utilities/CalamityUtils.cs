@@ -85,11 +85,6 @@ namespace CalamityMod
             {
                 npc.lifeMax = revengeance.Value;
             }
-            if (npc.boss)
-            {
-                double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
-                npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
-            }
         }
         /// <summary>
         /// Detects nearby hostile NPCs from a given point

@@ -74,15 +74,19 @@ namespace CalamityMod.Items.Weapons.Melee
 			{
 				item.shoot = 0;
 				item.shootSpeed = 0f;
-				item.damage = BaseDamage * 3;
 			}
 			else
 			{
 				item.shoot = ModContent.ProjectileType<ElementalExcaliburBeam>();
 				item.shootSpeed = 12f;
-				item.damage = BaseDamage;
 			}
 			return base.CanUseItem(player);
+		}
+
+		public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
+		{
+			if (player.altFunctionUse == 2)
+				damage *= 2;
 		}
 
 		public override void MeleeEffects(Player player, Rectangle hitbox)
