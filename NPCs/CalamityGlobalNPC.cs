@@ -3518,8 +3518,6 @@ namespace CalamityMod.NPCs
                 SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Teratoma>(), CalamityWorld.downedHiveMind, Item.buyPrice(0, 10));
                 SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<BloodyWormTooth>(), CalamityWorld.downedHiveMind && Main.expertMode);
                 SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<OverloadedSludge>(), CalamityWorld.downedSlimeGod, Item.buyPrice(0, 15));
-                SetShopItem(ref shop, ref nextSlot, ItemID.PumpkinMoonMedallion, NPC.downedHalloweenKing, Item.buyPrice(0, 25));
-                SetShopItem(ref shop, ref nextSlot, ItemID.NaughtyPresent, NPC.downedChristmasIceQueen, Item.buyPrice(0, 25));
                 SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<RomajedaOrchid>());
             }
 
@@ -3545,6 +3543,8 @@ namespace CalamityMod.NPCs
                 SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<PinkSlabWallUnsafe>(), price: Item.buyPrice(copper: 10));
                 SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<PinkTiledWallUnsafe>(), price: Item.buyPrice(copper: 10));
                 SetShopItem(ref shop, ref nextSlot, ItemID.GoldenKey, Main.hardMode, Item.buyPrice(0, 5));
+                SetShopItem(ref shop, ref nextSlot, ItemID.PumpkinMoonMedallion, NPC.downedHalloweenKing, Item.buyPrice(0, 25));
+                SetShopItem(ref shop, ref nextSlot, ItemID.NaughtyPresent, NPC.downedChristmasIceQueen, Item.buyPrice(0, 25));
             }
 
             if (type == NPCID.Painter)
@@ -3562,7 +3562,6 @@ namespace CalamityMod.NPCs
 
             if (type == NPCID.Wizard)
             {
-                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<CryoKey>(), CalamityWorld.downedCryogen, Item.buyPrice(0, 15));
                 SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<CharredIdol>(), CalamityWorld.downedBrimstoneElemental, Item.buyPrice(0, 20));
                 SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<AstralChunk>(), CalamityWorld.downedAstrageldon, Item.buyPrice(0, 25));
                 SetShopItem(ref shop, ref nextSlot, ItemID.MagicMissile, price: Item.buyPrice(0, 5));
