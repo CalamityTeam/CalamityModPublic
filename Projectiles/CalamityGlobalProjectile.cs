@@ -1446,6 +1446,9 @@ namespace CalamityMod.Projectiles
         #region Drawing
         public override Color? GetAlpha(Projectile projectile, Color lightColor)
         {
+            if (Main.player[Main.myPlayer].Calamity().omniscience && projectile.hostile)
+                return Color.Coral;
+			
             if (Main.player[Main.myPlayer].Calamity().trippy)
                 return new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, projectile.alpha);
 

@@ -570,14 +570,8 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-            if (NPC.downedGolemBoss)
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.MartianConduitPlating, Main.rand.Next(10, 30));
-            }
-            if (Main.rand.NextBool(3))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EssenceofCinder>());
-            }
+            DropHelper.DropItemCondition(npc, ItemID.MartianConduitPlating, NPC.downedGolemBoss, 1, 10, 30);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<EssenceofCinder>(), 3);
         }
     }
 }
