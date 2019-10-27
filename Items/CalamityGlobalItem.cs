@@ -1807,6 +1807,7 @@ namespace CalamityMod.Items
                     case ItemID.FishronBossBag:
                         float baronChance = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : DropHelper.LegendaryDropRateFloat;
                         DropHelper.DropItemCondition(player, ModContent.ItemType<BrinyBaron>(), CalamityWorld.revenge, baronChance);
+                        DropHelper.DropItemChance(player, ModContent.ItemType<DukesDecapitator>(), 4);
                         break;
 
                     // Betsy
