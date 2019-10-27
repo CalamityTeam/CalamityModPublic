@@ -68,6 +68,7 @@ namespace CalamityMod.CalPlayer
         public int sCalKillCount = 0;
         public int deathCount = 0;
         public double radiation = 0;
+        public bool killSpikyBalls = false;
 
         // Timer and Counter
         public int bossRushImmunityFrameCurseTimer = 0;
@@ -820,6 +821,8 @@ namespace CalamityMod.CalPlayer
             dashMod = 0;
             alcoholPoisonLevel = 0;
 
+            killSpikyBalls = false;
+
             thirdSage = false;
             if (player.immuneTime == 0)
                 thirdSageH = false;
@@ -1267,6 +1270,8 @@ namespace CalamityMod.CalPlayer
             aBulwarkRareMeleeBoostTimer = 0;
             theBeeDamage = 0;
             polarisBoostCounter = 0;
+
+            killSpikyBalls = false;
 
             shadowflame = false;
             wDeath = false;
