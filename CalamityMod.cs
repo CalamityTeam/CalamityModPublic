@@ -80,6 +80,8 @@ namespace CalamityMod
 {
     public class CalamityMod : Mod
     {
+        // TODO -- I have been advised by Jopo that Mods should never contain static variables
+        
         // Hotkeys
         public static ModHotKey NormalityRelocatorHotKey;
         public static ModHotKey AegisHotKey;
@@ -157,7 +159,8 @@ namespace CalamityMod
         public static List<int> angryBonesList;
         public static List<int> hornetList;
         public static List<int> mossHornetList;
-        Mod thorium = ModLoader.GetMod("ThoriumMod");
+
+        private Mod thorium = null;
 
         #region Load
         public override void Load()
@@ -183,6 +186,8 @@ namespace CalamityMod
             {
                 LoadClient();
             }
+
+            thorium = ModLoader.GetMod("ThoriumMod");
 
             BossHealthBarManager.Load(this);
 
@@ -316,6 +321,8 @@ namespace CalamityMod
             angryBonesList = null;
             hornetList = null;
             mossHornetList = null;
+
+            thorium = null;
 
             BossHealthBarManager.Unload();
             base.Unload();
@@ -2176,7 +2183,14 @@ namespace CalamityMod
             if (thorium is null || !Config.RevengeanceAndDeathThoriumBossBuff)
                 return;
 
-            void ThoriumDR(string npcName, float dr) => DRValues.Add(thorium.NPCType(npcName), dr);
+            void ThoriumDR(string npcName, float dr) {
+                int type = thorium.NPCType(npcName);
+                if (DRValues.ContainsKey(type))
+                    DRValues[type] = dr;
+                else
+                    DRValues.Add(type, dr);
+            };
+
             ThoriumDR("Viscount", 0.05f);
             ThoriumDR("BoreanStrider", 0.05f);
             ThoriumDR("FallenDeathBeholder", 0.05f);
