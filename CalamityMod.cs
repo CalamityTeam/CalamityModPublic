@@ -157,6 +157,7 @@ namespace CalamityMod
         public static List<int> angryBonesList;
         public static List<int> hornetList;
         public static List<int> mossHornetList;
+        Mod thorium = ModLoader.GetMod("ThoriumMod");
 
         #region Load
         public override void Load()
@@ -189,7 +190,7 @@ namespace CalamityMod
 
             SetupLists();
             SetupVanillaDR();
-            SetupThoriumBossDR(ModLoader.GetMod("ThoriumMod"));
+            SetupThoriumBossDR(thorium);
 
             CalamityLocalization.AddLocalizations();
         }
