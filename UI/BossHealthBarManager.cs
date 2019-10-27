@@ -451,8 +451,7 @@ namespace CalamityMod.UI
                 Ceaseless,
                 Perforator,
                 Ravage,
-                SlimeCore,
-                MoonCore
+                SlimeCore
             }
 
             private int _npcLocation;
@@ -481,11 +480,7 @@ namespace CalamityMod.UI
             //EDITABLE
             public void SetupForType(int type)
             {
-                if (type == NPCID.MoonLordCore)
-                {
-                    _special2 = SpecialType2.MoonCore;
-                }
-                else if (type == ModContent.NPCType<SlimeGodCore>())
+                if (type == ModContent.NPCType<SlimeGodCore>())
                 {
                     _special2 = SpecialType2.SlimeCore;
                 }
@@ -612,9 +607,11 @@ namespace CalamityMod.UI
                     {
                         if (Main.npc[i].active && Main.npc[i].life > 0 && _arrayOfIds.Contains(Main.npc[i].type))
                         {
-                            if ((Main.npc[i].type == NPCID.MoonLordHead || Main.npc[i].type == NPCID.MoonLordHand || Main.npc[i].type == NPCID.MoonLordCore) &&
-                                Main.npc[i].ai[0] == -2f)
+                            if ((Main.npc[i].type == NPCID.MoonLordHead && (Main.npc[i].ai[0] == -2f || Main.npc[i].ai[0] == -3f || Main.npc[i].Calamity().newAI[0] == 1f)) ||
+								(Main.npc[i].type == NPCID.MoonLordHand && (Main.npc[i].ai[0] == -2f || Main.npc[i].Calamity().newAI[0] == 1f)) ||
+								(Main.npc[i].type == NPCID.MoonLordCore && Main.npc[i].ai[0] == 2f))
                                 continue;
+
                             currentLife += Main.npc[i].life;
                             maxLife += Main.npc[i].lifeMax;
                         }
@@ -728,13 +725,6 @@ namespace CalamityMod.UI
                             NPC.CountNPCS(ModContent.NPCType<SlimeGodRun>()) +
                             NPC.CountNPCS(ModContent.NPCType<SlimeGodRunSplit>());
                         _specialData2[4] = count5;
-                        break;
-                    case SpecialType2.MoonCore:
-                        if (NPC.CountNPCS(NPCID.MoonLordFreeEye) > 3)
-                        {
-                            int count6 = NPC.CountNPCS(NPCID.MoonLordFreeEye) - 3;
-                            _specialData2[5] = count6;
-                        }
                         break;
                 }
             }
@@ -875,13 +865,7 @@ namespace CalamityMod.UI
                             Vector2 countSize5 = Main.fontItemStack.MeasureString(count5) * textScale;
                             float countX5 = Math.Max(x, x + mainBarWidth - countSize5.X);
                             DrawBorderStringEightWay(sb, Main.fontItemStack, count5, new Vector2(countX5, y + MainBarYOffset + 17), Color.White, Color.Black * 0.24f, textScale);
-                            return;
-                        case SpecialType2.MoonCore:
-                            string count7 = "(Vulnerable Eyes left: " + _specialData2[5] + ")";
-                            Vector2 countSize7 = Main.fontItemStack.MeasureString(count7) * textScale;
-                            float countX7 = Math.Max(x, x + mainBarWidth - countSize7.X);
-                            DrawBorderStringEightWay(sb, Main.fontItemStack, count7, new Vector2(countX7, y + MainBarYOffset + 17), Color.White, Color.Black * 0.24f, textScale);
-                            return;
+							return;
                     }
 
                     string actualLife = "(" + _npc.life + " / " + _npc.lifeMax + ")";
@@ -1017,13 +1001,6 @@ namespace CalamityMod.UI
                             Vector2 countSize5 = Main.fontItemStack.MeasureString(count5) * textScale;
                             float countX5 = Math.Max(x, x + mainBarWidth - countSize5.X);
                             DrawBorderStringEightWay(sb, Main.fontItemStack, count5, new Vector2(countX5, y + MainBarYOffset + 17), Color.White * flickerValue, Color.Black * 0.24f * flickerValue, textScale);
-                            _openAnimCounter--;
-                            return;
-                        case SpecialType2.MoonCore:
-                            string count7 = "(Vulnerable Eyes left: " + _specialData2[5] + ")";
-                            Vector2 countSize7 = Main.fontItemStack.MeasureString(count7) * textScale;
-                            float countX7 = Math.Max(x, x + mainBarWidth - countSize7.X);
-                            DrawBorderStringEightWay(sb, Main.fontItemStack, count7, new Vector2(countX7, y + MainBarYOffset + 17), Color.White * flickerValue, Color.Black * 0.24f * flickerValue, textScale);
                             _openAnimCounter--;
                             return;
                     }

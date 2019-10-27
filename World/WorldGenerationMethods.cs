@@ -560,9 +560,9 @@ namespace CalamityMod.World
 					}
 				}
 			}
-			int num52 = 8400 - 20;
+			int num52 = Main.maxTilesX - 20;
 			int num53 = 20;
-			int num54 = 2400 - 20;
+			int num54 = Main.maxTilesY - 20;
 			int num55 = 20;
 			for (int num56 = 0; num56 < num2; num56++)
 			{

@@ -4833,6 +4833,7 @@ namespace CalamityMod.CalPlayer
             }
             #endregion
         }
+
         #region Dragon Scale Logic
         public override void PostBuyItem(NPC vendor, Item[] shopInventory, Item item)
         {
@@ -4841,6 +4842,7 @@ namespace CalamityMod.CalPlayer
                 CalamityWorld.dragonScalesBought = true;
             }
         }
+
         public override bool CanBuyItem(NPC vendor, Item[] shopInventory, Item item)
         {
             if (item.type == ModContent.ItemType<DragonScales>())
@@ -4850,6 +4852,7 @@ namespace CalamityMod.CalPlayer
             return base.CanBuyItem(vendor, shopInventory, item);
         }
         #endregion
+
         public override void PostUpdateRunSpeeds()
         {
             #region SpeedBoosts
@@ -5272,7 +5275,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (item.melee || item.ranged || item.magic || item.Calamity().rogue)
                 {
-                    double useTimeBeeMultiplier = (double)(item.useTime * item.useAnimation) / 3600.0; //28 * 28 = 784 is average so that equals 784 / 3600 = 0.217777 = 21.7% boost
+                    double useTimeBeeMultiplier = (double)(item.useTime * item.useAnimation) / 3600D; //28 * 28 = 784 is average so that equals 784 / 3600 = 0.217777 = 21.7% boost
                     if (item.type == ModContent.ItemType<ScarletDevil>())
                     {
                         if (useTimeBeeMultiplier > 0.1)
@@ -6192,7 +6195,15 @@ namespace CalamityMod.CalPlayer
             {
 				if (isTrueMelee && soaring)
 				{
-					player.wingTime = player.wingTimeMax;
+					double useTimeMultiplier = 0.85 + ((double)(item.useTime * item.useAnimation) / 3600D); //28 * 28 = 784 is average so that equals 784 / 3600 = 0.217777 + 1 = 21.7% boost
+					double wingTimeFraction = (double)player.wingTimeMax / 20D;
+					double meleeStatMultiplier = (double)(player.meleeDamage * (float)((double)player.meleeCrit / 10D));
+
+					if (player.wingTime < player.wingTimeMax)
+						player.wingTime += (int)(useTimeMultiplier * (wingTimeFraction + meleeStatMultiplier));
+
+					if (player.wingTime > player.wingTimeMax)
+						player.wingTime = player.wingTimeMax;
 				}
 				if (item.melee && !item.noMelee && !item.noUseGraphic)
                 {
@@ -6257,7 +6268,7 @@ namespace CalamityMod.CalPlayer
                     {
                         bloodflareMeleeHits++;
                     }
-                    if (player.whoAmI == Main.myPlayer)
+                    if (player.whoAmI == Main.myPlayer && target.canGhostHeal)
                     {
                         int healAmount = Main.rand.Next(3) + 1;
                         player.statLife += healAmount;
@@ -6320,9 +6331,19 @@ namespace CalamityMod.CalPlayer
             bool isSummon = proj.minion || proj.sentry || CalamityMod.projectileMinionList.Contains(proj.type);
             bool hasClassType = proj.melee || proj.ranged || proj.magic || isSummon || proj.Calamity().rogue;
 
+			Item heldItem = player.inventory[player.selectedItem];
+
 			if (isTrueMelee && soaring)
 			{
-				player.wingTime = player.wingTimeMax;
+				double useTimeMultiplier = 0.85 + ((double)(heldItem.useTime * heldItem.useAnimation) / 3600D); //28 * 28 = 784 is average so that equals 784 / 3600 = 0.217777 + 1 = 21.7% boost
+				double wingTimeFraction = (double)player.wingTimeMax / 20D;
+				double meleeStatMultiplier = (double)(player.meleeDamage * (float)((double)player.meleeCrit / 10D));
+
+				if (player.wingTime < player.wingTimeMax)
+					player.wingTime += (int)(useTimeMultiplier * (wingTimeFraction + meleeStatMultiplier));
+
+				if (player.wingTime > player.wingTimeMax)
+					player.wingTime = player.wingTimeMax;
 			}
 
             if (proj.Calamity().rogue)
@@ -6334,16 +6355,10 @@ namespace CalamityMod.CalPlayer
             double damageMult = 1.0;
             if (isSummon)
             {
-                if (player.inventory[player.selectedItem].type > 0)
+                if (heldItem.type > 0)
                 {
-                    if ((player.inventory[player.selectedItem].summon &&
-                        !player.inventory[player.selectedItem].melee &&
-                        !player.inventory[player.selectedItem].ranged &&
-                        !player.inventory[player.selectedItem].magic &&
-                        !player.inventory[player.selectedItem].Calamity().rogue) ||
-                        player.inventory[player.selectedItem].hammer > 0 ||
-                        player.inventory[player.selectedItem].pick > 0 ||
-                        player.inventory[player.selectedItem].axe > 0)
+                    if ((heldItem.summon && !heldItem.melee && !heldItem.ranged && !heldItem.magic && !heldItem.Calamity().rogue) ||
+						heldItem.hammer > 0 || heldItem.pick > 0 || heldItem.axe > 0)
                     {
                         damageMult += 0.1;
                     }
@@ -6483,16 +6498,11 @@ namespace CalamityMod.CalPlayer
             #region MultiplicativeReductions
             if (isSummon)
             {
-                if (player.inventory[player.selectedItem].type > 0)
+                if (heldItem.type > 0)
                 {
-                    if (!player.inventory[player.selectedItem].summon &&
-                    (player.inventory[player.selectedItem].melee ||
-                    player.inventory[player.selectedItem].ranged ||
-                    player.inventory[player.selectedItem].magic ||
-                    player.inventory[player.selectedItem].Calamity().rogue) &&
-                    player.inventory[player.selectedItem].hammer == 0 &&
-                    player.inventory[player.selectedItem].pick == 0 &&
-                    player.inventory[player.selectedItem].axe == 0)
+                    if (!heldItem.summon &&
+						(heldItem.melee || heldItem.ranged || heldItem.magic || heldItem.Calamity().rogue) &&
+						heldItem.hammer == 0 && heldItem.pick == 0 && heldItem.axe == 0)
                     {
                         damage = (int)((double)damage * 0.75);
                     }
@@ -6649,7 +6659,7 @@ namespace CalamityMod.CalPlayer
                     {
                         bloodflareMeleeHits++;
                     }
-                    if (player.whoAmI == Main.myPlayer)
+                    if (player.whoAmI == Main.myPlayer && target.canGhostHeal)
                     {
                         int healAmount = Main.rand.Next(3) + 1;
                         player.statLife += healAmount;

@@ -272,16 +272,12 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         npc.ai[1] += 1f;
                         npc.ai[2] = 0f;
 
-                        float num1044 = revenge ? 24f : 22f;
+                        float num1044 = revenge ? 28f : 26f;
                         if (aboveGroundEnrage)
                             num1044 += 6f;
-                        if ((double)npc.life < (double)npc.lifeMax * 0.75 || CalamityWorld.bossRushActive)
+                        if ((double)npc.life < (double)npc.lifeMax * 0.66 || CalamityWorld.bossRushActive)
                             num1044 += 2f;
-                        if ((double)npc.life < (double)npc.lifeMax * 0.5 || CalamityWorld.bossRushActive)
-                            num1044 += 2f;
-                        if ((double)npc.life < (double)npc.lifeMax * 0.25 || CalamityWorld.bossRushActive)
-                            num1044 += 2f;
-                        if ((double)npc.life < (double)npc.lifeMax * 0.1 || CalamityWorld.bossRushActive)
+                        if ((double)npc.life < (double)npc.lifeMax * 0.33 || CalamityWorld.bossRushActive)
                             num1044 += 2f;
                         if (npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
                             num1044 += 2f;
@@ -304,27 +300,17 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
                     charging = false;
 
-                    float num1048 = revenge ? 16f : 14f;
-                    float num1049 = revenge ? 0.2f : 0.18f;
-                    if ((double)npc.life < (double)npc.lifeMax * 0.75 || CalamityWorld.bossRushActive)
-                    {
-                        num1048 += 1f;
-                        num1049 += 0.05f;
-                    }
-                    if ((double)npc.life < (double)npc.lifeMax * 0.5 || CalamityWorld.bossRushActive)
-                    {
-                        num1048 += 1f;
-                        num1049 += 0.05f;
-                    }
-                    if ((double)npc.life < (double)npc.lifeMax * 0.25 || CalamityWorld.bossRushActive)
+                    float num1048 = revenge ? 18f : 16f;
+                    float num1049 = revenge ? 0.35f : 0.32f;
+                    if ((double)npc.life < (double)npc.lifeMax * 0.66 || CalamityWorld.bossRushActive)
                     {
                         num1048 += 2f;
                         num1049 += 0.05f;
                     }
-                    if ((double)npc.life < (double)npc.lifeMax * 0.1 || CalamityWorld.bossRushActive)
+                    if ((double)npc.life < (double)npc.lifeMax * 0.33 || CalamityWorld.bossRushActive)
                     {
                         num1048 += 2f;
-                        num1049 += 0.1f;
+                        num1049 += 0.05f;
                     }
                     if (npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
                     {
@@ -368,21 +354,17 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
                     npc.spriteDirection = npc.direction;
 
-                    int num1050 = 600;
+                    int num1050 = revenge ? 525 : 550;
                     if (npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
                         num1050 = 250;
-                    else if (aboveGroundEnrage)
+                    else if (aboveGroundEnrage || CalamityWorld.bossRushActive)
                         num1050 = 350;
-                    else if (CalamityWorld.death || CalamityWorld.bossRushActive)
-                        num1050 = 400;
-                    else if ((double)npc.life < (double)npc.lifeMax * 0.1)
+                    else if ((double)npc.life < (double)npc.lifeMax * 0.33)
                         num1050 = revenge ? 425 : 450;
-                    else if ((double)npc.life < (double)npc.lifeMax * 0.25)
-                        num1050 = revenge ? 450 : 475;
-                    else if ((double)npc.life < (double)npc.lifeMax * 0.5)
-                        num1050 = 500;
-                    else if ((double)npc.life < (double)npc.lifeMax * 0.75)
-                        num1050 = 550;
+                    else if ((double)npc.life < (double)npc.lifeMax * 0.66)
+                        num1050 = revenge ? 475 : 500;
+					if (CalamityWorld.death || CalamityWorld.bossRushActive)
+						num1050 -= 25;
 
                     int num1051 = 1;
                     if (npc.position.X + (float)(npc.width / 2) < Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2))
@@ -404,17 +386,17 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
                     npc.velocity *= 0.9f;
                     float num1052 = revenge ? 0.12f : 0.1f;
-                    if (npc.life < npc.lifeMax / 2 || CalamityWorld.bossRushActive)
+                    if ((double)npc.life < (double)npc.lifeMax * 0.8 || CalamityWorld.bossRushActive)
                     {
                         npc.velocity *= 0.9f;
                         num1052 += 0.05f;
                     }
-                    if (npc.life < npc.lifeMax / 3 || CalamityWorld.bossRushActive)
+                    if ((double)npc.life < (double)npc.lifeMax * 0.6 || CalamityWorld.bossRushActive)
                     {
                         npc.velocity *= 0.9f;
                         num1052 += 0.05f;
                     }
-                    if (npc.life < npc.lifeMax / 5 || CalamityWorld.bossRushActive)
+                    if ((double)npc.life < (double)npc.lifeMax * 0.4 || CalamityWorld.bossRushActive)
                     {
                         npc.velocity *= 0.9f;
                         num1052 += 0.05f;
@@ -864,17 +846,17 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             {
                 if (npc.velocity.Y > 0f)
                     npc.velocity.Y = npc.velocity.Y * 0.98f;
-                npc.velocity.Y = npc.velocity.Y - (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
-                if (npc.velocity.Y > 4f)
-                    npc.velocity.Y = 4f;
+                npc.velocity.Y = npc.velocity.Y - (CalamityWorld.bossRushActive ? 0.2f : 0.15f);
+                if (npc.velocity.Y > 5f)
+                    npc.velocity.Y = 5f;
             }
             else if (npc.position.Y < Main.player[npc.target].position.Y - yPos2)
             {
                 if (npc.velocity.Y < 0f)
                     npc.velocity.Y = npc.velocity.Y * 0.98f;
-                npc.velocity.Y = npc.velocity.Y + (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
-                if (npc.velocity.Y < -4f)
-                    npc.velocity.Y = -4f;
+                npc.velocity.Y = npc.velocity.Y + (CalamityWorld.bossRushActive ? 0.2f : 0.15f);
+                if (npc.velocity.Y < -5f)
+                    npc.velocity.Y = -5f;
             }
             if (npc.position.X + (float)(npc.width / 2) > Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) + xPos)
             {

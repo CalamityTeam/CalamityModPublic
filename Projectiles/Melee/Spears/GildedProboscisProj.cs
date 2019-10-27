@@ -70,6 +70,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
         {
             if (target.type == NPCID.TargetDummy || !target.canGhostHeal)
                 return;
+
             Player player = Main.player[projectile.owner];
             player.statLife += 1;
             player.HealEffect(1);
