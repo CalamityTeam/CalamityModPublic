@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class BouncingEyeball : RogueWeapon
     {
-        public const int BaseDamage = 12;
+        public const int BaseDamage = 15;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bouncing Eyeball");
@@ -25,7 +25,8 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.useAnimation = 23;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 3.5f;
-            item.rare = 1;
+            item.rare = 2;
+            item.value = Item.buyPrice(0, 2, 0, 0);
             item.Calamity().rogue = true;
             item.noUseGraphic = true;
             item.UseSound = SoundID.Item1;
