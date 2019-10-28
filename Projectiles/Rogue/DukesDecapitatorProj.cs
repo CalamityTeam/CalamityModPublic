@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.penetrate = -1;
             projectile.timeLeft = 600;
 			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 10;
+			projectile.localNPCHitCooldown = 20;
 			projectile.tileCollide = false;
             projectile.Calamity().rogue = true;
 		}
