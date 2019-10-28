@@ -9,6 +9,7 @@ using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -1027,6 +1028,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 DropHelper.DropItemChance(npc, ModContent.ItemType<TheHive>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<MepheticSprayer>(), 4); // Blight Spewer
                 DropHelper.DropItemChance(npc, ModContent.ItemType<PlagueStaff>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<TheSyringe>(), 4);
 
                 // Equipment
                 DropHelper.DropItemChance(npc, ModContent.ItemType<BloomStone>(), 10);

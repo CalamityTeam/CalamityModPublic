@@ -53,6 +53,7 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItemChance(player, ModContent.ItemType<TheHive>(), 3);
             DropHelper.DropItemChance(player, ModContent.ItemType<MepheticSprayer>(), 3); // Blight Spewer
             DropHelper.DropItemChance(player, ModContent.ItemType<PlagueStaff>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<TheSyringe>(), 3);
             float malachiteChance = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : DropHelper.LegendaryDropRateFloat;
             DropHelper.DropItemCondition(player, ModContent.ItemType<Malachite>(), CalamityWorld.revenge, malachiteChance);
 
