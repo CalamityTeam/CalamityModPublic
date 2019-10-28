@@ -337,6 +337,53 @@ namespace CalamityMod
         }
         #endregion
 
+        #region Rogue Stats
+        /// <summary>
+        /// Gets a player's current rogue damage stat.
+        /// </summary>
+        /// <param name="p">The player whose rogue damage is being queried.</param>
+        /// <returns>Current rogue damage boost. 1f is no bonus, 2f is +100%.</returns>
+        public static float GetRogueDamage(Player p) => p?.Calamity()?.throwingDamage ?? 1f;
+
+        /// <summary>
+        /// Adds a flat amount of rogue damage stat to a player. This amount can be negative.
+        /// </summary>
+        /// <param name="p">The player whose rogue damage is being modified.</param>
+        /// <param name="add">The amount of rogue damage to add or subtract (if negative).</param>
+        /// <returns></returns>
+        public static float AddRogueDamage(Player p, float add) => p is null ? 1f : (p.Calamity().throwingDamage += add);
+
+        /// <summary>
+        /// Gets a player's current rogue critical strike chance.
+        /// </summary>
+        /// <param name="p">The player whose rogue crit is being queried.</param>
+        /// <returns>Current rogue critical strike chance. 0 is no additional crit, 8 is +8% crit chance.</returns>
+        public static int GetRogueCrit(Player p) => p?.Calamity()?.throwingCrit ?? 0;
+
+        /// <summary>
+        /// Adds a flat amount of rogue crit to a player. This amount can be negative.
+        /// </summary>
+        /// <param name="p">The player whose rogue crit is being modified.</param>
+        /// <param name="add">The amount of rogue crit to add or subtract (if negative).</param>
+        /// <returns></returns>
+        public static int AddRogueCrit(Player p, int add) => p is null ? 0 : (p.Calamity().throwingCrit += add);
+
+        /// <summary>
+        /// Gets a player's current rogue projectile velocity multiplier.
+        /// </summary>
+        /// <param name="p">The player whose rogue velocity is being queried.</param>
+        /// <returns>Current rogue projectile velocity multiplier. 1f is no bonus, 2f doubles projectile speed.</returns>
+        public static float GetRogueVelocity(Player p) => p?.Calamity()?.throwingVelocity ?? 1f;
+
+        /// <summary>
+        /// Adds a flat amount of rogue velocity stat to a player. This amount can be negative.
+        /// </summary>
+        /// <param name="p">The player whose rogue velocity is being modified.</param>
+        /// <param name="add">The amount of rogue velocity to add or subtract (if negative).</param>
+        /// <returns></returns>
+        public static float AddRogueVelocity(Player p, float add) => p is null ? 1f : (p.Calamity().throwingVelocity += add);
+        #endregion
+
         #region Player Armor Set Bonuses
         /// <summary>
         /// Returns whether the specified player has the set bonus corresponding to the given string.
@@ -578,6 +625,15 @@ namespace CalamityMod
         #region Call
         public static object Call(params object[] args)
         {
+            static Player castPlayer(object o)
+            {
+                if (o is int)
+                    return Main.player[(int)o];
+                else if (o is Player)
+                    return (Player)o;
+                return null;
+            }
+
             if (args is null || args.Length <= 0)
                 return new ArgumentNullException("ERROR: No function name specified. First argument must be a function name.");
             if (!(args[0] is string))
@@ -609,12 +665,7 @@ namespace CalamityMod
                         return new ArgumentException("ERROR: The second argument to \"InZone\" must be a string.");
                     if (!(args[1] is int) || !(args[1] is Player))
                         return new ArgumentException("ERROR: The first argument to \"InZone\" must be a Player or an int.");
-
-                    // If the argument is an int, get the corresponding player
-                    if (args[1] is int)
-                        p = Main.player[(int)args[1]];
-                    else if (args[1] is Player)
-                        p = (Player)args[1];
+                    p = castPlayer(args[1]);
                     return GetInZone(p, args[2].ToString());
 
                 case "Difficulty":
@@ -626,6 +677,69 @@ namespace CalamityMod
                     if (!(args[1] is string))
                         return new ArgumentException("ERROR: The argument to \"Difficulty\" must be a string.");
                     return GetDifficultyActive(args[1].ToString());
+
+                case "GetRogueDamage":
+                case "GetRogueDmg":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify a Player object (or int index of a Player).");
+                    if (!(args[1] is int) || !(args[1] is Player))
+                        return new ArgumentException("ERROR: The argument to \"GetRogueDamage\" must be a Player or an int.");
+                    return GetRogueDamage(castPlayer(args[1]));
+
+                case "GetRogueCrit":
+                case "GetRogueCritChance":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify a Player object (or int index of a Player).");
+                    if (!(args[1] is int) || !(args[1] is Player))
+                        return new ArgumentException("ERROR: The argument to \"GetRogueCrit\" must be a Player or an int.");
+                    return GetRogueCrit(castPlayer(args[1]));
+
+                case "GetRogueVelocity":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify a Player object (or int index of a Player).");
+                    if (!(args[1] is int) || !(args[1] is Player))
+                        return new ArgumentException("ERROR: The argument to \"GetRogueVelocity\" must be a Player or an int.");
+                    return GetRogueVelocity(castPlayer(args[1]));
+
+                case "AddRogueDamage":
+                case "AddRogueDmg":
+                case "ModifyRogueDamage":
+                case "ModifyRogueDmg":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify both a Player object (or int index of a Player) and rogue damage change as a float.");
+                    if (args.Length < 3)
+                        return new ArgumentNullException("ERROR: Must specify rogue damage change as a float.");
+                    if (!(args[2] is float))
+                        return new ArgumentException("ERROR: The second argument to \"AddRogueDamage\" must be a float.");
+                    if (!(args[1] is int) || !(args[1] is Player))
+                        return new ArgumentException("ERROR: The first argument to \"AddRogueDamage\" must be a Player or an int.");
+                    return AddRogueDamage(castPlayer(args[1]), (float)args[2]);
+
+                case "AddRogueCrit":
+                case "AddRogueCritChance":
+                case "ModifyRogueCrit":
+                case "ModifyRogueCritChance":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify both a Player object (or int index of a Player) and rogue crit change as an int.");
+                    if (args.Length < 3)
+                        return new ArgumentNullException("ERROR: Must specify rogue crit change as a float.");
+                    if (!(args[2] is int))
+                        return new ArgumentException("ERROR: The second argument to \"AddRogueCrit\" must be an int.");
+                    if (!(args[1] is int) || !(args[1] is Player))
+                        return new ArgumentException("ERROR: The first argument to \"AddRogueCrit\" must be a Player or an int.");
+                    return AddRogueCrit(castPlayer(args[1]), (int)args[2]);
+
+                case "AddRogueVelocity":
+                case "ModifyRogueVelocity":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify both a Player object (or int index of a Player) and rogue velocity change as a float.");
+                    if (args.Length < 3)
+                        return new ArgumentNullException("ERROR: Must specify rogue velocity change as a float.");
+                    if (!(args[2] is float))
+                        return new ArgumentException("ERROR: The second argument to \"AddRogueVelocity\" must be a float.");
+                    if (!(args[1] is int) || !(args[1] is Player))
+                        return new ArgumentException("ERROR: The first argument to \"AddRogueVelocity\" must be a Player or an int.");
+                    return AddRogueVelocity(castPlayer(args[1]), (float)args[2]);
 
                 case "SetBonus":
                 case "SetBonusActive":
@@ -640,13 +754,7 @@ namespace CalamityMod
                         return new ArgumentException("ERROR: The second argument to \"SetBonus\" must be a string.");
                     if (!(args[1] is int) || !(args[1] is Player))
                         return new ArgumentException("ERROR: The first argument to \"SetBonus\" must be a Player or an int.");
-
-                    // If the argument is an int, get the corresponding player
-                    if (args[1] is int)
-                        p = Main.player[(int)args[1]];
-                    else if (args[1] is Player)
-                        p = (Player)args[1];
-                    return GetSetBonus(p, args[2].ToString());
+                    return GetSetBonus(castPlayer(args[1]), args[2].ToString());
 
                 case "DR":
                 case "DamageReduction":
