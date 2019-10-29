@@ -1,4 +1,5 @@
 using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Pets;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.World;
@@ -25,7 +26,7 @@ namespace CalamityMod.NPCs.TownNPCs
         {
             DisplayName.SetDefault("Bandit");
 
-            Main.npcFrameCount[npc.type] = 23; //yell at Cobalion about this plz kthx
+            Main.npcFrameCount[npc.type] = 23;
             NPCID.Sets.ExtraFramesCount[npc.type] = 9;
             NPCID.Sets.AttackFrameCount[npc.type] = 4;
             NPCID.Sets.DangerDetectRange[npc.type] = 500;
@@ -275,6 +276,12 @@ namespace CalamityMod.NPCs.TownNPCs
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<DragonScales>());
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(40, 0, 0, 0);
+                nextSlot++;
+            }
+            //:BearWatchingYou: 
+            if (npc.GivenName == "Laura")
+            {
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<BearEye>());
                 nextSlot++;
             }
         }
