@@ -1047,7 +1047,7 @@ namespace CalamityMod
         #region Call
         public static object Call(params object[] args)
         {
-            static Player castPlayer(object o)
+            /*static*/ Player castPlayer(object o)
             {
                 if (o is int)
                     return Main.player[(int)o];
