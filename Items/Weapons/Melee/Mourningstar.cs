@@ -30,11 +30,11 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useStyle = 5;
             item.knockBack = 2.5f;
             item.UseSound = SoundID.Item116;
-            item.value = Item.buyPrice(1, 35, 0, 0);
+            item.value = Item.buyPrice(1, 20, 0, 0);
             item.rare = 10;
             item.shootSpeed = 24f;
             item.shoot = ModContent.ProjectileType<MourningstarFlail>();
-            item.Calamity().postMoonLordRarity = 14;
+            item.Calamity().postMoonLordRarity = 12;
         }
 
         public override void AddRecipes()
