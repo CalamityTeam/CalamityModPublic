@@ -1702,7 +1702,7 @@ namespace CalamityMod
                 ModContent.ItemType<Plaguenade>(),
                 ModContent.ItemType<BallisticPoisonBomb>(),
                 ModContent.ItemType<BrackishFlask>(),
-                ModContent.ItemType<DuststorminaBottle>(),
+                ModContent.ItemType<DuststormInABottle>(),
                 ModContent.ItemType<SeafoamBomb>(),
                 ModContent.ItemType<ConsecratedWater>(),
                 ModContent.ItemType<BlastBarrel>()
