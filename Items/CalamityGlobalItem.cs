@@ -1039,6 +1039,17 @@ namespace CalamityMod.Items
                     }
                 }
             }
+            if (item.type == ItemID.InvisibilityPotion)
+            {
+                foreach (TooltipLine line2 in tooltips)
+                {
+                    if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
+                    {
+                        line2.text = "Grants invisibility\n" +
+                            "Boosts certain stats when holding certain types of rogue weapons";
+                    }
+                }
+            }
             if (item.type == ItemID.MeteorHelmet || item.type == ItemID.MeteorSuit || item.type == ItemID.MeteorLeggings)
             {
                 foreach (TooltipLine line2 in tooltips)
