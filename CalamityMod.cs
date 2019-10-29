@@ -1859,6 +1859,8 @@ namespace CalamityMod
                 ModContent.TileType<StratusDoorOpen>(),
                 ModContent.TileType<StratusDoorClosed>(),
                 ModContent.TileType<StatigelPlatform>(),
+                ModContent.TileType<StatigelDoorOpen>(),
+                ModContent.TileType<StatigelDoorClosed>(),
                 ModContent.TileType<StratusPlatform>(),
                 ModContent.TileType<VoidDoorOpen>(),
                 ModContent.TileType<VoidDoorClosed>()
