@@ -17,8 +17,9 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sky Stabber");
-            // Todo: Possible addition of a stealth strike tooltip
-            Tooltip.SetDefault("Shoots a gravity-defying spiky ball. Stacks up to 4.");
+            Tooltip.SetDefault("Shoots a gravity-defying spiky ball. Stacks up to 4.\n" +
+                "Stealth strikes rain feathers onto enemies\n" +
+				"Right click to delete all existing spiky balls");
         }
 
         public override void SafeSetDefaults()
@@ -28,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.Calamity().rogue = true;
             item.noMelee = true;
             item.noUseGraphic = true;
-            item.channel = true;
+            //item.channel = true;
             item.width = 1;
             item.height = 1;
             item.useTime = 15;
