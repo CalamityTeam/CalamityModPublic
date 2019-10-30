@@ -6,11 +6,11 @@ namespace CalamityMod.Walls
 {
     public class AstralGrassWall : ModWall
     {
-        public override bool Autoload(ref string name, ref string texture)
+        /*public override bool Autoload(ref string name, ref string texture)
         {
             mod.AddWall("AstralGrassWallUnsafe", this, texture);
             return base.Autoload(ref name, ref texture);
-        }
+        }*/
 
         public override void SetDefaults()
         {

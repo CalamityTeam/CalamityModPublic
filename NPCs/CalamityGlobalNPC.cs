@@ -11,6 +11,7 @@ using CalamityMod.Items.Pets;
 using CalamityMod.Items.Placeables.Walls;
 using CalamityMod.Items.SummonItems;
 using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.NPCs.Abyss;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.AstrumAureus;
@@ -3176,6 +3177,52 @@ namespace CalamityMod.NPCs
                     }
 
                     break;
+                case NPCID.Truffle:
+                    if (Main.rand.NextBool(8))
+                    {
+                        chat = "I don't feel very safe; I think there's pigs following me around and it frightens me.";
+                    }
+                    if (NPC.AnyNPCs(ModContent.NPCType<FAP>()))
+                    {
+                        chat = "Sometimes, Cirrus just looks at me funny and I'm not sure how I feel about that.";
+                    }
+                    break;
+                case NPCID.Angler:
+                    if (Main.rand.NextBool(5) && NPC.AnyNPCs(ModContent.NPCType<SEAHOE>()))
+                    {
+                        chat = "Someone tell Amidias to quit trying to throw me out of town, it's not going to work.";
+                    }
+                    break;
+
+                case NPCID.TravellingMerchant:
+                    if (Main.rand.NextBool(5) && NPC.AnyNPCs(ModContent.NPCType<FAP>()))
+                    {
+                        chat = "Tell Cirrus I'll take up her offer and meet with her at the back of [Name of Merchant]s house.";
+                    }
+                    break;
+
+                case NPCID.SkeletonMerchant:
+                    if (Main.rand.NextBool(5))
+                    {
+                        chat = "What'dya buyin'?";
+                    }
+                    break;
+
+                case NPCID.WitchDoctor:
+                    if (Main.rand.NextBool(8) && Main.LocalPlayer.ZoneJungle)
+                    {
+                        chat = "My home here has an extensive history and a mysterious past. You'll find out quickly just how extensive it is...";
+                    }
+                    if (Main.rand.NextBool(8) && Main.LocalPlayer.ZoneJungle &&
+                        Main.hardMode && !NPC.downedPlantBoss)
+                    {
+                        chat = "I have unique items if you show me that you have bested the guardian of this jungle.";
+                    }
+                    if (Main.rand.NextBool(8) && Main.bloodMoon)
+                    {
+                        chat = "This is as good a time as any to pick up the best ingredients for potions.";
+                    }
+                    break;
 
                 case NPCID.PartyGirl:
                     if (Main.rand.NextBool(10) && fapsol != -1)
@@ -3198,6 +3245,69 @@ namespace CalamityMod.NPCs
 
                     break;
 
+                case NPCID.Painter:
+                    if (Main.rand.NextBool(4) && Main.LocalPlayer.ZoneCorrupt)
+                    {
+                        chat = "A little sickness isn't going to stop me from doing my work as an artist!";
+                    }
+                    if (Main.rand.NextBool(4) && Main.LocalPlayer.ZoneCrimson)
+                    {
+                        chat = "There's a surprising art to this area. A sort of horrifying, eldritch feeling. It inspires me!";
+                    }
+                    if (Main.rand.NextBool(4) && Main.LocalPlayer.ZoneSnow)
+                    {
+                        if (permadong != -1)
+                        {
+                            chat = "Think Permafrost would let me paint him like one of his French girls?!";
+                        }
+                        else
+                        {
+                            chat = "I'm not exactly suited for this cold weather. Still looks pretty, though.";
+                        }
+                    }
+                    if (Main.rand.NextBool(4) && Main.LocalPlayer.ZoneDesert)
+                    {
+                        chat = "I hate sand. It's coarse, and rough… and gets in my paint.";
+                    }
+                    if (Main.rand.NextBool(4) && Main.LocalPlayer.ZoneHoly)
+                    {
+                        chat = "Do you think unicorn blood could be used as a good pigment or resin? … No I'm not going to find out myself.";
+                    }
+                    if (Main.rand.NextBool(4) && Main.LocalPlayer.ZoneHoly)
+                    {
+                        //chat = "I can't breathe."
+                        chat = "I can't work in this environment. All of my paint just floats off.";
+                    }
+                    if (Main.rand.NextBool(4) && Main.LocalPlayer.ZoneJungle)
+                    {
+                        chat = "Painting the tortoises in a still life isn't going so well.";
+                    }
+                    if (Main.rand.NextBool(4) && Main.LocalPlayer.Calamity().ZoneAstral)
+                    {
+                        chat = "I can't paint a still life if the fruit grows legs and walks away.";
+                    }
+                    if (Main.rand.NextBool(4) && Main.LocalPlayer.ZoneUnderworldHeight)
+                    {
+                        chat = "On the canvas, things get heated around here all the time. Like the environment!";
+                    }
+                    if (Main.rand.NextBool(4) && Main.LocalPlayer.ZoneUnderworldHeight)
+                    {
+                        chat = "On the canvas, things get heated around here all the time. Like the environment!";
+                    }
+                    if (Main.rand.NextBool(4) && Main.LocalPlayer.Calamity().ZoneCalamity)
+                    {
+                        chat = "Roses, really? That's such an overrated thing to paint.";
+                    }
+                    if (Main.rand.NextBool(4) && Main.LocalPlayer.Calamity().ZoneSulphur)
+                    {
+                        chat = "Fun fact! Sulphur was used as pigment once upon a time! … Or was it Cinnabar?";
+                    }
+                    if (Main.rand.NextBool(4) && Main.LocalPlayer.Calamity().ZoneAbyss)
+                    {
+                        chat = "Easiest landscape I've ever painted in my life.";
+                    }
+                    break;
+
                 case NPCID.Wizard:
                     if (Main.rand.NextBool(10) && permadong != -1)
                     {
@@ -3217,9 +3327,25 @@ namespace CalamityMod.NPCs
                         chat = "There's a dark solar energy emanating from the moths that appear during this time. Ah, the moths as you progress further get more powerful...hmm...what power was Yharon holding back?";
                     }
 
-                    if (Main.rand.NextBool(10) && Main.hardMode)
+                    if (Main.rand.NextBool(5) && Main.hardMode)
                     {
                         chat = "That starborne illness sits upon this land like a blister. Do even more vile forces of corruption exist in worlds beyond?";
+                    }
+
+                    if (Main.rand.NextBool(5) && NPC.AnyNPCs(ModContent.NPCType<FAP>()))
+                    {
+                        chat = "Cirrus put me up to this.";
+                    }
+
+                    if (Main.rand.NextBool(5) && Main.LocalPlayer.Calamity().ZoneSulphur)
+                    {
+                        chat = "My ancestor was lost here long ago. I must pay my respects to her.";
+                    }
+
+                    if (Main.rand.NextBool(5) && Main.LocalPlayer.ZoneGlowshroom)
+                    {
+                        //high iq drugs iirc
+                        chat = "“I'm not here for any reason! Just picking up mushrooms for uh, later use.";
                     }
 
                     break;
@@ -3248,7 +3374,7 @@ namespace CalamityMod.NPCs
 
                 case NPCID.GoblinTinkerer:
                     int banditIndex = NPC.FindFirstNPC(ModContent.NPCType<THIEF>());
-                    if (Main.rand.NextBool(10) && banditIndex != -1 && Main.LocalPlayer.Calamity().reforges >= 10)
+                    if (Main.rand.NextBool(3) && banditIndex != -1 && Main.LocalPlayer.Calamity().reforges >= 10)
                     {
                         var thief = Main.npc[banditIndex];
                         chat = $"Hey, is it just me or have my pockets gotten lighter ever since {thief.GivenName} arrived?";
@@ -3256,6 +3382,10 @@ namespace CalamityMod.NPCs
                     if (Main.rand.NextBool(10) && NPC.downedMoonlord)
                     {
                         chat = "You know...we haven't had an invasion in a while...";
+                    }
+                    if (Main.rand.NextBool(10) && CalamityUtils.InventoryHas(Main.LocalPlayer, ModContent.ItemType<SlickCane>()))
+                    {
+                        chat = "Goodness! That cane has swagger!";
                     }
 
                     break;
@@ -3325,12 +3455,28 @@ namespace CalamityMod.NPCs
                 case NPCID.Pirate:
                     if (Main.rand.NextBool(5) && !CalamityWorld.downedLeviathan)
                     {
-                        chat = "Aye, I’ve heard of a mythical creature in the oceans, singing with an alluring voice. Careful when yer fishin out there.";
+                        chat = "Aye, I've heard of a mythical creature in the oceans, singing with an alluring voice. Careful when yer fishin out there.";
                     }
 
                     if (Main.rand.NextBool(5) && CalamityWorld.downedAquaticScourge)
                     {
                         chat = "I have to thank ye again for takin' care of that sea serpent. Or was that another one...";
+                    }
+                    if (Main.rand.NextBool(5) && NPC.AnyNPCs(ModContent.NPCType<SEAHOE>()))
+                    {
+                        chat = "I remember legends about that Amidias. He ain't quite how the stories make him out to be though.";
+                    }
+                    if (Main.rand.NextBool(5) && Main.LocalPlayer.Center.ToTileCoordinates().X < 380)
+                    {
+                        chat = "Now this is a scene that I can admire any time! … I feel like something is watching me though.";
+                    }
+                    if (Main.rand.NextBool(5) && Main.LocalPlayer.Calamity().ZoneSulphur)
+                    {
+                        chat = "It ain't much of a sight, but there's still life living in these waters.";
+                    }
+                    if (Main.rand.NextBool(5) && Main.LocalPlayer.Calamity().ZoneSulphur)
+                    {
+                        chat = "Me ship might just sink from the acid alone.";
                     }
 
                     break;
@@ -3371,18 +3517,18 @@ namespace CalamityMod.NPCs
 
                         if (Main.rand.NextBool(10))
                         {
-                            chat = "Those screams...I’m not sure why, but I feel like a nameless fear has awoken in my heart.";
+                            chat = "Those screams...I'm not sure why, but I feel like a nameless fear has awoken in my heart.";
                         }
 
                         if (Main.rand.NextBool(10))
                         {
-                            chat = "I can faintly hear ghostly shrieks from the dungeon...and not ones I’m familiar with at all. Just what is going on in there?";
+                            chat = "I can faintly hear ghostly shrieks from the dungeon...and not ones I'm familiar with at all. Just what is going on in there?";
                         }
                     }
 
                     if (Main.rand.NextBool(10) && CalamityWorld.downedPolterghast)
                     {
-                        chat = "Whatever that thing was, I’m glad it’s gone now.";
+                        chat = "Whatever that thing was, I'm glad it's gone now.";
                     }
 
                     if (Main.rand.NextBool(5) && NPC.AnyNPCs(NPCID.MoonLordCore))
@@ -3411,6 +3557,14 @@ namespace CalamityMod.NPCs
                     if (Main.rand.NextBool(5) && NPC.downedMoonlord)
                     {
                         chat = "Yep! I'm also considering being a space pirate now.";
+                    }
+                    if (Main.rand.NextBool(5) && Main.LocalPlayer.Calamity().ZoneAstral)
+                    {
+                        chat = "Some of my machines are starting to go haywire thanks to this Astral Infection. I probably shouldn't have built them here";
+                    }
+                    if (Main.rand.NextBool(5) && Main.LocalPlayer.ZoneHoly)
+                    {
+                        chat = "I'm sorry I really don't have any Unicorn proof tech here, you're on your own.";
                     }
 
                     break;
@@ -3528,8 +3682,6 @@ namespace CalamityMod.NPCs
                 SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Teratoma>(), CalamityWorld.downedHiveMind, Item.buyPrice(0, 10));
                 SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<BloodyWormTooth>(), CalamityWorld.downedHiveMind && Main.expertMode);
                 SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<OverloadedSludge>(), CalamityWorld.downedSlimeGod, Item.buyPrice(0, 15));
-                SetShopItem(ref shop, ref nextSlot, ItemID.PumpkinMoonMedallion, NPC.downedHalloweenKing, Item.buyPrice(0, 25));
-                SetShopItem(ref shop, ref nextSlot, ItemID.NaughtyPresent, NPC.downedChristmasIceQueen, Item.buyPrice(0, 25));
                 SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<RomajedaOrchid>());
             }
 
@@ -3555,6 +3707,8 @@ namespace CalamityMod.NPCs
                 SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<PinkSlabWallUnsafe>(), price: Item.buyPrice(copper: 10));
                 SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<PinkTiledWallUnsafe>(), price: Item.buyPrice(copper: 10));
                 SetShopItem(ref shop, ref nextSlot, ItemID.GoldenKey, Main.hardMode, Item.buyPrice(0, 5));
+                SetShopItem(ref shop, ref nextSlot, ItemID.PumpkinMoonMedallion, NPC.downedHalloweenKing, Item.buyPrice(0, 25));
+                SetShopItem(ref shop, ref nextSlot, ItemID.NaughtyPresent, NPC.downedChristmasIceQueen, Item.buyPrice(0, 25));
             }
 
             if (type == NPCID.Painter)
@@ -3572,7 +3726,6 @@ namespace CalamityMod.NPCs
 
             if (type == NPCID.Wizard)
             {
-                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<CryoKey>(), CalamityWorld.downedCryogen, Item.buyPrice(0, 15));
                 SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<CharredIdol>(), CalamityWorld.downedBrimstoneElemental, Item.buyPrice(0, 20));
                 SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<AstralChunk>(), CalamityWorld.downedAstrageldon, Item.buyPrice(0, 25));
                 SetShopItem(ref shop, ref nextSlot, ItemID.MagicMissile, price: Item.buyPrice(0, 5));

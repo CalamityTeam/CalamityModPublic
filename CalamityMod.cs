@@ -80,6 +80,8 @@ namespace CalamityMod
 {
     public class CalamityMod : Mod
     {
+        // TODO -- I have been advised by Jopo that Mods should never contain static variables
+        
         // Hotkeys
         public static ModHotKey NormalityRelocatorHotKey;
         public static ModHotKey AegisHotKey;
@@ -150,6 +152,11 @@ namespace CalamityMod
         public static List<int> chairList;
         public static List<int> lightList;
         public static List<int> doorList;
+        public static List<int> boomerangList;
+        public static List<int> javelinList;
+        public static List<int> daggerList;
+        public static List<int> flaskBombList;
+        public static List<int> spikyBallList;
 
         public static List<int> zombieList;
         public static List<int> demonEyeList;
@@ -157,6 +164,8 @@ namespace CalamityMod
         public static List<int> angryBonesList;
         public static List<int> hornetList;
         public static List<int> mossHornetList;
+
+        private Mod thorium = null;
 
         #region Load
         public override void Load()
@@ -183,13 +192,15 @@ namespace CalamityMod
                 LoadClient();
             }
 
+            thorium = ModLoader.GetMod("ThoriumMod");
+
             BossHealthBarManager.Load(this);
 
             Config.Load();
 
             SetupLists();
             SetupVanillaDR();
-            SetupThoriumBossDR(ModLoader.GetMod("ThoriumMod"));
+            SetupThoriumBossDR(thorium);
 
             CalamityLocalization.AddLocalizations();
         }
@@ -308,6 +319,11 @@ namespace CalamityMod
             chairList = null;
             lightList = null;
             doorList = null;
+            boomerangList = null;
+            javelinList = null;
+            daggerList = null;
+            flaskBombList = null;
+            spikyBallList = null;
 
             zombieList = null;
             demonEyeList = null;
@@ -315,6 +331,8 @@ namespace CalamityMod
             angryBonesList = null;
             hornetList = null;
             mossHornetList = null;
+
+            thorium = null;
 
             BossHealthBarManager.Unload();
             base.Unload();
@@ -1606,6 +1624,95 @@ namespace CalamityMod
                 ModContent.ItemType<TyphonsGreed>()
             };
 
+            boomerangList = new List<int>()
+            {
+                ModContent.ItemType<Brimblade>(),
+                ModContent.ItemType<BlazingStar>(),
+                ModContent.ItemType<Celestus>(),
+                ModContent.ItemType<AccretionDisk>(),
+                ModContent.ItemType<EnchantedAxe>(),
+                ModContent.ItemType<Eradicator>(),
+                ModContent.ItemType<TruePaladinsHammer>(),
+                ModContent.ItemType<FlameScythe>(),
+                ModContent.ItemType<GalaxySmasherRogue>(),
+                ModContent.ItemType<Glaive>(),
+                ModContent.ItemType<GhoulishGouger>(),
+                ModContent.ItemType<Icebreaker>(),
+                ModContent.ItemType<KelvinCatalyst>(),
+                ModContent.ItemType<Kylie>(),
+                ModContent.ItemType<MangroveChakram>(),
+                ModContent.ItemType<MoltenAmputator>(),
+                ModContent.ItemType<NanoblackReaperRogue>(),
+                ModContent.ItemType<Pwnagehammer>(),
+                ModContent.ItemType<SandDollar>(),
+                ModContent.ItemType<SeashellBoomerang>(),
+                ModContent.ItemType<StellarContemptRogue>(),
+                ModContent.ItemType<TriactisTruePaladinianMageHammerofMight>(),
+                ModContent.ItemType<Valediction>()
+            };
+
+            javelinList = new List<int>()
+            {
+                ModContent.ItemType<CrystalPiercer>(),
+                ModContent.ItemType<PalladiumJavelin>(),
+                ModContent.ItemType<DuneHopper>(),
+                ModContent.ItemType<EclipsesFall>(),
+                ModContent.ItemType<IchorSpear>(),
+                ModContent.ItemType<ProfanedTrident>(),
+                ModContent.ItemType<LuminousStriker>(),
+                ModContent.ItemType<ScarletDevil>(),
+                ModContent.ItemType<ScourgeoftheCosmosThrown>(),
+                ModContent.ItemType<ScourgeoftheDesert>(),
+                ModContent.ItemType<ScourgeoftheSeas>(),
+                ModContent.ItemType<SpearofDestiny>(),
+                ModContent.ItemType<SpearofPaleolith>(),
+                ModContent.ItemType<XerocPitchfork>(),
+            };
+
+            daggerList = new List<int>()
+            {
+                ModContent.ItemType<CobaltKunai>(),
+                ModContent.ItemType<FeatherKnife>(),
+                ModContent.ItemType<GelDart>(),
+                ModContent.ItemType<MonkeyDarts>(),
+                ModContent.ItemType<MythrilKnife>(),
+                ModContent.ItemType<OrichalcumSpikedGemstone>(),
+                ModContent.ItemType<TarragonThrowingDart>(),
+                ModContent.ItemType<WulfrumKnife>(),
+                ModContent.ItemType<Cinquedea>(),
+                ModContent.ItemType<CosmicKunai>(),
+                ModContent.ItemType<CorpusAvertor>(),
+                ModContent.ItemType<Crystalline>(),
+                ModContent.ItemType<CursedDagger>(),
+                ModContent.ItemType<Malachite>(),
+                ModContent.ItemType<Mycoroot>(),
+                ModContent.ItemType<Prismalline>(),
+                ModContent.ItemType<Quasar>(),
+                ModContent.ItemType<RadiantStar>(),
+                ModContent.ItemType<ShatteredSun>(),
+                ModContent.ItemType<StellarKnife>(),
+                ModContent.ItemType<StormfrontRazor>(),
+                ModContent.ItemType<TimeBolt>(),
+                ModContent.ItemType<UtensilPoker>(),
+                ModContent.ItemType<LunarKunai>()
+            };
+
+            flaskBombList = new List<int>()
+            {
+                ModContent.ItemType<Plaguenade>(),
+                ModContent.ItemType<BallisticPoisonBomb>(),
+                ModContent.ItemType<BrackishFlask>(),
+                ModContent.ItemType<DuststormInABottle>(),
+                ModContent.ItemType<SeafoamBomb>(),
+                ModContent.ItemType<ConsecratedWater>(),
+                ModContent.ItemType<BlastBarrel>()
+            };
+
+            spikyBallList = new List<int>() //There's more to come
+            {
+                ModContent.ItemType<SkyStabber>()
+            };
+
             tableList = new List<int>()
             {
                 ModContent.TileType<AbyssBath>(),
@@ -1851,6 +1958,8 @@ namespace CalamityMod
                 ModContent.TileType<StratusDoorOpen>(),
                 ModContent.TileType<StratusDoorClosed>(),
                 ModContent.TileType<StatigelPlatform>(),
+                ModContent.TileType<StatigelDoorOpen>(),
+                ModContent.TileType<StatigelDoorClosed>(),
                 ModContent.TileType<StratusPlatform>(),
                 ModContent.TileType<VoidDoorOpen>(),
                 ModContent.TileType<VoidDoorClosed>()
@@ -2175,7 +2284,14 @@ namespace CalamityMod
             if (thorium is null || !Config.RevengeanceAndDeathThoriumBossBuff)
                 return;
 
-            void ThoriumDR(string npcName, float dr) => DRValues.Add(thorium.NPCType(npcName), dr);
+            void ThoriumDR(string npcName, float dr) {
+                int type = thorium.NPCType(npcName);
+                if (DRValues.ContainsKey(type))
+                    DRValues[type] = dr;
+                else
+                    DRValues.Add(type, dr);
+            };
+
             ThoriumDR("Viscount", 0.05f);
             ThoriumDR("BoreanStrider", 0.05f);
             ThoriumDR("FallenDeathBeholder", 0.05f);

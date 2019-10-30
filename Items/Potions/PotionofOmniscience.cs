@@ -11,7 +11,8 @@ namespace CalamityMod.Items.Potions
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Potion of Omniscience");
-            Tooltip.SetDefault("Gives creature, danger, and treasure detection");
+            Tooltip.SetDefault("Highlights nearby creatures, enemy projectiles,\n" +
+				"danger sources, and treasure");
         }
 
         public override void SetDefaults()

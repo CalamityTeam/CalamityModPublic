@@ -13,6 +13,7 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Nanotech");
             Tooltip.SetDefault("Rogue projectiles create nanoblades as they travel\n" +
+                "Stealth strikes summon lunar flares on enemy hits\n" +
                 "Rogue weapons have a chance to instantly kill normal enemies\n" +
                 "10% increased rogue damage, 5% increased rogue crit chance, and 15% increased rogue velocity\n" +
                 "Whenever you crit an enemy with a rogue weapon your rogue damage increases\n" +

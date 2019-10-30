@@ -2,7 +2,6 @@ using CalamityMod.CalPlayer;
 using CalamityMod.World;
 using System;
 using Terraria;
-using Terraria.ModLoader;
 
 namespace CalamityMod
 {
@@ -337,6 +336,53 @@ namespace CalamityMod
         }
         #endregion
 
+        #region Rogue Stats
+        /// <summary>
+        /// Gets a player's current rogue damage stat.
+        /// </summary>
+        /// <param name="p">The player whose rogue damage is being queried.</param>
+        /// <returns>Current rogue damage boost. 1f is no bonus, 2f is +100%.</returns>
+        public static float GetRogueDamage(Player p) => p?.Calamity()?.throwingDamage ?? 1f;
+
+        /// <summary>
+        /// Adds a flat amount of rogue damage stat to a player. This amount can be negative.
+        /// </summary>
+        /// <param name="p">The player whose rogue damage is being modified.</param>
+        /// <param name="add">The amount of rogue damage to add or subtract (if negative).</param>
+        /// <returns></returns>
+        public static float AddRogueDamage(Player p, float add) => p is null ? 1f : (p.Calamity().throwingDamage += add);
+
+        /// <summary>
+        /// Gets a player's current rogue critical strike chance.
+        /// </summary>
+        /// <param name="p">The player whose rogue crit is being queried.</param>
+        /// <returns>Current rogue critical strike chance. 0 is no additional crit, 8 is +8% crit chance.</returns>
+        public static int GetRogueCrit(Player p) => p?.Calamity()?.throwingCrit ?? 0;
+
+        /// <summary>
+        /// Adds a flat amount of rogue crit to a player. This amount can be negative.
+        /// </summary>
+        /// <param name="p">The player whose rogue crit is being modified.</param>
+        /// <param name="add">The amount of rogue crit to add or subtract (if negative).</param>
+        /// <returns></returns>
+        public static int AddRogueCrit(Player p, int add) => p is null ? 0 : (p.Calamity().throwingCrit += add);
+
+        /// <summary>
+        /// Gets a player's current rogue projectile velocity multiplier.
+        /// </summary>
+        /// <param name="p">The player whose rogue velocity is being queried.</param>
+        /// <returns>Current rogue projectile velocity multiplier. 1f is no bonus, 2f doubles projectile speed.</returns>
+        public static float GetRogueVelocity(Player p) => p?.Calamity()?.throwingVelocity ?? 1f;
+
+        /// <summary>
+        /// Adds a flat amount of rogue velocity stat to a player. This amount can be negative.
+        /// </summary>
+        /// <param name="p">The player whose rogue velocity is being modified.</param>
+        /// <param name="add">The amount of rogue velocity to add or subtract (if negative).</param>
+        /// <returns></returns>
+        public static float AddRogueVelocity(Player p, float add) => p is null ? 1f : (p.Calamity().throwingVelocity += add);
+        #endregion
+
         #region Player Armor Set Bonuses
         /// <summary>
         /// Returns whether the specified player has the set bonus corresponding to the given string.
@@ -350,15 +396,23 @@ namespace CalamityMod
 
             setBonus = setBonus.ToLower();
 
+            // TODO -- no summon set bonuses are written well. all use two bools, neither of which actually controls the function
+
             // Victide
-            if (setBonus == "victide" || setBonus.StartsWith("victide_") || setBonus.StartsWith("victide "))
+            if (setBonus == "victide_summon" || setBonus == "victide summon")
+                return mp.urchin; // the bool set directly by VictideHelmet.UpdateArmorSet
+            else if (setBonus == "victide" || setBonus.StartsWith("victide_") || setBonus.StartsWith("victide "))
                 return mp.victideSet;
 
             // Aerospec
-            if (setBonus == "aerospec" || setBonus.StartsWith("aerospec_") || setBonus.StartsWith("aerospec "))
+            if (setBonus == "aerospec_summon" || setBonus == "aerospec summon")
+                return mp.valkyrie; // the bool set directly by AerospecHelmet.UpdateArmorSet
+            else if (setBonus == "aerospec" || setBonus.StartsWith("aerospec_") || setBonus.StartsWith("aerospec "))
                 return mp.aeroSet;
 
             // Statigel
+            if (setBonus == "statigel_summon" || setBonus == "statigel summon")
+                return mp.slimeGod; // the bool set directly by StatigelHood.UpdateArmorSet
             if (setBonus == "statigel" || setBonus.StartsWith("statigel_") || setBonus.StartsWith("statigel "))
                 return mp.statigelSet;
 
@@ -562,10 +616,425 @@ namespace CalamityMod
 
             return false;
         }
+
+        /// <summary>
+        /// Turns the set bonus corresponding to the given string on or off for the specified player.
+        /// </summary>
+        /// <param name="p">The player whose set bonuses are being toggled.</param>
+        /// <param name="setBonus">The set bonus to check for.</param>
+        /// <param name="enabled">Whether the set bonus should be enabled (true) or disabled (false).</param>
+        /// <returns>Whether any set bonus was adjusted.</returns>
+        public static bool SetSetBonus(Player p, string setBonus, bool enabled)
+        {
+            CalamityPlayer mp = p.Calamity();
+            setBonus = setBonus.ToLower();
+
+            // Victide
+            if (setBonus == "victide_summon" || setBonus == "victide summon")
+            {
+                mp.victideSet = enabled;
+                mp.urchin = enabled; // TODO -- remove this when player.urchin actually controls victide summoner
+                return true;
+            }
+            else if (setBonus == "victide" || setBonus.StartsWith("victide_") || setBonus.StartsWith("victide "))
+            {
+                mp.victideSet = true;
+                return true;
+            }
+
+            // Aerospec
+            if (setBonus == "aerospec_summon" || setBonus == "aerospec summon")
+            {
+                mp.aeroSet = enabled;
+                mp.valkyrie = enabled; // TODO -- remove this when player.valkyrie actually controls aerospec summoner
+                return true;
+            }
+            else if (setBonus == "aerospec" || setBonus.StartsWith("aerospec_") || setBonus.StartsWith("aerospec "))
+            {
+                mp.aeroSet = enabled;
+                return true;
+            }
+
+            // Statigel
+            if (setBonus == "statigel_summon" || setBonus == "statigel summon")
+            {
+                mp.statigelSet = enabled;
+                mp.slimeGod = enabled; // TODO -- remove this when player.slimeGod actually controls statigel summoner
+                return true;
+            }
+            else if (setBonus == "statigel" || setBonus.StartsWith("statigel_") || setBonus.StartsWith("statigel "))
+            {
+                mp.statigelSet = enabled;
+                return true;
+            }
+
+            // Mollusk
+            if (setBonus == "mollusk")
+            {
+                mp.molluskSet = enabled;
+                return true;
+            }
+
+            // Daedalus
+            switch (setBonus)
+            {
+                default:
+                    break;
+                case "daedalus_melee":
+                case "daedalus melee":
+                    mp.daedalusReflect = enabled;
+                    return true;
+                case "daedalus_ranged":
+                case "daedalus ranged":
+                    mp.daedalusShard = enabled;
+                    return true;
+                case "daedalus_magic":
+                case "daedalus magic":
+                    mp.daedalusAbsorb = enabled;
+                    return true;
+                case "daedalus_summon":
+                case "daedalus summon":
+                    mp.daedalusCrystal = enabled; // TODO -- remove this when player.daedalusCrystal actually controls daedalus summoner
+                    return true;
+                case "daedalus_rogue":
+                case "daedalus rogue":
+                    mp.daedalusSplit = enabled;
+                    return true;
+            }
+
+            // Reaver
+            switch (setBonus)
+            {
+                default:
+                    break;
+                case "reaver_melee":
+                case "reaver melee":
+                    mp.reaverBlast = enabled;
+                    return true;
+                case "reaver_ranged":
+                case "reaver ranged":
+                    mp.reaverDoubleTap = enabled;
+                    return true;
+                case "reaver_magic":
+                case "reaver magic":
+                    mp.reaverBurst = enabled;
+                    return true;
+                case "reaver_summon":
+                case "reaver summon":
+                    mp.reaverOrb = enabled; // TODO -- remove this when player.reaverOrb actually controls reaver summoner
+                    return true;
+                case "reaver_rogue":
+                case "reaver rogue":
+                    mp.reaverSpore = enabled;
+                    return true;
+            }
+
+            // Ataxia
+            switch (setBonus)
+            {
+                default:
+                    break;
+                case "ataxia":
+                    mp.ataxiaBlaze = enabled;
+                    return true;
+                case "ataxia_melee":
+                case "ataxia melee":
+                    mp.ataxiaBlaze = enabled;
+                    mp.ataxiaGeyser = enabled;
+                    return true;
+                case "ataxia_ranged":
+                case "ataxia ranged":
+                    mp.ataxiaBlaze = enabled;
+                    mp.ataxiaBolt = enabled;
+                    return true;
+                case "ataxia_magic":
+                case "ataxia magic":
+                    mp.ataxiaBlaze = enabled;
+                    mp.ataxiaMage = enabled;
+                    return true;
+                case "ataxia_summon":
+                case "ataxia summon":
+                    mp.ataxiaBlaze = enabled;
+                    mp.chaosSpirit = enabled; // TODO -- remove this when player.chaosSpirit actually controls ataxia summoner
+                    return true;
+                case "ataxia_rogue":
+                case "ataxia rogue":
+                    mp.ataxiaBlaze = enabled;
+                    mp.ataxiaVolley = enabled;
+                    return true;
+            }
+
+            // Astral
+            if (setBonus == "astral")
+            {
+                mp.astralStarRain = enabled;
+                return true;
+            }
+
+            // Xeroc
+            if (setBonus == "xeroc")
+            {
+                mp.xerocSet = enabled;
+                return true;
+            }
+
+            // Tarragon
+            switch (setBonus)
+            {
+                default:
+                    break;
+                case "tarragon":
+                    mp.tarraSet = enabled;
+                    return true;
+                case "tarragon_melee":
+                case "tarragon melee":
+                    mp.tarraSet = enabled;
+                    mp.tarraMelee = enabled;
+                    return true;
+                case "tarragon_ranged":
+                case "tarragon ranged":
+                    mp.tarraSet = enabled;
+                    mp.tarraRanged = enabled;
+                    return true;
+                case "tarragon_magic":
+                case "tarragon magic":
+                    mp.tarraSet = enabled;
+                    mp.tarraMage = enabled;
+                    return true;
+                case "tarragon_summon":
+                case "tarragon summon":
+                    mp.tarraSet = enabled;
+                    mp.tarraSummon = enabled; // TODO -- remove this when player.tarraSummon actually controls life aura
+                    return true;
+                case "tarragon_rogue":
+                case "tarragon rogue":
+                    mp.tarraSet = enabled;
+                    mp.tarraThrowing = enabled;
+                    return true;
+            }
+
+            // Bloodflare
+            switch (setBonus)
+            {
+                default:
+                    break;
+                case "bloodflare":
+                    mp.bloodflareSet = enabled;
+                    return true;
+                case "bloodflare_melee":
+                case "bloodflare melee":
+                    mp.bloodflareSet = enabled;
+                    mp.bloodflareMelee = enabled;
+                    return true;
+                case "bloodflare_ranged":
+                case "bloodflare ranged":
+                    mp.bloodflareSet = enabled;
+                    mp.bloodflareRanged = enabled;
+                    return true;
+                case "bloodflare_magic":
+                case "bloodflare magic":
+                    mp.bloodflareSet = enabled;
+                    mp.bloodflareMage = enabled;
+                    return true;
+                case "bloodflare_summon":
+                case "bloodflare summon":
+                    mp.bloodflareSet = enabled;
+                    mp.bloodflareSummon = enabled; // TODO -- remove this when player.bloodflareSummon actually controls bloodflare orbs
+                    return true;
+                case "bloodflare_rogue":
+                case "bloodflare rogue":
+                    mp.bloodflareSet = enabled;
+                    mp.bloodflareThrowing = enabled;
+                    return true;
+            }
+
+            // Omega Blue
+            if (setBonus == "omegablue" || setBonus == "omega blue")
+            {
+                mp.omegaBlueSet = enabled;
+                return true;
+            }
+
+            // God Slayer
+            switch (setBonus)
+            {
+                default:
+                    break;
+                case "godslayer":
+                case "god slayer":
+                    mp.godSlayer = enabled;
+                    return true;
+                case "godslayer_melee":
+                case "godslayer melee":
+                case "god slayer melee":
+                    mp.godSlayer = enabled;
+                    mp.godSlayerDamage = enabled; // melee helm's unique damage reducing property
+                    return true;
+                case "godslayer_ranged":
+                case "godslayer ranged":
+                case "god slayer ranged":
+                    mp.godSlayer = enabled;
+                    mp.godSlayerRanged = enabled;
+                    return true;
+                case "godslayer_magic":
+                case "godslayer magic":
+                case "god slayer magic":
+                    mp.godSlayer = enabled;
+                    mp.godSlayerMage = enabled;
+                    return true;
+                case "godslayer_summon":
+                case "godslayer summon":
+                case "god slayer summon":
+                    mp.godSlayer = enabled;
+                    mp.godSlayerSummon = enabled; // TODO -- remove this when player.godSlayerSummon actually controls mechworm
+                    return true;
+                case "godslayer_rogue":
+                case "godslayer rogue":
+                case "god slayer rogue":
+                    mp.godSlayer = enabled;
+                    mp.godSlayerThrowing = enabled;
+                    return true;
+            }
+
+            // Silva
+            switch (setBonus)
+            {
+                default:
+                    break;
+                case "silva":
+                    mp.silvaSet = enabled;
+                    return true;
+                case "silva_melee":
+                case "silva melee":
+                    mp.silvaSet = enabled;
+                    mp.silvaMelee = enabled;
+                    return true;
+                case "silva_ranged":
+                case "silva ranged":
+                    mp.silvaSet = enabled;
+                    mp.silvaRanged = enabled;
+                    return true;
+                case "silva_magic":
+                case "silva magic":
+                    mp.silvaSet = enabled;
+                    mp.silvaMage = enabled;
+                    return true;
+                case "silva_summon":
+                case "silva summon":
+                    mp.silvaSet = enabled;
+                    mp.silvaSummon = enabled; // TODO -- remove this when player.silvaSummon actually controls silva crystl
+                    return true;
+                case "silva_rogue":
+                case "silva rogue":
+                    mp.silvaSet = enabled;
+                    mp.silvaThrowing = enabled;
+                    return true;
+            }
+
+            // Auric Tesla (includes all components)
+            switch (setBonus)
+            {
+                default:
+                    break;
+                case "auric":
+                case "aurictesla":
+                case "auric tesla":
+                    mp.tarraSet = enabled;
+                    mp.bloodflareSet = enabled;
+                    mp.godSlayer = enabled;
+                    mp.silvaSet = enabled;
+                    mp.auricSet = enabled;
+                    return true;
+                case "auric_melee":
+                case "auric melee":
+                case "aurictesla_melee":
+                case "aurictesla melee":
+                case "auric tesla melee":
+                    mp.tarraSet = enabled;
+                    mp.tarraMelee = enabled;
+                    mp.bloodflareSet = enabled;
+                    mp.bloodflareMelee = enabled;
+                    mp.godSlayer = enabled;
+                    mp.godSlayerDamage = enabled;
+                    mp.silvaSet = enabled;
+                    mp.silvaMelee = enabled;
+                    mp.auricSet = enabled;
+                    return true;
+                case "auric_ranged":
+                case "auric ranged":
+                case "aurictesla_ranged":
+                case "aurictesla ranged":
+                case "auric tesla ranged":
+                    mp.tarraSet = enabled;
+                    mp.tarraRanged = enabled;
+                    mp.bloodflareSet = enabled;
+                    mp.bloodflareRanged = enabled;
+                    mp.godSlayer = enabled;
+                    mp.godSlayerRanged = enabled;
+                    mp.silvaSet = enabled;
+                    mp.silvaRanged = enabled;
+                    mp.auricSet = enabled;
+                    return true;
+                case "auric_magic":
+                case "auric magic":
+                case "aurictesla_magic":
+                case "aurictesla magic":
+                case "auric tesla magic":
+                    mp.tarraSet = enabled;
+                    mp.tarraMage = enabled;
+                    mp.bloodflareSet = enabled;
+                    mp.bloodflareMage = enabled;
+                    mp.godSlayer = enabled;
+                    mp.godSlayerMage = enabled;
+                    mp.silvaSet = enabled;
+                    mp.silvaMage = enabled;
+                    mp.auricSet = enabled;
+                    return true;
+                case "auric_summon":
+                case "auric summon":
+                case "aurictesla_summon":
+                case "aurictesla summon":
+                case "auric tesla summon":
+                    mp.tarraSet = enabled;
+                    mp.tarraSummon = enabled;
+                    mp.bloodflareSet = enabled;
+                    mp.bloodflareSummon = enabled;
+                    mp.godSlayer = enabled;
+                    mp.godSlayerSummon = enabled;
+                    mp.silvaSet = enabled;
+                    mp.silvaSummon = enabled;
+                    mp.auricSet = enabled;
+                    return true;
+                case "auric_rogue":
+                case "auric rogue":
+                case "aurictesla_rogue":
+                case "aurictesla rogue":
+                case "auric tesla rogue":
+                    mp.tarraSet = enabled;
+                    mp.tarraThrowing = enabled;
+                    mp.bloodflareSet = enabled;
+                    mp.bloodflareThrowing = enabled;
+                    mp.godSlayer = enabled;
+                    mp.godSlayerThrowing = enabled;
+                    mp.silvaSet = enabled;
+                    mp.silvaThrowing = enabled;
+                    mp.auricSet = enabled;
+                    return true;
+            }
+
+            // Demonshade
+            if (setBonus == "demonshade")
+            {
+                mp.dsSetBonus = enabled;
+                mp.rDevil = enabled; // TODO -- remove this when player.rDevil controls demonshade summoned minion
+                return true;
+            }
+
+            return false;
+        }
         #endregion
 
         #region Set Damage Reduction
-
         public static float SetDamageReduction(int npcID, float dr)
         {
             CalamityMod.DRValues.TryGetValue(npcID, out float oldDR);
@@ -578,6 +1047,15 @@ namespace CalamityMod
         #region Call
         public static object Call(params object[] args)
         {
+            /*static*/ Player castPlayer(object o)
+            {
+                if (o is int)
+                    return Main.player[(int)o];
+                else if (o is Player)
+                    return (Player)o;
+                return null;
+            }
+
             if (args is null || args.Length <= 0)
                 return new ArgumentNullException("ERROR: No function name specified. First argument must be a function name.");
             if (!(args[0] is string))
@@ -609,12 +1087,7 @@ namespace CalamityMod
                         return new ArgumentException("ERROR: The second argument to \"InZone\" must be a string.");
                     if (!(args[1] is int) || !(args[1] is Player))
                         return new ArgumentException("ERROR: The first argument to \"InZone\" must be a Player or an int.");
-
-                    // If the argument is an int, get the corresponding player
-                    if (args[1] is int)
-                        p = Main.player[(int)args[1]];
-                    else if (args[1] is Player)
-                        p = (Player)args[1];
+                    p = castPlayer(args[1]);
                     return GetInZone(p, args[2].ToString());
 
                 case "Difficulty":
@@ -626,6 +1099,69 @@ namespace CalamityMod
                     if (!(args[1] is string))
                         return new ArgumentException("ERROR: The argument to \"Difficulty\" must be a string.");
                     return GetDifficultyActive(args[1].ToString());
+
+                case "GetRogueDamage":
+                case "GetRogueDmg":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify a Player object (or int index of a Player).");
+                    if (!(args[1] is int) || !(args[1] is Player))
+                        return new ArgumentException("ERROR: The argument to \"GetRogueDamage\" must be a Player or an int.");
+                    return GetRogueDamage(castPlayer(args[1]));
+
+                case "GetRogueCrit":
+                case "GetRogueCritChance":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify a Player object (or int index of a Player).");
+                    if (!(args[1] is int) || !(args[1] is Player))
+                        return new ArgumentException("ERROR: The argument to \"GetRogueCrit\" must be a Player or an int.");
+                    return GetRogueCrit(castPlayer(args[1]));
+
+                case "GetRogueVelocity":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify a Player object (or int index of a Player).");
+                    if (!(args[1] is int) || !(args[1] is Player))
+                        return new ArgumentException("ERROR: The argument to \"GetRogueVelocity\" must be a Player or an int.");
+                    return GetRogueVelocity(castPlayer(args[1]));
+
+                case "AddRogueDamage":
+                case "AddRogueDmg":
+                case "ModifyRogueDamage":
+                case "ModifyRogueDmg":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify both a Player object (or int index of a Player) and rogue damage change as a float.");
+                    if (args.Length < 3)
+                        return new ArgumentNullException("ERROR: Must specify rogue damage change as a float.");
+                    if (!(args[2] is float))
+                        return new ArgumentException("ERROR: The second argument to \"AddRogueDamage\" must be a float.");
+                    if (!(args[1] is int) || !(args[1] is Player))
+                        return new ArgumentException("ERROR: The first argument to \"AddRogueDamage\" must be a Player or an int.");
+                    return AddRogueDamage(castPlayer(args[1]), (float)args[2]);
+
+                case "AddRogueCrit":
+                case "AddRogueCritChance":
+                case "ModifyRogueCrit":
+                case "ModifyRogueCritChance":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify both a Player object (or int index of a Player) and rogue crit change as an int.");
+                    if (args.Length < 3)
+                        return new ArgumentNullException("ERROR: Must specify rogue crit change as a float.");
+                    if (!(args[2] is int))
+                        return new ArgumentException("ERROR: The second argument to \"AddRogueCrit\" must be an int.");
+                    if (!(args[1] is int) || !(args[1] is Player))
+                        return new ArgumentException("ERROR: The first argument to \"AddRogueCrit\" must be a Player or an int.");
+                    return AddRogueCrit(castPlayer(args[1]), (int)args[2]);
+
+                case "AddRogueVelocity":
+                case "ModifyRogueVelocity":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify both a Player object (or int index of a Player) and rogue velocity change as a float.");
+                    if (args.Length < 3)
+                        return new ArgumentNullException("ERROR: Must specify rogue velocity change as a float.");
+                    if (!(args[2] is float))
+                        return new ArgumentException("ERROR: The second argument to \"AddRogueVelocity\" must be a float.");
+                    if (!(args[1] is int) || !(args[1] is Player))
+                        return new ArgumentException("ERROR: The first argument to \"AddRogueVelocity\" must be a Player or an int.");
+                    return AddRogueVelocity(castPlayer(args[1]), (float)args[2]);
 
                 case "SetBonus":
                 case "SetBonusActive":
@@ -640,13 +1176,25 @@ namespace CalamityMod
                         return new ArgumentException("ERROR: The second argument to \"SetBonus\" must be a string.");
                     if (!(args[1] is int) || !(args[1] is Player))
                         return new ArgumentException("ERROR: The first argument to \"SetBonus\" must be a Player or an int.");
+                    return GetSetBonus(castPlayer(args[1]), args[2].ToString());
 
-                    // If the argument is an int, get the corresponding player
-                    if (args[1] is int)
-                        p = Main.player[(int)args[1]];
-                    else if (args[1] is Player)
-                        p = (Player)args[1];
-                    return GetSetBonus(p, args[2].ToString());
+                case "SetSetBonus":
+                case "ToggleSetBonus":
+                case "SetSetBonusActive":
+                case "ToggleSetBonusActive":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify a Player object (or int index of a Player), a set bonus name as a string, and a bool.");
+                    if (args.Length < 3)
+                        return new ArgumentNullException("ERROR: Must specify a set bonus name as a string and a bool.");
+                    if (args.Length < 4)
+                        return new ArgumentNullException("ERROR: Must specify a bool.");
+                    if (!(args[3] is bool))
+                        return new ArgumentException("ERROR: The third argument to \"SetSetBonus\" must be a bool.");
+                    if (!(args[2] is string))
+                        return new ArgumentException("ERROR: The second argument to \"SetSetBonus\" must be a string.");
+                    if (!(args[1] is int) || !(args[1] is Player))
+                        return new ArgumentException("ERROR: The first argument to \"SetSetBonus\" must be a Player or an int.");
+                    return SetSetBonus(castPlayer(args[1]), args[2].ToString(), (bool)args[3]);
 
                 case "DR":
                 case "DamageReduction":

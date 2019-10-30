@@ -254,6 +254,7 @@ namespace CalamityMod.NPCs
             }
             else if (npc.type == NPCID.DukeFishron)
             {
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<DukesDecapitator>(), !Main.expertMode, 5, 1, 1);
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeDukeFishron>(), true, !NPC.downedFishron);
                 DropHelper.DropResidentEvilAmmo(npc, NPC.downedPlantBoss, 4, 2, 1);
             }

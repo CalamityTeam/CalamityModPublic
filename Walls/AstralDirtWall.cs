@@ -6,17 +6,16 @@ namespace CalamityMod.Walls
 {
     public class AstralDirtWall : ModWall
     {
-        public override bool Autoload(ref string name, ref string texture)
+        /*public override bool Autoload(ref string name, ref string texture)
         {
-            mod.AddWall("AstralDirtWallUnsafe", this, texture);
-            return base.Autoload(ref name, ref texture);
-        }
+            mod.AddWall("AstralDirtWallUnsafe",this, "CalamityMod/Walls/AstralD" );
+            return true;
+        }*/
 
         public override void SetDefaults()
         {
             // TODO -- Change this dust to be one more befitting Astral Dirt.
             dustType = DustID.Shadowflame;
-            drop = ModContent.ItemType<Items.Placeables.Walls.AstralDirtWall>();
             AddMapEntry(new Color(26, 22, 32));
         }
 

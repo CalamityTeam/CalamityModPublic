@@ -6,18 +6,16 @@ namespace CalamityMod.Walls
 {
     public class AstralIceWall : ModWall
     {
-        public override bool Autoload(ref string name, ref string texture)
+        /*public override bool Autoload(ref string name, ref string texture)
         {
             mod.AddWall("AstralIceWallUnsafe", this, texture);
             return base.Autoload(ref name, ref texture);
-        }
+        }*/
 
         public override void SetDefaults()
         {
             // TODO -- Change this dust to be one more befitting Astral Ice.
             dustType = DustID.Shadowflame;
-            drop = ModContent.ItemType<Items.Placeables.Walls.AstralIceWall>();
-
             AddMapEntry(new Color(83, 76, 92));
         }
 

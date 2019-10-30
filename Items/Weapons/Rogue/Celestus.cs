@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             recipe.AddIngredient(ModContent.ItemType<ShatteredSun>());
             recipe.AddIngredient(ModContent.ItemType<ExecutionersBlade>());
             recipe.AddIngredient(ModContent.ItemType<Pwnagehammer>());
-            recipe.AddIngredient(ModContent.ItemType<SpearofPaleolith>());
+            recipe.AddIngredient(ModContent.ItemType<LuminousStriker>());
             recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 5);
             recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 5);
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);

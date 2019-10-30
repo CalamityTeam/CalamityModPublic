@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Magic;
+using CalamityMod.Items.Materials;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -651,14 +652,9 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-            if (Main.rand.NextBool(2))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Leather, Main.rand.Next(1, 3));
-            }
-            if (Main.rand.NextBool(100))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Cryophobia>());
-            }
+            DropHelper.DropItemChance(npc, ItemID.Leather, 1, 1, 2);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<Cryophobia>(), 100);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<EssenceofEleum>(), CalamityWorld.downedCryogen, 3, 1, 1);
         }
     }
 }

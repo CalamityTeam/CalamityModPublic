@@ -646,7 +646,7 @@ namespace CalamityMod.Projectiles
                     }
                 }
             }
-            if (Main.player[projectile.owner].Calamity().dragonScales && rogue && projectile.friendly && projectile.type != ModContent.ProjectileType<Nanotech>() && projectile.type != ModContent.ProjectileType<DragonShit>())
+            if (Main.player[projectile.owner].Calamity().dragonScales && rogue && projectile.friendly && projectile.type != ModContent.ProjectileType<MoonSigil>() && projectile.type != ModContent.ProjectileType<DragonShit>())
             {
                 if (counter % 50 == 0)
                 {
@@ -710,7 +710,7 @@ namespace CalamityMod.Projectiles
                 if (Main.player[projectile.owner].Calamity().moonCrown && !Main.player[projectile.owner].Calamity().nanotech)
                 {
                     //Summon moon sigils infrequently
-                    if (Main.rand.NextBool(300) && projectile.type != ModContent.ProjectileType<MoonSigil>())
+                    if (Main.rand.NextBool(300) && projectile.type != ModContent.ProjectileType<MoonSigil>() && projectile.type != ModContent.ProjectileType<DragonShit>())
                     {
                         Projectile.NewProjectile(projectile.position, Vector2.Zero, ModContent.ProjectileType<MoonSigil>(), (int)(projectile.damage * 0.2), 0, projectile.owner);
                     }
@@ -1493,6 +1493,9 @@ namespace CalamityMod.Projectiles
         #region Drawing
         public override Color? GetAlpha(Projectile projectile, Color lightColor)
         {
+            if (Main.player[Main.myPlayer].Calamity().omniscience && projectile.hostile)
+                return Color.Coral;
+			
             if (Main.player[Main.myPlayer].Calamity().trippy)
                 return new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, projectile.alpha);
 

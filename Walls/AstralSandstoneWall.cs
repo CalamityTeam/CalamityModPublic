@@ -6,17 +6,16 @@ namespace CalamityMod.Walls
 {
     public class AstralSandstoneWall : ModWall
     {
-        public override bool Autoload(ref string name, ref string texture)
+        /*public override bool Autoload(ref string name, ref string texture)
         {
             mod.AddWall("AstralSandstoneWallUnsafe", this, texture);
             return base.Autoload(ref name, ref texture);
-        }
+        }*/
 
         public override void SetDefaults()
         {
             // TODO -- Change this dust to be one more befitting Astral Sandstone.
             dustType = DustID.Shadowflame;
-            drop = ModContent.ItemType<Items.Placeables.Walls.AstralSandstoneWall>();
 
             WallID.Sets.Conversion.Sandstone[Type] = true;
 

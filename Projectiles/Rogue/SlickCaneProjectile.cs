@@ -104,71 +104,75 @@ namespace CalamityMod.Projectiles.Rogue
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            float moneyValueToDrop = target.value / Main.rand.NextFloat(15f, 35f);
-            if (projectile.Calamity().stealthStrike && Main.rand.NextBool(15))
+            Player player = Main.player[projectile.owner];
+            if ((target.damage > 5 || target.boss) && player.whoAmI == Main.myPlayer && !target.SpawnedFromStatue)
             {
-                moneyValueToDrop += Item.buyPrice(0, Main.rand.Next(1, 4), Main.rand.Next(0, 100), Main.rand.Next(0, 100));
-            }
-            if (moneyValueToDrop > 1000000f)
-            {
-                int modifiedMoneyValue = (int)(moneyValueToDrop / 1000000f);
-                if (modifiedMoneyValue > 50 && Main.rand.Next(5) == 0)
-                {
-                    modifiedMoneyValue /= Main.rand.Next(3) + 1;
-                }
-                if (Main.rand.Next(5) == 0)
-                {
-                    modifiedMoneyValue /= Main.rand.Next(3) + 1;
-                }
-                moneyValueToDrop -= (float)(1000000 * modifiedMoneyValue);
-                Item.NewItem((int)target.position.X, (int)target.position.Y, target.width, target.height, 74, modifiedMoneyValue, false, 0, false, false);
-            }
-            else if (moneyValueToDrop > 10000f)
-            {
-                int modifiedMoneyValue = (int)(moneyValueToDrop / 10000f);
-                if (modifiedMoneyValue > 50 && Main.rand.Next(5) == 0)
-                {
-                    modifiedMoneyValue /= Main.rand.Next(3) + 1;
-                }
-                if (Main.rand.Next(5) == 0)
-                {
-                    modifiedMoneyValue /= Main.rand.Next(3) + 1;
-                }
-                moneyValueToDrop -= (float)(10000 * modifiedMoneyValue);
-                Item.NewItem((int)target.position.X, (int)target.position.Y, target.width, target.height, 73, modifiedMoneyValue, false, 0, false, false);
-            }
-            else if (moneyValueToDrop > 100f)
-            {
-                int modifiedMoneyValue = (int)(moneyValueToDrop / 100f);
-                if (modifiedMoneyValue > 50 && Main.rand.Next(5) == 0)
-                {
-                    modifiedMoneyValue /= Main.rand.Next(3) + 1;
-                }
-                if (Main.rand.Next(5) == 0)
-                {
-                    modifiedMoneyValue /= Main.rand.Next(3) + 1;
-                }
-                moneyValueToDrop -= (float)(100 * modifiedMoneyValue);
-                Item.NewItem((int)target.position.X, (int)target.position.Y, target.width, target.height, 72, modifiedMoneyValue, false, 0, false, false);
-            }
-            else
-            {
-                int modifiedMoneyValue = (int)moneyValueToDrop;
-                if (modifiedMoneyValue > 50 && Main.rand.Next(5) == 0)
-                {
-                    modifiedMoneyValue /= Main.rand.Next(3) + 1;
-                }
-                if (Main.rand.Next(5) == 0)
-                {
-                    modifiedMoneyValue /= Main.rand.Next(4) + 1;
-                }
-                if (modifiedMoneyValue < 1)
-                {
-                    modifiedMoneyValue = 1;
-                }
-                moneyValueToDrop -= (float)modifiedMoneyValue;
-                Item.NewItem((int)target.position.X, (int)target.position.Y, target.width, target.height, 71, modifiedMoneyValue, false, 0, false, false);
-            }
+				float moneyValueToDrop = target.value / Main.rand.NextFloat(15f, 35f);
+				if (projectile.Calamity().stealthStrike && Main.rand.NextBool(15))
+				{
+					moneyValueToDrop += Item.buyPrice(0, Main.rand.Next(1, 4), Main.rand.Next(0, 100), Main.rand.Next(0, 100));
+				}
+				if (moneyValueToDrop > 1000000f)
+				{
+					int modifiedMoneyValue = (int)(moneyValueToDrop / 1000000f);
+					if (modifiedMoneyValue > 50 && Main.rand.Next(5) == 0)
+					{
+						modifiedMoneyValue /= Main.rand.Next(3) + 1;
+					}
+					if (Main.rand.Next(5) == 0)
+					{
+						modifiedMoneyValue /= Main.rand.Next(3) + 1;
+					}
+					moneyValueToDrop -= (float)(1000000 * modifiedMoneyValue);
+					Item.NewItem((int)target.position.X, (int)target.position.Y, target.width, target.height, 74, modifiedMoneyValue, false, 0, false, false);
+				}
+				else if (moneyValueToDrop > 10000f)
+				{
+					int modifiedMoneyValue = (int)(moneyValueToDrop / 10000f);
+					if (modifiedMoneyValue > 50 && Main.rand.Next(5) == 0)
+					{
+						modifiedMoneyValue /= Main.rand.Next(3) + 1;
+					}
+					if (Main.rand.Next(5) == 0)
+					{
+						modifiedMoneyValue /= Main.rand.Next(3) + 1;
+					}
+					moneyValueToDrop -= (float)(10000 * modifiedMoneyValue);
+					Item.NewItem((int)target.position.X, (int)target.position.Y, target.width, target.height, 73, modifiedMoneyValue, false, 0, false, false);
+				}
+				else if (moneyValueToDrop > 100f)
+				{
+					int modifiedMoneyValue = (int)(moneyValueToDrop / 100f);
+					if (modifiedMoneyValue > 50 && Main.rand.Next(5) == 0)
+					{
+						modifiedMoneyValue /= Main.rand.Next(3) + 1;
+					}
+					if (Main.rand.Next(5) == 0)
+					{
+						modifiedMoneyValue /= Main.rand.Next(3) + 1;
+					}
+					moneyValueToDrop -= (float)(100 * modifiedMoneyValue);
+					Item.NewItem((int)target.position.X, (int)target.position.Y, target.width, target.height, 72, modifiedMoneyValue, false, 0, false, false);
+				}
+				else
+				{
+					int modifiedMoneyValue = (int)moneyValueToDrop;
+					if (modifiedMoneyValue > 50 && Main.rand.Next(5) == 0)
+					{
+						modifiedMoneyValue /= Main.rand.Next(3) + 1;
+					}
+					if (Main.rand.Next(5) == 0)
+					{
+						modifiedMoneyValue /= Main.rand.Next(4) + 1;
+					}
+					if (modifiedMoneyValue < 1)
+					{
+						modifiedMoneyValue = 1;
+					}
+					moneyValueToDrop -= (float)modifiedMoneyValue;
+					Item.NewItem((int)target.position.X, (int)target.position.Y, target.width, target.height, 71, modifiedMoneyValue, false, 0, false, false);
+				}
+			}
         }
     }
 }

@@ -1039,6 +1039,17 @@ namespace CalamityMod.Items
                     }
                 }
             }
+            if (item.type == ItemID.InvisibilityPotion)
+            {
+                foreach (TooltipLine line2 in tooltips)
+                {
+                    if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
+                    {
+                        line2.text = "Grants invisibility\n" +
+                            "Boosts certain stats when holding certain types of rogue weapons";
+                    }
+                }
+            }
             if (item.type == ItemID.MeteorHelmet || item.type == ItemID.MeteorSuit || item.type == ItemID.MeteorLeggings)
             {
                 foreach (TooltipLine line2 in tooltips)
@@ -1807,6 +1818,7 @@ namespace CalamityMod.Items
                     case ItemID.FishronBossBag:
                         float baronChance = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : DropHelper.LegendaryDropRateFloat;
                         DropHelper.DropItemCondition(player, ModContent.ItemType<BrinyBaron>(), CalamityWorld.revenge, baronChance);
+                        DropHelper.DropItemChance(player, ModContent.ItemType<DukesDecapitator>(), 4);
                         break;
 
                     // Betsy
@@ -2062,11 +2074,13 @@ namespace CalamityMod.Items
                 player.statLifeMax2 += 20;
                 player.statDefense += 15;
                 player.lifeRegen += 3;
+                player.noFallDmg = true;
             }
             else if (item.type == ItemID.DemonWings) // Boost to all damage and crit
             {
                 player.allDamage += 0.1f;
                 modPlayer.AllCritBoost(10);
+                player.noFallDmg = true;
             }
             else if (item.type == ItemID.FinWings) // Boosted water abilities, faster fall in water
             {
@@ -2074,6 +2088,7 @@ namespace CalamityMod.Items
                 player.jumpSpeedBoost += 1.8f;
                 player.gills = true;
                 player.ignoreWater = true;
+                player.noFallDmg = true;
                 if (!player.mount.Active)
                 {
                     if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
@@ -2083,6 +2098,7 @@ namespace CalamityMod.Items
             else if (item.type == ItemID.BeeWings) // Honey buff
             {
                 player.AddBuff(BuffID.Honey, 2);
+                player.noFallDmg = true;
             }
             else if (item.type == ItemID.ButterflyWings) // Boost to magic stats
             {
@@ -2090,15 +2106,18 @@ namespace CalamityMod.Items
                 player.magicDamage += 0.1f;
                 player.manaCost *= 0.95f;
                 player.magicCrit += 5;
+                player.noFallDmg = true;
             }
             else if (item.type == ItemID.FairyWings) // Boost to max life
             {
                 player.statLifeMax2 += 80;
+                player.noFallDmg = true;
             }
             else if (item.type == ItemID.BatWings) // Stronger at night
             {
                 player.moveSpeed += 0.1f;
                 player.jumpSpeedBoost += 1.0f;
+                player.noFallDmg = true;
                 if (!Main.dayTime)
                 {
                     player.statDefense += 20;
@@ -2110,9 +2129,11 @@ namespace CalamityMod.Items
             else if (item.type == ItemID.HarpyWings)
             {
                 player.moveSpeed += 0.3f;
+                player.noFallDmg = true;
             }
             else if (item.type == ItemID.BoneWings) // Bonus to ranged and defense stats while wearing necro armor
             {
+                player.noFallDmg = true;
                 if ((player.head == ArmorIDs.Head.NecroHelmet || player.head == ArmorIDs.Head.AncientNecroHelmet) &&
                     player.body == ArmorIDs.Body.NecroBreastplate && player.legs == ArmorIDs.Legs.NecroGreaves)
                 {
@@ -2129,9 +2150,11 @@ namespace CalamityMod.Items
                 modPlayer.AllCritBoost(5);
                 player.moveSpeed += 0.1f;
                 player.jumpSpeedBoost += 1.2f;
+                player.noFallDmg = true;
             }
             else if (item.type == ItemID.FrozenWings) // Bonus to melee and ranged stats while wearing frost armor
             {
+                player.noFallDmg = true;
                 if (player.head == ArmorIDs.Head.FrostHelmet && player.body == ArmorIDs.Body.FrostBreastplate && player.legs == ArmorIDs.Legs.FrostLeggings)
                 {
                     player.meleeDamage += 0.07f;
@@ -2144,9 +2167,11 @@ namespace CalamityMod.Items
             {
                 player.meleeDamage += 0.1f;
                 player.meleeCrit += 5;
+                player.noFallDmg = true;
             }
             else if (item.type == ItemID.GhostWings) // Bonus to mage stats while wearing spectre armor
             {
+                player.noFallDmg = true;
                 if (player.body == ArmorIDs.Body.SpectreRobe && player.legs == ArmorIDs.Legs.SpectrePants)
                 {
                     if (player.head == ArmorIDs.Head.SpectreHood)
@@ -2165,6 +2190,7 @@ namespace CalamityMod.Items
             }
             else if (item.type == ItemID.BeetleWings) // Boosted defense and melee stats while wearing beetle armor
             {
+                player.noFallDmg = true;
                 if (player.head == ArmorIDs.Head.BeetleHelmet && player.legs == ArmorIDs.Legs.BeetleLeggings)
                 {
                     if (player.body == ArmorIDs.Body.BeetleShell)
@@ -2181,10 +2207,12 @@ namespace CalamityMod.Items
             }
             else if (item.type == ItemID.FestiveWings) // Drop powerful homing christmas tree bulbs while in flight
             {
+                player.noFallDmg = true;
                 player.statLifeMax2 += 50;
             }
             else if (item.type == ItemID.SpookyWings) // Bonus to summon stats while wearing spooky armor
             {
+                player.noFallDmg = true;
                 if (player.head == ArmorIDs.Head.SpookyHelmet && player.body == ArmorIDs.Body.SpookyBreastplate && player.legs == ArmorIDs.Legs.SpookyLeggings)
                 {
                     player.maxMinions++;
@@ -2195,6 +2223,7 @@ namespace CalamityMod.Items
             {
                 player.allDamage += 0.05f;
                 modPlayer.AllCritBoost(5);
+                player.noFallDmg = true;
             }
             else if (item.type == ItemID.SteampunkWings)
             {
@@ -2202,9 +2231,11 @@ namespace CalamityMod.Items
                 player.allDamage += 0.05f;
                 modPlayer.AllCritBoost(5);
                 player.moveSpeed += 0.1f;
+                player.noFallDmg = true;
             }
             else if (item.type == ItemID.WingsSolar) // Bonus to melee stats while wearing solar flare armor
             {
+                player.noFallDmg = true;
                 if (player.head == ArmorIDs.Head.SolarFlareHelmet && player.body == ArmorIDs.Body.SolarFlareBreastplate && player.legs == ArmorIDs.Legs.SolarFlareLeggings)
                 {
                     player.meleeDamage += 0.07f;
@@ -2213,6 +2244,7 @@ namespace CalamityMod.Items
             }
             else if (item.type == ItemID.WingsVortex) // Bonus to ranged stats while wearing vortex armor
             {
+                player.noFallDmg = true;
                 if (player.head == ArmorIDs.Head.VortexHelmet && player.body == ArmorIDs.Body.VortexBreastplate && player.legs == ArmorIDs.Legs.VortexLeggings)
                 {
                     player.rangedDamage += 0.03f;
@@ -2221,6 +2253,7 @@ namespace CalamityMod.Items
             }
             else if (item.type == ItemID.WingsNebula) // Bonus to magic stats while wearing nebula armor
             {
+                player.noFallDmg = true;
                 if (player.head == ArmorIDs.Head.NebulaHelmet && player.body == ArmorIDs.Body.NebulaBreastplate && player.legs == ArmorIDs.Legs.NebulaLeggings)
                 {
                     player.magicDamage += 0.05f;
@@ -2231,11 +2264,20 @@ namespace CalamityMod.Items
             }
             else if (item.type == ItemID.WingsStardust) // Bonus to summon stats while wearing stardust armor
             {
+                player.noFallDmg = true;
                 if (player.head == ArmorIDs.Head.StardustHelmet && player.body == ArmorIDs.Body.StardustPlate && player.legs == ArmorIDs.Legs.StardustLeggings)
                 {
                     player.maxMinions++;
                     player.minionDamage += 0.05f;
                 }
+            }
+            else if (item.type == ItemID.FishronWings || item.type == ItemID.BetsyWings || item.type == ItemID.Yoraiz0rWings || 
+				item.type == ItemID.JimsWings || item.type == ItemID.SkiphsWings || item.type == ItemID.LokisWings || 
+				item.type == ItemID.ArkhalisWings || item.type == ItemID.LeinforsWings || item.type == ItemID.BejeweledValkyrieWing || 
+				item.type == ItemID.RedsWings || item.type == ItemID.DTownsWings || item.type == ItemID.WillsWings || 
+				item.type == ItemID.CrownosWings || item.type == ItemID.CenxsWings || item.type == ItemID.Hoverboard || item.type == ItemID.LeafWings)
+            {
+                player.noFallDmg = true;
             }
 
             if (item.type == ItemID.JellyfishNecklace || item.type == ItemID.JellyfishDivingGear || item.type == ItemID.ArcticDivingGear)
