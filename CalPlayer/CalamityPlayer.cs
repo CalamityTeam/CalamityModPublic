@@ -9946,8 +9946,11 @@ namespace CalamityMod.CalPlayer
                 roguePlayer.throwingCrit += (int)(rogueStealth * 30f);
 
             // Stealth increases movement speed and significantly decreases aggro.
-            player.moveSpeed += rogueStealth * 0.05f;
-            player.aggro -= (int)(rogueStealth / rogueStealthMax * 900f);
+            if (wearingRogueArmor && rogueStealthMax > 0)
+            {
+                player.moveSpeed += rogueStealth * 0.05f;
+                player.aggro -= (int)(rogueStealth / rogueStealthMax * 900f);
+            }
         }
 
         private float UpdateStealthGenStats()
