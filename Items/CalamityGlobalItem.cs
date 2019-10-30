@@ -2429,7 +2429,7 @@ namespace CalamityMod.Items
 
             for (int i = 54; i < 58; i++)
             {
-                if (player.inventory[i].ammo == item.useAmmo && player.inventory[i].stack >= ammoConsumed)
+                if (player.inventory[i].ammo == item.useAmmo && (player.inventory[i].stack >= ammoConsumed || !player.inventory[i].consumable))
                 {
                     canShoot = true;
                     flag = true;
@@ -2441,7 +2441,7 @@ namespace CalamityMod.Items
             {
                 for (int j = 0; j < 54; j++)
                 {
-                    if (player.inventory[j].ammo == item.useAmmo && player.inventory[j].stack >= ammoConsumed)
+                    if (player.inventory[j].ammo == item.useAmmo && (player.inventory[j].stack >= ammoConsumed || !player.inventory[j].consumable))
                     {
                         canShoot = true;
                         break;
