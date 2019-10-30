@@ -51,7 +51,7 @@ namespace CalamityMod.Items.Armor
                 "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.daedalusSplit = true;
-            modPlayer.rogueStealthMax = 1.1f;
+            modPlayer.rogueStealthMax += 1.1f;
             player.Calamity().throwingDamage += 0.05f;
             player.Calamity().wearingRogueArmor = true;
         }

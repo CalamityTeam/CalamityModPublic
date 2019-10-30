@@ -56,7 +56,7 @@ namespace CalamityMod.Items.Armor
             modPlayer.silvaSet = true;
             modPlayer.silvaThrowing = true;
             modPlayer.auricSet = true;
-            modPlayer.rogueStealthMax = 1.6f;
+            modPlayer.rogueStealthMax += 1.6f;
             modPlayer.wearingRogueArmor = true;
             player.thorns += 3f;
             player.lavaMax += 240;

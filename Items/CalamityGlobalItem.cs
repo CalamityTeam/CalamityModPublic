@@ -1886,7 +1886,7 @@ namespace CalamityMod.Items
             else if (set == "Gladiator")
             {
                 CalamityPlayer modPlayer = player.Calamity();
-                modPlayer.rogueStealthMax = 1f;
+                modPlayer.rogueStealthMax += 1f;
                 modPlayer.wearingRogueArmor = true;
                 player.Calamity().throwingDamage += 0.1f;
                 player.Calamity().throwingVelocity += 0.1f;
@@ -1900,7 +1900,7 @@ namespace CalamityMod.Items
             else if (set == "Obsidian")
             {
                 CalamityPlayer modPlayer = player.Calamity();
-                modPlayer.rogueStealthMax = 1f;
+                modPlayer.rogueStealthMax += 1f;
                 modPlayer.wearingRogueArmor = true;
                 player.Calamity().throwingDamage += 0.05f;
                 player.Calamity().throwingCrit += 5;

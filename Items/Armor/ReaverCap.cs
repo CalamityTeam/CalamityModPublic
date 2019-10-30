@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Armor
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.reaverSpore = true;
-            modPlayer.rogueStealthMax = 1.15f;
+            modPlayer.rogueStealthMax += 1.15f;
             player.setBonus = "5% increased rogue damage\n" +
                 "You emit a cloud of spores when you are hit\n" +
                 "Rogue stealth builds while not attacking and not moving, up to a max of 115\n" +
