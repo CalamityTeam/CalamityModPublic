@@ -1,4 +1,5 @@
 using CalamityMod.Buffs;
+using CalamityMod.Buffs.Alcohol;
 using CalamityMod.Buffs.Cooldowns;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.Pets;
@@ -437,7 +438,8 @@ namespace CalamityMod.CalPlayer
         public bool chaosSpirit = false;
         public bool redDevil = false;
 
-        // Debuff
+		// Debuff
+		public bool alcoholPoisoning = false;
         public bool shadowflame = false;
         public bool wDeath = false;
         public bool lethalLavaBurn = false;
@@ -481,6 +483,7 @@ namespace CalamityMod.CalPlayer
         public bool omniscience = false;
         public bool zerg = false;
         public bool zen = false;
+		public bool bossZen = false;
         public bool yPower = false;
         public bool aWeapon = false;
         public bool tScale = false;
@@ -493,7 +496,7 @@ namespace CalamityMod.CalPlayer
         public bool shine = false;
         public bool anechoicCoating = false;
         public bool enraged = false;
-        public int revivifyTimer = 0;
+        public bool revivify = false;
         public bool permafrostsConcoction = false;
         public bool armorCrumbling = false;
         public bool armorShattering = false;
@@ -1074,6 +1077,7 @@ namespace CalamityMod.CalPlayer
             gloveOfRecklessness = false;
             momentumCapacitor = false;
 
+			alcoholPoisoning = false;
             shadowflame = false;
             wDeath = false;
             lethalLavaBurn = false;
@@ -1102,6 +1106,7 @@ namespace CalamityMod.CalPlayer
             enraged = false;
             snowmanNoseless = false;
 
+			revivify = false;
             trinketOfChiBuff = false;
             corrEffigy = false;
             crimEffigy = false;
@@ -1115,6 +1120,7 @@ namespace CalamityMod.CalPlayer
             omniscience = false;
             zerg = false;
             zen = false;
+			bossZen = false;
             permafrostsConcoction = false;
             armorCrumbling = false;
             armorShattering = false;
@@ -1268,6 +1274,7 @@ namespace CalamityMod.CalPlayer
             theBeeDamage = 0;
             polarisBoostCounter = 0;
 
+			alcoholPoisoning = false;
             shadowflame = false;
             wDeath = false;
             lethalLavaBurn = false;
@@ -1343,6 +1350,7 @@ namespace CalamityMod.CalPlayer
             omniscience = false;
             zerg = false;
             zen = false;
+			bossZen = false;
             permafrostsConcoction = false;
             armorCrumbling = false;
             armorShattering = false;
@@ -1405,7 +1413,7 @@ namespace CalamityMod.CalPlayer
             polarisBoost = false;
             polarisBoostTwo = false;
             polarisBoostThree = false;
-            revivifyTimer = 0;
+            revivify = false;
             healCounter = 300;
             #endregion
 
@@ -2456,6 +2464,12 @@ namespace CalamityMod.CalPlayer
 
             areThereAnyDamnBosses = CalamityGlobalNPC.AnyBossNPCS();
 
+			if (areThereAnyDamnBosses)
+			{
+				if (player.whoAmI == Main.myPlayer)
+					player.AddBuff(ModContent.BuffType<BossZen>(), 2, false);
+			}
+
             #region RevengeanceEffects
             /*if (!areThereAnyDamnBosses)
             {
@@ -3115,8 +3129,6 @@ namespace CalamityMod.CalPlayer
             }
             if (draconicSurgeCooldown > 0)
                 draconicSurgeCooldown--;
-            if (revivifyTimer > 0)
-                revivifyTimer--;
             if (fleshTotemCooldown > 0)
                 fleshTotemCooldown--;
             if (astralStarRainCooldown > 0)
@@ -4187,7 +4199,10 @@ namespace CalamityMod.CalPlayer
             }
             if (alcoholPoisonLevel > 3)
             {
-                if (player.lifeRegen > 0)
+				if (player.whoAmI == Main.myPlayer)
+					player.AddBuff(ModContent.BuffType<AlcoholPoisoning>(), 2, false);
+
+				if (player.lifeRegen > 0)
                 {
                     player.lifeRegen = 0;
                 }
@@ -7399,9 +7414,9 @@ namespace CalamityMod.CalPlayer
             }
 
             #region HealingEffects
-            if (revivifyTimer > 0)
+            if (revivify)
             {
-                int healAmt = damage / 20;
+                int healAmt = damage / 15;
                 player.statLife += healAmt;
                 player.HealEffect(healAmt);
             }
@@ -9468,7 +9483,7 @@ namespace CalamityMod.CalPlayer
                         break;
                 }
             }
-            if (revivifyTimer > 0)
+            if (revivify)
             {
                 if (Main.rand.NextBool(2) && drawInfo.shadow == 0f)
                 {

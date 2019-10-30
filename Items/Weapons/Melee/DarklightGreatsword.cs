@@ -12,12 +12,12 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Darklight Greatsword");
-            Tooltip.SetDefault("Fires a darklight orb that splits on death");
+            Tooltip.SetDefault("Fires darklight blades that split on death");
         }
 
         public override void SetDefaults()
         {
-            item.width = 56;
+            item.width = 58;
             item.damage = 55;
             item.melee = true;
             item.useAnimation = 24;
@@ -30,12 +30,13 @@ namespace CalamityMod.Items.Weapons.Melee
             item.height = 60;
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.rare = 5;
-            item.shoot = ModContent.ProjectileType<StarCrystal>();
+            item.shoot = ModContent.ProjectileType<DarkBeam>();
             item.shootSpeed = 16f;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
+			type = Main.rand.NextBool(2) ? type : ModContent.ProjectileType<LightBeam>();
             Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)((double)damage * 0.6), knockBack, player.whoAmI, 0f, 0f);
             return false;
         }

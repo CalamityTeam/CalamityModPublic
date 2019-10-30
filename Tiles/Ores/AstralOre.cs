@@ -16,7 +16,7 @@ namespace CalamityMod.Tiles.Ores
             Main.tileLighted[Type] = true;
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
-            Main.tileValue[Type] = 700;
+            Main.tileValue[Type] = 900;
             Main.tileSpelunker[Type] = true;
             Main.tileShine2[Type] = true;
 

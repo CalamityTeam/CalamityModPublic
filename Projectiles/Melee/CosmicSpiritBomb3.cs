@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -19,25 +20,62 @@ namespace CalamityMod.Projectiles.Melee
             projectile.friendly = true;
             projectile.penetrate = 1;
             projectile.tileCollide = false;
-            projectile.timeLeft = 120;
+            projectile.timeLeft = 150;
             projectile.melee = true;
         }
 
         public override void AI()
         {
-            projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] > 4f)
-            {
-                for (int num468 = 0; num468 < 5; num468++)
-                {
-                    int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 244, 0f, 0f, 100, default, 1.5f);
-                    Main.dust[num469].noGravity = true;
-                    Main.dust[num469].velocity *= 0f;
-                }
-            }
-        }
+			float num395 = (float)Main.mouseTextColor / 200f - 0.35f;
+			num395 *= 0.2f;
+			projectile.scale = num395 + 0.95f;
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+			float num947 = (projectile.Center - Main.player[projectile.owner].Center).Length() / 100f;
+			if (num947 <= 2f)
+			{
+				num947 = 1f;
+			}
+			else
+			{
+				if (num947 > 8f)
+				{
+					num947 = 12f;
+				}
+				else if (num947 > 6f)
+				{
+					num947 = 9f;
+				}
+				else if (num947 > 5f)
+				{
+					num947 = 7f;
+				}
+				else if (num947 > 4f)
+				{
+					num947 = 5f;
+				}
+				else if (num947 > 3f)
+				{
+					num947 = 4f;
+				}
+				else if (num947 > 2.5f)
+				{
+					num947 = 3f;
+				}
+				else
+				{
+					num947 = 2f;
+				}
+			}
+			projectile.velocity = Vector2.Normalize(Main.player[projectile.owner].Center - projectile.Center) * num947;
+			projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.01f * (float)projectile.direction;
+		}
+
+		public override Color? GetAlpha(Color lightColor)
+		{
+			return new Color(200, 200, 200, projectile.alpha);
+		}
+
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.Ichor, 180);
         }

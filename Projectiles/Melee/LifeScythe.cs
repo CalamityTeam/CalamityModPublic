@@ -17,8 +17,8 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetDefaults()
         {
-            projectile.width = 38;
-            projectile.height = 70;
+            projectile.width = 62;
+            projectile.height = 72;
             projectile.aiStyle = 18;
             projectile.alpha = 55;
             projectile.friendly = true;
@@ -26,6 +26,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.penetrate = 3;
             projectile.timeLeft = 240;
             projectile.ignoreWater = true;
+			projectile.tileCollide = false;
             aiType = 274;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 4;
@@ -33,27 +34,11 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-            if (projectile.localAI[0] == 0f)
-            {
-                projectile.scale -= 0.02f;
-                projectile.alpha += 30;
-                if (projectile.alpha >= 250)
-                {
-                    projectile.alpha = 255;
-                    projectile.localAI[0] = 1f;
-                }
-            }
-            else if (projectile.localAI[0] == 1f)
-            {
-                projectile.scale += 0.02f;
-                projectile.alpha -= 30;
-                if (projectile.alpha <= 0)
-                {
-                    projectile.alpha = 0;
-                    projectile.localAI[0] = 0f;
-                }
-            }
-            Lighting.AddLight(projectile.Center, 0.1f, 0.5f, 0.15f);
+			float num395 = (float)Main.mouseTextColor / 200f - 0.35f;
+			num395 *= 0.2f;
+			projectile.scale = num395 + 0.95f;
+
+			Lighting.AddLight(projectile.Center, 0.1f, 0.5f, 0.15f);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

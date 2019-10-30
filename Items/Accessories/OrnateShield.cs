@@ -5,7 +5,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class OrnateShield : ModItem
+	[AutoloadEquip(EquipType.Shield)]
+	public class OrnateShield : ModItem
     {
         public override void SetStaticDefaults()
         {

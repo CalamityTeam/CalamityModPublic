@@ -2348,6 +2348,11 @@ namespace CalamityMod.NPCs
         #region Modify Hit By Projectile
         public override void ModifyHitByProjectile(NPC npc, Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
+			if (npc.townNPC && projectile.hostile)
+			{
+				damage *= Main.expertMode ? 4 : 2;
+			}
+
             if (npc.type == NPCID.TheDestroyerBody)
             {
                 if (((projectile.penetrate == -1 || projectile.penetrate > 1) && !projectile.minion) || projectile.type == ModContent.ProjectileType<KelvinCatalystStar>())
@@ -2725,10 +2730,15 @@ namespace CalamityMod.NPCs
                 spawnRate = (int)(spawnRate * 1.4);
                 maxSpawns = (int)(maxSpawns * 0.4f);
             }
-			if (CalamityPlayer.areThereAnyDamnBosses || player.Calamity().zen || (Config.DisableExpertEnemySpawnsNearHouse && player.townNPCs > 1f && Main.expertMode))
+			if (player.Calamity().zen || (Config.DisableExpertEnemySpawnsNearHouse && player.townNPCs > 1f && Main.expertMode))
 			{
 				spawnRate = (int)(spawnRate * 1.5);
 				maxSpawns = (int)(maxSpawns * 0.01f);
+			}
+			if (player.Calamity().bossZen)
+			{
+				spawnRate *= 5;
+				maxSpawns = (int)(maxSpawns * 0.001f);
 			}
 		}
         #endregion
