@@ -11677,7 +11677,7 @@ namespace CalamityMod.NPCs
                     {
                         npc.ai[1] = 0f;
                         npc.ai[0] = 0f;
-                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        if (Main.netMode != NetmodeID.MultiplayerClient && npc.type == NPCID.MoonLordCore)
                         {
                             npc.ai[2] = (float)Main.rand.Next(3);
                             npc.ai[2] = 0f;
@@ -11703,7 +11703,7 @@ namespace CalamityMod.NPCs
                         npc.ai[1] = 0f;
                         npc.ai[0] = 0f;
 
-                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        if (Main.netMode != NetmodeID.MultiplayerClient && npc.type == NPCID.MoonLordCore)
                         {
                             npc.ai[2] = (float)Main.rand.Next(3);
                             npc.ai[2] = 0f;
@@ -11955,7 +11955,8 @@ namespace CalamityMod.NPCs
                         npc.life = 0;
                         npc.HitEffect(0, 1337.0);
                         npc.checkDead();
-                        return false;
+						npc.NPCLoot();
+						return false;
                     }
                 }
 
@@ -12224,7 +12225,7 @@ namespace CalamityMod.NPCs
                     }
                     else if (num1207 < num1208 - 15f)
                     {
-                        float rotation = CalamityWorld.bossRushActive ? 510f : 540f;
+                        float rotation = CalamityWorld.bossRushActive ? 480f : 510f;
                         if (calamityGlobalNPC.newAI[0] == 1f)
                             rotation -= 60f;
 

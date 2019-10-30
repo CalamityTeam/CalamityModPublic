@@ -56,6 +56,11 @@ namespace CalamityMod.NPCs
 
             if (CalamityWorld.revenge)
             {
+				if (npc.type == NPCID.MoonLordCore)
+				{
+					return MoonLordLoot(npc);
+				}
+
                 if (npc.type == NPCID.Probe || npc.type == NPCID.ServantofCthulhu)
                 {
                     return false;
@@ -688,10 +693,168 @@ namespace CalamityMod.NPCs
 
             return hurtByAbyss;
         }
-        #endregion
+		#endregion
 
-        #region NPCLoot
-        public override void NPCLoot(NPC npc)
+		#region Moon Lord Loot
+		private bool MoonLordLoot(NPC npc)
+		{
+			NPC.downedMoonlord = true;
+			NPC.LunarApocalypseIsUp = false;
+
+			if (Main.expertMode)
+			{
+				npc.DropBossBags();
+			}
+			else
+			{
+				if (Main.rand.Next(7) == 0)
+				{
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 3373, 1, false, -1, false, false);
+				}
+
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 3384, 1, false, -1, false, false);
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 3460, Main.rand.Next(70, 91), false, -1, false, false);
+
+				int num52 = Utils.SelectRandom<int>(Main.rand, new int[]
+				{
+						3063,
+						3389,
+						3065,
+						1553,
+						3546,
+						3541,
+						3570,
+						3571,
+						3569
+				});
+
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, num52, 1, false, -1, false, false);
+			}
+
+			if (Main.rand.NextBool(10))
+			{
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 3595, 1, false, 0, false, false);
+			}
+
+			int stack = Main.rand.Next(5, 16);
+			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 499, stack, false, 0, false, false);
+
+			int num70 = Main.rand.Next(5) + 5;
+			for (int num71 = 0; num71 < num70; num71++)
+			{
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 58, 1, false, 0, false, false);
+			}
+
+			if (Main.netMode == 0)
+			{
+				Main.NewText(Language.GetTextValue("Announcement.HasBeenDefeated_Single", Language.GetTextValue("Enemies.MoonLord")), 175, 75, 255, false);
+			}
+			else if (Main.netMode == 2)
+			{
+				NetMessage.BroadcastChatMessage(NetworkText.FromKey("Announcement.HasBeenDefeated_Single", new object[]
+				{
+							NetworkText.FromKey("Enemies.MoonLord", new object[0])
+				}), new Color(175, 75, 255), -1);
+			}
+
+			if (Main.netMode == 2)
+			{
+				NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
+			}
+
+			float num74 = npc.value;
+			if (npc.midas)
+			{
+				num74 *= 1f + (float)Main.rand.Next(10, 50) * 0.01f;
+			}
+			num74 *= 1f + (float)Main.rand.Next(-20, 21) * 0.01f;
+			if (Main.rand.Next(5) == 0)
+			{
+				num74 *= 1f + (float)Main.rand.Next(5, 11) * 0.01f;
+			}
+			if (Main.rand.Next(10) == 0)
+			{
+				num74 *= 1f + (float)Main.rand.Next(10, 21) * 0.01f;
+			}
+			if (Main.rand.Next(15) == 0)
+			{
+				num74 *= 1f + (float)Main.rand.Next(15, 31) * 0.01f;
+			}
+			if (Main.rand.Next(20) == 0)
+			{
+				num74 *= 1f + (float)Main.rand.Next(20, 41) * 0.01f;
+			}
+			num74 += npc.extraValue;
+			while ((int)num74 > 0)
+			{
+				if (num74 > 1000000f)
+				{
+					int num75 = (int)(num74 / 1000000f);
+					if (num75 > 50 && Main.rand.Next(5) == 0)
+					{
+						num75 /= Main.rand.Next(3) + 1;
+					}
+					if (Main.rand.Next(5) == 0)
+					{
+						num75 /= Main.rand.Next(3) + 1;
+					}
+					num74 -= (float)(1000000 * num75);
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 74, num75, false, 0, false, false);
+				}
+				else if (num74 > 10000f)
+				{
+					int num76 = (int)(num74 / 10000f);
+					if (num76 > 50 && Main.rand.Next(5) == 0)
+					{
+						num76 /= Main.rand.Next(3) + 1;
+					}
+					if (Main.rand.Next(5) == 0)
+					{
+						num76 /= Main.rand.Next(3) + 1;
+					}
+					num74 -= (float)(10000 * num76);
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 73, num76, false, 0, false, false);
+				}
+				else if (num74 > 100f)
+				{
+					int num77 = (int)(num74 / 100f);
+					if (num77 > 50 && Main.rand.Next(5) == 0)
+					{
+						num77 /= Main.rand.Next(3) + 1;
+					}
+					if (Main.rand.Next(5) == 0)
+					{
+						num77 /= Main.rand.Next(3) + 1;
+					}
+					num74 -= (float)(100 * num77);
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 72, num77, false, 0, false, false);
+				}
+				else
+				{
+					int num78 = (int)num74;
+					if (num78 > 50 && Main.rand.Next(5) == 0)
+					{
+						num78 /= Main.rand.Next(3) + 1;
+					}
+					if (Main.rand.Next(5) == 0)
+					{
+						num78 /= Main.rand.Next(4) + 1;
+					}
+					if (num78 < 1)
+					{
+						num78 = 1;
+					}
+					num74 -= (float)num78;
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 71, num78, false, 0, false, false);
+				}
+			}
+
+			return false;
+		}
+		#endregion
+
+		#region NPCLoot
+		public override void NPCLoot(NPC npc)
         {
             bool revenge = CalamityWorld.revenge;
             if (CalamityGlobalNPC.DraedonMayhem)
