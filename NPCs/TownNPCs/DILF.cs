@@ -170,8 +170,6 @@ namespace CalamityMod.NPCs.TownNPCs
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<EnchantedMetal>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<BearEye>());
-            nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<Popo>());
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<CryoKey>());

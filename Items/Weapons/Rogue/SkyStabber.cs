@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.Calamity().rogue = true;
             item.noMelee = true;
             item.noUseGraphic = true;
-            item.channel = true;
+            //item.channel = true;
             item.width = 1;
             item.height = 1;
             item.useTime = 15;

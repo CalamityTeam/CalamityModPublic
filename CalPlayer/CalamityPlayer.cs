@@ -4218,6 +4218,22 @@ namespace CalamityMod.CalPlayer
             {
                 player.scope = true;
             }
+            if (CalamityMod.boomerangList.Contains(player.inventory[player.selectedItem].type) && player.invis)
+            {
+				player.Calamity().throwingDamage += 0.1f;
+            }
+            if (CalamityMod.javelinList.Contains(player.inventory[player.selectedItem].type) && player.invis)
+            {
+                player.armorPenetration += 5;
+            }
+            if (CalamityMod.flaskBombList.Contains(player.inventory[player.selectedItem].type) && player.invis)
+            {
+				player.Calamity().throwingVelocity += 0.1f;
+            }
+            if (CalamityMod.spikyBallList.Contains(player.inventory[player.selectedItem].type) && player.invis)
+            {
+				player.Calamity().throwingCrit += 10;
+            }
             if (harpyRing)
             {
                 if (player.wingTimeMax > 0)
@@ -9934,6 +9950,11 @@ namespace CalamityMod.CalPlayer
                 else
                     stealthGenMoving += 0.1f;
             }
+			
+            if (CalamityMod.daggerList.Contains(player.inventory[player.selectedItem].type) && player.invis)
+			{
+				stealthGenMoving += 0.2f;
+			}
 
             bool standstill = Math.Abs(player.velocity.X) < 0.1f && Math.Abs(player.velocity.Y) < 0.1f && !player.mount.Active;
 
