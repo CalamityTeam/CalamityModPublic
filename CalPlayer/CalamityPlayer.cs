@@ -69,6 +69,7 @@ namespace CalamityMod.CalPlayer
         public int sCalKillCount = 0;
         public int deathCount = 0;
         public double radiation = 0;
+		public bool killSpikyBalls = false;
 
         // Timer and Counter
         public int bossRushImmunityFrameCurseTimer = 0;
@@ -1153,6 +1154,8 @@ namespace CalamityMod.CalPlayer
             polarisBoost = false;
             polarisBoostTwo = false;
             polarisBoostThree = false;
+			
+			killSpikyBalls = false;
 
             vodka = false;
             redWine = false;
@@ -1273,6 +1276,7 @@ namespace CalamityMod.CalPlayer
             aBulwarkRareMeleeBoostTimer = 0;
             theBeeDamage = 0;
             polarisBoostCounter = 0;
+			killSpikyBalls = false;
 
 			alcoholPoisoning = false;
             shadowflame = false;
@@ -4227,6 +4231,22 @@ namespace CalamityMod.CalPlayer
             if (CalamityMod.scopedWeaponList.Contains(player.inventory[player.selectedItem].type))
             {
                 player.scope = true;
+            }
+			if (CalamityMod.boomerangList.Contains(player.inventory[player.selectedItem].type) && player.invis)
+            {
+				player.Calamity().throwingDamage += 0.1f;
+            }
+            if (CalamityMod.javelinList.Contains(player.inventory[player.selectedItem].type) && player.invis)
+            {
+                player.armorPenetration += 5;
+            }
+            if (CalamityMod.flaskBombList.Contains(player.inventory[player.selectedItem].type) && player.invis)
+            {
+				player.Calamity().throwingVelocity += 0.1f;
+            }
+            if (CalamityMod.spikyBallList.Contains(player.inventory[player.selectedItem].type) && player.invis)
+            {
+				player.Calamity().throwingCrit += 10;
             }
             if (harpyRing)
             {
@@ -7239,6 +7259,8 @@ namespace CalamityMod.CalPlayer
         {
             if ((ZoneAstral || ZoneAbyss || ZoneSulphur) && bait.type == ModContent.ItemType<ArcturusAstroidean>())
                 fishingLevel = (int)(fishingLevel * 1.1f);
+            if (Main.player[Main.myPlayer].ZoneSnow && fishingRod.type == ModContent.ItemType<VerstaltiteFishingRod>())
+                fishingLevel = (int)(fishingLevel * 1.1f);
         }
         #endregion
 
@@ -9924,8 +9946,11 @@ namespace CalamityMod.CalPlayer
                 roguePlayer.throwingCrit += (int)(rogueStealth * 30f);
 
             // Stealth increases movement speed and significantly decreases aggro.
-            player.moveSpeed += rogueStealth * 0.05f;
-            player.aggro -= (int)(rogueStealth / rogueStealthMax * 900f);
+            if (wearingRogueArmor && rogueStealthMax > 0)
+            {
+                player.moveSpeed += rogueStealth * 0.05f;
+                player.aggro -= (int)(rogueStealth / rogueStealthMax * 900f);
+            }
         }
 
         private float UpdateStealthGenStats()
@@ -9944,6 +9969,11 @@ namespace CalamityMod.CalPlayer
                 else
                     stealthGenMoving += 0.1f;
             }
+			
+			if (CalamityMod.daggerList.Contains(player.inventory[player.selectedItem].type) && player.invis)
+			{
+				stealthGenMoving += 0.2f;
+			}
 
             bool standstill = Math.Abs(player.velocity.X) < 0.1f && Math.Abs(player.velocity.Y) < 0.1f && !player.mount.Active;
 

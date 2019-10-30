@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Armor
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.silvaSet = true;
             modPlayer.silvaThrowing = true;
-            modPlayer.rogueStealthMax = 1.5f;
+            modPlayer.rogueStealthMax += 1.5f;
             modPlayer.wearingRogueArmor = true;
             player.setBonus = "You are immune to almost all debuffs\n" +
                 "All projectiles spawn healing leaf orbs on enemy hits\n" +

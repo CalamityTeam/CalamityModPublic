@@ -1886,7 +1886,7 @@ namespace CalamityMod.Items
             else if (set == "Gladiator")
             {
                 CalamityPlayer modPlayer = player.Calamity();
-                modPlayer.rogueStealthMax = 1f;
+                modPlayer.rogueStealthMax += 1f;
                 modPlayer.wearingRogueArmor = true;
                 player.Calamity().throwingDamage += 0.1f;
                 player.Calamity().throwingVelocity += 0.1f;
@@ -1900,7 +1900,7 @@ namespace CalamityMod.Items
             else if (set == "Obsidian")
             {
                 CalamityPlayer modPlayer = player.Calamity();
-                modPlayer.rogueStealthMax = 1f;
+                modPlayer.rogueStealthMax += 1f;
                 modPlayer.wearingRogueArmor = true;
                 player.Calamity().throwingDamage += 0.05f;
                 player.Calamity().throwingCrit += 5;
@@ -2429,7 +2429,7 @@ namespace CalamityMod.Items
 
             for (int i = 54; i < 58; i++)
             {
-                if (player.inventory[i].ammo == item.useAmmo && player.inventory[i].stack >= ammoConsumed)
+                if (player.inventory[i].ammo == item.useAmmo && (player.inventory[i].stack >= ammoConsumed || !player.inventory[i].consumable))
                 {
                     canShoot = true;
                     flag = true;
@@ -2441,7 +2441,7 @@ namespace CalamityMod.Items
             {
                 for (int j = 0; j < 54; j++)
                 {
-                    if (player.inventory[j].ammo == item.useAmmo && player.inventory[j].stack >= ammoConsumed)
+                    if (player.inventory[j].ammo == item.useAmmo && (player.inventory[j].stack >= ammoConsumed || !player.inventory[j].consumable))
                     {
                         canShoot = true;
                         break;

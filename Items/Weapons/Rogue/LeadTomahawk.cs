@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Lead Tomahawk");
-            Tooltip.SetDefault("The tomahawks have more dmg for a short time when initially thrown\n" +
+            Tooltip.SetDefault("The tomahawks have more damage for a short time when initially thrown\n" +
                                "Stealth Strike: The tomahawks pierce infinitely");
         }
 

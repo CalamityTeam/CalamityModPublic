@@ -43,7 +43,7 @@ namespace CalamityMod.Items.Armor
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.tarraSet = true;
             modPlayer.tarraThrowing = true;
-            modPlayer.rogueStealthMax = 1.3f;
+            modPlayer.rogueStealthMax += 1.3f;
             modPlayer.wearingRogueArmor = true;
             player.setBonus = "Reduces enemy spawn rates\n" +
                 "Increased heart pickup range\n" +

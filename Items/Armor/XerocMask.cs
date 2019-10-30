@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Armor
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.xerocSet = true;
-            modPlayer.rogueStealthMax = 1.25f;
+            modPlayer.rogueStealthMax += 1.25f;
             player.setBonus = "9% increased rogue damage and velocity\n" +
                 "All projectile types have special effects on enemy hits\n" +
                 "Imbued with cosmic wrath and rage when you are damaged\n" +

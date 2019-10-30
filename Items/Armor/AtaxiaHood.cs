@@ -48,7 +48,7 @@ namespace CalamityMod.Items.Armor
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.ataxiaBlaze = true;
             modPlayer.ataxiaVolley = true;
-            modPlayer.rogueStealthMax = 1.2f;
+            modPlayer.rogueStealthMax += 1.2f;
             player.Calamity().throwingDamage += 0.05f;
             player.Calamity().wearingRogueArmor = true;
         }
