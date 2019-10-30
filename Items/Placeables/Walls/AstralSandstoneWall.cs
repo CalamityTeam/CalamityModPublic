@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Placeables.Walls
 
         public override void SetDefaults()
         {
-            item.createWall = ModContent.WallType<WallTiles.AstralSandstoneWall>();
+            item.createWall = ModContent.WallType<WallTiles.AstralSandstoneWallSafe>();
             item.useStyle = 1;
             item.useTurn = true;
             item.useAnimation = 15;

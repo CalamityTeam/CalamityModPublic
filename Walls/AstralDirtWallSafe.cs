@@ -1,21 +1,19 @@
 ﻿using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Walls
 {
-    public class AstralDirtWall : ModWall
+    public class AstralDirtWallSafe : ModWall
     {
-        /*public override bool Autoload(ref string name, ref string texture)
-        {
-            mod.AddWall("AstralDirtWallUnsafe",this, "CalamityMod/Walls/AstralD" );
-            return true;
-        }*/
 
         public override void SetDefaults()
         {
             // TODO -- Change this dust to be one more befitting Astral Dirt.
             dustType = DustID.Shadowflame;
+            Main.wallHouse[Type] = true;
+            drop = ModContent.ItemType<Items.Placeables.Walls.AstralDirtWall>();
             AddMapEntry(new Color(26, 22, 32));
         }
 
