@@ -18,8 +18,8 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetDefaults()
         {
-            projectile.width = 4;
-            projectile.height = 4;
+            projectile.width = 14;
+            projectile.height = 14;
             projectile.friendly = true;
             projectile.penetrate = 2;
             projectile.timeLeft = 150;
@@ -30,9 +30,9 @@ namespace CalamityMod.Projectiles.Magic
         {
             Lighting.AddLight(projectile.Center, 0.1f, 0.35f, 0f);
             projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) - 1.57f;
-            if (Main.rand.NextBool(5))
+            if (Main.rand.NextBool(7))
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 74, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f);
+                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 74, 0f, 0f);
             }
         }
 

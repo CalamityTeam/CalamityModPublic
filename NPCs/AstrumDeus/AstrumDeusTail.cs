@@ -128,39 +128,43 @@ namespace CalamityMod.NPCs.AstrumDeus
             return null;
         }
 
-        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-        {
-            if (projectile.type == ModContent.ProjectileType<RainbowBoom>() || ProjectileID.Sets.StardustDragon[projectile.type])
-            {
-                damage = (int)((double)damage * 0.1);
-            }
-            else if (projectile.type == ModContent.ProjectileType<RainBolt>() || projectile.type == ModContent.ProjectileType<AtlantisSpear2>() || projectile.type == ModContent.ProjectileType<MalachiteBolt>())
-            {
-                damage = (int)((double)damage * 0.2);
-            }
-            else if (projectile.type == ProjectileID.DD2BetsyArrow)
-            {
-                damage = (int)((double)damage * 0.3);
-            }
-            else if (projectile.type == ModContent.ProjectileType<SpikecragSpike>())
-            {
-                damage = (int)((double)damage * 0.5);
-            }
+		public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+		{
+			if (projectile.type == ModContent.ProjectileType<RainbowBoom>() || ProjectileID.Sets.StardustDragon[projectile.type])
+			{
+				damage = (int)((double)damage * 0.1);
+			}
+			else if (projectile.type == ModContent.ProjectileType<RainBolt>() || projectile.type == ModContent.ProjectileType<AtlantisSpear2>() || projectile.type == ModContent.ProjectileType<MalachiteBolt>())
+			{
+				damage = (int)((double)damage * 0.2);
+			}
+			else if (projectile.type == ProjectileID.DD2BetsyArrow)
+			{
+				damage = (int)((double)damage * 0.3);
+			}
+			else if (projectile.type == ModContent.ProjectileType<SpikecragSpike>())
+			{
+				damage = (int)((double)damage * 0.5);
+			}
+			else if (projectile.type == ModContent.ProjectileType<BigNuke>())
+			{
+				damage = (int)((double)damage * 0.3);
+			}
 
-            if (projectile.penetrate == -1 && !projectile.minion)
-            {
-                if (projectile.type == ModContent.ProjectileType<CosmicFire>() || projectile.type == ModContent.ProjectileType<BigNuke>())
-                    damage = (int)((double)damage * 0.3);
-                else
-                    damage = (int)((double)damage * 0.2);
-            }
-            else if (projectile.penetrate > 1 && projectile.type != ModContent.ProjectileType<BrinySpout>())
-            {
-                damage /= projectile.penetrate;
-            }
-        }
+			if (projectile.penetrate == -1 && !projectile.minion)
+			{
+				if (projectile.type == ModContent.ProjectileType<CosmicFire>())
+					damage = (int)((double)damage * 0.3);
+				else
+					damage = (int)((double)damage * 0.2);
+			}
+			else if (projectile.penetrate > 1 && projectile.type != ModContent.ProjectileType<BrinySpout>())
+			{
+				damage /= projectile.penetrate;
+			}
+		}
 
-        public override void HitEffect(int hitDirection, double damage)
+		public override void HitEffect(int hitDirection, double damage)
         {
             if (npc.life <= 0)
             {

@@ -12,7 +12,7 @@ namespace CalamityMod.Tiles.Ores
         {
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
-            Main.tileValue[Type] = 1005;
+            Main.tileValue[Type] = 950;
 
             TileMerge.MergeGeneralTiles(Type);
 

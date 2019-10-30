@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Daemon's Flame");
-            Main.projFrames[projectile.type] = 3;
+            Main.projFrames[projectile.type] = 4;
         }
 
         public override void SetDefaults()
@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0.7f / 255f, (255 - projectile.alpha) * 0.5f / 255f);
+            Lighting.AddLight(projectile.Center, 0f, 0.7f, 0.5f);
             Player player = Main.player[projectile.owner];
             float num = 0f;
             Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Ranged
                 projectile.frame++;
                 projectile.frameCounter = 0;
             }
-            if (projectile.frame > 2)
+            if (projectile.frame > 3)
             {
                 projectile.frame = 0;
             }

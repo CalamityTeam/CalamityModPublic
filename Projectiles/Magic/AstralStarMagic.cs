@@ -6,6 +6,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Magic
 {
     public class AstralStarMagic : ModProjectile
@@ -56,7 +57,6 @@ namespace CalamityMod.Projectiles.Magic
             {
                 projectile.alpha = num58;
             }
-            projectile.localAI[0] += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.01f * (float)projectile.direction;
             projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.01f * (float)projectile.direction;
             if (Main.rand.NextBool(16))
             {

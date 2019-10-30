@@ -1,4 +1,4 @@
-﻿using CalamityMod.CalPlayer;
+﻿using CalamityMod.Buffs.Potions;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Potions
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Revivify Potion");
-            Tooltip.SetDefault("Causes enemy attacks to heal you for a fraction of their damage for 30 seconds");
+            Tooltip.SetDefault("Causes enemy attacks to heal you for a fraction of their damage");
         }
 
         public override void SetDefaults()
@@ -26,18 +26,9 @@ namespace CalamityMod.Items.Potions
             item.useStyle = 2;
             item.UseSound = SoundID.Item3;
             item.consumable = true;
-            item.value = Item.buyPrice(0, 2, 0, 0);
-        }
-
-        public override bool UseItem(Player player)
-        {
-            if (player.itemAnimation > 0 && player.itemTime == 0)
-            {
-                player.itemTime = item.useTime;
-                CalamityPlayer modPlayer = player.Calamity();
-                modPlayer.revivifyTimer = 1800;
-            }
-            return true;
+			item.buffType = ModContent.BuffType<Revivify>();
+			item.buffTime = 1800;
+			item.value = Item.buyPrice(0, 2, 0, 0);
         }
 
         public override void AddRecipes()

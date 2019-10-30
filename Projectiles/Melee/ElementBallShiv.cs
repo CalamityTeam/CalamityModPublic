@@ -1,9 +1,11 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Melee
 {
     public class ElementBallShiv : ModProjectile
@@ -65,7 +67,15 @@ namespace CalamityMod.Projectiles.Melee
             }
         }
 
-        public override void Kill(int timeLeft)
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			if (projectile.timeLeft > 115)
+				return false;
+
+			return true;
+		}
+
+		public override void Kill(int timeLeft)
         {
             for (int k = 0; k < 4; k++)
             {

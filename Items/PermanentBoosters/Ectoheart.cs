@@ -13,7 +13,7 @@ namespace CalamityMod.Items.PermanentBoosters
             DisplayName.SetDefault("Ectoheart");
             Tooltip.SetDefault("Permanently makes Adrenaline Mode take 5 less seconds to charge\n" +
                 "Revengeance drop");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 5));
+            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(8, 3));
         }
 
         public override void SetDefaults()

@@ -9,6 +9,11 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class WulfrumBobber : ModProjectile
     {
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Wulfrum Bobber");
+		}
+		
         public override void SetDefaults()
         {
 			//projectile.CloneDefaults(360); //Wooden Bobber
@@ -32,12 +37,12 @@ namespace CalamityMod.Projectiles.Typeless
  
                 if (type == ModContent.ItemType<WulfrumRod>())
                 {
-                    pPosX += (float)(45 * Main.player[projectile.owner].direction);
+                    pPosX += (float)(45 * Main.player[projectile.owner].direction); //adjust this number to change x offset
                     if (Main.player[projectile.owner].direction < 0)
                     {
                         pPosX -= 13f;
                     }
-                    pPosY -= 35f * gravDir;
+                    pPosY -= 35f * gravDir; //adjust this number to change y offset
                 }
  
                 if (gravDir == -1f)
@@ -134,7 +139,7 @@ namespace CalamityMod.Projectiles.Typeless
                             }
                         }
                         rotation2 = (float)Math.Atan2((double)projPosY, (double)projPosX) - 1.57f;
-                        Microsoft.Xna.Framework.Color color2 = Lighting.GetColor((int)value.X / 16, (int)(value.Y / 16f), new Microsoft.Xna.Framework.Color(200, 200, 200, 100));
+                        Microsoft.Xna.Framework.Color color2 = Lighting.GetColor((int)value.X / 16, (int)(value.Y / 16f), new Microsoft.Xna.Framework.Color(200, 200, 200, 100)); //color of fishing line
  
                         Main.spriteBatch.Draw(Main.fishingLineTexture, new Vector2(value.X - Main.screenPosition.X + (float)Main.fishingLineTexture.Width * 0.5f, value.Y - Main.screenPosition.Y + (float)Main.fishingLineTexture.Height * 0.5f), new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, 0, Main.fishingLineTexture.Width, (int)num)), color2, rotation2, new Vector2((float)Main.fishingLineTexture.Width * 0.5f, 0f), 1f, SpriteEffects.None, 0f);
                     }

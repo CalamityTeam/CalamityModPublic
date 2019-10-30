@@ -3266,23 +3266,19 @@ namespace CalamityMod.NPCs
                 npc.ai[3] = 0f;
 
             // Skull shooting
-            if ((num156 < 2 || lifeRatio < 0.66f) && npc.ai[1] == 0f)
+            if (handsDead && npc.ai[1] == 0f)
             {
-                float num158 = 120f;
-                if (handsDead)
-                    num158 /= 2f;
-
-                if (Main.netMode != NetmodeID.MultiplayerClient && calamityGlobalNPC.newAI[1] % num158 == 0f)
+                float num158 = 75f;
+                if (Main.netMode != NetmodeID.MultiplayerClient && calamityGlobalNPC.newAI[1] >= num158)
                 {
-                    Vector2 vector18 = npc.Center;
+					calamityGlobalNPC.newAI[1] = 0f;
+					Vector2 vector18 = npc.Center;
                     float num159 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector18.X;
                     float num160 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - vector18.Y;
                     float num161 = (float)Math.Sqrt((double)(num159 * num159 + num160 * num160));
                     if (Collision.CanHit(vector18, 1, 1, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
                     {
-                        float num162 = 3f;
-                        if (handsDead)
-                            num162 += 2f;
+                        float num162 = 4f;
                         if (CalamityWorld.bossRushActive)
                             num162 *= 1.5f;
 
@@ -3399,7 +3395,7 @@ namespace CalamityMod.NPCs
 
                 // Increase speed while charging
                 npc.damage = (int)((double)npc.defDamage * 1.3);
-                float num176 = (CalamityWorld.bossRushActive ? 12f : 4.5f) + (1f * (1f - lifeRatio));
+                float num176 = (CalamityWorld.bossRushActive ? 10f : 4f) + (1f * (1f - lifeRatio));
                 if (enraged || configBossRushBoost)
                     num176 += 3f;
 
@@ -3412,7 +3408,7 @@ namespace CalamityMod.NPCs
                 if (num175 > 300f)
                     num176 *= 1.05f;
                 if (num175 > 350f)
-                    num176 *= 1.1f;
+                    num176 *= 1.05f;
                 if (num175 > 400f)
                     num176 *= 1.1f;
                 if (num175 > 450f)
@@ -3420,9 +3416,9 @@ namespace CalamityMod.NPCs
                 if (num175 > 500f)
                     num176 *= 1.1f;
                 if (num175 > 550f)
-                    num176 *= 1.1f;
+                    num176 *= 1.15f;
                 if (num175 > 600f)
-                    num176 *= 1.1f;
+                    num176 *= 1.2f;
 
                 num175 = num176 / num175;
                 npc.velocity.X = num173 * num175;
