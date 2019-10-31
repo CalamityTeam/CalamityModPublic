@@ -113,7 +113,7 @@ namespace CalamityMod.NPCs
         public bool pearlAura = false;
         public bool shellfishVore = false;
         public bool clamDebuff = false;
-        public bool maxVenom = false;
+        public bool sulphurPoison = false;
 
         // whoAmI Variables
         public static int bobbitWormBottom = -1;
@@ -316,7 +316,7 @@ namespace CalamityMod.NPCs
             pearlAura = false;
             shellfishVore = false;
             clamDebuff = false;
-            maxVenom = false;
+            sulphurPoison = false;
         }
         #endregion
 
@@ -514,7 +514,7 @@ namespace CalamityMod.NPCs
             ApplyDPSDebuff(nightwither, 200, 40, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(dFlames, 2500, 500, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(bBlood, 50, 10, ref npc.lifeRegen, ref damage);
-            ApplyDPSDebuff(maxVenom, 180, 36, ref npc.lifeRegen, ref damage);
+            ApplyDPSDebuff(sulphurPoison, 180, 36, ref npc.lifeRegen, ref damage);
         }
 
         public void ApplyDPSDebuff(bool debuff, int lifeRegenValue, int damageValue, ref int lifeRegen, ref int damage)
@@ -603,7 +603,7 @@ namespace CalamityMod.NPCs
 			
 			if (npc.buffImmune[BuffID.Venom] == false)
 			{
-				npc.buffImmune[ModContent.BuffType<MaxVenom>()] = false;
+				npc.buffImmune[ModContent.BuffType<SulphuricPoisoning>()] = false;
 			}
 
             npc.buffImmune[ModContent.BuffType<Enraged>()] = false;
@@ -2963,7 +2963,7 @@ namespace CalamityMod.NPCs
                 }
                 Lighting.AddLight(npc.position, 0.1f, 0f, 0.135f);
             }
-            if (maxVenom)
+            if (sulphurPoison)
             {
                 if (Main.rand.Next(5) < 4)
                 {
@@ -2984,7 +2984,7 @@ namespace CalamityMod.NPCs
                 drawColor = Color.Cyan;
             }
 
-            if (marked || maxVenom)
+            if (marked || sulphurPoison)
             {
                 drawColor = Color.Fuchsia;
             }
