@@ -332,6 +332,7 @@ namespace CalamityMod.CalPlayer
         public bool oldDie = false;
         public bool ursaSergeant = false;
         public bool thiefsDime = false;
+        //public bool dukeScales = false;
         public bool sandWaifu = false;
         public bool sandBoobWaifu = false;
         public bool cloudWaifu = false;
@@ -1019,6 +1020,7 @@ namespace CalamityMod.CalPlayer
             oldDie = false;
             ursaSergeant = false;
             thiefsDime = false;
+            //dukeScales = false;
 
             daedalusReflect = false;
             daedalusSplit = false;
@@ -4671,6 +4673,27 @@ namespace CalamityMod.CalPlayer
                 // TODO -- When Wulfrum Slimes start being definitely robots, remove this immunity.
                 player.npcTypeNoAggro[ModContent.NPCType<WulfrumSlime>()] = true;
             }
+            /*if (dukeScales)
+            {
+				player.buffImmune[ModContent.BuffType<SulphuricPoisoning>()] = true;
+				player.buffImmune[BuffID.Poisoned] = true;
+				player.buffImmune[BuffID.Venom] = true;
+                if (player.statLife <= (int)((double)player.statLifeMax2 * 0.75))
+                {
+                    player.allDamage += 0.03f;
+					AllCritBoost(3);
+                }
+                if (player.statLife <= (int)((double)player.statLifeMax2 * 0.5))
+                {
+                    player.allDamage += 0.05f;
+					AllCritBoost(5);
+                }
+				if (player.lifeRegen < 0)
+                {
+                    player.allDamage += 0.1f;
+					AllCritBoost(5);
+                }				
+            }*/
             #endregion
 
             #region LimitsAndOtherShit
