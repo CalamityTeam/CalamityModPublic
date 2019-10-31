@@ -39,6 +39,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.rare = 10;
             item.Calamity().postMoonLordRarity = 12;;
             item.UseSound = SoundID.Item1;
+            item.autoReuse = true;
             item.maxStack = 10;
 
             item.shootSpeed = 5f;
