@@ -29,7 +29,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.Calamity().rogue = true;
             item.noMelee = true;
             item.noUseGraphic = true;
-            //item.channel = true;
             item.width = 1;
             item.height = 1;
             item.useTime = 15;
@@ -69,7 +68,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			int UseMax = item.stack - 1;
             CalamityPlayer modPlayer = player.Calamity();
 			modPlayer.killSpikyBalls = false;
             if (player.altFunctionUse == 2)
@@ -86,7 +84,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             return true;
         }
 
-        // Todo: Make the weapon delete existing projectiles on right click (I honestly wasn't sure what the hell I was doing)
         public override bool AltFunctionUse(Player player)
         {
             return true;
