@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.useAnimation = 15;
             item.useStyle = 1;
             item.knockBack = knockBack;
-            item.value = Item.buyPrice(0, 0, 0, 90);
+            item.value = Item.buyPrice(0, 1, 0, 0);
             item.rare = 3;
             item.UseSound = SoundID.Item1;
             item.maxStack = 4;
