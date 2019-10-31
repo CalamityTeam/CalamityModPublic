@@ -5180,7 +5180,7 @@ namespace CalamityMod.CalPlayer
             }
 
             //Custom Death Messages
-            if (alcoholPoisonLevel > 3 && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
+            if (alcoholPoisoning && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
             {
                 if (Main.rand.Next(2) == 0)
                     damageSource = PlayerDeathReason.ByCustomReason(player.name + " downed too many shots.");
