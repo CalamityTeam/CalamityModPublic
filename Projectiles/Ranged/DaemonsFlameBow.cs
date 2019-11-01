@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -150,5 +151,18 @@ namespace CalamityMod.Projectiles.Ranged
             player.itemAnimation = 2;
             player.itemRotation = (float)Math.Atan2((double)(projectile.velocity.Y * (float)projectile.direction), (double)(projectile.velocity.X * (float)projectile.direction));
         }
-    }
+
+		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			Texture2D texture2D13 = Main.projectileTexture[projectile.type];
+			int num214 = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
+			int y6 = num214 * projectile.frame;
+			Vector2 origin = new Vector2(27f, 58f);
+			SpriteEffects spriteEffects = SpriteEffects.None;
+			if (projectile.spriteDirection == -1)
+				spriteEffects = SpriteEffects.FlipHorizontally;
+
+			spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Ranged/DaemonsFlameBowGlow"), projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, num214)), Color.White, projectile.rotation, origin, projectile.scale, spriteEffects, 0f);
+		}
+	}
 }

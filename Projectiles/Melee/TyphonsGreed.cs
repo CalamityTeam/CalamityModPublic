@@ -54,12 +54,11 @@ namespace CalamityMod.Projectiles.Melee
                 projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X);
             }
             Lighting.AddLight(projectile.Center, 0f, 0.1f, 0.7f);
-            int num959 = (int)projectile.ai[0];
-            if (num959 >= 0 && Main.player[num959].active && !Main.player[num959].dead)
+            if (Main.player[projectile.owner].active && !Main.player[projectile.owner].dead)
             {
-                if (projectile.Distance(Main.player[num959].Center) > num954)
+                if (projectile.Distance(Main.player[projectile.owner].Center) > num954)
                 {
-                    Vector2 vector102 = projectile.DirectionTo(Main.player[num959].Center);
+                    Vector2 vector102 = projectile.DirectionTo(Main.player[projectile.owner].Center);
                     if (vector102.HasNaNs())
                     {
                         vector102 = Vector2.UnitY;
@@ -72,11 +71,6 @@ namespace CalamityMod.Projectiles.Melee
                 if (projectile.timeLeft > 30)
                 {
                     projectile.timeLeft = 30;
-                }
-                if (projectile.ai[0] != -1f)
-                {
-                    projectile.ai[0] = -1f;
-                    projectile.netUpdate = true;
                 }
             }
         }

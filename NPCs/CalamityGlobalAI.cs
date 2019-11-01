@@ -11877,7 +11877,7 @@ namespace CalamityMod.NPCs
 
                         if (flag86)
                         {
-                            MoonlordDeathDrama.AddExplosion(vector159);
+                            //MoonlordDeathDrama.AddExplosion(vector159);
                             for (float num1168 = 0f; num1168 < num1163 * 2f; num1168 = ai1 + 1f)
                             {
                                 Dust dust2 = Main.dust[Dust.NewDust(vector159, 0, 0, 229, 0f, 0f, 0, default, 1f)];

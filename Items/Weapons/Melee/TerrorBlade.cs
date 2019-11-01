@@ -1,5 +1,6 @@
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -35,7 +36,13 @@ namespace CalamityMod.Items.Weapons.Melee
             item.Calamity().postMoonLordRarity = 13;
         }
 
-        public override void MeleeEffects(Player player, Rectangle hitbox)
+		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+		{
+			Vector2 origin = new Vector2(44f, 38f);
+			spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/TerrorBladeGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+		}
+
+		public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(3))
             {

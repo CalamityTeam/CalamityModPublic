@@ -1,7 +1,10 @@
 ﻿using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.CalPlayer;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Items.Accessories
 {
     public class Affliction : ModItem
@@ -15,15 +18,21 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
+            item.width = 38;
+            item.height = 44;
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.accessory = true;
             item.expert = true;
             item.rare = 9;
         }
 
-        public override void UpdateAccessory(Player player, bool hideVisual)
+		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+		{
+			Vector2 origin = new Vector2(19f, 20f);
+			spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/Accessories/Affliction"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+		}
+
+		public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.affliction = true;

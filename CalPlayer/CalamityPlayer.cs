@@ -20,6 +20,7 @@ using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs;
 using CalamityMod.NPCs.Astral;
 using CalamityMod.NPCs.Calamitas;
@@ -9329,13 +9330,17 @@ namespace CalamityMod.CalPlayer
                         effect = SpriteEffects.FlipHorizontally | SpriteEffects.FlipVertically;
                 }
 
-                if (item.type == ModContent.ItemType<DeathhailStaff>() || item.type == ModContent.ItemType<Vesuvius>() || item.type == ModContent.ItemType<SoulPiercer>())
+				// Staff
+                if (item.type == ModContent.ItemType<DeathhailStaff>() || item.type == ModContent.ItemType<Vesuvius>() || item.type == ModContent.ItemType<SoulPiercer>() ||
+				item.type == ModContent.ItemType<FatesReveal>())
                 {
                     Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/DeathhailStaffGlow");
-                    if (item.type == ModContent.ItemType<Vesuvius>())
-                        texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/VesuviusGlow");
-                    else if (item.type == ModContent.ItemType<SoulPiercer>())
-                        texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/SoulPiercerGlow");
+					if (item.type == ModContent.ItemType<Vesuvius>())
+						texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/VesuviusGlow");
+					else if (item.type == ModContent.ItemType<SoulPiercer>())
+						texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/SoulPiercerGlow");
+					else if (item.type == ModContent.ItemType<FatesReveal>())
+						texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/FatesRevealGlow");
 
                     float num104 = drawPlayer.itemRotation + 0.785f * (float)drawPlayer.direction;
                     int num105 = 0;
@@ -9374,6 +9379,7 @@ namespace CalamityMod.CalPlayer
                     Main.playerDrawData.Add(data);
                 }
 
+				// Bow and Book
                 else if (item.type == ModContent.ItemType<Deathwind>() || item.type == ModContent.ItemType<Apotheosis>() || item.type == ModContent.ItemType<CleansingBlaze>() ||
                 item.type == ModContent.ItemType<SubsumingVortex>())
                 {
@@ -9395,7 +9401,7 @@ namespace CalamityMod.CalPlayer
                         offsetX = 9;
                     }
 
-                    Vector2 vector13 = new Vector2((float)(Main.itemTexture[item.type].Width / 2), (float)(Main.itemTexture[item.type].Height / 2));
+					Vector2 vector13 = new Vector2((float)(Main.itemTexture[item.type].Width / 2), (float)(Main.itemTexture[item.type].Height / 2));
                     Vector2 vector14 = vector13;
                     int num107 = (int)vector14.X - offsetX;
                     vector13.Y = vector14.Y;
@@ -9417,8 +9423,9 @@ namespace CalamityMod.CalPlayer
                     Main.playerDrawData.Add(data);
                 }
 
+				// Sword
                 else if (item.type == ModContent.ItemType<Excelsus>() || item.type == ModContent.ItemType<EssenceFlayer>() || item.type == ModContent.ItemType<TheEnforcer>() ||
-                item.type == ModContent.ItemType<ElementalExcalibur>())
+                item.type == ModContent.ItemType<ElementalExcalibur>() || item.type == ModContent.ItemType<TerrorBlade>() || item.type == ModContent.ItemType<EtherealSubjugator>())
                 {
                     Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/ExcelsusGlow");
                     if (item.type == ModContent.ItemType<EssenceFlayer>())
@@ -9427,8 +9434,12 @@ namespace CalamityMod.CalPlayer
                         texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/TheEnforcerGlow");
                     else if (item.type == ModContent.ItemType<ElementalExcalibur>())
                         texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/ElementalExcaliburGlow");
+					else if (item.type == ModContent.ItemType<TerrorBlade>())
+						texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/TerrorBladeGlow");
+					else if (item.type == ModContent.ItemType<EtherealSubjugator>())
+						texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Summon/EtherealSubjugatorGlow");
 
-                    float yOffset = drawPlayer.gravDir == -1f ? 0f : (float)Main.itemTexture[item.type].Height;
+					float yOffset = drawPlayer.gravDir == -1f ? 0f : (float)Main.itemTexture[item.type].Height;
 
                     DrawData data = new DrawData(texture,
                         new Vector2((float)(int)(vector.X - Main.screenPosition.X), (float)(int)(vector.Y - Main.screenPosition.Y)),

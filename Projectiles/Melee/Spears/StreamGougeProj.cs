@@ -15,11 +15,11 @@ namespace CalamityMod.Projectiles.Melee.Spears
 
         public override void SetDefaults()
         {
-            projectile.width = 40;  //The width of the .png file in pixels divided by 2.
+            projectile.width = 40;
             projectile.aiStyle = 19;
-            projectile.melee = true;  //Dictates whether this is a melee-class weapon.
+            projectile.melee = true;
             projectile.timeLeft = 90;
-            projectile.height = 40;  //The height of the .png file in pixels divided by 2.
+            projectile.height = 40;
             projectile.friendly = true;
             projectile.hostile = false;
             projectile.tileCollide = false;

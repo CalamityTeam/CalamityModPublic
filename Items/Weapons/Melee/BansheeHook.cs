@@ -1,5 +1,6 @@
 using CalamityMod.Projectiles.Melee.Spears;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -17,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 16;
+            item.width = 120;
             item.damage = 155;
             item.noMelee = true;
             item.noUseGraphic = true;
@@ -29,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.knockBack = 8.5f;
             item.UseSound = SoundID.DD2_GhastlyGlaivePierce;
             item.autoReuse = true;
-            item.height = 16;
+            item.height = 108;
             item.value = Item.buyPrice(1, 40, 0, 0);
             item.rare = 10;
             item.shoot = ModContent.ProjectileType<BansheeHookProj>();
@@ -37,7 +38,13 @@ namespace CalamityMod.Items.Weapons.Melee
             item.Calamity().postMoonLordRarity = 13;
         }
 
-        public override bool CanUseItem(Player player)
+		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+		{
+			Vector2 origin = new Vector2(60f, 52f);
+			spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/BansheeHookGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+		}
+
+		public override bool CanUseItem(Player player)
         {
             for (int i = 0; i < 1000; ++i)
             {
