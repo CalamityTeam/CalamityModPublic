@@ -18,16 +18,22 @@ namespace CalamityMod.Projectiles.Rogue
 		{
 			projectile.width = 22;
 			projectile.height = 22;
-			projectile.aiStyle = 115;
+			//projectile.aiStyle = 115;
 			projectile.friendly = true;
 			projectile.penetrate = 1;
 			projectile.light = 0.5f;
 			projectile.alpha = 50;
 			projectile.scale = 1.2f;
-			projectile.timeLeft = 600;
+			projectile.timeLeft = 60;
 			projectile.tileCollide = false;
             projectile.Calamity().rogue = true;
         }
+
+        public override void AI()
+        {
+            projectile.velocity.X *= 0.985f;
+			projectile.velocity.Y *= 0.985f;
+		}
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
