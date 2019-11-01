@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Supreme Bait Tackle Box Fishing Station");
             Tooltip.SetDefault("The ultimate fishing accessory\n" +
-                "Increases fishing skill by 100\n" +
+                "Increases fishing skill by 80\n" +
                 "Fishing line will never break and decreases chance of bait consumption\n" +
                 "Crate potion effect, does not stack with crate potions\n" +
                 "Sonar potion effect");
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.fishingSkill += 100;
+            player.fishingSkill += 80;
             player.accFishingLine = true;
             player.accTackleBox = true;
             player.cratePotion = true;
@@ -45,7 +45,9 @@ namespace CalamityMod.Items.Accessories
             recipe.AddIngredient(ItemID.CratePotion, 5);
             recipe.AddIngredient(ItemID.SonarPotion, 5);
             recipe.AddIngredient(ItemID.MasterBait, 5);
-            recipe.AddTile(TileID.Anvils);
+            recipe.AddIngredient(ItemID.SoulofLight, 5);
+            recipe.AddIngredient(ItemID.SoulofNight, 5);
+            recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
