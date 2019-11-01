@@ -108,20 +108,22 @@ namespace CalamityMod.Projectiles.Melee.Spears
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Color color25 = Lighting.GetColor((int)(projectile.position.X + projectile.width * 0.5) / 16, (int)((projectile.position.Y + projectile.height * 0.5) / 16.0));
             Vector2 vector53 = projectile.position + new Vector2(projectile.width, projectile.height) / 2f + Vector2.UnitY * projectile.gfxOffY - Main.screenPosition;
             Texture2D texture2D31 = projectile.spriteDirection == -1 ? ModContent.GetTexture("CalamityMod/Projectiles/Melee/Spears/BansheeHookAlt") : Main.projectileTexture[projectile.type];
-            Color alpha4 = projectile.GetAlpha(color25);
-            Vector2 origin8 = new Vector2(texture2D31.Width, texture2D31.Height) / 2f;
-            origin8 = new Vector2(projectile.spriteDirection == 1 ? texture2D31.Width - -8f : -8f, -8f); //-8 -8
-            SpriteBatch arg_E055_0 = Main.spriteBatch;
-            Vector2 arg_E055_2 = vector53;
-            Rectangle? sourceRectangle2 = null;
-            arg_E055_0.Draw(texture2D31, arg_E055_2, sourceRectangle2, new Color(255, 255, 255, 127), projectile.rotation, origin8, projectile.scale, SpriteEffects.None, 0f);
+            Vector2 origin8 = new Vector2(projectile.spriteDirection == 1 ? texture2D31.Width - -8f : -8f, -8f); //-8 -8
+            spriteBatch.Draw(texture2D31, vector53, null, new Color(255, 255, 255, 127), projectile.rotation, origin8, projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
 
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			Vector2 vector53 = projectile.position + new Vector2(projectile.width, projectile.height) / 2f + Vector2.UnitY * projectile.gfxOffY - Main.screenPosition;
+			Texture2D texture = projectile.spriteDirection == -1 ? ModContent.GetTexture("CalamityMod/Projectiles/Melee/Spears/BansheeHookAltGlow") : ModContent.GetTexture("CalamityMod/Projectiles/Melee/Spears/BansheeHookGlow");
+			Vector2 origin8 = new Vector2(projectile.spriteDirection == 1 ? texture.Width - -8f : -8f, -8f); //-8 -8
+			spriteBatch.Draw(texture, vector53, null, Color.White, projectile.rotation, origin8, 1f, SpriteEffects.None, 0f);
+		}
+
+		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             float f2 = projectile.rotation - 0.7853982f * Math.Sign(projectile.velocity.X) + (projectile.spriteDirection == -1 ? 3.14159274f : 0f);
             float num4 = 0f;

@@ -1,6 +1,8 @@
 ﻿using CalamityMod.Items.Materials;
 using CalamityMod.NPCs.Polterghast;
 using CalamityMod.World;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -19,8 +21,8 @@ namespace CalamityMod.Items.SummonItems
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 18;
+            item.width = 42;
+            item.height = 58;
             item.useAnimation = 45;
             item.useTime = 45;
             item.useStyle = 4;
@@ -28,7 +30,13 @@ namespace CalamityMod.Items.SummonItems
             item.Calamity().postMoonLordRarity = 13;
         }
 
-        public override bool CanUseItem(Player player)
+		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+		{
+			Vector2 origin = new Vector2(21f, 27f); //21, 29
+			spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/SummonItems/NecroplasmicBeaconGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+		}
+
+		public override bool CanUseItem(Player player)
         {
             return player.ZoneDungeon && !NPC.AnyNPCs(ModContent.NPCType<Polterghast>()) && CalamityWorld.downedBossAny;
         }

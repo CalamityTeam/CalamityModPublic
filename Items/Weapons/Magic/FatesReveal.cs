@@ -1,5 +1,6 @@
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -21,8 +22,8 @@ namespace CalamityMod.Items.Weapons.Magic
             item.damage = 60;
             item.magic = true;
             item.mana = 20;
-            item.width = 68;
-            item.height = 72;
+            item.width = 80;
+            item.height = 86;
             item.useTime = 16;
             item.useAnimation = 16;
             item.useStyle = 5;
@@ -37,7 +38,13 @@ namespace CalamityMod.Items.Weapons.Magic
             item.Calamity().postMoonLordRarity = 13;
         }
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+		{
+			Vector2 origin = new Vector2(40f, 41f);
+			spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/FatesRevealGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+		}
+
+		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
             float num78 = (float)Main.mouseX + Main.screenPosition.X - vector.X;
