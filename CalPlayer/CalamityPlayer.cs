@@ -333,6 +333,7 @@ namespace CalamityMod.CalPlayer
         public bool oldDie = false;
         public bool ursaSergeant = false;
         public bool thiefsDime = false;
+        //public bool dukeScales = false;
         public bool sandWaifu = false;
         public bool sandBoobWaifu = false;
         public bool cloudWaifu = false;
@@ -468,6 +469,7 @@ namespace CalamityMod.CalPlayer
         public bool fishAlert = false;
         public bool bOut = false;
         public bool clamity = false;
+        public bool sulphurPoison = false;
 
         // Buff
         public bool trinketOfChiBuff = false;
@@ -1019,6 +1021,7 @@ namespace CalamityMod.CalPlayer
             oldDie = false;
             ursaSergeant = false;
             thiefsDime = false;
+            //dukeScales = false;
 
             daedalusReflect = false;
             daedalusSplit = false;
@@ -1107,6 +1110,7 @@ namespace CalamityMod.CalPlayer
             clamity = false;
             enraged = false;
             snowmanNoseless = false;
+            sulphurPoison = false;
 
 			revivify = false;
             trinketOfChiBuff = false;
@@ -1316,6 +1320,7 @@ namespace CalamityMod.CalPlayer
             eclipseMirrorCooldown = false;
             moonCrownCooldown = 0;
             featherCrownCooldown = 0;
+            sulphurPoison = false;
             #endregion
 
             #region Rogue
@@ -4669,6 +4674,27 @@ namespace CalamityMod.CalPlayer
                 // TODO -- When Wulfrum Slimes start being definitely robots, remove this immunity.
                 player.npcTypeNoAggro[ModContent.NPCType<WulfrumSlime>()] = true;
             }
+            /*if (dukeScales)
+            {
+				player.buffImmune[ModContent.BuffType<SulphuricPoisoning>()] = true;
+				player.buffImmune[BuffID.Poisoned] = true;
+				player.buffImmune[BuffID.Venom] = true;
+                if (player.statLife <= (int)((double)player.statLifeMax2 * 0.75))
+                {
+                    player.allDamage += 0.03f;
+					AllCritBoost(3);
+                }
+                if (player.statLife <= (int)((double)player.statLifeMax2 * 0.5))
+                {
+                    player.allDamage += 0.05f;
+					AllCritBoost(5);
+                }
+				if (player.lifeRegen < 0)
+                {
+                    player.allDamage += 0.1f;
+					AllCritBoost(5);
+                }				
+            }*/
             #endregion
 
             #region LimitsAndOtherShit
@@ -5155,7 +5181,7 @@ namespace CalamityMod.CalPlayer
             }
 
             //Custom Death Messages
-            if (alcoholPoisonLevel > 3 && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
+            if (alcoholPoisoning && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
             {
                 if (Main.rand.Next(2) == 0)
                     damageSource = PlayerDeathReason.ByCustomReason(player.name + " downed too many shots.");
@@ -5169,6 +5195,17 @@ namespace CalamityMod.CalPlayer
             if ((ZoneCalamity && player.lavaWet) && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
             {
                 damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s soul was released by the lava.");
+            }
+            if (gsInferno && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
+            {
+                damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s soul was extinguished.");
+            }
+            if (sulphurPoison && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
+            {
+                if (Main.rand.NextBool(2))
+                    damageSource = PlayerDeathReason.ByCustomReason(player.name + " was melted by the toxic waste.");
+                else
+                    damageSource = PlayerDeathReason.ByOther(9);
             }
             if (lethalLavaBurn && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
             {
@@ -5214,10 +5251,6 @@ namespace CalamityMod.CalPlayer
                     damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s infection spread too far.");
                 else
                     damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s skin was replaced by the astral virus.");
-            }
-            if (gsInferno && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
-            {
-                damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s soul was extinguished.");
             }
             if (manaOverloader && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
             {
@@ -9656,6 +9689,28 @@ namespace CalamityMod.CalPlayer
                         Main.dust[dust].noGravity = false;
                         Main.dust[dust].scale *= 0.5f;
                     }
+                }
+            }
+            if (sulphurPoison)
+            {
+                if (Main.rand.Next(5) < 4 && drawInfo.shadow == 0f)
+                {
+                    int dust = Dust.NewDust(drawInfo.position - new Vector2(2f, 2f), player.width + 4, player.height + 4, 46, player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 1.95f);
+                    Main.dust[dust].noGravity = true;
+                    Main.dust[dust].velocity *= 0.75f;
+                    Main.dust[dust].velocity.X = Main.dust[dust].velocity.X * 0.75f;
+                    Main.dust[dust].velocity.Y = Main.dust[dust].velocity.Y - 1f;
+                    if (Main.rand.NextBool(4))
+                    {
+                        Main.dust[dust].noGravity = false;
+                        Main.dust[dust].scale *= 0.5f;
+                    }
+                }
+                if (noRogueStealth)
+                {
+                    r *= 0.65f;
+                    b *= 0.75f;
+                    fullBright = true;
                 }
             }
             if (adrenalineMode)

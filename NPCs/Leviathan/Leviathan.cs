@@ -64,7 +64,7 @@ namespace CalamityMod.NPCs.Leviathan
             npc.buffImmune[ModContent.BuffType<Shred>()] = false;
             npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
             npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
-            npc.buffImmune[ModContent.BuffType<MaxVenom>()] = false;
+            npc.buffImmune[ModContent.BuffType<SulphuricPoisoning>()] = false;
             npc.HitSound = SoundID.NPCHit56;
             npc.DeathSound = SoundID.NPCDeath60;
             npc.noTileCollide = true;
@@ -638,7 +638,6 @@ namespace CalamityMod.NPCs.Leviathan
                 DropHelper.DropItemChance(npc, ModContent.ItemType<LeviathanMask>(), 7);
 
                 // Fishing
-                DropHelper.DropItem(npc, ModContent.ItemType<EnchantedPearl>());
                 DropHelper.DropItemChance(npc, ItemID.HotlineFishingHook, 10);
                 DropHelper.DropItemChance(npc, ItemID.BottomlessBucket, 10);
                 DropHelper.DropItemChance(npc, ItemID.SuperAbsorbantSponge, 10);

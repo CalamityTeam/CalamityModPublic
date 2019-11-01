@@ -9,23 +9,23 @@ using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class SkyStabber : RogueWeapon
+    public class HellsSun : RogueWeapon
     {
-        private static int damage = 50;
-        private static int knockBack = 2;
+        private static int damage = 250;
+        private static int knockBack = 5;
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sky Stabber");
-            Tooltip.SetDefault("Shoots a gravity-defying spiky ball. Stacks up to 4.\n" +
-                "Stealth strikes rain feathers onto enemies\n" +
+            DisplayName.SetDefault("Hell's Sun");
+            Tooltip.SetDefault("Shoots a gravity-defying spiky ball. Stacks up to 10.\n" +
+                "Once stationary, periodically emits small suns that explode on hit\n" +
+                "Stealth strikes emit suns at a faster rate and last for a longer amount of time\n" +
 				"Right click to delete all existing spiky balls");
         }
 
         public override void SafeSetDefaults()
         {
             item.damage = damage;
-            item.crit = 4;
             item.Calamity().rogue = true;
             item.noMelee = true;
             item.noUseGraphic = true;
@@ -35,13 +35,15 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.useAnimation = 15;
             item.useStyle = 1;
             item.knockBack = knockBack;
-            item.value = Item.buyPrice(0, 1, 0, 0);
-            item.rare = 3;
+            item.value = Item.buyPrice(0, 12, 0, 0);
+            item.rare = 10;
+            item.Calamity().postMoonLordRarity = 12;;
             item.UseSound = SoundID.Item1;
-            item.maxStack = 4;
+            item.autoReuse = true;
+            item.maxStack = 10;
 
-            item.shootSpeed = 2f;
-            item.shoot = ModContent.ProjectileType<SkyStabberProj>();
+            item.shootSpeed = 5f;
+            item.shoot = ModContent.ProjectileType<HellsSunProj>();
 
         }
 
@@ -77,8 +79,10 @@ namespace CalamityMod.Items.Weapons.Rogue
 			}
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
-                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<SkyStabberProj>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<HellsSunProj>(), damage, knockBack, player.whoAmI, 0f, 0f);
                 Main.projectile[stealth].Calamity().stealthStrike = true;
+                Main.projectile[stealth].penetrate = -1;
+                Main.projectile[stealth].timeLeft = 2400;
                 return false;
             }
             return true;
@@ -89,17 +93,15 @@ namespace CalamityMod.Items.Weapons.Rogue
             return true;
         }
 
-        public override void AddRecipes()
+        /*public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
 
             recipe.AddIngredient(ItemID.SpikyBall, 100);
-            recipe.AddIngredient(ItemID.Cloud, 10);
-            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 4);
-            recipe.AddTile(TileID.SkyMill);
+            recipe.AddIngredient(ModContent.ItemType<UnholyEssence>(), 10);
+            r.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
-        }
-
+        }*/
     }
 }

@@ -3,11 +3,11 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.DamageOverTime
 {
-    public class MaxVenom : ModBuff
+    public class SulphuricPoisoning : ModBuff
     {
         public override void SetDefaults()
         {
-            DisplayName.SetDefault("Vile Toxins");
+            DisplayName.SetDefault("Sulphuric Poisoning");
             Description.SetDefault("The illness has spread"); //nope, not an AHiT reference, definitely not
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
@@ -15,9 +15,14 @@ namespace CalamityMod.Buffs.DamageOverTime
             longerExpertDebuff = false;
         }
 
+        public override void Update(Player player, ref int buffIndex)
+        {
+            player.Calamity().sulphurPoison = true;
+        }
+
         public override void Update(NPC npc, ref int buffIndex)
         {
-            npc.Calamity().maxVenom = true;
+            npc.Calamity().sulphurPoison = true;
         }
     }
 }

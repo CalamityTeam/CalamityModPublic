@@ -1,5 +1,7 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
+using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -24,6 +26,28 @@ namespace CalamityMod.Items.Accessories
         {
             player.fishingSkill += 10;
             player.cratePotion = true;
+        }
+
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.FishingPotion);
+            recipe.AddIngredient(ItemID.CratePotion, 8);
+            recipe.AddIngredient(ItemID.TissueSample, 5);
+            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<VictideBar>(), 3);
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+            recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.FishingPotion);
+            recipe.AddIngredient(ItemID.CratePotion, 8);
+            recipe.AddIngredient(ItemID.ShadowScale, 5);
+            recipe.AddIngredient(ModContent.ItemType<SeaPrism>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<VictideBar>(), 3);
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
         }
     }
 }
