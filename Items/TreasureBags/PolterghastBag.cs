@@ -8,6 +8,8 @@ using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.Polterghast;
 using CalamityMod.World;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -33,7 +35,13 @@ namespace CalamityMod.Items.TreasureBags
             item.expert = true;
         }
 
-        public override bool CanRightClick()
+		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+		{
+			Vector2 origin = new Vector2(16f, 20f); //16, 17
+			spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/TreasureBags/PolterghastBagGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+		}
+
+		public override bool CanRightClick()
         {
             return true;
         }

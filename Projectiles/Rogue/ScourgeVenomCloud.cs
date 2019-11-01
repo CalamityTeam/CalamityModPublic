@@ -72,7 +72,7 @@ namespace CalamityMod.Projectiles.Rogue
             target.AddBuff(BuffID.Venom, 240);
             if (projectile.ai[1] == 1f && projectile.owner == Main.myPlayer) //stealth strike attack
             {
-				target.AddBuff(ModContent.BuffType<MaxVenom>(), 240);
+				target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 240);
 			}
         }
     }

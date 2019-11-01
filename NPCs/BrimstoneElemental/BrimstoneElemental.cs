@@ -68,7 +68,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             npc.buffImmune[ModContent.BuffType<Shred>()] = false;
             npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
             npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
-            npc.buffImmune[ModContent.BuffType<MaxVenom>()] = false;
+            npc.buffImmune[ModContent.BuffType<SulphuricPoisoning>()] = false;
             npc.boss = true;
             npc.noGravity = true;
             npc.noTileCollide = true;

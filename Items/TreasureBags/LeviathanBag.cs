@@ -60,7 +60,6 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItemChance(player, ModContent.ItemType<LeviathanMask>(), 7);
 
             // Fishing
-            DropHelper.DropItem(player, ModContent.ItemType<EnchantedPearl>());
             DropHelper.DropItemChance(player, ItemID.HotlineFishingHook, 10);
             DropHelper.DropItemChance(player, ItemID.BottomlessBucket, 10);
             DropHelper.DropItemChance(player, ItemID.SuperAbsorbantSponge, 10);

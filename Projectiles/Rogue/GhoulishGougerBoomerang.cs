@@ -18,8 +18,8 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 60;
-            projectile.height = 60;
+            projectile.width = 74;
+            projectile.height = 68;
             projectile.friendly = true;
             projectile.tileCollide = false;
             projectile.penetrate = -1;
@@ -118,5 +118,11 @@ namespace CalamityMod.Projectiles.Rogue
             CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
             return false;
         }
-    }
+
+		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			Vector2 origin = new Vector2(37f, 34f);
+			spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Rogue/GhoulishGougerBoomerangGlow"), projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
+		}
+	}
 }
