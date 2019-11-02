@@ -703,6 +703,7 @@ namespace CalamityMod
                 BuffID.WitheredWeapon,
                 BuffID.OgreSpit,
                 BuffID.BetsysCurse,
+                ModContent.BuffType<SulphuricPoisoning>(),
                 ModContent.BuffType<Shadowflame>(),
                 ModContent.BuffType<BrimstoneFlames>(),
                 ModContent.BuffType<BurningBlood>(),
