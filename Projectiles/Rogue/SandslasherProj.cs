@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.friendly = true;
             projectile.penetrate = 3;
 			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 30;
+			projectile.localNPCHitCooldown = 16;
             projectile.Calamity().rogue = true;
 			projectile.timeLeft = 600;
 		}
@@ -30,21 +30,28 @@ namespace CalamityMod.Projectiles.Rogue
         public override void AI()
         {
 			projectile.ai[0] += 1f;
+            projectile.ai[1] += 1f;
 			if (projectile.ai[0] == 3f)
 				projectile.tileCollide = true;
 			if(projectile.velocity.X < 0f)
 			{
-				projectile.velocity.X -= 0.05f;
+				projectile.velocity.X -= 0.07f;
 				if ((projectile.ai[0] %= 30f) == 0f)
-					projectile.damage -= (int)projectile.velocity.X;
+					projectile.damage -= (int)(projectile.velocity.X * 2f);
 			}
 			else if(projectile.velocity.X > 0f)
 			{
-				projectile.velocity.X += 0.05f;
+				projectile.velocity.X += 0.07f;
 				if ((projectile.ai[0] %= 30f) == 0f)
-					projectile.damage += (int)projectile.velocity.X;
+					projectile.damage += (int)(projectile.velocity.X * 2f);
 			}
-			projectile.rotation += 0.75f;
+			projectile.rotation += 0.1f * projectile.direction + (projectile.velocity.X /85);
+            if(projectile.Calamity().stealthStrike && projectile.ai[1] >= 5f)
+            {
+                Vector2 speed = new Vector2(Main.rand.NextFloat(-2f, 2f), Main.rand.NextFloat(-2f, 2f));
+                Projectile.NewProjectile(projectile.position, speed, ModContent.ProjectileType<DuststormCloud>(), (int)(projectile.damage * 0.4), 0f, projectile.owner);
+                projectile.ai[1] = 0;
+            }
         }
 		
 		public override void Kill(int timeLeft)

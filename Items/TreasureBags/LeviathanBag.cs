@@ -44,15 +44,15 @@ namespace CalamityMod.Items.TreasureBags
                 player.TryGettingDevArmor();
 
             // Weapons
-            DropHelper.DropItemCondition(player, ModContent.ItemType<Greentide>(), Main.hardMode, 3, 1, 1);
-            DropHelper.DropItemCondition(player, ModContent.ItemType<Leviatitan>(), Main.hardMode, 3, 1, 1);
-            DropHelper.DropItemCondition(player, ModContent.ItemType<SirensSong>(), Main.hardMode, 3, 1, 1);
-            DropHelper.DropItemCondition(player, ModContent.ItemType<Atlantis>(), Main.hardMode, 3, 1, 1);
-            DropHelper.DropItemCondition(player, ModContent.ItemType<BrackishFlask>(), Main.hardMode, 3, 1, 1);
+            DropHelper.DropItemChance(player, ModContent.ItemType<Greentide>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<Leviatitan>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<SirensSong>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<Atlantis>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<BrackishFlask>(), 3);
 
             // Equipment
-            DropHelper.DropItemCondition(player, ModContent.ItemType<LeviathanAmbergris>(), Main.hardMode);
-            DropHelper.DropItemCondition(player, ModContent.ItemType<LureofEnthrallment>(), Main.hardMode, 3, 1, 1);
+            DropHelper.DropItem(player, ModContent.ItemType<LeviathanAmbergris>());
+            DropHelper.DropItemChance(player, ModContent.ItemType<LureofEnthrallment>(), 3);
             float communityChance = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : DropHelper.LegendaryDropRateFloat;
             DropHelper.DropItemCondition(player, ModContent.ItemType<TheCommunity>(), CalamityWorld.revenge, communityChance);
 
@@ -66,9 +66,6 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItemChance(player, ItemID.FishingPotion, 5, 5, 8);
             DropHelper.DropItemChance(player, ItemID.SonarPotion, 5, 5, 8);
             DropHelper.DropItemChance(player, ItemID.CratePotion, 5, 5, 8);
-
-            // Other
-            DropHelper.DropItemCondition(player, ModContent.ItemType<IOU>(), !Main.hardMode);
         }
     }
 }

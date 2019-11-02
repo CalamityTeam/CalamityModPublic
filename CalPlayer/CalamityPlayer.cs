@@ -7389,6 +7389,7 @@ namespace CalamityMod.CalPlayer
 			{
 				if (ZoneAstral) //Astral Infection, fishing in water
 				{
+					int astralFish = Main.rand.Next(100);
 					if (caughtType == ItemID.WoodenCrate)
 					{
 						caughtType = ItemID.WoodenCrate;
@@ -7413,35 +7414,35 @@ namespace CalamityMod.CalPlayer
 					{
 						caughtType = ItemID.ZephyrFish;
 					}
-					else if (Main.rand.NextBool(10))
+					else if (astralFish >= 75) //25%
 					{
 						caughtType = ModContent.ItemType<ProcyonidPrawn>();
 					}
-					else if (Main.rand.NextBool(15))
+					else if (astralFish <= 74 && astralFish >= 60) //15%
 					{
 						caughtType = ModContent.ItemType<ArcturusAstroidean>();
 					}
-					else if (player.cratePotion && Main.rand.NextBool(5))
+					else if (player.cratePotion && astralFish <= 9 && astralFish >= 28) //20%
 					{
 						caughtType = ModContent.ItemType<AstralCrate>();
 					}
-					else if (!player.cratePotion && Main.rand.NextBool(10))
+					else if (!player.cratePotion && astralFish <= 9 && astralFish >= 18) //10%
 					{
 						caughtType = ModContent.ItemType<AstralCrate>();
 					}
-					else if (Main.rand.NextBool(15))
+					else if (astralFish <= 8 && astralFish >= 6) //3%
 					{
 						caughtType = ModContent.ItemType<UrsaSergeant>();
 					}
-					else if (Main.rand.NextBool(15))
+					else if (astralFish <= 5 && astralFish >= 3) //3%
 					{
 						caughtType = ModContent.ItemType<GacruxianMollusk>();
 					}
-					else if (Main.rand.NextBool(15))
+					else if (astralFish <= 2 && astralFish >= 0) //3%
 					{
 						caughtType = ModContent.ItemType<PolarisParrotfish>();
 					}
-					else
+					else //41% w/o crate pot, 31% w/ crate pot
 					{
 						caughtType = ModContent.ItemType<TwinklingPollox>();
 					}
@@ -8180,8 +8181,12 @@ namespace CalamityMod.CalPlayer
                             float xPos = Main.rand.NextBool(2) ? player.Center.X + 100 : player.Center.X - 100;
                             Vector2 vector2 = new Vector2(xPos, player.Center.Y + Main.rand.Next(-100, 101));
                             offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                            Projectile.NewProjectile(vector2.X, vector2.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), 567, rDamage, 2f, player.whoAmI, 0f, 0f);
-                            Projectile.NewProjectile(vector2.X, vector2.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), 568, rDamage, 2f, player.whoAmI, 0f, 0f);
+                            int rspore1 = Projectile.NewProjectile(vector2.X, vector2.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), 567, rDamage, 2f, player.whoAmI, 0f, 0f);
+                            Main.projectile[rspore1].usesLocalNPCImmunity = true;
+                            Main.projectile[rspore1].localNPCHitCooldown = 60;
+                            int rspore2 = Projectile.NewProjectile(vector2.X, vector2.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), 568, rDamage, 2f, player.whoAmI, 0f, 0f);
+                            Main.projectile[rspore2].usesLocalNPCImmunity = true;
+                            Main.projectile[rspore2].localNPCHitCooldown = 60;
                         }
                     }
                 }

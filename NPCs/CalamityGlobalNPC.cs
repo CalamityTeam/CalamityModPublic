@@ -2736,7 +2736,7 @@ namespace CalamityMod.NPCs
 				spawnRate = (int)(spawnRate * 1.5);
 				maxSpawns = (int)(maxSpawns * 0.01f);
 			}
-			if (player.Calamity().bossZen)
+			if (player.Calamity().bossZen || CalamityWorld.DoGSecondStageCountdown >= 0)
 			{
 				spawnRate *= 5;
 				maxSpawns = (int)(maxSpawns * 0.001f);
@@ -3661,7 +3661,7 @@ namespace CalamityMod.NPCs
         {
             if (type == NPCID.Merchant)
             {
-                SetShopItem(ref shop, ref nextSlot, ItemID.Flare, Main.LocalPlayer.HasItem(ModContent.ItemType<FirestormCannon>()) || Main.LocalPlayer.HasItem(ModContent.ItemType<SpectralstormCannon>()));
+                SetShopItem(ref shop, ref nextSlot, ItemID.Flare, Main.LocalPlayer.HasItem(ModContent.ItemType<FirestormCannon>()) || Main.LocalPlayer.HasItem(ModContent.ItemType<SpectralstormCannon>())) && !Main.LocalPlayer.HasItem(ItemID.FlareGun);
                 SetShopItem(ref shop, ref nextSlot, ItemID.ApprenticeBait, NPC.downedBoss1);
                 SetShopItem(ref shop, ref nextSlot, ItemID.JourneymanBait, NPC.downedBoss2);
                 SetShopItem(ref shop, ref nextSlot, WorldGen.crimson ? ItemID.Vilethorn : ItemID.TheRottedFork, NPC.downedBoss2);

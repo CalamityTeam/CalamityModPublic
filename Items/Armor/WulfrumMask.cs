@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Armor
 {
@@ -30,14 +31,19 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
+            CalamityPlayer modPlayer = player.Calamity();
             player.setBonus = "+3 defense\n" +
-                "+5 defense when below 50% life";
+                "+5 defense when below 50% life\n" +
+                "Rogue stealth builds while not attacking and not moving, up to a max of 50\n" +
+                "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
+                "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
             player.statDefense += 3; //9
             if (player.statLife <= (player.statLifeMax2 * 0.5f))
             {
                 player.statDefense += 5; //14
             }
-            player.Calamity().wearingRogueArmor = true;
+            modPlayer.rogueStealthMax += 0.5f;
+            modPlayer.wearingRogueArmor = true;
         }
 
         public override void UpdateEquip(Player player)

@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dark God's Sheath");
-            Tooltip.SetDefault("+100 maximum stealth\n" +
+            Tooltip.SetDefault("+50 maximum stealth\n" +
                 "Stealth regeneration rate increases while standing still\n" +
                 "Stealth strikes have a 100% critical hit chance\n" +
                 "Stealth strikes only expend 50% of your max stealth\n" +
@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Accessories
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.stealthStrikeAlwaysCrits = true;
             modPlayer.stealthStrikeHalfCost = true;
-            modPlayer.rogueStealthMax += 1;
+            modPlayer.rogueStealthMax += 0.5f;
             modPlayer.darkGodSheath = true;
             modPlayer.throwingCrit += 6;
             modPlayer.throwingDamage += 0.06f;
