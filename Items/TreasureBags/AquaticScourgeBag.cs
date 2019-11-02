@@ -40,24 +40,26 @@ namespace CalamityMod.Items.TreasureBags
 
         public override void OpenBossBag(Player player)
         {
-            player.TryGettingDevArmor();
+            // AS is available PHM, so this check is necessary to keep vanilla consistency
+            if (Main.hardMode)
+                player.TryGettingDevArmor();
 
-            // Materials (Souls of Sight are Hardmode only)
-            DropHelper.DropItemCondition(player, ItemID.SoulofSight, Main.hardMode, 25, 40);
+            // Materials
+            DropHelper.DropItem(player, ItemID.SoulofSight, 25, 40);
             DropHelper.DropItem(player, ModContent.ItemType<VictoryShard>(), 15, 25);
             DropHelper.DropItem(player, ItemID.Coral, 7, 11);
             DropHelper.DropItem(player, ItemID.Seashell, 7, 11);
             DropHelper.DropItem(player, ItemID.Starfish, 7, 11);
 
-            // Weapons (Hardmode only)
-            DropHelper.DropItemCondition(player, ModContent.ItemType<SubmarineShocker>(), Main.hardMode, 3, 1, 1);
-            DropHelper.DropItemCondition(player, ModContent.ItemType<Barinautical>(), Main.hardMode, 3, 1, 1);
-            DropHelper.DropItemCondition(player, ModContent.ItemType<Downpour>(), Main.hardMode, 3, 1, 1);
-            DropHelper.DropItemCondition(player, ModContent.ItemType<DeepseaStaff>(), Main.hardMode, 3, 1, 1);
-            DropHelper.DropItemCondition(player, ModContent.ItemType<ScourgeoftheSeas>(), Main.hardMode, 3, 1, 1);
+            // Weapons
+            DropHelper.DropItemChance(player, ModContent.ItemType<SubmarineShocker>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<Barinautical>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<Downpour>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<DeepseaStaff>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<ScourgeoftheSeas>(), 3);
 
-            // Equipment (Emblem is Hardmode only)
-            DropHelper.DropItemCondition(player, ModContent.ItemType<AquaticEmblem>(), Main.hardMode);
+            // Equipment
+            DropHelper.DropItem(player, ModContent.ItemType<AquaticEmblem>());
             DropHelper.DropItemChance(player, ModContent.ItemType<AeroStone>(), 8);
 
             // Vanity
@@ -77,7 +79,7 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItemChance(player, ItemID.FishingPotion, 3, 2, 3);
             DropHelper.DropItemChance(player, ItemID.SonarPotion, 3, 2, 3);
             DropHelper.DropItemChance(player, ItemID.CratePotion, 3, 2, 3);
-            DropHelper.DropItemCondition(player, ItemID.GoldenBugNet, NPC.downedBoss3, 12, 1, 1);
+            DropHelper.DropItemChance(player, ItemID.GoldenBugNet, 12);
         }
     }
 }
