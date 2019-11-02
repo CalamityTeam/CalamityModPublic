@@ -698,38 +698,63 @@ namespace CalamityMod.NPCs
 		#region Moon Lord Loot
 		private bool MoonLordLoot(NPC npc)
 		{
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeMoonLord>(), true, !NPC.downedMoonlord);
+			DropHelper.DropResidentEvilAmmo(npc, NPC.downedMoonlord, 5, 2, 1);
+
+			string key = "Mods.CalamityMod.MoonBossText";
+			Color messageColor = Color.Orange;
+			string key2 = "Mods.CalamityMod.MoonBossText2";
+			Color messageColor2 = Color.Violet;
+			string key3 = "Mods.CalamityMod.MoonBossText3";
+			Color messageColor3 = Color.Crimson;
+			string key4 = "Mods.CalamityMod.ProfanedBossText2";
+			Color messageColor4 = Color.Cyan;
+			string key5 = "Mods.CalamityMod.FutureOreText";
+			Color messageColor5 = Color.LightGray;
+
+			// Spawn Exodium and send messages about Providence, Bloodstone, Phantoplasm, etc. if ML has not been killed yet
+			if (!NPC.downedMoonlord)
+			{
+				WorldGenerationMethods.SpawnOre(ModContent.TileType<ExodiumOre>(), 12E-05, .01f, .07f);
+
+				if (Main.netMode == NetmodeID.SinglePlayer)
+				{
+					Main.NewText(Language.GetTextValue(key), messageColor);
+					Main.NewText(Language.GetTextValue(key2), messageColor2);
+					Main.NewText(Language.GetTextValue(key3), messageColor3);
+					Main.NewText(Language.GetTextValue(key4), messageColor4);
+					Main.NewText(Language.GetTextValue(key5), messageColor5);
+				}
+				else if (Main.netMode == NetmodeID.Server)
+				{
+					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key2), messageColor2);
+					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key3), messageColor3);
+					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key4), messageColor4);
+					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key5), messageColor5);
+				}
+			}
+
+			if (CalamityWorld.armageddon)
+			{
+				ArmageddonLoot(npc, mod);
+			}
+
+			if (Main.netMode != NetmodeID.Server)
+			{
+				if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
+				{
+					Main.player[Main.myPlayer].Calamity().adrenaline = 0;
+				}
+			}
+
+			ArmorSetLoot(npc, mod);
+			BossLoot(npc, mod);
+
 			NPC.downedMoonlord = true;
 			NPC.LunarApocalypseIsUp = false;
 
-			if (Main.expertMode)
-			{
-				npc.DropBossBags();
-			}
-			else
-			{
-				if (Main.rand.Next(7) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 3373, 1, false, -1, false, false);
-				}
-
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 3384, 1, false, -1, false, false);
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 3460, Main.rand.Next(70, 91), false, -1, false, false);
-
-				int num52 = Utils.SelectRandom<int>(Main.rand, new int[]
-				{
-						3063,
-						3389,
-						3065,
-						1553,
-						3546,
-						3541,
-						3570,
-						3571,
-						3569
-				});
-
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, num52, 1, false, -1, false, false);
-			}
+			npc.DropBossBags();
 
 			if (Main.rand.NextBool(10))
 			{
@@ -760,93 +785,6 @@ namespace CalamityMod.NPCs
 			if (Main.netMode == 2)
 			{
 				NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-			}
-
-			float num74 = npc.value;
-			if (npc.midas)
-			{
-				num74 *= 1f + (float)Main.rand.Next(10, 50) * 0.01f;
-			}
-			num74 *= 1f + (float)Main.rand.Next(-20, 21) * 0.01f;
-			if (Main.rand.Next(5) == 0)
-			{
-				num74 *= 1f + (float)Main.rand.Next(5, 11) * 0.01f;
-			}
-			if (Main.rand.Next(10) == 0)
-			{
-				num74 *= 1f + (float)Main.rand.Next(10, 21) * 0.01f;
-			}
-			if (Main.rand.Next(15) == 0)
-			{
-				num74 *= 1f + (float)Main.rand.Next(15, 31) * 0.01f;
-			}
-			if (Main.rand.Next(20) == 0)
-			{
-				num74 *= 1f + (float)Main.rand.Next(20, 41) * 0.01f;
-			}
-			num74 += npc.extraValue;
-			while ((int)num74 > 0)
-			{
-				if (num74 > 1000000f)
-				{
-					int num75 = (int)(num74 / 1000000f);
-					if (num75 > 50 && Main.rand.Next(5) == 0)
-					{
-						num75 /= Main.rand.Next(3) + 1;
-					}
-					if (Main.rand.Next(5) == 0)
-					{
-						num75 /= Main.rand.Next(3) + 1;
-					}
-					num74 -= (float)(1000000 * num75);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 74, num75, false, 0, false, false);
-				}
-				else if (num74 > 10000f)
-				{
-					int num76 = (int)(num74 / 10000f);
-					if (num76 > 50 && Main.rand.Next(5) == 0)
-					{
-						num76 /= Main.rand.Next(3) + 1;
-					}
-					if (Main.rand.Next(5) == 0)
-					{
-						num76 /= Main.rand.Next(3) + 1;
-					}
-					num74 -= (float)(10000 * num76);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 73, num76, false, 0, false, false);
-				}
-				else if (num74 > 100f)
-				{
-					int num77 = (int)(num74 / 100f);
-					if (num77 > 50 && Main.rand.Next(5) == 0)
-					{
-						num77 /= Main.rand.Next(3) + 1;
-					}
-					if (Main.rand.Next(5) == 0)
-					{
-						num77 /= Main.rand.Next(3) + 1;
-					}
-					num74 -= (float)(100 * num77);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 72, num77, false, 0, false, false);
-				}
-				else
-				{
-					int num78 = (int)num74;
-					if (num78 > 50 && Main.rand.Next(5) == 0)
-					{
-						num78 /= Main.rand.Next(3) + 1;
-					}
-					if (Main.rand.Next(5) == 0)
-					{
-						num78 /= Main.rand.Next(4) + 1;
-					}
-					if (num78 < 1)
-					{
-						num78 = 1;
-					}
-					num74 -= (float)num78;
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 71, num78, false, 0, false, false);
-				}
 			}
 
 			return false;
