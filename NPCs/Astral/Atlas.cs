@@ -604,7 +604,11 @@ namespace CalamityMod.NPCs.Astral
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.player.Calamity().ZoneAstral && spawnInfo.player.ZoneOverworldHeight)
+            if (spawnInfo.player.Calamity().ZoneAstral && spawnInfo.player.ZoneOverworldHeight && NPC.downedAncientCultist && !CalamityWorld.downedStarGod)
+            {
+                return 0.18f;
+            }
+            else if (spawnInfo.player.Calamity().ZoneAstral && spawnInfo.player.ZoneOverworldHeight)
             {
                 return 0.06f;
             }
