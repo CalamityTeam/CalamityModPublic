@@ -38,7 +38,7 @@ namespace CalamityMod.CalPlayer
                 player.allDamage -= 0.1f;
             }
 
-            if (modPlayer.bFlames || modPlayer.aFlames)
+            if (modPlayer.aFlames)
             {
                 if (player.lifeRegen > 0)
                     player.lifeRegen = 0;
@@ -48,7 +48,25 @@ namespace CalamityMod.CalPlayer
                 player.statDefense -= AbyssalFlames.DefenseReduction;
             }
 
-            if (modPlayer.gsInferno || (modPlayer.ZoneCalamity && player.lavaWet))
+            if (modPlayer.bFlames)
+            {
+                if (player.lifeRegen > 0)
+                    player.lifeRegen = 0;
+
+                player.lifeRegenTime = 0;
+                player.lifeRegen -= 16;
+            }
+
+            if (modPlayer.ZoneCalamity && player.lavaWet)
+            {
+                if (player.lifeRegen > 0)
+                    player.lifeRegen = 0;
+
+                player.lifeRegenTime = 0;
+                player.lifeRegen -= 30;
+            }
+
+            if (modPlayer.gsInferno)
             {
                 if (player.lifeRegen > 0)
                     player.lifeRegen = 0;
