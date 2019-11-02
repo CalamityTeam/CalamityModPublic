@@ -2736,7 +2736,7 @@ namespace CalamityMod.NPCs
 				spawnRate = (int)(spawnRate * 1.5);
 				maxSpawns = (int)(maxSpawns * 0.01f);
 			}
-			if (player.Calamity().bossZen)
+			if (player.Calamity().bossZen || CalamityWorld.DoGSecondStageCountdown >= 0)
 			{
 				spawnRate *= 5;
 				maxSpawns = (int)(maxSpawns * 0.001f);

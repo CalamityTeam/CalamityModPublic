@@ -2,6 +2,7 @@
 using CalamityMod.NPCs.CeaselessVoid;
 using CalamityMod.NPCs.Signus;
 using CalamityMod.NPCs.StormWeaver;
+using CalamityMod.World;
 using CalamityMod.Projectiles.Typeless;
 using Terraria;
 using Terraria.ID;
@@ -36,7 +37,8 @@ namespace CalamityMod.Items.SummonItems
         public override bool CanUseItem(Player player)
         {
             return (player.ZoneSkyHeight || player.ZoneUnderworldHeight || player.ZoneDungeon) &&
-                !NPC.AnyNPCs(ModContent.NPCType<StormWeaverHead>()) && !NPC.AnyNPCs(ModContent.NPCType<StormWeaverHeadNaked>()) && !NPC.AnyNPCs(ModContent.NPCType<CeaselessVoid>()) && !NPC.AnyNPCs(ModContent.NPCType<Signus>());
+                !NPC.AnyNPCs(ModContent.NPCType<StormWeaverHead>()) && !NPC.AnyNPCs(ModContent.NPCType<StormWeaverHeadNaked>()) && !NPC.AnyNPCs(ModContent.NPCType<CeaselessVoid>()) && !NPC.AnyNPCs(ModContent.NPCType<Signus>()) &&
+				CalamityWorld.DoGSecondStageCountdown <= 0;
         }
 
         public override bool UseItem(Player player)
