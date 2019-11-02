@@ -4,6 +4,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Buffs.DamageOverTime;
 
@@ -43,6 +44,10 @@ namespace CalamityMod.Projectiles.Rogue
                     projectile.Kill();
                 }
             }
+            if (projectile.timeLeft % 5 == 0 && projectile.Calamity().stealthStrike)
+            {
+                Projectile.NewProjectile(projectile.Center, (projectile.velocity * -1f).RotatedByRandom(MathHelper.ToRadians(15f)), mod.ProjectileType("PlagueSeeker"), (int)(projectile.damage * 0.25f), 2f, projectile.owner);
+            }
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
@@ -58,7 +63,7 @@ namespace CalamityMod.Projectiles.Rogue
                 }
                 if (projectile.ai[0] == 0f)
                 {
-                    Projectile.NewProjectile(projectile.Center, projectile.velocity, mod.ProjectileType("PlagueSeeker"), (int)(projectile.damage * 0.1f), 2f, projectile.owner);
+                    Projectile.NewProjectile(projectile.Center, projectile.velocity, mod.ProjectileType("PlagueSeeker"), (int)(projectile.damage * 0.25f), 2f, projectile.owner);
                     projectile.ai[0] = 12f; //0.2th of a second cooldown
                 }
                 projectile.penetrate--;
@@ -74,7 +79,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (projectile.ai[0] == 0f)
             {
-                int projectileIndex = Projectile.NewProjectile(projectile.Center, projectile.velocity, ModContent.ProjectileType<PlagueSeeker>(), (int)(projectile.damage * 0.1f), 2f, projectile.owner);
+                int projectileIndex = Projectile.NewProjectile(projectile.Center, projectile.velocity, ModContent.ProjectileType<PlagueSeeker>(), (int)(projectile.damage * 0.25f), 2f, projectile.owner);
                 Main.projectile[projectileIndex].Calamity().forceRogue = true;
                 projectile.ai[0] = 12f; //0.2th of a second cooldown
             }
