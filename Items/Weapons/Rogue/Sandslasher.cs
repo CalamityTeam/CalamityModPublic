@@ -16,8 +16,8 @@ namespace CalamityMod.Items.Weapons.Rogue
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Sandslasher");
-			Tooltip.SetDefault("Throws a huge shuriken made out of fused sand unaffected by gravity which slowly accelerates horizontaly\n"
-							  +"It does more damage depending on how fast it goes horizontaly and how long it has been flying for");
+			Tooltip.SetDefault("Throws a huge shuriken made out of fused sand unaffected by gravity which slowly accelerates horizontally\n"
+							  +"It does more damage depending on how fast it goes horizontally and how long it has been flying for");
         }
 
 		public override void SafeSetDefaults()
