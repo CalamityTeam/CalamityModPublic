@@ -1,6 +1,8 @@
-﻿using CalamityMod.World;
+﻿using CalamityMod.NPCs.SlimeGod;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -44,9 +46,10 @@ namespace CalamityMod.Items.DifficultyItems
         {
             for (int doom = 0; doom < 200; doom++)
             {
-                if (Main.npc[doom].active && Main.npc[doom].boss)
+                if ((Main.npc[doom].active && (Main.npc[doom].boss || Main.npc[doom].type == NPCID.EaterofWorldsHead || Main.npc[doom].type == NPCID.EaterofWorldsTail || Main.npc[doom].type == ModContent.NPCType<SlimeGodRun>() ||
+                    Main.npc[doom].type == ModContent.NPCType<SlimeGodRunSplit>() || Main.npc[doom].type == ModContent.NPCType<SlimeGod>() || Main.npc[doom].type == ModContent.NPCType<SlimeGodSplit>())) || CalamityWorld.DoGSecondStageCountdown >= 0)
                 {
-                    player.KillMeForGood();
+					player.KillMeForGood();
                     Main.npc[doom].active = false;
                     Main.npc[doom].netUpdate = true;
                 }

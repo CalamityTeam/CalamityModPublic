@@ -7389,6 +7389,7 @@ namespace CalamityMod.CalPlayer
 			{
 				if (ZoneAstral) //Astral Infection, fishing in water
 				{
+					int astralFish = Main.rand.Next(100);
 					if (caughtType == ItemID.WoodenCrate)
 					{
 						caughtType = ItemID.WoodenCrate;
@@ -7413,35 +7414,35 @@ namespace CalamityMod.CalPlayer
 					{
 						caughtType = ItemID.ZephyrFish;
 					}
-					else if (Main.rand.NextBool(10))
+					else if (astralFish >= 75) //25%
 					{
 						caughtType = ModContent.ItemType<ProcyonidPrawn>();
 					}
-					else if (Main.rand.NextBool(15))
+					else if (astralFish <= 74 && astralFish >= 60) //15%
 					{
 						caughtType = ModContent.ItemType<ArcturusAstroidean>();
 					}
-					else if (player.cratePotion && Main.rand.NextBool(5))
+					else if (player.cratePotion && astralFish <= 9 && astralFish >= 28) //20%
 					{
 						caughtType = ModContent.ItemType<AstralCrate>();
 					}
-					else if (!player.cratePotion && Main.rand.NextBool(10))
+					else if (!player.cratePotion && astralFish <= 9 && astralFish >= 18) //10%
 					{
 						caughtType = ModContent.ItemType<AstralCrate>();
 					}
-					else if (Main.rand.NextBool(15))
+					else if (astralFish <= 8 && astralFish >= 6) //3%
 					{
 						caughtType = ModContent.ItemType<UrsaSergeant>();
 					}
-					else if (Main.rand.NextBool(15))
+					else if (astralFish <= 5 && astralFish >= 3) //3%
 					{
 						caughtType = ModContent.ItemType<GacruxianMollusk>();
 					}
-					else if (Main.rand.NextBool(15))
+					else if (astralFish <= 2 && astralFish >= 0) //3%
 					{
 						caughtType = ModContent.ItemType<PolarisParrotfish>();
 					}
-					else
+					else //41% w/o crate pot, 31% w/ crate pot
 					{
 						caughtType = ModContent.ItemType<TwinklingPollox>();
 					}
