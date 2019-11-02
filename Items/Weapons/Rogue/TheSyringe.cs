@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class TheSyringe : RogueWeapon
     {
-        public static int BaseDamage = 50;
+        public static int BaseDamage = 60;
         public static float Knockback = 5f;
         public static float Speed = 15f;
 

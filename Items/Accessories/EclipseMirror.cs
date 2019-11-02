@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Eclipse Mirror");
             Tooltip.SetDefault("Its reflection shows naught but darkness\n" +
-                "+100 maximum stealth\n" +
+                "+50 maximum stealth\n" +
                 "8% increased rogue damage, and 8% increased rogue crit chance\n" +
                 "Vastly reduces enemy aggression, even in the abyss\n" +
                 "20% increased stealth regeneration while moving\n" +
@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.stealthGenMoving += 0.2f;
-            modPlayer.rogueStealthMax += 1;
+            modPlayer.rogueStealthMax += 0.5f;
             modPlayer.eclipseMirror = true;
             modPlayer.stealthStrikeAlwaysCrits = true;
             modPlayer.stealthStrikeHalfCost = true;
