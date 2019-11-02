@@ -1,4 +1,5 @@
 ﻿using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
@@ -10,7 +11,8 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Enchanted Pearl");
-            Tooltip.SetDefault("Increases fishing skill\nCrate potion effect, does not stack with crate potions");
+            Tooltip.SetDefault("Increases fishing skill\n" +
+				"Increases chance to catch crates");
         }
 
         public override void SetDefaults()
@@ -18,14 +20,14 @@ namespace CalamityMod.Items.Accessories
             item.width = 26;
             item.height = 26;
             item.value = Item.buyPrice(0, 9, 0, 0);
-            item.rare = 7;
+            item.rare = 3;
             item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.fishingSkill += 10;
-            player.cratePotion = true;
+			player.Calamity().enchantedPearl = true;
         }
 
         public override void AddRecipes()

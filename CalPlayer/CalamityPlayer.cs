@@ -43,6 +43,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameInput;
@@ -233,6 +234,9 @@ namespace CalamityMod.CalPlayer
         public bool regenator = false;
         public bool theBee = false;
         public int theBeeDamage = 0;
+		public bool alluringBait = false;
+		public bool enchantedPearl = false;
+		public bool fishingStation = false;
         public bool rBrain = false;
         public bool bloodyWormTooth = false;
         public bool afflicted = false;
@@ -948,6 +952,9 @@ namespace CalamityMod.CalPlayer
             regenator = false;
             deepDiver = false;
             theBee = false;
+			alluringBait = false;
+			enchantedPearl = false;
+			fishingStation = false;
             rBrain = false;
             bloodyWormTooth = false;
             rampartOfDeities = false;
@@ -7136,157 +7143,389 @@ namespace CalamityMod.CalPlayer
         #region Fishing
         public override void CatchFish(Item fishingRod, Item bait, int power, int liquidType, int poolSize, int worldLayer, int questFish, ref int caughtType, ref bool junk)
         {
-            if (ZoneAstral && liquidType == 0) //Astral Infection, fishing in water
-            {
-                if (caughtType == ItemID.WoodenCrate)
-                {
-                    caughtType = ItemID.WoodenCrate;
-                }
-                else if (caughtType == ItemID.IronCrate)
-                {
-                    caughtType = ItemID.IronCrate;
-                }
-                else if (caughtType == ItemID.GoldenCrate)
-                {
-                    caughtType = ItemID.GoldenCrate;
-                }
-                else if (caughtType == ItemID.FrogLeg)
-                {
-                    caughtType = ItemID.FrogLeg;
-                }
-                else if (caughtType == ItemID.BalloonPufferfish)
-                {
-                    caughtType = ItemID.BalloonPufferfish;
-                }
-                else if (caughtType == ItemID.ZephyrFish)
-                {
-                    caughtType = ItemID.ZephyrFish;
-                }
-                else if (Main.rand.NextBool(10))
-                {
-                    caughtType = ModContent.ItemType<ProcyonidPrawn>();
-                }
-                else if (Main.rand.NextBool(15))
-                {
-                    caughtType = ModContent.ItemType<ArcturusAstroidean>();
-                }
-                else if (player.cratePotion && Main.rand.NextBool(5))
-                {
-                    caughtType = ModContent.ItemType<AstralCrate>();
-                }
-                else if (!player.cratePotion && Main.rand.NextBool(10))
-                {
-                    caughtType = ModContent.ItemType<AstralCrate>();
-                }
-                else if (Main.rand.NextBool(15))
-                {
-                    caughtType = ModContent.ItemType<UrsaSergeant>();
-                }
-                else if (Main.rand.NextBool(15))
-                {
-                    caughtType = ModContent.ItemType<GacruxianMollusk>();
-                }
-                else if (Main.rand.NextBool(15))
-                {
-                    caughtType = ModContent.ItemType<PolarisParrotfish>();
-                }
-                else
-                {
-                    caughtType = ModContent.ItemType<TwinklingPollox>();
-                }
-            }
-            Point point = player.Center.ToTileCoordinates();
-            bool abyssPosX = false;
-            if (CalamityWorld.abyssSide)
-            {
-                if (point.X < 380)
-                {
-                    abyssPosX = true;
-                }
-            }
-            else
-            {
-                if (point.X > Main.maxTilesX - 380)
-                {
-                    abyssPosX = true;
-                }
-            }
-            if (junk)
-            {
-                if (abyssPosX && liquidType == 0 && power < 40)
-                {
-                    caughtType = ModContent.ItemType<PlantyMush>();
-                }
-                return;
-            }
-            /*if (abyssPosX && liquidType == 0 && (bait.type == ItemID.GoldWorm || bait.type == ItemID.GoldGrasshopper || bait.type == ItemID.GoldButterfly) && power > 150)
-            {
-                if (Main.netMode != NetmodeID.MultiplayerClient)
-                {
-                    CalamityGlobalNPC.OldDukeSpawn(player.whoAmI, ModContent.NPCType<OldDuke>());
-                }
-                else
-                {
-                    NetMessage.SendData(61, -1, -1, null, player.whoAmI, (float)ModContent.NPCType<OldDuke>(), 0f, 0f, 0, 0, 0);
-                }
-                switch (Main.rand.Next(4))
-                {
-                    case 0: caughtType = ModContent.ItemType<IronBoots>(); break; //movement acc
-                    case 1: caughtType = ModContent.ItemType<DepthCharm>(); break; //regen acc
-                    case 2: caughtType = ModContent.ItemType<AnechoicPlating>(); break; //defense acc
-                    case 3: caughtType = ModContent.ItemType<StrangeOrb>(); break; //light pet
-                }
-                return;
-            }*/
-            if (power >= 20)
-            {
-                if (power >= 40)
-                {
-                    if (abyssPosX && liquidType == 0 && Main.rand.NextBool(15) && power < 80)
-                    {
-                        caughtType = ModContent.ItemType<PlantyMush>();
-                    }
-                    if (power >= 60)
-                    {
-                        if (player.FindBuffIndex(BuffID.Gills) > -1 && NPC.downedPlantBoss && liquidType == 0 && Main.rand.NextBool(25) && power < 160)
-                        {
-                            caughtType = ModContent.ItemType<Floodtide>();
-                        }
-                        if (abyssPosX && liquidType == 0 && Main.rand.NextBool(25) && power < 160)
-                        {
-                            caughtType = ModContent.ItemType<AlluringBait>();
-                        }
-                        if (power >= 80)
-                        {
-                            if (abyssPosX && Main.hardMode && liquidType == 0 && Main.rand.NextBool(15) && power < 210)
-                            {
-                                switch (Main.rand.Next(4))
-                                {
-                                    case 0:
-                                        caughtType = ModContent.ItemType<IronBoots>();
-                                        break; //movement acc
-                                    case 1:
-                                        caughtType = ModContent.ItemType<DepthCharm>();
-                                        break; //regen acc
-                                    case 2:
-                                        caughtType = ModContent.ItemType<AnechoicPlating>();
-                                        break; //defense acc
-                                    case 3:
-                                        caughtType = ModContent.ItemType<StrangeOrb>();
-                                        break; //light pet
-                                }
-                            }
-                            if (power >= 110)
-                            {
-                                if (abyssPosX && liquidType == 0 && Main.rand.NextBool(25) && power < 240)
-                                {
-                                    caughtType = ModContent.ItemType<AbyssalAmulet>();
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+			bool water = liquidType == 0;
+			bool lava = liquidType == 1;
+			bool honey = liquidType == 2;
+
+			Point point = player.Center.ToTileCoordinates();
+			bool abyssPosX = false;
+			if (CalamityWorld.abyssSide)
+			{
+				if (point.X < 380)
+				{
+					abyssPosX = true;
+				}
+			}
+			else
+			{
+				if (point.X > Main.maxTilesX - 380)
+				{
+					abyssPosX = true;
+				}
+			}
+
+			if (alluringBait)
+			{
+				int chanceForPotionFish = 1000 / power;
+
+				if (chanceForPotionFish < 3)
+					chanceForPotionFish = 3;
+
+				if (Main.rand.NextBool(chanceForPotionFish))
+				{
+					List<int> fishList = new List<int>();
+
+					if (lava)
+					{
+						fishList.Add(ItemID.FlarefinKoi);
+						fishList.Add(ItemID.Obsidifish);
+					}
+					else if (water)
+					{
+						if (player.ZoneDirtLayerHeight || player.ZoneRockLayerHeight)
+						{
+							fishList.Add(ItemID.ArmoredCavefish);
+
+							if (player.ZoneHoly)
+							{
+								fishList.Add(ItemID.ChaosFish);
+							}
+							if (player.ZoneJungle)
+							{
+								fishList.Add(ItemID.VariegatedLardfish);
+							}
+						}
+						if (player.ZoneSnow)
+						{
+							fishList.Add(ItemID.FrostMinnow);
+						}
+						if (player.ZoneCorrupt)
+						{
+							fishList.Add(ItemID.Ebonkoi);
+						}
+						if (player.ZoneCrimson)
+						{
+							fishList.Add(ItemID.CrimsonTigerfish);
+							fishList.Add(ItemID.Hemopiranha);
+						}
+						if (player.ZoneHoly)
+						{
+							fishList.Add(ItemID.PrincessFish);
+							fishList.Add(ItemID.Prismite);
+						}
+						if (player.ZoneSkyHeight)
+						{
+							fishList.Add(ItemID.Damselfish);
+						}
+						if (player.ZoneJungle)
+						{
+							if (player.ZoneOverworldHeight || player.ZoneSkyHeight)
+							{
+								fishList.Add(ItemID.DoubleCod);
+							}
+						}
+					}
+
+					if (fishList.Any())
+					{
+						int fishAmt = fishList.Count;
+						int caughtFish = fishList[Main.rand.Next(fishAmt)];
+						caughtType = caughtFish;
+					}
+				}
+			}
+
+			if (enchantedPearl || fishingStation)
+			{
+				int chanceForCrates = (enchantedPearl ? 10 : 0) +
+					(fishingStation ? 10 : 0);
+
+				int poolSizeAmt = poolSize / 10;
+				if (poolSizeAmt > 100)
+					poolSizeAmt = 100;
+
+				int fishingPowerDivisor = power + poolSizeAmt;
+
+				int chanceForIronCrate = 1000 / fishingPowerDivisor;
+				int chanceForBiomeCrate = 2000 / fishingPowerDivisor;
+				int chanceForGoldCrate = 3000 / fishingPowerDivisor;
+				int chanceForRareItems = 4000 / fishingPowerDivisor;
+
+				if (chanceForIronCrate < 3)
+					chanceForIronCrate = 3;
+
+				if (chanceForBiomeCrate < 4)
+					chanceForBiomeCrate = 4;
+
+				if (chanceForGoldCrate < 5)
+					chanceForGoldCrate = 5;
+
+				if (chanceForRareItems < 6)
+					chanceForRareItems = 6;
+
+				if (water)
+				{
+					if (Main.rand.Next(100) < chanceForCrates)
+					{
+						if (Main.rand.NextBool(chanceForRareItems) && enchantedPearl && fishingStation && player.cratePotion)
+						{
+							List<int> rareItemList = new List<int>();
+
+							if (abyssPosX)
+							{
+								switch (Main.rand.Next(4))
+								{
+									case 0:
+										rareItemList.Add(ModContent.ItemType<IronBoots>());
+										break;
+									case 1:
+										rareItemList.Add(ModContent.ItemType<DepthCharm>());
+										break;
+									case 2:
+										rareItemList.Add(ModContent.ItemType<AnechoicPlating>());
+										break;
+									case 3:
+										rareItemList.Add(ModContent.ItemType<StrangeOrb>());
+										break;
+								}
+							}
+							if (ZoneAstral)
+							{
+								switch (Main.rand.Next(3))
+								{
+									case 0:
+										rareItemList.Add(ModContent.ItemType<GacruxianMollusk>());
+										break;
+									case 1:
+										rareItemList.Add(ModContent.ItemType<PolarisParrotfish>());
+										break;
+									case 2:
+										rareItemList.Add(ModContent.ItemType<UrsaSergeant>());
+										break;
+								}
+							}
+							if (player.ZoneSnow && player.ZoneRockLayerHeight && (player.ZoneCorrupt || player.ZoneCrimson || player.ZoneHoly))
+							{
+								rareItemList.Add(ItemID.ScalyTruffle);
+							}
+							if (player.ZoneCorrupt)
+							{
+								rareItemList.Add(ItemID.Toxikarp);
+							}
+							if (player.ZoneCrimson)
+							{
+								rareItemList.Add(ItemID.Bladetongue);
+							}
+							if (player.ZoneHoly)
+							{
+								rareItemList.Add(ItemID.CrystalSerpent);
+							}
+
+							if (rareItemList.Any())
+							{
+								int rareItemAmt = rareItemList.Count;
+								int caughtRareItem = rareItemList[Main.rand.Next(rareItemAmt)];
+								caughtType = caughtRareItem;
+							}
+						}
+						else if (Main.rand.NextBool(chanceForGoldCrate))
+						{
+							caughtType = ItemID.GoldenCrate;
+						}
+						else if (Main.rand.NextBool(chanceForBiomeCrate))
+						{
+							List<int> biomeCrateList = new List<int>();
+
+							if (ZoneAstral)
+							{
+								biomeCrateList.Add(ModContent.ItemType<AstralCrate>());
+							}
+							if (player.ZoneCorrupt)
+							{
+								biomeCrateList.Add(ItemID.CorruptFishingCrate);
+							}
+							if (player.ZoneCrimson)
+							{
+								biomeCrateList.Add(ItemID.CrimsonFishingCrate);
+							}
+							if (player.ZoneHoly)
+							{
+								biomeCrateList.Add(ItemID.HallowedFishingCrate);
+							}
+							if (player.ZoneDungeon)
+							{
+								biomeCrateList.Add(ItemID.DungeonFishingCrate);
+							}
+							if (player.ZoneJungle)
+							{
+								biomeCrateList.Add(ItemID.JungleFishingCrate);
+							}
+							if (player.ZoneSkyHeight)
+							{
+								biomeCrateList.Add(ItemID.FloatingIslandFishingCrate);
+							}
+
+							if (biomeCrateList.Any())
+							{
+								int biomeCrateAmt = biomeCrateList.Count;
+								int caughtBiomeCrate = biomeCrateList[Main.rand.Next(biomeCrateAmt)];
+								caughtType = caughtBiomeCrate;
+							}
+						}
+						else if (Main.rand.NextBool(chanceForIronCrate))
+						{
+							caughtType = ItemID.IronCrate;
+						}
+						else
+						{
+							caughtType = ItemID.WoodenCrate;
+						}
+						return;
+					}
+				}
+			}
+
+			if (water)
+			{
+				if (ZoneAstral) //Astral Infection, fishing in water
+				{
+					if (caughtType == ItemID.WoodenCrate)
+					{
+						caughtType = ItemID.WoodenCrate;
+					}
+					else if (caughtType == ItemID.IronCrate)
+					{
+						caughtType = ItemID.IronCrate;
+					}
+					else if (caughtType == ItemID.GoldenCrate)
+					{
+						caughtType = ItemID.GoldenCrate;
+					}
+					else if (caughtType == ItemID.FrogLeg)
+					{
+						caughtType = ItemID.FrogLeg;
+					}
+					else if (caughtType == ItemID.BalloonPufferfish)
+					{
+						caughtType = ItemID.BalloonPufferfish;
+					}
+					else if (caughtType == ItemID.ZephyrFish)
+					{
+						caughtType = ItemID.ZephyrFish;
+					}
+					else if (Main.rand.NextBool(10))
+					{
+						caughtType = ModContent.ItemType<ProcyonidPrawn>();
+					}
+					else if (Main.rand.NextBool(15))
+					{
+						caughtType = ModContent.ItemType<ArcturusAstroidean>();
+					}
+					else if (player.cratePotion && Main.rand.NextBool(5))
+					{
+						caughtType = ModContent.ItemType<AstralCrate>();
+					}
+					else if (!player.cratePotion && Main.rand.NextBool(10))
+					{
+						caughtType = ModContent.ItemType<AstralCrate>();
+					}
+					else if (Main.rand.NextBool(15))
+					{
+						caughtType = ModContent.ItemType<UrsaSergeant>();
+					}
+					else if (Main.rand.NextBool(15))
+					{
+						caughtType = ModContent.ItemType<GacruxianMollusk>();
+					}
+					else if (Main.rand.NextBool(15))
+					{
+						caughtType = ModContent.ItemType<PolarisParrotfish>();
+					}
+					else
+					{
+						caughtType = ModContent.ItemType<TwinklingPollox>();
+					}
+				}
+
+				if (junk)
+				{
+					if (abyssPosX && power < 40)
+					{
+						caughtType = ModContent.ItemType<PlantyMush>();
+					}
+					return;
+				}
+
+				/*if (abyssPosX && (bait.type == ItemID.GoldWorm || bait.type == ItemID.GoldGrasshopper || bait.type == ItemID.GoldButterfly) && power > 150)
+				{
+					if (Main.netMode != NetmodeID.MultiplayerClient)
+					{
+						CalamityGlobalNPC.OldDukeSpawn(player.whoAmI, ModContent.NPCType<OldDuke>());
+					}
+					else
+					{
+						NetMessage.SendData(61, -1, -1, null, player.whoAmI, (float)ModContent.NPCType<OldDuke>(), 0f, 0f, 0, 0, 0);
+					}
+					switch (Main.rand.Next(4))
+					{
+						case 0: caughtType = ModContent.ItemType<IronBoots>(); break; //movement acc
+						case 1: caughtType = ModContent.ItemType<DepthCharm>(); break; //regen acc
+						case 2: caughtType = ModContent.ItemType<AnechoicPlating>(); break; //defense acc
+						case 3: caughtType = ModContent.ItemType<StrangeOrb>(); break; //light pet
+					}
+					return;
+				}*/
+
+				if (power >= 20)
+				{
+					if (power >= 40)
+					{
+						if (abyssPosX && Main.rand.NextBool(15) && power < 80)
+						{
+							caughtType = ModContent.ItemType<PlantyMush>();
+						}
+						if (power >= 60)
+						{
+							if (player.FindBuffIndex(BuffID.Gills) > -1 && NPC.downedPlantBoss && Main.rand.NextBool(25) && power < 160)
+							{
+								caughtType = ModContent.ItemType<Floodtide>();
+							}
+							if (abyssPosX && Main.rand.NextBool(25) && power < 160)
+							{
+								caughtType = ModContent.ItemType<AlluringBait>();
+							}
+							if (power >= 80)
+							{
+								if (abyssPosX && Main.hardMode && Main.rand.NextBool(15) && power < 210)
+								{
+									switch (Main.rand.Next(4))
+									{
+										case 0:
+											caughtType = ModContent.ItemType<IronBoots>();
+											break; //movement acc
+										case 1:
+											caughtType = ModContent.ItemType<DepthCharm>();
+											break; //regen acc
+										case 2:
+											caughtType = ModContent.ItemType<AnechoicPlating>();
+											break; //defense acc
+										case 3:
+											caughtType = ModContent.ItemType<StrangeOrb>();
+											break; //light pet
+									}
+								}
+								if (power >= 110)
+								{
+									if (abyssPosX && Main.rand.NextBool(25) && power < 240)
+									{
+										caughtType = ModContent.ItemType<AbyssalAmulet>();
+									}
+								}
+							}
+						}
+					}
+				}
+			}
         }
 
         public override void GetFishingLevel(Item fishingRod, Item bait, ref int fishingLevel)

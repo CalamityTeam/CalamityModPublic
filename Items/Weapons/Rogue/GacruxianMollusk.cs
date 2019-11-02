@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Items.Weapons.Rogue
 {
     public class GacruxianMollusk : RogueWeapon
@@ -21,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SafeSetDefaults()
         {
             item.damage = BaseDamage;
-            item.rare = 4;
+            item.rare = 5;
             item.knockBack = Knockback;
             item.autoReuse = true;
             item.useTime = 26;
