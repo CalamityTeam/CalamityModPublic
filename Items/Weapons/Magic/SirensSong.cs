@@ -39,16 +39,6 @@ namespace CalamityMod.Items.Weapons.Magic
             return new Vector2(-10, 0);
         }
 
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<IOU>());
-            recipe.AddIngredient(ModContent.ItemType<LivingShard>());
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-        }
-
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             float SpeedX = speedX + (float)Main.rand.Next(-15, 16) * 0.05f;

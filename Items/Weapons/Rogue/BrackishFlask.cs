@@ -33,15 +33,5 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;
         }
-
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<IOU>());
-            recipe.AddIngredient(ModContent.ItemType<LivingShard>());
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-        }
     }
 }
