@@ -1632,6 +1632,7 @@ namespace CalamityMod
                 ModContent.ItemType<Celestus>(),
                 ModContent.ItemType<AccretionDisk>(),
                 ModContent.ItemType<EnchantedAxe>(),
+                ModContent.ItemType<EpidemicShredder>(),
                 ModContent.ItemType<Eradicator>(),
                 ModContent.ItemType<TruePaladinsHammer>(),
                 ModContent.ItemType<FlameScythe>(),
@@ -1694,7 +1695,6 @@ namespace CalamityMod
                 ModContent.ItemType<StellarKnife>(),
                 ModContent.ItemType<StormfrontRazor>(),
                 ModContent.ItemType<TimeBolt>(),
-                ModContent.ItemType<UtensilPoker>(),
                 ModContent.ItemType<LunarKunai>()
             };
 
@@ -1706,6 +1706,7 @@ namespace CalamityMod
                 ModContent.ItemType<DuststormInABottle>(),
                 ModContent.ItemType<SeafoamBomb>(),
                 ModContent.ItemType<ConsecratedWater>(),
+                ModContent.ItemType<BouncingBetty>(),
                 ModContent.ItemType<BlastBarrel>()
             };
 
