@@ -30,6 +30,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
+            CalamityPlayer modPlayer = player.Calamity();
             player.setBonus = "+3 defense\n" +
                 "+5 defense when below 50% life\n" +
                 "Rogue stealth builds while not attacking and not moving, up to a max of 50\n" +
@@ -41,7 +42,7 @@ namespace CalamityMod.Items.Armor
                 player.statDefense += 5; //14
             }
             modPlayer.rogueStealthMax += 0.5f;
-            player.Calamity().wearingRogueArmor = true;
+            modPlayer.wearingRogueArmor = true;
         }
 
         public override void UpdateEquip(Player player)

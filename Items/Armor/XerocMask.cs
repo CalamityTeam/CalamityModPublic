@@ -53,9 +53,9 @@ namespace CalamityMod.Items.Armor
                 player.AddBuff(BuffID.Wrath, 2);
                 player.AddBuff(BuffID.Rage, 2);
             }
-            player.Calamity().throwingDamage += 0.09f;
-            player.Calamity().throwingVelocity += 0.09f;
-            player.Calamity().wearingRogueArmor = true;
+            modPlayer.throwingDamage += 0.09f;
+            modPlayer.throwingVelocity += 0.09f;
+            modPlayer.wearingRogueArmor = true;
         }
 
         public override void UpdateEquip(Player player)
