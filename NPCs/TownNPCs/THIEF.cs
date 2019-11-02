@@ -3,9 +3,12 @@ using CalamityMod.Items.Pets;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.World;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
+using Terraria.GameContent.Events;
 using Terraria.Localization;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.TownNPCs
@@ -183,7 +186,12 @@ namespace CalamityMod.NPCs.TownNPCs
             }
             return "Sorry, I got nothing.";
         }
-
+        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
+            var something = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/NPCs/TownNPCs/THIEF" + (BirthdayParty.PartyIsUp ? "Alt" : "")), npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY) - new Vector2(0f, 6f), npc.frame, drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, something, 0);
+            return false;
+        }
         public override void SetChatButtons(ref string button, ref string button2)
         {
             button = Language.GetTextValue("LegacyInterface.28");
@@ -235,13 +243,13 @@ namespace CalamityMod.NPCs.TownNPCs
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 60, 0, 0);
                 nextSlot++;
             }
-            /*if (NPC.downedMechBoss1 || NPC.downedMechBoss2 || NPC.downedMechBoss3)
+            if (NPC.downedMechBoss1 || NPC.downedMechBoss2 || NPC.downedMechBoss3)
 			{
-				shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.BouncingBetty>());
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<BouncingBetty>());
 				nextSlot++;
-				shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.LatcherMines>());
-				nextSlot++;
-			}*/
+                /*shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.LatcherMines>());
+				nextSlot++;*/
+            }
             if (NPC.downedPlantBoss)
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<MonkeyDarts>());
