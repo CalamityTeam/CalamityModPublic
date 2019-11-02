@@ -84,7 +84,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 					num149 *= num80;
 					float x4 = vector2.X;
 					float y4 = vector2.Y;
-					int stealth = Projectile.NewProjectile(x4, y4, num148, num149, ModContent.ProjectileType<LunarKunaiProj>(), item.damage , knockBack, player.whoAmI, 0f, 0f);
+					int stealth = Projectile.NewProjectile(x4, y4, num148, num149, ModContent.ProjectileType<LunarKunaiProj>(), (int)(damage *1.1) , knockBack, player.whoAmI, 0f, 0f);
 					Main.projectile[stealth].Calamity().stealthStrike = true;
 				}
 			}
