@@ -86,7 +86,7 @@ namespace CalamityMod.Projectiles.Rogue
                         Main.rand.Next(ProjectileID.MolotovFire, ProjectileID.MolotovFire3 + 1),
                         BlastBarrel.BaseDamage, 1f, projectile.owner);
                     Main.projectile[fireIndex].thrown = false;
-                    Main.projectile[fireIndex].Calamity().rogue = true;
+                    Main.projectile[fireIndex].Calamity().forceRogue = true;
                     Main.projectile[fireIndex].penetrate = -1;
                     Main.projectile[fireIndex].usesLocalNPCImmunity = true;
                     Main.projectile[fireIndex].localNPCHitCooldown = -1;
