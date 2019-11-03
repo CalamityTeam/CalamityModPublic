@@ -1754,9 +1754,9 @@ namespace CalamityMod.NPCs
                 }
 
                 if (fedToTrasher)
-                    DropHelper.DropItem(npc, ItemID.GoldenFishingRod);
+                    DropHelper.DropItemCondition(npc, ItemID.GoldenFishingRod, Main.hardMode);
                 else
-                    DropHelper.DropItemCondition(npc, ItemID.GoldenFishingRod, Main.hardMode, 5, 1, 1);
+                    DropHelper.DropItemCondition(npc, ItemID.GoldenFishingRod, Main.hardMode, 12, 1, 1);
             }
         }
         #endregion
