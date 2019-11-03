@@ -53,6 +53,7 @@ namespace CalamityMod.Items.Fishing
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.WoodFishingPole); //wood -> fossilized wood
             recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 10);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
