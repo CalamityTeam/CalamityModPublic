@@ -6,7 +6,7 @@ using CalamityMod.Items.Materials;
 
 namespace CalamityMod.Tiles
 {
-    public class PerennialBar : ModTile
+    public class CryonicBar : ModTile
     {
         public override void SetDefaults()
         {
@@ -21,20 +21,20 @@ namespace CalamityMod.Tiles
             TileObjectData.addTile(Type);
 
             dustType = 44;
-            drop = ModContent.ItemType<DraedonBar>();
+            drop = ModContent.ItemType<VerstaltiteBar>();
 
-            AddMapEntry(new Color(157, 255, 0)); //chart reuse
+            AddMapEntry(new Color(138, 43, 226)); //blue violet
         }
 
         public override bool CreateDust(int i, int j, ref int type)
         {
             if (Main.rand.NextBool(2))
             {
-                type = 44;
+                type = 56;
             }
             else
             {
-                type = 157;
+                type = 73;
             }
             return true;
         }

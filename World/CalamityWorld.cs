@@ -1555,13 +1555,8 @@ namespace CalamityMod.World
                 }
             }
 
-            if (!downedDesertScourge || CalamityPlayer.areThereAnyDamnBosses)
-			{
-				if (Main.netMode != NetmodeID.MultiplayerClient)
-				{
-					CalamityUtils.StopSandstorm();
-				}
-			}
+            if (!downedDesertScourge && Main.netMode != NetmodeID.MultiplayerClient)
+                CalamityUtils.StopSandstorm();
 
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
