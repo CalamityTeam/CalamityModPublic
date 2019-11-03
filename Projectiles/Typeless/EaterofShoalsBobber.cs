@@ -27,6 +27,13 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.bobber = true;
             projectile.penetrate = -1;
         }
+
+		//fuck glowmasks btw
+        /*public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            Vector2 origin = new Vector2(6.5f, 6.5f);
+            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Typeless/EaterofShoalsBobberGlow"), projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
+        }*/
 		
         public override bool PreDrawExtras(SpriteBatch spriteBatch)
         {
@@ -146,7 +153,7 @@ namespace CalamityMod.Projectiles.Typeless
                         }
                         rotation2 = (float)Math.Atan2((double)projPosY, (double)projPosX) - 1.57f;
 
-						if (projectile.localAI[0] == 1) //pink line
+						if (projectile.localAI[1] == 1) //pink line
 						{
 							red = 252;
 							green = 109;
