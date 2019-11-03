@@ -757,6 +757,7 @@ namespace CalamityMod
                 ModContent.ItemType<BalefulHarvester>(),
                 ModContent.ItemType<Chaotrix>(),
                 ModContent.ItemType<CometQuasher>(),
+                ModContent.ItemType<DivineRetribution>(),
                 ModContent.ItemType<DraconicDestruction>(),
                 ModContent.ItemType<Drataliornus>(),
                 ModContent.ItemType<EnergyStaff>(),
@@ -778,6 +779,7 @@ namespace CalamityMod
                 ModContent.ItemType<Hellkite>(),
                 ModContent.ItemType<HellwingStaff>(),
                 ModContent.ItemType<Helstorm>(),
+                ModContent.ItemType<HellsSun>(),
                 ModContent.ItemType<InfernaCutter>(),
                 ModContent.ItemType<Lazhar>(),
                 ModContent.ItemType<MeteorFist>(),
@@ -785,6 +787,7 @@ namespace CalamityMod
                 ModContent.ItemType<PhoenixBlade>(),
                 ModContent.ItemType<Photoviscerator>(),
                 ModContent.ItemType<RedSun>(),
+                ModContent.ItemType<SparkSpreader>(),
                 ModContent.ItemType<SpectralstormCannon>(),
                 ModContent.ItemType<SunGodStaff>(),
                 ModContent.ItemType<SunSpiritStaff>(),
@@ -899,6 +902,7 @@ namespace CalamityMod
                 ModContent.ItemType<DeepseaStaff>(),
                 ModContent.ItemType<Downpour>(),
                 ModContent.ItemType<SubmarineShocker>(),
+                ModContent.ItemType<ScourgeoftheSeas>(),
                 ModContent.ItemType<Archerfish>(),
                 ModContent.ItemType<BallOFugu>(),
                 ModContent.ItemType<BlackAnurian>(),
@@ -1632,6 +1636,7 @@ namespace CalamityMod
                 ModContent.ItemType<Celestus>(),
                 ModContent.ItemType<AccretionDisk>(),
                 ModContent.ItemType<EnchantedAxe>(),
+                ModContent.ItemType<EpidemicShredder>(),
                 ModContent.ItemType<Eradicator>(),
                 ModContent.ItemType<TruePaladinsHammer>(),
                 ModContent.ItemType<FlameScythe>(),
@@ -1694,7 +1699,6 @@ namespace CalamityMod
                 ModContent.ItemType<StellarKnife>(),
                 ModContent.ItemType<StormfrontRazor>(),
                 ModContent.ItemType<TimeBolt>(),
-                ModContent.ItemType<UtensilPoker>(),
                 ModContent.ItemType<LunarKunai>()
             };
 
@@ -1706,6 +1710,7 @@ namespace CalamityMod
                 ModContent.ItemType<DuststormInABottle>(),
                 ModContent.ItemType<SeafoamBomb>(),
                 ModContent.ItemType<ConsecratedWater>(),
+                ModContent.ItemType<BouncingBetty>(),
                 ModContent.ItemType<BlastBarrel>()
             };
 

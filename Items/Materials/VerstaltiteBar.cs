@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Items.Placeables.Ores;
+using CalamityMod.Tiles;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -14,6 +15,13 @@ namespace CalamityMod.Items.Materials
 
         public override void SetDefaults()
         {
+            item.createTile = ModContent.TileType<CryonicBar>();
+            item.useStyle = 1;
+            item.useTurn = true;
+            item.useAnimation = 15;
+            item.useTime = 10;
+            item.autoReuse = true;
+            item.consumable = true;
             item.width = 30;
             item.height = 24;
             item.maxStack = 999;

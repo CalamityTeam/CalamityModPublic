@@ -1388,8 +1388,8 @@ namespace CalamityMod.World
                             if (NPC.downedMoonlord)
                             {
                                 if (!downedGuardians && bossType == 0)
-                                    if (Main.player[closestPlayer].ZoneUnderworldHeight ||
-                                        (Main.player[closestPlayer].ZoneHoly && Main.player[closestPlayer].ZoneOverworldHeight))
+                                    if (Main.dayTime && (Main.player[closestPlayer].ZoneUnderworldHeight ||
+                                        (Main.player[closestPlayer].ZoneHoly && Main.player[closestPlayer].ZoneOverworldHeight)))
                                     {
                                         BossText();
                                         bossType = ModContent.NPCType<ProfanedGuardianBoss>();
@@ -1514,8 +1514,8 @@ namespace CalamityMod.World
                         }
                         else if (bossType == ModContent.NPCType<ProfanedGuardianBoss>())
                         {
-                            if (!Main.player[closestPlayer].ZoneUnderworldHeight &&
-                                        (!Main.player[closestPlayer].ZoneHoly || !Main.player[closestPlayer].ZoneOverworldHeight))
+                            if (!Main.dayTime || (!Main.player[closestPlayer].ZoneUnderworldHeight &&
+                                        (!Main.player[closestPlayer].ZoneHoly || !Main.player[closestPlayer].ZoneOverworldHeight)))
                                 canSpawn = false;
                         }
                         else if (bossType == ModContent.NPCType<Bumblefuck>())
