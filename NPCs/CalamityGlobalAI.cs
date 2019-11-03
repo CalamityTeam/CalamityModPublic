@@ -11955,7 +11955,6 @@ namespace CalamityMod.NPCs
                         npc.life = 0;
                         npc.HitEffect(0, 1337.0);
                         npc.checkDead();
-						npc.NPCLoot();
 						return false;
                     }
                 }

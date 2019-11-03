@@ -2418,8 +2418,8 @@ namespace CalamityMod.CalPlayer
         #region PreUpdateBuffs
         public override void PreUpdateBuffs()
         {
-            //Remove the mighty wind buff if the player is in the astral desert.
-            if (player.ZoneDesert && ZoneAstral && player.HasBuff(BuffID.WindPushed))
+            // Remove the mighty wind buff if the player is in the astral desert or if a boss is alive.
+            if (player.ZoneDesert && (ZoneAstral || areThereAnyDamnBosses) && player.HasBuff(BuffID.WindPushed))
             {
                 player.ClearBuff(BuffID.WindPushed);
             }
