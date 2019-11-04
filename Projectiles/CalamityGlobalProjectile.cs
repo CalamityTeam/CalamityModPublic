@@ -788,17 +788,44 @@ namespace CalamityMod.Projectiles
                     Main.projectile[projectileIndex].Calamity().forceRogue = true;
                     Main.projectile[projectileIndex].netUpdate = true;
                 }
-                if (projectile.magic && Main.player[projectile.owner].ghostHeal)
-                {
-                    float num = 0.1f;
-                    num -= (float)projectile.numHits * 0.05f;
-                    if (num < 0f)
-                    {
-                        num = 0f;
-                    }
-                    float num2 = (float)damage * num;
-                    Main.player[Main.myPlayer].lifeSteal -= num2;
-                }
+
+				if (!target.canGhostHeal)
+				{
+					if (Main.player[projectile.owner].ghostHurt)
+					{
+						projectile.ghostHurt(damage, new Vector2(target.Center.X, target.Center.Y));
+					}
+
+					if (Main.player[projectile.owner].setNebula && Main.player[projectile.owner].nebulaCD == 0 && Main.rand.Next(3) == 0)
+					{
+						Main.player[projectile.owner].nebulaCD = 30;
+						int boosterType = Utils.SelectRandom<int>(Main.rand, new int[]
+						{
+							ItemID.NebulaPickup1,
+							ItemID.NebulaPickup2,
+							ItemID.NebulaPickup3
+						});
+						int nebulaBooster = Item.NewItem((int)target.position.X, (int)target.position.Y, target.width, target.height, boosterType, 1, false, 0, false, false);
+						Main.item[nebulaBooster].velocity.Y = (float)Main.rand.Next(-20, 1) * 0.2f;
+						Main.item[nebulaBooster].velocity.X = (float)Main.rand.Next(10, 31) * 0.2f * (float)projectile.direction;
+						if (Main.netMode == 1)
+						{
+							NetMessage.SendData(21, -1, -1, null, nebulaBooster, 0f, 0f, 0f, 0, 0, 0);
+						}
+					}
+				}
+
+				if (Main.player[projectile.owner].ghostHeal)
+				{
+					float num = 0.1f;
+					num -= (float)projectile.numHits * 0.05f;
+					if (num < 0f)
+					{
+						num = 0f;
+					}
+					float num2 = (float)damage * num;
+					Main.player[Main.myPlayer].lifeSteal -= num2;
+				}
 
                 if (projectile.type == ProjectileID.VampireKnife)
                 {
