@@ -31,7 +31,7 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool CanUseItem(Player player)
         {
-            return !Main.dayTime && !NPC.AnyNPCs(ModContent.NPCType<AstrumDeusHead>()) && !NPC.AnyNPCs(ModContent.NPCType<AstrumDeusHeadSpectral>());
+            return !Main.dayTime && player.Calamity().ZoneAstral && !NPC.AnyNPCs(ModContent.NPCType<AstrumDeusHead>()) && !NPC.AnyNPCs(ModContent.NPCType<AstrumDeusHeadSpectral>());
         }
 
         public override bool UseItem(Player player)
