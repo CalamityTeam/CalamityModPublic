@@ -273,6 +273,20 @@ namespace CalamityMod
 
         #region Projectile Utilities
         public static int CountProjectiles(int Type) => Main.projectile.Count(proj => proj.type == Type && proj.active);
+
+        public static void KillAllHostileProjectiles()
+        {
+            int proj;
+            for (int x = 0; x < Main.maxProjectiles; x = proj + 1)
+            {
+                Projectile projectile = Main.projectile[x];
+                if (projectile.active && projectile.hostile && !projectile.friendly && projectile.damage > 0)
+                {
+                    projectile.Kill();
+                }
+                proj = x;
+            }
+        }
         #endregion
 
         #region Tile Utilities
