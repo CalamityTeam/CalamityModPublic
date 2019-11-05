@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 using CalamityMod.Items.Fishing.FishingRods;
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class EaterofShoalsBobber : ModProjectile
+    public class DevourerofCodsBobber : ModProjectile
     {
         private static int red = 252;
         private static int green = 109;
@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Typeless
 		
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Eater of Shoals Bobber"); //dodger blue line
+			DisplayName.SetDefault("Devourer of Cods Bobber");
 		}
 		
         public override void SetDefaults()
@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Typeless
         /*public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Vector2 origin = new Vector2(6.5f, 6.5f);
-            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Typeless/EaterofShoalsBobberGlow"), projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Typeless/DevourerofCodsGlow"), projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
         }*/
 		
         public override bool PreDrawExtras(SpriteBatch spriteBatch)
@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Typeless
                 int type = Main.player[projectile.owner].inventory[Main.player[projectile.owner].selectedItem].type;
                 float gravDir = Main.player[projectile.owner].gravDir;
  
-                if (type == ModContent.ItemType<EaterofShoals>())
+                if (type == ModContent.ItemType<TheDevourerofCods>())
                 {
                     pPosX += (float)(45 * Main.player[projectile.owner].direction);
                     if (Main.player[projectile.owner].direction < 0)
