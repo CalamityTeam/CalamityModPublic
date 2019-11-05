@@ -20,7 +20,7 @@ namespace CalamityMod.Tiles.FurnitureVoid
 
             soundType = 21;
             mineResist = 7f;
-            minPick = 190;
+            minPick = 180;
             drop = ModContent.ItemType<Items.Placeables.FurnitureVoid.SmoothVoidstone>();
             AddMapEntry(new Color(27, 24, 31));
         }
