@@ -7516,6 +7516,14 @@ namespace CalamityMod.CalPlayer
 						caughtType = ModContent.ItemType<FishofFlight>();
 					}
 				}
+				
+				if (player.ZoneOverworldHeight && !Main.dayTime)
+				{
+					if (Main.rand.NextBool(10))
+					{
+						caughtType = ModContent.ItemType<EnchantedStarfish>();
+					}
+				}
 
 				if (junk)
 				{
