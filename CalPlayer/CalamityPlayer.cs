@@ -7492,6 +7492,30 @@ namespace CalamityMod.CalPlayer
 						caughtType = ModContent.ItemType<TwinklingPollox>();
 					}
 				}
+				
+				if ((player.ZoneCrimson || player.ZoneCorrupt) && player.ZoneRockLayerHeight)
+				{
+					if (Main.rand.NextBool(10))
+					{
+						caughtType = ModContent.ItemType<FishofNight>();
+					}
+				}
+				
+				if (player.ZoneHoly && player.ZoneRockLayerHeight)
+				{
+					if (Main.rand.NextBool(10))
+					{
+						caughtType = ModContent.ItemType<FishofLight>();
+					}
+				}
+				
+				if (player.ZoneSkyHeight)
+				{
+					if (Main.rand.NextBool(15))
+					{
+						caughtType = ModContent.ItemType<FishofFlight>();
+					}
+				}
 
 				if (junk)
 				{
