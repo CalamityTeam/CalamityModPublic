@@ -39,11 +39,10 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             Vector2 velocity = new Vector2(speedX, speedY);
-            float strikeValue = player.Calamity().StealthStrikeAvailable().ToInt(); //0 if false, 1 if true
-            int projectileIndex = Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<BouncingBettyProjectile>(), damage, knockBack, player.whoAmI, ai1: strikeValue);
+            int projectileIndex = Projectile.NewProjectile(position, velocity, type, damage, knockBack, player.whoAmI);
             if (player.Calamity().StealthStrikeAvailable())
             {
-                Main.projectile[projectileIndex].Calamity().stealthStrike = strikeValue == 1f;
+                Main.projectile[projectileIndex].Calamity().stealthStrike = true;
             }
             return false;
         }
