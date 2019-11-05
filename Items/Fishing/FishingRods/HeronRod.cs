@@ -6,7 +6,7 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using CalamityMod.Items.Materials;
-namespace CalamityMod.Items.Fishing
+namespace CalamityMod.Items.Fishing.FishingRods
 {
     public class HeronRod : ModItem
     {

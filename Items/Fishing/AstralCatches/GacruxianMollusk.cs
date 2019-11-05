@@ -3,8 +3,9 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Items.Weapons.Rogue;
 
-namespace CalamityMod.Items.Weapons.Rogue
+namespace CalamityMod.Items.Fishing.AstralCatches
 {
     public class GacruxianMollusk : RogueWeapon
     {

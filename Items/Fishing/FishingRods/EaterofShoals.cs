@@ -6,15 +6,15 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using CalamityMod.Items.Materials;
-namespace CalamityMod.Items.Fishing
+namespace CalamityMod.Items.Fishing.FishingRods
 {
-    public class EarlyBloomRod : ModItem
+    public class EaterofShoals : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Early Bloom Rod");
-            Tooltip.SetDefault("Fires six lines at once. Line never snaps.\n" +
-				"The early bird catches the fish.");
+            DisplayName.SetDefault("Eater of Shoals");
+            Tooltip.SetDefault("Fires ten lines at once. Line never snaps and can fish from lava.\n" +
+				"The devourer enjoyed eating fish as much as eating gods.");
         }
 
         public override void SetDefaults()
@@ -26,12 +26,13 @@ namespace CalamityMod.Items.Fishing
 			item.useTime = 8;
 			item.useStyle = 1;
 			item.UseSound = SoundID.Item1;
-			item.fishingPole = 60;
-			item.shootSpeed = 18f;
-			item.shoot = ModContent.ProjectileType<EarlyBloomBobber>();
-            item.value = Item.buyPrice(1, 20, 0, 0);
+			item.fishingPole = 75;
+			item.shootSpeed = 20f;
+			item.shoot = ModContent.ProjectileType<EaterofShoalsBobber>();
+            item.value = Item.buyPrice(1, 80, 0, 0);
             item.rare = 10;
-            item.Calamity().postMoonLordRarity = 12;
+            item.Calamity().postMoonLordRarity = 14;
+			ItemID.Sets.CanFishInLava[item.type] = true;
         }
 
 		public override void HoldItem(Player player)
@@ -41,11 +42,15 @@ namespace CalamityMod.Items.Fishing
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            for (int index = 0; index < 6; ++index)
+            for (int index = 0; index < 10; ++index)
             {
                 float SpeedX = speedX + (float)Main.rand.Next(-75, 76) * 0.05f;
                 float SpeedY = speedY + (float)Main.rand.Next(-75, 76) * 0.05f;
                 int linecolor = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, 0, 0f, player.whoAmI, 0.0f, 0.0f);
+				if (Main.rand.NextBool(2)) //randomizing line color
+				{
+					Main.projectile[linecolor].Calamity().lineColor = true;
+				}
             }
             return false;
         }
@@ -53,8 +58,14 @@ namespace CalamityMod.Items.Fishing
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.WoodFishingPole); //wood -> fossilized wood
-            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 12);
+            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 5);
+            recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+            recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 12);
+            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 5);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

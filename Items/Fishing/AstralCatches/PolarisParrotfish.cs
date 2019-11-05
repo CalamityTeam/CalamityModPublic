@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Items.Fishing
+namespace CalamityMod.Items.Fishing.AstralCatches
 {
     public class PolarisParrotfish : ModItem
     {
