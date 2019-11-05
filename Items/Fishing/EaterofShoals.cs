@@ -49,7 +49,7 @@ namespace CalamityMod.Items.Fishing
                 int linecolor = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, 0, 0f, player.whoAmI, 0.0f, 0.0f);
 				if (Main.rand.NextBool(2)) //randomizing line color
 				{
-					Main.projectile[linecolor].localAI[1] = 1;
+					Main.projectile[linecolor].Calamity().lineColor = true;
 				}
             }
             return false;

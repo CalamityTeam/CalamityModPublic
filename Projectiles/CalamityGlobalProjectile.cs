@@ -55,6 +55,8 @@ namespace CalamityMod.Projectiles
         // Counters and Timers
         private int counter = 0;
         private int counter2 = 0;
+		
+        public bool lineColor = false; //holy mother of god, Eater of Shoals was a pain in the ass
 
         #region SetDefaults
         public override void SetDefaults(Projectile projectile)
