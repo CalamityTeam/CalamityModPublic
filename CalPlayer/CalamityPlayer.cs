@@ -13,7 +13,6 @@ using CalamityMod.Items.Accessories.Vanity;
 using CalamityMod.Items.DifficultyItems;
 using CalamityMod.Items.Fishing;
 using CalamityMod.Items.Fishing.AstralCatches;
-using CalamityMod.Items.Fishing.SunkenSeaCatches;
 using CalamityMod.Items.Fishing.FishingRods;
 using CalamityMod.Items.Mounts;
 using CalamityMod.Items.Pets;
