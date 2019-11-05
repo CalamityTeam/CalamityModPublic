@@ -57,12 +57,7 @@ namespace CalamityMod.NPCs
 
             if (CalamityWorld.revenge)
             {
-				if (npc.type == NPCID.MoonLordCore)
-				{
-					return MoonLordLoot(npc);
-				}
-
-                if (npc.type == NPCID.Probe || npc.type == NPCID.ServantofCthulhu)
+                if (npc.type == NPCID.Probe || npc.type == NPCID.ServantofCthulhu || npc.type == NPCID.MoonLordCore)
                 {
                     return false;
                 }
@@ -694,102 +689,6 @@ namespace CalamityMod.NPCs
 
             return hurtByAbyss;
         }
-		#endregion
-
-		#region Moon Lord Loot
-		private bool MoonLordLoot(NPC npc)
-		{
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeMoonLord>(), true, !NPC.downedMoonlord);
-			DropHelper.DropResidentEvilAmmo(npc, NPC.downedMoonlord, 5, 2, 1);
-
-			string key = "Mods.CalamityMod.MoonBossText";
-			Color messageColor = Color.Orange;
-			string key2 = "Mods.CalamityMod.MoonBossText2";
-			Color messageColor2 = Color.Violet;
-			string key3 = "Mods.CalamityMod.MoonBossText3";
-			Color messageColor3 = Color.Crimson;
-			string key4 = "Mods.CalamityMod.ProfanedBossText2";
-			Color messageColor4 = Color.Cyan;
-			string key5 = "Mods.CalamityMod.FutureOreText";
-			Color messageColor5 = Color.LightGray;
-
-			// Spawn Exodium and send messages about Providence, Bloodstone, Phantoplasm, etc. if ML has not been killed yet
-			if (!NPC.downedMoonlord)
-			{
-				WorldGenerationMethods.SpawnOre(ModContent.TileType<ExodiumOre>(), 12E-05, .01f, .07f);
-
-				if (Main.netMode == NetmodeID.SinglePlayer)
-				{
-					Main.NewText(Language.GetTextValue(key), messageColor);
-					Main.NewText(Language.GetTextValue(key2), messageColor2);
-					Main.NewText(Language.GetTextValue(key3), messageColor3);
-					Main.NewText(Language.GetTextValue(key4), messageColor4);
-					Main.NewText(Language.GetTextValue(key5), messageColor5);
-				}
-				else if (Main.netMode == NetmodeID.Server)
-				{
-					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key2), messageColor2);
-					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key3), messageColor3);
-					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key4), messageColor4);
-					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key5), messageColor5);
-				}
-			}
-
-			if (CalamityWorld.armageddon)
-			{
-				ArmageddonLoot(npc);
-			}
-
-			if (Main.netMode != NetmodeID.Server)
-			{
-				if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
-				{
-					Main.player[Main.myPlayer].Calamity().adrenaline = 0;
-				}
-			}
-
-			ArmorSetLoot(npc);
-			BossLoot(npc);
-
-			NPC.downedMoonlord = true;
-			NPC.LunarApocalypseIsUp = false;
-
-			npc.DropBossBags();
-
-			if (Main.rand.NextBool(10))
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 3595, 1, false, 0, false, false);
-			}
-
-			int stack = Main.rand.Next(5, 16);
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 499, stack, false, 0, false, false);
-
-			int num70 = Main.rand.Next(5) + 5;
-			for (int num71 = 0; num71 < num70; num71++)
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 58, 1, false, 0, false, false);
-			}
-
-			if (Main.netMode == 0)
-			{
-				Main.NewText(Language.GetTextValue("Announcement.HasBeenDefeated_Single", Language.GetTextValue("Enemies.MoonLord")), 175, 75, 255, false);
-			}
-			else if (Main.netMode == 2)
-			{
-				NetMessage.BroadcastChatMessage(NetworkText.FromKey("Announcement.HasBeenDefeated_Single", new object[]
-				{
-							NetworkText.FromKey("Enemies.MoonLord", new object[0])
-				}), new Color(175, 75, 255), -1);
-			}
-
-			if (Main.netMode == 2)
-			{
-				NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-			}
-
-			return false;
-		}
 		#endregion
 
 		#region NPCLoot

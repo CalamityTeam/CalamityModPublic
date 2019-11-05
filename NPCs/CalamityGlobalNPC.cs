@@ -2707,11 +2707,11 @@ namespace CalamityMod.NPCs
 			if (player.Calamity().chaosCandle)
 			{
 				spawnRate = (int)(spawnRate * 0.6);
-				maxSpawns = (int)(maxSpawns * 2f);
+				maxSpawns = (int)(maxSpawns * 2.5f);
 			}
 			if (player.Calamity().zerg)
             {
-                spawnRate = (int)(spawnRate * 0.5);
+                spawnRate = (int)(spawnRate * 0.33);
                 maxSpawns = (int)(maxSpawns * 5f);
             }
 
@@ -2733,8 +2733,8 @@ namespace CalamityMod.NPCs
             }
 			if (player.Calamity().zen || (Config.DisableExpertEnemySpawnsNearHouse && player.townNPCs > 1f && Main.expertMode))
 			{
-				spawnRate = (int)(spawnRate * 1.5);
-				maxSpawns = (int)(maxSpawns * 0.01f);
+				spawnRate = (int)(spawnRate * 1.66);
+				maxSpawns = (int)(maxSpawns * 0.3f);
 			}
 			if (player.Calamity().bossZen || CalamityWorld.DoGSecondStageCountdown >= 0)
 			{

@@ -1,10 +1,14 @@
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.Projectiles.Boss;
+using CalamityMod.Items.LoreItems;
+using CalamityMod.Tiles.Ores;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.DataStructures;
+using Terraria.Localization;
 using Terraria.GameContent.Events;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -3102,10 +3106,10 @@ namespace CalamityMod.NPCs
             float distance = Vector2.Distance(Main.player[npc.target].Center, npc.Center);
 
             // Despawn
-            if (Main.player[npc.target].dead || distance > (CalamityWorld.bossRushActive ? 6000f : 2000f))
+            if (Main.player[npc.target].dead || distance > (CalamityWorld.bossRushActive ? 6000f : 4000f))
             {
                 npc.TargetClosest(true);
-                if (Main.player[npc.target].dead || distance > (CalamityWorld.bossRushActive ? 6000f : 2000f))
+                if (Main.player[npc.target].dead || distance > (CalamityWorld.bossRushActive ? 6000f : 4000f))
                     npc.ai[1] = 3f;
             }
 
@@ -11955,6 +11959,23 @@ namespace CalamityMod.NPCs
                         npc.life = 0;
                         npc.HitEffect(0, 1337.0);
                         npc.checkDead();
+						MoonLordLoot(npc);
+
+						for (int num1174 = 0; num1174 < 200; num1174++)
+						{
+							NPC nPC5 = Main.npc[num1174];
+							if (nPC5.active && (nPC5.type == NPCID.MoonLordHand || nPC5.type == NPCID.MoonLordHead))
+							{
+								nPC5.active = false;
+								if (Main.netMode != NetmodeID.MultiplayerClient)
+									NetMessage.SendData(23, -1, -1, null, nPC5.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+							}
+						}
+
+						npc.active = false;
+						if (Main.netMode != NetmodeID.MultiplayerClient)
+							NetMessage.SendData(23, -1, -1, null, npc.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+
 						return false;
                     }
                 }
@@ -12825,10 +12846,102 @@ namespace CalamityMod.NPCs
             }
             return false;
         }
-        #endregion
 
-        #region Buffed Mothron AI
-        public static bool BuffedMothronAI(NPC npc)
+		#region Moon Lord Loot
+		private static void MoonLordLoot(NPC npc)
+		{
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeMoonLord>(), true, !NPC.downedMoonlord);
+			DropHelper.DropResidentEvilAmmo(npc, NPC.downedMoonlord, 5, 2, 1);
+
+			string key = "Mods.CalamityMod.MoonBossText";
+			Color messageColor = Color.Orange;
+			string key2 = "Mods.CalamityMod.MoonBossText2";
+			Color messageColor2 = Color.Violet;
+			string key3 = "Mods.CalamityMod.MoonBossText3";
+			Color messageColor3 = Color.Crimson;
+			string key4 = "Mods.CalamityMod.ProfanedBossText2";
+			Color messageColor4 = Color.Cyan;
+			string key5 = "Mods.CalamityMod.FutureOreText";
+			Color messageColor5 = Color.LightGray;
+
+			// Spawn Exodium and send messages about Providence, Bloodstone, Phantoplasm, etc. if ML has not been killed yet
+			if (!NPC.downedMoonlord)
+			{
+				WorldGenerationMethods.SpawnOre(ModContent.TileType<ExodiumOre>(), 12E-05, .01f, .07f);
+
+				if (Main.netMode == NetmodeID.SinglePlayer)
+				{
+					Main.NewText(Language.GetTextValue(key), messageColor);
+					Main.NewText(Language.GetTextValue(key2), messageColor2);
+					Main.NewText(Language.GetTextValue(key3), messageColor3);
+					Main.NewText(Language.GetTextValue(key4), messageColor4);
+					Main.NewText(Language.GetTextValue(key5), messageColor5);
+				}
+				else if (Main.netMode == NetmodeID.Server)
+				{
+					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key2), messageColor2);
+					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key3), messageColor3);
+					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key4), messageColor4);
+					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key5), messageColor5);
+				}
+			}
+
+			if (CalamityWorld.armageddon)
+			{
+				DropHelper.DropArmageddonBags(npc);
+			}
+
+			if (Main.netMode != NetmodeID.Server)
+			{
+				if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
+				{
+					Main.player[Main.myPlayer].Calamity().adrenaline = 0;
+				}
+			}
+
+			NPC.downedMoonlord = true;
+			NPC.LunarApocalypseIsUp = false;
+
+			npc.DropBossBags();
+
+			if (Main.rand.NextBool(10))
+			{
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 3595, 1, false, 0, false, false);
+			}
+
+			int stack = Main.rand.Next(5, 16);
+			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 499, stack, false, 0, false, false);
+
+			int num70 = Main.rand.Next(5) + 5;
+			for (int num71 = 0; num71 < num70; num71++)
+			{
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 58, 1, false, 0, false, false);
+			}
+
+			if (Main.netMode == NetmodeID.SinglePlayer)
+			{
+				Main.NewText(Language.GetTextValue("Announcement.HasBeenDefeated_Single", Language.GetTextValue("Enemies.MoonLord")), 175, 75, 255, false);
+			}
+			else if (Main.netMode == NetmodeID.Server)
+			{
+				NetMessage.BroadcastChatMessage(NetworkText.FromKey("Announcement.HasBeenDefeated_Single", new object[]
+				{
+							NetworkText.FromKey("Enemies.MoonLord", new object[0])
+				}), new Color(175, 75, 255), -1);
+			}
+
+			if (Main.netMode == NetmodeID.Server)
+			{
+				NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
+			}
+		}
+		#endregion
+
+		#endregion
+
+		#region Buffed Mothron AI
+		public static bool BuffedMothronAI(NPC npc)
         {
             npc.noTileCollide = false;
             npc.noGravity = true;
