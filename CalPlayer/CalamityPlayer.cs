@@ -4637,6 +4637,49 @@ namespace CalamityMod.CalPlayer
                 {
                 }
             }
+            if (player.inventory[player.selectedItem].type == ModContent.ItemType<NavyFishingRod>() && player.ownedProjectileCounts[ModContent.ProjectileType<NavyBobber>()] != 0)
+            {
+				int auraCounter = 0;
+				float num2 = 200f;
+				bool flag = auraCounter % 60 == 0;
+				int num3 = 10;
+				int random = Main.rand.Next(15);
+				if (player.whoAmI == Main.myPlayer)
+				{
+					if (random == 0)
+					{
+						for (int l = 0; l < 200; l++)
+						{
+							NPC nPC = Main.npc[l];
+							if (nPC.active && !nPC.friendly && nPC.damage > 0 && !nPC.dontTakeDamage && Vector2.Distance(player.Center, nPC.Center) <= num2)
+							{
+								if (flag)
+								{
+									nPC.StrikeNPC(num3, 0f, 0, false, false, false);
+									if (Main.netMode != NetmodeID.SinglePlayer)
+									{
+										NetMessage.SendData(28, -1, -1, null, l, (float)num3, 0f, 0f, 0, 0, 0);
+									}
+									Vector2 value15 = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
+									while (value15.X == 0f && value15.Y == 0f)
+									{
+										value15 = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
+									}
+									value15.Normalize();
+									value15 *= (float)Main.rand.Next(30, 61) * 0.1f;
+									int num17 = Projectile.NewProjectile(nPC.Center.X, nPC.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<EutrophicSpark>(), 5, 0f, player.whoAmI, 0f, 0f);
+									Main.projectile[num17].melee = false;
+									Main.projectile[num17].localNPCHitCooldown = -1;
+								}
+							}
+						}
+					}
+				}
+				auraCounter++;
+				if (auraCounter >= 180)
+				{
+				}
+			}
             if (brimstoneElementalLore && player.inferno)
             {
                 int num = ModContent.BuffType<BrimstoneFlames>();
