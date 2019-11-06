@@ -3272,7 +3272,7 @@ namespace CalamityMod.NPCs
             // Skull shooting
             if (handsDead && npc.ai[1] == 0f)
             {
-                float num158 = 75f;
+                float num158 = phase2 ? 60f : 75f;
                 if (Main.netMode != NetmodeID.MultiplayerClient && calamityGlobalNPC.newAI[1] >= num158)
                 {
 					calamityGlobalNPC.newAI[1] = 0f;
@@ -3282,7 +3282,7 @@ namespace CalamityMod.NPCs
                     float num161 = (float)Math.Sqrt((double)(num159 * num159 + num160 * num160));
                     if (Collision.CanHit(vector18, 1, 1, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
                     {
-                        float num162 = 4f;
+                        float num162 = phase2 ? 5f : 4f;
                         if (CalamityWorld.bossRushActive)
                             num162 *= 1.5f;
 
@@ -3399,8 +3399,10 @@ namespace CalamityMod.NPCs
 
                 // Increase speed while charging
                 npc.damage = (int)((double)npc.defDamage * 1.3);
-                float num176 = (CalamityWorld.bossRushActive ? 10f : 4f) + (1f * (1f - lifeRatio));
-                if (enraged || configBossRushBoost)
+                float num176 = CalamityWorld.bossRushActive ? 10f : 4.5f;
+				if (handsDead)
+					num176 += 1f * (1f - lifeRatio);
+				if (enraged || configBossRushBoost)
                     num176 += 3f;
 
                 if (num175 > 150f)
