@@ -47,8 +47,8 @@ namespace CalamityMod.Items.SummonItems
                 NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
             }
             NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<DevourerofGodsHead>());
-            Main.PlaySound(SoundID.Roar, player.position, 0);
-            return true;
+			Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DevourerSpawn"), (int)player.position.X, (int)player.position.Y);
+			return true;
         }
 
         public override void AddRecipes()

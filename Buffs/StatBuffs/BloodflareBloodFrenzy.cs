@@ -8,7 +8,7 @@ namespace CalamityMod.Buffs.StatBuffs
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Blood Frenzy");
-            Description.SetDefault("Contact damage is being reduced");
+            Description.SetDefault("Contact damage is reduced and melee stats are greatly increased");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = false;
