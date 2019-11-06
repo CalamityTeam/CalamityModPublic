@@ -53,7 +53,12 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.netUpdate = true;
                 return;
             }
-            int choice = (int)projectile.ai[1];
+			int choice = (int)projectile.ai[1];
+			if (projectile.soundDelay <= 0 && (choice == 0 || choice == 2))
+			{
+				projectile.soundDelay = 420;
+				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/BrimstoneMonsterDrone"), (int)projectile.Center.X, (int)projectile.Center.Y);
+			}
             if (projectile.localAI[0] == 0f)
             {
                 projectile.localAI[0] += 1f;

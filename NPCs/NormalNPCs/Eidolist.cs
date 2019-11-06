@@ -42,7 +42,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.noGravity = true;
             npc.noTileCollide = false;
             npc.HitSound = SoundID.NPCHit13;
-            npc.DeathSound = SoundID.NPCDeath59;
+            npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/EidolistDeath");
             npc.timeLeft = NPC.activeTime * 2;
             banner = npc.type;
             bannerItem = ModContent.ItemType<EidolistBanner>();

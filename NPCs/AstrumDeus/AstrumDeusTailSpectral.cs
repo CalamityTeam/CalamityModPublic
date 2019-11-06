@@ -243,7 +243,8 @@ namespace CalamityMod.NPCs.AstrumDeus
 			{
 				damage = (int)((double)damage * 0.1);
 			}
-			else if (projectile.type == ModContent.ProjectileType<RainBolt>() || projectile.type == ModContent.ProjectileType<AtlantisSpear2>() || projectile.type == ModContent.ProjectileType<MalachiteBolt>())
+			else if (projectile.type == ModContent.ProjectileType<BigNuke>() || projectile.type == ModContent.ProjectileType<RainBolt>() ||
+				projectile.type == ModContent.ProjectileType<AtlantisSpear2>() || projectile.type == ModContent.ProjectileType<MalachiteBolt>())
 			{
 				damage = (int)((double)damage * 0.2);
 			}
@@ -254,10 +255,6 @@ namespace CalamityMod.NPCs.AstrumDeus
 			else if (projectile.type == ModContent.ProjectileType<SpikecragSpike>())
 			{
 				damage = (int)((double)damage * 0.5);
-			}
-			else if (projectile.type == ModContent.ProjectileType<BigNuke>())
-			{
-				damage = (int)((double)damage * 0.3);
 			}
 
 			if (projectile.penetrate == -1 && !projectile.minion)

@@ -92,8 +92,8 @@ namespace CalamityMod.NPCs.Providence
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/ProvidenceTheme");
             else
                 music = MusicID.LunarBoss;
-            npc.HitSound = SoundID.NPCHit44;
-            npc.DeathSound = SoundID.NPCDeath46;
+            npc.HitSound = mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/ProvidenceHurt");
+            npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/ProvidenceDeath");
             bossBag = ModContent.ItemType<ProvidenceBag>();
         }
 
@@ -1008,10 +1008,13 @@ namespace CalamityMod.NPCs.Providence
                 {
                     if (npc.ai[2] == 120f)
                     {
-                        if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, vector) < 2800f)
-                            Main.PlaySound(29, (int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y, 104, 1f, 0f);
+						if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, vector) < 2800f)
+						{
+							Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ProvidenceHolyRay"),
+								(int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y);
+						}
 
-                        if (Main.netMode != NetmodeID.MultiplayerClient)
+						if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
                             npc.TargetClosest(false);
 

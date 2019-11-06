@@ -34,31 +34,21 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.buffImmune[BuffID.CursedInferno] = false;
             npc.lavaImmune = true;
             npc.value = Item.buyPrice(0, 0, 50, 0);
-            npc.HitSound = SoundID.NPCHit23;
-            npc.DeathSound = SoundID.NPCDeath26;
+            npc.HitSound = mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/ScornHurt");
+            npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/ScornDeath");
             banner = npc.type;
             bannerItem = ModContent.ItemType<ScornEaterBanner>();
         }
 
         public override void AI()
         {
-            if (npc.ai[0] == 0f)
-            {
-                npc.TargetClosest(true);
-                if (Main.netMode != NetmodeID.MultiplayerClient)
-                {
-                    if (npc.velocity.X != 0f || npc.velocity.Y < 0f || (double)npc.velocity.Y > 0.9)
-                    {
-                        npc.ai[0] = 1f;
-                        npc.netUpdate = true;
-                        return;
-                    }
-                    npc.ai[0] = 1f;
-                    npc.netUpdate = true;
-                    return;
-                }
-            }
-            else if (npc.velocity.Y == 0f)
+			npc.TargetClosest(true);
+			if ((Main.player[npc.target].position.Y > npc.position.Y + (float)npc.height && npc.velocity.Y > 0f) || (Main.player[npc.target].position.Y < npc.position.Y + (float)npc.height && npc.velocity.Y < 0f))
+				npc.noTileCollide = true;
+			else
+				npc.noTileCollide = false;
+
+			if (npc.velocity.Y == 0f)
             {
                 npc.ai[2] += 1f;
                 int num321 = 20;
@@ -72,7 +62,6 @@ namespace CalamityMod.NPCs.NormalNPCs
                     return;
                 }
                 npc.ai[2] = 0f;
-                npc.TargetClosest(true);
                 if (npc.direction == 0)
                 {
                     npc.direction = -1;
@@ -83,20 +72,30 @@ namespace CalamityMod.NPCs.NormalNPCs
                 if (npc.ai[3] >= 4f)
                 {
                     npc.ai[3] = 0f;
-                    if (npc.ai[1] == 2f)
+					npc.noTileCollide = true;
+					if (npc.ai[1] == 2f)
                     {
                         npc.velocity.X = (float)npc.direction * 15f;
-                        npc.velocity.Y = -12f;
+
+						if (Main.player[npc.target].position.Y < npc.position.Y + (float)npc.height)
+							npc.velocity.Y = -12f;
+						else
+							npc.velocity.Y = 12f;
+
                         npc.ai[1] = 0f;
                     }
                     else
                     {
                         npc.velocity.X = (float)npc.direction * 21f;
-                        npc.velocity.Y = -6f;
+
+						if (Main.player[npc.target].position.Y < npc.position.Y + (float)npc.height)
+							npc.velocity.Y = -6f;
+						else
+							npc.velocity.Y = 12f;
                     }
-                }
+					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ScornJump"), (int)npc.Center.X, (int)npc.Center.Y);
+				}
                 npc.netUpdate = true;
-                return;
             }
             else
             {
@@ -108,7 +107,6 @@ namespace CalamityMod.NPCs.NormalNPCs
                 if (npc.direction == -1 && npc.velocity.X > -1f)
                 {
                     npc.velocity.X = npc.velocity.X - 0.1f;
-                    return;
                 }
             }
         }

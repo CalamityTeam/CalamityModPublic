@@ -36,8 +36,8 @@ namespace CalamityMod.Items.SummonItems
         public override bool UseItem(Player player)
         {
             NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Providence>());
-            Main.PlaySound(SoundID.Roar, player.position, 0);
-            return true;
+			Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ProvidenceSpawn"), (int)player.position.X, (int)player.position.Y);
+			return true;
         }
     }
 }
