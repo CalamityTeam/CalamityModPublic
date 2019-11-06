@@ -7495,7 +7495,7 @@ namespace CalamityMod.CalPlayer
 				
 				if ((player.ZoneCrimson || player.ZoneCorrupt) && player.ZoneRockLayerHeight)
 				{
-					if (Main.rand.NextBool(10))
+					if (Main.rand.NextBool(15))
 					{
 						caughtType = ModContent.ItemType<FishofNight>();
 					}
@@ -7503,7 +7503,7 @@ namespace CalamityMod.CalPlayer
 				
 				if (player.ZoneHoly && player.ZoneRockLayerHeight)
 				{
-					if (Main.rand.NextBool(10))
+					if (Main.rand.NextBool(15))
 					{
 						caughtType = ModContent.ItemType<FishofLight>();
 					}

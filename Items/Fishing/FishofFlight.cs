@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Fishing
 
         public override void RightClick(Player player)
         {
-            DropHelper.DropItem(player, ItemID.SoulofFlight, 5, 10);
+            DropHelper.DropItem(player, ItemID.SoulofFlight, 2, 5);
         }
     }
 }

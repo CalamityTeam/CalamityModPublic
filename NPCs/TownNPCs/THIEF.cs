@@ -243,13 +243,13 @@ namespace CalamityMod.NPCs.TownNPCs
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 60, 0, 0);
                 nextSlot++;
             }
-            /*if (NPC.downedMechBoss1 || NPC.downedMechBoss2 || NPC.downedMechBoss3)
+            if (NPC.downedMechBoss1 || NPC.downedMechBoss2 || NPC.downedMechBoss3)
 			{
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<BouncingBetty>());
 				nextSlot++;
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.LatcherMines>());
-				nextSlot++;
-            }*/
+                /*shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.LatcherMines>());
+				nextSlot++;*/
+            }
             if (NPC.downedPlantBoss)
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<MonkeyDarts>());
