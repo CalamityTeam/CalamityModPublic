@@ -6,7 +6,7 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using CalamityMod.Items.Placeables;
-namespace CalamityMod.Items.Fishing
+namespace CalamityMod.Items.Fishing.FishingRods
 {
     public class NavyFishingRod : ModItem
     {
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Fishing
 			item.useTime = 8;
 			item.useStyle = 1;
 			item.UseSound = SoundID.Item1;
-			item.fishingPole = 25;
+			item.fishingPole = 20;
 			item.shootSpeed = 13f;
 			item.shoot = ModContent.ProjectileType<NavyBobber>();
             item.value = Item.buyPrice(0, 2, 0, 0);

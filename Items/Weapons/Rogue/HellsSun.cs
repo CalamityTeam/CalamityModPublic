@@ -51,8 +51,15 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             if (player.altFunctionUse == 2)
             {
-				return true;
-			}
+                if (player.ownedProjectileCounts[item.shoot] > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
 			else
 			{
 				int UseMax = item.stack - 1;

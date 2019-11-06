@@ -7,11 +7,15 @@ using Terraria.ModLoader;
 using CalamityMod.Items.Fishing.FishingRods;
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class FeralDoubleBobber : ModProjectile
+    public class DevourerofCodsBobber : ModProjectile
     {
+        private static int red = 252;
+        private static int green = 109;
+        private static int blue = 202;
+		
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Feral Bobber");
+			DisplayName.SetDefault("Devourer of Cods Bobber");
 		}
 		
         public override void SetDefaults()
@@ -23,10 +27,17 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.bobber = true;
             projectile.penetrate = -1;
         }
+
+		//fuck glowmasks btw
+        /*public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            Vector2 origin = new Vector2(6.5f, 6.5f);
+            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Typeless/DevourerofCodsGlow"), projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
+        }*/
 		
         public override bool PreDrawExtras(SpriteBatch spriteBatch)
         {
-            Lighting.AddLight(projectile.Center, 0f, 0.25f, 0f);
+            Lighting.AddLight(projectile.Center, 0.35f, 0f, 0.25f);
 			
             Player player = Main.player[projectile.owner];
             if (projectile.bobber && Main.player[projectile.owner].inventory[Main.player[projectile.owner].selectedItem].holdStyle > 0)
@@ -37,7 +48,7 @@ namespace CalamityMod.Projectiles.Typeless
                 int type = Main.player[projectile.owner].inventory[Main.player[projectile.owner].selectedItem].type;
                 float gravDir = Main.player[projectile.owner].gravDir;
  
-                if (type == ModContent.ItemType<FeralDoubleRod>())
+                if (type == ModContent.ItemType<TheDevourerofCods>())
                 {
                     pPosX += (float)(45 * Main.player[projectile.owner].direction);
                     if (Main.player[projectile.owner].direction < 0)
@@ -141,8 +152,20 @@ namespace CalamityMod.Projectiles.Typeless
                             }
                         }
                         rotation2 = (float)Math.Atan2((double)projPosY, (double)projPosX) - 1.57f;
-                        Microsoft.Xna.Framework.Color color2 = Lighting.GetColor((int)value.X / 16, (int)(value.Y / 16f), new Microsoft.Xna.Framework.Color(220, 20, 60, 100)); //crimson
- 
+
+						if (projectile.Calamity().lineColor == true) //pink line
+						{
+							red = 252;
+							green = 109;
+							blue = 202;
+						}
+						else //blue line
+						{
+							red = 39;
+							green = 151;
+							blue = 171;
+						}
+						Microsoft.Xna.Framework.Color color2 = Lighting.GetColor((int)value.X / 16, (int)(value.Y / 16f), new Microsoft.Xna.Framework.Color(red, green, blue, 100));
                         Main.spriteBatch.Draw(Main.fishingLineTexture, new Vector2(value.X - Main.screenPosition.X + (float)Main.fishingLineTexture.Width * 0.5f, value.Y - Main.screenPosition.Y + (float)Main.fishingLineTexture.Height * 0.5f), new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, 0, Main.fishingLineTexture.Width, (int)num)), color2, rotation2, new Vector2((float)Main.fishingLineTexture.Width * 0.5f, 0f), 1f, SpriteEffects.None, 0f);
                     }
                 }

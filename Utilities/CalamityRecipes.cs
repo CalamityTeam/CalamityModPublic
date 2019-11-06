@@ -1,6 +1,6 @@
 ﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Accessories.Wings;
-using CalamityMod.Items.Fishing;
+using CalamityMod.Items.Fishing.AstralCatches;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Weapons.Melee;

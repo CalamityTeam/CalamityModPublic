@@ -12,6 +12,8 @@ using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Accessories.Vanity;
 using CalamityMod.Items.DifficultyItems;
 using CalamityMod.Items.Fishing;
+using CalamityMod.Items.Fishing.AstralCatches;
+using CalamityMod.Items.Fishing.FishingRods;
 using CalamityMod.Items.Mounts;
 using CalamityMod.Items.Pets;
 using CalamityMod.Items.Placeables;
@@ -7490,6 +7492,38 @@ namespace CalamityMod.CalPlayer
 						caughtType = ModContent.ItemType<TwinklingPollox>();
 					}
 				}
+				
+				if ((player.ZoneCrimson || player.ZoneCorrupt) && player.ZoneRockLayerHeight)
+				{
+					if (Main.rand.NextBool(10))
+					{
+						caughtType = ModContent.ItemType<FishofNight>();
+					}
+				}
+				
+				if (player.ZoneHoly && player.ZoneRockLayerHeight)
+				{
+					if (Main.rand.NextBool(10))
+					{
+						caughtType = ModContent.ItemType<FishofLight>();
+					}
+				}
+				
+				if (player.ZoneSkyHeight)
+				{
+					if (Main.rand.NextBool(15))
+					{
+						caughtType = ModContent.ItemType<FishofFlight>();
+					}
+				}
+				
+				if (player.ZoneOverworldHeight && !Main.dayTime)
+				{
+					if (Main.rand.NextBool(10))
+					{
+						caughtType = ModContent.ItemType<EnchantedStarfish>();
+					}
+				}
 
 				if (junk)
 				{
@@ -7577,6 +7611,8 @@ namespace CalamityMod.CalPlayer
             if ((ZoneAstral || ZoneAbyss || ZoneSulphur) && bait.type == ModContent.ItemType<ArcturusAstroidean>())
                 fishingLevel = (int)(fishingLevel * 1.1f);
             if (Main.player[Main.myPlayer].ZoneSnow && fishingRod.type == ModContent.ItemType<VerstaltiteFishingRod>())
+                fishingLevel = (int)(fishingLevel * 1.1f);
+            if (Main.player[Main.myPlayer].ZoneSkyHeight && fishingRod.type == ModContent.ItemType<HeronRod>())
                 fishingLevel = (int)(fishingLevel * 1.1f);
         }
         #endregion

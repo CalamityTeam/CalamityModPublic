@@ -6,7 +6,7 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using CalamityMod.Items.Materials;
-namespace CalamityMod.Items.Fishing
+namespace CalamityMod.Items.Fishing.FishingRods
 {
     public class ChaoticSpreadRod : ModItem
     {
@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Fishing
         {
             DisplayName.SetDefault("Chaotic Spread Rod");
             Tooltip.SetDefault("Fires three to five lines at once. Can fish in lava.\n" +
-				"The battlefield is a scene of constant chaos.\n" +
+				"The battlefield is a scene of constant chaos.\n" + //Napoleon Bonaparte quote reference
 				"The winner will be the one who controls that chaos, both the pole and the fish.");
         }
 

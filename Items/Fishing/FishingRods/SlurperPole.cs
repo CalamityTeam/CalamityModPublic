@@ -6,14 +6,14 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using CalamityMod.Items.Materials;
-namespace CalamityMod.Items.Fishing
+namespace CalamityMod.Items.Fishing.FishingRods
 {
     public class SlurperPole : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Slurper Pole");
-            Tooltip.SetDefault("Can fish in lava.\n" +
+            Tooltip.SetDefault("Can fish in lava.\n" + //Charles Spurgeon quote
 				"It is the burning lava of the soul that has a furnace within--a very volcano of grief and sorrow.");
         }
 
