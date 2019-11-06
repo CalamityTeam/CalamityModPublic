@@ -3890,7 +3890,11 @@ namespace CalamityMod.CalPlayer
                 bool flag14 = false;
                 if (elysianGuard)
                 {
-                    float num29 = shieldInvinc;
+					if (player.whoAmI == Main.myPlayer)
+					{
+						player.AddBuff(ModContent.BuffType<ElysianGuard>(), 2, false);
+					}
+					float num29 = shieldInvinc;
                     shieldInvinc -= 0.08f;
                     if (shieldInvinc < 0f)
                     {
