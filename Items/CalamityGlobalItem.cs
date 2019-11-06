@@ -492,8 +492,8 @@ namespace CalamityMod.Items
                             tt2.overrideColor = new Color(255, Main.DiscoG, 155);
                         if (item.type == ModContent.ItemType<Vesuvius>())
                             tt2.overrideColor = new Color(255, Main.DiscoG, 0);
-                        /*if (item.type == ModContent.ItemType<SeasSearing>())
-                            tt2.overrideColor = new Color(60, Main.DiscoG, 190);*/
+                        if (item.type == ModContent.ItemType<SeasSearing>())
+                            tt2.overrideColor = new Color(60, Main.DiscoG, 190);
                         break;
                     case 18: //Fabstaff
                         tt2.overrideColor = new Color(Main.DiscoR, 100, 255);

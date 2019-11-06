@@ -57,6 +57,8 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItemChance(player, ModContent.ItemType<Downpour>(), 3);
             DropHelper.DropItemChance(player, ModContent.ItemType<DeepseaStaff>(), 3);
             DropHelper.DropItemChance(player, ModContent.ItemType<ScourgeoftheSeas>(), 3);
+            float searingChance = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : DropHelper.LegendaryDropRateFloat;
+            DropHelper.DropItemCondition(player, ModContent.ItemType<SeasSearing>(), CalamityWorld.revenge, searingChance);
 
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<AquaticEmblem>());

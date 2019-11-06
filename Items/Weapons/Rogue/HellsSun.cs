@@ -100,7 +100,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             return true;
         }
 
-        /*public override void AddRecipes()
+        public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
 
@@ -109,6 +109,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             r.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
-        }*/
+        }
     }
 }
