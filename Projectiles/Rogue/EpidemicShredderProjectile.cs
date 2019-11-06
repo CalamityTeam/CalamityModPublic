@@ -12,7 +12,9 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class EpidemicShredderProjectile : ModProjectile
     {
+		// This is never used
         bool justhit = false;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Epidemic Shredder");
@@ -52,6 +54,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Main.projectile[projIndex2].Calamity().forceRogue = true;
             }
         }
+
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             if (projectile.penetrate > 1)
@@ -74,8 +77,10 @@ namespace CalamityMod.Projectiles.Rogue
             }
             else
                 projectile.tileCollide = false;
+
             return false;
         }
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {        
             if (projectile.ai[0] == 0f)

@@ -106,7 +106,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
             recipe.AddIngredient(ItemID.SpikyBall, 100);
             recipe.AddIngredient(ModContent.ItemType<UnholyEssence>(), 10);
-            r.AddTile(TileID.LunarCraftingStation);
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

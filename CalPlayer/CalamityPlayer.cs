@@ -368,24 +368,25 @@ namespace CalamityMod.CalPlayer
         public bool statigelSet = false;
         public bool tarraSet = false;
         public bool tarraMelee = false;
-        public bool tarraDefense = false;
-        public int tarraCooldown = 0;
-        public int tarraDefenseTime = 600;
+        public bool tarragonCloak = false;
+        public bool tarragonCloakCooldown = false;
+		public int tarraDefenseTime = 600;
         public bool tarraMage = false;
         public int tarraMageHealCooldown = 0;
         public int tarraCrits = 0;
         public bool tarraRanged = false;
         public bool tarraThrowing = false;
-        public int tarraThrowingCrits = 0;
-        public int tarraThrowingCritTimer = 0;
+		public bool tarragonImmunityCooldown = false;
+		public bool tarragonImmunity = false;
+		public int tarraThrowingCrits = 0;
         public bool tarraSummon = false;
         public bool bloodflareSet = false;
         public bool bloodflareMelee = false;
-        public int bloodflareMeleeHits = 0;
-        public int bloodflareFrenzyTimer = 0;
-        public int bloodflareFrenzyCooldown = 0;
+		public bool bloodflareFrenzy = false;
+		public bool bloodFrenzyCooldown = false;
+		public int bloodflareMeleeHits = 0;
         public bool bloodflareRanged = false;
-        public int bloodflareRangedCooldown = 0;
+		public bool bloodflareSoulCooldown = false;
         public bool bloodflareThrowing = false;
         public bool bloodflareMage = false;
         public int bloodflareMageCooldown = 0;
@@ -1061,15 +1062,22 @@ namespace CalamityMod.CalPlayer
 
             tarraSet = false;
             tarraMelee = false;
+			tarragonCloak = false;
+			tarragonCloakCooldown = false;
             tarraMage = false;
             tarraRanged = false;
             tarraThrowing = false;
+			tarragonImmunity = false;
+			tarragonImmunityCooldown = false;
             tarraSummon = false;
 
             bloodflareSet = false;
             bloodflareMelee = false;
-            bloodflareRanged = false;
-            bloodflareThrowing = false;
+			bloodflareFrenzy = false;
+			bloodFrenzyCooldown = false;
+			bloodflareRanged = false;
+			bloodflareSoulCooldown = false;
+			bloodflareThrowing = false;
             bloodflareMage = false;
             bloodflareSummon = false;
 
@@ -1483,19 +1491,23 @@ namespace CalamityMod.CalPlayer
             statigelSet = false;
             tarraSet = false;
             tarraMelee = false;
+			tarragonCloak = false;
+			tarragonCloakCooldown = false;
+			tarraDefenseTime = 600;
             tarraMage = false;
             tarraRanged = false;
             tarraThrowing = false;
+			tarragonImmunity = false;
+			tarragonImmunityCooldown = false;
             tarraThrowingCrits = 0;
-            tarraThrowingCritTimer = 0;
             tarraSummon = false;
             bloodflareSet = false;
             bloodflareMelee = false;
-            bloodflareMeleeHits = 0;
-            bloodflareFrenzyTimer = 0;
-            bloodflareFrenzyCooldown = 0;
+			bloodflareFrenzy = false;
+			bloodFrenzyCooldown = false;
+			bloodflareMeleeHits = 0;
             bloodflareRanged = false;
-            bloodflareRangedCooldown = 0;
+			bloodflareSoulCooldown = false;
             bloodflareThrowing = false;
             bloodflareMage = false;
             bloodflareSummon = false;
@@ -1810,14 +1822,20 @@ namespace CalamityMod.CalPlayer
             }
             if (CalamityMod.TarraHotKey.JustPressed)
             {
-                if (tarraMelee && tarraCooldown <= 0)
+                if (tarraMelee && !tarragonCloakCooldown && !tarragonCloak)
                 {
-                    tarraDefense = true;
-                }
-                if (bloodflareRanged && bloodflareRangedCooldown <= 0)
+					if (player.whoAmI == Main.myPlayer)
+					{
+						player.AddBuff(ModContent.BuffType<TarragonCloak>(), 602, false);
+					}
+				}
+                if (bloodflareRanged && !bloodflareSoulCooldown)
                 {
-                    bloodflareRangedCooldown = 1800;
-                    Main.PlaySound(29, (int)player.position.X, (int)player.position.Y, 104);
+					if (player.whoAmI == Main.myPlayer)
+					{
+						player.AddBuff(ModContent.BuffType<BloodflareSoulCooldown>(), 1800, false);
+					}
+					Main.PlaySound(29, (int)player.position.X, (int)player.position.Y, 104);
                     for (int num502 = 0; num502 < 64; num502++)
                     {
                         int dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + 16f), player.width, player.height - 16, 60, 0f, 0f, 0, default, 1f);
@@ -2513,9 +2531,9 @@ namespace CalamityMod.CalPlayer
                             }
                         }
                     }
-                    if (player.immuneTime > (tarraThrowing ? 300 : 120))
+                    if (player.immuneTime > 120)
                     {
-                        player.immuneTime = tarraThrowing ? 300 : 120;
+                        player.immuneTime = 120;
                     }
                     if (Config.AdrenalineAndRage)
                     {
@@ -3176,6 +3194,7 @@ namespace CalamityMod.CalPlayer
                 aBulwarkRareMeleeBoostTimer--;
             if (bossRushImmunityFrameCurseTimer > 0)
                 bossRushImmunityFrameCurseTimer--;
+
             if (silvaCountdown > 0 && hasSilvaEffect && silvaSet)
             {
                 player.buffImmune[ModContent.BuffType<VulnerabilityHex>()] = true;
@@ -3201,60 +3220,70 @@ namespace CalamityMod.CalPlayer
                     }
                 }
             }
-            if (tarraMelee)
-            {
-                if (tarraDefense)
-                {
-                    tarraDefenseTime--;
-                    if (tarraDefenseTime <= 0)
-                    {
-                        tarraDefenseTime = 600;
-                        tarraCooldown = 1800;
-                        tarraDefense = false;
-                    }
-                    for (int j = 0; j < 2; j++)
-                    {
-                        int num = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 157, 0f, 0f, 100, new Color(Main.DiscoR, 203, 103), 2f);
-                        Dust expr_A4_cp_0 = Main.dust[num];
-                        expr_A4_cp_0.position.X += (float)Main.rand.Next(-20, 21);
-                        Dust expr_CB_cp_0 = Main.dust[num];
-                        expr_CB_cp_0.position.Y += (float)Main.rand.Next(-20, 21);
-                        Main.dust[num].velocity *= 0.9f;
-                        Main.dust[num].noGravity = true;
-                        Main.dust[num].scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
-                        Main.dust[num].shader = GameShaders.Armor.GetSecondaryShader(player.cWaist, player);
-                        if (Main.rand.NextBool(2))
-                        {
-                            Main.dust[num].scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
-                        }
-                    }
-                }
-                if (tarraCooldown > 0)
-                    tarraCooldown--;
-            }
+
+			if (tarragonCloak)
+			{
+				tarraDefenseTime--;
+				if (tarraDefenseTime <= 0)
+				{
+					tarraDefenseTime = 600;
+					if (player.whoAmI == Main.myPlayer)
+					{
+						player.AddBuff(ModContent.BuffType<TarragonCloakCooldown>(), 1800, false);
+					}
+				}
+				for (int j = 0; j < 2; j++)
+				{
+					int num = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 157, 0f, 0f, 100, new Color(Main.DiscoR, 203, 103), 2f);
+					Dust expr_A4_cp_0 = Main.dust[num];
+					expr_A4_cp_0.position.X += (float)Main.rand.Next(-20, 21);
+					Dust expr_CB_cp_0 = Main.dust[num];
+					expr_CB_cp_0.position.Y += (float)Main.rand.Next(-20, 21);
+					Main.dust[num].velocity *= 0.9f;
+					Main.dust[num].noGravity = true;
+					Main.dust[num].scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
+					Main.dust[num].shader = GameShaders.Armor.GetSecondaryShader(player.cWaist, player);
+					if (Main.rand.NextBool(2))
+					{
+						Main.dust[num].scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
+					}
+				}
+			}
+
             if (tarraThrowing)
             {
-                if (tarraThrowingCritTimer > 0)
-                {
-                    tarraThrowingCritTimer--;
-                }
+				if (tarragonImmunity)
+				{
+					player.immune = true;
+					player.immuneTime = 2;
+				}
+
                 if (tarraThrowingCrits >= 25)
                 {
                     tarraThrowingCrits = 0;
-                    tarraThrowingCritTimer = 1800;
-                    player.immune = true;
-                    player.immuneTime = 300;
+					if (player.whoAmI == Main.myPlayer)
+					{
+						player.AddBuff(ModContent.BuffType<TarragonImmunity>(), 300, false);
+					}
                 }
-                for (int l = 0; l < Player.MaxBuffs; l++)
+
+				for (int l = 0; l < Player.MaxBuffs; l++)
                 {
                     int hasBuff = player.buffType[l];
-                    bool shouldAffect = CalamityMod.debuffList.Contains(hasBuff);
+					if (player.buffTime[l] <= 2 && hasBuff == ModContent.BuffType<TarragonImmunity>())
+					{
+						if (player.whoAmI == Main.myPlayer)
+							player.AddBuff(ModContent.BuffType<TarragonImmunityCooldown>(), 1500, false);
+					}
+
+					bool shouldAffect = CalamityMod.debuffList.Contains(hasBuff);
                     if (shouldAffect)
                     {
                         player.Calamity().throwingDamage += 0.1f;
                     }
                 }
             }
+
             if (bloodflareSet)
             {
                 if (bloodflareHeartTimer > 0)
@@ -3262,20 +3291,29 @@ namespace CalamityMod.CalPlayer
                 if (bloodflareManaTimer > 0)
                     bloodflareManaTimer--;
             }
+
             if (bloodflareMelee)
             {
                 if (bloodflareMeleeHits >= 15)
                 {
                     bloodflareMeleeHits = 0;
-                    bloodflareFrenzyTimer = 300;
-                }
-                if (bloodflareFrenzyTimer > 0)
+					if (player.whoAmI == Main.myPlayer)
+					{
+						player.AddBuff(ModContent.BuffType<BloodflareBloodFrenzy>(), 302, false);
+					}
+				}
+
+                if (bloodflareFrenzy)
                 {
-                    bloodflareFrenzyTimer--;
-                    if (bloodflareFrenzyTimer <= 0)
-                    {
-                        bloodflareFrenzyCooldown = 1800;
-                    }
+					for (int l = 0; l < Player.MaxBuffs; l++)
+					{
+						int hasBuff = player.buffType[l];
+						if (player.buffTime[l] <= 2 && hasBuff == ModContent.BuffType<BloodflareBloodFrenzy>())
+						{
+							if (player.whoAmI == Main.myPlayer)
+								player.AddBuff(ModContent.BuffType<BloodflareBloodFrenzyCooldown>(), 1800, false);
+						}
+					}
                     player.meleeCrit += 25;
                     player.meleeDamage += 0.25f;
                     for (int j = 0; j < 2; j++)
@@ -3295,14 +3333,8 @@ namespace CalamityMod.CalPlayer
                         }
                     }
                 }
-                if (bloodflareFrenzyCooldown > 0)
-                    bloodflareFrenzyCooldown--;
             }
-            if (bloodflareRanged)
-            {
-                if (bloodflareRangedCooldown > 0)
-                    bloodflareRangedCooldown--;
-            }
+
             if (Main.raining && ZoneSulphur)
             {
                 if (player.ZoneOverworldHeight || player.ZoneSkyHeight)
@@ -6385,7 +6417,7 @@ namespace CalamityMod.CalPlayer
                 }
                 if (bloodflareMelee && item.melee)
                 {
-                    if (bloodflareMeleeHits < 15 && bloodflareFrenzyTimer <= 0 && bloodflareFrenzyCooldown <= 0)
+                    if (bloodflareMeleeHits < 15 && !bloodflareFrenzy && !bloodFrenzyCooldown)
                     {
                         bloodflareMeleeHits++;
                     }
@@ -6656,8 +6688,7 @@ namespace CalamityMod.CalPlayer
             {
                 tarraCrits++;
             }
-            if (tarraThrowing && tarraThrowingCritTimer <= 0 && tarraThrowingCrits < 25 && crit &&
-                proj.Calamity().rogue)
+            if (tarraThrowing && !tarragonImmunity && !tarragonImmunityCooldown && tarraThrowingCrits < 25 && crit && proj.Calamity().rogue)
             {
                 tarraThrowingCrits++;
             }
@@ -6776,7 +6807,7 @@ namespace CalamityMod.CalPlayer
                 }
                 if (bloodflareMelee && isTrueMelee)
                 {
-                    if (bloodflareMeleeHits < 15 && bloodflareFrenzyTimer <= 0 && bloodflareFrenzyCooldown <= 0)
+                    if (bloodflareMeleeHits < 15 && !bloodflareFrenzy && !bloodFrenzyCooldown)
                     {
                         bloodflareMeleeHits++;
                     }
@@ -6949,11 +6980,11 @@ namespace CalamityMod.CalPlayer
                 fleshTotemCooldown = 1200; //20 seconds
                 damage /= 2;
             }
-            if (tarraDefense && tarraMelee)
+            if (tarragonCloak && !tarragonCloakCooldown && tarraMelee)
             {
                 damage /= 2;
             }
-            if (bloodflareMelee && bloodflareFrenzyTimer > 0)
+            if (bloodflareMelee && bloodflareFrenzy && !bloodFrenzyCooldown)
             {
                 damage /= 2;
             }
