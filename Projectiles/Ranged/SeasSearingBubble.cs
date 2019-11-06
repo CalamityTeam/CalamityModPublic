@@ -89,7 +89,7 @@ namespace CalamityMod.Projectiles.Ranged
 			if (projectile.ai[0] == 1f)
 			{
 				int numWaterBlasts = 2;
-				int waterDamage = 150; //SeasSearing.BaseDamage / 2;
+				int waterDamage = SeasSearing.BaseDamage / 2;
 				float waterKB = 1f;
 				Player owner = Main.player[projectile.owner];
 				for (int i = 0; i < numWaterBlasts; ++i)
