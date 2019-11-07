@@ -61,14 +61,8 @@ namespace CalamityMod.Items.Weapons.Melee
             r.AddIngredient(ModContent.ItemType<BallOFugu>());
             r.AddIngredient(ModContent.ItemType<Tumbleweed>());
             r.AddIngredient(ModContent.ItemType<UrchinFlail>());
-            r.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
-            r.AddIngredient(ModContent.ItemType<Phantoplasm>(), 5);
-            r.AddIngredient(ModContent.ItemType<NightmareFuel>(), 5);
-            r.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 5);
-            r.AddIngredient(ModContent.ItemType<DarksunFragment>(), 5);
-            r.AddIngredient(ModContent.ItemType<HellcasterFragment>(), 10);
-            r.AddIngredient(ModContent.ItemType<AuricOre>(), 25);
-            r.AddRecipe();
+			r.AddIngredient(ModContent.ItemType<AuricBar>(), 8);
+			r.AddRecipe();
         }
     }
 }

@@ -26,13 +26,8 @@ namespace CalamityMod.Items.Materials
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 3);
-            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 3);
-            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 3);
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 3);
+            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 3);
             recipe.AddIngredient(ModContent.ItemType<CalamitousEssence>());
-            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>());
-            recipe.AddIngredient(ModContent.ItemType<HellcasterFragment>());
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this, 3);
             recipe.AddRecipe();

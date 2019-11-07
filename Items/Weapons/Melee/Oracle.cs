@@ -59,14 +59,8 @@ namespace CalamityMod.Items.Weapons.Melee
             r.AddIngredient(ModContent.ItemType<Chaotrix>());
             r.AddIngredient(ModContent.ItemType<Quagmire>());
             r.AddIngredient(ModContent.ItemType<Shimmerspark>());
-            r.AddIngredient(ModContent.ItemType<NightmareFuel>(), 5);
-            r.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 5);
-            r.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
-            r.AddIngredient(ModContent.ItemType<DarksunFragment>(), 5);
-            r.AddIngredient(ModContent.ItemType<Phantoplasm>(), 5);
-            r.AddIngredient(ModContent.ItemType<HellcasterFragment>(), 3);
-            r.AddIngredient(ModContent.ItemType<AuricOre>(), 25);
-            r.AddRecipe();
+			r.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
+			r.AddRecipe();
         }
     }
 }

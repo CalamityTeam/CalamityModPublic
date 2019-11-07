@@ -215,16 +215,8 @@ namespace CalamityMod.Items.Armor
             recipe.AddIngredient(ModContent.ItemType<GodSlayerHornedHelm>());
             recipe.AddIngredient(ModContent.ItemType<BloodflareHelmet>());
             recipe.AddIngredient(ModContent.ItemType<TarragonHornedHelm>());
-            recipe.AddIngredient(ModContent.ItemType<AuricOre>(), 60);
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 8);
-            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 6);
-            recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<HellcasterFragment>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>());
-            recipe.AddIngredient(ModContent.ItemType<PsychoticAmulet>());
+			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 10);
+			recipe.AddIngredient(ModContent.ItemType<PsychoticAmulet>());
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();
