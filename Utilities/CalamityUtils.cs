@@ -4,6 +4,7 @@ using CalamityMod.NPCs;
 using CalamityMod.Projectiles;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -268,6 +269,15 @@ namespace CalamityMod
                 }
             }
             return hitbox;
+        }
+        public static void DrawItemGlowmask(this Item item, SpriteBatch spriteBatch, int frameCount, float rotation, Texture2D glowmaskTexture)
+        {
+            Vector2 center = new Vector2((float)(Main.itemTexture[item.type].Width / 2), (float)(Main.itemTexture[item.type].Height / frameCount / 2));
+            Rectangle frame = Main.itemAnimations[item.type].GetFrame(glowmaskTexture);
+            Vector2 drawPosition = item.Center - Main.screenPosition;
+
+            spriteBatch.Draw(glowmaskTexture, drawPosition,
+                new Microsoft.Xna.Framework.Rectangle?(frame), Color.White, rotation, center, 1f, SpriteEffects.None, 0f);
         }
         #endregion
 
