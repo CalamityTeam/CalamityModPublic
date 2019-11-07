@@ -1,5 +1,5 @@
 ﻿using CalamityMod.Buffs.Potions;
-using CalamityMod.Items.Materials;
+using CalamityMod.Items.Fishing.SunkenSeaCatches;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Potions
             recipe.AddIngredient(ItemID.BottledWater);
             recipe.AddIngredient(ItemID.Feather);
             recipe.AddIngredient(ItemID.SoulofFlight);
-            recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>());
+            recipe.AddIngredient(ModContent.ItemType<SunkenSailfish>());
             recipe.AddTile(TileID.AlchemyTable);
             recipe.SetResult(this);
             recipe.AddRecipe();

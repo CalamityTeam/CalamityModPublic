@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Accessories.Wings;
 using CalamityMod.Items.Fishing.AstralCatches;
+using CalamityMod.Items.Fishing.SunkenSeaCatches;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Weapons.Melee;
@@ -85,13 +86,6 @@ namespace CalamityMod
             r.AddIngredient(ModContent.ItemType<LivingShard>());
             r.AddTile(TileID.MythrilAnvil);
             r.SetResult(ItemID.LifeFruit);
-            r.AddRecipe();
-
-            // Cooked Fish
-            r = GetNewRecipe();
-            r.AddIngredient(ModContent.ItemType<TwinklingPollox>());
-            r.AddTile(TileID.CookingPots);
-            r.SetResult(2425);
             r.AddRecipe();
 
             // Cooked Shrimp
@@ -210,6 +204,23 @@ namespace CalamityMod
                 r.AddIngredient(ItemID.BottledWater);
                 r.AddTile(TileID.AlchemyTable);
                 r.SetResult(potion);
+                r.AddRecipe();
+            }
+			
+			//Cooked fish recipe
+            short[] fish = new[]
+            {
+                ModContent.ItemType<TwinklingPollox>(),
+                ModContent.ItemType<PrismaticGuppy>(),
+                ModContent.ItemType<ScarredAngelfish>()
+            };
+
+            foreach (var fishy in fish)
+            {
+                r = GetNewRecipe();
+                r.AddIngredient(fishy);
+                r.AddTile(TileID.CookingPots);
+                r.SetResult(2425);
                 r.AddRecipe();
             }
         }
