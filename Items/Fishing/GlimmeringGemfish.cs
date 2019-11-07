@@ -38,10 +38,10 @@ namespace CalamityMod.Items.Fishing
             DropHelper.DropItemChance(player, ItemID.Ruby, 0.15f, gemMin, gemMax);
             DropHelper.DropItemChance(player, ItemID.Diamond, 0.1f, gemMin, gemMax);
             DropHelper.DropItemChance(player, ItemID.Amber, 0.25f, gemMin, gemMax);
-            /*Mod thorium = ModLoader.GetMod("ThoriumMod");
+            Mod thorium = ModLoader.GetMod("ThoriumMod");
             DropHelper.DropItemChance(player, thorium.ItemType("Pearl"), 0.25f, gemMin, gemMax);
             DropHelper.DropItemChance(player, thorium.ItemType("Opal"), 0.25f, gemMin, gemMax);
-            DropHelper.DropItemChance(player, thorium.ItemType("Onyx"), 0.25f, gemMin, gemMax);*/
+            DropHelper.DropItemChance(player, thorium.ItemType("Onyx"), 0.25f, gemMin, gemMax);
         }
     }
 }

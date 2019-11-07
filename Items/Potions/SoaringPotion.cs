@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Buffs.Potions;
 using CalamityMod.Items.Fishing.SunkenSeaCatches;
+using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

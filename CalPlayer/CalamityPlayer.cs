@@ -7385,9 +7385,9 @@ namespace CalamityMod.CalPlayer
 										break;
 								}
 							}
-							/*if (ZoneSunkenSea)
+							if (ZoneSunkenSea)
 							{
-								switch (Main.rand.Next(2))
+								/*switch (Main.rand.Next(2))
 								{
 									case 0:
 										rareItemList.Add(ModContent.ItemType<SparklingEmpress>());
@@ -7395,12 +7395,12 @@ namespace CalamityMod.CalPlayer
 									case 1:
 										rareItemList.Add(ModContent.ItemType<RustedJingleBell>());
 										break;
-								}
+								}*/
 								if (Main.hardMode)
 								{
 									rareItemList.Add(ModContent.ItemType<SerpentsBite>());
 								}
-							}*/
+							}
 							if (player.ZoneSnow && player.ZoneRockLayerHeight && (player.ZoneCorrupt || player.ZoneCrimson || player.ZoneHoly))
 							{
 								rareItemList.Add(ItemID.ScalyTruffle);
@@ -7605,11 +7605,11 @@ namespace CalamityMod.CalPlayer
 					{
 						caughtType = ModContent.ItemType<GreenwaveLoach>();
 					}
-					/*else if (sunkenFish <= 6 && sunkenFish >= 8 && Main.hardMode) //3%
+					else if (sunkenFish <= 6 && sunkenFish >= 8 && Main.hardMode) //3%
 					{
 						caughtType = ModContent.ItemType<SerpentsBite>();
 					}
-					else if (sunkenFish <= 3 && sunkenFish >= 5) //3%
+					/*else if (sunkenFish <= 3 && sunkenFish >= 5) //3%
 					{
 						caughtType = ModContent.ItemType<RustedJingleBell>();
 					}

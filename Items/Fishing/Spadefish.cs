@@ -20,8 +20,8 @@ namespace CalamityMod.Items.Fishing
             item.melee = true;
             item.width = 46;
             item.height = 44;
-            item.useTime = 8;
-            item.useAnimation = 16;
+            item.useTime = 10;
+            item.useAnimation = 20;
             item.useTurn = true;
             item.pick = 30;
             item.useStyle = 1;
