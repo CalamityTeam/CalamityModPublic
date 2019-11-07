@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Valkyrie");
-            Main.projFrames[projectile.type] = 2;
+            Main.projFrames[projectile.type] = 4;
             ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
         }
@@ -246,12 +246,12 @@ namespace CalamityMod.Projectiles.Summon
                 }
             }
             projectile.frameCounter++;
-            if (projectile.frameCounter > 14)
+            if (projectile.frameCounter > 7)
             {
                 projectile.frame++;
                 projectile.frameCounter = 0;
             }
-            if (projectile.frame > 1)
+            if (projectile.frame > 3)
             {
                 projectile.frame = 0;
             }
