@@ -1,0 +1,23 @@
+using Terraria;
+using Terraria.ModLoader;
+
+namespace CalamityMod.Items.Fishing.SunkenSeaCatches
+{
+    public class ScarredAngelfish : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Scarred Angelfish"); //Bass substitute
+            Tooltip.SetDefault("The mark of a fallen angel");
+        }
+
+        public override void SetDefaults()
+        {
+            item.width = 28;
+            item.height = 26;
+            item.maxStack = 999;
+            item.value = Item.sellPrice(silver: 5);
+            item.rare = 1;
+        }
+    }
+}

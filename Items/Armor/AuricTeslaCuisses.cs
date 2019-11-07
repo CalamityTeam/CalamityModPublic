@@ -42,16 +42,8 @@ namespace CalamityMod.Items.Armor
             recipe.AddIngredient(ModContent.ItemType<GodSlayerLeggings>());
             recipe.AddIngredient(ModContent.ItemType<BloodflareCuisses>());
             recipe.AddIngredient(ModContent.ItemType<TarragonLeggings>());
-            recipe.AddIngredient(ModContent.ItemType<AuricOre>(), 80);
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 20);
-            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 20);
-            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 8);
-            recipe.AddIngredient(ModContent.ItemType<HellcasterFragment>(), 6);
-            recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>(), 3);
-            recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 2);
-            recipe.AddIngredient(ItemID.FlyingCarpet);
+			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 14);
+			recipe.AddIngredient(ItemID.FlyingCarpet);
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();

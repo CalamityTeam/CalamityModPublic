@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Accessories.Wings;
 using CalamityMod.Items.Fishing.AstralCatches;
+using CalamityMod.Items.Fishing.SunkenSeaCatches;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Weapons.Melee;
@@ -25,6 +26,7 @@ namespace CalamityMod
 			EditFireGauntletRecipe();
 
 			AddPotionRecipes();
+            AddCookedFood();
             AddToolRecipes();
             AddProgressionRecipes();
             AddEarlyGameWeaponRecipes();
@@ -85,20 +87,6 @@ namespace CalamityMod
             r.AddIngredient(ModContent.ItemType<LivingShard>());
             r.AddTile(TileID.MythrilAnvil);
             r.SetResult(ItemID.LifeFruit);
-            r.AddRecipe();
-
-            // Cooked Fish
-            r = GetNewRecipe();
-            r.AddIngredient(ModContent.ItemType<TwinklingPollox>());
-            r.AddTile(TileID.CookingPots);
-            r.SetResult(2425);
-            r.AddRecipe();
-
-            // Cooked Shrimp
-            r = GetNewRecipe();
-            r.AddIngredient(ModContent.ItemType<ProcyonidPrawn>());
-            r.AddTile(TileID.CookingPots);
-            r.SetResult(2426);
             r.AddRecipe();
 
             // Glass
@@ -212,6 +200,35 @@ namespace CalamityMod
                 r.SetResult(potion);
                 r.AddRecipe();
             }
+        }
+        #endregion
+
+        #region Cooked Food
+        private static void AddCookedFood()
+        {
+            ModRecipe r = GetNewRecipe();
+            r.AddIngredient(ModContent.ItemType<TwinklingPollox>());
+            r.AddTile(TileID.CookingPots);
+            r.SetResult(ItemID.CookedFish);
+            r.AddRecipe();
+			
+            r = GetNewRecipe();
+            r.AddIngredient(ModContent.ItemType<PrismaticGuppy>());
+            r.AddTile(TileID.CookingPots);
+            r.SetResult(ItemID.CookedFish);
+            r.AddRecipe();
+			
+            r = GetNewRecipe();
+            r.AddIngredient(ModContent.ItemType<ScarredAngelfish>());
+            r.AddTile(TileID.CookingPots);
+            r.SetResult(ItemID.CookedFish);
+            r.AddRecipe();
+			
+            r = GetNewRecipe();
+            r.AddIngredient(ModContent.ItemType<ProcyonidPrawn>());
+            r.AddTile(TileID.CookingPots);
+            r.SetResult(ItemID.CookedShrimp);
+            r.AddRecipe();
         }
         #endregion
 

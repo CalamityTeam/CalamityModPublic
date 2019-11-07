@@ -13,6 +13,7 @@ using CalamityMod.Items.Accessories.Vanity;
 using CalamityMod.Items.DifficultyItems;
 using CalamityMod.Items.Fishing;
 using CalamityMod.Items.Fishing.AstralCatches;
+using CalamityMod.Items.Fishing.SunkenSeaCatches;
 using CalamityMod.Items.Fishing.FishingRods;
 using CalamityMod.Items.Mounts;
 using CalamityMod.Items.Pets;
@@ -3890,7 +3891,11 @@ namespace CalamityMod.CalPlayer
                 bool flag14 = false;
                 if (elysianGuard)
                 {
-                    float num29 = shieldInvinc;
+					if (player.whoAmI == Main.myPlayer)
+					{
+						player.AddBuff(ModContent.BuffType<ElysianGuard>(), 2, false);
+					}
+					float num29 = shieldInvinc;
                     shieldInvinc -= 0.08f;
                     if (shieldInvinc < 0f)
                     {
@@ -7380,6 +7385,22 @@ namespace CalamityMod.CalPlayer
 										break;
 								}
 							}
+							if (ZoneSunkenSea)
+							{
+								/*switch (Main.rand.Next(2))
+								{
+									case 0:
+										rareItemList.Add(ModContent.ItemType<SparklingEmpress>());
+										break;
+									case 1:
+										rareItemList.Add(ModContent.ItemType<RustedJingleBell>());
+										break;
+								}*/
+								if (Main.hardMode)
+								{
+									rareItemList.Add(ModContent.ItemType<SerpentsBite>());
+								}
+							}
 							if (player.ZoneSnow && player.ZoneRockLayerHeight && (player.ZoneCorrupt || player.ZoneCrimson || player.ZoneHoly))
 							{
 								rareItemList.Add(ItemID.ScalyTruffle);
@@ -7395,6 +7416,10 @@ namespace CalamityMod.CalPlayer
 							if (player.ZoneHoly)
 							{
 								rareItemList.Add(ItemID.CrystalSerpent);
+							}
+							if (player.ZoneDirtLayerHeight)
+							{
+								rareItemList.Add(ModContent.ItemType<Spadefish>());
 							}
 
 							if (rareItemList.Any())
@@ -7415,6 +7440,10 @@ namespace CalamityMod.CalPlayer
 							if (ZoneAstral)
 							{
 								biomeCrateList.Add(ModContent.ItemType<AstralCrate>());
+							}
+							if (ZoneSunkenSea)
+							{
+								biomeCrateList.Add(ModContent.ItemType<SunkenCrate>());
 							}
 							if (player.ZoneCorrupt)
 							{
@@ -7440,6 +7469,7 @@ namespace CalamityMod.CalPlayer
 							{
 								biomeCrateList.Add(ItemID.FloatingIslandFishingCrate);
 							}
+							
 
 							if (biomeCrateList.Any())
 							{
@@ -7524,6 +7554,75 @@ namespace CalamityMod.CalPlayer
 					}
 				}
 				
+				if (ZoneSunkenSea) //Sunken Sea, fishing in water
+				{
+					int sunkenFish = Main.rand.Next(100);
+					if (caughtType == ItemID.WoodenCrate)
+					{
+						caughtType = ItemID.WoodenCrate;
+					}
+					else if (caughtType == ItemID.IronCrate)
+					{
+						caughtType = ItemID.IronCrate;
+					}
+					else if (caughtType == ItemID.GoldenCrate)
+					{
+						caughtType = ItemID.GoldenCrate;
+					}
+					else if (caughtType == ItemID.FrogLeg)
+					{
+						caughtType = ItemID.FrogLeg;
+					}
+					else if (caughtType == ItemID.BalloonPufferfish)
+					{
+						caughtType = ItemID.BalloonPufferfish;
+					}
+					else if (caughtType == ItemID.ZephyrFish)
+					{
+						caughtType = ItemID.ZephyrFish;
+					}
+					else if (sunkenFish >= 85 && Main.hardMode) //15%
+					{
+						caughtType = ModContent.ItemType<PrismaticGuppy>();
+					}
+					else if (sunkenFish <= 84 && sunkenFish >= 70) //15%
+					{
+						caughtType = ModContent.ItemType<SunkenSailfish>();
+					}
+					else if (sunkenFish <= 69 && sunkenFish >= 55) //15%
+					{
+						caughtType = ModContent.ItemType<CoralskinFoolfish>();
+					}
+					else if (player.cratePotion && sunkenFish <= 9 && sunkenFish >= 28) //20%
+					{
+						caughtType = ModContent.ItemType<SunkenCrate>();
+					}
+					else if (!player.cratePotion && sunkenFish <= 9 && sunkenFish >= 18) //10%
+					{
+						caughtType = ModContent.ItemType<SunkenCrate>();
+					}
+					else if (sunkenFish <= 29 && sunkenFish >= 31) //3%
+					{
+						caughtType = ModContent.ItemType<GreenwaveLoach>();
+					}
+					else if (sunkenFish <= 6 && sunkenFish >= 8 && Main.hardMode) //3%
+					{
+						caughtType = ModContent.ItemType<SerpentsBite>();
+					}
+					/*else if (sunkenFish <= 3 && sunkenFish >= 5) //3%
+					{
+						caughtType = ModContent.ItemType<RustedJingleBell>();
+					}
+					else if (sunkenFish <= 2 && sunkenFish >= 0) //3%
+					{
+						caughtType = ModContent.ItemType<SparklingEmpress>();
+					}*/
+					else //33% w/o crate pot, 23% w/ crate pot + 28% if prehardmode
+					{
+						caughtType = ModContent.ItemType<ScarredAngelfish>();
+					}
+				}
+				
 				if ((player.ZoneCrimson || player.ZoneCorrupt) && player.ZoneRockLayerHeight)
 				{
 					if (Main.rand.NextBool(15))
@@ -7553,6 +7652,30 @@ namespace CalamityMod.CalPlayer
 					if (Main.rand.NextBool(10))
 					{
 						caughtType = ModContent.ItemType<EnchantedStarfish>();
+					}
+				}
+				
+				if (player.ZoneOverworldHeight && Main.dayTime)
+				{
+					if (Main.rand.NextBool(15))
+					{
+						caughtType = ModContent.ItemType<StuffedFish>();
+					}
+				}
+				
+				if (player.ZoneRockLayerHeight)
+				{
+					if (Main.rand.NextBool(15))
+					{
+						caughtType = ModContent.ItemType<GlimmeringGemfish>();
+					}
+				}
+				
+				if (player.ZoneDirtLayerHeight)
+				{
+					if (Main.rand.NextBool(40))
+					{
+						caughtType = ModContent.ItemType<Spadefish>();
 					}
 				}
 
@@ -7634,6 +7757,20 @@ namespace CalamityMod.CalPlayer
 						}
 					}
 				}
+			}
+			
+			//Quest Fish
+			if (ZoneSunkenSea && questFish == ModContent.ItemType<EutrophicSandfish>() && Main.rand.NextBool(10))
+			{
+				caughtType = ModContent.ItemType<EutrophicSandfish>();
+			}
+			if (ZoneSunkenSea && questFish == ModContent.ItemType<SurfClam>() && Main.rand.NextBool(10))
+			{
+				caughtType = ModContent.ItemType<SurfClam>();
+			}
+			if (ZoneSunkenSea && questFish == ModContent.ItemType<Serpentuna>() && Main.rand.NextBool(10))
+			{
+				caughtType = ModContent.ItemType<Serpentuna>();
 			}
         }
 

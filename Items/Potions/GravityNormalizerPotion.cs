@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Buffs.Potions;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Fishing.AstralCatches;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -36,6 +37,7 @@ namespace CalamityMod.Items.Potions
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.GravitationPotion);
             recipe.AddIngredient(ModContent.ItemType<AstralJelly>());
+            recipe.AddIngredient(ModContent.ItemType<TwinklingPollox>());
             recipe.AddTile(TileID.AlchemyTable);
             recipe.SetResult(this);
             recipe.AddRecipe();

@@ -48,16 +48,8 @@ namespace CalamityMod.Items.Armor
             recipe.AddIngredient(ModContent.ItemType<GodSlayerChestplate>());
             recipe.AddIngredient(ModContent.ItemType<BloodflareBodyArmor>());
             recipe.AddIngredient(ModContent.ItemType<TarragonBreastplate>());
-            recipe.AddIngredient(ModContent.ItemType<AuricOre>(), 100);
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 30);
-            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 30);
-            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 20);
-            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<HellcasterFragment>(), 7);
-            recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 3);
-            recipe.AddIngredient(ModContent.ItemType<FrostBarrier>());
+			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 18);
+			recipe.AddIngredient(ModContent.ItemType<FrostBarrier>());
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();

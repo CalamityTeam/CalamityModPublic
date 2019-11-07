@@ -583,18 +583,18 @@ namespace CalamityMod.NPCs.AquaticScourge
             if (!Main.expertMode)
             {
                 // Materials
-                DropHelper.DropItemCondition(npc, ItemID.SoulofSight, Main.hardMode, 20, 40);
+                DropHelper.DropItem(npc, ItemID.SoulofSight, 20, 40);
                 DropHelper.DropItem(npc, ModContent.ItemType<VictoryShard>(), 11, 20);
                 DropHelper.DropItem(npc, ItemID.Coral, 5, 9);
                 DropHelper.DropItem(npc, ItemID.Seashell, 5, 9);
                 DropHelper.DropItem(npc, ItemID.Starfish, 5, 9);
 
-                // Weapons (Hardmode only)
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<SubmarineShocker>(), Main.hardMode, 4, 1, 1);
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<Barinautical>(), Main.hardMode, 4, 1, 1);
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<Downpour>(), Main.hardMode, 4, 1, 1);
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<DeepseaStaff>(), Main.hardMode, 4, 1, 1);
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<ScourgeoftheSeas>(), Main.hardMode, 4, 1, 1);
+                // Weapons
+                DropHelper.DropItemChance(npc, ModContent.ItemType<SubmarineShocker>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Barinautical>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Downpour>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<DeepseaStaff>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<ScourgeoftheSeas>(), 4);
 
                 // Equipment
                 DropHelper.DropItemChance(npc, ModContent.ItemType<AeroStone>(), 9);
