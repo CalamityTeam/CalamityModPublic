@@ -65,14 +65,8 @@ namespace CalamityMod.Items.Weapons.Magic
             recipe.AddIngredient(ModContent.ItemType<NuclearFury>());
             recipe.AddIngredient(ModContent.ItemType<RelicofRuin>());
             recipe.AddIngredient(ModContent.ItemType<TearsofHeaven>());
-            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<HellcasterFragment>(), 3);
-            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<AuricOre>(), 25);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
+			recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
