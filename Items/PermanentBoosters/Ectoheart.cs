@@ -1,4 +1,7 @@
-﻿using CalamityMod.CalPlayer;
+﻿using CalamityMod;
+using CalamityMod.CalPlayer;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -18,8 +21,8 @@ namespace CalamityMod.Items.PermanentBoosters
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
+            item.width = 42;
+            item.height = 44;
             item.useAnimation = 30;
             item.useTime = 30;
             item.useStyle = 4;
@@ -38,7 +41,10 @@ namespace CalamityMod.Items.PermanentBoosters
             }
             return true;
         }
-
+        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+        {
+            CalamityUtils.DrawItemGlowmask(item, spriteBatch, 3, rotation, ModContent.GetTexture("CalamityMod/Items/PermanentBoosters/EctoheartGlow"));
+        }
         public override bool UseItem(Player player)
         {
             if (player.itemAnimation > 0 && player.itemTime == 0)
