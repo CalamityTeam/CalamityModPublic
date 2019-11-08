@@ -41,10 +41,12 @@ namespace CalamityMod.Items.PermanentBoosters
             }
             return true;
         }
+
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
             CalamityUtils.DrawItemGlowmask(item, spriteBatch, 3, rotation, ModContent.GetTexture("CalamityMod/Items/PermanentBoosters/EctoheartGlow"));
         }
+
         public override bool UseItem(Player player)
         {
             if (player.itemAnimation > 0 && player.itemTime == 0)
