@@ -7635,7 +7635,7 @@ namespace CalamityMod.CalPlayer
 					}
 				}
 				
-				if ((player.ZoneCrimson || player.ZoneCorrupt) && player.ZoneRockLayerHeight)
+				if ((player.ZoneCrimson || player.ZoneCorrupt) && player.ZoneRockLayerHeight && Main.hardMode)
 				{
 					if (Main.rand.NextBool(15))
 					{
@@ -7643,7 +7643,7 @@ namespace CalamityMod.CalPlayer
 					}
 				}
 				
-				if (player.ZoneHoly && player.ZoneRockLayerHeight)
+				if (player.ZoneHoly && player.ZoneRockLayerHeight && Main.hardMode)
 				{
 					if (Main.rand.NextBool(15))
 					{
@@ -7651,7 +7651,7 @@ namespace CalamityMod.CalPlayer
 					}
 				}
 				
-				if (player.ZoneSkyHeight)
+				if (player.ZoneSkyHeight && Main.hardMode)
 				{
 					if (Main.rand.NextBool(15))
 					{
