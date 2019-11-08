@@ -160,7 +160,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             if (npc.soundDelay == 0)
             {
-                npc.soundDelay = 15;
+                npc.soundDelay = 7;
                 Main.PlaySound(mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/ScornHurt"), npc.Center);
             }
             for (int k = 0; k < 5; k++)

@@ -381,7 +381,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
         {
             if (npc.soundDelay == 0)
             {
-                npc.soundDelay = 20;
+                npc.soundDelay = 8;
                 Main.PlaySound(mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/OtherworldlyHit"), npc.Center);
             }
             for (int k = 0; k < 5; k++)
