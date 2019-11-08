@@ -66,7 +66,6 @@ namespace CalamityMod.NPCs.DevourerofGods
             npc.behindTiles = true;
             npc.noGravity = true;
             npc.noTileCollide = true;
-			npc.HitSound = mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/OtherworldlyHit");
 			npc.DeathSound = SoundID.NPCDeath14;
             npc.netAlways = true;
             for (int k = 0; k < npc.buffImmune.Length; k++)
@@ -996,6 +995,11 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         public override void HitEffect(int hitDirection, double damage)
         {
+            if (npc.soundDelay == 0)
+            {
+                npc.soundDelay = 20;
+                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/OtherworldlyHit"), npc.Center);
+            }
             if (npc.life <= 0)
             {
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/DoGS"), 1f);

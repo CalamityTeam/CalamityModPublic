@@ -1,5 +1,7 @@
 ﻿using CalamityMod.Items.Placeables.Ores;
 using CalamityMod.Tiles.Furniture.CraftingStations;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
@@ -24,7 +26,12 @@ namespace CalamityMod.Items.Materials
 			item.Calamity().postMoonLordRarity = 15;
         }
 
-        public override void Update(ref float gravity, ref float maxFallSpeed)
+		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+		{
+			CalamityUtils.DrawItemGlowmask(item, spriteBatch, 15, rotation, ModContent.GetTexture("CalamityMod/Items/Materials/AuricBarGlow"));
+		}
+
+		public override void Update(ref float gravity, ref float maxFallSpeed)
         {
 			maxFallSpeed = 0f;
             float num = (float)Main.rand.Next(90, 111) * 0.01f;
