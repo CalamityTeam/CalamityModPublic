@@ -1047,7 +1047,9 @@ namespace CalamityMod
         #region Call
         public static object Call(params object[] args)
         {
-            /*static*/ Player castPlayer(object o)
+            bool isValidPlayerArg(object o) => o is int || o is Player;
+
+            Player castPlayer(object o)
             {
                 if (o is int)
                     return Main.player[(int)o];
@@ -1062,7 +1064,6 @@ namespace CalamityMod
                 return new ArgumentException("ERROR: First argument must be a string function name.");
 
             string methodName = args[0].ToString();
-            Player p = null;
             switch (methodName)
             {
                 case "Downed":
@@ -1085,10 +1086,9 @@ namespace CalamityMod
                         return new ArgumentNullException("ERROR: Must specify a zone name as a string.");
                     if (!(args[2] is string))
                         return new ArgumentException("ERROR: The second argument to \"InZone\" must be a string.");
-                    if (!(args[1] is int) || !(args[1] is Player))
+                    if (!isValidPlayerArg(args[1]))
                         return new ArgumentException("ERROR: The first argument to \"InZone\" must be a Player or an int.");
-                    p = castPlayer(args[1]);
-                    return GetInZone(p, args[2].ToString());
+                    return GetInZone(castPlayer(args[1]), args[2].ToString());
 
                 case "Difficulty":
                 case "GetDifficulty":
@@ -1104,7 +1104,7 @@ namespace CalamityMod
                 case "GetRogueDmg":
                     if (args.Length < 2)
                         return new ArgumentNullException("ERROR: Must specify a Player object (or int index of a Player).");
-                    if (!(args[1] is int) || !(args[1] is Player))
+                    if (!isValidPlayerArg(args[1]))
                         return new ArgumentException("ERROR: The argument to \"GetRogueDamage\" must be a Player or an int.");
                     return GetRogueDamage(castPlayer(args[1]));
 
@@ -1112,14 +1112,14 @@ namespace CalamityMod
                 case "GetRogueCritChance":
                     if (args.Length < 2)
                         return new ArgumentNullException("ERROR: Must specify a Player object (or int index of a Player).");
-                    if (!(args[1] is int) || !(args[1] is Player))
+                    if (!isValidPlayerArg(args[1]))
                         return new ArgumentException("ERROR: The argument to \"GetRogueCrit\" must be a Player or an int.");
                     return GetRogueCrit(castPlayer(args[1]));
 
                 case "GetRogueVelocity":
                     if (args.Length < 2)
                         return new ArgumentNullException("ERROR: Must specify a Player object (or int index of a Player).");
-                    if (!(args[1] is int) || !(args[1] is Player))
+                    if (!isValidPlayerArg(args[1]))
                         return new ArgumentException("ERROR: The argument to \"GetRogueVelocity\" must be a Player or an int.");
                     return GetRogueVelocity(castPlayer(args[1]));
 
@@ -1133,7 +1133,7 @@ namespace CalamityMod
                         return new ArgumentNullException("ERROR: Must specify rogue damage change as a float.");
                     if (!(args[2] is float))
                         return new ArgumentException("ERROR: The second argument to \"AddRogueDamage\" must be a float.");
-                    if (!(args[1] is int) || !(args[1] is Player))
+                    if (!isValidPlayerArg(args[1]))
                         return new ArgumentException("ERROR: The first argument to \"AddRogueDamage\" must be a Player or an int.");
                     return AddRogueDamage(castPlayer(args[1]), (float)args[2]);
 
@@ -1147,7 +1147,7 @@ namespace CalamityMod
                         return new ArgumentNullException("ERROR: Must specify rogue crit change as a float.");
                     if (!(args[2] is int))
                         return new ArgumentException("ERROR: The second argument to \"AddRogueCrit\" must be an int.");
-                    if (!(args[1] is int) || !(args[1] is Player))
+                    if (!isValidPlayerArg(args[1]))
                         return new ArgumentException("ERROR: The first argument to \"AddRogueCrit\" must be a Player or an int.");
                     return AddRogueCrit(castPlayer(args[1]), (int)args[2]);
 
@@ -1159,7 +1159,7 @@ namespace CalamityMod
                         return new ArgumentNullException("ERROR: Must specify rogue velocity change as a float.");
                     if (!(args[2] is float))
                         return new ArgumentException("ERROR: The second argument to \"AddRogueVelocity\" must be a float.");
-                    if (!(args[1] is int) || !(args[1] is Player))
+                    if (!isValidPlayerArg(args[1]))
                         return new ArgumentException("ERROR: The first argument to \"AddRogueVelocity\" must be a Player or an int.");
                     return AddRogueVelocity(castPlayer(args[1]), (float)args[2]);
 
@@ -1174,7 +1174,7 @@ namespace CalamityMod
                         return new ArgumentNullException("ERROR: Must specify a set bonus name as a string.");
                     if (!(args[2] is string))
                         return new ArgumentException("ERROR: The second argument to \"SetBonus\" must be a string.");
-                    if (!(args[1] is int) || !(args[1] is Player))
+                    if (!isValidPlayerArg(args[1]))
                         return new ArgumentException("ERROR: The first argument to \"SetBonus\" must be a Player or an int.");
                     return GetSetBonus(castPlayer(args[1]), args[2].ToString());
 
@@ -1192,7 +1192,7 @@ namespace CalamityMod
                         return new ArgumentException("ERROR: The third argument to \"SetSetBonus\" must be a bool.");
                     if (!(args[2] is string))
                         return new ArgumentException("ERROR: The second argument to \"SetSetBonus\" must be a string.");
-                    if (!(args[1] is int) || !(args[1] is Player))
+                    if (!isValidPlayerArg(args[1]))
                         return new ArgumentException("ERROR: The first argument to \"SetSetBonus\" must be a Player or an int.");
                     return SetSetBonus(castPlayer(args[1]), args[2].ToString(), (bool)args[3]);
 
