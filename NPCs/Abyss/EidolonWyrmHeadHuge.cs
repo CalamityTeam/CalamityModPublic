@@ -71,9 +71,17 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void AI()
         {
-            if (npc.justHit || (double)npc.life <= (double)npc.lifeMax * 0.98 || Main.player[npc.target].chaosState)
+			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
+			{
+				npc.TargetClosest(true);
+			}
+			if (npc.justHit || (double)npc.life <= (double)npc.lifeMax * 0.98 || Main.player[npc.target].chaosState)
             {
-                detectsPlayer = true;
+				if (!detectsPlayer)
+				{
+					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/Scare"), (int)Main.player[npc.target].position.X, (int)Main.player[npc.target].position.Y);
+					detectsPlayer = true;
+				}
                 npc.damage = 1500;
             }
             else
@@ -99,10 +107,6 @@ namespace CalamityMod.NPCs.Abyss
             if (npc.ai[3] > 0f)
             {
                 npc.realLife = (int)npc.ai[3];
-            }
-            if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
-            {
-                npc.TargetClosest(true);
             }
             npc.velocity.Length();
             if (Main.netMode != NetmodeID.MultiplayerClient)

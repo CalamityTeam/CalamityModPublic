@@ -12,6 +12,7 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.NPCs.CeaselessVoid
 {
     [AutoloadBossHead]
@@ -61,7 +62,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.boss = true;
-            npc.HitSound = SoundID.NPCHit4;
+            npc.HitSound = mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/OtherworldlyHit");
             npc.DeathSound = SoundID.NPCDeath14;
         }
 
