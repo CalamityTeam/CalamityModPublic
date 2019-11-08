@@ -7307,6 +7307,15 @@ namespace CalamityMod.CalPlayer
 								fishList.Add(ItemID.DoubleCod);
 							}
 						}
+						if (ZoneAstral)
+						{
+							fishList.Add(ModContent.ItemType<TwinklingPollox>());
+						}
+						if (ZoneSunkenSea)
+						{
+							fishList.Add(ModContent.ItemType<CoralskinFoolfish>());
+							fishList.Add(ModContent.ItemType<SunkenSailfish>());
+						}
 					}
 
 					if (fishList.Any())
