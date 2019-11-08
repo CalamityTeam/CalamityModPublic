@@ -93,13 +93,13 @@ namespace CalamityMod.NPCs.Yharon
             npc.netAlways = true;
             Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
             if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/YHARON");
+                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/YHARONREBIRTH");
             else
                 music = MusicID.Boss1;
             if (CalamityWorld.downedBuffedMothron || CalamityWorld.bossRushActive)
             {
                 if (calamityModMusic != null)
-                    music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/YHARONREBIRTH");
+                    music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/YHARON");
                 else
                     music = MusicID.Boss3;
             }
