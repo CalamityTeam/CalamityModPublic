@@ -61,7 +61,8 @@ namespace CalamityMod.Items.Weapons.Melee
             r.AddIngredient(ModContent.ItemType<BallOFugu>());
             r.AddIngredient(ModContent.ItemType<Tumbleweed>());
             r.AddIngredient(ModContent.ItemType<UrchinFlail>());
-			r.AddIngredient(ModContent.ItemType<AuricBar>(), 8);
+			r.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
+			r.AddIngredient(ModContent.ItemType<HellcasterFragment>(), 4);
 			r.AddRecipe();
         }
     }
