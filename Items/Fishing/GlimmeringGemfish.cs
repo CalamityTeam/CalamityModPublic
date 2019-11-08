@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Fishing
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Glimmering Gemfish");
-            Tooltip.SetDefault("Right click to extract herbs and seeds");
+            Tooltip.SetDefault("Right click to extract gems");
         }
 
         public override void SetDefaults()

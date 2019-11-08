@@ -159,6 +159,7 @@ namespace CalamityMod.CalPlayer
         public bool trashMan = false;
         public int trashManChest = -1;
         public bool astrophage = false;
+        public bool babyGhostBell = false;
 
         // Rage
         public const int stressMax = 10000;
@@ -849,6 +850,7 @@ namespace CalamityMod.CalPlayer
             kendra = false;
             trashMan = false;
             astrophage = false;
+            babyGhostBell = false;
             onyxExcavator = false;
             angryDog = false;
             fab = false;
@@ -2928,7 +2930,7 @@ namespace CalamityMod.CalPlayer
                     int breathLoss = 2;
                     int lifeLossAtZeroBreath = 3;
                     int lightStrength = 0 +
-                        ((player.lightOrb || player.crimsonHeart || player.magicLantern) ? 1 : 0) + //1
+                        ((player.lightOrb || player.crimsonHeart || player.magicLantern || babyGhostBell) ? 1 : 0) + //1
                         (aquaticEmblem ? 1 : 0) + //2
                         (player.arcticDivingGear ? 1 : 0) + //3
                         (jellyfishNecklace ? 1 : 0) + //4
@@ -7396,6 +7398,7 @@ namespace CalamityMod.CalPlayer
 										rareItemList.Add(ModContent.ItemType<RustedJingleBell>());
 										break;
 								}*/
+								rareItemList.Add(ModContent.ItemType<RustedJingleBell>());
 								if (Main.hardMode)
 								{
 									rareItemList.Add(ModContent.ItemType<SerpentsBite>());
@@ -7609,11 +7612,11 @@ namespace CalamityMod.CalPlayer
 					{
 						caughtType = ModContent.ItemType<SerpentsBite>();
 					}
-					/*else if (sunkenFish <= 3 && sunkenFish >= 5) //3%
+					else if (sunkenFish <= 3 && sunkenFish >= 5) //3%
 					{
 						caughtType = ModContent.ItemType<RustedJingleBell>();
 					}
-					else if (sunkenFish <= 2 && sunkenFish >= 0) //3%
+					/*else if (sunkenFish <= 2 && sunkenFish >= 0) //3%
 					{
 						caughtType = ModContent.ItemType<SparklingEmpress>();
 					}*/
