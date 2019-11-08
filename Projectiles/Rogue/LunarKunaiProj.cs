@@ -92,10 +92,10 @@ namespace CalamityMod.Projectiles.Rogue
 				projectile.damage /= 4;
 				for (int num194 = 0; num194 < 10; num194++)
 				{
-					int num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 229, 0f, 0f, 0, default(Color), 1.5f);
+					int num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 229, 0f, 0f, 0, default, 1.5f);
 					Main.dust[num195].noGravity = true;
 					Main.dust[num195].velocity *= 3f;
-					num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 229, 0f, 0f, 100, default(Color), 1f);
+					num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 229, 0f, 0f, 100, default, 1f);
 					Main.dust[num195].velocity *= 2f;
 					Main.dust[num195].noGravity = true;
 				}
@@ -105,7 +105,7 @@ namespace CalamityMod.Projectiles.Rogue
 			{
 				for (int i = 0; i < 5; i++)
 				{
-					int num304 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 265, 0f, 0f, 100, default(Color), 1f);
+					int num304 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 265, 0f, 0f, 100, default, 1f);
 					Main.dust[num304].noGravity = true;
 					Main.dust[num304].velocity *= 1.2f;
 					Main.dust[num304].velocity -= projectile.oldVelocity * 0.3f;

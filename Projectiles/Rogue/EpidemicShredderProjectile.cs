@@ -12,9 +12,6 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class EpidemicShredderProjectile : ModProjectile
     {
-		// This is never used
-        bool justhit = false;
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Epidemic Shredder");

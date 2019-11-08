@@ -145,7 +145,7 @@ namespace CalamityMod
         {
             Player player = Main.player[Main.myPlayer];
             Item item = player.inventory[player.selectedItem];
-            float hitbox_X = 0, hitbox_Y = 0;
+            float hitbox_X, hitbox_Y;
             float mountOffsetY = player.mount.PlayerOffsetHitbox;
 
             // Third hitbox shifting values
@@ -492,10 +492,10 @@ namespace CalamityMod
                 time += 54000D;
 
             // Divide by seconds in an hour
-            time = time / 3600D;
+            time /= 3600D;
 
             // Terraria night starts at 7:30 PM, so offset accordingly
-            time = time - 19.5;
+            time -= 19.5;
 
             // Offset time to ensure it is not negative, then change to PM if necessary
             if (time < 0D)
@@ -709,7 +709,6 @@ namespace CalamityMod
         public static bool LockedChestRightClick(bool isLocked, int left, int top, int i, int j)
         {
             Player player = Main.LocalPlayer;
-            Tile tile = Main.tile[i, j];
 
             // If the player right clicked the chest while editing a sign, finish that up
             if (player.sign >= 0)
