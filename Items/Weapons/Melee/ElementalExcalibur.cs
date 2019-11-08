@@ -170,11 +170,7 @@ namespace CalamityMod.Items.Weapons.Melee
             recipe.AddIngredient(ItemID.DarkShard, 10);
             recipe.AddIngredient(ModContent.ItemType<LivingShard>(), 10);
             recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<CalamitousEssence>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<HellcasterFragment>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 10);
             recipe.AddIngredient(ItemID.SoulofLight, 50);
             recipe.AddIngredient(ItemID.SoulofNight, 50);
             recipe.AddTile(ModContent.TileType<DraedonsForge>());

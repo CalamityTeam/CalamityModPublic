@@ -92,7 +92,6 @@ namespace CalamityMod.NPCs.Providence
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/ProvidenceTheme");
             else
                 music = MusicID.LunarBoss;
-            npc.HitSound = mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/ProvidenceHurt");
             npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/ProvidenceDeath");
             bossBag = ModContent.ItemType<ProvidenceBag>();
         }
@@ -1260,6 +1259,11 @@ namespace CalamityMod.NPCs.Providence
 
         public override void HitEffect(int hitDirection, double damage)
         {
+            if(npc.soundDelay == 0)
+            {
+                npc.soundDelay = 20;
+                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/ProvidenceHurt"), npc.Center);
+            }
             for (int k = 0; k < 15; k++)
                 Dust.NewDust(npc.position, npc.width, npc.height, 244, hitDirection, -1f, 0, default, 1f);
 

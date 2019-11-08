@@ -8,9 +8,9 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Alluring Bait");
-            Tooltip.SetDefault("30% increased fishing power during the day\n" +
-                "45% increased fishing power during the night\n" +
-                "60% increased fishing power during a solar eclipse\n" +
+            Tooltip.SetDefault("30 increased fishing power during the day\n" +
+                "45 increased fishing power during the night\n" +
+                "60 increased fishing power during a solar eclipse\n" +
 				"Greatly increases chance of catching potion ingredient fish");
         }
 

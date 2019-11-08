@@ -62,7 +62,6 @@ namespace CalamityMod.NPCs.CeaselessVoid
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.boss = true;
-            npc.HitSound = mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/OtherworldlyHit");
             npc.DeathSound = SoundID.NPCDeath14;
         }
 
@@ -380,6 +379,11 @@ namespace CalamityMod.NPCs.CeaselessVoid
 
         public override void HitEffect(int hitDirection, double damage)
         {
+            if (npc.soundDelay == 0)
+            {
+                npc.soundDelay = 20;
+                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/OtherworldlyHit"), npc.Center);
+            }
             for (int k = 0; k < 5; k++)
             {
                 Dust.NewDust(npc.position, npc.width, npc.height, 173, hitDirection, -1f, 0, default, 1f);

@@ -34,7 +34,6 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.buffImmune[BuffID.CursedInferno] = false;
             npc.lavaImmune = true;
             npc.value = Item.buyPrice(0, 0, 50, 0);
-            npc.HitSound = mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/ScornHurt");
             npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/ScornDeath");
             banner = npc.type;
             bannerItem = ModContent.ItemType<ScornEaterBanner>();
@@ -159,6 +158,11 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void HitEffect(int hitDirection, double damage)
         {
+            if (npc.soundDelay == 0)
+            {
+                npc.soundDelay = 15;
+                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/ScornHurt"), npc.Center);
+            }
             for (int k = 0; k < 5; k++)
             {
                 Dust.NewDust(npc.position, npc.width, npc.height, 244, hitDirection, -1f, 0, default, 1f);

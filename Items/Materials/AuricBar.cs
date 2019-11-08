@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Materials
             item.width = 50;
             item.height = 30;
             item.maxStack = 999;
-			item.value = Item.sellPrice(gold: 24);
+			item.value = Item.sellPrice(gold: 45);
 			item.Calamity().postMoonLordRarity = 15;
         }
 
@@ -43,7 +43,7 @@ namespace CalamityMod.Items.Materials
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<BarofLife>());
-			recipe.AddIngredient(ModContent.ItemType<AuricOre>(), 20);
+            recipe.AddIngredient(ModContent.ItemType<AuricOre>(), 20);
 			recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 2);
 			recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 2);
 			recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 2);

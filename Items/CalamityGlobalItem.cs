@@ -1510,6 +1510,58 @@ namespace CalamityMod.Items
         #region Boss Bag Changes
         public override void OpenVanillaBag(string context, Player player, int arg)
         {
+			if (context == "crate")
+			{
+				switch (arg)
+				{
+					case ItemID.WoodenCrate:
+                        DropHelper.DropItemChance(player, ModContent.ItemType<WulfrumShard>(), 4, 3, 5);
+                        break;
+						
+					case ItemID.IronCrate:
+                        DropHelper.DropItemChance(player, ModContent.ItemType<WulfrumShard>(), 4, 5, 8);
+                        DropHelper.DropItemChance(player, ModContent.ItemType<AncientBoneDust>(), 4, 5, 8);
+                        break;
+						
+					case ItemID.CorruptFishingCrate:
+                        DropHelper.DropItemChance(player, ModContent.ItemType<FetidEssence>(), 4, 5, 8);
+                        DropHelper.DropItemChance(player, ModContent.ItemType<EbonianGel>(), 4, 5, 8);
+                        DropHelper.DropItemChance(player, ModContent.ItemType<MurkySludge>(), 5, 1, 3);
+                        break;
+						
+					case ItemID.CrimsonFishingCrate:
+                        DropHelper.DropItemChance(player, ModContent.ItemType<BloodlettingEssence>(), 4, 5, 8);
+                        DropHelper.DropItemChance(player, ModContent.ItemType<EbonianGel>(), 4, 5, 8);
+                        DropHelper.DropItemChance(player, ModContent.ItemType<MurkySludge>(), 5, 1, 3);
+                        break;
+						
+					case ItemID.HallowedFishingCrate:
+                        DropHelper.DropItemCondition(player, ModContent.ItemType<UnholyEssence>(), CalamityWorld.downedProvidence, 0.2f, 5, 10);
+                        break;
+						
+					case ItemID.DungeonFishingCrate:
+                        DropHelper.DropItemCondition(player, ItemID.Ectoplasm, NPC.downedPlantBoss, 0.3f, 5, 10);
+                        DropHelper.DropItemCondition(player, ModContent.ItemType<Phantoplasm>(), CalamityWorld.downedPolterghast, 0.2f, 5, 10);
+                        break;
+						
+					case ItemID.JungleFishingCrate:
+                        DropHelper.DropItemChance(player, ModContent.ItemType<MurkyPaste>(), 5, 1, 3);
+                        DropHelper.DropItemChance(player, ModContent.ItemType<ManeaterBulb>(), 5, 1, 3);
+                        DropHelper.DropItemCondition(player, ModContent.ItemType<BeetleJuice>(), Main.hardMode, 0.2f, 1, 3);
+                        DropHelper.DropItemCondition(player, ModContent.ItemType<TrapperBulb>(), Main.hardMode, 0.2f, 1, 3);
+                        DropHelper.DropItemCondition(player, ModContent.ItemType<DraedonBar>(), NPC.downedPlantBoss, 0.25f, 5, 10);
+                        DropHelper.DropItemCondition(player, ModContent.ItemType<PlagueCellCluster>(), NPC.downedGolemBoss, 0.2f, 3, 6);
+                        DropHelper.DropItemCondition(player, ModContent.ItemType<UeliaceBar>(), CalamityWorld.downedProvidence, 0.25f, 5, 10);
+                        break;
+						
+					case ItemID.FloatingIslandFishingCrate:
+                        DropHelper.DropItemCondition(player, ModContent.ItemType<AerialiteBar>(), (CalamityWorld.downedHiveMind || CalamityWorld.downedPerforator), 0.25f, 5, 10);
+                        DropHelper.DropItemCondition(player, ModContent.ItemType<EssenceofCinder>(), Main.hardMode, 0.2f, 5, 15);
+                        DropHelper.DropItemCondition(player, ModContent.ItemType<GalacticaSingularity>(), NPC.downedMoonlord, 0.1f, 1, 3);
+                        break;
+				}
+			}
+			
             if (context == "bossBag")
             {
                 // Give a chance for Laudanum, Stress Pills and Heart of Darkness from every boss bag

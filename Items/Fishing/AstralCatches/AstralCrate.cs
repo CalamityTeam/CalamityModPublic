@@ -57,6 +57,7 @@ namespace CalamityMod.Items.Fishing.AstralCatches
             {
                 DropHelper.DropItemChance(player, ModContent.ItemType<AstralOre>(), 0.5f, 10, 20);
                 DropHelper.DropItemChance(player, ModContent.ItemType<AstralBar>(), 0.25f, 5, 10);
+                DropHelper.DropItemChance(player, ModContent.ItemType<MeldBlob>(), 0.25f, 5, 10);
             }
 
             // Weapons
