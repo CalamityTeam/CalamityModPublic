@@ -26,6 +26,7 @@ using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs;
 using CalamityMod.NPCs.Astral;
+using CalamityMod.NPCs.AcidRain;
 using CalamityMod.NPCs.Calamitas;
 using CalamityMod.NPCs.DevourerofGods;
 using CalamityMod.NPCs.Leviathan;
@@ -160,6 +161,7 @@ namespace CalamityMod.CalPlayer
         public int trashManChest = -1;
         public bool astrophage = false;
         public bool babyGhostBell = false;
+        public bool radiator = false;
 
         // Rage
         public const int stressMax = 10000;
@@ -851,6 +853,7 @@ namespace CalamityMod.CalPlayer
             trashMan = false;
             astrophage = false;
             babyGhostBell = false;
+            radiator = false;
             onyxExcavator = false;
             angryDog = false;
             fab = false;
@@ -2938,11 +2941,11 @@ namespace CalamityMod.CalPlayer
                     int breathLoss = 2;
                     int lifeLossAtZeroBreath = 3;
                     int lightStrength = 0 +
-                        ((player.lightOrb || player.crimsonHeart || player.magicLantern || babyGhostBell) ? 1 : 0) + //1
+                        ((player.lightOrb || player.crimsonHeart || player.magicLantern || radiator) ? 1 : 0) + //1
                         (aquaticEmblem ? 1 : 0) + //2
                         (player.arcticDivingGear ? 1 : 0) + //3
                         (jellyfishNecklace ? 1 : 0) + //4
-                        ((player.blueFairy || player.greenFairy || player.redFairy || player.petFlagDD2Ghost) ? 2 : 0) + //6
+                        ((player.blueFairy || player.greenFairy || player.redFairy || player.petFlagDD2Ghost || babyGhostBell) ? 2 : 0) + //6
                         ((shine || lumenousAmulet) ? 2 : 0) + //8
                         ((player.wisp || player.suspiciouslookingTentacle || sirenPet) ? 3 : 0); //11
                     bool lightLevelOne = lightStrength > 0; //1+
