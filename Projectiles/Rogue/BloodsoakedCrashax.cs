@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.timeLeft = 600; //10 seconds and counting
             aiType = 48; //Throwing Knife AI
             projectile.Calamity().rogue = true;
-            projectile.usesIDStaticNPCImmunity = true; //afaik, no Calamity projectiles use this and only 1 vanilla projectile
+            projectile.usesIDStaticNPCImmunity = true;
             projectile.idStaticNPCHitCooldown = 5;
             projectile.extraUpdates = 1;
         }
