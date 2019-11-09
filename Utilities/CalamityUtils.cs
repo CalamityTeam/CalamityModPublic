@@ -270,15 +270,6 @@ namespace CalamityMod
             }
             return hitbox;
         }
-        public static void DrawItemGlowmask(this Item item, SpriteBatch spriteBatch, int frameCount, float rotation, Texture2D glowmaskTexture)
-        {
-            Vector2 center = new Vector2((float)(Main.itemTexture[item.type].Width / 2), (float)(Main.itemTexture[item.type].Height / frameCount / 2));
-            Rectangle frame = Main.itemAnimations[item.type].GetFrame(glowmaskTexture);
-            Vector2 drawPosition = item.Center - Main.screenPosition;
-
-            spriteBatch.Draw(glowmaskTexture, drawPosition,
-                new Microsoft.Xna.Framework.Rectangle?(frame), Color.White, rotation, center, 1f, SpriteEffects.None, 0f);
-        }
         #endregion
 
         #region Projectile Utilities
@@ -1250,6 +1241,142 @@ namespace CalamityMod
         {
             if (condition)
                 list.Add(type);
+        }
+        #endregion
+
+        #region Drawing Utilities
+
+        public static void DrawItemGlowmask(this Item item, SpriteBatch spriteBatch, int frameCount, float rotation, Texture2D glowmaskTexture)
+        {
+            Vector2 center = new Vector2((float)(Main.itemTexture[item.type].Width / 2), (float)(Main.itemTexture[item.type].Height / frameCount / 2));
+            Rectangle frame = Main.itemAnimations[item.type].GetFrame(glowmaskTexture);
+            Vector2 drawPosition = item.Center - Main.screenPosition;
+
+            spriteBatch.Draw(glowmaskTexture, drawPosition,
+                new Rectangle?(frame), Color.White, rotation, center, 1f, SpriteEffects.None, 0f);
+        }
+        public static void DrawFishingLine(this Projectile projectile, int fishingRodType, Color poleColor)
+        {
+            Lighting.AddLight(projectile.Center, 0.4f, 0f, 0.4f);
+
+            Player player = Main.player[projectile.owner];
+            if (projectile.bobber && Main.player[projectile.owner].inventory[Main.player[projectile.owner].selectedItem].holdStyle > 0)
+            {
+                float pPosX = player.MountedCenter.X;
+                float pPosY = player.MountedCenter.Y;
+                pPosY += Main.player[projectile.owner].gfxOffY;
+                int type = Main.player[projectile.owner].inventory[Main.player[projectile.owner].selectedItem].type;
+                float gravDir = Main.player[projectile.owner].gravDir;
+
+                if (type == fishingRodType)
+                {
+                    pPosX += (float)(45 * Main.player[projectile.owner].direction);
+                    if (Main.player[projectile.owner].direction < 0)
+                    {
+                        pPosX -= 13f;
+                    }
+                    pPosY -= 35f * gravDir;
+                }
+
+                if (gravDir == -1f)
+                {
+                    pPosY -= 12f;
+                }
+                Vector2 mountedCenter = new Vector2(pPosX, pPosY);
+                mountedCenter = Main.player[projectile.owner].RotatedRelativePoint(mountedCenter + new Vector2(8f), true) - new Vector2(8f);
+                float projPosX = projectile.position.X + (float)projectile.width * 0.5f - mountedCenter.X;
+                float projPosY = projectile.position.Y + (float)projectile.height * 0.5f - mountedCenter.Y;
+                Math.Sqrt((double)(projPosX * projPosX + projPosY * projPosY));
+                float rotation2 = (float)Math.Atan2((double)projPosY, (double)projPosX) - MathHelper.PiOver2;
+                bool canDraw = true;
+                if (projPosX == 0f && projPosY == 0f)
+                {
+                    canDraw = false;
+                }
+                else
+                {
+                    float projPosXY = (float)Math.Sqrt((double)(projPosX * projPosX + projPosY * projPosY));
+                    projPosXY = 12f / projPosXY;
+                    projPosX *= projPosXY;
+                    projPosY *= projPosXY;
+                    mountedCenter.X -= projPosX;
+                    mountedCenter.Y -= projPosY;
+                    projPosX = projectile.position.X + (float)projectile.width * 0.5f - mountedCenter.X;
+                    projPosY = projectile.position.Y + (float)projectile.height * 0.5f - mountedCenter.Y;
+                }
+                while (canDraw)
+                {
+                    float height = 12f;
+                    float positionMagnitude = (float)Math.Sqrt((double)(projPosX * projPosX + projPosY * projPosY));
+                    if (float.IsNaN(positionMagnitude) || float.IsNaN(positionMagnitude))
+                    {
+                        canDraw = false;
+                    }
+                    else
+                    {
+                        if (positionMagnitude < 20f)
+                        {
+                            height = positionMagnitude - 8f;
+                            canDraw = false;
+                        }
+                        positionMagnitude = 12f / positionMagnitude;
+                        projPosX *= positionMagnitude;
+                        projPosY *= positionMagnitude;
+                        mountedCenter.X += projPosX;
+                        mountedCenter.Y += projPosY;
+                        projPosX = projectile.position.X + (float)projectile.width * 0.5f - mountedCenter.X;
+                        projPosY = projectile.position.Y + (float)projectile.height * 0.1f - mountedCenter.Y;
+                        if (positionMagnitude > 12f)
+                        {
+                            float positionInverseMultiplier = 0.3f;
+                            float absVelocitySum = Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y);
+                            if (absVelocitySum > 16f)
+                            {
+                                absVelocitySum = 16f;
+                            }
+                            absVelocitySum = 1f - absVelocitySum / 16f;
+                            positionInverseMultiplier *= absVelocitySum;
+                            absVelocitySum = positionMagnitude / 80f;
+                            if (absVelocitySum > 1f)
+                            {
+                                absVelocitySum = 1f;
+                            }
+                            positionInverseMultiplier *= absVelocitySum;
+                            if (positionInverseMultiplier < 0f)
+                            {
+                                positionInverseMultiplier = 0f;
+                            }
+                            absVelocitySum = 1f - projectile.localAI[0] / 100f;
+                            positionInverseMultiplier *= absVelocitySum;
+                            if (projPosY > 0f)
+                            {
+                                projPosY *= 1f + positionInverseMultiplier;
+                                projPosX *= 1f - positionInverseMultiplier;
+                            }
+                            else
+                            {
+                                absVelocitySum = Math.Abs(projectile.velocity.X) / 3f;
+                                if (absVelocitySum > 1f)
+                                {
+                                    absVelocitySum = 1f;
+                                }
+                                absVelocitySum -= 0.5f;
+                                positionInverseMultiplier *= absVelocitySum;
+                                if (positionInverseMultiplier > 0f)
+                                {
+                                    positionInverseMultiplier *= 2f;
+                                }
+                                projPosY *= 1f + positionInverseMultiplier;
+                                projPosX *= 1f - positionInverseMultiplier;
+                            }
+                        }
+                        rotation2 = (float)Math.Atan2((double)projPosY, (double)projPosX) - MathHelper.PiOver2;
+                        Color color2 = Lighting.GetColor((int)mountedCenter.X / 16, (int)(mountedCenter.Y / 16f), poleColor); //cadet blue
+
+                        Main.spriteBatch.Draw(Main.fishingLineTexture, new Vector2(mountedCenter.X - Main.screenPosition.X + (float)Main.fishingLineTexture.Width * 0.5f, mountedCenter.Y - Main.screenPosition.Y + (float)Main.fishingLineTexture.Height * 0.5f), new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, 0, Main.fishingLineTexture.Width, (int)height)), color2, rotation2, new Vector2((float)Main.fishingLineTexture.Width * 0.5f, 0f), 1f, SpriteEffects.None, 0f);
+                    }
+                }
+            }
         }
         #endregion
     }
