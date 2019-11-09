@@ -1,4 +1,5 @@
 using CalamityMod.Projectiles.Rogue;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -7,13 +8,16 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class DeepSeaDumbbell : RogueWeapon
     {
-        private int BaseDamage = 900;
+        private static int BaseDamage = 900;
+        private static float MeleeFlexMult = 25f;
+        private float flexBonusDamageMult = 0f;
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Deep Sea Dumbbell");
             Tooltip.SetDefault("Throws a dumbbell that bounces and flings weights with each bounce\n" +
-                "Right click to flex with it");
+                "Right click to flex with it, increasing the power of your next stealth strike\n" +
+                "Flexes are melee attacks, and are boosted by flexing and stealth");
         }
 
         public override void SafeSetDefaults()
@@ -29,6 +33,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.knockBack = 16f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
+            item.useTurn = false;
             item.height = 24;
             item.value = Item.buyPrice(1, 40, 0, 0);
             item.rare = 10;
@@ -53,7 +58,6 @@ namespace CalamityMod.Items.Weapons.Rogue
                 item.noMelee = false;
                 item.noUseGraphic = false;
                 item.autoReuse = false;
-                item.damage = BaseDamage * 25;
                 item.UseSound = SoundID.Item1;
             }
             else
@@ -64,18 +68,47 @@ namespace CalamityMod.Items.Weapons.Rogue
                 item.noMelee = true;
                 item.noUseGraphic = true;
                 item.autoReuse = true;
-                item.damage = BaseDamage;
                 item.UseSound = SoundID.Item1;
             }
             return base.CanUseItem(player);
         }
 
-        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
         {
-            if (player.altFunctionUse == 2)
-                return false;
+            if (player.Calamity().StealthStrikeAvailable())
+                mult += flexBonusDamageMult;
+            base.ModifyWeaponDamage(player, ref add, ref mult, ref flat);
+        }
 
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)((float)BaseDamage * player.Calamity().throwingDamage), knockBack, player.whoAmI, 0f, 0f);
+        // Flexes deal 25x damage if you actually hit with them directly.
+        public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
+        {
+            damage = (int)(damage * MeleeFlexMult);
+        }
+
+        public override void ModifyHitPvp(Player player, Player target, ref int damage, ref bool crit)
+        {
+            damage = (int)(damage * MeleeFlexMult);
+        }
+
+
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            // Alt fire doesn't actually shoot anything. It flexes, increasing the damage of the next stealth strike
+            if (player.altFunctionUse == 2)
+            {
+                flexBonusDamageMult += 1f;
+                if (flexBonusDamageMult > 10f)
+                    flexBonusDamageMult = 10f;
+                return false;
+            }
+
+            int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
+            if (player.Calamity().StealthStrikeAvailable())
+            {
+                Main.projectile[proj].Calamity().stealthStrike = true;
+                flexBonusDamageMult = 0f;
+            }
             return false;
         }
     }
