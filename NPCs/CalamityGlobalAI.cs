@@ -1218,7 +1218,7 @@ namespace CalamityMod.NPCs
 
                     npc.ai[2] += 1f;
 
-                    if (npc.ai[2] % 45f == 0f)
+					if (npc.ai[2] % 45f == 0f)
                     {
                         float num19 = CalamityWorld.bossRushActive ? 9f : 6f;
                         Vector2 vector = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
@@ -1256,8 +1256,6 @@ namespace CalamityMod.NPCs
 
                     if (npc.ai[2] >= (horizontalCharge ? 100f : 70f))
                     {
-                        npc.TargetClosest(true);
-
                         switch ((int)calamityGlobalNPC.newAI[0])
                         {
                             case 0: // Normal Eye behavior
@@ -1284,10 +1282,13 @@ namespace CalamityMod.NPCs
                         calamityGlobalNPC.newAI[0] += 1f;
                         if (calamityGlobalNPC.newAI[0] > 3f)
                             calamityGlobalNPC.newAI[0] = 0f;
-
-                        npc.netUpdate = true;
                     }
-                }
+
+					npc.netUpdate = true;
+
+					if (npc.netSpam > 10)
+						npc.netSpam = 10;
+				}
 
                 else if (npc.ai[1] == 6f)
                 {
@@ -2685,7 +2686,12 @@ namespace CalamityMod.NPCs
 
                     // Face the correct direction
                     npc.spriteDirection = npc.direction;
-                }
+
+					npc.netUpdate = true;
+
+					if (npc.netSpam > 10)
+						npc.netSpam = 10;
+				}
                 else
                 {
                     // Face the correct direction
@@ -2747,7 +2753,12 @@ namespace CalamityMod.NPCs
                         npc.ai[2] = 0f;
                         npc.ai[1] += 1f;
                     }
-                }
+
+					npc.netUpdate = true;
+
+					if (npc.netSpam > 10)
+						npc.netSpam = 10;
+				}
             }
 
             // Fly above target before bee spawning phase
@@ -6115,9 +6126,13 @@ namespace CalamityMod.NPCs
                             npc.TargetClosest(true);
                             npc.ai[1] = 3f;
                             npc.ai[2] = -1f;
-                            npc.netUpdate = true;
                         }
-                    }
+
+						npc.netUpdate = true;
+
+						if (npc.netSpam > 10)
+							npc.netSpam = 10;
+					}
                 }
             }
 
@@ -9207,21 +9222,21 @@ namespace CalamityMod.NPCs
             bool phase3 = lifeRatio < 0.4f || golemLifeRatio < 0.7f || CalamityWorld.death || CalamityWorld.bossRushActive;
             bool phase4 = lifeRatio < 0.1f || golemLifeRatio < 0.55f || CalamityWorld.death || CalamityWorld.bossRushActive;
 
-            // Float through tiles or not
-            bool flag44 = false;
-            if (!Collision.CanHit(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1) || phase3)
-            {
-                npc.noTileCollide = true;
-                flag44 = true;
-            }
-            else
-                npc.noTileCollide = false;
-
             // Target
             npc.TargetClosest(true);
 
-            // Enrage if the target isn't inside the temple
-            bool enrage = true;
+			// Float through tiles or not
+			bool flag44 = false;
+			if (!Collision.CanHit(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1) || phase3)
+			{
+				npc.noTileCollide = true;
+				flag44 = true;
+			}
+			else
+				npc.noTileCollide = false;
+
+			// Enrage if the target isn't inside the temple
+			bool enrage = true;
             if ((double)Main.player[npc.target].Center.Y > Main.worldSurface * 16.0)
             {
                 int num = (int)Main.player[npc.target].Center.X / 16;
@@ -9299,7 +9314,9 @@ namespace CalamityMod.NPCs
                     calamityGlobalNPC.newAI[0] = 0f;
                     calamityGlobalNPC.newAI[1] = -maxDistance;
                 }
-            }
+
+				npc.netUpdate = true;
+			}
 
             npc.ai[3] -= 1f +
                 (phase2 ? 1f : 0f) +
@@ -9392,8 +9409,6 @@ namespace CalamityMod.NPCs
 
             if (npc.ai[1] >= (float)num705 && Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 160f)
             {
-                npc.TargetClosest(true);
-
                 npc.ai[1] = 0f;
 
                 Vector2 vector88 = new Vector2(npc.Center.X, npc.Center.Y - 10f);

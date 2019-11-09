@@ -176,7 +176,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 jungleEnrage = true;
 
             // Despawn
-            if (jungleEnrage || Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 5600f)
+            if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 5600f)
             {
                 if (despawnTimer > 0)
                     despawnTimer--;
@@ -343,7 +343,12 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
                     npc.direction = playerLocation < 0 ? 1 : -1;
                     npc.spriteDirection = npc.direction;
-                }
+
+					npc.netUpdate = true;
+
+					if (npc.netSpam > 10)
+						npc.netSpam = 10;
+				}
 
                 // Slow down after charge
                 else
@@ -408,7 +413,12 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         npc.ai[2] = 0f;
                         npc.ai[1] += 1f;
                     }
-                }
+
+					npc.netUpdate = true;
+
+					if (npc.netSpam > 10)
+						npc.netSpam = 10;
+				}
             }
 
             // Move closer if too far away
@@ -782,7 +792,12 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
                     npc.direction = playerLocation < 0 ? 1 : -1;
                     npc.spriteDirection = npc.direction;
-                }
+
+					npc.netUpdate = true;
+
+					if (npc.netSpam > 10)
+						npc.netSpam = 10;
+				}
 
                 // Slow down after charge
                 else
@@ -837,7 +852,12 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         npc.ai[2] = 0f;
                         npc.ai[1] += 1f;
                     }
-                }
+
+					npc.netUpdate = true;
+
+					if (npc.netSpam > 10)
+						npc.netSpam = 10;
+				}
             }
         }
 

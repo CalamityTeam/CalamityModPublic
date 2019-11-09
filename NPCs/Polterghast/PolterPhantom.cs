@@ -7,9 +7,11 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.NPCs.Polterghast
 {
-    public class PolterPhantom : ModNPC
+	[AutoloadBossHead]
+	public class PolterPhantom : ModNPC
     {
         private int despawnTimer = 600;
 

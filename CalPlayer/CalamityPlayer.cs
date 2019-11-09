@@ -1658,10 +1658,18 @@ namespace CalamityMod.CalPlayer
         public override bool CustomBiomesMatch(Player other)
         {
             CalamityPlayer modOther = other.Calamity();
-            return ZoneCalamity == modOther.ZoneCalamity || ZoneAstral == modOther.ZoneAstral || ZoneAbyss == modOther.ZoneAbyss ||
-                ZoneAbyssLayer1 == modOther.ZoneAbyssLayer1 || ZoneAbyssLayer2 == modOther.ZoneAbyssLayer2 ||
-                ZoneAbyssLayer3 == modOther.ZoneAbyssLayer3 || ZoneAbyssLayer4 == modOther.ZoneAbyssLayer4 ||
-                ZoneSulphur == modOther.ZoneSulphur || ZoneSunkenSea == modOther.ZoneSunkenSea;
+
+            // efficiently short circuits to false if there are any discrepancies
+            // TODO -- order this list by how frequently players are in these various biomes
+            return ZoneSunkenSea == modOther.ZoneSunkenSea &&
+                ZoneCalamity == modOther.ZoneCalamity &&
+                ZoneAstral == modOther.ZoneAstral &&
+                ZoneSulphur == modOther.ZoneSulphur &&
+                ZoneAbyss == modOther.ZoneAbyss &&
+                ZoneAbyssLayer1 == modOther.ZoneAbyssLayer1 &&
+                ZoneAbyssLayer2 == modOther.ZoneAbyssLayer2 &&
+                ZoneAbyssLayer3 == modOther.ZoneAbyssLayer3 &&
+                ZoneAbyssLayer4 == modOther.ZoneAbyssLayer4;
         }
 
         public override void CopyCustomBiomesTo(Player other)
@@ -7398,19 +7406,14 @@ namespace CalamityMod.CalPlayer
 							}
 							if (ZoneSunkenSea)
 							{
-								/*switch (Main.rand.Next(2))
+								switch (Main.rand.Next(2))
 								{
 									case 0:
-										rareItemList.Add(ModContent.ItemType<SparklingEmpress>());
+										rareItemList.Add(ModContent.ItemType<SerpentsBite>());
 										break;
 									case 1:
 										rareItemList.Add(ModContent.ItemType<RustedJingleBell>());
 										break;
-								}*/
-								rareItemList.Add(ModContent.ItemType<RustedJingleBell>());
-								if (Main.hardMode)
-								{
-									rareItemList.Add(ModContent.ItemType<SerpentsBite>());
 								}
 							}
 							if (player.ZoneSnow && player.ZoneRockLayerHeight && (player.ZoneCorrupt || player.ZoneCrimson || player.ZoneHoly))
@@ -7428,10 +7431,6 @@ namespace CalamityMod.CalPlayer
 							if (player.ZoneHoly)
 							{
 								rareItemList.Add(ItemID.CrystalSerpent);
-							}
-							if (player.ZoneDirtLayerHeight)
-							{
-								rareItemList.Add(ModContent.ItemType<Spadefish>());
 							}
 
 							if (rareItemList.Any())
@@ -7625,10 +7624,10 @@ namespace CalamityMod.CalPlayer
 					{
 						caughtType = ModContent.ItemType<RustedJingleBell>();
 					}
-					/*else if (sunkenFish <= 2 && sunkenFish >= 0) //3%
+					else if (sunkenFish <= 2 && sunkenFish >= 0) //3%
 					{
 						caughtType = ModContent.ItemType<SparklingEmpress>();
-					}*/
+					}
 					else //33% w/o crate pot, 23% w/ crate pot + 28% if prehardmode
 					{
 						caughtType = ModContent.ItemType<ScarredAngelfish>();

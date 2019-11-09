@@ -57,15 +57,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 	        ModRecipe recipe = new ModRecipe(mod);
 	        recipe.AddIngredient(ModContent.ItemType<GrandScale>());
 			recipe.AddIngredient(ModContent.ItemType<CoreofCinder>(), 6);
-	        recipe.AddIngredient(ItemID.GoldBar, 10);
-            recipe.AddIngredient(ItemID.HardenedSand, 25);
-            recipe.AddTile(TileID.MythrilAnvil);
-	        recipe.SetResult(this);
-	        recipe.AddRecipe();
-			recipe = new ModRecipe(mod);
-	        recipe.AddIngredient(ModContent.ItemType<GrandScale>());
-			recipe.AddIngredient(ModContent.ItemType<CoreofCinder>(), 6);
-	        recipe.AddIngredient(ItemID.PlatinumBar, 10);
+            recipe.AddRecipeGroup("AnyGoldBar", 10);
             recipe.AddIngredient(ItemID.HardenedSand, 25);
             recipe.AddTile(TileID.MythrilAnvil);
 	        recipe.SetResult(this);

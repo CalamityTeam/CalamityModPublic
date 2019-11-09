@@ -303,14 +303,7 @@ namespace CalamityMod
             // Guide Voodoo Doll
             ModRecipe r = GetNewRecipe();
             r.AddIngredient(ItemID.Leather, 2);
-            r.AddIngredient(ModContent.ItemType<FetidEssence>(), 2);
-            r.AddTile(TileID.Hellforge);
-            r.SetResult(ItemID.GuideVoodooDoll);
-            r.AddRecipe();
-
-            r = GetNewRecipe();
-            r.AddIngredient(ItemID.Leather, 2);
-            r.AddIngredient(ModContent.ItemType<BloodlettingEssence>(), 2);
+            r.AddRecipeGroup("FetidBloodletting", 2);
             r.AddTile(TileID.Hellforge);
             r.SetResult(ItemID.GuideVoodooDoll);
             r.AddRecipe();
@@ -400,16 +393,9 @@ namespace CalamityMod
             r.SetResult(ItemID.EnchantedSword);
             r.AddRecipe();
 
-            // Muramasa w/ Cobalt Bars
+            // Muramasa
             r = GetNewRecipe();
-            r.AddIngredient(ItemID.CobaltBar, 15);
-            r.AddTile(TileID.MythrilAnvil);
-            r.SetResult(ItemID.Muramasa);
-            r.AddRecipe();
-
-            // Muramasa w/ Palladium Bars
-            r = GetNewRecipe();
-            r.AddIngredient(ItemID.PalladiumBar, 15);
+            r.AddRecipeGroup("AnyCobaltBar", 15);
             r.AddTile(TileID.MythrilAnvil);
             r.SetResult(ItemID.Muramasa);
             r.AddRecipe();
@@ -515,20 +501,11 @@ namespace CalamityMod
             r.SetResult(ItemID.IceSkates);
             r.AddRecipe();
 
-            // Lucky Horseshoe w/ Gold Bars
+            // Lucky Horseshoe
             r = GetNewRecipe();
             r.AddIngredient(ItemID.SunplateBlock, 10);
             r.AddIngredient(ItemID.Cloud, 10);
-            r.AddIngredient(ItemID.GoldBar, 5);
-            r.AddTile(TileID.Anvils);
-            r.SetResult(ItemID.LuckyHorseshoe);
-            r.AddRecipe();
-
-            // Lucky Horseshoe w/ Platinum Bars
-            r = GetNewRecipe();
-            r.AddIngredient(ItemID.SunplateBlock, 10);
-            r.AddIngredient(ItemID.Cloud, 10);
-            r.AddIngredient(ItemID.PlatinumBar, 5);
+            r.AddRecipeGroup("AnyGoldBar", 5);
             r.AddTile(TileID.Anvils);
             r.SetResult(ItemID.LuckyHorseshoe);
             r.AddRecipe();
@@ -583,16 +560,9 @@ namespace CalamityMod
         // Every base component for the Ankh Shield
         private static void AddAnkhShieldRecipes()
         {
-            // Cobalt Shield w/ Cobalt
+            // Cobalt Shield
             ModRecipe r = GetNewRecipe();
-            r.AddIngredient(ItemID.CobaltBar, 10);
-            r.AddTile(TileID.MythrilAnvil);
-            r.SetResult(ItemID.CobaltShield);
-            r.AddRecipe();
-
-            // Cobalt Shield w/ Palladium
-            r = GetNewRecipe();
-            r.AddIngredient(ItemID.PalladiumBar, 10);
+            r.AddRecipeGroup("AnyCobaltBar", 10);
             r.AddTile(TileID.MythrilAnvil);
             r.SetResult(ItemID.CobaltShield);
             r.AddRecipe();
@@ -748,7 +718,63 @@ namespace CalamityMod
 
         public static void AddRecipeGroups()
         {
-            RecipeGroup group = new RecipeGroup(() => "Any Silt", new int[]
+            RecipeGroup group = new RecipeGroup(() => "Any Copper Bar", new int[]
+            {
+                ItemID.CopperBar,
+                ItemID.TinBar
+            });
+            RecipeGroup.RegisterGroup("AnyCopperBar", group);
+
+            group = new RecipeGroup(() => "Any Gold Bar", new int[]
+            {
+                ItemID.GoldBar,
+                ItemID.PlatinumBar
+            });
+            RecipeGroup.RegisterGroup("AnyGoldBar", group);
+
+            group = new RecipeGroup(() => "Any Cobalt Bar", new int[]
+            {
+                ItemID.CobaltBar,
+                ItemID.PalladiumBar
+            });
+            RecipeGroup.RegisterGroup("AnyCobaltBar", group);
+
+            group = new RecipeGroup(() => "Any Adamantite Bar", new int[]
+            {
+                ItemID.AdamantiteBar,
+                ItemID.TitaniumBar
+            });
+            RecipeGroup.RegisterGroup("AnyAdamantiteBar", group);
+
+            group = new RecipeGroup(() => "Nightmare Fuel or Endothermic Energy", new int[]
+            {
+                ModContent.ItemType<NightmareFuel>(),
+                ModContent.ItemType<EndothermicEnergy>()
+            });
+            RecipeGroup.RegisterGroup("NForEE", group);
+
+            group = new RecipeGroup(() => "Fetid or Bloodletting Essence", new int[]
+            {
+                ModContent.ItemType<FetidEssence>(),
+                ModContent.ItemType<BloodlettingEssence>()
+            });
+            RecipeGroup.RegisterGroup("FetidBloodletting", group);
+
+            group = new RecipeGroup(() => "Shadow Scale or Tissue Sample", new int[]
+            {
+                ItemID.ShadowScale,
+                ItemID.TissueSample
+            });
+            RecipeGroup.RegisterGroup("Boss2Material", group);
+
+            group = new RecipeGroup(() => "Cursed Flame or Ichor", new int[]
+            {
+                ItemID.CursedFlame,
+                ItemID.Ichor
+            });
+            RecipeGroup.RegisterGroup("CursedFlameIchor", group);
+
+            group = new RecipeGroup(() => "Any Silt", new int[]
             {
                 ItemID.SiltBlock,
                 ItemID.SlushBlock
