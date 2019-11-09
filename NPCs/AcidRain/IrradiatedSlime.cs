@@ -3,7 +3,7 @@ using CalamityMod.Items.Placeables.Banners;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-namespace CalamityMod.NPCs.NormalNPCs
+namespace CalamityMod.NPCs.AcidRain
 {
     public class IrradiatedSlime : ModNPC
     {
