@@ -1658,10 +1658,18 @@ namespace CalamityMod.CalPlayer
         public override bool CustomBiomesMatch(Player other)
         {
             CalamityPlayer modOther = other.Calamity();
-            return ZoneCalamity == modOther.ZoneCalamity || ZoneAstral == modOther.ZoneAstral || ZoneAbyss == modOther.ZoneAbyss ||
-                ZoneAbyssLayer1 == modOther.ZoneAbyssLayer1 || ZoneAbyssLayer2 == modOther.ZoneAbyssLayer2 ||
-                ZoneAbyssLayer3 == modOther.ZoneAbyssLayer3 || ZoneAbyssLayer4 == modOther.ZoneAbyssLayer4 ||
-                ZoneSulphur == modOther.ZoneSulphur || ZoneSunkenSea == modOther.ZoneSunkenSea;
+
+            // efficiently short circuits to false if there are any discrepancies
+            // TODO -- order this list by how frequently players are in these various biomes
+            return ZoneSunkenSea == modOther.ZoneSunkenSea &&
+                ZoneCalamity == modOther.ZoneCalamity &&
+                ZoneAstral == modOther.ZoneAstral &&
+                ZoneSulphur == modOther.ZoneSulphur &&
+                ZoneAbyss == modOther.ZoneAbyss &&
+                ZoneAbyssLayer1 == modOther.ZoneAbyssLayer1 &&
+                ZoneAbyssLayer2 == modOther.ZoneAbyssLayer2 &&
+                ZoneAbyssLayer3 == modOther.ZoneAbyssLayer3 &&
+                ZoneAbyssLayer4 == modOther.ZoneAbyssLayer4;
         }
 
         public override void CopyCustomBiomesTo(Player other)
