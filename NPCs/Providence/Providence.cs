@@ -1261,7 +1261,7 @@ namespace CalamityMod.NPCs.Providence
         {
             if(npc.soundDelay == 0)
             {
-                npc.soundDelay = 20;
+                npc.soundDelay = 8;
                 Main.PlaySound(mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/ProvidenceHurt"), npc.Center);
             }
             for (int k = 0; k < 15; k++)

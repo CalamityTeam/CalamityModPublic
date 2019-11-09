@@ -997,7 +997,7 @@ namespace CalamityMod.NPCs.DevourerofGods
         {
             if (npc.soundDelay == 0)
             {
-                npc.soundDelay = 20;
+                npc.soundDelay = 8;
                 Main.PlaySound(mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/OtherworldlyHit"), npc.Center);
             }
             if (npc.life <= 0)

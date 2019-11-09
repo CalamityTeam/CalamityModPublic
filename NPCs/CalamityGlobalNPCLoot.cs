@@ -220,7 +220,7 @@ namespace CalamityMod.NPCs
             }
             else if (npc.type == NPCID.Golem)
             {
-                DropHelper.DropItem(npc, ModContent.ItemType<EssenceofCinder>(), 5, 10);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<EssenceofCinder>(), !Main.expertMode, 5, 10);
                 DropHelper.DropItemCondition(npc, ItemID.Picksaw, true, !NPC.downedGolemBoss);
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeGolem>(), true, !NPC.downedGolemBoss);
                 DropHelper.DropResidentEvilAmmo(npc, NPC.downedGolemBoss, 4, 2, 1);
@@ -1637,7 +1637,7 @@ namespace CalamityMod.NPCs
         {
             const float TrasherEatDistance = 48f;
             
-            if(npc.type == NPCID.Angler)
+            if (npc.type == NPCID.Angler)
             {
                 bool fedToTrasher = false;
                 for(int i = 0; i < Main.maxNPCs; ++i)
