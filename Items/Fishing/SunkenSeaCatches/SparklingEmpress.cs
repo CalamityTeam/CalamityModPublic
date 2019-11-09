@@ -15,7 +15,6 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
 		{
             DisplayName.SetDefault("Sparkling Empress");
             Tooltip.SetDefault("Fires a concentrated laser to annihilate your foes\n" +
-				"Slowly drains mana once the laser is fully charged\n" +
                 "Defeated enemies explode into prism shards");
             Item.staff[item.type] = true; //so it doesn't look weird af when holding it
 		}
