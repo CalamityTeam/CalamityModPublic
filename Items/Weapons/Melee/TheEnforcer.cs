@@ -103,13 +103,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 7);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 7);
+            recipe.AddRecipeGroup("NForEE", 7);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

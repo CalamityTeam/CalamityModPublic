@@ -59,17 +59,7 @@ namespace CalamityMod.Items.Weapons.Melee
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<VictideBar>(), 5);
             recipe.AddIngredient(ItemID.SharkFin, 2);
-            recipe.AddIngredient(ItemID.AdamantiteBar, 5);
-            recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 5);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<VictideBar>(), 5);
-            recipe.AddIngredient(ItemID.SharkFin, 2);
-            recipe.AddIngredient(ItemID.TitaniumBar, 5);
+            recipe.AddRecipeGroup("AnyAdamantiteBar", 5);
             recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 10);
             recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 10);
             recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 5);

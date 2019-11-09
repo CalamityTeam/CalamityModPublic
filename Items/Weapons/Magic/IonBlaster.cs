@@ -53,13 +53,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.SoulofFright, 10);
-            recipe.AddIngredient(ItemID.AdamantiteBar, 7);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.SoulofFright, 10);
-            recipe.AddIngredient(ItemID.TitaniumBar, 7);
+            recipe.AddRecipeGroup("AnyAdamantiteBar", 7);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

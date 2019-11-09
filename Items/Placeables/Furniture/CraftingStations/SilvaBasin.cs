@@ -29,13 +29,7 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<SilvaCrystal>(), 10);
-            recipe.AddIngredient(ItemID.GoldBar, 5);
-            recipe.SetResult(this);
-            recipe.AddTile(ModContent.TileType<Tiles.Furniture.CraftingStations.DraedonsForge>());
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SilvaCrystal>(), 10);
-            recipe.AddIngredient(ItemID.PlatinumBar, 5);
+            recipe.AddRecipeGroup("AnyGoldBar", 5);
             recipe.SetResult(this);
             recipe.AddTile(ModContent.TileType<Tiles.Furniture.CraftingStations.DraedonsForge>());
             recipe.AddRecipe();

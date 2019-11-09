@@ -29,18 +29,7 @@ namespace CalamityMod.Items.Placeables.FurnitureSilva
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.CrystalBlock, 200);
-            recipe.AddIngredient(ItemID.GoldBar, 25);
-            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>());
-            recipe.AddIngredient(ModContent.ItemType<EffulgentFeather>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>());
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>());
-            recipe.SetResult(this, 400);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.CrystalBlock, 200);
-            recipe.AddIngredient(ItemID.PlatinumBar, 25);
+            recipe.AddRecipeGroup("AnyGoldBar", 25);
             recipe.AddIngredient(ModContent.ItemType<DarksunFragment>());
             recipe.AddIngredient(ModContent.ItemType<EffulgentFeather>(), 5);
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
