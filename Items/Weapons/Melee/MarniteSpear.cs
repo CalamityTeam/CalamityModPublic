@@ -36,14 +36,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.PlatinumBar, 5);
-            recipe.AddIngredient(ItemID.Granite, 9);
-            recipe.AddIngredient(ItemID.Marble, 9);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.GoldBar, 5);
+            recipe.AddRecipeGroup("AnyGoldBar", 5);
             recipe.AddIngredient(ItemID.Granite, 9);
             recipe.AddIngredient(ItemID.Marble, 9);
             recipe.AddTile(TileID.Anvils);

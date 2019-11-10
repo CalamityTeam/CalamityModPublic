@@ -29,6 +29,8 @@ namespace CalamityMod.Tiles.AstralDesert
 
             TileID.Sets.TouchDamageSands[Type] = 15;
             TileID.Sets.Conversion.Sand[Type] = true;
+            TileID.Sets.ForAdvancedCollision.ForSandshark[Type] = true;
+            TileID.Sets.Falling[Type] = true;
 
             SetModCactus(new AstralCactus());
 

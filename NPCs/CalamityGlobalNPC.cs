@@ -2364,6 +2364,10 @@ namespace CalamityMod.NPCs
                 {
                     damage = (int)(damage * 0.75);
                 }
+                if (projectile.type == ModContent.ProjectileType<SeasSearingSpout>())
+                {
+                    damage = (int)(damage * 0.25);
+                }
             }
             else if (npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.EaterofWorldsBody || npc.type == NPCID.EaterofWorldsTail || npc.type == NPCID.Creeper)
             {

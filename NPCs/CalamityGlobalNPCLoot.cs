@@ -41,6 +41,11 @@ namespace CalamityMod.NPCs
 {
     public class CalamityGlobalNPCLoot : GlobalNPC
     {
+        #region Instance Per Entity
+        public override bool InstancePerEntity => false;
+        public override bool CloneNewInstances => false;
+        #endregion
+
         #region PreNPCLoot
         public override bool PreNPCLoot(NPC npc)
         {

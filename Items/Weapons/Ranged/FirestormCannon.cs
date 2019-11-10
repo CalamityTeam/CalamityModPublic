@@ -97,15 +97,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.FlareGun);
             recipe.AddIngredient(ItemID.Boomstick);
-            recipe.AddIngredient(ItemID.GoldBar, 10);
-            recipe.AddIngredient(ModContent.ItemType<VictoryShard>(), 10);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.FlareGun);
-            recipe.AddIngredient(ItemID.Boomstick);
-            recipe.AddIngredient(ItemID.PlatinumBar, 10);
+            recipe.AddRecipeGroup("AnyGoldBar", 10);
             recipe.AddIngredient(ModContent.ItemType<VictoryShard>(), 10);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
