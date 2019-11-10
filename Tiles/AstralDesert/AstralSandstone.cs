@@ -24,6 +24,7 @@ namespace CalamityMod.Tiles.AstralDesert
             AddMapEntry(new Color(79, 61, 97));
 
             TileID.Sets.Conversion.Sandstone[Type] = true;
+            TileID.Sets.ForAdvancedCollision.ForSandshark[Type] = true;
         }
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
