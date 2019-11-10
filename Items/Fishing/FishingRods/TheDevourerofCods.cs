@@ -32,7 +32,6 @@ namespace CalamityMod.Items.Fishing.FishingRods
             item.value = Item.buyPrice(1, 80, 0, 0);
             item.rare = 10;
             item.Calamity().postMoonLordRarity = 14;
-			ItemID.Sets.CanFishInLava[item.type] = true;
         }
 
 		public override void HoldItem(Player player)

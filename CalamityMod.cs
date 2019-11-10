@@ -10,6 +10,8 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.Items.Materials;
+using CalamityMod.Items.Fishing.FishingRods;
 using CalamityMod.Localization;
 using CalamityMod.NPCs.Abyss;
 using CalamityMod.NPCs.AquaticScourge;
@@ -157,6 +159,8 @@ namespace CalamityMod
         public static List<int> daggerList;
         public static List<int> flaskBombList;
         public static List<int> spikyBallList;
+        public static List<int> noGravityList;
+        public static List<int> lavaFishList;
 
         public static List<int> zombieList;
         public static List<int> demonEyeList;
@@ -324,6 +328,8 @@ namespace CalamityMod
             daggerList = null;
             flaskBombList = null;
             spikyBallList = null;
+            noGravityList = null;
+            lavaFishList = null;
 
             zombieList = null;
             demonEyeList = null;
@@ -1718,6 +1724,34 @@ namespace CalamityMod
             {
                 ModContent.ItemType<HellsSun>(),
                 ModContent.ItemType<SkyStabber>()
+            };
+
+            noGravityList = new List<int>()
+            {
+                ModContent.ItemType<AuricBar>(),
+                ModContent.ItemType<EssenceofChaos>(),
+                ModContent.ItemType<EssenceofCinder>(),
+                ModContent.ItemType<EssenceofEleum>(),
+                ModContent.ItemType<CoreofChaos>(),
+                ModContent.ItemType<CoreofCinder>(),
+                ModContent.ItemType<CoreofEleum>(),
+                ModContent.ItemType<CoreofCalamity>(),
+                ModContent.ItemType<CalamitousEssence>(),
+                ModContent.ItemType<HellcasterFragment>(),
+                ModContent.ItemType<TwistingNether>(),
+                ModContent.ItemType<DarkPlasma>(),
+                ModContent.ItemType<DarksunFragment>(),
+                ModContent.ItemType<UnholyEssence>(),
+                ModContent.ItemType<GalacticaSingularity>(),
+                ModContent.ItemType<NightmareFuel>(),
+                ModContent.ItemType<EndothermicEnergy>()
+            };
+
+            lavaFishList = new List<int>()
+            {
+                ModContent.ItemType<SlurperPole>(),
+                ModContent.ItemType<ChaoticSpreadRod>(),
+                ModContent.ItemType<TheDevourerofCods>()
             };
 
             tableList = new List<int>()

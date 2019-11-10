@@ -129,6 +129,11 @@ namespace CalamityMod.Items
                 item.defense = 18; //3 more defense
             else if (item.type == ItemID.HallowedGreaves)
                 item.defense = 13; //2 more defense
+			
+			if (CalamityMod.noGravityList.Contains(item.type))
+				ItemID.Sets.ItemNoGravity[item.type] = true;
+			if (CalamityMod.lavaFishList.Contains(item.type))
+				ItemID.Sets.CanFishInLava[item.type] = true;
         }
         #endregion
 
