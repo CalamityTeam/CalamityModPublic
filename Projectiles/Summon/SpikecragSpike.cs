@@ -6,7 +6,7 @@ namespace CalamityMod.Projectiles.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("SpikecragSpike");
+            DisplayName.SetDefault("Spikecrag Spike");
         }
 
         public override void SetDefaults()
