@@ -547,6 +547,23 @@ namespace CalamityMod
                 NPCID.MoonLordHand,
                 NPCID.MoonLordCore,
                 NPCID.MoonLordFreeEye,
+                NPCID.DD2WyvernT1,
+                NPCID.DD2WyvernT2,
+                NPCID.DD2WyvernT3,
+                NPCID.DD2DarkMageT1,
+                NPCID.DD2DarkMageT3,
+                NPCID.DD2SkeletonT1,
+                NPCID.DD2SkeletonT3,
+                NPCID.DD2WitherBeastT2,
+                NPCID.DD2WitherBeastT3,
+                NPCID.DD2DrakinT2,
+                NPCID.DD2DrakinT3,
+                NPCID.DD2KoboldWalkerT2,
+                NPCID.DD2KoboldWalkerT3,
+                NPCID.DD2KoboldFlyerT2,
+                NPCID.DD2KoboldFlyerT3,
+                NPCID.DD2OgreT2,
+                NPCID.DD2OgreT3,
                 NPCID.DD2Betsy
             };
 

@@ -575,7 +575,7 @@ namespace CalamityMod.NPCs
             }
             else
             {
-                if (CalamityMod.enemyImmunityList.Contains(npc.type))
+                if (CalamityMod.enemyImmunityList.Contains(npc.type) || npc.boss)
                 {
                     npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
                     npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
