@@ -944,7 +944,8 @@ namespace CalamityMod
                 ModContent.ItemType<SnapClam>(),
                 ModContent.ItemType<GacruxianMollusk>(),
                 ModContent.ItemType<PolarisParrotfish>(),
-                ModContent.ItemType<SparklingEmpress>()
+                ModContent.ItemType<SparklingEmpress>(),
+                ModContent.ItemType<YateveoBloom>()
             };
 
             alcoholList = new List<int>()
