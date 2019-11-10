@@ -11,6 +11,8 @@ using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Fishing.AstralCatches;
+using CalamityMod.Items.Fishing.SunkenSeaCatches;
 using CalamityMod.Items.Fishing.FishingRods;
 using CalamityMod.Localization;
 using CalamityMod.NPCs.Abyss;
