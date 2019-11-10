@@ -1697,6 +1697,7 @@ namespace CalamityMod.Items
                 player.setBonus = "+5 defense\n" +
                             "10% increased rogue damage and velocity\n" +
                             "Rogue stealth builds while not attacking and not moving, up to a max of 100\n" +
+                            "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
                             "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
                             "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
             }
@@ -1714,6 +1715,7 @@ namespace CalamityMod.Items
                             "5% increased rogue damage and critical strike chance\n" +
                             "Grants immunity to fire blocks and temporary immunity to lava\n" +
                             "Rogue stealth builds while not attacking and not moving, up to a max of 100\n" +
+                            "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
                             "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
                             "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
             }

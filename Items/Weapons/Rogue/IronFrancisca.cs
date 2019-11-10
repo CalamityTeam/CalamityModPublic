@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Iron Francisca");
             Tooltip.SetDefault("The franciscas do more damage for a short time when initially thrown\n" +
-                               "Stealth Strike: The franciscas have infinite piercing");
+                               "Stealth strikes makes the franciscas have infinite piercing");
         }
 
         public override void SafeSetDefaults()

@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Monkey Darts");
-            Tooltip.SetDefault("Throws three bouncing darts if stealth is full\n" + "Perfect for popping");
+            Tooltip.SetDefault("Stealth strikes throw 3 bouncing dart at high speed\n" + "'Perfect for popping'");
         }
 
         public override void SafeSetDefaults()

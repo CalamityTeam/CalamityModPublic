@@ -12,7 +12,8 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Slick Cane");
             Tooltip.SetDefault("Swipes a cane that steals money from enemies.\n" +
-                               "Stealth strike effect: 1 in 15 chance for hit enemies to drop 1-3 gold coins");
+                               "Stealth strikes gives a 1 in 15 chance for enemies to drop 1-3 gold coins when hit\n" +
+                               "'Economy at its finest'");
         }
 
         public override void SafeSetDefaults()

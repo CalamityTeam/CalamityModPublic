@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Eclipse's Fall");
             Tooltip.SetDefault("When the sun goes dark, you will know judgment\n" +
             "Summons spears from the sky on hit\n" +
-            "Stealth strikes impale enemies and summon a constant barrage of spears");
+            "Stealth strikes impale enemies and summon a constant barrage of spears over time");
         }
 
         public override void SafeSetDefaults()

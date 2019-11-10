@@ -50,6 +50,7 @@ namespace CalamityMod.Items.Armor
                 "Being below 80% life boosts your rogue damage by 10%\n" +
                 "Rogue critical strikes have a 50% chance to heal you\n" +
                 "Rogue stealth builds while not attacking and not moving, up to a max of 135\n" +
+                "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
                 "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
                 "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
             player.crimsonRegen = true;

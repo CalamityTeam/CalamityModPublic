@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Bouncing Betty");
             Tooltip.SetDefault("Throws a grenade which bounces after exploding\n" +
-                               "Stealth Strike Effect: Explodes into a violent blast of fire and shrapnel on bounce");
+                               "Stealth strikes explode into a violent blast of fire and shrapnel when it bounces");
         }
 
         public override void SafeSetDefaults()

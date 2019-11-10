@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             Tooltip.SetDefault("Throws a brick that shatters if stealth is full.\n" +
-                "Prove its resistance by throwing it upwards and catching it with your face");
+                "'Prove its resistance by throwing it upwards and catching it with your face'");
             DisplayName.SetDefault("Throwing Brick");
         }
         public override void SafeSetDefaults()

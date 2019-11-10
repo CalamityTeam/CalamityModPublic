@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Stormfront Razor");
             Tooltip.SetDefault("Throws a throwing knife that leaves sparks as it travels.\n" +
-                               "Stealth Strike: The knife is faster and leaves a huge shower of sparks as it travels");
+                               "Stealth strike causes the knife to be faster and leave a huge shower of sparks as it travels");
         }
 
         public override void SafeSetDefaults()

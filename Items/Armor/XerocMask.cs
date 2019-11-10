@@ -46,6 +46,7 @@ namespace CalamityMod.Items.Armor
                 "All projectile types have special effects on enemy hits\n" +
                 "Imbued with cosmic wrath and rage when you are damaged\n" +
                 "Rogue stealth builds while not attacking and not moving, up to a max of 125\n" +
+                "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
                 "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
                 "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
             if (player.statLife <= (int)((double)player.statLifeMax2 * 0.5))
