@@ -931,7 +931,20 @@ namespace CalamityMod
                 ModContent.ItemType<BlackAnurian>(),
                 ModContent.ItemType<CalamarisLament>(),
                 ModContent.ItemType<HerringStaff>(),
-                ModContent.ItemType<Lionfish>()
+                ModContent.ItemType<Lionfish>(),
+                ModContent.ItemType<ShellfishStaff>(),
+                ModContent.ItemType<ClamCrusher>(),
+                ModContent.ItemType<ClamorRifle>(),
+                ModContent.ItemType<Serpentine>(),
+                ModContent.ItemType<UrchinFlail>(),
+                ModContent.ItemType<CoralCannon>(),
+                ModContent.ItemType<Shellshooter>(),
+                ModContent.ItemType<SandDollar>(),
+                ModContent.ItemType<MagicalConch>(),
+                ModContent.ItemType<SnapClam>(),
+                ModContent.ItemType<GacruxianMollusk>(),
+                ModContent.ItemType<PolarisParrotfish>(),
+                ModContent.ItemType<SparklingEmpress>()
             };
 
             alcoholList = new List<int>()
