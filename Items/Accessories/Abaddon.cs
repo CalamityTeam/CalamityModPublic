@@ -25,5 +25,10 @@ namespace CalamityMod.Items.Accessories
         {
             player.buffImmune[ModContent.BuffType<BrimstoneFlames>()] = true;
         }
+
+        public override void UpdateEquip(Player player)
+        {
+            player.buffImmune[ModContent.BuffType<BrimstoneFlames>()] = true;
+        }
     }
 }
