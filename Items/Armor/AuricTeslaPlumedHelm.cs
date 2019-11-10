@@ -44,6 +44,7 @@ namespace CalamityMod.Items.Armor
                 "Max run speed and acceleration boosted by 10%\n" +
                 "Rogue weapon critical strikes will do 1.25 times damage while you are above 50% HP\n" +
                 "Rogue stealth builds while not attacking and not moving, up to a max of 160\n" +
+                "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
                 "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
                 "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
             CalamityPlayer modPlayer = player.Calamity();

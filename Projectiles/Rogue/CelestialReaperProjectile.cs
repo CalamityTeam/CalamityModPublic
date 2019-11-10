@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -51,7 +52,7 @@ namespace CalamityMod.Projectiles.Rogue
                 }
             }
         }
-        public override bool? CanHitNPC(NPC target) => HomingCooldown == 0 && !target.townNPC;
+        public override bool? CanHitNPC(NPC target) => HomingCooldown == 0 && !target.townNPC && target.type != NPCID.DD2EterniaCrystal;
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             HomingCooldown = 25;

@@ -44,6 +44,7 @@ namespace CalamityMod.Items.Armor
             player.setBonus = "5% increased rogue damage\n" +
                 "You emit a cloud of spores when you are hit\n" +
                 "Rogue stealth builds while not attacking and not moving, up to a max of 115\n" +
+                "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
                 "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
                 "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
             player.Calamity().throwingDamage += 0.05f;

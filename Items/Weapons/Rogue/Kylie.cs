@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Kylie");
-            Tooltip.SetDefault("Throws three short ranged boomerangs if stealth is full\n" + "Also known as Dowak");
+            Tooltip.SetDefault("Stealth strikes throws three short ranged kylies instead of a single long range one\n" + "'Also known as Dowak'");
         }
 
         public override void SafeSetDefaults()

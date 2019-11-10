@@ -13,9 +13,8 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Celestial Reaper");
             Tooltip.SetDefault("Throws a fast homing scythe\n" +
-                               "The scythe can hit an enemy six times\n" +
-                               "On hitting an enemy, the scythe will bounce backwards from the enemy\n" +
-                               "Stealth Strike Effect: Scythe creates damaging afterimages");
+                               "The scythe will bounce after hitting an enemy up to six times\n" +
+                               "Stealth strikes creates damaging afterimages");
         }
 
         public override void SafeSetDefaults()
