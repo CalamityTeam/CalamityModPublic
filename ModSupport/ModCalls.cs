@@ -334,6 +334,55 @@ namespace CalamityMod
                     return CalamityWorld.ironHeart;
             }
         }
+
+        /// <summary>
+        /// Either enables or disables the Calamity difficulty modifier corresponding to the given string.<br></br>
+        /// Unlike the in-game mode changing items, this has no ancillary effects such as failing if a boss is alive or instantly killing players.
+        /// </summary>
+        /// <param name="difficulty">The difficulty modifier to edit.</param>
+        /// <param name="enabled">Whether to enable or disable the difficulty.</param>
+        /// <returns></returns>
+        public static bool SetDifficultyActive(string difficulty, bool enabled)
+        {
+            switch (difficulty.ToLower())
+            {
+                default:
+                    return false;
+
+                case "revengeance":
+                case "rev":
+                case "revengeancemode":
+                case "revengeance mode":
+                    return CalamityWorld.revenge = enabled;
+
+                case "death":
+                case "deathmode":
+                case "death mode":
+                    return CalamityWorld.death = enabled;
+
+                case "defiled":
+                case "defiledrune":
+                case "defiled rune":
+                case "defiledmode":
+                case "defiled mode":
+                    return CalamityWorld.defiled = enabled;
+
+                case "armageddon":
+                case "arma":
+                case "instakill":
+                case "instagib":
+                case "armageddonmode":
+                case "armageddon mode":
+                    return CalamityWorld.armageddon = enabled;
+
+                case "ironheart":
+                case "iron heart":
+                case "steelsoul":
+                case "steel soul":
+                case "permadeath":
+                    return CalamityWorld.ironHeart = enabled;
+            }
+        }
         #endregion
 
         #region Rogue Stats
@@ -1095,10 +1144,22 @@ namespace CalamityMod
                 case "DifficultyActive":
                 case "GetDifficultyActive":
                     if (args.Length < 2)
-                        return new ArgumentNullException("ERROR: Must specify a difficulty modifier name as a string.");
+                        return new ArgumentNullException("ERROR: Must specify a difficulty mode name as a string.");
                     if (!(args[1] is string))
                         return new ArgumentException("ERROR: The argument to \"Difficulty\" must be a string.");
                     return GetDifficultyActive(args[1].ToString());
+
+                case "SetDifficulty":
+                case "SetDifficultyActive":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify a difficulty mode name as a string and a bool.");
+                    if (args.Length < 3)
+                        return new ArgumentNullException("ERROR: Must specify a bool.");
+                    if (!(args[2] is bool))
+                        return new ArgumentException("ERROR: The second argument to \"SetDifficulty\" must be a bool.");
+                    if (!(args[1] is string))
+                        return new ArgumentException("ERROR: The first argument to \"SetDifficulty\" must be a string.");
+                    return SetDifficultyActive(args[1].ToString(), (bool)args[2]);
 
                 case "GetRogueDamage":
                 case "GetRogueDmg":
