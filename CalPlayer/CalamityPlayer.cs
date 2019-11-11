@@ -5437,7 +5437,11 @@ namespace CalamityMod.CalPlayer
             {
                 add += 0.25f;
             }
-            if ((cinnamonRoll && CalamityMod.fireWeaponList.Contains(item.type)) || (evergreenGin && CalamityMod.natureWeaponList.Contains(item.type)))
+            if (cinnamonRoll && CalamityMod.fireWeaponList.Contains(item.type))
+            {
+                add += 0.15f;
+            }
+            if (evergreenGin && CalamityMod.natureWeaponList.Contains(item.type))
             {
                 add += 0.15f;
             }
