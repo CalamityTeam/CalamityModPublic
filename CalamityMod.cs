@@ -163,6 +163,7 @@ namespace CalamityMod
         public static List<int> spikyBallList;
         public static List<int> noGravityList;
         public static List<int> lavaFishList;
+        public static List<int> highTestFishList;
 
         public static List<int> zombieList;
         public static List<int> demonEyeList;
@@ -332,6 +333,7 @@ namespace CalamityMod
             spikyBallList = null;
             noGravityList = null;
             lavaFishList = null;
+            highTestFishList = null;
 
             zombieList = null;
             demonEyeList = null;
@@ -1784,6 +1786,13 @@ namespace CalamityMod
             {
                 ModContent.ItemType<SlurperPole>(),
                 ModContent.ItemType<ChaoticSpreadRod>(),
+                ModContent.ItemType<TheDevourerofCods>()
+            };
+
+            highTestFishList = new List<int>()
+            {
+                ItemID.GoldenFishingRod,
+                ModContent.ItemType<EarlyBloomRod>(),
                 ModContent.ItemType<TheDevourerofCods>()
             };
 

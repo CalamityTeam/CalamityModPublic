@@ -4297,6 +4297,10 @@ namespace CalamityMod.CalPlayer
             {
                 player.scope = true;
             }
+            if (CalamityMod.highTestFishList.Contains(player.inventory[player.selectedItem].type))
+            {
+                player.accFishingLine = true;
+            }
 			if (CalamityMod.boomerangList.Contains(player.inventory[player.selectedItem].type) && player.invis)
             {
 				player.Calamity().throwingDamage += 0.1f;
