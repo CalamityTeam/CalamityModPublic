@@ -131,6 +131,7 @@ namespace CalamityMod
         public static List<int> hardModeNerfList;
         public static List<int> debuffList;
         public static List<int> fireWeaponList;
+        public static List<int> iceWeaponList;
         public static List<int> natureWeaponList;
         public static List<int> alcoholList;
         public static List<int> doubleDamageBuffList; //100% buff
@@ -302,6 +303,7 @@ namespace CalamityMod
             hardModeNerfList = null;
             debuffList = null;
             fireWeaponList = null;
+            iceWeaponList = null;
             natureWeaponList = null;
             alcoholList = null;
             doubleDamageBuffList = null;
@@ -751,10 +753,8 @@ namespace CalamityMod
                 ItemID.FieryGreatsword,
                 ItemID.DD2SquireDemonSword,
                 ItemID.TheHorsemansBlade,
-                ItemID.DD2SquireBetsySword,
                 ItemID.Cascade,
                 ItemID.HelFire,
-                ItemID.MonkStaffT2,
                 ItemID.Flamarang,
                 ItemID.MoltenFury,
                 ItemID.Sunfury,
@@ -762,7 +762,6 @@ namespace CalamityMod
                 ItemID.Flamelash,
                 ItemID.SolarEruption,
                 ItemID.DayBreak,
-                ItemID.MonkStaffT3,
                 ItemID.HellwingBow,
                 ItemID.DD2PhoenixBow,
                 ItemID.DD2BetsyBow,
@@ -794,10 +793,8 @@ namespace CalamityMod
                 ModContent.ItemType<FlameScythe>(),
                 ModContent.ItemType<FlameScytheMelee>(),
                 ModContent.ItemType<FlareBolt>(),
-                ModContent.ItemType<FlarefrostBlade>(),
                 ModContent.ItemType<FlarewingBow>(),
                 ModContent.ItemType<ForbiddenSun>(),
-                ModContent.ItemType<FrigidflashBolt>(),
                 ModContent.ItemType<GreatbowofTurmoil>(),
                 ModContent.ItemType<HarvestStaff>(),
                 ModContent.ItemType<Hellborn>(),
@@ -812,15 +809,12 @@ namespace CalamityMod
                 ModContent.ItemType<MeteorFist>(),
                 ModContent.ItemType<Mourningstar>(),
                 ModContent.ItemType<PhoenixBlade>(),
-                ModContent.ItemType<Photoviscerator>(),
                 ModContent.ItemType<RedSun>(),
                 ModContent.ItemType<SparkSpreader>(),
                 ModContent.ItemType<SpectralstormCannon>(),
                 ModContent.ItemType<SunGodStaff>(),
                 ModContent.ItemType<SunSpiritStaff>(),
-                ModContent.ItemType<TearsofHeaven>(),
                 ModContent.ItemType<TerraFlameburster>(),
-                ModContent.ItemType<TheEmpyrean>(),
                 ModContent.ItemType<TheLastMourning>(),
                 ModContent.ItemType<TheWand>(),
                 ModContent.ItemType<VenusianTrident>(),
@@ -839,6 +833,57 @@ namespace CalamityMod
                 ModContent.ItemType<ProfanedTrident>(),
                 ModContent.ItemType<TheBurningSky>(),
                 ModContent.ItemType<HeliumFlash>()
+            };
+
+            iceWeaponList = new List<int>()
+            {
+                ItemID.IceBlade,
+                ItemID.IceSickle,
+                ItemID.Frostbrand,
+                ItemID.Amarok,
+                ItemID.NorthPole,
+                ItemID.IceBoomerang,
+                ItemID.IceBow,
+                ItemID.SnowmanCannon,
+                ItemID.SnowballCannon,
+                ItemID.IceRod,
+                ItemID.FlowerofFrost,
+                ItemID.FrostStaff,
+                ItemID.BlizzardStaff,
+                ItemID.StaffoftheFrostHydra,
+                ItemID.Snowball,
+                ModContent.ItemType<AbsoluteZero>(),
+                ModContent.ItemType<Avalanche>(),
+                ModContent.ItemType<GlacialCrusher>(),
+                ModContent.ItemType<TemporalFloeSword>(),
+                ModContent.ItemType<ColdheartIcicle>(),
+                ModContent.ItemType<KelvinCatalystMelee>(),
+                ModContent.ItemType<CosmicDischarge>(),
+                ModContent.ItemType<EffluviumBow>(),
+                ModContent.ItemType<EternalBlizzard>(),
+                ModContent.ItemType<FrostbiteBlaster>(),
+                ModContent.ItemType<IcicleStaff>(),
+                ModContent.ItemType<BittercoldStaff>(),
+                ModContent.ItemType<CrystalFlareStaff>(),
+                ModContent.ItemType<IcicleTrident>(),
+                ModContent.ItemType<SnowstormStaff>(),
+                ModContent.ItemType<Cryophobia>(),
+                ModContent.ItemType<FrostBolt>(),
+                ModContent.ItemType<WintersFury>(),
+                ModContent.ItemType<ArcticBearPaw>(),
+                ModContent.ItemType<AncientIceChunk>(),
+                ModContent.ItemType<CryogenicStaff>(),
+                ModContent.ItemType<FrostyFlare>(),
+                ModContent.ItemType<IceStar>(),
+                ModContent.ItemType<Icebreaker>(),
+                ModContent.ItemType<KelvinCatalyst>(),
+				//Cryonic Bar set stuff, could potentially be removed
+                ModContent.ItemType<Trinity>(),
+                ModContent.ItemType<Shimmerspark>(),
+                ModContent.ItemType<StarnightLance>(),
+                ModContent.ItemType<DarkechoGreatbow>(),
+                ModContent.ItemType<ShadecrystalTome>(),
+                ModContent.ItemType<CrystalPiercer>()
             };
 
             natureWeaponList = new List<int>()
