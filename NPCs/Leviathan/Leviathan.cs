@@ -1,6 +1,5 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.Items;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
@@ -613,7 +612,6 @@ namespace CalamityMod.NPCs.Leviathan
         // This loot code is shared with Anahita.
         public static void DropSirenLeviLoot(NPC npc)
         {
-            CalamityMod mod = ModContent.GetInstance<CalamityMod>();
             DropHelper.DropBags(npc);
 
             DropHelper.DropItemChance(npc, ModContent.ItemType<LeviathanTrophy>(), 10);
