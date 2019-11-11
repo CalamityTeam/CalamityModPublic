@@ -3146,6 +3146,7 @@ namespace CalamityMod.NPCs
             int permadong = NPC.FindFirstNPC(ModContent.NPCType<DILF>());
             int seahorse = NPC.FindFirstNPC(ModContent.NPCType<SEAHOE>());
             //int thief = NPC.FindFirstNPC(ModContent.NPCType<THIEF>());
+            int angelstatue = NPC.FindFirstNPC(NPCID.Merchant);
 
             switch (npc.type)
             {
@@ -3204,9 +3205,9 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.TravellingMerchant:
-                    if (Main.rand.NextBool(5) && NPC.AnyNPCs(ModContent.NPCType<FAP>()))
+                    if (Main.rand.NextBool(5) && NPC.AnyNPCs(ModContent.NPCType<FAP>()) && NPC.AnyNPCs(NPCID.Merchant))
                     {
-                        chat = "Tell " + Main.npc[fapsol].GivenName + " I'll take up her offer and meet with her at the back of [Name of Merchant]s house.";
+                        chat = "Tell " + Main.npc[fapsol].GivenName + " I'll take up her offer and meet with her at the back of " + Main.npc[angelstatue].GivenName + "'s house.";
                     }
 					
                     break;
@@ -3281,11 +3282,11 @@ namespace CalamityMod.NPCs
                     }
                     if (Main.rand.NextBool(4) && Main.LocalPlayer.ZoneDesert)
                     {
-                        chat = "I hate sand. It's coarse, and rough… and gets in my paint.";
+                        chat = "I hate sand. It's coarse, and roughÂ… and gets in my paint.";
                     }
                     if (Main.rand.NextBool(4) && Main.LocalPlayer.ZoneHoly)
                     {
-                        chat = "Do you think unicorn blood could be used as a good pigment or resin? … No I'm not going to find out myself.";
+                        chat = "Do you think unicorn blood could be used as a good pigment or resin? Â… No I'm not going to find out myself.";
                     }
                     if (Main.rand.NextBool(4) && Main.LocalPlayer.ZoneSkyHeight)
                     {
@@ -3314,7 +3315,7 @@ namespace CalamityMod.NPCs
                     }
                     if (Main.rand.NextBool(4) && Main.LocalPlayer.Calamity().ZoneSulphur)
                     {
-                        chat = "Fun fact! Sulphur was used as pigment once upon a time! … Or was it Cinnabar?";
+                        chat = "Fun fact! Sulphur was used as pigment once upon a time! Â… Or was it Cinnabar?";
                     }
                     if (Main.rand.NextBool(4) && Main.LocalPlayer.Calamity().ZoneAbyss)
                     {
@@ -3359,7 +3360,7 @@ namespace CalamityMod.NPCs
                     if (Main.rand.NextBool(5) && Main.LocalPlayer.ZoneGlowshroom)
                     {
                         //high iq drugs iirc
-                        chat = "“I'm not here for any reason! Just picking up mushrooms for uh, later use.";
+                        chat = "Â“I'm not here for any reason! Just picking up mushrooms for uh, later use.";
                     }
 
                     break;
@@ -3485,7 +3486,7 @@ namespace CalamityMod.NPCs
 					
                     if (Main.rand.NextBool(5) && Main.LocalPlayer.Center.ToTileCoordinates().X < 380 && !Main.LocalPlayer.Calamity().ZoneSulphur)
                     {
-                        chat = "Now this is a scene that I can admire any time! … I feel like something is watching me though.";
+                        chat = "Now this is a scene that I can admire any time! Â… I feel like something is watching me though.";
                     }
 					
                     if (Main.rand.NextBool(5) && Main.LocalPlayer.Calamity().ZoneSulphur)
