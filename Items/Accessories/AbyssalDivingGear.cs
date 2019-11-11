@@ -44,6 +44,21 @@ namespace CalamityMod.Items.Accessories
             }
         }
 
+        public override void UpdateEquip(Player player)
+        {
+            CalamityPlayer modPlayer = player.Calamity();
+            modPlayer.depthCharm = true;
+            modPlayer.jellyfishNecklace = true;
+            player.arcticDivingGear = true;
+            player.accFlipper = true;
+            player.accDivingHelm = true;
+            player.iceSkate = true;
+            if (player.wet)
+            {
+                Lighting.AddLight((int)player.Center.X / 16, (int)player.Center.Y / 16, 0.2f, 0.8f, 0.9f);
+            }
+        }
+
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

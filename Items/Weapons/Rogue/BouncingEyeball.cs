@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Bouncing Eyeball");
             Tooltip.SetDefault("Throws an eyeball that bounces off of surfaces.\n" +
                                "Knockback is much stronger during a blood moon\n" +
-                               "Stealth Strike Effect: Eyeballs move much faster and bounce more energetically");
+                               "Stealth strikes causes the eyeballs to move much faster and bounce more energetically");
         }
         public override void SafeSetDefaults()
         {

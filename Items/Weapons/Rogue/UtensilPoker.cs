@@ -13,7 +13,8 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Utensil Poker");
             Tooltip.SetDefault("Fires random utensils in bursts of three\n" +
                 "Grants Well Fed on enemy hits\n" +
-                "Stealth strikes launch an additional butcher knife");
+                "Stealth strikes launch an additional butcher knife\n" +
+                "'Space chickens, that is all.'");
         }
 
         public override void SafeSetDefaults()

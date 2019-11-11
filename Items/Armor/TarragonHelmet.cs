@@ -52,6 +52,7 @@ namespace CalamityMod.Items.Armor
                 "This effect can only occur once every 30 seconds\n" +
                 "While under the effects of a debuff you gain 10% increased rogue damage\n" +
                 "Rogue stealth builds while not attacking and not moving, up to a max of 130\n" +
+                "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
                 "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
                 "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
         }

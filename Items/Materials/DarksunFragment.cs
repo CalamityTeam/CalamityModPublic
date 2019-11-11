@@ -11,14 +11,6 @@ namespace CalamityMod.Items.Materials
             Tooltip.SetDefault("A shard of lunar and solar energy");
         }
 
-        public override void Update(ref float gravity, ref float maxFallSpeed)
-        {
-            maxFallSpeed = 0f;
-            float num = (float)Main.rand.Next(90, 111) * 0.01f;
-            num *= Main.essScale;
-            Lighting.AddLight((int)((item.position.X + (float)(item.width / 2)) / 16f), (int)((item.position.Y + (float)(item.height / 2)) / 16f), 0.5f * num, 0.5f * num, 0.5f * num);
-        }
-
         public override void SetDefaults()
         {
             item.width = 20;
@@ -27,6 +19,13 @@ namespace CalamityMod.Items.Materials
             item.rare = 10;
             item.value = Item.sellPrice(gold: 12);
             item.Calamity().postMoonLordRarity = 15;
+        }
+
+        public override void Update(ref float gravity, ref float maxFallSpeed)
+        {
+            float num = (float)Main.rand.Next(90, 111) * 0.01f;
+            num *= Main.essScale;
+            Lighting.AddLight((int)((item.position.X + (float)(item.width / 2)) / 16f), (int)((item.position.Y + (float)(item.height / 2)) / 16f), 0.5f * num, 0.5f * num, 0.5f * num);
         }
     }
 }

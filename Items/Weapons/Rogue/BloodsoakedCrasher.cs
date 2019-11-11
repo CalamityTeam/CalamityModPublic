@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Bloodsoaked Crasher");
             Tooltip.SetDefault("Slows down when hitting an enemy. Speeds up otherwise\n" +
             "Heals on enemy hits\n" +
-            "Stealth strikes spawn homing blood on enemy hits");
+            "Stealth strikes spawns homing blood on enemy hits");
         }
 
         public override void SafeSetDefaults()

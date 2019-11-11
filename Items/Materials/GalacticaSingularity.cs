@@ -37,7 +37,6 @@ namespace CalamityMod.Items.Materials
 
         public override void Update(ref float gravity, ref float maxFallSpeed)
         {
-            maxFallSpeed = 0f;
             float num = (float)Main.rand.Next(90, 111) * 0.01f;
             num *= Main.essScale;
             Lighting.AddLight((int)((item.position.X + (float)(item.width / 2)) / 16f), (int)((item.position.Y + (float)(item.height / 2)) / 16f), 1f * num, 0.3f * num, 0.3f * num);

@@ -11,13 +11,14 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class HellsSun : RogueWeapon
     {
-        private static int damage = 250;
+        private static int damage = 180;
         private static int knockBack = 5;
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hell's Sun");
-            Tooltip.SetDefault("Shoots a gravity-defying spiky ball. Stacks up to 10.\n" +
+            Tooltip.SetDefault("The Subterranean Sun in the palm of your hand.\n" +
+				"Shoots a gravity-defying spiky ball. Stacks up to 10.\n" +
                 "Once stationary, periodically emits small suns that explode on hit\n" +
                 "Stealth strikes emit suns at a faster rate and last for a longer amount of time\n" +
 				"Right click to delete all existing spiky balls");

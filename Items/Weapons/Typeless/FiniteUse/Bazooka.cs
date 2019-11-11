@@ -89,15 +89,7 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
             recipe.AddIngredient(ItemID.IronBar, 20);
             recipe.anyIronBar = true;
             recipe.AddIngredient(ItemID.IllegalGunParts);
-            recipe.AddIngredient(ItemID.AdamantiteBar, 15);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.IronBar, 20);
-            recipe.anyIronBar = true;
-            recipe.AddIngredient(ItemID.IllegalGunParts);
-            recipe.AddIngredient(ItemID.TitaniumBar, 15);
+            recipe.AddRecipeGroup("AnyAdamantiteBar", 15);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

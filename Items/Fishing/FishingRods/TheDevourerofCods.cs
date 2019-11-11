@@ -32,7 +32,6 @@ namespace CalamityMod.Items.Fishing.FishingRods
             item.value = Item.buyPrice(1, 80, 0, 0);
             item.rare = 10;
             item.Calamity().postMoonLordRarity = 14;
-			ItemID.Sets.CanFishInLava[item.type] = true;
         }
 
 		public override void HoldItem(Player player)
@@ -59,13 +58,7 @@ namespace CalamityMod.Items.Fishing.FishingRods
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 12);
-            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 12);
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 5);
+            recipe.AddRecipeGroup("NForEE", 5);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

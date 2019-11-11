@@ -20,11 +20,6 @@ namespace CalamityMod.Items.Materials
             item.rare = 8;
         }
 
-        public override void Update(ref float gravity, ref float maxFallSpeed)
-        {
-            maxFallSpeed = 0f;
-        }
-
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

@@ -32,7 +32,6 @@ namespace CalamityMod.Items.Fishing.FishingRods
 			item.shoot = ModContent.ProjectileType<ChaoticSpreadBobber>();
             item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;
-			ItemID.Sets.CanFishInLava[item.type] = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

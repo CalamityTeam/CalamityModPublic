@@ -34,14 +34,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.PlatinumBar, 7);
-            recipe.AddIngredient(ItemID.Granite, 5);
-            recipe.AddIngredient(ItemID.Marble, 5);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.GoldBar, 7);
+            recipe.AddRecipeGroup("AnyGoldBar", 7);
             recipe.AddIngredient(ItemID.Granite, 5);
             recipe.AddIngredient(ItemID.Marble, 5);
             recipe.AddTile(TileID.Anvils);
