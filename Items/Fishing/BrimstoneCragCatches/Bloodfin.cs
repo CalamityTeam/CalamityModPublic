@@ -49,9 +49,13 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
             }
             if (Main.myPlayer == player.whoAmI)
             {
-                player.HealEffect(200, true);
+                player.HealEffect(240, true);
             }
             player.AddBuff(ModContent.BuffType<BloodfinBoost>(), 600);
+			
+			//So you can't just spam with quick buff
+            player.ClearBuff(BuffID.PotionSickness);
+            player.AddBuff(BuffID.PotionSickness, player.pStone ? 2700 : 3600);
         }
 
         // Zeroes out the hardcoded healing function from having a healLife value. The item still heals in the UseItem hook.
