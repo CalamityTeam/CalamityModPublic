@@ -1,7 +1,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Buffs.StatBuffs;
+using CalamityMod.Buffs.Potions;
 using System.Collections.Generic;
 
 namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
