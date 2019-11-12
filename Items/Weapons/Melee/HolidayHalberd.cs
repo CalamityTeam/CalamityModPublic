@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Melee
             DisplayName.SetDefault("Holiday Halberd");
             Tooltip.SetDefault("idk I'm miserable with names\n" +
                 "- The General\n" +
-                "Fires red and green bouncing balls that emit clouds as they travel");
+                "Fires red and green bouncing gift bags that emit clouds as they travel");
         }
 
         public override void SetDefaults()

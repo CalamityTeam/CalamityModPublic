@@ -24,13 +24,10 @@ namespace CalamityMod.NPCs.AquaticScourge
     public class AquaticScourgeHead : ModNPC
     {
         private bool detectsPlayer = false;
-        private const int minLength = 30;
-        private const int maxLength = 31;
         private float speed = 5f; //10
         private float turnSpeed = 0.08f; //0.15
         private bool TailSpawned = false;
         private bool despawning = false;
-        private bool charging = false;
 
         public override void SetStaticDefaults()
         {
@@ -74,7 +71,6 @@ namespace CalamityMod.NPCs.AquaticScourge
             writer.Write(despawning);
             writer.Write(detectsPlayer);
             writer.Write(npc.chaseable);
-            writer.Write(charging);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
@@ -82,7 +78,6 @@ namespace CalamityMod.NPCs.AquaticScourge
             despawning = reader.ReadBoolean();
             detectsPlayer = reader.ReadBoolean();
             npc.chaseable = reader.ReadBoolean();
-            charging = reader.ReadBoolean();
         }
 
         public override void AI()
@@ -116,11 +111,12 @@ namespace CalamityMod.NPCs.AquaticScourge
             {
                 if (!TailSpawned && npc.ai[0] == 0f)
                 {
+					int maxLength = 31;
                     int Previous = npc.whoAmI;
                     for (int num36 = 0; num36 < maxLength; num36++)
                     {
                         int lol;
-                        if (num36 >= 0 && num36 < minLength)
+                        if (num36 >= 0 && num36 < maxLength - 1)
                         {
                             if (num36 % 2 == 0)
                             {

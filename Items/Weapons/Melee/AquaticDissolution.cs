@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Aquatic Dissolution");
-            Tooltip.SetDefault("Fires aquatic jets from the sky that bounce off tiles");
+            Tooltip.SetDefault("Fires whaling spears from the sky that bounce off tiles");
         }
 
         public override void SetDefaults()

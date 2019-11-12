@@ -91,7 +91,7 @@ namespace CalamityMod.NPCs
 			float yDistance = player.Center.Y - vectorCenter.Y;
 			float totalDistance = (float)Math.Sqrt((double)(xDistance * xDistance + yDistance * yDistance));
 
-			// Phase 1 movement, static movement towards target
+			// Static movement towards target
 			if (npc.ai[0] <= 2f)
 			{
 				npc.rotation = npc.velocity.X * 0.04f;
@@ -103,7 +103,7 @@ namespace CalamityMod.NPCs
 				npc.velocity.Y = (npc.velocity.Y * 50f + yDistance) / 51f;
 			}
 
-			// Phase 1 teleport, pick a location to teleport to
+			// Pick a location to teleport to
 			if (npc.ai[0] == 0f)
 			{
 				npc.chaseable = true;
@@ -181,7 +181,7 @@ namespace CalamityMod.NPCs
 				}
 			}
 
-			// Either teleport again or go to phase 2
+			// Either teleport again or go to next AI state
 			else if (npc.ai[0] == 2f)
 			{
 				npc.alpha -= 50;
@@ -205,7 +205,7 @@ namespace CalamityMod.NPCs
 				}
 			}
 
-			// Phase 2, float above target and fire projectiles
+			// Float above target and fire projectiles
 			else if (npc.ai[0] == 3f)
 			{
 				npc.chaseable = true;
@@ -333,7 +333,7 @@ namespace CalamityMod.NPCs
 				}
 			}
 
-			// Phase 3, cocoon bullet hell
+			// Cocoon bullet hell
 			else if (npc.ai[0] == 4f)
 			{
 				npc.defense = 99999;
@@ -549,11 +549,14 @@ namespace CalamityMod.NPCs
 				npc.chaseable = !brotherAlive;
 			}
 
+			// Get a target
 			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
 				npc.TargetClosest(true);
 
+			// Target variable
 			Player player = Main.player[npc.target];
 
+			// Rotation
 			float num801 = npc.position.X + (float)(npc.width / 2) - player.position.X - (float)(player.width / 2);
 			float num802 = npc.position.Y + (float)npc.height - 59f - player.position.Y - (float)(player.height / 2);
 			float num803 = (float)Math.Atan2((double)num802, (double)num801) + 1.57f;
@@ -587,6 +590,7 @@ namespace CalamityMod.NPCs
 			if (npc.rotation > num803 - num804 && npc.rotation < num803 + num804)
 				npc.rotation = num803;
 
+			// Despawn
 			if (!player.active || player.dead || (dayTime && !Main.eclipse))
 			{
 				npc.TargetClosest(false);
@@ -603,6 +607,7 @@ namespace CalamityMod.NPCs
 			else if (npc.timeLeft < 1800)
 				npc.timeLeft = 1800;
 
+			// Float above target and fire lasers or fireballs
 			if (npc.ai[1] == 0f)
 			{
 				float num823 = expertMode ? 9.5f : 8f;
@@ -673,9 +678,9 @@ namespace CalamityMod.NPCs
 
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
+					npc.localAI[1] += 1f;
 					if (phase2)
 					{
-						npc.localAI[1] += 1f;
 						if (!brotherAlive)
 						{
 							npc.localAI[1] += 1f * (1f - lifeRatio);
@@ -705,7 +710,6 @@ namespace CalamityMod.NPCs
 					}
 					else
 					{
-						npc.localAI[1] += 1f;
 						if (revenge)
 							npc.localAI[1] += 0.5f;
 
@@ -726,6 +730,8 @@ namespace CalamityMod.NPCs
 					}
 				}
 			}
+
+			// Float to the side of the target and fire lasers
 			else
 			{
 				int num831 = 1;

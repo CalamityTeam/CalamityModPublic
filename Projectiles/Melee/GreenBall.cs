@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ball");
+            DisplayName.SetDefault("Green Bag");
         }
 
         public override void SetDefaults()
@@ -21,6 +21,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.friendly = true;
             projectile.melee = true;
             projectile.penetrate = 2;
+			projectile.alpha = 255;
             projectile.aiStyle = 14;
             projectile.timeLeft = 300;
         }
@@ -28,16 +29,13 @@ namespace CalamityMod.Projectiles.Melee
         public override void AI()
         {
             Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.05f / 255f, (255 - projectile.alpha) * 0.45f / 255f, (255 - projectile.alpha) * 0.05f / 255f);
-            projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] > 4f)
-            {
-                for (int num468 = 0; num468 < 5; num468++)
-                {
-                    int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 107, 0f, 0f, 100, default, 1.5f);
-                    Main.dust[num469].noGravity = true;
-                    Main.dust[num469].velocity *= 0f;
-                }
-            }
+			if (projectile.alpha > 0)
+			{
+				projectile.alpha -= 25;
+				if (projectile.alpha > 0)
+					projectile.alpha = 0;
+			}
+			projectile.rotation = projectile.velocity.X * 0.04f;
             projTime--;
             if (projTime == 0)
             {
@@ -49,7 +47,18 @@ namespace CalamityMod.Projectiles.Melee
             }
         }
 
-        public override bool OnTileCollide(Vector2 oldVelocity)
+		public override Color? GetAlpha(Color lightColor)
+		{
+			if (projectile.timeLeft < 85)
+			{
+				byte b2 = (byte)(projectile.timeLeft * 3);
+				byte a2 = (byte)(100f * ((float)b2 / 255f));
+				return new Color((int)b2, (int)b2, (int)b2, (int)a2);
+			}
+			return new Color(255, 255, 255, 100);
+		}
+
+		public override bool OnTileCollide(Vector2 oldVelocity)
         {
             projectile.penetrate--;
             if (projectile.penetrate <= 0)

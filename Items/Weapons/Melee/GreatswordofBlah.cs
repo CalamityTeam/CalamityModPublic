@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Greatsword of Blah");
             Tooltip.SetDefault("A pale white sword from a forgotten land\n" +
-                                "Fires a rainbow orb that emits rainbow rain on death for a time\n" +
+                                "Fires a rainbow beam that emits rainbow rain on death for a time\n" +
                                "You can hear faint yet comforting whispers emanating from the blade\n" +
                                 "'No matter where you may be you are never alone\n" +
                                 "I shall always be at your side, my lord'");
@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.value = Item.buyPrice(1, 80, 0, 0);
             item.rare = 10;
             item.shoot = ModContent.ProjectileType<JudgementBlah>();
-            item.shootSpeed = 12f;
+            item.shootSpeed = 6f;
             item.Calamity().postMoonLordRarity = 14;
         }
 

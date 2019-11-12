@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Greentide");
-            Tooltip.SetDefault("Summons green blasts of water from the sky on hit");
+            Tooltip.SetDefault("Summons teeth from the sky on hit");
         }
 
         public override void SetDefaults()

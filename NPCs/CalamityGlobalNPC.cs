@@ -3282,11 +3282,11 @@ namespace CalamityMod.NPCs
                     }
                     if (Main.rand.NextBool(4) && Main.LocalPlayer.ZoneDesert)
                     {
-                        chat = "I hate sand. It's coarse, and rough and gets in my paint.";
+                        chat = "I hate sand. It's coarse, and rough and gets in my paint.";
                     }
                     if (Main.rand.NextBool(4) && Main.LocalPlayer.ZoneHoly)
                     {
-                        chat = "Do you think unicorn blood could be used as a good pigment or resin?  No I'm not going to find out myself.";
+                        chat = "Do you think unicorn blood could be used as a good pigment or resin? No I'm not going to find out myself.";
                     }
                     if (Main.rand.NextBool(4) && Main.LocalPlayer.ZoneSkyHeight)
                     {
@@ -3315,7 +3315,7 @@ namespace CalamityMod.NPCs
                     }
                     if (Main.rand.NextBool(4) && Main.LocalPlayer.Calamity().ZoneSulphur)
                     {
-                        chat = "Fun fact! Sulphur was used as pigment once upon a time!  Or was it Cinnabar?";
+                        chat = "Fun fact! Sulphur was used as pigment once upon a time! Or was it Cinnabar?";
                     }
                     if (Main.rand.NextBool(4) && Main.LocalPlayer.Calamity().ZoneAbyss)
                     {
@@ -3486,7 +3486,7 @@ namespace CalamityMod.NPCs
 					
                     if (Main.rand.NextBool(5) && Main.LocalPlayer.Center.ToTileCoordinates().X < 380 && !Main.LocalPlayer.Calamity().ZoneSulphur)
                     {
-                        chat = "Now this is a scene that I can admire any time!  I feel like something is watching me though.";
+                        chat = "Now this is a scene that I can admire any time! I feel like something is watching me though.";
                     }
 					
                     if (Main.rand.NextBool(5) && Main.LocalPlayer.Calamity().ZoneSulphur)

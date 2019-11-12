@@ -1,67 +1,63 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Melee
 {
     public class OceanBeam : ModProjectile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Beam");
-        }
+            DisplayName.SetDefault("Spear");
+			Main.projFrames[projectile.type] = 4;
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+		}
 
         public override void SetDefaults()
         {
-            projectile.width = 8;
-            projectile.height = 8;
+            projectile.width = 14;
+            projectile.height = 14;
             projectile.friendly = true;
-            projectile.alpha = 255;
             projectile.extraUpdates = 2;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 8;
             projectile.penetrate = 3;
-            projectile.timeLeft /= 2;
+            projectile.timeLeft = 600;
             projectile.melee = true;
             projectile.tileCollide = false;
         }
 
         public override void AI()
         {
-            for (int num92 = 0; num92 < 2; num92++)
-            {
-                float num93 = projectile.velocity.X / 3f * (float)num92;
-                float num94 = projectile.velocity.Y / 3f * (float)num92;
-                int num95 = 4;
-                int num96 = Dust.NewDust(new Vector2(projectile.position.X + (float)num95, projectile.position.Y + (float)num95), projectile.width - num95 * 2, projectile.height - num95 * 2, 56, 0f, 0f, 100, default, 1.2f);
-                Main.dust[num96].noGravity = true;
-                Main.dust[num96].velocity *= 0.25f;
-                Main.dust[num96].velocity += projectile.velocity * 0.1f;
-                Dust expr_47FA_cp_0 = Main.dust[num96];
-                expr_47FA_cp_0.position.X -= num93;
-                Dust expr_4815_cp_0 = Main.dust[num96];
-                expr_4815_cp_0.position.Y -= num94;
-            }
-            for (int num105 = 0; num105 < 2; num105++)
-            {
-                float num99 = projectile.velocity.X / 3f * (float)num105;
-                float num100 = projectile.velocity.Y / 3f * (float)num105;
-                int num101 = 4;
-                int num102 = Dust.NewDust(new Vector2(projectile.position.X + (float)num101, projectile.position.Y + (float)num101), projectile.width - num101 * 2, projectile.height - num101 * 2, 245, 0f, 0f, 100, default, 1.2f);
-                Main.dust[num102].noGravity = true;
-                Main.dust[num102].velocity *= 0.1f;
-                Main.dust[num102].velocity += projectile.velocity * 0.25f;
-                Dust expr_47FA_cp_0 = Main.dust[num102];
-                expr_47FA_cp_0.position.X -= num99;
-                Dust expr_4815_cp_0 = Main.dust[num102];
-                expr_4815_cp_0.position.Y -= num100;
-            }
+			projectile.frameCounter++;
+			if (projectile.frameCounter > 24)
+			{
+				projectile.frame++;
+				projectile.frameCounter = 0;
+			}
+			if (projectile.frame > 3)
+			{
+				projectile.frame = 0;
+			}
 
-            projectile.ai[1] += 1f;
+			projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X);
+
+			projectile.ai[1] += 1f;
             if (projectile.ai[1] >= 60f)
                 projectile.tileCollide = true;
         }
 
-        public override bool OnTileCollide(Vector2 oldVelocity)
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+			return false;
+		}
+
+		public override bool OnTileCollide(Vector2 oldVelocity)
         {
             projectile.penetrate--;
             if (projectile.penetrate <= 0)
@@ -70,7 +66,6 @@ namespace CalamityMod.Projectiles.Melee
             }
             else
             {
-                projectile.ai[0] += 0.1f;
                 if (projectile.velocity.X != oldVelocity.X)
                 {
                     projectile.velocity.X = -oldVelocity.X;
@@ -86,7 +81,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 27);
+            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 10);
             for (int k = 0; k < 3; k++)
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 56, projectile.oldVelocity.X * 0.25f, projectile.oldVelocity.Y * 0.25f);

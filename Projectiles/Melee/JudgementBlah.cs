@@ -1,7 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Melee
 {
     public class JudgementBlah : ModProjectile
@@ -10,24 +13,52 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Judgement");
-        }
+            DisplayName.SetDefault("Blah Beam");
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+		}
 
         public override void SetDefaults()
         {
-            projectile.width = 12;
-            projectile.height = 12;
+            projectile.width = 20;
+            projectile.height = 20;
             projectile.extraUpdates = 3;
             projectile.friendly = true;
             projectile.ignoreWater = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 60;
+            projectile.penetrate = 1;
+            projectile.timeLeft = 120;
             projectile.melee = true;
         }
 
         public override void AI()
         {
-            Lighting.AddLight((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16, (float)Main.DiscoR / 200f, (float)Main.DiscoG / 200f, (float)Main.DiscoB / 200f);
+			projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 0.785f;
+			if (projectile.ai[1] == 0f)
+			{
+				projectile.ai[1] = 1f;
+				Main.PlaySound(SoundID.Item60, projectile.position);
+			}
+			if (projectile.localAI[0] == 0f)
+			{
+				projectile.scale -= 0.02f;
+				projectile.alpha += 30;
+				if (projectile.alpha >= 250)
+				{
+					projectile.alpha = 255;
+					projectile.localAI[0] = 1f;
+				}
+			}
+			else if (projectile.localAI[0] == 1f)
+			{
+				projectile.scale += 0.02f;
+				projectile.alpha -= 30;
+				if (projectile.alpha <= 0)
+				{
+					projectile.alpha = 0;
+					projectile.localAI[0] = 0f;
+				}
+			}
+			Lighting.AddLight((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16, (float)Main.DiscoR / 200f, (float)Main.DiscoG / 200f, (float)Main.DiscoB / 200f);
             whiteLightTimer--;
             if (whiteLightTimer == 0)
             {
@@ -51,13 +82,10 @@ namespace CalamityMod.Projectiles.Melee
                 }
                 whiteLightTimer = 5;
             }
-            for (int num457 = 0; num457 < 2; num457++)
-            {
-                int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 66, 0f, 0f, 100, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1f);
-                Main.dust[num458].noGravity = true;
-                Main.dust[num458].velocity *= 0.5f;
-                Main.dust[num458].velocity += projectile.velocity * 0.1f;
-            }
+            int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 66, 0f, 0f, 100, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 0.6f);
+            Main.dust[num458].noGravity = true;
+            Main.dust[num458].velocity *= 0.5f;
+            Main.dust[num458].velocity += projectile.velocity * 0.1f;
             float num472 = projectile.Center.X;
             float num473 = projectile.Center.Y;
             float num474 = 400f;
@@ -93,10 +121,38 @@ namespace CalamityMod.Projectiles.Melee
             }
         }
 
-        public override void Kill(int timeLeft)
+		public override Color? GetAlpha(Color lightColor)
+		{
+			return new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, projectile.alpha);
+		}
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			if (projectile.timeLeft > 115)
+				return false;
+
+			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+			return false;
+		}
+
+		public override void Kill(int timeLeft)
         {
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 122);
-            if (projectile.owner == Main.myPlayer)
+			Main.PlaySound(SoundID.Item122, projectile.Center);
+			for (int num193 = 0; num193 < 2; num193++)
+			{
+				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 66, 0f, 0f, 100, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1.5f);
+				Main.dust[dust].noGravity = true;
+			}
+			for (int num194 = 0; num194 < 20; num194++)
+			{
+				int num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 66, 0f, 0f, 100, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 2.5f);
+				Main.dust[num195].noGravity = true;
+				Main.dust[num195].velocity *= 3f;
+				num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 66, 0f, 0f, 100, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1.5f);
+				Main.dust[num195].velocity *= 2f;
+				Main.dust[num195].noGravity = true;
+			}
+			if (projectile.owner == Main.myPlayer)
             {
                 Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y - 100, 0f, 0f, ModContent.ProjectileType<WhiteBoltAuraBlah>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
             }
