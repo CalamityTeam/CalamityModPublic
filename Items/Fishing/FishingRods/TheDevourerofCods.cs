@@ -34,11 +34,6 @@ namespace CalamityMod.Items.Fishing.FishingRods
             item.Calamity().postMoonLordRarity = 14;
         }
 
-		public override void HoldItem(Player player)
-        {
-            player.accFishingLine = true;
-        }
-
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             for (int index = 0; index < 10; ++index)

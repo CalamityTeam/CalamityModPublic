@@ -863,6 +863,7 @@ namespace CalamityMod
             TileObjectData.addAlternate(1);
             TileObjectData.addTile(type);
         }
+
         public static void SetUpBed(int type, bool lavaImmune = false)
         {
             Main.tileFrameImportant[type] = true;
@@ -885,6 +886,7 @@ namespace CalamityMod
             TileObjectData.addAlternate(1);
             TileObjectData.addTile(type);
         }
+
         public static void SetUpBookcase(int type, bool lavaImmune = false)
         {
             Main.tileSolidTop[type] = true;
@@ -897,6 +899,7 @@ namespace CalamityMod
             TileObjectData.newTile.LavaDeath = !lavaImmune;
             TileObjectData.addTile(type);
         }
+
         public static void SetUpCandelabra(int type, bool lavaImmune = false)
         {
             Main.tileLighted[type] = true;
@@ -907,6 +910,7 @@ namespace CalamityMod
             TileObjectData.newTile.LavaDeath = !lavaImmune;
             TileObjectData.addTile(type);
         }
+
         public static void SetUpCandle(int type, bool lavaImmune = false)
         {
             Main.tileLighted[type] = true;
@@ -918,6 +922,7 @@ namespace CalamityMod
             TileObjectData.newTile.LavaDeath = !lavaImmune;
             TileObjectData.addTile(type);
         }
+
         public static void SetUpChair(int type, bool lavaImmune = false)
         {
             Main.tileFrameImportant[type] = true;
@@ -936,6 +941,7 @@ namespace CalamityMod
             TileObjectData.addAlternate(1);
             TileObjectData.addTile(type);
         }
+
         public static void SetUpChandelier(int type, bool lavaImmune = false)
         {
             Main.tileLighted[type] = true;
@@ -954,6 +960,7 @@ namespace CalamityMod
             TileObjectData.newTile.LavaDeath = !lavaImmune;
             TileObjectData.addTile(type);
         }
+
         public static void SetUpChest(int type)
         {
             Main.tileSpelunker[type] = true;
@@ -975,6 +982,7 @@ namespace CalamityMod
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
             TileObjectData.addTile(type);
         }
+
         public static void SetUpClock(int type, bool lavaImmune = false)
         {
             Main.tileFrameImportant[type] = true;
@@ -996,6 +1004,7 @@ namespace CalamityMod
             TileObjectData.newTile.LavaDeath = !lavaImmune;
             TileObjectData.addTile(type);
         }
+
         public static void SetUpDoorClosed(int type, bool lavaImmune = false)
         {
             Main.tileFrameImportant[type] = true;
@@ -1026,6 +1035,7 @@ namespace CalamityMod
             TileObjectData.addAlternate(0);
             TileObjectData.addTile(type);
         }
+
         public static void SetUpDoorOpen(int type, bool lavaImmune = false)
         {
             Main.tileFrameImportant[type] = true;
@@ -1076,6 +1086,7 @@ namespace CalamityMod
             TileID.Sets.HousingWalls[type] = true;
             TileID.Sets.HasOutlines[type] = true;
         }
+
         public static void SetUpDresser(int type)
         {
             Main.tileSolidTop[type] = true;
@@ -1097,6 +1108,7 @@ namespace CalamityMod
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
             TileObjectData.addTile(type);
         }
+
         public static void SetUpLamp(int type, bool lavaImmune = false)
         {
             Main.tileLighted[type] = true;
@@ -1107,6 +1119,7 @@ namespace CalamityMod
             TileObjectData.newTile.LavaDeath = !lavaImmune;
             TileObjectData.addTile(type);
         }
+
         public static void SetUpLantern(int type, bool lavaImmune = false)
         {
             Main.tileLighted[type] = true;
@@ -1117,6 +1130,7 @@ namespace CalamityMod
             TileObjectData.newTile.LavaDeath = !lavaImmune;
             TileObjectData.addTile(type);
         }
+
         public static void SetUpPiano(int type, bool lavaImmune = false)
         {
             Main.tileLighted[type] = true;
@@ -1127,6 +1141,7 @@ namespace CalamityMod
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
             TileObjectData.addTile(type);
         }
+
         public static void SetUpSink(int type, bool lavaImmune = false)
         {
             Main.tileLighted[type] = true;
@@ -1137,6 +1152,7 @@ namespace CalamityMod
             TileObjectData.newTile.LavaDeath = !lavaImmune;
             TileObjectData.addTile(type);
         }
+
         public static void SetUpSofa(int type, bool lavaImmune = false)
         {
             Main.tileLighted[type] = true;
@@ -1147,6 +1163,7 @@ namespace CalamityMod
             TileObjectData.newTile.LavaDeath = !lavaImmune;
             TileObjectData.addTile(type);
         }
+
         public static void SetUpTable(int type, bool lavaImmune = false)
         {
             Main.tileSolidTop[type] = true;
@@ -1161,6 +1178,7 @@ namespace CalamityMod
             TileObjectData.newTile.LavaDeath = !lavaImmune;
             TileObjectData.addTile(type);
         }
+
         public static void SetUpWorkBench(int type, bool lavaImmune = false)
         {
             Main.tileSolidTop[type] = true;
@@ -1174,6 +1192,7 @@ namespace CalamityMod
             TileObjectData.newTile.LavaDeath = !lavaImmune;
             TileObjectData.addTile(type);
         }
+
         public static void SetUpTorch(int type, bool lavaImmune = false, bool waterImmune = false)
         {
             Main.tileLighted[type] = true;
@@ -1203,6 +1222,7 @@ namespace CalamityMod
             TileObjectData.addAlternate(0);
             TileObjectData.addTile(type);
         }
+
         public static void SetUpPlatform(int type, bool lavaImmune = false)
         {
             Main.tileLighted[type] = true;
@@ -1224,28 +1244,10 @@ namespace CalamityMod
             TileObjectData.addTile(type);
         }
         #endregion
-        #endregion
 
-        #region Miscellaneous Utilities
-        public static void StartSandstorm()
-        {
-            typeof(Terraria.GameContent.Events.Sandstorm).GetMethod("StartSandstorm", BindingFlags.Static | BindingFlags.NonPublic).Invoke(null, null);
-        }
-
-        public static void StopSandstorm()
-        {
-            Terraria.GameContent.Events.Sandstorm.Happening = false;
-        }
-
-        public static void AddWithCondition<T>(this List<T> list, T type, bool condition)
-        {
-            if (condition)
-                list.Add(type);
-        }
         #endregion
 
         #region Drawing Utilities
-
         public static void DrawItemGlowmask(this Item item, SpriteBatch spriteBatch, int frameCount, float rotation, Texture2D glowmaskTexture)
         {
             Vector2 center = new Vector2((float)(Main.itemTexture[item.type].Width / 2), (float)(Main.itemTexture[item.type].Height / frameCount / 2));
@@ -1255,6 +1257,7 @@ namespace CalamityMod
             spriteBatch.Draw(glowmaskTexture, drawPosition,
                 new Rectangle?(frame), Color.White, rotation, center, 1f, SpriteEffects.None, 0f);
         }
+
         public static void DrawFishingLine(this Projectile projectile, int fishingRodType, Color poleColor)
         {
             Lighting.AddLight(projectile.Center, 0.4f, 0f, 0.4f);
@@ -1287,7 +1290,6 @@ namespace CalamityMod
                 float projPosX = projectile.position.X + (float)projectile.width * 0.5f - mountedCenter.X;
                 float projPosY = projectile.position.Y + (float)projectile.height * 0.5f - mountedCenter.Y;
                 Math.Sqrt((double)(projPosX * projPosX + projPosY * projPosY));
-                float rotation2 = (float)Math.Atan2((double)projPosY, (double)projPosX) - MathHelper.PiOver2;
                 bool canDraw = true;
                 if (projPosX == 0f && projPosY == 0f)
                 {
@@ -1370,13 +1372,31 @@ namespace CalamityMod
                                 projPosX *= 1f - positionInverseMultiplier;
                             }
                         }
-                        rotation2 = (float)Math.Atan2((double)projPosY, (double)projPosX) - MathHelper.PiOver2;
+                        float rotation2 = (float)Math.Atan2((double)projPosY, (double)projPosX) - MathHelper.PiOver2;
                         Color color2 = Lighting.GetColor((int)mountedCenter.X / 16, (int)(mountedCenter.Y / 16f), poleColor); //cadet blue
 
                         Main.spriteBatch.Draw(Main.fishingLineTexture, new Vector2(mountedCenter.X - Main.screenPosition.X + (float)Main.fishingLineTexture.Width * 0.5f, mountedCenter.Y - Main.screenPosition.Y + (float)Main.fishingLineTexture.Height * 0.5f), new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, 0, Main.fishingLineTexture.Width, (int)height)), color2, rotation2, new Vector2((float)Main.fishingLineTexture.Width * 0.5f, 0f), 1f, SpriteEffects.None, 0f);
                     }
                 }
             }
+        }
+        #endregion
+
+        #region Miscellaneous Utilities
+        public static void StartSandstorm()
+        {
+            typeof(Terraria.GameContent.Events.Sandstorm).GetMethod("StartSandstorm", BindingFlags.Static | BindingFlags.NonPublic).Invoke(null, null);
+        }
+
+        public static void StopSandstorm()
+        {
+            Terraria.GameContent.Events.Sandstorm.Happening = false;
+        }
+
+        public static void AddWithCondition<T>(this List<T> list, T type, bool condition)
+        {
+            if (condition)
+                list.Add(type);
         }
         #endregion
     }

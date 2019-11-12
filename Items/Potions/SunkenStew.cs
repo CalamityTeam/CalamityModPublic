@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Items.Materials;
+using CalamityMod.Items.Fishing.BrimstoneCragCatches;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
@@ -82,7 +83,7 @@ Grants Well Fed");
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 5);
-            recipe.AddIngredient(ItemID.GlowingMushroom, 3);
+            recipe.AddIngredient(ModContent.ItemType<CoastalDemonfish>());
             recipe.AddIngredient(ItemID.Honeyfin);
             recipe.AddIngredient(ItemID.Bowl);
             recipe.AddTile(TileID.CookingPots);

@@ -233,6 +233,21 @@ namespace CalamityMod.CalPlayer
                 player.statLifeMax2 += player.statLifeMax / 5 / 20 * 25;
             }
 
+            if (modPlayer.bloodfinBoost)
+            {
+				if (player.lifeRegen < 0)
+				{
+					if (player.lifeRegenTime < 1800)
+						player.lifeRegenTime = 1800;
+					player.lifeRegen += 10;
+				}
+				else
+				{
+					player.lifeRegen += 5;
+					player.lifeRegenTime += 10;
+                }
+            }
+
             if (modPlayer.omniscience)
             {
                 player.detectCreature = true;

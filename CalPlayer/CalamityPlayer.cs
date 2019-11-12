@@ -13,6 +13,7 @@ using CalamityMod.Items.Accessories.Vanity;
 using CalamityMod.Items.DifficultyItems;
 using CalamityMod.Items.Fishing;
 using CalamityMod.Items.Fishing.AstralCatches;
+using CalamityMod.Items.Fishing.BrimstoneCragCatches;
 using CalamityMod.Items.Fishing.SunkenSeaCatches;
 using CalamityMod.Items.Fishing.FishingRods;
 using CalamityMod.Items.Mounts;
@@ -559,6 +560,7 @@ namespace CalamityMod.CalPlayer
         public bool polarisBoost = false;
         public bool polarisBoostTwo = false;
         public bool polarisBoostThree = false;
+        public bool bloodfinBoost = false;
 
         // Minion
         public bool resButterfly = false;
@@ -1182,6 +1184,7 @@ namespace CalamityMod.CalPlayer
             polarisBoost = false;
             polarisBoostTwo = false;
             polarisBoostThree = false;
+            bloodfinBoost = false;
 			
 			killSpikyBalls = false;
 
@@ -1446,6 +1449,7 @@ namespace CalamityMod.CalPlayer
             polarisBoost = false;
             polarisBoostTwo = false;
             polarisBoostThree = false;
+            bloodfinBoost = false;
             revivify = false;
             healCounter = 300;
             #endregion
@@ -4297,6 +4301,10 @@ namespace CalamityMod.CalPlayer
             {
                 player.scope = true;
             }
+            if (CalamityMod.highTestFishList.Contains(player.inventory[player.selectedItem].type))
+            {
+                player.accFishingLine = true;
+            }
 			if (CalamityMod.boomerangList.Contains(player.inventory[player.selectedItem].type) && player.invis)
             {
 				player.Calamity().throwingDamage += 0.1f;
@@ -5433,7 +5441,11 @@ namespace CalamityMod.CalPlayer
             {
                 add += 0.25f;
             }
-            if ((cinnamonRoll && CalamityMod.fireWeaponList.Contains(item.type)) || (evergreenGin && CalamityMod.natureWeaponList.Contains(item.type)))
+            if (cinnamonRoll && CalamityMod.fireWeaponList.Contains(item.type))
+            {
+                add += 0.15f;
+            }
+            if (evergreenGin && CalamityMod.natureWeaponList.Contains(item.type))
             {
                 add += 0.15f;
             }
@@ -7271,8 +7283,15 @@ namespace CalamityMod.CalPlayer
 
 					if (lava)
 					{
-						fishList.Add(ItemID.FlarefinKoi);
-						fishList.Add(ItemID.Obsidifish);
+						if (!ZoneCalamity)
+						{
+							fishList.Add(ItemID.FlarefinKoi);
+							fishList.Add(ItemID.Obsidifish);
+						}
+						if (ZoneCalamity)
+						{
+							fishList.Add(ModContent.ItemType<CoastalDemonfish>());
+						}
 					}
 					else if (water)
 					{
@@ -7772,6 +7791,54 @@ namespace CalamityMod.CalPlayer
 					}
 				}
 			}
+
+			if (lava)
+			{
+				if (ZoneCalamity) //Brimstone Crags, fishing in lava
+				{
+					int cragFish = Main.rand.Next(100);
+					if (cragFish >= 92) //8%
+					{
+						caughtType = ModContent.ItemType<CoastalDemonfish>();
+					}
+					else if (cragFish <= 84 && cragFish >= 91) //8%
+					{
+						caughtType = ModContent.ItemType<CragBullhead>();
+					}
+					else if (cragFish <= 76 && cragFish >= 83) //8%
+					{
+						caughtType = ModContent.ItemType<Shadowfish>();
+					}
+					else if (cragFish <= 68 && cragFish >= 75 && Main.hardMode) //8%
+					{
+						caughtType = ModContent.ItemType<ChaoticFish>();
+					}
+					/*else if (player.cratePotion && cragFish <= 21 && cragFish >= 40) //20%
+					{
+						caughtType = ModContent.ItemType<BrimstoneCrate>();
+					}
+					else if (!player.cratePotion && cragFish <= 21 && cragFish >= 30) //10%
+					{
+						caughtType = ModContent.ItemType<BrimstoneCrate>();
+					}*/
+					else if (cragFish <= 11 && cragFish >= 20 && CalamityWorld.downedProvidence) //10%
+					{
+						caughtType = ModContent.ItemType<Bloodfin>();
+					}
+					/*else if (cragFish <= 5 && cragFish >= 10) //5%
+					{
+						caughtType = ModContent.ItemType<DragoonDrizzlefish>();
+					}*/
+					else if (cragFish <= 2 && cragFish >= 0 && Main.hardMode) //3%
+					{
+						caughtType = ModContent.ItemType<CharredLasher>();
+					}
+					else //40% w/o crate pot, 30% w/ crate pot, add 10% pre-Prov, add another 11% prehardmode
+					{
+						caughtType = ModContent.ItemType<BrimstoneFish>();
+					}
+				}
+			}
 			
 			//Quest Fish
 			if (ZoneSunkenSea && questFish == ModContent.ItemType<EutrophicSandfish>() && Main.rand.NextBool(10))
@@ -7785,6 +7852,14 @@ namespace CalamityMod.CalPlayer
 			if (ZoneSunkenSea && questFish == ModContent.ItemType<Serpentuna>() && Main.rand.NextBool(10))
 			{
 				caughtType = ModContent.ItemType<Serpentuna>();
+			}
+			if (ZoneCalamity && questFish == ModContent.ItemType<Brimlish>() && Main.rand.NextBool(10))
+			{
+				caughtType = ModContent.ItemType<Brimlish>();
+			}
+			if (ZoneCalamity && questFish == ModContent.ItemType<Slurpfish>() && Main.rand.NextBool(10))
+			{
+				caughtType = ModContent.ItemType<Slurpfish>();
 			}
         }
 
@@ -10366,6 +10441,24 @@ namespace CalamityMod.CalPlayer
                     r *= 0.15f;
                     g *= 0.01f;
                     b *= 0.01f;
+                    fullBright = true;
+                }
+            }
+            if (bloodfinBoost)
+            {
+                if (Main.rand.NextBool(6) && drawInfo.shadow == 0f)
+                {
+                    int dust = Dust.NewDust(drawInfo.position - new Vector2(2f, 2f), player.width + 4, player.height + 4, 5, player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 3f);
+                    Main.dust[dust].noGravity = true;
+                    Main.dust[dust].velocity *= 1.8f;
+                    Main.dust[dust].velocity.Y -= 0.5f;
+                    Main.playerDrawDust.Add(dust);
+                }
+                if (noRogueStealth)
+                {
+                    r *= 0.5f;
+                    g *= 0f;
+                    b *= 0f;
                     fullBright = true;
                 }
             }
