@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Typeless
 		{
 			DisplayName.SetDefault("Wulfrum Bobber");
 		}
-		
+
         public override void SetDefaults()
         {
 			//projectile.CloneDefaults(360); //Wooden Bobber
@@ -23,9 +23,9 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.bobber = true;
             projectile.penetrate = -1;
         }
-		
+
         public override bool PreDrawExtras(SpriteBatch spriteBatch)
-        {			
+        {
             Player player = Main.player[projectile.owner];
             CalamityUtils.DrawFishingLine(projectile, ModContent.ItemType<WulfrumRod>(), new Color(200, 200, 200, 100));
             return false;

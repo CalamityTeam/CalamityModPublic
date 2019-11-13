@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles
         // Counters and Timers
         private int counter = 0;
         private int counter2 = 0;
-		
+
         public bool lineColor = false; //holy mother of god, Eater of Shoals was a pain in the ass
 
         #region SetDefaults
@@ -1524,7 +1524,7 @@ namespace CalamityMod.Projectiles
         {
             if (Main.player[Main.myPlayer].Calamity().omniscience && projectile.hostile)
                 return Color.Coral;
-			
+
             if (Main.player[Main.myPlayer].Calamity().trippy)
                 return new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, projectile.alpha);
 

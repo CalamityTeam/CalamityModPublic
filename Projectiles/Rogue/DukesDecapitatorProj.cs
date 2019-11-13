@@ -12,12 +12,12 @@ namespace CalamityMod.Projectiles.Rogue
     {
 		bool stealthBubbles = false;
 		float rotationAmount = 1.5f;
-		
+
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Decapitator");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 60;
@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Rogue
 			projectile.tileCollide = false;
             projectile.Calamity().rogue = true;
 		}
-		
+
 		public override void AI()
         {
             CalamityPlayer modPlayer = Main.player[Main.myPlayer].Calamity();
@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Rogue
 			}
 			if (projectile.ai[0] == 5f)
 				projectile.tileCollide = true;
-			
+
         	if ((projectile.ai[0] % 15f) == 0f && rotationAmount > 0)
         	{
 				rotationAmount -= 0.05f;
@@ -59,17 +59,17 @@ namespace CalamityMod.Projectiles.Rogue
 			}
 			if(rotationAmount <= 0f)
 				projectile.Kill();
-			
+
 			projectile.rotation += rotationAmount;
 		}
-		
+
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
 			projectile.velocity.X = 0f;
 			projectile.velocity.Y = 0f;
 			rotationAmount -= 0.05f;
 		}
-		
+
 		public override void Kill(int timeLeft)
         {
 			for (int i = 0; i < 20; i++)

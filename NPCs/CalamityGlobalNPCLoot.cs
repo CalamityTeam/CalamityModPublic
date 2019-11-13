@@ -1643,7 +1643,7 @@ namespace CalamityMod.NPCs
         private void TownNPCLoot(NPC npc)
         {
             const float TrasherEatDistance = 48f;
-            
+
             if (npc.type == NPCID.Angler)
             {
                 bool fedToTrasher = false;

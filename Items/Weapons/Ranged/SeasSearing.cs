@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Weapons.Ranged
     public class SeasSearing : ModItem
     {
         public static int BaseDamage = 90;
-		
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sea's Searing");

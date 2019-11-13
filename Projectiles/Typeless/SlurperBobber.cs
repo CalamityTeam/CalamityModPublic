@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Typeless
 		{
 			DisplayName.SetDefault("Slurper Bobber");
 		}
-		
+
         public override void SetDefaults()
         {
 			//projectile.CloneDefaults(360); //Wooden Bobber
@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.bobber = true;
             projectile.penetrate = -1;
         }
-		
+
         public override bool PreDrawExtras(SpriteBatch spriteBatch)
         {
             Lighting.AddLight(projectile.Center, 0.25f, 0f, 0f);

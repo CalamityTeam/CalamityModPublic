@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
 	public class SparklingEmpress : ModItem
 	{
         public static int BaseDamage = 20;
-		
+
 		public override void SetStaticDefaults()
 		{
             DisplayName.SetDefault("Sparkling Empress");

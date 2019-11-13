@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Typeless
 			}
 			return true;
 		}
-		
+
 		// Amethyst Hook is 300, Static Hook is 600
 		public override float GrappleRange()
 		{

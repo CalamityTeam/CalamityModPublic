@@ -10,12 +10,12 @@ namespace CalamityMod.Projectiles.Rogue
     public class LuminousShard : ModProjectile
     {
 		bool gravity = false;
-		
+
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Stardust Shard");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 10;
@@ -25,20 +25,20 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.timeLeft = 120;
             projectile.Calamity().rogue = true;
 		}
-		
+
 		public override void AI()
         {
 			if(projectile.ai[0] == 0f && projectile.velocity.X == 0f && projectile.velocity.Y == -2f)
 				gravity = true;
-				
+
 			projectile.ai[0] = 1f;
 			projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
-			
+
 			if(gravity)
 				projectile.velocity.Y *= 1.05f;
-			
+
 		}
-		
+
 		public override void Kill(int timeLeft)
         {
 			for (int i = 0; i <= 2; i++)

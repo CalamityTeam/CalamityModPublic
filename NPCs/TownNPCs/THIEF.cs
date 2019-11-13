@@ -286,7 +286,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(40, 0, 0, 0);
                 nextSlot++;
             }
-            //:BearWatchingYou: 
+            //:BearWatchingYou:
             if (npc.GivenOrTypeName == "Laura")
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<BearEye>());

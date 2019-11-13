@@ -12,12 +12,12 @@ namespace CalamityMod.Projectiles.Typeless
         private static int red = 252;
         private static int green = 109;
         private static int blue = 202;
-		
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Devourer of Cods Bobber");
 		}
-		
+
         public override void SetDefaults()
         {
 			//projectile.CloneDefaults(360); //Wooden Bobber
@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Typeless
             Rectangle frame = new Rectangle(0, 0, Main.projectileTexture[projectile.type].Width, Main.projectileTexture[projectile.type].Height);
             spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Typeless/DevourerofCodsGlow"), projectile.Center - Main.screenPosition, frame, Color.White, projectile.rotation, projectile.Size / 2, 1f, SpriteEffects.None, 0f);
         }
-		
+
         public override bool PreDrawExtras(SpriteBatch spriteBatch)
         {
             Lighting.AddLight(projectile.Center, 0.35f, 0f, 0.25f);

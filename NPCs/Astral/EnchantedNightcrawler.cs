@@ -28,7 +28,7 @@ namespace CalamityMod.NPCs.Astral
             npc.type = NPCID.EnchantedNightcrawler; //Make it immediately turn into vanilla critter
             return true;
         }
-		
+
         public override bool? CanBeHitByItem(Player player, Item item)
         {
             return true;

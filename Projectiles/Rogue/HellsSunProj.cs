@@ -77,7 +77,7 @@ namespace CalamityMod.Projectiles.Rogue
 			{
 				projectile.rotation += 0.3f * (float)projectile.direction;
 			}
-			
+
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
 			if (modPlayer.killSpikyBalls == true)

@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Pets
     public class BabyGhostBell : ModProjectile
     {
         private bool underwater = false;
-		
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Baby Ghost Bell");

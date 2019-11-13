@@ -1185,7 +1185,7 @@ namespace CalamityMod.CalPlayer
             polarisBoostTwo = false;
             polarisBoostThree = false;
             bloodfinBoost = false;
-			
+
 			killSpikyBalls = false;
 
             vodka = false;
@@ -4803,7 +4803,7 @@ namespace CalamityMod.CalPlayer
                 {
                     player.allDamage += 0.1f;
 					AllCritBoost(5);
-                }				
+                }
             }*/
             #endregion
 
@@ -7502,7 +7502,7 @@ namespace CalamityMod.CalPlayer
 							{
 								biomeCrateList.Add(ItemID.FloatingIslandFishingCrate);
 							}
-							
+
 
 							if (biomeCrateList.Any())
 							{
@@ -7586,7 +7586,7 @@ namespace CalamityMod.CalPlayer
 						caughtType = ModContent.ItemType<TwinklingPollox>();
 					}
 				}
-				
+
 				if (ZoneSunkenSea) //Sunken Sea, fishing in water
 				{
 					int sunkenFish = Main.rand.Next(100);
@@ -7655,7 +7655,7 @@ namespace CalamityMod.CalPlayer
 						caughtType = ModContent.ItemType<ScarredAngelfish>();
 					}
 				}
-				
+
 				if ((player.ZoneCrimson || player.ZoneCorrupt) && player.ZoneRockLayerHeight && Main.hardMode)
 				{
 					if (Main.rand.NextBool(15))
@@ -7663,7 +7663,7 @@ namespace CalamityMod.CalPlayer
 						caughtType = ModContent.ItemType<FishofNight>();
 					}
 				}
-				
+
 				if (player.ZoneHoly && player.ZoneRockLayerHeight && Main.hardMode)
 				{
 					if (Main.rand.NextBool(15))
@@ -7671,7 +7671,7 @@ namespace CalamityMod.CalPlayer
 						caughtType = ModContent.ItemType<FishofLight>();
 					}
 				}
-				
+
 				if (player.ZoneSkyHeight && Main.hardMode)
 				{
 					if (Main.rand.NextBool(15))
@@ -7679,7 +7679,7 @@ namespace CalamityMod.CalPlayer
 						caughtType = ModContent.ItemType<FishofFlight>();
 					}
 				}
-				
+
 				if (player.ZoneOverworldHeight && !Main.dayTime)
 				{
 					if (Main.rand.NextBool(10))
@@ -7687,7 +7687,7 @@ namespace CalamityMod.CalPlayer
 						caughtType = ModContent.ItemType<EnchantedStarfish>();
 					}
 				}
-				
+
 				if (player.ZoneOverworldHeight && Main.dayTime)
 				{
 					if (Main.rand.NextBool(15))
@@ -7695,7 +7695,7 @@ namespace CalamityMod.CalPlayer
 						caughtType = ModContent.ItemType<StuffedFish>();
 					}
 				}
-				
+
 				if (player.ZoneRockLayerHeight)
 				{
 					if (Main.rand.NextBool(15))
@@ -7703,7 +7703,7 @@ namespace CalamityMod.CalPlayer
 						caughtType = ModContent.ItemType<GlimmeringGemfish>();
 					}
 				}
-				
+
 				if (player.ZoneDirtLayerHeight)
 				{
 					if (Main.rand.NextBool(40))
@@ -7839,7 +7839,7 @@ namespace CalamityMod.CalPlayer
 					}
 				}
 			}
-			
+
 			//Quest Fish
 			if (ZoneSunkenSea && questFish == ModContent.ItemType<EutrophicSandfish>() && Main.rand.NextBool(10))
 			{
@@ -10633,7 +10633,7 @@ namespace CalamityMod.CalPlayer
                 else
                     stealthGenMoving += 0.1f;
             }
-			
+
 			if (CalamityMod.daggerList.Contains(player.inventory[player.selectedItem].type) && player.invis)
 			{
 				stealthGenMoving += 0.2f;
