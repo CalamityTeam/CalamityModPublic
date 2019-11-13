@@ -7627,23 +7627,23 @@ namespace CalamityMod.CalPlayer
 					{
 						caughtType = ModContent.ItemType<CoralskinFoolfish>();
 					}
-					else if (player.cratePotion && sunkenFish <= 9 && sunkenFish >= 28) //20%
+					else if (player.cratePotion && sunkenFish <= 28 && sunkenFish >= 9) //20%
 					{
 						caughtType = ModContent.ItemType<SunkenCrate>();
 					}
-					else if (!player.cratePotion && sunkenFish <= 9 && sunkenFish >= 18) //10%
+					else if (!player.cratePotion && sunkenFish <= 18 && sunkenFish >= 9) //10%
 					{
 						caughtType = ModContent.ItemType<SunkenCrate>();
 					}
-					else if (sunkenFish <= 29 && sunkenFish >= 31) //3%
+					else if (sunkenFish <= 31 && sunkenFish >= 29) //3%
 					{
 						caughtType = ModContent.ItemType<GreenwaveLoach>();
 					}
-					else if (sunkenFish <= 6 && sunkenFish >= 8 && Main.hardMode) //3%
+					else if (sunkenFish <= 8 && sunkenFish >= 6 && Main.hardMode) //3%
 					{
 						caughtType = ModContent.ItemType<SerpentsBite>();
 					}
-					else if (sunkenFish <= 3 && sunkenFish >= 5) //3%
+					else if (sunkenFish <= 5 && sunkenFish >= 3) //3%
 					{
 						caughtType = ModContent.ItemType<RustedJingleBell>();
 					}
