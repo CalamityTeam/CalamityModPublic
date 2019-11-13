@@ -1566,12 +1566,12 @@ namespace CalamityMod.NPCs.Yharon
             {
                 npc.dontTakeDamage = phase5Check;
                 npc.chaseable = false;
-                if (npc.alpha < 255)
+                if (npc.alpha < 225)
                 {
                     npc.alpha += 25;
-                    if (npc.alpha > 255)
+                    if (npc.alpha > 225)
                     {
-                        npc.alpha = 255;
+                        npc.alpha = 225;
                     }
                 }
                 if (npc.ai[1] == 0f)
@@ -1704,12 +1704,12 @@ namespace CalamityMod.NPCs.Yharon
             {
                 npc.dontTakeDamage = true;
                 npc.chaseable = false;
-                if (npc.alpha < 255)
+                if (npc.alpha < 225)
                 {
                     npc.alpha += 17;
-                    if (npc.alpha > 255)
+                    if (npc.alpha > 225)
                     {
-                        npc.alpha = 255;
+                        npc.alpha = 225;
                     }
                 }
                 npc.velocity *= 0.98f;
