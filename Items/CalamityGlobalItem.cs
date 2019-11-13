@@ -962,6 +962,16 @@ namespace CalamityMod.Items
                     }
                 }
             }
+            if (item.type == ItemID.MoltenHelmet || item.type == ItemID.MoltenBreastplate || item.type == ItemID.MoltenGreaves)
+            {
+                foreach (TooltipLine line2 in tooltips)
+                {
+                    if (line2.mod == "Terraria" && line2.Name == "SetBonus")
+                    {
+                        line2.text = "Set Bonus: 17% extra melee damage, immunity to fire blocks, and temporary immunity to lava";
+                    }
+                }
+            }
             if (item.type == ItemID.MagicQuiver)
             {
                 foreach (TooltipLine line2 in tooltips)
@@ -1670,6 +1680,8 @@ namespace CalamityMod.Items
                 return "Gladiator";
             if (head.type == ItemID.ObsidianHelm && body.type == ItemID.ObsidianShirt && legs.type == ItemID.ObsidianPants)
                 return "Obsidian";
+            if (head.type == ItemID.MoltenHelmet && body.type == ItemID.MoltenBreastplate && legs.type == ItemID.MoltenGreaves)
+                return "Molten";
             return "";
         }
 
@@ -1723,6 +1735,11 @@ namespace CalamityMod.Items
                             "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
                             "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
                             "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
+            }
+            else if (set == "Molten")
+            {
+                player.fireWalk = true;
+                player.lavaMax += 300;
             }
         }
         #endregion
