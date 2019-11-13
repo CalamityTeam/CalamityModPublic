@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Accessories.Wings;
 using CalamityMod.Items.Fishing.AstralCatches;
+using CalamityMod.Items.Fishing.BrimstoneCragCatches;
 using CalamityMod.Items.Fishing.SunkenSeaCatches;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
@@ -220,6 +221,12 @@ namespace CalamityMod
 			
             r = GetNewRecipe();
             r.AddIngredient(ModContent.ItemType<ScarredAngelfish>());
+            r.AddTile(TileID.CookingPots);
+            r.SetResult(ItemID.CookedFish);
+            r.AddRecipe();
+			
+            r = GetNewRecipe();
+            r.AddIngredient(ModContent.ItemType<BrimstoneFish>());
             r.AddTile(TileID.CookingPots);
             r.SetResult(ItemID.CookedFish);
             r.AddRecipe();

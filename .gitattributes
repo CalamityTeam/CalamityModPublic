@@ -1,0 +1,27 @@
+# Set the default behavior, in case people don't have core.autocrlf set.
+* text=auto
+
+# These files are text and will have their line endings managed, but will respect
+# the individual user's eol and autocrlf settings.
+#
+# These are currently commented out to override Visual Studio forcing CRLF line endings.
+#
+# *.cs text
+# *.txt text
+
+# These files will always have their line endings forced to LF (Linux style).
+*.cs text eol=lf
+*.txt text eol=lf
+
+# These files will always have their line endings forced to CRLF (Windows style).
+# (This is used for files internal to Visual Studio's operation.)
+*.csproj text eol=crlf
+*.csproj.user text eol=crlf
+*.sln text eol=crlf
+
+# These files are NOT text and will not have their "line endings converted" (aka get corrupted by Git).
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.wav binary
+*.ogg binary

@@ -824,6 +824,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.Demon:
+                case NPCID.VoodooDemon:
                     DropHelper.DropItemChance(npc, ItemID.DemonScythe, DropHelper.DefiledDropRateInt);
                     break;
 
@@ -1395,6 +1396,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.Demon:
+                case NPCID.VoodooDemon:
                     DropHelper.DropItemChance(npc, ModContent.ItemType<DemonicBoneAsh>(), Main.expertMode ? 2 : 3);
                     DropHelper.DropItemChance(npc, ModContent.ItemType<BladecrestOathsword>(), Main.expertMode ? 20 : 25);
                     break;
