@@ -7479,6 +7479,10 @@ namespace CalamityMod.CalPlayer
 							{
 								biomeCrateList.Add(ModContent.ItemType<SunkenCrate>());
 							}
+							if (ZoneCalamity)
+							{
+								biomeCrateList.Add(ModContent.ItemType<BrimstoneCrate>());
+							}
 							if (player.ZoneCorrupt)
 							{
 								biomeCrateList.Add(ItemID.CorruptFishingCrate);
@@ -7802,27 +7806,27 @@ namespace CalamityMod.CalPlayer
 					{
 						caughtType = ModContent.ItemType<CoastalDemonfish>();
 					}
-					else if (cragFish <= 84 && cragFish >= 91) //8%
+					else if (cragFish <= 91 && cragFish >= 84) //8%
 					{
 						caughtType = ModContent.ItemType<CragBullhead>();
 					}
-					else if (cragFish <= 76 && cragFish >= 83) //8%
+					else if (cragFish <= 83 && cragFish >= 76) //8%
 					{
 						caughtType = ModContent.ItemType<Shadowfish>();
 					}
-					else if (cragFish <= 68 && cragFish >= 75 && Main.hardMode) //8%
+					else if (cragFish <= 75 && cragFish >= 68 && Main.hardMode) //8%
 					{
 						caughtType = ModContent.ItemType<ChaoticFish>();
 					}
-					/*else if (player.cratePotion && cragFish <= 21 && cragFish >= 40) //20%
+					else if (player.cratePotion && cragFish <= 40 && cragFish >= 21) //20%
 					{
 						caughtType = ModContent.ItemType<BrimstoneCrate>();
 					}
-					else if (!player.cratePotion && cragFish <= 21 && cragFish >= 30) //10%
+					else if (!player.cratePotion && cragFish <= 30 && cragFish >= 21) //10%
 					{
 						caughtType = ModContent.ItemType<BrimstoneCrate>();
-					}*/
-					else if (cragFish <= 11 && cragFish >= 20 && CalamityWorld.downedProvidence) //10%
+					}
+					else if (cragFish <= 20 && cragFish >= 11 && CalamityWorld.downedProvidence) //10%
 					{
 						caughtType = ModContent.ItemType<Bloodfin>();
 					}
