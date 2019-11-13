@@ -688,6 +688,16 @@ namespace CalamityMod
             r.SetResult(ItemID.FrozenTurtleShell);
             r.AddRecipe();
 
+            // Magic Quiver
+            r = GetNewRecipe();
+            r.AddIngredient(ItemID.EndlessQuiver);
+            r.AddIngredient(ItemID.PixieDust, 10);
+            r.AddIngredient(ModContent.ItemType<BlightedLens>(), 5);
+            r.AddIngredient(ItemID.SoulofLight, 8);
+            r.AddTile(TileID.CrystalBall);
+            r.SetResult(ItemID.MagicQuiver);
+            r.AddRecipe();
+
             // Frost Helmet w/ Frigid Bars
             r = GetNewRecipe();
             r.AddIngredient(ModContent.ItemType<CryoBar>(), 6);
