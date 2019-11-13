@@ -1627,6 +1627,23 @@ namespace CalamityMod.NPCs
                     DropHelper.DropItemChance(npc, ModContent.ItemType<MurkyPaste>(), Main.expertMode ? 4 : 5);
                     break;
 
+                case NPCID.Eyezor:
+                case NPCID.Frankenstein:
+                case NPCID.SwampThing:
+                case NPCID.Vampire:
+                case NPCID.VampireBat:
+                case NPCID.CreatureFromTheDeep:
+                case NPCID.Fritz:
+                case NPCID.Reaper:
+                case NPCID.ThePossessed:
+                case NPCID.Butcher:
+                case NPCID.DeadlySphere:
+                case NPCID.DrManFly:
+                case NPCID.Nailhead:
+                case NPCID.Psycho:
+                    DropHelper.DropItemCondition(npc, ModContent.ItemType<DarksunFragment>(), CalamityWorld.buffedEclipse, Main.expertMode ? 0.06f : 0.04f, 1, 1);
+                    break;
+
                 default:
                     break;
             }
