@@ -7345,6 +7345,7 @@ namespace CalamityMod.CalPlayer
 						{
 							fishList.Add(ModContent.ItemType<CoralskinFoolfish>());
 							fishList.Add(ModContent.ItemType<SunkenSailfish>());
+							fishList.Add(ModContent.ItemType<ScarredAngelfish>());
 						}
 					}
 

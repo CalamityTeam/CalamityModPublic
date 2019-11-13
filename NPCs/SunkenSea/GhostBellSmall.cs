@@ -5,6 +5,7 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Items.Fishing.SunkenSeaCatches;
 namespace CalamityMod.NPCs.SunkenSea
 {
     public class GhostBellSmall : ModNPC
@@ -33,6 +34,7 @@ namespace CalamityMod.NPCs.SunkenSea
             npc.alpha = 100;
             npc.HitSound = SoundID.NPCHit25;
             npc.DeathSound = SoundID.NPCDeath28;
+			npc.catchItem = (Main.rand.NextBool(20)) ? (short)ModContent.ItemType<RustedJingleBell>() : ItemID.None;
             banner = npc.type;
             bannerItem = ModContent.ItemType<GhostBellSmallBanner>();
         }
@@ -131,6 +133,16 @@ namespace CalamityMod.NPCs.SunkenSea
                 {
                     Dust.NewDust(npc.position, npc.width, npc.height, 68, hitDirection, -1f, 0, default, 1f);
                 }
+            }
+        }
+
+        public override void OnCatchNPC(Player player, Item item)
+        {
+            try
+            {
+            } catch
+            {
+                return;
             }
         }
     }
