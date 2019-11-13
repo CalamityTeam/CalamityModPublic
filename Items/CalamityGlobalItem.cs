@@ -968,7 +968,8 @@ namespace CalamityMod.Items
                 {
                     if (line2.mod == "Terraria" && line2.Name == "SetBonus")
                     {
-                        line2.text = "Set Bonus: 17% extra melee damage, immunity to fire blocks, and temporary immunity to lava";
+                        line2.text = @"Set Bonus: 17% extra melee damage
+Grants immunity to fire blocks, and temporary immunity to lava";
                     }
                 }
             }

@@ -434,6 +434,7 @@ namespace CalamityMod
             // Hermes Boots
             r = GetNewRecipe();
             r.AddIngredient(ItemID.Silk, 10);
+            r.AddIngredient(ItemID.SwiftnessPotion, 4);
             r.AddTile(TileID.Loom);
             r.SetResult(ItemID.HermesBoots);
             r.AddRecipe();
