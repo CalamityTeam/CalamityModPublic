@@ -1,4 +1,5 @@
 using CalamityMod.Dusts;
+using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.AstrumAureus;
 using CalamityMod.NPCs.BrimstoneElemental;
 using CalamityMod.NPCs.Bumblebirb;
@@ -17,6 +18,519 @@ namespace CalamityMod.NPCs
 {
     public class CalamityAI
     {
+		#region Aquatic Scourge
+		public static void AquaticScourgeAI(NPC npc, Mod mod)
+		{
+			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
+
+			bool head = npc.type == ModContent.NPCType<AquaticScourgeHead>();
+
+			// Adjust hostility and stats
+			if (npc.justHit || (double)npc.life <= (double)npc.lifeMax * 0.99 || CalamityWorld.bossRushActive ||
+				(double)Main.npc[(int)npc.ai[1]].life <= (double)Main.npc[(int)npc.ai[1]].lifeMax * 0.99)
+			{
+				calamityGlobalNPC.newAI[0] = 1f;
+				npc.damage = npc.defDamage;
+				npc.boss = head;
+			}
+			else
+				npc.damage = 0;
+
+			// Homing only works if the boss is hostile
+			if (head)
+				npc.chaseable = calamityGlobalNPC.newAI[0] == 1f;
+
+			// Set worm variable
+			if (npc.ai[3] > 0f)
+				npc.realLife = (int)npc.ai[3];
+
+			// Get a target
+			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
+				npc.TargetClosest(true);
+
+			npc.velocity.Length();
+
+			if (Main.netMode != NetmodeID.MultiplayerClient)
+			{
+				if (head)
+				{
+					// Spawn body and tail
+					if (calamityGlobalNPC.newAI[2] == 0f && npc.ai[0] == 0f)
+					{
+						int maxLength = 31;
+						int Previous = npc.whoAmI;
+						for (int num36 = 0; num36 < maxLength; num36++)
+						{
+							int lol;
+							if (num36 >= 0 && num36 < maxLength - 1)
+							{
+								if (num36 % 2 == 0)
+									lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<AquaticScourgeBody>(), npc.whoAmI);
+								else
+									lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<AquaticScourgeBodyAlt>(), npc.whoAmI);
+							}
+							else
+								lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<AquaticScourgeTail>(), npc.whoAmI);
+
+							Main.npc[lol].realLife = npc.whoAmI;
+							Main.npc[lol].ai[2] = (float)npc.whoAmI;
+							Main.npc[lol].ai[1] = (float)Previous;
+							Main.npc[Previous].ai[0] = (float)lol;
+							NetMessage.SendData(23, -1, -1, null, lol, 0f, 0f, 0f, 0);
+							Previous = lol;
+						}
+						calamityGlobalNPC.newAI[2] = 1f;
+					}
+
+					// Big barf attack, spawns enemies and projectile swarms
+					if (calamityGlobalNPC.newAI[0] == 1f)
+					{
+						npc.localAI[0] += 1f;
+						if (npc.localAI[0] >= ((npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 120f : 180f))
+						{
+							int npcPoxX = (int)(npc.position.X + (float)(npc.width / 2)) / 16;
+							int npcPoxY = (int)(npc.position.Y + (float)(npc.height / 2)) / 16;
+
+							if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) < 300f &&
+								!Main.tile[npcPoxX, npcPoxY].active())
+							{
+								npc.localAI[0] = 0f;
+								npc.TargetClosest(true);
+								npc.netUpdate = true;
+
+								int random = Main.rand.Next(3);
+								Main.PlaySound(3, (int)npc.Center.X, (int)npc.Center.Y, 8);
+								Vector2 spawnAt = npc.Center + new Vector2(0f, (float)npc.height / 2f);
+
+								if (random == 0 && NPC.CountNPCS(ModContent.NPCType<AquaticSeekerHead>()) < 1)
+									NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<AquaticSeekerHead>());
+								else if (random == 1 && NPC.CountNPCS(ModContent.NPCType<AquaticUrchin>()) < 3)
+									NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<AquaticUrchin>());
+								else if (NPC.CountNPCS(ModContent.NPCType<AquaticParasite>()) < 8)
+									NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<AquaticParasite>());
+							}
+						}
+
+						npc.localAI[1] += 1f;
+						if (Main.player[npc.target].gravDir == -1f)
+							npc.localAI[1] += 2f;
+
+						if (npc.localAI[1] >= (CalamityWorld.bossRushActive ? 270f : 390f))
+						{
+							int npcPoxX = (int)(npc.position.X + (float)(npc.width / 2)) / 16;
+							int npcPoxY = (int)(npc.position.Y + (float)(npc.height / 2)) / 16;
+
+							if (!Main.tile[npcPoxX, npcPoxY].active() && Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 300f)
+							{
+								npc.localAI[1] = 0f;
+								npc.TargetClosest(true);
+								npc.netUpdate = true;
+								Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 13);
+
+								if (Main.netMode != NetmodeID.MultiplayerClient)
+								{
+									Vector2 valueBoom = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
+									float spreadBoom = 15f * 0.0174f;
+									double startAngleBoom = Math.Atan2(npc.velocity.X, npc.velocity.Y) - spreadBoom / 2;
+									double deltaAngleBoom = spreadBoom / 8f;
+									double offsetAngleBoom;
+									int iBoom;
+									int damageBoom = Main.expertMode ? 23 : 28;
+									float velocity = CalamityWorld.revenge ? 7.5f : 6.5f;
+									if (CalamityWorld.bossRushActive)
+										velocity = 11f;
+
+									for (iBoom = 0; iBoom < 15; iBoom++)
+									{
+										int projectileType = Main.rand.NextBool(2) ? ModContent.ProjectileType<SandTooth>() : ModContent.ProjectileType<SandBlast>();
+										if (projectileType == ModContent.ProjectileType<SandTooth>())
+										{
+											damageBoom = Main.expertMode ? 25 : 30;
+										}
+										offsetAngleBoom = startAngleBoom + deltaAngleBoom * (iBoom + iBoom * iBoom) / 2f + 32f * iBoom;
+										int boom1 = Projectile.NewProjectile(valueBoom.X, valueBoom.Y, (float)(Math.Sin(offsetAngleBoom) * velocity), (float)(Math.Cos(offsetAngleBoom) * velocity), projectileType, damageBoom, 0f, Main.myPlayer, 0f, 0f);
+										int boom2 = Projectile.NewProjectile(valueBoom.X, valueBoom.Y, (float)(-Math.Sin(offsetAngleBoom) * velocity), (float)(-Math.Cos(offsetAngleBoom) * velocity), projectileType, damageBoom, 0f, Main.myPlayer, 0f, 0f);
+									}
+
+									damageBoom = Main.expertMode ? 28 : 33;
+									int num320 = Main.rand.Next(5, 9);
+									int num3;
+									for (int num321 = 0; num321 < num320; num321 = num3 + 1)
+									{
+										Vector2 vector15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+										vector15.Normalize();
+										vector15 *= (float)Main.rand.Next(50, 401) * (CalamityWorld.bossRushActive ? 0.02f : 0.01f);
+										Projectile.NewProjectile(npc.Center.X, npc.Center.Y, vector15.X, vector15.Y, ModContent.ProjectileType<SandPoisonCloud>(), damageBoom, 0f, Main.myPlayer, 0f, (float)Main.rand.Next(-45, 1));
+										num3 = num321;
+									}
+								}
+							}
+						}
+					}
+				}
+
+				// Fire sand blasts or teeth depending on body type
+				else
+				{
+					if (calamityGlobalNPC.newAI[0] == 1f)
+					{
+						if (npc.type == ModContent.NPCType<AquaticScourgeBody>())
+						{
+							int num = (Main.expertMode || CalamityWorld.bossRushActive) ? 4 : 3;
+							npc.localAI[0] += (float)Main.rand.Next(num);
+							if (npc.localAI[0] >= (float)Main.rand.Next(700, 10000))
+							{
+								npc.localAI[0] = 0f;
+								npc.TargetClosest(true);
+								if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
+								{
+									Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 17);
+									Vector2 vector104 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)(npc.height / 2));
+									float num942 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector104.X + (float)Main.rand.Next(-20, 21);
+									float num943 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector104.Y + (float)Main.rand.Next(-20, 21);
+									float num944 = (float)Math.Sqrt((double)(num942 * num942 + num943 * num943));
+									int projectileType = ModContent.ProjectileType<SandTooth>();
+									int damage = Main.expertMode ? 25 : 30;
+									float num941 = CalamityWorld.bossRushActive ? 7.5f : 5f;
+									num944 = num941 / num944;
+									num942 *= num944;
+									num943 *= num944;
+									vector104.X += num942 * 5f;
+									vector104.Y += num943 * 5f;
+									Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, projectileType, damage, 0f, Main.myPlayer, 0f, 0f);
+									npc.netUpdate = true;
+								}
+							}
+						}
+						else if (npc.type == ModContent.NPCType<AquaticScourgeBodyAlt>())
+						{
+							npc.localAI[0] += (float)Main.rand.Next(4);
+							if (npc.localAI[0] >= (float)Main.rand.Next(700, 10000))
+							{
+								npc.localAI[0] = 0f;
+								npc.TargetClosest(true);
+								if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
+								{
+									Vector2 vector104 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)(npc.height / 2));
+									float num942 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector104.X + (float)Main.rand.Next(-20, 21);
+									float num943 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector104.Y + (float)Main.rand.Next(-20, 21);
+									float num944 = (float)Math.Sqrt((double)(num942 * num942 + num943 * num943));
+									int projectileType = ModContent.ProjectileType<SandBlast>();
+									int damage = Main.expertMode ? 23 : 28;
+									float num941 = CalamityWorld.bossRushActive ? 12f : 8f;
+									num944 = num941 / num944;
+									num942 *= num944;
+									num943 *= num944;
+									vector104.X += num942 * 5f;
+									vector104.Y += num943 * 5f;
+									Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, projectileType, damage, 0f, Main.myPlayer, 0f, 0f);
+									npc.netUpdate = true;
+								}
+							}
+						}
+					}
+				}
+			}
+
+			// Kill body and tail
+			if (!head)
+			{
+				bool flag = false;
+				if (npc.ai[1] <= 0f)
+					flag = true;
+				else if (Main.npc[(int)npc.ai[1]].life <= 0)
+					flag = true;
+
+				if (flag)
+				{
+					npc.life = 0;
+					npc.HitEffect(0, 10.0);
+					npc.checkDead();
+				}
+			}
+
+			// Despawn
+			bool notOcean = Main.player[npc.target].position.Y < 800f ||
+				(double)Main.player[npc.target].position.Y > Main.worldSurface * 16.0 ||
+				(Main.player[npc.target].position.X > 6400f && Main.player[npc.target].position.X < (float)(Main.maxTilesX * 16 - 6400));
+
+			if (Main.player[npc.target].dead || (notOcean && !CalamityWorld.bossRushActive && !Main.player[npc.target].Calamity().ZoneSulphur))
+			{
+				calamityGlobalNPC.newAI[1] = 1f;
+				npc.TargetClosest(false);
+				npc.velocity.Y = npc.velocity.Y + 2f;
+
+				if ((double)npc.position.Y > Main.worldSurface * 16.0)
+					npc.velocity.Y = npc.velocity.Y + 2f;
+
+				if ((double)npc.position.Y > Main.worldSurface * 16.0)
+				{
+					for (int a = 0; a < 200; a++)
+					{
+						if (Main.npc[a].aiStyle == npc.aiStyle)
+							Main.npc[a].active = false;
+					}
+				}
+			}
+			else
+				calamityGlobalNPC.newAI[1] = 0f;
+
+			// Change direction
+			if (npc.velocity.X < 0f)
+				npc.spriteDirection = -1;
+			else if (npc.velocity.X > 0f)
+				npc.spriteDirection = 1;
+
+			// Remove target
+			if (Main.player[npc.target].dead)
+				npc.TargetClosest(false);
+
+			// Alpha changes
+			if (head || Main.npc[(int)npc.ai[1]].alpha < 128)
+			{
+				npc.alpha -= 42;
+				if (npc.alpha < 0)
+					npc.alpha = 0;
+			}
+
+			// Velocity and movement
+			float num188 = 5f;
+			float num189 = 0.08f;
+			Vector2 vector18 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
+			float num191 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2);
+			float num192 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2);
+			int num42 = -1;
+			int num43 = (int)(Main.player[npc.target].Center.X / 16f);
+			int num44 = (int)(Main.player[npc.target].Center.Y / 16f);
+
+			if (head)
+			{
+				for (int num45 = num43 - 2; num45 <= num43 + 2; num45++)
+				{
+					for (int num46 = num44; num46 <= num44 + 15; num46++)
+					{
+						if (WorldGen.SolidTile2(num45, num46))
+						{
+							num42 = num46;
+							break;
+						}
+					}
+					if (num42 > 0)
+						break;
+				}
+
+				if (num42 > 0)
+				{
+					num42 *= 16;
+					float num47 = (float)(num42 + (notOcean ? 800 : 400)); //800
+					if (calamityGlobalNPC.newAI[0] != 1f)
+					{
+						num192 = num47;
+						if (Math.Abs(npc.Center.X - Main.player[npc.target].Center.X) < (notOcean ? 500f : 400f)) //500
+						{
+							if (npc.velocity.X > 0f)
+								num191 = Main.player[npc.target].Center.X + (notOcean ? 600f : 480f); //600
+							else
+								num191 = Main.player[npc.target].Center.X - (notOcean ? 600f : 480f); //600
+						}
+					}
+				}
+
+				if (calamityGlobalNPC.newAI[0] == 1f)
+				{
+					num188 = CalamityWorld.revenge ? 15f : 13f;
+					num189 = 0.16f;
+					if (notOcean)
+					{
+						num188 = 17f;
+						num189 = 0.18f;
+					}
+					if (Main.player[npc.target].gravDir == -1f)
+					{
+						num188 = 20f;
+						num189 = 0.2f;
+					}
+					if (CalamityWorld.bossRushActive)
+					{
+						num188 = 22f;
+						num189 = 0.24f;
+					}
+				}
+
+				float num48 = num188 * 1.3f;
+				float num49 = num188 * 0.7f;
+				float num50 = npc.velocity.Length();
+				if (num50 > 0f)
+				{
+					if (num50 > num48)
+					{
+						npc.velocity.Normalize();
+						npc.velocity *= num48;
+					}
+					else if (num50 < num49)
+					{
+						npc.velocity.Normalize();
+						npc.velocity *= num49;
+					}
+				}
+
+				if (calamityGlobalNPC.newAI[0] != 1f)
+				{
+					for (int num51 = 0; num51 < 200; num51++)
+					{
+						if (Main.npc[num51].active && Main.npc[num51].type == npc.type && num51 != npc.whoAmI)
+						{
+							Vector2 vector3 = Main.npc[num51].Center - npc.Center;
+							if (vector3.Length() < 400f)
+							{
+								vector3.Normalize();
+								vector3 *= 1000f;
+								num191 -= vector3.X;
+								num192 -= vector3.Y;
+							}
+						}
+					}
+				}
+				else
+				{
+					for (int num52 = 0; num52 < 200; num52++)
+					{
+						if (Main.npc[num52].active && Main.npc[num52].type == npc.type && num52 != npc.whoAmI)
+						{
+							Vector2 vector4 = Main.npc[num52].Center - npc.Center;
+							if (vector4.Length() < 60f)
+							{
+								vector4.Normalize();
+								vector4 *= 200f;
+								num191 -= vector4.X;
+								num192 -= vector4.Y;
+							}
+						}
+					}
+				}
+			}
+
+			num191 = (float)((int)(num191 / 16f) * 16);
+			num192 = (float)((int)(num192 / 16f) * 16);
+			vector18.X = (float)((int)(vector18.X / 16f) * 16);
+			vector18.Y = (float)((int)(vector18.Y / 16f) * 16);
+			num191 -= vector18.X;
+			num192 -= vector18.Y;
+			float num193 = (float)System.Math.Sqrt((double)(num191 * num191 + num192 * num192));
+
+			if (!head)
+			{
+				if (npc.ai[1] > 0f && npc.ai[1] < (float)Main.npc.Length)
+				{
+					try
+					{
+						vector18 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
+						num191 = Main.npc[(int)npc.ai[1]].position.X + (float)(Main.npc[(int)npc.ai[1]].width / 2) - vector18.X;
+						num192 = Main.npc[(int)npc.ai[1]].position.Y + (float)(Main.npc[(int)npc.ai[1]].height / 2) - vector18.Y;
+					}
+					catch
+					{
+					}
+					npc.rotation = (float)System.Math.Atan2((double)num192, (double)num191) + 1.57f;
+					num193 = (float)System.Math.Sqrt((double)(num191 * num191 + num192 * num192));
+					int num194 = npc.width;
+					num193 = (num193 - (float)num194) / num193;
+					num191 *= num193;
+					num192 *= num193;
+					npc.velocity = Vector2.Zero;
+					npc.position.X = npc.position.X + num191;
+					npc.position.Y = npc.position.Y + num192;
+					if (num191 < 0f)
+					{
+						npc.spriteDirection = -1;
+					}
+					else if (num191 > 0f)
+					{
+						npc.spriteDirection = 1;
+					}
+				}
+			}
+			else
+			{
+				float num196 = System.Math.Abs(num191);
+				float num197 = System.Math.Abs(num192);
+				float num198 = num188 / num193;
+				num191 *= num198;
+				num192 *= num198;
+
+				if ((npc.velocity.X > 0f && num191 > 0f) || (npc.velocity.X < 0f && num191 < 0f) || (npc.velocity.Y > 0f && num192 > 0f) || (npc.velocity.Y < 0f && num192 < 0f))
+				{
+					if (npc.velocity.X < num191)
+					{
+						npc.velocity.X = npc.velocity.X + num189;
+					}
+					else
+					{
+						if (npc.velocity.X > num191)
+							npc.velocity.X = npc.velocity.X - num189;
+					}
+					if (npc.velocity.Y < num192)
+					{
+						npc.velocity.Y = npc.velocity.Y + num189;
+					}
+					else
+					{
+						if (npc.velocity.Y > num192)
+							npc.velocity.Y = npc.velocity.Y - num189;
+					}
+					if ((double)System.Math.Abs(num192) < (double)num188 * 0.2 && ((npc.velocity.X > 0f && num191 < 0f) || (npc.velocity.X < 0f && num191 > 0f)))
+					{
+						if (npc.velocity.Y > 0f)
+							npc.velocity.Y = npc.velocity.Y + num189 * 2f;
+						else
+							npc.velocity.Y = npc.velocity.Y - num189 * 2f;
+					}
+					if ((double)System.Math.Abs(num191) < (double)num188 * 0.2 && ((npc.velocity.Y > 0f && num192 < 0f) || (npc.velocity.Y < 0f && num192 > 0f)))
+					{
+						if (npc.velocity.X > 0f)
+							npc.velocity.X = npc.velocity.X + num189 * 2f;
+						else
+							npc.velocity.X = npc.velocity.X - num189 * 2f;
+					}
+				}
+				else
+				{
+					if (num196 > num197)
+					{
+						if (npc.velocity.X < num191)
+							npc.velocity.X = npc.velocity.X + num189 * 1.1f;
+						else if (npc.velocity.X > num191)
+							npc.velocity.X = npc.velocity.X - num189 * 1.1f;
+
+						if ((double)(System.Math.Abs(npc.velocity.X) + System.Math.Abs(npc.velocity.Y)) < (double)num188 * 0.5)
+						{
+							if (npc.velocity.Y > 0f)
+								npc.velocity.Y = npc.velocity.Y + num189;
+							else
+								npc.velocity.Y = npc.velocity.Y - num189;
+						}
+					}
+					else
+					{
+						if (npc.velocity.Y < num192)
+							npc.velocity.Y = npc.velocity.Y + num189 * 1.1f;
+						else if (npc.velocity.Y > num192)
+							npc.velocity.Y = npc.velocity.Y - num189 * 1.1f;
+
+						if ((double)(System.Math.Abs(npc.velocity.X) + System.Math.Abs(npc.velocity.Y)) < (double)num188 * 0.5)
+						{
+							if (npc.velocity.X > 0f)
+								npc.velocity.X = npc.velocity.X + num189;
+							else
+								npc.velocity.X = npc.velocity.X - num189;
+						}
+					}
+				}
+				npc.rotation = (float)System.Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X) + 1.57f;
+			}
+		}
+		#endregion
+
 		#region Brimstone Elemental
 		public static void BrimstoneElementalAI(NPC npc, Mod mod)
 		{

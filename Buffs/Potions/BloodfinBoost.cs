@@ -1,7 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Buffs.StatBuffs
+namespace CalamityMod.Buffs.Potions
 {
     public class BloodfinBoost : ModBuff
     {
