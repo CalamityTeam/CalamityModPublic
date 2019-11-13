@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Typeless
 		{
 			DisplayName.SetDefault("Heron Bobber");
 		}
-		
+
         public override void SetDefaults()
         {
 			//projectile.CloneDefaults(360); //Wooden Bobber
@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.bobber = true;
             projectile.penetrate = -1;
         }
-		
+
         public override bool PreDrawExtras(SpriteBatch spriteBatch)
         {
             CalamityUtils.DrawFishingLine(projectile, ModContent.ItemType<HeronRod>(), new Color(101, 149, 154, 100));

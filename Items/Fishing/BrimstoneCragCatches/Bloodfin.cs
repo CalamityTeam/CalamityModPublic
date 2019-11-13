@@ -52,7 +52,7 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
                 player.HealEffect(240, true);
             }
             player.AddBuff(ModContent.BuffType<BloodfinBoost>(), 600);
-			
+
 			//So you can't just spam with quick buff
             player.ClearBuff(BuffID.PotionSickness);
             player.AddBuff(BuffID.PotionSickness, player.pStone ? 2700 : 3600);

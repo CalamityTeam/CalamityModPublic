@@ -600,7 +600,7 @@ namespace CalamityMod.NPCs
                     }
                 }
             }
-			
+
 			if (npc.buffImmune[BuffID.Venom] == false)
 			{
 				npc.buffImmune[ModContent.BuffType<SulphuricPoisoning>()] = false;
@@ -3188,20 +3188,20 @@ namespace CalamityMod.NPCs
                     {
                         chat = "I don't feel very safe; I think there's pigs following me around and it frightens me.";
                     }
-					
+
                     if (NPC.AnyNPCs(ModContent.NPCType<FAP>()))
                     {
                         chat = "Sometimes, " + Main.npc[fapsol].GivenName + " just looks at me funny and I'm not sure how I feel about that.";
                     }
-					
+
                     break;
-					
+
                 case NPCID.Angler:
                     if (Main.rand.NextBool(5) && NPC.AnyNPCs(ModContent.NPCType<SEAHOE>()))
                     {
                         chat = "Someone tell " + Main.npc[seahorse].GivenName + " to quit trying to throw me out of town, it's not going to work.";
                     }
-					
+
                     break;
 
                 case NPCID.TravellingMerchant:
@@ -3209,7 +3209,7 @@ namespace CalamityMod.NPCs
                     {
                         chat = "Tell " + Main.npc[fapsol].GivenName + " I'll take up her offer and meet with her at the back of " + Main.npc[angelstatue].GivenName + "'s house.";
                     }
-					
+
                     break;
 
                 case NPCID.SkeletonMerchant:
@@ -3217,7 +3217,7 @@ namespace CalamityMod.NPCs
                     {
                         chat = "What'dya buyin'?";
                     }
-					
+
                     break;
 
                 case NPCID.WitchDoctor:
@@ -3225,18 +3225,18 @@ namespace CalamityMod.NPCs
                     {
                         chat = "My home here has an extensive history and a mysterious past. You'll find out quickly just how extensive it is...";
                     }
-					
+
                     if (Main.rand.NextBool(8) && Main.LocalPlayer.ZoneJungle &&
                         Main.hardMode && !NPC.downedPlantBoss)
                     {
                         chat = "I have unique items if you show me that you have bested the guardian of this jungle.";
                     }
-					
+
                     if (Main.rand.NextBool(8) && Main.bloodMoon)
                     {
                         chat = "This is as good a time as any to pick up the best ingredients for potions.";
                     }
-					
+
                     break;
 
                 case NPCID.PartyGirl:
@@ -3468,32 +3468,32 @@ namespace CalamityMod.NPCs
                     {
                         chat = "Aye, I've heard of a mythical creature in the oceans, singing with an alluring voice. Careful when yer fishin out there.";
                     }
-					
+
                     if (Main.rand.NextBool(5) && CalamityWorld.downedAquaticScourge)
                     {
                         chat = "I have to thank ye again for takin' care of that sea serpent. Or was that another one...";
                     }
-					
+
                     if (Main.rand.NextBool(5) && NPC.AnyNPCs(ModContent.NPCType<SEAHOE>()))
                     {
                         chat = "I remember legends about that " + Main.npc[seahorse].GivenName + ". He ain't quite how the stories make him out to be though.";
                     }
-					
+
                     if (Main.rand.NextBool(5) && NPC.AnyNPCs(ModContent.NPCType<FAP>()))
                     {
                         chat = "Twenty-nine bottles of beer on the wall...";
                     }
-					
+
                     if (Main.rand.NextBool(5) && Main.LocalPlayer.Center.ToTileCoordinates().X < 380 && !Main.LocalPlayer.Calamity().ZoneSulphur)
                     {
                         chat = "Now this is a scene that I can admire any time! I feel like something is watching me though.";
                     }
-					
+
                     if (Main.rand.NextBool(5) && Main.LocalPlayer.Calamity().ZoneSulphur)
                     {
                         chat = "It ain't much of a sight, but there's still life living in these waters.";
                     }
-					
+
                     if (Main.rand.NextBool(5) && Main.LocalPlayer.Calamity().ZoneSulphur)
                     {
                         chat = "Me ship might just sink from the acid alone.";
@@ -3505,20 +3505,20 @@ namespace CalamityMod.NPCs
                     {
                         chat = "All these moments will be lost in time. Like tears...in the rain.";
                     }
-					
+
                     if (NPC.downedMoonlord)
                     {
                         if (Main.rand.NextBool(10))
                         {
                             chat = "Always shoot for the moon! It has clearly worked before.";
                         }
-						
+
                         if (Main.rand.NextBool(10))
                         {
                             chat = "Draedon? He's...a little 'high octane' if you know what I mean.";
                         }
                     }
-					
+
                     if (Main.rand.NextBool(10) && !CalamityWorld.downedPlaguebringer && NPC.downedGolemBoss)
                     {
                         chat = "Those oversized bugs terrorizing the jungle... Surely you of all people could shut them down!";
@@ -3533,23 +3533,23 @@ namespace CalamityMod.NPCs
                         {
                             chat = "Who you gonna call?";
                         }
-						
+
                         if (Main.rand.NextBool(10))
                         {
                             chat = "Those screams...I'm not sure why, but I feel like a nameless fear has awoken in my heart.";
                         }
-						
+
                         if (Main.rand.NextBool(10))
                         {
                             chat = "I can faintly hear ghostly shrieks from the dungeon...and not ones I'm familiar with at all. Just what is going on in there?";
                         }
                     }
-					
+
                     if (Main.rand.NextBool(10) && CalamityWorld.downedPolterghast)
                     {
                         chat = "Whatever that thing was, I'm glad it's gone now.";
                     }
-					
+
                     if (Main.rand.NextBool(5) && NPC.AnyNPCs(NPCID.MoonLordCore))
                     {
                         chat = "Houston, we've had a problem.";
@@ -3567,22 +3567,22 @@ namespace CalamityMod.NPCs
                             hasPortalGun = true;
                         }
                     }
-					
+
                     if (Main.rand.NextBool(5) && hasPortalGun)
                     {
                         chat = "Just what is that contraption? It makes my Teleporters look like child's play!";
                     }
-					
+
                     if (Main.rand.NextBool(5) && NPC.downedMoonlord)
                     {
                         chat = "Yep! I'm also considering being a space pirate now.";
                     }
-					
+
                     if (Main.rand.NextBool(5) && Main.LocalPlayer.Calamity().ZoneAstral)
                     {
                         chat = "Some of my machines are starting to go haywire thanks to this Astral Infection. I probably shouldn't have built them here";
                     }
-					
+
                     if (Main.rand.NextBool(5) && Main.LocalPlayer.ZoneHoly)
                     {
                         chat = "I'm sorry I really don't have any Unicorn proof tech here, you're on your own.";
@@ -3619,27 +3619,27 @@ namespace CalamityMod.NPCs
                             }
                         }
                     }
-					
+
                     if (Main.rand.NextBool(5) && platinumCoins >= 100)
                     {
                         chat = "BAH! Doesn't seem like I'll ever be able to quarrel with the debts of the town again!";
                     }
-					
+
                     if (Main.rand.NextBool(5) && platinumCoins >= 500)
                     {
                         chat = "Where and how are you getting all of this money?";
                     }
-					
+
                     if (Main.rand.NextBool(5) && !CalamityWorld.downedBrimstoneElemental)
                     {
                         chat = "Perhaps with all that time you've got you could check those old ruins? Certainly something of value in it for you!";
                     }
-					
+
                     if (Main.rand.NextBool(10) && CalamityWorld.downedDoG)
                     {
                         chat = "Devourer of what, you said? Devourer of Funds, if its payroll is anything to go by!";
                     }
-					
+
                     if (Main.rand.NextBool(10) && CalamityUtils.InventoryHas(Main.LocalPlayer, ModContent.ItemType<SlickCane>()))
                     {
                         chat = "Goodness! That cane has swagger!";

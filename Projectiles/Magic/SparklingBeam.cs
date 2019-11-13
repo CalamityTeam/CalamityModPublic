@@ -35,7 +35,7 @@ namespace CalamityMod.Projectiles.Magic
 
 		// Are we at max charge? With c#6 you can simply use => which indicates this is a get only property
 		public bool IsAtMaxCharge => Charge == MAX_CHARGE;
-		
+
 		private bool playedSound = false;
         private int manaDrain = 0;
 
@@ -77,11 +77,11 @@ namespace CalamityMod.Projectiles.Magic
 					new Rectangle(0, 26, 28, 26), i < transDist ? Color.Transparent : c, r,
 					new Vector2(28 * .5f, 26 * .5f), scale, 0, 0);
 			}
-			
+
 			// Draws the laser 'tail'
 			spriteBatch.Draw(texture, start + unit * (transDist - step) - Main.screenPosition,
 				new Rectangle(0, 0, 28, 26), Color.White, r, new Vector2(28 * .5f, 26 * .5f), scale, 0, 0);
-			
+
 			// Draws the laser 'head'
 			spriteBatch.Draw(texture, start + (Distance + step) * unit - Main.screenPosition,
 				new Rectangle(0, 52, 28, 26), Color.White, r, new Vector2(28 * .5f, 26 * .5f), scale, 0, 0);
@@ -131,7 +131,7 @@ namespace CalamityMod.Projectiles.Magic
 		{
 			Player player = Main.player[projectile.owner];
 			projectile.position = player.Center + projectile.velocity * MOVE_DISTANCE;
-			projectile.timeLeft = 2;				
+			projectile.timeLeft = 2;
 
 			// By separating large AI into methods it becomes very easy to see the flow of the AI in a broader sense
 			// First we update player variables that are needed to channel the laser
@@ -144,7 +144,7 @@ namespace CalamityMod.Projectiles.Magic
 
 			// If laser is not charged yet, stop the AI here.
 			if (Charge < MAX_CHARGE) return;
-			
+
 			//Repeatedly drain mana once fully charged.  Unaffected by modifiers.
 			//Only normal mode because redcode is EXTREME BRUH moment.
 			if (!Main.expertMode)
@@ -161,7 +161,7 @@ namespace CalamityMod.Projectiles.Magic
 					manaDrain = 0;
 				}
 			}
-			
+
 			//Play cool sound when fully charged
 			if (playedSound == false)
 			{

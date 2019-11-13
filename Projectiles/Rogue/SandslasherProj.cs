@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Rogue
 		{
 			DisplayName.SetDefault("Sandslasher");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 40;
@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.Calamity().rogue = true;
 			projectile.timeLeft = 600;
 		}
-        
+
         public override void AI()
         {
 			projectile.ai[0] += 1f;
@@ -53,7 +53,7 @@ namespace CalamityMod.Projectiles.Rogue
                 projectile.ai[1] = 0;
             }
         }
-		
+
 		public override void Kill(int timeLeft)
         {
 			for (int i = 0; i < 15; i++)

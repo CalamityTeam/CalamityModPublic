@@ -85,7 +85,7 @@ namespace CalamityMod
     public class CalamityMod : Mod
     {
         // TODO -- I have been advised by Jopo that Mods should never contain static variables
-        
+
         // Hotkeys
         public static ModHotKey NormalityRelocatorHotKey;
         public static ModHotKey AegisHotKey;
@@ -372,7 +372,7 @@ namespace CalamityMod
         #region SetupLists
         public static void SetupLists()
         {
-            
+
             donatorList = new List<string>()
             {
                 "Vorbis",

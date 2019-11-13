@@ -79,7 +79,7 @@ namespace CalamityMod.Projectiles.Rogue
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {        
+        {
             if (projectile.ai[0] == 0f)
             {
                 int projectileIndex = Projectile.NewProjectile(projectile.Center, projectile.velocity, ModContent.ProjectileType<PlagueSeeker>(), (int)(projectile.damage * 0.25f), 2f, projectile.owner);

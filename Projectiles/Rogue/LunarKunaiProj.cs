@@ -11,13 +11,13 @@ namespace CalamityMod.Projectiles.Rogue
     public class LunarKunaiProj : ModProjectile
     {
 		bool lunarEnhance = false;
-		
+
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Kunai");
 			Main.projFrames[projectile.type] = 2;
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 14;
@@ -36,12 +36,12 @@ namespace CalamityMod.Projectiles.Rogue
 				lunarEnhance = true;
 			else if (projectile.ai[0] >= 50f)
 				lunarEnhance = true;
-			
+
 			if (lunarEnhance)
 				projectile.frame = 1;
 			else
 				projectile.frame = 0;
-			
+
 			projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
         	float num472 = projectile.Center.X;
 			float num473 = projectile.Center.Y;
@@ -79,7 +79,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (Main.rand.Next(6) == 0 && lunarEnhance)
             	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 229, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
         }
-        
+
         public override void Kill(int timeLeft)
         {
 			if (lunarEnhance)
