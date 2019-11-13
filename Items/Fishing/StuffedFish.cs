@@ -55,8 +55,11 @@ namespace CalamityMod.Items.Fishing
             DropHelper.DropItemCondition(player, ItemID.CrimsonSeeds, WorldGen.crimson, 0.05f, seedMin, seedMax);
             DropHelper.DropItemCondition(player, ItemID.HallowedSeeds, Main.hardMode, 0.05f, seedMin, seedMax);
             Mod thorium = ModLoader.GetMod("ThoriumMod");
-            DropHelper.DropItemChance(player, thorium.ItemType("MarineKelp"), 0.25f, herbMin, herbMax);
-            DropHelper.DropItemChance(player, thorium.ItemType("MarineKelpSeeds"), 0.1f, seedMin, seedMax);
+            if (thorium != null)
+			{
+				DropHelper.DropItemChance(player, thorium.ItemType("MarineKelp"), 0.25f, herbMin, herbMax);
+				DropHelper.DropItemChance(player, thorium.ItemType("MarineKelpSeeds"), 0.1f, seedMin, seedMax);
+			}
         }
     }
 }

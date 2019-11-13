@@ -1641,7 +1641,7 @@ namespace CalamityMod.NPCs
                 case NPCID.DrManFly:
                 case NPCID.Nailhead:
                 case NPCID.Psycho:
-                    DropHelper.DropItemCondition(npc, ModContent.ItemType<DarksunFragment>(), CalamityWorld.buffedEclipse, Main.expertMode ? 0.06f : 0.04f, 1, 1);
+                    DropHelper.DropItemCondition(npc, ModContent.ItemType<DarksunFragment>(), CalamityWorld.downedBuffedMothron, Main.expertMode ? 0.06f : 0.04f, 1, 1);
                     break;
 
                 default:

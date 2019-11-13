@@ -220,12 +220,6 @@ namespace CalamityMod
             r.AddRecipe();
 
             r = GetNewRecipe();
-            r.AddIngredient(ModContent.ItemType<ScarredAngelfish>());
-            r.AddTile(TileID.CookingPots);
-            r.SetResult(ItemID.CookedFish);
-            r.AddRecipe();
-
-            r = GetNewRecipe();
             r.AddIngredient(ModContent.ItemType<BrimstoneFish>());
             r.AddTile(TileID.CookingPots);
             r.SetResult(ItemID.CookedFish);

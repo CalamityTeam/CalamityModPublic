@@ -7616,7 +7616,7 @@ namespace CalamityMod.CalPlayer
 					}
 					else if (sunkenFish >= 85 && Main.hardMode) //15%
 					{
-						caughtType = ModContent.ItemType<PrismaticGuppy>();
+						caughtType = ModContent.ItemType<ScarredAngelfish>();
 					}
 					else if (sunkenFish <= 84 && sunkenFish >= 70) //15%
 					{
@@ -7650,9 +7650,9 @@ namespace CalamityMod.CalPlayer
 					{
 						caughtType = ModContent.ItemType<SparklingEmpress>();
 					}
-					else //33% w/o crate pot, 23% w/ crate pot + 28% if prehardmode
+					else //33% w/o crate pot, 23% w/ crate pot + 18% if prehardmode
 					{
-						caughtType = ModContent.ItemType<ScarredAngelfish>();
+						caughtType = ModContent.ItemType<PrismaticGuppy>();
 					}
 				}
 
