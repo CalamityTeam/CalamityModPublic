@@ -53,6 +53,19 @@ namespace CalamityMod.NPCs.SunkenSea
 
         public override void AI()
         {
+			if (Main.rand.Next(8) < 1 && npc.catchItem == (short)ModContent.ItemType<RustedJingleBell>())
+			{
+				int dust = Dust.NewDust(npc.position - new Vector2(2f, 2f), npc.width + 4, npc.height + 4, 68, npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 200, default, 1f);
+				Main.dust[dust].noGravity = true;
+				Main.dust[dust].velocity *= 1.1f;
+				Main.dust[dust].velocity.Y += 0.25f;
+				Main.dust[dust].noLight = true;
+				if (Main.rand.NextBool(2))
+				{
+					Main.dust[dust].noGravity = false;
+					Main.dust[dust].scale *= 0.5f;
+				}
+			}
             Lighting.AddLight(npc.Center, 0f, (255 - npc.alpha) * 1f / 255f, (255 - npc.alpha) * 1f / 255f);
             if (npc.localAI[0] == 0f)
             {
