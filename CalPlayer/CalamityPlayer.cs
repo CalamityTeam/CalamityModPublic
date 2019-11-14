@@ -5437,7 +5437,7 @@ namespace CalamityMod.CalPlayer
 
                 add += damageAdd;
             }
-            if (flamethrowerBoost && item.ranged && item.useAmmo == 23)
+            if (flamethrowerBoost && item.ranged && (item.useAmmo == 23 || item.type == ModContent.ItemType<DragoonDrizzlefish>()))
             {
                 add += 0.25f;
             }
@@ -7830,10 +7830,10 @@ namespace CalamityMod.CalPlayer
 					{
 						caughtType = ModContent.ItemType<Bloodfin>();
 					}
-					/*else if (cragFish <= 5 && cragFish >= 10) //5%
+					else if (cragFish <= 10 && cragFish >= 5) //5%
 					{
 						caughtType = ModContent.ItemType<DragoonDrizzlefish>();
-					}*/
+					}
 					else if (cragFish <= 2 && cragFish >= 0 && Main.hardMode) //3%
 					{
 						caughtType = ModContent.ItemType<CharredLasher>();
