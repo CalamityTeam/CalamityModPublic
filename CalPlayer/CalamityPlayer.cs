@@ -5437,7 +5437,7 @@ namespace CalamityMod.CalPlayer
 
                 add += damageAdd;
             }
-            if (flamethrowerBoost && item.ranged && item.useAmmo == 23)
+            if (flamethrowerBoost && item.ranged && (item.useAmmo == 23 || item.type == ModContent.ItemType<DragoonDrizzlefish>()))
             {
                 add += 0.25f;
             }
@@ -7345,6 +7345,7 @@ namespace CalamityMod.CalPlayer
 						{
 							fishList.Add(ModContent.ItemType<CoralskinFoolfish>());
 							fishList.Add(ModContent.ItemType<SunkenSailfish>());
+							fishList.Add(ModContent.ItemType<ScarredAngelfish>());
 						}
 					}
 
@@ -7477,6 +7478,10 @@ namespace CalamityMod.CalPlayer
 							if (ZoneSunkenSea)
 							{
 								biomeCrateList.Add(ModContent.ItemType<SunkenCrate>());
+							}
+							if (ZoneCalamity)
+							{
+								biomeCrateList.Add(ModContent.ItemType<BrimstoneCrate>());
 							}
 							if (player.ZoneCorrupt)
 							{
@@ -7616,7 +7621,7 @@ namespace CalamityMod.CalPlayer
 					}
 					else if (sunkenFish >= 85 && Main.hardMode) //15%
 					{
-						caughtType = ModContent.ItemType<PrismaticGuppy>();
+						caughtType = ModContent.ItemType<ScarredAngelfish>();
 					}
 					else if (sunkenFish <= 84 && sunkenFish >= 70) //15%
 					{
@@ -7626,23 +7631,23 @@ namespace CalamityMod.CalPlayer
 					{
 						caughtType = ModContent.ItemType<CoralskinFoolfish>();
 					}
-					else if (player.cratePotion && sunkenFish <= 9 && sunkenFish >= 28) //20%
+					else if (player.cratePotion && sunkenFish <= 28 && sunkenFish >= 9) //20%
 					{
 						caughtType = ModContent.ItemType<SunkenCrate>();
 					}
-					else if (!player.cratePotion && sunkenFish <= 9 && sunkenFish >= 18) //10%
+					else if (!player.cratePotion && sunkenFish <= 18 && sunkenFish >= 9) //10%
 					{
 						caughtType = ModContent.ItemType<SunkenCrate>();
 					}
-					else if (sunkenFish <= 29 && sunkenFish >= 31) //3%
+					else if (sunkenFish <= 31 && sunkenFish >= 29) //3%
 					{
 						caughtType = ModContent.ItemType<GreenwaveLoach>();
 					}
-					else if (sunkenFish <= 6 && sunkenFish >= 8 && Main.hardMode) //3%
+					else if (sunkenFish <= 8 && sunkenFish >= 6 && Main.hardMode) //3%
 					{
 						caughtType = ModContent.ItemType<SerpentsBite>();
 					}
-					else if (sunkenFish <= 3 && sunkenFish >= 5) //3%
+					else if (sunkenFish <= 5 && sunkenFish >= 3) //3%
 					{
 						caughtType = ModContent.ItemType<RustedJingleBell>();
 					}
@@ -7650,9 +7655,9 @@ namespace CalamityMod.CalPlayer
 					{
 						caughtType = ModContent.ItemType<SparklingEmpress>();
 					}
-					else //33% w/o crate pot, 23% w/ crate pot + 28% if prehardmode
+					else //33% w/o crate pot, 23% w/ crate pot + 18% if prehardmode
 					{
-						caughtType = ModContent.ItemType<ScarredAngelfish>();
+						caughtType = ModContent.ItemType<PrismaticGuppy>();
 					}
 				}
 
@@ -7801,34 +7806,34 @@ namespace CalamityMod.CalPlayer
 					{
 						caughtType = ModContent.ItemType<CoastalDemonfish>();
 					}
-					else if (cragFish <= 84 && cragFish >= 91) //8%
+					else if (cragFish <= 91 && cragFish >= 84) //8%
 					{
 						caughtType = ModContent.ItemType<CragBullhead>();
 					}
-					else if (cragFish <= 76 && cragFish >= 83) //8%
+					else if (cragFish <= 83 && cragFish >= 76) //8%
 					{
 						caughtType = ModContent.ItemType<Shadowfish>();
 					}
-					else if (cragFish <= 68 && cragFish >= 75 && Main.hardMode) //8%
+					else if (cragFish <= 75 && cragFish >= 68 && Main.hardMode) //8%
 					{
 						caughtType = ModContent.ItemType<ChaoticFish>();
 					}
-					/*else if (player.cratePotion && cragFish <= 21 && cragFish >= 40) //20%
+					else if (player.cratePotion && cragFish <= 40 && cragFish >= 21) //20%
 					{
 						caughtType = ModContent.ItemType<BrimstoneCrate>();
 					}
-					else if (!player.cratePotion && cragFish <= 21 && cragFish >= 30) //10%
+					else if (!player.cratePotion && cragFish <= 30 && cragFish >= 21) //10%
 					{
 						caughtType = ModContent.ItemType<BrimstoneCrate>();
-					}*/
-					else if (cragFish <= 11 && cragFish >= 20 && CalamityWorld.downedProvidence) //10%
+					}
+					else if (cragFish <= 20 && cragFish >= 11 && CalamityWorld.downedProvidence) //10%
 					{
 						caughtType = ModContent.ItemType<Bloodfin>();
 					}
-					/*else if (cragFish <= 5 && cragFish >= 10) //5%
+					else if (cragFish <= 10 && cragFish >= 5) //5%
 					{
 						caughtType = ModContent.ItemType<DragoonDrizzlefish>();
-					}*/
+					}
 					else if (cragFish <= 2 && cragFish >= 0 && Main.hardMode) //3%
 					{
 						caughtType = ModContent.ItemType<CharredLasher>();

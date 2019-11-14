@@ -7,7 +7,7 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Scarred Angelfish"); //Bass substitute
+            DisplayName.SetDefault("Scarred Angelfish");
             Tooltip.SetDefault("The mark of a fallen angel");
         }
 
@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
             item.width = 28;
             item.height = 26;
             item.maxStack = 999;
-            item.value = Item.sellPrice(silver: 5);
+            item.value = Item.sellPrice(silver: 7);
             item.rare = 1;
         }
     }

@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Buffs.Potions;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Fishing.SunkenSeaCatches;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -38,6 +39,7 @@ namespace CalamityMod.Items.Potions
             recipe.AddIngredient(ModContent.ItemType<Stardust>(), 20);
             recipe.AddIngredient(ItemID.CrystalShard, 5);
             recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>(), 3);
+            recipe.AddIngredient(ModContent.ItemType<ScarredAngelfish>());
             recipe.AddTile(TileID.AlchemyTable);
             recipe.SetResult(this);
             recipe.AddRecipe();

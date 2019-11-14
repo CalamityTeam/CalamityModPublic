@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Potions
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.TitanPotion, 4);
             recipe.AddIngredient(ItemID.BeetleHusk);
-            recipe.AddIngredient(ModContent.ItemType<SunkenSailfish>());
+            recipe.AddIngredient(ModContent.ItemType<CoralskinFoolfish>());
             recipe.AddTile(TileID.AlchemyTable);
             recipe.SetResult(this, 4);
             recipe.AddRecipe();
