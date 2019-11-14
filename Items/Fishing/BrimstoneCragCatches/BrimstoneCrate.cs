@@ -2,6 +2,7 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Placeables.Ores;
 using CalamityMod.Items.Potions;
+using CalamityMod.Tiles.Crags;
 using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
