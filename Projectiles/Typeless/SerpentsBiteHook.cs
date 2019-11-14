@@ -69,16 +69,16 @@ namespace CalamityMod.Projectiles.Typeless
 			while (distance > 30f && !float.IsNaN(distance))
 			{
 				distToProj.Normalize();                 //get unit vector
-				distToProj *= 24f;                      //speed = 24
+				distToProj *= 10f;                      //this value belongs to the size of the chain texture
 				center += distToProj;                   //update draw position
 				distToProj = playerCenter - center;    //update distance
 				distance = distToProj.Length();
 				Color drawColor = lightColor;
 
 				//Draw chain
-				spriteBatch.Draw(ModContent.GetTexture("CalamityMod/ExtraTextures/Chains/SerpentsBiteChain"), new Vector2(center.X - Main.screenPosition.X, center.Y - Main.screenPosition.Y),
-					new Rectangle(0, 0, Main.chain30Texture.Width, Main.chain30Texture.Height), drawColor, projRotation,
-					new Vector2(Main.chain30Texture.Width * 0.5f, Main.chain30Texture.Height * 0.5f), 1f, SpriteEffects.None, 0f);
+				spriteBatch.Draw(GetTexture("CalamityMod/ExtraTextures/Chains/SerpentsBiteChain"), new Vector2(center.X - Main.screenPosition.X, center.Y - Main.screenPosition.Y),
+					new Rectangle(0, 0, 10, 10), drawColor, projRotation,
+					new Vector2(5, 5), 1f, SpriteEffects.None, 0f);
 			}
 			return true;
 		}
