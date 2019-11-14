@@ -145,8 +145,8 @@ namespace CalamityMod.Projectiles.Magic
 			// If laser is not charged yet, stop the AI here.
 			if (Charge < MAX_CHARGE) return;
 
-			//Repeatedly drain mana once fully charged.  Unaffected by modifiers.
-			//Only normal mode because redcode is EXTREME BRUH moment.
+			/*//Repeatedly drain mana once fully charged.  Unaffected by modifiers.
+			//commented out because I think it's a HERO's conflict
 			if (!Main.expertMode)
 			{
 				manaDrain++;
@@ -160,7 +160,7 @@ namespace CalamityMod.Projectiles.Magic
 					}
 					manaDrain = 0;
 				}
-			}
+			}*/
 
 			//Play cool sound when fully charged
 			if (playedSound == false)
