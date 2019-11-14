@@ -63,7 +63,6 @@ namespace CalamityMod.Items.Armor
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<BloodstoneCore>(), 11);
             recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 2);
-			recipe.AddIngredient(ModContent.ItemType<AtaxiaHeadgear>());
 			recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

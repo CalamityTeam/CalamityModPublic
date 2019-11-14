@@ -3747,7 +3747,7 @@ namespace CalamityMod.NPCs
                 SetShopItem(ref shop, ref nextSlot, ItemID.MechanicalWorm, NPC.downedMechBoss1, Item.buyPrice(0, 20));
                 SetShopItem(ref shop, ref nextSlot, ItemID.MechanicalEye, NPC.downedMechBoss2, Item.buyPrice(0, 20));
                 SetShopItem(ref shop, ref nextSlot, ItemID.MechanicalSkull, NPC.downedMechBoss3, Item.buyPrice(0, 20));
-                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<AstralSolution>(), Main.LocalPlayer.Calamity().ZoneAstral && Main.hardMode, Item.buyPrice(0, 0, 5));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<AstralSolution>(), Main.hardMode, Item.buyPrice(0, 0, 5));
             }
 
             if (type == NPCID.Wizard)
