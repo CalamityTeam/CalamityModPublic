@@ -27,15 +27,6 @@ namespace CalamityMod.NPCs.AstrumDeus
     [AutoloadBossHead]
     public class AstrumDeusHeadSpectral : ModNPC
     {
-        private bool colorChange = false;
-        private const int minLength = 12;
-        private const int maxLength = 13;
-        private float speed = 10f;
-        private float turnSpeed = 0.2f;
-        private bool tailSpawned = false;
-        private int deusHeadCount = 0;
-        private int astrumDeusTotalHPMax = 0;
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Astrum Deus");
@@ -92,322 +83,20 @@ namespace CalamityMod.NPCs.AstrumDeus
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(deusHeadCount);
-            writer.Write(astrumDeusTotalHPMax);
-            writer.Write(colorChange);
             writer.Write(npc.dontTakeDamage);
             writer.Write(npc.chaseable);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            deusHeadCount = reader.ReadInt32();
-            astrumDeusTotalHPMax = reader.ReadInt32();
-            colorChange = reader.ReadBoolean();
             npc.dontTakeDamage = reader.ReadBoolean();
             npc.chaseable = reader.ReadBoolean();
         }
 
         public override void AI()
         {
-            CalamityGlobalNPC.astrumDeusHeadMain = npc.whoAmI;
-            colorChange = NPC.AnyNPCs(ModContent.NPCType<AstrumDeusHead>());
-            int astrumDeusTotalHP = 0;
-            double mainDeusHPRatio = (double)npc.life / (double)npc.lifeMax;
-            if (colorChange)
-            {
-                for (int i = 0; i < 200; i++)
-                {
-                    if (Main.npc[i].type == ModContent.NPCType<AstrumDeusHead>())
-                    {
-                        astrumDeusTotalHP += Main.npc[i].life;
-                        if (deusHeadCount < 10)
-                        {
-                            deusHeadCount++;
-                            astrumDeusTotalHPMax += Main.npc[i].lifeMax;
-                        }
-                    }
-                }
-                double astrumDeusHPRatio = (double)astrumDeusTotalHP / (double)astrumDeusTotalHPMax;
-                if (astrumDeusHPRatio < 0.33)
-                {
-                    if (mainDeusHPRatio > 0.33)
-                        colorChange = false;
-                }
-                else if (astrumDeusHPRatio < 0.66)
-                {
-                    if (mainDeusHPRatio > 0.66)
-                        colorChange = false;
-                }
-            }
-            npc.dontTakeDamage = colorChange;
-            npc.chaseable = !colorChange;
-            bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
-            float speedLimit = CalamityWorld.revenge ? 7f : 6f;
-            float turnSpeedLimit = CalamityWorld.revenge ? 0.11f : 0.1f;
-            if (CalamityWorld.death)
-            {
-                speedLimit = 8f;
-                turnSpeedLimit = 0.12f;
-            }
-            if (CalamityWorld.bossRushActive)
-            {
-                speedLimit *= 1.5f;
-                turnSpeedLimit *= 1.5f;
-            }
-            float speedBoost = speedLimit * (1f - (float)mainDeusHPRatio);
-            float turnSpeedBoost = turnSpeedLimit * (1f - (float)mainDeusHPRatio);
-            if (Main.player[npc.target].gravDir == -1f)
-            {
-                speedBoost = speedLimit;
-                turnSpeedBoost = turnSpeedLimit;
-            }
-            Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
-            if (npc.ai[3] > 0f)
-            {
-                npc.realLife = (int)npc.ai[3];
-            }
-            if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
-            {
-                npc.TargetClosest(true);
-            }
-            npc.velocity.Length();
-            if (npc.alpha != 0)
-            {
-                for (int num934 = 0; num934 < 2; num934++)
-                {
-                    int num935 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 182, 0f, 0f, 100, default, 2f);
-                    Main.dust[num935].noGravity = true;
-                    Main.dust[num935].noLight = true;
-                }
-            }
-            npc.alpha -= 42;
-            if (npc.alpha < 0)
-            {
-                npc.alpha = 0;
-            }
-            if (Main.netMode != NetmodeID.MultiplayerClient)
-            {
-                if (!tailSpawned && npc.ai[0] == 0f)
-                {
-                    int Previous = npc.whoAmI;
-                    for (int num36 = 0; num36 < maxLength; num36++)
-                    {
-                        int lol;
-                        if (num36 >= 0 && num36 < minLength)
-                        {
-                            lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<AstrumDeusBodySpectral>(), npc.whoAmI);
-                        }
-                        else
-                        {
-                            lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<AstrumDeusTailSpectral>(), npc.whoAmI);
-                        }
-                        if (num36 % 2 == 0)
-                        {
-                            Main.npc[lol].localAI[3] = 1f;
-                        }
-                        Main.npc[lol].realLife = npc.whoAmI;
-                        Main.npc[lol].ai[2] = (float)npc.whoAmI;
-                        Main.npc[lol].ai[1] = (float)Previous;
-                        Main.npc[Previous].ai[0] = (float)lol;
-                        NetMessage.SendData(23, -1, -1, null, lol, 0f, 0f, 0f, 0);
-                        Previous = lol;
-                    }
-                    tailSpawned = true;
-                }
-            }
-            if (Main.player[npc.target].dead || Main.dayTime)
-            {
-                npc.TargetClosest(false);
-                npc.velocity.Y = npc.velocity.Y - 3f;
-                if ((double)npc.position.Y < Main.topWorld + 16f)
-                {
-                    npc.velocity.Y = npc.velocity.Y - 3f;
-                }
-                if ((double)npc.position.Y < Main.topWorld + 16f)
-                {
-                    for (int num957 = 0; num957 < 200; num957++)
-                    {
-                        if (Main.npc[num957].aiStyle == npc.aiStyle)
-                        {
-                            Main.npc[num957].active = false;
-                        }
-                    }
-                }
-            }
-            if (npc.velocity.X < 0f)
-            {
-                npc.spriteDirection = -1;
-            }
-            else if (npc.velocity.X > 0f)
-            {
-                npc.spriteDirection = 1;
-            }
-            if (Main.player[npc.target].dead)
-            {
-                npc.TargetClosest(false);
-            }
-            float num188 = speed + speedBoost;
-            float num189 = turnSpeed + turnSpeedBoost;
-            Vector2 vector18 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-            float num191 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2);
-            float num192 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2);
-            int num42 = -1;
-            int num43 = (int)(Main.player[npc.target].Center.X / 16f);
-            int num44 = (int)(Main.player[npc.target].Center.Y / 16f);
-            for (int num45 = num43 - 2; num45 <= num43 + 2; num45++)
-            {
-                for (int num46 = num44; num46 <= num44 + 15; num46++)
-                {
-                    if (WorldGen.SolidTile2(num45, num46))
-                    {
-                        num42 = num46;
-                        break;
-                    }
-                }
-                if (num42 > 0)
-                {
-                    break;
-                }
-            }
-            float num48 = num188 * 1.3f;
-            float num49 = num188 * 0.7f;
-            float num50 = npc.velocity.Length();
-            if (num50 > 0f)
-            {
-                if (num50 > num48)
-                {
-                    npc.velocity.Normalize();
-                    npc.velocity *= num48;
-                }
-                else if (num50 < num49)
-                {
-                    npc.velocity.Normalize();
-                    npc.velocity *= num49;
-                }
-            }
-            for (int num52 = 0; num52 < 200; num52++)
-            {
-                if (Main.npc[num52].active && Main.npc[num52].type == npc.type && num52 != npc.whoAmI)
-                {
-                    Vector2 vector4 = Main.npc[num52].Center - npc.Center;
-                    if (vector4.Length() < 60f)
-                    {
-                        vector4.Normalize();
-                        vector4 *= 200f;
-                        num191 -= vector4.X;
-                        num192 -= vector4.Y;
-                    }
-                }
-            }
-            num191 = (float)((int)(num191 / 16f) * 16);
-            num192 = (float)((int)(num192 / 16f) * 16);
-            vector18.X = (float)((int)(vector18.X / 16f) * 16);
-            vector18.Y = (float)((int)(vector18.Y / 16f) * 16);
-            num191 -= vector18.X;
-            num192 -= vector18.Y;
-            float num193 = (float)System.Math.Sqrt((double)(num191 * num191 + num192 * num192));
-            float num196 = System.Math.Abs(num191);
-            float num197 = System.Math.Abs(num192);
-            float num198 = num188 / num193;
-            num191 *= num198;
-            num192 *= num198;
-            if ((npc.velocity.X > 0f && num191 > 0f) || (npc.velocity.X < 0f && num191 < 0f) || (npc.velocity.Y > 0f && num192 > 0f) || (npc.velocity.Y < 0f && num192 < 0f))
-            {
-                if (npc.velocity.X < num191)
-                {
-                    npc.velocity.X = npc.velocity.X + num189;
-                }
-                else
-                {
-                    if (npc.velocity.X > num191)
-                    {
-                        npc.velocity.X = npc.velocity.X - num189;
-                    }
-                }
-                if (npc.velocity.Y < num192)
-                {
-                    npc.velocity.Y = npc.velocity.Y + num189;
-                }
-                else
-                {
-                    if (npc.velocity.Y > num192)
-                    {
-                        npc.velocity.Y = npc.velocity.Y - num189;
-                    }
-                }
-                if ((double)System.Math.Abs(num192) < (double)num188 * 0.2 && ((npc.velocity.X > 0f && num191 < 0f) || (npc.velocity.X < 0f && num191 > 0f)))
-                {
-                    if (npc.velocity.Y > 0f)
-                    {
-                        npc.velocity.Y = npc.velocity.Y + num189 * 2f;
-                    }
-                    else
-                    {
-                        npc.velocity.Y = npc.velocity.Y - num189 * 2f;
-                    }
-                }
-                if ((double)System.Math.Abs(num191) < (double)num188 * 0.2 && ((npc.velocity.Y > 0f && num192 < 0f) || (npc.velocity.Y < 0f && num192 > 0f)))
-                {
-                    if (npc.velocity.X > 0f)
-                    {
-                        npc.velocity.X = npc.velocity.X + num189 * 2f; //changed from 2
-                    }
-                    else
-                    {
-                        npc.velocity.X = npc.velocity.X - num189 * 2f; //changed from 2
-                    }
-                }
-            }
-            else
-            {
-                if (num196 > num197)
-                {
-                    if (npc.velocity.X < num191)
-                    {
-                        npc.velocity.X = npc.velocity.X + num189 * 1.1f; //changed from 1.1
-                    }
-                    else if (npc.velocity.X > num191)
-                    {
-                        npc.velocity.X = npc.velocity.X - num189 * 1.1f; //changed from 1.1
-                    }
-                    if ((double)(System.Math.Abs(npc.velocity.X) + System.Math.Abs(npc.velocity.Y)) < (double)num188 * 0.5)
-                    {
-                        if (npc.velocity.Y > 0f)
-                        {
-                            npc.velocity.Y = npc.velocity.Y + num189;
-                        }
-                        else
-                        {
-                            npc.velocity.Y = npc.velocity.Y - num189;
-                        }
-                    }
-                }
-                else
-                {
-                    if (npc.velocity.Y < num192)
-                    {
-                        npc.velocity.Y = npc.velocity.Y + num189 * 1.1f;
-                    }
-                    else if (npc.velocity.Y > num192)
-                    {
-                        npc.velocity.Y = npc.velocity.Y - num189 * 1.1f;
-                    }
-                    if ((double)(System.Math.Abs(npc.velocity.X) + System.Math.Abs(npc.velocity.Y)) < (double)num188 * 0.5)
-                    {
-                        if (npc.velocity.X > 0f)
-                        {
-                            npc.velocity.X = npc.velocity.X + num189;
-                        }
-                        else
-                        {
-                            npc.velocity.X = npc.velocity.X - num189;
-                        }
-                    }
-                }
-            }
-            npc.rotation = (float)System.Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X) + 1.57f;
-        }
+			CalamityAI.AstrumDeusAI(npc, mod, true, true);
+		}
 
         public override bool CheckActive()
         {
@@ -417,7 +106,7 @@ namespace CalamityMod.NPCs.AstrumDeus
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             Color lightColor = new Color(250, 150, Main.DiscoB, npc.alpha);
-            Color newColor = colorChange ? lightColor : drawColor;
+            Color newColor = npc.Calamity().newAI[0] == 1f ? lightColor : drawColor;
             SpriteEffects spriteEffects = SpriteEffects.None;
             Color color24 = npc.GetAlpha(newColor);
             Color color25 = Lighting.GetColor((int)((double)npc.position.X + (double)npc.width * 0.5) / 16, (int)(((double)npc.position.Y + (double)npc.height * 0.5) / 16.0));
@@ -459,45 +148,12 @@ namespace CalamityMod.NPCs.AstrumDeus
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
-            if (colorChange && Main.player[npc.target].gravDir != -1f)
+            if (npc.Calamity().newAI[0] == 1f && Main.player[npc.target].gravDir != -1f)
             {
                 return false;
             }
             return true;
         }
-
-		public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-		{
-			if (projectile.type == ModContent.ProjectileType<RainbowBoom>() || ProjectileID.Sets.StardustDragon[projectile.type])
-			{
-				damage = (int)((double)damage * 0.1);
-			}
-			else if (projectile.type == ModContent.ProjectileType<BigNuke>() || projectile.type == ModContent.ProjectileType<RainBolt>() ||
-				projectile.type == ModContent.ProjectileType<AtlantisSpear2>() || projectile.type == ModContent.ProjectileType<MalachiteBolt>())
-			{
-				damage = (int)((double)damage * 0.2);
-			}
-			else if (projectile.type == ProjectileID.DD2BetsyArrow)
-			{
-				damage = (int)((double)damage * 0.3);
-			}
-			else if (projectile.type == ModContent.ProjectileType<SpikecragSpike>())
-			{
-				damage = (int)((double)damage * 0.5);
-			}
-
-			if (projectile.penetrate == -1 && !projectile.minion)
-			{
-				if (projectile.type == ModContent.ProjectileType<CosmicFire>())
-					damage = (int)((double)damage * 0.3);
-				else
-					damage = (int)((double)damage * 0.2);
-			}
-			else if (projectile.penetrate > 1 && projectile.type != ModContent.ProjectileType<BrinySpout>())
-			{
-				damage /= projectile.penetrate;
-			}
-		}
 
 		public override void HitEffect(int hitDirection, double damage)
         {

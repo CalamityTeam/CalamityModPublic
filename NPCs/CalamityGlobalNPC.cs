@@ -39,6 +39,8 @@ using CalamityMod.NPCs.StormWeaver;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.NPCs.Yharon;
+using CalamityMod.Projectiles.Magic;
+using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
@@ -238,10 +240,46 @@ namespace CalamityMod.NPCs
             { NPCID.CultistBoss, Item.buyPrice(0, 25) },
             { NPCID.MoonLordCore, Item.buyPrice(0, 30) }
         };
-        #endregion
 
-        #region Instance Per Entity
-        public override bool InstancePerEntity => true;
+		/// <summary>
+		/// Lists of enemies that resist piercing to some extent (mostly worms).
+		/// Could prove useful for other things as well.
+		/// </summary>
+		public static List<int> AstrumDeusIDs = new List<int>
+		{
+			ModContent.NPCType<AstrumDeusHead>(),
+			ModContent.NPCType<AstrumDeusBody>(),
+			ModContent.NPCType<AstrumDeusTail>(),
+			ModContent.NPCType<AstrumDeusHeadSpectral>(),
+			ModContent.NPCType<AstrumDeusBodySpectral>(),
+			ModContent.NPCType<AstrumDeusTailSpectral>()
+		};
+
+		public static List<int> AquaticScourgeIDs = new List<int>
+		{
+			ModContent.NPCType<AquaticScourgeHead>(),
+			ModContent.NPCType<AquaticScourgeBody>(),
+			ModContent.NPCType<AquaticScourgeBodyAlt>(),
+			ModContent.NPCType<AquaticScourgeTail>()
+		};
+
+		public static List<int> EaterofWorldsIDs = new List<int>
+		{
+			NPCID.EaterofWorldsHead,
+			NPCID.EaterofWorldsBody,
+			NPCID.EaterofWorldsTail
+		};
+
+		public static List<int> DestroyerIDs = new List<int>
+		{
+			NPCID.TheDestroyer,
+			NPCID.TheDestroyerBody,
+			NPCID.TheDestroyerTail
+		};
+		#endregion
+
+		#region Instance Per Entity
+		public override bool InstancePerEntity => true;
         #endregion
 
         #region Reset Effects
@@ -582,9 +620,7 @@ namespace CalamityMod.NPCs
                     npc.buffImmune[ModContent.BuffType<TimeSlow>()] = true;
                 }
 
-                if (npc.type == NPCID.TheDestroyer || npc.type == NPCID.TheDestroyerBody || npc.type == NPCID.TheDestroyerTail ||
-                    npc.type == NPCID.DD2EterniaCrystal ||
-                    npc.townNPC)
+                if (DestroyerIDs.Contains(npc.type) || npc.type == NPCID.DD2EterniaCrystal || npc.townNPC)
                 {
                     for (int k = 0; k < npc.buffImmune.Length; k++)
                     {
@@ -805,7 +841,7 @@ namespace CalamityMod.NPCs
             {
                 npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 1.2) : (int)(npc.lifeMax * 1.1);
             }
-            else if (npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.EaterofWorldsBody || npc.type == NPCID.EaterofWorldsTail)
+            else if (EaterofWorldsIDs.Contains(npc.type))
             {
                 npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 1.4) : (int)(npc.lifeMax * 1.3);
 
@@ -833,7 +869,7 @@ namespace CalamityMod.NPCs
 
             if (!DraedonMayhem)
             {
-                if (npc.type == NPCID.TheDestroyer || npc.type == NPCID.TheDestroyerBody || npc.type == NPCID.TheDestroyerTail)
+                if (DestroyerIDs.Contains(npc.type))
                 {
                     npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 1.6) : (int)(npc.lifeMax * 1.25);
                     npc.scale = 1.5f;
@@ -1171,8 +1207,7 @@ namespace CalamityMod.NPCs
         #region Strike NPC
         public override bool StrikeNPC(NPC npc, ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
         {
-            // TODO -- move this to Destroyer's Rev+ AI; either set his DR or modify npc.takenDamageMultiplier
-            if (npc.type == NPCID.TheDestroyer || npc.type == NPCID.TheDestroyerBody || npc.type == NPCID.TheDestroyerTail)
+            if (DestroyerIDs.Contains(npc.type))
             {
                 if ((newAI[1] < 480f || newAI[2] > 0f) && (CalamityWorld.revenge || CalamityWorld.bossRushActive))
                 {
@@ -1372,8 +1407,7 @@ namespace CalamityMod.NPCs
                 npc.dontTakeDamage = CalamityPlayer.areThereAnyDamnBosses;
             }
 
-            if (npc.type == NPCID.TheDestroyer || npc.type == NPCID.TheDestroyerBody || npc.type == NPCID.TheDestroyerTail ||
-                npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.EaterofWorldsBody || npc.type == NPCID.EaterofWorldsTail)
+            if (DestroyerIDs.Contains(npc.type) || EaterofWorldsIDs.Contains(npc.type))
             {
                 npc.buffImmune[ModContent.BuffType<Enraged>()] = false;
             }
@@ -1700,8 +1734,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case 7:
-                    if (npc.type != NPCID.EaterofWorldsHead && npc.type != NPCID.EaterofWorldsBody && npc.type != NPCID.EaterofWorldsTail &&
-                        npc.type != NPCID.VileSpit)
+                    if (!EaterofWorldsIDs.Contains(npc.type) && npc.type != NPCID.VileSpit)
                     {
                         npc.active = false;
                         npc.netUpdate = true;
@@ -1719,8 +1752,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case 9:
-                    if (npc.type != NPCID.TheDestroyer && npc.type != NPCID.TheDestroyerBody && npc.type != NPCID.TheDestroyerTail &&
-                        npc.type != NPCID.Probe)
+                    if (!DestroyerIDs.Contains(npc.type) && npc.type != NPCID.Probe)
                     {
                         npc.active = false;
                         npc.netUpdate = true;
@@ -1934,11 +1966,8 @@ namespace CalamityMod.NPCs
                     break;
 
                 case 29:
-                    if (npc.type != ModContent.NPCType<AstrumDeusHead>() && npc.type != ModContent.NPCType<AstrumDeusBody>() &&
-                        npc.type != ModContent.NPCType<AstrumDeusTail>() && npc.type != ModContent.NPCType<AstrumDeusHeadSpectral>() &&
-                        npc.type != ModContent.NPCType<AstrumDeusBodySpectral>() && npc.type != ModContent.NPCType<AstrumDeusTailSpectral>() &&
-                        npc.type != ModContent.NPCType<AstrumDeusProbe>() && npc.type != ModContent.NPCType<AstrumDeusProbe2>() &&
-                        npc.type != ModContent.NPCType<AstrumDeusProbe3>())
+                    if (!AstrumDeusIDs.Contains(npc.type) && npc.type != ModContent.NPCType<AstrumDeusProbe>() &&
+						npc.type != ModContent.NPCType<AstrumDeusProbe2>() && npc.type != ModContent.NPCType<AstrumDeusProbe3>())
                     {
                         npc.active = false;
                         npc.netUpdate = true;
@@ -2354,7 +2383,39 @@ namespace CalamityMod.NPCs
 				damage *= Main.expertMode ? 4 : 2;
 			}
 
-            if (npc.type == NPCID.TheDestroyerBody)
+			if (AstrumDeusIDs.Contains(npc.type))
+			{
+				if (projectile.type == ModContent.ProjectileType<RainbowBoom>() || ProjectileID.Sets.StardustDragon[projectile.type])
+				{
+					damage = (int)(damage * 0.1);
+				}
+				else if (projectile.type == ModContent.ProjectileType<BigNuke>() || projectile.type == ModContent.ProjectileType<RainBolt>() ||
+					projectile.type == ModContent.ProjectileType<AtlantisSpear2>() || projectile.type == ModContent.ProjectileType<MalachiteBolt>())
+				{
+					damage = (int)(damage * 0.2);
+				}
+				else if (projectile.type == ProjectileID.DD2BetsyArrow)
+				{
+					damage = (int)(damage * 0.3);
+				}
+				else if (projectile.type == ModContent.ProjectileType<SpikecragSpike>())
+				{
+					damage = (int)(damage * 0.5);
+				}
+
+				if (projectile.penetrate == -1 && !projectile.minion)
+				{
+					if (projectile.type == ModContent.ProjectileType<CosmicFire>())
+						damage = (int)(damage * 0.3);
+					else
+						damage = (int)(damage * 0.2);
+				}
+				else if (projectile.penetrate > 1 && projectile.type != ModContent.ProjectileType<BrinySpout>())
+				{
+					damage /= projectile.penetrate;
+				}
+			}
+            else if (DestroyerIDs.Contains(npc.type))
             {
                 if (((projectile.penetrate == -1 || projectile.penetrate > 1) && !projectile.minion) || projectile.type == ModContent.ProjectileType<KelvinCatalystStar>())
                 {
@@ -2369,7 +2430,14 @@ namespace CalamityMod.NPCs
                     damage = (int)(damage * 0.25);
                 }
             }
-            else if (npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.EaterofWorldsBody || npc.type == NPCID.EaterofWorldsTail || npc.type == NPCID.Creeper)
+			else if (AquaticScourgeIDs.Contains(npc.type))
+			{
+				if ((projectile.penetrate == -1 || projectile.penetrate > 1) && !projectile.minion)
+				{
+					damage = (int)(damage * 0.5);
+				}
+			}
+            else if (EaterofWorldsIDs.Contains(npc.type) || npc.type == NPCID.Creeper)
             {
                 if ((projectile.penetrate == -1 || projectile.penetrate > 1) && !projectile.minion)
                 {
