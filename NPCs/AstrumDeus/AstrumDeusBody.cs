@@ -81,80 +81,8 @@ namespace CalamityMod.NPCs.AstrumDeus
 
         public override void AI()
         {
-            if (CalamityGlobalNPC.astrumDeusHeadMain != -1)
-            {
-                if (Main.npc[CalamityGlobalNPC.astrumDeusHeadMain].active)
-                {
-                    npc.dontTakeDamage = !Main.npc[CalamityGlobalNPC.astrumDeusHeadMain].dontTakeDamage;
-                    npc.chaseable = !Main.npc[CalamityGlobalNPC.astrumDeusHeadMain].chaseable;
-                }
-            }
-            bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
-            bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
-            Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
-            if (!Main.npc[(int)npc.ai[1]].active)
-            {
-                npc.life = 0;
-                npc.HitEffect(0, 10.0);
-                npc.active = false;
-            }
-            if (Main.npc[(int)npc.ai[1]].alpha < 128)
-            {
-                if (npc.alpha != 0)
-                {
-                    for (int num934 = 0; num934 < 2; num934++)
-                    {
-                        int num935 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 182, 0f, 0f, 100, default, 2f);
-                        Main.dust[num935].noGravity = true;
-                        Main.dust[num935].noLight = true;
-                    }
-                }
-                npc.alpha -= 42;
-                if (npc.alpha < 0)
-                {
-                    npc.alpha = 0;
-                }
-            }
-            /*if (Main.netMode != NetmodeID.MultiplayerClient)
-            {
-                int shootTime = 4;
-                if ((double)npc.life <= (double)npc.lifeMax * 0.3 || CalamityWorld.bossRushActive)
-                {
-                    shootTime += 2;
-                }
-                npc.localAI[0] += (float)Main.rand.Next(shootTime);
-                if (npc.localAI[0] >= (float)Main.rand.Next(1400, 26000))
-                {
-                    npc.localAI[0] = 0f;
-                    npc.TargetClosest(true);
-                    if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
-                    {
-                        float num941 = revenge ? 13f : 12f;
-                        if (CalamityWorld.death)
-                        {
-                            num941 = 15f;
-                        }
-                        if (CalamityWorld.bossRushActive)
-                        {
-                            num941 = 20f;
-                        }
-                        Vector2 vector104 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)(npc.height / 2));
-                        float num942 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector104.X;
-                        float num943 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector104.Y;
-                        float num944 = (float)Math.Sqrt((double)(num942 * num942 + num943 * num943));
-                        num944 = num941 / num944;
-                        num942 *= num944;
-                        num943 *= num944;
-                        int num945 = expertMode ? 38 : 45;
-                        int num946 = ModContent.ProjectileType<AstralShot2>();
-                        vector104.X += num942 * 5f;
-                        vector104.Y += num943 * 5f;
-                        int num947 = Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, num946, num945, 0f, Main.myPlayer, 0f, 0f);
-                        npc.netUpdate = true;
-                    }
-                }
-            }*/
-        }
+			CalamityAI.AstrumDeusAI(npc, mod, false, false);
+		}
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
@@ -168,39 +96,6 @@ namespace CalamityMod.NPCs.AstrumDeus
             Texture2D texture = ModContent.GetTexture("CalamityMod/NPCs/AstrumDeus/AstrumDeusBodyAlt");
             CalamityMod.DrawTexture(spriteBatch, npc.localAI[3] == 1f ? texture : Main.npcTexture[npc.type], 0, npc, newColor);
             return false;
-        }
-
-        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-        {
-            if (projectile.type == ModContent.ProjectileType<RainbowBoom>() || ProjectileID.Sets.StardustDragon[projectile.type])
-            {
-                damage = (int)((double)damage * 0.1);
-            }
-            else if (projectile.type == ModContent.ProjectileType<BigNuke>() || projectile.type == ModContent.ProjectileType<RainBolt>() ||
-				projectile.type == ModContent.ProjectileType<AtlantisSpear2>() || projectile.type == ModContent.ProjectileType<MalachiteBolt>())
-            {
-                damage = (int)((double)damage * 0.2);
-            }
-            else if (projectile.type == ProjectileID.DD2BetsyArrow)
-            {
-                damage = (int)((double)damage * 0.3);
-            }
-            else if (projectile.type == ModContent.ProjectileType<SpikecragSpike>())
-            {
-                damage = (int)((double)damage * 0.5);
-            }
-
-            if (projectile.penetrate == -1 && !projectile.minion)
-            {
-                if (projectile.type == ModContent.ProjectileType<CosmicFire>())
-                    damage = (int)((double)damage * 0.3);
-                else
-                    damage = (int)((double)damage * 0.2);
-            }
-            else if (projectile.penetrate > 1 && projectile.type != ModContent.ProjectileType<BrinySpout>())
-            {
-                damage /= projectile.penetrate;
-            }
         }
 
         public override bool CheckActive()

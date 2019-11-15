@@ -80,7 +80,7 @@ namespace CalamityMod.NPCs.AquaticScourge
 				else
 					music = MusicID.Boss2;
 			}
-			CalamityAI.AquaticScourgeAI(npc, mod);
+			CalamityAI.AquaticScourgeAI(npc, mod, true);
 		}
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
@@ -101,12 +101,6 @@ namespace CalamityMod.NPCs.AquaticScourge
                 minDist = dist4;
 
             return minDist <= 50f;
-        }
-
-        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-        {
-            if ((projectile.penetrate == -1 || projectile.penetrate > 1) && !projectile.minion)
-                damage = (int)((double)damage * 0.5);
         }
 
         public override bool? CanBeHitByProjectile(Projectile projectile)
