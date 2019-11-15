@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class SeasSearing : ModItem
     {
-        public static int BaseDamage = 90;
+        public static int BaseDamage = 60;
 
         public override void SetStaticDefaults()
         {
@@ -54,7 +54,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             if (player.altFunctionUse == 2)
             {
-				item.damage = 130;
+				item.damage = 73;
                 item.useTime = 30;
                 item.useAnimation = 30;
 				item.reuseDelay = 0;

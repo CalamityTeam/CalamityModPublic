@@ -1380,6 +1380,35 @@ namespace CalamityMod
                 }
             }
         }
+
+        public static void DrawHook(this Projectile projectile, Texture2D hookTexture, float angleAdditive = 0f)
+        {
+            Player player = Main.player[projectile.owner];
+            Vector2 center = projectile.Center;
+            float angleToMountedCenter = projectile.AngleTo(player.MountedCenter) - MathHelper.PiOver2;
+            bool canShowHook = true;
+            while (canShowHook)
+            {
+                float distanceMagnitude = (player.MountedCenter - center).Length(); //Exact same as using a Sqrt
+                if (distanceMagnitude < hookTexture.Height + 1f)
+                {
+                    canShowHook = false;
+                }
+                else if (float.IsNaN(distanceMagnitude))
+                {
+                    canShowHook = false;
+                }
+                else
+                {
+                    center += projectile.DirectionTo(player.MountedCenter) * hookTexture.Height;
+                    Color tileAtCenterColor = Lighting.GetColor((int)center.X / 16, (int)(center.Y / 16f));
+                    Main.spriteBatch.Draw(hookTexture, center - Main.screenPosition, 
+                        new Rectangle?(new Rectangle(0, 0, hookTexture.Width, hookTexture.Height)), 
+                        tileAtCenterColor, angleToMountedCenter + angleAdditive, 
+                        hookTexture.Size() / 2, 1f, SpriteEffects.None, 0f);
+                }
+            }
+        }
         #endregion
 
         #region Miscellaneous Utilities
