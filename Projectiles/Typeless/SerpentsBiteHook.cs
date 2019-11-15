@@ -60,26 +60,8 @@ namespace CalamityMod.Projectiles.Typeless
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
-			Vector2 playerCenter = Main.player[projectile.owner].MountedCenter;
-			Vector2 center = projectile.Center;
-			Vector2 distToProj = playerCenter - projectile.Center;
-			float projRotation = distToProj.ToRotation() - 1.57f;
-			float distance = distToProj.Length();
-			while (distance > 30f && !float.IsNaN(distance))
-			{
-				distToProj.Normalize();                 //get unit vector
-				distToProj *= 10f;                      //speed = 24
-				center += distToProj;                   //update draw position
-				distToProj = playerCenter - center;    //update distance
-				distance = distToProj.Length();
-				Color drawColor = lightColor;
-
-				//Draw chain
-				spriteBatch.Draw(GetTexture("CalamityMod/ExtraTextures/Chains/SerpentsBiteChain"), new Vector2(center.X - Main.screenPosition.X, center.Y - Main.screenPosition.Y),
-					new Rectangle(0, 0, 10, 10), drawColor, projRotation,
-					new Vector2(5, 5), 1f, SpriteEffects.None, 0f);
-			}
+        {
+            CalamityUtils.DrawHook(projectile, GetTexture("CalamityMod/ExtraTextures/Chains/SerpentsBiteChain"));
 			return true;
 		}
 	}
