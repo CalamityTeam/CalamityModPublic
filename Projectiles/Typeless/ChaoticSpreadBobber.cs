@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Typeless
         public override bool PreDrawExtras(SpriteBatch spriteBatch)
         {
             Lighting.AddLight(projectile.Center, 0.4f, 0f, 0f);
-            CalamityUtils.DrawFishingLine(projectile, ModContent.ItemType<ChaoticSpreadRod>(), new Color(138, 50, 73, 100));
+            CalamityUtils.DrawFishingLine(projectile, ModContent.ItemType<ChaoticSpreadRod>(), new Color(138, 50, 73, 100), 30f);
             return false;
 		}
     }
