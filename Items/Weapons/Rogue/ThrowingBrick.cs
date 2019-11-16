@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         }
         public override void SafeSetDefaults()
         {
-            item.damage = 20;
+            item.damage = 14;
             item.shootSpeed = 12f;
             item.shoot = ModContent.ProjectileType<Brick>();
             item.width = 26;
