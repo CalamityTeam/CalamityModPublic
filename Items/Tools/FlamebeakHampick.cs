@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Tools
         {
             DisplayName.SetDefault("Flamebeak Hampick");
             Tooltip.SetDefault(@"Capable of mining Lihzahrd Bricks
-Right click to use as hammer");
+Left click to use as a pickaxe
+Right click to use as a hammer");
         }
 
         public override void SetDefaults()
