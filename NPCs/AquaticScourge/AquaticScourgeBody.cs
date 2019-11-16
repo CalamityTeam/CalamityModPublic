@@ -56,14 +56,8 @@ namespace CalamityMod.NPCs.AquaticScourge
 
         public override void AI()
         {
-			CalamityAI.AquaticScourgeAI(npc, mod);
+			CalamityAI.AquaticScourgeAI(npc, mod, false);
 		}
-
-        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-        {
-            if ((projectile.penetrate == -1 || projectile.penetrate > 1) && !projectile.minion)
-                damage = (int)((double)damage * 0.5);
-        }
 
         public override bool? CanBeHitByProjectile(Projectile projectile)
         {

@@ -82,39 +82,8 @@ namespace CalamityMod.NPCs.AstrumDeus
 
         public override void AI()
         {
-            if (CalamityGlobalNPC.astrumDeusHeadMain != -1)
-            {
-                if (Main.npc[CalamityGlobalNPC.astrumDeusHeadMain].active)
-                {
-                    npc.dontTakeDamage = !Main.npc[CalamityGlobalNPC.astrumDeusHeadMain].dontTakeDamage;
-                    npc.chaseable = !Main.npc[CalamityGlobalNPC.astrumDeusHeadMain].chaseable;
-                }
-            }
-            Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
-            if (!Main.npc[(int)npc.ai[1]].active)
-            {
-                npc.life = 0;
-                npc.HitEffect(0, 10.0);
-                npc.active = false;
-            }
-            if (Main.npc[(int)npc.ai[1]].alpha < 128)
-            {
-                if (npc.alpha != 0)
-                {
-                    for (int num934 = 0; num934 < 2; num934++)
-                    {
-                        int num935 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 182, 0f, 0f, 100, default, 2f);
-                        Main.dust[num935].noGravity = true;
-                        Main.dust[num935].noLight = true;
-                    }
-                }
-                npc.alpha -= 42;
-                if (npc.alpha < 0)
-                {
-                    npc.alpha = 0;
-                }
-            }
-        }
+			CalamityAI.AstrumDeusAI(npc, mod, false, false);
+		}
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
@@ -127,39 +96,6 @@ namespace CalamityMod.NPCs.AstrumDeus
                 return new Color(125, 75, Main.DiscoB, npc.alpha);
             return null;
         }
-
-		public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-		{
-			if (projectile.type == ModContent.ProjectileType<RainbowBoom>() || ProjectileID.Sets.StardustDragon[projectile.type])
-			{
-				damage = (int)((double)damage * 0.1);
-			}
-			else if (projectile.type == ModContent.ProjectileType<BigNuke>() || projectile.type == ModContent.ProjectileType<RainBolt>() ||
-				projectile.type == ModContent.ProjectileType<AtlantisSpear2>() || projectile.type == ModContent.ProjectileType<MalachiteBolt>())
-			{
-				damage = (int)((double)damage * 0.2);
-			}
-			else if (projectile.type == ProjectileID.DD2BetsyArrow)
-			{
-				damage = (int)((double)damage * 0.3);
-			}
-			else if (projectile.type == ModContent.ProjectileType<SpikecragSpike>())
-			{
-				damage = (int)((double)damage * 0.5);
-			}
-
-			if (projectile.penetrate == -1 && !projectile.minion)
-			{
-				if (projectile.type == ModContent.ProjectileType<CosmicFire>())
-					damage = (int)((double)damage * 0.3);
-				else
-					damage = (int)((double)damage * 0.2);
-			}
-			else if (projectile.penetrate > 1 && projectile.type != ModContent.ProjectileType<BrinySpout>())
-			{
-				damage /= projectile.penetrate;
-			}
-		}
 
 		public override void HitEffect(int hitDirection, double damage)
         {

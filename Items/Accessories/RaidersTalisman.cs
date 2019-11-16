@@ -1,4 +1,5 @@
 ﻿using CalamityMod.CalPlayer;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,9 +11,7 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Raider's Talisman");
-            Tooltip.SetDefault("Whenever you crit an enemy with a rogue weapon your rogue damage increases\n" +
-                "This effect can stack up to 250 times\n" +
-                "Max rogue damage boost is 25%");
+            Tooltip.SetDefault("Whenever you crit an enemy with a rogue weapon your rogue damage increases");
         }
 
         public override void SetDefaults()
@@ -22,6 +21,21 @@ namespace CalamityMod.Items.Accessories
             item.value = Item.buyPrice(0, 9, 0, 0);
             item.rare = 2;
             item.accessory = true;
+        }
+
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+            int critLevel = Main.player[Main.myPlayer].Calamity().raiderStack;
+            foreach (TooltipLine line2 in list)
+            {
+                if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
+                {
+                    line2.text = "Whenever you crit an enemy with a rogue weapon your rogue damage increases\n" +
+                "This effect can stack up to 250 times\n" +
+                "Max rogue damage boost is 25%\n" +
+                "Rogue Crit Level: " + critLevel;
+                }
+            }
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
