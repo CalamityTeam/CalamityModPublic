@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Magic
 		public bool IsAtMaxCharge => Charge == MAX_CHARGE;
 
 		private bool playedSound = false;
-        private int manaDrain = 0;
+        //private int manaDrain = 0;
 
 		public override void SetDefaults()
 		{
@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Magic
 			projectile.magic = true;
 			projectile.hide = true;
             projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 10;
+            projectile.idStaticNPCHitCooldown = 15;
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -106,7 +106,7 @@ namespace CalamityMod.Projectiles.Magic
         {
             if (target.life <= 0)
             {
-				int shardDamage = SparklingEmpress.BaseDamage / 2;
+				int shardDamage = SparklingEmpress.BaseDamage / 4;
 				int num251 = Main.rand.Next(2, 4);
                 if (projectile.owner == Main.myPlayer)
                 {

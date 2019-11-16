@@ -2443,6 +2443,10 @@ namespace CalamityMod.NPCs
                 {
                     damage = (int)(damage * 0.6);
                 }
+                if (projectile.type == ModContent.ProjectileType<SparklingBeam>())
+                {
+                    damage = (int)(damage * 0.7);
+                }
             }
 
             if (Main.player[projectile.owner].Calamity().eGauntlet)

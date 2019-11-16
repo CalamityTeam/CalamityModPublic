@@ -13,6 +13,9 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Serpent's Bite");
+            Tooltip.SetDefault(@"Reach: 28.125
+Launch Velocity: 18
+Pull Velocity: 14");
 		}
 
 		public override void SetDefaults()

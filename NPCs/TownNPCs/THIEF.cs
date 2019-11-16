@@ -287,7 +287,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 nextSlot++;
             }
             //:BearWatchingYou:
-            if (npc.GivenOrTypeName == "Laura")
+            if (npc.modNPC.TownNPCName() == "Laura")
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<BearEye>());
                 nextSlot++;

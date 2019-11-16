@@ -34,7 +34,6 @@ namespace CalamityMod.NPCs.SunkenSea
             npc.alpha = 100;
             npc.HitSound = SoundID.NPCHit25;
             npc.DeathSound = SoundID.NPCDeath28;
-			npc.catchItem = (Main.rand.NextBool(20)) ? (short)ModContent.ItemType<RustedJingleBell>() : ItemID.None;
             banner = npc.type;
             bannerItem = ModContent.ItemType<GhostBellSmallBanner>();
         }
@@ -53,7 +52,14 @@ namespace CalamityMod.NPCs.SunkenSea
 
         public override void AI()
         {
-			if (Main.rand.Next(8) < 1 && npc.catchItem == (short)ModContent.ItemType<RustedJingleBell>())
+            if (npc.localAI[0] == 0f)
+            {
+                npc.catchItem = (Main.rand.NextBool(20)) ? (short)ModContent.ItemType<RustedJingleBell>() : ItemID.None;
+                npc.localAI[0] = 1f;
+                npc.velocity.Y = -3f;
+                npc.netUpdate = true;
+            }
+            if (Main.rand.Next(8) < 1 && npc.catchItem == (short)ModContent.ItemType<RustedJingleBell>())
 			{
 				int dust = Dust.NewDust(npc.position - new Vector2(2f, 2f), npc.width + 4, npc.height + 4, 68, npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 200, default, 1f);
 				Main.dust[dust].noGravity = true;
@@ -67,12 +73,6 @@ namespace CalamityMod.NPCs.SunkenSea
 				}
 			}
             Lighting.AddLight(npc.Center, 0f, (255 - npc.alpha) * 1f / 255f, (255 - npc.alpha) * 1f / 255f);
-            if (npc.localAI[0] == 0f)
-            {
-                npc.localAI[0] = 1f;
-                npc.velocity.Y = -3f;
-                npc.netUpdate = true;
-            }
             if (npc.wet)
             {
                 npc.noGravity = true;
