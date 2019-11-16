@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Typeless
 		// Amethyst Hook is 300, Static Hook is 600
 		public override float GrappleRange()
 		{
-			return 450f;
+			return 450f; //28.125 tiles
 		}
 
 		public override void NumGrappleHooks(Player player, ref int numHooks)

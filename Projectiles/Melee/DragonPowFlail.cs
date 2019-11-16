@@ -195,7 +195,7 @@ namespace CalamityMod.Projectiles.Melee
 
         private void Waterfalls(NPC target, int damage, float knockback, bool crit)
         {
-            int type = ModContent.ProjectileType<OceanBeam>();
+            int type = ModContent.ProjectileType<Waterfall>();
             int numWaterfalls = 12;
             int waterfallDamage = DragonPow.BaseDamage / 6;
             float waterfallKB = 0f;

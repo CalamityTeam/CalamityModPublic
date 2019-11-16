@@ -1420,6 +1420,294 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                     }
                 }
             }
+            if (item.type == ItemID.GrapplingHook)
+            {
+                foreach (TooltipLine line2 in tooltips)
+                {
+                    if (line2.mod == "Terraria" && line2.Name == "Equipable")
+                    {
+                        line2.text = "Equipable\n" +
+                            "Reach: 18.75\n" +
+                            "Velocity: 11.5";
+                    }
+                }
+            }
+            if (item.type == ItemID.AmethystHook)
+            {
+                foreach (TooltipLine line2 in tooltips)
+                {
+                    if (line2.mod == "Terraria" && line2.Name == "Equipable")
+                    {
+                        line2.text = "Equipable\n" +
+                            "Reach: 18.75\n" +
+                            "Velocity: 10";
+                    }
+                }
+            }
+            if (item.type == ItemID.TopazHook)
+            {
+                foreach (TooltipLine line2 in tooltips)
+                {
+                    if (line2.mod == "Terraria" && line2.Name == "Equipable")
+                    {
+                        line2.text = "Equipable\n" +
+                            "Reach: 20.625\n" +
+                            "Velocity: 10.5";
+                    }
+                }
+            }
+            if (item.type == ItemID.SapphireHook)
+            {
+                foreach (TooltipLine line2 in tooltips)
+                {
+                    if (line2.mod == "Terraria" && line2.Name == "Equipable")
+                    {
+                        line2.text = "Equipable\n" +
+                            "Reach: 22.5\n" +
+                            "Velocity: 11";
+                    }
+                }
+            }
+            if (item.type == ItemID.EmeraldHook)
+            {
+                foreach (TooltipLine line2 in tooltips)
+                {
+                    if (line2.mod == "Terraria" && line2.Name == "Equipable")
+                    {
+                        line2.text = "Equipable\n" +
+                            "Reach: 24.375\n" +
+                            "Velocity: 11.5";
+                    }
+                }
+            }
+            if (item.type == ItemID.RubyHook)
+            {
+                foreach (TooltipLine line2 in tooltips)
+                {
+                    if (line2.mod == "Terraria" && line2.Name == "Equipable")
+                    {
+                        line2.text = "Equipable\n" +
+                            "Reach: 26.25\n" +
+                            "Velocity: 12";
+                    }
+                }
+            }
+            if (item.type == ItemID.DiamondHook)
+            {
+                foreach (TooltipLine line2 in tooltips)
+                {
+                    if (line2.mod == "Terraria" && line2.Name == "Equipable")
+                    {
+                        line2.text = "Equipable\n" +
+                            "Reach: 28.125\n" +
+                            "Velocity: 12.5";
+                    }
+                }
+            }
+            if (item.type == ItemID.WebSlinger)
+            {
+                foreach (TooltipLine line2 in tooltips)
+                {
+                    if (line2.mod == "Terraria" && line2.Name == "Equipable")
+                    {
+                        line2.text = "Equipable\n" +
+                            "Reach: 15.625\n" +
+                            "Velocity: 10";
+                    }
+                }
+            }
+            if (item.type == ItemID.SkeletronHand)
+            {
+                foreach (TooltipLine line2 in tooltips)
+                {
+                    if (line2.mod == "Terraria" && line2.Name == "Equipable")
+                    {
+                        line2.text = "Equipable\n" +
+                            "Reach: 21.875\n" +
+                            "Velocity: 15";
+                    }
+                }
+            }
+            if (item.type == ItemID.SlimeHook)
+            {
+                foreach (TooltipLine line2 in tooltips)
+                {
+                    if (line2.mod == "Terraria" && line2.Name == "Equipable")
+                    {
+                        line2.text = "Equipable\n" +
+                            "Reach: 18.75\n" +
+                            "Velocity: 13";
+                    }
+                }
+            }
+            if (item.type == ItemID.FishHook)
+            {
+                foreach (TooltipLine line2 in tooltips)
+                {
+                    if (line2.mod == "Terraria" && line2.Name == "Equipable")
+                    {
+                        line2.text = "Equipable\n" +
+                            "Reach: 25\n" +
+                            "Velocity: 13";
+                    }
+                }
+            }
+            if (item.type == ItemID.IvyWhip)
+            {
+                foreach (TooltipLine line2 in tooltips)
+                {
+                    if (line2.mod == "Terraria" && line2.Name == "Equipable")
+                    {
+                        line2.text = "Equipable\n" +
+                            "Reach: 25\n" +
+                            "Velocity: 13";
+                    }
+                }
+            }
+            if (item.type == ItemID.BatHook)
+            {
+                foreach (TooltipLine line2 in tooltips)
+                {
+                    if (line2.mod == "Terraria" && line2.Name == "Equipable")
+                    {
+                        line2.text = "Equipable\n" +
+                            "Reach: 31.25\n" +
+                            "Velocity: 15.5";
+                    }
+                }
+            }
+            if (item.type == ItemID.CandyCaneHook)
+            {
+                foreach (TooltipLine line2 in tooltips)
+                {
+                    if (line2.mod == "Terraria" && line2.Name == "Equipable")
+                    {
+                        line2.text = "Equipable\n" +
+                            "Reach: 25\n" +
+                            "Velocity: 11.5";
+                    }
+                }
+            }
+            if (item.type == ItemID.DualHook)
+            {
+                foreach (TooltipLine line2 in tooltips)
+                {
+                    if (line2.mod == "Terraria" && line2.Name == "Equipable")
+                    {
+                        line2.text = "Equipable\n" +
+                            "Reach: 27.5\n" +
+                            "Velocity: 14";
+                    }
+                }
+            }
+            if (item.type == ItemID.ThornHook)
+            {
+                foreach (TooltipLine line2 in tooltips)
+                {
+                    if (line2.mod == "Terraria" && line2.Name == "Equipable")
+                    {
+                        line2.text = "Equipable\n" +
+                            "Reach: 30\n" +
+                            "Velocity: 15";
+                    }
+                }
+            }
+            if (item.type == ItemID.WormHook)
+            {
+                foreach (TooltipLine line2 in tooltips)
+                {
+                    if (line2.mod == "Terraria" && line2.Name == "Equipable")
+                    {
+                        line2.text = "Equipable\n" +
+                            "Reach: 30\n" +
+                            "Velocity: 15";
+                    }
+                }
+            }
+            if (item.type == ItemID.TendonHook)
+            {
+                foreach (TooltipLine line2 in tooltips)
+                {
+                    if (line2.mod == "Terraria" && line2.Name == "Equipable")
+                    {
+                        line2.text = "Equipable\n" +
+                            "Reach: 30\n" +
+                            "Velocity: 15";
+                    }
+                }
+            }
+            if (item.type == ItemID.IlluminantHook)
+            {
+                foreach (TooltipLine line2 in tooltips)
+                {
+                    if (line2.mod == "Terraria" && line2.Name == "Equipable")
+                    {
+                        line2.text = "Equipable\n" +
+                            "Reach: 30\n" +
+                            "Velocity: 15";
+                    }
+                }
+            }
+            if (item.type == ItemID.AntiGravityHook)
+            {
+                foreach (TooltipLine line2 in tooltips)
+                {
+                    if (line2.mod == "Terraria" && line2.Name == "Equipable")
+                    {
+                        line2.text = "Equipable\n" +
+                            "Reach: 31.25\n" +
+                            "Velocity: 14";
+                    }
+                }
+            }
+            if (item.type == ItemID.SpookyHook)
+            {
+                foreach (TooltipLine line2 in tooltips)
+                {
+                    if (line2.mod == "Terraria" && line2.Name == "Equipable")
+                    {
+                        line2.text = "Equipable\n" +
+                            "Reach: 34.375\n" +
+                            "Velocity: 15.5";
+                    }
+                }
+            }
+            if (item.type == ItemID.ChristmasHook)
+            {
+                foreach (TooltipLine line2 in tooltips)
+                {
+                    if (line2.mod == "Terraria" && line2.Name == "Equipable")
+                    {
+                        line2.text = "Equipable\n" +
+                            "Reach: 34.375\n" +
+                            "Velocity: 15.5";
+                    }
+                }
+            }
+            if (item.type == ItemID.LunarHook)
+            {
+                foreach (TooltipLine line2 in tooltips)
+                {
+                    if (line2.mod == "Terraria" && line2.Name == "Equipable")
+                    {
+                        line2.text = "Equipable\n" +
+                            "Reach: 34.375\n" +
+                            "Velocity: 16";
+                    }
+                }
+            }
+            if (item.type == ItemID.StaticHook)
+            {
+                foreach (TooltipLine line2 in tooltips)
+                {
+                    if (line2.mod == "Terraria" && line2.Name == "Equipable")
+                    {
+                        line2.text = "Equipable\n" +
+                            "Reach: 37.5\n" +
+                            "Velocity: 16";
+                    }
+                }
+            }
             if (item.accessory)
             {
                 if (item.prefix == 67)

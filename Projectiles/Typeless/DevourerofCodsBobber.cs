@@ -5,14 +5,11 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items.Fishing.FishingRods;
+
 namespace CalamityMod.Projectiles.Typeless
 {
     public class DevourerofCodsBobber : ModProjectile
     {
-        private static int red = 252;
-        private static int green = 109;
-        private static int blue = 202;
-
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Devourer of Cods Bobber");
