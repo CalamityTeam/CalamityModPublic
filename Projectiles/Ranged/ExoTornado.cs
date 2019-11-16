@@ -96,10 +96,11 @@ namespace CalamityMod.Projectiles.Ranged
             float num227 = 30f; //15
             float num228 = 30f; //15
             float num229 = projectile.ai[0];
-            float scale5 = MathHelper.Clamp(num229 / 30f, 0f, 1f);
+            float maxAlpha = 0.3f;
+            float scale5 = MathHelper.Clamp(num229 / 30f, 0f, maxAlpha); //Fade in
             if (num229 > num226 - 60f)
             {
-                scale5 = MathHelper.Lerp(1f, 0f, (num229 - (num226 - 60f)) / 60f);
+                scale5 = MathHelper.Lerp(maxAlpha, 0f, (num229 - (num226 - 60f)) / 60f); //Fade out
             }
             Point point5 = projectile.Center.ToTileCoordinates();
             int num230;
