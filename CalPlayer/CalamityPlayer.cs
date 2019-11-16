@@ -87,6 +87,8 @@ namespace CalamityMod.CalPlayer
         public int dashTimeMod;
         public int hInfernoBoost = 0;
         public int pissWaterBoost = 0;
+        public int gaelRageCooldown = 0;
+        public int gaelBloodShotCooldown = 0;
         public int packetTimer = 0;
         public int bloodflareHeartTimer = 180;
         public int bloodflareManaTimer = 180;
@@ -1186,7 +1188,7 @@ namespace CalamityMod.CalPlayer
             polarisBoostThree = false;
             bloodfinBoost = false;
 
-			killSpikyBalls = false;
+            killSpikyBalls = false;
 
             vodka = false;
             redWine = false;
@@ -1293,6 +1295,8 @@ namespace CalamityMod.CalPlayer
         {
             #region Debuffs
             //distanceFromBoss = -1;
+            gaelRageCooldown = 0;
+            gaelBloodShotCooldown = 0;
             stress = 0;
             adrenaline = 0;
             adrenalineMaxTimer = 300;
@@ -1306,6 +1310,7 @@ namespace CalamityMod.CalPlayer
             bossRushImmunityFrameCurseTimer = 0;
             aBulwarkRareMeleeBoostTimer = 0;
             theBeeDamage = 0;
+            reforges = 0;
             polarisBoostCounter = 0;
 			killSpikyBalls = false;
 
@@ -1968,6 +1973,67 @@ namespace CalamityMod.CalPlayer
             }
             if (CalamityMod.RageHotKey.JustPressed)
             {
+                if (gaelRageCooldown == 0 && player.HeldItem.type == ModContent.ItemType<GaelsGreatsword>() &&
+                    stress > 0)
+                {
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SilvaDispel"), (int)player.position.X, (int)player.position.Y);
+                    for (int i = 0; i < 3; i++)
+                    {
+                        Dust.NewDust(player.position, 120, 120, 218, 0f, 0f, 100, default, 1.5f);
+                    }
+                    for (int i = 0; i < 30; i++)
+                    {
+                        float angle = MathHelper.TwoPi * i / 30f;
+                        int dustIndex = Dust.NewDust(player.position, 120, 120, 218, 0f, 0f, 0, default, 2f);
+                        Main.dust[dustIndex].noGravity = true;
+                        Main.dust[dustIndex].velocity *= 4f;
+                        dustIndex = Dust.NewDust(player.position, 120, 120, 218, 0f, 0f, 100, default, 1f);
+                        Main.dust[dustIndex].velocity *= 2.25f;
+                        Main.dust[dustIndex].noGravity = true;
+                        Dust.NewDust(player.Center + angle.ToRotationVector2() * 160f, 0, 0, 218, 0f, 0f, 100, default, 1f);
+                    }
+                    gaelRageCooldown = 60 * GaelsGreatsword.SkullsplosionCooldownSeconds;
+                    int damage2 = 15;
+                    if (CalamityWorld.downedYharon)
+                    {
+                        damage2 = GaelsGreatsword.PostYharonDamage;
+                    }
+                    else if (NPC.downedMoonlord)
+                    {
+                        damage2 = GaelsGreatsword.PostMoonLordDamage;
+                    }
+                    else if (Main.hardMode)
+                    {
+                        damage2 = GaelsGreatsword.HardmodeDamage;
+                    }
+                    float rageRatio = (float)stress / stressMax;
+                    int damage = (int)((stress == stressMax ? GaelsGreatsword.MaxRageBoost : rageRatio * GaelsGreatsword.RageBoostMultiplier) * damage2);
+                    float skullCount = 5f;
+                    float skullSpeed = 5f;
+                    if (CalamityWorld.downedYharon)
+                    {
+                        skullCount = 20f;
+                        skullSpeed = 16f;
+                    }
+                    else if (NPC.downedMoonlord)
+                    {
+                        skullCount = 13f;
+                        skullSpeed = 13f;
+                    }
+                    else if (Main.hardMode)
+                    {
+                        skullCount = 9f;
+                        skullSpeed = 8.75f;
+                    }
+                    for (float i = 0; i < skullCount; i += 1f)
+                    {
+                        float angle = MathHelper.TwoPi * i / skullCount;
+                        Vector2 initialVelocity = angle.ToRotationVector2() * skullSpeed;
+                        int projectileIndex = Projectile.NewProjectile(player.Center + initialVelocity * 3f, initialVelocity, ModContent.ProjectileType<GaelSkull>(), damage, 2f, player.whoAmI);
+                        Main.projectile[projectileIndex].tileCollide = false;
+                    }
+                    stress = 0;
+                }
                 if (stress == stressMax && !rageMode)
                 {
                     Main.PlaySound(29, (int)player.position.X, (int)player.position.Y, 104);
@@ -3212,6 +3278,10 @@ namespace CalamityMod.CalPlayer
                 aBulwarkRareMeleeBoostTimer--;
             if (bossRushImmunityFrameCurseTimer > 0)
                 bossRushImmunityFrameCurseTimer--;
+            if (gaelBloodShotCooldown > 0)
+                gaelBloodShotCooldown--;
+            if (gaelRageCooldown > 0)
+                gaelRageCooldown--;
 
             if (silvaCountdown > 0 && hasSilvaEffect && silvaSet)
             {
@@ -5437,6 +5507,21 @@ namespace CalamityMod.CalPlayer
 
                 add += damageAdd;
             }
+            if (item.type == ModContent.ItemType<GaelsGreatsword>())
+            {
+                if (CalamityWorld.downedYharon)
+                {
+                    add += GaelsGreatsword.PostYharonDamage / (float)GaelsGreatsword.BaseDamage - 1f;
+                }
+                else if (NPC.downedMoonlord)
+                {
+                    add += GaelsGreatsword.PostMoonLordDamage / (float)GaelsGreatsword.BaseDamage - 1f;
+                }
+                else if (Main.hardMode)
+                {
+                    add += GaelsGreatsword.HardmodeDamage / (float)GaelsGreatsword.BaseDamage - 1f;
+                }
+            }
             if (flamethrowerBoost && item.ranged && (item.useAmmo == 23 || item.type == ModContent.ItemType<DragoonDrizzlefish>()))
             {
                 add += 0.25f;
@@ -5481,7 +5566,6 @@ namespace CalamityMod.CalPlayer
                 theBeeDamage = 0;
             }
         }
-
         public override void GetWeaponKnockback(Item item, ref float knockback)
         {
             if (auricBoost)
@@ -6986,6 +7070,33 @@ namespace CalamityMod.CalPlayer
         #region Modify Hit By NPC
         public override void ModifyHitByNPC(NPC npc, ref int damage, ref bool crit)
         {
+            if (player.HeldItem.type == ModContent.ItemType<GaelsGreatsword>()
+                && npc.active && npc.CanBeChasedBy() && player.altFunctionUse == 2 && Main.rand.NextBool(2))
+            {
+                int direction = -1;
+                if (npc.Center.X < player.Center.X)
+                {
+                    direction = 1;
+                }
+                int damage2 = 15;
+                if (CalamityWorld.downedYharon)
+                {
+                    damage2 = GaelsGreatsword.PostYharonDamage;
+                }
+                else if (NPC.downedMoonlord)
+                {
+                    damage2 = GaelsGreatsword.PostMoonLordDamage;
+                }
+                else if (Main.hardMode)
+                {
+                    damage2 = GaelsGreatsword.HardmodeDamage;
+                }
+                player.ApplyDamageToNPC(npc, damage2 * 5, 5, -direction, false);
+                player.immune = true;
+                player.immuneNoBlink = true;
+                player.immuneTime = 4;
+                damage = 0;
+            }
             int bossRushDamage = (Main.expertMode ? 500 : 300) + (CalamityWorld.bossRushStage * 2);
             if (CalamityWorld.bossRushActive)
             {
@@ -7056,6 +7167,37 @@ namespace CalamityMod.CalPlayer
         #region Modify Hit By Proj
         public override void ModifyHitByProjectile(Projectile proj, ref int damage, ref bool crit)
         {
+            if (player.HeldItem.type == ModContent.ItemType<GaelsGreatsword>()
+                && proj.active && proj.hostile && player.altFunctionUse == 2 && Main.rand.NextBool(2))
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    int dustIndex = Dust.NewDust(proj.position, proj.width, proj.height, 31, 0f, 0f, 0, default(Color), 1f);
+                    Main.dust[dustIndex].velocity *= 0.3f;
+                }
+                int damage2 = 15;
+                if (CalamityWorld.downedYharon)
+                {
+                    damage2 = GaelsGreatsword.PostYharonDamage;
+                }
+                else if (NPC.downedMoonlord)
+                {
+                    damage2 = GaelsGreatsword.PostMoonLordDamage;
+                }
+                else if (Main.hardMode)
+                {
+                    damage2 = GaelsGreatsword.HardmodeDamage;
+                }
+                proj.hostile = false;
+                proj.friendly = true;
+                proj.velocity *= -1f;
+                proj.damage = damage2 * 5;
+                proj.penetrate = 1;
+                player.immune = true;
+                player.immuneNoBlink = true;
+                player.immuneTime = 4;
+                damage = 0;
+            }
             int bossRushDamage = (Main.expertMode ? 125 : 150) + (CalamityWorld.bossRushStage / 2);
             if (CalamityWorld.bossRushActive)
             {

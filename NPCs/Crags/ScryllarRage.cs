@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
@@ -268,6 +269,7 @@ namespace CalamityMod.NPCs.Crags
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EssenceofChaos>());
             }
+            //DropHelper.DropItemChance(npc, ModContent.ItemType<GaelsGreatsword>(), CalamityWorld.defiled ? 0.05f : 0.02f);
         }
 
         public override void HitEffect(int hitDirection, double damage)
