@@ -1428,7 +1428,8 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                     {
                         line2.text = "Equipable\n" +
                             "Reach: 18.75\n" +
-                            "Velocity: 11.5";
+                            "Launch Velocity: 11.5\n" +
+							"Pull Velocity: 11";
                     }
                 }
             }
@@ -1440,7 +1441,8 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                     {
                         line2.text = "Equipable\n" +
                             "Reach: 18.75\n" +
-                            "Velocity: 10";
+                            "Launch Velocity: 10\n" +
+							"Pull Velocity: 11";
                     }
                 }
             }
@@ -1452,7 +1454,8 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                     {
                         line2.text = "Equipable\n" +
                             "Reach: 20.625\n" +
-                            "Velocity: 10.5";
+                            "Launch Velocity: 10.5\n" +
+							"Pull Velocity: 11";
                     }
                 }
             }
@@ -1464,7 +1467,8 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                     {
                         line2.text = "Equipable\n" +
                             "Reach: 22.5\n" +
-                            "Velocity: 11";
+                            "Launch Velocity: 11\n" +
+							"Pull Velocity: 11";
                     }
                 }
             }
@@ -1476,7 +1480,8 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                     {
                         line2.text = "Equipable\n" +
                             "Reach: 24.375\n" +
-                            "Velocity: 11.5";
+                            "Launch Velocity: 11.5\n" +
+							"Pull Velocity: 11";
                     }
                 }
             }
@@ -1488,7 +1493,8 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                     {
                         line2.text = "Equipable\n" +
                             "Reach: 26.25\n" +
-                            "Velocity: 12";
+                            "Launch Velocity: 12\n" +
+							"Pull Velocity: 11";
                     }
                 }
             }
@@ -1500,7 +1506,8 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                     {
                         line2.text = "Equipable\n" +
                             "Reach: 28.125\n" +
-                            "Velocity: 12.5";
+                            "Launch Velocity: 12.5\n" +
+							"Pull Velocity: 11";
                     }
                 }
             }
@@ -1512,7 +1519,8 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                     {
                         line2.text = "Equipable\n" +
                             "Reach: 15.625\n" +
-                            "Velocity: 10";
+                            "Launch Velocity: 10\n" +
+							"Pull Velocity: 11";
                     }
                 }
             }
@@ -1524,7 +1532,8 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                     {
                         line2.text = "Equipable\n" +
                             "Reach: 21.875\n" +
-                            "Velocity: 15";
+                            "Launch Velocity: 15\n" +
+							"Pull Velocity: 11";
                     }
                 }
             }
@@ -1536,7 +1545,8 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                     {
                         line2.text = "Equipable\n" +
                             "Reach: 18.75\n" +
-                            "Velocity: 13";
+                            "Launch Velocity: 13\n" +
+							"Pull Velocity: 11";
                     }
                 }
             }
@@ -1548,7 +1558,8 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                     {
                         line2.text = "Equipable\n" +
                             "Reach: 25\n" +
-                            "Velocity: 13";
+                            "Launch Velocity: 13\n" +
+							"Pull Velocity: 11";
                     }
                 }
             }
@@ -1560,7 +1571,8 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                     {
                         line2.text = "Equipable\n" +
                             "Reach: 25\n" +
-                            "Velocity: 13";
+                            "Launch Velocity: 13\n" +
+							"Pull Velocity: 15";
                     }
                 }
             }
@@ -1572,7 +1584,8 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                     {
                         line2.text = "Equipable\n" +
                             "Reach: 31.25\n" +
-                            "Velocity: 15.5";
+                            "Launch Velocity: 15.5\n" +
+							"Pull Velocity: 20";
                     }
                 }
             }
@@ -1584,7 +1597,8 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                     {
                         line2.text = "Equipable\n" +
                             "Reach: 25\n" +
-                            "Velocity: 11.5";
+                            "Launch Velocity: 11.5\n" +
+							"Pull Velocity: 11";
                     }
                 }
             }
@@ -1596,7 +1610,8 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                     {
                         line2.text = "Equipable\n" +
                             "Reach: 27.5\n" +
-                            "Velocity: 14";
+                            "Launch Velocity: 14\n" +
+							"Pull Velocity: 17";
                     }
                 }
             }
@@ -1608,7 +1623,8 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                     {
                         line2.text = "Equipable\n" +
                             "Reach: 30\n" +
-                            "Velocity: 15";
+                            "Launch Velocity: 15\n" +
+							"Pull Velocity: 18";
                     }
                 }
             }
@@ -1620,7 +1636,8 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                     {
                         line2.text = "Equipable\n" +
                             "Reach: 30\n" +
-                            "Velocity: 15";
+                            "Launch Velocity: 15\n" +
+							"Pull Velocity: 18";
                     }
                 }
             }
@@ -1632,7 +1649,8 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                     {
                         line2.text = "Equipable\n" +
                             "Reach: 30\n" +
-                            "Velocity: 15";
+                            "Launch Velocity: 15\n" +
+							"Pull Velocity: 18";
                     }
                 }
             }
@@ -1644,7 +1662,8 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                     {
                         line2.text = "Equipable\n" +
                             "Reach: 30\n" +
-                            "Velocity: 15";
+                            "Launch Velocity: 15\n" +
+							"Pull Velocity: 18";
                     }
                 }
             }
@@ -1656,7 +1675,8 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                     {
                         line2.text = "Equipable\n" +
                             "Reach: 31.25\n" +
-                            "Velocity: 14";
+                            "Launch Velocity: 14\n" +
+							"Pull Velocity: 20";
                     }
                 }
             }
@@ -1668,7 +1688,8 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                     {
                         line2.text = "Equipable\n" +
                             "Reach: 34.375\n" +
-                            "Velocity: 15.5";
+                            "Launch Velocity: 15.5\n" +
+							"Pull Velocity: 22";
                     }
                 }
             }
@@ -1680,7 +1701,8 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                     {
                         line2.text = "Equipable\n" +
                             "Reach: 34.375\n" +
-                            "Velocity: 15.5";
+                            "Launch Velocity: 15.5\n" +
+							"Pull Velocity: 11";
                     }
                 }
             }
@@ -1692,7 +1714,8 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                     {
                         line2.text = "Equipable\n" +
                             "Reach: 34.375\n" +
-                            "Velocity: 16";
+                            "Launch Velocity: 16\n" +
+							"Pull Velocity: 11";
                     }
                 }
             }
@@ -1704,7 +1727,8 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                     {
                         line2.text = "Equipable\n" +
                             "Reach: 37.5\n" +
-                            "Velocity: 16";
+                            "Launch Velocity: 16\n" +
+							"Pull Velocity: 11";
                     }
                 }
             }
