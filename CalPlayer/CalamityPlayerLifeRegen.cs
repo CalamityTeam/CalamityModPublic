@@ -430,7 +430,7 @@ namespace CalamityMod.CalPlayer
             if (modPlayer.molluskSet)
                 player.velocity.X *= 0.985f;
 
-            if ((modPlayer.warped || modPlayer.caribbeanRum) && !player.slowFall)
+            if ((modPlayer.warped || modPlayer.caribbeanRum) && !player.slowFall && !player.mount.Active)
                 player.velocity.Y *= 1.01f;
 
             if (modPlayer.weakPetrification || CalamityWorld.bossRushActive)
