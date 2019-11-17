@@ -163,7 +163,7 @@ namespace CalamityMod.Items
 
                 if (player.whoAmI == Main.myPlayer)
                 {
-                    if (item.melee && item.type != ModContent.ItemType<Murasama>())
+                    if (item.melee)
                         Projectile.NewProjectile(position.X, position.Y, speedX * 0.5f, speedY * 0.5f, ModContent.ProjectileType<LuxorsGiftMelee>(), (int)(newDamage * 0.6), 0f, player.whoAmI, 0f, 0f);
 
                     else if (rogue)
