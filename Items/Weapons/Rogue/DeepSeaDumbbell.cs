@@ -16,8 +16,8 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Deep Sea Dumbbell");
             Tooltip.SetDefault("Throws a dumbbell that bounces and flings weights with each bounce\n" +
-                "Right click to flex with it, increasing the power of your next stealth strike\n" +
-                "Flexes are melee attacks, and are boosted by flexing and stealth");
+                "Right click to flex with it, increasing the power of your next throw with a stealth strike\n" +
+                "Can boost the projectile damage up to 8 times its original damage");
         }
 
         public override void SafeSetDefaults()
@@ -75,7 +75,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
         {
-            if (player.Calamity().StealthStrikeAvailable())
+            if (player.Calamity().StealthStrikeAvailable() && player.altFunctionUse != 2)
                 mult += flexBonusDamageMult;
             base.ModifyWeaponDamage(player, ref add, ref mult, ref flat);
         }
@@ -98,8 +98,8 @@ namespace CalamityMod.Items.Weapons.Rogue
             if (player.altFunctionUse == 2)
             {
                 flexBonusDamageMult += 1f;
-                if (flexBonusDamageMult > 10f)
-                    flexBonusDamageMult = 10f;
+                if (flexBonusDamageMult > 7f)
+                    flexBonusDamageMult = 7f;
                 return false;
             }
 
