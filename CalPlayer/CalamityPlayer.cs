@@ -1897,6 +1897,10 @@ namespace CalamityMod.CalPlayer
                 }
                 if (omegaBlueSet && omegaBlueCooldown <= 0)
                 {
+					if (player.whoAmI == Main.myPlayer)
+					{
+						player.AddBuff(ModContent.BuffType<AbyssalMadness>(), 300, false);
+					}
                     omegaBlueCooldown = 1800;
                     Main.PlaySound(29, (int)player.position.X, (int)player.position.Y, 104);
                     for (int i = 0; i < 66; i++)
