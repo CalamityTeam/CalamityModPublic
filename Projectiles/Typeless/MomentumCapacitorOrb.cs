@@ -53,8 +53,10 @@ namespace CalamityMod.Projectiles.Typeless
                     Main.projectile[k].type == ModContent.ProjectileType<MalachiteProj>() ||
                     Main.projectile[k].type == ModContent.ProjectileType<DuneHopperProjectile>())
                     continue;
+                Circle aura = new Circle(projectile.Center, Radius);
                 if (Main.projectile[k].owner == projectile.owner && Main.projectile[k].Calamity().rogue &&
-                    !Main.projectile[k].Calamity().momentumCapacitatorBoost && Main.projectile[k].friendly)
+                    !Main.projectile[k].Calamity().momentumCapacitatorBoost && Main.projectile[k].friendly &&
+                    Vector2.Distance(Main.projectile[k].Center, projectile.Center) < Radius)
                 {
                     Main.projectile[k].damage = (int)(Main.projectile[k].damage * 1.15f);
                     Main.projectile[k].Calamity().momentumCapacitatorBoost = true;
