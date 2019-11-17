@@ -6773,7 +6773,7 @@ namespace CalamityMod.CalPlayer
                 {
                     if (!heldItem.summon &&
 						(heldItem.melee || heldItem.ranged || heldItem.magic || heldItem.Calamity().rogue) &&
-						heldItem.hammer == 0 && heldItem.pick == 0 && heldItem.axe == 0)
+						heldItem.hammer == 0 && heldItem.pick == 0 && heldItem.axe == 0 && heldItem.useStyle != 0)
                     {
                         damage = (int)((double)damage * 0.75);
                     }
