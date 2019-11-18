@@ -35,10 +35,10 @@ namespace CalamityMod.Projectiles.Rogue
         {
             projectile.ai[0] += 1f;
 
-            if (projectile.ai[0] >= 90f)
+            if (projectile.ai[0] >= 70f)
             {
-                projectile.velocity.X *= 0.98f;
-                projectile.velocity.Y *= 0.98f;
+                projectile.velocity.X *= 0.96f;
+                projectile.velocity.Y *= 0.96f;
 				projectile.localAI[1]++;
 				if (projectile.Calamity().stealthStrike == true)
 				{
