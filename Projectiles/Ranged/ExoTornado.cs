@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.penetrate = -1;
             projectile.timeLeft = 240; //1200
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 6;
+            projectile.localNPCHitCooldown = 9;
         }
 
         public override void AI()
@@ -96,10 +96,11 @@ namespace CalamityMod.Projectiles.Ranged
             float num227 = 30f; //15
             float num228 = 30f; //15
             float num229 = projectile.ai[0];
-            float scale5 = MathHelper.Clamp(num229 / 30f, 0f, 1f);
+            float maxAlpha = 0.3f;
+            float scale5 = MathHelper.Clamp(num229 / 30f, 0f, maxAlpha); //Fade in
             if (num229 > num226 - 60f)
             {
-                scale5 = MathHelper.Lerp(1f, 0f, (num229 - (num226 - 60f)) / 60f);
+                scale5 = MathHelper.Lerp(maxAlpha, 0f, (num229 - (num226 - 60f)) / 60f); //Fade out
             }
             Point point5 = projectile.Center.ToTileCoordinates();
             int num230;
@@ -134,7 +135,7 @@ namespace CalamityMod.Projectiles.Ranged
                 Color color39 = Microsoft.Xna.Framework.Color.Lerp(Microsoft.Xna.Framework.Color.Transparent, value34, num237 * 2f);
                 if (num237 > 0.5f)
                 {
-                    color39 = Microsoft.Xna.Framework.Color.Lerp(Microsoft.Xna.Framework.Color.Transparent, value34, 2f - num237 * 2f);
+                    color39 = Microsoft.Xna.Framework.Color.Lerp(Microsoft.Xna.Framework.Color.Transparent, value34, 2f - num237 * 2f );
                 }
                 color39.A = (byte)((float)color39.A * 0.5f);
                 color39 *= scale5;
@@ -142,7 +143,7 @@ namespace CalamityMod.Projectiles.Ranged
                 vector34.Y = 0f;
                 vector34.X = 0f;
                 vector34 += new Vector2(value33.X, num236) - Main.screenPosition;
-                Main.spriteBatch.Draw(texture2D23, vector34, new Microsoft.Xna.Framework.Rectangle?(rectangle9), color39, num233 + num238, origin3, 1f + num239, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(texture2D23, vector34, new Microsoft.Xna.Framework.Rectangle?(rectangle9), color39, num233 + num238, origin3, 1f + num239, SpriteEffects.None , 0f);
             }
             return false;
         }

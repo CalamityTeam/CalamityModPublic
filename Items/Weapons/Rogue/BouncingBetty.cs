@@ -7,7 +7,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class BouncingBetty : RogueWeapon
     {
-        public const int BaseDamage = 34;
+        public const int BaseDamage = 52;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bouncing Betty");
@@ -21,8 +21,8 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.noMelee = true;
             item.consumable = true;
             item.noUseGraphic = true;
-            item.useAnimation = 12;
-            item.useTime = 12;
+            item.useAnimation = 24;
+            item.useTime = 24;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 3f;
             item.UseSound = SoundID.Item1;
@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.value = Item.buyPrice(0, 0, 4, 0);
             item.rare = 5;
             item.shoot = ModContent.ProjectileType<BouncingBettyProjectile>();
-            item.shootSpeed = 15f;
+            item.shootSpeed = 16f;
             item.Calamity().rogue = true;
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

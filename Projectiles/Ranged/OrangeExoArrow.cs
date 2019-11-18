@@ -116,7 +116,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.maxPenetrate = -1;
             projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            projectile.localNPCHitCooldown = 20;
             projectile.Damage();
             Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 14, 1f, 0f);
             for (int num193 = 0; num193 < 4; num193++)

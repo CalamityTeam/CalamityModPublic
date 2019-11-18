@@ -18,7 +18,8 @@ namespace CalamityMod.Items.Weapons.Ranged
                 "Green exo arrows explode into a tornado on death\n" +
                 "Blue exo arrows cause a second group of arrows to fire on enemy hits\n" +
                 "Orange exo arrows cause explosions on death\n" +
-                "Teal exo arrows ignore enemy immunity frames");
+                "Teal exo arrows ignore enemy immunity frames\n" +
+                "66% chance to not consume ammo");
         }
 
         public override void SetDefaults()
@@ -45,6 +46,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
+            float dmg = 1f;
             float num117 = 0.314159274f;
             int num118 = 5;
             Vector2 vector7 = new Vector2(speedX, speedY);
@@ -66,6 +68,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                     case 2:
                     case 3:
                         type = ModContent.ProjectileType<TealExoArrow>();
+                        dmg = 0.16f;
                         break;
                     case 4:
                     case 5:
@@ -78,11 +81,18 @@ namespace CalamityMod.Items.Weapons.Ranged
                         break;
                     case 9:
                         type = ModContent.ProjectileType<GreenExoArrow>();
+                        dmg = 0.7f;
                         break;
                 }
-                Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+                Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, type, (int)(damage * dmg), knockBack, player.whoAmI, 0.0f, 0.0f);
             }
             return false;
+        }
+        public override bool ConsumeAmmo(Player player)
+        {
+            if (Main.rand.Next(0, 100) < 66)
+                return false;
+            return true;
         }
 
         public override void AddRecipes()

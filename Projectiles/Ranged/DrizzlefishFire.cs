@@ -22,11 +22,11 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.friendly = true;
             projectile.ignoreWater = true;
             projectile.ranged = true;
-            projectile.penetrate = -1;
+            projectile.penetrate = 5;
             projectile.extraUpdates = 1;
             projectile.timeLeft = 90;
             projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 5;
+            projectile.idStaticNPCHitCooldown = 10;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

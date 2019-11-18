@@ -36,7 +36,6 @@ namespace CalamityMod.NPCs.AcidRain
             npc.noTileCollide = false;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
-			//npc.catchItem = (Main.rand.NextBool(20)) ? (short)ModContent.ItemType<RadiatingCrystal>() : ItemID.None;
 			aiType = NPCID.GlowingSnail;
 			animationType = NPCID.GlowingSnail;
             //banner = npc.type;
@@ -45,6 +44,14 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override void AI()
         {
+            /*if (npc.localAI[0] == 0f)
+            {
+                npc.catchItem = (Main.rand.NextBool(20)) ? (short)ModContent.ItemType<RadiatingCrystal>() : ItemID.None;
+                npc.localAI[0] = 1f;
+                npc.velocity.Y = -3f;
+                npc.netUpdate = true;
+            }*/
+			
             Lighting.AddLight(npc.Center, 0.3f, 1.5f, 0.3f);
 
             int auraSize = 200; //roughly 12 blocks (half the size of Wither Beast aura)

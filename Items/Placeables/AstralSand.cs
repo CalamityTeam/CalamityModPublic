@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Projectiles.Ranged;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables
 {
@@ -11,19 +12,21 @@ namespace CalamityMod.Items.Placeables
 
         public override void SetDefaults()
         {
-            item.createTile = ModContent.TileType<Tiles.AstralDesert.AstralSand>();
-            item.useStyle = 1;
-            item.useTurn = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.autoReuse = true;
-            item.consumable = true;
             item.width = 16;
             item.height = 16;
             item.maxStack = 999;
-            item.shoot = ModContent.ProjectileType<AstralSandgun>();
-            item.shootSpeed = 15f;
-            item.ammo = 169;
+			//item.ammo = AmmoID.Sand;
+            //item.shoot = ModContent.ProjectileType<AstralSandgun>();
+			//item.notAmmo = true;
+			//item.shootSpeed = 15f;
+			item.useStyle = 1;
+			item.useTurn = true;
+			item.useAnimation = 15;
+			item.useTime = 10;
+			item.autoReuse = true;
+			item.consumable = true;
+            item.createTile = ModContent.TileType<Tiles.AstralDesert.AstralSand>();
+			item.noMelee = true;
         }
     }
 }

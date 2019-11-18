@@ -1258,7 +1258,7 @@ namespace CalamityMod
                 new Rectangle?(frame), Color.White, rotation, center, 1f, SpriteEffects.None, 0f);
         }
 
-        public static void DrawFishingLine(this Projectile projectile, int fishingRodType, Color poleColor)
+        public static void DrawFishingLine(this Projectile projectile, int fishingRodType, Color poleColor, float yPositionAdditive = 35f)
         {
             Lighting.AddLight(projectile.Center, 0.4f, 0f, 0.4f);
 
@@ -1278,7 +1278,7 @@ namespace CalamityMod
                     {
                         pPosX -= 13f;
                     }
-                    pPosY -= 35f * gravDir;
+                    pPosY -= yPositionAdditive * gravDir;
                 }
 
                 if (gravDir == -1f)

@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.height = 10;
             projectile.friendly = true;
             projectile.ranged = true;
-            projectile.penetrate = 6;
+            projectile.penetrate = 5;
             projectile.aiStyle = 14;
             projectile.timeLeft = 300;
             projectile.usesIDStaticNPCImmunity = true;

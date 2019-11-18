@@ -20,12 +20,12 @@ Revenge is a dish best served flaming hot");
 
         public override void SetDefaults()
         {
-            item.damage = 30;
+            item.damage = 20;
             item.ranged = true;
             item.width = 36;
             item.height = 30;
-            item.useTime = 15;
-            item.useAnimation = 15;
+            item.useTime = 20;
+            item.useAnimation = 20;
             item.useStyle = 5;
             item.noMelee = true;
             item.knockBack = 2f;

@@ -53,7 +53,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
         }
         public override bool? CanHitNPC(NPC target) => HomingCooldown == 0 && !target.townNPC 
-            && target.type != NPCID.DD2EterniaCrystal && target.CanBeChasedBy();
+            && target.type != NPCID.DD2EterniaCrystal && !target.immortal && !target.dontTakeDamage;
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             HomingCooldown = 25;

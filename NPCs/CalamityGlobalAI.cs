@@ -511,7 +511,7 @@ namespace CalamityMod.NPCs
                             {
                                 npcType = NPCID.UmbrellaSlime;
 
-                                if (Main.rand.NextBool(5))
+                                if (Main.rand.NextBool(5) && Main.hardMode)
                                     npcType = NPCID.RainbowSlime;
                             }
 

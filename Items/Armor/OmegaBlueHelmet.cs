@@ -1,5 +1,6 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
+using CalamityMod.Buffs.Cooldowns;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -55,7 +56,7 @@ namespace CalamityMod.Items.Armor
 Short-ranged tentacles heal you by sucking enemy life
 Press Y to activate abyssal madness for 5 seconds
 Abyssal madness increases damage, critical strike chance, and tentacle aggression/range
-This effect has a 30 second cooldown";
+This effect has a 25 second cooldown";
 
             player.armorPenetration += 50;
             player.Calamity().wearingRogueArmor = true;
@@ -78,11 +79,13 @@ This effect has a 30 second cooldown";
                 }
                 player.Calamity().omegaBlueCooldown--;
             }
+            if (player.Calamity().omegaBlueCooldown == 1500)
+            {
+				player.AddBuff(ModContent.BuffType<AbyssalMadnessCooldown>(), 1500, false);
+			}
 
             if (player.Calamity().omegaBlueCooldown > 1500)
             {
-                player.Calamity().omegaBlueHentai = true;
-
                 int d = Dust.NewDust(player.position, player.width, player.height, 20, 0, 0, 100, Color.Transparent, 1.6f);
                 Main.dust[d].noGravity = true;
                 Main.dust[d].noLight = true;

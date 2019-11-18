@@ -111,7 +111,7 @@ namespace CalamityMod.Projectiles.Ranged
         {
             if (projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ExoMark>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ExoMark>(),projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
             }
         }
     }

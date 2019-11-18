@@ -29,31 +29,31 @@ namespace CalamityMod.Projectiles.Rogue
             Main.PlaySound(2, projectile.Center, 14);
             //This is definitely not a near copy of the Blast Barrel nosiree :>
             bool stealthS = projectile.Calamity().stealthStrike;
-            int projectileCount = 2;
+            Projectile.NewProjectile(projectile.Center, new Vector2(0f, 0f), ModContent.ProjectileType<BettyExplosion>(), projectile.damage, 8f, projectile.owner);
             if (stealthS)
             {
-                projectileCount += 2;
-            }
-            for (int i = 0; i < projectileCount; i++)
-            {
-                if (Main.rand.NextBool(4))
+                int projectileCount = 12;
+                for (int i = 0; i < projectileCount; i++)
                 {
-                    Vector2 shrapnelVelocity = (Vector2.UnitY * (-16f + Main.rand.NextFloat(-7, 4f))).RotatedByRandom((double)MathHelper.ToRadians(30f));
-                    Projectile.NewProjectile(projectile.Center, projectile.velocity + shrapnelVelocity,
-                        ModContent.ProjectileType<BouncingBettyShrapnel>(), BouncingBetty.BaseDamage, 3f, projectile.owner);
-                }
-                else
-                {
-                    Vector2 fireVelocity = (Vector2.UnitY * (-16f + Main.rand.NextFloat(-7, 4f))).RotatedByRandom((double)MathHelper.ToRadians(40f));
-                    int fireIndex = Projectile.NewProjectile(projectile.Center, projectile.velocity + fireVelocity,
-                        Main.rand.Next(ProjectileID.MolotovFire, ProjectileID.MolotovFire3 + 1),
-                        BlastBarrel.BaseDamage, 1f, projectile.owner);
-                    Main.projectile[fireIndex].thrown = false;
-                    Main.projectile[fireIndex].Calamity().forceRogue = true;
-                    Main.projectile[fireIndex].penetrate = -1;
-                    Main.projectile[fireIndex].usesLocalNPCImmunity = true;
-                    Main.projectile[fireIndex].localNPCHitCooldown = 9;
-                    Main.projectile[fireIndex].timeLeft = 120;
+                    if (Main.rand.NextBool(2))
+                    {
+                        Vector2 shrapnelVelocity = (Vector2.UnitY * (-6f + Main.rand.NextFloat(-6f, 2f))).RotatedByRandom((double)MathHelper.ToRadians(30f));
+                        Projectile.NewProjectile(projectile.Center, projectile.velocity + shrapnelVelocity,
+                            ModContent.ProjectileType<BouncingBettyShrapnel>(),(int)(projectile.damage * 0.5f), 3f, projectile.owner);
+                    }
+                    else
+                    {
+                        Vector2 fireVelocity = (Vector2.UnitY * (-6f + Main.rand.NextFloat(-6f, 2f))).RotatedByRandom((double)MathHelper.ToRadians(40f));
+                        int fireIndex = Projectile.NewProjectile(projectile.Center, projectile.velocity + fireVelocity,
+                            Main.rand.Next(ProjectileID.MolotovFire, ProjectileID.MolotovFire3 + 1),
+                            (int)(projectile.damage * 0.6f), 1f, projectile.owner);
+                        Main.projectile[fireIndex].thrown = false;
+                        Main.projectile[fireIndex].Calamity().forceRogue = true;
+                        Main.projectile[fireIndex].penetrate = -1;
+                        Main.projectile[fireIndex].usesLocalNPCImmunity = true;
+                        Main.projectile[fireIndex].localNPCHitCooldown = 9;
+                        Main.projectile[fireIndex].timeLeft = 240;
+                    }
                 }
             }
         }
@@ -71,6 +71,8 @@ namespace CalamityMod.Projectiles.Rogue
             else
             {
                 projectile.velocity.Y += 0.4f;
+                if (projectile.velocity.Y > 16f)
+                    projectile.velocity.Y = 16f;
             }
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
