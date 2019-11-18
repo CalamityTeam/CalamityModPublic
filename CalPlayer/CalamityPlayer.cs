@@ -7485,7 +7485,7 @@ namespace CalamityMod.CalPlayer
 						}
 						if (ZoneAstral)
 						{
-							fishList.Add(ModContent.ItemType<TwinklingPollox>());
+							fishList.Add(ModContent.ItemType<AldebaranAlewife>());
 						}
 						if (ZoneSunkenSea)
 						{
@@ -7531,6 +7531,20 @@ namespace CalamityMod.CalPlayer
 
 				if (chanceForRareItems < 6)
 					chanceForRareItems = 6;
+
+				if (lava)
+				{
+					if (Main.rand.Next(100) < chanceForCrates)
+					{
+						if (Main.rand.NextBool(chanceForRareItems) && enchantedPearl && fishingStation && player.cratePotion)
+						{
+							if (ZoneCalamity)
+							{
+								caughtType = ModContent.ItemType<BrimstoneCrate>();
+							}
+						}
+					}
+				}
 
 				if (water)
 				{
@@ -7625,10 +7639,6 @@ namespace CalamityMod.CalPlayer
 							{
 								biomeCrateList.Add(ModContent.ItemType<SunkenCrate>());
 							}
-							if (ZoneCalamity)
-							{
-								biomeCrateList.Add(ModContent.ItemType<BrimstoneCrate>());
-							}
 							if (player.ZoneCorrupt)
 							{
 								biomeCrateList.Add(ItemID.CorruptFishingCrate);
@@ -7704,19 +7714,23 @@ namespace CalamityMod.CalPlayer
 					{
 						caughtType = ItemID.ZephyrFish;
 					}
-					else if (astralFish >= 75) //25%
+					else if (astralFish >= 85) //15%
 					{
 						caughtType = ModContent.ItemType<ProcyonidPrawn>();
 					}
-					else if (astralFish <= 74 && astralFish >= 60) //15%
+					else if (astralFish <= 84 && astralFish >= 70) //15%
 					{
 						caughtType = ModContent.ItemType<ArcturusAstroidean>();
 					}
-					else if (player.cratePotion && astralFish <= 9 && astralFish >= 28) //20%
+					else if (astralFish <= 69 && astralFish >= 55) //15%
+					{
+						caughtType = ModContent.ItemType<AldebaranAlewife>();
+					}
+					else if (player.cratePotion && astralFish <= 28 && astralFish >= 9) //20%
 					{
 						caughtType = ModContent.ItemType<AstralCrate>();
 					}
-					else if (!player.cratePotion && astralFish <= 9 && astralFish >= 18) //10%
+					else if (!player.cratePotion && astralFish <= 18 && astralFish >= 9) //10%
 					{
 						caughtType = ModContent.ItemType<AstralCrate>();
 					}
@@ -7732,7 +7746,7 @@ namespace CalamityMod.CalPlayer
 					{
 						caughtType = ModContent.ItemType<PolarisParrotfish>();
 					}
-					else //41% w/o crate pot, 31% w/ crate pot
+					else //31% w/o crate pot, 21% w/ crate pot
 					{
 						caughtType = ModContent.ItemType<TwinklingPollox>();
 					}
