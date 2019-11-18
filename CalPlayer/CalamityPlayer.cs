@@ -4506,7 +4506,7 @@ namespace CalamityMod.CalPlayer
 			if (molluskSet)
 				player.velocity.X *= 0.985f;
 
-			if ((warped || caribbeanRum) && !player.slowFall)
+			if ((warped || caribbeanRum) && !player.slowFall && !player.mount.Active)
 				player.velocity.Y *= 1.01f;
 
 			if (corrEffigy)
