@@ -67,7 +67,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.maxPenetrate = -1;
             projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 30;
+            projectile.localNPCHitCooldown = 10;
 			projectile.damage /= 2;
             projectile.Damage();
 			if (Main.rand.NextBool(3))
