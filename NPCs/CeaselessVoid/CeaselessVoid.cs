@@ -37,7 +37,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
             npc.defense = 0;
             CalamityGlobalNPC global = npc.Calamity();
             global.DR = 0.999999f;
-            // global.unbreakableDR = true;
+            //global.unbreakableDR = true;
             npc.lifeMax = 200;
             Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
             if (calamityModMusic != null)
@@ -96,6 +96,12 @@ namespace CalamityMod.NPCs.CeaselessVoid
 
         public override void AI()
         {
+            if(CalamityWorld.bossRushActive)
+            {
+                CalamityGlobalNPC global = npc.Calamity();
+                global.DR = 0.999999f;
+                global.unbreakableDR = true;
+            }
             double lifeRatio = (double)npc.life / (double)npc.lifeMax;
             int lifePercentage = (int)(100.0 * lifeRatio);
             bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
