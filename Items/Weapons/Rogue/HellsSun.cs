@@ -11,8 +11,9 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class HellsSun : RogueWeapon
     {
-        private static int damage = 67;
+        private static int damage = 74;
         private static int knockBack = 5;
+        private static float SdamageMult = 0.45f;
 
         public override void SetStaticDefaults()
         {
@@ -87,7 +88,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 			}
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
-                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<HellsSunProj>(), (int)(damage * 0.45f), knockBack, player.whoAmI, 0f, 0f);
+                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<HellsSunProj>(), (int)(damage * SdamageMult), knockBack, player.whoAmI, 0f, 0f);
                 Main.projectile[stealth].Calamity().stealthStrike = true;
                 Main.projectile[stealth].penetrate = -1;
                 Main.projectile[stealth].timeLeft = 2400;
