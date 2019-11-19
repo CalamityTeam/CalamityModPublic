@@ -7,7 +7,7 @@ namespace CalamityMod.Backgrounds
     {
         public override int ChooseCloseTexture(ref float scale, ref double parallax, ref float a, ref float b)
         {
-            scale *= 0.75f;
+            b -= 250f;
             return mod.GetBackgroundSlot("Backgrounds/SulphurSeaSurfaceClose");
         }
 
