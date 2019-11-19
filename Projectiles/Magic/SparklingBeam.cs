@@ -48,8 +48,9 @@ namespace CalamityMod.Projectiles.Magic
 			projectile.tileCollide = false;
 			projectile.magic = true;
 			projectile.hide = true;
+			projectile.timeLeft = 300;
             projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 15;
+            projectile.idStaticNPCHitCooldown = 20;
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -106,7 +107,7 @@ namespace CalamityMod.Projectiles.Magic
         {
             if (target.life <= 0)
             {
-				int shardDamage = SparklingEmpress.BaseDamage / 4;
+				int shardDamage = SparklingEmpress.BaseDamage / 5;
 				int num251 = Main.rand.Next(2, 4);
                 if (projectile.owner == Main.myPlayer)
                 {
