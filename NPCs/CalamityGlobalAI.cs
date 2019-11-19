@@ -3177,7 +3177,7 @@ namespace CalamityMod.NPCs
                         for (int i = 0; i < numProj + 1; i++)
                         {
                             Vector2 perturbedSpeed = value19.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
-                            int proj = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, num153, num152, 0f, Main.myPlayer, 0f, 0f);
+                            int proj = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, num153, num152, 0f, Main.myPlayer, 0f, 1f);
                             Main.projectile[proj].timeLeft = 600;
                         }
                     }
@@ -11976,7 +11976,9 @@ namespace CalamityMod.NPCs
                         npc.life = 0;
                         npc.HitEffect(0, 1337.0);
                         npc.checkDead();
-						MoonLordLoot(npc);
+
+						if (!CalamityWorld.bossRushActive)
+							MoonLordLoot(npc);
 
 						for (int num1174 = 0; num1174 < 200; num1174++)
 						{

@@ -3089,9 +3089,6 @@ namespace CalamityMod
                 case CalamityModMessageType.AdrenalineSync:
                     Main.player[reader.ReadInt32()].Calamity().HandleAdrenaline(reader);
                     break;
-                case CalamityModMessageType.RadiationSync:
-                    Main.player[reader.ReadInt32()].Calamity().HandleRadiation(reader);
-                    break;
                 /*case CalamityModMessageType.DistanceFromBossSync:
                     Main.player[reader.ReadInt32()].Calamity().HandleDistanceFromBoss(reader);
                     break;*/
@@ -3166,8 +3163,7 @@ namespace CalamityMod
         DoGCountdownSync,
         BossSpawnCountdownSync,
         BossTypeSync,
-        DeathCountSync,
-        RadiationSync
+        DeathCountSync
         //DistanceFromBossSync
     }
 }

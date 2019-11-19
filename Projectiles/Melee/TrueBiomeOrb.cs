@@ -127,7 +127,6 @@ namespace CalamityMod.Projectiles.Melee
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(SoundID.Item10, projectile.position);
 			int num3;
 			for (int num795 = 4; num795 < 31; num795 = num3 + 1)
 			{

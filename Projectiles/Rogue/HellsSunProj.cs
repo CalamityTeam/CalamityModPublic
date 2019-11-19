@@ -28,21 +28,21 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.timeLeft = 1200;
 
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 30;
+            projectile.localNPCHitCooldown = 40;
         }
 
         public override void AI()
         {
             projectile.ai[0] += 1f;
 
-            if (projectile.ai[0] >= 90f)
+            if (projectile.ai[0] >= 70f)
             {
-                projectile.velocity.X *= 0.98f;
-                projectile.velocity.Y *= 0.98f;
+                projectile.velocity.X *= 0.96f;
+                projectile.velocity.Y *= 0.96f;
 				projectile.localAI[1]++;
 				if (projectile.Calamity().stealthStrike == true)
 				{
-					if ((double) projectile.localAI[1] >= 15.0)
+					if ((double) projectile.localAI[1] >= 30.0)
 					{
 						Vector2 velocity = projectile.velocity;
 						Vector2 vector2_1 = new Vector2((float) Main.rand.Next(-100, 101), (float) Main.rand.Next(-100, 101));
@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles.Rogue
 				}
 				else
 				{
-					if ((double) projectile.localAI[1] >= 30.0)
+					if ((double) projectile.localAI[1] >= 60.0)
 					{
 						Vector2 velocity = projectile.velocity;
 						Vector2 vector2_1 = new Vector2((float) Main.rand.Next(-100, 101), (float) Main.rand.Next(-100, 101));

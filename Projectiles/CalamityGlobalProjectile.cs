@@ -438,7 +438,6 @@ namespace CalamityMod.Projectiles
         #region AI
         public override void AI(Projectile projectile)
         {
-
             if (defDamage == 0)
                 defDamage = projectile.damage;
 
@@ -446,7 +445,7 @@ namespace CalamityMod.Projectiles
             {
                 if (CalamityMod.dungeonProjectileBuffList.Contains(projectile.type))
                 {
-                    if ((projectile.type == ProjectileID.RocketSkeleton && projectile.ai[1] == 1f) ||
+                    if (((projectile.type == ProjectileID.RocketSkeleton || projectile.type == ProjectileID.Shadowflames) && projectile.ai[1] == 1f) ||
                         (NPC.golemBoss > 0 && (projectile.type == ProjectileID.InfernoHostileBolt || projectile.type == ProjectileID.InfernoHostileBlast)))
                     {
                         projectile.damage = defDamage;
@@ -818,6 +817,10 @@ namespace CalamityMod.Projectiles
 
 				if (Main.player[projectile.owner].ghostHeal)
 				{
+					if (Main.player[Main.myPlayer].lifeSteal <= 0f)
+					{
+						return;
+					}
 					float num = 0.1f;
 					num -= (float)projectile.numHits * 0.05f;
 					if (num < 0f)
@@ -830,7 +833,11 @@ namespace CalamityMod.Projectiles
 
                 if (projectile.type == ProjectileID.VampireKnife)
                 {
-                    float num = (float)damage * 0.0375f;
+					if (Main.player[Main.myPlayer].lifeSteal <= 0f)
+					{
+						return;
+					}
+					float num = (float)damage * 0.0375f;
                     if (num < 0f)
                     {
                         num = 0f;
@@ -863,7 +870,11 @@ namespace CalamityMod.Projectiles
 
                 if (Main.player[projectile.owner].Calamity().auricSet && target.canGhostHeal)
                 {
-                    float num11 = 0.05f;
+					if (Main.player[Main.myPlayer].lifeSteal <= 0f)
+					{
+						return;
+					}
+					float num11 = 0.05f;
                     num11 -= (float)projectile.numHits * 0.025f;
                     if (num11 <= 0f)
                     {
@@ -871,10 +882,6 @@ namespace CalamityMod.Projectiles
                     }
                     float num12 = (float)projectile.damage * num11;
                     if ((int)num12 <= 0)
-                    {
-                        return;
-                    }
-                    if (Main.player[Main.myPlayer].lifeSteal <= 0f)
                     {
                         return;
                     }
@@ -897,7 +904,11 @@ namespace CalamityMod.Projectiles
                 }
                 else if (Main.player[projectile.owner].Calamity().silvaSet && target.canGhostHeal)
                 {
-                    float num11 = 0.03f;
+					if (Main.player[Main.myPlayer].lifeSteal <= 0f)
+					{
+						return;
+					}
+					float num11 = 0.03f;
                     num11 -= (float)projectile.numHits * 0.015f;
                     if (num11 <= 0f)
                     {
@@ -905,10 +916,6 @@ namespace CalamityMod.Projectiles
                     }
                     float num12 = (float)projectile.damage * num11;
                     if ((int)num12 <= 0)
-                    {
-                        return;
-                    }
-                    if (Main.player[Main.myPlayer].lifeSteal <= 0f)
                     {
                         return;
                     }
@@ -960,7 +967,11 @@ namespace CalamityMod.Projectiles
                     {
                         if (Main.player[projectile.owner].Calamity().tarraMageHealCooldown <= 0)
                         {
-                            Main.player[projectile.owner].Calamity().tarraMageHealCooldown = 90;
+							if (Main.player[Main.myPlayer].lifeSteal <= 0f)
+							{
+								return;
+							}
+							Main.player[projectile.owner].Calamity().tarraMageHealCooldown = 90;
                             float num11 = 0.03f;
                             num11 -= (float)projectile.numHits * 0.015f;
                             if (num11 <= 0f)
@@ -969,10 +980,6 @@ namespace CalamityMod.Projectiles
                             }
                             float num12 = (float)projectile.damage * num11;
                             if ((int)num12 <= 0)
-                            {
-                                return;
-                            }
-                            if (Main.player[Main.myPlayer].lifeSteal <= 0f)
                             {
                                 return;
                             }
@@ -1060,7 +1067,11 @@ namespace CalamityMod.Projectiles
                         Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num8, num9, ModContent.ProjectileType<AtaxiaOrb>(), (int)((double)num * 1.25), 0f, projectile.owner, (float)num6, 0f);
                         if (target.canGhostHeal)
                         {
-                            float num11 = 0.1f; //0.2
+							if (Main.player[Main.myPlayer].lifeSteal <= 0f)
+							{
+								return;
+							}
+							float num11 = 0.1f; //0.2
                             num11 -= (float)projectile.numHits * 0.05f; //0.05
                             if (num11 <= 0f)
                             {
@@ -1068,10 +1079,6 @@ namespace CalamityMod.Projectiles
                             }
                             float num12 = (float)projectile.damage * num11;
                             if ((int)num12 <= 0)
-                            {
-                                return;
-                            }
-                            if (Main.player[Main.myPlayer].lifeSteal <= 0f)
                             {
                                 return;
                             }
@@ -1143,7 +1150,11 @@ namespace CalamityMod.Projectiles
                         Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num8, num9, ModContent.ProjectileType<XerocOrb>(), (int)((double)num * 1.25), 0f, projectile.owner, (float)num6, 0f);
                         if (target.canGhostHeal)
                         {
-                            float num11 = 0.1f;
+							if (Main.player[Main.myPlayer].lifeSteal <= 0f)
+							{
+								return;
+							}
+							float num11 = 0.1f;
                             num11 -= (float)projectile.numHits * 0.05f;
                             if (num11 <= 0f)
                             {
@@ -1151,10 +1162,6 @@ namespace CalamityMod.Projectiles
                             }
                             float num12 = (float)projectile.damage * num11;
                             if ((int)num12 <= 0)
-                            {
-                                return;
-                            }
-                            if (Main.player[Main.myPlayer].lifeSteal <= 0f)
                             {
                                 return;
                             }
@@ -1227,7 +1234,11 @@ namespace CalamityMod.Projectiles
                             (int)((double)num * (Main.player[projectile.owner].Calamity().auricSet ? 2.0 : 1.5)), 0f, projectile.owner, (float)num6, 0f);
                         if (target.canGhostHeal)
                         {
-                            float num11 = Main.player[projectile.owner].Calamity().auricSet ? 0.03f : 0.06f; //0.2
+							if (Main.player[Main.myPlayer].lifeSteal <= 0f)
+							{
+								return;
+							}
+							float num11 = Main.player[projectile.owner].Calamity().auricSet ? 0.03f : 0.06f; //0.2
                             num11 -= (float)projectile.numHits * 0.015f; //0.05
                             if (num11 <= 0f)
                             {
@@ -1235,10 +1246,6 @@ namespace CalamityMod.Projectiles
                             }
                             float num12 = (float)projectile.damage * num11;
                             if ((int)num12 <= 0)
-                            {
-                                return;
-                            }
-                            if (Main.player[Main.myPlayer].lifeSteal <= 0f)
                             {
                                 return;
                             }
