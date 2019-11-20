@@ -52,8 +52,15 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
+			Vector2 velocity = new Vector2(speedX, speedY);
+			if (velocity.Length() > 8f)
+			{
+				velocity.Normalize();
+				velocity *= 8f;
+			}
+
 			float ai0 = (float)Main.rand.Next(4);
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<AstrealArrow>(), damage, knockBack, player.whoAmI, ai0, 0f);
+            Projectile.NewProjectile(position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<AstrealArrow>(), damage, knockBack, player.whoAmI, ai0, 0f);
             return false;
         }
 

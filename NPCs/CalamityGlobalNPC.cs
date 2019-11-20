@@ -3790,7 +3790,8 @@ namespace CalamityMod.NPCs
                 SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<MagicLevelMeter>(), price: Item.buyPrice(0, 5));
                 SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<SummonLevelMeter>(), price: Item.buyPrice(0, 5));
                 SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<RogueLevelMeter>(), price: Item.buyPrice(0, 5));
-                SetShopItem(ref shop, ref nextSlot, ItemID.GoblinBattleStandard, price: Item.buyPrice(0, 1));
+				SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<StatMeter>(), price: Item.buyPrice(1));
+				SetShopItem(ref shop, ref nextSlot, ItemID.GoblinBattleStandard, price: Item.buyPrice(0, 1));
             }
 
             if (type == NPCID.Clothier)
