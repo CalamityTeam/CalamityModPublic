@@ -87,6 +87,10 @@ namespace CalamityMod.NPCs.TownNPCs
                 PossibleDialogs.Add("You think those stars that fall occasionally would make good throwing weapons?");
                 PossibleDialogs.Add("Statis' clan's got nothing on me. Mostly cause they're all dead.");
             }
+            if (BirthdayParty.PartyIsUp)
+            {
+                PossibleDialogs.Add("Where is my party hat? Well i stole it of course.");
+            }
             if (npc.GivenName == "Laura")
             {
                 PossibleDialogs.Add("The nice thing about maps is I can track anything that has fallen.");
