@@ -73,7 +73,6 @@ namespace CalamityMod.Projectiles.Ranged
 						projectile.velocity.X *= 1.01f;
 						break;
 					default:
-                        projectile.ai[0] = Main.rand.Next(4);
                         break;
 				}
 			}
