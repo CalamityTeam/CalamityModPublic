@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Magic
 			projectile.hide = true;
 			projectile.timeLeft = 300;
             projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 20;
+            projectile.idStaticNPCHitCooldown = 19;
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

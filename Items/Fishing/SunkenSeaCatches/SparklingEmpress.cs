@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
 {
 	public class SparklingEmpress : ModItem
 	{
-        public static int BaseDamage = 18;
+        public static int BaseDamage = 21;
 
 		public override void SetStaticDefaults()
 		{
