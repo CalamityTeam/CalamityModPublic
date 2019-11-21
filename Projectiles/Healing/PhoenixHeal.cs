@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Healing
             float num489 = Main.player[num487].Center.X - vector36.X;
             float num490 = Main.player[num487].Center.Y - vector36.Y;
             float num491 = (float)Math.Sqrt((double)(num489 * num489 + num490 * num490));
-            if (num491 < 50f && projectile.position.X < Main.player[num487].position.X + (float)Main.player[num487].width && projectile.position.X + (float)projectile.width > Main.player[num487].position.X && projectile.position.Y < Main.player[num487].position.Y + (float)Main.player[num487].height && projectile.position.Y + (float)projectile.height > Main.player[num487].position.Y)
+            if (num491 < (Main.player[num487].lifeMagnet ? 75f : 50f) && projectile.position.X < Main.player[num487].position.X + (float)Main.player[num487].width && projectile.position.X + (float)projectile.width > Main.player[num487].position.X && projectile.position.Y < Main.player[num487].position.Y + (float)Main.player[num487].height && projectile.position.Y + (float)projectile.height > Main.player[num487].position.Y)
             {
                 if (projectile.owner == Main.myPlayer)
                 {

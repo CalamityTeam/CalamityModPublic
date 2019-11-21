@@ -20,7 +20,6 @@ namespace CalamityMod.Projectiles.Healing
             projectile.penetrate = 1;
             projectile.timeLeft = 300;
             projectile.extraUpdates = 3;
-            projectile.light = 0.2f;
         }
 
         public override void AI()
@@ -42,9 +41,13 @@ namespace CalamityMod.Projectiles.Healing
                     projectile.localAI[0] = 0f;
                 }
             }
+
             int num487 = (int)projectile.ai[0];
             float num488 = 6f;
-            Vector2 vector36 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
+			if (Main.player[num487].lifeMagnet)
+				num488 *= 1.5f;
+
+			Vector2 vector36 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
             float num489 = Main.player[num487].Center.X - vector36.X;
             float num490 = Main.player[num487].Center.Y - vector36.Y;
             float num491 = (float)Math.Sqrt((double)(num489 * num489 + num490 * num490));

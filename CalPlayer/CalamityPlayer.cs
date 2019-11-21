@@ -93,6 +93,11 @@ namespace CalamityMod.CalPlayer
 		public int wingFlightTimeStat = 0;
 		public int adrenalineChargeStat = 0;
 		public int rageDamageStat = 0;
+		public int moveSpeedStat = 0;
+		public int abyssLightLevelStat = 0;
+		public int abyssBreathLossStat = 0;
+		public int abyssBreathLossRateStat = 0;
+		public int abyssLifeLostAtZeroBreathStat = 0;
 
         // Timer and Counter
         public int bossRushImmunityFrameCurseTimer = 0;
@@ -3037,6 +3042,8 @@ namespace CalamityMod.CalPlayer
                     bool lightLevelTwo = lightStrength > 2; //3+
                     bool lightLevelThree = lightStrength > 4; //5+
                     bool lightLevelFour = lightStrength > 6; //7+
+					abyssLightLevelStat = lightStrength;
+
                     if (ZoneAbyssLayer4) //3200 and below
                     {
                         breathLoss = 54;
@@ -3090,6 +3097,8 @@ namespace CalamityMod.CalPlayer
                         breathLossMult = 0.05;
                     }
                     breathLoss = (int)((double)breathLoss * breathLossMult);
+					abyssBreathLossStat = breathLoss;
+
                     int tick = 6;
                     double tickMult = 1.0 +
                         (player.gills ? 4.0 : 0.0) + //5
@@ -3106,6 +3115,8 @@ namespace CalamityMod.CalPlayer
                         tickMult = 50.0;
                     }
                     tick = (int)((double)tick * tickMult);
+					abyssBreathLossRateStat = tick;
+
                     abyssBreathCD++;
                     if (player.gills || player.merman)
                     {
@@ -3135,6 +3146,8 @@ namespace CalamityMod.CalPlayer
                                 lifeLossAtZeroBreath = 0;
                             }
                             player.statLife -= lifeLossAtZeroBreath;
+							abyssLifeLostAtZeroBreathStat = lifeLossAtZeroBreath;
+
                             if (player.statLife <= 0)
                             {
                                 abyssDeath = true;
@@ -5073,6 +5086,7 @@ namespace CalamityMod.CalPlayer
 			minionSlotStat = player.maxMinions;
 			manaRegenStat = player.manaRegen;
 			armorPenetrationStat = player.armorPenetration;
+			moveSpeedStat = (int)((player.moveSpeed - 1f) * 100f);
 			wingFlightTimeStat = player.wingTimeMax;
 			adrenalineChargeStat = 45 -
 				(adrenalineBoostOne ? 10 : 0) -
