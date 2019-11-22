@@ -95,9 +95,9 @@ namespace CalamityMod.CalPlayer
 		public int rageDamageStat = 0;
 		public int moveSpeedStat = 0;
 		public int abyssLightLevelStat = 0;
-		public int abyssBreathLossStat = 0;
+		public int[] abyssBreathLossStats = new int[4];
 		public int abyssBreathLossRateStat = 0;
-		public int abyssLifeLostAtZeroBreathStat = 0;
+		public int[] abyssLifeLostAtZeroBreathStats = new int[4];
 
         // Timer and Counter
         public int bossRushImmunityFrameCurseTimer = 0;
@@ -3020,29 +3020,82 @@ namespace CalamityMod.CalPlayer
                     }
                 }
             }
-            if (ZoneAbyss)
+
+			int lightStrength = 0 +
+				((player.lightOrb || player.crimsonHeart || player.magicLantern || radiator) ? 1 : 0) + //1
+				(aquaticEmblem ? 1 : 0) + //2
+				(player.arcticDivingGear ? 1 : 0) + //3
+				(jellyfishNecklace ? 1 : 0) + //4
+				((player.blueFairy || player.greenFairy || player.redFairy || player.petFlagDD2Ghost || babyGhostBell) ? 2 : 0) + //6
+				((shine || lumenousAmulet) ? 2 : 0) + //8
+				((player.wisp || player.suspiciouslookingTentacle || sirenPet) ? 3 : 0); //11
+
+			double breathLossMult = 1.0 -
+				(player.gills ? 0.2 : 0.0) - //0.8
+				(player.accDivingHelm ? 0.25 : 0.0) - //0.75
+				(player.arcticDivingGear ? 0.25 : 0.0) - //0.75
+				(aquaticEmblem ? 0.25 : 0.0) - //0.75
+				(player.accMerman ? 0.3 : 0.0) - //0.7
+				(victideSet ? 0.2 : 0.0) - //0.85
+				(((sirenBoobs || sirenBoobsAlt) && NPC.downedBoss3) ? 0.3 : 0.0) - //0.7
+				(abyssalDivingSuit ? 0.3 : 0.0); //0.7
+
+			if (breathLossMult < 0.05)
+				breathLossMult = 0.05;
+
+			double tickMult = 1.0 +
+				(player.gills ? 4.0 : 0.0) + //5
+				(player.ignoreWater ? 5.0 : 0.0) + //10
+				(player.accDivingHelm ? 10.0 : 0.0) + //20
+				(player.arcticDivingGear ? 10.0 : 0.0) + //30
+				(aquaticEmblem ? 10.0 : 0.0) + //40
+				(player.accMerman ? 15.0 : 0.0) + //55
+				(victideSet ? 5.0 : 0.0) + //60
+				(((sirenBoobs || sirenBoobsAlt) && NPC.downedBoss3) ? 15.0 : 0.0) + //75
+				(abyssalDivingSuit ? 15.0 : 0.0); //90
+
+			if (tickMult > 50.0)
+				tickMult = 50.0;
+
+			int lifeLossAtZeroBreathResist = 0;
+			if (depthCharm)
+			{
+				lifeLossAtZeroBreathResist += 3;
+				if (abyssalDivingSuit)
+					lifeLossAtZeroBreathResist += 6;
+			}
+
+			abyssLightLevelStat = lightStrength;
+			abyssBreathLossStats[0] = (int)(2D * breathLossMult);
+			abyssBreathLossStats[1] = (int)(6D * breathLossMult);
+			abyssBreathLossStats[2] = (int)(18D * breathLossMult);
+			abyssBreathLossStats[3] = (int)(54D * breathLossMult);
+			abyssBreathLossRateStat = (int)(6D * tickMult);
+			abyssLifeLostAtZeroBreathStats[0] = 3 - lifeLossAtZeroBreathResist;
+			abyssLifeLostAtZeroBreathStats[1] = 6 - lifeLossAtZeroBreathResist;
+			abyssLifeLostAtZeroBreathStats[2] = 12 - lifeLossAtZeroBreathResist;
+			abyssLifeLostAtZeroBreathStats[3] = 24 - lifeLossAtZeroBreathResist;
+
+			if (abyssLifeLostAtZeroBreathStats[0] < 0)
+				abyssLifeLostAtZeroBreathStats[0] = 0;
+			if (abyssLifeLostAtZeroBreathStats[1] < 0)
+				abyssLifeLostAtZeroBreathStats[1] = 0;
+
+			if (ZoneAbyss)
             {
                 if (abyssalAmulet)
-                {
                     player.statLifeMax2 += player.statLifeMax2 / 5 / 20 * (lumenousAmulet ? 25 : 10);
-                }
+
                 if (Main.myPlayer == player.whoAmI) //4200 total tiles small world
                 {
-                    int breathLoss = 2;
-                    int lifeLossAtZeroBreath = 3;
-                    int lightStrength = 0 +
-                        ((player.lightOrb || player.crimsonHeart || player.magicLantern || radiator) ? 1 : 0) + //1
-                        (aquaticEmblem ? 1 : 0) + //2
-                        (player.arcticDivingGear ? 1 : 0) + //3
-                        (jellyfishNecklace ? 1 : 0) + //4
-                        ((player.blueFairy || player.greenFairy || player.redFairy || player.petFlagDD2Ghost || babyGhostBell) ? 2 : 0) + //6
-                        ((shine || lumenousAmulet) ? 2 : 0) + //8
-                        ((player.wisp || player.suspiciouslookingTentacle || sirenPet) ? 3 : 0); //11
-                    bool lightLevelOne = lightStrength > 0; //1+
+					int breathLoss = 2;
+					int lifeLossAtZeroBreath = 3;
+					int tick = 6;
+
+					bool lightLevelOne = lightStrength > 0; //1+
                     bool lightLevelTwo = lightStrength > 2; //3+
                     bool lightLevelThree = lightStrength > 4; //5+
                     bool lightLevelFour = lightStrength > 6; //7+
-					abyssLightLevelStat = lightStrength;
 
                     if (ZoneAbyssLayer4) //3200 and below
                     {
@@ -3083,70 +3136,38 @@ namespace CalamityMod.CalPlayer
                             player.blind = true;
                         player.statDefense -= anechoicPlating ? 5 : 15;
                     }
-                    double breathLossMult = 1.0 -
-                        (player.gills ? 0.2 : 0.0) - //0.8
-                        (player.accDivingHelm ? 0.25 : 0.0) - //0.75
-                        (player.arcticDivingGear ? 0.25 : 0.0) - //0.75
-                        (aquaticEmblem ? 0.25 : 0.0) - //0.75
-                        (player.accMerman ? 0.3 : 0.0) - //0.7
-                        (victideSet ? 0.2 : 0.0) - //0.85
-                        (((sirenBoobs || sirenBoobsAlt) && NPC.downedBoss3) ? 0.3 : 0.0) - //0.7
-                        (abyssalDivingSuit ? 0.3 : 0.0); //0.7
-                    if (breathLossMult < 0.05)
-                    {
-                        breathLossMult = 0.05;
-                    }
+
                     breathLoss = (int)((double)breathLoss * breathLossMult);
-					abyssBreathLossStat = breathLoss;
-
-                    int tick = 6;
-                    double tickMult = 1.0 +
-                        (player.gills ? 4.0 : 0.0) + //5
-                        (player.ignoreWater ? 5.0 : 0.0) + //10
-                        (player.accDivingHelm ? 10.0 : 0.0) + //20
-                        (player.arcticDivingGear ? 10.0 : 0.0) + //30
-                        (aquaticEmblem ? 10.0 : 0.0) + //40
-                        (player.accMerman ? 15.0 : 0.0) + //55
-                        (victideSet ? 5.0 : 0.0) + //60
-                        (((sirenBoobs || sirenBoobsAlt) && NPC.downedBoss3) ? 15.0 : 0.0) + //75
-                        (abyssalDivingSuit ? 15.0 : 0.0); //90
-                    if (tickMult > 50.0)
-                    {
-                        tickMult = 50.0;
-                    }
                     tick = (int)((double)tick * tickMult);
-					abyssBreathLossRateStat = tick;
 
-                    abyssBreathCD++;
                     if (player.gills || player.merman)
                     {
                         if (player.breath > 0)
                             player.breath -= 3;
                     }
-                    if (abyssBreathCD >= tick)
+
+					abyssBreathCD++;
+					if (abyssBreathCD >= tick)
                     {
                         abyssBreathCD = 0;
+
                         if (player.breath > 0)
                             player.breath -= breathLoss;
+
                         if (cDepth)
                         {
                             if (player.breath > 0)
                                 player.breath--;
                         }
+
                         if (player.breath <= 0)
                         {
-                            if (depthCharm)
-                            {
-                                lifeLossAtZeroBreath -= 3;
-                                if (abyssalDivingSuit)
-                                    lifeLossAtZeroBreath -= 6;
-                            }
+							lifeLossAtZeroBreath -= lifeLossAtZeroBreathResist;
+
                             if (lifeLossAtZeroBreath < 0)
-                            {
                                 lifeLossAtZeroBreath = 0;
-                            }
+
                             player.statLife -= lifeLossAtZeroBreath;
-							abyssLifeLostAtZeroBreathStat = lifeLossAtZeroBreath;
 
                             if (player.statLife <= 0)
                             {
@@ -3162,6 +3183,7 @@ namespace CalamityMod.CalPlayer
                 abyssBreathCD = 0;
                 abyssDeath = false;
             }
+
             if (!player.mount.Active)
             {
                 if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir) && ironBoots)

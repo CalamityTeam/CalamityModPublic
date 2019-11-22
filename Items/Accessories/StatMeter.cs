@@ -37,9 +37,7 @@ namespace CalamityMod.Items.Accessories
 			int wingFlightTime = modPlayer.wingFlightTimeStat;
 			int moveSpeed = modPlayer.moveSpeedStat;
 			int lightLevel = modPlayer.abyssLightLevelStat;
-			int breathLoss = modPlayer.abyssBreathLossStat;
 			int breathLossRate = modPlayer.abyssBreathLossRateStat;
-			int lifeLost = modPlayer.abyssLifeLostAtZeroBreathStat;
 
 			if (CalamityWorld.revenge && Config.AdrenalineAndRage)
 			{
@@ -61,9 +59,16 @@ namespace CalamityMod.Items.Accessories
 							"Rogue Velocity Boost: " + rogueVelocity + "%\n\n" +
 							"Defense: " + defense + " | DR: " + DR + "%\n" +
 							"Life Regen: " + lifeRegen + " | Armor Penetration: " + armorPenetration + "\n" +
-							"Wing Flight Time: " + wingFlightTime + " | Movement Speed: " + moveSpeed + "\n\n" +
-							"Abyss Light Level: " + lightLevel + " | Abyss Breath Loss Per Tick: " + breathLoss + "\n" +
-							"Abyss Breath Loss Rate: " + breathLossRate + " | Abyss Life Lost Per Tick At Zero Breath: " + lifeLost;
+							"Wing Flight Time: " + wingFlightTime + " | Movement Speed Boost: " + moveSpeed + "%\n\n" +
+							"Abyss Stats\n" +
+							"Light Level: " + lightLevel + "\n" +
+							"Breath Lost Per Tick:\n" +
+							"Layer 1: " + modPlayer.abyssBreathLossStats[0] + " | Layer 2: " + modPlayer.abyssBreathLossStats[1] + "\n" +
+							"Layer 3: " + modPlayer.abyssBreathLossStats[2] + " | Layer 4: " + modPlayer.abyssBreathLossStats[3] + "\n" +
+							"Breath Loss Rate: " + breathLossRate + "\n" +
+							"Life Lost Per Tick At Zero Breath:\n" +
+							"Layer 1: " + modPlayer.abyssLifeLostAtZeroBreathStats[0] + " | Layer 2: " + modPlayer.abyssLifeLostAtZeroBreathStats[1] + "\n" +
+							"Layer 3: " + modPlayer.abyssLifeLostAtZeroBreathStats[2] + " | Layer 4: " + modPlayer.abyssLifeLostAtZeroBreathStats[3];
 					}
 				}
 			}
@@ -83,9 +88,16 @@ namespace CalamityMod.Items.Accessories
 							"Rogue Velocity Boost: " + rogueVelocity + "%\n\n" +
 							"Defense: " + defense + " | DR: " + DR + "%\n" +
 							"Life Regen: " + lifeRegen + " | Armor Penetration: " + armorPenetration + "\n" +
-							"Wing Flight Time: " + wingFlightTime + " | Movement Speed: " + moveSpeed + "\n\n" +
-							"Abyss Light Level: " + lightLevel + " | Abyss Breath Loss Per Tick: " + breathLoss + "\n" +
-							"Abyss Breath Loss Rate: " + breathLossRate + " | Abyss Life Lost Per Tick At Zero Breath: " + lifeLost;
+							"Wing Flight Time: " + wingFlightTime + " | Movement Speed Boost: " + moveSpeed + "%\n\n" +
+							"Abyss Stats\n" +
+							"Light Level: " + lightLevel + "\n" +
+							"Breath Lost Per Tick:\n" +
+							"Layer 1: " + modPlayer.abyssBreathLossStats[0] + " | Layer 2: " + modPlayer.abyssBreathLossStats[1] + "\n" +
+							"Layer 3: " + modPlayer.abyssBreathLossStats[2] + " | Layer 4: " + modPlayer.abyssBreathLossStats[3] + "\n" +
+							"Breath Loss Rate: " + breathLossRate + "\n" +
+							"Life Lost Per Tick At Zero Breath:\n" +
+							"Layer 1: " + modPlayer.abyssLifeLostAtZeroBreathStats[0] + " | Layer 2: " + modPlayer.abyssLifeLostAtZeroBreathStats[1] + "\n" +
+							"Layer 3: " + modPlayer.abyssLifeLostAtZeroBreathStats[2] + " | Layer 4: " + modPlayer.abyssLifeLostAtZeroBreathStats[3];
 					}
 				}
 			}
