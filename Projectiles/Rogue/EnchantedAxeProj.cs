@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.penetrate = -1;
             projectile.timeLeft = 600;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 5;
+            projectile.localNPCHitCooldown = 15;
             projectile.Calamity().rogue = true;
         }
 
@@ -93,7 +93,7 @@ namespace CalamityMod.Projectiles.Rogue
                         newAxeVelocity = -projectile.velocity;
                     }
                     newAxeVelocity.Normalize();
-                    newAxeVelocity *= 30f;
+                    newAxeVelocity *= 20f;
                     int p = Projectile.NewProjectile(projectile.position, newAxeVelocity, ModContent.ProjectileType<EnchantedAxe2>(), (int)(projectile.damage * 1.2f), 2, projectile.owner, 0, 0);
                     Main.projectile[p].Calamity().stealthStrike = projectile.Calamity().stealthStrike;
                     summonAxe = false;
@@ -101,7 +101,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
             else
             {
-                if (projectile.timeLeft % 5 == 1 && projectile.Calamity().stealthStrike)
+                if (projectile.timeLeft % 7 == 1 && projectile.Calamity().stealthStrike)
                 {
                     float axeSpeed = 15f;
                     int axeDamage = 25;
