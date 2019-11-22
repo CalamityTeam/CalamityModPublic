@@ -25,7 +25,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ceaseless Void");
-            Main.npcFrameCount[npc.type] = 4;
+            Main.npcFrameCount[npc.type] = 6;
         }
 
         public override void SetDefaults()

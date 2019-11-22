@@ -97,7 +97,10 @@ namespace CalamityMod.Tiles.Furniture
                 case 22:
                     item = ModContent.ItemType<RavagerTrophy>();
                     break;
-            }
+				case 23:
+					item = ModContent.ItemType<AquaticScourgeTrophy>();
+					break;
+			}
             if (item > 0)
             {
                 Item.NewItem(i * 16, j * 16, 48, 48, item);
