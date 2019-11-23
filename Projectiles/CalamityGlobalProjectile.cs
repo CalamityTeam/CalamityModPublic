@@ -861,6 +861,16 @@ namespace CalamityMod.Projectiles
 					Projectile.NewProjectile(target.position.X, target.position.Y, 0f, 0f, ProjectileID.VampireHeal, 0, 0f, projectile.owner, (float)owner, heal);
 				}
 
+				if ((Main.player[projectile.owner].Calamity().bloodyGlove || Main.player[projectile.owner].Calamity().electricianGlove) && rogue && stealthStrike)
+				{
+					if (target.type == NPCID.TargetDummy || !target.canGhostHeal)
+					{
+						return;
+					}
+					Main.player[projectile.owner].statLife += 1;
+					Main.player[projectile.owner].HealEffect(1);
+				}
+
                 if (Main.player[projectile.owner].Calamity().alchFlask &&
                     (projectile.magic || rogue || projectile.melee || projectile.minion || projectile.ranged || projectile.sentry || CalamityMod.projectileMinionList.Contains(projectile.type)) &&
                     Main.player[projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<PlagueSeeker>()] < 6)
@@ -1377,8 +1387,7 @@ namespace CalamityMod.Projectiles
                             float speedX = (target.Center.X - pos.X) / 30f;
                             float speedY = (target.Center.Y - pos.Y) * 8;
                             int feather = Projectile.NewProjectile(pos.X, pos.Y, speedX, speedY, ModContent.ProjectileType<StickyFeather>(), 15, 3, projectile.owner, 0f, (float)Main.rand.Next(15));
-                            Main.projectile[feather].magic = false;
-                            Main.projectile[feather].Calamity().rogue = true;
+                            Main.projectile[feather].Calamity().forceRogue = true;
                             playerC.Calamity().featherCrownCooldown = 15;
                         }
                     }
@@ -1392,7 +1401,6 @@ namespace CalamityMod.Projectiles
                             Vector2 velocity = (target.Center - pos) / 10f;
                             float AI1 = (float)Main.rand.Next(3);
                             int flare = Projectile.NewProjectile(pos, velocity, ProjectileID.LunarFlare, 50, 3, projectile.owner, 0f, AI1);
-                            Main.projectile[flare].magic = false;
                             Main.projectile[flare].Calamity().forceRogue = true;
                             playerC.Calamity().moonCrownCooldown = 15;
                         }

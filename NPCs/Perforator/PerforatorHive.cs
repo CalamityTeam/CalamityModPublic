@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
@@ -314,6 +315,9 @@ namespace CalamityMod.NPCs.Perforator
                 DropHelper.DropItemChance(npc, ModContent.ItemType<BloodBath>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<BloodClotStaff>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<ToothBall>(), 4, 25, 50);
+
+				//Equipment
+                DropHelper.DropItemChance(npc, ModContent.ItemType<BloodstainedGlove>(), 4);
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<PerforatorMask>(), 7);
