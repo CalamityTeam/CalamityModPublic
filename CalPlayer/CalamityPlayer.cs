@@ -5091,11 +5091,12 @@ namespace CalamityMod.CalPlayer
             }
 
 			// For the stat meter
-			damageStats[0] = (int)((player.meleeDamage - 1f) * 100f);
-			damageStats[1] = (int)((player.rangedDamage - 1f) * 100f);
-			damageStats[2] = (int)((player.magicDamage - 1f) * 100f);
-			damageStats[3] = (int)((player.minionDamage - 1f) * 100f);
-			damageStats[4] = (int)((player.Calamity().throwingDamage - 1f) * 100f);
+			float allDamageStat = player.allDamage - 1f;
+			damageStats[0] = (int)((player.meleeDamage + allDamageStat - 1f) * 100f);
+			damageStats[1] = (int)((player.rangedDamage + allDamageStat - 1f) * 100f);
+			damageStats[2] = (int)((player.magicDamage + allDamageStat - 1f) * 100f);
+			damageStats[3] = (int)((player.minionDamage + allDamageStat - 1f) * 100f);
+			damageStats[4] = (int)((player.Calamity().throwingDamage + allDamageStat - 1f) * 100f);
 			critStats[0] = player.meleeCrit;
 			critStats[1] = player.rangedCrit;
 			critStats[2] = player.magicCrit;
