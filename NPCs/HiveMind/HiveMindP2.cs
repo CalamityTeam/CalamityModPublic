@@ -1,4 +1,5 @@
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
@@ -699,6 +700,9 @@ namespace CalamityMod.NPCs.HiveMind
                 DropHelper.DropItemChance(npc, ModContent.ItemType<ShaderainStaff>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<DankStaff>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<RotBall>(), 4, 25, 50);
+
+				//Equipment
+                DropHelper.DropItemChance(npc, ModContent.ItemType<FilthyGlove>(), 4);
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<HiveMindMask>(), 7);

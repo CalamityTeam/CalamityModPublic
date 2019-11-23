@@ -59,6 +59,7 @@ namespace CalamityMod.Items.TreasureBags
 
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<BloodyWormTooth>());
+            DropHelper.DropItemChance(player, ModContent.ItemType<BloodstainedGlove>(), 3);
 
             // Vanity
             DropHelper.DropItemChance(player, ModContent.ItemType<PerforatorMask>(), 7);

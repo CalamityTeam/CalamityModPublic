@@ -57,6 +57,7 @@ namespace CalamityMod.Items.TreasureBags
 
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<RottenBrain>());
+            DropHelper.DropItemChance(player, ModContent.ItemType<FilthyGlove>(), 3);
 
             // Vanity
             DropHelper.DropItemChance(player, ModContent.ItemType<HiveMindMask>(), 7);

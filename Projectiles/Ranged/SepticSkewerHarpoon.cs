@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.ranged = true;
             projectile.extraUpdates = 0;
             projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 10;
+            projectile.idStaticNPCHitCooldown = 9;
 			projectile.timeLeft = 600;
         }
 
@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Ranged
                 vector63.Normalize();
                 vector63 *= (float)Main.rand.Next(45, 65) * 0.1f;
                 vector63 = vector63.RotatedBy((Main.rand.NextDouble() - 0.5) * 1.5707963705062866, default);
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector63.X, vector63.Y, ModContent.ProjectileType<SepticSkewerBacteria>(), (int)((double)projectile.damage * 0.5), projectile.knockBack * 0.2f, projectile.owner, -10f, 0f);
+                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector63.X, vector63.Y, ModContent.ProjectileType<SepticSkewerBacteria>(), (int)((double)projectile.damage * 0.4), projectile.knockBack * 0.2f, projectile.owner, -10f, 0f);
             }
             if (Main.player[projectile.owner].dead)
             {
