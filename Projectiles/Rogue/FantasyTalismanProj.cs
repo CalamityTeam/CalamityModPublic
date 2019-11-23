@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.penetrate = -1;
             projectile.timeLeft = 600;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 600;
+            projectile.localNPCHitCooldown = -1;
         }
 
         public override void AI()
@@ -42,7 +42,6 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 175, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             }
-			int spiritDamage = projectile.damage / 2;
 			if (projectile.Calamity().stealthStrike == true && projectile.ai[0] != 1f)
 			{
 				stealthTimer--;
@@ -50,7 +49,7 @@ namespace CalamityMod.Projectiles.Rogue
 				{
 					if (projectile.owner == Main.myPlayer)
 					{
-						int sGhost = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ProjectileID.LostSoulFriendly, spiritDamage, projectile.knockBack, projectile.owner, 0f, 0f);
+						int sGhost = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ProjectileID.LostSoulFriendly, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 						Main.projectile[sGhost].Calamity().forceRogue = true;
 						Main.projectile[sGhost].penetrate = 1;
 						Main.projectile[sGhost].timeLeft = 240;
@@ -100,7 +99,7 @@ namespace CalamityMod.Projectiles.Rogue
                 }
 				if (projectile.Calamity().stealthStrike == true)
 				{
-					spiritTimer += 2;
+					spiritTimer += 3;
 				}
 				else
 				{
@@ -111,6 +110,7 @@ namespace CalamityMod.Projectiles.Rogue
 					spiritTimer = 0;
 					if (Main.rand.NextBool(2))
 					{
+						int spiritDamage = projectile.damage / 2;
 						int[] numArray1 = new int[200];
 						int maxValue1 = 0;
 						int maxValue2 = 0;

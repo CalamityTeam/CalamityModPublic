@@ -20,7 +20,7 @@ Stealth strikes release more souls and leave behind souls as they travel");
         public override void SafeSetDefaults()
         {
             item.width = 34;
-            item.damage = 100;
+            item.damage = 90;
             item.noMelee = true;
             item.consumable = true;
             item.noUseGraphic = true;
@@ -50,7 +50,7 @@ Stealth strikes release more souls and leave behind souls as they travel");
             return true;
         }
 
-        /*public override void AddRecipes()
+        public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<SolarVeil>());
@@ -58,6 +58,6 @@ Stealth strikes release more souls and leave behind souls as they travel");
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this, 5);
             recipe.AddRecipe();
-        }*/
+        }
     }
 }

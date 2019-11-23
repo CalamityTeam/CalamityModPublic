@@ -1627,6 +1627,13 @@ namespace CalamityMod.NPCs
                     DropHelper.DropItemChance(npc, ModContent.ItemType<MurkyPaste>(), Main.expertMode ? 4 : 5);
                     break;
 
+                case NPCID.Reaper:
+                case NPCID.Psycho:
+                    DropHelper.DropItemCondition(npc, ModContent.ItemType<SolarVeil>(), (CalamityWorld.downedCalamitas || NPC.downedPlantBoss), Main.expertMode ? 0.1f : 0.05f, 1, 3);
+                    DropHelper.DropItemCondition(npc, ModContent.ItemType<DarksunFragment>(), CalamityWorld.downedBuffedMothron, Main.expertMode ? 0.06f : 0.04f, 1, 1);
+                    break;
+
+				//other solar eclipse creatures
                 case NPCID.Eyezor:
                 case NPCID.Frankenstein:
                 case NPCID.SwampThing:
@@ -1634,13 +1641,11 @@ namespace CalamityMod.NPCs
                 case NPCID.VampireBat:
                 case NPCID.CreatureFromTheDeep:
                 case NPCID.Fritz:
-                case NPCID.Reaper:
                 case NPCID.ThePossessed:
                 case NPCID.Butcher:
                 case NPCID.DeadlySphere:
                 case NPCID.DrManFly:
                 case NPCID.Nailhead:
-                case NPCID.Psycho:
                     DropHelper.DropItemCondition(npc, ModContent.ItemType<DarksunFragment>(), CalamityWorld.downedBuffedMothron, Main.expertMode ? 0.06f : 0.04f, 1, 1);
                     break;
 

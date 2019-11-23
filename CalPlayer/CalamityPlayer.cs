@@ -389,6 +389,7 @@ namespace CalamityMod.CalPlayer
         public bool gloveOfPrecision = false;
         public bool gloveOfRecklessness = false;
         public bool momentumCapacitor = false;
+        public bool vampiricTalisman = false;
 
         // Armor Set
         public bool victideSet = false;
@@ -1126,6 +1127,7 @@ namespace CalamityMod.CalPlayer
             gloveOfPrecision = false;
             gloveOfRecklessness = false;
             momentumCapacitor = false;
+            vampiricTalisman = false;
 
 			alcoholPoisoning = false;
             shadowflame = false;
