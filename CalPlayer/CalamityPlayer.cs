@@ -389,6 +389,10 @@ namespace CalamityMod.CalPlayer
         public bool gloveOfPrecision = false;
         public bool gloveOfRecklessness = false;
         public bool momentumCapacitor = false;
+        public bool vampiricTalisman = false;
+        public bool electricianGlove = false;
+        public bool bloodyGlove = false;
+        public bool filthyGlove = false;
 
         // Armor Set
         public bool victideSet = false;
@@ -1126,6 +1130,10 @@ namespace CalamityMod.CalPlayer
             gloveOfPrecision = false;
             gloveOfRecklessness = false;
             momentumCapacitor = false;
+            vampiricTalisman = false;
+            electricianGlove = false;
+            bloodyGlove = false;
+            filthyGlove = false;
 
 			alcoholPoisoning = false;
             shadowflame = false;
@@ -5091,11 +5099,12 @@ namespace CalamityMod.CalPlayer
             }
 
 			// For the stat meter
-			damageStats[0] = (int)((player.meleeDamage - 1f) * 100f);
-			damageStats[1] = (int)((player.rangedDamage - 1f) * 100f);
-			damageStats[2] = (int)((player.magicDamage - 1f) * 100f);
-			damageStats[3] = (int)((player.minionDamage - 1f) * 100f);
-			damageStats[4] = (int)((player.Calamity().throwingDamage - 1f) * 100f);
+			float allDamageStat = player.allDamage - 1f;
+			damageStats[0] = (int)((player.meleeDamage + allDamageStat - 1f) * 100f);
+			damageStats[1] = (int)((player.rangedDamage + allDamageStat - 1f) * 100f);
+			damageStats[2] = (int)((player.magicDamage + allDamageStat - 1f) * 100f);
+			damageStats[3] = (int)((player.minionDamage + allDamageStat - 1f) * 100f);
+			damageStats[4] = (int)((player.Calamity().throwingDamage + allDamageStat - 1f) * 100f);
 			critStats[0] = player.meleeCrit;
 			critStats[1] = player.rangedCrit;
 			critStats[2] = player.magicCrit;
@@ -6817,6 +6826,10 @@ namespace CalamityMod.CalPlayer
                     }
                 }
             }
+            if ((filthyGlove || electricianGlove) && proj.Calamity().stealthStrike && proj.Calamity().rogue)
+            {
+                damageMult += 0.01;
+            }
             damage = (int)((double)damage * damageMult);
 
             if (oldDie)
@@ -6845,6 +6858,28 @@ namespace CalamityMod.CalPlayer
             if (uberBees && (proj.type == ProjectileID.GiantBee || proj.type == ProjectileID.Bee || proj.type == ProjectileID.Wasp || proj.type == ModContent.ProjectileType<PlaguenadeBee>()))
             {
                 damage += Main.rand.Next(20, 31);
+            }
+            if (proj.Calamity().stealthStrike && proj.Calamity().rogue && electricianGlove)
+            {
+				if (target.defense >= 30)
+				{
+					damage += 15;
+				}
+				else
+				{
+					damage += (int)((double)target.defense * 0.5);
+				}
+            }
+            else if (proj.Calamity().stealthStrike && proj.Calamity().rogue && (filthyGlove || bloodyGlove))
+            {
+				if (target.defense >= 10)
+				{
+					damage += 5;
+				}
+				else
+				{
+					damage += (int)((double)target.defense * 0.5);
+				}
             }
             #endregion
 
@@ -6911,6 +6946,22 @@ namespace CalamityMod.CalPlayer
                         value15.Normalize();
                         value15 *= (float)Main.rand.Next(30, 61) * 0.1f;
                         Projectile.NewProjectile(proj.oldPosition.X + (float)(proj.width / 2), proj.oldPosition.Y + (float)(proj.height / 2), value15.X, value15.Y, ModContent.ProjectileType<UnstableSpark>(), (int)((double)damage * 0.15), 0f, player.whoAmI, 0f, 0f);
+                    }
+                }
+                if (electricianGlove && proj.Calamity().stealthStrike && proj.Calamity().rogue)
+                {
+                    for (int num252 = 0; num252 < 3; num252++)
+                    {
+                        Vector2 value15 = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
+                        while (value15.X == 0f && value15.Y == 0f)
+                        {
+                            value15 = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
+                        }
+                        value15.Normalize();
+                        value15 *= (float)Main.rand.Next(30, 61) * 0.1f;
+                        int num17 = Projectile.NewProjectile(proj.oldPosition.X + (float)(proj.width / 2), proj.oldPosition.Y + (float)(proj.height / 2), value15.X, value15.Y, ModContent.ProjectileType<Spark>(), (int)((double)damage * 0.1), 0f, player.whoAmI, 0f, 0f);
+						Main.projectile[num17].Calamity().forceRogue = true;
+						Main.projectile[num17].localNPCHitCooldown = -1;
                     }
                 }
                 if (astralStarRain && crit && astralStarRainCooldown <= 0)

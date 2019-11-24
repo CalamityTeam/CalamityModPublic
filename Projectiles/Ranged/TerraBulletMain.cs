@@ -41,11 +41,11 @@ namespace CalamityMod.Projectiles.Ranged
                 {
                     projectile.alpha -= 17;
                 }
-                for (int num136 = 0; num136 < 3; num136++)
+                for (int num136 = 0; num136 < 2; num136++)
                 {
                     float x2 = projectile.position.X - projectile.velocity.X / 10f * (float)num136;
                     float y2 = projectile.position.Y - projectile.velocity.Y / 10f * (float)num136;
-                    int num137 = Dust.NewDust(new Vector2(x2, y2), 1, 1, 74, 0f, 0f, 0, default, 0.5f);
+                    int num137 = Dust.NewDust(new Vector2(x2, y2), 1, 1, 74, 0f, 0f, 0, default, 0.8f);
                     Main.dust[num137].alpha = projectile.alpha;
                     Main.dust[num137].position.X = x2;
                     Main.dust[num137].position.Y = y2;

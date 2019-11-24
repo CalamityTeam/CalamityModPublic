@@ -25,12 +25,13 @@ namespace CalamityMod.Projectiles.Healing
         public override void AI()
         {
             projectile.velocity.Y *= 0.98f;
+
             int num487 = projectile.owner;
             Vector2 vector36 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
             float num489 = Main.player[num487].Center.X - vector36.X;
             float num490 = Main.player[num487].Center.Y - vector36.Y;
             float num491 = (float)Math.Sqrt((double)(num489 * num489 + num490 * num490));
-            if (num491 < (Main.player[num487].lifeMagnet ? 75f : 50f) && projectile.position.X < Main.player[num487].position.X + (float)Main.player[num487].width && projectile.position.X + (float)projectile.width > Main.player[num487].position.X && projectile.position.Y < Main.player[num487].position.Y + (float)Main.player[num487].height && projectile.position.Y + (float)projectile.height > Main.player[num487].position.Y)
+            if (num491 < 50f && projectile.position.X < Main.player[num487].position.X + (float)Main.player[num487].width && projectile.position.X + (float)projectile.width > Main.player[num487].position.X && projectile.position.Y < Main.player[num487].position.Y + (float)Main.player[num487].height && projectile.position.Y + (float)projectile.height > Main.player[num487].position.Y)
             {
                 if (projectile.owner == Main.myPlayer)
                 {
@@ -45,11 +46,19 @@ namespace CalamityMod.Projectiles.Healing
                 }
                 projectile.Kill();
             }
-            float num498 = projectile.velocity.X * 0.2f * 1f;
-            float num499 = -(projectile.velocity.Y * 0.2f) * 1f;
+			if (Main.player[num487].lifeMagnet && projectile.timeLeft < 120)
+			{
+				float num488 = 12f;
+				num491 = num488 / num491;
+				num489 *= num491;
+				num490 *= num491;
+				projectile.velocity.X = (projectile.velocity.X * 15f + num489) / 16f;
+				projectile.velocity.Y = (projectile.velocity.Y * 15f + num490) / 16f;
+			}
+			float num498 = projectile.velocity.X * 0.2f;
+            float num499 = -(projectile.velocity.Y * 0.2f);
             int num500 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 107, 0f, 0f, 100, new Color(0, 200, 0), 1.5f);
             Main.dust[num500].noGravity = true;
-            Main.dust[num500].velocity *= 0f;
             Dust expr_154F9_cp_0 = Main.dust[num500];
             expr_154F9_cp_0.position.X -= num498;
             Dust expr_15518_cp_0 = Main.dust[num500];

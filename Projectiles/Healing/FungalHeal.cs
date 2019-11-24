@@ -39,6 +39,7 @@ namespace CalamityMod.Projectiles.Healing
                 }
                 projectile.localAI[0] += 1f;
             }
+
             int num487 = (int)projectile.ai[0];
             float num488 = 5f;
 			if (Main.player[num487].lifeMagnet)
@@ -72,7 +73,6 @@ namespace CalamityMod.Projectiles.Healing
             float num495 = -(projectile.velocity.Y * 0.334f);
             int num496 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 56, 0f, 0f, 100, default, 0.5f);
             Main.dust[num496].noGravity = true;
-            Main.dust[num496].velocity *= 0f;
             Dust expr_153E2_cp_0 = Main.dust[num496];
             expr_153E2_cp_0.position.X -= num494;
             Dust expr_15401_cp_0 = Main.dust[num496];
@@ -81,7 +81,6 @@ namespace CalamityMod.Projectiles.Healing
             float num499 = -(projectile.velocity.Y * 0.2f);
             int num500 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 56, 0f, 0f, 100, default, 0.7f);
             Main.dust[num500].noGravity = true;
-            Main.dust[num500].velocity *= 0f;
             Dust expr_154F9_cp_0 = Main.dust[num500];
             expr_154F9_cp_0.position.X -= num498;
             Dust expr_15518_cp_0 = Main.dust[num500];

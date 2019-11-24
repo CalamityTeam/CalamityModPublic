@@ -33,7 +33,8 @@ namespace CalamityMod.Items.Accessories
                 if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
                 {
                     line2.text = "Rogue projectiles create nanoblades as they travel\n" +
-                "Stealth strikes summon lunar flares on enemy hits\n" +
+                "Stealth strikes summon lunar flares and sparks on enemy hits\n" +
+				"Stealth strikes have +30 armor penetration, deal 10% more damage, and heal for 1 HP\n" +
                 "Rogue weapons have a chance to instantly kill normal enemies\n" +
                 "10% increased rogue damage, 5% increased rogue crit chance, and 15% increased rogue velocity\n" +
                 "Whenever you crit an enemy with a rogue weapon your rogue damage increases\n" +
@@ -50,6 +51,7 @@ namespace CalamityMod.Items.Accessories
             modPlayer.nanotech = true;
             modPlayer.moonCrown = true;
             modPlayer.raiderTalisman = true;
+            modPlayer.electricianGlove = true;
             player.Calamity().throwingDamage += 0.1f;
             player.Calamity().throwingCrit += 5;
             player.Calamity().throwingVelocity += 0.15f;
@@ -61,13 +63,7 @@ namespace CalamityMod.Items.Accessories
             recipe.AddIngredient(ModContent.ItemType<RogueEmblem>());
             recipe.AddIngredient(ModContent.ItemType<RaidersTalisman>());
             recipe.AddIngredient(ModContent.ItemType<MoonstoneCrown>());
-
-            // add this ingredient when the item is finished
-            // recipe.AddIngredient(ModContent.ItemType<ElectriciansGlove>());
-
-            // remove these two ingredients once Electrician's Glove is added
-            recipe.AddIngredient(ItemID.MartianConduitPlating, 250);
-            recipe.AddIngredient(ItemID.Nanites, 500);
+            recipe.AddIngredient(ModContent.ItemType<ElectriciansGlove>());
 
             recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 20);
             recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 20);
