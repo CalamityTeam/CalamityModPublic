@@ -793,6 +793,20 @@ namespace CalamityMod
             });
             RecipeGroup.RegisterGroup("SiltGroup", group);
 
+            group = new RecipeGroup(() => "Any Hardmode Anvil", new int[]
+            {
+                ItemID.MythrilAnvil,
+                ItemID.OrichalcumAnvil
+            });
+            RecipeGroup.RegisterGroup("HardmodeAnvil", group);
+
+            group = new RecipeGroup(() => "Any Hardmode Forge", new int[]
+            {
+                ItemID.AdamantiteForge,
+                ItemID.TitaniumForge
+            });
+            RecipeGroup.RegisterGroup("HardmodeForge", group);
+
             group = new RecipeGroup(() => "Any Lunar Pickaxe", new int[]
             {
                 ItemID.SolarFlarePickaxe,
