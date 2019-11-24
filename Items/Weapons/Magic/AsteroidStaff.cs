@@ -37,6 +37,11 @@ namespace CalamityMod.Items.Weapons.Magic
             item.Calamity().postMoonLordRarity = 12;
         }
 
+        public override Vector2? HoldoutOrigin()
+        {
+            return new Vector2(12, 25);
+        }
+
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

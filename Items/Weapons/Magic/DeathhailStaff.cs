@@ -39,6 +39,11 @@ namespace CalamityMod.Items.Weapons.Magic
             item.Calamity().postMoonLordRarity = 13;
         }
 
+        public override Vector2? HoldoutOrigin()
+        {
+            return new Vector2(15, 15);
+        }
+
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
             Vector2 origin = new Vector2(40f, 42f);

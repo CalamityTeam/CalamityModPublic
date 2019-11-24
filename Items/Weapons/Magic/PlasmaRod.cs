@@ -2,6 +2,7 @@ using CalamityMod.Projectiles.Magic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -34,6 +35,11 @@ namespace CalamityMod.Items.Weapons.Magic
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<PlasmaRay>();
             item.shootSpeed = 6f;
+        }
+
+        public override Vector2? HoldoutOrigin()
+        {
+            return new Vector2(10, 10);
         }
     }
 }

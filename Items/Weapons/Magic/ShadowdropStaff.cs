@@ -37,6 +37,11 @@ namespace CalamityMod.Items.Weapons.Magic
             item.shootSpeed = 8f;
         }
 
+        public override Vector2? HoldoutOrigin()
+        {
+            return new Vector2(7, 7);
+        }
+
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
