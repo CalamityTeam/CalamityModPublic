@@ -43,7 +43,7 @@ Stealth strikes release more souls and leave behind souls as they travel");
         {
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
-                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
+                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<FantasyTalismanStealth>(), damage, knockBack, player.whoAmI, 0f, 0f);
                 Main.projectile[stealth].Calamity().stealthStrike = true;
                 return false;
             }

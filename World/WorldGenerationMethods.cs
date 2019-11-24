@@ -1538,7 +1538,10 @@ namespace CalamityMod.World
                         {
                             if (Main.tile[num12, num13].type == 5 || Main.tile[num12, num13].type == 32 || Main.tile[num12, num13].type == 352)
                             {
-                                WorldGen.KillTile(num12, num13, false, false, false);
+                                try
+                                { WorldGen.KillTile(num12, num13, false, false, true); }
+                                catch (NullReferenceException)
+                                { }
                             }
                             Main.tile[num12, num13].liquid = 0;
                         }
@@ -1713,6 +1716,12 @@ namespace CalamityMod.World
                             case WallID.Dirt:
                                 Main.tile[x, y].wall = (ushort)ModContent.WallType<AstralDirtWall>();
                                 break;
+                            case WallID.SnowWallUnsafe:
+                                Main.tile[x, y].wall = (ushort)ModContent.WallType<AstralSnowWall>();
+                                break;
+                            case WallID.DesertFossil:
+                                Main.tile[x, y].wall = (ushort)ModContent.WallType<AstralFossilWall>();
+                                break;
                             case WallID.IceUnsafe:
                                 Main.tile[x, y].wall = (ushort)ModContent.WallType<AstralIceWall>();
                                 break;
@@ -1749,6 +1758,18 @@ namespace CalamityMod.World
                         {
                             case TileID.Dirt:
                                 Main.tile[x, y].type = (ushort)ModContent.TileType<AstralDirt>();
+                                break;
+                            case TileID.SnowBlock:
+                                Main.tile[x, y].type = (ushort)ModContent.TileType<AstralSnow>();
+                                break;
+                            case TileID.Silt:
+                                Main.tile[x, y].type = (ushort)ModContent.TileType<AstralSilt>();
+                                break;
+                            case TileID.DesertFossil:
+                                Main.tile[x, y].type = (ushort)ModContent.TileType<AstralFossil>();
+                                break;
+                            case TileID.ClayBlock:
+                                Main.tile[x, y].type = (ushort)ModContent.TileType<AstralClay>();
                                 break;
                             case TileID.Vines:
                                 Main.tile[x, y].type = (ushort)ModContent.TileType<AstralVines>();
@@ -1931,6 +1952,14 @@ namespace CalamityMod.World
                     {
                         Main.tile[x, y].wall = WallID.DirtUnsafe;
                     }
+                    else if (wallType == ModContent.WallType<AstralSnowWall>() || wallType == ModContent.WallType<AstralSnowWallSafe>())
+                    {
+                        Main.tile[x, y].wall = WallID.SnowWallUnsafe;
+                    }
+                    else if (wallType == ModContent.WallType<AstralFossilWall>())
+                    {
+                        Main.tile[x, y].wall = WallID.DesertFossil;
+                    }
                     else if (wallType == ModContent.WallType<AstralGrassWall>())
                     {
                         switch (convert)
@@ -1980,6 +2009,22 @@ namespace CalamityMod.World
                     if (type == ModContent.TileType<AstralDirt>())
                     {
                         tile.type = TileID.Dirt;
+                    }
+                    else if (type == ModContent.TileType<AstralSnow>())
+                    {
+                        tile.type = TileID.SnowBlock;
+                    }
+                    else if (type == ModContent.TileType<AstralSilt>())
+                    {
+                        tile.type = TileID.Silt;
+                    }
+                    else if (type == ModContent.TileType<AstralFossil>())
+                    {
+                        tile.type = TileID.DesertFossil;
+                    }
+                    else if (type == ModContent.TileType<AstralClay>())
+                    {
+                        tile.type = TileID.ClayBlock;
                     }
                     else if (type == ModContent.TileType<AstralGrass>())
                     {

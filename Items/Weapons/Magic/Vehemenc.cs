@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -37,6 +38,11 @@ namespace CalamityMod.Items.Weapons.Magic
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<Vehemence>();
             item.shootSpeed = 16f;
+        }
+
+        public override Vector2? HoldoutOrigin()
+        {
+            return new Vector2(25, 25);
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

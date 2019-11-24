@@ -43,6 +43,11 @@ namespace CalamityMod.Items.Weapons.Magic
             item.Calamity().postMoonLordRarity = 15;
         }
 
+        public override Vector2? HoldoutOrigin()
+        {
+            return new Vector2(20, 20);
+        }
+
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             float num72 = item.shootSpeed;

@@ -21,7 +21,7 @@ namespace CalamityMod.Tiles.AstralDesert
             dustType = ModContent.DustType<AstralBasic>();
             drop = ModContent.ItemType<Items.Placeables.AstralSandstone>();
 
-            AddMapEntry(new Color(79, 61, 97));
+            AddMapEntry(new Color(93, 78, 107));
 
             TileID.Sets.Conversion.Sandstone[Type] = true;
             TileID.Sets.ForAdvancedCollision.ForSandshark[Type] = true;
@@ -29,7 +29,8 @@ namespace CalamityMod.Tiles.AstralDesert
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            CustomTileFraming.FrameTileForCustomMerge(i, j, Type, ModContent.TileType<HardenedAstralSand>(), false, false, false, false, resetFrame);
+            // CustomTileFraming.FrameTileForCustomMerge(i, j, Type, ModContent.TileType<HardenedAstralSand>(), false, false, false, false, resetFrame);
+            CustomTileFraming.FrameTileForCustomMergeFrom(i, j, Type, ModContent.TileType<HardenedAstralSand>());
             return false;
         }
 

@@ -33,6 +33,7 @@ namespace CalamityMod.NPCs.Yharon
     public class Yharon : ModNPC
     {
         private Rectangle safeBox = default;
+        private bool enraged = false;
         private bool protectionBoost = false;
         private bool moveCloser = false;
         private bool phaseOneLoot = false;
@@ -110,36 +111,50 @@ namespace CalamityMod.NPCs.Yharon
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(protectionBoost);
-            writer.Write(moveCloser);
-            writer.Write(phaseOneLoot);
-            writer.Write(dropLoot);
-            writer.Write(useTornado);
+            BitsByte bb = new BitsByte();
+            bb[0] = enraged;
+            bb[1] = protectionBoost;
+            bb[2] = moveCloser;
+            bb[3] = phaseOneLoot;
+            bb[4] = dropLoot;
+            bb[5] = useTornado;
+            bb[6] = startSecondAI;
+            bb[7] = npc.dontTakeDamage;
+            BitsByte bb2 = new BitsByte();
+            bb2[0] = npc.chaseable;
+            writer.Write(bb);
+            writer.Write(bb2);
             writer.Write(healCounter);
             writer.Write(secondPhasePhase);
             writer.Write(teleportLocation);
-            writer.Write(startSecondAI);
-            writer.Write(spawnArena);
             writer.Write(invincibilityCounter);
-            writer.Write(npc.dontTakeDamage);
-            writer.Write(npc.chaseable);
+            writer.Write(safeBox.X);
+            writer.Write(safeBox.Y);
+            writer.Write(safeBox.Width);
+            writer.Write(safeBox.Height);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            protectionBoost = reader.ReadBoolean();
-            moveCloser = reader.ReadBoolean();
-            phaseOneLoot = reader.ReadBoolean();
-            dropLoot = reader.ReadBoolean();
-            useTornado = reader.ReadBoolean();
+            BitsByte bb = reader.ReadByte();
+            enraged = bb[0];
+            protectionBoost = bb[1];
+            moveCloser = bb[2];
+            phaseOneLoot = bb[3];
+            dropLoot = bb[4];
+            useTornado = bb[5];
+            startSecondAI = bb[6];
+            npc.dontTakeDamage = bb[7];
+            BitsByte bb2 = reader.ReadByte();
+            npc.chaseable = bb2[0];
             healCounter = reader.ReadInt32();
             secondPhasePhase = reader.ReadInt32();
             teleportLocation = reader.ReadInt32();
-            startSecondAI = reader.ReadBoolean();
-            spawnArena = reader.ReadBoolean();
             invincibilityCounter = reader.ReadInt32();
-            npc.dontTakeDamage = reader.ReadBoolean();
-            npc.chaseable = reader.ReadBoolean();
+            safeBox.X = reader.ReadInt32();
+            safeBox.Y = reader.ReadInt32();
+            safeBox.Width = reader.ReadInt32();
+            safeBox.Height = reader.ReadInt32();
         }
 
         public override void AI()
@@ -332,33 +347,43 @@ namespace CalamityMod.NPCs.Yharon
             else if (npc.timeLeft < 3600)
                 npc.timeLeft = 3600;
 
-            // Create the arena
+            // Create the arena, but not as a multiplayer client.
+            // In single player, the arena gets created and never gets synced because it's single player.
+            // In multiplayer, only the server/host creates the arena, and everyone else receives it on the next frame via SendExtraAI.
+            // Everyone however sets spawnArena to true to confirm that the fight has started.
             if (!spawnArena)
             {
                 spawnArena = true;
-                safeBox.X = (int)(player.Center.X - (revenge ? 3000f : 3500f));
-                safeBox.Y = (int)(player.Center.Y - (revenge ? 9000f : 10500f));
-                safeBox.Width = revenge ? 6000 : 7000;
-                safeBox.Height = revenge ? 18000 : 21000;
+                enraged = false;
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
+                    safeBox.X = (int)(player.Center.X - (revenge ? 3000f : 3500f));
+                    safeBox.Y = (int)(player.Center.Y - (revenge ? 9000f : 10500f));
+                    safeBox.Width = revenge ? 6000 : 7000;
+                    safeBox.Height = revenge ? 18000 : 21000;
                     Projectile.NewProjectile(player.Center.X + (revenge ? 3000f : 3500f), player.Center.Y + 100f, 0f, 0f, ModContent.ProjectileType<SkyFlareRevenge>(), 0, 0f, Main.myPlayer, 0f, 0f);
                     Projectile.NewProjectile(player.Center.X - (revenge ? 3000f : 3500f), player.Center.Y + 100f, 0f, 0f, ModContent.ProjectileType<SkyFlareRevenge>(), 0, 0f, Main.myPlayer, 0f, 0f);
                 }
-            }
 
-            // Enrage
-            if (!Main.player[npc.target].Hitbox.Intersects(safeBox))
-            {
-                aiChangeRate = 15;
-                protectionBoost = true;
-                npc.damage = npc.defDamage * 5;
-                chargeSpeed += 25f;
+                // Force Yharon to send a sync packet so that the arena gets sent immediately
+                npc.netUpdate = true;
             }
+            // Enrage code doesn't run on frame 1 so that Yharon won't be enraged for 1 frame in multiplayer
             else
             {
-                npc.damage = npc.defDamage;
-                protectionBoost = false;
+                enraged = !Main.player[npc.target].Hitbox.Intersects(safeBox);
+                if (enraged)
+                {
+                    aiChangeRate = 15;
+                    protectionBoost = true;
+                    npc.damage = npc.defDamage * 5;
+                    chargeSpeed += 25f;
+                }
+                else
+                {
+                    npc.damage = npc.defDamage;
+                    protectionBoost = false;
+                }
             }
 
             // Set DR based on protection boost (aka enrage)
@@ -1881,9 +1906,12 @@ namespace CalamityMod.NPCs.Yharon
                 npc.dontTakeDamage = npc.ai[0] == 9f;
                 npc.chaseable = npc.ai[0] < 8f;
             }
+
+            // Acquire target and determine enrage state
             NPCUtils.TargetClosestBetsy(npc, false, null);
             NPCAimedTarget targetData = npc.GetTargetData(true);
-            if (!targetData.Hitbox.Intersects(safeBox))
+            enraged = !targetData.Hitbox.Intersects(safeBox);
+            if (enraged)
             {
                 protectionBoost = true;
                 npc.damage = npc.defDamage * 5;

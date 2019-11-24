@@ -806,6 +806,7 @@ namespace CalamityMod
                 ModContent.ItemType<PhoenixFlameBarrage>(),
                 ModContent.ItemType<ProfanedTrident>(),
                 ModContent.ItemType<TheBurningSky>(),
+                ModContent.ItemType<TotalityBreakers>(),
                 ModContent.ItemType<HeliumFlash>()
             };
 
@@ -1639,6 +1640,7 @@ namespace CalamityMod
                 ItemID.JungleYoyo,
                 ItemID.Cascade,
                 ItemID.Chik,
+                ItemID.Code1,
                 ItemID.Code2,
                 ItemID.Rally,
                 ItemID.Yelets,
@@ -1684,6 +1686,7 @@ namespace CalamityMod
                 ModContent.ItemType<TheObliterator>(),
                 ModContent.ItemType<ThePlaguebringer>(),
                 ModContent.ItemType<Verdant>(),
+                ModContent.ItemType<Whirlpool>(),
                 ModContent.ItemType<YinYo>(),
 
                 // other
@@ -1773,6 +1776,7 @@ namespace CalamityMod
                 ModContent.ItemType<SeafoamBomb>(),
                 ModContent.ItemType<ConsecratedWater>(),
                 ModContent.ItemType<BouncingBetty>(),
+                ModContent.ItemType<TotalityBreakers>(),
                 ModContent.ItemType<BlastBarrel>()
             };
 

@@ -2,6 +2,7 @@ using CalamityMod.Projectiles.Magic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -32,6 +33,11 @@ namespace CalamityMod.Items.Weapons.Magic
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<BeamingBolt>();
             item.shootSpeed = 20f;
+        }
+
+        public override Vector2? HoldoutOrigin()
+        {
+            return new Vector2(15, 15);
         }
 
         public override void AddRecipes()

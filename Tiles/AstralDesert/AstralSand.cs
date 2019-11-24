@@ -25,7 +25,7 @@ namespace CalamityMod.Tiles.AstralDesert
             dustType = 108;
             drop = ModContent.ItemType<Items.Placeables.AstralSand>();
 
-            AddMapEntry(new Color(149, 156, 155));
+            AddMapEntry(new Color(187, 220, 237));
 
             TileID.Sets.TouchDamageSands[Type] = 15;
             TileID.Sets.Conversion.Sand[Type] = true;
@@ -51,7 +51,8 @@ namespace CalamityMod.Tiles.AstralDesert
                 WorldGen.SquareTileFrame(i, j);
                 return false;
             }
-            CustomTileFraming.FrameTileForCustomMerge(i, j, Type, ModContent.TileType<AstralDirt>());
+            // CustomTileFraming.FrameTileForCustomMerge(i, j, Type, ModContent.TileType<AstralDirt>());
+            CustomTileFraming.FrameTileForCustomMergeFrom(i, j, Type, ModContent.TileType<AstralDirt>());
             return false;
         }
 

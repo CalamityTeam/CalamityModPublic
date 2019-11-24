@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("Increases jump speed and allows constant jumping\n" +
                 "Can climb walls, dash, and dodge attacks\n" +
                 "5% increased rogue damage and velocity\n" +
-                "5% increased rogue crit chance");
+                "5% increased rogue crit chance\n" +
+                "Toggle visibility of this accessory to enable/disable the dash");
         }
 
         public override void SetDefaults()
@@ -33,7 +34,8 @@ namespace CalamityMod.Items.Accessories
             player.jumpSpeedBoost += 0.4f;
             player.extraFall += 35;
             player.blackBelt = true;
-            player.dash = 1;
+            if (!hideVisual)
+				player.dash = 1;
             player.spikedBoots = 2;
             modPlayer.throwingDamage += 0.05f;
             modPlayer.throwingCrit += 5;

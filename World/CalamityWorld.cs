@@ -630,13 +630,13 @@ namespace CalamityMod.World
             sulphurTiles = tileCounts[ModContent.TileType<SulphurousSand>()];
 
             #region Astral Stuff
-            int astralDesertTiles = tileCounts[ModContent.TileType<AstralSand>()] + tileCounts[ModContent.TileType<AstralSandstone>()] + tileCounts[ModContent.TileType<HardenedAstralSand>()];
-            int astralSnowTiles = tileCounts[ModContent.TileType<AstralIce>()];
+            int astralDesertTiles = tileCounts[ModContent.TileType<AstralSand>()] + tileCounts[ModContent.TileType<AstralSandstone>()] + tileCounts[ModContent.TileType<HardenedAstralSand>()] + tileCounts[ModContent.TileType<AstralFossil>()];
+            int astralSnowTiles = tileCounts[ModContent.TileType<AstralIce>()] + tileCounts[ModContent.TileType<AstralSnow>()];
 
             Main.sandTiles += astralDesertTiles;
             Main.snowTiles += astralSnowTiles;
 
-            astralTiles = astralDesertTiles + astralSnowTiles + tileCounts[ModContent.TileType<AstralDirt>()] + tileCounts[ModContent.TileType<AstralStone>()] + tileCounts[ModContent.TileType<AstralGrass>()] + tileCounts[ModContent.TileType<AstralOre>()];
+            astralTiles = astralDesertTiles + astralSnowTiles + tileCounts[ModContent.TileType<AstralDirt>()] + tileCounts[ModContent.TileType<AstralStone>()] + tileCounts[ModContent.TileType<AstralGrass>()] + tileCounts[ModContent.TileType<AstralOre>()] + tileCounts[ModContent.TileType<AstralSilt>()] + tileCounts[ModContent.TileType<AstralClay>()];
             #endregion
         }
         #endregion

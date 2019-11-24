@@ -10,7 +10,6 @@ namespace CalamityMod.Projectiles.Rogue
     public class FantasyTalismanProj : ModProjectile
     {
 		int spiritTimer = 0;
-        int stealthTimer = 10;
 
         public override void SetStaticDefaults()
         {
@@ -42,21 +41,6 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 175, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             }
-			if (projectile.Calamity().stealthStrike == true && projectile.ai[0] != 1f)
-			{
-				stealthTimer--;
-				if (stealthTimer == 0)
-				{
-					if (projectile.owner == Main.myPlayer)
-					{
-						int sGhost = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ProjectileID.LostSoulFriendly, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-						Main.projectile[sGhost].Calamity().forceRogue = true;
-						Main.projectile[sGhost].penetrate = 1;
-						Main.projectile[sGhost].timeLeft = 240;
-					}
-					stealthTimer = 10;
-				}
-			}
             if (projectile.ai[0] == 1f)
             {
                 projectile.tileCollide = false;
@@ -97,14 +81,7 @@ namespace CalamityMod.Projectiles.Rogue
                 {
                     projectile.Kill();
                 }
-				if (projectile.Calamity().stealthStrike == true)
-				{
-					spiritTimer += 3;
-				}
-				else
-				{
-					spiritTimer++;
-				}
+				spiritTimer++;
 				if (spiritTimer >= 10)
 				{
 					spiritTimer = 0;

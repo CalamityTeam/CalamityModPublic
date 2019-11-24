@@ -17,6 +17,10 @@ namespace CalamityMod.Tiles.Astral
             TileMerge.MergeGeneralTiles(Type);
             TileMerge.MergeAstralTiles(Type);
             TileMerge.MergeOreTiles(Type);
+            TileMerge.MergeTile(Type, TileID.Grass);
+            TileMerge.MergeTile(Type, TileID.CorruptGrass);
+            TileMerge.MergeTile(Type, TileID.HallowedGrass);
+            TileMerge.MergeTile(Type, TileID.FleshGrass);
 
             dustType = ModContent.DustType<AstralBasic>();
             drop = ModContent.ItemType<Items.Placeables.AstralDirt>();
@@ -29,7 +33,7 @@ namespace CalamityMod.Tiles.Astral
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            CustomTileFraming.FrameTileForCustomMergeFrom(i, j, Type);
+            CustomTileFraming.FrameTileForCustomMergeFrom(i, j, Type, TileID.Dirt);
             return false;
         }
 

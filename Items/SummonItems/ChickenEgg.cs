@@ -36,6 +36,7 @@ namespace CalamityMod.Items.SummonItems
         public override bool UseItem(Player player)
         {
             NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Yharon>());
+            Main.PlaySound(SoundID.Roar, player.position, 0);
             return true;
         }
 

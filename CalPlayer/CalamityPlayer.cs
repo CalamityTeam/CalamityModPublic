@@ -448,6 +448,7 @@ namespace CalamityMod.CalPlayer
         public bool auricBoost = false;
         public bool daedalusReflect = false;
         public bool daedalusSplit = false;
+        public bool umbraphileSet = false;
         public bool reaverBlast = false;
         public bool reaverBurst = false;
         public bool astralStarRain = false;
@@ -1092,6 +1093,8 @@ namespace CalamityMod.CalPlayer
 
             statigelSet = false;
 
+            umbraphileSet = false;
+
             tarraSet = false;
             tarraMelee = false;
 			tarragonCloak = false;
@@ -1518,6 +1521,7 @@ namespace CalamityMod.CalPlayer
             reaverDoubleTap = false;
             shadeRegen = false;
             dsSetBonus = false;
+            umbraphileSet = false;
             reaverBlast = false;
             reaverBurst = false;
             astralStarRain = false;
@@ -2898,13 +2902,13 @@ namespace CalamityMod.CalPlayer
 			if (Main.netMode != NetmodeID.Server && player.whoAmI == Main.myPlayer)
             {
                 Texture2D rain3 = ModContent.GetTexture("CalamityMod/ExtraTextures/Rain3");
-                Texture2D rainOriginal = ModContent.GetTexture("Terraria/Rain");
+                Texture2D rainOriginal = ModContent.GetTexture("CalamityMod/ExtraTextures/RainOriginal");
                 Texture2D mana2 = ModContent.GetTexture("CalamityMod/ExtraTextures/Mana2");
                 Texture2D mana3 = ModContent.GetTexture("CalamityMod/ExtraTextures/Mana3");
                 Texture2D mana4 = ModContent.GetTexture("CalamityMod/ExtraTextures/Mana4");
-                Texture2D manaOriginal = ModContent.GetTexture("Terraria/Mana");
+                Texture2D manaOriginal = ModContent.GetTexture("CalamityMod/ExtraTextures/ManaOriginal");
                 Texture2D carpetAuric = ModContent.GetTexture("CalamityMod/ExtraTextures/AuricCarpet");
-                Texture2D carpetOriginal = ModContent.GetTexture("Terraria/FlyingCarpet");
+                Texture2D carpetOriginal = ModContent.GetTexture("CalamityMod/ExtraTextures/Carpet");
                 int totalManaBoost =
                     (pHeart ? 1 : 0) +
                     (eCore ? 1 : 0) +
@@ -3291,9 +3295,13 @@ namespace CalamityMod.CalPlayer
                 {
                     player.minionDamage += 0.1f +
                         (gDefense ? 0.05f : 0f);
-                    player.maxMinions++;
                 }
             }
+
+            // You always get the max minions, even during the effect of the burnout debuff
+            if (gOffense)
+                player.maxMinions++;
+
             if (draconicSurgeCooldown > 0)
                 draconicSurgeCooldown--;
             if (fleshTotemCooldown > 0)
@@ -5586,7 +5594,7 @@ namespace CalamityMod.CalPlayer
         #region Get Weapon Damage And KB
         public override void ModifyWeaponDamage(Item item, ref float add, ref float mult, ref float flat)
         {
-            bool isTrueMelee = item.melee && (item.shoot == 0 || (item.noMelee && item.noUseGraphic && item.useStyle == 5 && !CalamityMod.trueMeleeBoostExceptionList.Contains(item.type)));
+            bool isTrueMelee = item.melee && (item.shoot == 0 || (item.noMelee && item.noUseGraphic && item.useStyle == 5 && !CalamityMod.trueMeleeBoostExceptionList.Contains(item.type) && ItemID.Sets.Yoyo[item.type] != true));
             if (isTrueMelee)
             {
 				if (tScale)
@@ -5689,7 +5697,7 @@ namespace CalamityMod.CalPlayer
         #region Melee Effects
         public override void MeleeEffects(Item item, Rectangle hitbox)
         {
-            bool isTrueMelee = item.melee && (item.shoot == 0 || (item.noMelee && item.noUseGraphic && item.useStyle == 5 && !CalamityMod.trueMeleeBoostExceptionList.Contains(item.type)));
+            bool isTrueMelee = item.melee && (item.shoot == 0 || (item.noMelee && item.noUseGraphic && item.useStyle == 5 && !CalamityMod.trueMeleeBoostExceptionList.Contains(item.type) && ItemID.Sets.Yoyo[item.type] != true));
             if (isTrueMelee)
             {
                 if (fungalSymbiote && player.whoAmI == Main.myPlayer)
@@ -6908,25 +6916,16 @@ namespace CalamityMod.CalPlayer
             }
             if (proj.Calamity().stealthStrike && proj.Calamity().rogue && electricianGlove)
             {
-				if (target.defense >= 30)
-				{
-					damage += 15;
-				}
-				else
-				{
-					damage += (int)((double)target.defense * 0.5);
-				}
+				//Ozzatron insists on counting for edge-cases
+				int penetratableDefense = Math.Max(target.defense - player.armorPenetration, 0);
+				int penetratedDefense = Math.Min(penetratableDefense, 30);
+				damage += (int)(0.5f * penetratedDefense);
             }
             else if (proj.Calamity().stealthStrike && proj.Calamity().rogue && (filthyGlove || bloodyGlove))
             {
-				if (target.defense >= 10)
-				{
-					damage += 5;
-				}
-				else
-				{
-					damage += (int)((double)target.defense * 0.5);
-				}
+				int penetratableDefense = Math.Max(target.defense - player.armorPenetration, 0);
+				int penetratedDefense = Math.Min(penetratableDefense, 10);
+				damage += (int)(0.5f * penetratedDefense);
             }
             #endregion
 
@@ -7102,6 +7101,15 @@ namespace CalamityMod.CalPlayer
                         Main.projectile[fire].magic = false;
                         Main.projectile[fire].netUpdate = true;
                     }
+                }
+                if (umbraphileSet && proj.Calamity().rogue && (Main.rand.NextBool(4) || proj.Calamity().stealthStrike))
+                {
+                    int newDamage = (int)((double)proj.damage * 0.25);
+                    if (newDamage > 50)
+                    {
+                        newDamage = 50;
+                    }
+                    Projectile.NewProjectile(proj.Center.X, proj.Center.Y, 0f, 0f, ModContent.ProjectileType<UmbraphileBoom>(), newDamage, 0f, player.whoAmI, 0f, 0f);
                 }
                 if (bloodflareMelee && isTrueMelee)
                 {
@@ -10442,8 +10450,8 @@ namespace CalamityMod.CalPlayer
                 Texture2D heart4 = ModContent.GetTexture("CalamityMod/ExtraTextures/Heart4");
                 Texture2D heart5 = ModContent.GetTexture("CalamityMod/ExtraTextures/Heart5");
                 Texture2D heart6 = ModContent.GetTexture("CalamityMod/ExtraTextures/Heart6");
-                Texture2D heartOriginal = ModContent.GetTexture("Terraria/Heart2"); //Life fruit
-                Texture2D heartOriginal2 = ModContent.GetTexture("Terraria/Heart"); //Life crystal
+                Texture2D heartOriginal = ModContent.GetTexture("CalamityMod/ExtraTextures/HeartOriginal"); //Life fruit
+                Texture2D heartOriginal2 = ModContent.GetTexture("CalamityMod/ExtraTextures/HeartOriginal2"); //Life crystal
 
                 int totalFruit =
                     (mFruit ? 1 : 0) +

@@ -19,7 +19,8 @@ namespace CalamityMod.Items.Accessories
                 "Increased minion knockback\n" +
                 "Grants shadowflame powers to all minions\n" +
                 "Minions make enemies cry on hit\n" +
-                "Minion attacks have a chance to instantly kill normal enemies");
+                "Minion attacks have a chance to instantly kill normal enemies\n" +
+                "Toggle visibility of this accessory to enable/disable the dash");
         }
 
         public override void SetDefaults()
@@ -44,7 +45,8 @@ namespace CalamityMod.Items.Accessories
             player.jumpSpeedBoost += 1.2f;
             player.extraFall += 50;
             player.blackBelt = true;
-            player.dash = 1;
+            if (!hideVisual)
+				player.dash = 1;
             player.spikedBoots = 2;
             player.Calamity().throwingDamage += 0.1f;
             player.Calamity().throwingCrit += 5;
