@@ -448,6 +448,7 @@ namespace CalamityMod.CalPlayer
         public bool auricBoost = false;
         public bool daedalusReflect = false;
         public bool daedalusSplit = false;
+        public bool umbraphileSet = false;
         public bool reaverBlast = false;
         public bool reaverBurst = false;
         public bool astralStarRain = false;
@@ -1092,6 +1093,8 @@ namespace CalamityMod.CalPlayer
 
             statigelSet = false;
 
+            umbraphileSet = false;
+
             tarraSet = false;
             tarraMelee = false;
 			tarragonCloak = false;
@@ -1518,6 +1521,7 @@ namespace CalamityMod.CalPlayer
             reaverDoubleTap = false;
             shadeRegen = false;
             dsSetBonus = false;
+            umbraphileSet = false;
             reaverBlast = false;
             reaverBurst = false;
             astralStarRain = false;
@@ -6860,25 +6864,16 @@ namespace CalamityMod.CalPlayer
             }
             if (proj.Calamity().stealthStrike && proj.Calamity().rogue && electricianGlove)
             {
-				if (target.defense >= 30)
-				{
-					damage += 15;
-				}
-				else
-				{
-					damage += (int)((double)target.defense * 0.5);
-				}
+				//Ozzatron insists on counting for edge-cases
+				int penetratableDefense = Math.max(npc.defense - player.armorPenetration, 0);
+				int penetratedDefense = Math.min(penetratableDefense, 30);
+				damage += (int)(0.5f * penetratedDefense);
             }
             else if (proj.Calamity().stealthStrike && proj.Calamity().rogue && (filthyGlove || bloodyGlove))
             {
-				if (target.defense >= 10)
-				{
-					damage += 5;
-				}
-				else
-				{
-					damage += (int)((double)target.defense * 0.5);
-				}
+				int penetratableDefense = Math.max(npc.defense - player.armorPenetration, 0);
+				int penetratedDefense = Math.min(penetratableDefense, 10);
+				damage += (int)(0.5f * penetratedDefense);
             }
             #endregion
 
@@ -7054,6 +7049,15 @@ namespace CalamityMod.CalPlayer
                         Main.projectile[fire].magic = false;
                         Main.projectile[fire].netUpdate = true;
                     }
+                }
+                if (umbraphileSet && proj.Calamity().rogue && (Main.rand.NextBool(4) || proj.Calamity().stealthStrike))
+                {
+                    int newDamage = (int)((double)proj.damage * 0.25);
+                    if (newDamage > 50)
+                    {
+                        newDamage = 50;
+                    }
+                    Projectile.NewProjectile(proj.Center.X, proj.Center.Y, 0f, 0f, ModContent.ProjectileType<UmbraphileBoom>(), newDamage, 0f, player.whoAmI, 0f, 0f);
                 }
                 if (bloodflareMelee && isTrueMelee)
                 {
