@@ -53,7 +53,6 @@ namespace CalamityMod
                     return player.Calamity().ZoneAbyss;
             }
         }
-
         public static bool InventoryHas(this Player player, params int[] items)
         {
             return player.inventory.Any(item => items.Contains(item.type));
@@ -92,19 +91,41 @@ namespace CalamityMod
         /// </summary>
         /// <param name="origin">The position where we wish to check for nearby NPCs</param>
         /// <param name="maxDistanceToCheck">Maximum amount of pixels to check around the origin</param>
-        public static NPC ClosestNPCAt(this Vector2 origin, float maxDistanceToCheck)
+        public static NPC ClosestNPCAt(this Vector2 origin, float maxDistanceToCheck, bool bossPriority = false)
         {
             NPC closestTarget = null;
             float distance = maxDistanceToCheck;
-            for (int index = 0; index < Main.npc.Length; index++)
+            if (bossPriority)
             {
-                //doesn't matter what the attacker is in CanBeChasedBy? wtf.
-                if (Main.npc[index].CanBeChasedBy(null, false) && Collision.CanHit(origin, 1, 1, Main.npc[index].Center, 1, 1))
+                bool bossFound = false;
+                for (int index = 0; index < Main.npc.Length; index++)
                 {
-                    if (Vector2.Distance(origin, Main.npc[index].Center) < distance)
+                    //if we've found a valid boss target, ignore ALL targets which aren't bosses.
+                    if (bossFound && !Main.npc[index].boss)
+                        continue;
+                    if (Main.npc[index].CanBeChasedBy(null, false))
                     {
-                        distance = Vector2.Distance(origin, Main.npc[index].Center);
-                        closestTarget = Main.npc[index];
+                        if (Vector2.Distance(origin, Main.npc[index].Center) < distance)
+                        {
+                            if (Main.npc[index].boss)
+                                bossFound = true;
+                            distance = Vector2.Distance(origin, Main.npc[index].Center);
+                            closestTarget = Main.npc[index];
+                        }
+                    }
+                }
+            }
+            else
+            {
+                for (int index = 0; index < Main.npc.Length; index++)
+                {
+                    if (Main.npc[index].CanBeChasedBy(null, false) && Collision.CanHit(origin, 1, 1, Main.npc[index].Center, 1, 1))
+                    {
+                        if (Vector2.Distance(origin, Main.npc[index].Center) < distance)
+                        {
+                            distance = Vector2.Distance(origin, Main.npc[index].Center);
+                            closestTarget = Main.npc[index];
+                        }
                     }
                 }
             }
