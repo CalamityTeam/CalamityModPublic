@@ -3295,9 +3295,13 @@ namespace CalamityMod.CalPlayer
                 {
                     player.minionDamage += 0.1f +
                         (gDefense ? 0.05f : 0f);
-                    player.maxMinions++;
                 }
             }
+
+            // You always get the max minions, even during the effect of the burnout debuff
+            if (gOffense)
+                player.maxMinions++;
+
             if (draconicSurgeCooldown > 0)
                 draconicSurgeCooldown--;
             if (fleshTotemCooldown > 0)
