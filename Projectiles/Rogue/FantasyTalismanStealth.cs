@@ -7,9 +7,10 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class FantasyTalismanProj : ModProjectile
+    public class FantasyTalismanStealth : ModProjectile
     {
 		int spiritTimer = 0;
+        int stealthTimer = 10;
 
         public override void SetStaticDefaults()
         {
@@ -41,6 +42,21 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 175, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             }
+			if (projectile.ai[0] != 1f)
+			{
+				stealthTimer--;
+				if (stealthTimer == 0)
+				{
+					if (projectile.owner == Main.myPlayer)
+					{
+						int sGhost = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ProjectileID.LostSoulFriendly, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+						Main.projectile[sGhost].Calamity().forceRogue = true;
+						Main.projectile[sGhost].penetrate = 1;
+						Main.projectile[sGhost].timeLeft = 240;
+					}
+					stealthTimer = 10;
+				}
+			}
             if (projectile.ai[0] == 1f)
             {
                 projectile.tileCollide = false;
@@ -81,7 +97,7 @@ namespace CalamityMod.Projectiles.Rogue
                 {
                     projectile.Kill();
                 }
-				spiritTimer++;
+				spiritTimer += 3;
 				if (spiritTimer >= 10)
 				{
 					spiritTimer = 0;
@@ -175,7 +191,7 @@ namespace CalamityMod.Projectiles.Rogue
                                 projectile.velocity = (Main.npc[i].Center - projectile.Center) * 0.75f;
                                 projectile.netUpdate = true;
                                 projectile.StatusNPC(i);
-                                int num28 = 3;
+                                int num28 = 1;
                                 Point[] array2 = new Point[num28];
                                 int num29 = 0;
                                 for (int l = 0; l < 1000; l++)
