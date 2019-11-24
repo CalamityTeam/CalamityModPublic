@@ -45,6 +45,7 @@ namespace CalamityMod.Items.SummonItems
         {
             if (player.ZoneDungeon)
             {
+                NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<CeaselessVoid>());
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					for (int num662 = 0; num662 < 2; num662++)
@@ -54,8 +55,7 @@ namespace CalamityMod.Items.SummonItems
 						NPC.NewNPC((int)player.Center.X, (int)player.Center.Y + 200, ModContent.NPCType<DarkEnergy3>());
 					}
 				}
-                NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<CeaselessVoid>());
-            }
+			}
             else if (player.ZoneUnderworldHeight)
             {
                 NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Signus>());
