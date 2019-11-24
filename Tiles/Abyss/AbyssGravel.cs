@@ -1,7 +1,9 @@
 
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Tiles.Abyss
 {
     public class AbyssGravel : ModTile
@@ -31,6 +33,12 @@ namespace CalamityMod.Tiles.Abyss
         public override void NumDust(int i, int j, bool fail, ref int num)
         {
             num = fail ? 1 : 3;
+        }
+
+        public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
+        {
+            CustomTileFraming.FrameTileForCustomMergeFrom(i, j, Type, TileID.Dirt);
+            return false;
         }
     }
 }

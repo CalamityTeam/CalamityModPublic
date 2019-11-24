@@ -58,9 +58,13 @@ namespace CalamityMod
             tileMergeTypes[ModContent.TileType<AstralDirt>()][ModContent.TileType<AstralStone>()] = true;
             tileMergeTypes[ModContent.TileType<AstralDirt>()][ModContent.TileType<AstralSand>()] = true;
             tileMergeTypes[ModContent.TileType<AstralDirt>()][ModContent.TileType<AstralMonolith>()] = true;
-            tileMergeTypes[ModContent.TileType<AstralDirt>()][ModContent.TileType<AstralIce>()] = true;
+            tileMergeTypes[ModContent.TileType<AstralDirt>()][ModContent.TileType<AstralSnow>()] = true;
+            tileMergeTypes[ModContent.TileType<AstralDirt>()][ModContent.TileType<AstralClay>()] = true;
+            tileMergeTypes[ModContent.TileType<AstralDirt>()][ModContent.TileType<AstralSilt>()] = true;
+            tileMergeTypes[ModContent.TileType<AstralSnow>()][ModContent.TileType<AstralIce>()] = true;
             tileMergeTypes[ModContent.TileType<AstralSand>()][ModContent.TileType<HardenedAstralSand>()] = true;
             tileMergeTypes[ModContent.TileType<HardenedAstralSand>()][ModContent.TileType<AstralSandstone>()] = true;
+            tileMergeTypes[ModContent.TileType<AstralSandstone>()][ModContent.TileType<AstralFossil>()] = true;
 
             tileMergeTypes[ModContent.TileType<BrimstoneSlag>()][ModContent.TileType<CharredOre>()] = true;
 
@@ -72,7 +76,7 @@ namespace CalamityMod
             tileMergeTypes[ModContent.TileType<AbyssGravel>()][ModContent.TileType<PlantyMush>()] = true;
             tileMergeTypes[ModContent.TileType<AbyssGravel>()][ModContent.TileType<Voidstone>()] = true;
             tileMergeTypes[ModContent.TileType<AbyssGravel>()][ModContent.TileType<SulphurousSand>()] = true;
-            tileMergeTypes[ModContent.TileType<PlantyMush>()][ModContent.TileType<Tenebris>()] = true;
+            tileMergeTypes[ModContent.TileType<AbyssGravel>()][ModContent.TileType<Tenebris>()] = true;
 
         }
 
@@ -1479,7 +1483,7 @@ namespace CalamityMod
             return;
         }
 
-        public static void FrameTileForCustomMergeFrom(int x, int y, int myType)
+        public static void FrameTileForCustomMergeFrom(int x, int y, int myType, int mergeType)
         {
             bool forceSameUp = false;
             bool forceSameDown = false;
@@ -1495,6 +1499,9 @@ namespace CalamityMod
 
             if (up.active() && tileMergeTypes[myType][up.type])
             {
+                TileMerge.MergeTile(myType, up.type, false);
+                TileID.Sets.ChecksForMerge[myType] = true;
+
                 bool mergedDown;
                 FrameTileForCustomMerge(x, y - 1, up.type, myType, out tmp, out tmp, out tmp, out mergedDown, false, false, false, false, false);
                 if (mergedDown)
@@ -1504,6 +1511,9 @@ namespace CalamityMod
             }
             if (left.active() && tileMergeTypes[myType][left.type])
             {
+                TileMerge.MergeTile(myType, left.type, false);
+                TileID.Sets.ChecksForMerge[myType] = true;
+
                 bool mergedRight;
                 FrameTileForCustomMerge(x - 1, y, left.type, myType, out tmp, out tmp, out mergedRight, out tmp, false, false, false, false, false);
                 if (mergedRight)
@@ -1513,6 +1523,9 @@ namespace CalamityMod
             }
             if (right.active() && tileMergeTypes[myType][right.type])
             {
+                TileMerge.MergeTile(myType, right.type, false);
+                TileID.Sets.ChecksForMerge[myType] = true;
+
                 bool mergedLeft;
                 FrameTileForCustomMerge(x + 1, y, right.type, myType, out tmp, out mergedLeft, out tmp, out tmp, false, false, false, false, false);
                 if (mergedLeft)
@@ -1522,6 +1535,9 @@ namespace CalamityMod
             }
             if (down.active() && tileMergeTypes[myType][down.type])
             {
+                TileMerge.MergeTile(myType, down.type, false);
+                TileID.Sets.ChecksForMerge[myType] = true;
+
                 bool mergedUp;
                 FrameTileForCustomMerge(x, y + 1, down.type, myType, out mergedUp, out tmp, out tmp, out tmp, false, false, false, false, false);
                 if (mergedUp)
@@ -1530,7 +1546,7 @@ namespace CalamityMod
                 }
             }
 
-            FrameTileForCustomMerge(x, y, myType, TileID.Dirt, forceSameDown, forceSameUp, forceSameLeft, forceSameRight);
+            FrameTileForCustomMerge(x, y, myType, mergeType, forceSameDown, forceSameUp, forceSameLeft, forceSameRight);
         }
 
         private static void SetFrameAt(int x, int y, int frameX, int frameY)

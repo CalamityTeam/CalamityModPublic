@@ -102,7 +102,8 @@ namespace CalamityMod.Tiles.SunkenSea
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            CustomTileFraming.FrameTileForCustomMerge(i, j, Type, ModContent.TileType<EutrophicSand>(), false, false, false, false, resetFrame);
+            // CustomTileFraming.FrameTileForCustomMerge(i, j, Type, ModContent.TileType<EutrophicSand>(), false, false, false, false, resetFrame);
+            CustomTileFraming.FrameTileForCustomMergeFrom(i, j, Type, ModContent.TileType<EutrophicSand>());
             return false;
         }
     }

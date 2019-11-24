@@ -144,6 +144,7 @@ namespace CalamityMod
             MergeTile(type, TileID.HallowedIce);
             //Calam snow tiles
             MergeTile(type, ModContent.TileType<AstralIce>());
+            MergeTile(type, ModContent.TileType<AstralSnow>());
         }
 
         /// <summary>
@@ -197,6 +198,7 @@ namespace CalamityMod
             MergeTile(type, ModContent.TileType<AstralSandstone>());
             //Astral Snow
             MergeTile(type, ModContent.TileType<AstralIce>());
+            MergeTile(type, ModContent.TileType<AstralSnow>());
         }
 
         /// <summary>

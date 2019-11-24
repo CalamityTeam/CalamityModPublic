@@ -5,9 +5,9 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Tiles.AstralDesert
+namespace CalamityMod.Tiles.Astral
 {
-    public class AstralSandstone : ModTile
+    public class AstralClay : ModTile
     {
         public override void SetDefaults()
         {
@@ -15,22 +15,21 @@ namespace CalamityMod.Tiles.AstralDesert
             Main.tileBlockLight[Type] = true;
 
             TileMerge.MergeGeneralTiles(Type);
-            TileMerge.MergeDesertTiles(Type);
             TileMerge.MergeAstralTiles(Type);
+            TileMerge.MergeOreTiles(Type);
 
             dustType = ModContent.DustType<AstralBasic>();
-            drop = ModContent.ItemType<Items.Placeables.AstralSandstone>();
+            drop = ModContent.ItemType<Items.Placeables.AstralClay>();
 
-            AddMapEntry(new Color(93, 78, 107));
+            AddMapEntry(new Color(133, 69, 115));
 
-            TileID.Sets.Conversion.Sandstone[Type] = true;
-            TileID.Sets.ForAdvancedCollision.ForSandshark[Type] = true;
+            TileID.Sets.ChecksForMerge[Type] = true;
+            TileID.Sets.CanBeClearedDuringOreRunner[Type] = true;
         }
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            // CustomTileFraming.FrameTileForCustomMerge(i, j, Type, ModContent.TileType<HardenedAstralSand>(), false, false, false, false, resetFrame);
-            CustomTileFraming.FrameTileForCustomMergeFrom(i, j, Type, ModContent.TileType<HardenedAstralSand>());
+            CustomTileFraming.FrameTileForCustomMerge(i, j, Type, ModContent.TileType<AstralDirt>());
             return false;
         }
 
