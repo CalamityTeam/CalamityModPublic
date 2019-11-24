@@ -806,6 +806,7 @@ namespace CalamityMod
                 ModContent.ItemType<PhoenixFlameBarrage>(),
                 ModContent.ItemType<ProfanedTrident>(),
                 ModContent.ItemType<TheBurningSky>(),
+                ModContent.ItemType<TotalityBreakers>(),
                 ModContent.ItemType<HeliumFlash>()
             };
 
@@ -1773,6 +1774,7 @@ namespace CalamityMod
                 ModContent.ItemType<SeafoamBomb>(),
                 ModContent.ItemType<ConsecratedWater>(),
                 ModContent.ItemType<BouncingBetty>(),
+                ModContent.ItemType<TotalityBreakers>(),
                 ModContent.ItemType<BlastBarrel>()
             };
 
