@@ -2902,13 +2902,13 @@ namespace CalamityMod.CalPlayer
 			if (Main.netMode != NetmodeID.Server && player.whoAmI == Main.myPlayer)
             {
                 Texture2D rain3 = ModContent.GetTexture("CalamityMod/ExtraTextures/Rain3");
-                Texture2D rainOriginal = ModContent.GetTexture("Terraria/Rain");
+                Texture2D rainOriginal = ModContent.GetTexture("CalamityMod/ExtraTextures/RainOriginal");
                 Texture2D mana2 = ModContent.GetTexture("CalamityMod/ExtraTextures/Mana2");
                 Texture2D mana3 = ModContent.GetTexture("CalamityMod/ExtraTextures/Mana3");
                 Texture2D mana4 = ModContent.GetTexture("CalamityMod/ExtraTextures/Mana4");
-                Texture2D manaOriginal = ModContent.GetTexture("Terraria/Mana");
+                Texture2D manaOriginal = ModContent.GetTexture("CalamityMod/ExtraTextures/ManaOriginal");
                 Texture2D carpetAuric = ModContent.GetTexture("CalamityMod/ExtraTextures/AuricCarpet");
-                Texture2D carpetOriginal = ModContent.GetTexture("Terraria/FlyingCarpet");
+                Texture2D carpetOriginal = ModContent.GetTexture("CalamityMod/ExtraTextures/Carpet");
                 int totalManaBoost =
                     (pHeart ? 1 : 0) +
                     (eCore ? 1 : 0) +
@@ -10403,8 +10403,8 @@ namespace CalamityMod.CalPlayer
                 Texture2D heart4 = ModContent.GetTexture("CalamityMod/ExtraTextures/Heart4");
                 Texture2D heart5 = ModContent.GetTexture("CalamityMod/ExtraTextures/Heart5");
                 Texture2D heart6 = ModContent.GetTexture("CalamityMod/ExtraTextures/Heart6");
-                Texture2D heartOriginal = ModContent.GetTexture("Terraria/Heart2"); //Life fruit
-                Texture2D heartOriginal2 = ModContent.GetTexture("Terraria/Heart"); //Life crystal
+                Texture2D heartOriginal = ModContent.GetTexture("CalamityMod/ExtraTextures/HeartOriginal"); //Life fruit
+                Texture2D heartOriginal2 = ModContent.GetTexture("CalamityMod/ExtraTextures/HeartOriginal2"); //Life crystal
 
                 int totalFruit =
                     (mFruit ? 1 : 0) +
