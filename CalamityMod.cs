@@ -1038,6 +1038,8 @@ namespace CalamityMod
 
             thirtyThreeDamageBuffList = new List<int>()
             {
+				ItemID.IceBow,
+				ItemID.Marrow,
                 ItemID.CrystalVileShard,
                 ItemID.SoulDrain,
                 ItemID.ClingerStaff,

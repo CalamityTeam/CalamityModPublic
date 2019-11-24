@@ -5826,7 +5826,19 @@ namespace CalamityMod.CalPlayer
             if (omegaBlueChestplate)
                 target.AddBuff(ModContent.BuffType<CrushDepth>(), 240);
 
-            if (eGauntlet)
+			switch (item.type)
+			{
+				case ItemID.IceSickle:
+				case ItemID.Frostbrand:
+					target.AddBuff(BuffID.Frostburn, 600);
+					break;
+
+				case ItemID.IceBlade:
+					target.AddBuff(BuffID.Frostburn, 360);
+					break;
+			}
+
+			if (eGauntlet)
             {
                 target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 120, false);
                 target.AddBuff(ModContent.BuffType<HolyFlames>(), 120, false);
@@ -5982,6 +5994,41 @@ namespace CalamityMod.CalPlayer
 
             if (proj.melee && silvaMelee && Main.rand.NextBool(4))
                 target.AddBuff(ModContent.BuffType<SilvaStun>(), 20);
+
+			switch (proj.type)
+			{
+				case ProjectileID.BoneArrow:
+					target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 300);
+					break;
+
+				case ProjectileID.FrostBlastFriendly:
+				case ProjectileID.NorthPoleWeapon:
+					target.AddBuff(BuffID.Frostburn, 600);
+					break;
+
+				case ProjectileID.FrostBoltStaff:
+				case ProjectileID.IceSickle:
+				case ProjectileID.FrostBoltSword:
+				case ProjectileID.FrostArrow:
+				case ProjectileID.NorthPoleSpear:
+					target.AddBuff(BuffID.Frostburn, 480);
+					break;
+
+				case ProjectileID.IceBoomerang:
+				case ProjectileID.IceBolt:
+				case ProjectileID.Blizzard:
+				case ProjectileID.NorthPoleSnowflake:
+					target.AddBuff(BuffID.Frostburn, 240);
+					break;
+
+				case ProjectileID.FrostDaggerfish:
+					target.AddBuff(BuffID.Frostburn, 180);
+					break;
+
+				case ProjectileID.SnowBallFriendly:
+					target.AddBuff(BuffID.Frostburn, 120);
+					break;
+			}
 
             if (abyssalAmulet)
             {
