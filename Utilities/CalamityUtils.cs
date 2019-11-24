@@ -1279,7 +1279,7 @@ namespace CalamityMod
                 new Rectangle?(frame), Color.White, rotation, center, 1f, SpriteEffects.None, 0f);
         }
 
-        public static void DrawFishingLine(this Projectile projectile, int fishingRodType, Color poleColor, float yPositionAdditive = 35f)
+        public static void DrawFishingLine(this Projectile projectile, int fishingRodType, Color poleColor, int xPositionAdditive = 45, float yPositionAdditive = 35f)
         {
             Lighting.AddLight(projectile.Center, 0.4f, 0f, 0.4f);
 
@@ -1294,7 +1294,7 @@ namespace CalamityMod
 
                 if (type == fishingRodType)
                 {
-                    pPosX += (float)(45 * Main.player[projectile.owner].direction);
+                    pPosX += (float)(xPositionAdditive * Main.player[projectile.owner].direction);
                     if (Main.player[projectile.owner].direction < 0)
                     {
                         pPosX -= 13f;

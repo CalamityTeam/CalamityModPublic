@@ -1682,6 +1682,7 @@ namespace CalamityMod
                 ModContent.ItemType<TheObliterator>(),
                 ModContent.ItemType<ThePlaguebringer>(),
                 ModContent.ItemType<Verdant>(),
+                ModContent.ItemType<Whirlpool>(),
                 ModContent.ItemType<YinYo>(),
 
                 // other

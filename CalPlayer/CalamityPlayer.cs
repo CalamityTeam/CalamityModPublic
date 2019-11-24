@@ -5594,7 +5594,7 @@ namespace CalamityMod.CalPlayer
         #region Get Weapon Damage And KB
         public override void ModifyWeaponDamage(Item item, ref float add, ref float mult, ref float flat)
         {
-            bool isTrueMelee = item.melee && (item.shoot == 0 || (item.noMelee && item.noUseGraphic && item.useStyle == 5 && !CalamityMod.trueMeleeBoostExceptionList.Contains(item.type)));
+            bool isTrueMelee = item.melee && (item.shoot == 0 || (item.noMelee && item.noUseGraphic && item.useStyle == 5 && !CalamityMod.trueMeleeBoostExceptionList.Contains(item.type) && ItemID.Sets.Yoyo[item.type] != true));
             if (isTrueMelee)
             {
 				if (tScale)
@@ -5697,7 +5697,7 @@ namespace CalamityMod.CalPlayer
         #region Melee Effects
         public override void MeleeEffects(Item item, Rectangle hitbox)
         {
-            bool isTrueMelee = item.melee && (item.shoot == 0 || (item.noMelee && item.noUseGraphic && item.useStyle == 5 && !CalamityMod.trueMeleeBoostExceptionList.Contains(item.type)));
+            bool isTrueMelee = item.melee && (item.shoot == 0 || (item.noMelee && item.noUseGraphic && item.useStyle == 5 && !CalamityMod.trueMeleeBoostExceptionList.Contains(item.type) && ItemID.Sets.Yoyo[item.type] != true));
             if (isTrueMelee)
             {
                 if (fungalSymbiote && player.whoAmI == Main.myPlayer)
