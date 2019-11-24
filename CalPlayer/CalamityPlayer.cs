@@ -6866,14 +6866,14 @@ namespace CalamityMod.CalPlayer
             if (proj.Calamity().stealthStrike && proj.Calamity().rogue && electricianGlove)
             {
 				//Ozzatron insists on counting for edge-cases
-				int penetratableDefense = Math.max(npc.defense - player.armorPenetration, 0);
-				int penetratedDefense = Math.min(penetratableDefense, 30);
+				int penetratableDefense = Math.Max(npc.defense - player.armorPenetration, 0);
+				int penetratedDefense = Math.Min(penetratableDefense, 30);
 				damage += (int)(0.5f * penetratedDefense);
             }
             else if (proj.Calamity().stealthStrike && proj.Calamity().rogue && (filthyGlove || bloodyGlove))
             {
-				int penetratableDefense = Math.max(npc.defense - player.armorPenetration, 0);
-				int penetratedDefense = Math.min(penetratableDefense, 10);
+				int penetratableDefense = Math.Max(npc.defense - player.armorPenetration, 0);
+				int penetratedDefense = Math.Min(penetratableDefense, 10);
 				damage += (int)(0.5f * penetratedDefense);
             }
             #endregion
