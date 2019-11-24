@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Buffs.DamageOverTime;
@@ -10,22 +11,49 @@ namespace CalamityMod.Projectiles.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Syringe Cinder");
+            Main.projFrames[projectile.type] = 4;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 6;
-            projectile.height = 12;
+            projectile.width = 14;
+            projectile.height = 14;
             projectile.friendly = true;
             projectile.penetrate = -1;
             projectile.timeLeft = 120;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
             projectile.Calamity().rogue = true;
+			projectile.alpha = 100;
         }
 
         public override void AI()
         {
+			//make it face the way it's going
+			if (projectile.ai[1] == 1f)
+			{
+				projectile.rotation += projectile.velocity.X * 0.1f;
+				projectile.rotation = -projectile.velocity.X * 0.05f;
+			}
+			else
+			{
+				projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + ((3 * MathHelper.Pi) / 2);
+				projectile.spriteDirection = ((projectile.velocity.X > 0f) ? -1 : 1);
+			}
+
+			//frames
+            projectile.frameCounter++;
+            if (projectile.frameCounter > 6)
+            {
+                projectile.frame++;
+                projectile.frameCounter = 0;
+            }
+            if (projectile.frame > 3)
+            {
+                projectile.frame = 0;
+            }
+
+			//movement
             if (projectile.velocity.X != projectile.velocity.X)
             {
                 projectile.velocity.X = projectile.velocity.X * -0.1f;
@@ -53,7 +81,6 @@ namespace CalamityMod.Projectiles.Rogue
                 }
                 projectile.velocity.Y = projectile.velocity.Y + 0.2f;
             }
-            projectile.rotation += projectile.velocity.X * 0.1f;
 			if (Main.rand.NextBool(4))
 			{
 				int num199 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 89, 0f, 0f, 100, default, 1f);
@@ -81,7 +108,6 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 projectile.velocity.X = projectile.velocity.X * 0.8f;
             }
-            projectile.rotation = -projectile.velocity.X * 0.05f;
             if (projectile.velocity.Y > 16f)
             {
                 projectile.velocity.Y = 16f;
@@ -90,6 +116,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
+			projectile.ai[1] = 1f;
             if (projectile.penetrate == 0)
             {
                 projectile.Kill();
