@@ -1637,6 +1637,7 @@ namespace CalamityMod
                 ItemID.JungleYoyo,
                 ItemID.Cascade,
                 ItemID.Chik,
+                ItemID.Code1,
                 ItemID.Code2,
                 ItemID.Rally,
                 ItemID.Yelets,
