@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -38,6 +39,11 @@ namespace CalamityMod.Items.Weapons.Magic
             item.shoot = ModContent.ProjectileType<LiquidBlade>();
             item.shootSpeed = 16f;
             item.Calamity().postMoonLordRarity = 12;
+        }
+
+        public override Vector2? HoldoutOrigin()
+        {
+            return new Vector2(15, 15);
         }
 
         public override void AddRecipes()

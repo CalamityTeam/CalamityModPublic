@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -36,6 +37,11 @@ namespace CalamityMod.Items.Weapons.Magic
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<InfernalBlade>();
             item.shootSpeed = 16f;
+        }
+
+        public override Vector2? HoldoutOrigin()
+        {
+            return new Vector2(15, 15);
         }
 
         public override void AddRecipes()

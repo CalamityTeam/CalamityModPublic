@@ -3,6 +3,7 @@ using CalamityMod.Projectiles.Magic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -34,6 +35,11 @@ namespace CalamityMod.Items.Weapons.Magic
             item.shoot = ModContent.ProjectileType<PhantasmalFuryProj>();
             item.shootSpeed = 12f;
             item.Calamity().postMoonLordRarity = 13;
+        }
+
+        public override Vector2? HoldoutOrigin()
+        {
+            return new Vector2(15, 15);
         }
 
         public override void AddRecipes()
