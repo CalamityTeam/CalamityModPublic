@@ -1538,7 +1538,10 @@ namespace CalamityMod.World
                         {
                             if (Main.tile[num12, num13].type == 5 || Main.tile[num12, num13].type == 32 || Main.tile[num12, num13].type == 352)
                             {
-                                WorldGen.KillTile(num12, num13, false, false, false);
+                                try
+                                { WorldGen.KillTile(num12, num13, false, false, true); }
+                                catch (NullReferenceException)
+                                { }
                             }
                             Main.tile[num12, num13].liquid = 0;
                         }

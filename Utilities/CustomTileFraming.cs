@@ -1541,7 +1541,7 @@ namespace CalamityMod
 
         private static Similarity GetSimilarity(Tile check, int myType, int mergeType)
         {
-            if (!check.active())
+            if (check is null || !check.active())
                 return Similarity.None;
 
             if (check.type == myType || Main.tileMerge[myType][check.type])
