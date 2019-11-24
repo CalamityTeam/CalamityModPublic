@@ -1,4 +1,5 @@
 
+using CalamityMod.Tiles.Astral;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -15,9 +16,11 @@ namespace CalamityMod.Tiles.Astral
             Main.tileBlockLight[Type] = true;
             Main.tileBrick[Type] = true;
 
-            TileMerge.MergeGeneralTiles(Type);
-            TileMerge.MergeAstralTiles(Type);
-            TileMerge.MergeOreTiles(Type);
+            TileMerge.MergeTile(Type, ModContent.TileType<AstralDirt>());
+            TileMerge.MergeTile(Type, TileID.Grass);
+            TileMerge.MergeTile(Type, TileID.CorruptGrass);
+            TileMerge.MergeTile(Type, TileID.HallowedGrass);
+            TileMerge.MergeTile(Type, TileID.FleshGrass);
 
             dustType = ModContent.DustType<AstralBasic>();
             drop = ModContent.ItemType<Items.Placeables.AstralDirt>();
