@@ -72,8 +72,8 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 target.buffImmune[BuffID.Oiled] = false;
             }
-            target.AddBuff(BuffID.Oiled, 300);
-            target.AddBuff(BuffID.OnFire, 120);
+            target.AddBuff(BuffID.Oiled, 600);
+            target.AddBuff(BuffID.OnFire, 240);
         }
 
         public override void Kill(int timeLeft)
