@@ -17,6 +17,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.penetrate = -1;
             projectile.timeLeft = 300;
             projectile.Calamity().rogue = true;
+			projectile.coldDamage = true;
         }
 
         public override void SetStaticDefaults()

@@ -22,6 +22,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.extraUpdates = 1;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
+			projectile.coldDamage = true;
         }
 
         public override void SetStaticDefaults()

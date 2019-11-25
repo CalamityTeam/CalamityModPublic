@@ -26,6 +26,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
             projectile.sentry = true;
+			projectile.coldDamage = true;
         }
 
         public override void AI()

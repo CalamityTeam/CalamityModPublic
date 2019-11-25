@@ -18,6 +18,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.coldDamage = true;
             projectile.penetrate = 1;
             projectile.extraUpdates = 1;
+			projectile.coldDamage = true;
         }
 
         public override void SetStaticDefaults()

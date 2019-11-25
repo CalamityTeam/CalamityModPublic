@@ -25,6 +25,7 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.penetrate = -1;
             projectile.extraUpdates = 1;
             projectile.melee = true;
+			projectile.coldDamage = true;
         }
 
         public override void SendExtraAI(BinaryWriter writer)

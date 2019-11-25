@@ -32,6 +32,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 4;
             projectile.Calamity().trueMelee = true;
+			projectile.coldDamage = true;
         }
 
         public override void AI()

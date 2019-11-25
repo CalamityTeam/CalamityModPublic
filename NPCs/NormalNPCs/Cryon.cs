@@ -32,6 +32,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.DeathSound = SoundID.NPCDeath7;
             banner = npc.type;
             bannerItem = ModContent.ItemType<CryonBanner>();
+			npc.coldDamage = true;
         }
 
         public override void AI()

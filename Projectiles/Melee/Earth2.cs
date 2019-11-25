@@ -25,6 +25,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.penetrate = 1;
             projectile.timeLeft = 300;
             projectile.ignoreWater = true;
+			projectile.coldDamage = true;
         }
 
         public override void AI()

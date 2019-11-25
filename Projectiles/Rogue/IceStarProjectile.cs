@@ -22,6 +22,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.timeLeft = 280;
             aiType = 48;
             projectile.Calamity().rogue = true;
+			projectile.coldDamage = true;
         }
 
         public override void AI()

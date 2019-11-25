@@ -23,6 +23,7 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.friendly = true;
             projectile.penetrate = 1;
             projectile.tileCollide = false;
+			projectile.coldDamage = true;
         }
 
         public override void AI()

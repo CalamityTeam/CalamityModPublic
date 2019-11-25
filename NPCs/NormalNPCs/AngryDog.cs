@@ -42,6 +42,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.DeathSound = SoundID.NPCDeath5;
             banner = npc.type;
             bannerItem = ModContent.ItemType<AngryDogBanner>();
+			npc.coldDamage = true;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
