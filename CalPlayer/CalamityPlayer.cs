@@ -10934,7 +10934,9 @@ namespace CalamityMod.CalPlayer
 
             // This doesn't trigger stealth strike effects (ConsumeStealthStrike instead of StealthStrike)
             // so non-rogue weapons can't call lasers down from the sky and such.
-            if (!stealthStrikeThisFrame && player.itemAnimation == player.itemAnimationMax - 1 && player.HeldItem.damage > 0)
+            // Using any item which deals no damage or is a tool doesn't consume stealth.
+            bool playerUsingWeapon = player.HeldItem.damage > 0 && player.HeldItem.pick <= 0 && player.HeldItem.hammer <= 0 && player.HeldItem.axe <= 0;
+            if (!stealthStrikeThisFrame && player.itemAnimation == player.itemAnimationMax - 1 && playerUsingWeapon)
                 ConsumeStealthByAttacking();
         }
 
