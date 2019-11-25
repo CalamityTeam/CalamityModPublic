@@ -77,7 +77,7 @@ namespace CalamityMod.Projectiles.Rogue
                 num13 *= num16;
                 num14 *= num16;
                 int num17 = Projectile.NewProjectile(x, y, num13, num14, projectileType, (int)((double)projectile.damage * 0.75), 5f, projectile.owner, 2f, 0f);
-                Main.projectile[num17].ranged = false;
+                Main.projectile[num17].Calamity().forceRogue = true;
             }
         }
     }
