@@ -35,7 +35,6 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.buffImmune[153] = true;
             npc.buffImmune[70] = true;
             npc.buffImmune[69] = true;
-            npc.buffImmune[44] = true;
             npc.buffImmune[39] = true;
             npc.buffImmune[24] = true;
             npc.buffImmune[20] = true;
