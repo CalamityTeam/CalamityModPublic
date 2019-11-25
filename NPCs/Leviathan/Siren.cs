@@ -48,7 +48,8 @@ namespace CalamityMod.NPCs.Leviathan
             }
             npc.buffImmune[BuffID.Ichor] = false;
             npc.buffImmune[ModContent.BuffType<MarkedforDeath>()] = false;
-            npc.buffImmune[BuffID.CursedInferno] = false;
+			npc.buffImmune[BuffID.Frostburn] = false;
+			npc.buffImmune[BuffID.CursedInferno] = false;
             npc.buffImmune[BuffID.Daybreak] = false;
             npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
             npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
