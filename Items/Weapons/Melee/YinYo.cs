@@ -28,6 +28,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.rare = 5;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<YinYoyo>();
+            ItemID.Sets.Yoyo[item.type] = true;
         }
 
         public override void AddRecipes()

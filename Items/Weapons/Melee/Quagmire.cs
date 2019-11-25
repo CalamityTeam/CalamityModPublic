@@ -30,6 +30,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.rare = 7;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<QuagmireProjectile>();
+            ItemID.Sets.Yoyo[item.type] = true;
         }
 
         public override void AddRecipes()

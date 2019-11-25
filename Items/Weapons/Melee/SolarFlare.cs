@@ -28,6 +28,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<SolarFlareYoyo>();
             item.Calamity().postMoonLordRarity = 12;
+            ItemID.Sets.Yoyo[item.type] = true;
         }
     }
 }

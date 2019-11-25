@@ -28,6 +28,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<TheObliteratorYoyo>();
             item.Calamity().postMoonLordRarity = 13;
+            ItemID.Sets.Yoyo[item.type] = true;
         }
     }
 }

@@ -22,6 +22,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.CloneDefaults(ItemID.Kraken);
+            ItemID.Sets.Yoyo[item.type] = true;
 
             item.width = 54;
             item.height = 42;

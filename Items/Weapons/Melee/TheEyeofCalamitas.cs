@@ -27,6 +27,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.rare = 7;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<TheEyeofCalamitasProjectile>();
+            ItemID.Sets.Yoyo[item.type] = true;
         }
     }
 }

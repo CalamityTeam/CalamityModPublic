@@ -28,6 +28,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.rare = 2;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<CnidarianProjectile>();
+            ItemID.Sets.Yoyo[item.type] = true;
         }
 
         public override void AddRecipes()
