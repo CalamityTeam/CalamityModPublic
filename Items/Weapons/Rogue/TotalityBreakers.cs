@@ -48,7 +48,7 @@ Stealth strikes leak tar as they fly");
             return true;
         }
 
-        /*public override void AddRecipes()
+        public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.MolotovCocktail, 50);
@@ -58,6 +58,6 @@ Stealth strikes leak tar as they fly");
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
-        }*/
+        }
     }
 }

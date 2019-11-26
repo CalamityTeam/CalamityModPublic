@@ -10991,7 +10991,7 @@ namespace CalamityMod.CalPlayer
             // Penumbra Potion provides 10% stealth regen while moving, 20% at night and 30% during an eclipse
             if (penumbra)
             {
-                if (Main.eclipse)
+                if (Main.eclipse || umbraphileSet)
                     stealthGenMoving += 0.3f;
                 else if (!Main.dayTime)
                     stealthGenMoving += 0.2f;
