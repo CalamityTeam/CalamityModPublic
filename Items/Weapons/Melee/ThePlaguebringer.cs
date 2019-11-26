@@ -27,6 +27,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.rare = 8;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<ThePlaguebringerYoyo>();
+            ItemID.Sets.Yoyo[item.type] = true;
         }
     }
 }

@@ -23,6 +23,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.timeLeft = 300;
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
             ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+			projectile.coldDamage = true;
         }
 
         public override void AI()

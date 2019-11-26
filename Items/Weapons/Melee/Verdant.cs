@@ -29,6 +29,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<VerdantProjectile>();
             item.Calamity().postMoonLordRarity = 12;
+            ItemID.Sets.Yoyo[item.type] = true;
         }
 
         public override void AddRecipes()

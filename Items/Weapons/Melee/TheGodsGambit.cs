@@ -28,6 +28,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.rare = 4;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<TheGodsGambitProjectile>();
+            ItemID.Sets.Yoyo[item.type] = true;
         }
 
         public override void AddRecipes()

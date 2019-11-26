@@ -20,6 +20,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.penetrate = 5;
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
+			projectile.coldDamage = true;
         }
 
         public override void SetStaticDefaults()

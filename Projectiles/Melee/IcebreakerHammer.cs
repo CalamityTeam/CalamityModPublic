@@ -23,6 +23,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.aiStyle = 3;
             projectile.timeLeft = 120;
             aiType = 52;
+			projectile.coldDamage = true;
         }
 
         public override void AI()

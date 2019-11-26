@@ -582,141 +582,143 @@ namespace CalamityMod.Projectiles
             else if (projectile.type == ProjectileID.SoulDrain)
                 projectile.magic = true;
 
-            if (Main.player[projectile.owner].Calamity().eQuiver && projectile.ranged &&
-                projectile.friendly && CalamityMod.rangedProjectileExceptionList.TrueForAll(x => projectile.type != x))
-            {
-                if (Main.rand.Next(200) > 198)
-                {
-                    float spread = 180f * 0.0174f;
-                    double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
-                    if (projectile.owner == Main.myPlayer)
-                    {
-                        int projectile1 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(startAngle) * 8f), (float)(Math.Cos(startAngle) * 8f), projectile.type, (int)((double)projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
-                        int projectile2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(startAngle) * 8f), (float)(-Math.Cos(startAngle) * 8f), projectile.type, (int)((double)projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
-                        Main.projectile[projectile1].ranged = false;
-                        Main.projectile[projectile2].ranged = false;
-                        Main.projectile[projectile1].timeLeft = 60;
-                        Main.projectile[projectile2].timeLeft = 60;
-                        Main.projectile[projectile1].noDropItem = true;
-                        Main.projectile[projectile2].noDropItem = true;
-                    }
-                }
-            }
+            if (!projectile.npcProj && projectile.friendly)
+			{
+				if (Main.player[projectile.owner].Calamity().eQuiver && projectile.ranged && CalamityMod.rangedProjectileExceptionList.TrueForAll(x => projectile.type != x))
+				{
+					if (Main.rand.Next(200) > 198)
+					{
+						float spread = 180f * 0.0174f;
+						double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
+						if (projectile.owner == Main.myPlayer)
+						{
+							int projectile1 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(startAngle) * 8f), (float)(Math.Cos(startAngle) * 8f), projectile.type, (int)((double)projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
+							int projectile2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(startAngle) * 8f), (float)(-Math.Cos(startAngle) * 8f), projectile.type, (int)((double)projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
+							Main.projectile[projectile1].ranged = false;
+							Main.projectile[projectile2].ranged = false;
+							Main.projectile[projectile1].timeLeft = 60;
+							Main.projectile[projectile2].timeLeft = 60;
+							Main.projectile[projectile1].noDropItem = true;
+							Main.projectile[projectile2].noDropItem = true;
+						}
+					}
+				}
 
-            counter++;
-            if (Main.player[projectile.owner].Calamity().fungalSymbiote && trueMelee)
-            {
-                if (counter % 6 == 0)
-                {
-                    if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].ownedProjectileCounts[ProjectileID.Mushroom] < 30)
-                    {
-                        if (projectile.type == ModContent.ProjectileType<Melee.NebulashFlail>() || projectile.type == ModContent.ProjectileType<Melee.CosmicDischargeFlail>() ||
-                            projectile.type == ModContent.ProjectileType<Melee.MourningstarFlail>() || projectile.type == ProjectileID.SolarWhipSword)
-                        {
-                            Vector2 vector24 = Main.OffsetsPlayerOnhand[Main.player[projectile.owner].bodyFrame.Y / 56] * 2f;
-                            if (Main.player[projectile.owner].direction != 1)
-                            {
-                                vector24.X = (float)Main.player[projectile.owner].bodyFrame.Width - vector24.X;
-                            }
-                            if (Main.player[projectile.owner].gravDir != 1f)
-                            {
-                                vector24.Y = (float)Main.player[projectile.owner].bodyFrame.Height - vector24.Y;
-                            }
-                            vector24 -= new Vector2((float)(Main.player[projectile.owner].bodyFrame.Width - Main.player[projectile.owner].width), (float)(Main.player[projectile.owner].bodyFrame.Height - 42)) / 2f;
-                            Vector2 newCenter = Main.player[projectile.owner].RotatedRelativePoint(Main.player[projectile.owner].position + vector24, true) + projectile.velocity;
-                            Projectile.NewProjectile(newCenter.X, newCenter.Y, 0f, 0f, ProjectileID.Mushroom,
-                                (int)((double)projectile.damage * 0.25), 0f, projectile.owner, 0f, 0f);
-                        }
-                        else
-                        {
-                            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ProjectileID.Mushroom,
-                                (int)((double)projectile.damage * 0.25), 0f, projectile.owner, 0f, 0f);
-                        }
-                    }
-                }
-            }
+				counter++;
+				if (Main.player[projectile.owner].Calamity().fungalSymbiote && trueMelee)
+				{
+					if (counter % 6 == 0)
+					{
+						if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].ownedProjectileCounts[ProjectileID.Mushroom] < 30)
+						{
+							if (projectile.type == ModContent.ProjectileType<Melee.NebulashFlail>() || projectile.type == ModContent.ProjectileType<Melee.CosmicDischargeFlail>() ||
+								projectile.type == ModContent.ProjectileType<Melee.MourningstarFlail>() || projectile.type == ProjectileID.SolarWhipSword)
+							{
+								Vector2 vector24 = Main.OffsetsPlayerOnhand[Main.player[projectile.owner].bodyFrame.Y / 56] * 2f;
+								if (Main.player[projectile.owner].direction != 1)
+								{
+									vector24.X = (float)Main.player[projectile.owner].bodyFrame.Width - vector24.X;
+								}
+								if (Main.player[projectile.owner].gravDir != 1f)
+								{
+									vector24.Y = (float)Main.player[projectile.owner].bodyFrame.Height - vector24.Y;
+								}
+								vector24 -= new Vector2((float)(Main.player[projectile.owner].bodyFrame.Width - Main.player[projectile.owner].width), (float)(Main.player[projectile.owner].bodyFrame.Height - 42)) / 2f;
+								Vector2 newCenter = Main.player[projectile.owner].RotatedRelativePoint(Main.player[projectile.owner].position + vector24, true) + projectile.velocity;
+								Projectile.NewProjectile(newCenter.X, newCenter.Y, 0f, 0f, ProjectileID.Mushroom,
+									(int)((double)projectile.damage * 0.25), 0f, projectile.owner, 0f, 0f);
+							}
+							else
+							{
+								Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ProjectileID.Mushroom,
+									(int)((double)projectile.damage * 0.25), 0f, projectile.owner, 0f, 0f);
+							}
+						}
+					}
+				}
 
-            if (Main.player[projectile.owner].Calamity().nanotech && rogue && projectile.friendly && projectile.type != ModContent.ProjectileType<MoonSigil>() && projectile.type != ModContent.ProjectileType<DragonShit>())
-            {
-                if (counter % 30 == 0)
-                {
-                    if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<Nanotech>()] < 30)
-                    {
-                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<Nanotech>(),
-                            (int)((double)projectile.damage * 0.15), 0f, projectile.owner, 0f, 0f);
-                    }
-                }
-            }
-            if (Main.player[projectile.owner].Calamity().dragonScales && rogue && projectile.friendly && projectile.type != ModContent.ProjectileType<MoonSigil>() && projectile.type != ModContent.ProjectileType<DragonShit>())
-            {
-                if (counter % 50 == 0)
-                {
-                    if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<DragonShit>()] < 15)
-                    {
-                        //spawn a dust that does 1/5th of the original damage
-                        int projectileID = Projectile.NewProjectile(projectile.Center, Vector2.One.RotatedByRandom(MathHelper.TwoPi), ModContent.ProjectileType<DragonShit>(),
-                            (int)((double)projectile.damage * 0.2), 0f, projectile.owner, 0f, 0f);
-                    }
-                }
-            }
+				if (Main.player[projectile.owner].Calamity().nanotech && rogue && projectile.type != ModContent.ProjectileType<MoonSigil>() && projectile.type != ModContent.ProjectileType<DragonShit>())
+				{
+					if (counter % 30 == 0)
+					{
+						if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<Nanotech>()] < 30)
+						{
+							Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<Nanotech>(),
+								(int)((double)projectile.damage * 0.15), 0f, projectile.owner, 0f, 0f);
+						}
+					}
+				}
+				if (Main.player[projectile.owner].Calamity().dragonScales && rogue && projectile.type != ModContent.ProjectileType<MoonSigil>() && projectile.type != ModContent.ProjectileType<DragonShit>())
+				{
+					if (counter % 50 == 0)
+					{
+						if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<DragonShit>()] < 15)
+						{
+							//spawn a dust that does 1/5th of the original damage
+							int projectileID = Projectile.NewProjectile(projectile.Center, Vector2.One.RotatedByRandom(MathHelper.TwoPi), ModContent.ProjectileType<DragonShit>(),
+								(int)((double)projectile.damage * 0.2), 0f, projectile.owner, 0f, 0f);
+						}
+					}
+				}
 
-            if (Main.player[projectile.owner].Calamity().daedalusSplit && rogue && projectile.friendly)
-            {
-                counter2++;
-                if (counter2 >= 30)
-                {
-                    counter2 = 0;
-                    if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].ownedProjectileCounts[90] < 30)
-                    {
-                        for (int num252 = 0; num252 < 2; num252++)
-                        {
-                            Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                            while (value15.X == 0f && value15.Y == 0f)
-                            {
-                                value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                            }
-                            value15.Normalize();
-                            value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-                            int shard = Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), value15.X, value15.Y, 90, (int)((double)projectile.damage * 0.25), 0f, projectile.owner, 0f, 0f);
-                            Main.projectile[shard].ranged = false;
-                        }
-                    }
-                }
-            }
-            //will always be friendly and rogue if it has this boost
-            if (Main.player[projectile.owner].Calamity().momentumCapacitor && projectile.Calamity().momentumCapacitatorBoost)
-            {
-                if (projectile.velocity.Length() < 26f)
-                    projectile.velocity *= 1.05f;
-            }
+				if (Main.player[projectile.owner].Calamity().daedalusSplit && rogue && !projectile.npcProj)
+				{
+					counter2++;
+					if (counter2 >= 30)
+					{
+						counter2 = 0;
+						if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].ownedProjectileCounts[90] < 30)
+						{
+							for (int num252 = 0; num252 < 2; num252++)
+							{
+								Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+								while (value15.X == 0f && value15.Y == 0f)
+								{
+									value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+								}
+								value15.Normalize();
+								value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
+								int shard = Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), value15.X, value15.Y, 90, (int)((double)projectile.damage * 0.25), 0f, projectile.owner, 0f, 0f);
+								Main.projectile[shard].ranged = false;
+							}
+						}
+					}
+				}
+				//will always be friendly and rogue if it has this boost
+				if (Main.player[projectile.owner].Calamity().momentumCapacitor && projectile.Calamity().momentumCapacitatorBoost)
+				{
+					if (projectile.velocity.Length() < 26f)
+						projectile.velocity *= 1.05f;
+				}
 
-            if (Main.player[projectile.owner].Calamity().theBeeDamage > 0 && projectile.owner == Main.myPlayer && projectile.friendly && projectile.damage > 0 &&
-                (projectile.melee || projectile.ranged || projectile.magic || rogue))
-            {
-                int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 91, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f, 0, default, 0.5f);
-                Main.dust[dust].noGravity = true;
-            }
+				if (Main.player[projectile.owner].Calamity().theBeeDamage > 0 && projectile.owner == Main.myPlayer && projectile.damage > 0 &&
+					(projectile.melee || projectile.ranged || projectile.magic || rogue))
+				{
+					int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 91, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f, 0, default, 0.5f);
+					Main.dust[dust].noGravity = true;
+				}
 
-            if (Main.player[projectile.owner].Calamity().providenceLore && projectile.owner == Main.myPlayer && projectile.friendly && projectile.damage > 0 &&
-                (projectile.melee || projectile.ranged || projectile.magic || rogue))
-            {
-                int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 244, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f, 0, default, 0.5f);
-                Main.dust[dust].noGravity = true;
-            }
+				if (Main.player[projectile.owner].Calamity().providenceLore && projectile.owner == Main.myPlayer && projectile.damage > 0 &&
+					(projectile.melee || projectile.ranged || projectile.magic || rogue))
+				{
+					int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 244, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f, 0, default, 0.5f);
+					Main.dust[dust].noGravity = true;
+				}
 
-            if (rogue)
-            {
-                // Moon Crown gets overridden by Nanotech
-                if (Main.player[projectile.owner].Calamity().moonCrown && !Main.player[projectile.owner].Calamity().nanotech)
-                {
-                    //Summon moon sigils infrequently
-                    if (Main.rand.NextBool(300) && projectile.type != ModContent.ProjectileType<MoonSigil>() && projectile.type != ModContent.ProjectileType<DragonShit>())
-                    {
-                        Projectile.NewProjectile(projectile.position, Vector2.Zero, ModContent.ProjectileType<MoonSigil>(), (int)(projectile.damage * 0.2), 0, projectile.owner);
-                    }
-                }
-            }
-        }
+				if (rogue)
+				{
+					// Moon Crown gets overridden by Nanotech
+					if (Main.player[projectile.owner].Calamity().moonCrown && !Main.player[projectile.owner].Calamity().nanotech)
+					{
+						//Summon moon sigils infrequently
+						if (Main.rand.NextBool(300) && projectile.type != ModContent.ProjectileType<MoonSigil>() && projectile.type != ModContent.ProjectileType<DragonShit>())
+						{
+							Projectile.NewProjectile(projectile.position, Vector2.Zero, ModContent.ProjectileType<MoonSigil>(), (int)(projectile.damage * 0.2), 0, projectile.owner);
+						}
+					}
+				}
+			}
+		}
         #endregion
 
         #region PostAI

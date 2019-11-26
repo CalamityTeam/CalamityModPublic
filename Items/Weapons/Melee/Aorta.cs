@@ -27,6 +27,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.rare = 3;
             item.autoReuse = false;
             item.shoot = ModContent.ProjectileType<AortaProjectile>();
+            ItemID.Sets.Yoyo[item.type] = true;
         }
 
         public override void AddRecipes()

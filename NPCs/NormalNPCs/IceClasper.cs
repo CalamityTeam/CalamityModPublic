@@ -38,6 +38,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.rarity = 2;
             banner = npc.type;
             bannerItem = ModContent.ItemType<IceClasperBanner>();
+			npc.coldDamage = true;
         }
 
         public override void AI()
