@@ -1764,6 +1764,7 @@ namespace CalamityMod
                 ModContent.ItemType<SpearofDestiny>(),
                 ModContent.ItemType<SpearofPaleolith>(),
                 ModContent.ItemType<XerocPitchfork>(),
+                ModContent.ItemType<ProfanedPartisan>()
             };
 
             daggerList = new List<int>()
@@ -1808,6 +1809,7 @@ namespace CalamityMod
 
             spikyBallList = new List<int>() //There's more to come
             {
+                ModContent.ItemType<GodsParanoia>(),
                 ModContent.ItemType<HellsSun>(),
                 ModContent.ItemType<SkyStabber>()
             };

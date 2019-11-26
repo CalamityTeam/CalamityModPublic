@@ -286,6 +286,16 @@ namespace CalamityMod.Items
                     }
                 }
             }
+            if (player.Calamity().dynamoStemCells)
+            {
+                if (item.ranged && !rogue && Main.rand.Next(0, 100) >= 80)
+                {
+                    if (player.whoAmI == Main.myPlayer)
+                    {
+                        Projectile.NewProjectile(position.X, position.Y, speedX * 1.25f, speedY * 1.25f, ModContent.ProjectileType<Minibirb>(), (int)((double)damage * 2), 2f, player.whoAmI, 0f, 0f);
+                    }
+                }
+            }
             return true;
         }
         #endregion

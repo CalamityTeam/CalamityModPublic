@@ -82,7 +82,7 @@ namespace CalamityMod.Projectiles.Rogue
 					}
 					speed.Normalize();
 					speed *= ((float)Main.rand.Next(30, 61) * 0.1f) * 2f;
-					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, speed.X, speed.Y, mod.ProjectileType("LuminousShard"), (int)((double)projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
+					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, speed.X, speed.Y, ModContent.ProjectileType<LuminousShard>(), (int)((double)projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
 				}
 			}
 		}

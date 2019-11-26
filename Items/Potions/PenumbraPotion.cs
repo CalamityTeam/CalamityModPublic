@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Potions
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.BottledWater);
-            recipe.AddIngredient(ModContent.ItemType<CalamityDust>(), 3);
+            recipe.AddIngredient(ModContent.ItemType<SolarVeil>(), 3);
             recipe.AddIngredient(ItemID.LunarTabletFragment, 2);
             recipe.AddIngredient(ModContent.ItemType<EssenceofChaos>());
             recipe.AddTile(TileID.AlchemyTable);
@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Potions
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.BottledWater);
             recipe.AddIngredient(ModContent.ItemType<BloodOrb>(), 30);
-            recipe.AddIngredient(ItemID.LunarTabletFragment);
+            recipe.AddIngredient(ModContent.ItemType<SolarVeil>());
             recipe.AddTile(TileID.AlchemyTable);
             recipe.SetResult(this);
             recipe.AddRecipe();

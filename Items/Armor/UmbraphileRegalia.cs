@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Armor
 			player.Calamity().throwingCrit += 10;
         }
 
-        /*public override void AddRecipes()
+        public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<SolarVeil>(), 18);
@@ -37,6 +37,6 @@ namespace CalamityMod.Items.Armor
 			recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
-        }*/
+        }
     }
 }

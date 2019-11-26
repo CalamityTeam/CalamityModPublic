@@ -14,6 +14,7 @@ using CalamityMod.Items.DifficultyItems;
 using CalamityMod.Items.Fishing;
 using CalamityMod.Items.Fishing.AstralCatches;
 using CalamityMod.Items.Fishing.BrimstoneCragCatches;
+using CalamityMod.Items.Fishing.SulphurCatches;
 using CalamityMod.Items.Fishing.SunkenSeaCatches;
 using CalamityMod.Items.Fishing.FishingRods;
 using CalamityMod.Items.Mounts;
@@ -367,6 +368,7 @@ namespace CalamityMod.CalPlayer
         public bool oldDie = false;
         public bool ursaSergeant = false;
         public bool thiefsDime = false;
+        public bool dynamoStemCells = false;
         //public bool dukeScales = false;
         public bool sandWaifu = false;
         public bool sandBoobWaifu = false;
@@ -1064,6 +1066,7 @@ namespace CalamityMod.CalPlayer
             oldDie = false;
             ursaSergeant = false;
             thiefsDime = false;
+            dynamoStemCells = false;
             //dukeScales = false;
 
             daedalusReflect = false;
@@ -7603,6 +7606,10 @@ namespace CalamityMod.CalPlayer
 					abyssPosX = true;
 				}
 			}
+			if (ZoneAbyss || ZoneSulphur)
+			{
+				abyssPosX = true;
+			}
 
 			if (alluringBait)
 			{
@@ -7826,6 +7833,10 @@ namespace CalamityMod.CalPlayer
 							if (ZoneSunkenSea)
 							{
 								biomeCrateList.Add(ModContent.ItemType<SunkenCrate>());
+							}
+							if (abyssPosX)
+							{
+								biomeCrateList.Add(ModContent.ItemType<AbyssalCrate>());
 							}
 							if (player.ZoneCorrupt)
 							{
@@ -8065,6 +8076,11 @@ namespace CalamityMod.CalPlayer
 					}
 				}
 
+				if (power >= 60 && player.FindBuffIndex(BuffID.Gills) > -1 && NPC.downedPlantBoss && Main.rand.NextBool(25) && power < 160)
+				{
+					caughtType = ModContent.ItemType<Floodtide>();
+				}
+
 				if (junk)
 				{
 					if (abyssPosX && power < 40)
@@ -8094,53 +8110,57 @@ namespace CalamityMod.CalPlayer
 					return;
 				}*/
 
-				if (power >= 20)
+				if (abyssPosX)
 				{
-					if (power >= 40)
+					if (caughtType == ItemID.WoodenCrate)
 					{
-						if (abyssPosX && Main.rand.NextBool(15) && power < 80)
+						caughtType = ItemID.WoodenCrate;
+					}
+					else if (caughtType == ItemID.IronCrate)
+					{
+						caughtType = ItemID.IronCrate;
+					}
+					else if (caughtType == ItemID.GoldenCrate)
+					{
+						caughtType = ItemID.GoldenCrate;
+					}
+					else if (caughtType == ItemID.FrogLeg)
+					{
+						caughtType = ItemID.FrogLeg;
+					}
+					else if (caughtType == ItemID.BalloonPufferfish)
+					{
+						caughtType = ItemID.BalloonPufferfish;
+					}
+					else if (caughtType == ItemID.ZephyrFish)
+					{
+						caughtType = ItemID.ZephyrFish;
+					}
+					else if (power >= 40)
+					{
+						if (Main.rand.NextBool(15) && power < 80)
 						{
 							caughtType = ModContent.ItemType<PlantyMush>();
 						}
-						if (power >= 60)
+						if (Main.rand.NextBool(25) && power < 160)
 						{
-							if (player.FindBuffIndex(BuffID.Gills) > -1 && NPC.downedPlantBoss && Main.rand.NextBool(25) && power < 160)
+							caughtType = ModContent.ItemType<AlluringBait>();
+						}
+						if (power >= 110)
+						{
+							if (abyssPosX && Main.rand.NextBool(25) && power < 240)
 							{
-								caughtType = ModContent.ItemType<Floodtide>();
-							}
-							if (abyssPosX && Main.rand.NextBool(25) && power < 160)
-							{
-								caughtType = ModContent.ItemType<AlluringBait>();
-							}
-							if (power >= 80)
-							{
-								if (abyssPosX && Main.hardMode && Main.rand.NextBool(15) && power < 210)
-								{
-									switch (Main.rand.Next(4))
-									{
-										case 0:
-											caughtType = ModContent.ItemType<IronBoots>();
-											break; //movement acc
-										case 1:
-											caughtType = ModContent.ItemType<DepthCharm>();
-											break; //regen acc
-										case 2:
-											caughtType = ModContent.ItemType<AnechoicPlating>();
-											break; //defense acc
-										case 3:
-											caughtType = ModContent.ItemType<StrangeOrb>();
-											break; //light pet
-									}
-								}
-								if (power >= 110)
-								{
-									if (abyssPosX && Main.rand.NextBool(25) && power < 240)
-									{
-										caughtType = ModContent.ItemType<AbyssalAmulet>();
-									}
-								}
+								caughtType = ModContent.ItemType<AbyssalAmulet>();
 							}
 						}
+					}
+					else if (player.cratePotion && Main.rand.NextBool(5)) //20%
+					{
+						caughtType = ModContent.ItemType<AbyssalCrate>();
+					}
+					else if (!player.cratePotion && Main.rand.NextBool(10)) //10%
+					{
+						caughtType = ModContent.ItemType<AbyssalCrate>();
 					}
 				}
 			}
@@ -10439,7 +10459,8 @@ namespace CalamityMod.CalPlayer
                 player.armorEffectDrawShadow = false;
                 player.armorEffectDrawShadowSubtle = false;
             }
-			if (CalamityWorld.ironHeart && !Main.gameMenu)
+
+            if (CalamityWorld.ironHeart && !Main.gameMenu)
             {
                 Texture2D ironHeart = ModContent.GetTexture("CalamityMod/ExtraTextures/IronHeart");
                 Main.heartTexture = Main.heart2Texture = ironHeart;
@@ -10450,37 +10471,35 @@ namespace CalamityMod.CalPlayer
                 Texture2D heart4 = ModContent.GetTexture("CalamityMod/ExtraTextures/Heart4");
                 Texture2D heart5 = ModContent.GetTexture("CalamityMod/ExtraTextures/Heart5");
                 Texture2D heart6 = ModContent.GetTexture("CalamityMod/ExtraTextures/Heart6");
-                Texture2D heartOriginal = ModContent.GetTexture("CalamityMod/ExtraTextures/HeartOriginal"); //Life fruit
-                Texture2D heartOriginal2 = ModContent.GetTexture("CalamityMod/ExtraTextures/HeartOriginal2"); //Life crystal
+                Texture2D heartOriginal = ModContent.GetTexture("Terraria/Heart2"); //Life fruit
+                Texture2D heartOriginal2 = ModContent.GetTexture("Terraria/Heart"); //Life crystal
 
                 int totalFruit =
                     (mFruit ? 1 : 0) +
                     (bOrange ? 1 : 0) +
                     (eBerry ? 1 : 0) +
                     (dFruit ? 1 : 0);
+
                 switch (totalFruit)
                 {
                     default:
 						Main.heart2Texture = heartOriginal;
-                        Main.heartTexture = heartOriginal2;
                         break;
                     case 4:
                         Main.heart2Texture = heart6;
-                        Main.heartTexture = heartOriginal2;
                         break;
                     case 3:
                         Main.heart2Texture = heart5;
-                        Main.heartTexture = heartOriginal2;
                         break;
                     case 2:
                         Main.heart2Texture = heart4;
-                        Main.heartTexture = heartOriginal2;
                         break;
                     case 1:
                         Main.heart2Texture = heart3;
-                        Main.heartTexture = heartOriginal2;
                         break;
                 }
+
+                Main.heartTexture = heartOriginal2;
             }
             if (revivify)
             {
@@ -10973,7 +10992,7 @@ namespace CalamityMod.CalPlayer
             // Penumbra Potion provides 10% stealth regen while moving, 20% at night and 30% during an eclipse
             if (penumbra)
             {
-                if (Main.eclipse)
+                if (Main.eclipse || umbraphileSet)
                     stealthGenMoving += 0.3f;
                 else if (!Main.dayTime)
                     stealthGenMoving += 0.2f;
