@@ -10459,7 +10459,8 @@ namespace CalamityMod.CalPlayer
                 player.armorEffectDrawShadow = false;
                 player.armorEffectDrawShadowSubtle = false;
             }
-			if (CalamityWorld.ironHeart && !Main.gameMenu)
+
+            if (CalamityWorld.ironHeart && !Main.gameMenu)
             {
                 Texture2D ironHeart = ModContent.GetTexture("CalamityMod/ExtraTextures/IronHeart");
                 Main.heartTexture = Main.heart2Texture = ironHeart;
@@ -10470,37 +10471,35 @@ namespace CalamityMod.CalPlayer
                 Texture2D heart4 = ModContent.GetTexture("CalamityMod/ExtraTextures/Heart4");
                 Texture2D heart5 = ModContent.GetTexture("CalamityMod/ExtraTextures/Heart5");
                 Texture2D heart6 = ModContent.GetTexture("CalamityMod/ExtraTextures/Heart6");
-                Texture2D heartOriginal = ModContent.GetTexture("CalamityMod/ExtraTextures/HeartOriginal"); //Life fruit
-                Texture2D heartOriginal2 = ModContent.GetTexture("CalamityMod/ExtraTextures/HeartOriginal2"); //Life crystal
+                Texture2D heartOriginal = ModContent.GetTexture("Terraria/Heart2"); //Life fruit
+                Texture2D heartOriginal2 = ModContent.GetTexture("Terraria/Heart"); //Life crystal
 
                 int totalFruit =
                     (mFruit ? 1 : 0) +
                     (bOrange ? 1 : 0) +
                     (eBerry ? 1 : 0) +
                     (dFruit ? 1 : 0);
+
                 switch (totalFruit)
                 {
                     default:
 						Main.heart2Texture = heartOriginal;
-                        Main.heartTexture = heartOriginal2;
                         break;
                     case 4:
                         Main.heart2Texture = heart6;
-                        Main.heartTexture = heartOriginal2;
                         break;
                     case 3:
                         Main.heart2Texture = heart5;
-                        Main.heartTexture = heartOriginal2;
                         break;
                     case 2:
                         Main.heart2Texture = heart4;
-                        Main.heartTexture = heartOriginal2;
                         break;
                     case 1:
                         Main.heart2Texture = heart3;
-                        Main.heartTexture = heartOriginal2;
                         break;
                 }
+
+                Main.heartTexture = heartOriginal2;
             }
             if (revivify)
             {
