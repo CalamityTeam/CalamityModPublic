@@ -3,6 +3,7 @@ using CalamityMod.Items.PermanentBoosters;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Items.Accessories;
 using CalamityMod.NPCs.Bumblebirb;
 using CalamityMod.World;
 using Terraria;
@@ -47,6 +48,7 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItemChance(player, ModContent.ItemType<Swordsplosion>(), DropHelper.RareVariantDropRateInt);
 
             // Equipment
+            DropHelper.DropItem(player, ModContent.ItemType<DynamoStemCells>());
             DropHelper.DropItemCondition(player, ModContent.ItemType<RedLightningContainer>(), CalamityWorld.revenge);
         }
     }

@@ -368,6 +368,7 @@ namespace CalamityMod.CalPlayer
         public bool oldDie = false;
         public bool ursaSergeant = false;
         public bool thiefsDime = false;
+        public bool dynamoStemCells = false;
         //public bool dukeScales = false;
         public bool sandWaifu = false;
         public bool sandBoobWaifu = false;
@@ -1065,6 +1066,7 @@ namespace CalamityMod.CalPlayer
             oldDie = false;
             ursaSergeant = false;
             thiefsDime = false;
+            dynamoStemCells = false;
             //dukeScales = false;
 
             daedalusReflect = false;
