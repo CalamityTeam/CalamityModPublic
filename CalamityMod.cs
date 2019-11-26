@@ -103,8 +103,13 @@ namespace CalamityMod
         public static int sharkKillCount = 0;
         public static int astralKillCount = 0;
 
-        // Textures & Shaders
-        public static Texture2D AstralCactusTexture;
+		// Textures & Shaders
+		public static Texture2D heartOriginal2;
+		public static Texture2D heartOriginal;
+		public static Texture2D rainOriginal;
+		public static Texture2D manaOriginal;
+		public static Texture2D carpetOriginal;
+		public static Texture2D AstralCactusTexture;
         public static Texture2D AstralCactusGlowTexture;
         public static Texture2D AstralSky;
         public static Effect CustomShader;
@@ -173,7 +178,13 @@ namespace CalamityMod
         #region Load
         public override void Load()
         {
-            NormalityRelocatorHotKey = RegisterHotKey("Normality Relocator", "Z");
+			heartOriginal2 = Main.heartTexture;
+			heartOriginal = Main.heart2Texture;
+			rainOriginal = Main.rainTexture;
+			manaOriginal = Main.manaTexture;
+			carpetOriginal = Main.flyingCarpetTexture;
+
+			NormalityRelocatorHotKey = RegisterHotKey("Normality Relocator", "Z");
             RageHotKey = RegisterHotKey("Rage Mode", "V");
             AdrenalineHotKey = RegisterHotKey("Adrenaline Mode", "B");
             AegisHotKey = RegisterHotKey("Elysian Guard", "N");
@@ -340,7 +351,22 @@ namespace CalamityMod
 
             AstralArcanumUI.Unload();
             base.Unload();
-        }
+
+			if (!Main.dedServ)
+			{
+				Main.heartTexture = heartOriginal2;
+				Main.heart2Texture = heartOriginal;
+				Main.rainTexture = rainOriginal;
+				Main.manaTexture = manaOriginal;
+				Main.flyingCarpetTexture = carpetOriginal;
+			}
+
+			heartOriginal2 = null;
+			heartOriginal = null;
+			rainOriginal = null;
+			manaOriginal = null;
+			carpetOriginal = null;
+		}
         #endregion
 
         #region SetupLists
