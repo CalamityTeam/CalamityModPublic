@@ -52,9 +52,9 @@ namespace CalamityMod.Items.Fishing.SulphurCatches
                 DropHelper.DropItemChance(player, ModContent.ItemType<DepthCells>(), 0.5f, 5, 10);
                 DropHelper.DropItemChance(player, ModContent.ItemType<Lumenite>(), 0.5f, 5, 10);
             }
-            if (NPC.downedGolem)
+            if (NPC.downedGolemBoss)
             {
-                DropHelper.DropItemChance(player, ModContent.ItemType<ChaoticBar>(), 0.25f, 5, 10);
+                DropHelper.DropItemChance(player, ModContent.ItemType<CruptixBar>(), 0.25f, 5, 10);
             }
             if (CalamityWorld.downedPolterghast)
             {
