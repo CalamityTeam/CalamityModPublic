@@ -149,9 +149,13 @@ namespace CalamityMod.Tiles
             }
         }
 
-        public override void KillTile(int i, int j, int type, ref bool fail, ref bool effectOnly, ref bool noItem)
+		public override void KillTile(int i, int j, int type, ref bool fail, ref bool effectOnly, ref bool noItem)
         {
-            if (Main.tile[i, j].type != ModContent.TileType<LumenylCrystals>() && Main.tile[i, j].type != ModContent.TileType<SeaPrismCrystals>() && Main.tileSolid[Main.tile[i, j].type])
+            // TODO -- holy shit THAT IS NOT HOW YOU NULL CHECK OH MY GOD THIS EXPLAINS EVERYTHING
+			if(Main.tile[i,j] is null)
+				return;
+			
+			if (Main.tile[i, j].type != ModContent.TileType<LumenylCrystals>() && Main.tile[i, j].type != ModContent.TileType<SeaPrismCrystals>() && Main.tileSolid[Main.tile[i, j].type])
             {
                 if (Main.tile[i + 1, j] != null)
                 {
