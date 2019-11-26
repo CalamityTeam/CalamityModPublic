@@ -1,4 +1,4 @@
-﻿using CalamityMod.Items.Materials;
+using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
 using Terraria;
 using Terraria.ID;
@@ -7,23 +7,23 @@ using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class ProfanedPartisan : RogueWeapon
+    public class PhantasmalRuin : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Profaned Partisan");
-            Tooltip.SetDefault(@"Fires an unholy spear that explodes on death
-Stealth strikes spawn smaller spears to fly along side it");
+            DisplayName.SetDefault("Phantasmal Ruin");
+            Tooltip.SetDefault(@"Fires an enormous ghost lance that leaves lost souls in its wake
+Explodes into phantom spirits on enemy hits
+Stealth strikes summon ghost clones instead of lost souls");
         }
 
         public override void SafeSetDefaults()
         {
             item.damage = 1500;
             item.knockBack = 8f;
-            item.crit += 15;
 
-            item.width = 56;
-            item.height = 56;
+            item.width = 102;
+            item.height = 98;
             item.useStyle = 1;
             item.noMelee = true;
             item.noUseGraphic = true;
@@ -37,8 +37,8 @@ Stealth strikes spawn smaller spears to fly along side it");
             item.Calamity().rogue = true;
 
             item.autoReuse = true;
-            item.shootSpeed = 6f;
-            item.shoot = ModContent.ProjectileType<ProfanedPartisanproj>();
+            item.shootSpeed = 10f;
+            item.shoot = ModContent.ProjectileType<PhantasmalRuinProj>();
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -52,17 +52,16 @@ Stealth strikes spawn smaller spears to fly along side it");
             return true;
         }
 
-        public override void AddRecipes()
+        /*public override void AddRecipes()
         {
-
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CrystalPiercer>(), 200);
-            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 6);
-            recipe.AddIngredient(ModContent.ItemType<DivineGeode>(), 4);
-            recipe.AddIngredient(ModContent.ItemType <UnholyEssence>(), 25);
+            recipe.AddIngredient(ModContent.ItemType<LuminousStriker>());
+            recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 4);
+            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 20);
+            //recipe.AddIngredient(ModContent.ItemType <PhantomLance>(), 100);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
-        }
+        }*/
     }
 }
