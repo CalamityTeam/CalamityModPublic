@@ -63,28 +63,18 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.localNPCHitCooldown = -1;
 			projectile.damage /= 2;
             projectile.Damage();
-            for (int num621 = 0; num621 < 2; num621++)
+            for (int num621 = 0; num621 < 3; num621++)
             {
                 int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, Main.rand.NextBool(3) ? 56 : 242, 0f, 0f, 100, default, 2f);
                 Main.dust[num622].velocity *= 3f;
-                Main.dust[num622].scale = 0.5f;
                 if (Main.rand.NextBool(2))
                 {
-                    Main.dust[num622].scale = 0.5f;
-                    Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+					Main.dust[num622].scale = 0.5f;
                 }
-            }
-            for (int num623 = 0; num623 < 5; num623++)
-            {
-                int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, Main.rand.NextBool(3) ? 56 : 242, 0f, 0f, 100, default, 3f);
-                Main.dust[num624].noGravity = true;
-                Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, Main.rand.NextBool(3) ? 56 : 242, 0f, 0f, 100, default, 2f);
-                Main.dust[num624].velocity *= 2f;
-                Main.dust[num624].scale = 0.5f;
                 if (Main.rand.NextBool(2))
                 {
-                    Main.dust[num624].scale = 0.5f;
+                    Main.dust[num622].scale *= 0.5f;
+                    Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
                 }
             }
         }
