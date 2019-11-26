@@ -1738,6 +1738,7 @@ namespace CalamityMod
                 ModContent.ItemType<SpearofDestiny>(),
                 ModContent.ItemType<SpearofPaleolith>(),
                 ModContent.ItemType<XerocPitchfork>(),
+                ModContent.ItemType<ProfanedPartisan>()
             };
 
             daggerList = new List<int>()

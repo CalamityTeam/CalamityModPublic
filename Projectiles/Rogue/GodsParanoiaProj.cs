@@ -84,7 +84,6 @@ namespace CalamityMod.Projectiles.Rogue
 					}
 				}
                 int num988 = 15;
-                bool flag54 = false;
                 bool flag55 = false;
                 float[] var_2_2CB4E_cp_0 = projectile.localAI;
                 int var_2_2CB4E_cp_1 = 0;
@@ -95,15 +94,7 @@ namespace CalamityMod.Projectiles.Rogue
                     flag55 = true;
                 }
                 int num989 = (int)projectile.ai[1];
-                if (projectile.localAI[0] >= (float)(60 * num988))
-                {
-                    flag54 = true;
-                }
-                else if (num989 < 0 || num989 >= 200)
-                {
-                    flag54 = true;
-                }
-                else if (Main.npc[num989].active && !Main.npc[num989].dontTakeDamage)
+				if ((projectile.localAI[0] <= (float)(60 * num988)) && (num989 > 0 || num989 <= 200) && Main.npc[num989].active && !Main.npc[num989].dontTakeDamage)
                 {
                     projectile.Center = Main.npc[num989].Center - projectile.velocity * 2f;
                     projectile.gfxOffY = Main.npc[num989].gfxOffY;
@@ -111,10 +102,6 @@ namespace CalamityMod.Projectiles.Rogue
                     {
                         Main.npc[num989].HitEffect(0, 1.0);
                     }
-                }
-                else
-                {
-                    flag54 = true;
                 }
             }
 			else
