@@ -1813,7 +1813,8 @@ namespace CalamityMod
                 ModContent.ItemType<GodsParanoia>(),
                 ModContent.ItemType<NastyCholla>(),
                 ModContent.ItemType<HellsSun>(),
-                ModContent.ItemType<SkyStabber>()
+                ModContent.ItemType<SkyStabber>(),
+                ModContent.ItemType<StickySpikyBall>()
             };
 
             noGravityList = new List<int>()

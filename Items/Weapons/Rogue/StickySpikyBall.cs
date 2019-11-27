@@ -7,20 +7,18 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class NastyCholla : RogueWeapon
+    public class StickySpikyBall : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Nasty Cholla");
+            DisplayName.SetDefault("Sticky Spiky Ball");
             Tooltip.SetDefault(@"Throws a spiky ball that sticks to everything
-Explodes into cactus spikes after roughly 3 seconds
-Can hurt town NPCs
-Stealth strikes throw five at once");
+Stealth strikes throw seven at once and last a lot longer");
         }
 
         public override void SafeSetDefaults()
         {
-            item.width = 20;
+            item.width = 14;
             item.damage = 20;
             item.noMelee = true;
             item.noUseGraphic = true;
@@ -31,10 +29,10 @@ Stealth strikes throw five at once");
             item.useTime = 20;
             item.knockBack = 3f;
             item.UseSound = SoundID.Item1;
-            item.height = 18;
-            item.value = Item.buyPrice(0, 0, 0, 50);
-            item.rare = 0;
-            item.shoot = ModContent.ProjectileType<NastyChollaBol>();
+            item.height = 14;
+            item.value = Item.buyPrice(0, 0, 1, 0);
+            item.rare = 1;
+            item.shoot = ModContent.ProjectileType<StickyBol>();
             item.shootSpeed = 8f;
             item.Calamity().rogue = true;
         }
@@ -44,11 +42,12 @@ Stealth strikes throw five at once");
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
                 int spread = 3;
-                for (int i = 0; i < 5; i++)
+                for (int i = 0; i < 7; i++)
                 {
                     Vector2 perturbedspeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(spread));
                     int proj = Projectile.NewProjectile(position.X, position.Y, perturbedspeed.X, perturbedspeed.Y, type, item.damage, item.knockBack, player.whoAmI, 0f, 0f);
                     Main.projectile[proj].Calamity().stealthStrike = true;
+                    Main.projectile[proj].timeLeft *= 4;
                     spread -= 3;
                 }
                 return false;
@@ -59,9 +58,10 @@ Stealth strikes throw five at once");
         /*public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Cactus, 2);
+            recipe.AddIngredient(ItemID.SpikyBall, 3);
+            recipe.AddIngredient(ItemID.Gel);
             recipe.AddTile(TileID.WorkBenches);
-            recipe.SetResult(this, 15);
+            recipe.SetResult(this, 3);
             recipe.AddRecipe();
         }*/
     }

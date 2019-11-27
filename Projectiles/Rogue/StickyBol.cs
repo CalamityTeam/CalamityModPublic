@@ -6,31 +6,35 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class NastyChollaBol : ModProjectile
+    public class StickyBol : ModProjectile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Nasty Cholla");
+            DisplayName.SetDefault("Sticky Bol");
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 18;
-            projectile.height = 18;
+            projectile.width = 14;
+            projectile.height = 14;
             projectile.friendly = true;
             projectile.penetrate = -1;
-            projectile.timeLeft = 200;
+            projectile.timeLeft = 300;
             projectile.tileCollide = false;
             projectile.Calamity().rogue = true;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
+            projectile.localNPCHitCooldown = 15;
         }
 
         public override void AI()
         {
-            if (Main.rand.NextBool(12))
-            {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 157, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+			int Alpha = 175;
+			Color newColor = new Color(0, 80, (int) byte.MaxValue, 100);
+			if (Main.rand.NextBool(12))
+			{
+				Vector2 vector2 = projectile.velocity * (float) Main.rand.Next(6) / 6f;
+				int num = 6;
+				Dust.NewDust(projectile.position + Vector2.One * 6f, projectile.width - num * 2, projectile.height - num * 2, 4, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f, Alpha, newColor, 1.2f);
 			}
 			if (projectile.localAI[1] == 1f)
 			{
@@ -143,7 +147,7 @@ namespace CalamityMod.Projectiles.Rogue
                 for (int i = 0; i < 200; i++)
                 {
                     if (Main.npc[i].active && !Main.npc[i].dontTakeDamage &&
-                        ((projectile.friendly && (!Main.npc[i].friendly || projectile.type == 318 || (Main.npc[i].townNPC) ||
+                        ((projectile.friendly && (!Main.npc[i].friendly || projectile.type == 318 || (Main.npc[i].type == 22 && projectile.owner < 255 && Main.player[projectile.owner].killGuide) || (Main.npc[i].type == 54 && projectile.owner < 255 && Main.player[projectile.owner].killClothier))) ||
                         (projectile.hostile && Main.npc[i].friendly && !Main.npc[i].dontTakeDamageFromHostiles)) && (projectile.owner < 0 || Main.npc[i].immune[projectile.owner] == 0 || projectile.maxPenetrate == 1))
                     {
                         if (Main.npc[i].noTileCollide || !projectile.ownerHitCheck || projectile.CanHit(Main.npc[i]))
@@ -175,7 +179,7 @@ namespace CalamityMod.Projectiles.Rogue
                                 projectile.velocity = (Main.npc[i].Center - projectile.Center) * 0.75f;
                                 projectile.netUpdate = true;
                                 projectile.StatusNPC(i);
-                                int num28 = 20;
+                                int num28 = 50;
                                 Point[] array2 = new Point[num28];
                                 int num29 = 0;
                                 for (int l = 0; l < 1000; l++)
@@ -217,26 +221,9 @@ namespace CalamityMod.Projectiles.Rogue
             return null;
         }
 
-		//So you can stick a bol up the Guide's ass
-        public override bool? CanHitNPC(NPC target) => target.type != NPCID.DD2EterniaCrystal && !target.immortal && !target.dontTakeDamage;
-
-        public override void Kill(int timeLeft)
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			int num251 = Main.rand.Next(2, 4);
-			if (projectile.owner == Main.myPlayer)
-			{
-				for (int num252 = 0; num252 < num251; num252++)
-				{
-					Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-					while (value15.X == 0f && value15.Y == 0f)
-					{
-						value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-					}
-					value15.Normalize();
-					value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-					int shard = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<NastyChollaNeedle>(), projectile.damage / 5, 0f, projectile.owner, 0f, 0f);
-				}
-			}
-		}
+            target.AddBuff(BuffID.Slimed, 120);
+        }
     }
 }

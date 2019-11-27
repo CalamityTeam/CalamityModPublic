@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using System;
 using Microsoft.Xna.Framework;
@@ -43,5 +44,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.velocity.X *= 0.9995f;
             projectile.velocity.Y = projectile.velocity.Y + 0.01f;
         }
+
+		//So you can stick a needle up the Tinkerer's ass
+        public override bool? CanHitNPC(NPC target) => target.type != NPCID.DD2EterniaCrystal && !target.immortal && !target.dontTakeDamage;
     }
 }
