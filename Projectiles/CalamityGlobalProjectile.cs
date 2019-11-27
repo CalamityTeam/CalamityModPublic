@@ -582,7 +582,7 @@ namespace CalamityMod.Projectiles
             else if (projectile.type == ProjectileID.SoulDrain)
                 projectile.magic = true;
 
-            if (!projectile.npcProj && projectile.friendly)
+            if (!projectile.npcProj && projectile.friendly && projectile.damage > 0)
 			{
 				if (Main.player[projectile.owner].Calamity().eQuiver && projectile.ranged && CalamityMod.rangedProjectileExceptionList.TrueForAll(x => projectile.type != x))
 				{
