@@ -18,7 +18,9 @@ namespace CalamityMod.Buffs.StatDebuffs
 
         public override void Update(NPC npc, ref int buffIndex)
         {
-            npc.Calamity().timeSlow = true;
+			npc.Calamity().timeSlow = npc.buffTime[buffIndex];
+			npc.DelBuff(buffIndex);
+			buffIndex--;
         }
 
         /*public override void Update(Player player, ref int buffIndex)

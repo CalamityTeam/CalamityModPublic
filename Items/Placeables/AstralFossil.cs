@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Items.Placeables.Walls;
+using CalamityMod.Items.Materials;
 using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
@@ -68,7 +69,7 @@ namespace CalamityMod.Items.Placeables
             }
             else if (val < 48.03f)
             {
-                resultType = ModContent.ItemType<Items.Materials.AncientBoneDust>();
+                resultType = ModContent.ItemType<AncientBoneDust>();
                 resultStack = Main.rand.Next(1, 11);
             }
             else if (val < 58.03f && !Main.dayTime)
@@ -83,7 +84,7 @@ namespace CalamityMod.Items.Placeables
             }
             else if (val < 68.03f)
             {
-                resultType = ModContent.ItemType<Items.Materials.Stardust>();
+                resultType = ModContent.ItemType<Stardust>();
                 resultStack = Main.rand.Next(1, 11);
             }
             else if (val < 69.03f)

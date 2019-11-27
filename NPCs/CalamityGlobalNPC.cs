@@ -90,13 +90,13 @@ namespace CalamityMod.NPCs
         public static bool DraedonMayhem = false;
 
         // Debuffs
-        public bool timeSlow = false;
-        public bool gState = false;
-        public bool tSad = false;
-        public bool eFreeze = false;
-        public bool silvaStun = false;
-        public bool yellowCandle = false;
-        public bool pearlAura = false;
+        public int timeSlow = 0;
+        public int gState = 0;
+        public int tSad = 0;
+        public int eFreeze = 0;
+        public int silvaStun = 0;
+        public int yellowCandle = 0;
+        public int pearlAura = 0;
         public int wCleave = 0;
         public int bBlood = 0;
         public int dFlames = 0;
@@ -328,14 +328,6 @@ namespace CalamityMod.NPCs
             ResetSavedIndex(ref SCalCatastrophe);
             ResetSavedIndex(ref SCal);
             ResetSavedIndex(ref SCalWorm);
-
-            timeSlow = false;
-            gState = false;
-            tSad = false;
-            eFreeze = false;
-            silvaStun = false;
-            yellowCandle = false;
-            pearlAura = false;
         }
         #endregion
 
@@ -502,21 +494,21 @@ namespace CalamityMod.NPCs
             // Exo Freeze, Glacial State and Temporal Sadness don't work on bosses or other specific enemies.
             if (!npc.boss && !CalamityMod.movementImpairImmuneList.Contains(npc.type))
             {
-                if (eFreeze && !CalamityWorld.bossRushActive)
+                if (eFreeze > 0 && !CalamityWorld.bossRushActive)
                 {
                     npc.velocity.X = 0f;
                     npc.velocity.Y += 0.1f;
                     if (npc.velocity.Y > 15f)
                         npc.velocity.Y = 15f;
                 }
-                else if (gState)
+                else if (gState > 0)
                 {
                     npc.velocity.X = 0f;
                     npc.velocity.Y += 0.05f;
                     if (npc.velocity.Y > 15f)
                         npc.velocity.Y = 15f;
                 }
-                if (tSad)
+                if (tSad > 0)
                 {
                     npc.velocity /= 2f;
                 }
@@ -1162,7 +1154,7 @@ namespace CalamityMod.NPCs
         #region Modify Hit Player
         public override void ModifyHitPlayer(NPC npc, Player target, ref int damage, ref bool crit)
         {
-            if (tSad)
+            if (tSad > 0)
             {
                 damage /= 2;
             }
@@ -1219,7 +1211,7 @@ namespace CalamityMod.NPCs
                     (astralInfection > 0 ? AstralInfectionDebuff.DefenseReduction : 0) -
                     (aFlames > 0 ? AbyssalFlames.DefenseReduction : 0) -
                     (wCleave > 0 ? WarCleave.DefenseReduction : 0) -
-                    (gState ? GlacialState.DefenseReduction : 0) -
+                    (gState > 0 ? GlacialState.DefenseReduction : 0) -
                     (aCrunch > 0 ? ArmorCrunch.DefenseReduction : 0);
 
             // Defense can never be negative and has a minimum value of zero.
@@ -1233,7 +1225,7 @@ namespace CalamityMod.NPCs
             damage = ApplyDR(npc, damage);
 
             // Add Yellow Candle damage if the NPC isn't supposed to be "near invincible"
-            if (yellowCandle && DR < 0.99f && npc.takenDamageMultiplier > 0.05f)
+            if (yellowCandle > 0 && DR < 0.99f && npc.takenDamageMultiplier > 0.05f)
                 damage += yellowCandleDamage;
 
             // Cancel out vanilla defense math by reversing the calculation vanilla is about to perform.
@@ -2095,6 +2087,20 @@ namespace CalamityMod.NPCs
         public override void PostAI(NPC npc)
         {
 			//Debuff decrements
+			if (timeSlow > 0)
+				timeSlow--;
+			if (gState > 0)
+				gState--;
+			if (tSad > 0)
+				tSad--;
+			if (eFreeze > 0)
+				eFreeze--;
+			if (silvaStun > 0)
+				silvaStun--;
+			if (yellowCandle > 0)
+				yellowCandle--;
+			if (pearlAura > 0)
+				pearlAura--;
 			if (wCleave > 0)
 				wCleave--;
 			if (bBlood > 0)
@@ -2140,14 +2146,14 @@ namespace CalamityMod.NPCs
             if (npc.boss || CalamityMod.movementImpairImmuneList.Contains(npc.type))
                 return;
 
-            if (pearlAura && !CalamityPlayer.areThereAnyDamnBosses)
-                npc.velocity *= 0.95f;
+            if (pearlAura > 0 && !CalamityPlayer.areThereAnyDamnBosses)
+                npc.velocity *= 0.9f;
 
             if (!CalamityWorld.bossRushActive)
             {
-                if (silvaStun)
+                if (silvaStun > 0)
                     npc.velocity = Vector2.Zero;
-                else if (timeSlow)
+                else if (timeSlow > 0)
                     npc.velocity *= 0.85f;
             }
         }
@@ -3023,7 +3029,7 @@ namespace CalamityMod.NPCs
                     dust.scale += Main.rand.NextFloat();
                 }
             }
-            if (tSad || cDepth > 0)
+            if (tSad > 0 || cDepth > 0)
             {
                 if (Main.rand.Next(6) < 3)
                 {
@@ -3070,7 +3076,7 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (gState || eFreeze)
+            if (gState > 0 || eFreeze > 0)
             {
                 drawColor = Color.Cyan;
             }
@@ -3080,12 +3086,12 @@ namespace CalamityMod.NPCs
                 drawColor = Color.Fuchsia;
             }
 
-            if (pearlAura)
+            if (pearlAura > 0)
             {
                 drawColor = Color.White;
             }
 
-            if (timeSlow)
+            if (timeSlow > 0)
             {
                 drawColor = Color.Aquamarine;
             }
