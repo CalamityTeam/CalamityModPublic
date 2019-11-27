@@ -1808,9 +1808,10 @@ namespace CalamityMod
                 ModContent.ItemType<BlastBarrel>()
             };
 
-            spikyBallList = new List<int>() //There's more to come
+            spikyBallList = new List<int>()
             {
                 ModContent.ItemType<GodsParanoia>(),
+                ModContent.ItemType<NastyCholla>(),
                 ModContent.ItemType<HellsSun>(),
                 ModContent.ItemType<SkyStabber>()
             };
