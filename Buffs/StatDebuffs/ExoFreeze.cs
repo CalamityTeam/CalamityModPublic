@@ -17,7 +17,8 @@ namespace CalamityMod.Buffs.StatDebuffs
 
         public override void Update(NPC npc, ref int buffIndex)
         {
-			npc.Calamity().eFreeze = npc.buffTime[buffIndex];
+			if (npc.Calamity().eFreeze < npc.buffTime[buffIndex])
+				npc.Calamity().eFreeze = npc.buffTime[buffIndex];
 			npc.DelBuff(buffIndex);
 			buffIndex--;
         }

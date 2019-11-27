@@ -16,7 +16,8 @@ namespace CalamityMod.Buffs.StatDebuffs
 
         public override void Update(NPC npc, ref int buffIndex)
         {
-			npc.Calamity().pearlAura = npc.buffTime[buffIndex];
+			if (npc.Calamity().pearlAura < npc.buffTime[buffIndex])
+				npc.Calamity().pearlAura = npc.buffTime[buffIndex];
 			npc.DelBuff(buffIndex);
 			buffIndex--;
         }

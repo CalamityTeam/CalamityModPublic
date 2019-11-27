@@ -19,7 +19,8 @@ namespace CalamityMod.Buffs.StatDebuffs
 
         public override void Update(NPC npc, ref int buffIndex)
         {
-			npc.Calamity().wCleave = npc.buffTime[buffIndex];
+			if (npc.Calamity().wCleave < npc.buffTime[buffIndex])
+				npc.Calamity().wCleave = npc.buffTime[buffIndex];
 			npc.DelBuff(buffIndex);
 			buffIndex--;
         }
