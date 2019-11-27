@@ -1,4 +1,4 @@
-﻿
+﻿using CalamityMod.Items.Materials;
 using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
@@ -62,7 +62,7 @@ namespace CalamityMod.Items.Placeables
             }
             else if (val < 58.03f)
             {
-                resultType = ModContent.ItemType<Items.Materials.Stardust>();
+                resultType = ModContent.ItemType<Stardust>();
                 resultStack = Main.rand.Next(1, 21);
             }
             else if (val < 61.03f)
@@ -120,12 +120,12 @@ namespace CalamityMod.Items.Placeables
                 resultType = ItemID.OrichalcumOre;
                 resultStack = Main.rand.Next(1, 17);
             }
-            else if (val < 87.78f)
+            else if (val < 86.78f)
             {
                 resultType = ItemID.AdamantiteOre;
                 resultStack = Main.rand.Next(1, 17);
             }
-            else if (val < 89.53f)
+            else if (val < 88.53f)
             {
                 resultType = ItemID.TitaniumOre;
                 resultStack = Main.rand.Next(1, 17);

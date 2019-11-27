@@ -4325,7 +4325,7 @@ namespace CalamityMod.CalPlayer
                         {
                             float distance = (Main.npc[m].Center - player.Center).Length();
                             if (distance < 120f)
-                                Main.npc[m].AddBuff(ModContent.BuffType<PearlAura>(), 2, false);
+                                Main.npc[m].AddBuff(ModContent.BuffType<PearlAura>(), 20, false);
                         }
                     }
                 }

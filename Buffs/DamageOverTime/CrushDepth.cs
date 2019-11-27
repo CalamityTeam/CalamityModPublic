@@ -22,7 +22,8 @@ namespace CalamityMod.Buffs.DamageOverTime
 
         public override void Update(NPC npc, ref int buffIndex)
         {
-			npc.Calamity().cDepth = npc.buffTime[buffIndex];
+			if (npc.Calamity().cDepth < npc.buffTime[buffIndex])
+				npc.Calamity().cDepth = npc.buffTime[buffIndex];
 			npc.DelBuff(buffIndex);
 			buffIndex--;
         }

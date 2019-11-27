@@ -62,7 +62,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 damage *= 2;
                 knockBack *= 2f;
             }
-            else if (target.Calamity().gState)
+            else if (target.Calamity().gState > 0)
             {
                 damage *= 3;
                 knockBack *= 3f;
