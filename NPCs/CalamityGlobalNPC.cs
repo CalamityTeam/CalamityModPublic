@@ -655,11 +655,8 @@ namespace CalamityMod.NPCs
         {
             if (!npc.friendly)
             {
-                if (npc.type != ModContent.NPCType<DevourerofGodsHeadS>() && npc.type != ModContent.NPCType<DevourerofGodsBodyS>() && npc.type != ModContent.NPCType<DevourerofGodsTailS>() && npc.type != ModContent.NPCType<StormWeaverHead>() && npc.type != ModContent.NPCType<StormWeaverBody>() && npc.type != ModContent.NPCType<StormWeaverTail>() && npc.type != ModContent.NPCType<DesertScourgeHead>() && npc.type != ModContent.NPCType<DesertScourgeBody>() && npc.type != ModContent.NPCType<DesertScourgeTail>() && !AquaticScourgeIDs.Contains(npc.type) && !EaterofWorldsIDs.Contains(npc.type) && !AstrumDeusIDs.Contains(npc.type) && !DestroyerIDs.Contains(npc.type))
-                {
-                    npc.buffImmune[BuffID.Ichor] = false;
-                    npc.buffImmune[BuffID.CursedInferno] = false;
-                }
+				npc.buffImmune[ModContent.BuffType<Enraged>()] = false;
+				npc.buffImmune[ModContent.BuffType<YellowDamageCandle>()] = false;
             }
 
             foreach (KeyValuePair<int, int> BossRushHPChange in BossRushHPChanges)
