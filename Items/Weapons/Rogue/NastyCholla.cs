@@ -46,10 +46,10 @@ Stealth strikes throw five at once");
                 int spread = 3;
                 for (int i = 0; i < 5; i++)
                 {
-                    Vector2 perturbedspeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(spread));
+                    Vector2 perturbedspeed = new Vector2(speedX + Main.rand.Next(-3,4), speedY + Main.rand.Next(-3,4)).RotatedBy(MathHelper.ToRadians(spread));
                     int proj = Projectile.NewProjectile(position.X, position.Y, perturbedspeed.X, perturbedspeed.Y, type, item.damage, item.knockBack, player.whoAmI, 0f, 0f);
                     Main.projectile[proj].Calamity().stealthStrike = true;
-                    spread -= 3;
+                    spread -= Main.rand.Next(1,4);
                 }
                 return false;
             }

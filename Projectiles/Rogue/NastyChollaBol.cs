@@ -142,9 +142,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 for (int i = 0; i < 200; i++)
                 {
-                    if (Main.npc[i].active && !Main.npc[i].dontTakeDamage &&
-                        ((projectile.friendly && (!Main.npc[i].friendly || projectile.type == 318 || (Main.npc[i].townNPC) ||
-                        (projectile.hostile && Main.npc[i].friendly && !Main.npc[i].dontTakeDamageFromHostiles)) && (projectile.owner < 0 || Main.npc[i].immune[projectile.owner] == 0 || projectile.maxPenetrate == 1))
+                    if (Main.npc[i].active && !Main.npc[i].dontTakeDamage && (projectile.friendly && (!Main.npc[i].friendly || projectile.type == 318 || (Main.npc[i].townNPC) || (projectile.hostile && Main.npc[i].friendly && !Main.npc[i].dontTakeDamageFromHostiles)) && (projectile.owner < 0 || Main.npc[i].immune[projectile.owner] == 0 || projectile.maxPenetrate == 1)))
                     {
                         if (Main.npc[i].noTileCollide || !projectile.ownerHitCheck || projectile.CanHit(Main.npc[i]))
                         {
