@@ -85,7 +85,7 @@ namespace CalamityMod.NPCs
 					if (calamityGlobalNPC.newAI[0] == 1f)
 					{
 						npc.localAI[0] += 1f;
-						if (npc.localAI[0] >= ((npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 120f : 180f))
+						if (npc.localAI[0] >= ((npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 120f : 180f))
 						{
 							int npcPoxX = (int)(npc.position.X + (float)(npc.width / 2)) / 16;
 							int npcPoxY = (int)(npc.position.Y + (float)(npc.height / 2)) / 16;
@@ -741,7 +741,7 @@ namespace CalamityMod.NPCs
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						float projectileSpeed = CalamityWorld.bossRushActive ? 7f : 5f;
-						if (npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+						if (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 							projectileSpeed += 4f;
 						if (revenge)
 							projectileSpeed += 1f;
@@ -850,7 +850,7 @@ namespace CalamityMod.NPCs
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.localAI[0] += 1f + 2f * (1f - lifeRatio);
-					if (npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+					if (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 						npc.localAI[0] += 2f;
 					if (CalamityWorld.death || !calamity)
 						npc.localAI[0] += 1f;
@@ -1203,7 +1203,7 @@ namespace CalamityMod.NPCs
 						{
 							npc.localAI[1] = 0f;
 							float num828 = CalamityWorld.bossRushActive ? 16f : (expertMode ? 14f : 12.5f);
-							if (npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+							if (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 								num828 += 5f;
 
 							int num829 = expertMode ? 34 : 42;
@@ -1314,7 +1314,7 @@ namespace CalamityMod.NPCs
 								npc.localAI[1] += 0.5f;
 							if (CalamityWorld.death || CalamityWorld.bossRushActive)
 								npc.localAI[1] += 0.5f;
-							if (npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+							if (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 								npc.localAI[1] += 0.5f;
 							if (expertMode)
 								npc.localAI[1] += 0.5f;
@@ -1418,7 +1418,7 @@ namespace CalamityMod.NPCs
 
             // Fire projectiles while walking, teleporting, or falling
             if (npc.ai[0] == 2f || npc.ai[0] >= 5f || (npc.ai[0] == 4f && npc.velocity.Y > 0f) ||
-                npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
@@ -1433,7 +1433,7 @@ namespace CalamityMod.NPCs
                             laserDamage *= 3;
 
                         // Fire astral flames while teleporting
-                        if ((npc.ai[0] >= 5f && npc.ai[0] != 7) || npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                        if ((npc.ai[0] >= 5f && npc.ai[0] != 7) || npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
                         {
                             Vector2 shootFromVector = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
                             float spread = 45f * 0.0174f;
@@ -1511,7 +1511,7 @@ namespace CalamityMod.NPCs
 
                 // Stay vulnerable for a maximum of 1.5 or 2.5 seconds
                 npc.ai[1] += 1f;
-                if (npc.ai[1] >= ((phase3 || npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 90f : 150f))
+                if (npc.ai[1] >= ((phase3 || npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 90f : 150f))
                 {
                     // Increase defense
                     npc.defense = 70;
@@ -2400,7 +2400,7 @@ namespace CalamityMod.NPCs
 						npc.localAI[1] = 1f;
 						Rectangle rectangle12 = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
 						int rectX = 300;
-						int rectY = (npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 100 : 200;
+						int rectY = (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 100 : 200;
 						bool flag95 = true;
 						if (npc.position.Y > Main.player[npc.target].position.Y)
 						{

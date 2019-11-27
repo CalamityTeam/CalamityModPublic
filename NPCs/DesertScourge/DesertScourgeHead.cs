@@ -89,7 +89,7 @@ namespace CalamityMod.NPCs.DesertScourge
             float speedMult = expertMode ? 1.5f : 1.45f;
             if (CalamityWorld.death || CalamityWorld.bossRushActive)
                 speedMult = 1.6f;
-            if (npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+            if (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
                 speedMult = 2f;
             if (CalamityWorld.bossRushActive)
                 speedMult *= 2f;
@@ -183,7 +183,7 @@ namespace CalamityMod.NPCs.DesertScourge
             {
                 npc.localAI[1] = 1f;
                 Rectangle rectangle12 = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
-                int num954 = (npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 500 : 1000;
+                int num954 = (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 500 : 1000;
                 if (CalamityWorld.bossRushActive)
                     num954 /= 2;
 

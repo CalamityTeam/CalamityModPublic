@@ -22,7 +22,9 @@ namespace CalamityMod.Buffs.DamageOverTime
 
         public override void Update(NPC npc, ref int buffIndex)
         {
-            npc.Calamity().sulphurPoison = true;
+			npc.Calamity().sulphurPoison = npc.buffTime[buffIndex];
+			npc.DelBuff(buffIndex);
+			buffIndex--;
         }
     }
 }

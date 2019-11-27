@@ -272,7 +272,7 @@ namespace CalamityMod.NPCs.Calamitas
                     }
                 }
 
-                npc.ai[2] += (npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 2f : 1f;
+                npc.ai[2] += (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 2f : 1f;
                 if (npc.ai[2] >= 240f)
                 {
                     npc.ai[1] = 1f;
@@ -335,7 +335,7 @@ namespace CalamityMod.NPCs.Calamitas
                     {
                         num870 += 2.5f;
                     }
-                    if (npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                    if (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
                     {
                         num870 += 4f;
                     }

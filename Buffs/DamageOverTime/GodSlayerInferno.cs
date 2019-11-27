@@ -24,7 +24,9 @@ namespace CalamityMod.Buffs.DamageOverTime
 
         public override void Update(NPC npc, ref int buffIndex)
         {
-            npc.Calamity().gsInferno = true;
+			npc.Calamity().gsInferno = npc.buffTime[buffIndex];
+			npc.DelBuff(buffIndex);
+			buffIndex--;
         }
     }
 }

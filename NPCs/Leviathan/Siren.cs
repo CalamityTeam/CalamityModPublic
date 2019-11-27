@@ -389,7 +389,7 @@ namespace CalamityMod.NPCs.Leviathan
 
                 npc.ai[1] += 1f;
                 bool flag104 = false;
-                if (npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                if (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
                 {
                     if (npc.ai[1] % 10f == 9f)
                         flag104 = true;
@@ -415,7 +415,7 @@ namespace CalamityMod.NPCs.Leviathan
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         float num1070 = revenge ? 15f : 13f;
-                        if (npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                        if (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
                             num1070 = 24f;
                         else if (isNotOcean || (!leviAlive && phase2) || CalamityWorld.death || CalamityWorld.bossRushActive)
                             num1070 = revenge ? 17f : 16f;

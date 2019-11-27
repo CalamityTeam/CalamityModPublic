@@ -281,7 +281,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                             num1044 += 2f;
                         if ((double)npc.life < (double)npc.lifeMax * 0.33 || CalamityWorld.bossRushActive)
                             num1044 += 2f;
-                        if (npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                        if (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
                             num1044 += 2f;
 
                         Vector2 vector117 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
@@ -314,7 +314,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         num1048 += 2f;
                         num1049 += 0.05f;
                     }
-                    if (npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                    if (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
                     {
                         num1048 += 2f;
                         num1049 += 0.1f;
@@ -362,7 +362,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     npc.spriteDirection = npc.direction;
 
                     int num1050 = revenge ? 525 : 550;
-                    if (npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                    if (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
                         num1050 = 250;
                     else if (aboveGroundEnrage || CalamityWorld.bossRushActive)
                         num1050 = 350;
@@ -606,7 +606,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
                 npc.ai[1] += 1f;
                 bool flag104 = false;
-                if (npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                if (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
                 {
                     if (npc.ai[1] % 10f == 9f)
                         flag104 = true;
@@ -631,7 +631,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         float projectileSpeed = revenge ? 6.5f : 6f;
-                        if (jungleEnrage || npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                        if (jungleEnrage || npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
                             projectileSpeed += 10f;
                         if (CalamityWorld.bossRushActive)
                             projectileSpeed *= 1.5f;

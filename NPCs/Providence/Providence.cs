@@ -618,7 +618,7 @@ namespace CalamityMod.NPCs.Providence
                     npc.ai[3] += 1f;
 
                     int num856 = (expertMode ? 24 : 26) - (int)(4f * (1f - lifeRatio));
-                    if (npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                    if (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
                         num856 = 19;
 
                     num856 = (int)((double)num856 * attackRateMult);
@@ -634,7 +634,7 @@ namespace CalamityMod.NPCs.Providence
                         float num859 = (float)Math.Sqrt((double)(num857 * num857 + num858 * num858));
 
                         float num860 = (expertMode ? 10.25f : 9f) + (2.5f * (1f - lifeRatio));
-                        if (npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                        if (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
                             num860 = 12.75f;
 
                         if (revenge)
@@ -864,7 +864,7 @@ namespace CalamityMod.NPCs.Providence
                     npc.ai[3] += 1f;
 
                     int num864 = (expertMode ? 73 : 77) - (int)(15f * (1f - lifeRatio));
-                    if (npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                    if (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
                         num864 = 59;
 
                     num864 = (int)((double)num864 * attackRateMult);
@@ -906,7 +906,7 @@ namespace CalamityMod.NPCs.Providence
 
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    npc.ai[2] += ((npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 2f : 1f) + (2f * (1f - lifeRatio));
+                    npc.ai[2] += ((npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 2f : 1f) + (2f * (1f - lifeRatio));
 
                     if (CalamityWorld.bossRushActive)
                         npc.ai[2] += 1f;

@@ -259,7 +259,7 @@ namespace CalamityMod.NPCs.Leviathan
                                     num418 = sirenAlive ? 14f : 17f;
                                     num419 = 33;
                                 }
-                                if (npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                                if (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
                                 {
                                     num418 = 22f;
                                 }
@@ -426,7 +426,7 @@ namespace CalamityMod.NPCs.Leviathan
                             {
                                 num1044 += 2f;
                             }
-                            if (npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                            if (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
                             {
                                 num1044 += 4f;
                             }
@@ -459,7 +459,7 @@ namespace CalamityMod.NPCs.Leviathan
                             num1048 += 2f;
                             num1049 += 0.1f;
                         }
-                        if (npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                        if (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
                         {
                             num1048 += 3f;
                             num1049 += 0.2f;

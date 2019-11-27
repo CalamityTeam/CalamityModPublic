@@ -90,32 +90,32 @@ namespace CalamityMod.NPCs
 
         // Debuffs
         public bool timeSlow = false;
-        public bool wCleave = false;
-        public bool bBlood = false;
-        public bool dFlames = false;
-        public bool marked = false;
-        public bool irradiated = false;
-        public bool bFlames = false;
-        public bool hFlames = false;
-        public bool pFlames = false;
         public bool gState = false;
-        public bool aCrunch = false;
         public bool tSad = false;
-        public bool pShred = false;
-        public bool cDepth = false;
-        public bool gsInferno = false;
-        public bool astralInfection = false;
-        public bool aFlames = false;
         public bool eFreeze = false;
-        public bool wDeath = false;
-        public bool nightwither = false;
         public bool silvaStun = false;
-        public bool enraged = false;
         public bool yellowCandle = false;
         public bool pearlAura = false;
-        public bool shellfishVore = false;
-        public bool clamDebuff = false;
-        public bool sulphurPoison = false;
+        public int wCleave = 0;
+        public int bBlood = 0;
+        public int dFlames = 0;
+        public int marked = 0;
+        public int irradiated = 0;
+        public int bFlames = 0;
+        public int hFlames = 0;
+        public int pFlames = 0;
+        public int aCrunch = 0;
+        public int pShred = 0;
+        public int cDepth = 0;
+        public int gsInferno = 0;
+        public int astralInfection = 0;
+        public int aFlames = 0;
+        public int wDeath = 0;
+        public int nightwither = 0;
+        public int enraged = 0;
+        public int shellfishVore = 0;
+        public int clamDebuff = 0;
+        public int sulphurPoison = 0;
 
         // whoAmI Variables
         public static int bobbitWormBottom = -1;
@@ -329,32 +329,12 @@ namespace CalamityMod.NPCs
             ResetSavedIndex(ref SCalWorm);
 
             timeSlow = false;
-            wCleave = false;
-            bBlood = false;
-            dFlames = false;
-            marked = false;
-            irradiated = false;
-            bFlames = false;
-            hFlames = false;
-            pFlames = false;
             gState = false;
-            aCrunch = false;
             tSad = false;
-            pShred = false;
-            cDepth = false;
-            gsInferno = false;
-            astralInfection = false;
-            aFlames = false;
             eFreeze = false;
-            wDeath = false;
-            nightwither = false;
             silvaStun = false;
-            enraged = false;
             yellowCandle = false;
             pearlAura = false;
-            shellfishVore = false;
-            clamDebuff = false;
-            sulphurPoison = false;
         }
         #endregion
 
@@ -432,7 +412,7 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (shellfishVore)
+            if (shellfishVore > 0)
             {
                 if (npc.lifeRegen > 0)
                 {
@@ -459,7 +439,7 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (clamDebuff)
+            if (clamDebuff > 0)
             {
                 if (npc.lifeRegen > 0)
                 {
@@ -486,7 +466,7 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (cDepth)
+            if (cDepth > 0)
             {
                 if (npc.defense < 0)
                 {
@@ -555,9 +535,9 @@ namespace CalamityMod.NPCs
             ApplyDPSDebuff(sulphurPoison, 180, 36, ref npc.lifeRegen, ref damage);
         }
 
-        public void ApplyDPSDebuff(bool debuff, int lifeRegenValue, int damageValue, ref int lifeRegen, ref int damage)
+        public void ApplyDPSDebuff(int debuff, int lifeRegenValue, int damageValue, ref int lifeRegen, ref int damage)
         {
-            if (debuff)
+            if (debuff > 0)
             {
                 if (lifeRegen > 0)
                 {
@@ -1240,14 +1220,14 @@ namespace CalamityMod.NPCs
             // Apply modifications to enemy's current defense based on Calamity debuffs.
             // As with defense and DR, flat reductions apply first, then multiplicative reductions.
             int effectiveDefense = npc.defense -
-                    (pFlames ? Plague.DefenseReduction : 0) -
-                    (wDeath ? WhisperingDeath.DefenseReduction : 0) -
-                    (gsInferno ? GodSlayerInferno.DefenseReduction : 0) -
-                    (astralInfection ? AstralInfectionDebuff.DefenseReduction : 0) -
-                    (aFlames ? AbyssalFlames.DefenseReduction : 0) -
-                    (wCleave ? WarCleave.DefenseReduction : 0) -
+                    (pFlames > 0 ? Plague.DefenseReduction : 0) -
+                    (wDeath > 0 ? WhisperingDeath.DefenseReduction : 0) -
+                    (gsInferno > 0 ? GodSlayerInferno.DefenseReduction : 0) -
+                    (astralInfection > 0 ? AstralInfectionDebuff.DefenseReduction : 0) -
+                    (aFlames > 0 ? AbyssalFlames.DefenseReduction : 0) -
+                    (wCleave > 0 ? WarCleave.DefenseReduction : 0) -
                     (gState ? GlacialState.DefenseReduction : 0) -
-                    (aCrunch ? ArmorCrunch.DefenseReduction : 0);
+                    (aCrunch > 0 ? ArmorCrunch.DefenseReduction : 0);
 
             // Defense can never be negative and has a minimum value of zero.
             if (effectiveDefense < 0)
@@ -1296,11 +1276,11 @@ namespace CalamityMod.NPCs
         private float DefaultDRMath(NPC npc, float DR)
         {
             float calcDR = DR;
-            if (marked)
+            if (marked > 0)
                 calcDR *= 0.5f;
             if (npc.betsysCurse)
                 calcDR *= 0.66f;
-            if (wCleave)
+            if (wCleave > 0)
                 calcDR *= 0.75f;
 
             // Ichor supersedes Cursed Inferno if both are applied.
@@ -1447,7 +1427,7 @@ namespace CalamityMod.NPCs
                         return CalamityGlobalAI.BuffedKingSlimeAI(npc, mod);
 
                     case NPCID.EyeofCthulhu:
-                        return CalamityGlobalAI.BuffedEyeofCthulhuAI(npc, enraged, mod);
+                        return CalamityGlobalAI.BuffedEyeofCthulhuAI(npc, enraged > 0, mod);
 
                     case NPCID.EaterofWorldsHead:
                     case NPCID.EaterofWorldsBody:
@@ -1455,35 +1435,35 @@ namespace CalamityMod.NPCs
                         return CalamityGlobalAI.BuffedEaterofWorldsAI(npc, mod);
 
                     case NPCID.BrainofCthulhu:
-                        return CalamityGlobalAI.BuffedBrainofCthulhuAI(npc, enraged, mod);
+                        return CalamityGlobalAI.BuffedBrainofCthulhuAI(npc, enraged > 0, mod);
                     case NPCID.Creeper:
-                        return CalamityGlobalAI.BuffedCreeperAI(npc, enraged, mod);
+                        return CalamityGlobalAI.BuffedCreeperAI(npc, enraged > 0, mod);
 
                     case NPCID.QueenBee:
                         return CalamityGlobalAI.BuffedQueenBeeAI(npc, mod);
 
                     case NPCID.SkeletronHand:
-                        return CalamityGlobalAI.BuffedSkeletronHandAI(npc, enraged, mod);
+                        return CalamityGlobalAI.BuffedSkeletronHandAI(npc, enraged > 0, mod);
                     case NPCID.SkeletronHead:
-                        return CalamityGlobalAI.BuffedSkeletronAI(npc, enraged, mod);
+                        return CalamityGlobalAI.BuffedSkeletronAI(npc, enraged > 0, mod);
 
                     case NPCID.WallofFlesh:
-                        return CalamityGlobalAI.BuffedWallofFleshAI(npc, enraged, mod);
+                        return CalamityGlobalAI.BuffedWallofFleshAI(npc, enraged > 0, mod);
                     case NPCID.WallofFleshEye:
-                        return CalamityGlobalAI.BuffedWallofFleshEyeAI(npc, enraged, mod);
+                        return CalamityGlobalAI.BuffedWallofFleshEyeAI(npc, enraged > 0, mod);
 
                     case NPCID.TheDestroyer:
                     case NPCID.TheDestroyerBody:
                     case NPCID.TheDestroyerTail:
-                        return CalamityGlobalAI.BuffedDestroyerAI(npc, enraged, mod);
+                        return CalamityGlobalAI.BuffedDestroyerAI(npc, enraged > 0, mod);
 
                     case NPCID.Retinazer:
-                        return CalamityGlobalAI.BuffedRetinazerAI(npc, enraged, mod);
+                        return CalamityGlobalAI.BuffedRetinazerAI(npc, enraged > 0, mod);
                     case NPCID.Spazmatism:
-                        return CalamityGlobalAI.BuffedSpazmatismAI(npc, enraged, mod);
+                        return CalamityGlobalAI.BuffedSpazmatismAI(npc, enraged > 0, mod);
 
                     case NPCID.SkeletronPrime:
-                        return CalamityGlobalAI.BuffedSkeletronPrimeAI(npc, enraged, mod);
+                        return CalamityGlobalAI.BuffedSkeletronPrimeAI(npc, enraged > 0, mod);
                     case NPCID.PrimeLaser:
                         return CalamityGlobalAI.BuffedPrimeLaserAI(npc, mod);
                     case NPCID.PrimeCannon:
@@ -1494,21 +1474,21 @@ namespace CalamityMod.NPCs
                         return CalamityGlobalAI.BuffedPrimeSawAI(npc, mod);
 
                     case NPCID.Plantera:
-                        return CalamityGlobalAI.BuffedPlanteraAI(npc, enraged, mod);
+                        return CalamityGlobalAI.BuffedPlanteraAI(npc, enraged > 0, mod);
                     case NPCID.PlanterasHook:
                         return CalamityGlobalAI.BuffedPlanterasHookAI(npc, mod);
                     case NPCID.PlanterasTentacle:
                         return CalamityGlobalAI.BuffedPlanterasTentacleAI(npc, mod);
 
                     case NPCID.Golem:
-                        return CalamityGlobalAI.BuffedGolemAI(npc, enraged, mod);
+                        return CalamityGlobalAI.BuffedGolemAI(npc, enraged > 0, mod);
                     case NPCID.GolemHead:
-                        return CalamityGlobalAI.BuffedGolemHeadAI(npc, enraged, mod);
+                        return CalamityGlobalAI.BuffedGolemHeadAI(npc, enraged > 0, mod);
                     case NPCID.GolemHeadFree:
-                        return CalamityGlobalAI.BuffedGolemHeadFreeAI(npc, enraged, mod);
+                        return CalamityGlobalAI.BuffedGolemHeadFreeAI(npc, enraged > 0, mod);
 
                     case NPCID.DukeFishron:
-                        return CalamityGlobalAI.BuffedDukeFishronAI(npc, enraged, mod);
+                        return CalamityGlobalAI.BuffedDukeFishronAI(npc, enraged > 0, mod);
 
                     case NPCID.Pumpking:
                         if (CalamityWorld.downedDoG)
@@ -1544,7 +1524,7 @@ namespace CalamityMod.NPCs
 
                     case NPCID.CultistBoss:
                     case NPCID.CultistBossClone:
-                        return CalamityGlobalAI.BuffedCultistAI(npc, enraged, mod);
+                        return CalamityGlobalAI.BuffedCultistAI(npc, enraged > 0, mod);
                     case NPCID.AncientDoom:
                         return CalamityGlobalAI.BuffedAncientDoomAI(npc, mod);
 
@@ -1552,7 +1532,7 @@ namespace CalamityMod.NPCs
                     case NPCID.MoonLordHand:
                     case NPCID.MoonLordHead:
                     case NPCID.MoonLordLeechBlob:
-                        return CalamityGlobalAI.BuffedMoonLordAI(npc, enraged, mod);
+                        return CalamityGlobalAI.BuffedMoonLordAI(npc, enraged > 0, mod);
 
                     default:
                         break;
@@ -2100,7 +2080,7 @@ namespace CalamityMod.NPCs
                 switch (npc.type)
                 {
                     case NPCID.DungeonGuardian:
-                        CalamityGlobalAI.RevengeanceDungeonGuardianAI(npc, configBossRushBoost, enraged);
+                        CalamityGlobalAI.RevengeanceDungeonGuardianAI(npc, configBossRushBoost, enraged > 0);
                         break;
 
                     case NPCID.Lihzahrd:
@@ -2121,6 +2101,48 @@ namespace CalamityMod.NPCs
         #region Post AI
         public override void PostAI(NPC npc)
         {
+			//Debuff decrements
+			if (wCleave > 0)
+				wCleave--;
+			if (bBlood > 0)
+				bBlood--;
+			if (dFlames > 0)
+				dFlames--;
+			if (marked > 0)
+				marked--;
+			if (irradiated > 0)
+				irradiated--;
+			if (bFlames > 0)
+				bFlames--;
+			if (hFlames > 0)
+				hFlames--;
+			if (pFlames > 0)
+				pFlames--;
+			if (aFlames > 0)
+				aFlames--;
+			if (pShred > 0)
+				pShred--;
+			if (aCrunch > 0)
+				aCrunch--;
+			if (cDepth > 0)
+				cDepth--;
+			if (gsInferno > 0)
+				gsInferno--;
+			if (astralInfection > 0)
+				astralInfection--;
+			if (wDeath > 0)
+				wDeath--;
+			if (nightwither > 0)
+				nightwither--;
+			if (enraged > 0)
+				enraged--;
+			if (shellfishVore > 0)
+				shellfishVore--;
+			if (clamDebuff > 0)
+				clamDebuff--;
+			if (sulphurPoison > 0)
+				sulphurPoison--;
+
             // Bosses and any specific other NPCs are completely immune to having their movement impaired.
             if (npc.boss || CalamityMod.movementImpairImmuneList.Contains(npc.type))
                 return;
@@ -2859,7 +2881,7 @@ namespace CalamityMod.NPCs
 
         public override void DrawEffects(NPC npc, ref Color drawColor)
         {
-            if (bBlood)
+            if (bBlood > 0)
             {
                 if (Main.rand.Next(5) < 4)
                 {
@@ -2875,7 +2897,7 @@ namespace CalamityMod.NPCs
                 }
                 Lighting.AddLight(npc.position, 0.08f, 0f, 0f);
             }
-            if (bFlames || enraged)
+            if (bFlames > 0 || enraged > 0)
             {
                 if (Main.rand.Next(5) < 4)
                 {
@@ -2891,7 +2913,7 @@ namespace CalamityMod.NPCs
                 }
                 Lighting.AddLight(npc.position, 0.05f, 0.01f, 0.01f);
             }
-            if (aFlames)
+            if (aFlames > 0)
             {
                 if (Main.rand.Next(5) < 4)
                 {
@@ -2907,7 +2929,7 @@ namespace CalamityMod.NPCs
                 }
                 Lighting.AddLight(npc.position, 0.025f, 0f, 0f);
             }
-            if (pShred)
+            if (pShred > 0)
             {
                 if (Main.rand.Next(5) < 4)
                 {
@@ -2922,7 +2944,7 @@ namespace CalamityMod.NPCs
                     }
                 }
             }
-            if (hFlames)
+            if (hFlames > 0)
             {
                 if (Main.rand.Next(5) < 4)
                 {
@@ -2938,7 +2960,7 @@ namespace CalamityMod.NPCs
                 }
                 Lighting.AddLight(npc.position, 0.25f, 0.25f, 0.1f);
             }
-            if (pFlames)
+            if (pFlames > 0)
             {
                 if (Main.rand.Next(5) < 4)
                 {
@@ -2954,7 +2976,7 @@ namespace CalamityMod.NPCs
                 }
                 Lighting.AddLight(npc.position, 0.07f, 0.15f, 0.01f);
             }
-            if (gsInferno)
+            if (gsInferno > 0)
             {
                 if (Main.rand.Next(5) < 4)
                 {
@@ -2970,7 +2992,7 @@ namespace CalamityMod.NPCs
                 }
                 Lighting.AddLight(npc.position, 0.1f, 0f, 0.135f);
             }
-            if (astralInfection)
+            if (astralInfection > 0)
             {
                 if (Main.rand.Next(5) < 3)
                 {
@@ -2987,7 +3009,7 @@ namespace CalamityMod.NPCs
                     }
                 }
             }
-            if (nightwither)
+            if (nightwither > 0)
             {
                 Rectangle hitbox = npc.Hitbox;
                 if (Main.rand.Next(5) < 4)
@@ -3008,7 +3030,7 @@ namespace CalamityMod.NPCs
                     dust.scale += Main.rand.NextFloat();
                 }
             }
-            if (tSad || cDepth)
+            if (tSad || cDepth > 0)
             {
                 if (Main.rand.Next(6) < 3)
                 {
@@ -3023,7 +3045,7 @@ namespace CalamityMod.NPCs
                     }
                 }
             }
-            if (dFlames)
+            if (dFlames > 0)
             {
                 if (Main.rand.Next(5) < 4)
                 {
@@ -3039,7 +3061,7 @@ namespace CalamityMod.NPCs
                 }
                 Lighting.AddLight(npc.position, 0.1f, 0f, 0.135f);
             }
-            if (sulphurPoison)
+            if (sulphurPoison > 0)
             {
                 if (Main.rand.Next(5) < 4)
                 {
@@ -3060,7 +3082,7 @@ namespace CalamityMod.NPCs
                 drawColor = Color.Cyan;
             }
 
-            if (marked || sulphurPoison)
+            if (marked > 0 || sulphurPoison > 0)
             {
                 drawColor = Color.Fuchsia;
             }
@@ -3083,7 +3105,7 @@ namespace CalamityMod.NPCs
                 return new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, npc.alpha);
             }
 
-            if (enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+            if (enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
             {
                 return new Color(200, 50, 50, npc.alpha);
             }

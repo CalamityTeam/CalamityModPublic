@@ -22,7 +22,9 @@ namespace CalamityMod.Buffs.DamageOverTime
 
         public override void Update(NPC npc, ref int buffIndex)
         {
-            npc.Calamity().bBlood = true;
+			npc.Calamity().bBlood = npc.buffTime[buffIndex];
+			npc.DelBuff(buffIndex);
+			buffIndex--;
         }
     }
 }

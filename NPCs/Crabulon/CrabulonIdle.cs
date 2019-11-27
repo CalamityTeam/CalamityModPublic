@@ -220,7 +220,7 @@ namespace CalamityMod.NPCs.Crabulon
                     num823 = 2f;
                 if (CalamityWorld.bossRushActive)
                     num823 = 12f;
-                if (npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                if (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
                     num823 = 16f;
 
                 if (Math.Abs(npc.Center.X - Main.player[npc.target].Center.X) < 50f)
@@ -399,7 +399,7 @@ namespace CalamityMod.NPCs.Crabulon
                         {
                             num626 += 1f;
                         }
-                        if (npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                        if (npc.Calamity().enraged > 0|| (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
                         {
                             num626 += 3f;
                         }

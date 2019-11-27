@@ -130,7 +130,7 @@ namespace CalamityMod.NPCs.SlimeGod
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    npc.localAI[1] += (npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 2f : 1f;
+                    npc.localAI[1] += (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 2f : 1f;
                     if (expertMode && Main.rand.NextBool(2))
                     {
                         if (npc.localAI[0] >= 75f)
@@ -237,7 +237,7 @@ namespace CalamityMod.NPCs.SlimeGod
             {
                 num1372 = 22f;
             }
-            if (npc.Calamity().enraged || player.gravDir == -1f || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+            if (npc.Calamity().enraged > 0 || player.gravDir == -1f || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
             {
                 num1372 += 8f;
             }

@@ -271,7 +271,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                     calamityGlobalNPC.newAI[0] = 0f;
 
                 // Laser walls
-                if (!speedBoost2 && (laserWallPhase == 1 || calamityGlobalNPC.enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)))
+                if (!speedBoost2 && (laserWallPhase == 1 || calamityGlobalNPC.enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)))
                 {
                     laserShoot += 1;
 

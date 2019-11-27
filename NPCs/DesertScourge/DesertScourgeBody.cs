@@ -91,7 +91,7 @@ namespace CalamityMod.NPCs.DesertScourge
             if (Main.netMode != NetmodeID.MultiplayerClient && (CalamityWorld.revenge || CalamityWorld.bossRushActive))
             {
                 npc.localAI[0] += (float)Main.rand.Next(4);
-                if (npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                if (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
                 {
                     npc.localAI[0] += 4f;
                 }

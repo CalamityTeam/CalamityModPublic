@@ -213,7 +213,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
                 {
                     beamPortal += 1;
                 }
-                if (npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                if (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
                 {
                     beamPortal += 2;
                 }
