@@ -655,12 +655,7 @@ namespace CalamityMod.NPCs
         {
             if (!npc.friendly)
             {
-                for (int k = 0; k < npc.buffImmune.Length; k++)
-                {
-                    npc.buffImmune[k] = true;
-                }
-
-                if (npc.type != ModContent.NPCType<DevourerofGodsHeadS>() && npc.type != ModContent.NPCType<DevourerofGodsBodyS>() && npc.type != ModContent.NPCType<DevourerofGodsTailS>())
+                if (npc.type != ModContent.NPCType<DevourerofGodsHeadS>() && npc.type != ModContent.NPCType<DevourerofGodsBodyS>() && npc.type != ModContent.NPCType<DevourerofGodsTailS>() && npc.type != ModContent.NPCType<StormWeaverHead>() && npc.type != ModContent.NPCType<StormWeaverBody>() && npc.type != ModContent.NPCType<StormWeaverTail>() && npc.type != ModContent.NPCType<DesertScourgeHead>() && npc.type != ModContent.NPCType<DesertScourgeBody>() && npc.type != ModContent.NPCType<DesertScourgeTail>() && !AquaticScourgeIDs.Contains(npc.type) && !EaterofWorldsIDs.Contains(npc.type) && !AstrumDeusIDs.Contains(npc.type) && !DestroyerIDs.Contains(npc.type))
                 {
                     npc.buffImmune[BuffID.Ichor] = false;
                     npc.buffImmune[BuffID.CursedInferno] = false;
