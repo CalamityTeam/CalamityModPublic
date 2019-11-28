@@ -1142,7 +1142,7 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (NPC.downedPlantBoss && npc.type == NPCID.SandShark && !NPC.AnyNPCs(ModContent.NPCType<GreatSandShark.GreatSandShark>()))
+            if (NPC.downedPlantBoss && (npc.type == NPCID.SandShark || npc.type == NPCID.SandSharkHallow || npc.type == NPCID.SandSharkCorrupt || npc.type == NPCID.SandSharkCrimson || npc.type == ModContent.NPCType<FusionFeeder>()) && !NPC.AnyNPCs(ModContent.NPCType<GreatSandShark.GreatSandShark>()))
             {
                 CalamityMod.sharkKillCount++;
                 if (CalamityMod.sharkKillCount == 4)
