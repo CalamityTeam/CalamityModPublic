@@ -555,6 +555,15 @@ namespace CalamityMod
             r.AddTile(TileID.Anvils);
             r.SetResult(ItemID.Radar);
             r.AddRecipe();
+
+            // Metal Detector
+            r = GetNewRecipe();
+            r.AddIngredient(ItemID.Wire, 10);
+            r.AddIngredient(ItemID.HallowedBar, 5);
+            r.AddIngredient(ItemID.SpelunkerGlowstick, 5);
+            r.AddTile(TileID.MythrilAnvil);
+            r.SetResult(ItemID.MetalDetector);
+            r.AddRecipe();
         }
         #endregion
 
