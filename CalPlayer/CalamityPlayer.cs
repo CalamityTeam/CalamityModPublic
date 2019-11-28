@@ -591,6 +591,7 @@ namespace CalamityMod.CalPlayer
         public bool polarisBoostTwo = false;
         public bool polarisBoostThree = false;
         public bool bloodfinBoost = false;
+        public int bloodfinTimer = 30;
 
         // Minion
         public bool resButterfly = false;
@@ -1487,6 +1488,7 @@ namespace CalamityMod.CalPlayer
             polarisBoostTwo = false;
             polarisBoostThree = false;
             bloodfinBoost = false;
+            bloodfinTimer = 0;
             revivify = false;
             healCounter = 300;
             #endregion

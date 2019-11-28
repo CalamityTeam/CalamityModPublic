@@ -287,7 +287,15 @@ namespace CalamityMod.CalPlayer
 					player.lifeRegen += 5;
 					player.lifeRegenTime += 10;
 				}
-			}
+                if (modPlayer.bloodfinTimer > 0)
+                { modPlayer.bloodfinTimer--; }
+                if (player.whoAmI == Main.myPlayer && modPlayer.bloodfinTimer <= 0)
+                {
+                    modPlayer.bloodfinTimer = 30;
+					if (player.statLife <= (int)((double)player.statLifeMax2 * 0.75))
+						player.statLife += 1;
+                }
+            }
 
 			if (modPlayer.celestialJewel || modPlayer.astralArcanum)
             {
