@@ -2011,6 +2011,7 @@ namespace CalamityMod
                 ModContent.TileType<BotanicChandelier>(),
                 ModContent.TileType<BotanicLamp>(),
                 ModContent.TileType<BotanicLantern>(),
+                ModContent.TileType<CosmiliteBasinTile>(),
                 ModContent.TileType<CosmiliteCandle>(),
                 ModContent.TileType<CosmiliteCandelabra>(),
                 ModContent.TileType<CosmiliteChandelier>(),

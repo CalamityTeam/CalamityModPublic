@@ -3881,6 +3881,11 @@ namespace CalamityMod.NPCs
                 SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Abomination>(), CalamityWorld.downedPlaguebringer, Item.buyPrice(0, 50));
                 SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<BirbPheromones>(), CalamityWorld.downedBumble, Item.buyPrice(5));
             }
+
+            if (type == NPCID.SkeletonMerchant)
+            {
+                SetShopItem(ref shop, ref nextSlot, ItemID.Marrow, Main.hardMode, Item.buyPrice(0, 36));
+            }
         }
 
         public override void SetupTravelShop(int[] shop, ref int nextSlot)
