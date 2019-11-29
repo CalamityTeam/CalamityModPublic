@@ -3881,6 +3881,11 @@ namespace CalamityMod.NPCs
                 SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Abomination>(), CalamityWorld.downedPlaguebringer, Item.buyPrice(0, 50));
                 SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<BirbPheromones>(), CalamityWorld.downedBumble, Item.buyPrice(5));
             }
+
+            if (type == NPCID.SkeletonMerchant)
+            {
+                SetShopItem(ref shop, ref nextSlot, ItemID.Marrow, Main.hardMode, Item.buyPrice(0, 36));
+            }
         }
 
         public override void SetupTravelShop(int[] shop, ref int nextSlot)
@@ -3970,7 +3975,7 @@ namespace CalamityMod.NPCs
                 Projectile projectile = Main.projectile[m];
                 if (projectile.active && projectile.bobber && projectile.owner == plr)
                 {
-                    // TODO -- Old Duke not added yet
+                    // TODO -- Old Duke isn't added yet.
                     int num8 = NPC.NewNPC((int)projectile.Center.X, (int)projectile.Center.Y + 100, /* ModContent.NPCType<OldDuke>() */ NPCID.DukeFishron);
                     string typeName2 = Main.npc[num8].TypeName;
                     if (Main.netMode == NetmodeID.SinglePlayer)

@@ -1225,7 +1225,7 @@ namespace CalamityMod.World
                 }
             }
 
-            // TODO -- remove random lorde spawn code
+            // DO NOT REMOVE -- this code is being kept for April Fools 2020
             /*if (Main.rand.NextBool(100000000))
             {
                 string key = "Mods.CalamityMod.AprilFools";

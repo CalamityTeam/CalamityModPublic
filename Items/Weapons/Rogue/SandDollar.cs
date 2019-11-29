@@ -37,13 +37,16 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override bool CanUseItem(Player player)
         {
-            int launched = 0;
+			int UseMax = item.stack - 1;
 
-            foreach (Projectile projectile in Main.projectile)
-                if (projectile.type == item.shoot && projectile.owner == item.owner && projectile.active)
-                    launched++;
-
-            return launched < item.stack;
+			if (player.ownedProjectileCounts[item.shoot] > UseMax)
+			{
+				return false;
+			}
+			else
+			{
+				return true;
+			}
         }
     }
 }
