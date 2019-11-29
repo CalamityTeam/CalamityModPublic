@@ -2486,7 +2486,7 @@ namespace CalamityMod.NPCs
 
             if (Main.player[projectile.owner].Calamity().eGauntlet)
             {
-                if (projectile.melee && ShouldAffectNPC(npc) && Main.rand.NextBool(15))
+                if (projectile.melee && ShouldAffectNPC(npc) && !projectile.npcProj && Main.rand.NextBool(15))
                 {
                     if (!CalamityPlayer.areThereAnyDamnBosses)
                     {
@@ -2497,7 +2497,7 @@ namespace CalamityMod.NPCs
 
             if (Main.player[projectile.owner].Calamity().eTalisman)
             {
-                if (projectile.magic && ShouldAffectNPC(npc) && Main.rand.NextBool(15))
+                if (projectile.magic && ShouldAffectNPC(npc) && !projectile.npcProj && Main.rand.NextBool(15))
                 {
                     if (!CalamityPlayer.areThereAnyDamnBosses)
                     {
@@ -2508,7 +2508,7 @@ namespace CalamityMod.NPCs
 
             if (Main.player[projectile.owner].Calamity().nanotech)
             {
-                if (projectile.Calamity().rogue && ShouldAffectNPC(npc) && Main.rand.NextBool(15))
+                if (projectile.Calamity().rogue && ShouldAffectNPC(npc) && !projectile.npcProj && Main.rand.NextBool(15))
                 {
                     if (!CalamityPlayer.areThereAnyDamnBosses)
                     {
@@ -2519,7 +2519,7 @@ namespace CalamityMod.NPCs
 
             if (Main.player[projectile.owner].Calamity().eQuiver)
             {
-                if (projectile.ranged && ShouldAffectNPC(npc) && Main.rand.NextBool(15))
+                if (projectile.ranged && ShouldAffectNPC(npc) && !projectile.npcProj && Main.rand.NextBool(15))
                 {
                     if (!CalamityPlayer.areThereAnyDamnBosses)
                     {
@@ -2530,7 +2530,7 @@ namespace CalamityMod.NPCs
 
             if (Main.player[projectile.owner].Calamity().statisBeltOfCurses)
             {
-                if ((projectile.minion || CalamityMod.projectileMinionList.Contains(projectile.type)) && ShouldAffectNPC(npc) && Main.rand.NextBool(15))
+                if ((projectile.minion || CalamityMod.projectileMinionList.Contains(projectile.type)) && ShouldAffectNPC(npc) && !projectile.npcProj && Main.rand.NextBool(15))
                 {
                     if (!CalamityPlayer.areThereAnyDamnBosses)
                     {

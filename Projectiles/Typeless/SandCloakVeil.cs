@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
+using CalamityMod.NPCs;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -94,7 +95,7 @@ namespace CalamityMod.Projectiles.Typeless
         {
             // Knockback has to be done manually to ensure the enemies are repelled from the aura as opposed to thrown to one side of it
 
-            if (!target.boss)
+            if (CalamityGlobalNPC.ShouldAffectNPC(target))
             {
                 float knockbackMultiplier = knockback - target.knockBackResist;
                 if (knockbackMultiplier < 0)
