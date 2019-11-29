@@ -82,7 +82,7 @@ namespace CalamityMod.Projectiles.Rogue
 				stealthStrikeTimer++;
 				if (stealthStrikeTimer >= 18)
 				{
-					Projectile.NewProjectile(spearposition, spearspeed, ModContent.ProjectileType<ProfanedPartisanspear>(), projectile.damage/2, projectile.knockBack, projectile.owner, 0f, 0f);
+					Projectile.NewProjectile(spearposition, spearspeed, ModContent.ProjectileType<ProfanedPartisanspear>(), projectile.damage/10, projectile.knockBack, projectile.owner, 0f, 0f);
 					stealthStrikeTimer = 0;
 				}
 			}
@@ -96,7 +96,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
             Main.PlaySound(2, projectile.position, 45);
             Vector2 explode = new Vector2(0f, 0f);
-            Projectile.NewProjectile(projectile.Center, explode, ModContent.ProjectileType<PartisanExplosion>(), projectile.damage, projectile.knockBack * 1.3f, projectile.owner);
+            Projectile.NewProjectile(projectile.Center, explode, ModContent.ProjectileType<PartisanExplosion>(), projectile.damage/2, projectile.knockBack * 1.3f, projectile.owner);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

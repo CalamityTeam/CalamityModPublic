@@ -37,7 +37,7 @@ namespace CalamityMod.NPCs.AcidRain
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
 			aiType = NPCID.GlowingSnail;
-			animationType = NPCID.GlowingSnail;
+			//animationType = NPCID.GlowingSnail;
             //banner = npc.type;
             //bannerItem = ModContent.ItemType<RadiatorBanner>();
         }
@@ -46,7 +46,7 @@ namespace CalamityMod.NPCs.AcidRain
         {
             if (npc.localAI[0] == 0f)
             {
-                npc.catchItem = (Main.rand.NextBool(20)) ? (short)ModContent.ItemType<RadiatingCrystal>() : ItemID.None;
+                npc.catchItem = (Main.rand.NextBool(10)) ? (short)ModContent.ItemType<RadiatingCrystal>() : ItemID.None;
                 npc.localAI[0] = 1f;
                 npc.velocity.Y = -3f;
                 npc.netUpdate = true;
@@ -61,6 +61,20 @@ namespace CalamityMod.NPCs.AcidRain
 				player.AddBuff(ModContent.BuffType<Irradiated>(), 3, false);
 				player.AddBuff(BuffID.Poisoned, 2, false);
 			}
+        }
+
+        public override void FindFrame(int frameHeight)
+        {
+            npc.frameCounter++;
+            if (npc.frameCounter > 8)
+            {
+                npc.frameCounter = 0;
+                npc.frame.Y += frameHeight;
+                if (npc.frame.Y > frameHeight * 2)
+                {
+                    npc.frame.Y = 0;
+                }
+            }
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
