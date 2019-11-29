@@ -64,7 +64,7 @@ namespace CalamityMod.Items.Weapons.Melee
                                "The first attack releases two blood-skulls that home in\n" +
                                "The second attack releases an enormous slow-moving skull\n" +
                                "This slow-moving skull becomes weaker with time and lasts for around 4 seconds seconds\n" +
-                               "The second attack causes a true melee strike with increased damage\n" +
+                               "The third attack causes a true melee strike to do more damage than normal\n" +
                                "If you're below 50% life, swings release blood droplets\n" +
                                "Pressing the Rage Key while holding this weapon resets Rage to 0 and releases a circle of\n" +
                                "Slow-moving blood skulls. If Rage is full, the skulls do way more damage. Otherwise, the skull's damage is\n" +
