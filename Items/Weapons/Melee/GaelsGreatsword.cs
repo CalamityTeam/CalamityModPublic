@@ -19,13 +19,13 @@ namespace CalamityMod.Items.Weapons.Melee
 
         //Weapon attribute constants
 
-        public static readonly int BaseDamage = 8;
+        public static readonly int BaseDamage = 15;
 
-        public static readonly int HardmodeDamage = 24;   
+        public static readonly int HardmodeDamage = 33;
 
-        public static readonly int PostMoonLordDamage = 170;
+        public static readonly int PostMoonLordDamage = 213;
 
-        public static readonly int PostYharonDamage = 10000;
+        public static readonly int PostYharonDamage = 14560;
 
         public static readonly float TrueMeleeBoostPreHardmode = 1.75f;
 
