@@ -95,6 +95,7 @@ namespace CalamityMod.NPCs
         public int tSad = 0;
         public int eFreeze = 0;
         public int silvaStun = 0;
+        public int webbed = 0;
         public int yellowCandle = 0;
         public int pearlAura = 0;
         public int wCleave = 0;
@@ -605,6 +606,7 @@ namespace CalamityMod.NPCs
                     npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
                     npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
                     npc.buffImmune[ModContent.BuffType<TimeSlow>()] = true;
+                    npc.buffImmune[BuffID.Webbed] = true;
                 }
 
                 if (DestroyerIDs.Contains(npc.type) || npc.type == NPCID.DD2EterniaCrystal || npc.townNPC)
@@ -2111,6 +2113,8 @@ namespace CalamityMod.NPCs
 				eFreeze--;
 			if (silvaStun > 0)
 				silvaStun--;
+			if (webbed > 0)
+				webbed--;
 			if (yellowCandle > 0)
 				yellowCandle--;
 			if (pearlAura > 0)
@@ -2167,7 +2171,7 @@ namespace CalamityMod.NPCs
             {
                 if (silvaStun > 0)
                     npc.velocity = Vector2.Zero;
-                else if (timeSlow > 0)
+                else if (timeSlow > 0 || webbed > 0)
                     npc.velocity *= 0.85f;
             }
         }
@@ -2486,7 +2490,7 @@ namespace CalamityMod.NPCs
 
             if (Main.player[projectile.owner].Calamity().eGauntlet)
             {
-                if (projectile.melee && ShouldAffectNPC(npc) && Main.rand.NextBool(15))
+                if (projectile.melee && ShouldAffectNPC(npc) && !projectile.npcProj && Main.rand.NextBool(15))
                 {
                     if (!CalamityPlayer.areThereAnyDamnBosses)
                     {
@@ -2497,7 +2501,7 @@ namespace CalamityMod.NPCs
 
             if (Main.player[projectile.owner].Calamity().eTalisman)
             {
-                if (projectile.magic && ShouldAffectNPC(npc) && Main.rand.NextBool(15))
+                if (projectile.magic && ShouldAffectNPC(npc) && !projectile.npcProj && Main.rand.NextBool(15))
                 {
                     if (!CalamityPlayer.areThereAnyDamnBosses)
                     {
@@ -2508,7 +2512,7 @@ namespace CalamityMod.NPCs
 
             if (Main.player[projectile.owner].Calamity().nanotech)
             {
-                if (projectile.Calamity().rogue && ShouldAffectNPC(npc) && Main.rand.NextBool(15))
+                if (projectile.Calamity().rogue && ShouldAffectNPC(npc) && !projectile.npcProj && Main.rand.NextBool(15))
                 {
                     if (!CalamityPlayer.areThereAnyDamnBosses)
                     {
@@ -2519,7 +2523,7 @@ namespace CalamityMod.NPCs
 
             if (Main.player[projectile.owner].Calamity().eQuiver)
             {
-                if (projectile.ranged && ShouldAffectNPC(npc) && Main.rand.NextBool(15))
+                if (projectile.ranged && ShouldAffectNPC(npc) && !projectile.npcProj && Main.rand.NextBool(15))
                 {
                     if (!CalamityPlayer.areThereAnyDamnBosses)
                     {
@@ -2530,7 +2534,7 @@ namespace CalamityMod.NPCs
 
             if (Main.player[projectile.owner].Calamity().statisBeltOfCurses)
             {
-                if ((projectile.minion || CalamityMod.projectileMinionList.Contains(projectile.type)) && ShouldAffectNPC(npc) && Main.rand.NextBool(15))
+                if ((projectile.minion || CalamityMod.projectileMinionList.Contains(projectile.type)) && ShouldAffectNPC(npc) && !projectile.npcProj && Main.rand.NextBool(15))
                 {
                     if (!CalamityPlayer.areThereAnyDamnBosses)
                     {
@@ -3079,6 +3083,21 @@ namespace CalamityMod.NPCs
                 if (Main.rand.Next(5) < 4)
                 {
                     int dust = Dust.NewDust(npc.position - new Vector2(2f, 2f), npc.width + 4, npc.height + 4, 171, npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 100, default, 1.5f);
+                    Main.dust[dust].noGravity = true;
+                    Main.dust[dust].velocity *= 1.1f;
+                    Main.dust[dust].velocity.Y += 0.25f;
+                    if (Main.rand.NextBool(2))
+                    {
+                        Main.dust[dust].noGravity = false;
+                        Main.dust[dust].scale *= 0.5f;
+                    }
+                }
+            }
+            if (webbed > 0)
+            {
+                if (Main.rand.Next(5) < 4)
+                {
+                    int dust = Dust.NewDust(npc.position - new Vector2(2f, 2f), npc.width + 4, npc.height + 4, 30, npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 100, default, 1.5f);
                     Main.dust[dust].noGravity = true;
                     Main.dust[dust].velocity *= 1.1f;
                     Main.dust[dust].velocity.Y += 0.25f;

@@ -23,8 +23,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.penetrate = 3;
             projectile.timeLeft = 180;
             projectile.aiStyle = 1;
-            projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 10;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = -2;
         }
 
         public override void AI()

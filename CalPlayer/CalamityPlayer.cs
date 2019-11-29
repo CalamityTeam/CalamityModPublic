@@ -401,6 +401,8 @@ namespace CalamityMod.CalPlayer
         public bool electricianGlove = false;
         public bool bloodyGlove = false;
         public bool filthyGlove = false;
+        public bool sandCloak = false;
+        public int sandCloakCooldown = 0;
 
         // Armor Set
         public bool victideSet = false;
@@ -1148,6 +1150,7 @@ namespace CalamityMod.CalPlayer
             electricianGlove = false;
             bloodyGlove = false;
             filthyGlove = false;
+            sandCloak = false;
 
 			alcoholPoisoning = false;
             shadowflame = false;
@@ -1393,6 +1396,7 @@ namespace CalamityMod.CalPlayer
             moonCrownCooldown = 0;
             featherCrownCooldown = 0;
             sulphurPoison = false;
+            sandCloakCooldown = 0;
             #endregion
 
             #region Rogue
@@ -1863,6 +1867,14 @@ namespace CalamityMod.CalPlayer
                         player.AddBuff(BuffID.ChaosState, 360, true);
                     }
                 }
+            }
+            if (CalamityMod.SandCloakHotkey.JustPressed && sandCloak && Main.myPlayer == player.whoAmI && player.Calamity().rogueStealth >= player.Calamity().rogueStealthMax * 0.25f &&
+                wearingRogueArmor && player.Calamity().rogueStealthMax > 0 && sandCloakCooldown == 0)
+            {
+                sandCloakCooldown = 900;
+                player.Calamity().rogueStealth -= player.Calamity().rogueStealthMax * 0.25f;
+                Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<SandCloakVeil>(), 7, 8, player.whoAmI, 0, 0);
+                Main.PlaySound(2, player.position, 45);
             }
             if (CalamityMod.BossBarToggleHotKey.JustPressed)
             {
@@ -3341,6 +3353,8 @@ namespace CalamityMod.CalPlayer
                 featherCrownCooldown--;
             if (moonCrownCooldown > 0)
                 moonCrownCooldown--;
+            if (sandCloakCooldown > 0)
+                sandCloakCooldown--;
             if (ataxiaDmg > 0f)
                 ataxiaDmg -= 1.5f;
             if (ataxiaDmg < 0f)

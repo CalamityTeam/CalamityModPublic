@@ -18,12 +18,12 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SafeSetDefaults()
         {
             item.width = 40;
-            item.damage = 15;
+            item.damage = 14;
             item.noMelee = true;
             item.noUseGraphic = true;
-            item.useAnimation = 15;
+            item.useAnimation = 18;
             item.useStyle = 1;
-            item.useTime = 15;
+            item.useTime = 18;
             item.knockBack = 1f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;

@@ -97,6 +97,7 @@ namespace CalamityMod
         public static ModHotKey BossBarToggleHotKey;
         public static ModHotKey BossBarToggleSmallTextHotKey;
         public static ModHotKey MomentumCapacitatorHotkey;
+        public static ModHotKey SandCloakHotkey;
 
         // Boss Spawners
         public static int ghostKillCount = 0;
@@ -192,6 +193,7 @@ namespace CalamityMod
             AstralTeleportHotKey = RegisterHotKey("Astral Teleport", "P");
             AstralArcanumUIHotkey = RegisterHotKey("Astral Arcanum UI Toggle", "O");
             MomentumCapacitatorHotkey = RegisterHotKey("Momentom Capacitater Effect", "U");
+            SandCloakHotkey = RegisterHotKey("Sand Cloak Effect", "C");
             BossBarToggleHotKey = RegisterHotKey("Boss Health Bar Toggle", "NumPad0");
             BossBarToggleSmallTextHotKey = RegisterHotKey("Boss Health Bar Small Text Toggle", "NumPad1");
 
@@ -280,6 +282,7 @@ namespace CalamityMod
             AstralTeleportHotKey = null;
             AstralArcanumUIHotkey = null;
             MomentumCapacitatorHotkey = null;
+            SandCloakHotkey = null;
             BossBarToggleHotKey = null;
             BossBarToggleSmallTextHotKey = null;
 
@@ -1814,7 +1817,8 @@ namespace CalamityMod
                 ModContent.ItemType<NastyCholla>(),
                 ModContent.ItemType<HellsSun>(),
                 ModContent.ItemType<SkyStabber>(),
-                ModContent.ItemType<StickySpikyBall>()
+                ModContent.ItemType<StickySpikyBall>(),
+                ModContent.ItemType<WebBall>()
             };
 
             noGravityList = new List<int>()
