@@ -12,9 +12,6 @@ namespace CalamityMod.NPCs.AstrumAureus
 {
     public class AureusSpawn : ModNPC
     {
-        // TODO -- This value is never set, but is read and written by the network. Remove it?
-        private bool boostDR = false;
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Aureus Spawn");
@@ -52,13 +49,11 @@ namespace CalamityMod.NPCs.AstrumAureus
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(boostDR);
             writer.Write(npc.dontTakeDamage);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            boostDR = reader.ReadBoolean();
             npc.dontTakeDamage = reader.ReadBoolean();
         }
 
