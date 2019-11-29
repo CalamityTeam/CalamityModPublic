@@ -255,7 +255,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     break;
                 //Giant, slow, fading skull
                 case 1:
-                    int projectileIndex = Projectile.NewProjectile(position, new Vector2(speedX,speedY) * 0.5f, type, damage * 2, knockBack, player.whoAmI, ai1:1f);
+                    int projectileIndex = Projectile.NewProjectile(position, new Vector2(speedX,speedY) * 0.5f, type, (int)((float)damage * 1.5f), knockBack, player.whoAmI, ai1:1f);
                     Main.projectile[projectileIndex].scale = 1.75f;
                     break;
             }
