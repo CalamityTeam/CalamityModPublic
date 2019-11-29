@@ -62,6 +62,11 @@ using Terraria.ModLoader.IO;
 
 namespace CalamityMod.CalPlayer
 {
+    public enum GaelSwitchPhase
+    {
+        LoseRage = 0,
+        None = 1
+    }
     public class CalamityPlayer : ModPlayer
     {
         #region Variables
@@ -110,16 +115,17 @@ namespace CalamityMod.CalPlayer
         public int hInfernoBoost = 0;
         public int pissWaterBoost = 0;
         public int gaelRageCooldown = 0;
-        public int gaelBloodShotCooldown = 0;
         public int packetTimer = 0;
         public int bloodflareHeartTimer = 180;
         public int bloodflareManaTimer = 180;
         public int moneyStolenByBandit = 0;
         public int polarisBoostCounter = 0;
         public int reforges = 0;
+        public int gaelSwipes = 0;
         public float modStealth = 1f;
         public float aquaticBoost = 1f;
         public float shieldInvinc = 5f;
+        public GaelSwitchPhase gaelSwitchTimer = 0;
 
         // Sound
         public bool playRogueStealthSound = false;
@@ -871,6 +877,7 @@ namespace CalamityMod.CalPlayer
             thirdSage = false;
             if (player.immuneTime == 0)
                 thirdSageH = false;
+
             perfmini = false;
             akato = false;
             leviPet = false;
@@ -1329,7 +1336,8 @@ namespace CalamityMod.CalPlayer
             #region Debuffs
             //distanceFromBoss = -1;
             gaelRageCooldown = 0;
-            gaelBloodShotCooldown = 0;
+            gaelSwipes = 0;
+            gaelSwitchTimer = (GaelSwitchPhase)0;
             stress = 0;
             adrenaline = 0;
             adrenalineMaxTimer = 300;
@@ -1568,6 +1576,7 @@ namespace CalamityMod.CalPlayer
             elysianAegis = false;
             elysianGuard = false;
             #endregion
+
 
             if (CalamityWorld.bossRushActive)
             {
@@ -2051,24 +2060,26 @@ namespace CalamityMod.CalPlayer
                     if (CalamityWorld.downedYharon)
                     {
                         skullCount = 20f;
-                        skullSpeed = 16f;
+                        skullSpeed = 12f;
                     }
                     else if (NPC.downedMoonlord)
                     {
                         skullCount = 13f;
-                        skullSpeed = 13f;
+                        skullSpeed = 10f;
                     }
                     else if (Main.hardMode)
                     {
                         skullCount = 9f;
-                        skullSpeed = 8.75f;
+                        skullSpeed = 6.8f;
                     }
                     for (float i = 0; i < skullCount; i += 1f)
                     {
                         float angle = MathHelper.TwoPi * i / skullCount;
-                        Vector2 initialVelocity = angle.ToRotationVector2() * skullSpeed;
-                        int projectileIndex = Projectile.NewProjectile(player.Center + initialVelocity * 3f, initialVelocity, ModContent.ProjectileType<GaelSkull>(), damage, 2f, player.whoAmI);
+                        Vector2 initialVelocity = angle.ToRotationVector2().RotatedByRandom(MathHelper.ToRadians(12f)) * skullSpeed * new Vector2(0.82f, 1.5f) *
+                            Main.rand.NextFloat(0.8f, 1.2f) * (i < skullCount / 2  ? 0.25f : 1f);
+                        int projectileIndex = Projectile.NewProjectile(player.Center + initialVelocity * 3f, initialVelocity, ModContent.ProjectileType<GaelSkull2>(), damage, 2f, player.whoAmI);
                         Main.projectile[projectileIndex].tileCollide = false;
+                        Main.projectile[projectileIndex].localAI[1] = (Main.projectile[projectileIndex].velocity.Y < 0f).ToInt();
                     }
                     stress = 0;
                 }
@@ -2946,6 +2957,16 @@ namespace CalamityMod.CalPlayer
             #endregion
 
             #region MiscEffects
+            if (player.HeldItem.type == ModContent.ItemType<GaelsGreatsword>())
+            {
+                gaelSwitchTimer = GaelSwitchPhase.LoseRage;
+                stress += (int)MathHelper.Min(5, 10000 - stress);
+            }
+            else if (player.HeldItem.type != ModContent.ItemType<GaelsGreatsword>() && gaelSwitchTimer == GaelSwitchPhase.LoseRage)
+            {
+                stress = 0;
+                gaelSwitchTimer = GaelSwitchPhase.None;
+            }
             if (Config.ProficiencyEnabled)
             {
                 GetExactLevelUp();
@@ -3336,8 +3357,6 @@ namespace CalamityMod.CalPlayer
                 aBulwarkRareMeleeBoostTimer--;
             if (bossRushImmunityFrameCurseTimer > 0)
                 bossRushImmunityFrameCurseTimer--;
-            if (gaelBloodShotCooldown > 0)
-                gaelBloodShotCooldown--;
             if (gaelRageCooldown > 0)
                 gaelRageCooldown--;
 
