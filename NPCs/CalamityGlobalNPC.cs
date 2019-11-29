@@ -3975,7 +3975,7 @@ namespace CalamityMod.NPCs
                 Projectile projectile = Main.projectile[m];
                 if (projectile.active && projectile.bobber && projectile.owner == plr)
                 {
-                    // TODO -- Old Duke not added yet
+                    // TODO -- Old Duke isn't added yet.
                     int num8 = NPC.NewNPC((int)projectile.Center.X, (int)projectile.Center.Y + 100, /* ModContent.NPCType<OldDuke>() */ NPCID.DukeFishron);
                     string typeName2 = Main.npc[num8].TypeName;
                     if (Main.netMode == NetmodeID.SinglePlayer)

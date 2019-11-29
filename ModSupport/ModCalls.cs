@@ -971,7 +971,7 @@ namespace CalamityMod
                 case "silva_summon":
                 case "silva summon":
                     mp.silvaSet = enabled;
-                    mp.silvaSummon = enabled; // TODO -- remove this when player.silvaSummon actually controls silva crystl
+                    mp.silvaSummon = enabled; // TODO -- remove this when player.silvaSummon actually controls silva crystal
                     return true;
                 case "silva_rogue":
                 case "silva rogue":
