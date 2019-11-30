@@ -9,7 +9,7 @@ namespace CalamityMod.Buffs.StatBuffs
         {
             DisplayName.SetDefault("Blood Frenzy");
             Description.SetDefault("Contact damage is reduced and melee stats are greatly increased");
-            Main.debuff[Type] = false;
+            Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = false;
             longerExpertDebuff = false;

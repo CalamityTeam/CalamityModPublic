@@ -8,7 +8,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-    public class GaelSkull : ModProjectile
+    public class GaelSkull2 : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -60,21 +60,9 @@ namespace CalamityMod.Projectiles.Melee
             {
                 checkingDistance = GaelsGreatsword.HardmodeSearchDistance;
             }
-
-            //Targeting
-            if (projectile.scale <= 1f)
+            if (projectile.velocity.Length() < 7f)
             {
-                NPC target = projectile.Center.ClosestNPCAt(checkingDistance);
-                projectile.tileCollide = target != null; //Go through walls if we're hunting an NPC
-                if (target != null)
-                {
-                    float velocityMagnitude = projectile.velocity.Length();
-                    Vector2 distanceNorm = projectile.DirectionTo(target.Center) * velocityMagnitude * (projectile.Distance(target.Center) < 220f ? 1.3f : 1f);
-                    float inverseTurnSpeed = (projectile.Distance(target.Center) < 240f ? 4f : 13f);
-                    projectile.velocity = (projectile.velocity * inverseTurnSpeed + distanceNorm) / (inverseTurnSpeed + 0.4f);
-                    projectile.velocity.Normalize();
-                    projectile.velocity *= velocityMagnitude;
-                }
+                projectile.velocity = Vector2.Normalize(projectile.velocity) * 7f;
             }
 
             //Rotation
@@ -90,9 +78,29 @@ namespace CalamityMod.Projectiles.Melee
                 projectile.rotation = projectile.velocity.ToRotation();
             }
 
+            projectile.ai[0] += 1f;
+            if (projectile.localAI[1] == 1f && projectile.ai[0] < 35f)
+            {
+                projectile.velocity.Y += 0.5f;
+                return;
+            }
+
+            //Targeting
+
+            NPC target = projectile.Center.ClosestNPCAt(checkingDistance);
+            projectile.tileCollide = target != null; //Go through walls if we're hunting an NPC
+            if (target != null)
+            {
+                float velocityMagnitude = projectile.velocity.Length();
+                Vector2 distanceNorm = projectile.DirectionTo(target.Center) * velocityMagnitude * (projectile.Distance(target.Center) < 220f ? 1.3f : 1f);
+                float inverseTurnSpeed = (projectile.Distance(target.Center) < 240f ? 4f : 13f);
+                projectile.velocity = (projectile.velocity * inverseTurnSpeed + distanceNorm) / (inverseTurnSpeed + 0.4f);
+                projectile.velocity.Normalize();
+                projectile.velocity *= velocityMagnitude;
+            }
+
             //Dust circle
 
-            projectile.ai[0] += 1f;
             if (projectile.ai[0] % 20 == 0f)
             {
                 for (int l = 0; l < 14; l++)
@@ -162,8 +170,6 @@ namespace CalamityMod.Projectiles.Melee
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
             projectile.maxPenetrate = -1;
             projectile.penetrate = -1;
-			if (projectile.scale == 1.75f && CalamityWorld.downedYharon)
-				projectile.damage /= 2;
             projectile.Damage();
             Main.PlaySound((int)SoundType.NPCKilled, (int)projectile.Center.X, (int)projectile.Center.Y, 52, 0.4f);
             for (int i = 0; i < 3; i++)

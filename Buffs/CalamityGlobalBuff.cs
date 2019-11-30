@@ -47,6 +47,17 @@ namespace CalamityMod.Buffs
             }
         }
 
+        public override void Update(int type, NPC npc, ref int buffIndex)
+        {
+			if (type == BuffID.Webbed)
+			{
+				if (npc.Calamity().webbed < npc.buffTime[buffIndex])
+					npc.Calamity().webbed = npc.buffTime[buffIndex];
+				npc.DelBuff(buffIndex);
+				buffIndex--;
+			}
+        }
+
         public override void ModifyBuffTip(int type, ref string tip, ref int rare)
         {
             if (type == BuffID.NebulaUpDmg1)
