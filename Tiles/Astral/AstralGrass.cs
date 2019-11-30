@@ -16,11 +16,11 @@ namespace CalamityMod.Tiles.Astral
             Main.tileBlockLight[Type] = true;
             Main.tileBrick[Type] = true;
 
-            TileMerge.MergeTile(Type, ModContent.TileType<AstralDirt>());
-            TileMerge.MergeTile(Type, TileID.Grass);
-            TileMerge.MergeTile(Type, TileID.CorruptGrass);
-            TileMerge.MergeTile(Type, TileID.HallowedGrass);
-            TileMerge.MergeTile(Type, TileID.FleshGrass);
+            CalamityUtils.SetMerge(Type, ModContent.TileType<AstralDirt>());
+            CalamityUtils.SetMerge(Type, TileID.Grass);
+            CalamityUtils.SetMerge(Type, TileID.CorruptGrass);
+            CalamityUtils.SetMerge(Type, TileID.HallowedGrass);
+            CalamityUtils.SetMerge(Type, TileID.FleshGrass);
 
             dustType = ModContent.DustType<AstralBasic>();
             drop = ModContent.ItemType<Items.Placeables.AstralDirt>();

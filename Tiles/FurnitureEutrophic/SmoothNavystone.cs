@@ -14,10 +14,10 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
             Main.tileMergeDirt[Type] = true;
             Main.tileBlockLight[Type] = true;
 
-            TileMerge.MergeGeneralTiles(Type);
-            TileMerge.MergeSmoothTiles(Type);
-            TileMerge.MergeDecorativeTiles(Type);
-            TileMerge.MergeDesertTiles(Type);
+            CalamityUtils.MergeWithGeneral(Type);
+            CalamityUtils.MergeSmoothTiles(Type);
+            CalamityUtils.MergeDecorativeTiles(Type);
+            CalamityUtils.MergeWithDesert(Type);
 
             TileID.Sets.ChecksForMerge[Type] = true;
             soundType = 21;

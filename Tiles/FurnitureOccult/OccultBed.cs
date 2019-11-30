@@ -10,7 +10,7 @@ namespace CalamityMod.Tiles.FurnitureOccult
     {
         public override void SetDefaults()
         {
-            CalamityUtils.SetUpBed(Type);
+            this.SetUpBed();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Otherworldly Bed");
             AddMapEntry(new Color(191, 142, 111), name);

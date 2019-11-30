@@ -14,8 +14,8 @@ namespace CalamityMod.Tiles.Abyss
             Main.tileBlockLight[Type] = true;
             Main.tileMergeDirt[Type] = true;
 
-            TileMerge.MergeGeneralTiles(Type);
-            TileMerge.MergeAbyssTiles(Type);
+            CalamityUtils.MergeWithGeneral(Type);
+            CalamityUtils.MergeWithAbyss(Type);
 
             drop = ModContent.ItemType<Items.Placeables.AbyssGravel>();
             AddMapEntry(new Color(0, 0, 0));
@@ -37,7 +37,7 @@ namespace CalamityMod.Tiles.Abyss
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            CustomTileFraming.FrameTileForCustomMergeFrom(i, j, Type, TileID.Dirt);
+            TileFraming.CustomMergeFrame(i, j, Type, TileID.Dirt);
             return false;
         }
     }

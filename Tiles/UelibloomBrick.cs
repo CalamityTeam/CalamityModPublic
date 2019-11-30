@@ -17,8 +17,8 @@ namespace CalamityMod.Tiles
             Main.tileMergeDirt[Type] = false;
             Main.tileBlockLight[Type] = true;
 
-            TileMerge.MergeGeneralTiles(Type);
-            TileMerge.MergeDecorativeTiles(Type);
+            CalamityUtils.MergeWithGeneral(Type);
+            CalamityUtils.MergeDecorativeTiles(Type);
 
             soundType = 21;
             minPick = 200;
@@ -46,7 +46,7 @@ namespace CalamityMod.Tiles
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            return CustomTileFraming.BrimstoneFraming(i, j, resetFrame);
+            return TileFraming.BrimstoneFraming(i, j, resetFrame);
         }
 
         public override void SpecialDraw(int i, int j, SpriteBatch spriteBatch)

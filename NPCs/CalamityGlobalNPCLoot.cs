@@ -701,7 +701,7 @@ namespace CalamityMod.NPCs
         {
             ResetAdrenaline(npc);
 
-            // TODO -- this could be abused to have Draedon Mayhem effects active nigh indefinitely or in all sorts of weird conditions
+            // LATER -- keeping bosses alive lets draedon mayhem continue even after killing mechs
             // Reset Draedon Mayhem to false if no bosses are alive
             if (CalamityGlobalNPC.DraedonMayhem)
             {

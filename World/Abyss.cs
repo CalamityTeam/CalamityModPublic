@@ -390,7 +390,7 @@ namespace CalamityMod.World
                 islandLocationY += islandLocationOffset;
             }
 
-            CalamityWorld.AbyssItemArray = WorldGenerationMethods.ShuffleArray(CalamityWorld.AbyssItemArray);
+            CalamityWorld.AbyssItemArray = CalamityUtils.ShuffleArray(CalamityWorld.AbyssItemArray);
             for (int abyssHouse = 0; abyssHouse < CalamityWorld.numAbyssIslands; abyssHouse++) //11 15 19
             {
                 if (abyssHouse != 20)
@@ -415,7 +415,7 @@ namespace CalamityMod.World
                                 {
                                     int style = WorldGen.genRand.Next(13, 16);
                                     WorldGen.PlacePot(abyssIndex, abyssIndex2, 28, style);
-                                    WorldGenerationMethods.SafeSquareTileFrame(abyssIndex, abyssIndex2, true);
+                                    CalamityUtils.SafeSquareTileFrame(abyssIndex, abyssIndex2, true);
                                 }
                             }
                             else if (WorldGen.SolidTile(abyssIndex, abyssIndex2 + 1) &&
@@ -425,7 +425,7 @@ namespace CalamityMod.World
                                 {
                                     int style = WorldGen.genRand.Next(25, 28);
                                     WorldGen.PlacePot(abyssIndex, abyssIndex2, 28, style);
-                                    WorldGenerationMethods.SafeSquareTileFrame(abyssIndex, abyssIndex2, true);
+                                    CalamityUtils.SafeSquareTileFrame(abyssIndex, abyssIndex2, true);
                                 }
                             }
                         }
@@ -447,7 +447,7 @@ namespace CalamityMod.World
                                 {
                                     int style = WorldGen.genRand.Next(13, 16);
                                     WorldGen.PlacePot(abyssIndex, abyssIndex2, 28, style);
-                                    WorldGenerationMethods.SafeSquareTileFrame(abyssIndex, abyssIndex2, true);
+                                    CalamityUtils.SafeSquareTileFrame(abyssIndex, abyssIndex2, true);
                                 }
                             }
                             else if (WorldGen.SolidTile(abyssIndex, abyssIndex2 + 1) &&
@@ -457,7 +457,7 @@ namespace CalamityMod.World
                                 {
                                     int style = WorldGen.genRand.Next(25, 28);
                                     WorldGen.PlacePot(abyssIndex, abyssIndex2, 28, style);
-                                    WorldGenerationMethods.SafeSquareTileFrame(abyssIndex, abyssIndex2, true);
+                                    CalamityUtils.SafeSquareTileFrame(abyssIndex, abyssIndex2, true);
                                 }
                             }
                         }

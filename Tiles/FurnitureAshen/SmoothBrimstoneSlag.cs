@@ -13,10 +13,10 @@ namespace CalamityMod.Tiles.FurnitureAshen
             Main.tileMergeDirt[Type] = false;
             Main.tileBlockLight[Type] = true;
 
-            TileMerge.MergeGeneralTiles(Type);
-            TileMerge.MergeSmoothTiles(Type);
-            TileMerge.MergeDecorativeTiles(Type);
-            TileMerge.MergeHellTiles(Type);
+            CalamityUtils.MergeWithGeneral(Type);
+            CalamityUtils.MergeSmoothTiles(Type);
+            CalamityUtils.MergeDecorativeTiles(Type);
+            CalamityUtils.MergeWithHell(Type);
 
             soundType = 21;
             mineResist = 5f;

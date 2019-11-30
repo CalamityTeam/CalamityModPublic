@@ -66,7 +66,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 27);
-            // TODO -- BoltExplosion does not exist.
+            // DEFECT -- BoltExplosion does not exist.
             // Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<BoltExplosion>(), (int)((double)projectile.damage * 0.5), 0f, projectile.owner, 0f, 0f);
             int num212 = Main.rand.Next(10, 20);
             for (int num213 = 0; num213 < num212; num213++)

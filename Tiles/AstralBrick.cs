@@ -30,7 +30,7 @@ namespace CalamityMod.Tiles
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            return CustomTileFraming.BetterGemsparkFraming(i, j, resetFrame);
+            return TileFraming.BetterGemsparkFraming(i, j, resetFrame);
         }
 
         public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)

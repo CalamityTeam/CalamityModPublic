@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
     {
         public override void SetDefaults()
         {
-            CalamityUtils.SetUpPlatform(Type, true);
+            this.SetUpPlatform(true);
             AddMapEntry(new Color(191, 142, 111));
             drop = ModContent.ItemType<Items.Placeables.FurnitureAshen.AshenPlatform>();
             disableSmartCursor = true;

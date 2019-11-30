@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
     {
         public override void SetDefaults()
         {
-            CalamityUtils.SetUpDresser(Type);
+            this.SetUpDresser();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Statigel Dresser");
             AddMapEntry(new Color(191, 142, 111), name);

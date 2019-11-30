@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Ranged
             }
         }
 
-        // TODO -- Vanquisher Arrow projectile glowmask doesn't work.
+        // DEFECT -- Vanquisher Arrow projectile glowmask doesn't work.
         /*
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {

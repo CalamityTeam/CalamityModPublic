@@ -1,5 +1,4 @@
-﻿using CalamityMod.Tiles;
-using CalamityMod.Tiles.Abyss;
+﻿using CalamityMod.Tiles.Abyss;
 using CalamityMod.Tiles.Astral;
 using CalamityMod.Tiles.AstralDesert;
 using CalamityMod.Tiles.AstralSnow;
@@ -14,22 +13,40 @@ using Terraria.ModLoader;
 
 namespace CalamityMod
 {
-    public static class CustomTileFraming
+    public static class TileFraming
     {
         private static int[][] PlantCheckAgainst;
         private static Dictionary<ushort, ushort> VineToGrass;
+
+        // CONSIDER -- This is a triangle array, but does it need to be? Main.tileMerge is a triangle array as well
         public static bool[][] tileMergeTypes;
 
-        static CustomTileFraming()
+        #region Similarity Enum
+        private enum Similarity
         {
-            Setup();
+            Same,
+            MergeLink,
+            None
         }
 
-        private static void Setup()
+        private static Similarity GetSimilarity(Tile check, int myType, int mergeType)
         {
-            int size = CalamityGlobalTile.PlantTypes.Length;
-            PlantCheckAgainst = new int[TileLoader.TileCount][];
+            if (check is null || !check.active())
+                return Similarity.None;
 
+            if (check.type == myType || Main.tileMerge[myType][check.type])
+                return Similarity.Same;
+            else if (check.type == mergeType)
+                return Similarity.MergeLink;
+
+            return Similarity.None;
+        }
+        #endregion
+
+        #region Load/Unload
+        internal static void Load()
+        {
+            PlantCheckAgainst = new int[TileLoader.TileCount][];
             PlantCheckAgainst[TileID.Plants] = new int[3] { TileID.Grass, TileID.PlanterBox, TileID.ClayPot };
             PlantCheckAgainst[TileID.CorruptPlants] = new int[1] { TileID.CorruptGrass };
             PlantCheckAgainst[TileID.JunglePlants] = new int[1] { TileID.JungleGrass };
@@ -42,18 +59,17 @@ namespace CalamityMod
             PlantCheckAgainst[ModContent.TileType<AstralShortPlants>()] = new int[1] { ModContent.TileType<AstralGrass>() };
             PlantCheckAgainst[ModContent.TileType<AstralTallPlants>()] = new int[1] { ModContent.TileType<AstralGrass>() };
 
-            VineToGrass = new Dictionary<ushort, ushort>();
-            VineToGrass[TileID.Vines] = TileID.Grass;
-            VineToGrass[TileID.CrimsonVines] = TileID.FleshGrass;
-            VineToGrass[TileID.HallowedVines] = TileID.HallowedGrass;
-            VineToGrass[(ushort)ModContent.TileType<AstralVines>()] = (ushort)ModContent.TileType<AstralGrass>();
+            VineToGrass = new Dictionary<ushort, ushort>
+            {
+                [TileID.Vines] = TileID.Grass,
+                [TileID.CrimsonVines] = TileID.FleshGrass,
+                [TileID.HallowedVines] = TileID.HallowedGrass,
+                [(ushort)ModContent.TileType<AstralVines>()] = (ushort)ModContent.TileType<AstralGrass>()
+            };
 
             tileMergeTypes = new bool[TileLoader.TileCount][];
-            for (int i = 0; i < tileMergeTypes.Length; i++)
-            {
+            for (int i = 0; i < tileMergeTypes.Length; ++i)
                 tileMergeTypes[i] = new bool[TileLoader.TileCount];
-            }
-
             tileMergeTypes[ModContent.TileType<AstralDirt>()][ModContent.TileType<AstralOre>()] = true;
             tileMergeTypes[ModContent.TileType<AstralDirt>()][ModContent.TileType<AstralStone>()] = true;
             tileMergeTypes[ModContent.TileType<AstralDirt>()][ModContent.TileType<AstralSand>()] = true;
@@ -77,261 +93,149 @@ namespace CalamityMod
             tileMergeTypes[ModContent.TileType<AbyssGravel>()][ModContent.TileType<Voidstone>()] = true;
             tileMergeTypes[ModContent.TileType<AbyssGravel>()][ModContent.TileType<SulphurousSand>()] = true;
             tileMergeTypes[ModContent.TileType<AbyssGravel>()][ModContent.TileType<Tenebris>()] = true;
-
         }
 
-        private static bool PlantNeedsUpdate(int plantType, int checkType)
+        internal static void Unload()
         {
-            if (PlantCheckAgainst[plantType] == null)
+            PlantCheckAgainst = null;
+            VineToGrass.Clear();
+            VineToGrass = null;
+            tileMergeTypes = null;
+        }
+        #endregion
+
+        #region Framing Helpers
+        private static bool GetMerge(Tile myTile, Tile mergeTile)
+        {
+            if (myTile is null || mergeTile is null)
                 return false;
-            int size = PlantCheckAgainst[plantType].Length;
-            for (int i = 0; i < size; i++)
-            {
-                if (PlantCheckAgainst[plantType][i] == checkType)
-                {
-                    return false;
-                }
-            }
-            return true;
+            return mergeTile.active() && (mergeTile.type == myTile.type || Main.tileMerge[myTile.type][mergeTile.type]);
         }
 
-        public static void CheckPlants(int x, int y)
+        private static void SetFrameAt(int x, int y, int frameX, int frameY)
         {
-            int checkType = -1;
-            int plantType = Main.tile[x, y].type;
-
-            if (y + 1 >= Main.maxTilesY)
-                checkType = plantType;
-
             Tile tile = Main.tile[x, y];
-            Tile below = Main.tile[x, y + 1];
-            if (y + 1 < Main.maxTilesY && below != null && below.nactive() && !below.halfBrick() && below.slope() == 0)
-                checkType = below.type;
+            if (tile != null)
+            {
+                tile.frameX = (short)frameX;
+                tile.frameY = (short)frameY;
+            }
+        }
+        #endregion
 
-            if (checkType == -1)
+        #region Specific Framing Code
+        internal static void PlantFrame(int x, int y)
+        {
+            Tile tile = Main.tile[x, y];
+            if (tile is null)
                 return;
 
-            //Check if this plant needs an update
-            if (PlantNeedsUpdate(plantType, checkType))
-            {
-                if ((plantType == TileID.Plants || plantType == TileID.Plants2) && checkType != TileID.Grass && tile.frameX >= 162)
-                {
-                    Main.tile[x, y].frameX = 126;
-                }
-                if (plantType == TileID.JunglePlants2 && checkType != TileID.JungleGrass && tile.frameX >= 162)
-                {
-                    Main.tile[x, y].frameX = 126;
-                }
+            int checkType = -1;
+            int plantType = tile.type;
 
-                if (checkType == TileID.CorruptGrass)
-                {
-                    plantType = TileID.CorruptPlants;
-                    if (tile.frameX >= 162)
-                    {
-                        Main.tile[x, y].frameX = 126;
-                    }
-                }
-                else if (checkType == TileID.Grass)
-                {
-                    if (plantType == TileID.HallowedPlants2)
-                    {
-                        plantType = TileID.Plants2;
-                    }
-                    else
-                    {
-                        plantType = TileID.Plants;
-                    }
-                }
-                else if (checkType == TileID.HallowedGrass)
-                {
-                    if (plantType == TileID.Plants2)
-                    {
-                        plantType = TileID.HallowedPlants2;
-                    }
-                    else
-                    {
-                        plantType = TileID.HallowedPlants;
-                    }
-                }
-                else if (checkType == TileID.FleshGrass)
-                {
-                    plantType = TileID.FleshWeeds;
-                }
-                else if (checkType == TileID.MushroomGrass)
-                {
-                    plantType = TileID.MushroomPlants;
-                    while (Main.tile[x, y].frameX > 72)
-                    {
-                        Main.tile[x, y].frameX -= 72;
-                    }
-                }
-                else if (checkType == ModContent.GetInstance<CalamityMod>().TileType("AstralGrass")) //ASTRAL
-                {
-                    if (plantType == TileID.Plants || plantType == TileID.CorruptPlants ||
-                        plantType == TileID.FleshWeeds || plantType == TileID.HallowedPlants ||
-                        plantType == TileID.MushroomPlants || plantType == TileID.JunglePlants)
-                    {
-                        plantType = ModContent.GetInstance<CalamityMod>().TileType("AstralShortPlants");
-                    }
-                    else
-                    {
-                        plantType = ModContent.GetInstance<CalamityMod>().TileType("AstralTallPlants");
-                    }
-                }
-                if (plantType != Main.tile[x, y].type)
-                {
-                    Main.tile[x, y].type = (ushort)plantType;
-                    return;
-                }
-                WorldGen.KillTile(x, y, false, false, false);
-            }
-        }
-
-        public static void VineFrame(int x, int y)
-        {
-            Tile tile = Main.tile[x, y];
-            int myType = tile.type;
-            Tile tile2 = Main.tile[x, y - 1];
-            Tile tile3 = Main.tile[x, y + 1];
-            Tile tile4 = Main.tile[x - 1, y];
-            Tile tile5 = Main.tile[x + 1, y];
-            Tile tile6 = Main.tile[x - 1, y + 1];
-            Tile tile7 = Main.tile[x + 1, y + 1];
-            Tile tile8 = Main.tile[x - 1, y - 1];
-            Tile tile9 = Main.tile[x + 1, y - 1];
-            if (tile4 != null && tile4.active())
-            {
-                if (Main.tileStone[(int)tile4.type])
-                {
-                }
-                else
-                {
-                    int num55 = (int)tile4.type;
-                }
-                if (tile4.slope() == 1 || tile4.slope() == 3)
-                {
-                }
-            }
-            if (tile5 != null && tile5.active())
-            {
-                if (Main.tileStone[(int)tile5.type])
-                {
-                }
-                else
-                {
-                    int num56 = (int)tile5.type;
-                }
-                if (tile5.slope() == 2 || tile5.slope() == 4)
-                {
-                }
-            }
-
-            int num53;
-            if (tile2 != null && tile2.active())
-            {
-                if (Main.tileStone[(int)tile2.type])
-                {
-                }
-                else
-                {
-                    num53 = (int)tile2.type;
-                }
-                if (tile2.slope() == 3 || tile2.slope() == 4)
-                {
-                }
-            }
-            if (tile3 != null && tile3.active())
-            {
-                if (Main.tileStone[(int)tile3.type])
-                {
-                }
-                else
-                {
-                    int num58 = (int)tile3.type;
-                }
-                if (tile3.slope() == 1 || tile3.slope() == 2)
-                {
-                }
-            }
-            if (tile8 != null && tile8.active())
-            {
-                if (Main.tileStone[(int)tile8.type])
-                {
-                }
-                else
-                {
-                    int num52 = (int)tile8.type;
-                }
-            }
-            if (tile9 != null && tile9.active())
-            {
-                if (Main.tileStone[(int)tile9.type])
-                {
-                }
-                else
-                {
-                    int num54 = (int)tile9.type;
-                }
-            }
-            if (tile6 != null && tile6.active())
-            {
-                if (Main.tileStone[(int)tile6.type])
-                {
-                }
-                else
-                {
-                    int num57 = (int)tile6.type;
-                }
-            }
-            if (tile7 != null && tile7.active())
-            {
-                if (Main.tileStone[(int)tile7.type])
-                {
-                }
-                else
-                {
-                    int num59 = (int)tile7.type;
-                }
-            }
-            if (tile.slope() == 2)
-            {
-            }
-            if (tile.slope() == 1)
-            {
-            }
-            if (tile.slope() == 4)
-            {
-            }
-            if (tile.slope() == 3)
-            {
-            }
-
-            if (tile2 != null)
-            {
-                if (!tile2.active())
-                {
-                    num53 = -1;
-                }
-                else if (tile2.bottomSlope())
-                {
-                    num53 = -1;
-                }
-                else
-                {
-                    num53 = (int)tile2.type;
-                }
-            }
+            // If the tile below is off the bottom of the map, then assume it's the same tile type.
+            if (y + 1 >= Main.maxTilesY)
+                checkType = plantType;
             else
             {
-                num53 = myType;
+                Tile below = Main.tile[x, y + 1];
+                if (below != null && below.nactive() && !below.halfBrick() && below.slope() == 0)
+                    checkType = below.type;
             }
 
-            ushort[] vines = VineToGrass.Keys.ToArray();
-
-            for (int i = 0; i < vines.Length; i++)
+            // Sub function to determine whether the plant needs an update
+            bool PlantNeedsUpdate(int plant, int check)
             {
-                ushort myGrassType = VineToGrass[(ushort)vines[i]];
-                if (myType != vines[i] && (num53 == myGrassType || num53 == vines[i]))
+                if (PlantCheckAgainst[plant] is null)
+                    return false;
+
+                for (int i = 0; i < PlantCheckAgainst[plant].Length; ++i)
+                    if (PlantCheckAgainst[plant][i] == check)
+                        return false;
+
+                return true;
+            }
+
+            // If no valid below tile type could be determined, then don't do anything.
+            // Additionally, don't do anything if the plant doesn't need a framing update.
+            if (checkType == -1 || !PlantNeedsUpdate(plantType, checkType))
+                return;
+
+            if ((plantType == TileID.Plants || plantType == TileID.Plants2) && checkType != TileID.Grass && tile.frameX >= 162)
+            {
+                Main.tile[x, y].frameX = 126;
+            }
+            if (plantType == TileID.JunglePlants2 && checkType != TileID.JungleGrass && tile.frameX >= 162)
+            {
+                Main.tile[x, y].frameX = 126;
+            }
+
+            if (checkType == TileID.CorruptGrass)
+            {
+                plantType = TileID.CorruptPlants;
+                if (tile.frameX >= 162)
+                {
+                    Main.tile[x, y].frameX = 126;
+                }
+            }
+            else if (checkType == TileID.Grass)
+            {
+                plantType = plantType == TileID.HallowedPlants2 ? TileID.Plants2 : TileID.Plants;
+            }
+            else if (checkType == TileID.HallowedGrass)
+            {
+                plantType = plantType == TileID.Plants2 ? TileID.HallowedPlants2 : TileID.HallowedPlants;
+            }
+            else if (checkType == TileID.FleshGrass)
+            {
+                plantType = TileID.FleshWeeds;
+            }
+            else if (checkType == TileID.MushroomGrass)
+            {
+                plantType = TileID.MushroomPlants;
+                while (Main.tile[x, y].frameX > 72)
+                {
+                    Main.tile[x, y].frameX -= 72;
+                }
+            }
+
+            // Astral grass and plant behavior
+            else if (checkType == ModContent.GetInstance<CalamityMod>().TileType("AstralGrass"))
+            {
+                bool isShortPlant = plantType == TileID.Plants ||
+                    plantType == TileID.CorruptPlants ||
+                    plantType == TileID.FleshWeeds ||
+                    plantType == TileID.HallowedPlants ||
+                    plantType == TileID.MushroomPlants ||
+                    plantType == TileID.JunglePlants;
+                plantType = ModContent.GetInstance<CalamityMod>().TileType(isShortPlant ? "AstralShortPlants" : "AstralTallPlants");
+            }
+
+            // If the tile type is not the same as the plant type, then set it equal. Otherwise, destroy it.
+            if (Main.tile[x, y].type != plantType)
+                Main.tile[x, y].type = (ushort)plantType;
+            else
+                WorldGen.KillTile(x, y, false, false, false);
+        }
+
+        internal static void VineFrame(int x, int y)
+        {
+            Tile tile = Main.tile[x, y];
+            if (tile is null)
+                return;
+
+            int myType = tile.type;
+
+            // Get the type of the tile above this vine. If that tile doesn't exist, just assume it's another vine.
+            Tile north = y <= 0 ? null : Main.tile[x, y - 1];
+            int northType = north is null ? myType : (!north.active() || north.bottomSlope()) ? -1 : north.type;
+
+            // Make this vine match the tile above it if that's another vine or a grass tile.
+            ushort[] vines = VineToGrass.Keys.ToArray();
+            for (int i = 0; i < vines.Length; ++i)
+            {
+                ushort correspondingGrass = VineToGrass[vines[i]];
+                if (myType != vines[i] && (northType == correspondingGrass || northType == vines[i]))
                 {
                     Main.tile[x, y].type = vines[i];
                     WorldGen.SquareTileFrame(x, y, true);
@@ -339,57 +243,52 @@ namespace CalamityMod
                 }
             }
 
-            if (num53 != myType)
+            // If the tile above is an identical vine, nothing else needs to be done.
+            if (northType == myType)
+                return;
+
+            // If the tile above isn't sloped correctly or otherwise isn't a valid anchor for this vine, check whether the vine must die.
+            bool tileMustDie = northType == -1;
+            if(northType != -1)
             {
-                bool flag17 = false;
-                if (num53 == -1)
+                // Vanilla vines can hang from vanilla grass and vanilla leaf blocks.
+                if (myType == TileID.Vines && northType != TileID.Grass && northType != TileID.LeafBlock)
+                    tileMustDie = true;
+                else for (int i = 0; i < vines.Length; ++i)
                 {
-                    flag17 = true;
-                }
-                else
-                {
-                    for (int i = 0; i < vines.Length; i++)
+                    // Not matching grass? Die.
+                    if (myType == vines[i] && northType != VineToGrass[vines[i]])
                     {
-                        if (myType != TileID.Vines)
-                        {
-                            if (myType == vines[i] && num53 != VineToGrass[vines[i]])
-                            {
-                                flag17 = true;
-                            }
-                        }
-                        else if (num53 != TileID.Grass && num53 != TileID.LeafBlock)
-                        {
-                            flag17 = true;
-                        }
+                        tileMustDie = true;
+                        break;
                     }
                 }
-                if (flag17)
-                {
-                    WorldGen.KillTile(x, y, false, false, false);
-                }
             }
-            return;
+
+            if (tileMustDie)
+                WorldGen.KillTile(x, y, false, false, false);
         }
 
-        public static bool BetterGemsparkFraming(int x, int y, bool resetFrame)
+        internal static bool BetterGemsparkFraming(int x, int y, bool resetFrame)
         {
             Tile tile = Main.tile[x, y];
+            if (tile is null)
+                return false;
 
             if (tile.slope() > 0 && TileID.Sets.HasSlopeFrames[tile.type])
             {
                 return true;
             }
 
-            Tile tile2 = Main.tile[x, y - 1];
-            Tile tile3 = Main.tile[x, y + 1];
-            Tile tile4 = Main.tile[x - 1, y];
-            Tile tile5 = Main.tile[x + 1, y];
-            Tile tile6 = Main.tile[x - 1, y + 1];
-            Tile tile7 = Main.tile[x + 1, y + 1];
-            Tile tile8 = Main.tile[x - 1, y - 1];
-            Tile tile9 = Main.tile[x + 1, y - 1];
-
-            int myType = tile.type;
+            // these all get null checked in the GetMerge function
+            Tile north = Main.tile[x, y - 1];
+            Tile south = Main.tile[x, y + 1];
+            Tile west = Main.tile[x - 1, y];
+            Tile east = Main.tile[x + 1, y];
+            Tile southwest = Main.tile[x - 1, y + 1];
+            Tile southeast = Main.tile[x + 1, y + 1];
+            Tile northwest = Main.tile[x - 1, y - 1];
+            Tile northeast = Main.tile[x + 1, y - 1];
 
             bool left = false;
             bool right = false;
@@ -400,23 +299,24 @@ namespace CalamityMod
             bool downLeft = false;
             bool downRight = false;
 
-            if (GetMerge(tile, tile2) && (tile2.slope() == 0 || tile2.slope() == 1 || tile2.slope() == 2))
+            if (GetMerge(tile, north) && (north.slope() == 0 || north.slope() == 1 || north.slope() == 2))
                 up = true;
-            if (GetMerge(tile, tile3) && (tile3.slope() == 0 || tile3.slope() == 3 || tile3.slope() == 4))
+            if (GetMerge(tile, south) && (south.slope() == 0 || south.slope() == 3 || south.slope() == 4))
                 down = true;
-            if (GetMerge(tile, tile4) && (tile4.slope() == 0 || tile4.slope() == 2 || tile4.slope() == 4))
+            if (GetMerge(tile, west) && (west.slope() == 0 || west.slope() == 2 || west.slope() == 4))
                 left = true;
-            if (GetMerge(tile, tile5) && (tile5.slope() == 0 || tile5.slope() == 1 || tile5.slope() == 3))
+            if (GetMerge(tile, east) && (east.slope() == 0 || east.slope() == 1 || east.slope() == 3))
                 right = true;
-            if (GetMerge(tile, tile2) && GetMerge(tile, tile4) && GetMerge(tile, tile8) && (tile8.slope() == 0 || tile8.slope() == 2) && (tile2.slope() == 0 || tile2.slope() == 1 || tile2.slope() == 3) && (tile4.slope() == 0 || tile4.slope() == 3 || tile4.slope() == 4))
+            if (GetMerge(tile, north) && GetMerge(tile, west) && GetMerge(tile, northwest) && (northwest.slope() == 0 || northwest.slope() == 2) && (north.slope() == 0 || north.slope() == 1 || north.slope() == 3) && (west.slope() == 0 || west.slope() == 3 || west.slope() == 4))
                 upLeft = true;
-            if (GetMerge(tile, tile2) && GetMerge(tile, tile5) && GetMerge(tile, tile9) && (tile9.slope() == 0 || tile9.slope() == 1) && (tile2.slope() == 0 || tile2.slope() == 2 || tile2.slope() == 4) && (tile5.slope() == 0 || tile5.slope() == 3 || tile5.slope() == 4))
+            if (GetMerge(tile, north) && GetMerge(tile, east) && GetMerge(tile, northeast) && (northeast.slope() == 0 || northeast.slope() == 1) && (north.slope() == 0 || north.slope() == 2 || north.slope() == 4) && (east.slope() == 0 || east.slope() == 3 || east.slope() == 4))
                 upRight = true;
-            if (GetMerge(tile, tile3) && GetMerge(tile, tile4) && GetMerge(tile, tile6) && !tile6.halfBrick() && (tile6.slope() == 0 || tile6.slope() == 4) && (tile3.slope() == 0 || tile3.slope() == 1 || tile3.slope() == 3) && (tile4.slope() == 0 || tile4.slope() == 1 || tile4.slope() == 2))
+            if (GetMerge(tile, south) && GetMerge(tile, west) && GetMerge(tile, southwest) && !southwest.halfBrick() && (southwest.slope() == 0 || southwest.slope() == 4) && (south.slope() == 0 || south.slope() == 1 || south.slope() == 3) && (west.slope() == 0 || west.slope() == 1 || west.slope() == 2))
                 downLeft = true;
-            if (GetMerge(tile, tile3) && GetMerge(tile, tile5) && GetMerge(tile, tile7) && !tile7.halfBrick() && (tile7.slope() == 0 || tile7.slope() == 3) && (tile3.slope() == 0 || tile3.slope() == 2 || tile3.slope() == 4) && (tile5.slope() == 0 || tile5.slope() == 1 || tile5.slope() == 2))
+            if (GetMerge(tile, south) && GetMerge(tile, east) && GetMerge(tile, southeast) && !southeast.halfBrick() && (southeast.slope() == 0 || southeast.slope() == 3) && (south.slope() == 0 || south.slope() == 2 || south.slope() == 4) && (east.slope() == 0 || east.slope() == 1 || east.slope() == 2))
                 downRight = true;
 
+            // Reset the tile's random frame style if the frame is being reset.
             int randomFrame;
             if (resetFrame)
             {
@@ -647,25 +547,26 @@ namespace CalamityMod
             return true;
         }
 
-        public static bool BrimstoneFraming(int x, int y, bool resetFrame)
+        internal static bool BrimstoneFraming(int x, int y, bool resetFrame)
         {
             Tile tile = Main.tile[x, y];
+            if (tile is null)
+                return false;
 
             if (tile.slope() > 0 && TileID.Sets.HasSlopeFrames[tile.type])
             {
                 return true;
             }
 
-            Tile tile2 = Main.tile[x, y - 1];
-            Tile tile3 = Main.tile[x, y + 1];
-            Tile tile4 = Main.tile[x - 1, y];
-            Tile tile5 = Main.tile[x + 1, y];
-            Tile tile6 = Main.tile[x - 1, y + 1];
-            Tile tile7 = Main.tile[x + 1, y + 1];
-            Tile tile8 = Main.tile[x - 1, y - 1];
-            Tile tile9 = Main.tile[x + 1, y - 1];
-
-            int myType = tile.type;
+            // these all get null checked in the GetMerge function
+            Tile north = Main.tile[x, y - 1];
+            Tile south = Main.tile[x, y + 1];
+            Tile west = Main.tile[x - 1, y];
+            Tile east = Main.tile[x + 1, y];
+            Tile southwest = Main.tile[x - 1, y + 1];
+            Tile southeast = Main.tile[x + 1, y + 1];
+            Tile northwest = Main.tile[x - 1, y - 1];
+            Tile northeast = Main.tile[x + 1, y - 1];
 
             bool left = false;
             bool right = false;
@@ -676,23 +577,24 @@ namespace CalamityMod
             bool downLeft = false;
             bool downRight = false;
 
-            if (GetMerge(tile, tile2) && (tile2.slope() == 0 || tile2.slope() == 1 || tile2.slope() == 2))
+            if (GetMerge(tile, north) && (north.slope() == 0 || north.slope() == 1 || north.slope() == 2))
                 up = true;
-            if (GetMerge(tile, tile3) && (tile3.slope() == 0 || tile3.slope() == 3 || tile3.slope() == 4))
+            if (GetMerge(tile, south) && (south.slope() == 0 || south.slope() == 3 || south.slope() == 4))
                 down = true;
-            if (GetMerge(tile, tile4) && (tile4.slope() == 0 || tile4.slope() == 2 || tile4.slope() == 4))
+            if (GetMerge(tile, west) && (west.slope() == 0 || west.slope() == 2 || west.slope() == 4))
                 left = true;
-            if (GetMerge(tile, tile5) && (tile5.slope() == 0 || tile5.slope() == 1 || tile5.slope() == 3))
+            if (GetMerge(tile, east) && (east.slope() == 0 || east.slope() == 1 || east.slope() == 3))
                 right = true;
-            if (GetMerge(tile, tile2) && GetMerge(tile, tile4) && GetMerge(tile, tile8) && (tile8.slope() == 0 || tile8.slope() == 2) && (tile2.slope() == 0 || tile2.slope() == 1 || tile2.slope() == 3) && (tile4.slope() == 0 || tile4.slope() == 3 || tile4.slope() == 4))
+            if (GetMerge(tile, north) && GetMerge(tile, west) && GetMerge(tile, northwest) && (northwest.slope() == 0 || northwest.slope() == 2) && (north.slope() == 0 || north.slope() == 1 || north.slope() == 3) && (west.slope() == 0 || west.slope() == 3 || west.slope() == 4))
                 upLeft = true;
-            if (GetMerge(tile, tile2) && GetMerge(tile, tile5) && GetMerge(tile, tile9) && (tile9.slope() == 0 || tile9.slope() == 1) && (tile2.slope() == 0 || tile2.slope() == 2 || tile2.slope() == 4) && (tile5.slope() == 0 || tile5.slope() == 3 || tile5.slope() == 4))
+            if (GetMerge(tile, north) && GetMerge(tile, east) && GetMerge(tile, northeast) && (northeast.slope() == 0 || northeast.slope() == 1) && (north.slope() == 0 || north.slope() == 2 || north.slope() == 4) && (east.slope() == 0 || east.slope() == 3 || east.slope() == 4))
                 upRight = true;
-            if (GetMerge(tile, tile3) && GetMerge(tile, tile4) && GetMerge(tile, tile6) && !tile6.halfBrick() && (tile6.slope() == 0 || tile6.slope() == 4) && (tile3.slope() == 0 || tile3.slope() == 1 || tile3.slope() == 3) && (tile4.slope() == 0 || tile4.slope() == 1 || tile4.slope() == 2))
+            if (GetMerge(tile, south) && GetMerge(tile, west) && GetMerge(tile, southwest) && !southwest.halfBrick() && (southwest.slope() == 0 || southwest.slope() == 4) && (south.slope() == 0 || south.slope() == 1 || south.slope() == 3) && (west.slope() == 0 || west.slope() == 1 || west.slope() == 2))
                 downLeft = true;
-            if (GetMerge(tile, tile3) && GetMerge(tile, tile5) && GetMerge(tile, tile7) && !tile7.halfBrick() && (tile7.slope() == 0 || tile7.slope() == 3) && (tile3.slope() == 0 || tile3.slope() == 2 || tile3.slope() == 4) && (tile5.slope() == 0 || tile5.slope() == 1 || tile5.slope() == 2))
+            if (GetMerge(tile, south) && GetMerge(tile, east) && GetMerge(tile, southeast) && !southeast.halfBrick() && (southeast.slope() == 0 || southeast.slope() == 3) && (south.slope() == 0 || south.slope() == 2 || south.slope() == 4) && (east.slope() == 0 || east.slope() == 1 || east.slope() == 2))
                 downRight = true;
 
+            // Reset the tile's random frame style if the frame is being reset.
             int randomFrame;
             if (resetFrame)
             {
@@ -922,21 +824,23 @@ namespace CalamityMod
 
             return true;
         }
+        #endregion
 
-        enum Similarity
+        #region Generic Custom Framing Code
+        internal static void CustomMergeFrameExplicit(int x, int y, int myType, int mergeType, out bool mergedUp,
+            out bool mergedLeft, out bool mergedRight, out bool mergedDown, bool forceSameDown = false,
+            bool forceSameUp = false, bool forceSameLeft = false, bool forceSameRight = false, bool resetFrame = true)
         {
-            Same,
-            MergeLink,
-            None
-        }
-        public static void FrameTileForCustomMerge(int x, int y, int myType, int mergeType, bool forceSameDown = false, bool forceSameUp = false, bool forceSameLeft = false, bool forceSameRight = false, bool resetFrame = true)
-        {
-            bool tmp;
-            FrameTileForCustomMerge(x, y, myType, mergeType, out tmp, out tmp, out tmp, out tmp, forceSameDown, forceSameUp, forceSameLeft, forceSameRight, resetFrame);
-        }
+            if (Main.tile[x, y] is null)
+            {
+                mergedUp = mergedLeft = mergedRight = mergedDown = false;
+                return;
+            }
 
-        public static void FrameTileForCustomMerge(int x, int y, int myType, int mergeType, out bool mergedUp, out bool mergedLeft, out bool mergedRight, out bool mergedDown, bool forceSameDown = false, bool forceSameUp = false, bool forceSameLeft = false, bool forceSameRight = false, bool resetFrame = true)
-        {
+            // Disable vanilla trying to merge these tiles automtaically.
+            Main.tileMerge[myType][mergeType] = false;
+
+            // these all get null checked in the GetSimilarity and GetMerge functions
             Tile tileLeft = Main.tile[x - 1, y];
             Tile tileRight = Main.tile[x + 1, y];
             Tile tileUp = Main.tile[x, y - 1];
@@ -946,28 +850,19 @@ namespace CalamityMod
             Tile tileBottomLeft = Main.tile[x - 1, y + 1];
             Tile tileBottomRight = Main.tile[x + 1, y + 1];
 
-            Main.tileMerge[myType][mergeType] = false;
+            // Cardinal directions
+            Similarity leftSim = forceSameLeft ? Similarity.Same : GetSimilarity(tileLeft, myType, mergeType);
+            Similarity rightSim = forceSameRight ? Similarity.Same : GetSimilarity(tileRight, myType, mergeType);
+            Similarity upSim = forceSameUp ? Similarity.Same : GetSimilarity(tileUp, myType, mergeType);
+            Similarity downSim = forceSameDown ? Similarity.Same : GetSimilarity(tileDown, myType, mergeType);
 
-            //CARDINAL
-            Similarity leftSim = GetSimilarity(tileLeft, myType, mergeType);
-            if (forceSameLeft)
-                leftSim = Similarity.Same;
-            Similarity rightSim = GetSimilarity(tileRight, myType, mergeType);
-            if (forceSameRight)
-                rightSim = Similarity.Same;
-            Similarity upSim = GetSimilarity(tileUp, myType, mergeType);
-            if (forceSameUp)
-                upSim = Similarity.Same;
-            Similarity downSim = GetSimilarity(tileDown, myType, mergeType);
-            if (forceSameDown)
-                downSim = Similarity.Same;
-
-            //DIAGONAL
+            // Diagonal directions
             Similarity topLeftSim = GetSimilarity(tileTopLeft, myType, mergeType);
             Similarity topRightSim = GetSimilarity(tileTopRight, myType, mergeType);
             Similarity bottomLeftSim = GetSimilarity(tileBottomLeft, myType, mergeType);
             Similarity bottomRightSim = GetSimilarity(tileBottomRight, myType, mergeType);
 
+            // Reset the tile's random frame style if the frame is being reset.
             int randomFrame;
             if (resetFrame)
             {
@@ -979,14 +874,10 @@ namespace CalamityMod
                 randomFrame = Main.tile[x, y].frameNumber();
             }
 
-            /* DEBUGGING
-                if (Player.tileTargetX == x && Player.tileTargetY == y)
-                {
-                    Main.NewText(StringWriter(leftSim, rightSim, upSim, downSim, topLeftSim, topRightSim, bottomLeftSim, bottomRightSim, forceSameDown, forceSameUp, forceSameLeft, forceSameRight));
-                }*/
-
+            // Initialize all merged variables to false.
             mergedDown = mergedLeft = mergedRight = mergedUp = false;
 
+            #region Custom Merge Conditional Tree
             if (leftSim == Similarity.None)
             {
                 if (upSim == Similarity.Same)
@@ -1481,111 +1372,69 @@ namespace CalamityMod
             }
             SetFrameAt(x, y, 216, 18 * randomFrame);
             return;
+            #endregion
         }
 
-        public static void FrameTileForCustomMergeFrom(int x, int y, int myType, int mergeType)
+        internal static void CustomMergeFrame(int x, int y, int myType, int mergeType, bool forceSameDown = false,
+            bool forceSameUp = false, bool forceSameLeft = false, bool forceSameRight = false, bool resetFrame = true)
+            => CustomMergeFrameExplicit(x, y, myType, mergeType, out _, out _, out _, out _, forceSameDown, forceSameUp, forceSameLeft, forceSameRight, resetFrame);
+
+        internal static void CustomMergeFrame(int x, int y, int myType, int mergeType)
         {
+            Tile tile = Main.tile[x, y];
+            if (tile is null)
+                return;
+
             bool forceSameUp = false;
             bool forceSameDown = false;
             bool forceSameLeft = false;
             bool forceSameRight = false;
 
-            Tile up = Main.tile[x, y - 1];
-            Tile down = Main.tile[x, y + 1];
-            Tile left = Main.tile[x - 1, y];
-            Tile right = Main.tile[x + 1, y];
+            Tile north = Main.tile[x, y - 1];
+            Tile south = Main.tile[x, y + 1];
+            Tile west = Main.tile[x - 1, y];
+            Tile east = Main.tile[x + 1, y];
 
-            bool tmp;
-
-            if (up.active() && tileMergeTypes[myType][up.type])
+            if (north != null && north.active() && tileMergeTypes[myType][north.type])
             {
-                TileMerge.MergeTile(myType, up.type, false);
+                // Register this tile as not automatically merging with the tile above it.
+                CalamityUtils.SetMerge(myType, north.type, false);
                 TileID.Sets.ChecksForMerge[myType] = true;
 
-                bool mergedDown;
-                FrameTileForCustomMerge(x, y - 1, up.type, myType, out tmp, out tmp, out tmp, out mergedDown, false, false, false, false, false);
-                if (mergedDown)
-                {
-                    forceSameUp = true;
-                }
+                // Properly frame the tile given this constraint.
+                CustomMergeFrameExplicit(x, y - 1, north.type, myType, out _, out _, out _, out forceSameUp, false, false, false, false, false);
             }
-            if (left.active() && tileMergeTypes[myType][left.type])
+            if (west != null && west.active() && tileMergeTypes[myType][west.type])
             {
-                TileMerge.MergeTile(myType, left.type, false);
+                // Register this tile as not automatically merging with the tile to the left of it.
+                CalamityUtils.SetMerge(myType, west.type, false);
                 TileID.Sets.ChecksForMerge[myType] = true;
 
-                bool mergedRight;
-                FrameTileForCustomMerge(x - 1, y, left.type, myType, out tmp, out tmp, out mergedRight, out tmp, false, false, false, false, false);
-                if (mergedRight)
-                {
-                    forceSameLeft = true;
-                }
+                // Properly frame the tile given this constraint.
+                CustomMergeFrameExplicit(x - 1, y, west.type, myType, out _, out _, out forceSameLeft, out _, false, false, false, false, false);
             }
-            if (right.active() && tileMergeTypes[myType][right.type])
+            if (east != null && east.active() && tileMergeTypes[myType][east.type])
             {
-                TileMerge.MergeTile(myType, right.type, false);
+                // Register this tile as not automatically merging with the tile to the right of it.
+                CalamityUtils.SetMerge(myType, east.type, false);
                 TileID.Sets.ChecksForMerge[myType] = true;
 
-                bool mergedLeft;
-                FrameTileForCustomMerge(x + 1, y, right.type, myType, out tmp, out mergedLeft, out tmp, out tmp, false, false, false, false, false);
-                if (mergedLeft)
-                {
-                    forceSameRight = true;
-                }
+                // Properly frame the tile given this constraint.
+                CustomMergeFrameExplicit(x + 1, y, east.type, myType, out _, out forceSameRight , out _, out _, false, false, false, false, false);
             }
-            if (down.active() && tileMergeTypes[myType][down.type])
+            if (south != null && south.active() && tileMergeTypes[myType][south.type])
             {
-                TileMerge.MergeTile(myType, down.type, false);
+                // Register this tile as not automatically merging with the tile below it.
+                CalamityUtils.SetMerge(myType, south.type, false);
                 TileID.Sets.ChecksForMerge[myType] = true;
 
-                bool mergedUp;
-                FrameTileForCustomMerge(x, y + 1, down.type, myType, out mergedUp, out tmp, out tmp, out tmp, false, false, false, false, false);
-                if (mergedUp)
-                {
-                    forceSameDown = true;
-                }
+                // Properly frame the tile given this constraint.
+                CustomMergeFrameExplicit(x, y + 1, south.type, myType, out forceSameDown, out _, out _, out _, false, false, false, false, false);
             }
 
-            FrameTileForCustomMerge(x, y, myType, mergeType, forceSameDown, forceSameUp, forceSameLeft, forceSameRight);
+            // With all constraints determined, properly frame the tile a final time.
+            CustomMergeFrameExplicit(x, y, myType, mergeType, out _, out _, out _, out _, forceSameDown, forceSameUp, forceSameLeft, forceSameRight, true);
         }
-
-        private static void SetFrameAt(int x, int y, int frameX, int frameY)
-        {
-            Main.tile[x, y].frameX = (short)frameX;
-            Main.tile[x, y].frameY = (short)frameY;
-        }
-
-        private static Similarity GetSimilarity(Tile check, int myType, int mergeType)
-        {
-            if (check is null || !check.active())
-                return Similarity.None;
-
-            if (check.type == myType || Main.tileMerge[myType][check.type])
-                return Similarity.Same;
-            else if (check.type == mergeType)
-                return Similarity.MergeLink;
-
-            return Similarity.None;
-        }
-
-        private static bool GetMerge(Tile myTile, Tile mergeTile)
-        {
-            if (!mergeTile.active())
-                return false;
-            return (mergeTile.type == myTile.type || Main.tileMerge[myTile.type][mergeTile.type]);
-        }
-        private static string StringWriter(params object[] strings)
-        {
-            string s = "";
-            for (int i = 0; i < strings.Length; i++)
-            {
-                s += strings[i].ToString();
-                if (i != strings.Length - 1)
-                {
-                    s += ", ";
-                }
-            }
-            return s;
-        }
+        #endregion
     }
 }

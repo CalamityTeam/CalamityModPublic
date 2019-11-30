@@ -12,7 +12,7 @@ namespace CalamityMod.Tiles.Astral
     {
         public override void SetDefaults()
         {
-            CalamityUtils.SetUpChest(Type);
+            this.SetUpChest();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Astral Chest");
             AddMapEntry(new Color(174, 129, 92), name, MapChestName);

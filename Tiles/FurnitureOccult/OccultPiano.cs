@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.FurnitureOccult
     {
         public override void SetDefaults()
         {
-            CalamityUtils.SetUpPiano(Type);
+            this.SetUpPiano();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Otherworldly Piano");
             AddMapEntry(new Color(191, 142, 111), name);

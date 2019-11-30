@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
     {
         public override void SetDefaults()
         {
-            CalamityUtils.SetUpSink(Type);
+            this.SetUpSink();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Plagued Plate Sink");
             AddMapEntry(new Color(191, 142, 111), name);

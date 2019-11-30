@@ -16,8 +16,8 @@ namespace CalamityMod.Tiles.Ores
             Main.tileBlockLight[Type] = true;
             Main.tileValue[Type] = 675;
 
-            TileMerge.MergeGeneralTiles(Type);
-            TileMerge.MergeSnowTiles(Type);
+            CalamityUtils.MergeWithGeneral(Type);
+            CalamityUtils.MergeWithSnow(Type);
 
             drop = ModContent.ItemType<Items.Placeables.Ores.CryonicOre>();
             ModTranslation name = CreateMapEntryName();
@@ -41,7 +41,7 @@ namespace CalamityMod.Tiles.Ores
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            CustomTileFraming.FrameTileForCustomMerge(i, j, Type, TileID.SnowBlock);
+            TileFraming.CustomMergeFrame(i, j, Type, TileID.SnowBlock);
             return false;
         }
 

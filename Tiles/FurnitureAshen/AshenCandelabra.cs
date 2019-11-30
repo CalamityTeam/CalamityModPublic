@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
     {
         public override void SetDefaults()
         {
-            CalamityUtils.SetUpCandelabra(Type, true);
+            this.SetUpCandelabra(true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Ashen Candelabra");
             AddMapEntry(new Color(191, 142, 111), name);

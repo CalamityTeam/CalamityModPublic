@@ -10,7 +10,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
     {
         public override void SetDefaults()
         {
-            CalamityUtils.SetUpBookcase(Type);
+            this.SetUpBookcase();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Profaned Bookcase");
             AddMapEntry(new Color(191, 142, 111), name);

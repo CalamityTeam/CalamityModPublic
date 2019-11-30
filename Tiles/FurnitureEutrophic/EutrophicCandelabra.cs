@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
     {
         public override void SetDefaults()
         {
-            CalamityUtils.SetUpCandelabra(Type);
+            this.SetUpCandelabra();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Eutrophic Candelabra");
             AddMapEntry(new Color(191, 142, 111), name);

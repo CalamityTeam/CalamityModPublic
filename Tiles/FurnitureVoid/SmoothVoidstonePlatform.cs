@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureVoid
     {
         public override void SetDefaults()
         {
-            CalamityUtils.SetUpPlatform(Type);
+            this.SetUpPlatform();
             AddMapEntry(new Color(191, 142, 111));
             drop = ModContent.ItemType<Items.Placeables.FurnitureVoid.SmoothVoidstonePlatform>();
             disableSmartCursor = true;

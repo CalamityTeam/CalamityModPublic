@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
     {
         public override void SetDefaults()
         {
-            CalamityUtils.SetUpDoorClosed(Type);
+            this.SetUpDoorClosed();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Plagued Plate Door");
             AddMapEntry(new Color(191, 142, 111), name);

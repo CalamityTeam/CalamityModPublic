@@ -12,7 +12,7 @@ namespace CalamityMod.Tiles.Ores
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
 
-            TileMerge.MergeGeneralTiles(Type);
+            CalamityUtils.MergeWithGeneral(Type);
 
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Exodium Ore");

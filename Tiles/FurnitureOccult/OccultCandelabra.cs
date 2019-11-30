@@ -10,7 +10,7 @@ namespace CalamityMod.Tiles.FurnitureOccult
     {
         public override void SetDefaults()
         {
-            CalamityUtils.SetUpCandelabra(Type);
+            this.SetUpCandelabra();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Otherworldly Candelabra");
             AddMapEntry(new Color(191, 142, 111), name);

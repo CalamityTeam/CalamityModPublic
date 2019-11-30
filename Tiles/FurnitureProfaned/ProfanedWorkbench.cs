@@ -10,7 +10,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
     {
         public override void SetDefaults()
         {
-            CalamityUtils.SetUpWorkBench(Type);
+            this.SetUpWorkBench();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Profaned Work Bench");
             AddMapEntry(new Color(191, 142, 111), name);
