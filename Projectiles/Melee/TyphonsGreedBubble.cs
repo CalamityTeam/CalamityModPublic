@@ -6,7 +6,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-    public class TyphonsGreed : ModProjectile
+    public class TyphonsGreedBubble : ModProjectile
     {
         public override void SetStaticDefaults()
         {

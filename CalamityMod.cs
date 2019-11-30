@@ -46,7 +46,10 @@ using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.Yharon;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Enemy;
+using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Ranged;
+using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Projectiles.Typeless;
 using CalamityMod.Skies;
 using CalamityMod.Tiles.Abyss;
 using CalamityMod.Tiles.Furniture;
@@ -163,6 +166,11 @@ namespace CalamityMod
         public static List<int> daggerList;
         public static List<int> flaskBombList;
         public static List<int> spikyBallList;
+        public static List<int> boomerangProjList;
+        public static List<int> javelinProjList;
+        public static List<int> daggerProjList;
+        public static List<int> flaskBombProjList;
+        public static List<int> spikyBallProjList;
         public static List<int> noGravityList;
         public static List<int> lavaFishList;
         public static List<int> highTestFishList;
@@ -336,6 +344,11 @@ namespace CalamityMod
             daggerList = null;
             flaskBombList = null;
             spikyBallList = null;
+            boomerangProjList = null;
+            javelinProjList = null;
+            daggerProjList = null;
+            flaskBombProjList = null;
+            spikyBallProjList = null;
             noGravityList = null;
             lavaFishList = null;
             highTestFishList = null;
@@ -836,6 +849,8 @@ namespace CalamityMod
                 ModContent.ItemType<ProfanedTrident>(),
                 ModContent.ItemType<TheBurningSky>(),
                 ModContent.ItemType<TotalityBreakers>(),
+                ModContent.ItemType<ProfanedPartisan>(),
+                ModContent.ItemType<BlastBarrel>(),
                 ModContent.ItemType<HeliumFlash>()
             };
 
@@ -998,6 +1013,7 @@ namespace CalamityMod
                 ModContent.ItemType<GacruxianMollusk>(),
                 ModContent.ItemType<PolarisParrotfish>(),
                 ModContent.ItemType<SparklingEmpress>(),
+                ModContent.ItemType<NastyCholla>(),
                 ModContent.ItemType<YateveoBloom>()
             };
 
@@ -1747,9 +1763,42 @@ namespace CalamityMod
                 ModContent.ItemType<Pwnagehammer>(),
                 ModContent.ItemType<SandDollar>(),
                 ModContent.ItemType<SeashellBoomerang>(),
+                ModContent.ItemType<Shroomerang>(),
                 ModContent.ItemType<StellarContemptRogue>(),
                 ModContent.ItemType<TriactisTruePaladinianMageHammerofMight>(),
                 ModContent.ItemType<Valediction>()
+            };
+
+            boomerangProjList = new List<int>()
+            {
+                ModContent.ProjectileType<AccretionDiskProj>(),
+                ModContent.ProjectileType<AccretionDisk2>(),
+                ModContent.ProjectileType<BlazingStarProj>(),
+                ModContent.ProjectileType<CelestusBoomerang>(),
+                ModContent.ProjectileType<BrimbladeProj>(),
+                ModContent.ProjectileType<Brimblade2>(),
+                ModContent.ProjectileType<EnchantedAxeProj>(),
+                ModContent.ProjectileType<EpidemicShredderProjectile>(),
+                ModContent.ProjectileType<EquanimityProj>(),
+                ModContent.ProjectileType<EradicatorProjectile>(),
+                ModContent.ProjectileType<FlameScytheProjectile>(),
+                ModContent.ProjectileType<GhoulishGougerBoomerang>(),
+                ModContent.ProjectileType<GlaiveProj>(),
+                ModContent.ProjectileType<KylieBoomerang>(),
+                ModContent.ProjectileType<MangroveChakramProjectile>(),
+                ModContent.ProjectileType<MoltenAmputatorProj>(),
+                ModContent.ProjectileType<OPHammer>(),
+                ModContent.ProjectileType<SandDollarProj>(),
+                ModContent.ProjectileType<SeashellBoomerangProjectile>(),
+                ModContent.ProjectileType<ShroomerangProj>(),
+                ModContent.ProjectileType<TriactisOPHammer>(),
+                ModContent.ProjectileType<ValedictionBoomerang>(),
+                ModContent.ProjectileType<GalaxySmasherHammer>(),
+                ModContent.ProjectileType<KelvinCatalystBoomerang>(),
+                ModContent.ProjectileType<NanoblackMain>(),
+                ModContent.ProjectileType<StellarContemptHammer>(),
+                ModContent.ProjectileType<IcebreakerHammer>(),
+                ModContent.ProjectileType<PwnagehammerProj>()
             };
 
             javelinList = new List<int>()
@@ -1770,6 +1819,26 @@ namespace CalamityMod
                 ModContent.ItemType<XerocPitchfork>(),
                 ModContent.ItemType<PhantasmalRuin>(),
                 ModContent.ItemType<ProfanedPartisan>()
+            };
+
+            javelinProjList = new List<int>()
+            {
+                ModContent.ProjectileType<CrystalPiercerProjectile>(),
+                ModContent.ProjectileType<DuneHopperProjectile>(),
+                ModContent.ProjectileType<EclipsesFallMain>(),
+                ModContent.ProjectileType<EclipsesStealth>(),
+                ModContent.ProjectileType<IchorSpearProj>(),
+                ModContent.ProjectileType<InfernalSpearProjectile>(),
+                ModContent.ProjectileType<LuminousStrikerProj>(),
+                ModContent.ProjectileType<PalladiumJavelinProjectile>(),
+                ModContent.ProjectileType<PhantasmalRuinProj>(),
+                ModContent.ProjectileType<ProfanedPartisanproj>(),
+                ModContent.ProjectileType<ScarletDevilProjectile>(),
+                ModContent.ProjectileType<ScourgeoftheDesertProj>(),
+                ModContent.ProjectileType<ScourgeoftheSeasProjectile>(),
+                ModContent.ProjectileType<SpearofDestinyProjectile>(),
+                ModContent.ProjectileType<SpearofPaleolithProj>(),
+                ModContent.ProjectileType<XerocPitchforkProjectile>()
             };
 
             daggerList = new List<int>()
@@ -1803,6 +1872,44 @@ namespace CalamityMod
                 ModContent.ItemType<RoyalKnives>()
             };
 
+            boomerangProjList = new List<int>()
+            {
+                ModContent.ProjectileType<CinquedeaProj>(),
+                ModContent.ProjectileType<CobaltKunaiProjectile>(),
+                ModContent.ProjectileType<CosmicKunaiProj>(),
+                ModContent.ProjectileType<CrystallineProj>(),
+                ModContent.ProjectileType<Crystalline2>(),
+                ModContent.ProjectileType<CursedDaggerProj>(),
+                ModContent.ProjectileType<EmpyreanKnife>(),
+                ModContent.ProjectileType<FeatherKnifeProjectile>(),
+                ModContent.ProjectileType<GelDartProjectile>(),
+                ModContent.ProjectileType<GildedDaggerProj>(),
+                ModContent.ProjectileType<GleamingDaggerProj>(),
+                ModContent.ProjectileType<IllustriousKnife>(),
+                ModContent.ProjectileType<LunarKunaiProj>(),
+                ModContent.ProjectileType<MalachiteProj>(),
+                ModContent.ProjectileType<MalachiteBolt>(),
+                ModContent.ProjectileType<MonkeyDart>(),
+                ModContent.ProjectileType<MycorootProj>(),
+                ModContent.ProjectileType<MythrilKnifeProjectile>(),
+                ModContent.ProjectileType<OrichalcumSpikedGemstoneProjectile>(),
+                ModContent.ProjectileType<PrismallineProj>(),
+                ModContent.ProjectileType<Prismalline2>(),
+                ModContent.ProjectileType<Prismalline3>(),
+                ModContent.ProjectileType<QuasarKnife>(),
+                ModContent.ProjectileType<Quasar2>(),
+                ModContent.ProjectileType<RadiantStarKnife>(),
+                ModContent.ProjectileType<RadiantStar2>(),
+                ModContent.ProjectileType<ShatteredSunKnife>(),
+                ModContent.ProjectileType<ShatteredSun2>(),
+                ModContent.ProjectileType<ShatteredSun3>(),
+                ModContent.ProjectileType<StellarKnifeProj>(),
+                ModContent.ProjectileType<StormfrontRazorProjectile>(),
+                ModContent.ProjectileType<TarragonThrowingDartProjectile>(),
+                ModContent.ProjectileType<TimeBoltKnife>(),
+                ModContent.ProjectileType<WulfrumKnifeProj>()
+            };
+
             flaskBombList = new List<int>()
             {
                 ModContent.ItemType<Plaguenade>(),
@@ -1816,6 +1923,19 @@ namespace CalamityMod
                 ModContent.ItemType<BlastBarrel>()
             };
 
+            flaskBombProjList = new List<int>()
+            {
+                ModContent.ProjectileType<BallisticPoisonBombProj>(),
+                ModContent.ProjectileType<BlastBarrelProjectile>(),
+                ModContent.ProjectileType<BouncingBettyProjectile>(),
+                ModContent.ProjectileType<BrackishFlaskProj>(),
+                ModContent.ProjectileType<DuststormInABottleProj>(),
+                ModContent.ProjectileType<PlaguenadeProj>(),
+                ModContent.ProjectileType<SeafoamBombProj>(),
+                ModContent.ProjectileType<TotalityFlask>(),
+                ModContent.ProjectileType<ConsecratedWaterProjectile>()
+            };
+
             spikyBallList = new List<int>()
             {
                 ModContent.ItemType<GodsParanoia>(),
@@ -1824,6 +1944,16 @@ namespace CalamityMod
                 ModContent.ItemType<SkyStabber>(),
                 ModContent.ItemType<StickySpikyBall>(),
                 ModContent.ItemType<WebBall>()
+            };
+
+            spikyBallProjList = new List<int>()
+            {
+                ModContent.ProjectileType<GodsParanoiaProj>(),
+                ModContent.ProjectileType<HellsSunProj>(),
+                ModContent.ProjectileType<NastyChollaBol>(),
+                ModContent.ProjectileType<StickyBol>(),
+                ModContent.ProjectileType<SkyStabberProj>(),
+                ModContent.ProjectileType<WebBallBol>()
             };
 
             noGravityList = new List<int>()

@@ -9,7 +9,7 @@ namespace CalamityMod.Buffs.StatBuffs
         {
             DisplayName.SetDefault("Tarragon Cloak");
             Description.SetDefault("Contact damage is reduced");
-            Main.debuff[Type] = false;
+            Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = false;
             longerExpertDebuff = false;
