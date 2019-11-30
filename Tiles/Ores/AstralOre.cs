@@ -20,8 +20,8 @@ namespace CalamityMod.Tiles.Ores
             Main.tileSpelunker[Type] = true;
             Main.tileShine2[Type] = true;
 
-            TileMerge.MergeGeneralTiles(Type);
-            TileMerge.MergeAstralTiles(Type);
+            CalamityUtils.MergeWithGeneral(Type);
+            CalamityUtils.MergeAstralTiles(Type);
 
             minPick = 200;
             dustType = 173;
@@ -79,7 +79,7 @@ namespace CalamityMod.Tiles.Ores
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            CustomTileFraming.FrameTileForCustomMerge(i, j, Type, ModContent.TileType<AstralDirt>(), false, false, false, false, resetFrame);
+            TileFraming.CustomMergeFrame(i, j, Type, ModContent.TileType<AstralDirt>(), false, false, false, false, resetFrame);
             return false;
         }
     }

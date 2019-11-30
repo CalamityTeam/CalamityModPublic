@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
     {
         public override void SetDefaults()
         {
-            CalamityUtils.SetUpPlatform(Type);
+            this.SetUpPlatform();
             AddMapEntry(new Color(191, 142, 111));
             drop = ModContent.ItemType<Items.Placeables.FurnitureEutrophic.EutrophicPlatform>();
             disableSmartCursor = true;

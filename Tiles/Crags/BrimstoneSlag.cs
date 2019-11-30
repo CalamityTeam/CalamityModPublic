@@ -15,9 +15,9 @@ namespace CalamityMod.Tiles.Crags
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
 
-            TileMerge.MergeGeneralTiles(Type);
-            TileMerge.MergeHellTiles(Type);
-            TileMerge.MergeTile(Type, ModContent.TileType<CharredOre>());
+            CalamityUtils.MergeWithGeneral(Type);
+            CalamityUtils.MergeWithHell(Type);
+            CalamityUtils.SetMerge(Type, ModContent.TileType<CharredOre>());
 
             soundType = 21;
             mineResist = 3f;
@@ -40,7 +40,7 @@ namespace CalamityMod.Tiles.Crags
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            return CustomTileFraming.BrimstoneFraming(i, j, resetFrame);
+            return TileFraming.BrimstoneFraming(i, j, resetFrame);
         }
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)

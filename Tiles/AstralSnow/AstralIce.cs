@@ -15,9 +15,9 @@ namespace CalamityMod.Tiles.AstralSnow
             Main.tileBlockLight[Type] = true;
             Main.tileBrick[Type] = true;
 
-            TileMerge.MergeGeneralTiles(Type);
-            TileMerge.MergeSnowTiles(Type);
-            TileMerge.MergeAstralTiles(Type);
+            CalamityUtils.MergeWithGeneral(Type);
+            CalamityUtils.MergeWithSnow(Type);
+            CalamityUtils.MergeAstralTiles(Type);
 
             dustType = 173;
             drop = ModContent.ItemType<Items.Placeables.AstralIce>();
@@ -48,7 +48,7 @@ namespace CalamityMod.Tiles.AstralSnow
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            CustomTileFraming.FrameTileForCustomMerge(i, j, Type, ModContent.TileType<AstralSnow>(), false, false, false, false, resetFrame);
+            TileFraming.CustomMergeFrame(i, j, Type, ModContent.TileType<AstralSnow>(), false, false, false, false, resetFrame);
             return false;
         }
     }

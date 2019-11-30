@@ -14,7 +14,7 @@ namespace CalamityMod.Tiles.Ores
             Main.tileBlockLight[Type] = true;
             Main.tileValue[Type] = 710;
 
-            TileMerge.MergeGeneralTiles(Type);
+            CalamityUtils.MergeWithGeneral(Type);
 
             drop = ModContent.ItemType<Items.Placeables.Ores.PerennialOre>();
             ModTranslation name = CreateMapEntryName();

@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
     {
         public override void SetDefaults()
         {
-            CalamityUtils.SetUpDoorClosed(Type);
+            this.SetUpDoorClosed();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Abyss Door");
             AddMapEntry(new Color(191, 142, 111), name);

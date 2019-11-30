@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureAncient
     {
         public override void SetDefaults()
         {
-            CalamityUtils.SetUpLantern(Type, true);
+            this.SetUpLantern(true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Ancient Lantern");
             AddMapEntry(new Color(191, 142, 111), name);

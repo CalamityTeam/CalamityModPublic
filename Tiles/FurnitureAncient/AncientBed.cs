@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureAncient
     {
         public override void SetDefaults()
         {
-            CalamityUtils.SetUpBed(Type, true);
+            this.SetUpBed(true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Ancient Bed");
             AddMapEntry(new Color(191, 142, 111), name);

@@ -15,12 +15,12 @@ namespace CalamityMod.Tiles.Astral
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
 
-            TileMerge.MergeGeneralTiles(Type);
-            TileMerge.MergeAstralTiles(Type);
-            TileMerge.MergeTile(Type, TileID.LeafBlock);
-            TileMerge.MergeTile(Type, TileID.LivingMahoganyLeaves);
-            TileMerge.MergeTile(Type, TileID.LivingWood);
-            TileMerge.MergeTile(Type, TileID.LivingMahogany);
+            CalamityUtils.MergeWithGeneral(Type);
+            CalamityUtils.MergeAstralTiles(Type);
+            CalamityUtils.SetMerge(Type, TileID.LeafBlock);
+            CalamityUtils.SetMerge(Type, TileID.LivingMahoganyLeaves);
+            CalamityUtils.SetMerge(Type, TileID.LivingWood);
+            CalamityUtils.SetMerge(Type, TileID.LivingMahogany);
 
             drop = ModContent.ItemType<Items.Placeables.AstralMonolith>();
             AddMapEntry(new Color(45, 36, 63));
@@ -71,7 +71,7 @@ namespace CalamityMod.Tiles.Astral
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            CustomTileFraming.FrameTileForCustomMerge(i, j, Type, ModContent.TileType<AstralDirt>(), false, false, false, false, resetFrame);
+            TileFraming.CustomMergeFrame(i, j, Type, ModContent.TileType<AstralDirt>(), false, false, false, false, resetFrame);
             return false;
         }
 

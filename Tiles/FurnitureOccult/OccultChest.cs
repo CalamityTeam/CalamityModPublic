@@ -10,7 +10,7 @@ namespace CalamityMod.Tiles.FurnitureOccult
     {
         public override void SetDefaults()
         {
-            CalamityUtils.SetUpChest(Type);
+            this.SetUpChest();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Otherworldly Chest");
             AddMapEntry(new Color(191, 142, 111), name, MapChestName);

@@ -14,7 +14,7 @@ namespace CalamityMod.Tiles.Ores
             Main.tileBlockLight[Type] = true;
             Main.tileValue[Type] = 950;
 
-            TileMerge.MergeGeneralTiles(Type);
+            CalamityUtils.MergeWithGeneral(Type);
 
             drop = ModContent.ItemType<Items.Placeables.Ores.UelibloomOre>();
             ModTranslation name = CreateMapEntryName();
@@ -38,7 +38,7 @@ namespace CalamityMod.Tiles.Ores
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            CustomTileFraming.FrameTileForCustomMerge(i, j, Type, TileID.Mud, false, false, false, false, resetFrame);
+            TileFraming.CustomMergeFrame(i, j, Type, TileID.Mud, false, false, false, false, resetFrame);
             return false;
         }
     }

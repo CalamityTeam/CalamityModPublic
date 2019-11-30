@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
     {
         public override void SetDefaults()
         {
-            CalamityUtils.SetUpDresser(Type);
+            this.SetUpDresser();
             Main.tileLavaDeath[Type] = false;
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Ashen Dresser");

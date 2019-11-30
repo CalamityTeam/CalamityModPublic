@@ -10,7 +10,7 @@ namespace CalamityMod.Tiles.FurnitureSilva
     {
         public override void SetDefaults()
         {
-            CalamityUtils.SetUpChandelier(Type);
+            this.SetUpChandelier();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Silva Chandelier");
             AddMapEntry(new Color(191, 142, 111), name);

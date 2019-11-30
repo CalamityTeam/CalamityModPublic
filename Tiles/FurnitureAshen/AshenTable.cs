@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
     {
         public override void SetDefaults()
         {
-            CalamityUtils.SetUpTable(Type, true);
+            this.SetUpTable(true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Ashen Table");
             AddMapEntry(new Color(191, 142, 111), name);

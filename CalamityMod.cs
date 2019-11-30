@@ -84,7 +84,7 @@ namespace CalamityMod
 {
     public class CalamityMod : Mod
     {
-        // TODO -- I have been advised by Jopo that Mods should never contain static variables
+        // CONSIDER -- I have been advised by Jopo that Mods should never contain static variables
 
         // Hotkeys
         public static ModHotKey NormalityRelocatorHotKey;
@@ -203,6 +203,8 @@ namespace CalamityMod
             thorium = ModLoader.GetMod("ThoriumMod");
 
             BossHealthBarManager.Load(this);
+
+            TileFraming.Load();
 
             Config.Load();
 
@@ -348,6 +350,8 @@ namespace CalamityMod
 
             BossHealthBarManager.Unload();
             base.Unload();
+
+            TileFraming.Unload();
 
             AstralArcanumUI.Unload();
             base.Unload();

@@ -18,9 +18,9 @@ namespace CalamityMod.Tiles.AstralDesert
             Main.tileSand[Type] = true;
             Main.tileBrick[Type] = true;
 
-            TileMerge.MergeGeneralTiles(Type);
-            TileMerge.MergeDesertTiles(Type);
-            TileMerge.MergeAstralTiles(Type);
+            CalamityUtils.MergeWithGeneral(Type);
+            CalamityUtils.MergeWithDesert(Type);
+            CalamityUtils.MergeAstralTiles(Type);
 
             dustType = 108;
             drop = ModContent.ItemType<Items.Placeables.AstralSand>();
@@ -51,8 +51,8 @@ namespace CalamityMod.Tiles.AstralDesert
                 WorldGen.SquareTileFrame(i, j);
                 return false;
             }
-            // CustomTileFraming.FrameTileForCustomMerge(i, j, Type, ModContent.TileType<AstralDirt>());
-            CustomTileFraming.FrameTileForCustomMergeFrom(i, j, Type, ModContent.TileType<AstralDirt>());
+            // CustomTileFraming.CustomMergeFrame(i, j, Type, ModContent.TileType<AstralDirt>());
+            TileFraming.CustomMergeFrame(i, j, Type, ModContent.TileType<AstralDirt>());
             return false;
         }
 

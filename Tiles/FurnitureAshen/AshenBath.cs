@@ -7,7 +7,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
     {
         public override void SetDefaults()
         {
-            CalamityUtils.SetUpBathtub(Type, true);
+            this.SetUpBathtub(true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Ashen Bathtub");
             AddMapEntry(new Color(191, 142, 111), name);

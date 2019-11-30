@@ -12,8 +12,8 @@ namespace CalamityMod.Tiles
             Main.tileMergeDirt[Type] = false;
             Main.tileBlockLight[Type] = true;
 
-            TileMerge.MergeGeneralTiles(Type);
-            TileMerge.MergeDecorativeTiles(Type);
+            CalamityUtils.MergeWithGeneral(Type);
+            CalamityUtils.MergeDecorativeTiles(Type);
 
             drop = ModContent.ItemType<Items.Placeables.PerennialBrick>();
             soundType = 21;

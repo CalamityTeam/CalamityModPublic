@@ -14,9 +14,9 @@ namespace CalamityMod.Tiles.AstralDesert
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
 
-            TileMerge.MergeGeneralTiles(Type);
-            TileMerge.MergeDesertTiles(Type);
-            TileMerge.MergeAstralTiles(Type);
+            CalamityUtils.MergeWithGeneral(Type);
+            CalamityUtils.MergeWithDesert(Type);
+            CalamityUtils.MergeAstralTiles(Type);
 
             dustType = ModContent.DustType<AstralBasic>();
             drop = ModContent.ItemType<Items.Placeables.AstralFossil>();
@@ -30,7 +30,7 @@ namespace CalamityMod.Tiles.AstralDesert
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            CustomTileFraming.FrameTileForCustomMerge(i, j, Type, ModContent.TileType<AstralSandstone>(), false, false, false, false, resetFrame);
+            TileFraming.CustomMergeFrame(i, j, Type, ModContent.TileType<AstralSandstone>(), false, false, false, false, resetFrame);
             return false;
         }
 
