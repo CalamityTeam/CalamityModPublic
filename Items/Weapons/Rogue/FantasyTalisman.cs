@@ -20,7 +20,7 @@ Stealth strikes release more souls and leave behind souls as they travel");
         public override void SafeSetDefaults()
         {
             item.width = 34;
-            item.damage = 69;
+            item.damage = 80;
             item.noMelee = true;
             item.consumable = true;
             item.noUseGraphic = true;

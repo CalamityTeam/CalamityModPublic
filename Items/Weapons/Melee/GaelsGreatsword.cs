@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public static readonly int PostMoonLordDamage = 213;
 
-        public static readonly int PostYharonDamage = 18775;
+        public static readonly int PostYharonDamage = 14560;
 
         public static readonly float TrueMeleeBoostPreHardmode = 1.75f;
 
