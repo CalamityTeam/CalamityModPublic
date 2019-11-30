@@ -1731,6 +1731,7 @@ namespace CalamityMod
                 ModContent.ItemType<AccretionDisk>(),
                 ModContent.ItemType<EnchantedAxe>(),
                 ModContent.ItemType<EpidemicShredder>(),
+                ModContent.ItemType<Equanimity>(),
                 ModContent.ItemType<Eradicator>(),
                 ModContent.ItemType<TruePaladinsHammer>(),
                 ModContent.ItemType<FlameScythe>(),
@@ -1795,7 +1796,11 @@ namespace CalamityMod
                 ModContent.ItemType<StellarKnife>(),
                 ModContent.ItemType<StormfrontRazor>(),
                 ModContent.ItemType<TimeBolt>(),
-                ModContent.ItemType<LunarKunai>()
+                ModContent.ItemType<LunarKunai>(),
+                ModContent.ItemType<GildedDagger>(),
+                ModContent.ItemType<GleamingDagger>(),
+                ModContent.ItemType<EmpyreanKnives>(),
+                ModContent.ItemType<RoyalKnives>()
             };
 
             flaskBombList = new List<int>()
