@@ -15,17 +15,15 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         //Help, they're forcing me to slave away at Calamity until I die! - Dominic
 
-        public int SwingType;
-
         //Weapon attribute constants
 
-        public static readonly int BaseDamage = 15;
+        public static readonly int BaseDamage = 10;
 
-        public static readonly int HardmodeDamage = 33;
+        public static readonly int HardmodeDamage = 35;
 
         public static readonly int PostMoonLordDamage = 213;
 
-        public static readonly int PostYharonDamage = 14560;
+        public static readonly int PostYharonDamage = 16660;
 
         public static readonly float TrueMeleeBoostPreHardmode = 1.75f;
 
@@ -184,50 +182,9 @@ namespace CalamityMod.Items.Weapons.Melee
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            //This is mostly from a function in Player.cs which handles the Brand of the Inferno alt click effect
-            //attackCD = The attack countdown. Can reflect attacks from projectiles and hostile npcs while > 0
-            //shield_parry_cooldown = A simple count down variable for effects.
             if (player.altFunctionUse == 2)
             {
-                bool shieldRaised = false;
-                if (player.selectedItem != 58 && player.controlUseTile && !player.tileInteractionHappened && player.releaseUseItem && !player.controlUseItem && !player.mouseInterface && !CaptureManager.Instance.Active && !Main.HoveringOverAnNPC && !Main.SmartInteractShowingGenuine
-                    && player.inventory[player.selectedItem].type == ModContent.ItemType<GaelsGreatsword>() && !player.mount.Active && (player.itemAnimation == 0 || PlayerInput.Triggers.JustPressed.MouseRight))
-                {
-                    shieldRaised = true;
-                }
-                if (player.shield_parry_cooldown > 0)
-                {
-                    player.shield_parry_cooldown--;
-                    if (player.shield_parry_cooldown == 1)
-                    {
-                        Main.PlaySound(25, -1, -1, 1, 1f, 0f);
-                        for (int i = 0; i < 10; i++)
-                        {
-                            int dustIndex = Dust.NewDust(player.Center + new Vector2((float)(player.direction * 6 + ((player.direction == -1) ? -10 : 0)), -14f), 10, 16, 45, 0f, 0f, 255, new Color(255, 100, 0, 127), (float)Main.rand.NextFloat(1f, 1.6f));
-                            Main.dust[dustIndex].noLight = true;
-                            Main.dust[dustIndex].noGravity = true;
-                            Main.dust[dustIndex].velocity *= 0.5f;
-                        }
-                    }
-                }
-                if (shieldRaised != player.shieldRaised)
-                {
-                    player.shieldRaised = shieldRaised;
-                    if (player.shieldRaised)
-                    {
-                        player.itemAnimation = 0;
-                        player.itemTime = 0;
-                        player.reuseDelay = 0;
-                    }
-                    else
-                    {
-                        player.shield_parry_cooldown = 15;
-                        if (player.attackCD < 30)
-                        {
-                            player.attackCD = 30;
-                        }
-                    }
-                }
+                //CalamityPlayer.cs line 7373. Thank me later.
                 return false;
             }
             switch (player.Calamity().gaelSwipes)

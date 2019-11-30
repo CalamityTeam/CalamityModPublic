@@ -7299,33 +7299,6 @@ namespace CalamityMod.CalPlayer
         #region Modify Hit By NPC
         public override void ModifyHitByNPC(NPC npc, ref int damage, ref bool crit)
         {
-            if (player.HeldItem.type == ModContent.ItemType<GaelsGreatsword>()
-                && npc.active && npc.CanBeChasedBy() && player.altFunctionUse == 2 && Main.rand.NextBool(2))
-            {
-                int direction = -1;
-                if (npc.Center.X < player.Center.X)
-                {
-                    direction = 1;
-                }
-                int damage2 = 15;
-                if (CalamityWorld.downedYharon)
-                {
-                    damage2 = GaelsGreatsword.PostYharonDamage;
-                }
-                else if (NPC.downedMoonlord)
-                {
-                    damage2 = GaelsGreatsword.PostMoonLordDamage;
-                }
-                else if (Main.hardMode)
-                {
-                    damage2 = GaelsGreatsword.HardmodeDamage;
-                }
-                player.ApplyDamageToNPC(npc, damage2 * 5, 5, -direction, false);
-                player.immune = true;
-                player.immuneNoBlink = true;
-                player.immuneTime = 4;
-                damage = 0;
-            }
             int bossRushDamage = (Main.expertMode ? 500 : 300) + (CalamityWorld.bossRushStage * 2);
             if (CalamityWorld.bossRushActive)
             {
@@ -7404,7 +7377,7 @@ namespace CalamityMod.CalPlayer
                     int dustIndex = Dust.NewDust(proj.position, proj.width, proj.height, 31, 0f, 0f, 0, default(Color), 1f);
                     Main.dust[dustIndex].velocity *= 0.3f;
                 }
-                int damage2 = 15;
+                int damage2 = GaelsGreatsword.BaseDamage;
                 if (CalamityWorld.downedYharon)
                 {
                     damage2 = GaelsGreatsword.PostYharonDamage;
@@ -7420,7 +7393,7 @@ namespace CalamityMod.CalPlayer
                 proj.hostile = false;
                 proj.friendly = true;
                 proj.velocity *= -1f;
-                proj.damage = damage2 * 5;
+                proj.damage = damage2;
                 proj.penetrate = 1;
                 player.immune = true;
                 player.immuneNoBlink = true;
