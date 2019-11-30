@@ -94,7 +94,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            // TODO -- HiveExplosion does not exist.
+            // DEFECT -- HiveExplosion does not exist.
             // int explode = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<HiveExplosion>(), projectile.damage / 4, projectile.knockBack, projectile.owner, 0f, 0f);
             // Main.projectile[explode].penetrate = 1;
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 62);
@@ -144,7 +144,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void Kill(int timeLeft)
         {
-            // TODO -- HiveExplosion does not exist.
+            // DEFECT -- HiveExplosion does not exist.
             // int explode = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<HiveExplosion>(), projectile.damage / 4, projectile.knockBack, projectile.owner, 0f, 0f);
             // Main.projectile[explode].penetrate = 1;
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 62);
@@ -177,7 +177,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.immune[projectile.owner] = 2;
-            // TODO -- HiveExplosion does not exist.
+            // DEFECT -- HiveExplosion does not exist.
             // int explode = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<HiveExplosion>(), projectile.damage / 4, projectile.knockBack, projectile.owner, 0f, 0f);
             // Main.projectile[explode].penetrate = 1;
             projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
