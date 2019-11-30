@@ -798,7 +798,8 @@ namespace CalamityMod
             group = new RecipeGroup(() => "Any Silt", new int[]
             {
                 ItemID.SiltBlock,
-                ItemID.SlushBlock
+                ItemID.SlushBlock,
+                ModContent.ItemType<AstralSilt>()
             });
             RecipeGroup.RegisterGroup("SiltGroup", group);
 
