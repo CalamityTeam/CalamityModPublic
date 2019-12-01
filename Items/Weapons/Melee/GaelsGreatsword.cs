@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         //Weapon attribute constants
 
-        public static readonly int BaseDamage = 10;
+        public static readonly int BaseDamage = 13;
 
         public static readonly int HardmodeDamage = 35;
 
