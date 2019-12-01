@@ -29,42 +29,15 @@ namespace CalamityMod.Projectiles.Melee
             projectile.timeLeft = 600;
             projectile.light = 1f;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = GaelsGreatsword.BaseImmunityFrames;
-
-            if (CalamityWorld.downedYharon)
-            {
-                projectile.localNPCHitCooldown = GaelsGreatsword.PostYharonImmunityFrames;
-            }
-            else if (NPC.downedMoonlord)
-            {
-                projectile.localNPCHitCooldown = GaelsGreatsword.PostMoonLordImmunityFrames;
-            }
-            else if (Main.hardMode)
-            {
-                projectile.localNPCHitCooldown = GaelsGreatsword.HardmodeImmunityFrames;
-            }
+            projectile.localNPCHitCooldown = GaelsGreatsword.ImmunityFrames;
         }
 
         public override void AI()
         {
-            float checkingDistance = GaelsGreatsword.BaseSearchDistance;
-            if (CalamityWorld.downedYharon)
-            {
-                checkingDistance = GaelsGreatsword.PostYharonSearchDistance;
-            }
-            else if (NPC.downedMoonlord)
-            {
-                checkingDistance = GaelsGreatsword.PostMoonLordSearchDistance;
-            }
-            else if (Main.hardMode)
-            {
-                checkingDistance = GaelsGreatsword.HardmodeSearchDistance;
-            }
-
             //Targeting
             if (projectile.scale <= 1f)
             {
-                NPC target = projectile.Center.ClosestNPCAt(checkingDistance);
+                NPC target = projectile.Center.ClosestNPCAt(GaelsGreatsword.SearchDistance);
                 projectile.tileCollide = target != null; //Go through walls if we're hunting an NPC
                 if (target != null)
                 {
@@ -125,7 +98,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 if (projectile.localAI[0] == 0f && !NPC.downedMoonlord)
                 {
-                    projectile.penetrate = GaelsGreatsword.PreMoonlordPenetrate;
+                    projectile.penetrate = -1;
                     projectile.localAI[0] = 1f;
                 }
                 else if (NPC.downedMoonlord)

@@ -2542,6 +2542,13 @@ namespace CalamityMod.NPCs
                     }
                 }
             }
+            if (projectile.type == ModContent.ProjectileType<GaelSkull>() ||
+                projectile.type == ModContent.ProjectileType<GaelSkull2>() && 
+                npc.type >= NPCID.SkeletronHead &&
+                npc.type <= NPCID.SkeletronHand)
+            {
+                damage = (int)(damage * 0.85);
+            }
         }
         #endregion
 

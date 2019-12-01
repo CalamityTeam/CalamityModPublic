@@ -25,20 +25,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.timeLeft = 15;
             projectile.melee = true;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = GaelsGreatsword.BaseImmunityFrames;
-
-            if (CalamityWorld.downedYharon)
-            {
-                projectile.localNPCHitCooldown = GaelsGreatsword.PostYharonImmunityFrames;
-            }
-            else if (NPC.downedMoonlord)
-            {
-                projectile.localNPCHitCooldown = GaelsGreatsword.PostMoonLordImmunityFrames;
-            }
-            else if (Main.hardMode)
-            {
-                projectile.localNPCHitCooldown = GaelsGreatsword.HardmodeImmunityFrames;
-            }
+            projectile.localNPCHitCooldown = GaelsGreatsword.ImmunityFrames;
         }
 
         public override void AI()

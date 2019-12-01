@@ -2057,21 +2057,8 @@ namespace CalamityMod.CalPlayer
                         Dust.NewDust(player.Center + angle.ToRotationVector2() * 160f, 0, 0, 218, 0f, 0f, 100, default, 1f);
                     }
                     gaelRageCooldown = 60 * GaelsGreatsword.SkullsplosionCooldownSeconds;
-                    int damage2 = 15;
-                    if (CalamityWorld.downedYharon)
-                    {
-                        damage2 = GaelsGreatsword.PostYharonDamage;
-                    }
-                    else if (NPC.downedMoonlord)
-                    {
-                        damage2 = GaelsGreatsword.PostMoonLordDamage;
-                    }
-                    else if (Main.hardMode)
-                    {
-                        damage2 = GaelsGreatsword.HardmodeDamage;
-                    }
                     float rageRatio = (float)stress / stressMax;
-                    int damage = (int)((stress == stressMax ? GaelsGreatsword.MaxRageBoost : rageRatio * GaelsGreatsword.RageBoostMultiplier) * damage2);
+                    int damage = (int)(rageRatio * GaelsGreatsword.MaxRageBoost * GaelsGreatsword.BaseDamage);
                     float skullCount = 5f;
                     float skullSpeed = 5f;
                     if (CalamityWorld.downedYharon)
@@ -5743,18 +5730,7 @@ namespace CalamityMod.CalPlayer
             }
             if (item.type == ModContent.ItemType<GaelsGreatsword>())
             {
-                if (CalamityWorld.downedYharon)
-                {
-                    add += GaelsGreatsword.PostYharonDamage / (float)GaelsGreatsword.BaseDamage - 1f;
-                }
-                else if (NPC.downedMoonlord)
-                {
-                    add += GaelsGreatsword.PostMoonLordDamage / (float)GaelsGreatsword.BaseDamage - 1f;
-                }
-                else if (Main.hardMode)
-                {
-                    add += GaelsGreatsword.HardmodeDamage / (float)GaelsGreatsword.BaseDamage - 1f;
-                }
+                add += GaelsGreatsword.BaseDamage / (float)GaelsGreatsword.BaseDamage - 1f;
             }
             if (flamethrowerBoost && item.ranged && (item.useAmmo == 23 || item.type == ModContent.ItemType<DragoonDrizzlefish>()))
             {
@@ -7539,18 +7515,6 @@ namespace CalamityMod.CalPlayer
                     Main.dust[dustIndex].velocity *= 0.3f;
                 }
                 int damage2 = GaelsGreatsword.BaseDamage;
-                if (CalamityWorld.downedYharon)
-                {
-                    damage2 = GaelsGreatsword.PostYharonDamage;
-                }
-                else if (NPC.downedMoonlord)
-                {
-                    damage2 = GaelsGreatsword.PostMoonLordDamage;
-                }
-                else if (Main.hardMode)
-                {
-                    damage2 = GaelsGreatsword.HardmodeDamage;
-                }
                 proj.hostile = false;
                 proj.friendly = true;
                 proj.velocity *= -1f;

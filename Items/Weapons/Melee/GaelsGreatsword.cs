@@ -17,47 +17,23 @@ namespace CalamityMod.Items.Weapons.Melee
 
         //Weapon attribute constants
 
-        public static readonly int BaseDamage = 13;
+        public static readonly int BaseDamage = 11145;
 
-        public static readonly int HardmodeDamage = 35;
-
-        public static readonly int PostMoonLordDamage = 213;
-
-        public static readonly int PostYharonDamage = 16660;
-
-        public static readonly float TrueMeleeBoostPreHardmode = 1.75f;
-
-        public static readonly float TrueMeleeBoostHardmode = 2.5f;
+        public static readonly float TrueMeleeBoost = 2.5f;
 
         public static readonly float GiantSkullDamageMultiplier = 1.5f;
 
         //Weapon projectile attribute constants
 
-        public static readonly int BaseSearchDistance = 400;
+        public static readonly int SearchDistance = 1450;
 
-        public static readonly int HardmodeSearchDistance = 660;
-
-        public static readonly int PostMoonLordSearchDistance = 940;
-
-        public static readonly int PostYharonSearchDistance = 1450;
-
-        public static readonly int BaseImmunityFrames = 11;
-
-        public static readonly int HardmodeImmunityFrames = 7;
-
-        public static readonly int PostMoonLordImmunityFrames = 4;
-
-        public static readonly int PostYharonImmunityFrames = 2;
+        public static readonly int ImmunityFrames = 2;
 
         public static readonly int SkullsplosionCooldownSeconds = 30;
 
-        public static readonly int PreMoonlordPenetrate = 3; //Infinite after Moon lord is dead
-
         //Skull ring attribute constants
 
-        public static readonly float MaxRageBoost = 2.5f;
-
-        public static readonly float RageBoostMultiplier = 1.5f;
+        public static readonly float MaxRageBoost = 1.5f;
 
         public override void SetStaticDefaults()
         {
@@ -130,10 +106,6 @@ namespace CalamityMod.Items.Weapons.Melee
             if (player.itemAnimation == (int)((double)player.itemAnimationMax * 0.5))
             {
                 player.Calamity().gaelSwipes++;
-                if (player.Calamity().gaelSwipes > 3)
-                {
-                    player.Calamity().gaelSwipes = 0;
-                }
                 if (player.statLife <= player.statLifeMax2 * 0.5f)
                 {
                     for (int i = 0; i < 170; i++)
@@ -153,20 +125,7 @@ namespace CalamityMod.Items.Weapons.Melee
                         }
                         if (Main.rand.NextBool(100))
                         {
-                            int damage = BaseDamage;
-                            if (Main.hardMode)
-                            {
-                                damage = HardmodeDamage;
-                            }
-                            if (NPC.downedMoonlord)
-                            {
-                                damage = PostMoonLordDamage;
-                            }
-                            if (CalamityWorld.downedYharon)
-                            {
-                                damage = PostYharonDamage;
-                            }
-                            Projectile.NewProjectile(player.MountedCenter + dustSpawn.RotatedBy(player.itemRotation) * player.direction, Vector2.Zero, ModContent.ProjectileType<GaelExplosion>(), damage, 0f, player.whoAmI);
+                            Projectile.NewProjectile(player.MountedCenter + dustSpawn.RotatedBy(player.itemRotation) * player.direction, Vector2.Zero, ModContent.ProjectileType<GaelExplosion>(), BaseDamage, 0f, player.whoAmI);
                         }
                     }
                 }
@@ -175,9 +134,9 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
         {
             //True melee boost
-            if (player.Calamity().gaelSwipes == 2)
+            if (player.Calamity().gaelSwipes % 3 == 2)
             {
-                damage = (int)((Main.hardMode ? TrueMeleeBoostHardmode : TrueMeleeBoostPreHardmode) * damage);
+                damage = (int)(TrueMeleeBoost * damage);
             }
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -187,7 +146,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 //CalamityPlayer.cs line 7373. Thank me later.
                 return false;
             }
-            switch (player.Calamity().gaelSwipes)
+            switch (player.Calamity().gaelSwipes % 3)
             {
                 //Two small, quick skulls
                 case 0:

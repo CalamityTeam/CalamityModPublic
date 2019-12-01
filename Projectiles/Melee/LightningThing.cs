@@ -24,30 +24,14 @@ namespace CalamityMod.Projectiles.Melee
         public override void Kill(int timeLeft)
         {
             int damage = GaelsGreatsword.BaseDamage;
-            int customIFrames = GaelsGreatsword.BaseImmunityFrames;
-            if (Main.hardMode)
-            {
-                damage = GaelsGreatsword.HardmodeDamage;
-                customIFrames = GaelsGreatsword.HardmodeImmunityFrames;
-            }
-            if (NPC.downedMoonlord)
-            {
-                damage = GaelsGreatsword.PostMoonLordDamage;
-                customIFrames = GaelsGreatsword.PostMoonLordImmunityFrames;
-            }
-            if (CalamityWorld.downedYharon)
-            {
-                damage = GaelsGreatsword.PostYharonDamage;
-                customIFrames = GaelsGreatsword.PostYharonImmunityFrames;
-            }
             for (int i = 0; i < 3; i++)
             {
                 int idx = Projectile.NewProjectile(projectile.Center + new Vector2(Main.rand.NextFloat(-35f, 35f), -1600f), Vector2.UnitY * 12f,
-                    ProjectileID.CultistBossLightningOrbArc, damage, 0f, projectile.owner,
+                    ProjectileID.CultistBossLightningOrbArc, GaelsGreatsword.BaseDamage, 0f, projectile.owner,
                     MathHelper.PiOver2, Main.rand.Next(100));
                 Main.projectile[idx].Calamity().forceMelee = true;
                 Main.projectile[idx].usesLocalNPCImmunity = true;
-                Main.projectile[idx].localNPCHitCooldown = customIFrames;
+                Main.projectile[idx].localNPCHitCooldown = GaelsGreatsword.ImmunityFrames;
             }
         }
     }
