@@ -79,6 +79,22 @@ namespace CalamityMod.Projectiles.Summon
             float scaleFactor18;
             if (chase >= 0 && Main.projectile[chase].active)
             {
+                //Delete the player's mechworm if it's attaching to something weird
+                if (Main.projectile[chase].type != ModContent.ProjectileType<MechwormBody2>() &&
+                    Main.projectile[chase].type != ModContent.ProjectileType<MechwormBody>())
+                {
+                    for (int i = 0; i < Main.projectile.Length; i++)
+                    {
+                        if (Main.projectile[i].active && Main.projectile[i].owner == projectile.owner &&
+                            (Main.projectile[chase].type == ModContent.ProjectileType<MechwormBody2>() ||
+                             Main.projectile[chase].type == ModContent.ProjectileType<MechwormBody>() ||
+                             Main.projectile[chase].type == ModContent.ProjectileType<MechwormHead>() ||
+                             Main.projectile[chase].type == ModContent.ProjectileType<MechwormTail>()))
+                        {
+                            Main.projectile[i].Kill();
+                        }
+                    }
+                }
                 value68 = Main.projectile[chase].Center;
                 Vector2 arg_2DE6A_0 = Main.projectile[chase].velocity;
                 num1064 = Main.projectile[chase].rotation;
@@ -113,6 +129,7 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.Center = value68 - Vector2.Normalize(vector134) * scaleFactor17 * scaleFactor18;
             }
             projectile.spriteDirection = (vector134.X > 0f) ? 1 : -1;
+            projectile.netSpam = 5;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

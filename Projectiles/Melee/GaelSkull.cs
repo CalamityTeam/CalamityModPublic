@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Skull");
+            DisplayName.SetDefault("Ark of the Cosmos' Superior Cousin");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
             Main.projFrames[projectile.type] = 5;

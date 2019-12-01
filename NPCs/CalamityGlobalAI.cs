@@ -9222,9 +9222,6 @@ namespace CalamityMod.NPCs
             bool phase3 = lifeRatio < 0.4f || golemLifeRatio < 0.7f || CalamityWorld.death || CalamityWorld.bossRushActive;
             bool phase4 = lifeRatio < 0.1f || golemLifeRatio < 0.55f || CalamityWorld.death || CalamityWorld.bossRushActive;
 
-            // Target
-            npc.TargetClosest(true);
-
 			// Float through tiles or not
 			bool flag44 = false;
 			if (!Collision.CanHit(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1) || phase3)
@@ -9252,6 +9249,10 @@ namespace CalamityMod.NPCs
             // Move to new location
             if (npc.ai[3] <= 0f)
             {
+                // Target
+                npc.TargetClosest(true);
+                npc.netSpam = 5;
+
                 npc.ai[3] = 300f;
 
                 float maxDistance = 300f;
@@ -9315,7 +9316,7 @@ namespace CalamityMod.NPCs
                     calamityGlobalNPC.newAI[1] = -maxDistance;
                 }
 
-				npc.netUpdate = true;
+                npc.netUpdate = true;
 			}
 
             npc.ai[3] -= 1f +
@@ -9470,6 +9471,7 @@ namespace CalamityMod.NPCs
                     }
                 }
             }
+            NetMessage.SendData(23, -1, -1, null, npc.whoAmI, 0f, 0f, 0f, 0, 0, 0);
 
             if (ModLoader.GetMod("FargowiltasSouls") != null)
                 ModLoader.GetMod("FargowiltasSouls").Call("FargoSoulsAI", npc.whoAmI);

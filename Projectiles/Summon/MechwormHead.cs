@@ -208,6 +208,7 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.alpha = 0;
                 }
             }
+            projectile.netSpam = 5;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
