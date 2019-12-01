@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Rogue
 			if (projectile.Calamity().stealthStrike == true)
 			{
 				stealthCounter++;
-				if (stealthCounter == 8 && projectile.owner == Main.myPlayer)
+				if (stealthCounter == 15 && projectile.owner == Main.myPlayer)
 				{
 					Vector2 vector62 = Main.player[projectile.owner].Center - projectile.Center;
 					stealthCounter = 0;
@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Rogue
 					vector63.Normalize();
 					vector63 *= (float)Main.rand.Next(45, 65) * 0.1f;
 					vector63 = vector63.RotatedBy((Main.rand.NextDouble() - 0.5) * 1.5707963705062866, default);
-					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector63.X, vector63.Y, ModContent.ProjectileType<ShroomerangSpore>(), (int)((double)projectile.damage * 0.6), projectile.knockBack * 0.2f, projectile.owner, -10f, 0f);
+					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector63.X, vector63.Y, ModContent.ProjectileType<ShroomerangSpore>(), (int)((double)projectile.damage * 0.1), projectile.knockBack * 0.2f, projectile.owner, -10f, 0f);
 				}
 			}
         }
