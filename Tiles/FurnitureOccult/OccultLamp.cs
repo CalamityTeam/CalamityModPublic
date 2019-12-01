@@ -10,7 +10,7 @@ namespace CalamityMod.Tiles.FurnitureOccult
     {
         public override void SetDefaults()
         {
-            CalamityUtils.SetUpLamp(Type);
+            this.SetUpLamp();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Otherworldly Lamp");
             AddMapEntry(new Color(191, 142, 111), name);

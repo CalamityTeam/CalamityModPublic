@@ -13,8 +13,8 @@ namespace CalamityMod.Tiles
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
 
-            TileMerge.MergeGeneralTiles(Type);
-            TileMerge.MergeDecorativeTiles(Type);
+            CalamityUtils.MergeWithGeneral(Type);
+            CalamityUtils.MergeDecorativeTiles(Type);
 
             soundType = 21;
             minPick = 100;

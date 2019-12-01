@@ -450,6 +450,10 @@ namespace CalamityMod.Items
             {
                 return false;
             }
+            if ((item.type == ItemID.ShinePotion || item.type == ItemID.NightOwlPotion) && (modPlayer.etherealExtorter && modPlayer.ZoneAbyss))
+            {
+                return false;
+            }
             if ((item.type == ItemID.SuperAbsorbantSponge || item.type == ItemID.EmptyBucket) && modPlayer.ZoneAbyss)
             {
                 return false;
@@ -2414,7 +2418,8 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 (modPlayer.soaring ? 0.1f : 0f) +
                 (modPlayer.holyWrath ? 0.05f : 0f) +
                 (modPlayer.profanedRage ? 0.05f : 0f) +
-                (modPlayer.draconicSurge ? 0.15f : 0f);
+                (modPlayer.draconicSurge ? 0.15f : 0f) +
+                (modPlayer.etherealExtorter && modPlayer.ZoneAstral ? 0.05f : 0f);
             if (flightSpeedMult > 1.2f)
                 flightSpeedMult = 1.2f;
 

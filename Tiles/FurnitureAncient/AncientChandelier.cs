@@ -7,7 +7,7 @@ namespace CalamityMod.Tiles.FurnitureAncient
     {
         public override void SetDefaults()
         {
-            CalamityUtils.SetUpChandelier(Type, true);
+            this.SetUpChandelier(true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Ancient Chandelier");
             AddMapEntry(new Color(191, 142, 111), name);

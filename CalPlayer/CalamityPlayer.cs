@@ -167,6 +167,7 @@ namespace CalamityMod.CalPlayer
         public float throwingDamage = 1f;
         public float throwingVelocity = 1f;
         public int throwingCrit = 4;
+        public bool throwingAmmoCost75 = false;
         public bool throwingAmmoCost66 = false;
         public bool throwingAmmoCost50 = false;
 
@@ -375,6 +376,7 @@ namespace CalamityMod.CalPlayer
         public bool ursaSergeant = false;
         public bool thiefsDime = false;
         public bool dynamoStemCells = false;
+        public bool etherealExtorter = false;
         //public bool dukeScales = false;
         public bool sandWaifu = false;
         public bool sandBoobWaifu = false;
@@ -870,6 +872,7 @@ namespace CalamityMod.CalPlayer
             throwingDamage = 1f;
             throwingVelocity = 1f;
             throwingCrit = 4;
+            throwingAmmoCost75 = false;
             throwingAmmoCost66 = false;
             throwingAmmoCost50 = false;
 
@@ -1077,6 +1080,7 @@ namespace CalamityMod.CalPlayer
             ursaSergeant = false;
             thiefsDime = false;
             dynamoStemCells = false;
+            etherealExtorter = false;
             //dukeScales = false;
 
             daedalusReflect = false;
@@ -1407,6 +1411,7 @@ namespace CalamityMod.CalPlayer
             throwingDamage = 1f;
             throwingVelocity = 1f;
             throwingCrit = 4;
+            throwingAmmoCost75 = false;
             throwingAmmoCost66 = false;
             throwingAmmoCost50 = false;
             #endregion
@@ -3247,6 +3252,10 @@ namespace CalamityMod.CalPlayer
                 {
                     player.maxFallSpeed *= 1.1f;
                 }
+                if (etherealExtorter && player.ZoneSkyHeight)
+                {
+                    player.maxFallSpeed *= 1.25f;
+                }
             }
             if (normalityRelocator)
             {
@@ -4388,6 +4397,84 @@ namespace CalamityMod.CalPlayer
             {
 				player.Calamity().throwingCrit += 10;
             }
+			if (etherealExtorter)
+			{
+				bool ZoneForest = !ZoneAbyss && !ZoneSulphur && !ZoneAstral && !ZoneCalamity && !ZoneSunkenSea && !player.ZoneSnow && !player.ZoneCorrupt && !player.ZoneCrimson && !player.ZoneHoly && !player.ZoneDesert && !player.ZoneUndergroundDesert && !player.ZoneGlowshroom && !player.ZoneDungeon && !player.ZoneBeach && !player.ZoneMeteor;
+				if (player.ZoneUnderworldHeight && !ZoneCalamity && CalamityMod.fireWeaponList.Contains(player.inventory[player.selectedItem].type))
+				{
+                    player.endurance += 0.03f;
+				}
+				if ((player.ZoneDesert || player.ZoneUndergroundDesert) && CalamityMod.daggerList.Contains(player.inventory[player.selectedItem].type))
+				{
+					player.scope = true;
+				}
+				if (ZoneSunkenSea)
+				{
+					player.gills = true;
+					player.ignoreWater = true;
+				}
+				if (player.ZoneSnow && CalamityMod.iceWeaponList.Contains(player.inventory[player.selectedItem].type))
+				{
+					player.statDefense += 5;
+				}
+				if (ZoneAstral)
+				{
+					if (player.wingTimeMax > 0)
+						player.wingTimeMax = (int)((double)player.wingTimeMax * 1.05);
+				}
+				if (player.ZoneJungle && CalamityMod.natureWeaponList.Contains(player.inventory[player.selectedItem].type))
+				{
+                    player.AddBuff(165, 5, true); //Dryad's Blessing
+				}
+				if (ZoneAbyss)
+				{
+                    player.blind = true;
+                    player.headcovered = true;
+                    player.blackout = true;
+					if (player.FindBuffIndex(BuffID.Shine) > -1)
+					{ player.ClearBuff(BuffID.Shine); }
+					if (player.FindBuffIndex(BuffID.NightOwl) > -1)
+					{ player.ClearBuff(BuffID.NightOwl); }
+					player.nightVision = false;
+					shine = false;
+					player.allDamage += 0.2f;
+					AllCritBoost(5);
+					player.statDefense += 8;
+					player.endurance += 0.05f;
+				}
+				if (player.ZoneRockLayerHeight && ZoneForest && CalamityMod.flaskBombList.Contains(player.inventory[player.selectedItem].type))
+				{
+					player.blackBelt = true;
+				}
+				if (player.ZoneHoly)
+				{
+					player.maxMinions += 1;
+					player.manaCost *= 0.9f;
+					player.ammoCost75 = true; //25% chance to not use ranged ammo
+					throwingAmmoCost75 = true; //25% chance to not consume rogue consumables
+				}
+				if (player.ZoneBeach)
+				{
+					player.moveSpeed += 0.05f;
+				}
+				if (player.ZoneGlowshroom)
+				{
+					player.statDefense += 3;
+				}
+				if (player.ZoneMeteor)
+				{
+					gravityNormalizer = true;
+					player.slowFall = true;
+				}
+				if (Main.moonPhase == 0) //full moon
+				{
+					player.fishingSkill += 30;
+				}
+				if (Main.moonPhase == 6) //first quarter
+				{
+					player.discount = true;
+				}
+			}
             if (harpyRing)
             {
                 if (player.wingTimeMax > 0)
@@ -4992,7 +5079,7 @@ namespace CalamityMod.CalPlayer
                 player.npcTypeNoAggro[ModContent.NPCType<PerennialSlime>()] = true;
                 player.npcTypeNoAggro[ModContent.NPCType<PlaguedJungleSlime>()] = true;
                 player.npcTypeNoAggro[ModContent.NPCType<AstralSlime>()] = true;
-                // TODO -- When Wulfrum Slimes start being definitely robots, remove this immunity.
+                // LATER -- When Wulfrum Slimes start being definitely robots, remove this immunity.
                 player.npcTypeNoAggro[ModContent.NPCType<WulfrumSlime>()] = true;
             }
 
@@ -5250,6 +5337,7 @@ namespace CalamityMod.CalPlayer
                 (silvaSet ? 0.05f : 0f) +
                 (eTracers ? 0.05f : 0f) +
                 (blueCandle ? 0.05f : 0f) +
+                (etherealExtorter && player.ZoneBeach ? 0.05f : 0f) +
                 ((deepDiver && Collision.DrownCollision(player.position, player.width, player.height, player.gravDir)) ? 0.15f : 0f) +
                 (rogueStealthMax > 0f ? (rogueStealth >= rogueStealthMax ? rogueStealth * 0.05f : rogueStealth * 0.025f) : 0f);
 
@@ -5263,6 +5351,7 @@ namespace CalamityMod.CalPlayer
                 (cTracers ? 0.1f : 0f) +
                 (silvaSet ? 0.05f : 0f) +
                 (eTracers ? 0.05f : 0f) +
+                (etherealExtorter && player.ZoneBeach ? 0.05f : 0f) +
                 ((stressPills || laudanum || draedonsHeart) ? 0.05f : 0f) +
                 ((deepDiver && Collision.DrownCollision(player.position, player.width, player.height, player.gravDir)) ? 0.15f : 0f) +
                 (rogueStealthMax > 0f ? (rogueStealth >= rogueStealthMax ? rogueStealth * 0.05f : rogueStealth * 0.025f) : 0f);
@@ -5624,6 +5713,11 @@ namespace CalamityMod.CalPlayer
                     item.Calamity().rogue && item.useTime > 3)
                     return 1.1f;
             }
+            if (etherealExtorter)
+            {
+                if (Main.moonPhase == 1 && item.Calamity().rogue && item.useTime > 3) //Waning gibbous
+                    return 1.1f;
+            }
             return 1f;
         }
         #endregion
@@ -5678,6 +5772,10 @@ namespace CalamityMod.CalPlayer
             {
                 add += 0.1f;
             }
+			if (etherealExtorter && player.ZoneDungeon && item.Calamity().rogue && !item.consumable)
+			{
+				add += 0.05f;
+			}
 
             if (theBee && player.statLife >= player.statLifeMax2)
             {
@@ -5727,6 +5825,14 @@ namespace CalamityMod.CalPlayer
             if (moscowMule)
             {
                 knockback *= 1.09f;
+            }
+			bool ZoneForest = !ZoneAbyss && !ZoneSulphur && !ZoneAstral && !ZoneCalamity && !ZoneSunkenSea && !player.ZoneSnow && !player.ZoneCorrupt && !player.ZoneCrimson && !player.ZoneHoly && !player.ZoneDesert && !player.ZoneUndergroundDesert && !player.ZoneGlowshroom && !player.ZoneDungeon && !player.ZoneBeach && !player.ZoneMeteor;
+            if (etherealExtorter)
+            {
+				if (player.ZoneOverworldHeight && ZoneForest)
+				{
+					knockback *= 1.15f;
+				}
             }
         }
         #endregion
@@ -6264,6 +6370,26 @@ namespace CalamityMod.CalPlayer
                         target.AddBuff(BuffID.Midas, 120, false);
                     }
                 }
+				if (etherealExtorter)
+				{
+					if (ZoneSunkenSea)
+					{
+						target.AddBuff(ModContent.BuffType<TemporalSadness>(), 60, false);
+					}
+					if (ZoneSulphur)
+					{
+						target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 120, false);
+						target.AddBuff(ModContent.BuffType<Irradiated>(), 300, false);
+					}
+					if (Main.moonPhase == 6) //first quarter
+					{
+						target.AddBuff(BuffID.Midas, 120, false);
+					}
+					if (ZoneCalamity && CalamityMod.fireWeaponList.Contains(player.inventory[player.selectedItem].type))
+					{
+						target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 240, false);
+					}
+				}					
             }
         }
         #endregion
@@ -6920,7 +7046,33 @@ namespace CalamityMod.CalPlayer
             }
             if ((filthyGlove || electricianGlove) && proj.Calamity().stealthStrike && proj.Calamity().rogue)
             {
-                damageMult += 0.01;
+                damageMult += 0.1;
+            }
+            if (etherealExtorter && proj.Calamity().rogue)
+            {
+				bool ZoneForest = !ZoneAbyss && !ZoneSulphur && !ZoneAstral && !ZoneCalamity && !ZoneSunkenSea && !player.ZoneSnow && !player.ZoneCorrupt && !player.ZoneCrimson && !player.ZoneHoly && !player.ZoneDesert && !player.ZoneUndergroundDesert && !player.ZoneGlowshroom && !player.ZoneDungeon && !player.ZoneBeach && !player.ZoneMeteor;
+                if (Main.moonPhase == 7 && crit) //Waxing Gibbous
+				{
+					damageMult += 0.05;
+				}
+				if (Main.moonPhase == 5) //Waxing Cresent
+				{
+					if (proj.penetrate == -1)
+						damageMult += 0.1;
+					else if (proj.penetrate >= 5)
+						damageMult += 0.08;
+					else if (proj.penetrate == 4)
+						damageMult += 0.06;
+					else if (proj.penetrate == 3)
+						damageMult += 0.03;
+					else if (proj.penetrate == 2)
+						damageMult += 0.02;
+				}
+				if (player.ZoneDirtLayerHeight && ZoneForest)
+				{
+					if (Main.rand.NextBool(20) && !crit) //5% chance to minicrit
+						damageMult += 0.5;
+				}
             }
             damage = (int)((double)damage * damageMult);
 
@@ -6963,6 +7115,15 @@ namespace CalamityMod.CalPlayer
 				int penetratableDefense = Math.Max(target.defense - player.armorPenetration, 0);
 				int penetratedDefense = Math.Min(penetratableDefense, 10);
 				damage += (int)(0.5f * penetratedDefense);
+            }
+            if (proj.Calamity().rogue && etherealExtorter)
+            {
+                if (CalamityMod.boomerangProjList.Contains(proj.type) && player.ZoneCorrupt)
+				{
+					int penetratableDefense = Math.Max(target.defense - player.armorPenetration, 0);
+					int penetratedDefense = Math.Min(penetratableDefense, 6);
+					damage += (int)(0.5f * penetratedDefense);
+				}
             }
             #endregion
 
@@ -10805,7 +10966,7 @@ namespace CalamityMod.CalPlayer
                     fullBright = true;
                 }
             }
-            if (mushy)
+            if (mushy || (etherealExtorter && player.ZoneGlowshroom))
             {
                 if (Main.rand.NextBool(6) && drawInfo.shadow == 0f)
                 {
@@ -11010,6 +11171,11 @@ namespace CalamityMod.CalPlayer
 			if (CalamityMod.daggerList.Contains(player.inventory[player.selectedItem].type) && player.invis)
 			{
 				stealthGenMoving += 0.2f;
+			}
+
+			if (etherealExtorter && Main.moonPhase == 3) //Waning Crescent
+			{
+				stealthGenMoving += 0.1f;
 			}
 
             bool standstill = Math.Abs(player.velocity.X) < 0.1f && Math.Abs(player.velocity.Y) < 0.1f && !player.mount.Active;

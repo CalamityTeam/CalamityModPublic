@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureAncient
     {
         public override void SetDefaults()
         {
-            CalamityUtils.SetUpClock(Type, true);
+            this.SetUpClock(true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Ancient Monolith");
             AddMapEntry(new Color(191, 142, 111), name);

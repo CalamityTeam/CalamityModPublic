@@ -65,6 +65,11 @@ namespace CalamityMod.Items.Weapons.Rogue
                 if (Main.rand.Next(1, 101) > 66)
                     return false;
             }
+            if (player.Calamity().throwingAmmoCost75)
+            {
+                if (Main.rand.Next(1, 101) > 75)
+                    return false;
+            }
             return true;
         }
     }

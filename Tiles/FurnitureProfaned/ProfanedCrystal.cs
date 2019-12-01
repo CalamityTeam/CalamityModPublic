@@ -14,9 +14,9 @@ namespace CalamityMod.Tiles.FurnitureProfaned
             Main.tileNoAttach[Type] = true;
             Main.tileBlockLight[Type] = true;
 
-            TileMerge.MergeGeneralTiles(Type);
-            TileMerge.MergeDecorativeTiles(Type);
-            TileMerge.MergeSmoothTiles(Type);
+            CalamityUtils.MergeWithGeneral(Type);
+            CalamityUtils.MergeDecorativeTiles(Type);
+            CalamityUtils.MergeSmoothTiles(Type);
 
             soundType = 13;
             mineResist = 1f;
@@ -27,7 +27,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            return CustomTileFraming.BetterGemsparkFraming(i, j, resetFrame);
+            return TileFraming.BetterGemsparkFraming(i, j, resetFrame);
         }
 
         public override bool CreateDust(int i, int j, ref int type)

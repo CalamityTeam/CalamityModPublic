@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Melee
             crit = false;
         }
 
-        // TODO -- Providence specifically is immune to Coldheart Icicle. There is probably a better way to do this
+        // LATER -- Providence specifically is immune to Coldheart Icicle. There is probably a better way to do this
         public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
         {
             damage = 1;

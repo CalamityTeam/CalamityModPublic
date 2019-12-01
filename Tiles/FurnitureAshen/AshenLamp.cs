@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
     {
         public override void SetDefaults()
         {
-            CalamityUtils.SetUpLamp(Type, true);
+            this.SetUpLamp(true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Ashen Lamp");
             AddMapEntry(new Color(191, 142, 111), name);

@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
     {
         public override void SetDefaults()
         {
-            CalamityUtils.SetUpDresser(Type);
+            this.SetUpDresser();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Cosmilite Dresser");
             AddMapEntry(new Color(191, 142, 111), name);

@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureVoid
     {
         public override void SetDefaults()
         {
-            CalamityUtils.SetUpChest(Type);
+            this.SetUpChest();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Void Chest");
             AddMapEntry(new Color(191, 142, 111), name, MapChestName);

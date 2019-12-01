@@ -10,7 +10,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
     {
         public override void SetDefaults()
         {
-            CalamityUtils.SetUpPlatform(Type);
+            this.SetUpPlatform();
             AddMapEntry(new Color(191, 142, 111));
             drop = ModContent.ItemType<Items.Placeables.FurnitureProfaned.ProfanedPlatform>();
             disableSmartCursor = true;

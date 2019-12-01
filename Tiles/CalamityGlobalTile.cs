@@ -1,4 +1,3 @@
-
 using CalamityMod.Items.Potions;
 using CalamityMod.Tiles.Abyss;
 using CalamityMod.Tiles.Astral;
@@ -26,55 +25,29 @@ namespace CalamityMod.Tiles
             TileID.HallowedPlants,
             TileID.HallowedPlants2,
             TileID.FleshWeeds,
-            (ushort)ModContent.GetInstance<CalamityMod>().TileType("AstralShortPlants"),
-            (ushort)ModContent.GetInstance<CalamityMod>().TileType("AstralTallPlants")
+            (ushort)ModContent.TileType<AstralShortPlants>(),
+            (ushort)ModContent.TileType<AstralTallPlants>(),
         };
 
-        public override void SetDefaults()
+        public override bool PreHitWire(int i, int j, int type)
         {
-            if (CalamityMod.chairList != null)
-            {
-                foreach (int i in CalamityMod.chairList)
-                {
-                    AddToArray(ref TileID.Sets.RoomNeeds.CountsAsChair, i);
-                }
-            }
-            if (CalamityMod.doorList != null)
-            {
-                foreach (int i in CalamityMod.doorList)
-                {
-                    AddToArray(ref TileID.Sets.RoomNeeds.CountsAsDoor, i);
-                }
-            }
-            if (CalamityMod.lightList != null)
-            {
-                foreach (int i in CalamityMod.lightList)
-                {
-                    AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch, i);
-                }
-            }
-            if (CalamityMod.tableList != null)
-            {
-                foreach (int i in CalamityMod.tableList)
-                {
-                    AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable, i);
-                }
-            }
+            return !CalamityWorld.bossRushActive;
         }
 
         public override bool TileFrame(int i, int j, int type, ref bool resetFrame, ref bool noBreak)
         {
+            // Custom plant framing
             for (int k = 0; k < PlantTypes.Length; k++)
-            {
-                if (PlantTypes[k] == type)
+                if (type == PlantTypes[k])
                 {
-                    CustomTileFraming.CheckPlants(i, j);
+                    TileFraming.PlantFrame(i, j);
                     return false;
                 }
-            }
+
+            // Custom vine framing
             if (type == TileID.Vines || type == TileID.CrimsonVines || type == TileID.HallowedVines || type == ModContent.TileType<AstralVines>())
             {
-                CustomTileFraming.VineFrame(i, j);
+                TileFraming.VineFrame(i, j);
                 return false;
             }
             return base.TileFrame(i, j, type, ref resetFrame, ref noBreak);
@@ -82,140 +55,84 @@ namespace CalamityMod.Tiles
 
         public override void PostDraw(int i, int j, int type, SpriteBatch spriteBatch)
         {
+            // Guaranteed not null at this point
             Tile tile = Main.tile[i, j];
 
-            if (type == TileID.Cactus)
-            {
-                //GRABBING VARIABLES FOR CERTAIN THINGS
-                Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
-                if (Main.drawToScreen)
-                    zero = Vector2.Zero;
-                //TESTING STUFF
-                int frameX = tile.frameX;
-                int frameY = tile.frameY;
-                bool astralCactus = false;
-                if (!Main.canDrawColorTile(i, j))
-                {
-                    int xTile = i;
-                    if (frameX == 36)
-                    {
-                        xTile--;
-                    }
-                    if (frameX == 54)
-                    {
-                        xTile++;
-                    }
-                    if (frameX == 108)
-                    {
-                        if (frameY == 18)
-                        {
-                            xTile--;
-                        }
-                        else
-                        {
-                            xTile++;
-                        }
-                    }
-                    int yTile = j;
-                    bool flag = false;
-                    if (Main.tile[xTile, yTile].type == 80 && Main.tile[xTile, yTile].active())
-                    {
-                        flag = true;
-                    }
-                    while (!Main.tile[xTile, yTile].active() || !Main.tileSolid[(int)Main.tile[xTile, yTile].type] || !flag)
-                    {
-                        if (Main.tile[xTile, yTile].type == 80 && Main.tile[xTile, yTile].active())
-                        {
-                            flag = true;
-                        }
-                        yTile++;
-                        if (yTile > i + 20)
-                        {
-                            break;
-                        }
-                    }
-                    //CACTUS CHECK
-                    if (Main.tile[xTile, yTile].type == (ushort)ModContent.TileType<AstralSand>())
-                    {
-                        astralCactus = true;
-                    }
-                }
-                //Draw Glow
-                if (astralCactus)
-                {
-                    spriteBatch.Draw(CalamityMod.AstralCactusGlowTexture, new Vector2((float)(i * 16 - (int)Main.screenPosition.X), (float)(j * 16 - (int)Main.screenPosition.Y)) + zero, new Rectangle((int)frameX, (int)frameY, 16, 18), Color.White * 0.75f, 0f, default, 1f, SpriteEffects.None, 0f);
-                }
+            // This function is only for Astral Cactus. If the tile isn't even cactus, forget about it.
+            if (type != TileID.Cactus)
                 return;
-            }
-        }
 
-		public override void KillTile(int i, int j, int type, ref bool fail, ref bool effectOnly, ref bool noItem)
-        {
-            // TODO -- holy shit THAT IS NOT HOW YOU NULL CHECK OH MY GOD THIS EXPLAINS EVERYTHING
-			if(Main.tile[i,j] is null)
-				return;
-			
-			if (Main.tile[i, j].type != ModContent.TileType<LumenylCrystals>() && Main.tile[i, j].type != ModContent.TileType<SeaPrismCrystals>() && Main.tileSolid[Main.tile[i, j].type])
+            Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
+            if (Main.drawToScreen)
+                zero = Vector2.Zero;
+            int frameX = tile.frameX;
+            int frameY = tile.frameY;
+
+            // Search down the cactus to find out whether the block it is planted in is Astral Sand.
+            bool astralCactus = false;
+            if (!Main.canDrawColorTile(i, j))
             {
-                if (Main.tile[i + 1, j] != null)
+                int xTile = i;
+                if (frameX == 36) // Cactus segment which splits left
+                    xTile--;
+                if (frameX == 54) // Cactus segment which splits right
+                    xTile++;
+                if (frameX == 108) // Cactus segment which splits both directions
+                    xTile += (frameY == 18) ? -1 : 1;
+
+                int yTile = j;
+                bool slidingDownCactus = Main.tile[xTile, yTile] != null && Main.tile[xTile, yTile].type == TileID.Cactus && Main.tile[xTile, yTile].active();
+                while (!Main.tile[xTile, yTile].active() || !Main.tileSolid[Main.tile[xTile, yTile].type] || !slidingDownCactus)
                 {
-                    if (Main.tile[i + 1, j].active())
+                    if (Main.tile[xTile, yTile].type == TileID.Cactus && Main.tile[xTile, yTile].active())
                     {
-                        if (Main.tile[i + 1, j].type == ModContent.TileType<LumenylCrystals>() || (Main.tile[i + 1, j].type == ModContent.TileType<SeaPrismCrystals>() && CalamityWorld.downedDesertScourge))
-                        {
-                            WorldGen.KillTile(i + 1, j, false, false, false);
-                            if (!Main.tile[i + 1, j].active() && Main.netMode != NetmodeID.SinglePlayer)
-                            {
-                                NetMessage.SendData(17, -1, -1, null, 0, (float)i + 1, (float)j, 0f, 0, 0, 0);
-                            }
-                        }
+                        slidingDownCactus = true;
                     }
+                    yTile++;
+                    // Cacti are assumed to be no more than 20 blocks tall.
+                    if (yTile > i + 20)
+                        break;
                 }
-                if (Main.tile[i - 1, j] != null)
-                {
-                    if (Main.tile[i - 1, j].active())
-                    {
-                        if (Main.tile[i - 1, j].type == ModContent.TileType<LumenylCrystals>() || (Main.tile[i - 1, j].type == ModContent.TileType<SeaPrismCrystals>() && CalamityWorld.downedDesertScourge))
-                        {
-                            WorldGen.KillTile(i - 1, j, false, false, false);
-                            if (!Main.tile[i - 1, j].active() && Main.netMode != NetmodeID.SinglePlayer)
-                            {
-                                NetMessage.SendData(17, -1, -1, null, 0, (float)i - 1, (float)j, 0f, 0, 0, 0);
-                            }
-                        }
-                    }
-                }
-                if (Main.tile[i, j + 1] != null)
-                {
-                    if (Main.tile[i, j + 1].active())
-                    {
-                        if (Main.tile[i, j + 1].type == ModContent.TileType<LumenylCrystals>() || (Main.tile[i, j + 1].type == ModContent.TileType<SeaPrismCrystals>() && CalamityWorld.downedDesertScourge))
-                        {
-                            WorldGen.KillTile(i, j + 1, false, false, false);
-                            if (!Main.tile[i, j + 1].active() && Main.netMode != NetmodeID.SinglePlayer)
-                            {
-                                NetMessage.SendData(17, -1, -1, null, 0, (float)i, (float)j + 1, 0f, 0, 0, 0);
-                            }
-                        }
-                    }
-                }
-                if (Main.tile[i, j - 1] != null)
-                {
-                    if (Main.tile[i, j - 1].active())
-                    {
-                        if (Main.tile[i, j - 1].type == ModContent.TileType<LumenylCrystals>() || (Main.tile[i, j - 1].type == ModContent.TileType<SeaPrismCrystals>() && CalamityWorld.downedDesertScourge))
-                        {
-                            WorldGen.KillTile(i, j - 1, false, false, false);
-                            if (!Main.tile[i, j - 1].active() && Main.netMode != NetmodeID.SinglePlayer)
-                            {
-                                NetMessage.SendData(17, -1, -1, null, 0, (float)i, (float)j - 1, 0f, 0, 0, 0);
-                            }
-                        }
-                    }
-                }
+                astralCactus = Main.tile[xTile, yTile].type == (ushort)ModContent.TileType<AstralSand>();
+            }
+
+            // If it is actually astral cactus, then draw its glowmask.
+            if (astralCactus)
+            {
+                spriteBatch.Draw(CalamityMod.AstralCactusGlowTexture, new Vector2((float)(i * 16 - (int)Main.screenPosition.X), (float)(j * 16 - (int)Main.screenPosition.Y)) + zero, new Rectangle((int)frameX, (int)frameY, 16, 18), Color.White * 0.75f, 0f, default, 1f, SpriteEffects.None, 0f);
             }
         }
 
+        // This function exists only to shatter adjacent Lumenyl or Sea Prism crystals when a neighboring solid tile is destroyed.
+        public override void KillTile(int i, int j, int type, ref bool fail, ref bool effectOnly, ref bool noItem)
+        {
+            Tile tile = Main.tile[i, j];
+            if(tile is null)
+				return;
+
+            // Helper function to shatter crystals attached to neighboring solid tiles.
+            void CheckShatterCrystal(int xPos, int yPos)
+            {
+                Tile t = Main.tile[xPos, yPos];
+                if (t != null && t.active() && (t.type == ModContent.TileType<LumenylCrystals>() || (t.type == ModContent.TileType<SeaPrismCrystals>() && CalamityWorld.downedDesertScourge)))
+                {
+                    WorldGen.KillTile(xPos, yPos, false, false, false);
+                    if (!Main.tile[xPos, yPos].active() && Main.netMode != NetmodeID.SinglePlayer)
+                        NetMessage.SendData(17, -1, -1, null, 0, (float)xPos, (float)yPos, 0f, 0, 0, 0);
+                }
+            }
+			
+			// CONSIDER -- Lumenyl Crystals and Sea Prism Crystals aren't solid. They shouldn't need to be checked here.
+            if (Main.tileSolid[tile.type] && tile.type != ModContent.TileType<LumenylCrystals>() && tile.type != ModContent.TileType<SeaPrismCrystals>())
+            {
+                CheckShatterCrystal(i + 1, j);
+                CheckShatterCrystal(i - 1, j);
+                CheckShatterCrystal(i, j + 1);
+                CheckShatterCrystal(i, j - 1);
+            }
+        }
+
+        // LATER -- clean up copied decompiled pot code here
         public override bool Drop(int i, int j, int type)
         {
             if (type == 28)
@@ -583,11 +500,6 @@ namespace CalamityMod.Tiles
                 }
             }
             return true;
-        }
-
-        public override bool PreHitWire(int i, int j, int type)
-        {
-            return !CalamityWorld.bossRushActive;
         }
     }
 }

@@ -10,7 +10,7 @@ namespace CalamityMod.Tiles.FurnitureBotanic
     {
         public override void SetDefaults()
         {
-            CalamityUtils.SetUpBookcase(Type);
+            this.SetUpBookcase();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Botanic Bookcase");
             AddMapEntry(new Color(191, 142, 111), name);

@@ -41,27 +41,35 @@ namespace CalamityMod.Projectiles.Ranged
                 if (projectile.alpha < 0)
                     projectile.alpha = 0;
             }
-			for (int num105 = 0; num105 < 2; num105++)
-            {
-                float num99 = projectile.velocity.X / 3f * (float)num105;
-                float num100 = projectile.velocity.Y / 3f * (float)num105;
-                int num101 = 4;
-                int num102 = Dust.NewDust(new Vector2(projectile.position.X + (float)num101, projectile.position.Y + (float)num101), projectile.width - num101 * 2, projectile.height - num101 * 2, 202, 0f, 0f, 100, default, 1.2f);
-                Main.dust[num102].noGravity = true;
-                Main.dust[num102].velocity *= 0.1f;
-                Main.dust[num102].velocity += projectile.velocity * 0.1f;
-                Dust expr_47FA_cp_0 = Main.dust[num102];
-                expr_47FA_cp_0.position.X -= num99;
-                Dust expr_4815_cp_0 = Main.dust[num102];
-                expr_4815_cp_0.position.Y -= num100;
-            }
-            if (Main.rand.NextBool(10))
-            {
-                int num103 = 4;
-                int num104 = Dust.NewDust(new Vector2(projectile.position.X + (float)num103, projectile.position.Y + (float)num103), projectile.width - num103 * 2, projectile.height - num103 * 2, 202, 0f, 0f, 100, default, 0.6f);
-                Main.dust[num104].velocity *= 0.25f;
-                Main.dust[num104].velocity += projectile.velocity * 0.5f;
-            }
+			if (projectile.timeLeft < 475)
+			{
+				for (int num105 = 0; num105 < 2; num105++)
+				{
+					float num99 = projectile.velocity.X / 3f * (float)num105;
+					float num100 = projectile.velocity.Y / 3f * (float)num105;
+					int num101 = 4;
+					int num102 = Dust.NewDust(new Vector2(projectile.position.X + (float)num101, projectile.position.Y + (float)num101), projectile.width - num101 * 2, projectile.height - num101 * 2, 202, 0f, 0f, 150, new Color(60, Main.DiscoG, 190), 1.2f);
+					Main.dust[num102].noGravity = true;
+					Main.dust[num102].velocity *= 0.1f;
+					Main.dust[num102].velocity += projectile.velocity * 0.1f;
+					Dust expr_47FA_cp_0 = Main.dust[num102];
+					expr_47FA_cp_0.position.X -= num99;
+					Dust expr_4815_cp_0 = Main.dust[num102];
+					expr_4815_cp_0.position.Y -= num100;
+				}
+				if (Main.rand.NextBool(10))
+				{
+					int num103 = 4;
+					int num104 = Dust.NewDust(new Vector2(projectile.position.X + (float)num103, projectile.position.Y + (float)num103), projectile.width - num103 * 2, projectile.height - num103 * 2, 202, 0f, 0f, 150, new Color(60, Main.DiscoG, 190), 0.6f);
+					Main.dust[num104].velocity *= 0.25f;
+					Main.dust[num104].velocity += projectile.velocity * 0.5f;
+				}
+			}
+        }
+
+        public override Color? GetAlpha(Color lightColor)
+        {
+            return new Color(60, Main.DiscoG, 190, projectile.alpha);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -75,7 +83,7 @@ namespace CalamityMod.Projectiles.Ranged
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 96);
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 202, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
+                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 202, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f, 0, new Color(60, Main.DiscoG, 190));
             }
         }
 

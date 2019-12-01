@@ -16,7 +16,7 @@ namespace CalamityMod.Tiles.Ores
             Main.tileSpelunker[Type] = true;
             Main.tileValue[Type] = 1000;
 
-            TileMerge.MergeGeneralTiles(Type);
+            CalamityUtils.MergeWithGeneral(Type);
 
             dustType = 55;
             drop = ModContent.ItemType<Items.Placeables.Ores.AuricOre>();

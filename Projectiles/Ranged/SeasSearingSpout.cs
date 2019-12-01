@@ -111,6 +111,11 @@ namespace CalamityMod.Projectiles.Ranged
             }
         }
 
+        public override Color? GetAlpha(Color lightColor)
+        {
+            return new Color(60, Main.DiscoG, 190, projectile.alpha);
+        }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D texture2D13 = Main.projectileTexture[projectile.type];

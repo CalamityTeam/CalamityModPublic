@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureVoid
     {
         public override void SetDefaults()
         {
-            CalamityUtils.SetUpLantern(Type);
+            this.SetUpLantern();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Void Lantern");
             AddMapEntry(new Color(191, 142, 111), name);

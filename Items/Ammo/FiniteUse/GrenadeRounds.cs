@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Ammo.FiniteUse
             item.rare = 8;
             item.shoot = ModContent.ProjectileType<GrenadeRound>();
             item.shootSpeed = 12f;
-            item.ammo = ModContent.ItemType<GrenadeRounds>(); // TODO -- would item.type work here
+            item.ammo = ModContent.ItemType<GrenadeRounds>(); // CONSIDER -- Would item.type work here instead of a self reference?
         }
     }
 }

@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Melee
                 Main.PlaySound(2, (int)target.position.X, (int)target.position.Y, 14);
                 if (projectile.owner == Main.myPlayer)
                 {
-                    // TODO -- HiveBombExplosion does not exist.
+                    // DEFECT -- HiveBombExplosion does not exist.
                     // Projectile.NewProjectile(target.Center.X, target.Center.Y, projectile.velocity.X * 0f, projectile.velocity.Y * 0f, ModContent.ProjectileType<HiveBombExplosion>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                 }
                 projectile.position.X = projectile.position.X + (float)(projectile.width / 2);

@@ -16,9 +16,9 @@ namespace CalamityMod.Tiles.FurnitureOccult
             Main.tileMergeDirt[Type] = false;
             Main.tileBlockLight[Type] = true;
 
-            TileMerge.MergeGeneralTiles(Type);
-            TileMerge.MergeDecorativeTiles(Type);
-            TileMerge.MergeSmoothTiles(Type);
+            CalamityUtils.MergeWithGeneral(Type);
+            CalamityUtils.MergeDecorativeTiles(Type);
+            CalamityUtils.MergeSmoothTiles(Type);
 
             soundType = 21;
             mineResist = 10f;

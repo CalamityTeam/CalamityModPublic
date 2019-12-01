@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
     {
         public override void SetDefaults()
         {
-            CalamityUtils.SetUpLantern(Type);
+            this.SetUpLantern();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Abyss Lantern");
             AddMapEntry(new Color(191, 142, 111), name);

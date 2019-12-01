@@ -10,7 +10,7 @@ namespace CalamityMod.Tiles.FurnitureBotanic
     {
         public override void SetDefaults()
         {
-            CalamityUtils.SetUpClock(Type);
+            this.SetUpClock();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Botanic Clock");
             AddMapEntry(new Color(191, 142, 111), name);
