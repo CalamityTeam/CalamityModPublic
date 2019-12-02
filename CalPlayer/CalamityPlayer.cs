@@ -405,6 +405,8 @@ namespace CalamityMod.CalPlayer
         public bool filthyGlove = false;
         public bool sandCloak = false;
         public int sandCloakCooldown = 0;
+        public bool spectralVeil = false;
+        public int spectralVeilImmunity = 0;
 
         // Armor Set
         public bool victideSet = false;
@@ -1155,6 +1157,7 @@ namespace CalamityMod.CalPlayer
             bloodyGlove = false;
             filthyGlove = false;
             sandCloak = false;
+            spectralVeil = false;
 
 			alcoholPoisoning = false;
             shadowflame = false;
@@ -1401,6 +1404,7 @@ namespace CalamityMod.CalPlayer
             featherCrownCooldown = 0;
             sulphurPoison = false;
             sandCloakCooldown = 0;
+            spectralVeilImmunity = 0;
             #endregion
 
             #region Rogue
@@ -1880,6 +1884,69 @@ namespace CalamityMod.CalPlayer
                 player.Calamity().rogueStealth -= player.Calamity().rogueStealthMax * 0.25f;
                 Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<SandCloakVeil>(), 7, 8, player.whoAmI, 0, 0);
                 Main.PlaySound(2, player.position, 45);
+            }
+            if (CalamityMod.SpectralVeilHotKey.JustPressed && spectralVeil && Main.myPlayer == player.whoAmI && player.Calamity().rogueStealth >= player.Calamity().rogueStealthMax * 0.25f &&
+                wearingRogueArmor && player.Calamity().rogueStealthMax > 0)
+            {
+                float teleportRange = 320f;
+                Vector2 teleportLocation;
+                teleportLocation.X = (float)Main.mouseX + Main.screenPosition.X;
+                if (player.gravDir == 1f)
+                {
+                    teleportLocation.Y = (float)Main.mouseY + Main.screenPosition.Y - (float)player.height;
+                }
+                else
+                {
+                    teleportLocation.Y = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY;
+                }
+                teleportLocation.X -= (float)(player.width / 2);
+                Vector2 playerToTeleport = teleportLocation - player.position;
+                if (playerToTeleport.Length() > teleportRange)
+                {
+                    playerToTeleport.Normalize();
+                    playerToTeleport *= teleportRange;
+                    teleportLocation = player.position + playerToTeleport;
+                }
+                if (teleportLocation.X > 50f && teleportLocation.X < (float)(Main.maxTilesX * 16 - 50) && teleportLocation.Y > 50f && teleportLocation.Y < (float)(Main.maxTilesY * 16 - 50))
+                {
+                    int x = (int)(teleportLocation.X / 16f);
+                    int y = (int)(teleportLocation.Y / 16f);
+                    if (!Collision.SolidCollision(teleportLocation, player.width, player.height))
+                    {
+                        player.Calamity().rogueStealth -= player.Calamity().rogueStealthMax * 0.25f;
+
+                        player.Teleport(teleportLocation, 1, 0);
+                        NetMessage.SendData(65, -1, -1, null, 0, (float)player.whoAmI, teleportLocation.X, teleportLocation.Y, 1, 0, 0);
+                        if (player.chaosState)
+                        {
+                            player.statLife -= player.statLifeMax2 / 7;
+                            PlayerDeathReason damageSource = PlayerDeathReason.ByOther(13);
+                            if (player.statLife <= 0)
+                            {
+                                player.KillMe(damageSource, 1.0, 0, false);
+                            }
+                        }
+                        player.AddBuff(BuffID.ChaosState, 360, true);
+
+                        int numDust = 40;
+                        Vector2 step = playerToTeleport / numDust;
+                        for (int i = 0; i < numDust; i++)
+                        {
+                            int dustIndex = Dust.NewDust(player.Center - (step * i), 1, 1, 21, step.X, step.Y);
+                            Main.dust[dustIndex].noGravity = true;
+                            Main.dust[dustIndex].noLight = true;
+                        }
+
+                        player.immune = true;
+                        player.immuneTime = 120;
+                        spectralVeilImmunity = 120;
+                        for (int k = 0; k < player.hurtCooldowns.Length; k++)
+                        {
+                            player.hurtCooldowns[k] = player.immuneTime;
+                        }
+                    }
+                }
+
             }
             if (CalamityMod.BossBarToggleHotKey.JustPressed)
             {
@@ -3351,6 +3418,8 @@ namespace CalamityMod.CalPlayer
                 moonCrownCooldown--;
             if (sandCloakCooldown > 0)
                 sandCloakCooldown--;
+            if (spectralVeilImmunity > 0)
+                spectralVeilImmunity--;
             if (ataxiaDmg > 0f)
                 ataxiaDmg -= 1.5f;
             if (ataxiaDmg < 0f)
@@ -3893,6 +3962,86 @@ namespace CalamityMod.CalPlayer
                                     }
                                 }
                             }
+                        }
+                    }
+                }
+            }
+            if (spectralVeil && spectralVeilImmunity > 0)
+            {
+                Rectangle sVeilRectangle = new Rectangle((int)((double)player.position.X + (double)player.velocity.X * 0.5 - 4.0), (int)((double)player.position.Y + (double)player.velocity.Y * 0.5 - 4.0), player.width + 8, player.height + 8);
+                for (int i = 0; i < 200; i++)
+                {
+                    if (Main.npc[i].active && !Main.npc[i].dontTakeDamage && !Main.npc[i].friendly && !Main.npc[i].townNPC && Main.npc[i].immune[player.whoAmI] <= 0 && Main.npc[i].damage > 0)
+                    {
+                        NPC nPC = Main.npc[i];
+                        Rectangle rect = nPC.getRect();
+                        if (sVeilRectangle.Intersects(rect) && (nPC.noTileCollide || player.CanHit(nPC)))
+                        {
+                            if (player.whoAmI == Main.myPlayer)
+                            {
+                                player.noKnockback = true;
+                                rogueStealth = rogueStealthMax;
+                                spectralVeilImmunity = 0;
+
+                                for (int k = 0; k < player.hurtCooldowns.Length; k++)
+                                {
+                                    player.hurtCooldowns[k] = player.immuneTime;
+                                }
+
+                                Vector2 sVeilDustDir = new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-1f, 1f));
+                                sVeilDustDir.Normalize();
+                                sVeilDustDir *= 0.5f;
+                                for (int j = 0; j < 20; j++)
+                                {
+                                    int sVeilDustIndex1 = Dust.NewDust(player.Center, 1, 1, 21, sVeilDustDir.X * j, sVeilDustDir.Y * j);
+                                    int sVeilDustIndex2 = Dust.NewDust(player.Center, 1, 1, 21, -sVeilDustDir.X * j, -sVeilDustDir.Y * j);
+                                    Main.dust[sVeilDustIndex1].noGravity = false;
+                                    Main.dust[sVeilDustIndex1].noLight = false;
+                                    Main.dust[sVeilDustIndex2].noGravity = false;
+                                    Main.dust[sVeilDustIndex2].noLight = false;
+                                }
+
+                                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SilvaDispel"), (int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y);
+                            }
+                            break;
+                        }
+                    }
+                }
+                for (int i = 0; i < 1000; i++)
+                {
+                    if (Main.projectile[i].active && !Main.projectile[i].friendly && Main.projectile[i].hostile && Main.projectile[i].damage > 0)
+                    {
+                        Projectile proj = Main.projectile[i];
+                        Rectangle rect = proj.getRect();
+                        if (sVeilRectangle.Intersects(rect))
+                        {
+                            if (player.whoAmI == Main.myPlayer)
+                            {
+                                player.noKnockback = true;
+                                rogueStealth = rogueStealthMax;
+                                spectralVeilImmunity = 0;
+
+                                for (int k = 0; k < player.hurtCooldowns.Length; k++)
+                                {
+                                    player.hurtCooldowns[k] = player.immuneTime;
+                                }
+
+                                Vector2 sVeilDustDir = new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-1f, 1f));
+                                sVeilDustDir.Normalize();
+                                sVeilDustDir *= 0.5f;
+                                for (int j = 0; j < 20; j++)
+                                {
+                                    int sVeilDustIndex1 = Dust.NewDust(player.Center, 1, 1, 21, sVeilDustDir.X * j, sVeilDustDir.Y * j);
+                                    int sVeilDustIndex2 = Dust.NewDust(player.Center, 1, 1, 21, -sVeilDustDir.X * j, -sVeilDustDir.Y * j);
+                                    Main.dust[sVeilDustIndex1].noGravity = false;
+                                    Main.dust[sVeilDustIndex1].noLight = false;
+                                    Main.dust[sVeilDustIndex2].noGravity = false;
+                                    Main.dust[sVeilDustIndex2].noLight = false;
+                                }
+
+                                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SilvaDispel"), (int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y);
+                            }
+                            break;
                         }
                     }
                 }
