@@ -8,7 +8,6 @@ namespace CalamityMod.Tiles
         public override void SetDefaults()
         {
             Main.tileSolid[Type] = true;
-            Main.tileMergeDirt[Type] = true;
             Main.tileBlockLight[Type] = true;
             soundType = 21;
             minPick = 50;
