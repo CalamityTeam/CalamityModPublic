@@ -80,7 +80,7 @@ namespace CalamityMod.NPCs
         // private int ironHeartDamage = 0;
 
         // NewAI
-        private const int maxAIMod = 4;
+        internal const int maxAIMod = 4;
         public float[] newAI = new float[maxAIMod];
 
         // Town NPC Patreon
