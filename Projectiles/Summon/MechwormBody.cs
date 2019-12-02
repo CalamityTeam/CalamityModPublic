@@ -81,7 +81,8 @@ namespace CalamityMod.Projectiles.Summon
             {
                 //Delete the player's mechworm if it's attaching to something weird
                 if (Main.projectile[chase].type != ModContent.ProjectileType<MechwormBody2>() &&
-                    Main.projectile[chase].type != ModContent.ProjectileType<MechwormBody>())
+                    Main.projectile[chase].type != ModContent.ProjectileType<MechwormBody>() &&
+                    Main.projectile[chase].type != ModContent.ProjectileType<MechwormHead>())
                 {
                     for (int i = 0; i < Main.projectile.Length; i++)
                     {
