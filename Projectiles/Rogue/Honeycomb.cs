@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles.Rogue
 				}
 
 				//Spawn the projectile
-				Projectile.NewProjectile(projectile.position.X + shardspeedX, projectile.position.Y + shardspeedY, shardspeedX, shardspeedY, ModContent.ProjectileType<HoneycombFragment>(), (int)(projectile.damage * 0.3), 2f, projectile.owner);
+				Projectile.NewProjectile(projectile.position.X + shardspeedX, projectile.position.Y + shardspeedY, shardspeedX, shardspeedY, ModContent.ProjectileType<HoneycombFragment>(), (int)(projectile.damage * 0.3), 2f, projectile.owner, Main.rand.Next(3), 0f);
 				split += 1;
 			}
             projectile.penetrate--;
@@ -101,7 +101,7 @@ namespace CalamityMod.Projectiles.Rogue
 				}
 
 				//Spawn the projectile
-				Projectile.NewProjectile(projectile.position.X + shardspeedX, projectile.position.Y + shardspeedY, shardspeedX, shardspeedY, ModContent.ProjectileType<HoneycombFragment>(), (int)(projectile.damage * 0.3), 2f, projectile.owner);
+				Projectile.NewProjectile(projectile.position.X + shardspeedX, projectile.position.Y + shardspeedY, shardspeedX, shardspeedY, ModContent.ProjectileType<HoneycombFragment>(), (int)(projectile.damage * 0.3), 2f, projectile.owner, Main.rand.Next(3), 0f);
 				split += 1;
 			}
         }
