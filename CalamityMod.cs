@@ -15,6 +15,7 @@ using CalamityMod.Items.Fishing.AstralCatches;
 using CalamityMod.Items.Fishing.SunkenSeaCatches;
 using CalamityMod.Items.Fishing.FishingRods;
 using CalamityMod.Localization;
+using CalamityMod.NPCs;
 using CalamityMod.NPCs.Abyss;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.Astral;
@@ -3268,6 +3269,32 @@ namespace CalamityMod
                 case CalamityModMessageType.DeathCountSync:
                     Main.player[reader.ReadInt32()].Calamity().HandleDeathCount(reader);
                     break;
+                case CalamityModMessageType.RevengeanceBoolSync:
+                    bool revActive = reader.ReadBoolean();
+                    CalamityWorld.revenge = revActive;
+                    break;
+                case CalamityModMessageType.DeathBoolSync:
+                    bool revActive2 = reader.ReadBoolean();
+                    CalamityWorld.revenge = revActive2;
+                    bool deathActive = reader.ReadBoolean();
+                    CalamityWorld.death = deathActive;
+                    break;
+                case CalamityModMessageType.DefiledBoolSync:
+                    bool defiledActive = reader.ReadBoolean();
+                    CalamityWorld.defiled = defiledActive;
+                    break;
+                case CalamityModMessageType.IronHeartBoolSync:
+                    bool ironHeartActive = reader.ReadBoolean();
+                    CalamityWorld.ironHeart = ironHeartActive;
+                    break;
+                case CalamityModMessageType.ArmageddonBoolSync:
+                    bool armaActive = reader.ReadBoolean();
+                    CalamityWorld.armageddon = armaActive;
+                    break;
+                case CalamityModMessageType.NPCRegenerationSync:
+                    byte npcIndex = reader.ReadByte();
+                    Main.npc[npcIndex].lifeRegen = reader.ReadInt32();
+                    break;
                 default:
                     Logger.Warn("Unknown Message type: " + msgType);
                     break;
@@ -3289,7 +3316,9 @@ namespace CalamityMod
         public static void UpdateServerBoolean()
         {
             if (Main.netMode == NetmodeID.Server)
+            {
                 NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
+            }
         }
         #endregion
     }
@@ -3321,7 +3350,14 @@ namespace CalamityMod
         DoGCountdownSync,
         BossSpawnCountdownSync,
         BossTypeSync,
-        DeathCountSync
+        DeathCountSync,
+        RevengeanceBoolSync,
+        DeathBoolSync,
+        DefiledBoolSync,
+        IronHeartBoolSync,
+        ArmageddonBoolSync,
+        DemonTrophyBoolSync,
+        NPCRegenerationSync
         //DistanceFromBossSync
     }
 }
