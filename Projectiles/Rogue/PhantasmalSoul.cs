@@ -145,7 +145,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
-			projectile.damage /= 2;
+			projectile.damage /= 4;
             projectile.Damage();
 			int num226 = 36;
 			for (int num227 = 0; num227 < num226; num227++)
