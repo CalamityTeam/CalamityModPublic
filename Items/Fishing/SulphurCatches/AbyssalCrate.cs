@@ -62,7 +62,7 @@ namespace CalamityMod.Items.Fishing.SulphurCatches
             }
 
             // Equipment
-            DropHelper.DropItemFromSetCondition(player, Main.hardMode, 0.2f,
+            DropHelper.DropItemFromSetCondition(player, NPC.downedBoss3, 0.25f,
                 ModContent.ItemType<StrangeOrb>(),
                 ModContent.ItemType<DepthCharm>(),
                 ModContent.ItemType<IronBoots>(),
@@ -85,7 +85,7 @@ namespace CalamityMod.Items.Fishing.SulphurCatches
             DropHelper.DropItemChance(player, ModContent.ItemType<AnechoicCoating>(), 10, 1, 3);
             if (Main.hardMode)
             {
-                DropHelper.DropItem(player, Main.rand.Next(100) >= 49 ? ItemID.GreaterHealingPotion: ItemID.GreaterManaPotion, 5, 10);
+                DropHelper.DropItem(player, Main.rand.Next(100) >= 49 ? ItemID.GreaterHealingPotion : ItemID.GreaterManaPotion, 5, 10);
             }
             else
             {
