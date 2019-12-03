@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles.Rogue
 			double deltaAngle = spread / 8f;
 			double offsetAngle;
 			int i;
-			if (projectile.owner == Main.myPlayer) //bringing super efficient and readable code to a CalamityMod near you
+			if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<PhantasmalSoul>()] < 16)
 			{
 				for (i = 0; i < 8; i++)
 				{
@@ -79,8 +79,8 @@ namespace CalamityMod.Projectiles.Rogue
 					float randomSpeed = (float)Main.rand.Next(1, 7);
 					float randomSpeed2 = (float)Main.rand.Next(1, 7);
 					offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-					int num23 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f) + randomSpeed, ModContent.ProjectileType<PhantasmalSoul>(), (int)((double)projectile.damage * 0.2), 0f, projectile.owner, 1f, ai1);
-					int num24 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f) + randomSpeed2, ModContent.ProjectileType<PhantasmalSoul>(), (int)((double)projectile.damage * 0.2), 0f, projectile.owner, 1f, ai1);
+					int num23 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f) + randomSpeed, ModContent.ProjectileType<PhantasmalSoul>(), (int)((double)projectile.damage * 0.1), 0f, projectile.owner, 1f, ai1);
+					int num24 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f) + randomSpeed2, ModContent.ProjectileType<PhantasmalSoul>(), (int)((double)projectile.damage * 0.1), 0f, projectile.owner, 1f, ai1);
 				}
 			}
 		}

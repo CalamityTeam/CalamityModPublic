@@ -506,6 +506,7 @@ namespace CalamityMod.NPCs.Crabulon
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Fungicide>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<HyphaeRod>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Mycoroot>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Shroomerang>(), 4);
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<CrabulonMask>(), 7);
