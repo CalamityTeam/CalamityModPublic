@@ -56,13 +56,13 @@ Stealth strikes throw five at once");
             return true;
         }
 
-        /*public override void AddRecipes()
+        public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Cactus, 2);
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this, 15);
             recipe.AddRecipe();
-        }*/
+        }
     }
 }

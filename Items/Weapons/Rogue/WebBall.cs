@@ -48,12 +48,12 @@ Stealth strikes slow enemies down longer");
             return true;
         }
 
-        /*public override void AddRecipes()
+        public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Cobweb, 3);
             recipe.SetResult(this);
             recipe.AddRecipe();
-        }*/
+        }
     }
 }
