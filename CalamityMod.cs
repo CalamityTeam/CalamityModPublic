@@ -103,6 +103,7 @@ namespace CalamityMod
         public static ModHotKey MomentumCapacitatorHotkey;
         public static ModHotKey SandCloakHotkey;
         public static ModHotKey SpectralVeilHotKey;
+        public static ModHotKey PlaguePackHotKey;
 
         // Boss Spawners
         public static int ghostKillCount = 0;
@@ -205,6 +206,7 @@ namespace CalamityMod
             MomentumCapacitatorHotkey = RegisterHotKey("Momentom Capacitater Effect", "U");
             SandCloakHotkey = RegisterHotKey("Sand Cloak Effect", "C");
             SpectralVeilHotKey = RegisterHotKey("Spectral Veil Teleport", "Z");
+            PlaguePackHotKey = RegisterHotKey("Plagued Fuel Pack Dash", "Q");
             BossBarToggleHotKey = RegisterHotKey("Boss Health Bar Toggle", "NumPad0");
             BossBarToggleSmallTextHotKey = RegisterHotKey("Boss Health Bar Small Text Toggle", "NumPad1");
 
@@ -297,6 +299,7 @@ namespace CalamityMod
             MomentumCapacitatorHotkey = null;
             SandCloakHotkey = null;
             SpectralVeilHotKey = null;
+            PlaguePackHotKey = null;
             BossBarToggleHotKey = null;
             BossBarToggleSmallTextHotKey = null;
 

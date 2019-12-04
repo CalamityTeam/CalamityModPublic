@@ -407,6 +407,10 @@ namespace CalamityMod.CalPlayer
         public int sandCloakCooldown = 0;
         public bool spectralVeil = false;
         public int spectralVeilImmunity = 0;
+        public bool plaguedFuelPack = false;
+        public int plaguedFuelPackCooldown = 0;
+        public int plaguedFuelPackDash = 0;
+        public int plaguedFuelPackDirection = 0;
 
         // Armor Set
         public bool victideSet = false;
@@ -1158,6 +1162,7 @@ namespace CalamityMod.CalPlayer
             filthyGlove = false;
             sandCloak = false;
             spectralVeil = false;
+            plaguedFuelPack = false;
 
 			alcoholPoisoning = false;
             shadowflame = false;
@@ -1405,6 +1410,9 @@ namespace CalamityMod.CalPlayer
             sulphurPoison = false;
             sandCloakCooldown = 0;
             spectralVeilImmunity = 0;
+            plaguedFuelPackCooldown = 0;
+            plaguedFuelPackDash = 0;
+            plaguedFuelPackDirection = 0;
             #endregion
 
             #region Rogue
@@ -1947,6 +1955,16 @@ namespace CalamityMod.CalPlayer
                     }
                 }
 
+            }
+            if (CalamityMod.PlaguePackHotKey.JustPressed && plaguedFuelPack && Main.myPlayer == player.whoAmI && player.Calamity().rogueStealth >= player.Calamity().rogueStealthMax * 0.25f &&
+                wearingRogueArmor && player.Calamity().rogueStealthMax > 0 && plaguedFuelPackCooldown == 0 && !player.mount.Active)
+            {
+                plaguedFuelPackCooldown = 90;
+                plaguedFuelPackDash = 10;
+                plaguedFuelPackDirection = player.direction;
+                player.Calamity().rogueStealth -= player.Calamity().rogueStealthMax * 0.25f;
+                Main.PlaySound(2, player.position, 66);
+                Main.PlaySound(2, player.position, 34);
             }
             if (CalamityMod.BossBarToggleHotKey.JustPressed)
             {
@@ -3420,6 +3438,10 @@ namespace CalamityMod.CalPlayer
                 sandCloakCooldown--;
             if (spectralVeilImmunity > 0)
                 spectralVeilImmunity--;
+            if (plaguedFuelPackCooldown > 0)
+                plaguedFuelPackCooldown--;
+            if (plaguedFuelPackDash > 0)
+                plaguedFuelPackDash--;
             if (ataxiaDmg > 0f)
                 ataxiaDmg -= 1.5f;
             if (ataxiaDmg < 0f)
@@ -4044,6 +4066,30 @@ namespace CalamityMod.CalPlayer
                             break;
                         }
                     }
+                }
+            }
+            if (plaguedFuelPack && plaguedFuelPackDash > 0)
+            {
+                if (plaguedFuelPackDash > 1)
+                    player.velocity = new Vector2(plaguedFuelPackDirection, -1) * 25;
+                else
+                    player.velocity = new Vector2(plaguedFuelPackDirection, -1) * 5;
+
+                int numClouds = Main.rand.Next(2, 10);
+                for (int i = 0; i < numClouds; i++)
+                {
+                    Vector2 cloudVelocity = new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
+                    cloudVelocity.Normalize();
+                    cloudVelocity *= Main.rand.NextFloat(0f, 1f);
+                    int projectile = Projectile.NewProjectile(player.Center, cloudVelocity, ModContent.ProjectileType<PlaguedFuelPackCloud>(), 20, 0, player.whoAmI, 0, 0);
+                    Main.projectile[projectile].timeLeft = Main.rand.Next(75, 125);
+                }
+                for (int i = 0; i < 3; i++)
+                {
+                    int dust = Dust.NewDust(player.Center, 1, 1, 89, player.velocity.X * -0.1f, player.velocity.Y * -0.1f, 100, default, 3.5f);
+                    Main.dust[dust].noGravity = true;
+                    Main.dust[dust].velocity *= 1.2f;
+                    Main.dust[dust].velocity.Y -= 0.15f;
                 }
             }
             #endregion
