@@ -1854,6 +1854,7 @@ namespace CalamityMod
 
             daggerList = new List<int>()
             {
+                ModContent.ItemType<AshenStalactite>(),
                 ModContent.ItemType<CobaltKunai>(),
                 ModContent.ItemType<FeatherKnife>(),
                 ModContent.ItemType<GelDart>(),
@@ -1885,6 +1886,8 @@ namespace CalamityMod
 
             boomerangProjList = new List<int>()
             {
+                ModContent.ProjectileType<AshenStalactiteProj>(),
+                ModContent.ProjectileType<AshenStalagmiteProj>(),
                 ModContent.ProjectileType<CinquedeaProj>(),
                 ModContent.ProjectileType<CobaltKunaiProjectile>(),
                 ModContent.ProjectileType<CosmicKunaiProj>(),
