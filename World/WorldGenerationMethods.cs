@@ -1723,6 +1723,7 @@ namespace CalamityMod.World
                                 Main.tile[x, y].type = (ushort)ModContent.TileType<AstralSnow>();
                                 break;
                             case TileID.Silt:
+                            case TileID.Slush:
                                 Main.tile[x, y].type = (ushort)ModContent.TileType<AstralSilt>();
                                 break;
                             case TileID.DesertFossil:
