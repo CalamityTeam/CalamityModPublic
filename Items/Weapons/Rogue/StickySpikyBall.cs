@@ -55,7 +55,7 @@ Stealth strikes throw seven at once and last a lot longer");
             return true;
         }
 
-        /*public override void AddRecipes()
+        public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.SpikyBall, 3);
@@ -63,6 +63,6 @@ Stealth strikes throw seven at once and last a lot longer");
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this, 3);
             recipe.AddRecipe();
-        }*/
+        }
     }
 }

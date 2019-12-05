@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Rogue
                     Vector2 value17 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
                     value17.Normalize();
                     value17 *= (float)Main.rand.Next(10, 201) * 0.01f;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value17.X, value17.Y, ModContent.ProjectileType<DesecratedBubble>(), projectile.damage, 1f, projectile.owner, (projectile.Calamity().stealthStrike ? 1f : 0f), 1f);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value17.X, value17.Y, ModContent.ProjectileType<DesecratedBubble>(), (int)(projectile.damage * 0.7), 1f, projectile.owner, (projectile.Calamity().stealthStrike ? 1f : 0f), 1f);
                 }
             }
         }

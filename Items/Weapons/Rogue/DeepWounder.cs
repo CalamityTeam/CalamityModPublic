@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SafeSetDefaults()
         {
             item.width = 52;
-            item.damage = 200;
+            item.damage = 165;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useAnimation = 35;
@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.rare = 8;
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.shoot = ModContent.ProjectileType<DeepWounderProjectile>();
-            item.shootSpeed = 10f;
+            item.shootSpeed = 14f;
             item.Calamity().rogue = true;
         }
 

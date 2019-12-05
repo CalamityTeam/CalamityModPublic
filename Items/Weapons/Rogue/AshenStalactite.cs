@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             {
                 int stealthType = ModContent.ProjectileType<AshenStalagmiteProj>();
                 float stealthSpeedMult = 0.6f;
-                float stealthDamageMult = 1.2f;
+                float stealthDamageMult = 1.15f;
                 float stealthKnockbackMult = 2.5f;
                 int p = Projectile.NewProjectile(position.X, position.Y, speedX * stealthSpeedMult, speedY * stealthSpeedMult, stealthType, (int)(damage * stealthDamageMult), (int)(knockBack * stealthKnockbackMult), player.whoAmI, 0f, 1f);
                 Main.projectile[p].Calamity().stealthStrike = true;
