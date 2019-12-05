@@ -1923,6 +1923,11 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                         DropHelper.DropItemCondition(player, ModContent.ItemType<CounterScarf>(), CalamityWorld.revenge);
                         break;
 
+                    // Queen Bee
+                    case ItemID.QueenBeeBossBag:
+                        DropHelper.DropItem(player, ModContent.ItemType<HardenedHoneycomb>(), 50, 75);
+                        break;
+
                     // Skeletron
                     case ItemID.SkeletronBossBag:
                         DropHelper.DropItemChance(player, ModContent.ItemType<ClothiersWrath>(), DropHelper.RareVariantDropRateInt);

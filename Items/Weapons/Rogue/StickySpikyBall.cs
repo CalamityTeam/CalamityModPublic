@@ -19,7 +19,7 @@ Stealth strikes throw seven at once and last a lot longer");
         public override void SafeSetDefaults()
         {
             item.width = 14;
-            item.damage = 20;
+            item.damage = 12;
             item.noMelee = true;
             item.noUseGraphic = true;
 			item.maxStack = 999;

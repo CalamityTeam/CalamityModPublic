@@ -50,7 +50,7 @@ Stealth strikes can bounce off walls and enemies");
             return true;
         }
 
-        /*public override void AddRecipes()
+        public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Hive);
@@ -59,6 +59,6 @@ Stealth strikes can bounce off walls and enemies");
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this, 5);
             recipe.AddRecipe();
-        }*/
+        }
     }
 }

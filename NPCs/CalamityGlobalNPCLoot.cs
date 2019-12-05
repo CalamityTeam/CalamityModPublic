@@ -1590,6 +1590,10 @@ namespace CalamityMod.NPCs
                     DropHelper.DropItemCondition(npc, ModContent.ItemType<TeardropCleaver>(), !Main.expertMode, 5, 1, 1);
                     break;
 
+                case NPCID.QueenBee:
+                    DropHelper.DropItemCondition(npc, ModContent.ItemType<HardenedHoneycomb>(), !Main.expertMode, 30, 50);
+                    break;
+
                 case NPCID.DevourerHead:
                 case NPCID.SeekerHead:
                     DropHelper.DropItemChance(npc, ModContent.ItemType<FetidEssence>(), Main.expertMode ? 2 : 3);
