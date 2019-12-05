@@ -1929,6 +1929,7 @@ namespace CalamityMod
                 ModContent.ItemType<DuststormInABottle>(),
                 ModContent.ItemType<SeafoamBomb>(),
                 ModContent.ItemType<ConsecratedWater>(),
+                ModContent.ItemType<DesecratedWater>(),
                 ModContent.ItemType<BouncingBetty>(),
                 ModContent.ItemType<TotalityBreakers>(),
                 ModContent.ItemType<BlastBarrel>()
@@ -1944,7 +1945,8 @@ namespace CalamityMod
                 ModContent.ProjectileType<PlaguenadeProj>(),
                 ModContent.ProjectileType<SeafoamBombProj>(),
                 ModContent.ProjectileType<TotalityFlask>(),
-                ModContent.ProjectileType<ConsecratedWaterProjectile>()
+                ModContent.ProjectileType<ConsecratedWaterProjectile>(),
+                ModContent.ProjectileType<DesecratedWaterProj>()
             };
 
             spikyBallList = new List<int>()
