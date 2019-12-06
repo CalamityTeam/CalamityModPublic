@@ -21,7 +21,7 @@ Stealth strikes throws three short ranged boomerangs along with a spread of icic
 
         public override void SafeSetDefaults()
         {
-            item.damage = 120;
+            item.damage = 75;
             item.knockBack = 12;
             item.thrown = true;
             item.crit = 16;

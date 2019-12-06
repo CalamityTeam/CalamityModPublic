@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.timeLeft = 360;
             projectile.tileCollide = false;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            projectile.localNPCHitCooldown = 15;
 			projectile.coldDamage = true;
 
             projectile.Calamity().rogue = true;

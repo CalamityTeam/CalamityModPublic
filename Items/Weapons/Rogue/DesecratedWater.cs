@@ -47,16 +47,16 @@ Stealth strikes spawn additional bubbles that inflict Ichor and Cursed Inferno")
             return true;
         }
 
-        /*public override void AddRecipes()
+        public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddRecipeGroup("AnyEvilWater", 100); //make sure to add to CalamityRecipes.cs
+            recipe.AddRecipeGroup("AnyEvilWater", 100);
             recipe.AddIngredient(ItemID.HallowedBar, 5);
             recipe.AddRecipeGroup("CursedFlameIchor", 5);
             recipe.AddIngredient(ItemID.SoulofLight, 7);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
-        }*/
+        }
     }
 }
