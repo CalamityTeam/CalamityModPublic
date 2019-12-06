@@ -290,9 +290,14 @@ namespace CalamityMod.Items
             {
                 if (item.ranged && !rogue && Main.rand.Next(0, 100) >= 80)
                 {
+					double damageMult = 1.0;
+					damageMult = (double)(item.useTime) / 30.0;
+
+					double newDamage = (double)damage * 2 * damageMult;
+
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(position.X, position.Y, speedX * 1.25f, speedY * 1.25f, ModContent.ProjectileType<Minibirb>(), (int)((double)damage * 2), 2f, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position.X, position.Y, speedX * 1.25f, speedY * 1.25f, ModContent.ProjectileType<Minibirb>(), (int)newDamage, 2f, player.whoAmI, 0f, 0f);
                     }
                 }
             }
@@ -1921,6 +1926,11 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                         DropHelper.DropItem(player, ModContent.ItemType<VictoryShard>(), 3, 5);
                         DropHelper.DropItemChance(player, ModContent.ItemType<TeardropCleaver>(), 3);
                         DropHelper.DropItemCondition(player, ModContent.ItemType<CounterScarf>(), CalamityWorld.revenge);
+                        break;
+
+                    // Queen Bee
+                    case ItemID.QueenBeeBossBag:
+                        DropHelper.DropItem(player, ModContent.ItemType<HardenedHoneycomb>(), 50, 75);
                         break;
 
                     // Skeletron

@@ -61,6 +61,7 @@ namespace CalamityMod.Items.Accessories.Wings
             player.pickSpeed -= 0.05f;
             player.allDamage += 0.05f;
             player.wingTimeMax = 100;
+            player.noFallDmg = true;
         }
     }
 }

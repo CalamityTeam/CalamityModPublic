@@ -907,6 +907,7 @@ namespace CalamityMod
                 ModContent.ItemType<IceStar>(),
                 ModContent.ItemType<Icebreaker>(),
                 ModContent.ItemType<KelvinCatalyst>(),
+                ModContent.ItemType<FrostcrushValari>(),
 				//Cryonic Bar set stuff, could potentially be removed
                 ModContent.ItemType<Trinity>(),
                 ModContent.ItemType<Shimmerspark>(),
@@ -1777,7 +1778,8 @@ namespace CalamityMod
                 ModContent.ItemType<Shroomerang>(),
                 ModContent.ItemType<StellarContemptRogue>(),
                 ModContent.ItemType<TriactisTruePaladinianMageHammerofMight>(),
-                ModContent.ItemType<Valediction>()
+                ModContent.ItemType<Valediction>(),
+                ModContent.ItemType<FrostcrushValari>()
             };
 
             boomerangProjList = new List<int>()
@@ -1809,7 +1811,8 @@ namespace CalamityMod
                 ModContent.ProjectileType<NanoblackMain>(),
                 ModContent.ProjectileType<StellarContemptHammer>(),
                 ModContent.ProjectileType<IcebreakerHammer>(),
-                ModContent.ProjectileType<PwnagehammerProj>()
+                ModContent.ProjectileType<PwnagehammerProj>(),
+                ModContent.ProjectileType<ValariBoomerang>()
             };
 
             javelinList = new List<int>()
@@ -1884,7 +1887,7 @@ namespace CalamityMod
                 ModContent.ItemType<RoyalKnives>()
             };
 
-            boomerangProjList = new List<int>()
+            daggerProjList = new List<int>()
             {
                 ModContent.ProjectileType<AshenStalactiteProj>(),
                 ModContent.ProjectileType<AshenStalagmiteProj>(),
@@ -1932,6 +1935,7 @@ namespace CalamityMod
                 ModContent.ItemType<DuststormInABottle>(),
                 ModContent.ItemType<SeafoamBomb>(),
                 ModContent.ItemType<ConsecratedWater>(),
+                ModContent.ItemType<DesecratedWater>(),
                 ModContent.ItemType<BouncingBetty>(),
                 ModContent.ItemType<TotalityBreakers>(),
                 ModContent.ItemType<BlastBarrel>()
@@ -1947,7 +1951,8 @@ namespace CalamityMod
                 ModContent.ProjectileType<PlaguenadeProj>(),
                 ModContent.ProjectileType<SeafoamBombProj>(),
                 ModContent.ProjectileType<TotalityFlask>(),
-                ModContent.ProjectileType<ConsecratedWaterProjectile>()
+                ModContent.ProjectileType<ConsecratedWaterProjectile>(),
+                ModContent.ProjectileType<DesecratedWaterProj>()
             };
 
             spikyBallList = new List<int>()

@@ -6,35 +6,33 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class HardenedHoneycomb : RogueWeapon
+    public class DesecratedWater : RogueWeapon
     {
+        public const int BaseDamage = 55;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Hardened Honeycomb");
-            Tooltip.SetDefault(@"Fires a honeycomb that shatters into fragments
-Grants the honey buff to players it touches
-Stealth strikes can bounce off walls and enemies");
+            DisplayName.SetDefault("Desecrated Water");
+            Tooltip.SetDefault(@"Throws an unholy flask of water that explodes into an explosion of bubbles on death
+Stealth strikes spawn additional bubbles that inflict Ichor and Cursed Inferno");
         }
 
         public override void SafeSetDefaults()
         {
-            item.width = 30;
-            item.damage = 25;
+            item.damage = BaseDamage;
+            item.width = 22;
+            item.height = 24;
+            item.useAnimation = 29;
+            item.useTime = 29;
             item.noMelee = true;
-            item.consumable = true;
             item.noUseGraphic = true;
-            item.useAnimation = 21;
-            item.useTime = 21;
-            item.useStyle = 1;
-            item.knockBack = 3f;
-            item.UseSound = SoundID.Item1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
+            item.knockBack = 4.5f;
+            item.rare = 6;
+            item.UseSound = SoundID.Item106;
             item.autoReuse = true;
-            item.height = 32;
-            item.maxStack = 999;
-            item.value = 300;
-            item.rare = 3;
-            item.shoot = ModContent.ProjectileType<Honeycomb>();
-            item.shootSpeed = 10f;
+            item.value = Item.buyPrice(gold: 48); //sell price of 9 gold 60 silver
+            item.shoot = ModContent.ProjectileType<DesecratedWaterProj>();
+            item.shootSpeed = 12f;
             item.Calamity().rogue = true;
         }
 
@@ -44,7 +42,6 @@ Stealth strikes can bounce off walls and enemies");
             {
                 int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
                 Main.projectile[stealth].Calamity().stealthStrike = true;
-                Main.projectile[stealth].penetrate = 3;
                 return false;
             }
             return true;
@@ -53,11 +50,12 @@ Stealth strikes can bounce off walls and enemies");
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Hive);
-            recipe.AddIngredient(ItemID.CrispyHoneyBlock);
-            recipe.AddIngredient(ItemID.BeeWax);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this, 5);
+            recipe.AddRecipeGroup("AnyEvilWater", 100);
+            recipe.AddIngredient(ItemID.HallowedBar, 5);
+            recipe.AddRecipeGroup("CursedFlameIchor", 5);
+            recipe.AddIngredient(ItemID.SoulofLight, 7);
+            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.SetResult(this);
             recipe.AddRecipe();
         }
     }

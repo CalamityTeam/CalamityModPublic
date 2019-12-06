@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
                 {
                     projectile.localAI[0] = 1f;
                     Projectile.NewProjectile(projectile.Center.X + projectile.velocity.X, projectile.Center.Y + projectile.velocity.Y,
-                        projectile.velocity.X * 2.4f, projectile.velocity.Y * 2.4f, ModContent.ProjectileType<InsidiousHarpoon>(), (int)(projectile.damage * 0.5), projectile.knockBack * 0.85f, projectile.owner, 0f, 0f);
+                        projectile.velocity.X * 2.4f, projectile.velocity.Y * 2.4f, ModContent.ProjectileType<InsidiousHarpoon>(), (int)(projectile.damage * 0.75), projectile.knockBack * 0.85f, projectile.owner, 0f, 0f);
 				}
 			}
             else

@@ -52,7 +52,7 @@ Stealth strikes summon ghost clones instead of lost souls");
             return true;
         }
 
-        /*public override void AddRecipes()
+        public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<LuminousStriker>());
@@ -62,6 +62,6 @@ Stealth strikes summon ghost clones instead of lost souls");
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
-        }*/
+        }
     }
 }

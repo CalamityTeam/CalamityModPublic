@@ -1,4 +1,6 @@
-﻿using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -7,14 +9,14 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class KylieBoomerang : ModProjectile
+    public class ValariBoomerang : ModProjectile
     {
         //This variable will be used for the stealth strike
         public float ReboundTime = 0f;
         public float timer = 0f;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Kylie");
+            DisplayName.SetDefault("Frostcrush Valari");
         }
 
         public override void SetDefaults()
@@ -25,23 +27,25 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.penetrate = -1;
             projectile.timeLeft = 360;
             projectile.tileCollide = false;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 15;
+			projectile.coldDamage = true;
 
             projectile.Calamity().rogue = true;
         }
 
         public override void AI()
         {
+            //Dust trail
+            if (Main.rand.Next(5) == 0)
+            {
+                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 67, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+            }
 
             //Constant rotation
             projectile.rotation += 0.2f;
 
             timer++;
-            //Dust trail
-            if (Main.rand.Next(15) == 0)
-            {
-                int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, 7, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f, 100, default, 0f);
-                Main.dust[d].position = projectile.Center;
-            }
             //Constant sound effects
             if (projectile.soundDelay == 0)
             {
@@ -71,7 +75,7 @@ namespace CalamityMod.Projectiles.Rogue
             else
             {
                 projectile.tileCollide = false;
-                float returnSpeed = Kylie.Speed * 1.5f;
+                float returnSpeed = FrostcrushValari.Speed * 1.5f;
                 float acceleration = 3.2f;
                 Player owner = Main.player[projectile.owner];
 
@@ -125,6 +129,27 @@ namespace CalamityMod.Projectiles.Rogue
         {
             //Start homing at player if you hit an enemy
             projectile.ai[0] = 1;
+
+			int num251 = Main.rand.Next(2, 4);
+			if (projectile.owner == Main.myPlayer)
+			{
+				for (int num252 = 0; num252 < num251; num252++)
+				{
+					Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+					while (value15.X == 0f && value15.Y == 0f)
+					{
+						value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+					}
+					value15.Normalize();
+					value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
+					int shard = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, (Main.rand.NextBool(2) ? ModContent.ProjectileType<Valaricicle>() : ModContent.ProjectileType<Valaricicle2>()), projectile.damage / 3, 0f, projectile.owner, 0f, 0f);
+				}
+			}
+
+            target.AddBuff(BuffID.Frostburn, 240);
+            target.AddBuff(ModContent.BuffType<CrushDepth>(), 240);
+			if (Main.rand.NextBool(5))
+				target.AddBuff(ModContent.BuffType<GlacialState>(), 60);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
@@ -142,7 +167,6 @@ namespace CalamityMod.Projectiles.Rogue
             }
             projectile.ai[0] = 1;
             return false;
-
         }
     }
 }
