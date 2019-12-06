@@ -3050,6 +3050,12 @@ namespace CalamityMod.NPCs
             if (ModLoader.GetMod("FargowiltasSouls") != null)
                 ModLoader.GetMod("FargowiltasSouls").Call("FargoSoulsAI", npc.whoAmI);
 
+            if (Main.netMode == NetmodeID.Server)
+            {
+                NetMessage.SendData(23, -1, -1, null, npc.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+            }
+            npc.netSpam = 5;
+
             return false;
         }
         #endregion

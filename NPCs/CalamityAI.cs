@@ -2773,7 +2773,12 @@ namespace CalamityMod.NPCs
 					value52.Normalize();
 					value52 *= scaleFactor16;
 					npc.velocity = (npc.velocity * (num1308 - 1f) + value52) / num1308;
-					return;
+                    npc.netSpam = 5;
+                    if (Main.netMode == NetmodeID.Server)
+                    {
+                        NetMessage.SendData(23, -1, -1, null, npc.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+                    }
+                    return;
 				}
 
 				// Fly towards target quickly

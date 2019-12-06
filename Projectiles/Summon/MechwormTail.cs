@@ -86,10 +86,10 @@ namespace CalamityMod.Projectiles.Summon
                     for (int i = 0; i < Main.projectile.Length; i++)
                     {
                         if (Main.projectile[i].active && Main.projectile[i].owner == projectile.owner &&
-                            (Main.projectile[chase].type == ModContent.ProjectileType<MechwormBody2>() ||
-                             Main.projectile[chase].type == ModContent.ProjectileType<MechwormBody>() ||
-                             Main.projectile[chase].type == ModContent.ProjectileType<MechwormHead>() ||
-                             Main.projectile[chase].type == ModContent.ProjectileType<MechwormTail>()))
+                            (Main.projectile[i].type == ModContent.ProjectileType<MechwormBody2>() ||
+                             Main.projectile[i].type == ModContent.ProjectileType<MechwormBody>() ||
+                             Main.projectile[i].type == ModContent.ProjectileType<MechwormHead>() ||
+                             Main.projectile[i].type == ModContent.ProjectileType<MechwormTail>()))
                         {
                             Main.projectile[i].Kill();
                         }
@@ -121,9 +121,11 @@ namespace CalamityMod.Projectiles.Summon
             }
             projectile.rotation = vector134.ToRotation() + 1.57079637f;
             projectile.position = projectile.Center;
+            projectile.netSpam = 5;
             projectile.scale = scaleFactor18;
             projectile.width = projectile.height = (int)((float)num1051 * projectile.scale);
             projectile.Center = projectile.position;
+            projectile.netSpam = 5;
             if (vector134 != Vector2.Zero)
             {
                 projectile.Center = value68 - Vector2.Normalize(vector134) * scaleFactor17 * scaleFactor18;
