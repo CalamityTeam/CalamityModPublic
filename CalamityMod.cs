@@ -1959,6 +1959,7 @@ namespace CalamityMod
 
             spikyBallList = new List<int>()
             {
+                ModContent.ItemType<BouncySpikyBall>(),
                 ModContent.ItemType<GodsParanoia>(),
                 ModContent.ItemType<NastyCholla>(),
                 ModContent.ItemType<HellsSun>(),
@@ -1969,6 +1970,7 @@ namespace CalamityMod
 
             spikyBallProjList = new List<int>()
             {
+                ModContent.ProjectileType<BouncyBol>(),
                 ModContent.ProjectileType<GodsParanoiaProj>(),
                 ModContent.ProjectileType<HellsSunProj>(),
                 ModContent.ProjectileType<NastyChollaBol>(),
