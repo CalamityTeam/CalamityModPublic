@@ -388,7 +388,7 @@ namespace CalamityMod.NPCs
                 for (int j = 0; j < 1000; j++)
                 {
                     if (Main.projectile[j].active &&
-                        (Main.projectile[j].type == ModContent.ProjectileType<LionfishProj>() || Main.projectile[j].type == ModContent.ProjectileType<SulphuricAcidBubble2>()) &&
+                        (Main.projectile[j].type == ModContent.ProjectileType<LionfishProj>() || Main.projectile[j].type == ModContent.ProjectileType<SulphuricAcidBubble2>() || Main.projectile[j].type == ModContent.ProjectileType<LeviathanTooth>() || Main.projectile[j].type == ModContent.ProjectileType<LeviathanTooth2>() || Main.projectile[j].type == ModContent.ProjectileType<LeviathanTooth3>() || Main.projectile[j].type == ModContent.ProjectileType<JawsProjectile>()) &&
                         Main.projectile[j].ai[0] == 1f && Main.projectile[j].ai[1] == npc.whoAmI)
                     {
                         projectileCount++;
