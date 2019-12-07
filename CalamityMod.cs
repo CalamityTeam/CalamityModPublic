@@ -1832,6 +1832,7 @@ namespace CalamityMod
                 ModContent.ItemType<SpearofPaleolith>(),
                 ModContent.ItemType<XerocPitchfork>(),
                 ModContent.ItemType<PhantasmalRuin>(),
+                ModContent.ItemType<PhantomLance>(),
                 ModContent.ItemType<ProfanedPartisan>()
             };
 
@@ -1846,6 +1847,7 @@ namespace CalamityMod
                 ModContent.ProjectileType<LuminousStrikerProj>(),
                 ModContent.ProjectileType<PalladiumJavelinProjectile>(),
                 ModContent.ProjectileType<PhantasmalRuinProj>(),
+                ModContent.ProjectileType<PhantomLanceProj>(),
                 ModContent.ProjectileType<ProfanedPartisanproj>(),
                 ModContent.ProjectileType<ScarletDevilProjectile>(),
                 ModContent.ProjectileType<ScourgeoftheDesertProj>(),
