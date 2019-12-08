@@ -20,7 +20,7 @@ Stealth strikes don't slow down and souls always deal full damage");
 
         public override void SafeSetDefaults()
         {
-            item.damage = 150;
+            item.damage = 75;
             item.knockBack = 5f;
 
             item.width = 62;

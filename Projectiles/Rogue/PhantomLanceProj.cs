@@ -59,7 +59,7 @@ namespace CalamityMod.Projectiles.Rogue
 				{
 					if (projectile.Calamity().stealthStrike)
 					{
-						int stealthSoul = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<Phantom>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+						int stealthSoul = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<Phantom>(), (int)((float)projectile.damage * 0.75f), projectile.knockBack, projectile.owner, 0f, 0f);
 						Main.projectile[stealthSoul].Calamity().forceRogue = true;
 						Main.projectile[stealthSoul].usesLocalNPCImmunity = true;
 						Main.projectile[stealthSoul].localNPCHitCooldown = -2;
@@ -68,7 +68,7 @@ namespace CalamityMod.Projectiles.Rogue
 					{
 						double damageMult = 1.0;
 						damageMult = (double)(projectile.timeLeft) / 300.0;
-						double newDamage = projectile.damage * damageMult;
+						double newDamage = projectile.damage * damageMult * 0.75;
 
 						int soul = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<Phantom>(), (int)newDamage, projectile.knockBack, projectile.owner, 0f, 0f);
 						Main.projectile[soul].Calamity().forceRogue = true;

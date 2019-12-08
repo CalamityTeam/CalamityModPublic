@@ -144,7 +144,7 @@ namespace CalamityMod.Projectiles.Typeless
         private void SpawnEnergyBlade()
         {
             int bladeID = ModContent.ProjectileType<NanoblackSplit>();
-            int bladeDamage = NanoblackReaperMelee.BaseDamage / 5;
+            int bladeDamage = projectile.damage / 5;
             float bladeKB = 3f;
             float spin = (projectile.direction <= 0) ? -1f : 1f;
             float d = 16f;

@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SafeSetDefaults()
         {
             item.width = 42;
-            item.damage = 350;
+            item.damage = 438;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useAnimation = 15;
@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.value = Item.buyPrice(1, 40, 0, 0);
             item.rare = 10;
             item.shoot = ModContent.ProjectileType<JawsProjectile>();
-            item.shootSpeed = 20f;
+            item.shootSpeed = 25f;
             item.Calamity().postMoonLordRarity = 13;
             item.Calamity().rogue = true;
         }
