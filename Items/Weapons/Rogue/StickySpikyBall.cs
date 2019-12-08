@@ -48,6 +48,7 @@ Stealth strikes throw seven at once and last a lot longer");
                     int proj = Projectile.NewProjectile(position.X, position.Y, perturbedspeed.X, perturbedspeed.Y, type, damage, knockBack, player.whoAmI, 0f, 0f);
                     Main.projectile[proj].Calamity().stealthStrike = true;
                     Main.projectile[proj].timeLeft *= 4;
+                    Main.projectile[proj].localNPCHitCooldown += 15;
                     spread -= Main.rand.Next(1,4);
                 }
                 return false;
