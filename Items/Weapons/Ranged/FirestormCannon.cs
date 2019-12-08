@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 18;
+            item.damage = 9;
             item.ranged = true;
             item.width = 56;
             item.height = 28;
@@ -70,7 +70,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 {
                     float SpeedX = speedX + (float)Main.rand.Next(-50, 51) * 0.05f;
                     float SpeedY = speedY + (float)Main.rand.Next(-50, 51) * 0.05f;
-                    int flare = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, (int)((double)damage * 0.75), knockBack, player.whoAmI, 0.0f, 0.0f);
+                    int flare = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, (int)((double)damage * 1.6), knockBack, player.whoAmI, 0.0f, 0.0f);
                     Main.projectile[flare].penetrate = 1;
                     Main.projectile[flare].timeLeft = 600;
                     Main.projectile[flare].Calamity().forceRanged = true;
