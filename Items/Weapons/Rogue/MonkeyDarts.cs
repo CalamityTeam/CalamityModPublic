@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.UseSound = SoundID.Item1;
             item.useTime = 20;
             item.useAnimation = 20;
-            item.value = Item.buyPrice(0, 0, 1, 0);
+            item.value = Item.buyPrice(0, 0, 4, 0);
             item.rare = 7;
             item.shootSpeed = 8f;
             item.shoot = ModContent.ProjectileType<MonkeyDart>();

@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.alpha = 0;
             projectile.penetrate = 1;
             projectile.tileCollide = true;
-            projectile.timeLeft = 150;
+            projectile.timeLeft = 120;
             projectile.Calamity().rogue = true;
         }
 

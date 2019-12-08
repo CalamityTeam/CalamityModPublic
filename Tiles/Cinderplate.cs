@@ -13,7 +13,7 @@ namespace CalamityMod.Tiles
             Main.tileMergeDirt[Type] = true;
             Main.tileBlockLight[Type] = true;
 
-            TileMerge.MergeGeneralTiles(Type);
+            CalamityUtils.MergeWithGeneral(Type);
 
             soundType = 21;
             mineResist = 1f;

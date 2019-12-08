@@ -126,6 +126,7 @@ namespace CalamityMod.Projectiles.Rogue
             //Start homing at player if you hit an enemy
             projectile.ai[0] = 1;
         }
+
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             //Bounce off tiles and start homing on player if it hits a tile

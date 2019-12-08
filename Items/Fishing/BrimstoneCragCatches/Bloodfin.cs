@@ -11,8 +11,9 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bloodfin");
-            Tooltip.SetDefault("Boosts life regen for 10 seconds\n" +
-				"Angiogenesis");
+            Tooltip.SetDefault(@"Grants a buff that boosts life regen for 10 seconds
+The life regen boost is stronger if below 75% health
+Angiogenesis");
         }
 
         public override void SetDefaults()
@@ -31,8 +32,6 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
             item.consumable = true;
             item.healLife = 240;
             item.potion = true;
-            item.buffType = ModContent.BuffType<BloodfinBoost>();
-            item.buffTime = 600;
         }
 
         public override bool CanUseItem(Player player)

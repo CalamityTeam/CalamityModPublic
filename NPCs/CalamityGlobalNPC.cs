@@ -80,7 +80,7 @@ namespace CalamityMod.NPCs
         // private int ironHeartDamage = 0;
 
         // NewAI
-        private const int maxAIMod = 4;
+        internal const int maxAIMod = 4;
         public float[] newAI = new float[maxAIMod];
 
         // Town NPC Patreon
@@ -96,6 +96,7 @@ namespace CalamityMod.NPCs
         public int tSad = 0;
         public int eFreeze = 0;
         public int silvaStun = 0;
+        public int webbed = 0;
         public int yellowCandle = 0;
         public int pearlAura = 0;
         public int wCleave = 0;
@@ -388,7 +389,7 @@ namespace CalamityMod.NPCs
                 for (int j = 0; j < 1000; j++)
                 {
                     if (Main.projectile[j].active &&
-                        (Main.projectile[j].type == ModContent.ProjectileType<LionfishProj>() || Main.projectile[j].type == ModContent.ProjectileType<SulphuricAcidBubble2>()) &&
+                        (Main.projectile[j].type == ModContent.ProjectileType<LionfishProj>() || Main.projectile[j].type == ModContent.ProjectileType<SulphuricAcidBubble2>() || Main.projectile[j].type == ModContent.ProjectileType<LeviathanTooth>() || Main.projectile[j].type == ModContent.ProjectileType<LeviathanTooth2>() || Main.projectile[j].type == ModContent.ProjectileType<LeviathanTooth3>() || Main.projectile[j].type == ModContent.ProjectileType<JawsProjectile>()) &&
                         Main.projectile[j].ai[0] == 1f && Main.projectile[j].ai[1] == npc.whoAmI)
                     {
                         projectileCount++;
@@ -607,6 +608,7 @@ namespace CalamityMod.NPCs
                     npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
                     npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
                     npc.buffImmune[ModContent.BuffType<TimeSlow>()] = true;
+                    npc.buffImmune[BuffID.Webbed] = true;
                 }
 
                 if (DestroyerIDs.Contains(npc.type) || npc.type == NPCID.DD2EterniaCrystal || npc.townNPC)
@@ -2113,6 +2115,8 @@ namespace CalamityMod.NPCs
 				eFreeze--;
 			if (silvaStun > 0)
 				silvaStun--;
+			if (webbed > 0)
+				webbed--;
 			if (yellowCandle > 0)
 				yellowCandle--;
 			if (pearlAura > 0)
@@ -2176,7 +2180,7 @@ namespace CalamityMod.NPCs
             {
                 if (silvaStun > 0)
                     npc.velocity = Vector2.Zero;
-                else if (timeSlow > 0)
+                else if (timeSlow > 0 || webbed > 0)
                     npc.velocity *= 0.85f;
             }
         }
@@ -2465,7 +2469,7 @@ namespace CalamityMod.NPCs
                 {
                     damage = (int)(damage * 0.5);
                 }
-                else if (projectile.type == ModContent.ProjectileType<FossilShardThrown>() || projectile.type == ModContent.ProjectileType<FrostShardFriendly>())
+                else if (projectile.type == ModContent.ProjectileType<FossilShardThrown>() || projectile.type == ModContent.ProjectileType<FrostShardFriendly>() || projectile.type == ModContent.ProjectileType<DesecratedBubble>())
                 {
                     damage = (int)(damage * 0.75);
                 }
@@ -2495,7 +2499,7 @@ namespace CalamityMod.NPCs
 
             if (Main.player[projectile.owner].Calamity().eGauntlet)
             {
-                if (projectile.melee && ShouldAffectNPC(npc) && Main.rand.NextBool(15))
+                if (projectile.melee && ShouldAffectNPC(npc) && !projectile.npcProj && Main.rand.NextBool(15))
                 {
                     if (!CalamityPlayer.areThereAnyDamnBosses)
                     {
@@ -2506,7 +2510,7 @@ namespace CalamityMod.NPCs
 
             if (Main.player[projectile.owner].Calamity().eTalisman)
             {
-                if (projectile.magic && ShouldAffectNPC(npc) && Main.rand.NextBool(15))
+                if (projectile.magic && ShouldAffectNPC(npc) && !projectile.npcProj && Main.rand.NextBool(15))
                 {
                     if (!CalamityPlayer.areThereAnyDamnBosses)
                     {
@@ -2517,7 +2521,7 @@ namespace CalamityMod.NPCs
 
             if (Main.player[projectile.owner].Calamity().nanotech)
             {
-                if (projectile.Calamity().rogue && ShouldAffectNPC(npc) && Main.rand.NextBool(15))
+                if (projectile.Calamity().rogue && ShouldAffectNPC(npc) && !projectile.npcProj && Main.rand.NextBool(15))
                 {
                     if (!CalamityPlayer.areThereAnyDamnBosses)
                     {
@@ -2528,7 +2532,7 @@ namespace CalamityMod.NPCs
 
             if (Main.player[projectile.owner].Calamity().eQuiver)
             {
-                if (projectile.ranged && ShouldAffectNPC(npc) && Main.rand.NextBool(15))
+                if (projectile.ranged && ShouldAffectNPC(npc) && !projectile.npcProj && Main.rand.NextBool(15))
                 {
                     if (!CalamityPlayer.areThereAnyDamnBosses)
                     {
@@ -2539,13 +2543,20 @@ namespace CalamityMod.NPCs
 
             if (Main.player[projectile.owner].Calamity().statisBeltOfCurses)
             {
-                if ((projectile.minion || CalamityMod.projectileMinionList.Contains(projectile.type)) && ShouldAffectNPC(npc) && Main.rand.NextBool(15))
+                if ((projectile.minion || CalamityMod.projectileMinionList.Contains(projectile.type)) && ShouldAffectNPC(npc) && !projectile.npcProj && Main.rand.NextBool(15))
                 {
                     if (!CalamityPlayer.areThereAnyDamnBosses)
                     {
                         damage = npc.lifeMax * 3;
                     }
                 }
+            }
+            if (projectile.type == ModContent.ProjectileType<GaelSkull>() ||
+                projectile.type == ModContent.ProjectileType<GaelSkull2>() && 
+                npc.type >= NPCID.SkeletronHead &&
+                npc.type <= NPCID.SkeletronHand)
+            {
+                damage = (int)(damage * 0.85);
             }
         }
         #endregion
@@ -3127,6 +3138,21 @@ namespace CalamityMod.NPCs
                 if (Main.rand.Next(5) < 4)
                 {
                     int dust = Dust.NewDust(npc.position - new Vector2(2f, 2f), npc.width + 4, npc.height + 4, 171, npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 100, default, 1.5f);
+                    Main.dust[dust].noGravity = true;
+                    Main.dust[dust].velocity *= 1.1f;
+                    Main.dust[dust].velocity.Y += 0.25f;
+                    if (Main.rand.NextBool(2))
+                    {
+                        Main.dust[dust].noGravity = false;
+                        Main.dust[dust].scale *= 0.5f;
+                    }
+                }
+            }
+            if (webbed > 0)
+            {
+                if (Main.rand.Next(5) < 4)
+                {
+                    int dust = Dust.NewDust(npc.position - new Vector2(2f, 2f), npc.width + 4, npc.height + 4, 30, npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 100, default, 1.5f);
                     Main.dust[dust].noGravity = true;
                     Main.dust[dust].velocity *= 1.1f;
                     Main.dust[dust].velocity.Y += 0.25f;
@@ -3929,6 +3955,11 @@ namespace CalamityMod.NPCs
                 SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Abomination>(), CalamityWorld.downedPlaguebringer, Item.buyPrice(0, 50));
                 SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<BirbPheromones>(), CalamityWorld.downedBumble, Item.buyPrice(5));
             }
+
+            if (type == NPCID.SkeletonMerchant)
+            {
+                SetShopItem(ref shop, ref nextSlot, ItemID.Marrow, Main.hardMode, Item.buyPrice(0, 36));
+            }
         }
 
         public override void SetupTravelShop(int[] shop, ref int nextSlot)
@@ -4018,7 +4049,7 @@ namespace CalamityMod.NPCs
                 Projectile projectile = Main.projectile[m];
                 if (projectile.active && projectile.bobber && projectile.owner == plr)
                 {
-                    // TODO -- Old Duke not added yet
+                    // TODO -- Old Duke isn't added yet.
                     int num8 = NPC.NewNPC((int)projectile.Center.X, (int)projectile.Center.Y + 100, /* ModContent.NPCType<OldDuke>() */ NPCID.DukeFishron);
                     string typeName2 = Main.npc[num8].TypeName;
                     if (Main.netMode == NetmodeID.SinglePlayer)

@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.FurnitureOccult
     {
         public override void SetDefaults()
         {
-            CalamityUtils.SetUpBathtub(Type);
+            this.SetUpBathtub();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Otherworldly Bathtub");
             AddMapEntry(new Color(191, 142, 111), name);

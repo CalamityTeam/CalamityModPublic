@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
     {
         public override void SetDefaults()
         {
-            CalamityUtils.SetUpClock(Type);
+            this.SetUpClock();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Eutrophic Clock");
             AddMapEntry(new Color(191, 142, 111), name);

@@ -8,7 +8,7 @@ namespace CalamityMod.Tiles.FurnitureBotanic
     {
         public override void SetDefaults()
         {
-            CalamityUtils.SetUpBathtub(Type);
+            this.SetUpBathtub();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Botanic Bathtub");
             AddMapEntry(new Color(191, 142, 111), name);

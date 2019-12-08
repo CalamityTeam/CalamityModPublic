@@ -15,7 +15,7 @@ namespace CalamityMod.Tiles.FurnitureStratus
             Main.tileBlockLight[Type] = true;
             TileID.Sets.HasSlopeFrames[Type] = true;
 
-            TileMerge.MergeGeneralTiles(Type);
+            CalamityUtils.MergeWithGeneral(Type);
 
             soundType = 21;
             mineResist = 5f;
@@ -33,7 +33,7 @@ namespace CalamityMod.Tiles.FurnitureStratus
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            return CustomTileFraming.BetterGemsparkFraming(i, j, resetFrame);
+            return TileFraming.BetterGemsparkFraming(i, j, resetFrame);
         }
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)

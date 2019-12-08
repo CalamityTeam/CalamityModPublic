@@ -573,6 +573,11 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     npc.netUpdate = true;
                 }
             }
+
+            if (Main.netMode == NetmodeID.Server)
+            {
+                NetMessage.SendData(23, -1, -1, null, npc.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+            }
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)

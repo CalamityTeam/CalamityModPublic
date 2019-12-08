@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
     {
         public override void SetDefaults()
         {
-            CalamityUtils.SetUpChest(Type);
+            this.SetUpChest();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Ashen Chest");
             AddMapEntry(new Color(191, 142, 111), name, MapChestName);

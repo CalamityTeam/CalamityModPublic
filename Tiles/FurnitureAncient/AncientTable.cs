@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureAncient
     {
         public override void SetDefaults()
         {
-            CalamityUtils.SetUpTable(Type, true);
+            this.SetUpTable(true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Ancient Table");
             AddMapEntry(new Color(191, 142, 111), name);

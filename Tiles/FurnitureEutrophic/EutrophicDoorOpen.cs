@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
     {
         public override void SetDefaults()
         {
-            CalamityUtils.SetUpDoorOpen(Type);
+            this.SetUpDoorOpen();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Eutrophic Door");
             AddMapEntry(new Color(191, 142, 111), name);

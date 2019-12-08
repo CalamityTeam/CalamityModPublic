@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
     {
         public override void SetDefaults()
         {
-            CalamityUtils.SetUpChair(Type, true);
+            this.SetUpChair(true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Ashen Chair");
             AddMapEntry(new Color(191, 142, 111), name);

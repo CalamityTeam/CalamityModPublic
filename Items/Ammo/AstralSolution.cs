@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Ammo
         public override void SetDefaults()
         {
             item.ammo = AmmoID.Solution;
-            // TODO -- what is even happening here
             item.shoot = ModContent.ProjectileType<AstralSpray>() - ProjectileID.PureSpray;
             item.width = 10;
             item.height = 12;

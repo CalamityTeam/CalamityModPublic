@@ -41,10 +41,10 @@ namespace CalamityMod.Items.Weapons.Magic
             item.Calamity().postMoonLordRarity = 17;
         }
 
-        public override Vector2? HoldoutOrigin()
+        /*public override Vector2? HoldoutOrigin()
         {
             return new Vector2(30, 30);
-        }
+        }*/
 
         public override bool AltFunctionUse(Player player)
         {

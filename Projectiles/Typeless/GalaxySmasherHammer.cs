@@ -171,7 +171,7 @@ namespace CalamityMod.Projectiles.Typeless
 
             // Three death lasers (aka "Nebula Shots") swarm the target.
             int laserID = ModContent.ProjectileType<NebulaShot>();
-            int laserDamage = (int)(0.2f * GalaxySmasherMelee.BaseDamage);
+            int laserDamage = (int)(0.2f * projectile.damage);
             float laserKB = 2.5f;
             int numLasers = 3;
             for (int i = 0; i < numLasers; ++i)

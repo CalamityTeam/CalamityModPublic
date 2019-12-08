@@ -17,8 +17,8 @@ namespace CalamityMod.Tiles.Ores
             Main.tileLighted[Type] = true;
             Main.tileValue[Type] = 720;
 
-            TileMerge.MergeGeneralTiles(Type);
-            TileMerge.MergeHellTiles(Type);
+            CalamityUtils.MergeWithGeneral(Type);
+            CalamityUtils.MergeWithHell(Type);
 
             drop = ModContent.ItemType<Items.Placeables.Ores.CharredOre>();
             ModTranslation name = CreateMapEntryName();
@@ -56,7 +56,7 @@ namespace CalamityMod.Tiles.Ores
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            CustomTileFraming.FrameTileForCustomMerge(i, j, Type, ModContent.TileType<BrimstoneSlag>(), false, false, false, false, resetFrame);
+            TileFraming.CustomMergeFrame(i, j, Type, ModContent.TileType<BrimstoneSlag>(), false, false, false, false, resetFrame);
             return false;
         }
     }

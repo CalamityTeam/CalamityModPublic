@@ -11,7 +11,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
     {
         public override void SetDefaults()
         {
-            CalamityUtils.SetUpClock(Type, true);
+            this.SetUpClock(true);
             ModTranslation name = CreateMapEntryName();
             AddMapEntry(new Color(191, 142, 111), name);
             name.SetDefault("Ashen Monolith");

@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureVoid
     {
         public override void SetDefaults()
         {
-            CalamityUtils.SetUpClock(Type);
+            this.SetUpClock();
             animationFrameHeight = 90;
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Void Obelisk");

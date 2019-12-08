@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
     {
         public override void SetDefaults()
         {
-            CalamityUtils.SetUpBookcase(Type);
+            this.SetUpBookcase();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Statigel Bookcase");
             AddMapEntry(new Color(191, 142, 111), name);

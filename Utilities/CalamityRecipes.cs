@@ -555,6 +555,15 @@ namespace CalamityMod
             r.AddTile(TileID.Anvils);
             r.SetResult(ItemID.Radar);
             r.AddRecipe();
+
+            // Metal Detector
+            r = GetNewRecipe();
+            r.AddIngredient(ItemID.Wire, 10);
+            r.AddIngredient(ItemID.HallowedBar, 5);
+            r.AddIngredient(ItemID.SpelunkerGlowstick, 5);
+            r.AddTile(TileID.MythrilAnvil);
+            r.SetResult(ItemID.MetalDetector);
+            r.AddRecipe();
         }
         #endregion
 
@@ -786,10 +795,18 @@ namespace CalamityMod
             });
             RecipeGroup.RegisterGroup("CursedFlameIchor", group);
 
+            group = new RecipeGroup(() => "Any Evil Water", new int[]
+            {
+                ItemID.UnholyWater,
+                ItemID.BloodWater
+            });
+            RecipeGroup.RegisterGroup("AnyEvilWater", group);
+
             group = new RecipeGroup(() => "Any Silt", new int[]
             {
                 ItemID.SiltBlock,
-                ItemID.SlushBlock
+                ItemID.SlushBlock,
+                ModContent.ItemType<AstralSilt>()
             });
             RecipeGroup.RegisterGroup("SiltGroup", group);
 

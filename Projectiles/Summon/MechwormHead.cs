@@ -197,9 +197,11 @@ namespace CalamityMod.Projectiles.Summon
             }
             float num1061 = MathHelper.Clamp(projectile.localAI[0], 0f, 50f);
             projectile.position = projectile.Center;
+            projectile.netSpam = 5;
             projectile.scale = 1f + num1061 * 0.01f;
             projectile.width = projectile.height = (int)((float)num1051 * projectile.scale);
             projectile.Center = projectile.position;
+            projectile.netSpam = 5;
             if (projectile.alpha > 0)
             {
                 projectile.alpha -= 42;
@@ -208,6 +210,7 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.alpha = 0;
                 }
             }
+            projectile.netSpam = 5;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

@@ -150,7 +150,7 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.netUpdate = true;
 
             int numFlares = 2;
-            int flareDamage = (int)(0.3f * StellarContemptMelee.BaseDamage);
+            int flareDamage = (int)(0.3f * projectile.damage);
             float flareKB = 4f;
             for (int i = 0; i < numFlares; ++i)
             {

@@ -27,7 +27,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            return CustomTileFraming.BrimstoneFraming(i, j, resetFrame);
+            return TileFraming.BrimstoneFraming(i, j, resetFrame);
         }
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)

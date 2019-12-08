@@ -31,6 +31,13 @@ namespace CalamityMod.Items.DifficultyItems
         {
             CalamityWorld.demonMode = true;
             CalamityMod.UpdateServerBoolean();
+            if (Main.netMode == NetmodeID.Server)
+            {
+                var netMessage = mod.GetPacket();
+                netMessage.Write((byte)CalamityModMessageType.DemonTrophyBoolSync);
+                netMessage.Write(CalamityWorld.demonMode);
+                netMessage.Send();
+            }
             return true;
         }
     }

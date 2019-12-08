@@ -10,7 +10,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
     {
         public override void SetDefaults()
         {
-            CalamityUtils.SetUpDoorClosed(Type, true);
+            this.SetUpDoorClosed(true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Ashen Door");
             AddMapEntry(new Color(191, 142, 111), name);

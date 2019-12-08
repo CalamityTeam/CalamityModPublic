@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
     {
         public override void SetDefaults()
         {
-            CalamityUtils.SetUpDresser(Type);
+            this.SetUpDresser();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Plagued Plate Dresser");
             AddMapEntry(new Color(191, 142, 111), name);

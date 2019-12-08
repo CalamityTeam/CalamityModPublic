@@ -26,15 +26,14 @@ namespace CalamityMod.Items.Potions
             item.UseSound = SoundID.Item3;
             item.consumable = true;
             item.value = Item.buyPrice(0, 4, 50, 0);
-            item.buffType = BuffID.WellFed;
-            item.buffTime = 108000;
+            item.buffType = BuffID.MagicPower;
+            item.buffTime = 21600;
         }
 
         public override void OnConsumeItem(Player player)
         {
-            player.AddBuff(BuffID.ManaRegeneration, 21600);
             player.AddBuff(BuffID.MagicPower, 21600);
-            player.AddBuff(BuffID.WellFed, 108000);
+            player.AddBuff(BuffID.ManaRegeneration, 21600);
         }
     }
 }

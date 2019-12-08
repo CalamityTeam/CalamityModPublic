@@ -169,7 +169,7 @@ namespace CalamityMod.Projectiles.Melee
                 if (projectile.owner == Main.myPlayer)
                 {
                     float ai1 = Main.rand.NextFloat() + 0.5f;
-                    Projectile.NewProjectile(vector20.X, vector20.Y, speedX, speedY, ModContent.ProjectileType<TyphonsGreed>(), projectile.damage, 2f, projectile.owner, 0.0f, ai1);
+                    Projectile.NewProjectile(vector20.X, vector20.Y, speedX, speedY, ModContent.ProjectileType<TyphonsGreedBubble>(), projectile.damage, 2f, projectile.owner, 0.0f, ai1);
                 }
             }
         }

@@ -8,7 +8,6 @@ using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    //TODO -- This projectile literally does nothing so have fun
     public class ProfanedPartisanspear : ModProjectile
     {
 		public int timer = 0;

@@ -8,7 +8,6 @@ namespace CalamityMod.Tiles
         public override void SetDefaults()
         {
             Main.tileSolid[Type] = true;
-            Main.tileMergeDirt[Type] = true;
             Main.tileBlockLight[Type] = true;
             soundType = 21;
             minPick = 50;
@@ -18,7 +17,7 @@ namespace CalamityMod.Tiles
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            return CustomTileFraming.BetterGemsparkFraming(i, j, resetFrame);
+            return TileFraming.BetterGemsparkFraming(i, j, resetFrame);
         }
 
         public override bool CreateDust(int i, int j, ref int type)

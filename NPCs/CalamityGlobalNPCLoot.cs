@@ -701,7 +701,7 @@ namespace CalamityMod.NPCs
         {
             ResetAdrenaline(npc);
 
-            // TODO -- this could be abused to have Draedon Mayhem effects active nigh indefinitely or in all sorts of weird conditions
+            // LATER -- keeping bosses alive lets draedon mayhem continue even after killing mechs
             // Reset Draedon Mayhem to false if no bosses are alive
             if (CalamityGlobalNPC.DraedonMayhem)
             {
@@ -1142,7 +1142,7 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (NPC.downedPlantBoss && npc.type == NPCID.SandShark && !NPC.AnyNPCs(ModContent.NPCType<GreatSandShark.GreatSandShark>()))
+            if (NPC.downedPlantBoss && (npc.type == NPCID.SandShark || npc.type == NPCID.SandsharkHallow || npc.type == NPCID.SandsharkCorrupt || npc.type == NPCID.SandsharkCrimson || npc.type == ModContent.NPCType<FusionFeeder>()) && !NPC.AnyNPCs(ModContent.NPCType<GreatSandShark.GreatSandShark>()))
             {
                 CalamityMod.sharkKillCount++;
                 if (CalamityMod.sharkKillCount == 4)
@@ -1287,6 +1287,11 @@ namespace CalamityMod.NPCs
                 case NPCID.Drippler:
                     int eyeballDropRate = CalamityWorld.defiled ? DropHelper.DefiledDropRateInt : 300;
                     DropHelper.DropItemChance(npc, ModContent.ItemType<BouncingEyeball>(), eyeballDropRate, 1, 1);
+                    break;
+
+                case NPCID.FireImp:
+                    int stalactiteDropRate = CalamityWorld.defiled ? DropHelper.DefiledDropRateInt : Main.expertMode ? 100 : 150;
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<AshenStalactite>(), stalactiteDropRate, 1, 1);
                     break;
 
                 case NPCID.PossessedArmor:
@@ -1590,6 +1595,10 @@ namespace CalamityMod.NPCs
                     DropHelper.DropItemCondition(npc, ModContent.ItemType<TeardropCleaver>(), !Main.expertMode, 5, 1, 1);
                     break;
 
+                case NPCID.QueenBee:
+                    DropHelper.DropItemCondition(npc, ModContent.ItemType<HardenedHoneycomb>(), !Main.expertMode, 30, 50);
+                    break;
+
                 case NPCID.DevourerHead:
                 case NPCID.SeekerHead:
                     DropHelper.DropItemChance(npc, ModContent.ItemType<FetidEssence>(), Main.expertMode ? 2 : 3);
@@ -1629,7 +1638,7 @@ namespace CalamityMod.NPCs
 
                 case NPCID.Reaper:
                 case NPCID.Psycho:
-                    DropHelper.DropItemCondition(npc, ModContent.ItemType<SolarVeil>(), (CalamityWorld.downedCalamitas || NPC.downedPlantBoss), Main.expertMode ? 0.1f : 0.05f, 1, 3);
+                    DropHelper.DropItemCondition(npc, ModContent.ItemType<SolarVeil>(), (CalamityWorld.downedCalamitas || NPC.downedPlantBoss), Main.expertMode ? 0.75f : 0.5f, 1, 4);
                     DropHelper.DropItemCondition(npc, ModContent.ItemType<DarksunFragment>(), CalamityWorld.downedBuffedMothron, Main.expertMode ? 0.06f : 0.04f, 1, 1);
                     break;
 

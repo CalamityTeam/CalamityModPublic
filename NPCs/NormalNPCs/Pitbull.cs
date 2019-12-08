@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -57,6 +58,12 @@ namespace CalamityMod.NPCs.NormalNPCs
                     Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
                 }
             }
+        }
+
+        public override void NPCLoot()
+        {
+            int bandageDropRate = CalamityWorld.defiled ? DropHelper.DefiledDropRateInt : Main.expertMode ? 50 : 100;
+            DropHelper.DropItemCondition(npc, ItemID.AdhesiveBandage, Main.hardMode, bandageDropRate, 1, 1);
         }
     }
 }
