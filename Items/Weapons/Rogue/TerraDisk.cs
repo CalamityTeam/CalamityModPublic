@@ -61,7 +61,7 @@ A max of three disks can be active at a time");
             return false;
         }
 
-        /*public override void AddRecipes()
+        public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.SetResult(this);
@@ -69,6 +69,6 @@ A max of three disks can be active at a time");
             recipe.AddIngredient(ModContent.ItemType<LivingShard>(), 8);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.AddRecipe();
-        }*/
+        }
     }
 }

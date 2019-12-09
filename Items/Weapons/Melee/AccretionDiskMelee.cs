@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Weapons.Melee
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<MangroveChakramMelee>());
             recipe.AddIngredient(ModContent.ItemType<FlameScytheMelee>());
-            recipe.AddIngredient(ModContent.ItemType<SeashellBoomerangMelee>());
+            recipe.AddIngredient(ModContent.ItemType<TerraDiskMelee>());
             recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5);
             recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 5);
             recipe.AddIngredient(ItemID.LunarBar, 5);

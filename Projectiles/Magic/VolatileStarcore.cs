@@ -104,7 +104,7 @@ namespace CalamityMod.Projectiles.Magic
 
             // Spawn a Helium Flash on impact
             int type = ModContent.ProjectileType<HeliumFlashBlast>();
-            int damage = projectile.damage;
+            int damage = projectile.damage / 2;
             float kb = 9.5f;
             Projectile.NewProjectile(projectile.Center, Vector2.Zero, type, damage, kb, projectile.owner, 0f, 0f);
         }
