@@ -49,6 +49,7 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItemChance(player, ModContent.ItemType<SirensSong>(), 3);
             DropHelper.DropItemChance(player, ModContent.ItemType<Atlantis>(), 3);
             DropHelper.DropItemChance(player, ModContent.ItemType<BrackishFlask>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<LeviathanTeeth>(), 3);
 
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<LeviathanAmbergris>());

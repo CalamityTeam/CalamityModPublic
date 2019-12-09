@@ -67,7 +67,7 @@ Stealth strikes throws three short ranged boomerangs along with a spread of icic
             return true;
         }
 
-        /*public override void AddRecipes()
+        public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<Kylie>());
@@ -77,6 +77,6 @@ Stealth strikes throws three short ranged boomerangs along with a spread of icic
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
-        }*/
+        }
     }
 }
