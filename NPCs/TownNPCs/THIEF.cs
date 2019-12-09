@@ -251,24 +251,23 @@ namespace CalamityMod.NPCs.TownNPCs
 			{
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<BouncingBetty>());
 				nextSlot++;
-                /*shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.LatcherMines>());
+                /*shop.item[nextSlot].SetDefaults(ModContent.ItemType<LatcherMines>());
 				nextSlot++;*/
             }
             if (NPC.downedPlantBoss)
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<MonkeyDarts>());
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 4, 0);
                 nextSlot++;
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<GloveOfPrecision>());
                 nextSlot++;
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<GloveOfRecklessness>());
                 nextSlot++;
-                /*shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.DeepWounder>());
-				nextSlot++;*/
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<DeepWounder>());
+				nextSlot++;
             }
             /*if (NPC.downedGolemBoss)
 			{
-				shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.EtherealExtorter>());
+				shop.item[nextSlot].SetDefaults(ModContent.ItemType<EtherealExtorter>());
 				shop.item[nextSlot].shopCustomPrice = Item.buyPrice(1, 0, 0, 0);
 				nextSlot++;
 			}*/
@@ -280,7 +279,7 @@ namespace CalamityMod.NPCs.TownNPCs
             }
             /*if (CalamityWorld.downedProvidence)
 			{
-				shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.SylvanSlasher>());
+				shop.item[nextSlot].SetDefaults(ModContent.ItemType<SylvanSlasher>());
 				shop.item[nextSlot].shopCustomPrice = Item.buyPrice(5, 0, 0, 0);
 				nextSlot++;
 			}*/

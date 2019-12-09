@@ -45,7 +45,6 @@ namespace CalamityMod.Items.Weapons.Melee
                                "[Swings leave behind exploding blood trails [Below 50% health]]\n" +
                                "[Right click to swipe the sword, reflecting projectiles at a 50% chance]\n" +
                                "[Activating Rage Mode releases an enormous barrage of skulls]\n" +
-                               "Upgrades after killing the Wall of Flesh, Moon Lord, and Yharon\n" +
                                "'Give me that thing, your dark soul'");
         }
         //NOTE: GetWeaponDamage is in the CalamityPlayer file

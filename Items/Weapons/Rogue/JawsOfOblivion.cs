@@ -13,13 +13,14 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Jaws of Oblivion");
             Tooltip.SetDefault("Throws a tight spread of six venomous reaper fangs that stick in enemies\n" +
-                "Stealth strikes cause the teeth to emit a crushing shockwave on impact");
+				"Stealth strikes cause the teeth to emit a crushing shockwave on impact\n" +
+				"You're gonna need a bigger boat");
         }
 
         public override void SafeSetDefaults()
         {
             item.width = 42;
-            item.damage = 350;
+            item.damage = 438;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useAnimation = 15;
@@ -33,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.value = Item.buyPrice(1, 40, 0, 0);
             item.rare = 10;
             item.shoot = ModContent.ProjectileType<JawsProjectile>();
-            item.shootSpeed = 20f;
+            item.shootSpeed = 25f;
             item.Calamity().postMoonLordRarity = 13;
             item.Calamity().rogue = true;
         }

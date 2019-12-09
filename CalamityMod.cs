@@ -1779,7 +1779,8 @@ namespace CalamityMod
                 ModContent.ItemType<StellarContemptRogue>(),
                 ModContent.ItemType<TriactisTruePaladinianMageHammerofMight>(),
                 ModContent.ItemType<Valediction>(),
-                ModContent.ItemType<FrostcrushValari>()
+                ModContent.ItemType<FrostcrushValari>(),
+                ModContent.ItemType<DefectiveSphere>()
             };
 
             boomerangProjList = new List<int>()
@@ -1812,7 +1813,11 @@ namespace CalamityMod
                 ModContent.ProjectileType<StellarContemptHammer>(),
                 ModContent.ProjectileType<IcebreakerHammer>(),
                 ModContent.ProjectileType<PwnagehammerProj>(),
-                ModContent.ProjectileType<ValariBoomerang>()
+                ModContent.ProjectileType<ValariBoomerang>(),
+                ModContent.ProjectileType<SphereSpiked>(),
+                ModContent.ProjectileType<SphereBladed>(),
+                ModContent.ProjectileType<SphereYellow>(),
+                ModContent.ProjectileType<ButcherKnife>()
             };
 
             javelinList = new List<int>()
@@ -1959,6 +1964,7 @@ namespace CalamityMod
 
             spikyBallList = new List<int>()
             {
+                ModContent.ItemType<BouncySpikyBall>(),
                 ModContent.ItemType<GodsParanoia>(),
                 ModContent.ItemType<NastyCholla>(),
                 ModContent.ItemType<HellsSun>(),
@@ -1969,6 +1975,7 @@ namespace CalamityMod
 
             spikyBallProjList = new List<int>()
             {
+                ModContent.ProjectileType<BouncyBol>(),
                 ModContent.ProjectileType<GodsParanoiaProj>(),
                 ModContent.ProjectileType<HellsSunProj>(),
                 ModContent.ProjectileType<NastyChollaBol>(),

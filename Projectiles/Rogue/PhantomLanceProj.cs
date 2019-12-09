@@ -1,4 +1,3 @@
-using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -51,7 +50,7 @@ namespace CalamityMod.Projectiles.Rogue
 				}
 			}
             projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 0.785f;
-            Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 175, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f, 0, default(Color), 0.85f);
+            Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 175, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f, 0, default, 0.85f);
 			projCount--;
 			if (projCount <= 0)
 			{
@@ -59,18 +58,19 @@ namespace CalamityMod.Projectiles.Rogue
 				{
 					if (projectile.Calamity().stealthStrike)
 					{
-						int stealthSoul = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<Phantom>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                        int stealthSoulDamage = (int)(projectile.damage * 0.75f);
+                        float stealthSoulKB = projectile.knockBack;
+                        int stealthSoul = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<Phantom>(), stealthSoulDamage, stealthSoulKB, projectile.owner, 0f, 0f);
 						Main.projectile[stealthSoul].Calamity().forceRogue = true;
 						Main.projectile[stealthSoul].usesLocalNPCImmunity = true;
 						Main.projectile[stealthSoul].localNPCHitCooldown = -2;
 					}
 					else
 					{
-						double damageMult = 1.0;
-						damageMult = (double)(projectile.timeLeft) / 300.0;
-						double newDamage = projectile.damage * damageMult;
-
-						int soul = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<Phantom>(), (int)newDamage, projectile.knockBack, projectile.owner, 0f, 0f);
+                        float damageMult = projectile.timeLeft * 0.75f / 300f;
+                        int soulDamage = (int)(projectile.damage * damageMult);
+                        float soulKB = projectile.knockBack;
+						int soul = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<Phantom>(), soulDamage, soulKB, projectile.owner, 0f, 0f);
 						Main.projectile[soul].Calamity().forceRogue = true;
 						Main.projectile[soul].usesLocalNPCImmunity = true;
 						Main.projectile[soul].localNPCHitCooldown = -2;

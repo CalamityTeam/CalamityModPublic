@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class HeliumFlash : ModItem
     {
-        public static int BaseDamage = 1900;
+        public static int BaseDamage = 1280;
         public static float Speed = 15f;
 
         public override void SetStaticDefaults()
