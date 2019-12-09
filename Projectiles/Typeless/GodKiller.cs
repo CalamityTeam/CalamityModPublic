@@ -30,7 +30,9 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void AI()
         {
-            projectile.alpha -= 5;
+			if (projectile.alpha > 0)
+				projectile.alpha -= 5;
+
             projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
             if (projectile.owner == Main.myPlayer && projectile.timeLeft <= 3)
             {
