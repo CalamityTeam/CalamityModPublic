@@ -3472,10 +3472,8 @@ namespace CalamityMod.CalPlayer
                 for (int j = 0; j < 2; j++)
                 {
                     int num = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 157, 0f, 0f, 100, new Color(Main.DiscoR, 203, 103), 2f);
-                    Dust expr_A4_cp_0 = Main.dust[num];
-                    expr_A4_cp_0.position.X += (float)Main.rand.Next(-20, 21);
-                    Dust expr_CB_cp_0 = Main.dust[num];
-                    expr_CB_cp_0.position.Y += (float)Main.rand.Next(-20, 21);
+                    Main.dust[num].position.X += (float)Main.rand.Next(-20, 21);
+                    Main.dust[num].position.Y += (float)Main.rand.Next(-20, 21);
                     Main.dust[num].velocity *= 0.9f;
                     Main.dust[num].noGravity = true;
                     Main.dust[num].scale *= 1f + (float)Main.rand.Next(40) * 0.01f;

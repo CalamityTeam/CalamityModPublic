@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class PhantomLanceProj : ModProjectile
     {
-        private int projCount = 18;
+        private int projCount = 22;
 
         public override void SetStaticDefaults()
         {
@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles.Rogue
 				{
 					if (projectile.Calamity().stealthStrike)
 					{
-                        int stealthSoulDamage = (int)(projectile.damage * 0.75f);
+                        int stealthSoulDamage = (int)(projectile.damage * 0.7f);
                         float stealthSoulKB = projectile.knockBack;
                         int stealthSoul = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<Phantom>(), stealthSoulDamage, stealthSoulKB, projectile.owner, 0f, 0f);
 						Main.projectile[stealthSoul].Calamity().forceRogue = true;
@@ -67,7 +67,7 @@ namespace CalamityMod.Projectiles.Rogue
 					}
 					else
 					{
-                        float damageMult = projectile.timeLeft * 0.75f / 300f;
+                        float damageMult = projectile.timeLeft * 0.7f / 300f;
                         int soulDamage = (int)(projectile.damage * damageMult);
                         float soulKB = projectile.knockBack;
 						int soul = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<Phantom>(), soulDamage, soulKB, projectile.owner, 0f, 0f);
