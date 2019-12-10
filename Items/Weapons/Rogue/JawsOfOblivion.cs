@@ -63,7 +63,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             return false;
         }
 
-        /*
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
@@ -75,6 +74,5 @@ namespace CalamityMod.Items.Weapons.Rogue
             recipe.SetResult(this, 1);
             recipe.AddRecipe();
         }
-        */
     }
 }

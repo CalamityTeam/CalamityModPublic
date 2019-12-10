@@ -58,7 +58,7 @@ Stealth strikes summon ghost clones instead of lost souls");
             recipe.AddIngredient(ModContent.ItemType<LuminousStriker>());
             recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 4);
             recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 20);
-            //recipe.AddIngredient(ModContent.ItemType <PhantomLance>(), 100);
+            recipe.AddIngredient(ModContent.ItemType <PhantomLance>(), 500);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
