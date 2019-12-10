@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Typeless
         public override void SetDefaults()
         {
             item.width = 58;
-            item.damage = 10;
+            item.damage = 8;
             item.rare = 3;
             item.useAnimation = 25;
             item.useTime = 25;
@@ -33,6 +33,11 @@ namespace CalamityMod.Items.Weapons.Typeless
             item.value = Item.buyPrice(0, 4, 0, 0);
             item.shoot = ModContent.ProjectileType<CursorProj>();
             item.shootSpeed = 5f;
+        }
+
+        public override Vector2? HoldoutOrigin()
+        {
+            return new Vector2(10, 10);
         }
 
         // Lunic Eye scales off of all damage types simultaneously (meaning it scales 5x from universal damage boosts).
