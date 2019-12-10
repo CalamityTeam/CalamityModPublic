@@ -8,7 +8,8 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sylvan Slasher");
-            Tooltip.SetDefault(@"Summons sword waves and builds stealth on enemy hits
+            Tooltip.SetDefault(@"Summons a slash attack at the cursor's position
+Enemy hits build stealth and cause sword waves to fire from the player in the opposite direction
 Does not consume stealth and cannot stealth strike");
         }
 

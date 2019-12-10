@@ -23,7 +23,6 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.penetrate = -1;
             projectile.tileCollide = false;
             projectile.Calamity().rogue = true;
-            projectile.ownerHitCheck = true;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 4;
         }
@@ -75,14 +74,14 @@ namespace CalamityMod.Projectiles.Rogue
                 }
             }
             Vector2 vector14 = projectile.Center + projectile.velocity * 3f;
-            Lighting.AddLight(vector14, 3f, 0.2f, 0.2f);
+            Lighting.AddLight(vector14, 0.2f, 2f, 3f);
             if (Main.rand.NextBool(3))
             {
                 int num30 = Dust.NewDust(vector14 - projectile.Size / 2f, projectile.width, projectile.height, 111, projectile.velocity.X, projectile.velocity.Y, 100, default, 2f);
                 Main.dust[num30].noGravity = true;
                 Main.dust[num30].position -= projectile.velocity;
             }
-            projectile.position = player.RotatedRelativePoint(player.MountedCenter, true) - projectile.Size / 2f;
+            projectile.position = player.RotatedRelativePoint(Main.MouseWorld, true) - projectile.Size / 2f;
             projectile.rotation = projectile.velocity.ToRotation() + num;
             projectile.spriteDirection = projectile.direction;
             projectile.timeLeft = 2;
@@ -95,7 +94,8 @@ namespace CalamityMod.Projectiles.Rogue
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            CalamityPlayer modPlayer = Main.player[Main.myPlayer].Calamity();
+			Player player = Main.player[Main.myPlayer];
+            CalamityPlayer modPlayer = player.Calamity();
 			if (projectile.owner == Main.myPlayer)
 			{
 				if ((target.damage > 5 || target.boss) && !target.SpawnedFromStatue)
@@ -108,18 +108,10 @@ namespace CalamityMod.Projectiles.Rogue
 				}
 				if (Main.rand.NextBool(8))
 				{
-					if (Main.rand.NextBool(3))
-					{
-						Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, Main.rand.Next(-3,-1), ModContent.ProjectileType<SylvanSlash>(), (int)((double)projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
-					}
-					else if (Main.rand.NextBool(2))
-					{
-						Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, Main.rand.Next(2,4), 0f, ModContent.ProjectileType<SylvanSlash>(), (int)((double)projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
-					}
-					else
-					{
-						Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, Main.rand.Next(-3,-1), 0f, ModContent.ProjectileType<SylvanSlash>(), (int)((double)projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
-					}
+					float speedMult = Main.rand.Next(3,6);
+                    Vector2 vector1 = new Vector2(projectile.Center.X - player.Center.X, projectile.Center.Y - player.Center.Y);
+                    vector1.Normalize();
+					Projectile.NewProjectile(player.Center.X, player.Center.Y, -vector1.X * speedMult, -vector1.Y * speedMult, ModContent.ProjectileType<SylvanSlash>(), (int)((double)projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
 				}
 			}
 		}

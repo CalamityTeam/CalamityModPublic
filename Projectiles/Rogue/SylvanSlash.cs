@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 92);
                 projectile.localAI[0] += 1f;
             }
-            Lighting.AddLight(projectile.Center, 0f, 0.2f, 0.4f);
+            Lighting.AddLight(projectile.Center, 0.1f, 1f, 2f);
             projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
             projectile.velocity.Y += projectile.ai[0];
             if (Main.rand.NextBool(2))
