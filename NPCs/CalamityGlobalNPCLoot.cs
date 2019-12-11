@@ -1458,6 +1458,10 @@ namespace CalamityMod.NPCs
                     DropHelper.DropItemChance(npc, ModContent.ItemType<WrathoftheAncients>(), Main.expertMode ? 20 : 25);
                     break;
 
+                case NPCID.DeadlySphere:
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<DefectiveSphere>(), Main.expertMode ? 0.0375f : 0.025f); //same as deadly sphere staff
+                    break;
+
                 default:
                     break;
             }
