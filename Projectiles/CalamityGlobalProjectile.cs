@@ -771,7 +771,10 @@ namespace CalamityMod.Projectiles
         {
             if (projectile.owner == Main.myPlayer)
             {
-                if (projectile.Calamity().rogue && projectile.Calamity().stealthStrike && Main.player[projectile.owner].Calamity().dragonScales && CalamityUtils.CountProjectiles(ModContent.ProjectileType<InfernadoFriendly>()) < 2)
+				if (rogue && stealthStrike && Main.player[projectile.owner].Calamity().stealthStrikeAlwaysCrits)
+					crit = true;
+
+                if (rogue && stealthStrike && Main.player[projectile.owner].Calamity().dragonScales && CalamityUtils.CountProjectiles(ModContent.ProjectileType<InfernadoFriendly>()) < 2)
                 {
                     int projTileX = (int)(projectile.Center.X / 16f);
                     int projTileY = (int)(projectile.Center.Y / 16f);
