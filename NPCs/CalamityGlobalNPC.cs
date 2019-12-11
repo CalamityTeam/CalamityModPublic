@@ -80,7 +80,7 @@ namespace CalamityMod.NPCs
         // private int ironHeartDamage = 0;
 
         // NewAI
-        private const int maxAIMod = 4;
+        internal const int maxAIMod = 4;
         public float[] newAI = new float[maxAIMod];
 
         // Town NPC Patreon
@@ -89,12 +89,14 @@ namespace CalamityMod.NPCs
         // Draedons Remote
         public static bool DraedonMayhem = false;
 
-        // Debuffs
+		// Debuffs
+		public int vaporfied = 0;
         public int timeSlow = 0;
         public int gState = 0;
         public int tSad = 0;
         public int eFreeze = 0;
         public int silvaStun = 0;
+        public int webbed = 0;
         public int yellowCandle = 0;
         public int pearlAura = 0;
         public int wCleave = 0;
@@ -387,7 +389,7 @@ namespace CalamityMod.NPCs
                 for (int j = 0; j < 1000; j++)
                 {
                     if (Main.projectile[j].active &&
-                        (Main.projectile[j].type == ModContent.ProjectileType<LionfishProj>() || Main.projectile[j].type == ModContent.ProjectileType<SulphuricAcidBubble2>()) &&
+                        (Main.projectile[j].type == ModContent.ProjectileType<LionfishProj>() || Main.projectile[j].type == ModContent.ProjectileType<SulphuricAcidBubble2>() || Main.projectile[j].type == ModContent.ProjectileType<LeviathanTooth>() || Main.projectile[j].type == ModContent.ProjectileType<LeviathanTooth2>() || Main.projectile[j].type == ModContent.ProjectileType<LeviathanTooth3>() || Main.projectile[j].type == ModContent.ProjectileType<JawsProjectile>()) &&
                         Main.projectile[j].ai[0] == 1f && Main.projectile[j].ai[1] == npc.whoAmI)
                     {
                         projectileCount++;
@@ -528,6 +530,7 @@ namespace CalamityMod.NPCs
 				}
 			}*/
 
+			ApplyDPSDebuff(vaporfied, 30, 6, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(irradiated, 20, 4, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(bFlames, 40, 8, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(hFlames, 50, 10, ref npc.lifeRegen, ref damage);
@@ -605,6 +608,7 @@ namespace CalamityMod.NPCs
                     npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
                     npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
                     npc.buffImmune[ModContent.BuffType<TimeSlow>()] = true;
+                    npc.buffImmune[BuffID.Webbed] = true;
                 }
 
                 if (DestroyerIDs.Contains(npc.type) || npc.type == NPCID.DD2EterniaCrystal || npc.townNPC)
@@ -2111,6 +2115,8 @@ namespace CalamityMod.NPCs
 				eFreeze--;
 			if (silvaStun > 0)
 				silvaStun--;
+			if (webbed > 0)
+				webbed--;
 			if (yellowCandle > 0)
 				yellowCandle--;
 			if (pearlAura > 0)
@@ -2123,6 +2129,8 @@ namespace CalamityMod.NPCs
 				dFlames--;
 			if (marked > 0)
 				marked--;
+			if (vaporfied > 0)
+				vaporfied--;
 			if (irradiated > 0)
 				irradiated--;
 			if (bFlames > 0)
@@ -2160,14 +2168,19 @@ namespace CalamityMod.NPCs
             if (npc.boss || CalamityMod.movementImpairImmuneList.Contains(npc.type))
                 return;
 
-            if (pearlAura > 0 && !CalamityPlayer.areThereAnyDamnBosses)
-                npc.velocity *= 0.9f;
+			if (!CalamityPlayer.areThereAnyDamnBosses)
+			{
+				if (pearlAura > 0)
+					npc.velocity *= 0.9f;
+				if (vaporfied > 0)
+					npc.velocity *= 0.9f;
+			}
 
             if (!CalamityWorld.bossRushActive)
             {
                 if (silvaStun > 0)
                     npc.velocity = Vector2.Zero;
-                else if (timeSlow > 0)
+                else if (timeSlow > 0 || webbed > 0)
                     npc.velocity *= 0.85f;
             }
         }
@@ -2456,7 +2469,7 @@ namespace CalamityMod.NPCs
                 {
                     damage = (int)(damage * 0.5);
                 }
-                else if (projectile.type == ModContent.ProjectileType<FossilShardThrown>() || projectile.type == ModContent.ProjectileType<FrostShardFriendly>())
+                else if (projectile.type == ModContent.ProjectileType<FossilShardThrown>() || projectile.type == ModContent.ProjectileType<FrostShardFriendly>() || projectile.type == ModContent.ProjectileType<DesecratedBubble>())
                 {
                     damage = (int)(damage * 0.75);
                 }
@@ -2486,7 +2499,7 @@ namespace CalamityMod.NPCs
 
             if (Main.player[projectile.owner].Calamity().eGauntlet)
             {
-                if (projectile.melee && ShouldAffectNPC(npc) && Main.rand.NextBool(15))
+                if (projectile.melee && ShouldAffectNPC(npc) && !projectile.npcProj && Main.rand.NextBool(15))
                 {
                     if (!CalamityPlayer.areThereAnyDamnBosses)
                     {
@@ -2497,7 +2510,7 @@ namespace CalamityMod.NPCs
 
             if (Main.player[projectile.owner].Calamity().eTalisman)
             {
-                if (projectile.magic && ShouldAffectNPC(npc) && Main.rand.NextBool(15))
+                if (projectile.magic && ShouldAffectNPC(npc) && !projectile.npcProj && Main.rand.NextBool(15))
                 {
                     if (!CalamityPlayer.areThereAnyDamnBosses)
                     {
@@ -2508,7 +2521,7 @@ namespace CalamityMod.NPCs
 
             if (Main.player[projectile.owner].Calamity().nanotech)
             {
-                if (projectile.Calamity().rogue && ShouldAffectNPC(npc) && Main.rand.NextBool(15))
+                if (projectile.Calamity().rogue && ShouldAffectNPC(npc) && !projectile.npcProj && Main.rand.NextBool(15))
                 {
                     if (!CalamityPlayer.areThereAnyDamnBosses)
                     {
@@ -2519,7 +2532,7 @@ namespace CalamityMod.NPCs
 
             if (Main.player[projectile.owner].Calamity().eQuiver)
             {
-                if (projectile.ranged && ShouldAffectNPC(npc) && Main.rand.NextBool(15))
+                if (projectile.ranged && ShouldAffectNPC(npc) && !projectile.npcProj && Main.rand.NextBool(15))
                 {
                     if (!CalamityPlayer.areThereAnyDamnBosses)
                     {
@@ -2530,13 +2543,20 @@ namespace CalamityMod.NPCs
 
             if (Main.player[projectile.owner].Calamity().statisBeltOfCurses)
             {
-                if ((projectile.minion || CalamityMod.projectileMinionList.Contains(projectile.type)) && ShouldAffectNPC(npc) && Main.rand.NextBool(15))
+                if ((projectile.minion || CalamityMod.projectileMinionList.Contains(projectile.type)) && ShouldAffectNPC(npc) && !projectile.npcProj && Main.rand.NextBool(15))
                 {
                     if (!CalamityPlayer.areThereAnyDamnBosses)
                     {
                         damage = npc.lifeMax * 3;
                     }
                 }
+            }
+            if (projectile.type == ModContent.ProjectileType<GaelSkull>() ||
+                projectile.type == ModContent.ProjectileType<GaelSkull2>() && 
+                npc.type >= NPCID.SkeletronHead &&
+                npc.type <= NPCID.SkeletronHand)
+            {
+                damage = (int)(damage * 0.85);
             }
         }
         #endregion
@@ -2894,7 +2914,34 @@ namespace CalamityMod.NPCs
 
         public override void DrawEffects(NPC npc, ref Color drawColor)
         {
-            if (bBlood > 0)
+			if (vaporfied > 0)
+			{
+				int dustType = Utils.SelectRandom(Main.rand, new int[]
+				{
+					246,
+					242,
+					229,
+					226,
+					247,
+					187,
+					234
+				});
+
+				if (Main.rand.Next(5) < 4)
+				{
+					int dust = Dust.NewDust(npc.position - new Vector2(2f, 2f), npc.width + 4, npc.height + 4, dustType, npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 100, default, 3f);
+					Main.dust[dust].noGravity = true;
+					Main.dust[dust].velocity *= 1.8f;
+					Main.dust[dust].velocity.Y -= 0.5f;
+					if (Main.rand.NextBool(4))
+					{
+						Main.dust[dust].noGravity = false;
+						Main.dust[dust].scale *= 0.5f;
+					}
+				}
+			}
+
+			if (bBlood > 0)
             {
                 if (Main.rand.Next(5) < 4)
                 {
@@ -2910,6 +2957,7 @@ namespace CalamityMod.NPCs
                 }
                 Lighting.AddLight(npc.position, 0.08f, 0f, 0f);
             }
+
             if (bFlames > 0 || enraged > 0)
             {
                 if (Main.rand.Next(5) < 4)
@@ -2926,6 +2974,7 @@ namespace CalamityMod.NPCs
                 }
                 Lighting.AddLight(npc.position, 0.05f, 0.01f, 0.01f);
             }
+
             if (aFlames > 0)
             {
                 if (Main.rand.Next(5) < 4)
@@ -2942,6 +2991,7 @@ namespace CalamityMod.NPCs
                 }
                 Lighting.AddLight(npc.position, 0.025f, 0f, 0f);
             }
+
             if (pShred > 0)
             {
                 if (Main.rand.Next(5) < 4)
@@ -2957,6 +3007,7 @@ namespace CalamityMod.NPCs
                     }
                 }
             }
+
             if (hFlames > 0)
             {
                 if (Main.rand.Next(5) < 4)
@@ -2973,6 +3024,7 @@ namespace CalamityMod.NPCs
                 }
                 Lighting.AddLight(npc.position, 0.25f, 0.25f, 0.1f);
             }
+
             if (pFlames > 0)
             {
                 if (Main.rand.Next(5) < 4)
@@ -2989,6 +3041,7 @@ namespace CalamityMod.NPCs
                 }
                 Lighting.AddLight(npc.position, 0.07f, 0.15f, 0.01f);
             }
+
             if (gsInferno > 0)
             {
                 if (Main.rand.Next(5) < 4)
@@ -3005,6 +3058,7 @@ namespace CalamityMod.NPCs
                 }
                 Lighting.AddLight(npc.position, 0.1f, 0f, 0.135f);
             }
+
             if (astralInfection > 0)
             {
                 if (Main.rand.Next(5) < 3)
@@ -3022,6 +3076,7 @@ namespace CalamityMod.NPCs
                     }
                 }
             }
+
             if (nightwither > 0)
             {
                 Rectangle hitbox = npc.Hitbox;
@@ -3033,6 +3088,7 @@ namespace CalamityMod.NPCs
                         27,
                         234
                     });
+
                     int num4 = Dust.NewDust(hitbox.TopLeft(), npc.width, npc.height, num3, 0f, -2.5f, 0, default, 1f);
                     Main.dust[num4].noGravity = true;
                     Main.dust[num4].alpha = 200;
@@ -3043,6 +3099,7 @@ namespace CalamityMod.NPCs
                     dust.scale += Main.rand.NextFloat();
                 }
             }
+
             if (tSad > 0 || cDepth > 0)
             {
                 if (Main.rand.Next(6) < 3)
@@ -3058,6 +3115,7 @@ namespace CalamityMod.NPCs
                     }
                 }
             }
+
             if (dFlames > 0)
             {
                 if (Main.rand.Next(5) < 4)
@@ -3074,11 +3132,27 @@ namespace CalamityMod.NPCs
                 }
                 Lighting.AddLight(npc.position, 0.1f, 0f, 0.135f);
             }
+
             if (sulphurPoison > 0)
             {
                 if (Main.rand.Next(5) < 4)
                 {
                     int dust = Dust.NewDust(npc.position - new Vector2(2f, 2f), npc.width + 4, npc.height + 4, 171, npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 100, default, 1.5f);
+                    Main.dust[dust].noGravity = true;
+                    Main.dust[dust].velocity *= 1.1f;
+                    Main.dust[dust].velocity.Y += 0.25f;
+                    if (Main.rand.NextBool(2))
+                    {
+                        Main.dust[dust].noGravity = false;
+                        Main.dust[dust].scale *= 0.5f;
+                    }
+                }
+            }
+            if (webbed > 0)
+            {
+                if (Main.rand.Next(5) < 4)
+                {
+                    int dust = Dust.NewDust(npc.position - new Vector2(2f, 2f), npc.width + 4, npc.height + 4, 30, npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 100, default, 1.5f);
                     Main.dust[dust].noGravity = true;
                     Main.dust[dust].velocity *= 1.1f;
                     Main.dust[dust].velocity.Y += 0.25f;
@@ -3095,7 +3169,7 @@ namespace CalamityMod.NPCs
                 drawColor = Color.Cyan;
             }
 
-            if (marked > 0 || sulphurPoison > 0)
+            if (marked > 0 || sulphurPoison > 0 || vaporfied > 0)
             {
                 drawColor = Color.Fuchsia;
             }

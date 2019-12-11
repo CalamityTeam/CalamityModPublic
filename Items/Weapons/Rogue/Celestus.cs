@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             recipe.AddIngredient(ModContent.ItemType<ShatteredSun>());
             recipe.AddIngredient(ModContent.ItemType<ExecutionersBlade>());
             recipe.AddIngredient(ModContent.ItemType<Pwnagehammer>());
-            recipe.AddIngredient(ModContent.ItemType<LuminousStriker>());
+            recipe.AddIngredient(ModContent.ItemType<PhantasmalRuin>());
 			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
 			recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);

@@ -585,6 +585,9 @@ namespace CalamityMod.CalPlayer
 					player.lifeRegen += 2;
 			}
 
+			if (modPlayer.etherealExtorter || player.ZoneGlowshroom)
+				player.lifeRegen += 1;
+
 			if (!player.shinyStone)
             {
                 int lifeRegenTimeMaxBoost = CalamityPlayer.areThereAnyDamnBosses ? 450 : 1800;

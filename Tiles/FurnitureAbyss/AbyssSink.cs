@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
     {
         public override void SetDefaults()
         {
-            CalamityUtils.SetUpSink(Type);
+            this.SetUpSink();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Abyss Sink");
             AddMapEntry(new Color(191, 142, 111), name);

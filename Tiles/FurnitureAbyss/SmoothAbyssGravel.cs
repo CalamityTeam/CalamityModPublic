@@ -12,10 +12,10 @@ namespace CalamityMod.Tiles.FurnitureAbyss
             Main.tileMergeDirt[Type] = true;
             Main.tileBlockLight[Type] = true;
 
-            TileMerge.MergeGeneralTiles(Type);
-            TileMerge.MergeSmoothTiles(Type);
-            TileMerge.MergeDecorativeTiles(Type);
-            TileMerge.MergeAbyssTiles(Type);
+            CalamityUtils.MergeWithGeneral(Type);
+            CalamityUtils.MergeSmoothTiles(Type);
+            CalamityUtils.MergeDecorativeTiles(Type);
+            CalamityUtils.MergeWithAbyss(Type);
 
             soundType = 21;
             mineResist = 2f;

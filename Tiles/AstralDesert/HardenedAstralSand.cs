@@ -13,9 +13,9 @@ namespace CalamityMod.Tiles.AstralDesert
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
 
-            TileMerge.MergeGeneralTiles(Type);
-            TileMerge.MergeDesertTiles(Type);
-            TileMerge.MergeAstralTiles(Type);
+            CalamityUtils.MergeWithGeneral(Type);
+            CalamityUtils.MergeWithDesert(Type);
+            CalamityUtils.MergeAstralTiles(Type);
 
 
             dustType = 108;
@@ -29,8 +29,8 @@ namespace CalamityMod.Tiles.AstralDesert
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            // CustomTileFraming.FrameTileForCustomMerge(i, j, Type, ModContent.TileType<AstralSand>(), false, false, false, false, resetFrame);
-            CustomTileFraming.FrameTileForCustomMergeFrom(i, j, Type, ModContent.TileType<AstralSand>());
+            // CustomTileFraming.CustomMergeFrame(i, j, Type, ModContent.TileType<AstralSand>(), false, false, false, false, resetFrame);
+            TileFraming.CustomMergeFrame(i, j, Type, ModContent.TileType<AstralSand>());
             return false;
         }
 

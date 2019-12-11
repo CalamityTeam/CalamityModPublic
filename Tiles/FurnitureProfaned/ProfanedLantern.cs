@@ -10,7 +10,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
     {
         public override void SetDefaults()
         {
-            CalamityUtils.SetUpLantern(Type);
+            this.SetUpLantern();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Profaned Lantern");
             AddMapEntry(new Color(191, 142, 111), name);

@@ -29,8 +29,8 @@ Stealth strikes summon ghost clones instead of lost souls");
             item.noUseGraphic = true;
 
             item.value = Item.buyPrice(1, 40, 0, 0);
-            item.useTime = 15;
-            item.useAnimation = 15;
+            item.useTime = 25;
+            item.useAnimation = 25;
             item.UseSound = SoundID.Item1;
             item.rare = 10;
             item.Calamity().postMoonLordRarity = 13;
@@ -52,16 +52,16 @@ Stealth strikes summon ghost clones instead of lost souls");
             return true;
         }
 
-        /*public override void AddRecipes()
+        public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<LuminousStriker>());
             recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 4);
             recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 20);
-            //recipe.AddIngredient(ModContent.ItemType <PhantomLance>(), 100);
+            recipe.AddIngredient(ModContent.ItemType <PhantomLance>(), 500);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
-        }*/
+        }
     }
 }

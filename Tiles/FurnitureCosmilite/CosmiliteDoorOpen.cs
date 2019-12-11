@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
     {
         public override void SetDefaults()
         {
-            CalamityUtils.SetUpDoorOpen(Type);
+            this.SetUpDoorOpen();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Cosmilite Door");
             AddMapEntry(new Color(191, 142, 111), name);

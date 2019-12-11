@@ -60,9 +60,9 @@ namespace CalamityMod.Items.Weapons.Rogue
             }
 			else
 			{
-				int UseMax = item.stack - 1;
+				int UseMax = item.stack;
 
-				if (player.ownedProjectileCounts[item.shoot] > UseMax)
+				if (player.ownedProjectileCounts[item.shoot] >= UseMax)
 				{
 					return false;
 				}

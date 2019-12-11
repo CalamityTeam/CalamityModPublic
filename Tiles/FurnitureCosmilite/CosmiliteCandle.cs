@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
     {
         public override void SetDefaults()
         {
-            CalamityUtils.SetUpCandle(Type);
+            this.SetUpCandle();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Cosmilite Candle");
             AddMapEntry(new Color(191, 142, 111), name);

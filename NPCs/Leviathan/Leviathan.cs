@@ -629,6 +629,7 @@ namespace CalamityMod.NPCs.Leviathan
                 DropHelper.DropItemChance(npc, ModContent.ItemType<SirensSong>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Atlantis>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<BrackishFlask>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<LeviathanTeeth>(), 4);
 
                 // Equipment
                 DropHelper.DropItemChance(npc, ModContent.ItemType<LureofEnthrallment>(), 4);

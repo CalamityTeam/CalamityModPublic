@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<MangroveChakram>());
             recipe.AddIngredient(ModContent.ItemType<FlameScythe>());
-            recipe.AddIngredient(ModContent.ItemType<SeashellBoomerang>());
+            recipe.AddIngredient(ModContent.ItemType<TerraDisk>());
             recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5);
             recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 5);
             recipe.AddIngredient(ItemID.LunarBar, 5);

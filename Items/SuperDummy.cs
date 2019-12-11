@@ -34,7 +34,7 @@ namespace CalamityMod.Items
             return true;
         }
 
-        // TODO -- Make Super Dummies work in multiplayer by spawning correctly.
+        // DEFECT -- Make Super Dummies work in multiplayer by spawning correctly.
         public override bool UseItem(Player player)
         {
             if (player.altFunctionUse == 2)

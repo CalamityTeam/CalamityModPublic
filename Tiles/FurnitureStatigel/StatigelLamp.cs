@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
     {
         public override void SetDefaults()
         {
-            CalamityUtils.SetUpLamp(Type);
+            this.SetUpLamp();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Statigel Lamp");
             AddMapEntry(new Color(191, 142, 111), name);

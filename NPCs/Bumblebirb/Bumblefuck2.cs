@@ -194,6 +194,11 @@ namespace CalamityMod.NPCs.Bumblebirb
                     value45.Normalize();
                     value45 *= scaleFactor21;
                     npc.velocity = (npc.velocity * (num1378 - 1f) + value45) / num1378;
+                    npc.netSpam = 5;
+                    if (Main.netMode == NetmodeID.Server)
+                    {
+                        NetMessage.SendData(23, -1, -1, null, npc.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+                    }
                     return;
                 }
                 if (npc.ai[0] == 2f)

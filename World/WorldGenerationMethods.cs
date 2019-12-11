@@ -1179,46 +1179,6 @@ namespace CalamityMod.World
         }
         #endregion
 
-        #region SafeTileFrame
-        public static void SafeSquareTileFrame(int i, int j, bool resetFrame = true)
-        {
-            if (Main.tile[i, j] != null)
-            {
-                for (int x = i - 1; x <= i + 1; x++)
-                {
-                    for (int y = j - 1; y <= j + 1; y++)
-                    {
-                        if (x < 0 || y < 0 || x >= Main.maxTilesX || y >= Main.maxTilesY)
-                            continue;
-                        if (x == i && y == j)
-                        {
-                            WorldGen.TileFrame(i, j, resetFrame, false);
-                        }
-                        else
-                        {
-                            WorldGen.TileFrame(x, y, false, false);
-                        }
-                    }
-                }
-            }
-        }
-        #endregion
-
-        #region ShuffleArray
-        public static int[] ShuffleArray(int[] array)
-        {
-            Random random = new Random();
-            for (int index = array.Length; index > 0; index--)
-            {
-                int j = random.Next(index);
-                int k = array[j];
-                array[j] = array[index - 1];
-                array[index - 1] = k;
-            }
-            return array;
-        }
-        #endregion
-
         #region OreSpawn
         public static void SpawnOre(int type, double frequency, float depth, float depthLimit)
         {
@@ -1241,22 +1201,22 @@ namespace CalamityMod.World
                         WorldGen.OreRunner(tilesX, tilesY, (double)WorldGen.genRand.Next(12, 18), WorldGen.genRand.Next(12, 18), (ushort)type);
                     }
                     else if (type == ModContent.TileType<UelibloomOre>())
-                    {
+                    { //mud
                         if (Main.tile[tilesX, tilesY].type == 59)
                         {
                             WorldGen.OreRunner(tilesX, tilesY, (double)WorldGen.genRand.Next(3, 8), WorldGen.genRand.Next(3, 8), (ushort)type);
                         }
                     }
                     else if (type == ModContent.TileType<PerennialOre>())
-                    {
+                    { //dirt, stone
                         if (Main.tile[tilesX, tilesY].type == 0 || Main.tile[tilesX, tilesY].type == 1)
                         {
                             WorldGen.OreRunner(tilesX, tilesY, (double)WorldGen.genRand.Next(3, 8), WorldGen.genRand.Next(3, 8), (ushort)type);
                         }
                     }
                     else if (type == ModContent.TileType<CryonicOre>())
-                    {
-                        if (Main.tile[tilesX, tilesY].type == 147 || Main.tile[tilesX, tilesY].type == 161 || Main.tile[tilesX, tilesY].type == 163 || Main.tile[tilesX, tilesY].type == 164 || Main.tile[tilesX, tilesY].type == 200)
+                    { //snow, ice, purple ice, pink ice, red ice, astral snow, astral ice
+                        if (Main.tile[tilesX, tilesY].type == 147 || Main.tile[tilesX, tilesY].type == 161 || Main.tile[tilesX, tilesY].type == 163 || Main.tile[tilesX, tilesY].type == 164 || Main.tile[tilesX, tilesY].type == 200 || Main.tile[tilesX, tilesY].type == ModContent.TileType<AstralSnow>() || Main.tile[tilesX, tilesY].type == ModContent.TileType<AstralIce>())
                         {
                             WorldGen.OreRunner(tilesX, tilesY, (double)WorldGen.genRand.Next(3, 8), WorldGen.genRand.Next(3, 8), (ushort)type);
                         }
@@ -1763,6 +1723,7 @@ namespace CalamityMod.World
                                 Main.tile[x, y].type = (ushort)ModContent.TileType<AstralSnow>();
                                 break;
                             case TileID.Silt:
+                            case TileID.Slush:
                                 Main.tile[x, y].type = (ushort)ModContent.TileType<AstralSilt>();
                                 break;
                             case TileID.DesertFossil:
@@ -3258,7 +3219,7 @@ namespace CalamityMod.World
                                 }
                                 Main.tile[k, l].active(true);
                                 Main.tile[k, l].type = (ushort)(isVoid ? ModContent.TileType<Voidstone>() : ModContent.TileType<AbyssGravel>());
-                                SafeSquareTileFrame(k, l, true);
+                                CalamityUtils.SafeSquareTileFrame(k, l, true);
                             }
                         }
                     }
@@ -3310,7 +3271,7 @@ namespace CalamityMod.World
                             {
                                 Main.tile[n, num17].active(true);
                                 Main.tile[n, num17].type = (ushort)num16;
-                                SafeSquareTileFrame(n, num17, true);
+                                CalamityUtils.SafeSquareTileFrame(n, num17, true);
                             }
                         }
                     }
@@ -3342,7 +3303,7 @@ namespace CalamityMod.World
                                 {
                                     Main.tile[n, num17].active(true);
                                     Main.tile[n, num17].type = (ushort)num16;
-                                    SafeSquareTileFrame(n, num17, true);
+                                    CalamityUtils.SafeSquareTileFrame(n, num17, true);
                                 }
                             }
                         }
@@ -3414,7 +3375,7 @@ namespace CalamityMod.World
                                 if (Math.Sqrt((double)(arg_890_0 * arg_890_0 + num29 * num29)) < (double)num25)
                                 {
                                     Main.tile[num27, num28].type = (ushort)num26;
-                                    SafeSquareTileFrame(num27, num28, true);
+                                    CalamityUtils.SafeSquareTileFrame(num27, num28, true);
                                 }
                             }
                         }
@@ -3463,21 +3424,21 @@ namespace CalamityMod.World
                                 Main.tile[num37, num35].active(false);
                                 Main.tile[num37, num35].liquid = 255;
                                 Main.tile[num37, num35].lava(false);
-                                SafeSquareTileFrame(num34, num35, true);
+                                CalamityUtils.SafeSquareTileFrame(num34, num35, true);
                             }
                             if (Main.tile[num37, num35 + 1].type == (ushort)(isVoid ? ModContent.TileType<Voidstone>() : ModContent.TileType<AbyssGravel>()))
                             {
                                 Main.tile[num37, num35 + 1].active(false);
                                 Main.tile[num37, num35 + 1].liquid = 255;
                                 Main.tile[num37, num35 + 1].lava(false);
-                                SafeSquareTileFrame(num34, num35 + 1, true);
+                                CalamityUtils.SafeSquareTileFrame(num34, num35 + 1, true);
                             }
                             if (num37 > num34 - num36 && num37 < num34 + 2 && Main.tile[num37, num35 + 2].type == (ushort)(isVoid ? ModContent.TileType<Voidstone>() : ModContent.TileType<AbyssGravel>()))
                             {
                                 Main.tile[num37, num35 + 2].active(false);
                                 Main.tile[num37, num35 + 2].liquid = 255;
                                 Main.tile[num37, num35 + 2].lava(false);
-                                SafeSquareTileFrame(num34, num35 + 2, true);
+                                CalamityUtils.SafeSquareTileFrame(num34, num35 + 2, true);
                             }
                         }
                     }
@@ -3486,7 +3447,7 @@ namespace CalamityMod.World
                         Main.tile[num34, num35].liquid = 255;
                     }
                     Main.tile[num34, num35].lava(false);
-                    SafeSquareTileFrame(num34, num35, true);
+                    CalamityUtils.SafeSquareTileFrame(num34, num35, true);
                 }
             }
         }

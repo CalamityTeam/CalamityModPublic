@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Typeless
             }
         }
 
-        // TODO -- Vanquisher Arrow duplicate projectile glow doesn't work.
+        // DEFECT -- Vanquisher Arrow duplicate projectile glow doesn't work.
         /*
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {

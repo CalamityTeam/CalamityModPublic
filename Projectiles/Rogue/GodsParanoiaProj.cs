@@ -78,7 +78,7 @@ namespace CalamityMod.Projectiles.Rogue
 					{
 						for (int i = 0; i < 3; i++)
 						{
-							int idx = Projectile.NewProjectile(startPos, kunaiSp, ModContent.ProjectileType<GodsParanoiaDart>(), projectile.damage, 1f, projectile.owner, 0f, 0f);
+							int idx = Projectile.NewProjectile(startPos, kunaiSp, ModContent.ProjectileType<GodsParanoiaDart>(), projectile.damage/2, 1f, projectile.owner, 0f, 0f);
 							Main.projectile[idx].rotation = angle;
 						}
 					}

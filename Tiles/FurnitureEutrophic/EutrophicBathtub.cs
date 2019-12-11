@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
     {
         public override void SetDefaults()
         {
-            CalamityUtils.SetUpBathtub(Type);
+            this.SetUpBathtub();
             TileObjectData.newTile.CopyFrom(TileObjectData.Style4x2);
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();

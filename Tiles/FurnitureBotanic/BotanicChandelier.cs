@@ -10,7 +10,7 @@ namespace CalamityMod.Tiles.FurnitureBotanic
     {
         public override void SetDefaults()
         {
-            CalamityUtils.SetUpChandelier(Type);
+            this.SetUpChandelier();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Botanic Chandelier");
             AddMapEntry(new Color(191, 142, 111), name);

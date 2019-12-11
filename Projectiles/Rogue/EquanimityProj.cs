@@ -41,15 +41,15 @@ namespace CalamityMod.Projectiles.Rogue
 
             if (recall)
             {
-                if (Main.rand.Next(0, 7) == 0)
+                if (Main.rand.Next(0, 10) == 0)
                 {
                     Vector2 shardVelocity = new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-1f, 1f));
                     shardVelocity.Normalize();
                     shardVelocity *= 5f;
-                    Projectile.NewProjectile(projectile.Center, shardVelocity, ModContent.ProjectileType<EquanimityDarkShard>(), (int)(projectile.damage * 0.5f), 0f, projectile.owner);
+                    Projectile.NewProjectile(projectile.Center, shardVelocity, ModContent.ProjectileType<EquanimityDarkShard>(), (int)(projectile.damage * 0.15f), 0f, projectile.owner);
                     if (projectile.Calamity().stealthStrike)
                     {
-                        Projectile.NewProjectile(projectile.Center, -shardVelocity, ModContent.ProjectileType<EquanimityLightShard>(), (int)(projectile.damage * 0.5f), 0f, projectile.owner);
+                        Projectile.NewProjectile(projectile.Center, -shardVelocity, ModContent.ProjectileType<EquanimityLightShard>(), (int)(projectile.damage * 0.15f), 0f, projectile.owner);
                     }
                 }
 
@@ -80,10 +80,10 @@ namespace CalamityMod.Projectiles.Rogue
                     Vector2 shardVelocity = new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-1f, 1f));
                     shardVelocity.Normalize();
                     shardVelocity *= 5f;
-                    Projectile.NewProjectile(projectile.Center, shardVelocity, ModContent.ProjectileType<EquanimityLightShard>(), (int)(projectile.damage * 0.25f), 0f, projectile.owner);
+                    Projectile.NewProjectile(projectile.Center, shardVelocity, ModContent.ProjectileType<EquanimityLightShard>(), (int)(projectile.damage * 0.1f), 0f, projectile.owner);
                     if (projectile.Calamity().stealthStrike)
                     {
-                        Projectile.NewProjectile(projectile.Center, -shardVelocity, ModContent.ProjectileType<EquanimityDarkShard>(), (int)(projectile.damage * 0.25f), 0f, projectile.owner);
+                        Projectile.NewProjectile(projectile.Center, -shardVelocity, ModContent.ProjectileType<EquanimityDarkShard>(), (int)(projectile.damage * 0.1f), 0f, projectile.owner);
                     }
                 }
             }

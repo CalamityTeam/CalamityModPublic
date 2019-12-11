@@ -7,7 +7,7 @@ namespace CalamityMod.Tiles.FurnitureStratus
     {
         public override void SetDefaults()
         {
-            CalamityUtils.SetUpSofa(Type);
+            this.SetUpSofa();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Stratus Sofa");
             AddMapEntry(new Color(191, 142, 111), name);

@@ -7,7 +7,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
     {
         public override void SetDefaults()
         {
-            CalamityUtils.SetUpPiano(Type);
+            this.SetUpPiano();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Abyss Synth");
             AddMapEntry(new Color(191, 142, 111), name);

@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureVoid
     {
         public override void SetDefaults()
         {
-            CalamityUtils.SetUpTable(Type);
+            this.SetUpTable();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Void Table");
             AddMapEntry(new Color(191, 142, 111), name);

@@ -14,8 +14,8 @@ namespace CalamityMod.Tiles.SunkenSea
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
 
-            TileMerge.MergeGeneralTiles(Type);
-            TileMerge.MergeDesertTiles(Type);
+            CalamityUtils.MergeWithGeneral(Type);
+            CalamityUtils.MergeWithDesert(Type);
 
             TileID.Sets.ChecksForMerge[Type] = true;
             dustType = 108;
@@ -43,8 +43,8 @@ namespace CalamityMod.Tiles.SunkenSea
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            // CustomTileFraming.FrameTileForCustomMerge(i, j, Type, TileID.Sandstone, false, false, false, false, resetFrame);
-            CustomTileFraming.FrameTileForCustomMergeFrom(i, j, Type, TileID.Sandstone);
+            // CustomTileFraming.CustomMergeFrame(i, j, Type, TileID.Sandstone, false, false, false, false, resetFrame);
+            TileFraming.CustomMergeFrame(i, j, Type, TileID.Sandstone);
             return false;
         }
     }

@@ -14,9 +14,9 @@ namespace CalamityMod.Tiles.FurnitureProfaned
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
 
-            TileMerge.MergeGeneralTiles(Type);
-            TileMerge.MergeDecorativeTiles(Type);
-            TileMerge.MergeSmoothTiles(Type);
+            CalamityUtils.MergeWithGeneral(Type);
+            CalamityUtils.MergeDecorativeTiles(Type);
+            CalamityUtils.MergeSmoothTiles(Type);
 
             soundType = 21;
             mineResist = 4f;

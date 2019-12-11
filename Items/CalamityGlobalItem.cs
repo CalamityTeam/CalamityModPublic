@@ -290,9 +290,14 @@ namespace CalamityMod.Items
             {
                 if (item.ranged && !rogue && Main.rand.Next(0, 100) >= 80)
                 {
+					double damageMult = 1.0;
+					damageMult = (double)(item.useTime) / 30.0;
+
+					double newDamage = (double)damage * 2 * damageMult;
+
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(position.X, position.Y, speedX * 1.25f, speedY * 1.25f, ModContent.ProjectileType<Minibirb>(), (int)((double)damage * 2), 2f, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position.X, position.Y, speedX * 1.25f, speedY * 1.25f, ModContent.ProjectileType<Minibirb>(), (int)newDamage, 2f, player.whoAmI, 0f, 0f);
                     }
                 }
             }
@@ -447,6 +452,10 @@ namespace CalamityMod.Items
                 return false;
             }
             if (item.type == ItemID.RagePotion && player.FindBuffIndex(ModContent.BuffType<ProfanedRageBuff>()) > -1)
+            {
+                return false;
+            }
+            if ((item.type == ItemID.ShinePotion || item.type == ItemID.NightOwlPotion) && (modPlayer.etherealExtorter && modPlayer.ZoneAbyss))
             {
                 return false;
             }
@@ -846,7 +855,7 @@ namespace CalamityMod.Items
                     }
                 }
             }
-            if (item.type == ItemID.IronHelmet || item.type == ItemID.IronChainmail || item.type == ItemID.IronGreaves)
+            if (item.type == ItemID.AncientIronHelmet || item.type == ItemID.IronHelmet || item.type == ItemID.IronChainmail || item.type == ItemID.IronGreaves)
             {
                 foreach (TooltipLine line2 in tooltips)
                 {
@@ -886,7 +895,7 @@ namespace CalamityMod.Items
                     }
                 }
             }
-            if (item.type == ItemID.GoldHelmet || item.type == ItemID.GoldChainmail || item.type == ItemID.GoldGreaves)
+            if (item.type == ItemID.AncientGoldHelmet || item.type == ItemID.GoldHelmet || item.type == ItemID.GoldChainmail || item.type == ItemID.GoldGreaves)
             {
                 foreach (TooltipLine line2 in tooltips)
                 {
@@ -1919,6 +1928,11 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                         DropHelper.DropItemCondition(player, ModContent.ItemType<CounterScarf>(), CalamityWorld.revenge);
                         break;
 
+                    // Queen Bee
+                    case ItemID.QueenBeeBossBag:
+                        DropHelper.DropItem(player, ModContent.ItemType<HardenedHoneycomb>(), 50, 75);
+                        break;
+
                     // Skeletron
                     case ItemID.SkeletronBossBag:
                         DropHelper.DropItemChance(player, ModContent.ItemType<ClothiersWrath>(), DropHelper.RareVariantDropRateInt);
@@ -1987,7 +2001,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 return "Copper";
             if (head.type == ItemID.TinHelmet && body.type == ItemID.TinChainmail && legs.type == ItemID.TinGreaves)
                 return "Tin";
-            if (head.type == ItemID.IronHelmet && body.type == ItemID.IronChainmail && legs.type == ItemID.IronGreaves)
+            if ((head.type == ItemID.IronHelmet || head.type == ItemID.AncientIronHelmet) && body.type == ItemID.IronChainmail && legs.type == ItemID.IronGreaves)
                 return "Iron";
             if (head.type == ItemID.LeadHelmet && body.type == ItemID.LeadChainmail && legs.type == ItemID.LeadGreaves)
                 return "Lead";
@@ -1995,7 +2009,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 return "Silver";
             if (head.type == ItemID.TungstenHelmet && body.type == ItemID.TungstenChainmail && legs.type == ItemID.TungstenGreaves)
                 return "Tungsten";
-            if (head.type == ItemID.GoldHelmet && body.type == ItemID.GoldChainmail && legs.type == ItemID.GoldGreaves)
+            if ((head.type == ItemID.GoldHelmet || head.type == ItemID.AncientGoldHelmet) && body.type == ItemID.GoldChainmail && legs.type == ItemID.GoldGreaves)
                 return "Gold";
             if (head.type == ItemID.PlatinumHelmet && body.type == ItemID.PlatinumChainmail && legs.type == ItemID.PlatinumGreaves)
                 return "Platinum";
@@ -2414,7 +2428,8 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 (modPlayer.soaring ? 0.1f : 0f) +
                 (modPlayer.holyWrath ? 0.05f : 0f) +
                 (modPlayer.profanedRage ? 0.05f : 0f) +
-                (modPlayer.draconicSurge ? 0.15f : 0f);
+                (modPlayer.draconicSurge ? 0.15f : 0f) +
+                (modPlayer.etherealExtorter && modPlayer.ZoneAstral ? 0.05f : 0f);
             if (flightSpeedMult > 1.2f)
                 flightSpeedMult = 1.2f;
 

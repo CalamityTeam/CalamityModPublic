@@ -83,6 +83,14 @@ namespace CalamityMod.Items.DifficultyItems
                 }
             }
             CalamityMod.UpdateServerBoolean();
+
+            if (Main.netMode == NetmodeID.Server)
+            {
+                var netMessage = mod.GetPacket();
+                netMessage.Write((byte)CalamityModMessageType.IronHeartBoolSync);
+                netMessage.Write(CalamityWorld.ironHeart);
+                netMessage.Send();
+            }
             return true;
         }
     }

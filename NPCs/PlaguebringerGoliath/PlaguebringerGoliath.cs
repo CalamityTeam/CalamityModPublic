@@ -226,7 +226,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                                 break;
                         }
                     }
-
                     npc.ai[0] = (float)num596;
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
@@ -349,7 +348,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
 					if (npc.netSpam > 10)
 						npc.netSpam = 10;
-				}
+                }
 
                 // Slow down after charge
                 else
@@ -859,6 +858,11 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 					if (npc.netSpam > 10)
 						npc.netSpam = 10;
 				}
+            }
+
+            if (Main.netMode == NetmodeID.Server)
+            {
+                NetMessage.SendData(23, -1, -1, null, npc.whoAmI, 0f, 0f, 0f, 0, 0, 0);
             }
         }
 

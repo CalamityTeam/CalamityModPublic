@@ -27,15 +27,7 @@ namespace CalamityMod.Items.Placeables.FurnitureSilva
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<SilvaCrystal>(), 10);
-            recipe.AddIngredient(ItemID.GoldBar, 3);
-            recipe.anyIronBar = true;
-            recipe.AddIngredient(ItemID.Glass, 6);
-            recipe.SetResult(this);
-            recipe.AddTile(ModContent.TileType<SilvaBasin>());
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SilvaCrystal>(), 10);
-            recipe.AddIngredient(ItemID.PlatinumBar, 3);
+            recipe.AddRecipeGroup("AnyGoldBar", 3);
             recipe.anyIronBar = true;
             recipe.AddIngredient(ItemID.Glass, 6);
             recipe.SetResult(this);

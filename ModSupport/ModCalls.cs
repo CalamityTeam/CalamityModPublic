@@ -445,7 +445,7 @@ namespace CalamityMod
 
             setBonus = setBonus.ToLower();
 
-            // TODO -- no summon set bonuses are written well. all use two bools, neither of which actually controls the function
+            // LATER -- no summon set bonuses are written well. all use two bools, neither of which actually controls the function
 
             // Victide
             if (setBonus == "victide_summon" || setBonus == "victide summon")
@@ -682,7 +682,7 @@ namespace CalamityMod
             if (setBonus == "victide_summon" || setBonus == "victide summon")
             {
                 mp.victideSet = enabled;
-                mp.urchin = enabled; // TODO -- remove this when player.urchin actually controls victide summoner
+                mp.urchin = enabled; // LATER -- remove this when player.urchin actually controls victide summoner
                 return true;
             }
             else if (setBonus == "victide" || setBonus.StartsWith("victide_") || setBonus.StartsWith("victide "))
@@ -695,7 +695,7 @@ namespace CalamityMod
             if (setBonus == "aerospec_summon" || setBonus == "aerospec summon")
             {
                 mp.aeroSet = enabled;
-                mp.valkyrie = enabled; // TODO -- remove this when player.valkyrie actually controls aerospec summoner
+                mp.valkyrie = enabled; // LATER -- remove this when player.valkyrie actually controls aerospec summoner
                 return true;
             }
             else if (setBonus == "aerospec" || setBonus.StartsWith("aerospec_") || setBonus.StartsWith("aerospec "))
@@ -708,7 +708,7 @@ namespace CalamityMod
             if (setBonus == "statigel_summon" || setBonus == "statigel summon")
             {
                 mp.statigelSet = enabled;
-                mp.slimeGod = enabled; // TODO -- remove this when player.slimeGod actually controls statigel summoner
+                mp.slimeGod = enabled; // LATER -- remove this when player.slimeGod actually controls statigel summoner
                 return true;
             }
             else if (setBonus == "statigel" || setBonus.StartsWith("statigel_") || setBonus.StartsWith("statigel "))
@@ -743,7 +743,7 @@ namespace CalamityMod
                     return true;
                 case "daedalus_summon":
                 case "daedalus summon":
-                    mp.daedalusCrystal = enabled; // TODO -- remove this when player.daedalusCrystal actually controls daedalus summoner
+                    mp.daedalusCrystal = enabled; // LATER -- remove this when player.daedalusCrystal actually controls daedalus summoner
                     return true;
                 case "daedalus_rogue":
                 case "daedalus rogue":
@@ -770,7 +770,7 @@ namespace CalamityMod
                     return true;
                 case "reaver_summon":
                 case "reaver summon":
-                    mp.reaverOrb = enabled; // TODO -- remove this when player.reaverOrb actually controls reaver summoner
+                    mp.reaverOrb = enabled; // LATER -- remove this when player.reaverOrb actually controls reaver summoner
                     return true;
                 case "reaver_rogue":
                 case "reaver rogue":
@@ -804,7 +804,7 @@ namespace CalamityMod
                 case "ataxia_summon":
                 case "ataxia summon":
                     mp.ataxiaBlaze = enabled;
-                    mp.chaosSpirit = enabled; // TODO -- remove this when player.chaosSpirit actually controls ataxia summoner
+                    mp.chaosSpirit = enabled; // LATER -- remove this when player.chaosSpirit actually controls ataxia summoner
                     return true;
                 case "ataxia_rogue":
                 case "ataxia rogue":
@@ -853,7 +853,7 @@ namespace CalamityMod
                 case "tarragon_summon":
                 case "tarragon summon":
                     mp.tarraSet = enabled;
-                    mp.tarraSummon = enabled; // TODO -- remove this when player.tarraSummon actually controls life aura
+                    mp.tarraSummon = enabled; // LATER -- remove this when player.tarraSummon actually controls life aura
                     return true;
                 case "tarragon_rogue":
                 case "tarragon rogue":
@@ -888,7 +888,7 @@ namespace CalamityMod
                 case "bloodflare_summon":
                 case "bloodflare summon":
                     mp.bloodflareSet = enabled;
-                    mp.bloodflareSummon = enabled; // TODO -- remove this when player.bloodflareSummon actually controls bloodflare orbs
+                    mp.bloodflareSummon = enabled; // LATER -- remove this when player.bloodflareSummon actually controls bloodflare orbs
                     return true;
                 case "bloodflare_rogue":
                 case "bloodflare rogue":
@@ -935,7 +935,7 @@ namespace CalamityMod
                 case "godslayer summon":
                 case "god slayer summon":
                     mp.godSlayer = enabled;
-                    mp.godSlayerSummon = enabled; // TODO -- remove this when player.godSlayerSummon actually controls mechworm
+                    mp.godSlayerSummon = enabled; // LATER -- remove this when player.godSlayerSummon actually controls mechworm
                     return true;
                 case "godslayer_rogue":
                 case "godslayer rogue":
@@ -971,7 +971,7 @@ namespace CalamityMod
                 case "silva_summon":
                 case "silva summon":
                     mp.silvaSet = enabled;
-                    mp.silvaSummon = enabled; // TODO -- remove this when player.silvaSummon actually controls silva crystal
+                    mp.silvaSummon = enabled; // LATER -- remove this when player.silvaSummon actually controls silva crystal
                     return true;
                 case "silva_rogue":
                 case "silva rogue":
@@ -1075,7 +1075,7 @@ namespace CalamityMod
             if (setBonus == "demonshade")
             {
                 mp.dsSetBonus = enabled;
-                mp.rDevil = enabled; // TODO -- remove this when player.rDevil controls demonshade summoned minion
+                mp.rDevil = enabled; // LATER -- remove this when player.rDevil controls demonshade summoned minion
                 return true;
             }
 

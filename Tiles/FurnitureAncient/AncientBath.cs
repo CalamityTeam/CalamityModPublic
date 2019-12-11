@@ -7,7 +7,7 @@ namespace CalamityMod.Tiles.FurnitureAncient
     {
         public override void SetDefaults()
         {
-            CalamityUtils.SetUpBathtub(Type, true);
+            this.SetUpBathtub(true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Ancient Bathtub");
             AddMapEntry(new Color(191, 142, 111), name);

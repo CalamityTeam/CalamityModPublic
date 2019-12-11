@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class GodsParanoia : RogueWeapon
     {
-        private static int damage = 250;
+        private static int damage = 125;
         private static int knockBack = 5;
 
         public override void SetStaticDefaults()
@@ -63,9 +63,9 @@ Right click to delete all existing spiky balls");
             }
 			else
 			{
-				int UseMax = item.stack - 1;
+				int UseMax = item.stack;
 
-				if (player.ownedProjectileCounts[item.shoot] > UseMax)
+				if (player.ownedProjectileCounts[item.shoot] >= UseMax)
 				{
 					return false;
 				}

@@ -7,7 +7,7 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
     {
         public override void SetDefaults()
         {
-            CalamityUtils.SetUpSofa(Type);
+            this.SetUpSofa();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Eutrophic Bench");
             AddMapEntry(new Color(191, 142, 111), name);

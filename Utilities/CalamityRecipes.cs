@@ -795,10 +795,18 @@ namespace CalamityMod
             });
             RecipeGroup.RegisterGroup("CursedFlameIchor", group);
 
+            group = new RecipeGroup(() => "Any Evil Water", new int[]
+            {
+                ItemID.UnholyWater,
+                ItemID.BloodWater
+            });
+            RecipeGroup.RegisterGroup("AnyEvilWater", group);
+
             group = new RecipeGroup(() => "Any Silt", new int[]
             {
                 ItemID.SiltBlock,
-                ItemID.SlushBlock
+                ItemID.SlushBlock,
+                ModContent.ItemType<AstralSilt>()
             });
             RecipeGroup.RegisterGroup("SiltGroup", group);
 

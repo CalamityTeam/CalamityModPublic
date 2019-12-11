@@ -57,6 +57,7 @@ namespace CalamityMod.Projectiles
         private int counter2 = 0;
 
         public bool lineColor = false; //holy mother of god, Eater of Shoals was a pain in the ass
+        public bool extorterBoost = false;
 
         #region SetDefaults
         public override void SetDefaults(Projectile projectile)
@@ -582,6 +583,20 @@ namespace CalamityMod.Projectiles
             else if (projectile.type == ProjectileID.SoulDrain)
                 projectile.magic = true;
 
+			if (Main.player[projectile.owner].Calamity().etherealExtorter)
+			{
+				if (CalamityMod.spikyBallProjList.Contains(projectile.type) && extorterBoost == false && Main.moonPhase == 2) //third quarter
+				{
+					projectile.timeLeft += 300;
+					extorterBoost = true;
+				}
+				if (CalamityMod.javelinProjList.Contains(projectile.type) && extorterBoost == false && Main.player[projectile.owner].ZoneCrimson)
+				{
+					projectile.knockBack *= 2;
+					extorterBoost = true;
+				}
+			}
+
             if (!projectile.npcProj && projectile.friendly && projectile.damage > 0)
 			{
 				if (Main.player[projectile.owner].Calamity().eQuiver && projectile.ranged && CalamityMod.rangedProjectileExceptionList.TrueForAll(x => projectile.type != x))
@@ -756,7 +771,10 @@ namespace CalamityMod.Projectiles
         {
             if (projectile.owner == Main.myPlayer)
             {
-                if (projectile.Calamity().rogue && projectile.Calamity().stealthStrike && Main.player[projectile.owner].Calamity().dragonScales && CalamityUtils.CountProjectiles(ModContent.ProjectileType<InfernadoFriendly>()) < 2)
+				if (rogue && stealthStrike && Main.player[projectile.owner].Calamity().stealthStrikeAlwaysCrits)
+					crit = true;
+
+                if (rogue && stealthStrike && Main.player[projectile.owner].Calamity().dragonScales && CalamityUtils.CountProjectiles(ModContent.ProjectileType<InfernadoFriendly>()) < 2)
                 {
                     int projTileX = (int)(projectile.Center.X / 16f);
                     int projTileY = (int)(projectile.Center.Y / 16f);
@@ -1394,7 +1412,6 @@ namespace CalamityMod.Projectiles
                         }
                     }
 
-
                     if (playerC.Calamity().moonCrown && stealthStrike && playerC.Calamity().moonCrownCooldown <= 0)
                     {
                         for (int i = 0; i < 20; i++)
@@ -1713,6 +1730,28 @@ namespace CalamityMod.Projectiles
                                 newDamage = 65;
                             }
                             Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<TarraEnergy>(), newDamage, 0f, projectile.owner, 0f, 0f);
+                        }
+                    }
+                }
+
+                if (rogue)
+                {
+                    if (Main.player[projectile.owner].Calamity().etherealExtorter && Main.rand.Next(0, 100) >= 95)
+                    {
+                        for (int num252 = 0; num252 < 3; num252++)
+                        {
+                            Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+                            while (value15.X == 0f && value15.Y == 0f)
+                            {
+                                value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+                            }
+                            value15.Normalize();
+                            value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
+                            int newDamage = (int)((double)projectile.damage * 0.33);
+                            int soul = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ProjectileID.LostSoulFriendly, newDamage, 0f, projectile.owner, 0f, 0f);
+							Main.projectile[soul].Calamity().forceRogue = true;
+							Main.projectile[soul].timeLeft = 300;
+							Main.projectile[soul].tileCollide = false;
                         }
                     }
                 }

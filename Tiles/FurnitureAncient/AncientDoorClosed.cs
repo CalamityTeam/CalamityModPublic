@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureAncient
     {
         public override void SetDefaults()
         {
-            CalamityUtils.SetUpDoorClosed(Type, true);
+            this.SetUpDoorClosed(true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Ancient Door");
             AddMapEntry(new Color(191, 142, 111), name);

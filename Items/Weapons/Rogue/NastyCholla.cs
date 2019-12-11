@@ -47,7 +47,7 @@ Stealth strikes throw five at once");
                 for (int i = 0; i < 5; i++)
                 {
                     Vector2 perturbedspeed = new Vector2(speedX + Main.rand.Next(-3,4), speedY + Main.rand.Next(-3,4)).RotatedBy(MathHelper.ToRadians(spread));
-                    int proj = Projectile.NewProjectile(position.X, position.Y, perturbedspeed.X, perturbedspeed.Y, type, item.damage, item.knockBack, player.whoAmI, 0f, 0f);
+                    int proj = Projectile.NewProjectile(position.X, position.Y, perturbedspeed.X, perturbedspeed.Y, type, damage, knockBack, player.whoAmI, 0f, 0f);
                     Main.projectile[proj].Calamity().stealthStrike = true;
                     spread -= Main.rand.Next(1,4);
                 }
@@ -56,13 +56,13 @@ Stealth strikes throw five at once");
             return true;
         }
 
-        /*public override void AddRecipes()
+        public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Cactus, 2);
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this, 15);
             recipe.AddRecipe();
-        }*/
+        }
     }
 }

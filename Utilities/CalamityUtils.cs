@@ -2,6 +2,20 @@
 using CalamityMod.Items;
 using CalamityMod.NPCs;
 using CalamityMod.Projectiles;
+using CalamityMod.Tiles;
+using CalamityMod.Tiles.Abyss;
+using CalamityMod.Tiles.Astral;
+using CalamityMod.Tiles.AstralDesert;
+using CalamityMod.Tiles.AstralSnow;
+using CalamityMod.Tiles.Crags;
+using CalamityMod.Tiles.FurnitureAbyss;
+using CalamityMod.Tiles.FurnitureAshen;
+using CalamityMod.Tiles.FurnitureEutrophic;
+using CalamityMod.Tiles.FurnitureOccult;
+using CalamityMod.Tiles.FurnitureProfaned;
+using CalamityMod.Tiles.FurnitureVoid;
+using CalamityMod.Tiles.Ores;
+using CalamityMod.Tiles.SunkenSea;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -9,6 +23,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
@@ -312,6 +327,31 @@ namespace CalamityMod
         #endregion
 
         #region Tile Utilities
+        public static void SafeSquareTileFrame(int x, int y, bool resetFrame = true)
+        {
+            if (Main.tile[x, y] is null)
+                return;
+
+            for (int xIter = x - 1; xIter <= x + 1; ++xIter)
+            {
+                if (xIter < 0 || xIter >= Main.maxTilesX)
+                    continue;
+                for (int yIter = y - 1; yIter <= y + 1; yIter++)
+                {
+                    if (yIter < 0 || yIter >= Main.maxTilesY)
+                        continue;
+                    if (xIter == x && yIter == y)
+                    {
+                        WorldGen.TileFrame(x, y, resetFrame, false);
+                    }
+                    else
+                    {
+                        WorldGen.TileFrame(xIter, yIter, false, false);
+                    }
+                }
+            }
+        }
+
         public static void LightHitWire(int type, int i, int j, int tileX, int tileY)
         {
             int x = i - Main.tile[i, j].frameX / 18 % tileX;
@@ -349,6 +389,231 @@ namespace CalamityMod
             }
         }
 
+        #region Tile Merge Utilities
+        /// <summary>
+        /// Sets the mergeability state of two tiles. By default, enables tile merging.
+        /// </summary>
+        /// <param name="type1">The first tile type which should merge (or not).</param>
+        /// <param name="type2">The second tile type which should merge (or not).</param>
+        /// <param name="merge">The mergeability state of the tiles. Defaults to true if omitted.</param>
+        public static void SetMerge(int type1, int type2, bool merge = true)
+        {
+            if (type1 != type2)
+            {
+                Main.tileMerge[type1][type2] = merge;
+                Main.tileMerge[type2][type1] = merge;
+            }
+        }
+
+        /// <summary>
+        /// Makes the first tile type argument merge with all the other tile type arguments. Also accepts arrays.
+        /// </summary>
+        /// <param name="myType">The tile whose merging properties will be set.</param>
+        /// <param name="otherTypes">Every tile that should be merged with.</param>
+        public static void MergeWithSet(int myType, params int[] otherTypes)
+        {
+            for (int i = 0; i < otherTypes.Length; ++i)
+                SetMerge(myType, otherTypes[i]);
+        }
+
+        /// <summary>
+        /// Makes the specified tile merge with the most common types of tiles found in world generation.<br></br>
+        /// Notably excludes Ice.
+        /// </summary>
+        /// <param name="type">The tile whose merging properties will be set.</param>
+        public static void MergeWithGeneral(int type) => MergeWithSet(type, new int[] {
+            // Soils
+            TileID.Dirt,
+            TileID.Mud,
+            TileID.ClayBlock,
+            // Stones
+            TileID.Stone,
+            TileID.Ebonstone,
+            TileID.Crimstone,
+            TileID.Pearlstone,
+            // Sands
+            TileID.Sand,
+            TileID.Ebonsand,
+            TileID.Crimsand,
+            TileID.Pearlsand,
+            // Snows
+            TileID.SnowBlock,
+            // Calamity Tiles
+            ModContent.TileType<AstralDirt>(),
+            ModContent.TileType<AstralStone>(),
+            ModContent.TileType<Navystone>(),
+            ModContent.TileType<EutrophicSand>(),
+            ModContent.TileType<AbyssGravel>(),
+            ModContent.TileType<Voidstone>(),
+        });
+
+        /// <summary>
+        /// Makes the specified tile merge with all ores, vanilla and Calamity. Particularly useful for stone blocks.
+        /// </summary>
+        /// <param name="type">The tile whose merging properties will be set.</param>
+        public static void MergeWithOres(int type) => MergeWithSet(type, new int[] {
+            // Vanilla Ores
+            TileID.Copper,
+            TileID.Tin,
+            TileID.Iron,
+            TileID.Lead,
+            TileID.Silver,
+            TileID.Tungsten,
+            TileID.Gold,
+            TileID.Demonite,
+            TileID.Crimtane,
+            TileID.Cobalt,
+            TileID.Palladium,
+            TileID.Mythril,
+            TileID.Platinum,
+            TileID.Orichalcum,
+            TileID.Adamantite,
+            TileID.Titanium,
+            TileID.LunarOre,
+            // Calamity Ores
+            ModContent.TileType<AerialiteOre>(),
+            ModContent.TileType<CryonicOre>(),
+            ModContent.TileType<PerennialOre>(),
+            ModContent.TileType<CharredOre>(),
+            ModContent.TileType<ChaoticOre>(),
+            ModContent.TileType<AstralOre>(),
+            ModContent.TileType<UelibloomOre>(),
+            ModContent.TileType<AuricOre>(),
+        });
+
+        /// <summary>
+        /// Makes the specified tile merge with all types of desert tiles, including the Calamity Sunken Sea.
+        /// </summary>
+        /// <param name="type">The tile whose merging properties will be set.</param>
+        public static void MergeWithDesert(int type) => MergeWithSet(type, new int[] {
+            // Sands
+            TileID.Sand,
+            TileID.Ebonsand,
+            TileID.Crimsand,
+            TileID.Pearlsand,
+            // Hardened Sands
+            TileID.HardenedSand,
+            TileID.CorruptHardenedSand,
+            TileID.CrimsonHardenedSand,
+            TileID.HallowHardenedSand,
+            // Sandstones
+            TileID.Sandstone,
+            TileID.CorruptSandstone,
+            TileID.CrimsonSandstone,
+            TileID.HallowSandstone,
+            // Miscellaneous Desert Tiles
+            TileID.FossilOre,
+            TileID.DesertFossil,
+            // Astral Desert
+            ModContent.TileType<AstralSand>(),
+            ModContent.TileType<HardenedAstralSand>(),
+            ModContent.TileType<AstralSandstone>(),
+            // Sunken Sea
+            ModContent.TileType<EutrophicSand>(),
+            ModContent.TileType<Navystone>(),
+            ModContent.TileType<SeaPrism>(),
+        });
+
+        /// <summary>
+        /// Makes the specified tile merge with all types of snow and ice tiles.
+        /// </summary>
+        /// <param name="type">The tile whose merging properties will be set.</param>
+        public static void MergeWithSnow(int type) => MergeWithSet(type, new int[] {
+            // Snows
+            TileID.SnowBlock,
+            // Ices
+            TileID.IceBlock,
+            TileID.CorruptIce,
+            TileID.FleshIce,
+            TileID.HallowedIce,
+            // Astral Snow
+            ModContent.TileType<AstralIce>(),
+            ModContent.TileType<AstralSnow>(),
+        });
+
+        /// <summary>
+        /// Makes the specified tile merge with all tiles which generate in hell. Does not include Charred Ore.
+        /// </summary>
+        /// <param name="type">The tile whose merging properties will be set.</param>
+        public static void MergeWithHell(int type) => MergeWithSet(type, new int[] {
+            TileID.Ash,
+            TileID.Hellstone,
+            TileID.ObsidianBrick,
+            TileID.HellstoneBrick,
+            ModContent.TileType<BrimstoneSlag>(),
+        });
+
+        /// <summary>
+        /// Makes the specified tile merge with all tiles which generate in the Abyss or the Sulphurous Sea. Includes Chaotic Ore.
+        /// </summary>
+        /// <param name="type">The tile whose merging properties will be set.</param>
+        public static void MergeWithAbyss(int type) => MergeWithSet(type, new int[] {
+            // Sulphurous Sea
+            ModContent.TileType<SulphurousSand>(),
+            // Abyss
+            ModContent.TileType<AbyssGravel>(),
+            ModContent.TileType<Voidstone>(),
+            ModContent.TileType<PlantyMush>(),
+            ModContent.TileType<Tenebris>(),
+            ModContent.TileType<ChaoticOre>(),
+        });
+
+        /// <summary>
+        /// Makes the tile merge with all the tile types that generate within various types of astral tiles
+        /// </summary>
+        /// <param name="type"></param>
+        public static void MergeAstralTiles(int type)
+        {
+            //Astral
+            SetMerge(type, ModContent.TileType<AstralDirt>());
+            SetMerge(type, ModContent.TileType<AstralStone>());
+            SetMerge(type, ModContent.TileType<AstralMonolith>());
+            //Astral Desert
+            SetMerge(type, ModContent.TileType<AstralSand>());
+            SetMerge(type, ModContent.TileType<HardenedAstralSand>());
+            SetMerge(type, ModContent.TileType<AstralSandstone>());
+            //Astral Snow
+            SetMerge(type, ModContent.TileType<AstralIce>());
+            SetMerge(type, ModContent.TileType<AstralSnow>());
+        }
+
+        /// <summary>
+        /// Makes the tile merge with all the decorative 'smooth' tiles
+        /// </summary>
+        /// <param name="type"></param>
+        public static void MergeSmoothTiles(int type)
+        {
+            //Vanilla
+            SetMerge(type, TileID.MarbleBlock);
+            SetMerge(type, TileID.GraniteBlock);
+            //Calam
+            SetMerge(type, ModContent.TileType<SmoothNavystone>());
+            SetMerge(type, ModContent.TileType<SmoothBrimstoneSlag>());
+            SetMerge(type, ModContent.TileType<SmoothAbyssGravel>());
+            SetMerge(type, ModContent.TileType<SmoothVoidstone>());
+        }
+
+        /// <summary>
+        /// Makes the tile merge with other mergable decorative tiles
+        /// </summary>
+        /// <param name="type"></param>
+        public static void MergeDecorativeTiles(int type)
+        {
+            //Vanilla decor
+            Main.tileBrick[type] = true;
+            //Calam
+            SetMerge(type, ModContent.TileType<CryonicBrick>());
+            SetMerge(type, ModContent.TileType<PerennialBrick>());
+            SetMerge(type, ModContent.TileType<UelibloomBrick>());
+            SetMerge(type, ModContent.TileType<OccultStone>());
+            SetMerge(type, ModContent.TileType<ProfanedSlab>());
+            SetMerge(type, ModContent.TileType<RunicProfanedBrick>());
+            SetMerge(type, ModContent.TileType<AshenSlab>());
+            SetMerge(type, ModContent.TileType<VoidstoneSlab>());
+        }
+        #endregion
+
+        #region Furniture Interaction
         public static bool BedRightClick(int i, int j)
         {
             Player player = Main.LocalPlayer;
@@ -860,14 +1125,20 @@ namespace CalamityMod
                 player.showItemIcon2 = 0;
             }
         }
+        #endregion
 
         #region Furniture SetDefaults
-        public static void SetUpBathtub(int type, bool lavaImmune = false)
+        /// <summary>
+        /// Extension which initializes a ModTile to be a bathtub.
+        /// </summary>
+        /// <param name="mt">The ModTile which is being initialized.</param>
+        /// <param name="lavaImmune">Whether this tile is supposed to be immune to lava. Defaults to false.</param>
+        internal static void SetUpBathtub(this ModTile mt, bool lavaImmune = false)
         {
-            Main.tileLighted[type] = true;
-            Main.tileFrameImportant[type] = true;
-            Main.tileLavaDeath[type] = !lavaImmune;
-            Main.tileWaterDeath[type] = false;
+            Main.tileLighted[mt.Type] = true;
+            Main.tileFrameImportant[mt.Type] = true;
+            Main.tileLavaDeath[mt.Type] = !lavaImmune;
+            Main.tileWaterDeath[mt.Type] = false;
             TileObjectData.newTile.Width = 4;
             TileObjectData.newTile.Height = 2;
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 18 };
@@ -882,15 +1153,23 @@ namespace CalamityMod
             TileObjectData.newAlternate.CopyFrom(TileObjectData.newTile);
             TileObjectData.newAlternate.Direction = TileObjectDirection.PlaceRight;
             TileObjectData.addAlternate(1);
-            TileObjectData.addTile(type);
+            TileObjectData.addTile(mt.Type);
+
+            // All bathtubs count as tables.
+            mt.AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
         }
 
-        public static void SetUpBed(int type, bool lavaImmune = false)
+        /// <summary>
+        /// Extension which initializes a ModTile to be a bed.
+        /// </summary>
+        /// <param name="mt">The ModTile which is being initialized.</param>
+        /// <param name="lavaImmune">Whether this tile is supposed to be immune to lava. Defaults to false.</param>
+        internal static void SetUpBed(this ModTile mt, bool lavaImmune = false)
         {
-            Main.tileFrameImportant[type] = true;
-            Main.tileLavaDeath[type] = !lavaImmune;
-            Main.tileWaterDeath[type] = false;
-            TileID.Sets.HasOutlines[type] = true;
+            Main.tileFrameImportant[mt.Type] = true;
+            Main.tileLavaDeath[mt.Type] = !lavaImmune;
+            Main.tileWaterDeath[mt.Type] = false;
+            TileID.Sets.HasOutlines[mt.Type] = true;
             TileObjectData.newTile.Width = 4;
             TileObjectData.newTile.Height = 2;
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 18 };
@@ -905,51 +1184,83 @@ namespace CalamityMod
             TileObjectData.newAlternate.CopyFrom(TileObjectData.newTile);
             TileObjectData.newAlternate.Direction = TileObjectDirection.PlaceRight;
             TileObjectData.addAlternate(1);
-            TileObjectData.addTile(type);
+            TileObjectData.addTile(mt.Type);
+
+            // All beds count as chairs.
+            mt.AddToArray(ref TileID.Sets.RoomNeeds.CountsAsChair);
         }
 
-        public static void SetUpBookcase(int type, bool lavaImmune = false)
+        /// <summary>
+        /// Extension which initializes a ModTile to be a bookcase.
+        /// </summary>
+        /// <param name="mt">The ModTile which is being initialized.</param>
+        /// <param name="lavaImmune">Whether this tile is supposed to be immune to lava. Defaults to false.</param>
+        internal static void SetUpBookcase(this ModTile mt, bool lavaImmune = false)
         {
-            Main.tileSolidTop[type] = true;
-            Main.tileLighted[type] = true;
-            Main.tileFrameImportant[type] = true;
-            Main.tileTable[type] = true;
-            Main.tileLavaDeath[type] = !lavaImmune;
-            Main.tileWaterDeath[type] = false;
+            Main.tileSolidTop[mt.Type] = true;
+            Main.tileLighted[mt.Type] = true;
+            Main.tileFrameImportant[mt.Type] = true;
+            Main.tileTable[mt.Type] = true;
+            Main.tileLavaDeath[mt.Type] = !lavaImmune;
+            Main.tileWaterDeath[mt.Type] = false;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x4);
             TileObjectData.newTile.LavaDeath = !lavaImmune;
-            TileObjectData.addTile(type);
+            TileObjectData.addTile(mt.Type);
+
+            // All bookcases count as tables.
+            mt.AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
         }
 
-        public static void SetUpCandelabra(int type, bool lavaImmune = false)
+        /// <summary>
+        /// Extension which initializes a ModTile to be a candelabra.
+        /// </summary>
+        /// <param name="mt">The ModTile which is being initialized.</param>
+        /// <param name="lavaImmune">Whether this tile is supposed to be immune to lava. Defaults to false.</param>
+        internal static void SetUpCandelabra(this ModTile mt, bool lavaImmune = false)
         {
-            Main.tileLighted[type] = true;
-            Main.tileFrameImportant[type] = true;
-            Main.tileLavaDeath[type] = true;
-            Main.tileWaterDeath[type] = false;
+            Main.tileLighted[mt.Type] = true;
+            Main.tileFrameImportant[mt.Type] = true;
+            Main.tileLavaDeath[mt.Type] = true;
+            Main.tileWaterDeath[mt.Type] = false;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
             TileObjectData.newTile.LavaDeath = !lavaImmune;
-            TileObjectData.addTile(type);
+            TileObjectData.addTile(mt.Type);
+
+            // All candelabras count as light sources.
+            mt.AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
         }
 
-        public static void SetUpCandle(int type, bool lavaImmune = false)
+        /// <summary>
+        /// Extension which initializes a ModTile to be a candle.
+        /// </summary>
+        /// <param name="mt">The ModTile which is being initialized.</param>
+        /// <param name="lavaImmune">Whether this tile is supposed to be immune to lava. Defaults to false.</param>
+        internal static void SetUpCandle(this ModTile mt, bool lavaImmune = false)
         {
-            Main.tileLighted[type] = true;
-            Main.tileFrameImportant[type] = true;
-            Main.tileLavaDeath[type] = !lavaImmune;
-            Main.tileWaterDeath[type] = false;
+            Main.tileLighted[mt.Type] = true;
+            Main.tileFrameImportant[mt.Type] = true;
+            Main.tileLavaDeath[mt.Type] = !lavaImmune;
+            Main.tileWaterDeath[mt.Type] = false;
             TileObjectData.newTile.CopyFrom(TileObjectData.StyleOnTable1x1);
             TileObjectData.newTile.CoordinateHeights = new int[] { 20 };
             TileObjectData.newTile.LavaDeath = !lavaImmune;
-            TileObjectData.addTile(type);
+            TileObjectData.addTile(mt.Type);
+
+            // All candles count as light sources.
+            mt.AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
         }
 
-        public static void SetUpChair(int type, bool lavaImmune = false)
+        /// <summary>
+        /// Extension which initializes a ModTile to be a chair.
+        /// </summary>
+        /// <param name="mt">The ModTile which is being initialized.</param>
+        /// <param name="lavaImmune">Whether this tile is supposed to be immune to lava. Defaults to false.</param>
+        internal static void SetUpChair(this ModTile mt, bool lavaImmune = false)
         {
-            Main.tileFrameImportant[type] = true;
-            Main.tileNoAttach[type] = true;
-            Main.tileLavaDeath[type] = !lavaImmune;
-            Main.tileWaterDeath[type] = false;
+            Main.tileFrameImportant[mt.Type] = true;
+            Main.tileNoAttach[mt.Type] = true;
+            Main.tileLavaDeath[mt.Type] = !lavaImmune;
+            Main.tileWaterDeath[mt.Type] = false;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style1x2);
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 18 };
             TileObjectData.newTile.Direction = TileObjectDirection.PlaceLeft;
@@ -960,16 +1271,24 @@ namespace CalamityMod
             TileObjectData.newAlternate.CopyFrom(TileObjectData.newTile);
             TileObjectData.newAlternate.Direction = TileObjectDirection.PlaceRight;
             TileObjectData.addAlternate(1);
-            TileObjectData.addTile(type);
+            TileObjectData.addTile(mt.Type);
+
+            // As you could probably guess, all chairs count as chairs.
+            mt.AddToArray(ref TileID.Sets.RoomNeeds.CountsAsChair);
         }
 
-        public static void SetUpChandelier(int type, bool lavaImmune = false)
+        /// <summary>
+        /// Extension which initializes a ModTile to be a chandelier.
+        /// </summary>
+        /// <param name="mt">The ModTile which is being initialized.</param>
+        /// <param name="lavaImmune">Whether this tile is supposed to be immune to lava. Defaults to false.</param>
+        internal static void SetUpChandelier(this ModTile mt, bool lavaImmune = false)
         {
-            Main.tileLighted[type] = true;
-            Main.tileFrameImportant[type] = true;
-            Main.tileNoAttach[type] = true;
-            Main.tileLavaDeath[type] = !lavaImmune;
-            Main.tileWaterDeath[type] = false;
+            Main.tileLighted[mt.Type] = true;
+            Main.tileFrameImportant[mt.Type] = true;
+            Main.tileNoAttach[mt.Type] = true;
+            Main.tileLavaDeath[mt.Type] = !lavaImmune;
+            Main.tileWaterDeath[mt.Type] = false;
             TileObjectData.newTile.Width = 3;
             TileObjectData.newTile.Height = 3;
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16 };
@@ -979,19 +1298,26 @@ namespace CalamityMod
             TileObjectData.newTile.UsesCustomCanPlace = true;
             TileObjectData.newTile.AnchorTop = new AnchorData(AnchorType.SolidTile, 1, 1);
             TileObjectData.newTile.LavaDeath = !lavaImmune;
-            TileObjectData.addTile(type);
+            TileObjectData.addTile(mt.Type);
+
+            // All chandeliers count as light sources.
+            mt.AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
         }
 
-        public static void SetUpChest(int type)
+        /// <summary>
+        /// Extension which initializes a ModTile to be a chest.
+        /// </summary>
+        /// <param name="mt">The ModTile which is being initialized.</param>
+        internal static void SetUpChest(this ModTile mt)
         {
-            Main.tileSpelunker[type] = true;
-            Main.tileContainer[type] = true;
-            Main.tileShine2[type] = true;
-            Main.tileShine[type] = 1200;
-            Main.tileFrameImportant[type] = true;
-            Main.tileNoAttach[type] = true;
-            Main.tileValue[type] = 500;
-            TileID.Sets.HasOutlines[type] = true;
+            Main.tileSpelunker[mt.Type] = true;
+            Main.tileContainer[mt.Type] = true;
+            Main.tileShine2[mt.Type] = true;
+            Main.tileShine[mt.Type] = 1200;
+            Main.tileFrameImportant[mt.Type] = true;
+            Main.tileNoAttach[mt.Type] = true;
+            Main.tileValue[mt.Type] = 500;
+            TileID.Sets.HasOutlines[mt.Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
             TileObjectData.newTile.Origin = new Point16(0, 1);
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 18 };
@@ -1001,15 +1327,20 @@ namespace CalamityMod
             TileObjectData.newTile.StyleHorizontal = true;
             TileObjectData.newTile.LavaDeath = false;
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
-            TileObjectData.addTile(type);
+            TileObjectData.addTile(mt.Type);
         }
 
-        public static void SetUpClock(int type, bool lavaImmune = false)
+        /// <summary>
+        /// Extension which initializes a ModTile to be a clock.
+        /// </summary>
+        /// <param name="mt">The ModTile which is being initialized.</param>
+        /// <param name="lavaImmune">Whether this tile is supposed to be immune to lava. Defaults to false.</param>
+        internal static void SetUpClock(this ModTile mt, bool lavaImmune = false)
         {
-            Main.tileFrameImportant[type] = true;
-            Main.tileNoAttach[type] = true;
-            Main.tileLavaDeath[type] = !lavaImmune;
-            TileID.Sets.HasOutlines[type] = true;
+            Main.tileFrameImportant[mt.Type] = true;
+            Main.tileNoAttach[mt.Type] = true;
+            Main.tileLavaDeath[mt.Type] = !lavaImmune;
+            TileID.Sets.HasOutlines[mt.Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2xX);
             TileObjectData.newTile.Height = 5;
             TileObjectData.newTile.CoordinateHeights = new int[]
@@ -1023,20 +1354,25 @@ namespace CalamityMod
             TileObjectData.newTile.Origin = new Point16(0, 4);
             TileObjectData.newTile.UsesCustomCanPlace = true;
             TileObjectData.newTile.LavaDeath = !lavaImmune;
-            TileObjectData.addTile(type);
+            TileObjectData.addTile(mt.Type);
         }
 
-        public static void SetUpDoorClosed(int type, bool lavaImmune = false)
+        /// <summary>
+        /// Extension which initializes a ModTile to be a closed door.
+        /// </summary>
+        /// <param name="mt">The ModTile which is being initialized.</param>
+        /// <param name="lavaImmune">Whether this tile is supposed to be immune to lava. Defaults to false.</param>
+        internal static void SetUpDoorClosed(this ModTile mt, bool lavaImmune = false)
         {
-            Main.tileFrameImportant[type] = true;
-            Main.tileBlockLight[type] = true;
-            Main.tileSolid[type] = true;
-            Main.tileNoAttach[type] = true;
-            Main.tileLavaDeath[type] = !lavaImmune;
-            Main.tileWaterDeath[type] = false;
-            TileID.Sets.NotReallySolid[type] = true;
-            TileID.Sets.DrawsWalls[type] = true;
-            TileID.Sets.HasOutlines[type] = true;
+            Main.tileFrameImportant[mt.Type] = true;
+            Main.tileBlockLight[mt.Type] = true;
+            Main.tileSolid[mt.Type] = true;
+            Main.tileNoAttach[mt.Type] = true;
+            Main.tileLavaDeath[mt.Type] = !lavaImmune;
+            Main.tileWaterDeath[mt.Type] = false;
+            TileID.Sets.NotReallySolid[mt.Type] = true;
+            TileID.Sets.DrawsWalls[mt.Type] = true;
+            TileID.Sets.HasOutlines[mt.Type] = true;
             TileObjectData.newTile.Width = 1;
             TileObjectData.newTile.Height = 3;
             TileObjectData.newTile.Origin = new Point16(0, 0);
@@ -1054,16 +1390,24 @@ namespace CalamityMod
             TileObjectData.newAlternate.CopyFrom(TileObjectData.newTile);
             TileObjectData.newAlternate.Origin = new Point16(0, 2);
             TileObjectData.addAlternate(0);
-            TileObjectData.addTile(type);
+            TileObjectData.addTile(mt.Type);
+
+            // As you could probably guess, all closed doors count as doors.
+            mt.AddToArray(ref TileID.Sets.RoomNeeds.CountsAsDoor);
         }
 
-        public static void SetUpDoorOpen(int type, bool lavaImmune = false)
+        /// <summary>
+        /// Extension which initializes a ModTile to be an open door.
+        /// </summary>
+        /// <param name="mt">The ModTile which is being initialized.</param>
+        /// <param name="lavaImmune">Whether this tile is supposed to be immune to lava. Defaults to false.</param>
+        internal static void SetUpDoorOpen(this ModTile mt, bool lavaImmune = false)
         {
-            Main.tileFrameImportant[type] = true;
-            Main.tileSolid[type] = false;
-            Main.tileLavaDeath[type] = !lavaImmune;
-            Main.tileWaterDeath[type] = false;
-            Main.tileNoSunLight[type] = true;
+            Main.tileFrameImportant[mt.Type] = true;
+            Main.tileSolid[mt.Type] = false;
+            Main.tileLavaDeath[mt.Type] = !lavaImmune;
+            Main.tileWaterDeath[mt.Type] = false;
+            Main.tileNoSunLight[mt.Type] = true;
             TileObjectData.newTile.Width = 2;
             TileObjectData.newTile.Height = 3;
             TileObjectData.newTile.Origin = new Point16(0, 0);
@@ -1103,21 +1447,28 @@ namespace CalamityMod
             TileObjectData.newAlternate.AnchorBottom = new AnchorData(AnchorType.SolidTile, 1, 1);
             TileObjectData.newAlternate.Direction = TileObjectDirection.PlaceLeft;
             TileObjectData.addAlternate(1);
-            TileObjectData.addTile(type);
-            TileID.Sets.HousingWalls[type] = true;
-            TileID.Sets.HasOutlines[type] = true;
+            TileObjectData.addTile(mt.Type);
+            TileID.Sets.HousingWalls[mt.Type] = true;
+            TileID.Sets.HasOutlines[mt.Type] = true;
+
+            // As you could probably guess, all open doors count as doors.
+            mt.AddToArray(ref TileID.Sets.RoomNeeds.CountsAsDoor);
         }
 
-        public static void SetUpDresser(int type)
+        /// <summary>
+        /// Extension which initializes a ModTile to be a dresser.
+        /// </summary>
+        /// <param name="mt">The ModTile which is being initialized.</param>
+        internal static void SetUpDresser(this ModTile mt)
         {
-            Main.tileSolidTop[type] = true;
-            Main.tileFrameImportant[type] = true;
-            Main.tileNoAttach[type] = true;
-            Main.tileTable[type] = true;
-            Main.tileContainer[type] = true;
-            Main.tileWaterDeath[type] = false;
-            Main.tileLavaDeath[type] = false;
-            TileID.Sets.HasOutlines[type] = true;
+            Main.tileSolidTop[mt.Type] = true;
+            Main.tileFrameImportant[mt.Type] = true;
+            Main.tileNoAttach[mt.Type] = true;
+            Main.tileTable[mt.Type] = true;
+            Main.tileContainer[mt.Type] = true;
+            Main.tileWaterDeath[mt.Type] = false;
+            Main.tileLavaDeath[mt.Type] = false;
+            TileID.Sets.HasOutlines[mt.Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
             TileObjectData.newTile.Origin = new Point16(1, 1);
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16 };
@@ -1127,102 +1478,170 @@ namespace CalamityMod
             TileObjectData.newTile.StyleHorizontal = true;
             TileObjectData.newTile.LavaDeath = false;
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
-            TileObjectData.addTile(type);
+            TileObjectData.addTile(mt.Type);
+
+            // All dressers count as tables.
+            mt.AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
         }
 
-        public static void SetUpLamp(int type, bool lavaImmune = false)
+        /// <summary>
+        /// Extension which initializes a ModTile to be a floor lamp.
+        /// </summary>
+        /// <param name="mt">The ModTile which is being initialized.</param>
+        /// <param name="lavaImmune">Whether this tile is supposed to be immune to lava. Defaults to false.</param>
+        internal static void SetUpLamp(this ModTile mt, bool lavaImmune = false)
         {
-            Main.tileLighted[type] = true;
-            Main.tileFrameImportant[type] = true;
-            Main.tileLavaDeath[type] = !lavaImmune;
-            Main.tileWaterDeath[type] = false;
+            Main.tileLighted[mt.Type] = true;
+            Main.tileFrameImportant[mt.Type] = true;
+            Main.tileLavaDeath[mt.Type] = !lavaImmune;
+            Main.tileWaterDeath[mt.Type] = false;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style1xX);
             TileObjectData.newTile.LavaDeath = !lavaImmune;
-            TileObjectData.addTile(type);
+            TileObjectData.addTile(mt.Type);
+
+            // All floor lamps count as light sources.
+            mt.AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
         }
 
-        public static void SetUpLantern(int type, bool lavaImmune = false)
+        /// <summary>
+        /// Extension which initializes a ModTile to be a hanging lantern.
+        /// </summary>
+        /// <param name="mt">The ModTile which is being initialized.</param>
+        /// <param name="lavaImmune">Whether this tile is supposed to be immune to lava. Defaults to false.</param>
+        internal static void SetUpLantern(this ModTile mt, bool lavaImmune = false)
         {
-            Main.tileLighted[type] = true;
-            Main.tileFrameImportant[type] = true;
-            Main.tileLavaDeath[type] = !lavaImmune;
-            Main.tileWaterDeath[type] = false;
+            Main.tileLighted[mt.Type] = true;
+            Main.tileFrameImportant[mt.Type] = true;
+            Main.tileLavaDeath[mt.Type] = !lavaImmune;
+            Main.tileWaterDeath[mt.Type] = false;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style1x2Top);
             TileObjectData.newTile.LavaDeath = !lavaImmune;
-            TileObjectData.addTile(type);
+            TileObjectData.addTile(mt.Type);
+
+            // All hanging lanterns count as light sources.
+            mt.AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
         }
 
-        public static void SetUpPiano(int type, bool lavaImmune = false)
+        /// <summary>
+        /// Extension which initializes a ModTile to be a piano.
+        /// </summary>
+        /// <param name="mt">The ModTile which is being initialized.</param>
+        /// <param name="lavaImmune">Whether this tile is supposed to be immune to lava. Defaults to false.</param>
+        internal static void SetUpPiano(this ModTile mt, bool lavaImmune = false)
         {
-            Main.tileLighted[type] = true;
-            Main.tileFrameImportant[type] = true;
-            Main.tileLavaDeath[type] = !lavaImmune;
-            Main.tileWaterDeath[type] = false;
+            Main.tileLighted[mt.Type] = true;
+            Main.tileFrameImportant[mt.Type] = true;
+            Main.tileLavaDeath[mt.Type] = !lavaImmune;
+            Main.tileWaterDeath[mt.Type] = false;
 
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
-            TileObjectData.addTile(type);
+            TileObjectData.addTile(mt.Type);
+
+            // All pianos count as tables.
+            mt.AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
         }
 
-        public static void SetUpSink(int type, bool lavaImmune = false)
+        /// <summary>
+        /// Extension which initializes a ModTile to be a platform.
+        /// </summary>
+        /// <param name="mt">The ModTile which is being initialized.</param>
+        /// <param name="lavaImmune">Whether this tile is supposed to be immune to lava. Defaults to false.</param>
+        internal static void SetUpPlatform(this ModTile mt, bool lavaImmune = false)
         {
-            Main.tileLighted[type] = true;
-            Main.tileFrameImportant[type] = true;
-            Main.tileLavaDeath[type] = !lavaImmune;
-            Main.tileWaterDeath[type] = false;
+            Main.tileLighted[mt.Type] = true;
+            Main.tileFrameImportant[mt.Type] = true;
+            Main.tileSolidTop[mt.Type] = true;
+            Main.tileSolid[mt.Type] = true;
+            Main.tileNoAttach[mt.Type] = true;
+            Main.tileTable[mt.Type] = true;
+            Main.tileLavaDeath[mt.Type] = !lavaImmune;
+            TileID.Sets.Platforms[mt.Type] = true;
+            TileObjectData.newTile.CoordinateHeights = new int[] { 16 };
+            TileObjectData.newTile.CoordinateWidth = 16;
+            TileObjectData.newTile.CoordinatePadding = 2;
+            TileObjectData.newTile.StyleHorizontal = true;
+            TileObjectData.newTile.StyleMultiplier = 27;
+            TileObjectData.newTile.StyleWrapLimit = 27;
+            TileObjectData.newTile.UsesCustomCanPlace = false;
+            TileObjectData.newTile.LavaDeath = !lavaImmune;
+            TileObjectData.addTile(mt.Type);
+
+            // All platforms count as doors (so that you may have top-or-bottom entry/exit rooms)
+            mt.AddToArray(ref TileID.Sets.RoomNeeds.CountsAsDoor);
+        }
+
+        /// <summary>
+        /// Extension which initializes a ModTile to be a sink.
+        /// </summary>
+        /// <param name="mt">The ModTile which is being initialized.</param>
+        /// <param name="lavaImmune">Whether this tile is supposed to be immune to lava. Defaults to false.</param>
+        internal static void SetUpSink(this ModTile mt, bool lavaImmune = false)
+        {
+            Main.tileLighted[mt.Type] = true;
+            Main.tileFrameImportant[mt.Type] = true;
+            Main.tileLavaDeath[mt.Type] = !lavaImmune;
+            Main.tileWaterDeath[mt.Type] = false;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
             TileObjectData.newTile.LavaDeath = !lavaImmune;
-            TileObjectData.addTile(type);
+            TileObjectData.addTile(mt.Type);
         }
 
-        public static void SetUpSofa(int type, bool lavaImmune = false)
+        /// <summary>
+        /// Extension which initializes a ModTile to be a sofa.
+        /// </summary>
+        /// <param name="mt">The ModTile which is being initialized.</param>
+        /// <param name="lavaImmune">Whether this tile is supposed to be immune to lava. Defaults to false.</param>
+        internal static void SetUpSofa(this ModTile mt, bool lavaImmune = false)
         {
-            Main.tileLighted[type] = true;
-            Main.tileFrameImportant[type] = true;
-            Main.tileLavaDeath[type] = !lavaImmune;
-            Main.tileWaterDeath[type] = false;
+            Main.tileLighted[mt.Type] = true;
+            Main.tileFrameImportant[mt.Type] = true;
+            Main.tileLavaDeath[mt.Type] = !lavaImmune;
+            Main.tileWaterDeath[mt.Type] = false;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
             TileObjectData.newTile.LavaDeath = !lavaImmune;
-            TileObjectData.addTile(type);
+            TileObjectData.addTile(mt.Type);
+
+            // All sofas count as chairs.
+            mt.AddToArray(ref TileID.Sets.RoomNeeds.CountsAsChair);
         }
 
-        public static void SetUpTable(int type, bool lavaImmune = false)
+        /// <summary>
+        /// Extension which initializes a ModTile to be a table.
+        /// </summary>
+        /// <param name="mt">The ModTile which is being initialized.</param>
+        /// <param name="lavaImmune">Whether this tile is supposed to be immune to lava. Defaults to false.</param>
+        internal static void SetUpTable(this ModTile mt, bool lavaImmune = false)
         {
-            Main.tileSolidTop[type] = true;
-            Main.tileLighted[type] = true;
-            Main.tileFrameImportant[type] = true;
-            Main.tileNoAttach[type] = true;
-            Main.tileTable[type] = true;
-            Main.tileLavaDeath[type] = !lavaImmune;
-            Main.tileWaterDeath[type] = false;
+            Main.tileSolidTop[mt.Type] = true;
+            Main.tileLighted[mt.Type] = true;
+            Main.tileFrameImportant[mt.Type] = true;
+            Main.tileNoAttach[mt.Type] = true;
+            Main.tileTable[mt.Type] = true;
+            Main.tileLavaDeath[mt.Type] = !lavaImmune;
+            Main.tileWaterDeath[mt.Type] = false;
 
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
             TileObjectData.newTile.LavaDeath = !lavaImmune;
-            TileObjectData.addTile(type);
+            TileObjectData.addTile(mt.Type);
+
+            // As you could probably guess, all tables count as tables.
+            mt.AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
         }
 
-        public static void SetUpWorkBench(int type, bool lavaImmune = false)
+        /// <summary>
+        /// Extension which initializes a ModTile to be a torch.
+        /// </summary>
+        /// <param name="mt">The ModTile which is being initialized.</param>
+        /// <param name="lavaImmune">Whether this tile is supposed to be immune to lava. Defaults to false.</param>
+        internal static void SetUpTorch(this ModTile mt, bool lavaImmune = false, bool waterImmune = false)
         {
-            Main.tileSolidTop[type] = true;
-            Main.tileFrameImportant[type] = true;
-            Main.tileNoAttach[type] = true;
-            Main.tileTable[type] = true;
-            Main.tileLavaDeath[type] = !lavaImmune;
-            Main.tileWaterDeath[type] = false;
-            TileObjectData.newTile.CopyFrom(TileObjectData.Style2x1);
-            TileObjectData.newTile.CoordinateHeights = new int[] { 18 };
-            TileObjectData.newTile.LavaDeath = !lavaImmune;
-            TileObjectData.addTile(type);
-        }
-
-        public static void SetUpTorch(int type, bool lavaImmune = false, bool waterImmune = false)
-        {
-            Main.tileLighted[type] = true;
-            Main.tileFrameImportant[type] = true;
-            Main.tileSolid[type] = false;
-            Main.tileNoAttach[type] = true;
-            Main.tileNoFail[type] = true;
-            Main.tileWaterDeath[type] = !waterImmune;
-            Main.tileLavaDeath[type] = !lavaImmune;
+            Main.tileLighted[mt.Type] = true;
+            Main.tileFrameImportant[mt.Type] = true;
+            Main.tileSolid[mt.Type] = false;
+            Main.tileNoAttach[mt.Type] = true;
+            Main.tileNoFail[mt.Type] = true;
+            Main.tileWaterDeath[mt.Type] = !waterImmune;
+            Main.tileLavaDeath[mt.Type] = !lavaImmune;
             TileObjectData.newTile.CopyFrom(TileObjectData.StyleTorch);
             TileObjectData.newTile.WaterDeath = !waterImmune;
             TileObjectData.newTile.LavaDeath = !lavaImmune;
@@ -1241,31 +1660,34 @@ namespace CalamityMod
             TileObjectData.newAlternate.WaterDeath = false;
             TileObjectData.newAlternate.AnchorWall = true;
             TileObjectData.addAlternate(0);
-            TileObjectData.addTile(type);
+            TileObjectData.addTile(mt.Type);
+
+            // All torches count as light sources.
+            mt.AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
         }
 
-        public static void SetUpPlatform(int type, bool lavaImmune = false)
+        /// <summary>
+        /// Extension which initializes a ModTile to be a work bench.
+        /// </summary>
+        /// <param name="mt">The ModTile which is being initialized.</param>
+        /// <param name="lavaImmune">Whether this tile is supposed to be immune to lava. Defaults to false.</param>
+        internal static void SetUpWorkBench(this ModTile mt, bool lavaImmune = false)
         {
-            Main.tileLighted[type] = true;
-            Main.tileFrameImportant[type] = true;
-            Main.tileSolidTop[type] = true;
-            Main.tileSolid[type] = true;
-            Main.tileNoAttach[type] = true;
-            Main.tileTable[type] = true;
-            Main.tileLavaDeath[type] = !lavaImmune;
-            TileID.Sets.Platforms[type] = true;
-            TileObjectData.newTile.CoordinateHeights = new int[] { 16 };
-            TileObjectData.newTile.CoordinateWidth = 16;
-            TileObjectData.newTile.CoordinatePadding = 2;
-            TileObjectData.newTile.StyleHorizontal = true;
-            TileObjectData.newTile.StyleMultiplier = 27;
-            TileObjectData.newTile.StyleWrapLimit = 27;
-            TileObjectData.newTile.UsesCustomCanPlace = false;
+            Main.tileSolidTop[mt.Type] = true;
+            Main.tileFrameImportant[mt.Type] = true;
+            Main.tileNoAttach[mt.Type] = true;
+            Main.tileTable[mt.Type] = true;
+            Main.tileLavaDeath[mt.Type] = !lavaImmune;
+            Main.tileWaterDeath[mt.Type] = false;
+            TileObjectData.newTile.CopyFrom(TileObjectData.Style2x1);
+            TileObjectData.newTile.CoordinateHeights = new int[] { 18 };
             TileObjectData.newTile.LavaDeath = !lavaImmune;
-            TileObjectData.addTile(type);
+            TileObjectData.addTile(mt.Type);
+
+            // All work benches count as tables.
+            mt.AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
         }
         #endregion
-
         #endregion
 
         #region Drawing Utilities
@@ -1433,6 +1855,33 @@ namespace CalamityMod
         #endregion
 
         #region Miscellaneous Utilities
+        public static T[] ShuffleArray<T>(T[] array, Random rand = null)
+        {
+            if (rand is null)
+                rand = new Random();
+
+            for (int i = array.Length; i > 0; --i)
+            {
+                int j = rand.Next(i);
+                T tempElement = array[j];
+                array[j] = array[i - 1];
+                array[i - 1] = tempElement;
+            }
+            return array;
+        }
+
+        public static string CombineStrings(params object[] args)
+        {
+            StringBuilder result = new StringBuilder(1024);
+            for(int i = 0; i < args.Length; ++i)
+            {
+                object o = args[i];
+                result.Append(o.ToString());
+                result.Append(' ');
+            }
+            return result.ToString();
+        }
+
         public static void StartSandstorm()
         {
             typeof(Terraria.GameContent.Events.Sandstorm).GetMethod("StartSandstorm", BindingFlags.Static | BindingFlags.NonPublic).Invoke(null, null);

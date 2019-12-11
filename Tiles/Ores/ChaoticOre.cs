@@ -15,8 +15,8 @@ namespace CalamityMod.Tiles.Ores
             Main.tileBlockLight[Type] = true;
             Main.tileValue[Type] = 850;
 
-            TileMerge.MergeGeneralTiles(Type);
-            TileMerge.MergeAbyssTiles(Type);
+            CalamityUtils.MergeWithGeneral(Type);
+            CalamityUtils.MergeWithAbyss(Type);
 
             dustType = 105;
             drop = ModContent.ItemType<Items.Placeables.Ores.ChaoticOre>();
@@ -77,7 +77,7 @@ namespace CalamityMod.Tiles.Ores
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            CustomTileFraming.FrameTileForCustomMerge(i, j, Type, ModContent.TileType<AbyssGravel>(), false, false, false, false, resetFrame);
+            TileFraming.CustomMergeFrame(i, j, Type, ModContent.TileType<AbyssGravel>(), false, false, false, false, resetFrame);
             return false;
         }
     }

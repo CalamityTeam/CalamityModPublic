@@ -1,10 +1,13 @@
 using CalamityMod.Projectiles.Melee;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.GameInput;
 using Terraria.Graphics.Capture;
 using Terraria.ModLoader;
+using Terraria.World.Generation;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -12,65 +15,37 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         //Help, they're forcing me to slave away at Calamity until I die! - Dominic
 
-        public int SwingType;
-
         //Weapon attribute constants
 
-        public static readonly int BaseDamage = 8;
+        public static readonly int BaseDamage = 11145;
 
-        public static readonly int HardmodeDamage = 24;   
+        public static readonly float TrueMeleeBoost = 2.5f;
 
-        public static readonly int PostMoonLordDamage = 270;
-
-        public static readonly int PostYharonDamage = 10000;
-
-        public static readonly float TrueMeleeBoostPreHardmode = 1.75f;
-
-        public static readonly float TrueMeleeBoostHardmode = 2.5f;
+        public static readonly float GiantSkullDamageMultiplier = 1.5f;
 
         //Weapon projectile attribute constants
 
-        public static readonly int BaseSearchDistance = 400;
+        public static readonly int SearchDistance = 1450;
 
-        public static readonly int HardmodeSearchDistance = 660;
+        public static readonly int ImmunityFrames = 2;
 
-        public static readonly int PostMoonLordSearchDistance = 940;
-
-        public static readonly int PostYharonSearchDistance = 1450;
-
-        public static readonly int BaseImmunityFrames = 11;
-
-        public static readonly int HardmodeImmunityFrames = 7;
-
-        public static readonly int PostMoonLordImmunityFrames = 4;
-
-        public static readonly int PostYharonImmunityFrames = 2;
-
-        public static readonly int SkullsplosionCooldownSeconds = 10;
-
-        public static readonly int PreMoonlordPenetrate = 3; //Infinite after Moon lord is dead
+        public static readonly int SkullsplosionCooldownSeconds = 30;
 
         //Skull ring attribute constants
 
-        public static readonly float MaxRageBoost = 2.5f;
-
-        public static readonly float RageBoostMultiplier = 1.5f;
+        public static readonly float MaxRageBoost = 1.5f;
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Gael's Greatsword");
-            Tooltip.SetDefault("Raises the player's damage reduction by 10% when wielding this sword\n" +
-                               "There are three random attacks that can occur when the blade is swung\n" +
-                               "The first attack releases two blood-skulls that home in\n" +
-                               "The second attack releases an enormous slow-moving skull\n" +
-                               "This slow-moving skull becomes weaker with time and lasts for around 4 seconds seconds\n" +
-                               "The second attack causes a true melee strike with increased damage\n" +
-                               "If you're below 50% life, swings release blood droplets\n" +
-                               "Pressing the Rage Key while holding this weapon resets Rage to 0 and releases a circle of\n" +
-                               "Slow-moving blood skulls. If Rage is full, the skulls do way more damage. Otherwise, the skull's damage is\n" +
-                               "related to the amount of rage sacrificed\n" +
-                               "This effect has a " + SkullsplosionCooldownSeconds + " second cooldown.\n" +
-                               "The user can right click with the sword to deflect projectiles and enemy attacks 50% of the time");
+            Tooltip.SetDefault("First swing fires homing skulls\n" +
+                               "Second swing fires a giant, powerful skull\n" +
+                               "Third swing deals massive damage\n" +
+                               "Constantly generates rage when in use\n" +
+                               "[Swings leave behind exploding blood trails [Below 50% health]]\n" +
+                               "[Right click to swipe the sword, reflecting projectiles at a 50% chance]\n" +
+                               "[Activating Rage Mode releases an enormous barrage of skulls]\n" +
+                               "'Give me that thing, your dark soul'");
         }
         //NOTE: GetWeaponDamage is in the CalamityPlayer file
         public override void SetDefaults()
@@ -114,134 +89,63 @@ namespace CalamityMod.Items.Weapons.Melee
         }
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
-            SwingType = Main.rand.Next(3);
-
-            //Almost entirely Ultimus Cleaver code. Feel free to clean it up if you wish.
-            if (player.whoAmI == Main.myPlayer &&
-                player.statLife < player.statLifeMax * 0.5 &&
-                player.Calamity().gaelBloodShotCooldown == 0)
+            if (CalamityUtils.CountProjectiles(ModContent.ProjectileType<LightningThing>()) < 3 &&
+                player.statLife <= player.statLifeMax2 * 0.5f)
             {
-                float velocityY = 0f;
-                float velocityX = 0f;
-                float spawnAdditiveY = 0f;
-                float spawnAdditiveX = 0f;
-                if (player.itemAnimation == (int)((double)player.itemAnimationMax * 0.8))
+                Point origin = (player.Center + Main.rand.Next(-300, 301) * Vector2.UnitX).ToTileCoordinates();
+                Point p;
+                if (WorldUtils.Find(origin, Searches.Chain(new Searches.Down(400), new GenCondition[]
                 {
-                    velocityY = -7f;
+                    new Conditions.IsSolid()
+                }), out p))
+                {
+                    Projectile.NewProjectile(p.ToWorldCoordinates(8f, 0f), Vector2.Zero, ModContent.ProjectileType<LightningThing>(), 0, 0f, player.whoAmI);
                 }
-                if (player.direction == -1)
+            }
+            if (player.itemAnimation == (int)((double)player.itemAnimationMax * 0.5))
+            {
+                player.Calamity().gaelSwipes++;
+                if (player.statLife <= player.statLifeMax2 * 0.5f)
                 {
-                    if (player.itemAnimation == (int)((double)player.itemAnimationMax * 0.9))
+                    for (int i = 0; i < 170; i++)
                     {
-                        spawnAdditiveX -= 8f;
+                        float r = (float)Math.Sqrt(Main.rand.NextDouble());
+                        float t = Main.rand.NextFloat() * MathHelper.TwoPi;
+                        Vector2 dustSpawn = t.ToRotationVector2() * r * item.Size;
+                        if (dustSpawn.X > item.width / 2)
+                        {
+                            Dust.NewDustPerfect(player.MountedCenter + dustSpawn.RotatedBy(player.itemRotation) * player.direction, 218, Vector2.Zero).noGravity = true;
+                        }
+                        else
+                        {
+                            //Don't waste this version of "i" just because we failed. Decrease so that we can try again.
+                            i--;
+                            continue;
+                        }
+                        if (Main.rand.NextBool(100))
+                        {
+                            Projectile.NewProjectile(player.MountedCenter + dustSpawn.RotatedBy(player.itemRotation) * player.direction, Vector2.Zero, ModContent.ProjectileType<GaelExplosion>(), BaseDamage, 0f, player.whoAmI);
+                        }
                     }
-                    if (player.itemAnimation == (int)((double)player.itemAnimationMax * 0.7))
-                    {
-                        spawnAdditiveX -= 6f;
-                    }
-                }
-                if (player.itemAnimation == (int)((double)player.itemAnimationMax * 0.7))
-                {
-                    spawnAdditiveX = 26f;
-                }
-                if (player.itemAnimation == (int)((double)player.itemAnimationMax * 0.6))
-                {
-                    velocityY = -6f;
-                    velocityX = 2f;
-                }
-                if (player.itemAnimation == (int)((double)player.itemAnimationMax * 0.4))
-                {
-                    velocityY = -4f;
-                    velocityX = 4f;
-                }
-                if (player.itemAnimation == (int)((double)player.itemAnimationMax * 0.3))
-                {
-                    spawnAdditiveX -= 4f;
-                    spawnAdditiveY -= 20f;
-                }
-                if (player.itemAnimation == (int)((double)player.itemAnimationMax * 0.2))
-                {
-                    velocityY = -2f;
-                    velocityX = 6f;
-                }
-                if (player.itemAnimation == (int)((double)player.itemAnimationMax * 0.1))
-                {
-                    velocityX = 7f;
-                }
-                if (player.itemAnimation == (int)((double)player.itemAnimationMax * 0.1))
-                {
-                    spawnAdditiveY += 6f;
-                }
-                velocityY *= 1.35f;
-                velocityX *= 1.35f;
-                spawnAdditiveX *= (float)player.direction * Main.rand.NextFloat(0.9f, 1.1f);
-                spawnAdditiveY *= player.gravDir;
-                Projectile.NewProjectile((float)(hitbox.X + hitbox.Width / 2) + spawnAdditiveX, (float)(hitbox.Y + hitbox.Height / 2) + spawnAdditiveY,
-                    (float)player.direction * velocityX, velocityY * player.gravDir, ModContent.ProjectileType<GaelSpark>(), (int)((float)item.damage * 0.35f * player.meleeDamage), 0f, player.whoAmI, 0f, 0f);
-
-                if (player.itemAnimation == (int)((double)player.itemAnimationMax * 0.9))
-                {
-                    player.Calamity().gaelBloodShotCooldown = 30;
                 }
             }
         }
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
         {
             //True melee boost
-            if (SwingType == 2)
+            if (player.Calamity().gaelSwipes % 3 == 2)
             {
-                damage = (int)((Main.hardMode ? TrueMeleeBoostHardmode : TrueMeleeBoostPreHardmode) * damage);
+                damage = (int)(TrueMeleeBoost * damage);
             }
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            //This is mostly from a function in Player.cs which handles the Brand of the Inferno alt click effect
-            //attackCD = The attack countdown. Can reflect attacks from projectiles and hostile npcs while > 0
-            //shield_parry_cooldown = A simple count down variable for effects.
             if (player.altFunctionUse == 2)
             {
-                bool shieldRaised = false;
-                if (player.selectedItem != 58 && player.controlUseTile && !player.tileInteractionHappened && player.releaseUseItem && !player.controlUseItem && !player.mouseInterface && !CaptureManager.Instance.Active && !Main.HoveringOverAnNPC && !Main.SmartInteractShowingGenuine
-                    && player.inventory[player.selectedItem].type == ModContent.ItemType<GaelsGreatsword>() && !player.mount.Active && (player.itemAnimation == 0 || PlayerInput.Triggers.JustPressed.MouseRight))
-                {
-                    shieldRaised = true;
-                }
-                if (player.shield_parry_cooldown > 0)
-                {
-                    player.shield_parry_cooldown--;
-                    if (player.shield_parry_cooldown == 1)
-                    {
-                        Main.PlaySound(25, -1, -1, 1, 1f, 0f);
-                        for (int i = 0; i < 10; i++)
-                        {
-                            int dustIndex = Dust.NewDust(player.Center + new Vector2((float)(player.direction * 6 + ((player.direction == -1) ? -10 : 0)), -14f), 10, 16, 45, 0f, 0f, 255, new Color(255, 100, 0, 127), (float)Main.rand.NextFloat(1f, 1.6f));
-                            Main.dust[dustIndex].noLight = true;
-                            Main.dust[dustIndex].noGravity = true;
-                            Main.dust[dustIndex].velocity *= 0.5f;
-                        }
-                    }
-                }
-                if (shieldRaised != player.shieldRaised)
-                {
-                    player.shieldRaised = shieldRaised;
-                    if (player.shieldRaised)
-                    {
-                        player.itemAnimation = 0;
-                        player.itemTime = 0;
-                        player.reuseDelay = 0;
-                    }
-                    else
-                    {
-                        player.shield_parry_cooldown = 15;
-                        if (player.attackCD < 30)
-                        {
-                            player.attackCD = 30;
-                        }
-                    }
-                }
+                //CalamityPlayer.cs line 7373. Thank me later.
                 return false;
             }
-            switch (SwingType)
+            switch (player.Calamity().gaelSwipes % 3)
             {
                 //Two small, quick skulls
                 case 0:
@@ -255,7 +159,20 @@ namespace CalamityMod.Items.Weapons.Melee
                     break;
                 //Giant, slow, fading skull
                 case 1:
-                    int projectileIndex = Projectile.NewProjectile(position, new Vector2(speedX,speedY) * 0.5f, type, damage * 2, knockBack, player.whoAmI, ai1:1f);
+					int largeSkullDmg = damage * 2;
+					if (CalamityWorld.downedYharon)
+					{
+						largeSkullDmg = (int)((float)damage * 1.5f);
+					}
+					else if (NPC.downedMoonlord)
+					{
+						largeSkullDmg = damage * 2;
+					}
+					else if (Main.hardMode)
+					{
+						largeSkullDmg = damage * 2;
+					}
+                    int projectileIndex = Projectile.NewProjectile(position, new Vector2(speedX,speedY) * 0.5f, type, largeSkullDmg, knockBack, player.whoAmI, ai1:1f);
                     Main.projectile[projectileIndex].scale = 1.75f;
                     break;
             }
