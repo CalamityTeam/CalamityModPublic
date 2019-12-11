@@ -269,7 +269,10 @@ namespace CalamityMod.NPCs.Crags
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EssenceofChaos>());
             }
-            DropHelper.DropItemChance(npc, ModContent.ItemType<GaelsGreatsword>(), CalamityWorld.defiled ? 0.05f : 0.02f);
+            if (CalamityWorld.downedYharon)
+            {
+                DropHelper.DropItemChance(npc, ModContent.ItemType<GaelsGreatsword>(), CalamityWorld.defiled ? 0.05f : 0.02f);
+            }
         }
 
         public override void HitEffect(int hitDirection, double damage)
