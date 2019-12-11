@@ -1936,7 +1936,7 @@ namespace CalamityMod
                 ModContent.ProjectileType<WulfrumKnifeProj>(),
                 ModContent.ProjectileType<Fork>(),
                 ModContent.ProjectileType<Knife>(),
-                ModContent.ProjectileType<CarvingKnife>(),
+                ModContent.ProjectileType<CarvingFork>(),
                 ModContent.ProjectileType<InfernalKrisProjectile>()
             };
 
