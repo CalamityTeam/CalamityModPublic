@@ -33,7 +33,7 @@ Stealth strikes slow enemies down longer");
             item.value = Item.buyPrice(0, 0, 0, 30);
             item.rare = 0;
             item.shoot = ModContent.ProjectileType<WebBallBol>();
-            item.shootSpeed = 4f;
+            item.shootSpeed = 6.5f;
             item.Calamity().rogue = true;
         }
 

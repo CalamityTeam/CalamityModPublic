@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Typeless
 			float num30 = 300f;
 			float scaleFactor = 6f;
 			Vector2 value7 = new Vector2(10f, 20f);
-			float num31 = 1f;
+			//float num31 = 1f;
 			int num32 = 3 * projectile.MaxUpdates;
 			int num33 = Utils.SelectRandom(Main.rand, new int[]
 			{
@@ -212,7 +212,7 @@ namespace CalamityMod.Projectiles.Typeless
 
             int num48 = 187;
             int num49 = 234;
-            int height = 50;
+            //int height = 50;
             float num50 = 1.2f;
             float num51 = 0.6f;
             float num52 = 1.5f;

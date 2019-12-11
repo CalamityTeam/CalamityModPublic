@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Rogue
 			}
 			else
 			{
-				target.AddBuff(BuffID.Webbed, 30);
+				target.AddBuff(BuffID.Webbed, 60);
 			}
         }
     }

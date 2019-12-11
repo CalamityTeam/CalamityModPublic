@@ -1891,7 +1891,9 @@ namespace CalamityMod
                 ModContent.ItemType<GildedDagger>(),
                 ModContent.ItemType<GleamingDagger>(),
                 ModContent.ItemType<EmpyreanKnives>(),
-                ModContent.ItemType<RoyalKnives>()
+                ModContent.ItemType<RoyalKnives>(),
+                ModContent.ItemType<InfernalKris>(),
+                ModContent.ItemType<UtensilPoker>()
             };
 
             daggerProjList = new List<int>()
@@ -1931,7 +1933,11 @@ namespace CalamityMod
                 ModContent.ProjectileType<StormfrontRazorProjectile>(),
                 ModContent.ProjectileType<TarragonThrowingDartProjectile>(),
                 ModContent.ProjectileType<TimeBoltKnife>(),
-                ModContent.ProjectileType<WulfrumKnifeProj>()
+                ModContent.ProjectileType<WulfrumKnifeProj>(),
+                ModContent.ProjectileType<Fork>(),
+                ModContent.ProjectileType<Knife>(),
+                ModContent.ProjectileType<CarvingKnife>(),
+                ModContent.ProjectileType<InfernalKrisProjectile>()
             };
 
             flaskBombList = new List<int>()
@@ -1970,7 +1976,8 @@ namespace CalamityMod
                 ModContent.ItemType<HellsSun>(),
                 ModContent.ItemType<SkyStabber>(),
                 ModContent.ItemType<StickySpikyBall>(),
-                ModContent.ItemType<WebBall>()
+                ModContent.ItemType<WebBall>(),
+                ModContent.ItemType<PoisonPack>()
             };
 
             spikyBallProjList = new List<int>()
@@ -1981,7 +1988,8 @@ namespace CalamityMod
                 ModContent.ProjectileType<NastyChollaBol>(),
                 ModContent.ProjectileType<StickyBol>(),
                 ModContent.ProjectileType<SkyStabberProj>(),
-                ModContent.ProjectileType<WebBallBol>()
+                ModContent.ProjectileType<WebBallBol>(),
+                ModContent.ProjectileType<PoisonBol>()
             };
 
             noGravityList = new List<int>()
