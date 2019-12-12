@@ -1838,7 +1838,8 @@ namespace CalamityMod
                 ModContent.ItemType<XerocPitchfork>(),
                 ModContent.ItemType<PhantasmalRuin>(),
                 ModContent.ItemType<PhantomLance>(),
-                ModContent.ItemType<ProfanedPartisan>()
+                ModContent.ItemType<ProfanedPartisan>(),
+                ModContent.ItemType<Turbulance>()
             };
 
             javelinProjList = new List<int>()
@@ -1859,7 +1860,8 @@ namespace CalamityMod
                 ModContent.ProjectileType<ScourgeoftheSeasProjectile>(),
                 ModContent.ProjectileType<SpearofDestinyProjectile>(),
                 ModContent.ProjectileType<SpearofPaleolithProj>(),
-                ModContent.ProjectileType<XerocPitchforkProjectile>()
+                ModContent.ProjectileType<XerocPitchforkProjectile>(),
+                ModContent.ProjectileType<TurbulanceProjectile>()
             };
 
             daggerList = new List<int>()

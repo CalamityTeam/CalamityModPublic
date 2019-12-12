@@ -8,7 +8,6 @@ using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    //TODO -- The stealth strike got changed so everything relating to that can go die, dust is ass here too
     public class ProfanedPartisanproj : ModProjectile
     {
     	public int stealthStrikeTimer = 0;
