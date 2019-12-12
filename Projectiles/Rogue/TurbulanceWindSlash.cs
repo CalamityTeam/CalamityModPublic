@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Rogue
                 projectile.alpha = 0;
             }
             projectile.frameCounter++;
-            if (projectile.frameCounter > 3)
+            if (projectile.frameCounter > 1)
             {
                 projectile.frameCounter = 0;
                 projectile.frame++;
