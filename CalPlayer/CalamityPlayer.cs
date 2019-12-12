@@ -230,6 +230,7 @@ namespace CalamityMod.CalPlayer
         public bool adrenalineBoostThree = false;
 
         // Lore
+        public bool kingSlimeLore = false;
         public bool desertScourgeLore = false;
         public bool eaterOfWorldsLore = false;
         public bool hiveMindLore = false;
@@ -973,6 +974,7 @@ namespace CalamityMod.CalPlayer
             dsSetBonus = false;
             wearingRogueArmor = false;
 
+            kingSlimeLore = false;
             desertScourgeLore = false;
             eaterOfWorldsLore = false;
             hiveMindLore = false;
@@ -3738,6 +3740,11 @@ namespace CalamityMod.CalPlayer
             if (projRefRareLifeRegenCounter > 0)
             {
                 projRefRareLifeRegenCounter--;
+            }
+            if(kingSlimeLore)
+            {
+                player.moveSpeed += 0.05f;
+                player.jumpSpeedBoost += player.autoJump ? 0f : 0.1f;
             }
             if (desertScourgeLore)
             {
