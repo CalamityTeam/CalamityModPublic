@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.tileCollide = false;
             projectile.Calamity().rogue = true;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 50;
+            projectile.localNPCHitCooldown = 60;
         }
 
         public override void AI()
@@ -179,7 +179,7 @@ namespace CalamityMod.Projectiles.Rogue
                                 projectile.velocity = (Main.npc[i].Center - projectile.Center) * 0.75f;
                                 projectile.netUpdate = true;
                                 projectile.StatusNPC(i);
-                                int num28 = 50;
+                                int num28 = 10;
                                 Point[] array2 = new Point[num28];
                                 int num29 = 0;
                                 for (int l = 0; l < 1000; l++)

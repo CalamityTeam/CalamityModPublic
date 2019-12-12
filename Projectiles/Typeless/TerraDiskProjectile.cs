@@ -93,7 +93,7 @@ namespace CalamityMod.Projectiles.Typeless
 									Main.projectile[proj].Calamity().forceMelee = true;
 								else
 									Main.projectile[proj].Calamity().forceRogue = true;
-                                int proj2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<TerraDiskProjectile2>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                                int proj2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<TerraDiskProjectile2>(), projectile.damage / 2, projectile.knockBack, projectile.owner, 0f, 0f);
 								if (projectile.melee)
 									Main.projectile[proj2].Calamity().forceMelee = true;
 								else

@@ -194,7 +194,7 @@ namespace CalamityMod.Projectiles.Typeless
             target.AddBuff(ModContent.BuffType<Vaporfied>(), 120);
         }
 
-		public override bool? CanHitNPC(NPC target)
+		public override bool CanDamage()
 		{
 			return projectile.alpha < 128;
 		}

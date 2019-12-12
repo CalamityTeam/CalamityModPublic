@@ -16,7 +16,7 @@ Does not consume stealth and cannot stealth strike");
         public override void SafeSetDefaults()
         {
             item.width = 72;
-            item.damage = 300;
+            item.damage = 100;
             item.Calamity().rogue = true;
             item.noMelee = true;
             item.noUseGraphic = true;
