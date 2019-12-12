@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class TerraDiskMelee : ModItem
     {
-        public static int BaseDamage = 70;
+        public static int BaseDamage = 100;
         public static float Speed = 12f;
 
         public override void SetStaticDefaults()
