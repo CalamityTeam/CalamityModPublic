@@ -45,6 +45,7 @@ namespace CalamityMod.Projectiles.Rogue
                 projectile.velocity = toPlayer;
 
                 projectile.ai[0] += 0.5f;
+				projectile.extraUpdates = 1;
                 if (projectile.ai[0] > 20f)
                 {
                     projectile.ai[0] = 20f;

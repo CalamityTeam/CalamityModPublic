@@ -20,7 +20,7 @@ Stealth strikes are trailed by homing wind slashes");
         public override void SafeSetDefaults()
         {
             item.width = 14;
-            item.damage = 20;
+            item.damage = 18;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useAnimation = 18;

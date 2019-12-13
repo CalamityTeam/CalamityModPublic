@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SafeSetDefaults()
         {
             item.width = 18;
-            item.damage = 30;
+            item.damage = 60;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useAnimation = 20;
@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.value = Item.buyPrice(0, 3, 60, 0);
             item.rare = 6;
             item.shoot = ModContent.ProjectileType<NychthemeronProjectile>();
-            item.shootSpeed = 5f;
+            item.shootSpeed = 6f;
             item.Calamity().rogue = true;
         }
 
