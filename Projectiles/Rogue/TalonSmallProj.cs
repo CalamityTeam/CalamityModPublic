@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Rogue
         private int x;
         private double speed = 10;
         private float startSpeedY = 0f;
-		private int angle = 4;
+		private bool sign = true;
 
         public override void SetStaticDefaults()
         {
@@ -33,7 +33,10 @@ namespace CalamityMod.Projectiles.Rogue
         public override void AI()
         {
 			if (projectile.ai[0] == 0f) //only happens once
-				angle = Main.rand.Next(4,11);
+			{
+				if (Main.rand.NextBool(2))
+					sign = false;
+			}
             if (Main.rand.Next(5) == 0)
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 85, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
@@ -52,9 +55,18 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.localAI[0] += 1f;
             if (projectile.localAI[0] >= 5f)
             {
-                x++;
-                speed += 0.05;
-                projectile.velocity.Y = startSpeedY + (float)(speed * Math.Sin(x / angle));
+				if (sign == true)
+				{
+					x++;
+					speed += 0.01;
+					projectile.velocity.Y = startSpeedY + (float)(speed * Math.Sin(x / 4));
+				}
+				else
+				{
+					x++;
+					speed += 0.01;
+					projectile.velocity.Y = startSpeedY + (float)(speed * -Math.Sin(x / 4));
+				}
             }
             projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
             projectile.rotation = projectile.velocity.ToRotation();
