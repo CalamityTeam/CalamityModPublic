@@ -30,6 +30,12 @@ namespace CalamityMod.Projectiles.Rogue
         public override void AI()
         {
             projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 0.785f;
+
+            if (Main.rand.NextBool(5))
+            {
+                int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 15);
+                Main.dust[dust].noGravity = true;
+            }
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
@@ -50,7 +56,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (target.life <= 0)
             {
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<ShinobiHealOrb>(), 0, 0, Main.myPlayer, 0, 30);
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<ShinobiHealOrb>(), 0, 0, Main.myPlayer, 0, 10);
             }
         }
 
@@ -59,7 +65,7 @@ namespace CalamityMod.Projectiles.Rogue
             for (int i = 0; i < 5; i++)
             {
                 int dustType = 42;
-                int dust = Dust.NewDust(projectile.Center, 1, 1, dustType, 0, 0, 0, default, 1.5f);
+                int dust = Dust.NewDust(projectile.Center, 1, 1, dustType, projectile.velocity.X / 2, projectile.velocity.Y / 2, 0, default, 1.5f);
                 Main.dust[dust].noGravity = true;
             }
         }
