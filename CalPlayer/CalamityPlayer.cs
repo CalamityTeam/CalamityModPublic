@@ -11931,13 +11931,15 @@ namespace CalamityMod.CalPlayer
                         {
                             if (final)
                             {
-                                Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -5f, ProjectileID.RocketFireworkRed + Main.rand.Next(4),
-                                    0, 0f, Main.myPlayer, 0f, 1f);
+                                int prof = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -5f, ProjectileID.RocketFireworkRed + Main.rand.Next(4),
+									0, 0f, Main.myPlayer, 0f, 1f);
+								Main.projectile[prof].ranged = false;
                             }
                             else
                             {
-                                Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -5f, ProjectileID.RocketFireworksBoxRed + Main.rand.Next(4),
+                                int prof = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -5f, ProjectileID.RocketFireworksBoxRed + Main.rand.Next(4),
                                     0, 0f, Main.myPlayer, 0f, 0f);
+								Main.projectile[prof].ranged = false;
                             }
                             Main.NewText(Language.GetTextValue(key), messageColor);
                         }
@@ -11954,13 +11956,15 @@ namespace CalamityMod.CalPlayer
                         {
                             if (final)
                             {
-                                Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -5f, ProjectileID.RocketFireworkRed + Main.rand.Next(4),
+                                int prof = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -5f, ProjectileID.RocketFireworkRed + Main.rand.Next(4),
                                     0, 0f, Main.myPlayer, 0f, 1f);
+								Main.projectile[prof].ranged = false;
                             }
                             else
                             {
-                                Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -5f, ProjectileID.RocketFireworksBoxRed + Main.rand.Next(4),
+                                int prof = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -5f, ProjectileID.RocketFireworksBoxRed + Main.rand.Next(4),
                                     0, 0f, Main.myPlayer, 0f, 0f);
+								Main.projectile[prof].ranged = false;
                             }
                             Main.NewText(Language.GetTextValue(key), messageColor);
                         }
@@ -11977,13 +11981,15 @@ namespace CalamityMod.CalPlayer
                         {
                             if (final)
                             {
-                                Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -5f, ProjectileID.RocketFireworkRed + Main.rand.Next(4),
+                                int prof = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -5f, ProjectileID.RocketFireworkRed + Main.rand.Next(4),
                                     0, 0f, Main.myPlayer, 0f, 1f);
+								Main.projectile[prof].ranged = false;
                             }
                             else
                             {
-                                Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -5f, ProjectileID.RocketFireworksBoxRed + Main.rand.Next(4),
+                                int prof = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -5f, ProjectileID.RocketFireworksBoxRed + Main.rand.Next(4),
                                     0, 0f, Main.myPlayer, 0f, 0f);
+								Main.projectile[prof].ranged = false;
                             }
                             Main.NewText(Language.GetTextValue(key), messageColor);
                         }
@@ -12000,13 +12006,15 @@ namespace CalamityMod.CalPlayer
                         {
                             if (final)
                             {
-                                Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -5f, ProjectileID.RocketFireworkRed + Main.rand.Next(4),
+                                int prof = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -5f, ProjectileID.RocketFireworkRed + Main.rand.Next(4),
                                     0, 0f, Main.myPlayer, 0f, 1f);
+								Main.projectile[prof].ranged = false;
                             }
                             else
                             {
-                                Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -5f, ProjectileID.RocketFireworksBoxRed + Main.rand.Next(4),
+                                int prof = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -5f, ProjectileID.RocketFireworksBoxRed + Main.rand.Next(4),
                                     0, 0f, Main.myPlayer, 0f, 0f);
+								Main.projectile[prof].ranged = false;
                             }
                             Main.NewText(Language.GetTextValue(key), messageColor);
                         }
@@ -12023,13 +12031,15 @@ namespace CalamityMod.CalPlayer
                         {
                             if (final)
                             {
-                                Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -5f, ProjectileID.RocketFireworkRed + Main.rand.Next(4),
+                                int prof = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -5f, ProjectileID.RocketFireworkRed + Main.rand.Next(4),
                                     0, 0f, Main.myPlayer, 0f, 1f);
+								Main.projectile[prof].ranged = false;
                             }
                             else
                             {
-                                Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -5f, ProjectileID.RocketFireworksBoxRed + Main.rand.Next(4),
+                                int prof = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -5f, ProjectileID.RocketFireworksBoxRed + Main.rand.Next(4),
                                     0, 0f, Main.myPlayer, 0f, 0f);
+								Main.projectile[prof].ranged = false;
                             }
                             Main.NewText(Language.GetTextValue(key), messageColor);
                         }

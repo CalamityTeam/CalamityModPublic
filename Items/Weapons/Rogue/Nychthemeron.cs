@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault("Throws a spiky ball that ignores gravity and summons a pair of dark and light orbs that orbit the player\n" +
                 "Once the spiky ball disappears the orbs will home in on the nearest target\n" +
                 "Stacks up to 10\n" +
-                "Stealth strikes cause all spiky balls and orbs to be thrown at once");
+                "Stealth strikes cause all spiky balls and orbs to be thrown at once\n" +
+				"Right click to recall all existing spiky balls");
         }
 
         public override void SafeSetDefaults()
@@ -31,8 +32,8 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.autoReuse = true;
             item.height = 18;
             item.maxStack = 10;
-            item.value = Item.buyPrice(0, 20, 0, 0);
-            item.rare = 5;
+            item.value = Item.buyPrice(0, 3, 60, 0);
+            item.rare = 6;
             item.shoot = ModContent.ProjectileType<NychthemeronProjectile>();
             item.shootSpeed = 5f;
             item.Calamity().rogue = true;
