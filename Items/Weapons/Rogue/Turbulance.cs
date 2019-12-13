@@ -1,4 +1,5 @@
 using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -6,32 +7,33 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class TerrorTalons : RogueWeapon
+    public class Turbulance : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Terror Talons");
-            Tooltip.SetDefault("Fires small wavering claws\n" +
-            "Stealth strikes launch a bigger, faster claw that flies straight and pierces indefinitely");
+            DisplayName.SetDefault("Turbulance");
+            Tooltip.SetDefault(@"Fires a cloudy javelin that bursts into wind slashes on hit
+Wind slashes home if the javelin crits
+Stealth strikes are trailed by homing wind slashes");
         }
 
         public override void SafeSetDefaults()
         {
-            item.width = 40;
-            item.damage = 103;
+            item.width = 14;
+            item.damage = 20;
             item.noMelee = true;
             item.noUseGraphic = true;
-            item.useAnimation = 11;
+            item.useAnimation = 18;
             item.useStyle = 1;
-            item.useTime = 11;
-            item.knockBack = 3f;
+            item.useTime = 18;
+            item.knockBack = 5f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.height = 24;
-            item.value = Item.buyPrice(0, 48, 0, 0);
-            item.rare = 6;
-            item.shoot = ModContent.ProjectileType<TalonSmallProj>();
-            item.shootSpeed = 12.5f;
+            item.height = 14;
+            item.value = Item.buyPrice(0, 2, 0, 0);
+            item.rare = 3;
+            item.shoot = ModContent.ProjectileType<TurbulanceProjectile>();
+            item.shootSpeed = 12f;
             item.Calamity().rogue = true;
         }
 
@@ -39,8 +41,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
-                float stealthDamageMult = 1.1f;
-                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<TalonLargeProj>(), (int)(damage * stealthDamageMult), knockBack, player.whoAmI, 0f, 0f);
+                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
                 Main.projectile[stealth].Calamity().stealthStrike = true;
                 return false;
             }
@@ -50,10 +51,10 @@ namespace CalamityMod.Items.Weapons.Rogue
         /*public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.FeralClaws);
-            recipe.AddIngredient(ItemID.ChlorophyteBar, 5);
-            recipe.AddIngredient(ItemID.SoulofFright, 10);
-            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 5);
+            recipe.AddIngredient(ItemID.SunplateBlock, 3);
+            recipe.AddIngredient(ItemID.Cloud, 4);
+            recipe.AddTile(TileID.SkyMill);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }*/

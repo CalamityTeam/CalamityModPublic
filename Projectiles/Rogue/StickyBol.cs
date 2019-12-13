@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 14;
             projectile.height = 14;
             projectile.friendly = true;
-            projectile.penetrate = -1;
+            projectile.penetrate = 5;
             projectile.timeLeft = 300;
             projectile.tileCollide = false;
             projectile.Calamity().rogue = true;
@@ -179,7 +179,7 @@ namespace CalamityMod.Projectiles.Rogue
                                 projectile.velocity = (Main.npc[i].Center - projectile.Center) * 0.75f;
                                 projectile.netUpdate = true;
                                 projectile.StatusNPC(i);
-                                int num28 = 10;
+                                int num28 = 5;
                                 Point[] array2 = new Point[num28];
                                 int num29 = 0;
                                 for (int l = 0; l < 1000; l++)
