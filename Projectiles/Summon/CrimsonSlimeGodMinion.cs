@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Summon
             aiType = 266;
             projectile.tileCollide = false;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            projectile.localNPCHitCooldown = 23;
         }
 
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
