@@ -87,7 +87,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         //public override void AddRecipes()
         //{
         //    ModRecipe recipe = new ModRecipe(mod);
-        //    recipe.AddIngredient(ItemID.SpikyBall, 100);
+        //    recipe.AddIngredient(ItemID.SpikyBall, 15);
         //    recipe.AddIngredient(ItemID.LightShard);
         //    recipe.AddIngredient(ItemID.DarkShard);
         //    recipe.AddIngredient(ItemID.HallowedBar, 2);
@@ -102,7 +102,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
             // Ideally new projectiles will fill in the most recently vacated spots in the pattern
             int[] activeSlots = new int[10] { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
-            for (int i = 0; i < 1000; i++)
+            for (int i = 0; i < Main.maxProjectiles; i++)
             {
                 Projectile proj = Main.projectile[i];
                 if (proj.type == ModContent.ProjectileType<NychthemeronOrb>() && proj.owner == player.whoAmI && proj.active && proj.localAI[0] == 0f && activeSlots[(int)proj.localAI[1]] == -1)
