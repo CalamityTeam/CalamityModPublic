@@ -90,7 +90,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         //    recipe.AddIngredient(ItemID.SpikyBall, 100);
         //    recipe.AddIngredient(ItemID.LightShard);
         //    recipe.AddIngredient(ItemID.DarkShard);
-        //    recipe.AddIngredient(ItemID.HallowedBar, 12);
+        //    recipe.AddIngredient(ItemID.HallowedBar, 2);
         //    recipe.AddTile(TileID.Anvils);
         //    recipe.SetResult(this);
         //    recipe.AddRecipe();
