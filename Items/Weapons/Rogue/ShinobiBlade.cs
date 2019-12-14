@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             if (player.Calamity().StealthStrikeAvailable())
             {
-                float spreadAngle = MathHelper.ToRadians(10f);
+                float spreadAngle = MathHelper.ToRadians(7.5f);
                 Vector2 direction = new Vector2(speedX, speedY);
                 Vector2 baseDirection = direction.RotatedBy(-spreadAngle);
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -7,6 +8,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class BarrelShrapnel : ModProjectile
     {
+        public bool hitTile = false;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shrapnel");
@@ -23,15 +25,24 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.tileCollide = true;
             projectile.Calamity().rogue = true;
         }
-        public override bool OnTileCollide(Vector2 oldVelocity) => false;
-
         public override void AI()
         {
-            if (projectile.velocity != Vector2.Zero)
+            projectile.ai[0] += 1f;
+            if (hitTile)
+            {
+                projectile.velocity.X = 0f;
+                projectile.rotation = MathHelper.Pi;
+            }
+            else
             {
                 projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
             }
             projectile.velocity.Y += 0.2f;
+        }
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            hitTile = true;
+            return false;
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {

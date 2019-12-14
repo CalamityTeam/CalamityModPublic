@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class PoisonPack : RogueWeapon
     {
-        private static int damage = 35;
+        private static int damage = 20;
         private static float knockBack = 1.8f;
 
         public override void SetStaticDefaults()

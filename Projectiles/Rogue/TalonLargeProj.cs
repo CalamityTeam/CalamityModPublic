@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Talon");
+            DisplayName.SetDefault("Huge Terror Talon");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
@@ -21,11 +21,11 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 20;
             projectile.height = 20;
             projectile.friendly = true;
-            projectile.penetrate = -1;
+            projectile.penetrate = 10;
             projectile.tileCollide = false;
-            projectile.timeLeft = 600;
+            projectile.timeLeft = 180;
             projectile.Calamity().rogue = true;
-			projectile.extraUpdates = 1;
+			projectile.extraUpdates = 2;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
         }

@@ -60,9 +60,9 @@ namespace CalamityMod.Projectiles.Rogue
             if (projectile.Calamity().stealthStrike) //Stealth strike
 			{
 				stealthStrikeTimer++;
-				if (stealthStrikeTimer >= 18)
+				if (stealthStrikeTimer >= 14)
 				{
-					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<TurbulanceWindSlash>(), projectile.damage / 3, projectile.knockBack / 3, projectile.owner, 1f, 1f);
+					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<TurbulanceWindSlash>(), projectile.damage, projectile.knockBack / 2, projectile.owner, 1f, 1f);
 					stealthStrikeTimer = 0;
 				}
 			}

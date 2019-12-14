@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SafeSetDefaults()
         {
             item.width = 18;
-            item.damage = 30;
+            item.damage = 60;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useAnimation = 20;
@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.value = Item.buyPrice(0, 3, 60, 0);
             item.rare = 6;
             item.shoot = ModContent.ProjectileType<NychthemeronProjectile>();
-            item.shootSpeed = 5f;
+            item.shootSpeed = 6f;
             item.Calamity().rogue = true;
         }
 
@@ -84,17 +84,17 @@ namespace CalamityMod.Items.Weapons.Rogue
             return player.ownedProjectileCounts[item.shoot] < item.stack && player.altFunctionUse != 2;
         }
 
-        //public override void AddRecipes()
-        //{
-        //    ModRecipe recipe = new ModRecipe(mod);
-        //    recipe.AddIngredient(ItemID.SpikyBall, 100);
-        //    recipe.AddIngredient(ItemID.LightShard);
-        //    recipe.AddIngredient(ItemID.DarkShard);
-        //    recipe.AddIngredient(ItemID.HallowedBar, 2);
-        //    recipe.AddTile(TileID.Anvils);
-        //    recipe.SetResult(this);
-        //    recipe.AddRecipe();
-        //}
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.SpikyBall, 30);
+            recipe.AddIngredient(ItemID.LightShard);
+            recipe.AddIngredient(ItemID.DarkShard);
+            recipe.AddIngredient(ItemID.HallowedBar, 2);
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
 
         private static void CreateOrbs(Vector2 position, int damage, float knockBack, int projectileID, Player player)
         {
@@ -102,7 +102,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
             // Ideally new projectiles will fill in the most recently vacated spots in the pattern
             int[] activeSlots = new int[10] { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
-            for (int i = 0; i < 1000; i++)
+            for (int i = 0; i < Main.maxProjectiles; i++)
             {
                 Projectile proj = Main.projectile[i];
                 if (proj.type == ModContent.ProjectileType<NychthemeronOrb>() && proj.owner == player.whoAmI && proj.active && proj.localAI[0] == 0f && activeSlots[(int)proj.localAI[1]] == -1)
