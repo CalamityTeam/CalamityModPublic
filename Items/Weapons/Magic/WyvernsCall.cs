@@ -1,4 +1,5 @@
 using CalamityMod.Projectiles.Magic;
+using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
