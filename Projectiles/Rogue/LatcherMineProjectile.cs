@@ -205,6 +205,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = projectile.height = (projectile.Calamity().stealthStrike ? 240 : 100);
             projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 10;
             projectile.Damage();
             for (int i = 0; i < 6; i++)
             {
@@ -212,14 +214,14 @@ namespace CalamityMod.Projectiles.Rogue
                 {
                     Vector2 shrapnelVelocity = (Vector2.UnitY * (-16f + Main.rand.NextFloat(-3, 12f))).RotatedByRandom((double)MathHelper.ToRadians(40f));
                     Projectile.NewProjectile(projectile.Top, shrapnelVelocity,
-                        ModContent.ProjectileType<BarrelShrapnel>(), LatcherMine.BaseDamage, 3f, projectile.owner);
+                        ModContent.ProjectileType<BarrelShrapnel>(), projectile.damage, 3f, projectile.owner);
                 }
                 else
                 {
                     Vector2 fireVelocity = (Vector2.UnitY * (-16f + Main.rand.NextFloat(-3, 12f))).RotatedByRandom((double)MathHelper.ToRadians(40f));
                     int fireIndex = Projectile.NewProjectile(projectile.Top, fireVelocity,
                         Main.rand.Next(ProjectileID.MolotovFire, ProjectileID.MolotovFire3 + 1),
-                        LatcherMine.BaseDamage, 1f, projectile.owner);
+                        projectile.damage, 1f, projectile.owner);
                     Main.projectile[fireIndex].Calamity().forceRogue = true;
                     Main.projectile[fireIndex].penetrate = -1;
                     Main.projectile[fireIndex].usesLocalNPCImmunity = true;
