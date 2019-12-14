@@ -115,7 +115,7 @@ Fires wyverns and colored feathers from the sky that stick to enemies and tiles 
             return false;
         }
 
-        /*public override void AddRecipes()
+        public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.SoulofFlight, 15);
@@ -124,6 +124,6 @@ Fires wyverns and colored feathers from the sky that stick to enemies and tiles 
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
-        }*/
+        }
     }
 }
