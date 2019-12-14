@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
+using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
@@ -27,13 +27,14 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
-            if (projectile.velocity != Vector2.Zero)
+            if (Math.Abs(projectile.position.Y - projectile.oldPosition.Y) > 4f)
             {
+                projectile.velocity.X = 0f;
                 projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
             }
             else
             {
-                projectile.rotation = MathHelper.PiOver2;
+                projectile.rotation = MathHelper.Pi;
             }
             projectile.velocity.Y += 0.2f;
         }

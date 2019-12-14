@@ -27,7 +27,6 @@ namespace CalamityMod.Projectiles.Rogue
         private void Explode()
         {
             Main.PlaySound(2, projectile.Center, 14);
-            //This is definitely not a near copy of the Blast Barrel nosiree :>
             bool stealthS = projectile.Calamity().stealthStrike;
             Projectile.NewProjectile(projectile.Center, new Vector2(0f, 0f), ModContent.ProjectileType<BettyExplosion>(), projectile.damage, 8f, projectile.owner);
             if (stealthS)
