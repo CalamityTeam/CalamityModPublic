@@ -277,12 +277,12 @@ namespace CalamityMod.NPCs.TownNPCs
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(2, 0, 0, 0);
                 nextSlot++;
             }
-            /*if (CalamityWorld.downedProvidence)
+            if (CalamityWorld.downedProvidence)
 			{
 				shop.item[nextSlot].SetDefaults(ModContent.ItemType<SylvanSlasher>());
 				shop.item[nextSlot].shopCustomPrice = Item.buyPrice(5, 0, 0, 0);
 				nextSlot++;
-			}*/
+			}
             if (CalamityWorld.buffedEclipse && !CalamityWorld.dragonScalesBought)
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<DragonScales>());
@@ -290,7 +290,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 nextSlot++;
             }
             //:BearWatchingYou:
-            if (npc.modNPC.TownNPCName() == "Laura")
+            if (npc.GivenName == "Laura")
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<BearEye>());
                 nextSlot++;

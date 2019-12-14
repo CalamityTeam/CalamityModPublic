@@ -90,7 +90,7 @@ namespace CalamityMod.NPCs
                 int maxGel = Main.expertMode ? 120 : 80;
                 DropHelper.DropItemSpray(npc, ItemID.Gel, minGel, maxGel, 2);
 
-                // King Slime doesn't have a lore item yet
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeKingSlime>(), true, !NPC.downedSlimeKing);
                 DropHelper.DropResidentEvilAmmo(npc, NPC.downedSlimeKing, 2, 0, 0);
             }
             else if (npc.type == NPCID.EyeofCthulhu)
@@ -1346,6 +1346,7 @@ namespace CalamityMod.NPCs
 
                 case NPCID.DarkCaster:
                     DropHelper.DropItemChance(npc, ModContent.ItemType<AncientShiv>(), Main.expertMode ? 20 : 25);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<ShinobiBlade>(), Main.expertMode ? 20 : 25);
                     break;
 
                 case NPCID.BigMimicHallow:

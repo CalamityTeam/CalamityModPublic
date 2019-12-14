@@ -13,14 +13,13 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Wyvern's Call");
             Tooltip.SetDefault(@"I call upon the mythical Wyvern to shower the lands with its grace
-
 Fires wyverns and colored feathers from the sky that stick to enemies and tiles and explode");
             Item.staff[item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 50;
+            item.damage = 30;
             item.magic = true;
             item.mana = 10;
             item.width = 52;
