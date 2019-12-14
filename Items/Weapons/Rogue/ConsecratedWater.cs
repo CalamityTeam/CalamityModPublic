@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class ConsecratedWater : RogueWeapon
     {
-        public const int BaseDamage = 55;
+        public const int BaseDamage = 48;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Consecrated Water");
