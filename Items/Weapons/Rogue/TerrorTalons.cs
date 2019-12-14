@@ -8,30 +8,32 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class TerrorTalons : RogueWeapon
     {
+        private float sign = 1f;
+        
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Terror Talons");
             Tooltip.SetDefault("Fires small wavering claws\n" +
-            "Stealth strikes launch a bigger, faster claw that flies straight and pierces indefinitely");
+            "Stealth strikes launch a large, high speed claw which pierces");
         }
 
         public override void SafeSetDefaults()
         {
             item.width = 40;
-            item.damage = 103;
+            item.damage = 54;
             item.noMelee = true;
             item.noUseGraphic = true;
-            item.useAnimation = 11;
             item.useStyle = 1;
-            item.useTime = 11;
+            item.useTime = 7;
+            item.useAnimation = 7;
             item.knockBack = 3f;
-            item.UseSound = SoundID.Item1;
+            item.UseSound = SoundID.Item39;
             item.autoReuse = true;
             item.height = 24;
             item.value = Item.buyPrice(0, 48, 0, 0);
             item.rare = 6;
             item.shoot = ModContent.ProjectileType<TalonSmallProj>();
-            item.shootSpeed = 12.5f;
+            item.shootSpeed = 10.5f;
             item.Calamity().rogue = true;
         }
 
@@ -39,12 +41,17 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
-                float stealthDamageMult = 1.1f;
+                float stealthDamageMult = 2.0f;
                 int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<TalonLargeProj>(), (int)(damage * stealthDamageMult), knockBack, player.whoAmI, 0f, 0f);
                 Main.projectile[stealth].Calamity().stealthStrike = true;
-                return false;
             }
-            return true;
+            else
+            {
+                // flip flop every standard projectile
+                Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<TalonSmallProj>(), damage, knockBack, player.whoAmI, 0f, sign);
+                sign = -sign;
+            }
+            return false;
         }
 
         /*public override void AddRecipes()
