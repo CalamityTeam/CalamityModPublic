@@ -84,17 +84,17 @@ namespace CalamityMod.Items.Weapons.Rogue
             return player.ownedProjectileCounts[item.shoot] < item.stack && player.altFunctionUse != 2;
         }
 
-        //public override void AddRecipes()
-        //{
-        //    ModRecipe recipe = new ModRecipe(mod);
-        //    recipe.AddIngredient(ItemID.SpikyBall, 15);
-        //    recipe.AddIngredient(ItemID.LightShard);
-        //    recipe.AddIngredient(ItemID.DarkShard);
-        //    recipe.AddIngredient(ItemID.HallowedBar, 2);
-        //    recipe.AddTile(TileID.Anvils);
-        //    recipe.SetResult(this);
-        //    recipe.AddRecipe();
-        //}
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.SpikyBall, 30);
+            recipe.AddIngredient(ItemID.LightShard);
+            recipe.AddIngredient(ItemID.DarkShard);
+            recipe.AddIngredient(ItemID.HallowedBar, 2);
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
 
         private static void CreateOrbs(Vector2 position, int damage, float knockBack, int projectileID, Player player)
         {

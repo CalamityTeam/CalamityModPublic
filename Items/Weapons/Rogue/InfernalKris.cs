@@ -48,7 +48,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             return true;
         }
 
-        /*public override void AddRecipes()
+        public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.HellstoneBar);
@@ -56,6 +56,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this, 100);
             recipe.AddRecipe();
-        }*/
+        }
     }
 }
