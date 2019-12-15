@@ -94,6 +94,10 @@ namespace CalamityMod.Projectiles.Rogue
                     flag55 = true;
                 }
                 int num989 = (int)projectile.ai[1];
+                if (!Main.npc[num989].active)
+                {
+                    projectile.Kill();
+                }
 				if ((projectile.localAI[0] <= (float)(60 * num988)) && (num989 > 0 || num989 <= 200) && Main.npc[num989].active && !Main.npc[num989].dontTakeDamage)
                 {
                     projectile.Center = Main.npc[num989].Center - projectile.velocity * 2f;
