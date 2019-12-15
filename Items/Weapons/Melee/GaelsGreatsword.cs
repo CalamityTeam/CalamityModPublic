@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         //Weapon attribute constants
 
-        public static readonly int BaseDamage = 11145;
+        public static readonly int BaseDamage = 5660;
 
         public static readonly float TrueMeleeBoost = 2.5f;
 
