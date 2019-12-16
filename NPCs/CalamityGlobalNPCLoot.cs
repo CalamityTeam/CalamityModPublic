@@ -1434,6 +1434,7 @@ namespace CalamityMod.NPCs
 
                 case NPCID.GoblinSummoner:
                     DropHelper.DropItemChance(npc, ModContent.ItemType<TheFirstShadowflame>(), Main.expertMode ? 5 : 7);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<BurningStrife>(), Main.expertMode ? 3 : 6);
                     break;
 
                 case NPCID.SandElemental:
