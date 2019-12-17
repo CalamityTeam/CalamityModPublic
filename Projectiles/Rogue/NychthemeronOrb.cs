@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void AI()
         {
             bool isActive = false;
-            for (int i = 0; i < 200; i++)
+            for (int i = 0; i < Main.projectile.Length; i++)
             {
                 Projectile p = Main.projectile[i];
                 if (p.identity == projectile.ai[1] && p.active)
