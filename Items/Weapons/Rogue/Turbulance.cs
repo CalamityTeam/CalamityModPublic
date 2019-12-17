@@ -20,7 +20,7 @@ Stealth strikes are trailed by homing wind slashes");
         public override void SafeSetDefaults()
         {
             item.width = 14;
-            item.damage = 20;
+            item.damage = 18;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useAnimation = 18;
@@ -48,7 +48,7 @@ Stealth strikes are trailed by homing wind slashes");
             return true;
         }
 
-        /*public override void AddRecipes()
+        public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 5);
@@ -57,6 +57,6 @@ Stealth strikes are trailed by homing wind slashes");
             recipe.AddTile(TileID.SkyMill);
             recipe.SetResult(this);
             recipe.AddRecipe();
-        }*/
+        }
     }
 }

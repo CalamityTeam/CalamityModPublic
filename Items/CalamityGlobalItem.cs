@@ -292,6 +292,8 @@ namespace CalamityMod.Items
                 {
 					double damageMult = 1.0;
 					damageMult = (double)(item.useTime) / 30.0;
+					if (damageMult < 0.35)
+						damageMult = 0.35;
 
 					double newDamage = (double)damage * 2 * damageMult;
 

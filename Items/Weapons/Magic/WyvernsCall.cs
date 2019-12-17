@@ -1,4 +1,5 @@
 using CalamityMod.Projectiles.Magic;
+using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -13,14 +14,13 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Wyvern's Call");
             Tooltip.SetDefault(@"I call upon the mythical Wyvern to shower the lands with its grace
-
 Fires wyverns and colored feathers from the sky that stick to enemies and tiles and explode");
             Item.staff[item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 50;
+            item.damage = 30;
             item.magic = true;
             item.mana = 10;
             item.width = 52;
@@ -116,7 +116,7 @@ Fires wyverns and colored feathers from the sky that stick to enemies and tiles 
             return false;
         }
 
-        /*public override void AddRecipes()
+        public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.SoulofFlight, 15);
@@ -125,6 +125,6 @@ Fires wyverns and colored feathers from the sky that stick to enemies and tiles 
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
-        }*/
+        }
     }
 }

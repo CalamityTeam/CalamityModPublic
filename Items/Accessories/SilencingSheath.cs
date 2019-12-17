@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.DemoniteBar, 8);
+            recipe.AddRecipeGroup("AnyEvilBar", 8);
             recipe.AddIngredient(ItemID.Silk, 10);
             recipe.AddRecipeGroup("Boss2Material", 3);
             recipe.AddTile(TileID.TinkerersWorkbench);

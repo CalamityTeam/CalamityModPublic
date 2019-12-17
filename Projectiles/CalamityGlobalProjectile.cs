@@ -1146,89 +1146,6 @@ namespace CalamityMod.Projectiles
                             Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<AtaxiaHealOrb>(), 0, 0f, projectile.owner, (float)num14, num12);
                         }
                     }
-                    else if (Main.player[projectile.owner].Calamity().xerocSet && Main.player[projectile.owner].Calamity().xerocDmg <= 0)
-                    {
-                        int num = projectile.damage / 2;
-                        Main.player[projectile.owner].Calamity().xerocDmg += (float)num;
-                        int[] array = new int[200];
-                        int num3 = 0;
-                        int num4 = 0;
-                        for (int i = 0; i < 200; i++)
-                        {
-                            if (Main.npc[i].CanBeChasedBy(projectile, false))
-                            {
-                                float num5 = Math.Abs(Main.npc[i].position.X + (float)(Main.npc[i].width / 2) - projectile.position.X + (float)(projectile.width / 2)) + Math.Abs(Main.npc[i].position.Y + (float)(Main.npc[i].height / 2) - projectile.position.Y + (float)(projectile.height / 2));
-                                if (num5 < 800f)
-                                {
-                                    if (Collision.CanHit(projectile.position, 1, 1, Main.npc[i].position, Main.npc[i].width, Main.npc[i].height) && num5 > 50f)
-                                    {
-                                        array[num4] = i;
-                                        num4++;
-                                    }
-                                    else if (num4 == 0)
-                                    {
-                                        array[num3] = i;
-                                        num3++;
-                                    }
-                                }
-                            }
-                        }
-                        if (num3 == 0 && num4 == 0)
-                        {
-                            return;
-                        }
-                        int num6;
-                        if (num4 > 0)
-                        {
-                            num6 = array[Main.rand.Next(num4)];
-                        }
-                        else
-                        {
-                            num6 = array[Main.rand.Next(num3)];
-                        }
-                        float num7 = 30f;
-                        float num8 = (float)Main.rand.Next(-100, 101);
-                        float num9 = (float)Main.rand.Next(-100, 101);
-                        float num10 = (float)Math.Sqrt((double)(num8 * num8 + num9 * num9));
-                        num10 = num7 / num10;
-                        num8 *= num10;
-                        num9 *= num10;
-                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num8, num9, ModContent.ProjectileType<XerocOrb>(), (int)((double)num * 1.25), 0f, projectile.owner, (float)num6, 0f);
-                        if (target.canGhostHeal)
-                        {
-							if (Main.player[Main.myPlayer].lifeSteal <= 0f)
-							{
-								return;
-							}
-							float num11 = 0.1f;
-                            num11 -= (float)projectile.numHits * 0.05f;
-                            if (num11 <= 0f)
-                            {
-                                return;
-                            }
-                            float num12 = (float)projectile.damage * num11;
-                            if ((int)num12 <= 0)
-                            {
-                                return;
-                            }
-                            Main.player[Main.myPlayer].lifeSteal -= num12 * 1.5f;
-                            float num13 = 0f;
-                            int num14 = projectile.owner;
-                            for (int i = 0; i < 255; i++)
-                            {
-                                if (Main.player[i].active && !Main.player[i].dead && ((!Main.player[projectile.owner].hostile && !Main.player[i].hostile) || Main.player[projectile.owner].team == Main.player[i].team))
-                                {
-                                    float num15 = Math.Abs(Main.player[i].position.X + (float)(Main.player[i].width / 2) - projectile.position.X + (float)(projectile.width / 2)) + Math.Abs(Main.player[i].position.Y + (float)(Main.player[i].height / 2) - projectile.position.Y + (float)(projectile.height / 2));
-                                    if (num15 < 1200f && (float)(Main.player[i].statLifeMax2 - Main.player[i].statLife) > num13)
-                                    {
-                                        num13 = (float)(Main.player[i].statLifeMax2 - Main.player[i].statLife);
-                                        num14 = i;
-                                    }
-                                }
-                            }
-                            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<XerocHealOrb>(), 0, 0f, projectile.owner, (float)num14, num12);
-                        }
-                    }
                     else if (Main.player[projectile.owner].Calamity().godSlayerMage && Main.player[projectile.owner].Calamity().godSlayerDmg <= 0)
                     {
                         int num = projectile.damage / 2;
@@ -1325,79 +1242,211 @@ namespace CalamityMod.Projectiles
                         }
                         Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ChaosGeyser>(), newDamage, 0f, projectile.owner, 0f, 0f);
                     }
-                    else if (Main.player[projectile.owner].Calamity().xerocSet && Main.player[projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<XerocBlast>()] < 3)
-                    {
-                        int newDamage = (int)((double)projectile.damage * 0.2);
-                        if (newDamage > 40)
-                        {
-                            newDamage = 40;
-                        }
-                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<XerocBlast>(), newDamage, 0f, projectile.owner, 0f, 0f);
-                    }
-                }
-                else if (projectile.ranged)
-                {
-                    if (Main.player[projectile.owner].Calamity().xerocSet && Main.player[projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<XerocFire>()] < 3)
-                    {
-                        int newDamage = (int)((double)projectile.damage * 0.15);
-                        if (newDamage > 40)
-                        {
-                            newDamage = 40;
-                        }
-                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<XerocFire>(), newDamage, 0f, projectile.owner, 0f, 0f);
-                    }
                 }
                 else if (rogue)
                 {
-                    if (Main.player[projectile.owner].Calamity().xerocSet && Main.player[projectile.owner].Calamity().xerocDmg <= 0)
+                    if (Main.player[projectile.owner].Calamity().xerocSet && Main.player[projectile.owner].Calamity().xerocDmg <= 0 && Main.player[projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<XerocFire>()] < 3 && Main.player[projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<XerocBlast>()] < 3)
                     {
-                        int num = projectile.damage / 2;
-                        Main.player[projectile.owner].Calamity().xerocDmg += (float)num;
-                        int[] array = new int[200];
-                        int num3 = 0;
-                        int num4 = 0;
-                        for (int i = 0; i < 200; i++)
-                        {
-                            if (Main.npc[i].CanBeChasedBy(projectile, false))
-                            {
-                                float num5 = Math.Abs(Main.npc[i].position.X + (float)(Main.npc[i].width / 2) - projectile.position.X + (float)(projectile.width / 2)) + Math.Abs(Main.npc[i].position.Y + (float)(Main.npc[i].height / 2) - projectile.position.Y + (float)(projectile.height / 2));
-                                if (num5 < 800f)
-                                {
-                                    if (Collision.CanHit(projectile.position, 1, 1, Main.npc[i].position, Main.npc[i].width, Main.npc[i].height) && num5 > 50f)
-                                    {
-                                        array[num4] = i;
-                                        num4++;
-                                    }
-                                    else if (num4 == 0)
-                                    {
-                                        array[num3] = i;
-                                        num3++;
-                                    }
-                                }
-                            }
-                        }
-                        if (num3 == 0 && num4 == 0)
-                        {
-                            return;
-                        }
-                        int num6;
-                        if (num4 > 0)
-                        {
-                            num6 = array[Main.rand.Next(num4)];
-                        }
-                        else
-                        {
-                            num6 = array[Main.rand.Next(num3)];
-                        }
-                        float num7 = Main.rand.Next(15, 30);
-                        float num8 = (float)Main.rand.Next(-100, 101);
-                        float num9 = (float)Main.rand.Next(-100, 101);
-                        float num10 = (float)Math.Sqrt((double)(num8 * num8 + num9 * num9));
-                        num10 = num7 / num10;
-                        num8 *= num10;
-                        num9 *= num10;
-                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num8, num9, ModContent.ProjectileType<XerocStar>(), (int)((double)num * 1.6), 0f, projectile.owner, (float)num6, 0f);
-                    }
+						if (Main.rand.NextBool(5))
+						{
+							int num = projectile.damage / 2;
+							Main.player[projectile.owner].Calamity().xerocDmg += (float)num;
+							int[] array = new int[200];
+							int num3 = 0;
+							int num4 = 0;
+							for (int i = 0; i < 200; i++)
+							{
+								if (Main.npc[i].CanBeChasedBy(projectile, false))
+								{
+									float num5 = Math.Abs(Main.npc[i].position.X + (float)(Main.npc[i].width / 2) - projectile.position.X + (float)(projectile.width / 2)) + Math.Abs(Main.npc[i].position.Y + (float)(Main.npc[i].height / 2) - projectile.position.Y + (float)(projectile.height / 2));
+									if (num5 < 800f)
+									{
+										if (Collision.CanHit(projectile.position, 1, 1, Main.npc[i].position, Main.npc[i].width, Main.npc[i].height) && num5 > 50f)
+										{
+											array[num4] = i;
+											num4++;
+										}
+										else if (num4 == 0)
+										{
+											array[num3] = i;
+											num3++;
+										}
+									}
+								}
+							}
+							if (num3 == 0 && num4 == 0)
+							{
+								return;
+							}
+							int num6;
+							if (num4 > 0)
+							{
+								num6 = array[Main.rand.Next(num4)];
+							}
+							else
+							{
+								num6 = array[Main.rand.Next(num3)];
+							}
+							float num7 = Main.rand.Next(15, 30);
+							float num8 = (float)Main.rand.Next(-100, 101);
+							float num9 = (float)Main.rand.Next(-100, 101);
+							float num10 = (float)Math.Sqrt((double)(num8 * num8 + num9 * num9));
+							num10 = num7 / num10;
+							num8 *= num10;
+							num9 *= num10;
+							Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num8, num9, ModContent.ProjectileType<XerocStar>(), (int)((double)num * 1.6), 0f, projectile.owner, (float)num6, 0f);
+						}
+						else if (Main.rand.NextBool(4))
+						{
+							int num = projectile.damage / 2;
+							Main.player[projectile.owner].Calamity().xerocDmg += (float)num;
+							int[] array = new int[200];
+							int num3 = 0;
+							int num4 = 0;
+							for (int i = 0; i < 200; i++)
+							{
+								if (Main.npc[i].CanBeChasedBy(projectile, false))
+								{
+									float num5 = Math.Abs(Main.npc[i].position.X + (float)(Main.npc[i].width / 2) - projectile.position.X + (float)(projectile.width / 2)) + Math.Abs(Main.npc[i].position.Y + (float)(Main.npc[i].height / 2) - projectile.position.Y + (float)(projectile.height / 2));
+									if (num5 < 800f)
+									{
+										if (Collision.CanHit(projectile.position, 1, 1, Main.npc[i].position, Main.npc[i].width, Main.npc[i].height) && num5 > 50f)
+										{
+											array[num4] = i;
+											num4++;
+										}
+										else if (num4 == 0)
+										{
+											array[num3] = i;
+											num3++;
+										}
+									}
+								}
+							}
+							if (num3 == 0 && num4 == 0)
+							{
+								return;
+							}
+							int num6;
+							if (num4 > 0)
+							{
+								num6 = array[Main.rand.Next(num4)];
+							}
+							else
+							{
+								num6 = array[Main.rand.Next(num3)];
+							}
+							float num7 = 30f;
+							float num8 = (float)Main.rand.Next(-100, 101);
+							float num9 = (float)Main.rand.Next(-100, 101);
+							float num10 = (float)Math.Sqrt((double)(num8 * num8 + num9 * num9));
+							num10 = num7 / num10;
+							num8 *= num10;
+							num9 *= num10;
+							Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num8, num9, ModContent.ProjectileType<XerocOrb>(), (int)((double)num * 1.25), 0f, projectile.owner, (float)num6, 0f);
+							if (target.canGhostHeal)
+							{
+								if (Main.player[Main.myPlayer].lifeSteal <= 0f)
+								{
+									return;
+								}
+								float num11 = 0.1f;
+								num11 -= (float)projectile.numHits * 0.05f;
+								if (num11 <= 0f)
+								{
+									return;
+								}
+								float num12 = (float)projectile.damage * num11;
+								if ((int)num12 <= 0)
+								{
+									return;
+								}
+								Main.player[Main.myPlayer].lifeSteal -= num12 * 1.5f;
+								float num13 = 0f;
+								int num14 = projectile.owner;
+								for (int i = 0; i < 255; i++)
+								{
+									if (Main.player[i].active && !Main.player[i].dead && ((!Main.player[projectile.owner].hostile && !Main.player[i].hostile) || Main.player[projectile.owner].team == Main.player[i].team))
+									{
+										float num15 = Math.Abs(Main.player[i].position.X + (float)(Main.player[i].width / 2) - projectile.position.X + (float)(projectile.width / 2)) + Math.Abs(Main.player[i].position.Y + (float)(Main.player[i].height / 2) - projectile.position.Y + (float)(projectile.height / 2));
+										if (num15 < 1200f && (float)(Main.player[i].statLifeMax2 - Main.player[i].statLife) > num13)
+										{
+											num13 = (float)(Main.player[i].statLifeMax2 - Main.player[i].statLife);
+											num14 = i;
+										}
+									}
+								}
+								Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<XerocHealOrb>(), 0, 0f, projectile.owner, (float)num14, num12);
+							}
+						}
+						else if (Main.rand.NextBool(3))
+						{
+							int newDamage = (int)((double)projectile.damage * 0.15);
+							if (newDamage > 40)
+							{
+								newDamage = 40;
+							}
+							Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<XerocFire>(), newDamage, 0f, projectile.owner, 0f, 0f);
+						}
+						else if (Main.rand.NextBool(2))
+						{
+							int newDamage = (int)((double)projectile.damage * 0.2);
+							if (newDamage > 40)
+							{
+								newDamage = 40;
+							}
+							Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<XerocBlast>(), newDamage, 0f, projectile.owner, 0f, 0f);
+						}
+						else
+						{
+							int num = projectile.damage / 2;
+							Main.player[projectile.owner].Calamity().xerocDmg += (float)num;
+							int[] array = new int[200];
+							int num3 = 0;
+							int num4 = 0;
+							for (int i = 0; i < 200; i++)
+							{
+								if (Main.npc[i].CanBeChasedBy(projectile, false))
+								{
+									float num5 = Math.Abs(Main.npc[i].position.X + (float)(Main.npc[i].width / 2) - projectile.position.X + (float)(projectile.width / 2)) + Math.Abs(Main.npc[i].position.Y + (float)(Main.npc[i].height / 2) - projectile.position.Y + (float)(projectile.height / 2));
+									if (num5 < 800f)
+									{
+										if (Collision.CanHit(projectile.position, 1, 1, Main.npc[i].position, Main.npc[i].width, Main.npc[i].height) && num5 > 50f)
+										{
+											array[num4] = i;
+											num4++;
+										}
+										else if (num4 == 0)
+										{
+											array[num3] = i;
+											num3++;
+										}
+									}
+								}
+							}
+							if (num3 == 0 && num4 == 0)
+							{
+								return;
+							}
+							int num6;
+							if (num4 > 0)
+							{
+								num6 = array[Main.rand.Next(num4)];
+							}
+							else
+							{
+								num6 = array[Main.rand.Next(num3)];
+							}
+							float num7 = 15f;
+							float num8 = (float)Main.rand.Next(-100, 101);
+							float num9 = (float)Main.rand.Next(-100, 101);
+							float num10 = (float)Math.Sqrt((double)(num8 * num8 + num9 * num9));
+							num10 = num7 / num10;
+							num8 *= num10;
+							num9 *= num10;
+							Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num8, num9, ModContent.ProjectileType<XerocBubble>(), (int)((double)num * 1.2), 0f, projectile.owner, (float)num6, 0f);
+						}
+					}
                     Player playerC = Main.player[projectile.owner];
                     if (playerC.Calamity().featherCrown && stealthStrike && playerC.Calamity().featherCrownCooldown <= 0)
                     {
@@ -1491,55 +1540,6 @@ namespace CalamityMod.Projectiles
                         num8 *= num10;
                         num9 *= num10;
                         Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num8, num9, ModContent.ProjectileType<GodSlayerPhantom>(), (int)((double)num * 2.0), 0f, projectile.owner, 0f, ai1);
-                    }
-                    else if (Main.player[projectile.owner].Calamity().xerocSet && Main.player[projectile.owner].Calamity().xerocDmg <= 0)
-                    {
-                        int num = projectile.damage / 2;
-                        Main.player[projectile.owner].Calamity().xerocDmg += (float)num;
-                        int[] array = new int[200];
-                        int num3 = 0;
-                        int num4 = 0;
-                        for (int i = 0; i < 200; i++)
-                        {
-                            if (Main.npc[i].CanBeChasedBy(projectile, false))
-                            {
-                                float num5 = Math.Abs(Main.npc[i].position.X + (float)(Main.npc[i].width / 2) - projectile.position.X + (float)(projectile.width / 2)) + Math.Abs(Main.npc[i].position.Y + (float)(Main.npc[i].height / 2) - projectile.position.Y + (float)(projectile.height / 2));
-                                if (num5 < 800f)
-                                {
-                                    if (Collision.CanHit(projectile.position, 1, 1, Main.npc[i].position, Main.npc[i].width, Main.npc[i].height) && num5 > 50f)
-                                    {
-                                        array[num4] = i;
-                                        num4++;
-                                    }
-                                    else if (num4 == 0)
-                                    {
-                                        array[num3] = i;
-                                        num3++;
-                                    }
-                                }
-                            }
-                        }
-                        if (num3 == 0 && num4 == 0)
-                        {
-                            return;
-                        }
-                        int num6;
-                        if (num4 > 0)
-                        {
-                            num6 = array[Main.rand.Next(num4)];
-                        }
-                        else
-                        {
-                            num6 = array[Main.rand.Next(num3)];
-                        }
-                        float num7 = 15f;
-                        float num8 = (float)Main.rand.Next(-100, 101);
-                        float num9 = (float)Main.rand.Next(-100, 101);
-                        float num10 = (float)Math.Sqrt((double)(num8 * num8 + num9 * num9));
-                        num10 = num7 / num10;
-                        num8 *= num10;
-                        num9 *= num10;
-                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num8, num9, ModContent.ProjectileType<XerocBubble>(), (int)((double)num * 1.2), 0f, projectile.owner, (float)num6, 0f);
                     }
                 }
             }

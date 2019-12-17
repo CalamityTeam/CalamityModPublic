@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SafeSetDefaults()
         {
             item.width = 32;
-            item.damage = 18;
+            item.damage = 24;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.consumable = true;
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.autoReuse = true;
             item.height = 30;
             item.maxStack = 999;
-            item.value = Item.buyPrice(0, 1, 0, 0);
+            item.value = Item.buyPrice(0, 0, 5, 0);
             item.rare = 3;
             item.shoot = ModContent.ProjectileType<InfernalKrisProjectile>();
             item.shootSpeed = 15f;
@@ -48,7 +48,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             return true;
         }
 
-        /*public override void AddRecipes()
+        public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.HellstoneBar);
@@ -56,6 +56,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this, 100);
             recipe.AddRecipe();
-        }*/
+        }
     }
 }
