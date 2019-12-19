@@ -31,7 +31,7 @@ namespace CalamityMod
                 bossChecklist.Call("AddBossWithInfo", "Aquatic Scourge", 8.5f, (Func<bool>)(() => CalamityWorld.downedAquaticScourge), "Use a [i:" + ModContent.ItemType<Seafood>() + "] in the Sulphuric Sea or wait for it to spawn in the Sulphuric Sea"); //6
                 bossChecklist.Call("AddBossWithInfo", "Calamitas", 9.7f, (Func<bool>)(() => CalamityWorld.downedCalamitas), "Use an [i:" + ModContent.ItemType<BlightedEyeball>() + "] at Night"); //7
                 bossChecklist.Call("AddBossWithInfo", "Leviathan", 10.5f, (Func<bool>)(() => CalamityWorld.downedLeviathan), "By killing an unknown entity in the Ocean Biome"); //8
-                bossChecklist.Call("AddBossWithInfo", "Astrum Aureus", 10.6f, (Func<bool>)(() => CalamityWorld.downedAstrageldon), "Use an [i:" + ModContent.ItemType<AstralChunk>() + "] at Night"); //8.5
+                bossChecklist.Call("AddBossWithInfo", "Astrum Aureus", 10.6f, (Func<bool>)(() => CalamityWorld.downedAstrageldon), "Use an [i:" + ModContent.ItemType<AstralChunk>() + "] at Night in the Astral Biome"); //8.5
                 bossChecklist.Call("AddBossWithInfo", "Plaguebringer Goliath", 11.5f, (Func<bool>)(() => CalamityWorld.downedPlaguebringer), "Use an [i:" + ModContent.ItemType<Abomination>() + "] in the Jungle Biome"); //9
                 bossChecklist.Call("AddBossWithInfo", "Ravager", 12.5f, (Func<bool>)(() => CalamityWorld.downedScavenger), "Use an [i:" + ModContent.ItemType<AncientMedallion>() + "]"); //9.5
                 bossChecklist.Call("AddBossWithInfo", "Astrum Deus", 13.5f, (Func<bool>)(() => CalamityWorld.downedStarGod), "Use a [i:" + ModContent.ItemType<Starcore>() + "] at Night or defeat 3 empowered astral titans"); //9.6
