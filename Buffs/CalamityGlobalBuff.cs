@@ -56,6 +56,15 @@ namespace CalamityMod.Buffs
 				npc.DelBuff(buffIndex);
 				buffIndex--;
 			}
+            else if (type == BuffID.Slow)
+            {
+                if (npc.Calamity().slowed < npc.buffTime[buffIndex])
+                {
+                    npc.Calamity().slowed = npc.buffTime[buffIndex];
+                }
+                npc.DelBuff(buffIndex);
+                buffIndex--;
+            }
         }
 
         public override void ModifyBuffTip(int type, ref string tip, ref int rare)
