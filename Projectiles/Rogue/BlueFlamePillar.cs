@@ -1,9 +1,14 @@
-﻿using Terraria;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
     public class BlueFlamePillar : ModProjectile
     {
+        public int frameX = 0;
+        public int frameY = 0;
+        public int currentFrame => frameY + frameX * 6;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Flame Pillar");
@@ -11,8 +16,8 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 40;
-            projectile.height = 316;
+            projectile.width = 80;
+            projectile.height = 322;
             projectile.friendly = true;
             projectile.penetrate = -1;
             projectile.timeLeft = 180;
@@ -22,28 +27,32 @@ namespace CalamityMod.Projectiles.Rogue
         }
         public override void AI()
         {
+            //2-6
+            projectile.frameCounter += 1;
+            if (projectile.frameCounter % 7 == 6)
+            {
+                frameY += 1;
+                if (frameY >= 6)
+                {
+                    frameX += 1;
+                    frameY = 0;
+                }
+                if (frameX >= 3)
+                {
+                    projectile.Kill();
+                }
+            }
             if (projectile.localAI[0] == 0f)
             {
                 projectile.position.Y -= projectile.height / 2; //position adjustments
                 projectile.localAI[0] = 1f;
             }
-            float max = (float)(projectile.width * projectile.height) / 222f;
-            int counter = 0;
-            while ((float)counter < max)
-            {
-                int dustIndex = Dust.NewDust(projectile.position, projectile.width, projectile.height, 135, 0f, 0f, 100, default, 1f);
-                Main.dust[dustIndex].noGravity = true;
-                Dust dustFromIndex = Main.dust[dustIndex];
-                dustFromIndex.velocity *= 0.5f;
-                Dust dustFromIndex2 = Main.dust[dustIndex];
-                dustFromIndex2.velocity.Y -= 0.5f;
-                Main.dust[dustIndex].scale = 1.4f;
-                Dust dustFromIndex3 = Main.dust[dustIndex];
-                dustFromIndex3.position.X += 6f;
-                Dust dustFromIndex4 = Main.dust[dustIndex];
-                dustFromIndex4.position.Y -= 2f;
-                counter++;
-            }
+        }
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            Rectangle frame = new Rectangle(frameX * 80, frameY * 322, 80, 322);
+            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Rogue/BlueFlamePillar"), projectile.Center - Main.screenPosition, frame, Color.White, projectile.rotation, projectile.Size / 2, 1f, SpriteEffects.None, 0f);
+            return false;
         }
     }
 }
