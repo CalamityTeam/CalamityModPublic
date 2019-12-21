@@ -378,6 +378,7 @@ namespace CalamityMod.CalPlayer
         public bool thiefsDime = false;
         public bool dynamoStemCells = false;
         public bool etherealExtorter = false;
+        public bool blazingCore = false;
         //public bool dukeScales = false;
         public bool sandWaifu = false;
         public bool sandBoobWaifu = false;
@@ -1090,6 +1091,7 @@ namespace CalamityMod.CalPlayer
             dynamoStemCells = false;
             etherealExtorter = false;
             //dukeScales = false;
+            blazingCore = false;
 
             daedalusReflect = false;
             daedalusSplit = false;
@@ -3680,6 +3682,10 @@ namespace CalamityMod.CalPlayer
             else if (tarraSummon)
             {
                 Lighting.AddLight((int)(player.Center.X / 16f), (int)(player.Center.Y / 16f), 0f, 3f, 0f);
+            }
+            if (blazingCore)
+            {
+                player.endurance += 0.1f;
             }
             if (cFreeze)
             {
@@ -9164,6 +9170,22 @@ namespace CalamityMod.CalPlayer
                         Main.PlaySound(2, (int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y, 61);
                         int inkBomb = Projectile.NewProjectile(player.Center.X, player.Center.Y, Main.rand.NextFloat(-3f, 3f), Main.rand.NextFloat(-0f, -4f), ModContent.ProjectileType<InkBombProjectile>(), 0, 0, player.whoAmI);
                     }
+                }
+            }
+            if (blazingCore)
+            {
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<BlazingSun>()] < 1 && player.ownedProjectileCounts[ModContent.ProjectileType<BlazingSun2>()] < 1)
+                {
+                    for (int i = 0; i< 360; i += 3)
+                    {
+                        Vector2 BCDSpeed = new Vector2(5f, 5f).RotatedBy(MathHelper.ToRadians(i));
+                        Dust.NewDust(player.Center, 1, 1, 244, BCDSpeed.X, BCDSpeed.Y, 0, default, 1.1f);
+                    }
+                    Main.PlaySound(SoundID.Item14, player.Center);
+                    int blazingSun = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<BlazingSun>(), 1690, 0f, player.whoAmI, 0f, 0f);
+                    Main.projectile[blazingSun].Center = player.Center;
+                    int blazingSun2 = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<BlazingSun2>(), 0, 0f, player.whoAmI, 0f, 0f);
+                    Main.projectile[blazingSun2].Center = player.Center;
                 }
             }
             if (ataxiaBlaze && Main.rand.NextBool(5))

@@ -55,6 +55,7 @@ namespace CalamityMod.Items.TreasureBags
 
             // Equipment
             DropHelper.DropItemChance(player, ModContent.ItemType<SamuraiBadge>(), DropHelper.RareVariantDropRateInt);
+            DropHelper.DropItem(player, ModContent.ItemType<BlazingCore>());
 
             // Vanity
             DropHelper.DropItemChance(player, ModContent.ItemType<ProvidenceMask>(), 7);
