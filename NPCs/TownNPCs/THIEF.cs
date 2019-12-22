@@ -283,6 +283,12 @@ namespace CalamityMod.NPCs.TownNPCs
 				shop.item[nextSlot].shopCustomPrice = Item.buyPrice(5, 0, 0, 0);
 				nextSlot++;
 			}
+            if (CalamityWorld.downedDoG)
+            {
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<VeneratedLocket>());
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(25, 0, 0, 0);
+                nextSlot++;
+            }
             if (CalamityWorld.buffedEclipse && !CalamityWorld.dragonScalesBought)
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<DragonScales>());
