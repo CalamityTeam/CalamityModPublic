@@ -1,4 +1,5 @@
 using CalamityMod.CalPlayer;
+using CalamityMod.Projectiles;
 using CalamityMod.World;
 using System;
 using Terraria;
@@ -397,7 +398,7 @@ namespace CalamityMod
         }
         #endregion
 
-        #region Rogue Stats
+        #region Rogue Class
         /// <summary>
         /// Gets a player's current rogue damage stat.
         /// </summary>
@@ -410,7 +411,7 @@ namespace CalamityMod
         /// </summary>
         /// <param name="p">The player whose rogue damage is being modified.</param>
         /// <param name="add">The amount of rogue damage to add or subtract (if negative).</param>
-        /// <returns></returns>
+        /// <returns>The player's new rogue damage stat.</returns>
         public static float AddRogueDamage(Player p, float add) => p is null ? 1f : (p.Calamity().throwingDamage += add);
 
         /// <summary>
@@ -425,7 +426,7 @@ namespace CalamityMod
         /// </summary>
         /// <param name="p">The player whose rogue crit is being modified.</param>
         /// <param name="add">The amount of rogue crit to add or subtract (if negative).</param>
-        /// <returns></returns>
+        /// <returns>The player's new rogue crit stat.</returns>
         public static int AddRogueCrit(Player p, int add) => p is null ? 0 : (p.Calamity().throwingCrit += add);
 
         /// <summary>
@@ -440,8 +441,42 @@ namespace CalamityMod
         /// </summary>
         /// <param name="p">The player whose rogue velocity is being modified.</param>
         /// <param name="add">The amount of rogue velocity to add or subtract (if negative).</param>
-        /// <returns></returns>
+        /// <returns>The player's new rogue velocity stat.</returns>
         public static float AddRogueVelocity(Player p, float add) => p is null ? 1f : (p.Calamity().throwingVelocity += add);
+
+        public static float GetCurrentStealth(Player p) => p?.Calamity()?.rogueStealth ?? 0f;
+        
+        public static float GetMaxStealth(Player p) => p?.Calamity()?.rogueStealthMax ?? 0f;
+
+        public static float AddMaxStealth(Player p, float add) => p is null ? 0f : (p.Calamity().rogueStealthMax += add);
+
+        /// <summary>
+        /// Gets whether the given projectile is classified as rogue.
+        /// </summary>
+        /// <param name="p">The projectile which is being checked.</param>
+        /// <returns>Whether the projectile is rogue.</returns>
+        public static bool IsRogue(Projectile p)
+        {
+            if (p is null || p.Calamity() is null)
+                return false;
+            CalamityGlobalProjectile cgp = p.Calamity();
+            return cgp.rogue | cgp.forceRogue;
+        }
+
+        /// <summary>
+        /// Sets whether the given projectile is classified as rogue. If set to true, also forces the projectile to be rogue every single frame.
+        /// </summary>
+        /// <param name="p">The projectile whose rogue classification is being toggled.</param>
+        /// <param name="isRogue">The value to apply.</param>
+        /// <returns>Whether the projectile is now rogue.</returns>
+        public static bool SetRogue(Projectile p, bool isRogue)
+        {
+            if (p is null || p.Calamity() is null)
+                return false;
+            CalamityGlobalProjectile cgp = p.Calamity();
+            cgp.forceRogue = cgp.rogue = isRogue;
+            return cgp.rogue;
+        }
         #endregion
 
         #region Player Armor Set Bonuses
@@ -1109,13 +1144,23 @@ namespace CalamityMod
         public static object Call(params object[] args)
         {
             bool isValidPlayerArg(object o) => o is int || o is Player;
+            bool isValidProjectileArg(object o) => o is int || o is Projectile;
 
             Player castPlayer(object o)
             {
-                if (o is int)
-                    return Main.player[(int)o];
-                else if (o is Player)
-                    return (Player)o;
+                if (o is int i)
+                    return Main.player[i];
+                else if (o is Player p)
+                    return p;
+                return null;
+            }
+
+            Projectile castProjectile(object o)
+            {
+                if (o is int i)
+                    return Main.projectile[i];
+                else if (o is Player p)
+                    return p;
                 return null;
             }
 
@@ -1167,11 +1212,11 @@ namespace CalamityMod
                         return new ArgumentNullException("ERROR: Must specify a difficulty mode name as a string and a bool.");
                     if (args.Length < 3)
                         return new ArgumentNullException("ERROR: Must specify a bool.");
-                    if (!(args[2] is bool))
+                    if (!(args[2] is bool enabled))
                         return new ArgumentException("ERROR: The second argument to \"SetDifficulty\" must be a bool.");
                     if (!(args[1] is string))
                         return new ArgumentException("ERROR: The first argument to \"SetDifficulty\" must be a string.");
-                    return SetDifficultyActive(args[1].ToString(), (bool)args[2]);
+                    return SetDifficultyActive(args[1].ToString(), enabled);
 
                 case "GetRogueDamage":
                 case "GetRogueDmg":
@@ -1204,11 +1249,11 @@ namespace CalamityMod
                         return new ArgumentNullException("ERROR: Must specify both a Player object (or int index of a Player) and rogue damage change as a float.");
                     if (args.Length < 3)
                         return new ArgumentNullException("ERROR: Must specify rogue damage change as a float.");
-                    if (!(args[2] is float))
+                    if (!(args[2] is float damage))
                         return new ArgumentException("ERROR: The second argument to \"AddRogueDamage\" must be a float.");
                     if (!isValidPlayerArg(args[1]))
                         return new ArgumentException("ERROR: The first argument to \"AddRogueDamage\" must be a Player or an int.");
-                    return AddRogueDamage(castPlayer(args[1]), (float)args[2]);
+                    return AddRogueDamage(castPlayer(args[1]), damage);
 
                 case "AddRogueCrit":
                 case "AddRogueCritChance":
@@ -1218,11 +1263,11 @@ namespace CalamityMod
                         return new ArgumentNullException("ERROR: Must specify both a Player object (or int index of a Player) and rogue crit change as an int.");
                     if (args.Length < 3)
                         return new ArgumentNullException("ERROR: Must specify rogue crit change as a float.");
-                    if (!(args[2] is int))
+                    if (!(args[2] is int crit))
                         return new ArgumentException("ERROR: The second argument to \"AddRogueCrit\" must be an int.");
                     if (!isValidPlayerArg(args[1]))
                         return new ArgumentException("ERROR: The first argument to \"AddRogueCrit\" must be a Player or an int.");
-                    return AddRogueCrit(castPlayer(args[1]), (int)args[2]);
+                    return AddRogueCrit(castPlayer(args[1]), crit);
 
                 case "AddRogueVelocity":
                 case "ModifyRogueVelocity":
@@ -1230,11 +1275,62 @@ namespace CalamityMod
                         return new ArgumentNullException("ERROR: Must specify both a Player object (or int index of a Player) and rogue velocity change as a float.");
                     if (args.Length < 3)
                         return new ArgumentNullException("ERROR: Must specify rogue velocity change as a float.");
-                    if (!(args[2] is float))
+                    if (!(args[2] is float velocity))
                         return new ArgumentException("ERROR: The second argument to \"AddRogueVelocity\" must be a float.");
                     if (!isValidPlayerArg(args[1]))
                         return new ArgumentException("ERROR: The first argument to \"AddRogueVelocity\" must be a Player or an int.");
-                    return AddRogueVelocity(castPlayer(args[1]), (float)args[2]);
+                    return AddRogueVelocity(castPlayer(args[1]), velocity);
+
+                case "GetStealth":
+                case "GetCurrentStealth":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify a Player object (or int index of a Player).");
+                    if (!isValidPlayerArg(args[1]))
+                        return new ArgumentException("ERROR: The first argument to \"GetStealth\" must be a Player or an int.");
+                    return GetCurrentStealth(castPlayer(args[1]));
+
+                case "GetMaxStealth":
+                case "GetStealthCap":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify a Player object (or int index of a Player).");
+                    if (!isValidPlayerArg(args[1]))
+                        return new ArgumentException("ERROR: The first argument to \"GetMaxStealth\" must be a Player or an int.");
+                    return GetMaxStealth(castPlayer(args[1]));
+
+                case "AddMaxStealth":
+                case "ModifyMaxStealth":
+                case "ModifyStealthCap":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify both a Player object (or int index of a Player) and rogue max stealth as a float.");
+                    if (args.Length < 3)
+                        return new ArgumentNullException("ERROR: Must specify rogue max stealth as a float.");
+                    if (!(args[2] is float maxStealth))
+                        return new ArgumentException("ERROR: The second argument to \"AddMaxStealth\" must be a float.");
+                    if (!isValidPlayerArg(args[1]))
+                        return new ArgumentException("ERROR: The first argument to \"AddMaxStealth\" must be a Player or an int.");
+                    return AddMaxStealth(castPlayer(args[1]), maxStealth);
+
+                case "IsRogue":
+                case "IsProjRogue":
+                case "IsProjectileRogue":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify a Projectile object (or int index of a Projectile).");
+                    if (!isValidProjectileArg(args[1]))
+                        return new ArgumentException("ERROR: The first argument to \"IsRogue\" must be a Projectile or an int.");
+                    return IsRogue(castProjectile(args[1]));
+
+                case "SetRogue":
+                case "SetProjRogue":
+                case "SetProjectileRogue":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify both a Projectile object (or int index of a Projectile) and a bool.");
+                    if (args.Length < 3)
+                        return new ArgumentNullException("ERROR: Must specify rogue status as a bool.");
+                    if (!(args[2] is bool isRogue))
+                        return new ArgumentException("ERROR: The second argument to \"SetRogue\" must be a bool.");
+                    if (!isValidProjectileArg(args[1]))
+                        return new ArgumentException("ERROR: The first argument to \"SetRogue\" must be a Projectile or an int.");
+                    return SetRogue(castProjectile(args[1]), isRogue);
 
                 case "SetBonus":
                 case "SetBonusActive":
@@ -1261,13 +1357,13 @@ namespace CalamityMod
                         return new ArgumentNullException("ERROR: Must specify a set bonus name as a string and a bool.");
                     if (args.Length < 4)
                         return new ArgumentNullException("ERROR: Must specify a bool.");
-                    if (!(args[3] is bool))
+                    if (!(args[3] is bool setBonusEnabled))
                         return new ArgumentException("ERROR: The third argument to \"SetSetBonus\" must be a bool.");
                     if (!(args[2] is string))
                         return new ArgumentException("ERROR: The second argument to \"SetSetBonus\" must be a string.");
                     if (!isValidPlayerArg(args[1]))
                         return new ArgumentException("ERROR: The first argument to \"SetSetBonus\" must be a Player or an int.");
-                    return SetSetBonus(castPlayer(args[1]), args[2].ToString(), (bool)args[3]);
+                    return SetSetBonus(castPlayer(args[1]), args[2].ToString(), setBonusEnabled);
 
                 case "DR":
                 case "DamageReduction":
