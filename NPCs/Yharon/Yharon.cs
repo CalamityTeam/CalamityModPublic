@@ -46,8 +46,8 @@ namespace CalamityMod.NPCs.Yharon
         private bool spawnArena = false;
         private int invincibilityCounter = 0;
 
-        public static float Phase1_DR = 0.17f;
-        public static float Phase2_DR = 0.22f;
+        public static float Phase1_DR = 0.24f;
+        public static float Phase2_DR = 0.26f;
         public static float EnragedDR = 0.9f;
 
         public override void SetStaticDefaults()
@@ -62,7 +62,7 @@ namespace CalamityMod.NPCs.Yharon
             npc.damage = 330;
             npc.width = 200;
             npc.height = 200;
-            npc.defense = 100;
+            npc.defense = 150;
             npc.LifeMaxNERD(2275000, 2525000, 3025000, 3700000, 4000000);
             double HPBoost = Config.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
