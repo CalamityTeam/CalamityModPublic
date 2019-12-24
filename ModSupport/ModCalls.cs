@@ -1159,7 +1159,7 @@ namespace CalamityMod
             {
                 if (o is int i)
                     return Main.projectile[i];
-                else if (o is Player p)
+                else if (o is Projectile p)
                     return p;
                 return null;
             }
