@@ -52,8 +52,8 @@ namespace CalamityMod.Items.Fishing.SulphurCatches
             {
                 DropHelper.DropItemChance(player, ModContent.ItemType<DepthCells>(), 0.5f, 5, 10);
                 DropHelper.DropItemChance(player, ModContent.ItemType<Lumenite>(), 0.5f, 5, 10);
-                DropHelper.DropItemChance(player, ModContent.ItemType<CalamityMod.Items.Placeables.PlantyMush>(), 0.5f, 5, 10);
-                DropHelper.DropItemChance(player, ModContent.ItemType<CalamityMod.Items.Placeables.Tenebris>(), 0.5f, 5, 10);
+                DropHelper.DropItemChance(player, ModContent.ItemType<Items.Placeables.PlantyMush>(), 0.5f, 5, 10);
+                DropHelper.DropItemChance(player, ModContent.ItemType<Items.Placeables.Tenebris>(), 0.5f, 5, 10);
             }
             if (NPC.downedGolemBoss)
             {
