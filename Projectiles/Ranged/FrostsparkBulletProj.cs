@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Bullet");
+            DisplayName.SetDefault("Frostspark Bullet");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
@@ -31,22 +31,16 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0.15f / 255f, (255 - projectile.alpha) * 0.15f / 255f);
-            if (Main.rand.NextBool(2))
+            Lighting.AddLight(projectile.Center, 0.15f, 0.05f, 0.3f);
+            if (Main.rand.NextBool())
             {
-                int dustType = Main.rand.Next(3);
-                if (dustType == 0)
-                {
-                    dustType = 67;
-                }
-                else
-                {
-                    dustType = 6;
-                }
-                int num137 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), 1, 1, dustType, 0f, 0f, 0, default, 0.5f);
-                Main.dust[num137].alpha = projectile.alpha;
-                Main.dust[num137].velocity *= 0f;
-                Main.dust[num137].noGravity = true;
+                int dustType = 15;
+                float spacing = Main.rand.NextFloat(-0.2f, 0.8f);
+                int dust = Dust.NewDust(projectile.Center - spacing * projectile.velocity, 1, 1, dustType);;
+                Main.dust[dust].position = projectile.Center;
+                Main.dust[dust].velocity *= 0.4f;
+                Main.dust[dust].velocity += projectile.velocity * 0.7f;
+                Main.dust[dust].noGravity = true;
             }
         }
 
@@ -54,6 +48,12 @@ namespace CalamityMod.Projectiles.Ranged
         {
             CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
             return false;
+        }
+
+        // This projectile is always fullbright.
+        public override Color? GetAlpha(Color lightColor)
+        {
+            return new Color(1f, 1f, 1f, 0f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -66,8 +66,18 @@ namespace CalamityMod.Projectiles.Ranged
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 27);
-            // DEFECT -- BoltExplosion does not exist.
-            // Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<BoltExplosion>(), (int)((double)projectile.damage * 0.5), 0f, projectile.owner, 0f, 0f);
+
+            projectile.damage /= 2;
+            projectile.position = projectile.Center;
+            projectile.width = projectile.height = 32;
+            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
+            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+            projectile.maxPenetrate = -1;
+            projectile.penetrate = -1;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 10;
+            projectile.Damage();
+
             int num212 = Main.rand.Next(10, 20);
             for (int num213 = 0; num213 < num212; num213++)
             {
