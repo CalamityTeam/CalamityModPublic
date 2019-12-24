@@ -7,7 +7,7 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Brimstone Fish"); //Bass substitute
+            DisplayName.SetDefault("Brimstone Fish"); //Future potion ingredient
             Tooltip.SetDefault("Fire is a living being");
         }
 
@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
             item.width = 28;
             item.height = 30;
             item.maxStack = 999;
-            item.value = Item.sellPrice(silver: 5);
+            item.value = Item.sellPrice(silver: 8);
             item.rare = 1;
         }
     }

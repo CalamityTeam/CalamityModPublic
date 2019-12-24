@@ -2838,7 +2838,7 @@ namespace CalamityMod.NPCs.Yharon
 
                 // Weapons
                 DropHelper.DropItemChance(npc, ModContent.ItemType<VoidVortex>(), DropHelper.RareVariantDropRateInt);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<YharimsCrystal>(), DropHelper.LegendaryDropRateInt);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<YharimsCrystal>(), 100); //not affected by defiled and not a leggie
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<YharonTrophy>(), 10);

@@ -1,5 +1,6 @@
 using Terraria;
 using Terraria.ModLoader;
+using CalamityMod.Items.Materials;
 
 namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
 {
@@ -8,7 +9,8 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Chaotic Fish"); //Future potion ingredient
-            Tooltip.SetDefault("The horns lay a curse on those who touch it");
+            Tooltip.SetDefault("The horns lay a curse on those who touch it\n" +
+			"Right click to extract essence");
         }
 
         public override void SetDefaults()
@@ -18,6 +20,16 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
             item.maxStack = 999;
             item.value = Item.sellPrice(silver: 10);
             item.rare = 2;
+        }
+
+        public override bool CanRightClick()
+        {
+            return true;
+        }
+
+        public override void RightClick(Player player)
+        {
+            DropHelper.DropItem(player, ModContent.ItemType<EssenceofChaos>(), 5, 10);
         }
     }
 }

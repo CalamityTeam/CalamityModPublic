@@ -675,6 +675,10 @@ namespace CalamityMod.NPCs.GreatSandShark
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<GrandScale>());
             }
+
+            // Mark Great Sand Shark as dead
+            CalamityWorld.downedGSS = true;
+            CalamityMod.UpdateServerBoolean();
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
