@@ -14,8 +14,8 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 6;
-            projectile.height = 6;
+            projectile.width = 8;
+            projectile.height = 8;
             projectile.friendly = true;
             projectile.ranged = true;
             projectile.penetrate = 1;
@@ -28,11 +28,11 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.localAI[0] += 1f;
             if (projectile.localAI[0] > 4f)
             {
-                for (int num468 = 0; num468 < 3; num468++)
+                for (int num468 = 0; num468 < 2; num468++)
                 {
-                    int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 5, 0f, 0f, 100, default, 2f);
+                    Vector2 dspeed = -projectile.velocity * 0.7f;
+                    int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 5, dspeed.X, dspeed.Y, 100, default, 2f);
                     Main.dust[num469].noGravity = true;
-                    Main.dust[num469].velocity *= 0f;
                 }
             }
         }

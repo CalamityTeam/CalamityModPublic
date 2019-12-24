@@ -212,7 +212,9 @@ namespace CalamityMod.NPCs.StormWeaver
                     }
                     for (int num957 = 0; num957 < 200; num957++)
                     {
-                        if (Main.npc[num957].aiStyle == npc.aiStyle)
+                        if (Main.npc[num957].active && (Main.npc[num957].type == ModContent.NPCType<StormWeaverBody>()
+                            || Main.npc[num957].type == ModContent.NPCType<StormWeaverHead>()
+                            || Main.npc[num957].type == ModContent.NPCType<StormWeaverTail>()))
                         {
                             Main.npc[num957].active = false;
                         }
@@ -231,7 +233,9 @@ namespace CalamityMod.NPCs.StormWeaver
                 }
                 for (int num957 = 0; num957 < 200; num957++)
                 {
-                    if (Main.npc[num957].aiStyle == npc.aiStyle)
+                    if (Main.npc[num957].active && (Main.npc[num957].type == ModContent.NPCType<StormWeaverBody>()
+                            || Main.npc[num957].type == ModContent.NPCType<StormWeaverHead>()
+                            || Main.npc[num957].type == ModContent.NPCType<StormWeaverTail>()))
                     {
                         Main.npc[num957].active = false;
                     }
@@ -531,7 +535,7 @@ namespace CalamityMod.NPCs.StormWeaver
             }
             if (npc.life <= 0)
             {
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SWArmor"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SWArmorHead1"), 1f);
                 npc.position.X = npc.position.X + (float)(npc.width / 2);
                 npc.position.Y = npc.position.Y + (float)(npc.height / 2);
                 npc.width = 30;
@@ -563,9 +567,10 @@ namespace CalamityMod.NPCs.StormWeaver
         {
             for (int num957 = 0; num957 < 200; num957++)
             {
-                if (Main.npc[num957].aiStyle == npc.aiStyle)
+                if (Main.npc[num957].active && (Main.npc[num957].type == ModContent.NPCType<StormWeaverBody>()
+                            || Main.npc[num957].type == ModContent.NPCType<StormWeaverTail>()))
                 {
-                    Main.npc[num957].active = false;
+                    Main.npc[num957].life = 0;
                 }
             }
             if (Main.netMode != NetmodeID.MultiplayerClient)

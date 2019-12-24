@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Materials
         {
             DisplayName.SetDefault("Auric Tesla Bar");
             Tooltip.SetDefault("It radiates godly energy");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 15));
+            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 16));
         }
 
         public override void SetDefaults()
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Materials
 
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
-			CalamityUtils.DrawItemGlowmask(item, spriteBatch, 15, rotation, ModContent.GetTexture("CalamityMod/Items/Materials/AuricBarGlow"));
+			CalamityUtils.DrawItemGlowmask(item, spriteBatch, 16, rotation, ModContent.GetTexture("CalamityMod/Items/Materials/AuricBarGlow"));
 		}
 
 		public override void Update(ref float gravity, ref float maxFallSpeed)

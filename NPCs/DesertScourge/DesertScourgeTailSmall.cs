@@ -18,7 +18,7 @@ namespace CalamityMod.NPCs.DesertScourge
             npc.damage = 8;
             npc.npcSlots = 5f;
             npc.width = 32;
-            npc.height = 48;
+            npc.height = 32;
             npc.defense = 7;
             npc.lifeMax = 800;
             if (CalamityWorld.bossRushActive)
@@ -38,7 +38,6 @@ namespace CalamityMod.NPCs.DesertScourge
             npc.DeathSound = SoundID.NPCDeath1;
             npc.netAlways = true;
             npc.dontCountMe = true;
-            npc.scale = 0.75f;
         }
 
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)

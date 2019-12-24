@@ -20,8 +20,8 @@ namespace CalamityMod.Items.SummonItems
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 18;
+            item.width = 34;
+            item.height = 40;
             item.rare = 9;
             item.useAnimation = 45;
             item.useTime = 45;

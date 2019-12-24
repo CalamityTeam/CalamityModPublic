@@ -1,6 +1,8 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Boss
 {
@@ -9,20 +11,46 @@ namespace CalamityMod.Projectiles.Boss
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Brimstone Hellfireball");
+            Main.projFrames[projectile.type] = 6;
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 3;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 12;
-            projectile.height = 12;
+            projectile.width = 34;
+            projectile.height = 34;
             projectile.hostile = true;
             projectile.ignoreWater = true;
             projectile.penetrate = -1;
             projectile.timeLeft = 600;
+            projectile.alpha = 255;
         }
 
         public override void AI()
         {
+            //Animation
+            projectile.frameCounter++;
+            if (projectile.frameCounter > 9)
+            {
+                projectile.frame++;
+                projectile.frameCounter = 0;
+            }
+            if (projectile.frame > 5)
+            {
+                projectile.frame = 0;
+            }
+
+            //Fade in
+            if (projectile.alpha > 5)
+                projectile.alpha -= 15;
+            if (projectile.alpha < 5)
+                projectile.alpha = 5;
+
+            //Rotation
+            projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
+            projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi) - MathHelper.ToRadians(90) * projectile.direction;
+
             projectile.velocity.Y *= 1.01f;
             projectile.velocity.X *= 1.01f;
             Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.5f / 255f, (255 - projectile.alpha) * 0.05f / 255f, (255 - projectile.alpha) * 0.05f / 255f);
@@ -31,13 +59,12 @@ namespace CalamityMod.Projectiles.Boss
                 Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 20);
                 projectile.ai[0] += 1f;
             }
-            for (int num457 = 0; num457 < 5; num457++)
-            {
-                int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 235, 0f, 0f, 100, default, 1.6f);
-                Main.dust[num458].noGravity = true;
-                Main.dust[num458].velocity *= 0.5f;
-                Main.dust[num458].velocity += projectile.velocity * 0.1f;
-            }
+
+            int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 235, 0f, 0f, 170, default, 1.1f);
+            Main.dust[num458].noGravity = true;
+            Main.dust[num458].velocity *= 0.5f;
+            Main.dust[num458].velocity += projectile.velocity * 0.1f;
+            
         }
 
         public override void Kill(int timeLeft)
@@ -51,6 +78,12 @@ namespace CalamityMod.Projectiles.Boss
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 600);
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            return false;
         }
     }
 }

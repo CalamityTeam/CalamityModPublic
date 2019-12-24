@@ -15,13 +15,12 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 8;
-            projectile.height = 8;
+            projectile.width = 16;
+            projectile.height = 16;
             projectile.friendly = true;
             projectile.penetrate = 5;
             projectile.tileCollide = false;
             projectile.timeLeft = 300;
-            projectile.alpha = 255;
             projectile.ranged = true;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 1;
@@ -29,24 +28,26 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
+            projectile.rotation += 0.15f;
+            Lighting.AddLight(projectile.Center, new Vector3(245, 124, 110) * (1.7f / 255));
             x++;
             projectile.localAI[0] += 1f;
             if (projectile.localAI[0] > 30f)
             {
                 projectile.velocity.Y = (float)(((double)projectile.ai[1]) * Math.Sin(x / 4));
             }
-            for (int num151 = 0; num151 < 3; num151++)
+            for (int num151 = 0; num151 < 2; num151++)
             {
                 int num154 = 14;
-                int num155 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width - num154 * 2, projectile.height - num154 * 2, 60, 0f, 0f, 100, default, 3f);
+                int num155 = Dust.NewDust(new Vector2(projectile.Center.X, projectile.Center.Y), projectile.width - num154 * 2, projectile.height - num154 * 2, 60, 0f, 0f, 100, default, 1.6f);
                 Main.dust[num155].noGravity = true;
                 Main.dust[num155].velocity *= 0.1f;
                 Main.dust[num155].velocity += projectile.velocity * 0.5f;
             }
-            if (Main.rand.NextBool(8))
+            if (Main.rand.NextBool(13))
             {
                 int num156 = 16;
-                int num157 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width - num156 * 2, projectile.height - num156 * 2, 60, 0f, 0f, 100, default, 2.25f);
+                int num157 = Dust.NewDust(new Vector2(projectile.Center.X, projectile.Center.Y), projectile.width - num156 * 2, projectile.height - num156 * 2, 60, 0f, 0f, 100, default, 1f);
                 Main.dust[num157].velocity *= 0.25f;
                 Main.dust[num157].velocity += projectile.velocity * 0.5f;
             }

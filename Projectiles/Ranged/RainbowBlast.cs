@@ -1,8 +1,10 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -11,6 +13,8 @@ namespace CalamityMod.Projectiles.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blast");
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
 
         public override void SetDefaults()
@@ -26,16 +30,21 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
-            projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] > 4f)
+            //Rotation
+            projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
+            projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
+
+            Lighting.AddLight(projectile.Center, new Vector3(Main.DiscoR, Main.DiscoG, Main.DiscoB) * (1.5f / 255));
+
+            projectile.localAI[0] ++;
+            if (projectile.localAI[0] > 5f)
             {
-                for (int num468 = 0; num468 < 5; num468++)
-                {
-                    int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 66, 0f, 0f, 100, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1f);
-                    Main.dust[num469].noGravity = true;
-                    Main.dust[num469].velocity *= 0f;
-                }
+                Vector2 dspeed = -projectile.velocity * 0.5f;
+                int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 66, dspeed.X, dspeed.Y, 100, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1.1f);
+                Main.dust[num469].noGravity = true;
+                Main.dust[num469].velocity = dspeed;
             }
+            
             float num472 = projectile.Center.X;
             float num473 = projectile.Center.Y;
             float num474 = 200f;
@@ -77,6 +86,18 @@ namespace CalamityMod.Projectiles.Ranged
             target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
             target.AddBuff(ModContent.BuffType<Plague>(), 120);
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
+        }
+
+        public override Color? GetAlpha(Color lightColor)
+        {
+            Color color = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB);
+            return color;
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            return false;
         }
     }
 }

@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cosmic Ice");
-            Main.projFrames[projectile.type] = 9;
+            Main.projFrames[projectile.type] = 6;
         }
 
         public override void SetDefaults()
@@ -61,33 +61,33 @@ namespace CalamityMod.Projectiles.Melee
                 projectile.Center = projectile.position;
                 projectile.Damage();
                 Main.PlaySound(SoundID.Item62, projectile.position);
-                for (int num1000 = 0; num1000 < 4; num1000++)
+                for (int num1000 = 0; num1000 < 2; num1000++)
                 {
-                    int num1001 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 187, 0f, 0f, 100, new Color(150, Main.DiscoG, 255), 1.5f);
+                    int num1001 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 187, 0f, 0f, 100, new Color(150, 255, 255), 1f);
                     Main.dust[num1001].position = projectile.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * (float)projectile.width / 2f;
                 }
-                for (int num1002 = 0; num1002 < 10; num1002++)
+                for (int num1002 = 0; num1002 < 3; num1002++)
                 {
-                    int num1003 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 67, 0f, 0f, 200, new Color(150, Main.DiscoG, 255), 2.7f);
+                    int num1003 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 67, 0f, 0f, 200, new Color(150, 255, 255), 1f);
                     Main.dust[num1003].position = projectile.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * (float)projectile.width / 2f;
                     Main.dust[num1003].noGravity = true;
                     Main.dust[num1003].velocity *= 3f;
-                    num1003 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 67, 0f, 0f, 100, new Color(150, Main.DiscoG, 255), 1.5f);
+                    num1003 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 67, 0f, 0f, 100, new Color(150, 255, 255), 0.6f);
                     Main.dust[num1003].position = projectile.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * (float)projectile.width / 2f;
                     Main.dust[num1003].velocity *= 2f;
                     Main.dust[num1003].noGravity = true;
                     Main.dust[num1003].fadeIn = 2.5f;
                 }
-                for (int num1004 = 0; num1004 < 5; num1004++)
+                for (int num1004 = 0; num1004 < 2; num1004++)
                 {
-                    int num1005 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 67, 0f, 0f, 0, new Color(150, Main.DiscoG, 255), 2.7f);
+                    int num1005 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 67, 0f, 0f, 0, new Color(150, 255, 255), 1f);
                     Main.dust[num1005].position = projectile.Center + Vector2.UnitX.RotatedByRandom(3.1415927410125732).RotatedBy((double)projectile.velocity.ToRotation(), default) * (float)projectile.width / 2f;
                     Main.dust[num1005].noGravity = true;
                     Main.dust[num1005].velocity *= 3f;
                 }
-                for (int num1006 = 0; num1006 < 10; num1006++)
+                for (int num1006 = 0; num1006 < 3; num1006++)
                 {
-                    int num1007 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 187, 0f, 0f, 0, new Color(150, Main.DiscoG, 255), 1.5f);
+                    int num1007 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 187, 0f, 0f, 0, new Color(150, 255, 255), 0.6f);
                     Main.dust[num1007].position = projectile.Center + Vector2.UnitX.RotatedByRandom(3.1415927410125732).RotatedBy((double)projectile.velocity.ToRotation(), default) * (float)projectile.width / 2f;
                     Main.dust[num1007].noGravity = true;
                     Main.dust[num1007].velocity *= 3f;
@@ -111,10 +111,10 @@ namespace CalamityMod.Projectiles.Melee
             return true;
         }
 
-        public override Color? GetAlpha(Color lightColor)
+        /*public override Color? GetAlpha(Color lightColor)
         {
             return new Color(150, Main.DiscoG, 255, 127);
-        }
+        }*/
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {

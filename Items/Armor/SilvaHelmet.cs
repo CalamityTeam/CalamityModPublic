@@ -14,14 +14,14 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Silva Helmet");
+            DisplayName.SetDefault("Silva Horned Hood");
             Tooltip.SetDefault("+5 max minions");
         }
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
+            item.width = 28;
+            item.height = 24;
             item.value = Item.buyPrice(0, 90, 0, 0);
             item.defense = 13; //110
             item.Calamity().postMoonLordRarity = 15;

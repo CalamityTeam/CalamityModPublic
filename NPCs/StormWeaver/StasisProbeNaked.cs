@@ -233,7 +233,8 @@ namespace CalamityMod.NPCs.StormWeaver
                     num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 2f);
                     Main.dust[num624].velocity *= 2f;
                 }
-                for (int num625 = 0; num625 < 3; num625++)
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/StasisProbeNaked1"), 1f);
+                for (int num625 = 0; num625 < 1; num625++)
                 {
                     float scaleFactor10 = 0.33f;
                     if (num625 == 1)

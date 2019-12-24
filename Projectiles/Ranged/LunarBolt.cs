@@ -12,50 +12,66 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 4;
-            projectile.height = 4;
-            projectile.aiStyle = 1;
-            projectile.scale = 1.25f;
+            projectile.width = 10;
+            projectile.height = 10;
             projectile.friendly = true;
             projectile.ranged = true;
             projectile.alpha = 255;
             projectile.penetrate = 1;
             projectile.extraUpdates = 1;
             projectile.timeLeft = 180;
-            aiType = 357;
         }
 
         public override void AI()
         {
+            //Rotation
+            projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
+            projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi); 
+            
             if (projectile.alpha < 170)
             {
-                for (int num134 = 0; num134 < 10; num134++)
+                for (int num161 = 0; num161 < 5; num161++)
                 {
-                    float x = projectile.position.X - projectile.velocity.X / 10f * (float)num134;
-                    float y = projectile.position.Y - projectile.velocity.Y / 10f * (float)num134;
-                    int num135 = Dust.NewDust(new Vector2(x, y), 1, 1, 15, 0f, 0f, 0, default, 0.4f);
+                    Vector2 dspeed = -projectile.velocity * 0.5f;
+                    int num162 = Dust.NewDust(projectile.Center, 1, 1, 206, 0f, 0f, 0, default(Color), 1.2f);
+                    Main.dust[num162].alpha = projectile.alpha;
+                    Main.dust[num162].velocity = dspeed;
+                    Main.dust[num162].noGravity = true;
+                }
+                for (int num134 = 0; num134 < 5; num134++)
+                {
+                    Vector2 dspeed2 = -projectile.velocity * 0.5f;
+                    int num135 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 107, 0f, 0f, 0, default, 0.7f);
                     Main.dust[num135].alpha = projectile.alpha;
-                    Main.dust[num135].position.X = x;
-                    Main.dust[num135].position.Y = y;
-                    Main.dust[num135].velocity *= 0f;
+                    Main.dust[num135].velocity = dspeed2;
                     Main.dust[num135].noGravity = true;
                 }
             }
-            if (projectile.alpha > 0)
+            if (projectile.alpha > 50)
             {
                 projectile.alpha -= 25;
             }
-            if (projectile.alpha < 0)
+            if (projectile.alpha < 50)
             {
-                projectile.alpha = 0;
+                projectile.alpha = 50;
             }
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 10);
+            if (projectile.ai[0] == 0f)
+            {
+                Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
+                Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 10);
+                projectile.ai[0]++;
+            }
             return false;
+        }
+
+        public override Color? GetAlpha(Color lightColor)
+        {
+            Color color = new Color(168, 247, 239);
+            return color;
         }
     }
 }

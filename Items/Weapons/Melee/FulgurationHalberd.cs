@@ -18,6 +18,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 60;
+            item.height = 64;
             item.damage = 53;
             item.melee = true;
             item.useAnimation = 22;
@@ -27,7 +28,6 @@ namespace CalamityMod.Items.Weapons.Melee
             item.knockBack = 5f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.height = 62;
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.rare = 5;
             item.shootSpeed = 6f;
