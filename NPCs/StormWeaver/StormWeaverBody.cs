@@ -95,19 +95,19 @@ namespace CalamityMod.NPCs.StormWeaver
             {
                 npc.spriteDirection = 1;
             }
-            bool flag = false;
+            bool flag1 = false;
             if (npc.ai[1] <= 0f)
             {
-                flag = true;
+                flag1 = true;
             }
-            else if (Main.npc[(int)npc.ai[1]].life <= 0)
+            else if (Main.npc[(int)npc.ai[1]].life <= 0 || npc.life <= 0)
             {
-                flag = true;
+                flag1 = true;
             }
-            if (flag)
+            if (flag1)
             {
                 npc.life = 0;
-                npc.HitEffect(0, 10.0);
+                npc.HitEffect(0, 30.0);
                 npc.checkDead();
             }
             if (Main.npc[(int)npc.ai[1]].alpha < 128)
@@ -197,15 +197,16 @@ namespace CalamityMod.NPCs.StormWeaver
             {
                 projectile.penetrate = 1;
             }
+
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
             if (npc.life <= 0)
             {
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SWArmor2"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SWArmor3"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SWArmor4"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SWArmorBody1"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SWArmorBody2"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SWArmorBody3"), 1f);
                 npc.position.X = npc.position.X + (float)(npc.width / 2);
                 npc.position.Y = npc.position.Y + (float)(npc.height / 2);
                 npc.width = 30;

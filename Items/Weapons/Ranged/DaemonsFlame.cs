@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Daemon's Flame");
-            Tooltip.SetDefault("Shoots daemon flame arrows as well as regular arrows");
+            Tooltip.SetDefault("Shoots daemon flame fireballs as well as regular arrows");
         }
 
         public override void SetDefaults()

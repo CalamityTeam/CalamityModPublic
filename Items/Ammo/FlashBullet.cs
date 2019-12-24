@@ -15,8 +15,8 @@ namespace CalamityMod.Items.Ammo
         {
             item.damage = 7;
             item.ranged = true;
-            item.width = 8;
-            item.height = 8;
+            item.width = 12;
+            item.height = 18;
             item.maxStack = 999;
             item.consumable = true;
             item.knockBack = 1.15f;

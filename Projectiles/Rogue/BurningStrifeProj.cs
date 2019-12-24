@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.extraUpdates = 1;
             projectile.Calamity().rogue = true;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 30;
+            projectile.localNPCHitCooldown = 40;
         }
 
         public override void AI()
@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (projectile.Calamity().stealthStrike && projectile.penetrate != 1)
             {
                 Main.PlaySound(2, projectile.Center, 103);
-                int proj = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<ShadowflameExplosionBig>(), (int)(projectile.damage * 0.75), projectile.knockBack, projectile.owner);
+                int proj = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<ShadowflameExplosionBig>(), (int)(projectile.damage * 0.25), projectile.knockBack, projectile.owner);
                 Main.projectile[proj].Center = projectile.Center;
                 Main.projectile[proj].Calamity().rogue = true;
             }
@@ -69,9 +69,9 @@ namespace CalamityMod.Projectiles.Rogue
             int proj;
             Main.PlaySound(2, projectile.Center, 103);
             if(projectile.Calamity().stealthStrike)
-                proj = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<ShadowflameExplosionBig>(), (int)(projectile.damage * 0.75), projectile.knockBack, projectile.owner);
+                proj = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<ShadowflameExplosionBig>(), (int)(projectile.damage * 0.25), projectile.knockBack, projectile.owner);
             else
-                proj = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<ShadowflameExplosion>(), (int)(projectile.damage * 0.75), projectile.knockBack, projectile.owner);
+                proj = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<ShadowflameExplosion>(), (int)(projectile.damage * 0.25), projectile.knockBack, projectile.owner);
             Main.projectile[proj].Center = projectile.Center;
             Main.projectile[proj].Calamity().rogue = true;
         }

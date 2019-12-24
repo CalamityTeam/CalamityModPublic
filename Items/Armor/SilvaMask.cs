@@ -18,8 +18,8 @@ namespace CalamityMod.Items.Armor
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
+            item.width = 24;
+            item.height = 26;
             item.value = Item.buyPrice(0, 90, 0, 0);
             item.defense = 30; //110
             item.Calamity().postMoonLordRarity = 15;

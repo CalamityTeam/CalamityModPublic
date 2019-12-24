@@ -25,7 +25,6 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.friendly = true;
             projectile.ranged = true;
             projectile.penetrate = 1;
-            projectile.alpha = 255;
             projectile.timeLeft = 600;
             projectile.light = 0.5f;
             projectile.extraUpdates = 1;
@@ -40,14 +39,8 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-            for (int k = 0; k < projectile.oldPos.Length; k++)
-            {
-                Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-                Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
-                spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
-            }
-            return true;
+            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            return false;
         }
 
         public override void AI()
@@ -62,15 +55,20 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override bool PreAI()
         {
-            for (int num136 = 0; num136 < 5; num136++)
+            //Rotation
+            projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
+            projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi) + MathHelper.ToRadians(90) * projectile.direction;
+
+            for (int num136 = 0; num136 < 2; num136++)
             {
-                float x2 = projectile.position.X - projectile.velocity.X / 10f * (float)num136;
-                float y2 = projectile.position.Y - projectile.velocity.Y / 10f * (float)num136;
+                Vector2 dspeed = -projectile.velocity * Main.rand.NextFloat(0.5f, 0.7f);
+                float x2 = projectile.Center.X - projectile.velocity.X / 10f * (float)num136;
+                float y2 = projectile.Center.Y - projectile.velocity.Y / 10f * (float)num136;
                 int num137 = Dust.NewDust(new Vector2(x2, y2), 1, 1, 185, 0f, 0f, 0, default, 1f);
                 Main.dust[num137].alpha = projectile.alpha;
                 Main.dust[num137].position.X = x2;
                 Main.dust[num137].position.Y = y2;
-                Main.dust[num137].velocity *= 0f;
+                Main.dust[num137].velocity = dspeed;
                 Main.dust[num137].noGravity = true;
             }
             float num138 = (float)Math.Sqrt((double)(projectile.velocity.X * projectile.velocity.X + projectile.velocity.Y * projectile.velocity.Y));

@@ -22,6 +22,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.tileCollide = true;
             projectile.timeLeft = 600;
             projectile.Calamity().rogue = true;
+			projectile.extraUpdates = 1;
         }
 
         public override void AI()
@@ -101,18 +102,18 @@ namespace CalamityMod.Projectiles.Rogue
         public override void Kill(int timeLeft)
         {
             // Light burst
-            int p = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<ExorcismShockwave>(), (int)(projectile.damage * 0.75f), 0, projectile.owner, projectile.ai[0] - 1f, 0);
+            int p = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<ExorcismShockwave>(), (int)(projectile.damage * 0.8f), 0, projectile.owner, projectile.ai[0] - 1f, 0);
             Main.projectile[p].rotation = projectile.rotation;
             // Stars
             if (projectile.Calamity().stealthStrike)
             {
-                int numStars = Main.rand.Next(3, 6);
+                int numStars = Main.rand.Next(4, 7);
                 for (int i = 0; i < numStars; i++)
                 {
                     Vector2 pos = new Vector2(projectile.Center.X + (float)projectile.width * 0.5f + (float)Main.rand.Next(-201, 201), Main.screenPosition.Y - 600f - Main.rand.Next(50));
                     float speedX = (projectile.Center.X - pos.X) / 20f;
                     float speedY = (projectile.Center.Y - pos.Y) / 20f;
-                    Projectile.NewProjectile(pos.X, pos.Y, speedX, speedY, ModContent.ProjectileType<ExorcismStar>(), projectile.damage / 4, 3, projectile.owner, Main.rand.NextFloat(-3f, 3f), 0f);
+                    Projectile.NewProjectile(pos.X, pos.Y, speedX, speedY, ModContent.ProjectileType<ExorcismStar>(), projectile.damage / 2, 3, projectile.owner, Main.rand.NextFloat(-3f, 3f), 0f);
                 }
             }
         }

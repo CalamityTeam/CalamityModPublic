@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.value = Item.buyPrice(1, 80, 0, 0);
             item.rare = 10;
 
-            item.damage = 2400;
+            item.damage = 1800;
             item.useAnimation = 40;
             item.useTime = 40;
             item.crit = 16;

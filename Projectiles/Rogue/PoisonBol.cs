@@ -18,12 +18,12 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 14;
             projectile.height = 14;
             projectile.friendly = true;
-            projectile.penetrate = -1;
+            projectile.penetrate = 5;
             projectile.timeLeft = 1200;
             projectile.Calamity().rogue = true;
 			projectile.aiStyle = 14;
 			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 30;
+			projectile.localNPCHitCooldown = 45;
         }
 
         public override void AI()
@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Rogue
 						vector2_2 *= 2f;
 					Vector2 vector2_3 = velocity * 0.25f + vector2_2;
 					Vector2 vector2_5 = vector2_3 * 0.8f;
-					int proj = Projectile.NewProjectile(projectile.Center.X - vector2_5.X, projectile.Center.Y - vector2_5.Y, vector2_5.X, vector2_5.Y, Main.rand.Next(569,572), (int)(projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
+					int proj = Projectile.NewProjectile(projectile.Center.X - vector2_5.X, projectile.Center.Y - vector2_5.Y, vector2_5.X, vector2_5.Y, Main.rand.Next(569,572), (int)(projectile.damage * 0.75), projectile.knockBack, projectile.owner, 0f, 0f);
 					Main.projectile[proj].Calamity().forceRogue = true;
 					Main.projectile[proj].usesLocalNPCImmunity = true;
 					Main.projectile[proj].localNPCHitCooldown = 45;

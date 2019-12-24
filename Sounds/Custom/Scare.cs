@@ -8,6 +8,8 @@ namespace CalamityMod.Sounds.Custom
     {
         public override SoundEffectInstance PlaySound(ref SoundEffectInstance soundInstance, float volume, float pan, SoundType type)
         {
+            if (soundInstance.State == SoundState.Playing)
+                soundInstance.Stop();
             soundInstance = sound.CreateInstance();
             soundInstance.Volume = volume * 1f;
             soundInstance.Pan = pan;

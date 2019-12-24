@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Accessories
                 "Stealth strikes summon lunar flares and sparks on enemy hits\n" +
 				"Stealth strikes have +30 armor penetration, deal 10% more damage, and heal for 1 HP\n" +
                 "Rogue weapons have a chance to instantly kill normal enemies\n" +
-                "10% increased rogue damage, 5% increased rogue crit chance, and 15% increased rogue velocity\n" +
+                "5% increased rogue damage, 5% increased rogue crit chance, and 15% increased rogue velocity\n" +
                 "Whenever you crit an enemy with a rogue weapon your rogue damage increases\n" +
                 "This effect can stack up to 250 times\n" +
                 "Max rogue damage boost is 25%\n" +
@@ -52,7 +52,7 @@ namespace CalamityMod.Items.Accessories
             modPlayer.moonCrown = true;
             modPlayer.raiderTalisman = true;
             modPlayer.electricianGlove = true;
-            player.Calamity().throwingDamage += 0.1f;
+            player.Calamity().throwingDamage += 0.05f;
             player.Calamity().throwingCrit += 5;
             player.Calamity().throwingVelocity += 0.15f;
         }

@@ -24,8 +24,8 @@ namespace CalamityMod.NPCs.DesertScourge
         {
             npc.damage = 18;
             npc.npcSlots = 2f;
-            npc.width = 32;
-            npc.height = 80;
+            npc.width = 60;
+            npc.height = 60;
             npc.defense = 0;
             npc.lifeMax = 800;
             if (CalamityWorld.bossRushActive)
@@ -46,7 +46,6 @@ namespace CalamityMod.NPCs.DesertScourge
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
             npc.netAlways = true;
-            npc.scale = 0.75f;
         }
 
         public override void AI()

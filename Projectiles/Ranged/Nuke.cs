@@ -1,7 +1,9 @@
 ﻿using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -12,12 +14,15 @@ namespace CalamityMod.Projectiles.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Nuke");
+            Main.projFrames[projectile.type] = 3;
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 3;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 14;
-            projectile.height = 14;
+            projectile.width = 22;
+            projectile.height = 22;
             projectile.friendly = true;
             projectile.penetrate = 1;
             projectile.timeLeft = 125;
@@ -26,6 +31,23 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
+            //Animation
+            projectile.frameCounter++;
+            if (projectile.frameCounter > 7)
+            {
+                projectile.frame++;
+                projectile.frameCounter = 0;
+            }
+            if (projectile.frame > 2)
+            {
+                projectile.frame = 0;
+            }
+
+            //Rotation
+            projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
+            projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi) + MathHelper.ToRadians(90) * projectile.direction;
+
+
             flarePowderTimer--;
             if (flarePowderTimer <= 0)
             {
@@ -52,23 +74,16 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 if (Math.Abs(projectile.velocity.X) >= 8f || Math.Abs(projectile.velocity.Y) >= 8f)
                 {
-                    for (int num246 = 0; num246 < 4; num246++)
-                    {
-                        float num247 = 0f;
-                        float num248 = 0f;
-                        if (num246 == 1)
-                        {
-                            num247 = projectile.velocity.X * 0.5f;
-                            num248 = projectile.velocity.Y * 0.5f;
-                        }
-                        int num249 = Dust.NewDust(new Vector2(projectile.position.X + 3f + num247, projectile.position.Y + 3f + num248) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, 244, 0f, 0f, 100, default, 1f);
-                        Main.dust[num249].scale *= 2f + (float)Main.rand.Next(10) * 0.1f;
-                        Main.dust[num249].velocity *= 0.2f;
-                        Main.dust[num249].noGravity = true;
-                        num249 = Dust.NewDust(new Vector2(projectile.position.X + 3f + num247, projectile.position.Y + 3f + num248) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, 244, 0f, 0f, 100, default, 0.5f);
-                        Main.dust[num249].fadeIn = 1f + (float)Main.rand.Next(5) * 0.1f;
-                        Main.dust[num249].velocity *= 0.05f;
-                    }
+                    float num247 = projectile.velocity.X * 0.5f;
+                    float num248 = projectile.velocity.Y * 0.5f;
+                    int num249 = Dust.NewDust(new Vector2(projectile.position.X + 3f + num247, projectile.position.Y + 3f + num248) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, 244, 0f, 0f, 100, default, 1f);
+                    Main.dust[num249].scale *= 2f + (float)Main.rand.Next(10) * 0.1f;
+                    Main.dust[num249].velocity *= 0.2f;
+                    Main.dust[num249].noGravity = true;
+                    num249 = Dust.NewDust(new Vector2(projectile.position.X + 3f + num247, projectile.position.Y + 3f + num248) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, 244, 0f, 0f, 100, default, 0.5f);
+                    Main.dust[num249].fadeIn = 1f + (float)Main.rand.Next(5) * 0.1f;
+                    Main.dust[num249].velocity *= 0.05f;
+                    
                 }
             }
             float num472 = projectile.Center.X;
@@ -172,6 +187,12 @@ namespace CalamityMod.Projectiles.Ranged
                 Gore expr_13D1F_cp_0 = Main.gore[num626];
                 expr_13D1F_cp_0.velocity.Y -= 1f;
             }
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            return false;
         }
     }
 }
