@@ -1,3 +1,4 @@
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -13,6 +14,7 @@ namespace CalamityMod.Projectiles.Ranged
             DisplayName.SetDefault("Nano Round");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+
         }
 
         public override void SetDefaults()
@@ -44,6 +46,12 @@ namespace CalamityMod.Projectiles.Ranged
         {
             CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
             return false;
+        }
+
+        // This projectile is always fullbright.
+        public override Color? GetAlpha(Color lightColor)
+        {
+            return new Color(1f, 1f, 1f, 0f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
