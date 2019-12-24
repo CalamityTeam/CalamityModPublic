@@ -54,6 +54,13 @@ namespace CalamityMod.Projectiles.Ranged
             return false;
         }
 
+        // This projectile is always fullbright.
+        public override Color? GetAlpha(Color lightColor)
+        {
+            return new Color(1f, 1f, 1f, 0f);
+        }
+
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<Plague>(), 360);
