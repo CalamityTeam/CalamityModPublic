@@ -140,7 +140,7 @@ namespace CalamityMod.World
         public static bool downedBuffedMothron = false;
         public static bool downedYharon = false;
         public static bool downedSCal = false;
-        public static bool downedLORDE = false;
+        public static bool downedGSS = false;
         public static bool downedCLAM = false;
         public static bool downedBetsy = false; //Betsy
         #endregion
@@ -209,7 +209,7 @@ namespace CalamityMod.World
             downedStarGod = false;
             downedAstrageldon = false;
             downedPolterghast = false;
-            downedLORDE = false;
+            downedGSS = false;
             downedBuffedMothron = false;
             downedOldDuke = false;
             death = false;
@@ -286,8 +286,8 @@ namespace CalamityMod.World
                 downed.Add("hardBoss");
             if (downedPolterghast)
                 downed.Add("polterghast");
-            if (downedLORDE)
-                downed.Add("lorde");
+            if (downedGSS)
+                downed.Add("greatSandShark");
             if (downedBuffedMothron)
                 downed.Add("moth");
             if (downedOldDuke)
@@ -356,7 +356,7 @@ namespace CalamityMod.World
             downedAstrageldon = downed.Contains("astrageldon");
             spawnedHardBoss = downed.Contains("hardBoss");
             downedPolterghast = downed.Contains("polterghast");
-            downedLORDE = downed.Contains("lorde");
+            downedGSS = downed.Contains("greatSandShark");
             downedBuffedMothron = downed.Contains("moth");
             downedOldDuke = downed.Contains("oldDuke");
             death = downed.Contains("death");
@@ -430,7 +430,7 @@ namespace CalamityMod.World
                 spawnedHardBoss = flags5[4];
                 downedPolterghast = flags5[5];
                 death = flags5[6];
-                downedLORDE = flags5[7];
+                downedGSS = flags5[7];
 
                 BitsByte flags6 = reader.ReadByte();
                 abyssSide = flags6[0];
@@ -508,7 +508,7 @@ namespace CalamityMod.World
             flags5[4] = spawnedHardBoss;
             flags5[5] = downedPolterghast;
             flags5[6] = death;
-            flags5[7] = downedLORDE;
+            flags5[7] = downedGSS;
 
             BitsByte flags6 = new BitsByte();
             flags6[0] = abyssSide;
@@ -590,7 +590,7 @@ namespace CalamityMod.World
             spawnedHardBoss = flags5[4];
             downedPolterghast = flags5[5];
             death = flags5[6];
-            downedLORDE = flags5[7];
+            downedGSS = flags5[7];
 
             BitsByte flags6 = reader.ReadByte();
             abyssSide = flags6[0];

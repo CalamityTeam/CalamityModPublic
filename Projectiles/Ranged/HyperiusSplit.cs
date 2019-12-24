@@ -6,11 +6,11 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class OMGWTH : ModProjectile
+    public class HyperiusSplit : ModProjectile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("WTH");
+            DisplayName.SetDefault("Hyperius Bad Time");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
@@ -52,6 +52,14 @@ namespace CalamityMod.Projectiles.Ranged
                 Main.dust[num137].velocity *= 0f;
                 Main.dust[num137].noGravity = true;
             }
+
+            // HyperiusBulletProj.Visuals(projectile);
+        }
+
+        // This projectile is always fullbright.
+        public override Color? GetAlpha(Color lightColor)
+        {
+            return new Color(1f, 1f, 1f, 0f);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

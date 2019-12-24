@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Generic;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -427,6 +429,24 @@ namespace CalamityMod.NPCs.NormalNPCs
                 {
                     Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
                 }
+            }
+        }
+
+        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
+        {
+            bool instakill = false;
+            List<string> metarexNames = new List<string> { "LordMetarex", "Metarex" };
+            foreach (string s in metarexNames)
+                if (s.ToLower() == target.name.ToLower())
+                {
+                    instakill = true;
+                    break;
+                }
+
+            if (instakill)
+            {
+                target.KillMe(PlayerDeathReason.ByCustomReason(target.name + " was once again impaled by Goldfish."), 1000.0, 0, false);
+                damage = Main.rand.Next(1000, 1500) + (int)(target.statLifeMax2 * Main.rand.NextFloat(2.0f, 3.5f));
             }
         }
 

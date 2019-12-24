@@ -413,6 +413,7 @@ namespace CalamityMod.CalPlayer
         public int plaguedFuelPackCooldown = 0;
         public int plaguedFuelPackDash = 0;
         public int plaguedFuelPackDirection = 0;
+        public bool veneratedLocket = false;
 
         // Armor Set
         public bool victideSet = false;
@@ -1092,6 +1093,7 @@ namespace CalamityMod.CalPlayer
             etherealExtorter = false;
             //dukeScales = false;
             blazingCore = false;
+            veneratedLocket = false;
 
             daedalusReflect = false;
             daedalusSplit = false;
@@ -8508,19 +8510,19 @@ namespace CalamityMod.CalPlayer
 				if (ZoneCalamity) //Brimstone Crags, fishing in lava
 				{
 					int cragFish = Main.rand.Next(100);
-					if (cragFish >= 92) //8%
+					if (cragFish >= 85) //15%
 					{
 						caughtType = ModContent.ItemType<CoastalDemonfish>();
 					}
-					else if (cragFish <= 91 && cragFish >= 84) //8%
+					else if (cragFish <= 84 && cragFish >= 70) //15%
 					{
-						caughtType = ModContent.ItemType<CragBullhead>();
+						caughtType = ModContent.ItemType<BrimstoneFish>();
 					}
-					else if (cragFish <= 83 && cragFish >= 76) //8%
+					else if (cragFish <= 69 && cragFish >= 55) //15%
 					{
 						caughtType = ModContent.ItemType<Shadowfish>();
 					}
-					else if (cragFish <= 75 && cragFish >= 68 && Main.hardMode) //8%
+					else if (cragFish <= 54 && cragFish >= 41 && Main.hardMode) //14%
 					{
 						caughtType = ModContent.ItemType<ChaoticFish>();
 					}
@@ -8540,13 +8542,13 @@ namespace CalamityMod.CalPlayer
 					{
 						caughtType = ModContent.ItemType<DragoonDrizzlefish>();
 					}
-					else if (cragFish <= 2 && cragFish >= 0 && Main.hardMode) //3%
+					else if (cragFish <= 2 && cragFish >= 0) //3%
 					{
 						caughtType = ModContent.ItemType<CharredLasher>();
 					}
-					else //40% w/o crate pot, 30% w/ crate pot, add 10% pre-Prov, add another 11% prehardmode
+					else //27% w/o crate pot, 17% w/ crate pot, add 10% pre-Prov, add another 14% prehardmode
 					{
-						caughtType = ModContent.ItemType<BrimstoneFish>();
+						caughtType = ModContent.ItemType<CragBullhead>();
 					}
 				}
 			}
@@ -8582,6 +8584,78 @@ namespace CalamityMod.CalPlayer
                 fishingLevel = (int)(fishingLevel * 1.1f);
             if (Main.player[Main.myPlayer].ZoneSkyHeight && fishingRod.type == ModContent.ItemType<HeronRod>())
                 fishingLevel = (int)(fishingLevel * 1.1f);
+        }
+        #endregion
+
+        #region Shoot
+
+        public override bool Shoot(Item item, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            if (veneratedLocket)
+            {
+                if (item.Calamity().rogue)
+                {
+                    float num72 = item.shootSpeed;
+                    Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
+                    float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
+                    float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
+                    if (player.gravDir == -1f)
+                    {
+                        num79 = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - vector2.Y;
+                    }
+                    float num80 = (float)Math.Sqrt((double)(num78 * num78 + num79 * num79));
+                    if ((float.IsNaN(num78) && float.IsNaN(num79)) || (num78 == 0f && num79 == 0f))
+                    {
+                        num78 = (float)player.direction;
+                        num79 = 0f;
+                        num80 = num72;
+                    }
+                    else
+                    {
+                        num80 = num72 / num80;
+                    }
+
+                    vector2 = new Vector2(player.position.X + (float)player.width * 0.5f + (float)(Main.rand.Next(201) * -(float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
+                    vector2.X = (vector2.X + player.Center.X) / 2f + (float)Main.rand.Next(-200, 201);
+                    vector2.Y -= 100f;
+                    num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
+                    num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
+                    if (num79 < 0f)
+                    {
+                        num79 *= -1f;
+                    }
+                    if (num79 < 20f)
+                    {
+                        num79 = 20f;
+                    }
+                    num80 = (float)Math.Sqrt((double)(num78 * num78 + num79 * num79));
+                    num80 = num72 / num80;
+                    num78 *= num80;
+                    num79 *= num80;
+                    float speedX4 = num78 + (float)Main.rand.Next(-30, 31) * 0.02f;
+                    float speedY5 = num79 + (float)Main.rand.Next(-30, 31) * 0.02f;
+                    int p = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, type, (int)(damage), (int)(knockBack), player.whoAmI, 0f, (float)Main.rand.Next(15));
+                    Main.projectile[p].damage /= 3;
+                    if (StealthStrikeAvailable())
+                    {
+                        int knifeCount = 15;
+                        int knifeDamage = 250;
+                        float angleStep = MathHelper.TwoPi / knifeCount;
+                        float speed = 15f;
+
+                        for (int i = 0; i < knifeCount; i++)
+                        {
+                            Vector2 velocity = new Vector2(0f, speed);
+                            velocity = velocity.RotatedBy(angleStep * i);
+                            int knifeCol = Main.rand.Next(0, 2);
+
+                            Projectile.NewProjectile(player.Center, velocity, ModContent.ProjectileType<VeneratedKnife>(), knifeDamage, 0f, player.whoAmI, knifeCol, 0);
+                        }
+                    }
+                }
+            }
+
+            return true;
         }
         #endregion
 

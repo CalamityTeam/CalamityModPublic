@@ -37,9 +37,9 @@ namespace CalamityMod.Projectiles.Rogue
 
             if (projectile.Calamity().stealthStrike)
             {
-                if (Main.rand.Next(10) == 0)
+                if (Main.rand.Next(8) == 0)
                 {
-                    int projectileDamage = (int)(projectile.damage * 0.25f);
+                    int projectileDamage = (int)(projectile.damage * 0.75f);
                     int projectileType = ModContent.ProjectileType<NightsGazeStar>();
                     Vector2 velocity = projectile.velocity;
 
