@@ -1,6 +1,7 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Pets;
+using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Potions;
 using CalamityMod.Tiles.Abyss;
 using CalamityMod.World;
@@ -51,6 +52,8 @@ namespace CalamityMod.Items.Fishing.SulphurCatches
             {
                 DropHelper.DropItemChance(player, ModContent.ItemType<DepthCells>(), 0.5f, 5, 10);
                 DropHelper.DropItemChance(player, ModContent.ItemType<Lumenite>(), 0.5f, 5, 10);
+                DropHelper.DropItemChance(player, ModContent.ItemType<PlantyMush>(), 0.5f, 5, 10);
+                DropHelper.DropItemChance(player, ModContent.ItemType<Tenebris>(), 0.5f, 5, 10);
             }
             if (NPC.downedGolemBoss)
             {
