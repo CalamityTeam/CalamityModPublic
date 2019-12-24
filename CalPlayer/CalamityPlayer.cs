@@ -8522,7 +8522,6 @@ namespace CalamityMod.CalPlayer
 					{
 						caughtType = ModContent.ItemType<Shadowfish>();
 					}
-					else if (cragFish <= 75 && cragFish >= 68 && Main.hardMode) //8%
 					else if (cragFish <= 54 && cragFish >= 41 && Main.hardMode) //14%
 					{
 						caughtType = ModContent.ItemType<ChaoticFish>();
