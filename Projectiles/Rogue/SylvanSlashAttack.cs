@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class SylvanSlashAttack : ModProjectile
     {
+		public int cooldown = 6;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sylvan Slash");
@@ -90,6 +92,9 @@ namespace CalamityMod.Projectiles.Rogue
             player.itemTime = 2;
             player.itemAnimation = 2;
             player.itemRotation = (float)Math.Atan2((double)(projectile.velocity.Y * (float)projectile.direction), (double)(projectile.velocity.X * (float)projectile.direction));
+
+			if (cooldown < 5)
+				cooldown++;
         }
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -98,12 +103,16 @@ namespace CalamityMod.Projectiles.Rogue
             CalamityPlayer modPlayer = player.Calamity();
 			if (projectile.owner == Main.myPlayer)
 			{
-				if ((target.damage > 5 || target.boss) && !target.SpawnedFromStatue)
+				if (cooldown == 5)
 				{
-					if (modPlayer.wearingRogueArmor && modPlayer.rogueStealthMax != 0)
+					if ((target.damage > 5 || target.boss) && !target.SpawnedFromStatue)
 					{
-						if (modPlayer.rogueStealth < modPlayer.rogueStealthMax)
-							modPlayer.rogueStealth += 0.01f;
+						if (modPlayer.wearingRogueArmor && modPlayer.rogueStealthMax != 0)
+						{
+							if (modPlayer.rogueStealth < modPlayer.rogueStealthMax)
+								modPlayer.rogueStealth += 0.01f;
+								cooldown = 0;
+						}
 					}
 				}
 				if (Main.rand.NextBool(8))
