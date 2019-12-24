@@ -27,6 +27,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.magic = true;
             projectile.aiStyle = 93;
             aiType = 514;
+			projectile.extraUpdates = 1;
         }
 
         public override void AI()

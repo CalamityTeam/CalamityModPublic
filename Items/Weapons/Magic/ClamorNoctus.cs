@@ -1,4 +1,6 @@
 using CalamityMod.Projectiles.Magic;
+using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables.Ores;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -76,10 +78,10 @@ Fires night wyverns and stars from the sky that stick to enemies and tiles and e
 				}
 				if (type == ModContent.ProjectileType<ClamorNoctusWyvern>())
 				{
-					damageMult = 16f;
+					damageMult = 25f;
 					kbMult = 1.5f;
 				}
-                vector2 = new Vector2(player.position.X + (float)player.width * 0.5f + (float)(Main.rand.Next(201) * -(float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
+                vector2 = new Vector2(player.Center.X + (float)player.width * 0.5f + (float)(Main.rand.Next(201) * -(float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - player.Center.X), player.MountedCenter.Y - 600f);
                 vector2.X = (vector2.X + player.Center.X) / 2f + (float)Main.rand.Next(-200, 201);
                 vector2.Y -= (float)(100 * num108);
                 num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
@@ -103,7 +105,7 @@ Fires night wyverns and stars from the sky that stick to enemies and tiles and e
             return false;
         }
 
-        /*public override void AddRecipes()
+        public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 5);
@@ -112,6 +114,6 @@ Fires night wyverns and stars from the sky that stick to enemies and tiles and e
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
-        }*/
+        }
     }
 }

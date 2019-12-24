@@ -251,8 +251,8 @@ namespace CalamityMod.NPCs.TownNPCs
 			{
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<BouncingBetty>());
 				nextSlot++;
-                /*shop.item[nextSlot].SetDefaults(ModContent.ItemType<LatcherMines>());
-				nextSlot++;*/
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<LatcherMine>());
+				nextSlot++;
             }
             if (NPC.downedPlantBoss)
             {

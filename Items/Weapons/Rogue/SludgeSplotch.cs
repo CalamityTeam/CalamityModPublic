@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SafeSetDefaults()
         {
             item.width = 32;
-            item.damage = 15;
+            item.damage = 30;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.consumable = true;
@@ -55,7 +55,8 @@ namespace CalamityMod.Items.Weapons.Rogue
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<EbonianGel>(), 2);
             recipe.AddIngredient(ModContent.ItemType<MurkySludge>());
-            recipe.SetResult(this, 20);
+            recipe.AddRecipeGroup("Boss2Material", 5);
+            recipe.SetResult(this, 50);
             recipe.AddRecipe();
         }
     }
