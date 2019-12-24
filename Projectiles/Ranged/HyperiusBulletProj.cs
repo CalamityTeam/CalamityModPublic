@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Bullet");
+            DisplayName.SetDefault("Hyperius Bullet");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
@@ -31,6 +31,11 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
+            Visuals(projectile);
+        }
+
+        internal static void Visuals(Projectile projectile)
+        {
             Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.25f / 255f, (255 - projectile.alpha) * 0.01f / 255f, (255 - projectile.alpha) * 0.01f / 255f);
             int dustType = Main.rand.Next(3);
             if (dustType == 0)
@@ -49,6 +54,12 @@ namespace CalamityMod.Projectiles.Ranged
             Main.dust[num137].alpha = projectile.alpha;
             Main.dust[num137].velocity *= 0f;
             Main.dust[num137].noGravity = true;
+        }
+
+        // This projectile is always fullbright.
+        public override Color? GetAlpha(Color lightColor)
+        {
+            return new Color(1f, 1f, 1f, 0f);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -86,7 +97,9 @@ namespace CalamityMod.Projectiles.Ranged
             }
             if (projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, ModContent.ProjectileType<OMGWTH>(), (int)((double)projectile.damage * 0.8), 1f, projectile.owner);
+                int splitDamage = (int)(projectile.damage * 0.8f);
+                float splitKB = 1f;
+                Projectile.NewProjectile(vector2, new Vector2(speedX, speedY), ModContent.ProjectileType<HyperiusSplit>(), splitDamage, splitKB, projectile.owner);
             }
         }
     }

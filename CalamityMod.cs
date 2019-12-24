@@ -515,7 +515,7 @@ namespace CalamityMod
                 ModContent.ProjectileType<StarfleetMK2Gun>(),
                 ModContent.ProjectileType<TerraBulletSplit>(),
                 ModContent.ProjectileType<TerraArrowSplit>(),
-                ModContent.ProjectileType<OMGWTH>(),
+                ModContent.ProjectileType<HyperiusSplit>(),
                 ModContent.ProjectileType<NorfleetCannon>(),
                 ModContent.ProjectileType<NorfleetComet>(),
                 ModContent.ProjectileType<NorfleetExplosion>()
