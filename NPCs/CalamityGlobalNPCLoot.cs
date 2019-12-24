@@ -1370,11 +1370,14 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.IchorSticker:
-                    int spearDropRate = Main.expertMode ? 20 : 25;
+                    float spearDropRate = Main.expertMode ? 0.05f : 0.04f;
                     float spearRoll = Main.rand.NextFloat();
-                    bool spearOfDestiny = spearRoll < 0.005f; // Exact 1/200 chance for rare regardless of difficulty
-                    DropHelper.DropItemCondition(npc, ModContent.ItemType<IchorSpear>(), !spearOfDestiny, spearDropRate, 1, 1);
-                    DropHelper.DropItemCondition(npc, ModContent.ItemType<SpearofDestiny>(), spearOfDestiny, spearDropRate, 1, 1);
+                    bool spearOfDestiny = spearRoll <= 0.005f; // Exact 1/200 chance for rare regardless of difficulty
+                    if(spearRoll < spearDropRate) // 1/25 (1/20 EX) chance of getting Ichor Spear OR Spear of Destiny replacing it
+                    {
+                        DropHelper.DropItemCondition(npc, ModContent.ItemType<IchorSpear>(), !spearOfDestiny);
+                        DropHelper.DropItemCondition(npc, ModContent.ItemType<SpearofDestiny>(), spearOfDestiny);
+                    }
                     break;
 
                 case NPCID.Harpy:
