@@ -8510,19 +8510,20 @@ namespace CalamityMod.CalPlayer
 				if (ZoneCalamity) //Brimstone Crags, fishing in lava
 				{
 					int cragFish = Main.rand.Next(100);
-					if (cragFish >= 92) //8%
+					if (cragFish >= 85) //15%
 					{
 						caughtType = ModContent.ItemType<CoastalDemonfish>();
 					}
-					else if (cragFish <= 91 && cragFish >= 84) //8%
+					else if (cragFish <= 84 && cragFish >= 70) //15%
 					{
-						caughtType = ModContent.ItemType<CragBullhead>();
+						caughtType = ModContent.ItemType<BrimstoneFish>();
 					}
-					else if (cragFish <= 83 && cragFish >= 76) //8%
+					else if (cragFish <= 69 && cragFish >= 55) //15%
 					{
 						caughtType = ModContent.ItemType<Shadowfish>();
 					}
 					else if (cragFish <= 75 && cragFish >= 68 && Main.hardMode) //8%
+					else if (cragFish <= 54 && cragFish >= 41 && Main.hardMode) //14%
 					{
 						caughtType = ModContent.ItemType<ChaoticFish>();
 					}
@@ -8542,13 +8543,13 @@ namespace CalamityMod.CalPlayer
 					{
 						caughtType = ModContent.ItemType<DragoonDrizzlefish>();
 					}
-					else if (cragFish <= 2 && cragFish >= 0 && Main.hardMode) //3%
+					else if (cragFish <= 2 && cragFish >= 0) //3%
 					{
 						caughtType = ModContent.ItemType<CharredLasher>();
 					}
-					else //40% w/o crate pot, 30% w/ crate pot, add 10% pre-Prov, add another 11% prehardmode
+					else //27% w/o crate pot, 17% w/ crate pot, add 10% pre-Prov, add another 14% prehardmode
 					{
-						caughtType = ModContent.ItemType<BrimstoneFish>();
+						caughtType = ModContent.ItemType<CragBullhead>();
 					}
 				}
 			}

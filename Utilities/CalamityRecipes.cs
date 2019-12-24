@@ -220,7 +220,7 @@ namespace CalamityMod
             r.AddRecipe();
 
             r = GetNewRecipe();
-            r.AddIngredient(ModContent.ItemType<BrimstoneFish>());
+            r.AddIngredient(ModContent.ItemType<CragBullhead>());
             r.AddTile(TileID.CookingPots);
             r.SetResult(ItemID.CookedFish);
             r.AddRecipe();

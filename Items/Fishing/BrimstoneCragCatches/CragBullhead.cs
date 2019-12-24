@@ -7,7 +7,7 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Crag Bullhead"); //Future potion ingredient
+            DisplayName.SetDefault("Crag Bullhead"); //Bass substitute
             Tooltip.SetDefault("Its scales are scorching hot");
         }
 
@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
             item.width = 32;
             item.height = 36;
             item.maxStack = 999;
-            item.value = Item.sellPrice(silver: 8);
+            item.value = Item.sellPrice(silver: 5);
             item.rare = 1;
         }
     }
