@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Items.Accessories;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
@@ -741,7 +742,7 @@ namespace CalamityMod.NPCs.Signus
                 DropHelper.DropItemChance(npc, ModContent.ItemType<CosmicKunai>(), 3);
 
 				//Equipment
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<SpectralVeil>(), CalamityWorld.revenge, 4);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<SpectralVeil>(), CalamityWorld.revenge, 4, 1, 1);
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<SignusTrophy>(), 10);

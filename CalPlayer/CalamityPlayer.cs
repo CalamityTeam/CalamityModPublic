@@ -3619,7 +3619,14 @@ namespace CalamityMod.CalPlayer
             }
             if (raiderTalisman)
             {
-                player.Calamity().throwingDamage += (float)raiderStack / 250f * 0.25f;
+				if (nanotech) //so nanotech isn't so broken
+				{
+					player.Calamity().throwingDamage += (float)raiderStack / 250f * 0.1f;
+				}
+				else
+				{
+					player.Calamity().throwingDamage += (float)raiderStack / 250f * 0.25f;
+				}
             }
             if (silvaCountdown <= 0 && hasSilvaEffect && silvaSummon)
             {
@@ -8647,7 +8654,9 @@ namespace CalamityMod.CalPlayer
                     float speedX4 = num78 + (float)Main.rand.Next(-30, 31) * 0.02f;
                     float speedY5 = num79 + (float)Main.rand.Next(-30, 31) * 0.02f;
                     int p = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, type, (int)(damage), (int)(knockBack), player.whoAmI, 0f, (float)Main.rand.Next(15));
-                    Main.projectile[p].damage /= 3;
+                    Main.projectile[p].damage /= 5;
+                    Main.projectile[p].knockBack /= 2;
+                    Main.projectile[p].Calamity().forceRogue = true; //in case melee/rogue variants bug out
                     if (StealthStrikeAvailable())
                     {
                         int knifeCount = 15;
