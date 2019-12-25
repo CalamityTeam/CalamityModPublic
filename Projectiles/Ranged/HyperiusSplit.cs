@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class HyperiusSplit : ModProjectile
     {
+        private Color currentColor = Color.Black;
+        
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hyperius Bad Time");
@@ -31,41 +33,41 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.25f / 255f, (255 - projectile.alpha) * 0.01f / 255f, (255 - projectile.alpha) * 0.01f / 255f);
-            if (Main.rand.NextBool(2))
+            if (currentColor == Color.Black)
             {
-                int dustType = Main.rand.Next(3);
-                if (dustType == 0)
-                {
-                    dustType = 235;
-                }
-                else if (dustType == 1)
-                {
-                    dustType = 61;
-                }
-                else
-                {
-                    dustType = 88;
-                }
-                int num137 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), 1, 1, dustType, 0f, 0f, 0, default, 0.5f);
-                Main.dust[num137].alpha = projectile.alpha;
-                Main.dust[num137].velocity *= 0f;
-                Main.dust[num137].noGravity = true;
+                int startPoint = Main.rand.Next(6);
+                projectile.localAI[0] = startPoint;
+                currentColor = HyperiusBulletProj.GetStartingColor(startPoint);
             }
-
-            // HyperiusBulletProj.Visuals(projectile);
+            HyperiusBulletProj.Visuals(projectile, ref currentColor);
         }
 
         // This projectile is always fullbright.
         public override Color? GetAlpha(Color lightColor)
         {
-            return new Color(1f, 1f, 1f, 0f);
+            return currentColor;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
             return false;
+        }
+
+        public override void Kill(int timeLeft)
+        {
+            const int killDust = 3;
+            int[] dustTypes = new int[] { 60, 61, 59 };
+            for (int i = 0; i < killDust; ++i)
+            {
+                int dustType = dustTypes[Main.rand.Next(3)];
+                float scale = Main.rand.NextFloat(0.4f, 0.9f);
+                float velScale = Main.rand.NextFloat(3f, 5.5f);
+                int dustID = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType);
+                Main.dust[dustID].noGravity = true;
+                Main.dust[dustID].scale = scale;
+                Main.dust[dustID].velocity *= velScale;
+            }
         }
     }
 }
