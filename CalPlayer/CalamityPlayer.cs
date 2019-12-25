@@ -323,6 +323,7 @@ namespace CalamityMod.CalPlayer
         public bool lol = false;
         public bool raiderTalisman = false;
         public int raiderStack = 0;
+        public int raiderCooldown = 0;
         public bool sGenerator = false;
         public bool sDefense = false;
         public bool sPower = false;
@@ -1368,6 +1369,7 @@ namespace CalamityMod.CalPlayer
             adrenalineDmgDown = 600;
             adrenalineDmgMult = 1f;
             raiderStack = 0;
+            raiderCooldown = 0;
             fleshTotemCooldown = 0;
             astralStarRainCooldown = 0;
             bloodflareMageCooldown = 0;
@@ -3435,6 +3437,8 @@ namespace CalamityMod.CalPlayer
 
             if (draconicSurgeCooldown > 0)
                 draconicSurgeCooldown--;
+            if (raiderCooldown > 0)
+                raiderCooldown--;
             if (fleshTotemCooldown > 0)
                 fleshTotemCooldown--;
             if (astralStarRainCooldown > 0)
@@ -7631,9 +7635,10 @@ namespace CalamityMod.CalPlayer
                         }
                     }
                 }
-                if (raiderTalisman && raiderStack < 250 && proj.Calamity().rogue && crit)
+                if (raiderTalisman && raiderStack < 250 && proj.Calamity().rogue && crit && raiderCooldown <= 0)
                 {
                     raiderStack++;
+					raiderCooldown = 30;
                 }
                 if (CalamityWorld.revenge && Config.AdrenalineAndRage)
                 {
