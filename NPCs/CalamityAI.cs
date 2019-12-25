@@ -1212,8 +1212,8 @@ namespace CalamityMod.NPCs
 							num827 = num828 / num827;
 							num825 *= num827;
 							num826 *= num827;
-							vector82.X += num825 * 12f;
-							vector82.Y += num826 * 12f;
+							vector82.X += num825 * 6f;
+							vector82.Y += num826 * 6f;
 							Projectile.NewProjectile(vector82.X, vector82.Y, num825, num826, num830, num829 + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
 						}
 					}

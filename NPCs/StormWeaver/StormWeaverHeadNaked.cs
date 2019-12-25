@@ -211,7 +211,7 @@ namespace CalamityMod.NPCs.StormWeaver
                     }
                 }
             }
-            if (Main.player[npc.target].dead)
+            if (Main.player[npc.target].dead && npc.life > 0)
             {
                 npc.TargetClosest(false);
                 npc.velocity.Y = npc.velocity.Y - 10f;
@@ -231,14 +231,16 @@ namespace CalamityMod.NPCs.StormWeaver
                     }
                     for (int num957 = 0; num957 < 200; num957++)
                     {
-                        if (Main.npc[num957].aiStyle == npc.aiStyle)
+                        if ( Main.npc[num957].active && (Main.npc[num957].type == ModContent.NPCType<StormWeaverBodyNaked>() 
+                            || Main.npc[num957].type == ModContent.NPCType<StormWeaverHeadNaked>()
+                            || Main.npc[num957].type == ModContent.NPCType<StormWeaverTailNaked>()))
                         {
                             Main.npc[num957].active = false;
                         }
                     }
                 }
             }
-            if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 10000f)
+            if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 10000f && npc.life > 0)
             {
                 CalamityWorld.DoGSecondStageCountdown = 0;
                 if (Main.netMode == NetmodeID.Server)
@@ -250,7 +252,9 @@ namespace CalamityMod.NPCs.StormWeaver
                 }
                 for (int num957 = 0; num957 < 200; num957++)
                 {
-                    if (Main.npc[num957].aiStyle == npc.aiStyle)
+                    if (Main.npc[num957].type == ModContent.NPCType<StormWeaverBodyNaked>()
+                       || Main.npc[num957].type == ModContent.NPCType<StormWeaverHeadNaked>()
+                       || Main.npc[num957].type == ModContent.NPCType<StormWeaverTailNaked>())
                     {
                         Main.npc[num957].active = false;
                     }
@@ -559,7 +563,8 @@ namespace CalamityMod.NPCs.StormWeaver
             }
             if (npc.life <= 0)
             {
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SWNude"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SWNudeHead1"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SWNudeHead2"), 1f);
                 npc.position.X = npc.position.X + (float)(npc.width / 2);
                 npc.position.Y = npc.position.Y + (float)(npc.height / 2);
                 npc.width = 30;
@@ -594,7 +599,7 @@ namespace CalamityMod.NPCs.StormWeaver
             {
                 if (Main.npc[num569].active && (Main.npc[num569].type == ModContent.NPCType<StormWeaverBodyNaked>() || Main.npc[num569].type == ModContent.NPCType<StormWeaverTailNaked>()))
                 {
-                    Main.npc[num569].active = false;
+                    Main.npc[num569].life = 0;
                 }
             }
             return true;

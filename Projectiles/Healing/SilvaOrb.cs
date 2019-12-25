@@ -13,8 +13,8 @@ namespace CalamityMod.Projectiles.Healing
 
         public override void SetDefaults()
         {
-            projectile.width = 14;
-            projectile.height = 14;
+            projectile.width = 22;
+            projectile.height = 22;
             projectile.friendly = true;
             projectile.alpha = 255;
             projectile.penetrate = 1;

@@ -96,15 +96,15 @@ namespace CalamityMod.Items.Weapons.Rogue
             return true;
         }
 
-        /*public override void AddRecipes()
+        public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
 
             recipe.AddIngredient(ItemID.SpikyBall, 50);
-            recipe.AddIngredient(ItemID.JungleSpore, 10);
+            recipe.AddIngredient(ItemID.JungleSpores, 10);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
-        }*/
+        }
     }
 }

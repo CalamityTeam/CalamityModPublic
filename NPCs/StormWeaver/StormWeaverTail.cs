@@ -90,7 +90,7 @@ namespace CalamityMod.NPCs.StormWeaver
             {
                 flag = true;
             }
-            else if (Main.npc[(int)npc.ai[1]].life <= 0)
+            else if (Main.npc[(int)npc.ai[1]].life <= 0 || npc.life <= 0)
             {
                 flag = true;
             }
@@ -175,7 +175,8 @@ namespace CalamityMod.NPCs.StormWeaver
             }
             if (npc.life <= 0)
             {
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SWArmor5"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SWArmorTail1"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SWArmorTail2"), 1f);
                 npc.position.X = npc.position.X + (float)(npc.width / 2);
                 npc.position.Y = npc.position.Y + (float)(npc.height / 2);
                 npc.width = 30;

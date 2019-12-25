@@ -190,7 +190,7 @@ namespace CalamityMod.NPCs.AquaticScourge
                 DropHelper.DropItemChance(npc, ItemID.FishingPotion, 4, 2, 3);
                 DropHelper.DropItemChance(npc, ItemID.SonarPotion, 4, 2, 3);
                 DropHelper.DropItemChance(npc, ItemID.CratePotion, 4, 2, 3);
-                DropHelper.DropItemCondition(npc, ItemID.GoldenBugNet, NPC.downedBoss3, 15, 1, 1);
+                DropHelper.DropItemChance(npc, ItemID.GoldenBugNet, 15, 1, 1);
             }
 
             // Mark Aquatic Scourge as dead

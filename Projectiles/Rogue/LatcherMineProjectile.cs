@@ -26,6 +26,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.scale = 1.5f;
             projectile.alpha = 0;
             projectile.Calamity().rogue = true;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()
@@ -205,10 +207,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = projectile.height = (projectile.Calamity().stealthStrike ? 240 : 100);
             projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
             projectile.Damage();
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < (projectile.Calamity().stealthStrike ? 8 : 5); i++)
             {
                 if (Main.rand.NextBool(2) && projectile.Calamity().stealthStrike)
                 {
@@ -221,11 +221,11 @@ namespace CalamityMod.Projectiles.Rogue
                     Vector2 fireVelocity = (Vector2.UnitY * (-16f + Main.rand.NextFloat(-3, 12f))).RotatedByRandom((double)MathHelper.ToRadians(40f));
                     int fireIndex = Projectile.NewProjectile(projectile.Top, fireVelocity,
                         Main.rand.Next(ProjectileID.MolotovFire, ProjectileID.MolotovFire3 + 1),
-                        projectile.damage, 1f, projectile.owner);
+                        projectile.damage / 2, 1f, projectile.owner);
                     Main.projectile[fireIndex].Calamity().forceRogue = true;
                     Main.projectile[fireIndex].penetrate = -1;
                     Main.projectile[fireIndex].usesLocalNPCImmunity = true;
-                    Main.projectile[fireIndex].localNPCHitCooldown = 8;
+                    Main.projectile[fireIndex].localNPCHitCooldown = 10;
                 }
             }
         }

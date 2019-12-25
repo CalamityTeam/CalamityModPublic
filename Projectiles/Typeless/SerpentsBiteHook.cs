@@ -64,5 +64,10 @@ namespace CalamityMod.Projectiles.Typeless
             CalamityUtils.DrawHook(projectile, GetTexture("CalamityMod/ExtraTextures/Chains/SerpentsBiteChain"));
 			return true;
 		}
-	}
+
+        public override void AI()
+        {
+            projectile.spriteDirection = -projectile.direction;
+        }
+    }
 }

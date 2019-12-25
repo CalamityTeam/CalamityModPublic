@@ -11,7 +11,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Calamity Eye");
-            Main.npcFrameCount[npc.type] = 2;
+            Main.npcFrameCount[npc.type] = 4;
         }
 
         public override void SetDefaults()
@@ -20,7 +20,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.aiStyle = 2;
             npc.damage = 40;
             npc.width = 30;
-            npc.height = 32;
+            npc.height = 30;
             npc.defense = 12;
             npc.lifeMax = 140;
             npc.knockBackResist = 0f;

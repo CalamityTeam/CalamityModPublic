@@ -251,8 +251,8 @@ namespace CalamityMod.NPCs.TownNPCs
 			{
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<BouncingBetty>());
 				nextSlot++;
-                /*shop.item[nextSlot].SetDefaults(ModContent.ItemType<LatcherMines>());
-				nextSlot++;*/
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<LatcherMine>());
+				nextSlot++;
             }
             if (NPC.downedPlantBoss)
             {
@@ -265,12 +265,12 @@ namespace CalamityMod.NPCs.TownNPCs
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<DeepWounder>());
 				nextSlot++;
             }
-            /*if (NPC.downedGolemBoss)
+            if (NPC.downedGolemBoss)
 			{
 				shop.item[nextSlot].SetDefaults(ModContent.ItemType<EtherealExtorter>());
 				shop.item[nextSlot].shopCustomPrice = Item.buyPrice(1, 0, 0, 0);
 				nextSlot++;
-			}*/
+			}
             if (NPC.downedMoonlord)
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<CelestialReaper>());
@@ -283,6 +283,12 @@ namespace CalamityMod.NPCs.TownNPCs
 				shop.item[nextSlot].shopCustomPrice = Item.buyPrice(5, 0, 0, 0);
 				nextSlot++;
 			}
+            if (CalamityWorld.downedDoG)
+            {
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<VeneratedLocket>());
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(25, 0, 0, 0);
+                nextSlot++;
+            }
             if (CalamityWorld.buffedEclipse && !CalamityWorld.dragonScalesBought)
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<DragonScales>());

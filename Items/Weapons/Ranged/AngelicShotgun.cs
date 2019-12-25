@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class AngelicShotgun : ModItem
     {
-        private static int BaseDamage = 180;
+        private static int BaseDamage = 150;
         private static int NumBullets = 8;
         private static float BulletSpeed = 13f;
 
@@ -58,15 +58,15 @@ Fighting 'til the war's won");
             // Fire a shotgun spread of bullets.
             for (int i = 0; i < NumBullets; ++i)
             {
-                float dx = Main.rand.NextFloat(-1.5f, 1.5f);
-                float dy = Main.rand.NextFloat(-1.5f, 1.5f);
+                float dx = Main.rand.NextFloat(-1.3f, 1.3f);
+                float dy = Main.rand.NextFloat(-1.3f, 1.3f);
                 Vector2 randomVelocity = baseVelocity + new Vector2(dx, dy);
                 Projectile.NewProjectile(position, randomVelocity, ModContent.ProjectileType<IlluminatedBullet>(), damage, knockBack, player.whoAmI, 0f, 0f);
             }
 
             // Spawn a beam from the sky ala Deathhail Staff or Lunar Flare
             float laserSpeed = 8f;
-            int laserDamage = 5 * BaseDamage;
+            int laserDamage = 4 * BaseDamage;
             float laserKB = 5f;
 
             Vector2 rrp = player.RotatedRelativePoint(player.MountedCenter, true);

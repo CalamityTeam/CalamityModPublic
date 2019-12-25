@@ -13,9 +13,10 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            projectile.width = 20;
-            projectile.height = 20;
+            projectile.width = 16;
+            projectile.height = 16;
             projectile.hostile = true;
+            projectile.scale = 1.2f;
             projectile.penetrate = 6;
             projectile.aiStyle = 14;
             aiType = 277;
@@ -24,12 +25,14 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
+            projectile.rotation += 0.12f * projectile.direction;
             Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.25f / 255f, (255 - projectile.alpha) * 0.05f / 255f, (255 - projectile.alpha) * 0.05f / 255f);
-            for (int num468 = 0; num468 < 5; num468++)
+            for (int num468 = 0; num468 < 2; num468++)
             {
-                int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 235, 0f, 0f, 100, default, 1f);
+                Vector2 dspeed = -projectile.velocity * 0.7f;
+                int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 235, 0f, 0f, 150, default, 1.1f);
                 Main.dust[num469].noGravity = true;
-                Main.dust[num469].velocity *= 0f;
+                Main.dust[num469].velocity = dspeed;
             }
         }
 

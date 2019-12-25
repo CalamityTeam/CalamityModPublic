@@ -1,0 +1,46 @@
+using CalamityMod.Items.Materials;
+using CalamityMod.Buffs.DamageOverTime;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+
+namespace CalamityMod.Items.Armor
+{
+    [AutoloadEquip(EquipType.Body)]
+    public class PlagueReaperVest : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Plague Reaper Vest");
+            Tooltip.SetDefault("Immunity to the Plague\n" +
+                "15% increased ranged damage and 5% increased ranged critical strike chance");
+        }
+
+        public override void SetDefaults()
+        {
+            item.width = 18;
+            item.height = 18;
+            item.value = Item.buyPrice(0, 24, 0, 0);
+            item.rare = 8;
+            item.defense = 18;
+        }
+
+        public override void UpdateEquip(Player player)
+        {
+            player.rangedDamage += 0.15f;
+            player.rangedCrit += 5;
+            player.buffImmune[ModContent.BuffType<Plague>()] = true;
+        }
+
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 29); //I like prime numbers =)
+			recipe.AddIngredient(ItemID.NecroBreastplate);
+			recipe.AddIngredient(ItemID.Nanites, 19); //Change this to 30 and 20 and I will hunt you down
+			recipe.AddTile(TileID.MythrilAnvil);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
+    }
+}

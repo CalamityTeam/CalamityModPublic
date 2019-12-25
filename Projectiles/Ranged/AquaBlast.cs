@@ -8,12 +8,13 @@ namespace CalamityMod.Projectiles.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Aqua Blast");
+            Main.projFrames[projectile.type] = 4;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 8;
-            projectile.height = 8;
+            projectile.width = 12;
+            projectile.height = 12;
             projectile.friendly = true;
             projectile.ignoreWater = true;
             projectile.penetrate = 1;
@@ -23,13 +24,30 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0.75f / 255f);
-            for (int num457 = 0; num457 < 5; num457++)
+            //Animation
+            projectile.frameCounter++;
+            if (projectile.frameCounter > 5)
             {
+                projectile.frame++;
+                projectile.frameCounter = 0;
+            }
+            if (projectile.frame > 3)
+            {
+                projectile.frame = 0;
+            }
+
+            //Rotation
+            projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
+            projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi) + MathHelper.ToRadians(90) * projectile.direction;
+
+
+            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0.75f / 255f);
+            for (int num457 = 0; num457 < 2; num457++)
+            {
+                Vector2 dspeed = -projectile.velocity * Main.rand.NextFloat(0.5f * 0.8f);
                 int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 33, 0f, 0f, 100, default, 1f);
                 Main.dust[num458].noGravity = true;
-                Main.dust[num458].velocity *= 0.5f;
-                Main.dust[num458].velocity += projectile.velocity * 0.1f;
+                Main.dust[num458].velocity = dspeed;
             }
         }
 
