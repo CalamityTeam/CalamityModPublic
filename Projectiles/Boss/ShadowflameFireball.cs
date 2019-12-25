@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Boss
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Shadowflame");
+            DisplayName.SetDefault("Shadowflame Fireball");
         }
 
         public override void SetDefaults()
@@ -34,8 +34,28 @@ namespace CalamityMod.Projectiles.Boss
                 Main.PlaySound(SoundID.Item20, projectile.position);
             }
 
-            int dust = Dust.NewDust(new Vector2(projectile.position.X + projectile.velocity.X, projectile.position.Y + projectile.velocity.Y), projectile.width, projectile.height, 27, projectile.velocity.X, projectile.velocity.Y, 100, default, 3f);
-            Main.dust[dust].noGravity = true;
+            // Main chunky dark purple dust at the front of the fireball
+            for(int i = 0; i < 2; ++i)
+            {
+                int dustType = 27;
+                float dustScale = Main.rand.NextFloat(1.4f, 2.4f);
+                int dustID = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, dustType);
+                Main.dust[dustID].noGravity = true;
+                Main.dust[dustID].velocity = projectile.velocity;
+                Main.dust[dustID].scale = dustScale;
+            }
+
+            // Trailing brighter purple fire trail dust
+            {
+                int dustType = 70;
+                float velMult = Main.rand.NextFloat(0.05f, 0.6f);
+                float dustScale = Main.rand.NextFloat(1.2f, 1.8f);
+                int dustID = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType);
+                Main.dust[dustID].noGravity = true;
+                Main.dust[dustID].velocity *= 0.1f;
+                Main.dust[dustID].velocity += projectile.velocity * velMult;
+                Main.dust[dustID].scale = dustScale;
+            }
 
             projectile.rotation += 0.3f * (float)projectile.direction;
 
@@ -77,17 +97,14 @@ namespace CalamityMod.Projectiles.Boss
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(SoundID.Item10, projectile.position);
-            int num3;
-            for (int num584 = 0; num584 < 20; num584 = num3 + 1)
+            int killDust = 20;
+            for (int i = 0; i < killDust; ++i)
             {
-                int num585 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 27, -projectile.velocity.X * 0.2f, -projectile.velocity.Y * 0.2f, 100, default, 2.5f);
-                Main.dust[num585].noGravity = true;
-                Dust dust = Main.dust[num585];
-                dust.velocity *= 2f;
-                num585 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 27, -projectile.velocity.X * 0.2f, -projectile.velocity.Y * 0.2f, 100, default, 1.2f);
-                dust = Main.dust[num585];
-                dust.velocity *= 2f;
-                num3 = num584;
+                int dustType = Main.rand.NextBool() ? 70 : 27;
+                float dustScale = Main.rand.NextFloat(1f, 1.6f);
+                int dustID = Dust.NewDust(projectile.Center, 1, 1, dustType);
+                Main.dust[dustID].velocity *= 4f;
+                Main.dust[dustID].scale = dustScale;
             }
         }
     }
