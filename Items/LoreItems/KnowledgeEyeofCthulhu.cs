@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.LoreItems
 {
-    public class KnowledgeEyeofCthulhu : ModItem
+    public class KnowledgeEyeofCthulhu : LoreItem
     {
         public override void SetStaticDefaults()
         {

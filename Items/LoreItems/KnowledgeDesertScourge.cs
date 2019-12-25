@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.LoreItems
 {
-    public class KnowledgeDesertScourge : ModItem
+    public class KnowledgeDesertScourge : LoreItem
     {
         public override void SetStaticDefaults()
         {

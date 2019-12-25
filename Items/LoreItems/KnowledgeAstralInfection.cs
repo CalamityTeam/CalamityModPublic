@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.LoreItems
 {
-    public class KnowledgeAstralInfection : ModItem
+    public class KnowledgeAstralInfection : LoreItem
     {
         public override void SetStaticDefaults()
         {

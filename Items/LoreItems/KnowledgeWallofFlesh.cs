@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.LoreItems
 {
-    public class KnowledgeWallofFlesh : ModItem
+    public class KnowledgeWallofFlesh : LoreItem
     {
         public override void SetStaticDefaults()
         {
