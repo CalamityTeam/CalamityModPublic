@@ -5204,19 +5204,17 @@ namespace CalamityMod.CalPlayer
                         {
                             if (flag)
                             {
-                                nPC.StrikeNPC(num3, 0f, 0, false, false, false);
-                                if (Main.netMode != NetmodeID.SinglePlayer)
+                                if (player.whoAmI == Main.myPlayer)
                                 {
-                                    NetMessage.SendData(28, -1, -1, null, l, (float)num3, 0f, 0f, 0, 0, 0);
+                                    Projectile p = Projectile.NewProjectileDirect(nPC.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), num3, 0f, player.whoAmI, l);
+                                    p.minion = true;
+                                    p.Calamity().forceMinion = true;
                                 }
                             }
                         }
                     }
                 }
                 lifeCounter++;
-                if (lifeCounter >= 180)
-                {
-                }
             }
 
             if (player.inventory[player.selectedItem].type == ModContent.ItemType<NavyFishingRod>() && player.ownedProjectileCounts[ModContent.ProjectileType<NavyBobber>()] != 0)
@@ -5237,12 +5235,11 @@ namespace CalamityMod.CalPlayer
 							{
 								if (flag)
 								{
-									nPC.StrikeNPC(num3, 0f, 0, false, false, false);
-									if (Main.netMode != NetmodeID.SinglePlayer)
-									{
-										NetMessage.SendData(28, -1, -1, null, l, (float)num3, 0f, 0f, 0, 0, 0);
-									}
-									Vector2 value15 = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
+                                    if (player.whoAmI == Main.myPlayer)
+                                    {
+                                        Projectile p = Projectile.NewProjectileDirect(nPC.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), num3, 0f, player.whoAmI, l);
+                                    }
+                                    Vector2 value15 = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
 									while (value15.X == 0f && value15.Y == 0f)
 									{
 										value15 = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
@@ -5258,9 +5255,6 @@ namespace CalamityMod.CalPlayer
 					}
 				}
 				auraCounter++;
-				if (auraCounter >= 180)
-				{
-				}
 			}
 
             if (brimstoneElementalLore && player.inferno)

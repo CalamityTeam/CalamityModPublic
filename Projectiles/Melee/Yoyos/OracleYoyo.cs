@@ -207,18 +207,10 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                     int finalDamage = (int)(baseDamage * (owner.allDamage + owner.meleeDamage - 1f));
                     if (projectile.owner == Main.myPlayer)
                     {
-                        Projectile p = Projectile.NewProjectileDirect(target.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), finalDamage, 0f, projectile.owner);
+                        Projectile p = Projectile.NewProjectileDirect(target.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), finalDamage, 0f, projectile.owner, i);
                         p.melee = true;
                         p.Calamity().forceMelee = true;
                     }
-                    /*
-                    int finalDamage = (int)(baseDamage * owner.meleeDamage * Main.rand.NextFloat(0.85f, 1.15f));
-                    bool crit = Main.rand.Next(100) <= owner.meleeCrit + 4;
-                    target.StrikeNPC(finalDamage, 0f, 0, crit, false, false);
-
-                    if (Main.netMode != NetmodeID.SinglePlayer)
-                        NetMessage.SendData(28, -1, -1, null, i, finalDamage, 0f, 0f, crit ? 1 : 0, 0, 0);
-                    */
                 }
             }
         }
