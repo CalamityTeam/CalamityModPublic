@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.value = Item.buyPrice(0, 1, 0, 0);
             item.rare = 0;
             item.shoot = ModContent.ProjectileType<SludgeSplotchProj1>();
-            item.shootSpeed = 7.5f;
+            item.shootSpeed = 10f;
             item.Calamity().rogue = true;
         }
 

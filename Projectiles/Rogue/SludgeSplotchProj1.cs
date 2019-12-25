@@ -96,6 +96,12 @@ namespace CalamityMod.Projectiles.Rogue
             Main.PlaySound(4, (int)projectile.position.X, (int)projectile.position.Y, 9, 2, 0);
         }
 
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(BuffID.Slow, 240);
+            Main.PlaySound(4, (int)projectile.position.X, (int)projectile.position.Y, 9, 2, 0);
+        }
+
         public override void Kill(int timeLeft)
         {
             if (projectile.Calamity().stealthStrike)

@@ -656,10 +656,10 @@ namespace CalamityMod.Projectiles
 				{
 					if (counter % 30 == 0)
 					{
-						if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<Nanotech>()] < 30)
+						if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<Nanotech>()] < 25)
 						{
 							Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<Nanotech>(),
-								(int)((double)projectile.damage * 0.15), 0f, projectile.owner, 0f, 0f);
+								(int)((double)projectile.damage * 0.1), 0f, projectile.owner, 0f, 0f);
 						}
 					}
 				}
