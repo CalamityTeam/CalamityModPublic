@@ -83,6 +83,7 @@ using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.UI;
+using CalamityMod.Items.LoreItems;
 
 namespace CalamityMod
 {
@@ -2033,7 +2034,54 @@ namespace CalamityMod
                 ModContent.ItemType<UnholyEssence>(),
                 ModContent.ItemType<GalacticaSingularity>(),
                 ModContent.ItemType<NightmareFuel>(),
-                ModContent.ItemType<EndothermicEnergy>()
+                ModContent.ItemType<EndothermicEnergy>(),
+
+                ModContent.ItemType<KnowledgeAquaticScourge>(),
+                ModContent.ItemType<KnowledgeAstralInfection>(),
+                ModContent.ItemType<KnowledgeAstrumAureus>(),
+                ModContent.ItemType<KnowledgeAstrumDeus>(),
+                ModContent.ItemType<KnowledgeBloodMoon>(),
+                ModContent.ItemType<KnowledgeBrainofCthulhu>(),
+                ModContent.ItemType<KnowledgeBrimstoneCrag>(),
+                ModContent.ItemType<KnowledgeBrimstoneElemental>(),
+                ModContent.ItemType<KnowledgeBumblebirb>(),
+                ModContent.ItemType<KnowledgeCalamitas>(),
+                ModContent.ItemType<KnowledgeCalamitasClone>(),
+                ModContent.ItemType<KnowledgeCorruption>(),
+                ModContent.ItemType<KnowledgeCrabulon>(),
+                ModContent.ItemType<KnowledgeCrimson>(),
+                ModContent.ItemType<KnowledgeCryogen>(),
+                ModContent.ItemType<KnowledgeDesertScourge>(),
+                ModContent.ItemType<KnowledgeDestroyer>(),
+                ModContent.ItemType<KnowledgeDevourerofGods>(),
+                ModContent.ItemType<KnowledgeDukeFishron>(),
+                ModContent.ItemType<KnowledgeEaterofWorlds>(),
+                ModContent.ItemType<KnowledgeEyeofCthulhu>(),
+                ModContent.ItemType<KnowledgeGolem>(),
+                ModContent.ItemType<KnowledgeHiveMind>(),
+                ModContent.ItemType<KnowledgeKingSlime>(),
+                ModContent.ItemType<KnowledgeLeviathanandSiren>(),
+                ModContent.ItemType<KnowledgeLunaticCultist>(),
+                ModContent.ItemType<KnowledgeMechs>(),
+                ModContent.ItemType<KnowledgeMoonLord>(),
+                ModContent.ItemType<KnowledgeOcean>(),
+                ModContent.ItemType<KnowledgePerforators>(),
+                ModContent.ItemType<KnowledgePlaguebringerGoliath>(),
+                ModContent.ItemType<KnowledgePlantera>(),
+                ModContent.ItemType<KnowledgePolterghast>(),
+                ModContent.ItemType<KnowledgeProfanedGuardians>(),
+                ModContent.ItemType<KnowledgeProvidence>(),
+                ModContent.ItemType<KnowledgeQueenBee>(),
+                ModContent.ItemType<KnowledgeRavager>(),
+                ModContent.ItemType<KnowledgeSentinels>(),
+                ModContent.ItemType<KnowledgeSkeletron>(),
+                ModContent.ItemType<KnowledgeSkeletronPrime>(),
+                ModContent.ItemType<KnowledgeSlimeGod>(),
+                ModContent.ItemType<KnowledgeSulphurSea>(),
+                ModContent.ItemType<KnowledgeTwins>(),
+                ModContent.ItemType<KnowledgeUnderworld>(),
+                ModContent.ItemType<KnowledgeWallofFlesh>(),
+                ModContent.ItemType<KnowledgeYharon>(),
             };
 
             lavaFishList = new List<int>()
