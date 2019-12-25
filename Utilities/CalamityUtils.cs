@@ -584,12 +584,12 @@ namespace CalamityMod
             TileID.Silver,
             TileID.Tungsten,
             TileID.Gold,
+            TileID.Platinum,
             TileID.Demonite,
             TileID.Crimtane,
             TileID.Cobalt,
             TileID.Palladium,
             TileID.Mythril,
-            TileID.Platinum,
             TileID.Orichalcum,
             TileID.Adamantite,
             TileID.Titanium,
@@ -1974,6 +1974,65 @@ namespace CalamityMod
                         tileAtCenterColor, angleToMountedCenter + angleAdditive, 
                         hookTexture.Size() / 2, 1f, SpriteEffects.None, 0f);
                 }
+            }
+        }
+
+        internal static void IterateDisco(ref Color c, ref float aiParam, in byte discoIter = 7)
+        {
+            switch (aiParam)
+            {
+                case 0f:
+                    c.G += discoIter;
+                    if (c.G >= 255)
+                    {
+                        c.G = 255;
+                        aiParam = 1f;
+                    }
+                    break;
+                case 1f:
+                    c.R -= discoIter;
+                    if (c.R <= 0)
+                    {
+                        c.R = 0;
+                        aiParam = 2f;
+                    }
+                    break;
+                case 2f:
+                    c.B += discoIter;
+                    if (c.B >= 255)
+                    {
+                        c.B = 255;
+                        aiParam = 3f;
+                    }
+                    break;
+                case 3f:
+                    c.G -= discoIter;
+                    if (c.G <= 0)
+                    {
+                        c.G = 0;
+                        aiParam = 4f;
+                    }
+                    break;
+                case 4f:
+                    c.R += discoIter;
+                    if (c.R >= 255)
+                    {
+                        c.R = 255;
+                        aiParam = 5f;
+                    }
+                    break;
+                case 5f:
+                    c.B -= discoIter;
+                    if (c.B <= 0)
+                    {
+                        c.B = 0;
+                        aiParam = 0f;
+                    }
+                    break;
+                default:
+                    aiParam = 0f;
+                    c = Color.Red;
+                    break;
             }
         }
         #endregion
