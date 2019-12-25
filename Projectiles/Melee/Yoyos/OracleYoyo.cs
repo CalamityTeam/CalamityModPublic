@@ -1,5 +1,7 @@
 ﻿using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -19,23 +21,29 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         private static float MaxAuraRadius = 100f;
         private static float MinDischargeRate = 0.05f;
         private static float MaxDischargeRate = 0.53f;
-        private static float ChargePerHit = 6f;
+        private static float ChargePerHit = 2.2f;
 
         private static int AuraBaseDamage = 160;
-        private static int HitsPerOrbVolley = 6;
+        private static int HitsPerOrbVolley = 10;
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Oracle");
+            ProjectileID.Sets.YoyosLifeTimeMultiplier[projectile.type] = -1f;
+            ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 800f;
+            ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 24f;
+
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
         }
 
         public override void SetDefaults()
         {
-            projectile.CloneDefaults(ProjectileID.Terrarian);
-            aiType = 554;
+            projectile.aiStyle = 99;
             projectile.width = 20;
             projectile.height = 20;
             projectile.scale = 1.2f;
+            projectile.friendly = true;
             projectile.melee = true;
             projectile.penetrate = -1;
             projectile.extraUpdates = 1;
@@ -89,6 +97,12 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                 projectile.soundDelay = 2;
 
             projectile.netUpdate = true;
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            return false;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -190,12 +204,21 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 
                 if (dist <= radius)
                 {
+                    int finalDamage = (int)(baseDamage * (owner.allDamage + owner.meleeDamage - 1f));
+                    if (projectile.owner == Main.myPlayer)
+                    {
+                        Projectile p = Projectile.NewProjectileDirect(target.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), finalDamage, 0f, projectile.owner);
+                        p.melee = true;
+                        p.Calamity().forceMelee = true;
+                    }
+                    /*
                     int finalDamage = (int)(baseDamage * owner.meleeDamage * Main.rand.NextFloat(0.85f, 1.15f));
                     bool crit = Main.rand.Next(100) <= owner.meleeCrit + 4;
                     target.StrikeNPC(finalDamage, 0f, 0, crit, false, false);
 
                     if (Main.netMode != NetmodeID.SinglePlayer)
                         NetMessage.SendData(28, -1, -1, null, i, finalDamage, 0f, 0f, crit ? 1 : 0, 0, 0);
+                    */
                 }
             }
         }
@@ -207,7 +230,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 
             int numOrbs = 3;
             int orbID = ModContent.ProjectileType<Orbacle>();
-            int orbDamage = Oracle.BaseDamage * 3;
+            int orbDamage = projectile.damage * 3;
             float orbKB = 8f;
             float angleVariance = MathHelper.TwoPi / numOrbs;
             float spinOffsetAngle = MathHelper.Pi / (2f * numOrbs);
