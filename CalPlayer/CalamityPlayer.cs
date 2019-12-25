@@ -474,6 +474,8 @@ namespace CalamityMod.CalPlayer
         public bool reaverBurst = false;
         public bool astralStarRain = false;
         public int astralStarRainCooldown = 0;
+		public bool plagueReaper = false;
+        public int plagueReaperCooldown = 0;
         public float ataxiaDmg;
         public bool ataxiaMage = false;
         public bool ataxiaGeyser = false;
@@ -1123,6 +1125,7 @@ namespace CalamityMod.CalPlayer
             statigelSet = false;
 
             umbraphileSet = false;
+            plagueReaper = false;
 
             tarraSet = false;
             tarraMelee = false;
@@ -1565,6 +1568,8 @@ namespace CalamityMod.CalPlayer
             reaverBlast = false;
             reaverBurst = false;
             astralStarRain = false;
+            plagueReaper = false;
+            plagueReaperCooldown = 0;
             ataxiaMage = false;
             ataxiaBolt = false;
             ataxiaGeyser = false;
@@ -2099,6 +2104,8 @@ namespace CalamityMod.CalPlayer
                         }
                     }
                 }
+				if (plagueReaper && plagueReaperCooldown <= 0)
+					plagueReaperCooldown = 1800;
             }
             if (CalamityMod.AstralArcanumUIHotkey.JustPressed && astralArcanum)
             {
@@ -3612,7 +3619,14 @@ namespace CalamityMod.CalPlayer
             }
             if (raiderTalisman)
             {
-                player.Calamity().throwingDamage += (float)raiderStack / 250f * 0.25f;
+				if (nanotech) //so nanotech isn't so broken
+				{
+					player.Calamity().throwingDamage += (float)raiderStack / 250f * 0.1f;
+				}
+				else
+				{
+					player.Calamity().throwingDamage += (float)raiderStack / 250f * 0.25f;
+				}
             }
             if (silvaCountdown <= 0 && hasSilvaEffect && silvaSummon)
             {
@@ -4691,6 +4705,11 @@ namespace CalamityMod.CalPlayer
             {
                 if (player.wingTimeMax > 0)
                     player.wingTimeMax = (int)((double)player.wingTimeMax * 1.1);
+            }
+            if (plagueReaper)
+            {
+                if (player.wingTimeMax > 0)
+                    player.wingTimeMax = (int)((double)player.wingTimeMax * 1.05);
             }
             if (draconicSurge)
             {
@@ -8635,7 +8654,9 @@ namespace CalamityMod.CalPlayer
                     float speedX4 = num78 + (float)Main.rand.Next(-30, 31) * 0.02f;
                     float speedY5 = num79 + (float)Main.rand.Next(-30, 31) * 0.02f;
                     int p = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, type, (int)(damage), (int)(knockBack), player.whoAmI, 0f, (float)Main.rand.Next(15));
-                    Main.projectile[p].damage /= 3;
+                    Main.projectile[p].damage /= 5;
+                    Main.projectile[p].knockBack /= 2;
+                    Main.projectile[p].Calamity().forceRogue = true; //in case melee/rogue variants bug out
                     if (StealthStrikeAvailable())
                     {
                         int knifeCount = 15;
