@@ -8401,6 +8401,10 @@ namespace CalamityMod.CalPlayer
 					{
 						caughtType = ModContent.ItemType<FishofFlight>();
 					}
+					if (Main.rand.NextBool(15))
+					{
+						caughtType = ModContent.ItemType<SunbeamFish>();
+					}
 				}
 
 				if (player.ZoneOverworldHeight && !Main.dayTime)
@@ -8427,9 +8431,17 @@ namespace CalamityMod.CalPlayer
 					}
 				}
 
+				if (player.ZoneSnow)
+				{
+					if (Main.rand.NextBool(15))
+					{
+						caughtType = ModContent.ItemType<FishofEleum>();
+					}
+				}
+
 				if (player.ZoneDirtLayerHeight)
 				{
-					if (Main.rand.NextBool(40))
+					if (Main.rand.NextBool(Main.hardMode ? 100 : 40))
 					{
 						caughtType = ModContent.ItemType<Spadefish>();
 					}
