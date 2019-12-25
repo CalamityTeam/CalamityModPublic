@@ -11,6 +11,7 @@ namespace CalamityMod.Projectiles.Rogue
         public static float rotateSpeed = 0.04f;
         public static int lifetime = 120;
         public static int returnTime = 60;
+        public bool initialized = false;
 
         public override void SetStaticDefaults()
         {
@@ -25,12 +26,16 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.penetrate = 1;
             projectile.timeLeft = lifetime;
             projectile.Calamity().rogue = true;
-            projectile.rotation = Main.rand.NextFloat(0f, MathHelper.TwoPi);
-            projectile.localAI[1] = Main.rand.NextFloat(-rotateSpeed, rotateSpeed);
         }
 
         public override void AI()
         {
+            if (!initialized)
+            {
+                projectile.rotation = Main.rand.NextFloat(0f, MathHelper.TwoPi);
+                projectile.localAI[1] = Main.rand.NextFloat(-rotateSpeed, rotateSpeed);
+                initialized = true;
+            }
             if (projectile.ai[0] == 1f)
             {
                 // Follow enemy
