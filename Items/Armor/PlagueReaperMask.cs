@@ -109,14 +109,14 @@ namespace CalamityMod.Items.Armor
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 15);
 			recipe.AddIngredient(ItemID.NecroHelmet);
-			recipe.AddIngredient(ItemID.Nanites, 18);
+			recipe.AddIngredient(ItemID.Nanites, 11);
 			recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
 			recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 15);
 			recipe.AddIngredient(ItemID.AncientNecroHelmet);
-			recipe.AddIngredient(ItemID.Nanites, 17);
+			recipe.AddIngredient(ItemID.Nanites, 11);
 			recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
