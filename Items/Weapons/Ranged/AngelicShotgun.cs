@@ -10,8 +10,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class AngelicShotgun : ModItem
     {
-        private static int BaseDamage = 150;
-        private static int NumBullets = 8;
+        private static int BaseDamage = 120;
         private static float BulletSpeed = 13f;
 
         public override void SetStaticDefaults()
@@ -32,8 +31,8 @@ Fighting 'til the war's won");
             item.width = 44;
             item.height = 7;
 
-            item.useTime = 14;
-            item.useAnimation = 14;
+            item.useTime = 21;
+            item.useAnimation = 21;
             item.UseSound = SoundID.Item38;
             item.useStyle = 5;
 
@@ -53,6 +52,7 @@ Fighting 'til the war's won");
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
+			int NumBullets = Main.rand.Next(6,9);
             Vector2 baseVelocity = new Vector2(speedX, speedY).SafeNormalize(Vector2.Zero) * BulletSpeed;
 
             // Fire a shotgun spread of bullets.

@@ -64,6 +64,11 @@ namespace CalamityMod.Projectiles.Rogue
             target.AddBuff(BuffID.Slow, 120);
         }
 
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(BuffID.Slow, 120);
+        }
+
         public override void Kill(int timeLeft)
         {
             int numDust = 10;

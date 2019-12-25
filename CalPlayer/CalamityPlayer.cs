@@ -323,6 +323,7 @@ namespace CalamityMod.CalPlayer
         public bool lol = false;
         public bool raiderTalisman = false;
         public int raiderStack = 0;
+        public int raiderCooldown = 0;
         public bool sGenerator = false;
         public bool sDefense = false;
         public bool sPower = false;
@@ -1368,6 +1369,7 @@ namespace CalamityMod.CalPlayer
             adrenalineDmgDown = 600;
             adrenalineDmgMult = 1f;
             raiderStack = 0;
+            raiderCooldown = 0;
             fleshTotemCooldown = 0;
             astralStarRainCooldown = 0;
             bloodflareMageCooldown = 0;
@@ -3435,6 +3437,8 @@ namespace CalamityMod.CalPlayer
 
             if (draconicSurgeCooldown > 0)
                 draconicSurgeCooldown--;
+            if (raiderCooldown > 0)
+                raiderCooldown--;
             if (fleshTotemCooldown > 0)
                 fleshTotemCooldown--;
             if (astralStarRainCooldown > 0)
@@ -7249,7 +7253,10 @@ namespace CalamityMod.CalPlayer
             }
             if ((filthyGlove || electricianGlove) && proj.Calamity().stealthStrike && proj.Calamity().rogue)
             {
-                damageMult += 0.1;
+				if (nanotech)
+					damageMult += 0.05;
+				else
+					damageMult += 0.1;
             }
             if (etherealExtorter && proj.Calamity().rogue)
             {
@@ -7306,9 +7313,15 @@ namespace CalamityMod.CalPlayer
             {
                 damage += Main.rand.Next(20, 31);
             }
-            if (proj.Calamity().stealthStrike && proj.Calamity().rogue && electricianGlove)
+            if (proj.Calamity().stealthStrike && proj.Calamity().rogue && nanotech)
             {
 				//Ozzatron insists on counting for edge-cases
+				int penetratableDefense = Math.Max(target.defense - player.armorPenetration, 0);
+				int penetratedDefense = Math.Min(penetratableDefense, 20); //nanotech is weaker
+				damage += (int)(0.5f * penetratedDefense);
+            }
+            else if (proj.Calamity().stealthStrike && proj.Calamity().rogue && electricianGlove)
+            {
 				int penetratableDefense = Math.Max(target.defense - player.armorPenetration, 0);
 				int penetratedDefense = Math.Min(penetratableDefense, 30);
 				damage += (int)(0.5f * penetratedDefense);
@@ -7631,9 +7644,10 @@ namespace CalamityMod.CalPlayer
                         }
                     }
                 }
-                if (raiderTalisman && raiderStack < 250 && proj.Calamity().rogue && crit)
+                if (raiderTalisman && raiderStack < 250 && proj.Calamity().rogue && crit && raiderCooldown <= 0)
                 {
                     raiderStack++;
+					raiderCooldown = 30;
                 }
                 if (CalamityWorld.revenge && Config.AdrenalineAndRage)
                 {

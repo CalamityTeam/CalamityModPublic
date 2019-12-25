@@ -74,12 +74,13 @@ namespace CalamityMod.Projectiles.Rogue
         public override void Kill(int timeLeft)
         {
             //Dark soul projectiles
-            int ad = projectile.Calamity().stealthStrike ? 30 : 60;
+            int ad = projectile.Calamity().stealthStrike ? 40 : 60;
+			float dmgMult = projectile.Calamity().stealthStrike ? 0.08f : 0.15f;
             int randrot = Main.rand.Next(-30,31);
             for (int i = 0; i < 360; i += ad)
             {
                 Vector2 SoulSpeed = new Vector2(13f, 13f).RotatedBy(MathHelper.ToRadians(i + randrot));
-                Projectile.NewProjectile(projectile.Center, SoulSpeed, ModContent.ProjectileType<PenumbraSoul>(), (int)(projectile.damage * 0.2f), 3f, projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(projectile.Center, SoulSpeed, ModContent.ProjectileType<PenumbraSoul>(), (int)(projectile.damage * dmgMult), 3f, projectile.owner, 0f, 0f);
             }
             //Dust
             int maxDust = projectile.Calamity().stealthStrike ? 100 : 70;
@@ -97,6 +98,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
+			projectile.damage /= 2;
             projectile.Damage();
         }
 
