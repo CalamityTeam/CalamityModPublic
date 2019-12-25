@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.LoreItems
 {
-    public class KnowledgeHiveMind : ModItem
+    public class KnowledgeHiveMind : LoreItem
     {
         public override void SetStaticDefaults()
         {

@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.LoreItems
 {
-    public class KnowledgeBrainofCthulhu : ModItem
+    public class KnowledgeBrainofCthulhu : LoreItem
     {
         public override void SetStaticDefaults()
         {

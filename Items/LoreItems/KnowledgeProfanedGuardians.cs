@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.LoreItems
 {
-    public class KnowledgeProfanedGuardians : ModItem
+    public class KnowledgeProfanedGuardians : LoreItem
     {
         public override void SetStaticDefaults()
         {

@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.LoreItems
 {
-    public class KnowledgeBrimstoneElemental : ModItem
+    public class KnowledgeBrimstoneElemental : LoreItem
     {
         public override void SetStaticDefaults()
         {

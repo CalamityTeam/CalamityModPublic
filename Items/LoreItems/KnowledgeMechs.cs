@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.LoreItems
 {
-    public class KnowledgeMechs : ModItem
+    public class KnowledgeMechs : LoreItem
     {
         public override void SetStaticDefaults()
         {

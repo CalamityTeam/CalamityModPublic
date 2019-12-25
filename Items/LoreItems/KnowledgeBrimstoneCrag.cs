@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.LoreItems
 {
-    public class KnowledgeBrimstoneCrag : ModItem
+    public class KnowledgeBrimstoneCrag : LoreItem
     {
         public override void SetStaticDefaults()
         {

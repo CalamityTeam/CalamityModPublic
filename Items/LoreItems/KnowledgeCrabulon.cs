@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.LoreItems
 {
-    public class KnowledgeCrabulon : ModItem
+    public class KnowledgeCrabulon : LoreItem
     {
         public override void SetStaticDefaults()
         {

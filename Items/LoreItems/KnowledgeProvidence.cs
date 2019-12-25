@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.LoreItems
 {
-    public class KnowledgeProvidence : ModItem
+    public class KnowledgeProvidence : LoreItem
     {
         public override void SetStaticDefaults()
         {

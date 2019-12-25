@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.LoreItems
 {
-    public class KnowledgeQueenBee : ModItem
+    public class KnowledgeQueenBee : LoreItem
     {
         public override void SetStaticDefaults()
         {
