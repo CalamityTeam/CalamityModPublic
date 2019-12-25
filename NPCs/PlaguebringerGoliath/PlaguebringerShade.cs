@@ -4,6 +4,7 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
+using CalamityMod.Items.Accessories;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -631,7 +632,8 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<PlagueCellCluster>(), Main.rand.Next(8, 13));
+            DropHelper.DropItem(npc, ModContent.ItemType<PlagueCellCluster>(), 8, 12);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<PlaguedFuelPack>(), 10);
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

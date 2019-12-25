@@ -478,6 +478,7 @@ namespace CalamityMod.NPCs.DesertScourge
 
                 // Equipment
                 DropHelper.DropItemChance(npc, ModContent.ItemType<AeroStone>(), 10);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<SandVeil>(), 10);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<DeepDiver>(), DropHelper.RareVariantDropRateInt);
 
                 // Vanity

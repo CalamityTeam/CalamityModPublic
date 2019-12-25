@@ -265,12 +265,12 @@ namespace CalamityMod.NPCs.TownNPCs
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<DeepWounder>());
 				nextSlot++;
             }
-            /*if (NPC.downedGolemBoss)
+            if (NPC.downedGolemBoss)
 			{
 				shop.item[nextSlot].SetDefaults(ModContent.ItemType<EtherealExtorter>());
 				shop.item[nextSlot].shopCustomPrice = Item.buyPrice(1, 0, 0, 0);
 				nextSlot++;
-			}*/
+			}
             if (NPC.downedMoonlord)
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<CelestialReaper>());

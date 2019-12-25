@@ -740,6 +740,9 @@ namespace CalamityMod.NPCs.Signus
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Cosmilamp>(), 3);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<CosmicKunai>(), 3);
 
+				//Equipment
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<SpectralVeil>(), CalamityWorld.revenge, 4);
+
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<SignusTrophy>(), 10);
 

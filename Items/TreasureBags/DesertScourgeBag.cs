@@ -62,6 +62,7 @@ namespace CalamityMod.Items.TreasureBags
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<OceanCrest>());
             DropHelper.DropItemChance(player, ModContent.ItemType<AeroStone>(), 9);
+            DropHelper.DropItemChance(player, ModContent.ItemType<SandVeil>(), 9);
             DropHelper.DropItemChance(player, ModContent.ItemType<DeepDiver>(), DropHelper.RareVariantDropRateInt);
 
             // Vanity
