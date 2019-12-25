@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
             }
             if (Main.player[projectile.owner].itemAnimation < Main.player[projectile.owner].itemAnimationMax / 3)
             {
-                projectile.ai[0] -= 2.4f;
+                projectile.ai[0] -= 1.1f;
                 if (projectile.localAI[0] == 0f && Main.myPlayer == projectile.owner)
                 {
                     projectile.localAI[0] = 1f;
@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
             }
             else
             {
-                projectile.ai[0] += 0.95f;
+                projectile.ai[0] += 0.6f;
             }
 
             if (Main.player[projectile.owner].itemAnimation == 0)

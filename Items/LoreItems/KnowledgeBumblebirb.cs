@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.LoreItems
 {
-    public class KnowledgeBumblebirb : ModItem
+    public class KnowledgeBumblebirb : LoreItem
     {
         public override void SetStaticDefaults()
         {

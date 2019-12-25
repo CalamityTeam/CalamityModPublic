@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.LoreItems
 {
-    public class KnowledgeEaterofWorlds : ModItem
+    public class KnowledgeEaterofWorlds : LoreItem
     {
         public override void SetStaticDefaults()
         {

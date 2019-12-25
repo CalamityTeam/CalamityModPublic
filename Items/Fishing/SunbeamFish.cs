@@ -2,15 +2,14 @@ using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Items.Materials;
 
-namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
+namespace CalamityMod.Items.Fishing
 {
-    public class ChaoticFish : ModItem
+    public class SunbeamFish : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Chaotic Fish");
-            Tooltip.SetDefault("The horns lay a curse on those who touch it\n" +
-			"Right click to extract essence");
+            DisplayName.SetDefault("Sunbeam Fish");
+            Tooltip.SetDefault("Right click to extract essence");
         }
 
         public override void SetDefaults()
@@ -29,7 +28,7 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
 
         public override void RightClick(Player player)
         {
-            DropHelper.DropItem(player, ModContent.ItemType<EssenceofChaos>(), 5, 10);
+            DropHelper.DropItem(player, ModContent.ItemType<EssenceofCinder>(), 5, 10);
         }
     }
 }
