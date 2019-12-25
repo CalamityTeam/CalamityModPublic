@@ -126,6 +126,7 @@ namespace CalamityMod.CalPlayer
         public float aquaticBoost = 1f;
         public float shieldInvinc = 5f;
         public GaelSwitchPhase gaelSwitchTimer = 0;
+        public int galileoCooldown = 0;
 
         // Sound
         public bool playRogueStealthSound = false;
@@ -1363,6 +1364,7 @@ namespace CalamityMod.CalPlayer
             gaelRageCooldown = 0;
             gaelSwipes = 0;
             gaelSwitchTimer = (GaelSwitchPhase)0;
+			galileoCooldown = 0;
             stress = 0;
             adrenaline = 0;
             adrenalineMaxTimer = 300;
@@ -3437,6 +3439,8 @@ namespace CalamityMod.CalPlayer
 
             if (draconicSurgeCooldown > 0)
                 draconicSurgeCooldown--;
+            if (galileoCooldown > 0)
+                galileoCooldown--;
             if (raiderCooldown > 0)
                 raiderCooldown--;
             if (fleshTotemCooldown > 0)
