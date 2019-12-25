@@ -474,6 +474,8 @@ namespace CalamityMod.CalPlayer
         public bool reaverBurst = false;
         public bool astralStarRain = false;
         public int astralStarRainCooldown = 0;
+		public bool plagueReaper = false;
+        public int plagueReaperCooldown = 0;
         public float ataxiaDmg;
         public bool ataxiaMage = false;
         public bool ataxiaGeyser = false;
@@ -1123,6 +1125,7 @@ namespace CalamityMod.CalPlayer
             statigelSet = false;
 
             umbraphileSet = false;
+            plagueReaper = false;
 
             tarraSet = false;
             tarraMelee = false;
@@ -1565,6 +1568,8 @@ namespace CalamityMod.CalPlayer
             reaverBlast = false;
             reaverBurst = false;
             astralStarRain = false;
+            plagueReaper = false;
+            plagueReaperCooldown = 0;
             ataxiaMage = false;
             ataxiaBolt = false;
             ataxiaGeyser = false;
@@ -2099,6 +2104,8 @@ namespace CalamityMod.CalPlayer
                         }
                     }
                 }
+				if (plagueReaper && plagueReaperCooldown <= 0)
+					plagueReaperCooldown = 1800;
             }
             if (CalamityMod.AstralArcanumUIHotkey.JustPressed && astralArcanum)
             {
@@ -4691,6 +4698,11 @@ namespace CalamityMod.CalPlayer
             {
                 if (player.wingTimeMax > 0)
                     player.wingTimeMax = (int)((double)player.wingTimeMax * 1.1);
+            }
+            if (plagueReaper)
+            {
+                if (player.wingTimeMax > 0)
+                    player.wingTimeMax = (int)((double)player.wingTimeMax * 1.05);
             }
             if (draconicSurge)
             {

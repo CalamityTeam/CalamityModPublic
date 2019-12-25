@@ -2564,6 +2564,11 @@ namespace CalamityMod.NPCs
             {
                 damage = (int)(damage * 0.85);
             }
+
+			if (projectile.ranged && Main.player[projectile.owner].Calamity().plagueReaper && pFlames > 0)
+			{
+				damage = (int)(damage * 1.1);
+			}
         }
         #endregion
 
