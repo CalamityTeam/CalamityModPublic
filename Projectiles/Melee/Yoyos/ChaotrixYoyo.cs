@@ -7,22 +7,29 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee.Yoyos
 {
-    public class ChaotrixProjectile : ModProjectile
+    public class ChaotrixYoyo : ModProjectile
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Chaotrix");
+            ProjectileID.Sets.YoyosLifeTimeMultiplier[projectile.type] = 14f;
+            ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 290f;
+            ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 16f;
+
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.CloneDefaults(ProjectileID.Yelets);
+            projectile.aiStyle = 99;
             projectile.width = 16;
-            projectile.scale = 1.15f;
             projectile.height = 16;
-            projectile.penetrate = 10;
+            projectile.scale = 1.15f;
+            projectile.friendly = true;
             projectile.melee = true;
-            aiType = 549;
+            projectile.penetrate = -1;
+            projectile.extraUpdates = 1;
         }
 
         public override void AI()
@@ -43,8 +50,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D tex = Main.projectileTexture[projectile.type];
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
+            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
             return false;
         }
     }
