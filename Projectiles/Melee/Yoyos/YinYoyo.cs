@@ -11,18 +11,21 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Yinyo");
+            DisplayName.SetDefault("Yin-Yo");
+            ProjectileID.Sets.YoyosLifeTimeMultiplier[projectile.type] = 14f;
+            ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 275f;
+            ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 17f;
         }
 
         public override void SetDefaults()
         {
-            projectile.CloneDefaults(ProjectileID.Chik);
+            projectile.aiStyle = 99;
             projectile.width = 16;
-            projectile.scale = 0.9f;
             projectile.height = 16;
-            projectile.penetrate = 5;
+            projectile.scale = 1f;
+            projectile.friendly = true;
             projectile.melee = true;
-            aiType = 546;
+            projectile.penetrate = -1;
         }
 
         public override void AI()

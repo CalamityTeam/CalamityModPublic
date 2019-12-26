@@ -7,22 +7,25 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee.Yoyos
 {
-    public class ShimmersparkProjectile : ModProjectile
+    public class ShimmersparkYoyo : ModProjectile
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shimmerspark");
+            ProjectileID.Sets.YoyosLifeTimeMultiplier[projectile.type] = 16f;
+            ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 275f;
+            ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 17f;
         }
 
         public override void SetDefaults()
         {
-            projectile.CloneDefaults(ProjectileID.Chik);
+            projectile.aiStyle = 99;
             projectile.width = 16;
-            projectile.scale = 0.9f;
             projectile.height = 16;
-            projectile.penetrate = 8;
+            projectile.scale = 1f;
+            projectile.friendly = true;
             projectile.melee = true;
-            aiType = 546;
+            projectile.penetrate = -1;
         }
 
         public override void AI()

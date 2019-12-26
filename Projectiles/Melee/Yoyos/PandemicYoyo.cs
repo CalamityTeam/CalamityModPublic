@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -7,29 +8,32 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee.Yoyos
 {
-    public class TheGodsGambitProjectile : ModProjectile
+    public class PandemicYoyo : ModProjectile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("God's Gambit");
+            DisplayName.SetDefault("Pandemic");
+            ProjectileID.Sets.YoyosLifeTimeMultiplier[projectile.type] = -1f;
+            ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 340f;
+            ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 16.5f;
         }
 
         public override void SetDefaults()
         {
-            projectile.CloneDefaults(ProjectileID.Kraken);
+            projectile.aiStyle = 99;
             projectile.width = 16;
-            projectile.scale = 1.15f;
             projectile.height = 16;
-            projectile.penetrate = 6;
+            projectile.scale = 1f;
+            projectile.friendly = true;
             projectile.melee = true;
-            aiType = 554;
+            projectile.penetrate = -1;
         }
 
         public override void AI()
         {
             int[] array = new int[20];
             int num428 = 0;
-            float num429 = 450f;
+            float num429 = 300f;
             bool flag14 = false;
             for (int num430 = 0; num430 < 200; num430++)
             {
@@ -56,7 +60,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                 float num435 = Main.npc[num434].position.X + Main.npc[num434].width / 2;
                 float num436 = Main.npc[num434].position.Y + Main.npc[num434].height / 2;
                 projectile.localAI[0] += 1f;
-                if (projectile.localAI[0] > 10f)
+                if (projectile.localAI[0] > 32f)
                 {
                     projectile.localAI[0] = 0f;
                     float num437 = 6f;
@@ -68,20 +72,15 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                     num440 = num437 / num440;
                     num438 *= num440;
                     num439 *= num440;
-                    num438 += Main.rand.Next(-30, 31) * 0.05f;
-                    num439 += Main.rand.Next(-30, 31) * 0.05f;
                     if (projectile.owner == Main.myPlayer)
-                    {
-                        int projectile2 = Projectile.NewProjectile(value10.X, value10.Y, num438, num439, ProjectileID.SlimeGun, (int)(projectile.damage * 0.75), 0f, projectile.owner, 0f, 0f);
-                        Main.projectile[projectile2].Calamity().forceMelee = true;
-                    }
+                        Projectile.NewProjectile(value10.X, value10.Y, num438, num439, ModContent.ProjectileType<PlagueSeeker>(), (int)(projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
                 }
             }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.Slimed, 300);
+            target.AddBuff(ModContent.BuffType<Plague>(), 600);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
