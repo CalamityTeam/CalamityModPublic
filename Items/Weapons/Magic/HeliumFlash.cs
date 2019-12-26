@@ -11,9 +11,6 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class HeliumFlash : ModItem
     {
-        public static int BaseDamage = 1280;
-        public static float Speed = 15f;
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Helium Flash");
@@ -26,7 +23,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.width = 76;
             item.height = 76;
             item.magic = true;
-            item.damage = BaseDamage;
+            item.damage = 1280;
             item.knockBack = 9.5f;
             item.mana = 26;
             item.useAnimation = 37;
@@ -42,12 +39,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.value = Item.buyPrice(1, 80, 0, 0);
 
             item.shoot = ModContent.ProjectileType<VolatileStarcore>();
-            item.shootSpeed = Speed;
-        }
-
-        public override Vector2? HoldoutOrigin()
-        {
-            return new Vector2(15, 15);
+            item.shootSpeed = 15f;
         }
 
         // Creates dust at the tip of the staff when used.

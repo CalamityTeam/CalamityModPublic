@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Oracle");
-            Tooltip.SetDefault("Emits an aura of red lightning\nFires auric orbs when supercharged\nHitting enemies charges the yoyo\n'Gaze into the past, the present, the future... and the circumstances of your inevitable demise'");
+            Tooltip.SetDefault("Emits an aura of red lightning which charges up when hitting enemies\nFires auric orbs when supercharged\nAn exceptionally agile yoyo\n'Gaze into the past, the present, the future... and the circumstances of your inevitable demise'");
             ItemID.Sets.Yoyo[item.type] = true;
             ItemID.Sets.GamepadExtraRange[item.type] = 15;
             ItemID.Sets.GamepadSmartQuickReach[item.type] = true;
@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
             item.rare = 10;
             item.Calamity().postMoonLordRarity = 21;
-            item.value = Item.buyPrice(2, 50, 0, 0);
+            item.value = Item.buyPrice(platinum: 2, gold: 50);
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

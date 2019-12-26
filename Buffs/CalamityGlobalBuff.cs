@@ -59,9 +59,14 @@ namespace CalamityMod.Buffs
             else if (type == BuffID.Slow)
             {
                 if (npc.Calamity().slowed < npc.buffTime[buffIndex])
-                {
                     npc.Calamity().slowed = npc.buffTime[buffIndex];
-                }
+                npc.DelBuff(buffIndex);
+                buffIndex--;
+            }
+            if (type == BuffID.Electrified)
+            {
+                if (npc.Calamity().electrified < npc.buffTime[buffIndex])
+                    npc.Calamity().electrified = npc.buffTime[buffIndex];
                 npc.DelBuff(buffIndex);
                 buffIndex--;
             }

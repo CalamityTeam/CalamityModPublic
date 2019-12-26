@@ -12,25 +12,33 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Quagmire");
             Tooltip.SetDefault("Fires spore clouds");
+            ItemID.Sets.Yoyo[item.type] = true;
+            ItemID.Sets.GamepadExtraRange[item.type] = 15;
+            ItemID.Sets.GamepadSmartQuickReach[item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.CloneDefaults(ItemID.HelFire);
             item.width = 30;
             item.height = 36;
+            item.melee = true;
             item.damage = 52;
+            item.knockBack = 3.5f;
             item.useTime = 22;
             item.useAnimation = 22;
-            item.useStyle = 5;
-            item.channel = true;
-            item.melee = true;
-            item.knockBack = 3.5f;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = 7;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<QuagmireProjectile>();
-            ItemID.Sets.Yoyo[item.type] = true;
+
+            item.useStyle = 5;
+            item.UseSound = SoundID.Item1;
+            item.channel = true;
+            item.noUseGraphic = true;
+            item.noMelee = true;
+
+            item.shoot = ModContent.ProjectileType<QuagmireYoyo>();
+            item.shootSpeed = 10f;
+
+            item.rare = 7;
+            item.value = Item.buyPrice(gold: 60);
         }
 
         public override void AddRecipes()

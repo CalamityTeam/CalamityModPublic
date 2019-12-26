@@ -12,26 +12,36 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Azathoth");
-            Tooltip.SetDefault("Destroy the universe in the blink of an eye\n" +
-                "Fires cosmic orbs that blast nearby enemies with lasers");
+            Tooltip.SetDefault("Fires cosmic orbs that blast nearby enemies with lasers\nAn exceptionally agile yoyo\n'Destroy the universe in the blink of an eye'");
+            ItemID.Sets.Yoyo[item.type] = true;
+            ItemID.Sets.GamepadExtraRange[item.type] = 15;
+            ItemID.Sets.GamepadSmartQuickReach[item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.CloneDefaults(ItemID.Kraken);
+            item.width = 30;
+            item.height = 26;
+            item.melee = true;
             item.damage = 200;
+            item.knockBack = 6f;
             item.useTime = 20;
             item.useAnimation = 20;
+            item.autoReuse = true;
+
             item.useStyle = 5;
+            item.UseSound = SoundID.Item1;
             item.channel = true;
-            item.melee = true;
-            item.knockBack = 6f;
-            item.value = Item.buyPrice(5, 0, 0, 0);
+            item.noUseGraphic = true;
+            item.noMelee = true;
+
+            item.shoot = ModContent.ProjectileType<AzathothYoyo>();
+            item.shootSpeed = 16f;
+
             item.rare = 10;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<AzathothProjectile>();
             item.Calamity().postMoonLordRarity = 16;
-            ItemID.Sets.Yoyo[item.type] = true;
+            item.value = Item.buyPrice(platinum: 5);
         }
 
         public override void AddRecipes()

@@ -1,34 +1,39 @@
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Projectiles.Melee;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee.Yoyos
 {
-    public class TheMicrowaveProj : ModProjectile
+    public class MicrowaveYoyo : ModProjectile
     {
-		private int radius = 100;
+        private const float Radius = 100f;
 
         public override void SetStaticDefaults()
         {
-            //DisplayName.SetDefault("Bootleg Lacerator");
-            DisplayName.SetDefault("Microwave");
+            DisplayName.SetDefault("The Microwave");
+            ProjectileID.Sets.YoyosLifeTimeMultiplier[projectile.type] = -1f;
+            ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 320f;
+            ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 14f;
+
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.CloneDefaults(ProjectileID.TheEyeOfCthulhu);
+            projectile.aiStyle = 99;
             projectile.width = 16;
             projectile.height = 16;
+            projectile.scale = 1f;
+            projectile.friendly = true;
+            projectile.melee = true;
             projectile.penetrate = -1;
             projectile.extraUpdates = 1;
-            aiType = 555;
-            projectile.melee = true;
+
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
         }
@@ -40,9 +45,9 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             	Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<MicrowaveAura>(), (int)((double)projectile.damage * 0.5f), projectile.knockBack, projectile.owner, 0f, 0f);
 
 				//dust circle
-				int numDust = (int)(0.2f * MathHelper.TwoPi * radius);
+				int numDust = (int)(0.2f * MathHelper.TwoPi * Radius);
 				float angleIncrement = MathHelper.TwoPi / (float)numDust;
-				Vector2 dustOffset = new Vector2(radius, 0f);
+				Vector2 dustOffset = new Vector2(Radius, 0f);
 				dustOffset = dustOffset.RotatedByRandom(MathHelper.TwoPi);
 				for (int i = 0; i < numDust; i++)
 				{
@@ -61,10 +66,16 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 			}
 		}
 
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            return false;
+        }
+
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Rectangle frame = new Rectangle(0, 0, 20, 16);
-            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Melee/Yoyos/TheMicrowaveProjGlow"), projectile.Center - Main.screenPosition, frame, Color.White, projectile.rotation, projectile.Size / 2, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Melee/Yoyos/MicrowaveYoyoGlow"), projectile.Center - Main.screenPosition, frame, Color.White, projectile.rotation, projectile.Size / 2, 1f, SpriteEffects.None, 0f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

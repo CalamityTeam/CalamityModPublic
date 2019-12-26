@@ -6,23 +6,30 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee.Yoyos
 {
-    public class AzathothProjectile : ModProjectile
+    public class AzathothYoyo : ModProjectile
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Azathoth");
+            ProjectileID.Sets.YoyosLifeTimeMultiplier[projectile.type] = -1f;
+            ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 700f;
+            ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 20f;
+
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
         }
 
         public override void SetDefaults()
         {
-            projectile.CloneDefaults(ProjectileID.Kraken);
+            projectile.aiStyle = 99;
             projectile.width = 16;
-            projectile.scale = 1.2f;
             projectile.height = 16;
+            projectile.scale = 1.2f;
+            projectile.friendly = true;
+            projectile.melee = true;
             projectile.penetrate = -1;
             projectile.extraUpdates = 1;
-            aiType = 554;
-            projectile.melee = true;
+
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 1;
         }
@@ -38,8 +45,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D tex = Main.projectileTexture[projectile.type];
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
+            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
             return false;
         }
     }

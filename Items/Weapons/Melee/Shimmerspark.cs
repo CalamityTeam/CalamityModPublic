@@ -12,23 +12,33 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Shimmerspark");
             Tooltip.SetDefault("Fires stars when enemies are near");
+            ItemID.Sets.Yoyo[item.type] = true;
+            ItemID.Sets.GamepadExtraRange[item.type] = 15;
+            ItemID.Sets.GamepadSmartQuickReach[item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.CloneDefaults(ItemID.Chik);
+            item.width = 50;
+            item.height = 36;
+            item.melee = true;
             item.damage = 36;
+            item.knockBack = 3.5f;
             item.useTime = 25;
             item.useAnimation = 25;
-            item.useStyle = 5;
-            item.channel = true;
-            item.melee = true;
-            item.knockBack = 3.5f;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<ShimmersparkProjectile>();
-            ItemID.Sets.Yoyo[item.type] = true;
+
+            item.useStyle = 5;
+            item.UseSound = SoundID.Item1;
+            item.channel = true;
+            item.noUseGraphic = true;
+            item.noMelee = true;
+
+            item.shoot = ModContent.ProjectileType<ShimmersparkYoyo>();
+            item.shootSpeed = 12f;
+
+            item.rare = 5;
+            item.value = Item.buyPrice(gold: 36);
         }
 
         public override void AddRecipes()

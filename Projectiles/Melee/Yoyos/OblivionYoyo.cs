@@ -5,25 +5,30 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Projectiles.Melee.Yoyos
 {
-    public class ThePlaguebringerYoyo : ModProjectile
+    public class OblivionYoyo : ModProjectile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Pandemic");
+            DisplayName.SetDefault("Oblivion");
+            ProjectileID.Sets.YoyosLifeTimeMultiplier[projectile.type] = -1f;
+            ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 360f;
+            ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 16.5f;
+
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.CloneDefaults(ProjectileID.TheEyeOfCthulhu);
+            projectile.aiStyle = 99;
             projectile.width = 16;
-            projectile.scale = 1f;
             projectile.height = 16;
-            projectile.penetrate = -1;
+            projectile.scale = 1.1f;
+            projectile.friendly = true;
             projectile.melee = true;
-            aiType = 555;
+            projectile.penetrate = -1;
         }
 
         public override void AI()
@@ -57,7 +62,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                 float num435 = Main.npc[num434].position.X + Main.npc[num434].width / 2;
                 float num436 = Main.npc[num434].position.Y + Main.npc[num434].height / 2;
                 projectile.localAI[0] += 1f;
-                if (projectile.localAI[0] > 32f)
+                if (projectile.localAI[0] > 16f)
                 {
                     projectile.localAI[0] = 0f;
                     float num437 = 6f;
@@ -70,20 +75,19 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                     num438 *= num440;
                     num439 *= num440;
                     if (projectile.owner == Main.myPlayer)
-                        Projectile.NewProjectile(value10.X, value10.Y, num438, num439, ModContent.ProjectileType<PlagueSeeker>(), (int)(projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(value10.X, value10.Y, num438, num439, ModContent.ProjectileType<BrimstoneLaserFriendly>(), (int)(projectile.damage * 0.25), projectile.knockBack, projectile.owner, 0f, 0f);
                 }
             }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<Plague>(), 600);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D tex = Main.projectileTexture[projectile.type];
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
+            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
             return false;
         }
     }

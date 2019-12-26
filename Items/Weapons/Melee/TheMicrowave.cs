@@ -10,26 +10,35 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Microwave");
-            //Tooltip.SetDefault("MMMMMMMMMMMMMM, 13th letter of the alphabet moments");
-            Tooltip.SetDefault("Baking enemies in the astral infection\n\n" +
-				"Summons an aura around the yoyo that damages nearby enemies");
+            //Tooltip.SetDefault("MMMMMMMMMMMMM");
+            Tooltip.SetDefault("Fries nearby enemies with radiation\nAn exceptionally agile yoyo\n'Cooking, Astral Infection style'");
+            ItemID.Sets.Yoyo[item.type] = true;
+            ItemID.Sets.GamepadExtraRange[item.type] = 15;
+            ItemID.Sets.GamepadSmartQuickReach[item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.CloneDefaults(ItemID.TheEyeOfCthulhu);
+            item.width = 34;
+            item.height = 34;
+            item.melee = true;
             item.damage = 80;
+            item.knockBack = 3f;
             item.useTime = 22;
             item.useAnimation = 22;
-            item.useStyle = 5;
-            item.channel = true;
-            item.melee = true;
-            item.knockBack = 3f;
-            item.value = Item.buyPrice(0, 95, 0, 0);
-            item.rare = 9;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<TheMicrowaveProj>();
-            ItemID.Sets.Yoyo[item.type] = true;
+
+            item.useStyle = 5;
+            item.UseSound = SoundID.Item1;
+            item.channel = true;
+            item.noUseGraphic = true;
+            item.noMelee = true;
+
+            item.shoot = ModContent.ProjectileType<MicrowaveYoyo>();
+            item.shootSpeed = 14f;
+
+            item.rare = 9;
+            item.value = Item.buyPrice(gold: 95);
         }
     }
 }
