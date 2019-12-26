@@ -11,24 +11,34 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Chaotrix");
-            Tooltip.SetDefault("Explodes on enemy hits");
+            Tooltip.SetDefault("Explodes on enemy hits\nAn exceptionally agile yoyo");
+            ItemID.Sets.Yoyo[item.type] = true;
+            ItemID.Sets.GamepadExtraRange[item.type] = 15;
+            ItemID.Sets.GamepadSmartQuickReach[item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.CloneDefaults(ItemID.Yelets);
-            item.damage = 110;
+            item.width = 30;
+            item.height = 26;
+            item.melee = true;
+            item.damage = 88; // 110 pre-nerf
+            item.knockBack = 4f;
             item.useTime = 22;
             item.useAnimation = 22;
-            item.useStyle = 5;
-            item.channel = true;
-            item.melee = true;
-            item.knockBack = 4f;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = 8;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<ChaotrixProjectile>();
-            ItemID.Sets.Yoyo[item.type] = true;
+
+            item.useStyle = 5;
+            item.UseSound = SoundID.Item1;
+            item.channel = true;
+            item.noUseGraphic = true;
+            item.noMelee = true;
+            
+            item.shoot = ModContent.ProjectileType<ChaotrixYoyo>();
+            item.shootSpeed = 14f;
+
+            item.rare = 8;
+            item.value = Item.buyPrice(gold: 80);
         }
 
         public override void AddRecipes()

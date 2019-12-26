@@ -98,7 +98,7 @@ namespace CalamityMod
         internal static void Unload()
         {
             PlantCheckAgainst = null;
-            VineToGrass.Clear();
+            VineToGrass?.Clear();
             VineToGrass = null;
             tileMergeTypes = null;
         }

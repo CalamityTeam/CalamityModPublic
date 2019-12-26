@@ -126,6 +126,7 @@ namespace CalamityMod.CalPlayer
         public float aquaticBoost = 1f;
         public float shieldInvinc = 5f;
         public GaelSwitchPhase gaelSwitchTimer = 0;
+        public int galileoCooldown = 0;
 
         // Sound
         public bool playRogueStealthSound = false;
@@ -323,6 +324,7 @@ namespace CalamityMod.CalPlayer
         public bool lol = false;
         public bool raiderTalisman = false;
         public int raiderStack = 0;
+        public int raiderCooldown = 0;
         public bool sGenerator = false;
         public bool sDefense = false;
         public bool sPower = false;
@@ -397,6 +399,7 @@ namespace CalamityMod.CalPlayer
         public bool moonCrown = false;
         public int featherCrownCooldown = 0;
         public int moonCrownCooldown = 0;
+        public int nanoFlareCooldown = 0;
         public bool dragonScales = false;
         public bool gloveOfPrecision = false;
         public bool gloveOfRecklessness = false;
@@ -615,6 +618,7 @@ namespace CalamityMod.CalPlayer
         public int bloodfinTimer = 30;
 
         // Minion
+        public bool wDroid = false;
         public bool resButterfly = false;
         public bool glSword = false;
         public bool mWorm = false;
@@ -1281,6 +1285,7 @@ namespace CalamityMod.CalPlayer
             pinkCandle = false;
             yellowCandle = false;
 
+            wDroid = false;
             resButterfly = false;
             glSword = false;
             mWorm = false;
@@ -1362,12 +1367,14 @@ namespace CalamityMod.CalPlayer
             gaelRageCooldown = 0;
             gaelSwipes = 0;
             gaelSwitchTimer = (GaelSwitchPhase)0;
+			galileoCooldown = 0;
             stress = 0;
             adrenaline = 0;
             adrenalineMaxTimer = 300;
             adrenalineDmgDown = 600;
             adrenalineDmgMult = 1f;
             raiderStack = 0;
+            raiderCooldown = 0;
             fleshTotemCooldown = 0;
             astralStarRainCooldown = 0;
             bloodflareMageCooldown = 0;
@@ -1416,6 +1423,7 @@ namespace CalamityMod.CalPlayer
             eclipseMirrorCooldown = false;
             moonCrownCooldown = 0;
             featherCrownCooldown = 0;
+            nanoFlareCooldown = 0;
             sulphurPoison = false;
             sandCloakCooldown = 0;
             spectralVeilImmunity = 0;
@@ -3435,6 +3443,10 @@ namespace CalamityMod.CalPlayer
 
             if (draconicSurgeCooldown > 0)
                 draconicSurgeCooldown--;
+            if (galileoCooldown > 0)
+                galileoCooldown--;
+            if (raiderCooldown > 0)
+                raiderCooldown--;
             if (fleshTotemCooldown > 0)
                 fleshTotemCooldown--;
             if (astralStarRainCooldown > 0)
@@ -3447,6 +3459,8 @@ namespace CalamityMod.CalPlayer
                 featherCrownCooldown--;
             if (moonCrownCooldown > 0)
                 moonCrownCooldown--;
+            if (nanoFlareCooldown > 0)
+                nanoFlareCooldown--;
             if (sandCloakCooldown > 0)
                 sandCloakCooldown--;
             if (spectralVeilImmunity > 0)
@@ -5196,19 +5210,17 @@ namespace CalamityMod.CalPlayer
                         {
                             if (flag)
                             {
-                                nPC.StrikeNPC(num3, 0f, 0, false, false, false);
-                                if (Main.netMode != NetmodeID.SinglePlayer)
+                                if (player.whoAmI == Main.myPlayer)
                                 {
-                                    NetMessage.SendData(28, -1, -1, null, l, (float)num3, 0f, 0f, 0, 0, 0);
+                                    Projectile p = Projectile.NewProjectileDirect(nPC.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), num3, 0f, player.whoAmI, l);
+                                    p.minion = true;
+                                    p.Calamity().forceMinion = true;
                                 }
                             }
                         }
                     }
                 }
                 lifeCounter++;
-                if (lifeCounter >= 180)
-                {
-                }
             }
 
             if (player.inventory[player.selectedItem].type == ModContent.ItemType<NavyFishingRod>() && player.ownedProjectileCounts[ModContent.ProjectileType<NavyBobber>()] != 0)
@@ -5229,12 +5241,11 @@ namespace CalamityMod.CalPlayer
 							{
 								if (flag)
 								{
-									nPC.StrikeNPC(num3, 0f, 0, false, false, false);
-									if (Main.netMode != NetmodeID.SinglePlayer)
-									{
-										NetMessage.SendData(28, -1, -1, null, l, (float)num3, 0f, 0f, 0, 0, 0);
-									}
-									Vector2 value15 = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
+                                    if (player.whoAmI == Main.myPlayer)
+                                    {
+                                        Projectile p = Projectile.NewProjectileDirect(nPC.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), num3, 0f, player.whoAmI, l);
+                                    }
+                                    Vector2 value15 = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
 									while (value15.X == 0f && value15.Y == 0f)
 									{
 										value15 = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
@@ -5250,9 +5261,6 @@ namespace CalamityMod.CalPlayer
 					}
 				}
 				auraCounter++;
-				if (auraCounter >= 180)
-				{
-				}
 			}
 
             if (brimstoneElementalLore && player.inferno)
@@ -7249,7 +7257,10 @@ namespace CalamityMod.CalPlayer
             }
             if ((filthyGlove || electricianGlove) && proj.Calamity().stealthStrike && proj.Calamity().rogue)
             {
-                damageMult += 0.1;
+				if (nanotech)
+					damageMult += 0.05;
+				else
+					damageMult += 0.1;
             }
             if (etherealExtorter && proj.Calamity().rogue)
             {
@@ -7306,9 +7317,15 @@ namespace CalamityMod.CalPlayer
             {
                 damage += Main.rand.Next(20, 31);
             }
-            if (proj.Calamity().stealthStrike && proj.Calamity().rogue && electricianGlove)
+            if (proj.Calamity().stealthStrike && proj.Calamity().rogue && nanotech)
             {
 				//Ozzatron insists on counting for edge-cases
+				int penetratableDefense = Math.Max(target.defense - player.armorPenetration, 0);
+				int penetratedDefense = Math.Min(penetratableDefense, 20); //nanotech is weaker
+				damage += (int)(0.5f * penetratedDefense);
+            }
+            else if (proj.Calamity().stealthStrike && proj.Calamity().rogue && electricianGlove)
+            {
 				int penetratableDefense = Math.Max(target.defense - player.armorPenetration, 0);
 				int penetratedDefense = Math.Min(penetratableDefense, 30);
 				damage += (int)(0.5f * penetratedDefense);
@@ -7631,9 +7648,10 @@ namespace CalamityMod.CalPlayer
                         }
                     }
                 }
-                if (raiderTalisman && raiderStack < 250 && proj.Calamity().rogue && crit)
+                if (raiderTalisman && raiderStack < 250 && proj.Calamity().rogue && crit && raiderCooldown <= 0)
                 {
                     raiderStack++;
+					raiderCooldown = 30;
                 }
                 if (CalamityWorld.revenge && Config.AdrenalineAndRage)
                 {

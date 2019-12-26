@@ -9,26 +9,36 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("YinYo");
+            DisplayName.SetDefault("Yin-Yo");
             Tooltip.SetDefault("Fires light or dark shards when enemies are near\n" +
                 "Light shards fly up and down while dark shards fly left and right");
+            ItemID.Sets.Yoyo[item.type] = true;
+            ItemID.Sets.GamepadExtraRange[item.type] = 15;
+            ItemID.Sets.GamepadSmartQuickReach[item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.CloneDefaults(ItemID.Chik);
+            item.width = 26;
+            item.height = 24;
+            item.melee = true;
             item.damage = 34;
+            item.knockBack = 3.5f;
             item.useTime = 25;
             item.useAnimation = 25;
-            item.useStyle = 5;
-            item.channel = true;
-            item.melee = true;
-            item.knockBack = 3.5f;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
             item.autoReuse = true;
+
+            item.useStyle = 5;
+            item.UseSound = SoundID.Item1;
+            item.channel = true;
+            item.noUseGraphic = true;
+            item.noMelee = true;
+
             item.shoot = ModContent.ProjectileType<YinYoyo>();
-            ItemID.Sets.Yoyo[item.type] = true;
+            item.shootSpeed = 12f;
+
+            item.rare = 5;
+            item.value = Item.buyPrice(gold: 36);
         }
 
         public override void AddRecipes()

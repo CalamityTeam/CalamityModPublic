@@ -11,23 +11,33 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Oblivion");
             Tooltip.SetDefault("Fires brimstone lasers when enemies are near");
+            ItemID.Sets.Yoyo[item.type] = true;
+            ItemID.Sets.GamepadExtraRange[item.type] = 15;
+            ItemID.Sets.GamepadSmartQuickReach[item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.CloneDefaults(ItemID.TheEyeOfCthulhu);
+            item.width = 28;
+            item.height = 38;
+            item.melee = true;
             item.damage = 41;
+            item.knockBack = 4f;
             item.useTime = 22;
             item.useAnimation = 22;
-            item.useStyle = 5;
-            item.channel = true;
-            item.melee = true;
-            item.knockBack = 4f;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = 7;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<TheEyeofCalamitasProjectile>();
-            ItemID.Sets.Yoyo[item.type] = true;
+
+            item.useStyle = 5;
+            item.UseSound = SoundID.Item1;
+            item.channel = true;
+            item.noUseGraphic = true;
+            item.noMelee = true;
+
+            item.shoot = ModContent.ProjectileType<OblivionYoyo>();
+            item.shootSpeed = 14f;
+
+            item.rare = 7;
+            item.value = Item.buyPrice(gold: 60);
         }
     }
 }

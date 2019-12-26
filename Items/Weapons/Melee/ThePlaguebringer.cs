@@ -11,23 +11,33 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Pandemic");
             Tooltip.SetDefault("Fires plague seekers when enemies are near");
+            ItemID.Sets.Yoyo[item.type] = true;
+            ItemID.Sets.GamepadExtraRange[item.type] = 15;
+            ItemID.Sets.GamepadSmartQuickReach[item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.CloneDefaults(ItemID.TheEyeOfCthulhu);
+            item.width = 30;
+            item.height = 32;
+            item.melee = true;
             item.damage = 100;
+            item.knockBack = 2.5f;
             item.useTime = 22;
             item.useAnimation = 22;
-            item.useStyle = 5;
-            item.channel = true;
-            item.melee = true;
-            item.knockBack = 2.5f;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = 8;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<ThePlaguebringerYoyo>();
-            ItemID.Sets.Yoyo[item.type] = true;
+
+            item.useStyle = 5;
+            item.UseSound = SoundID.Item1;
+            item.channel = true;
+            item.noUseGraphic = true;
+            item.noMelee = true;
+
+            item.shoot = ModContent.ProjectileType<PandemicYoyo>();
+            item.shootSpeed = 14f;
+
+            item.rare = 8;
+            item.value = Item.buyPrice(gold: 80);
         }
     }
 }

@@ -12,23 +12,33 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("The God's Gambit");
             Tooltip.SetDefault("Fires a stream of slime when enemies are near");
+            ItemID.Sets.Yoyo[item.type] = true;
+            ItemID.Sets.GamepadExtraRange[item.type] = 15;
+            ItemID.Sets.GamepadSmartQuickReach[item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.CloneDefaults(3291);
+            item.width = 40;
+            item.height = 26;
+            item.melee = true;
             item.damage = 28;
+            item.knockBack = 3.5f;
             item.useTime = 21;
             item.useAnimation = 21;
-            item.useStyle = 5;
-            item.channel = true;
-            item.melee = true;
-            item.knockBack = 3.5f;
-            item.value = Item.buyPrice(0, 12, 0, 0);
-            item.rare = 4;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<TheGodsGambitProjectile>();
-            ItemID.Sets.Yoyo[item.type] = true;
+
+            item.useStyle = 5;
+            item.UseSound = SoundID.Item1;
+            item.channel = true;
+            item.noUseGraphic = true;
+            item.noMelee = true;
+
+            item.shoot = ModContent.ProjectileType<GodsGambitYoyo>();
+            item.shootSpeed = 10f;
+
+            item.rare = 4;
+            item.value = Item.buyPrice(gold: 12);
         }
 
         public override void AddRecipes()

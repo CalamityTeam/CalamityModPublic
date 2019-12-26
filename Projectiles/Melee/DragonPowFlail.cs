@@ -124,7 +124,7 @@ namespace CalamityMod.Projectiles.Melee
             if (projectile.ai[1] % 4 == 0)
             {
                 int type = ModContent.ProjectileType<DraconicSpark>();
-                int damage = DragonPow.BaseDamage / 8;
+                int damage = projectile.damage / 8;
                 float kb = 3f;
                 float speed = DragonPow.SparkSpeed;
                 Vector2 vel = new Vector2(speed, 0f).RotatedByRandom(MathHelper.TwoPi);
@@ -161,7 +161,7 @@ namespace CalamityMod.Projectiles.Melee
 
             int type = ProjectileID.FlowerPetal;
             int numPetals = 12;
-            int petalDamage = DragonPow.BaseDamage / 8;
+            int petalDamage = projectile.damage / 8;
             float petalKB = 0f;
             Player owner = Main.player[projectile.owner];
             for (int i = 0; i < numPetals; ++i)
@@ -197,7 +197,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             int type = ModContent.ProjectileType<Waterfall>();
             int numWaterfalls = 12;
-            int waterfallDamage = DragonPow.BaseDamage / 6;
+            int waterfallDamage = projectile.damage / 6;
             float waterfallKB = 0f;
             Player owner = Main.player[projectile.owner];
             for (int i = 0; i < numWaterfalls; ++i)
