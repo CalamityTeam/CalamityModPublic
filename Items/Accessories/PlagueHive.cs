@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.CalPlayer;
+using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -73,10 +74,11 @@ namespace CalamityMod.Items.Accessories
                             }
                             if (flag)
                             {
-                                nPC.StrikeNPC(num3, 0f, 0, false, false, false);
-                                if (Main.netMode != NetmodeID.SinglePlayer)
+                                if (player.whoAmI == Main.myPlayer)
                                 {
-                                    NetMessage.SendData(28, -1, -1, null, l, (float)num3, 0f, 0f, 0, 0, 0);
+                                    Projectile p = Projectile.NewProjectileDirect(nPC.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), num3, 0f, player.whoAmI, l);
+                                    p.minion = true;
+                                    p.Calamity().forceMinion = true;
                                 }
                             }
                         }
