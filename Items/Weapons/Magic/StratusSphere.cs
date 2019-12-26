@@ -36,6 +36,7 @@ namespace CalamityMod.Items.Weapons.Magic
 			item.rare = 4;
 			item.autoReuse = true;
 			item.useTurn = true;
+			item.holdStyle = 3;
             item.value = Item.buyPrice(1, 40, 0, 0);
             item.rare = 10;
             item.Calamity().postMoonLordRarity = 13;
