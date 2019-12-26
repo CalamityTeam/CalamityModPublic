@@ -1667,6 +1667,18 @@ namespace CalamityMod.NPCs
                     DropHelper.DropItemCondition(npc, ModContent.ItemType<DarksunFragment>(), CalamityWorld.downedBuffedMothron, Main.expertMode ? 0.06f : 0.04f, 1, 1);
                     break;
 
+                case NPCID.MartianOfficer:
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<ShockGrenade>(), Main.expertMode ? 3 : 4, 3, 8);
+                    break;
+                case NPCID.BrainScrambler:
+                case NPCID.GrayGrunt:
+                case NPCID.GigaZapper:
+                case NPCID.MartianEngineer:
+                case NPCID.RayGunner:
+                case NPCID.ScutlixRider:
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<ShockGrenade>(), Main.expertMode ? 4 : 5, 1, 4);
+                    break;
+
                 default:
                     break;
             }
