@@ -1450,12 +1450,13 @@ namespace CalamityMod.Projectiles
                     Player playerC = Main.player[projectile.owner];
                     if (playerC.Calamity().featherCrown && stealthStrike && playerC.Calamity().featherCrownCooldown <= 0)
                     {
-                        for (int i = 0; i < 10; i++)
+                        for (int i = 0; i < 6; i++)
                         {
                             Vector2 pos = new Vector2(target.Center.X + (float)target.width * 0.5f + (float)Main.rand.Next(-201, 201), Main.screenPosition.Y - 600f - Main.rand.Next(50));
                             float speedX = (target.Center.X - pos.X) / 30f;
                             float speedY = (target.Center.Y - pos.Y) * 8;
-                            int feather = Projectile.NewProjectile(pos.X, pos.Y, speedX, speedY, ModContent.ProjectileType<StickyFeather>(), 15, 3, projectile.owner, 0f, (float)Main.rand.Next(15));
+                            int dmg = (int)(15 + (projectile.damage * 0.05f));
+                            int feather = Projectile.NewProjectile(pos.X, pos.Y, speedX, speedY, ModContent.ProjectileType<StickyFeather>(), dmg, 3, projectile.owner, 0f, (float)Main.rand.Next(15));
                             Main.projectile[feather].Calamity().forceRogue = true;
                             playerC.Calamity().featherCrownCooldown = 15;
                         }
@@ -1463,14 +1464,28 @@ namespace CalamityMod.Projectiles
 
                     if (playerC.Calamity().moonCrown && stealthStrike && playerC.Calamity().moonCrownCooldown <= 0)
                     {
-                        for (int i = 0; i < 20; i++)
+                        for (int i = 0; i < 6; i++)
                         {
                             Vector2 pos = new Vector2(target.Center.X + (float)target.width * 0.5f + (float)Main.rand.Next(-201, 201), Main.screenPosition.Y - 600f - Main.rand.Next(50));
                             Vector2 velocity = (target.Center - pos) / 10f;
                             float AI1 = (float)Main.rand.Next(3);
-                            int flare = Projectile.NewProjectile(pos, velocity, ProjectileID.LunarFlare, 50, 3, projectile.owner, 0f, AI1);
+                            int dmg = (int)(150 + (projectile.damage * 0.05f));
+                            int flare = Projectile.NewProjectile(pos, velocity, ProjectileID.LunarFlare, dmg, 3, projectile.owner, 0f, AI1);
                             Main.projectile[flare].Calamity().forceRogue = true;
                             playerC.Calamity().moonCrownCooldown = 15;
+                        }
+                    }
+
+                    if (playerC.Calamity().nanotech && stealthStrike && playerC.Calamity().nanoFlareCooldown <= 0)
+                    {
+                        for (int i = 0; i < 6; i++)
+                        {
+                            Vector2 pos = new Vector2(target.Center.X + (float)target.width * 0.5f + (float)Main.rand.Next(-201, 201), Main.screenPosition.Y - 600f - Main.rand.Next(50));
+                            Vector2 velocity = (target.Center - pos) / 40f;
+                            int dmg = (int)(1000 + (projectile.damage * 0.05f));
+                            int flare = Projectile.NewProjectile(pos, velocity, ModContent.ProjectileType<NanoFlare>(),dmg, 3f, projectile.owner, 0f, 0f);
+                            Main.projectile[flare].Calamity().rogue = true;
+                            playerC.Calamity().nanoFlareCooldown = 15;
                         }
                     }
                 }
