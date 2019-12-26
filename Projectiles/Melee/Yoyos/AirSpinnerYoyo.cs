@@ -1,5 +1,4 @@
-﻿using CalamityMod.Projectiles.Typeless;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -8,22 +7,29 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee.Yoyos
 {
-    public class CnidarianProjectile : ModProjectile
+    public class AirSpinnerYoyo : ModProjectile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Cnidarian");
+            DisplayName.SetDefault("Air Spinner");
+            ProjectileID.Sets.YoyosLifeTimeMultiplier[projectile.type] = 6f;
+            ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 300f;
+            ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 14f;
+
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.CloneDefaults(ProjectileID.CorruptYoyo);
+            projectile.aiStyle = 99;
             projectile.width = 16;
-            projectile.scale = 1.15f;
             projectile.height = 16;
-            projectile.penetrate = 6;
+            projectile.scale = 1.05f;
+            projectile.friendly = true;
             projectile.melee = true;
-            aiType = 542;
+            projectile.penetrate = -1;
+            projectile.extraUpdates = 1;
         }
 
         public override void AI()
@@ -70,18 +76,14 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                     num438 *= num440;
                     num439 *= num440;
                     if (projectile.owner == Main.myPlayer)
-                    {
-                        int projectile2 = Projectile.NewProjectile(value10.X, value10.Y, num438, num439, ModContent.ProjectileType<Seashell>(), projectile.damage / 3, 0f, projectile.owner, 0f, 0f);
-                        Main.projectile[projectile2].Calamity().forceMelee = true;
-                    }
+                        Projectile.NewProjectile(value10.X, value10.Y, num438, num439, ModContent.ProjectileType<Feather>(), projectile.damage / 4, 0f, projectile.owner, 0f, 0f);
                 }
             }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D tex = Main.projectileTexture[projectile.type];
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
+            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
             return false;
         }
     }
