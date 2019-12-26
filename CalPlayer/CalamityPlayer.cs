@@ -618,6 +618,7 @@ namespace CalamityMod.CalPlayer
         public int bloodfinTimer = 30;
 
         // Minion
+        public bool wDroid = false;
         public bool resButterfly = false;
         public bool glSword = false;
         public bool mWorm = false;
@@ -1284,6 +1285,7 @@ namespace CalamityMod.CalPlayer
             pinkCandle = false;
             yellowCandle = false;
 
+            wDroid = false;
             resButterfly = false;
             glSword = false;
             mWorm = false;
