@@ -1455,7 +1455,7 @@ namespace CalamityMod.Projectiles
                             Vector2 pos = new Vector2(target.Center.X + (float)target.width * 0.5f + (float)Main.rand.Next(-201, 201), Main.screenPosition.Y - 600f - Main.rand.Next(50));
                             float speedX = (target.Center.X - pos.X) / 30f;
                             float speedY = (target.Center.Y - pos.Y) * 8;
-                            int dmg = (int)(10 + (projectile.damage * 0.05f));
+                            int dmg = (int)(15 + (projectile.damage * 0.05f));
                             int feather = Projectile.NewProjectile(pos.X, pos.Y, speedX, speedY, ModContent.ProjectileType<StickyFeather>(), dmg, 3, projectile.owner, 0f, (float)Main.rand.Next(15));
                             Main.projectile[feather].Calamity().forceRogue = true;
                             playerC.Calamity().featherCrownCooldown = 15;
