@@ -4,25 +4,26 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee.Yoyos
 {
-    public class WhirlpoolProjectile : ModProjectile
+    public class RiptideYoyo : ModProjectile
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Riptide");
+            ProjectileID.Sets.YoyosLifeTimeMultiplier[projectile.type] = 7.5f;
+            ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 180f;
+            ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 12.5f;
         }
 
         public override void SetDefaults()
         {
+            projectile.aiStyle = 99;
             projectile.width = 16;
             projectile.height = 16;
-            projectile.scale = 0.75f;
+            projectile.scale = 1f;
             projectile.friendly = true;
+            projectile.melee = true;
             projectile.alpha = 150;
             projectile.penetrate = -1;
-            projectile.timeLeft = 99;
-            projectile.melee = true;
-            aiType = ProjectileID.Amarok;
-            projectile.CloneDefaults(ProjectileID.CorruptYoyo);
         }
 
         public override void AI()
