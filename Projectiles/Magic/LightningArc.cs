@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.friendly = true;
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
-            projectile.ranged = true;
+            projectile.magic = true;
             projectile.timeLeft = 20;
             projectile.penetrate = 6;
             projectile.tileCollide = true;
