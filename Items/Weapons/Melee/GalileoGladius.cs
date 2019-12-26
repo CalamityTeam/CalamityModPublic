@@ -50,7 +50,6 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ElementalShortsword>());
             recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 5);
             recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 15);
             recipe.AddTile(TileID.LunarCraftingStation);
