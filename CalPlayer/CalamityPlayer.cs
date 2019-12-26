@@ -399,6 +399,7 @@ namespace CalamityMod.CalPlayer
         public bool moonCrown = false;
         public int featherCrownCooldown = 0;
         public int moonCrownCooldown = 0;
+        public int nanoFlareCooldown = 0;
         public bool dragonScales = false;
         public bool gloveOfPrecision = false;
         public bool gloveOfRecklessness = false;
@@ -1422,6 +1423,7 @@ namespace CalamityMod.CalPlayer
             eclipseMirrorCooldown = false;
             moonCrownCooldown = 0;
             featherCrownCooldown = 0;
+            nanoFlareCooldown = 0;
             sulphurPoison = false;
             sandCloakCooldown = 0;
             spectralVeilImmunity = 0;
@@ -3457,6 +3459,8 @@ namespace CalamityMod.CalPlayer
                 featherCrownCooldown--;
             if (moonCrownCooldown > 0)
                 moonCrownCooldown--;
+            if (nanoFlareCooldown > 0)
+                nanoFlareCooldown--;
             if (sandCloakCooldown > 0)
                 sandCloakCooldown--;
             if (spectralVeilImmunity > 0)
