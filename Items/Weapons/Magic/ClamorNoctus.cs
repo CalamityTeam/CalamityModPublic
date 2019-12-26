@@ -21,7 +21,7 @@ Fires night wyverns and stars from the sky that stick to enemies and tiles and e
 
         public override void SetDefaults()
         {
-            item.damage = 300;
+            item.damage = 450;
             item.magic = true;
             item.mana = 12;
             item.width = 52;
@@ -37,7 +37,7 @@ Fires night wyverns and stars from the sky that stick to enemies and tiles and e
             item.UseSound = SoundID.Item105;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<ClamorNoctusStar>();
-            item.shootSpeed = 20f;
+            item.shootSpeed = 25f;
         }
 
         public override Vector2? HoldoutOrigin()

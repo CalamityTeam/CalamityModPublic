@@ -22,12 +22,14 @@ namespace CalamityMod.Projectiles.Magic
             projectile.width = 10;
             projectile.height = 10;
             projectile.friendly = true;
-            projectile.penetrate = 8;
+            projectile.penetrate = -1;
             projectile.alpha = 255;
             projectile.magic = true;
             projectile.aiStyle = 93;
             aiType = 514;
 			projectile.extraUpdates = 1;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()

@@ -24,9 +24,11 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 20;
             projectile.height = 20;
             projectile.friendly = true;
-            projectile.penetrate = -1;
+            projectile.penetrate = 8;
             projectile.timeLeft = lifetime;
             projectile.Calamity().rogue = true;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 15;
         }
 
         public override void AI()
@@ -163,7 +165,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             for (int i = 0; i < 6; i++)
             {
-                int damage = projectile.damage / 2;
+                int damage = projectile.damage;
                 Vector2 velocity = new Vector2(0, 10);
                 velocity = velocity.RotatedBy(MathHelper.ToRadians(60) * i);
                 Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<AlphaSeeker>(), damage, 5, projectile.owner, i % 2, 0);
