@@ -3,6 +3,7 @@ using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -194,6 +195,7 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void NPCLoot()
         {
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<AbyssShocker>(), NPC.downedBoss3, 10, 1, 1);
             if (Main.rand.NextBool(1000000) && CalamityWorld.revenge)
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<HalibutCannon>());

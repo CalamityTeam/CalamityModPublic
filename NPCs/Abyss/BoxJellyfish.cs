@@ -5,6 +5,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Items.Weapons.Magic;
 
 namespace CalamityMod.NPCs.Abyss
 {
@@ -209,5 +210,10 @@ namespace CalamityMod.NPCs.Abyss
                 }
             }
         }
+
+        public override void NPCLoot()
+        {
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<AbyssShocker>(), NPC.downedBoss3, Main.expertMode ? 40 : 50, 1, 1);
+		}
     }
 }
