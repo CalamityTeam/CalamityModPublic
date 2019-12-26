@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Chaotrix");
-            Tooltip.SetDefault("Explodes on enemy hits\nVery nimble compared to other yoyos");
+            Tooltip.SetDefault("Explodes on enemy hits\nAn exceptionally agile yoyo");
             ItemID.Sets.Yoyo[item.type] = true;
             ItemID.Sets.GamepadExtraRange[item.type] = 15;
             ItemID.Sets.GamepadSmartQuickReach[item.type] = true;
