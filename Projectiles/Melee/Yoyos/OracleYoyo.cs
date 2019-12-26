@@ -53,7 +53,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 
         public override void AI()
         {
-            // Produces golden dust constantly while in flight. This lights the yoyo.
+            // Produces golden dust constantly while in flight. This helps light the yoyo.
             if (Main.rand.NextBool())
             {
                 int dustType = Main.rand.NextBool(3) ? 244 : 246;
@@ -63,6 +63,9 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                 Main.dust[idx].velocity = Vector2.Zero;
                 Main.dust[idx].scale = scale;
             }
+
+            // The yoyo makes its own faint yellow light (unnoticeable once the lightning aura gets going)
+            Lighting.AddLight(projectile.Center, 0.6f, 0.42f, 0.1f);
 
             // The aura discharges over time based on its current charge.
             float discharge = MinDischargeRate + 0.003f * projectile.localAI[1];
