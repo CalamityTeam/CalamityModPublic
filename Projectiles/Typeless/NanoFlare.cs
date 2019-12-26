@@ -18,6 +18,7 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.height = 12;
             projectile.friendly = true;
             projectile.ignoreWater = true;
+            projectile.tileCollide = false;
             projectile.extraUpdates = 10;
             projectile.timeLeft = 60;
         }
