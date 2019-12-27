@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Boss
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Shadowflamethrower");
+            DisplayName.SetDefault("Shadowflame Breath");
         }
 
         public override void SetDefaults()
@@ -27,43 +27,42 @@ namespace CalamityMod.Projectiles.Boss
         {
             if (projectile.ai[0] > 7f)
             {
-                float num302 = 1f;
-                if (projectile.ai[0] == 8f)
-                    num302 = 0.25f;
-                else if (projectile.ai[0] == 9f)
-                    num302 = 0.5f;
-                else if (projectile.ai[0] == 10f)
-                    num302 = 0.75f;
-
-                projectile.ai[0] += 1f;
-                if (Main.rand.NextBool(2))
+                int[] dustTypes = new int[] { 27, 27, 112, 173 };
+                if(true)
                 {
-                    int num305 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 27, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default, 1f);
-                    Dust dust;
-
-                    if (Main.rand.Next(3) != 0 || Main.rand.NextBool(3))
+                    int dustType = dustTypes[Main.rand.Next(4)];
+                    int dustID;
+                    Vector2 corner = projectile.position - new Vector2(6f, 6f);
+                    int width = 18;
+                    int height = 18;
+                    switch (dustType)
                     {
-                        Main.dust[num305].noGravity = true;
-                        dust = Main.dust[num305];
-                        dust.scale *= 3f;
-                        dust.velocity.X *= 2f;
-                        dust.velocity.Y *= 2f;
+                        case 27:
+                            dustID = Dust.NewDust(corner, width, height, dustType);
+                            Main.dust[dustID].noGravity = false;
+                            Main.dust[dustID].scale = Main.rand.NextFloat(1f, 1.2f);
+                            Main.dust[dustID].velocity *= 0.9f;
+                            Main.dust[dustID].velocity += projectile.velocity * 0.7f;
+                            break;
+                        case 112:
+                            dustID = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType);
+                            Main.dust[dustID].noGravity = true;
+                            Main.dust[dustID].scale = Main.rand.NextFloat(1.4f, 2f);
+                            Main.dust[dustID].velocity *= 2.2f;
+                            Main.dust[dustID].velocity += projectile.velocity * Main.rand.NextFloat(0.15f, 0.4f);
+                            break;
+                        case 173:
+                            dustID = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType);
+                            Main.dust[dustID].noGravity = false;
+                            Main.dust[dustID].scale = Main.rand.NextFloat(1.9f, 3f);
+                            Main.dust[dustID].velocity *= 1.5f;
+                            Main.dust[dustID].velocity += projectile.velocity * Main.rand.NextFloat(0.6f, 1f);
+                            break;
                     }
-
-                    dust = Main.dust[num305];
-                    dust.scale *= 2f;
-                    dust.velocity.X *= 1.2f;
-                    dust.velocity.Y *= 1.2f;
-                    dust.scale *= num302;
-                    dust.velocity += projectile.velocity;
-
-                    if (!dust.noGravity)
-                        dust.velocity *= 0.5f;
                 }
             }
-            else
-                projectile.ai[0] += 1f;
 
+            projectile.ai[0]++;
             projectile.rotation += 0.3f * (float)projectile.direction;
         }
 

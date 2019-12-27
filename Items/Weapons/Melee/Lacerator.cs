@@ -11,26 +11,35 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Lacerator");
-            Tooltip.SetDefault("Enemies that are hit by the yoyo will have their life drained\n" +
-                "Someone thought this was a viable weapon against DoG at one point lol");
+            Tooltip.SetDefault("Enemies that are hit by the yoyo will have their life drained\nAn exceptionally agile yoyo\n'Someone thought this was a viable weapon against DoG at one point lol'");
+            ItemID.Sets.Yoyo[item.type] = true;
+            ItemID.Sets.GamepadExtraRange[item.type] = 15;
+            ItemID.Sets.GamepadSmartQuickReach[item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.CloneDefaults(ItemID.TheEyeOfCthulhu);
+            item.width = 30;
+            item.height = 26;
+            item.melee = true;
             item.damage = 150;
+            item.knockBack = 7f;
             item.useTime = 20;
             item.useAnimation = 20;
-            item.useStyle = 5;
-            item.channel = true;
-            item.melee = true;
-            item.knockBack = 7f;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<LaceratorProjectile>();
+
+            item.useStyle = 5;
+            item.UseSound = SoundID.Item1;
+            item.channel = true;
+            item.noUseGraphic = true;
+            item.noMelee = true;
+
+            item.shoot = ModContent.ProjectileType<LaceratorYoyo>();
+            item.shootSpeed = 16f;
+
+            item.rare = 10;
             item.Calamity().postMoonLordRarity = 13;
-            ItemID.Sets.Yoyo[item.type] = true;
+            item.value = Item.buyPrice(platinum: 1, gold: 40);
         }
 
         public override void AddRecipes()

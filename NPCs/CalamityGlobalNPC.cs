@@ -98,6 +98,7 @@ namespace CalamityMod.NPCs
         public int silvaStun = 0;
         public int webbed = 0;
         public int slowed = 0;
+        public int electrified = 0;
         public int yellowCandle = 0;
         public int pearlAura = 0;
         public int wCleave = 0;
@@ -544,6 +545,10 @@ namespace CalamityMod.NPCs
             ApplyDPSDebuff(dFlames, 2500, 500, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(bBlood, 50, 10, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(sulphurPoison, 180, 36, ref npc.lifeRegen, ref damage);
+            if (npc.velocity.X == 0)
+                ApplyDPSDebuff(electrified, 4, 2, ref npc.lifeRegen, ref damage);
+            else
+                ApplyDPSDebuff(electrified, 16, 16, ref npc.lifeRegen, ref damage);
         }
 
         public void ApplyDPSDebuff(int debuff, int lifeRegenValue, int damageValue, ref int lifeRegen, ref int damage)
@@ -611,6 +616,7 @@ namespace CalamityMod.NPCs
                     npc.buffImmune[ModContent.BuffType<TimeSlow>()] = true;
                     npc.buffImmune[BuffID.Webbed] = true;
                     npc.buffImmune[BuffID.Slow] = true;
+                    npc.buffImmune[BuffID.Electrified] = true;
                 }
 
                 if (DestroyerIDs.Contains(npc.type) || npc.type == NPCID.DD2EterniaCrystal || npc.townNPC)
@@ -2121,6 +2127,8 @@ namespace CalamityMod.NPCs
 				webbed--;
             if (slowed > 0)
                 slowed--;
+            if (electrified > 0)
+                electrified--;
             if (yellowCandle > 0)
 				yellowCandle--;
 			if (pearlAura > 0)
@@ -3179,6 +3187,21 @@ namespace CalamityMod.NPCs
                 if (Main.rand.Next(5) < 4)
                 {
                     int dust = Dust.NewDust(npc.position - new Vector2(2f, 2f), npc.width + 4, npc.height + 4, 191, npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 225, default, 3f);
+                    Main.dust[dust].noGravity = true;
+                    Main.dust[dust].velocity *= 1.1f;
+                    Main.dust[dust].velocity.Y += 0.25f;
+                    if (Main.rand.NextBool(2))
+                    {
+                        Main.dust[dust].noGravity = false;
+                        Main.dust[dust].scale *= 0.5f;
+                    }
+                }
+            }
+            if (electrified > 0)
+            {
+                if (Main.rand.Next(5) < 4)
+                {
+                    int dust = Dust.NewDust(npc.position - new Vector2(2f, 2f), npc.width + 4, npc.height + 4, 132, npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 0, default, 1f);
                     Main.dust[dust].noGravity = true;
                     Main.dust[dust].velocity *= 1.1f;
                     Main.dust[dust].velocity.Y += 0.25f;

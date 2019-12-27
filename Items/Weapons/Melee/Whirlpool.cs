@@ -12,26 +12,33 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Riptide");
             Tooltip.SetDefault("Sprays a spiral of aqua streams in random directions");
+            ItemID.Sets.Yoyo[item.type] = true;
+            ItemID.Sets.GamepadExtraRange[item.type] = 15;
+            ItemID.Sets.GamepadSmartQuickReach[item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.CloneDefaults(ItemID.TheEyeOfCthulhu);
-            item.damage = 18;
             item.width = 30;
             item.height = 44;
-            item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = 2;
-            item.knockBack = 1f;
-            item.channel = true;
             item.melee = true;
-            item.useStyle = 5;
-            item.useAnimation = 25;
+            item.damage = 18;
+            item.knockBack = 1f;
             item.useTime = 25;
-            item.shoot = ModContent.ProjectileType<WhirlpoolProjectile>();
-            item.shootSpeed = 18f;
+            item.useAnimation = 25;
+            item.autoReuse = true;
+
+            item.useStyle = 5;
             item.UseSound = SoundID.Item1;
-            ItemID.Sets.Yoyo[item.type] = true;
+            item.channel = true;
+            item.noUseGraphic = true;
+            item.noMelee = true;
+
+            item.shoot = ModContent.ProjectileType<RiptideYoyo>();
+            item.shootSpeed = 18f;
+
+            item.rare = 2;
+            item.value = Item.buyPrice(gold: 2);
         }
 
         public override void AddRecipes()

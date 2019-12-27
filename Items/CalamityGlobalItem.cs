@@ -1886,6 +1886,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
 
 					case ItemID.HallowedFishingCrate:
                         DropHelper.DropItemCondition(player, ModContent.ItemType<UnholyEssence>(), NPC.downedMoonlord, 0.2f, 5, 10);
+                        DropHelper.DropItemCondition(player, (WorldGen.crimson ? ModContent.ItemType<ProfanedRagePotion>() : ModContent.ItemType<HolyWrathPotion>()), CalamityWorld.downedProvidence, 0.2f, 1, 3);
                         break;
 
 					case ItemID.DungeonFishingCrate:

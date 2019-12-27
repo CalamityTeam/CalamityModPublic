@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
             item.useAnimation = 25;
             item.useTime = 25;
-            item.damage = 50;
+            item.damage = 60;
             item.crit = 8;
             item.shootSpeed = 8f;
             item.shoot = ModContent.ProjectileType<BurningStrifeProj>();
@@ -40,7 +40,12 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<BurningStrifeProj>(), damage, knockBack, player.whoAmI);
+            float speedMult = 1f;
+            if (player.Calamity().StealthStrikeAvailable())
+			{
+				speedMult = 1.25f;
+			}
+            int proj = Projectile.NewProjectile(position, new Vector2(speedX * speedMult, speedY * speedMult), ModContent.ProjectileType<BurningStrifeProj>(), damage, knockBack, player.whoAmI);
             if (player.Calamity().StealthStrikeAvailable())
             {
                 Main.projectile[proj].Calamity().stealthStrike = true;

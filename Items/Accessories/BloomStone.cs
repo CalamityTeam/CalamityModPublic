@@ -1,4 +1,5 @@
 ﻿using CalamityMod.CalPlayer;
+using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -53,10 +54,9 @@ namespace CalamityMod.Items.Accessories
                             }
                             if (flag)
                             {
-                                nPC.StrikeNPC(num3, 0f, 0, false, false, false);
-                                if (Main.netMode != NetmodeID.SinglePlayer)
+                                if (player.whoAmI == Main.myPlayer)
                                 {
-                                    NetMessage.SendData(28, -1, -1, null, l, (float)num3, 0f, 0f, 0, 0, 0);
+                                    Projectile p = Projectile.NewProjectileDirect(nPC.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), num3, 0f, player.whoAmI, l);
                                 }
                             }
                         }
@@ -64,9 +64,6 @@ namespace CalamityMod.Items.Accessories
                 }
             }
             bloomCounter++;
-            if (bloomCounter >= 180)
-            {
-            }
             if (player.whoAmI == Main.myPlayer && player.velocity.Y == 0f && player.grappling[0] == -1)
             {
                 int num4 = (int)player.Center.X / 16;

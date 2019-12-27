@@ -34,12 +34,12 @@ namespace CalamityMod.Items.Accessories
                 {
                     line2.text = "Rogue projectiles create nanoblades as they travel\n" +
                 "Stealth strikes summon lunar flares and sparks on enemy hits\n" +
-				"Stealth strikes have +30 armor penetration, deal 10% more damage, and heal for 1 HP\n" +
+				"Stealth strikes have +20 armor penetration, deal 5% more damage, and heal for 1 HP\n" +
                 "Rogue weapons have a chance to instantly kill normal enemies\n" +
                 "5% increased rogue damage, 5% increased rogue crit chance, and 15% increased rogue velocity\n" +
                 "Whenever you crit an enemy with a rogue weapon your rogue damage increases\n" +
                 "This effect can stack up to 250 times\n" +
-                "Max rogue damage boost is 25%\n" +
+                "Max rogue damage boost is 10%\n" +
                 "Rogue Crit Level: " + critLevel;
                 }
             }
@@ -49,7 +49,6 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.nanotech = true;
-            modPlayer.moonCrown = true;
             modPlayer.raiderTalisman = true;
             modPlayer.electricianGlove = true;
             player.Calamity().throwingDamage += 0.05f;

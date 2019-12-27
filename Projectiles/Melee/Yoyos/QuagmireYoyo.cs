@@ -6,22 +6,25 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee.Yoyos
 {
-    public class QuagmireProjectile : ModProjectile
+    public class QuagmireYoyo : ModProjectile
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Quagmire");
+            ProjectileID.Sets.YoyosLifeTimeMultiplier[projectile.type] = 12f;
+            ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 275f;
+            ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 15f;
         }
 
         public override void SetDefaults()
         {
-            projectile.CloneDefaults(ProjectileID.HelFire);
+            projectile.aiStyle = 99;
             projectile.width = 16;
-            projectile.scale = 1.25f;
             projectile.height = 16;
-            projectile.penetrate = 8;
+            projectile.scale = 1.25f;
+            projectile.friendly = true;
             projectile.melee = true;
-            aiType = 553;
+            projectile.penetrate = -1;
         }
 
         public override void AI()

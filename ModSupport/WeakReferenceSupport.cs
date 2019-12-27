@@ -374,7 +374,8 @@ namespace CalamityMod
 				new List<int>() {ModContent.ItemType<WeaverTrophy>(), ModContent.ItemType<KnowledgeSentinels>()}, 
 				new List<int>() {ModContent.ItemType<ArmoredShell>(), ModContent.ItemType<TheStorm>(), ModContent.ItemType<StormDragoon>(), ItemID.SuperHealingPotion}, 
 				"Use a [i:" + ModContent.ItemType<RuneofCos>() + "] in Space", 
-				"[c/EE82EE:Storm Weaver hid itself once again within the stormfront.]");
+				"[c/EE82EE:Storm Weaver hid itself once again within the stormfront.]", 
+				"CalamityMod/NPCs/StormWeaver/StormWeaver_BossChecklist");
 
 				//Signus
 				bossChecklist.Call(

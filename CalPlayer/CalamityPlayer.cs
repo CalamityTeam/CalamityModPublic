@@ -67,7 +67,6 @@ namespace CalamityMod.CalPlayer
         LoseRage = 0,
         None = 1
     }
-
     public class CalamityPlayer : ModPlayer
     {
         #region Variables
@@ -76,6 +75,7 @@ namespace CalamityMod.CalPlayer
         public bool drawBossHPBar = true;
         public bool shouldDrawSmallText = true;
         private const int saveVersion = 0;
+        //public int distanceFromBoss = -1;
         public int dashMod;
         public int projTypeJustHitBy;
         public int sCalDeathCount = 0;
@@ -126,6 +126,7 @@ namespace CalamityMod.CalPlayer
         public float aquaticBoost = 1f;
         public float shieldInvinc = 5f;
         public GaelSwitchPhase gaelSwitchTimer = 0;
+        public int galileoCooldown = 0;
 
         // Sound
         public bool playRogueStealthSound = false;
@@ -196,7 +197,7 @@ namespace CalamityMod.CalPlayer
         public bool radiator = false;
 
         // Rage
-        public int stressMax = 10000;
+        public const int stressMax = 10000;
         public int stress;
         public int stressCD;
         public bool stressLevel500 = false;
@@ -204,7 +205,7 @@ namespace CalamityMod.CalPlayer
         public int gainRageCooldown = 60;
 
         // Adrenaline
-        public int adrenalineMax = 10000;
+        public const int adrenalineMax = 10000;
         public int adrenalineMaxTimer = 300;
         public int adrenalineDmgDown = 600;
         public float adrenalineDmgMult = 1f;
@@ -323,6 +324,7 @@ namespace CalamityMod.CalPlayer
         public bool lol = false;
         public bool raiderTalisman = false;
         public int raiderStack = 0;
+        public int raiderCooldown = 0;
         public bool sGenerator = false;
         public bool sDefense = false;
         public bool sPower = false;
@@ -397,6 +399,7 @@ namespace CalamityMod.CalPlayer
         public bool moonCrown = false;
         public int featherCrownCooldown = 0;
         public int moonCrownCooldown = 0;
+        public int nanoFlareCooldown = 0;
         public bool dragonScales = false;
         public bool gloveOfPrecision = false;
         public bool gloveOfRecklessness = false;
@@ -472,6 +475,8 @@ namespace CalamityMod.CalPlayer
         public bool umbraphileSet = false;
         public bool reaverBlast = false;
         public bool reaverBurst = false;
+		//public bool fathomSwarmer = false;
+		//public bool fathomSwarmerVisage = false;
         public bool astralStarRain = false;
         public int astralStarRainCooldown = 0;
 		public bool plagueReaper = false;
@@ -615,6 +620,7 @@ namespace CalamityMod.CalPlayer
         public int bloodfinTimer = 30;
 
         // Minion
+        public bool wDroid = false;
         public bool resButterfly = false;
         public bool glSword = false;
         public bool mWorm = false;
@@ -862,79 +868,20 @@ namespace CalamityMod.CalPlayer
         #region ResetEffects
         public override void ResetEffects()
         {
-			// Max health bonuses
-			if (absorber)
-				player.statLifeMax2 += 20;
-			player.statLifeMax2 +=
-				(mFruit ? 25 : 0) +
-				(bOrange ? 25 : 0) +
-				(eBerry ? 25 : 0) +
-				(dFruit ? 25 : 0);
-			if (ZoneAbyss && abyssalAmulet)
-				player.statLifeMax2 += player.statLifeMax2 / 5 / 20 * (lumenousAmulet ? 25 : 10);
-			if (coreOfTheBloodGod)
-				player.statLifeMax2 += player.statLifeMax2 / 5 / 20 * 10;
-			if (bloodPact)
-				player.statLifeMax2 += player.statLifeMax2 / 5 / 20 * 100;
-			if (leviathanAndSirenLore)
-			{
-				if (sirenBoobsPrevious || sirenBoobsAltPrevious)
-					player.statLifeMax2 += player.statLifeMax2 / 5 / 20 * 5;
-			}
-			if (hAttack)
-				player.statLifeMax2 += player.statLifeMax / 5 / 20 * 5;
-			if (affliction || afflicted)
-				player.statLifeMax2 += player.statLifeMax / 5 / 20 * 10;
-			if (cadence)
-				player.statLifeMax2 += player.statLifeMax / 5 / 20 * 25;
-			if (community)
-			{
-				float floatTypeBoost = 0.01f +
-					(NPC.downedSlimeKing ? 0.01f : 0f) +
-					(NPC.downedBoss1 ? 0.01f : 0f) +
-					(NPC.downedBoss2 ? 0.01f : 0f) +
-					(NPC.downedQueenBee ? 0.01f : 0f) + //0.05
-					(NPC.downedBoss3 ? 0.01f : 0f) +
-					(Main.hardMode ? 0.01f : 0f) +
-					(NPC.downedMechBossAny ? 0.01f : 0f) +
-					(NPC.downedPlantBoss ? 0.01f : 0f) +
-					(NPC.downedGolemBoss ? 0.01f : 0f) + //0.1
-					(NPC.downedFishron ? 0.01f : 0f) +
-					(NPC.downedAncientCultist ? 0.01f : 0f) +
-					(NPC.downedMoonlord ? 0.01f : 0f) +
-					(CalamityWorld.downedProvidence ? 0.02f : 0f) + //0.15
-					(CalamityWorld.downedDoG ? 0.02f : 0f) + //0.17
-					(CalamityWorld.downedYharon ? 0.03f : 0f); //0.2
-				int integerTypeBoost = (int)(floatTypeBoost * 50f);
-				player.statLifeMax2 += player.statLifeMax / 5 / 20 * integerTypeBoost;
-			}
-
-			// Max health reductions
-			if (crimEffigy)
-				player.statLifeMax2 = (int)((double)player.statLifeMax2 * 0.8);
-			if (badgeOfBraveryRare)
-				player.statLifeMax2 = (int)((double)player.statLifeMax2 * 0.75);
-			if (regenator)
-				player.statLifeMax2 = (int)((double)player.statLifeMax2 * 0.5);
-			if (calamitasLore)
-				player.statLifeMax2 = (int)((double)player.statLifeMax2 * 0.75);
-
-			// Max mana bonuses
-			player.statManaMax2 +=
-				(pHeart ? 50 : 0) +
-				(eCore ? 50 : 0) +
-				(cShard ? 50 : 0) +
-				(starBeamRye ? 50 : 0);
-
-			// Extra accessory slots
-			if (extraAccessoryML)
+            if (extraAccessoryML)
+            {
                 player.extraAccessorySlots = 1;
+            }
             if (extraAccessoryML && player.extraAccessory && (Main.expertMode || Main.gameMenu))
+            {
                 player.extraAccessorySlots = 2;
+            }
             if (CalamityWorld.bossRushActive)
             {
                 if (Config.BossRushAccessoryCurse)
+                {
                     player.extraAccessorySlots = 0;
+                }
             }
 
             ResetRogueStealth();
@@ -1185,6 +1132,8 @@ namespace CalamityMod.CalPlayer
 
             umbraphileSet = false;
             plagueReaper = false;
+            //fathomSwarmer = false;
+            //fathomSwarmerVisage = false;
 
             tarraSet = false;
             tarraMelee = false;
@@ -1340,6 +1289,7 @@ namespace CalamityMod.CalPlayer
             pinkCandle = false;
             yellowCandle = false;
 
+            wDroid = false;
             resButterfly = false;
             glSword = false;
             mWorm = false;
@@ -1421,12 +1371,14 @@ namespace CalamityMod.CalPlayer
             gaelRageCooldown = 0;
             gaelSwipes = 0;
             gaelSwitchTimer = (GaelSwitchPhase)0;
+			galileoCooldown = 0;
             stress = 0;
             adrenaline = 0;
             adrenalineMaxTimer = 300;
             adrenalineDmgDown = 600;
             adrenalineDmgMult = 1f;
             raiderStack = 0;
+            raiderCooldown = 0;
             fleshTotemCooldown = 0;
             astralStarRainCooldown = 0;
             bloodflareMageCooldown = 0;
@@ -1475,6 +1427,7 @@ namespace CalamityMod.CalPlayer
             eclipseMirrorCooldown = false;
             moonCrownCooldown = 0;
             featherCrownCooldown = 0;
+            nanoFlareCooldown = 0;
             sulphurPoison = false;
             sandCloakCooldown = 0;
             spectralVeilImmunity = 0;
@@ -1626,6 +1579,8 @@ namespace CalamityMod.CalPlayer
             umbraphileSet = false;
             reaverBlast = false;
             reaverBurst = false;
+            //fathomSwarmer = false;
+            //fathomSwarmerVisage = false;
             astralStarRain = false;
             plagueReaper = false;
             plagueReaperCooldown = 0;
@@ -2790,8 +2745,334 @@ namespace CalamityMod.CalPlayer
 
         public override void PostUpdateMiscEffects()
         {
-			CalamityPlayerMiscEffects.CalamityPostUpdateMiscEffects(player, mod);
+            if (Config.ExpertDebuffDurationReduction)
+                Main.expertDebuffTime = 1f;
 
+            areThereAnyDamnBosses = CalamityGlobalNPC.AnyBossNPCS();
+
+			if (areThereAnyDamnBosses)
+			{
+				if (player.whoAmI == Main.myPlayer)
+					player.AddBuff(ModContent.BuffType<BossZen>(), 2, false);
+			}
+
+            #region RevengeanceEffects
+            /*if (!areThereAnyDamnBosses)
+            {
+                distanceFromBoss = -1;
+            }*/
+            if (CalamityWorld.revenge)
+            {
+                if (player.lifeSteal > (CalamityWorld.death ? 50f : 60f))
+                {
+                    player.lifeSteal = CalamityWorld.death ? 50f : 60f;
+                }
+                if (player.whoAmI == Main.myPlayer)
+                {
+                    if (player.onHitDodge)
+                    {
+                        for (int l = 0; l < Player.MaxBuffs; l++)
+                        {
+                            int hasBuff = player.buffType[l];
+                            if (player.buffTime[l] > 360 && hasBuff == BuffID.ShadowDodge)
+                            {
+                                player.buffTime[l] = 360;
+                            }
+                        }
+                    }
+                    if (player.immuneTime > 120)
+                    {
+                        player.immuneTime = 120;
+                    }
+                    if (Config.AdrenalineAndRage)
+                    {
+                        int stressGain = 0;
+                        if (rageMode)
+                        {
+                            stressGain = -2000;
+                        }
+                        else
+                        {
+                            if (draedonsHeart)
+                            {
+                                if (draedonsStressGain)
+                                {
+                                    stressGain += 60;
+                                }
+                            }
+                            else if (heartOfDarkness)
+                            {
+                                stressGain += 30;
+                            }
+                        }
+                        stressCD++;
+                        if (stressCD >= 60)
+                        {
+                            stressCD = 0;
+                            stress += stressGain;
+                            if (stress < 0)
+                            {
+                                stress = 0;
+                            }
+                            if (stress >= stressMax)
+                            {
+                                if (playFullRageSound)
+                                {
+                                    playFullRageSound = false;
+                                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/FullRage"), (int)player.position.X, (int)player.position.Y);
+                                }
+                                stress = stressMax;
+                            }
+                            else
+                            {
+                                playFullRageSound = true;
+                            }
+                        }
+                        stressLevel500 = stress >= 9800;
+                        if (stressLevel500 && !hAttack)
+                        {
+                            int heartAttackChance = (draedonsHeart || heartOfDarkness) ? 2000 : 10000;
+                            if (Main.rand.Next(heartAttackChance) == 0)
+                            {
+                                player.AddBuff(ModContent.BuffType<HeartAttack>(), 18000);
+                            }
+                        }
+                        if (adrenaline >= adrenalineMax)
+                        {
+                            adrenalineMaxTimer--;
+                            if (adrenalineMaxTimer <= 0)
+                            {
+                                if (playAdrenalineBurnoutSound)
+                                {
+                                    playAdrenalineBurnoutSound = false;
+                                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AdrenalineBurnout1"), (int)player.position.X, (int)player.position.Y);
+                                }
+                                adrenalineDmgDown--;
+                                if (adrenalineDmgDown < 0)
+                                {
+                                    if (playFullAdrenalineBurnoutSound)
+                                    {
+                                        playFullAdrenalineBurnoutSound = false;
+                                        Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AdrenalineBurnout2"), (int)player.position.X, (int)player.position.Y);
+                                    }
+                                    adrenalineDmgDown = 0;
+                                }
+                                adrenalineMaxTimer = 0;
+                            }
+                        }
+                        else if (!adrenalineMode && adrenaline <= 0)
+                        {
+                            playAdrenalineBurnoutSound = true;
+                            playFullAdrenalineBurnoutSound = true;
+                            adrenalineDmgDown = 600;
+                            adrenalineMaxTimer = 300;
+                            adrenalineDmgMult = 1f;
+                        }
+                        adrenalineDmgMult = 0.1f * (float)(adrenalineDmgDown / 60);
+                        if (adrenalineDmgMult < 0.33f)
+                            adrenalineDmgMult = 0.33f;
+                        int adrenalineGain = 0;
+                        bool SCalAlive = NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>());
+                        if (adrenalineMode)
+                        {
+                            adrenalineGain = SCalAlive ? -10000 : -2000;
+                        }
+                        else
+                        {
+                            if (Main.wof >= 0 && player.position.Y < (float)((Main.maxTilesY - 200) * 16)) // >
+                            {
+                                adrenaline = 0;
+                            }
+                            else if (areThereAnyDamnBosses || CalamityWorld.DoGSecondStageCountdown > 0)
+                            {
+                                int adrenalineTickBoost = 0 +
+                                    (adrenalineBoostOne ? 63 : 0) + //286
+                                    (adrenalineBoostTwo ? 115 : 0) + //401
+                                    (adrenalineBoostThree ? 100 : 0); //501
+                                adrenalineGain = 223 + adrenalineTickBoost; //pre-slime god = 45, pre-astrum deus = 35, pre-polterghast = 25, post-polter = 20
+                                                                            /*if (distanceFromBoss == -1 || distanceFromBoss > 5600)
+                                                                            {
+                                                                                adrenalineGain /= 4;
+                                                                            }*/
+                            }
+                            else
+                            {
+                                adrenaline = 0;
+                            }
+                        }
+                        adrenalineCD++;
+                        if (adrenalineCD >= (SCalAlive ? 135 : 60))
+                        {
+                            adrenalineCD = 0;
+                            adrenaline += adrenalineGain;
+                            if (adrenaline < 0)
+                            {
+                                adrenaline = 0;
+                            }
+                            if (adrenaline >= adrenalineMax)
+                            {
+                                if (playFullAdrenalineSound)
+                                {
+                                    playFullAdrenalineSound = false;
+                                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/FullAdrenaline"), (int)player.position.X, (int)player.position.Y);
+                                }
+                                adrenaline = adrenalineMax;
+                            }
+                            else
+                            {
+                                playFullAdrenalineSound = true;
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (player.whoAmI == Main.myPlayer)
+                {
+                    stressCD++;
+                    if (stressCD >= 60)
+                    {
+                        stressCD = 0;
+                        stress += -30;
+                        if (stress < 0)
+                        {
+                            stress = 0;
+                        }
+                    }
+                    adrenalineCD++;
+                    if (adrenalineCD >= 60)
+                    {
+                        adrenalineCD = 0;
+                        adrenaline += -30;
+                        if (adrenaline < 0)
+                        {
+                            adrenaline = 0;
+                        }
+                    }
+                }
+            }
+            if (player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
+            {
+                packetTimer++;
+                if (packetTimer == 60)
+                {
+                    packetTimer = 0;
+                    StressPacket(false);
+                    AdrenalinePacket(false);
+                    /*if (areThereAnyDamnBosses)
+                        DistanceFromBossPacket(false);*/
+                }
+            }
+            #endregion
+
+            #region STRESSNOLONGEREXISTSYOUSEXUALDINOSAUR
+            if (stressPills)
+            {
+                player.statDefense += 8;
+                player.allDamage += 0.08f;
+            }
+            if (laudanum)
+            {
+                player.statDefense += 6;
+                player.allDamage += 0.06f;
+            }
+            if (draedonsHeart)
+            {
+                player.allDamage += 0.1f;
+            }
+            if (!stressLevel500 && player.FindBuffIndex(ModContent.BuffType<HeartAttack>()) > -1)
+            { player.ClearBuff(ModContent.BuffType<HeartAttack>()); }
+            if (draedonsHeart && (double)Math.Abs(player.velocity.X) < 0.05 && (double)Math.Abs(player.velocity.Y) < 0.05 && player.itemAnimation == 0)
+            {
+                player.statDefense += 25;
+            }
+            if (hAttack)
+            {
+                if (heartOfDarkness || draedonsHeart)
+                {
+                    player.allDamage += 0.1f;
+                }
+                player.statLifeMax2 += player.statLifeMax / 5 / 20 * 5;
+            }
+            if (affliction || afflicted)
+            {
+                player.endurance += 0.07f;
+                player.statDefense += 20;
+                player.allDamage += 0.12f;
+                player.statLifeMax2 += player.statLifeMax / 5 / 20 * 10;
+            }
+            #endregion
+
+            #region MaxLifeAndManaBoosts
+            player.statLifeMax2 +=
+                (mFruit ? 25 : 0) +
+                (bOrange ? 25 : 0) +
+                (eBerry ? 25 : 0) +
+                (dFruit ? 25 : 0);
+            if (silvaHitCounter > 0)
+            {
+                player.statLifeMax2 -= silvaHitCounter * 100;
+                if (player.statLifeMax2 <= 400)
+                {
+                    player.statLifeMax2 = 400;
+                    if (silvaCountdown > 0)
+                    {
+                        if (player.FindBuffIndex(ModContent.BuffType<SilvaRevival>()) > -1)
+                        { player.ClearBuff(ModContent.BuffType<SilvaRevival>()); }
+                        Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SilvaDispel"), (int)player.position.X, (int)player.position.Y);
+                    }
+                    silvaCountdown = 0;
+                }
+            }
+            player.statManaMax2 +=
+                (pHeart ? 50 : 0) +
+                (eCore ? 50 : 0) +
+                (cShard ? 50 : 0) +
+                (starBeamRye ? 50 : 0);
+			if (Main.netMode != NetmodeID.Server && player.whoAmI == Main.myPlayer)
+            {
+                Texture2D rain3 = ModContent.GetTexture("CalamityMod/ExtraTextures/Rain3");
+                Texture2D rainOriginal = ModContent.GetTexture("CalamityMod/ExtraTextures/RainOriginal");
+                Texture2D mana2 = ModContent.GetTexture("CalamityMod/ExtraTextures/Mana2");
+                Texture2D mana3 = ModContent.GetTexture("CalamityMod/ExtraTextures/Mana3");
+                Texture2D mana4 = ModContent.GetTexture("CalamityMod/ExtraTextures/Mana4");
+                Texture2D manaOriginal = ModContent.GetTexture("CalamityMod/ExtraTextures/ManaOriginal");
+                Texture2D carpetAuric = ModContent.GetTexture("CalamityMod/ExtraTextures/AuricCarpet");
+                Texture2D carpetOriginal = ModContent.GetTexture("CalamityMod/ExtraTextures/Carpet");
+                int totalManaBoost =
+                    (pHeart ? 1 : 0) +
+                    (eCore ? 1 : 0) +
+                    (cShard ? 1 : 0);
+                switch (totalManaBoost)
+                {
+                    default:
+                        Main.manaTexture = manaOriginal;
+                        break;
+                    case 3:
+                        Main.manaTexture = mana4;
+                        break;
+                    case 2:
+                        Main.manaTexture = mana3;
+                        break;
+                    case 1:
+                        Main.manaTexture = mana2;
+                        break;
+                }
+                if (Main.bloodMoon)
+                { Main.rainTexture = rainOriginal; }
+                else if (Main.raining && ZoneSulphur)
+                { Main.rainTexture = rain3; }
+                else
+                { Main.rainTexture = rainOriginal; }
+                if (auricSet)
+                { Main.flyingCarpetTexture = carpetAuric; }
+                else
+                { Main.flyingCarpetTexture = carpetOriginal; }
+            }
+            #endregion
+
+            #region MiscEffects
             if (player.HeldItem.type == ModContent.ItemType<GaelsGreatsword>())
             {
                 gaelSwitchTimer = GaelSwitchPhase.LoseRage;
@@ -2802,6 +3083,2454 @@ namespace CalamityMod.CalPlayer
                 stress = 0;
                 gaelSwitchTimer = GaelSwitchPhase.None;
             }
+            if (Config.ProficiencyEnabled)
+            {
+                GetExactLevelUp();
+            }
+
+            if (gainRageCooldown > 0)
+                gainRageCooldown--;
+
+            if (player.nebulaLevelMana > 0 && player.statMana < player.statManaMax2)
+            {
+                int num = 12;
+                nebulaManaNerfCounter += player.nebulaLevelMana;
+                if (nebulaManaNerfCounter >= num)
+                {
+                    nebulaManaNerfCounter -= num;
+                    player.statMana--;
+                    if (player.statMana < 0)
+                    {
+                        player.statMana = 0;
+                    }
+                }
+            }
+            else
+            {
+                nebulaManaNerfCounter = 0;
+            }
+            if (Main.myPlayer == player.whoAmI)
+            {
+                BossHealthBarManager.SHOULD_DRAW_SMALLTEXT_HEALTH = shouldDrawSmallText;
+                /*if (player.chest != -1)
+                {
+                    if (player.chest != -2)
+                    {
+                        trashManChest = -1;
+                    }
+                    if (trashManChest >= 0)
+                    {
+                        if (!Main.projectile[trashManChest].active || Main.projectile[trashManChest].type != ModContent.ProjectileType<DannyDevito>())
+                        {
+                            Main.PlaySound(SoundID.Item11, -1, -1);
+                            player.chest = -1;
+                            Recipe.FindRecipes();
+                        }
+                        else
+                        {
+                            int num16 = (int)(((double)player.position.X + (double)player.width * 0.5) / 16.0);
+                            int num17 = (int)(((double)player.position.Y + (double)player.height * 0.5) / 16.0);
+                            player.chestX = (int)Main.projectile[trashManChest].Center.X / 16;
+                            player.chestY = (int)Main.projectile[trashManChest].Center.Y / 16;
+                            if (num16 < player.chestX - Player.tileRangeX || num16 > player.chestX + Player.tileRangeX + 1 || num17 < player.chestY - Player.tileRangeY || num17 > player.chestY + Player.tileRangeY + 1)
+                            {
+                                if (player.chest != -1)
+                                {
+                                    Main.PlaySound(SoundID.Item11, -1, -1);
+                                }
+                                player.chest = -1;
+                                Recipe.FindRecipes();
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    trashManChest = -1;
+                }*/
+            }
+            if (silvaSet || invincible || margarita)
+            {
+                foreach (int debuff in CalamityMod.debuffList)
+                    player.buffImmune[debuff] = true;
+            }
+            if (aSparkRare)
+            {
+                player.buffImmune[BuffID.Electrified] = true;
+            }
+            if (Config.ExpertChilledWaterRemoval)
+            {
+                if (Main.expertMode && player.ZoneSnow && player.wet && !player.lavaWet && !player.honeyWet && !player.arcticDivingGear)
+                {
+                    player.buffImmune[BuffID.Chilled] = true;
+                    if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
+                    {
+                        if (Main.myPlayer == player.whoAmI && !player.gills && !player.merman)
+                        {
+                            if (player.breath > 0)
+                                player.breath--;
+                        }
+                    }
+                }
+            }
+
+			int lightStrength = 0 +
+				((player.lightOrb || player.crimsonHeart || player.magicLantern || radiator) ? 1 : 0) + //1
+				(aquaticEmblem ? 1 : 0) + //2
+				(player.arcticDivingGear ? 1 : 0) + //3
+				(jellyfishNecklace ? 1 : 0) + //4
+				((player.blueFairy || player.greenFairy || player.redFairy || player.petFlagDD2Ghost || babyGhostBell) ? 2 : 0) + //6
+				//(fathomSwarmerVisage ? 1 : 0) + //8
+				((shine || lumenousAmulet) ? 2 : 0) + //10
+				((player.wisp || player.suspiciouslookingTentacle || sirenPet) ? 3 : 0); //13
+
+			double breathLossMult = 1.0 -
+				(player.gills ? 0.2 : 0.0) - //0.8
+				(player.accDivingHelm ? 0.25 : 0.0) - //0.75
+				(player.arcticDivingGear ? 0.25 : 0.0) - //0.75
+				(aquaticEmblem ? 0.25 : 0.0) - //0.75
+				//(fathomSwarmerVisage ? 0.25 : 0.0) - //0.75
+				(player.accMerman ? 0.3 : 0.0) - //0.7
+				(victideSet ? 0.2 : 0.0) - //0.85
+				(((sirenBoobs || sirenBoobsAlt) && NPC.downedBoss3) ? 0.3 : 0.0) - //0.7
+				(abyssalDivingSuit ? 0.3 : 0.0); //0.7
+
+			if (breathLossMult < 0.05)
+				breathLossMult = 0.05;
+
+			double tickMult = 1.0 +
+				(player.gills ? 4.0 : 0.0) + //5
+				(player.ignoreWater ? 5.0 : 0.0) + //10
+				(player.accDivingHelm ? 10.0 : 0.0) + //20
+				(player.arcticDivingGear ? 10.0 : 0.0) + //30
+				(aquaticEmblem ? 10.0 : 0.0) + //40
+				(player.accMerman ? 15.0 : 0.0) + //55
+				(victideSet ? 5.0 : 0.0) + //60
+				(((sirenBoobs || sirenBoobsAlt) && NPC.downedBoss3) ? 15.0 : 0.0) + //75
+				(abyssalDivingSuit ? 15.0 : 0.0); //90
+
+			if (tickMult > 50.0)
+				tickMult = 50.0;
+
+			int lifeLossAtZeroBreathResist = 0;
+			if (depthCharm)
+			{
+				lifeLossAtZeroBreathResist += 3;
+				if (abyssalDivingSuit)
+					lifeLossAtZeroBreathResist += 6;
+			}
+
+			abyssLightLevelStat = lightStrength;
+			abyssBreathLossStats[0] = (int)(2D * breathLossMult);
+			abyssBreathLossStats[1] = (int)(6D * breathLossMult);
+			abyssBreathLossStats[2] = (int)(18D * breathLossMult);
+			abyssBreathLossStats[3] = (int)(54D * breathLossMult);
+			abyssBreathLossRateStat = (int)(6D * tickMult);
+			abyssLifeLostAtZeroBreathStats[0] = 3 - lifeLossAtZeroBreathResist;
+			abyssLifeLostAtZeroBreathStats[1] = 6 - lifeLossAtZeroBreathResist;
+			abyssLifeLostAtZeroBreathStats[2] = 12 - lifeLossAtZeroBreathResist;
+			abyssLifeLostAtZeroBreathStats[3] = 24 - lifeLossAtZeroBreathResist;
+
+			if (abyssLifeLostAtZeroBreathStats[0] < 0)
+				abyssLifeLostAtZeroBreathStats[0] = 0;
+			if (abyssLifeLostAtZeroBreathStats[1] < 0)
+				abyssLifeLostAtZeroBreathStats[1] = 0;
+
+			if (ZoneAbyss)
+            {
+                if (abyssalAmulet)
+                    player.statLifeMax2 += player.statLifeMax2 / 5 / 20 * (lumenousAmulet ? 25 : 10);
+
+                if (Main.myPlayer == player.whoAmI) //4200 total tiles small world
+                {
+					int breathLoss = 2;
+					int lifeLossAtZeroBreath = 3;
+					int tick = 6;
+
+					bool lightLevelOne = lightStrength > 0; //1+
+                    bool lightLevelTwo = lightStrength > 2; //3+
+                    bool lightLevelThree = lightStrength > 4; //5+
+                    bool lightLevelFour = lightStrength > 6; //7+
+
+                    if (ZoneAbyssLayer4) //3200 and below
+                    {
+                        breathLoss = 54;
+                        if (!lightLevelFour)
+                            player.blind = true;
+                        if (!lightLevelThree)
+                            player.headcovered = true;
+                        player.bleed = true;
+                        lifeLossAtZeroBreath = 24;
+                        player.statDefense -= anechoicPlating ? 40 : 120;
+                    }
+                    else if (ZoneAbyssLayer3) //2700 to 3200
+                    {
+                        breathLoss = 18;
+                        if (!lightLevelThree)
+                            player.blind = true;
+                        if (!lightLevelTwo)
+                            player.headcovered = true;
+                        if (!abyssalDivingSuit)
+                            player.bleed = true;
+                        lifeLossAtZeroBreath = 12;
+                        player.statDefense -= anechoicPlating ? 20 : 60;
+                    }
+                    else if (ZoneAbyssLayer2) //2100 to 2700
+                    {
+                        breathLoss = 6;
+                        if (!lightLevelTwo)
+                            player.blind = true;
+                        if (!depthCharm)
+                            player.bleed = true;
+                        lifeLossAtZeroBreath = 6;
+                        player.statDefense -= anechoicPlating ? 10 : 30;
+                    }
+                    else if (ZoneAbyssLayer1) //1500 to 2100
+                    {
+                        if (!lightLevelOne)
+                            player.blind = true;
+                        player.statDefense -= anechoicPlating ? 5 : 15;
+                    }
+
+                    breathLoss = (int)((double)breathLoss * breathLossMult);
+                    tick = (int)((double)tick * tickMult);
+
+                    if (player.gills || player.merman)
+                    {
+                        if (player.breath > 0)
+                            player.breath -= 3;
+                    }
+
+					abyssBreathCD++;
+					if (abyssBreathCD >= tick)
+                    {
+                        abyssBreathCD = 0;
+
+                        if (player.breath > 0)
+                            player.breath -= breathLoss;
+
+                        if (cDepth)
+                        {
+                            if (player.breath > 0)
+                                player.breath--;
+                        }
+
+                        if (player.breath <= 0)
+                        {
+							lifeLossAtZeroBreath -= lifeLossAtZeroBreathResist;
+
+                            if (lifeLossAtZeroBreath < 0)
+                                lifeLossAtZeroBreath = 0;
+
+                            player.statLife -= lifeLossAtZeroBreath;
+
+                            if (player.statLife <= 0)
+                            {
+                                abyssDeath = true;
+                                KillPlayer();
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                abyssBreathCD = 0;
+                abyssDeath = false;
+            }
+
+            if (!player.mount.Active)
+            {
+                if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir) && ironBoots)
+                {
+                    player.maxFallSpeed = 9f;
+                }
+                if (aeroSet && !player.wet)
+                {
+                    player.maxFallSpeed = 15f;
+                }
+                if (normalityRelocator)
+                {
+                    player.maxFallSpeed *= 1.1f;
+                }
+                if (etherealExtorter && player.ZoneSkyHeight)
+                {
+                    player.maxFallSpeed *= 1.25f;
+                }
+            }
+            if (normalityRelocator)
+            {
+                player.moveSpeed += 0.1f;
+            }
+            if (player.ZoneSkyHeight)
+            {
+                if (astrumDeusLore)
+                {
+                    player.moveSpeed += 0.2f;
+                }
+                if (astrumAureusLore)
+                {
+                    player.jumpSpeedBoost += 0.5f;
+                }
+            }
+            if (omegaBlueSet) //should apply after rev caps, actually those are gone so AAAAA
+            {
+                //add tentacles
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<OmegaBlueTentacle>()] < 6)
+                {
+                    bool[] tentaclesPresent = new bool[6];
+                    for (int i = 0; i < 1000; i++)
+                    {
+                        Projectile projectile = Main.projectile[i];
+                        if (projectile.active && projectile.type == ModContent.ProjectileType<OmegaBlueTentacle>() && projectile.owner == Main.myPlayer && projectile.ai[1] >= 0f && projectile.ai[1] < 6f)
+                        {
+                            tentaclesPresent[(int)projectile.ai[1]] = true;
+                        }
+                    }
+                    for (int i = 0; i < 6; i++)
+                    {
+                        if (!tentaclesPresent[i])
+                        {
+                            float modifier = player.meleeDamage + player.magicDamage + player.rangedDamage +
+                                player.Calamity().throwingDamage + player.minionDamage;
+                            modifier /= 5f;
+                            int damage = (int)(666 * modifier);
+                            Vector2 vel = new Vector2(Main.rand.Next(-13, 14), Main.rand.Next(-13, 14)) * 0.25f;
+                            Projectile.NewProjectile(player.Center, vel, ModContent.ProjectileType<OmegaBlueTentacle>(), damage, 8f, Main.myPlayer, Main.rand.Next(120), i);
+                        }
+                    }
+                }
+                float damageUp = 0.1f;
+                int critUp = 10;
+                if (omegaBlueHentai)
+                {
+                    damageUp *= 2f;
+                    critUp *= 2;
+                }
+                player.allDamage += damageUp;
+                AllCritBoost(critUp);
+            }
+            if (!bOut)
+            {
+                if (gHealer)
+                {
+                    if (healCounter > 0)
+                    {
+                        healCounter--;
+                    }
+                    if (healCounter <= 0)
+                    {
+                        healCounter = 300;
+                        if (player.whoAmI == Main.myPlayer)
+                        {
+                            int healAmount = 5 +
+                                (gDefense ? 5 : 0) +
+                                (gOffense ? 5 : 0);
+                            player.statLife += healAmount;
+                            player.HealEffect(healAmount);
+                        }
+                    }
+                }
+                if (gDefense)
+                {
+                    player.moveSpeed += 0.1f +
+                        (gOffense ? 0.1f : 0f);
+                    player.endurance += 0.025f +
+                        (gOffense ? 0.025f : 0f);
+                }
+                if (gOffense)
+                {
+                    player.minionDamage += 0.1f +
+                        (gDefense ? 0.05f : 0f);
+                }
+            }
+
+            // You always get the max minions, even during the effect of the burnout debuff
+            if (gOffense)
+                player.maxMinions++;
+
+            if (draconicSurgeCooldown > 0)
+                draconicSurgeCooldown--;
+            if (galileoCooldown > 0)
+                galileoCooldown--;
+            if (raiderCooldown > 0)
+                raiderCooldown--;
+            if (fleshTotemCooldown > 0)
+                fleshTotemCooldown--;
+            if (astralStarRainCooldown > 0)
+                astralStarRainCooldown--;
+            if (bloodflareMageCooldown > 0)
+                bloodflareMageCooldown--;
+            if (tarraMageHealCooldown > 0)
+                tarraMageHealCooldown--;
+            if (featherCrownCooldown > 0)
+                featherCrownCooldown--;
+            if (moonCrownCooldown > 0)
+                moonCrownCooldown--;
+            if (nanoFlareCooldown > 0)
+                nanoFlareCooldown--;
+            if (sandCloakCooldown > 0)
+                sandCloakCooldown--;
+            if (spectralVeilImmunity > 0)
+                spectralVeilImmunity--;
+            if (plaguedFuelPackCooldown > 0)
+                plaguedFuelPackCooldown--;
+            if (plaguedFuelPackDash > 0)
+                plaguedFuelPackDash--;
+            if (ataxiaDmg > 0f)
+                ataxiaDmg -= 1.5f;
+            if (ataxiaDmg < 0f)
+                ataxiaDmg = 0f;
+            if (xerocDmg > 0f)
+                xerocDmg -= 2f;
+            if (xerocDmg < 0f)
+                xerocDmg = 0f;
+            if (godSlayerDmg > 0f)
+                godSlayerDmg -= 2.5f;
+            if (godSlayerDmg < 0f)
+                godSlayerDmg = 0f;
+            if (aBulwarkRareMeleeBoostTimer > 0)
+                aBulwarkRareMeleeBoostTimer--;
+            if (bossRushImmunityFrameCurseTimer > 0)
+                bossRushImmunityFrameCurseTimer--;
+            if (gaelRageCooldown > 0)
+                gaelRageCooldown--;
+
+            if (silvaCountdown > 0 && hasSilvaEffect && silvaSet)
+            {
+                player.buffImmune[ModContent.BuffType<VulnerabilityHex>()] = true;
+                silvaCountdown--;
+                if (silvaCountdown <= 0)
+                {
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SilvaDispel"), (int)player.position.X, (int)player.position.Y);
+                }
+                for (int j = 0; j < 2; j++)
+                {
+                    int num = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 157, 0f, 0f, 100, new Color(Main.DiscoR, 203, 103), 2f);
+                    Main.dust[num].position.X += (float)Main.rand.Next(-20, 21);
+                    Main.dust[num].position.Y += (float)Main.rand.Next(-20, 21);
+                    Main.dust[num].velocity *= 0.9f;
+                    Main.dust[num].noGravity = true;
+                    Main.dust[num].scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
+                    Main.dust[num].shader = GameShaders.Armor.GetSecondaryShader(player.cWaist, player);
+                    if (Main.rand.NextBool(2))
+                    {
+                        Main.dust[num].scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
+                    }
+                }
+            }
+
+			if (tarragonCloak)
+			{
+				tarraDefenseTime--;
+				if (tarraDefenseTime <= 0)
+				{
+					tarraDefenseTime = 600;
+					if (player.whoAmI == Main.myPlayer)
+					{
+						player.AddBuff(ModContent.BuffType<TarragonCloakCooldown>(), 1800, false);
+					}
+				}
+				for (int j = 0; j < 2; j++)
+				{
+					int num = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 157, 0f, 0f, 100, new Color(Main.DiscoR, 203, 103), 2f);
+					Dust expr_A4_cp_0 = Main.dust[num];
+					expr_A4_cp_0.position.X += (float)Main.rand.Next(-20, 21);
+					Dust expr_CB_cp_0 = Main.dust[num];
+					expr_CB_cp_0.position.Y += (float)Main.rand.Next(-20, 21);
+					Main.dust[num].velocity *= 0.9f;
+					Main.dust[num].noGravity = true;
+					Main.dust[num].scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
+					Main.dust[num].shader = GameShaders.Armor.GetSecondaryShader(player.cWaist, player);
+					if (Main.rand.NextBool(2))
+					{
+						Main.dust[num].scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
+					}
+				}
+			}
+
+            if (tarraThrowing)
+            {
+				if (tarragonImmunity)
+				{
+					player.immune = true;
+					player.immuneTime = 2;
+				}
+
+                if (tarraThrowingCrits >= 25)
+                {
+                    tarraThrowingCrits = 0;
+					if (player.whoAmI == Main.myPlayer)
+					{
+						player.AddBuff(ModContent.BuffType<TarragonImmunity>(), 300, false);
+					}
+                }
+
+				for (int l = 0; l < Player.MaxBuffs; l++)
+                {
+                    int hasBuff = player.buffType[l];
+					if (player.buffTime[l] <= 2 && hasBuff == ModContent.BuffType<TarragonImmunity>())
+					{
+						if (player.whoAmI == Main.myPlayer)
+							player.AddBuff(ModContent.BuffType<TarragonImmunityCooldown>(), 1500, false);
+					}
+
+					bool shouldAffect = CalamityMod.debuffList.Contains(hasBuff);
+                    if (shouldAffect)
+                    {
+                        player.Calamity().throwingDamage += 0.1f;
+                    }
+                }
+            }
+
+            if (bloodflareSet)
+            {
+                if (bloodflareHeartTimer > 0)
+                    bloodflareHeartTimer--;
+                if (bloodflareManaTimer > 0)
+                    bloodflareManaTimer--;
+            }
+
+            if (bloodflareMelee)
+            {
+                if (bloodflareMeleeHits >= 15)
+                {
+                    bloodflareMeleeHits = 0;
+					if (player.whoAmI == Main.myPlayer)
+					{
+						player.AddBuff(ModContent.BuffType<BloodflareBloodFrenzy>(), 302, false);
+					}
+				}
+
+                if (bloodflareFrenzy)
+                {
+					for (int l = 0; l < Player.MaxBuffs; l++)
+					{
+						int hasBuff = player.buffType[l];
+						if (player.buffTime[l] <= 2 && hasBuff == ModContent.BuffType<BloodflareBloodFrenzy>())
+						{
+							if (player.whoAmI == Main.myPlayer)
+								player.AddBuff(ModContent.BuffType<BloodflareBloodFrenzyCooldown>(), 1800, false);
+						}
+					}
+                    player.meleeCrit += 25;
+                    player.meleeDamage += 0.25f;
+                    for (int j = 0; j < 2; j++)
+                    {
+                        int num = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 5, 0f, 0f, 100, default, 2f);
+                        Dust expr_A4_cp_0 = Main.dust[num];
+                        expr_A4_cp_0.position.X += (float)Main.rand.Next(-20, 21);
+                        Dust expr_CB_cp_0 = Main.dust[num];
+                        expr_CB_cp_0.position.Y += (float)Main.rand.Next(-20, 21);
+                        Main.dust[num].velocity *= 0.9f;
+                        Main.dust[num].noGravity = true;
+                        Main.dust[num].scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
+                        Main.dust[num].shader = GameShaders.Armor.GetSecondaryShader(player.cWaist, player);
+                        if (Main.rand.NextBool(2))
+                        {
+                            Main.dust[num].scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
+                        }
+                    }
+                }
+            }
+
+            if (Main.raining && ZoneSulphur)
+            {
+                if (player.ZoneOverworldHeight || player.ZoneSkyHeight)
+                    player.AddBuff(ModContent.BuffType<Irradiated>(), 2);
+            }
+            if (raiderTalisman)
+            {
+				if (nanotech) //so nanotech isn't so broken
+				{
+					player.Calamity().throwingDamage += (float)raiderStack / 250f * 0.1f;
+				}
+				else
+				{
+					player.Calamity().throwingDamage += (float)raiderStack / 250f * 0.25f;
+				}
+            }
+            if (silvaCountdown <= 0 && hasSilvaEffect && silvaSummon)
+            {
+                player.maxMinions += 2;
+            }
+            if (sDefense)
+            {
+                player.statDefense += 5;
+                player.endurance += 0.05f;
+            }
+            if (absorber)
+            {
+                player.moveSpeed += 0.12f;
+                player.jumpSpeedBoost += 1.2f;
+                player.statLifeMax2 += 20;
+                player.thorns = 0.5f;
+                player.endurance += 0.05f;
+                if ((double)Math.Abs(player.velocity.X) < 0.05 && (double)Math.Abs(player.velocity.Y) < 0.05 && player.itemAnimation == 0)
+                {
+                    player.manaRegenBonus += 2;
+                }
+                if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
+                {
+                    player.statDefense += 2;
+                    player.moveSpeed += 0.05f;
+                }
+            }
+            if (seaShell)
+            {
+                if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
+                {
+                    player.statDefense += 3;
+                    player.endurance += 0.05f;
+                    player.moveSpeed += 0.15f;
+                    player.ignoreWater = true;
+                }
+            }
+            if (coreOfTheBloodGod)
+            {
+                player.statLifeMax2 += player.statLifeMax2 / 5 / 20 * 10;
+            }
+            if (bloodPact)
+            {
+                player.statLifeMax2 += player.statLifeMax2 / 5 / 20 * 100;
+            }
+            if (aAmpoule)
+            {
+                Lighting.AddLight((int)(player.position.X + (float)(player.width / 2)) / 16, (int)(player.position.Y + (float)(player.height / 2)) / 16, 1f, 1f, 0.6f);
+                player.endurance += 0.05f;
+                player.pickSpeed -= 0.25f;
+                player.buffImmune[70] = true;
+                player.buffImmune[47] = true;
+                player.buffImmune[46] = true;
+                player.buffImmune[44] = true;
+                player.buffImmune[20] = true;
+            }
+            else if (cFreeze)
+            {
+                Lighting.AddLight((int)(player.Center.X / 16f), (int)(player.Center.Y / 16f), 0.3f, (float)Main.DiscoG / 400f, 0.5f);
+            }
+            else if (sirenIce)
+            {
+                Lighting.AddLight((int)(player.position.X + (float)(player.width / 2)) / 16, (int)(player.position.Y + (float)(player.height / 2)) / 16, 0.35f, 1f, 1.25f);
+            }
+            else if (sirenBoobs || sirenBoobsAlt)
+            {
+                Lighting.AddLight((int)(player.position.X + (float)(player.width / 2)) / 16, (int)(player.position.Y + (float)(player.height / 2)) / 16, 1.5f, 1f, 0.1f);
+            }
+            else if (tarraSummon)
+            {
+                Lighting.AddLight((int)(player.Center.X / 16f), (int)(player.Center.Y / 16f), 0f, 3f, 0f);
+            }
+            if (blazingCore)
+            {
+                player.endurance += 0.1f;
+            }
+            if (cFreeze)
+            {
+                int num = ModContent.BuffType<GlacialState>();
+                float num2 = 200f;
+                int random = Main.rand.Next(5);
+                if (player.whoAmI == Main.myPlayer)
+                {
+                    if (random == 0)
+                    {
+                        for (int l = 0; l < 200; l++)
+                        {
+                            NPC nPC = Main.npc[l];
+                            if (nPC.active && !nPC.friendly && nPC.damage > 0 && !nPC.dontTakeDamage && !nPC.buffImmune[num] && Vector2.Distance(player.Center, nPC.Center) <= num2)
+                            {
+                                if (nPC.FindBuffIndex(num) == -1)
+                                {
+                                    nPC.AddBuff(num, 120, false);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            if (invincible || lol)
+            {
+                player.thorns = 0f;
+                player.turtleThorns = false;
+            }
+            if (player.vortexStealthActive)
+            {
+                player.rangedDamage -= (1f - player.stealth) * 0.4f; //change 80 to 40
+                player.rangedCrit -= (int)((1f - player.stealth) * 5f); //change 20 to 15
+            }
+            if (polarisBoost)
+            {
+                player.endurance += 0.01f;
+                player.statDefense += 2;
+            }
+            if (!polarisBoost || player.inventory[player.selectedItem].type != ModContent.ItemType<PolarisParrotfish>())
+            {
+                polarisBoost = false;
+                if (player.FindBuffIndex(ModContent.BuffType<PolarisBuff>()) > -1)
+                { player.ClearBuff(ModContent.BuffType<PolarisBuff>()); }
+                polarisBoostCounter = 0;
+                polarisBoostTwo = false;
+                polarisBoostThree = false;
+            }
+            if (polarisBoostCounter >= 20)
+            {
+                polarisBoostTwo = false;
+                polarisBoostThree = true;
+            }
+            else if (polarisBoostCounter >= 10)
+            {
+                polarisBoostTwo = true;
+            }
+            if (projRefRareLifeRegenCounter > 0)
+            {
+                projRefRareLifeRegenCounter--;
+            }
+            if(kingSlimeLore)
+            {
+                player.moveSpeed += 0.05f;
+                player.jumpSpeedBoost += player.autoJump ? 0f : 0.1f;
+            }
+            if (desertScourgeLore)
+            {
+                player.statDefense += 5;
+            }
+            if (skeletronPrimeLore)
+            {
+                player.armorPenetration += 5;
+            }
+            if (destroyerLore)
+            {
+                player.pickSpeed -= 0.05f;
+            }
+            if (golemLore)
+            {
+                if ((double)Math.Abs(player.velocity.X) < 0.05 && (double)Math.Abs(player.velocity.Y) < 0.05 && player.itemAnimation == 0)
+                {
+                    player.statDefense += 10;
+                }
+            }
+            if (aquaticScourgeLore && player.wellFed)
+            {
+                player.statDefense += 1;
+                player.allDamage += 0.025f;
+                AllCritBoost(1);
+                player.meleeSpeed += 0.025f;
+                player.minionKB += 0.25f;
+                player.moveSpeed += 0.1f;
+            }
+            if (eaterOfWorldsLore)
+            {
+                int damage = 10;
+                float knockBack = 1f;
+                if (Main.rand.NextBool(15))
+                {
+                    int num = 0;
+                    for (int i = 0; i < 1000; i++)
+                    {
+                        if (Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].type == ModContent.ProjectileType<TheDeadlyMicrobeProjectile>())
+                        {
+                            num++;
+                        }
+                    }
+                    if (Main.rand.Next(15) >= num && num < 6)
+                    {
+                        int num2 = 50;
+                        int num3 = 24;
+                        int num4 = 90;
+                        for (int j = 0; j < num2; j++)
+                        {
+                            int num5 = Main.rand.Next(200 - j * 2, 400 + j * 2);
+                            Vector2 center = player.Center;
+                            center.X += (float)Main.rand.Next(-num5, num5 + 1);
+                            center.Y += (float)Main.rand.Next(-num5, num5 + 1);
+                            if (!Collision.SolidCollision(center, num3, num3) && !Collision.WetCollision(center, num3, num3))
+                            {
+                                center.X += (float)(num3 / 2);
+                                center.Y += (float)(num3 / 2);
+                                if (Collision.CanHit(new Vector2(player.Center.X, player.position.Y), 1, 1, center, 1, 1) || Collision.CanHit(new Vector2(player.Center.X, player.position.Y - 50f), 1, 1, center, 1, 1))
+                                {
+                                    int num6 = (int)center.X / 16;
+                                    int num7 = (int)center.Y / 16;
+                                    bool flag = false;
+                                    if (Main.rand.NextBool(3) && Main.tile[num6, num7] != null && Main.tile[num6, num7].wall > 0)
+                                    {
+                                        flag = true;
+                                    }
+                                    else
+                                    {
+                                        center.X -= (float)(num4 / 2);
+                                        center.Y -= (float)(num4 / 2);
+                                        if (Collision.SolidCollision(center, num4, num4))
+                                        {
+                                            center.X += (float)(num4 / 2);
+                                            center.Y += (float)(num4 / 2);
+                                            flag = true;
+                                        }
+                                    }
+                                    if (flag)
+                                    {
+                                        for (int k = 0; k < 1000; k++)
+                                        {
+                                            if (Main.projectile[k].active && Main.projectile[k].owner == player.whoAmI && Main.projectile[k].type == ModContent.ProjectileType<TheDeadlyMicrobeProjectile>() && (center - Main.projectile[k].Center).Length() < 48f)
+                                            {
+                                                flag = false;
+                                                break;
+                                            }
+                                        }
+                                        if (flag && Main.myPlayer == player.whoAmI)
+                                        {
+                                            Projectile.NewProjectile(center.X, center.Y, 0f, 0f, ModContent.ProjectileType<TheDeadlyMicrobeProjectile>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            if (calcium)
+            {
+                player.noFallDmg = true;
+            }
+            if (skeletronLore)
+            {
+                player.allDamage += 0.05f;
+                AllCritBoost(5);
+                player.statDefense += 5;
+            }
+            if (ceaselessHunger)
+            {
+                for (int j = 0; j < 400; j++)
+                {
+                    if (Main.item[j].active && Main.item[j].noGrabDelay == 0 && Main.item[j].owner == player.whoAmI)
+                    {
+                        Main.item[j].beingGrabbed = true;
+                        if ((double)player.position.X + (double)player.width * 0.5 > (double)Main.item[j].position.X + (double)Main.item[j].width * 0.5)
+                        {
+                            if (Main.item[j].velocity.X < 90f + player.velocity.X)
+                            {
+                                Item item = Main.item[j];
+                                item.velocity.X += 9f;
+                            }
+                            if (Main.item[j].velocity.X < 0f)
+                            {
+                                Item item = Main.item[j];
+                                item.velocity.X += 9f * 0.75f;
+                            }
+                        }
+                        else
+                        {
+                            if (Main.item[j].velocity.X > -90f + player.velocity.X)
+                            {
+                                Item item = Main.item[j];
+                                item.velocity.X -= 9f;
+                            }
+                            if (Main.item[j].velocity.X > 0f)
+                            {
+                                Item item = Main.item[j];
+                                item.velocity.X -= 9f * 0.75f;
+                            }
+                        }
+                        if ((double)player.position.Y + (double)player.height * 0.5 > (double)Main.item[j].position.Y + (double)Main.item[j].height * 0.5)
+                        {
+                            if (Main.item[j].velocity.Y < 90f)
+                            {
+                                Item item = Main.item[j];
+                                item.velocity.Y += 9f;
+                            }
+                            if (Main.item[j].velocity.Y < 0f)
+                            {
+                                Item item = Main.item[j];
+                                item.velocity.Y += 9f * 0.75f;
+                            }
+                        }
+                        else
+                        {
+                            if (Main.item[j].velocity.Y > -90f)
+                            {
+                                Item item = Main.item[j];
+                                item.velocity.Y -= 9f;
+                            }
+                            if (Main.item[j].velocity.Y > 0f)
+                            {
+                                Item item = Main.item[j];
+                                item.velocity.Y -= 9f * 0.75f;
+                            }
+                        }
+                    }
+                }
+            }
+            if (dukeFishronLore)
+            {
+                player.allDamage += 0.05f;
+                AllCritBoost(5);
+                player.moveSpeed += 0.1f;
+            }
+            if (lunaticCultistLore)
+            {
+                player.endurance += 0.04f;
+                player.statDefense += 4;
+                player.allDamage += 0.04f;
+                AllCritBoost(4);
+                player.minionKB += 0.5f;
+                player.moveSpeed += 0.1f;
+            }
+            if (moonLordLore)
+            {
+                if (player.gravDir == -1f && player.gravControl2)
+                {
+                    player.endurance += 0.05f;
+                    player.statDefense += 10;
+                    player.allDamage += 0.1f;
+                    AllCritBoost(10);
+                    player.minionKB += 1.5f;
+                    player.moveSpeed += 0.15f;
+                }
+            }
+            if (leviathanAndSirenLore)
+            {
+                if (sirenBoobsPrevious || sirenBoobsAltPrevious)
+                {
+                    player.statLifeMax2 += player.statLifeMax2 / 5 / 20 * 5;
+                }
+                if (sirenPet)
+                {
+                    player.spelunkerTimer += 1;
+                    if (player.spelunkerTimer >= 10)
+                    {
+                        player.spelunkerTimer = 0;
+                        int num65 = 30;
+                        int num66 = (int)player.Center.X / 16;
+                        int num67 = (int)player.Center.Y / 16;
+                        for (int num68 = num66 - num65; num68 <= num66 + num65; num68++)
+                        {
+                            for (int num69 = num67 - num65; num69 <= num67 + num65; num69++)
+                            {
+                                if (Main.rand.NextBool(4))
+                                {
+                                    Vector2 vector = new Vector2((float)(num66 - num68), (float)(num67 - num69));
+                                    if (vector.Length() < (float)num65 && num68 > 0 && num68 < Main.maxTilesX - 1 && num69 > 0 && num69 < Main.maxTilesY - 1 && Main.tile[num68, num69] != null && Main.tile[num68, num69].active())
+                                    {
+                                        bool flag7 = false;
+                                        if (Main.tile[num68, num69].type == 185 && Main.tile[num68, num69].frameY == 18)
+                                        {
+                                            if (Main.tile[num68, num69].frameX >= 576 && Main.tile[num68, num69].frameX <= 882)
+                                            {
+                                                flag7 = true;
+                                            }
+                                        }
+                                        else if (Main.tile[num68, num69].type == 186 && Main.tile[num68, num69].frameX >= 864 && Main.tile[num68, num69].frameX <= 1170)
+                                        {
+                                            flag7 = true;
+                                        }
+                                        if (flag7 || Main.tileSpelunker[(int)Main.tile[num68, num69].type] || (Main.tileAlch[(int)Main.tile[num68, num69].type] && Main.tile[num68, num69].type != 82))
+                                        {
+                                            int num70 = Dust.NewDust(new Vector2((float)(num68 * 16), (float)(num69 * 16)), 16, 16, 204, 0f, 0f, 150, default, 0.3f);
+                                            Main.dust[num70].fadeIn = 0.75f;
+                                            Main.dust[num70].velocity *= 0.1f;
+                                            Main.dust[num70].noLight = true;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            if (spectralVeil && spectralVeilImmunity > 0)
+            {
+                Rectangle sVeilRectangle = new Rectangle((int)((double)player.position.X + (double)player.velocity.X * 0.5 - 4.0), (int)((double)player.position.Y + (double)player.velocity.Y * 0.5 - 4.0), player.width + 8, player.height + 8);
+                for (int i = 0; i < 200; i++)
+                {
+                    if (Main.npc[i].active && !Main.npc[i].dontTakeDamage && !Main.npc[i].friendly && !Main.npc[i].townNPC && Main.npc[i].immune[player.whoAmI] <= 0 && Main.npc[i].damage > 0)
+                    {
+                        NPC nPC = Main.npc[i];
+                        Rectangle rect = nPC.getRect();
+                        if (sVeilRectangle.Intersects(rect) && (nPC.noTileCollide || player.CanHit(nPC)))
+                        {
+                            if (player.whoAmI == Main.myPlayer)
+                            {
+                                player.noKnockback = true;
+                                rogueStealth = rogueStealthMax;
+                                spectralVeilImmunity = 0;
+
+                                for (int k = 0; k < player.hurtCooldowns.Length; k++)
+                                {
+                                    player.hurtCooldowns[k] = player.immuneTime;
+                                }
+
+                                Vector2 sVeilDustDir = new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-1f, 1f));
+                                sVeilDustDir.Normalize();
+                                sVeilDustDir *= 0.5f;
+                                for (int j = 0; j < 20; j++)
+                                {
+                                    int sVeilDustIndex1 = Dust.NewDust(player.Center, 1, 1, 21, sVeilDustDir.X * j, sVeilDustDir.Y * j);
+                                    int sVeilDustIndex2 = Dust.NewDust(player.Center, 1, 1, 21, -sVeilDustDir.X * j, -sVeilDustDir.Y * j);
+                                    Main.dust[sVeilDustIndex1].noGravity = false;
+                                    Main.dust[sVeilDustIndex1].noLight = false;
+                                    Main.dust[sVeilDustIndex2].noGravity = false;
+                                    Main.dust[sVeilDustIndex2].noLight = false;
+                                }
+
+                                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SilvaDispel"), (int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y);
+                            }
+                            break;
+                        }
+                    }
+                }
+                for (int i = 0; i < 1000; i++)
+                {
+                    if (Main.projectile[i].active && !Main.projectile[i].friendly && Main.projectile[i].hostile && Main.projectile[i].damage > 0)
+                    {
+                        Projectile proj = Main.projectile[i];
+                        Rectangle rect = proj.getRect();
+                        if (sVeilRectangle.Intersects(rect))
+                        {
+                            if (player.whoAmI == Main.myPlayer)
+                            {
+                                player.noKnockback = true;
+                                rogueStealth = rogueStealthMax;
+                                spectralVeilImmunity = 0;
+
+                                for (int k = 0; k < player.hurtCooldowns.Length; k++)
+                                {
+                                    player.hurtCooldowns[k] = player.immuneTime;
+                                }
+
+                                Vector2 sVeilDustDir = new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-1f, 1f));
+                                sVeilDustDir.Normalize();
+                                sVeilDustDir *= 0.5f;
+                                for (int j = 0; j < 20; j++)
+                                {
+                                    int sVeilDustIndex1 = Dust.NewDust(player.Center, 1, 1, 21, sVeilDustDir.X * j, sVeilDustDir.Y * j);
+                                    int sVeilDustIndex2 = Dust.NewDust(player.Center, 1, 1, 21, -sVeilDustDir.X * j, -sVeilDustDir.Y * j);
+                                    Main.dust[sVeilDustIndex1].noGravity = false;
+                                    Main.dust[sVeilDustIndex1].noLight = false;
+                                    Main.dust[sVeilDustIndex2].noGravity = false;
+                                    Main.dust[sVeilDustIndex2].noLight = false;
+                                }
+
+                                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SilvaDispel"), (int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y);
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+            if (plaguedFuelPack && plaguedFuelPackDash > 0)
+            {
+                if (plaguedFuelPackDash > 1)
+                    player.velocity = new Vector2(plaguedFuelPackDirection, -1) * 25;
+                else
+                    player.velocity = new Vector2(plaguedFuelPackDirection, -1) * 5;
+
+                int numClouds = Main.rand.Next(2, 10);
+                for (int i = 0; i < numClouds; i++)
+                {
+                    Vector2 cloudVelocity = new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
+                    cloudVelocity.Normalize();
+                    cloudVelocity *= Main.rand.NextFloat(0f, 1f);
+                    int projectile = Projectile.NewProjectile(player.Center, cloudVelocity, ModContent.ProjectileType<PlaguedFuelPackCloud>(), 20, 0, player.whoAmI, 0, 0);
+                    Main.projectile[projectile].timeLeft = Main.rand.Next(75, 125);
+                }
+                for (int i = 0; i < 3; i++)
+                {
+                    int dust = Dust.NewDust(player.Center, 1, 1, 89, player.velocity.X * -0.1f, player.velocity.Y * -0.1f, 100, default, 3.5f);
+                    Main.dust[dust].noGravity = true;
+                    Main.dust[dust].velocity *= 1.2f;
+                    Main.dust[dust].velocity.Y -= 0.15f;
+                }
+            }
+            #endregion
+
+            #region StandingStillEffects
+            UpdateRogueStealth();
+
+            if (trinketOfChi)
+            {
+                if (trinketOfChiBuff)
+                {
+                    player.allDamage += 0.5f;
+                    if (player.itemAnimation > 0)
+                        chiBuffTimer = 0;
+                }
+                if ((double)Math.Abs(player.velocity.X) < 0.1 && (double)Math.Abs(player.velocity.Y) < 0.1 && !player.mount.Active)
+                {
+                    if (chiBuffTimer < 120)
+                        chiBuffTimer++;
+                    else
+                        player.AddBuff(ModContent.BuffType<ChiBuff>(), 6);
+                }
+                else
+                    chiBuffTimer--;
+            }
+            else
+                chiBuffTimer = 0;
+
+            if (aquaticEmblem)
+            {
+                if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir) && player.wet && !player.lavaWet && !player.honeyWet &&
+                    !player.mount.Active)
+                {
+                    if (aquaticBoost > 0f)
+                    {
+                        aquaticBoost -= 0.0002f; //0.015
+                        if ((double)aquaticBoost <= 0.0)
+                        {
+                            aquaticBoost = 0f;
+                            if (Main.netMode == NetmodeID.MultiplayerClient)
+                                NetMessage.SendData(84, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+                        }
+                    }
+                }
+                else
+                {
+                    aquaticBoost += 0.0002f;
+                    if (aquaticBoost > 1f)
+                        aquaticBoost = 1f;
+                    if (player.mount.Active)
+                        aquaticBoost = 1f;
+                }
+                player.statDefense += (int)((1f - aquaticBoost) * 30f);
+                player.moveSpeed -= (1f - aquaticBoost) * 0.1f;
+            }
+            else
+                aquaticBoost = 1f;
+
+            if (auricBoost)
+            {
+                if (player.itemAnimation > 0)
+                {
+                    modStealthTimer = 5;
+                }
+                if ((double)Math.Abs(player.velocity.X) < 0.1 && (double)Math.Abs(player.velocity.Y) < 0.1 && !player.mount.Active)
+                {
+                    if (modStealthTimer == 0 && modStealth > 0f)
+                    {
+                        modStealth -= 0.015f;
+                        if ((double)modStealth <= 0.0)
+                        {
+                            modStealth = 0f;
+                            if (Main.netMode == NetmodeID.MultiplayerClient)
+                                NetMessage.SendData(84, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+                        }
+                    }
+                }
+                else
+                {
+                    float num27 = Math.Abs(player.velocity.X) + Math.Abs(player.velocity.Y);
+                    modStealth += num27 * 0.0075f;
+                    if (modStealth > 1f)
+                        modStealth = 1f;
+                    if (player.mount.Active)
+                        modStealth = 1f;
+                }
+                float damageBoost = (1f - modStealth) * 0.2f;
+                player.allDamage += damageBoost;
+                int critBoost = (int)((1f - modStealth) * 10f);
+                AllCritBoost(critBoost);
+                if (modStealthTimer > 0)
+                    modStealthTimer--;
+            }
+            else if (pAmulet)
+            {
+                if (player.itemAnimation > 0)
+                {
+                    modStealthTimer = 5;
+                }
+                if ((double)Math.Abs(player.velocity.X) < 0.1 && (double)Math.Abs(player.velocity.Y) < 0.1 && !player.mount.Active)
+                {
+                    if (modStealthTimer == 0 && modStealth > 0f)
+                    {
+                        modStealth -= 0.015f;
+                        if ((double)modStealth <= 0.0)
+                        {
+                            modStealth = 0f;
+                            if (Main.netMode == NetmodeID.MultiplayerClient)
+                                NetMessage.SendData(84, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+                        }
+                    }
+                }
+                else
+                {
+                    float num27 = Math.Abs(player.velocity.X) + Math.Abs(player.velocity.Y);
+                    modStealth += num27 * 0.0075f;
+                    if (modStealth > 1f)
+                        modStealth = 1f;
+                    if (player.mount.Active)
+                        modStealth = 1f;
+                }
+                player.Calamity().throwingDamage += (1f - modStealth) * 0.2f;
+                player.Calamity().throwingCrit += (int)((1f - modStealth) * 10f);
+                player.aggro -= (int)((1f - modStealth) * 750f);
+                if (modStealthTimer > 0)
+                    modStealthTimer--;
+            }
+            else
+                modStealth = 1f;
+            #endregion
+
+            #region ElysianAegis
+            if (elysianAegis)
+            {
+                bool flag14 = false;
+                if (elysianGuard)
+                {
+					if (player.whoAmI == Main.myPlayer)
+					{
+						player.AddBuff(ModContent.BuffType<ElysianGuard>(), 2, false);
+					}
+					float num29 = shieldInvinc;
+                    shieldInvinc -= 0.08f;
+                    if (shieldInvinc < 0f)
+                    {
+                        shieldInvinc = 0f;
+                    }
+                    else
+                    {
+                        flag14 = true;
+                    }
+                    if (shieldInvinc == 0f && num29 != shieldInvinc && Main.netMode == NetmodeID.MultiplayerClient)
+                    {
+                        NetMessage.SendData(84, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+                    }
+                    float damageBoost = (5f - shieldInvinc) * 0.03f;
+                    player.allDamage += damageBoost;
+                    int critBoost = (int)((5f - shieldInvinc) * 2f);
+                    AllCritBoost(critBoost);
+                    player.aggro += (int)((5f - shieldInvinc) * 220f);
+                    player.statDefense += (int)((5f - shieldInvinc) * 4f);
+                    player.moveSpeed *= 0.85f;
+                    if (player.mount.Active)
+                    {
+                        elysianGuard = false;
+                    }
+                }
+                else
+                {
+                    float num30 = shieldInvinc;
+                    shieldInvinc += 0.08f;
+                    if (shieldInvinc > 5f)
+                    {
+                        shieldInvinc = 5f;
+                    }
+                    else
+                    {
+                        flag14 = true;
+                    }
+                    if (shieldInvinc == 5f && num30 != shieldInvinc && Main.netMode == NetmodeID.MultiplayerClient)
+                    {
+                        NetMessage.SendData(84, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+                    }
+                }
+                if (flag14)
+                {
+                    if (Main.rand.NextBool(2))
+                    {
+                        Vector2 vector = Vector2.UnitY.RotatedByRandom(6.2831854820251465);
+                        Dust dust = Main.dust[Dust.NewDust(player.Center - vector * 30f, 0, 0, 244, 0f, 0f, 0, default, 1f)];
+                        dust.noGravity = true;
+                        dust.position = player.Center - vector * (float)Main.rand.Next(5, 11);
+                        dust.velocity = vector.RotatedBy(1.5707963705062866, default) * 4f;
+                        dust.scale = 0.5f + Main.rand.NextFloat();
+                        dust.fadeIn = 0.5f;
+                    }
+                    if (Main.rand.NextBool(2))
+                    {
+                        Vector2 vector2 = Vector2.UnitY.RotatedByRandom(6.2831854820251465);
+                        Dust dust2 = Main.dust[Dust.NewDust(player.Center - vector2 * 30f, 0, 0, 246, 0f, 0f, 0, default, 1f)];
+                        dust2.noGravity = true;
+                        dust2.position = player.Center - vector2 * 12f;
+                        dust2.velocity = vector2.RotatedBy(-1.5707963705062866, default) * 2f;
+                        dust2.scale = 0.5f + Main.rand.NextFloat();
+                        dust2.fadeIn = 0.5f;
+                    }
+                }
+            }
+            else
+            {
+                elysianGuard = false;
+            }
+            #endregion
+
+            #region OtherBuffs
+            if (gravityNormalizer)
+            {
+                player.buffImmune[BuffID.VortexDebuff] = true;
+                float x = (float)(Main.maxTilesX / 4200);
+                x *= x;
+                float spaceGravityMult = (float)((double)(player.position.Y / 16f - (60f + 10f * x)) / (Main.worldSurface / 6.0));
+                if (spaceGravityMult < 1f)
+                {
+                    player.gravity = Player.defaultGravity;
+                    if (player.wet)
+                    {
+                        if (player.honeyWet)
+                            player.gravity = 0.1f;
+                        else if (player.merman)
+                            player.gravity = 0.3f;
+                        else
+                            player.gravity = 0.2f;
+                    }
+                }
+            }
+            if (astralInjection)
+            {
+                if (player.statMana < player.statManaMax2)
+                {
+                    player.statMana += 3;
+                }
+                if (player.statMana > player.statManaMax2)
+                {
+                    player.statMana = player.statManaMax2;
+                }
+            }
+            if (armorCrumbling)
+            {
+                player.Calamity().throwingCrit += 5;
+                player.meleeCrit += 5;
+            }
+            if (armorShattering)
+            {
+                if (player.FindBuffIndex(ModContent.BuffType<ArmorCrumbling>()) > -1)
+                { player.ClearBuff(ModContent.BuffType<ArmorCrumbling>()); }
+                player.Calamity().throwingDamage += 0.08f;
+                player.meleeDamage += 0.08f;
+                player.Calamity().throwingCrit += 8;
+                player.meleeCrit += 8;
+            }
+            if (holyWrath)
+            {
+                if (player.FindBuffIndex(BuffID.Wrath) > -1)
+                { player.ClearBuff(BuffID.Wrath); }
+                player.allDamage += 0.12f;
+                player.moveSpeed += 0.05f;
+            }
+            if (profanedRage)
+            {
+                if (player.FindBuffIndex(BuffID.Rage) > -1)
+                { player.ClearBuff(BuffID.Rage); }
+                AllCritBoost(12);
+                player.moveSpeed += 0.05f;
+            }
+            if (irradiated)
+            {
+                player.statDefense -= 10;
+                player.allDamage += 0.05f;
+                player.minionKB += 0.5f;
+                player.moveSpeed += 0.05f;
+            }
+            if (rRage)
+            {
+                player.allDamage += 0.05f;
+                player.moveSpeed += 0.05f;
+            }
+            if (xRage)
+            {
+                player.allDamage += 0.1f;
+            }
+            if (xWrath)
+            {
+                AllCritBoost(5);
+            }
+            if (godSlayerCooldown)
+            {
+                player.allDamage += 0.1f;
+            }
+            if (graxDefense)
+            {
+                player.statDefense += 30;
+                player.endurance += 0.1f;
+                player.meleeDamage += 0.2f;
+            }
+            if (sMeleeBoost)
+            {
+                player.allDamage += 0.1f;
+                AllCritBoost(5);
+            }
+            if (tFury)
+            {
+                player.meleeDamage += 0.3f;
+                player.meleeCrit += 10;
+            }
+            if (yPower)
+            {
+                player.endurance += 0.05f;
+                player.statDefense += 5;
+                player.allDamage += 0.06f;
+                AllCritBoost(2);
+                player.minionKB += 1f;
+                player.moveSpeed += 0.15f;
+            }
+            if (tScale)
+            {
+                player.endurance += 0.05f;
+                player.statDefense += 5;
+                player.kbBuff = true;
+            }
+            if (darkSunRing)
+            {
+                player.maxMinions += 2;
+                player.allDamage += 0.12f;
+                player.minionKB += 1.2f;
+                player.pickSpeed -= 0.15f;
+                if (!Main.dayTime)
+                {
+                    player.statDefense += 30;
+                }
+            }
+            if (eGauntlet)
+            {
+                player.longInvince = true;
+                player.kbGlove = true;
+                player.meleeDamage += 0.15f;
+                player.meleeCrit += 5;
+                player.lavaMax += 240;
+            }
+            if (fabsolVodka)
+            {
+                player.allDamage += 0.08f;
+                player.statDefense -= 20;
+            }
+            if (vodka)
+            {
+                player.statDefense -= 4;
+                player.allDamage += 0.06f;
+                AllCritBoost(2);
+            }
+            if (grapeBeer)
+            {
+                player.statDefense -= 2;
+                player.moveSpeed -= 0.05f;
+            }
+            if (moonshine)
+            {
+                player.statDefense += 10;
+                player.endurance += 0.05f;
+            }
+            if (rum)
+            {
+                player.moveSpeed += 0.1f;
+                player.statDefense -= 8;
+            }
+            if (whiskey)
+            {
+                player.statDefense -= 8;
+                player.allDamage += 0.04f;
+                AllCritBoost(2);
+            }
+            if (everclear)
+            {
+                player.statDefense -= 40;
+                player.allDamage += 0.25f;
+            }
+            if (bloodyMary)
+            {
+                if (Main.bloodMoon)
+                {
+                    player.statDefense -= 6;
+                    player.allDamage += 0.15f;
+                    AllCritBoost(7);
+                    player.moveSpeed += 0.15f;
+                }
+            }
+            if (tequila)
+            {
+                if (Main.dayTime)
+                {
+                    player.statDefense += 5;
+                    player.allDamage += 0.03f;
+                    AllCritBoost(2);
+                    player.endurance += 0.03f;
+                }
+            }
+            if (tequilaSunrise)
+            {
+                if (Main.dayTime)
+                {
+                    player.statDefense += 15;
+                    player.allDamage += 0.07f;
+                    AllCritBoost(3);
+                    player.endurance += 0.07f;
+                }
+            }
+            if (caribbeanRum)
+            {
+                player.moveSpeed += 0.2f;
+                player.statDefense -= 12;
+            }
+            if (cinnamonRoll)
+            {
+                player.statDefense -= 12;
+                player.manaRegenDelay--;
+                player.manaRegenBonus += 10;
+            }
+            if (margarita)
+            {
+                player.statDefense -= 6;
+            }
+            if (starBeamRye)
+            {
+                player.statDefense -= 6;
+                player.magicDamage += 0.08f;
+                player.manaCost *= 0.9f;
+            }
+            if (moscowMule)
+            {
+                player.allDamage += 0.09f;
+                AllCritBoost(3);
+            }
+            if (whiteWine)
+            {
+                player.statDefense -= 6;
+                player.magicDamage += 0.1f;
+            }
+            if (evergreenGin)
+            {
+                player.endurance += 0.05f;
+            }
+            if (giantPearl)
+            {
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    for (int m = 0; m < 200; m++)
+                    {
+                        if (Main.npc[m].active && !Main.npc[m].friendly)
+                        {
+                            float distance = (Main.npc[m].Center - player.Center).Length();
+                            if (distance < 120f)
+                                Main.npc[m].AddBuff(ModContent.BuffType<PearlAura>(), 20, false);
+                        }
+                    }
+                }
+            }
+            if (CalamityMod.scopedWeaponList.Contains(player.inventory[player.selectedItem].type))
+            {
+                player.scope = true;
+            }
+            if (CalamityMod.highTestFishList.Contains(player.inventory[player.selectedItem].type))
+            {
+                player.accFishingLine = true;
+            }
+			if (CalamityMod.boomerangList.Contains(player.inventory[player.selectedItem].type) && player.invis)
+            {
+				player.Calamity().throwingDamage += 0.1f;
+            }
+            if (CalamityMod.javelinList.Contains(player.inventory[player.selectedItem].type) && player.invis)
+            {
+                player.armorPenetration += 5;
+            }
+            if (CalamityMod.flaskBombList.Contains(player.inventory[player.selectedItem].type) && player.invis)
+            {
+				player.Calamity().throwingVelocity += 0.1f;
+            }
+            if (CalamityMod.spikyBallList.Contains(player.inventory[player.selectedItem].type) && player.invis)
+            {
+				player.Calamity().throwingCrit += 10;
+            }
+			if (etherealExtorter)
+			{
+				bool ZoneForest = !ZoneAbyss && !ZoneSulphur && !ZoneAstral && !ZoneCalamity && !ZoneSunkenSea && !player.ZoneSnow && !player.ZoneCorrupt && !player.ZoneCrimson && !player.ZoneHoly && !player.ZoneDesert && !player.ZoneUndergroundDesert && !player.ZoneGlowshroom && !player.ZoneDungeon && !player.ZoneBeach && !player.ZoneMeteor;
+				if (player.ZoneUnderworldHeight && !ZoneCalamity && CalamityMod.fireWeaponList.Contains(player.inventory[player.selectedItem].type))
+				{
+                    player.endurance += 0.03f;
+				}
+				if ((player.ZoneDesert || player.ZoneUndergroundDesert) && CalamityMod.daggerList.Contains(player.inventory[player.selectedItem].type))
+				{
+					player.scope = true;
+				}
+				if (ZoneSunkenSea)
+				{
+					player.gills = true;
+					player.ignoreWater = true;
+				}
+				if (player.ZoneSnow && CalamityMod.iceWeaponList.Contains(player.inventory[player.selectedItem].type))
+				{
+					player.statDefense += 5;
+				}
+				if (ZoneAstral)
+				{
+					if (player.wingTimeMax > 0)
+						player.wingTimeMax = (int)((double)player.wingTimeMax * 1.05);
+				}
+				if (player.ZoneJungle && CalamityMod.natureWeaponList.Contains(player.inventory[player.selectedItem].type))
+				{
+                    player.AddBuff(165, 5, true); //Dryad's Blessing
+				}
+				if (ZoneAbyss)
+				{
+                    player.blind = true;
+                    player.headcovered = true;
+                    player.blackout = true;
+					if (player.FindBuffIndex(BuffID.Shine) > -1)
+					{ player.ClearBuff(BuffID.Shine); }
+					if (player.FindBuffIndex(BuffID.NightOwl) > -1)
+					{ player.ClearBuff(BuffID.NightOwl); }
+					player.nightVision = false;
+					shine = false;
+					player.allDamage += 0.2f;
+					AllCritBoost(5);
+					player.statDefense += 8;
+					player.endurance += 0.05f;
+				}
+				if (player.ZoneRockLayerHeight && ZoneForest && CalamityMod.flaskBombList.Contains(player.inventory[player.selectedItem].type))
+				{
+					player.blackBelt = true;
+				}
+				if (player.ZoneHoly)
+				{
+					player.maxMinions += 1;
+					player.manaCost *= 0.9f;
+					player.ammoCost75 = true; //25% chance to not use ranged ammo
+					throwingAmmoCost75 = true; //25% chance to not consume rogue consumables
+				}
+				if (player.ZoneBeach)
+				{
+					player.moveSpeed += 0.05f;
+				}
+				if (player.ZoneGlowshroom)
+				{
+					player.statDefense += 3;
+				}
+				if (player.ZoneMeteor)
+				{
+					gravityNormalizer = true;
+					player.slowFall = true;
+				}
+				if (Main.moonPhase == 0) //full moon
+				{
+					player.fishingSkill += 30;
+				}
+				if (Main.moonPhase == 6) //first quarter
+				{
+					player.discount = true;
+				}
+			}
+            if (harpyRing)
+            {
+                if (player.wingTimeMax > 0)
+                    player.wingTimeMax = (int)((double)player.wingTimeMax * 1.25);
+                player.moveSpeed += 0.2f;
+            }
+            if (blueCandle)
+            {
+                if (player.wingTimeMax > 0)
+                    player.wingTimeMax = (int)((double)player.wingTimeMax * 1.1);
+                player.moveSpeed += 0.15f;
+            }
+            if (plaguebringerGoliathLore)
+            {
+                if (player.wingTimeMax > 0)
+                    player.wingTimeMax = (int)((double)player.wingTimeMax * 1.25);
+            }
+            if (soaring)
+            {
+                if (player.wingTimeMax > 0)
+                    player.wingTimeMax = (int)((double)player.wingTimeMax * 1.1);
+            }
+            if (plagueReaper)
+            {
+                if (player.wingTimeMax > 0)
+                    player.wingTimeMax = (int)((double)player.wingTimeMax * 1.05);
+            }
+            if (draconicSurge)
+            {
+                if (player.wingTimeMax > 0)
+                    player.wingTimeMax = (int)((double)player.wingTimeMax * 1.35);
+            }
+            if (bounding)
+            {
+                player.jumpSpeedBoost += 0.5f;
+                Player.jumpHeight += 10;
+                player.extraFall += 25;
+            }
+
+			if (mushy)
+				player.statDefense += 5;
+
+			if (omniscience)
+			{
+				player.detectCreature = true;
+				player.dangerSense = true;
+				player.findTreasure = true;
+			}
+
+			if (aWeapon)
+				player.moveSpeed += 0.15f;
+
+			if (molten)
+				player.resistCold = true;
+
+			if (shellBoost)
+				player.moveSpeed += 0.9f;
+
+			if (tarraSet)
+			{
+				player.calmed = tarraMelee ? false : true;
+				player.lifeMagnet = true;
+			}
+
+			if (aChicken)
+			{
+				player.statDefense += 5;
+				player.moveSpeed += 0.1f;
+			}
+
+			if (cadence)
+			{
+				if (player.FindBuffIndex(BuffID.Regeneration) > -1)
+				{ player.ClearBuff(BuffID.Regeneration); }
+				if (player.FindBuffIndex(BuffID.Lifeforce) > -1)
+				{ player.ClearBuff(BuffID.Lifeforce); }
+				player.discount = true;
+				player.lifeMagnet = true;
+				player.calmed = true;
+				player.loveStruck = true;
+				player.statLifeMax2 += player.statLifeMax / 5 / 20 * 25;
+			}
+
+			if (community)
+            {
+                float floatTypeBoost = 0.01f +
+                    (NPC.downedSlimeKing ? 0.01f : 0f) +
+                    (NPC.downedBoss1 ? 0.01f : 0f) +
+                    (NPC.downedBoss2 ? 0.01f : 0f) +
+                    (NPC.downedQueenBee ? 0.01f : 0f) + //0.05
+                    (NPC.downedBoss3 ? 0.01f : 0f) +
+                    (Main.hardMode ? 0.01f : 0f) +
+                    (NPC.downedMechBossAny ? 0.01f : 0f) +
+                    (NPC.downedPlantBoss ? 0.01f : 0f) +
+                    (NPC.downedGolemBoss ? 0.01f : 0f) + //0.1
+                    (NPC.downedFishron ? 0.01f : 0f) +
+                    (NPC.downedAncientCultist ? 0.01f : 0f) +
+                    (NPC.downedMoonlord ? 0.01f : 0f) +
+                    (CalamityWorld.downedProvidence ? 0.02f : 0f) + //0.15
+                    (CalamityWorld.downedDoG ? 0.02f : 0f) + //0.17
+                    (CalamityWorld.downedYharon ? 0.03f : 0f); //0.2
+                int integerTypeBoost = (int)(floatTypeBoost * 50f);
+                int critBoost = integerTypeBoost / 2;
+                float damageBoost = floatTypeBoost * 0.5f;
+                player.endurance += floatTypeBoost * 0.25f;
+                player.statDefense += integerTypeBoost;
+                player.allDamage += damageBoost;
+                AllCritBoost(critBoost);
+                player.minionKB += floatTypeBoost;
+                player.moveSpeed += floatTypeBoost;
+                player.statLifeMax2 += player.statLifeMax / 5 / 20 * integerTypeBoost;
+                if (player.wingTimeMax > 0)
+                    player.wingTimeMax = (int)((double)player.wingTimeMax * 1.15);
+            }
+
+            if (ravagerLore)
+            {
+                if (player.wingTimeMax > 0)
+                    player.wingTimeMax = (int)((double)player.wingTimeMax * 0.5);
+                player.allDamage += 0.1f;
+            }
+
+			if (wDeath)
+			{
+				player.statDefense -= WhisperingDeath.DefenseReduction;
+				player.allDamage -= 0.1f;
+			}
+
+			if (aFlames)
+				player.statDefense -= AbyssalFlames.DefenseReduction;
+
+			if (gsInferno)
+				player.statDefense -= GodSlayerInferno.DefenseReduction;
+
+			if (astralInfection)
+				player.statDefense -= AstralInfectionDebuff.DefenseReduction;
+
+			if (pFlames)
+			{
+				player.blind = true;
+				player.statDefense -= Plague.DefenseReduction;
+				player.moveSpeed -= 0.15f;
+			}
+
+			if (bBlood)
+			{
+				player.blind = true;
+				player.statDefense -= 3;
+				player.moveSpeed += 0.2f;
+				player.meleeDamage += 0.05f;
+				player.rangedDamage -= 0.1f;
+				player.magicDamage -= 0.1f;
+			}
+
+			if (horror)
+			{
+				player.blind = true;
+				player.statDefense -= 15;
+				player.moveSpeed -= 0.15f;
+			}
+
+			if (aCrunch)
+			{
+				player.statDefense -= ArmorCrunch.DefenseReduction;
+				player.endurance *= 0.33f;
+			}
+
+			if (vHex)
+			{
+				player.blind = true;
+				player.statDefense -= 30;
+				player.moveSpeed -= 0.1f;
+
+				if (player.wingTimeMax <= 0)
+					player.wingTimeMax = 0;
+
+				player.wingTimeMax /= 2;
+			}
+
+			if (gState)
+			{
+				player.statDefense -= GlacialState.DefenseReduction;
+				player.velocity.Y = 0f;
+				player.velocity.X = 0f;
+			}
+
+			if (eGravity)
+			{
+				if (player.wingTimeMax < 0)
+					player.wingTimeMax = 0;
+
+				if (player.wingTimeMax > 400)
+					player.wingTimeMax = 400;
+
+				player.wingTimeMax /= 4;
+			}
+
+			if (eGrav)
+			{
+				if (player.wingTimeMax < 0)
+					player.wingTimeMax = 0;
+
+				if (player.wingTimeMax > 400)
+					player.wingTimeMax = 400;
+
+				player.wingTimeMax /= 2;
+			}
+
+			if (molluskSet)
+				player.velocity.X *= 0.985f;
+
+			if ((warped || caribbeanRum) && !player.slowFall && !player.mount.Active)
+				player.velocity.Y *= 1.01f;
+
+			if (corrEffigy)
+            {
+                player.moveSpeed += 0.15f;
+                AllCritBoost(10);
+            }
+
+            if (crimEffigy)
+            {
+                player.allDamage += 0.15f;
+                player.statDefense += 10;
+                player.statLifeMax2 = (int)((double)player.statLifeMax2 * 0.8);
+            }
+
+            if (badgeOfBraveryRare)
+            {
+                player.meleeDamage += 0.2f;
+                player.statLifeMax2 = (int)((double)player.statLifeMax2 * 0.75);
+            }
+
+            if (regenator)
+                player.statLifeMax2 = (int)((double)player.statLifeMax2 * 0.5);
+
+            if (calamitasLore)
+            {
+                player.statLifeMax2 = (int)((double)player.statLifeMax2 * 0.75);
+                player.maxMinions += 2;
+            }
+
+			// The player's true max life value with Calamity adjustments
+			actualMaxLife = player.statLifeMax2;
+
+            if (thirdSageH && !player.dead && player.HasBuff(ModContent.BuffType<ThirdSageBuff>()))
+            {
+                player.statLife = player.statLifeMax2;
+            }
+
+            if (pinkCandle)
+            {
+                // every frame, add up 1/60th of the healing value (0.4% max HP per second)
+                pinkCandleHealFraction += player.statLifeMax2 * 0.004 / 60;
+                if (pinkCandleHealFraction >= 1D)
+                {
+                    pinkCandleHealFraction = 0D;
+                    if (player.statLife < player.statLifeMax2)
+                        player.statLife++;
+                }
+            }
+            else
+                pinkCandleHealFraction = 0D;
+
+            if (manaOverloader)
+            {
+                player.magicDamage += 0.06f;
+                if (player.statMana < (int)((double)player.statManaMax2 * 0.1))
+                    player.ghostHeal = true;
+            }
+
+            if (rBrain)
+            {
+                if (player.statLife <= (int)((double)player.statLifeMax2 * 0.75))
+                    player.allDamage += 0.1f;
+                if (player.statLife <= (int)((double)player.statLifeMax2 * 0.5))
+                    player.moveSpeed -= 0.05f;
+            }
+
+            if (bloodyWormTooth)
+            {
+                if (player.statLife < (int)((double)player.statLifeMax2 * 0.5))
+                {
+                    player.meleeDamage += 0.1f;
+                    player.meleeSpeed += 0.1f;
+                    player.endurance += 0.1f;
+                }
+                else
+                {
+                    player.meleeDamage += 0.05f;
+                    player.meleeSpeed += 0.05f;
+                    player.endurance += 0.05f;
+                }
+            }
+
+            if (dAmulet)
+            {
+                player.panic = true;
+                player.pStone = true;
+                player.armorPenetration += 10;
+                if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
+                {
+                    Lighting.AddLight((int)player.Center.X / 16, (int)player.Center.Y / 16, 1.35f, 0.3f, 0.9f);
+                }
+            }
+
+            if (rampartOfDeities)
+            {
+                player.armorPenetration += 10;
+                player.noKnockback = true;
+                if (player.statLife > (int)((double)player.statLifeMax2 * 0.25))
+                {
+                    player.hasPaladinShield = true;
+                    if (player.whoAmI != Main.myPlayer && player.miscCounter % 10 == 0)
+                    {
+                        int myPlayer = Main.myPlayer;
+                        if (Main.player[myPlayer].team == player.team && player.team != 0)
+                        {
+                            float arg = player.position.X - Main.player[myPlayer].position.X;
+                            float num3 = player.position.Y - Main.player[myPlayer].position.Y;
+                            if ((float)Math.Sqrt((double)(arg * arg + num3 * num3)) < 800f)
+                            {
+                                Main.player[myPlayer].AddBuff(43, 20, true);
+                            }
+                        }
+                    }
+                }
+                if (player.statLife <= (int)((double)player.statLifeMax2 * 0.5))
+                {
+                    player.AddBuff(62, 5, true);
+                }
+                if (player.statLife <= (int)((double)player.statLifeMax2 * 0.15))
+                {
+                    player.endurance += 0.05f;
+                }
+            }
+            else if (fBulwark)
+            {
+                player.noKnockback = true;
+                if (player.statLife > (int)((double)player.statLifeMax2 * 0.25))
+                {
+                    player.hasPaladinShield = true;
+                    if (player.whoAmI != Main.myPlayer && player.miscCounter % 10 == 0)
+                    {
+                        int myPlayer = Main.myPlayer;
+                        if (Main.player[myPlayer].team == player.team && player.team != 0)
+                        {
+                            float arg = player.position.X - Main.player[myPlayer].position.X;
+                            float num3 = player.position.Y - Main.player[myPlayer].position.Y;
+                            if ((float)Math.Sqrt((double)(arg * arg + num3 * num3)) < 800f)
+                            {
+                                Main.player[myPlayer].AddBuff(43, 20, true);
+                            }
+                        }
+                    }
+                }
+                if (player.statLife <= (int)((double)player.statLifeMax2 * 0.5))
+                {
+                    player.AddBuff(62, 5, true);
+                }
+                if (player.statLife <= (int)((double)player.statLifeMax2 * 0.15))
+                {
+                    player.endurance += 0.05f;
+                }
+            }
+
+            if (frostFlare)
+            {
+                player.resistCold = true;
+                player.buffImmune[44] = true;
+                player.buffImmune[46] = true;
+                player.buffImmune[47] = true;
+                if (player.statLife > (int)((double)player.statLifeMax2 * 0.75))
+                {
+                    player.allDamage += 0.1f;
+                }
+                if (player.statLife < (int)((double)player.statLifeMax2 * 0.25))
+                {
+                    player.statDefense += 10;
+                }
+            }
+
+            if (vexation)
+            {
+                if (player.statLife < (int)((double)player.statLifeMax2 * 0.5))
+                {
+                    player.allDamage += 0.15f;
+                }
+            }
+
+            if (ataxiaBlaze)
+            {
+                if (player.statLife <= (int)((double)player.statLifeMax2 * 0.5))
+                {
+                    player.AddBuff(BuffID.Inferno, 2);
+                }
+            }
+
+            if (bloodflareThrowing)
+            {
+                if (player.statLife > (int)((double)player.statLifeMax2 * 0.8))
+                {
+                    player.Calamity().throwingCrit += 5;
+                    player.statDefense += 30;
+                }
+                else
+                {
+                    player.Calamity().throwingDamage += 0.1f;
+                }
+            }
+
+            if (bloodflareSummon)
+            {
+                if (player.statLife >= (int)((double)player.statLifeMax2 * 0.9))
+                {
+                    player.minionDamage += 0.1f;
+                }
+                else if (player.statLife <= (int)((double)player.statLifeMax2 * 0.5))
+                {
+                    player.statDefense += 20;
+                }
+                if (bloodflareSummonTimer > 0)
+                { bloodflareSummonTimer--; }
+                if (player.whoAmI == Main.myPlayer && bloodflareSummonTimer <= 0)
+                {
+                    bloodflareSummonTimer = 900;
+                    for (int I = 0; I < 3; I++)
+                    {
+                        float ai1 = (float)(I * 120);
+                        Projectile.NewProjectile(player.Center.X + (float)(Math.Sin(I * 120) * 550), player.Center.Y + (float)(Math.Cos(I * 120) * 550), 0f, 0f,
+                            ModContent.ProjectileType<GhostlyMine>(), (int)((auricSet ? 15000f : 5000f) * player.minionDamage), 1f, player.whoAmI, ai1, 0f);
+                    }
+                }
+            }
+
+            if (yInsignia)
+            {
+                player.longInvince = true;
+                player.kbGlove = true;
+                player.meleeDamage += 0.05f;
+                player.lavaMax += 240;
+                if (player.statLife <= (int)((double)player.statLifeMax2 * 0.5))
+                {
+                    player.allDamage += 0.1f;
+                }
+            }
+
+            if (reaperToothNecklace)
+            {
+                player.allDamage += 0.25f;
+                player.statDefense /= 2;
+            }
+
+            if (deepDiver)
+            {
+                player.allDamage += 0.15f;
+                player.statDefense += (int)((double)player.statDefense * 0.15);
+                player.moveSpeed += 0.15f;
+            }
+
+            if (coreOfTheBloodGod)
+            {
+                player.endurance += 0.05f;
+                player.allDamage += 0.07f;
+                if (player.statDefense < 100)
+                {
+                    player.allDamage += 0.15f;
+                }
+            }
+            else if (bloodflareCore)
+            {
+                if (player.statDefense < 100)
+                {
+                    player.allDamage += 0.15f;
+                }
+                if (player.statLife <= (int)((double)player.statLifeMax2 * 0.15))
+                {
+                    player.endurance += 0.1f;
+                    player.allDamage += 0.2f;
+                }
+                else if (player.statLife <= (int)((double)player.statLifeMax2 * 0.5))
+                {
+                    player.endurance += 0.05f;
+                    player.allDamage += 0.1f;
+                }
+            }
+
+            if (godSlayerThrowing)
+            {
+                if (player.statLife >= player.statLifeMax2)
+                {
+                    player.Calamity().throwingCrit += 10;
+                    player.Calamity().throwingDamage += 0.1f;
+                    player.Calamity().throwingVelocity += 0.1f;
+                }
+            }
+
+            if (tarraSummon)
+            {
+                int lifeCounter = 0;
+                float num2 = 300f;
+                bool flag = lifeCounter % 60 == 0;
+                int num3 = 200;
+                if (player.whoAmI == Main.myPlayer)
+                {
+                    for (int l = 0; l < 200; l++)
+                    {
+                        NPC nPC = Main.npc[l];
+                        if (nPC.active && !nPC.friendly && nPC.damage > 0 && !nPC.dontTakeDamage && Vector2.Distance(player.Center, nPC.Center) <= num2)
+                        {
+                            if (flag)
+                            {
+                                if (player.whoAmI == Main.myPlayer)
+                                {
+                                    Projectile p = Projectile.NewProjectileDirect(nPC.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), num3, 0f, player.whoAmI, l);
+                                    p.minion = true;
+                                    p.Calamity().forceMinion = true;
+                                }
+                            }
+                        }
+                    }
+                }
+                lifeCounter++;
+            }
+
+            if (player.inventory[player.selectedItem].type == ModContent.ItemType<NavyFishingRod>() && player.ownedProjectileCounts[ModContent.ProjectileType<NavyBobber>()] != 0)
+            {
+				int auraCounter = 0;
+				float num2 = 200f;
+				bool flag = auraCounter % 60 == 0;
+				int num3 = 10;
+				int random = Main.rand.Next(15);
+				if (player.whoAmI == Main.myPlayer)
+				{
+					if (random == 0)
+					{
+						for (int l = 0; l < 200; l++)
+						{
+							NPC nPC = Main.npc[l];
+							if (nPC.active && !nPC.friendly && nPC.damage > 0 && !nPC.dontTakeDamage && Vector2.Distance(player.Center, nPC.Center) <= num2)
+							{
+								if (flag)
+								{
+                                    if (player.whoAmI == Main.myPlayer)
+                                    {
+                                        Projectile p = Projectile.NewProjectileDirect(nPC.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), num3, 0f, player.whoAmI, l);
+                                    }
+                                    Vector2 value15 = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
+									while (value15.X == 0f && value15.Y == 0f)
+									{
+										value15 = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
+									}
+									value15.Normalize();
+									value15 *= (float)Main.rand.Next(30, 61) * 0.1f;
+									int num17 = Projectile.NewProjectile(nPC.Center.X, nPC.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<EutrophicSpark>(), 5, 0f, player.whoAmI, 0f, 0f);
+									Main.projectile[num17].melee = false;
+									Main.projectile[num17].localNPCHitCooldown = -1;
+								}
+							}
+						}
+					}
+				}
+				auraCounter++;
+			}
+
+            if (brimstoneElementalLore && player.inferno)
+            {
+                int num = ModContent.BuffType<BrimstoneFlames>();
+                float num2 = 300f;
+                bool flag = player.infernoCounter % 30 == 0;
+                int damage = 50;
+                if (player.whoAmI == Main.myPlayer)
+                {
+                    for (int l = 0; l < 200; l++)
+                    {
+                        NPC nPC = Main.npc[l];
+                        if (nPC.active && !nPC.friendly && nPC.damage > 0 && !nPC.dontTakeDamage && Vector2.Distance(player.Center, nPC.Center) <= num2)
+                        {
+                            if (nPC.FindBuffIndex(num) == -1 && !nPC.buffImmune[num])
+                            {
+                                nPC.AddBuff(num, 120, false);
+                            }
+                            if (flag)
+                            {
+                                player.ApplyDamageToNPC(nPC, damage, 0f, 0, false);
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (royalGel)
+            {
+                player.npcTypeNoAggro[ModContent.NPCType<AeroSlime>()] = true;
+                player.npcTypeNoAggro[ModContent.NPCType<BloomSlime>()] = true;
+                player.npcTypeNoAggro[ModContent.NPCType<CharredSlime>()] = true;
+                player.npcTypeNoAggro[ModContent.NPCType<CrimulanBlightSlime>()] = true;
+                player.npcTypeNoAggro[ModContent.NPCType<CryoSlime>()] = true;
+                player.npcTypeNoAggro[ModContent.NPCType<EbonianBlightSlime>()] = true;
+                player.npcTypeNoAggro[ModContent.NPCType<IrradiatedSlime>()] = true;
+                player.npcTypeNoAggro[ModContent.NPCType<PerennialSlime>()] = true;
+                player.npcTypeNoAggro[ModContent.NPCType<PlaguedJungleSlime>()] = true;
+                player.npcTypeNoAggro[ModContent.NPCType<AstralSlime>()] = true;
+                // LATER -- When Wulfrum Slimes start being definitely robots, remove this immunity.
+                player.npcTypeNoAggro[ModContent.NPCType<WulfrumSlime>()] = true;
+            }
+
+            /*if (dukeScales)
+            {
+				player.buffImmune[ModContent.BuffType<SulphuricPoisoning>()] = true;
+				player.buffImmune[BuffID.Poisoned] = true;
+				player.buffImmune[BuffID.Venom] = true;
+                if (player.statLife <= (int)((double)player.statLifeMax2 * 0.75))
+                {
+                    player.allDamage += 0.03f;
+					AllCritBoost(3);
+                }
+                if (player.statLife <= (int)((double)player.statLifeMax2 * 0.5))
+                {
+                    player.allDamage += 0.05f;
+					AllCritBoost(5);
+                }
+				if (player.lifeRegen < 0)
+                {
+                    player.allDamage += 0.1f;
+					AllCritBoost(5);
+                }
+            }*/
+            #endregion
+
+            #region LimitsAndOtherShit
+            if (player.meleeSpeed < 0.5f)
+            {
+                player.meleeSpeed = 0.5f;
+            }
+            if (auricSet && silvaMelee)
+            {
+                double multiplier = (double)player.statLife / (double)player.statLifeMax2;
+                player.meleeDamage += (float)(multiplier * 0.2); //ranges from 1.2 times to 1 times
+            }
+            // 10% is converted to 9%, 25% is converted to 20%, 50% is converted to 33%, 75% is converted to 43%, 100% is converted to 50%
+            player.endurance = 1f - (1f / (1f + player.endurance));
+            if (vHex)
+            {
+                player.endurance -= 0.3f;
+            }
+            if (irradiated)
+            {
+                player.endurance -= 0.1f;
+            }
+            if (corrEffigy)
+            {
+                player.endurance -= 0.2f;
+            }
+            if (Config.ProficiencyEnabled)
+            {
+                GetStatBonuses();
+            }
+            if (dArtifact)
+            {
+                player.allDamage += 0.25f;
+            }
+            if (trippy)
+            {
+                player.allDamage += 0.5f;
+            }
+            if (eArtifact)
+            {
+                player.manaCost *= 0.85f;
+                player.Calamity().throwingDamage += 0.15f;
+                player.maxMinions += 2;
+            }
+            if (gArtifact)
+            {
+                player.maxMinions += 8;
+                if (player.whoAmI == Main.myPlayer)
+                {
+                    if (player.FindBuffIndex(ModContent.BuffType<YharonKindleBuff>()) == -1)
+                    {
+                        player.AddBuff(ModContent.BuffType<YharonKindleBuff>(), 3600, true);
+                    }
+                    if (player.ownedProjectileCounts[ModContent.ProjectileType<SonOfYharon>()] < 2)
+                    {
+                        Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<SonOfYharon>(), (int)(232f * player.minionDamage), 2f, Main.myPlayer, 0f, 0f);
+                    }
+                }
+            }
+            if (pArtifact)
+            {
+                if (player.whoAmI == Main.myPlayer)
+                {
+                    if (player.FindBuffIndex(ModContent.BuffType<GuardianHealer>()) == -1)
+                    {
+                        player.AddBuff(ModContent.BuffType<GuardianHealer>(), 3600, true);
+                    }
+                    if (player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianHealer>()] < 1)
+                    {
+                        Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -6f, ModContent.ProjectileType<MiniGuardianHealer>(), 0, 0f, Main.myPlayer, 0f, 0f);
+                    }
+                    float baseDamage = 100f +
+                        (CalamityWorld.downedDoG ? 100f : 0f) +
+                        (CalamityWorld.downedYharon ? 100f : 0f);
+                    if (player.maxMinions >= 8)
+                    {
+                        if (player.FindBuffIndex(ModContent.BuffType<GuardianDefense>()) == -1)
+                        {
+                            player.AddBuff(ModContent.BuffType<GuardianDefense>(), 3600, true);
+                        }
+                        if (player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianDefense>()] < 1)
+                        {
+                            Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -3f, ModContent.ProjectileType<MiniGuardianDefense>(), (int)(baseDamage * player.minionDamage), 1f, Main.myPlayer, 0f, 0f);
+                        }
+                    }
+                    if (tarraSummon || bloodflareSummon || godSlayerSummon || silvaSummon || dsSetBonus || omegaBlueSet)
+                    {
+                        if (player.FindBuffIndex(ModContent.BuffType<GuardianOffense>()) == -1)
+                        {
+                            player.AddBuff(ModContent.BuffType<GuardianOffense>(), 3600, true);
+                        }
+                        if (player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianAttack>()] < 1)
+                        {
+                            Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<MiniGuardianAttack>(), (int)(baseDamage * player.minionDamage), 1f, Main.myPlayer, 0f, 0f);
+                        }
+                    }
+                }
+            }
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<BrimstoneElementalMinion>()] > 1 || player.ownedProjectileCounts[ModContent.ProjectileType<WaterElementalMinion>()] > 1 ||
+                player.ownedProjectileCounts[ModContent.ProjectileType<SandElementalHealer>()] > 1 || player.ownedProjectileCounts[ModContent.ProjectileType<SandElementalMinion>()] > 1 ||
+                player.ownedProjectileCounts[ModContent.ProjectileType<CloudElementalMinion>()] > 1 || player.ownedProjectileCounts[ModContent.ProjectileType<FungalClumpMinion>()] > 1)
+            {
+                for (int projIndex = 0; projIndex < 1000; projIndex++)
+                {
+                    if (Main.projectile[projIndex].active && Main.projectile[projIndex].owner == player.whoAmI)
+                    {
+                        if (Main.projectile[projIndex].type == ModContent.ProjectileType<BrimstoneElementalMinion>() || Main.projectile[projIndex].type == ModContent.ProjectileType<WaterElementalMinion>() ||
+                            Main.projectile[projIndex].type == ModContent.ProjectileType<SandElementalHealer>() || Main.projectile[projIndex].type == ModContent.ProjectileType<SandElementalMinion>() ||
+                            Main.projectile[projIndex].type == ModContent.ProjectileType<CloudElementalMinion>() || Main.projectile[projIndex].type == ModContent.ProjectileType<FungalClumpMinion>())
+                        {
+                            Main.projectile[projIndex].Kill();
+                        }
+                    }
+                }
+            }
+            if (marked || reaperToothNecklace)
+            {
+                if (player.endurance > 0f)
+                    player.endurance *= 0.5f;
+            }
+            if (yharonLore && !CalamityWorld.defiled)
+            {
+                if (player.wingTimeMax < 50000)
+                    player.wingTimeMax = 50000;
+            }
+
+			// For the stat meter
+			float allDamageStat = player.allDamage - 1f;
+			damageStats[0] = (int)((player.meleeDamage + allDamageStat - 1f) * 100f);
+			damageStats[1] = (int)((player.rangedDamage + allDamageStat - 1f) * 100f);
+			damageStats[2] = (int)((player.magicDamage + allDamageStat - 1f) * 100f);
+			damageStats[3] = (int)((player.minionDamage + allDamageStat - 1f) * 100f);
+			damageStats[4] = (int)((player.Calamity().throwingDamage + allDamageStat - 1f) * 100f);
+			critStats[0] = player.meleeCrit;
+			critStats[1] = player.rangedCrit;
+			critStats[2] = player.magicCrit;
+			critStats[3] = player.Calamity().throwingCrit;
+			defenseStat = player.statDefense;
+			DRStat = (int)(player.endurance * 100f);
+			meleeSpeedStat = (int)((1f - player.meleeSpeed) * (100f / player.meleeSpeed));
+			manaCostStat = (int)(player.manaCost * 100f);
+			rogueVelocityStat = (int)((player.Calamity().throwingVelocity - 1f) * 100f);
+			minionSlotStat = player.maxMinions;
+			manaRegenStat = player.manaRegen;
+			armorPenetrationStat = player.armorPenetration;
+			moveSpeedStat = (int)((player.moveSpeed - 1f) * 100f);
+			wingFlightTimeStat = player.wingTimeMax;
+			adrenalineChargeStat = 45 -
+				(adrenalineBoostOne ? 10 : 0) -
+				(adrenalineBoostTwo ? 10 : 0) -
+				(adrenalineBoostThree ? 5 : 0);
+			bool DHorHoD = draedonsHeart || heartOfDarkness;
+			int rageDamageBoost = 0 +
+				(rageBoostOne ? (CalamityWorld.death ? 50 : 15) : 0) +
+				(rageBoostTwo ? (CalamityWorld.death ? 50 : 15) : 0) +
+				(rageBoostThree ? (CalamityWorld.death ? 50 : 15) : 0);
+			rageDamageStat = (CalamityWorld.death ? (DHorHoD ? 200 : 170) : (DHorHoD ? 65 : 50)) + rageDamageBoost; // Death Mode values: 2.3 and 2.0, rev: 0.65 and 0.5
+
+			#endregion
+
+			#region Rogue Mirrors
+			Rectangle rectangle = new Rectangle((int)((double)player.position.X + (double)player.velocity.X * 0.5 - 4.0), (int)((double)player.position.Y + (double)player.velocity.Y * 0.5 - 4.0), player.width + 8, player.height + 8);
+            for (int i = 0; i < 200; i++)
+            {
+                if (Main.npc[i].active && !Main.npc[i].dontTakeDamage && !Main.npc[i].friendly && !Main.npc[i].townNPC && Main.npc[i].immune[player.whoAmI] <= 0 && Main.npc[i].damage > 0)
+                {
+                    NPC nPC = Main.npc[i];
+                    Rectangle rect = nPC.getRect();
+                    if (rectangle.Intersects(rect) && (nPC.noTileCollide || player.CanHit(nPC)))
+                    {
+                        if (Main.rand.Next(0, 10) == 0 && player.immuneTime <= 0)
+                        {
+                            AbyssMirrorEvade();
+                            EclipseMirrorEvade();
+                        }
+                        break;
+                    }
+                }
+            }
+            for (int i = 0; i < 1000; i++)
+            {
+                if (Main.projectile[i].active && !Main.projectile[i].friendly && Main.projectile[i].hostile && Main.projectile[i].damage > 0)
+                {
+                    Projectile proj = Main.projectile[i];
+                    Rectangle rect = proj.getRect();
+                    if (rectangle.Intersects(rect))
+                    {
+                        if (Main.rand.Next(0, 10) == 0)
+                        {
+                            AbyssMirrorEvade();
+                            EclipseMirrorEvade();
+                        }
+                        break;
+                    }
+                }
+            }
+            #endregion
         }
 
         #region Dragon Scale Logic
@@ -2914,7 +5643,7 @@ namespace CalamityMod.CalPlayer
         }
 
         #region Rogue Mirrors
-        public void AbyssMirrorEvade()
+        private void AbyssMirrorEvade()
         {
             if (player.whoAmI == Main.myPlayer && abyssalMirror && !abyssalMirrorCooldown)
             {
@@ -2940,7 +5669,7 @@ namespace CalamityMod.CalPlayer
             }
         }
 
-        public void EclipseMirrorEvade()
+        private void EclipseMirrorEvade()
         {
             if (player.whoAmI == Main.myPlayer && eclipseMirror && !eclipseMirrorCooldown)
             {
@@ -4536,7 +7265,10 @@ namespace CalamityMod.CalPlayer
             }
             if ((filthyGlove || electricianGlove) && proj.Calamity().stealthStrike && proj.Calamity().rogue)
             {
-                damageMult += 0.1;
+				if (nanotech)
+					damageMult += 0.05;
+				else
+					damageMult += 0.1;
             }
             if (etherealExtorter && proj.Calamity().rogue)
             {
@@ -4593,9 +7325,15 @@ namespace CalamityMod.CalPlayer
             {
                 damage += Main.rand.Next(20, 31);
             }
-            if (proj.Calamity().stealthStrike && proj.Calamity().rogue && electricianGlove)
+            if (proj.Calamity().stealthStrike && proj.Calamity().rogue && nanotech)
             {
 				//Ozzatron insists on counting for edge-cases
+				int penetratableDefense = Math.Max(target.defense - player.armorPenetration, 0);
+				int penetratedDefense = Math.Min(penetratableDefense, 20); //nanotech is weaker
+				damage += (int)(0.5f * penetratedDefense);
+            }
+            else if (proj.Calamity().stealthStrike && proj.Calamity().rogue && electricianGlove)
+            {
 				int penetratableDefense = Math.Max(target.defense - player.armorPenetration, 0);
 				int penetratedDefense = Math.Min(penetratableDefense, 30);
 				damage += (int)(0.5f * penetratedDefense);
@@ -4918,9 +7656,10 @@ namespace CalamityMod.CalPlayer
                         }
                     }
                 }
-                if (raiderTalisman && raiderStack < 250 && proj.Calamity().rogue && crit)
+                if (raiderTalisman && raiderStack < 250 && proj.Calamity().rogue && crit && raiderCooldown <= 0)
                 {
                     raiderStack++;
+					raiderCooldown = 30;
                 }
                 if (CalamityWorld.revenge && Config.AdrenalineAndRage)
                 {
@@ -8664,7 +11403,7 @@ namespace CalamityMod.CalPlayer
             stealthStrikeAlwaysCrits = false;
         }
 
-        public void UpdateRogueStealth()
+        private void UpdateRogueStealth()
         {
             // If the player un-equips rogue armor, then reset the sound so it'll play again when they re-equip it
             if (!wearingRogueArmor)
@@ -8903,7 +11642,7 @@ namespace CalamityMod.CalPlayer
                 packet.Send(-1, player.whoAmI);
         }
 
-        public void StressPacket(bool server)
+        private void StressPacket(bool server)
         {
             ModPacket packet = mod.GetPacket(256);
             packet.Write((byte)CalamityModMessageType.StressSync);
@@ -8916,7 +11655,7 @@ namespace CalamityMod.CalPlayer
                 packet.Send(-1, player.whoAmI);
         }
 
-        public void AdrenalinePacket(bool server)
+        private void AdrenalinePacket(bool server)
         {
             ModPacket packet = mod.GetPacket(256);
             packet.Write((byte)CalamityModMessageType.AdrenalineSync);
@@ -8928,6 +11667,22 @@ namespace CalamityMod.CalPlayer
             else
                 packet.Send(-1, player.whoAmI);
         }
+
+        /*private void DistanceFromBossPacket(bool server)
+        {
+            ModPacket packet = mod.GetPacket(256);
+            packet.Write((byte)CalamityModMessageType.DistanceFromBossSync);
+            packet.Write(player.whoAmI);
+            packet.Write(distanceFromBoss);
+            if (!server)
+            {
+                packet.Send();
+            }
+            else
+            {
+                packet.Send(-1, player.whoAmI);
+            }
+        }*/
 
         private void DeathPacket(bool server)
         {
@@ -9045,7 +11800,7 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Proficiency Stuff
-        public void GetExactLevelUp()
+        private void GetExactLevelUp()
         {
             if (gainLevelCooldown > 0)
                 gainLevelCooldown--;
@@ -9452,7 +12207,7 @@ namespace CalamityMod.CalPlayer
             }
         }
 
-        public void GetStatBonuses()
+        private void GetStatBonuses()
         {
             #region MeleeLevelBoosts
             if (meleeLevel >= 12500)

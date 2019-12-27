@@ -10,25 +10,35 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Obliterator");
-            Tooltip.SetDefault("Fires death lasers when enemies are near");
+            Tooltip.SetDefault("Ruins nearby enemies with death lasers\nAn exceptionally agile yoyo\n");
+            ItemID.Sets.Yoyo[item.type] = true;
+            ItemID.Sets.GamepadExtraRange[item.type] = 15;
+            ItemID.Sets.GamepadSmartQuickReach[item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.CloneDefaults(ItemID.TheEyeOfCthulhu);
-            item.damage = 240;
+            item.width = 42;
+            item.height = 40;
+            item.melee = true;
+            item.damage = 370;
+            item.knockBack = 7.5f;
             item.useTime = 20;
             item.useAnimation = 20;
-            item.useStyle = 5;
-            item.channel = true;
-            item.melee = true;
-            item.knockBack = 7.5f;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
             item.autoReuse = true;
+
+            item.useStyle = 5;
+            item.UseSound = SoundID.Item1;
+            item.channel = true;
+            item.noUseGraphic = true;
+            item.noMelee = true;
+
             item.shoot = ModContent.ProjectileType<TheObliteratorYoyo>();
+            item.shootSpeed = 16f;
+
+            item.rare = 10;
             item.Calamity().postMoonLordRarity = 13;
-            ItemID.Sets.Yoyo[item.type] = true;
+            item.value = Item.buyPrice(platinum: 1, gold: 40);
         }
     }
 }

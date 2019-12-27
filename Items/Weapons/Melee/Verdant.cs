@@ -11,25 +11,36 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Verdant");
-            Tooltip.SetDefault("Fires crystal leafs when enemies are near");
+            Tooltip.SetDefault("Fires crystal leaves when enemies are near\nAn exceptionally agile yoyo");
+            ItemID.Sets.Yoyo[item.type] = true;
+            ItemID.Sets.GamepadExtraRange[item.type] = 15;
+            ItemID.Sets.GamepadSmartQuickReach[item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.CloneDefaults(ItemID.Kraken);
+            item.width = 30;
+            item.height = 30;
+            item.melee = true;
             item.damage = 218;
+            item.knockBack = 6f;
             item.useTime = 22;
             item.useAnimation = 22;
+            item.autoReuse = true;
+
             item.useStyle = 5;
+            item.UseSound = SoundID.Item1;
             item.channel = true;
-            item.melee = true;
-            item.knockBack = 6f;
-            item.value = Item.buyPrice(1, 20, 0, 0);
+            item.noUseGraphic = true;
+            item.noMelee = true;
+
+            item.shoot = ModContent.ProjectileType<VerdantYoyo>();
+            item.shootSpeed = 16f;
+
             item.rare = 10;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<VerdantProjectile>();
             item.Calamity().postMoonLordRarity = 12;
-            ItemID.Sets.Yoyo[item.type] = true;
+            item.value = Item.buyPrice(platinum: 1, gold: 20);
         }
 
         public override void AddRecipes()

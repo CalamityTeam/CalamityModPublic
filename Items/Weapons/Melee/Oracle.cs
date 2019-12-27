@@ -1,5 +1,4 @@
 ﻿using CalamityMod.Items.Materials;
-using CalamityMod.Items.Placeables.Ores;
 using CalamityMod.Projectiles.Melee.Yoyos;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
@@ -11,36 +10,38 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class Oracle : ModItem
     {
-        public static int BaseDamage = 480;
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Oracle");
-            Tooltip.SetDefault("Emits an aura of red lightning\nFires auric orbs when supercharged\nHitting enemies charges the yoyo\n'Gaze into the past, the present, the future... and the circumstances of your inevitable demise'");
+            Tooltip.SetDefault("Emits an aura of red lightning which charges up when hitting enemies\nFires auric orbs when supercharged\nAn exceptionally agile yoyo\n'Gaze into the past, the present, the future... and the circumstances of your inevitable demise'");
+            ItemID.Sets.Yoyo[item.type] = true;
+            ItemID.Sets.GamepadExtraRange[item.type] = 15;
+            ItemID.Sets.GamepadSmartQuickReach[item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.CloneDefaults(ItemID.Kraken);
-            ItemID.Sets.Yoyo[item.type] = true;
-
             item.width = 54;
             item.height = 42;
             item.melee = true;
-            item.damage = BaseDamage;
+            item.damage = 420;
             item.knockBack = 4f;
             item.useTime = 20;
             item.useAnimation = 20;
             item.autoReuse = true;
 
             item.useStyle = 5;
+            item.UseSound = SoundID.Item1;
             item.channel = true;
+            item.noUseGraphic = true;
+            item.noMelee = true;
+
+            item.shoot = ModContent.ProjectileType<OracleYoyo>();
+            item.shootSpeed = 16f;
 
             item.rare = 10;
             item.Calamity().postMoonLordRarity = 21;
-            item.value = Item.buyPrice(2, 50, 0, 0);
-
-            item.shoot = ModContent.ProjectileType<OracleYoyo>();
+            item.value = Item.buyPrice(platinum: 2, gold: 50);
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

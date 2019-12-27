@@ -46,6 +46,7 @@ namespace CalamityMod.Items.Fishing.SulphurCatches
             DropHelper.DropItem(player, ItemID.Starfish, 2, 3);
             DropHelper.DropItem(player, ItemID.Seashell, 2, 3);
             DropHelper.DropItem(player, ItemID.Coral, 2, 3);
+            DropHelper.DropItem(player, ModContent.ItemType<Items.Placeables.SulphurousSand>(), 5, 10);
             DropHelper.DropItemChance(player, ModContent.ItemType<CloakingGland>(), 0.5f, 2, 3);
             DropHelper.DropItemChance(player, ModContent.ItemType<VictoryShard>(), 0.5f, 2, 3);
             if (NPC.downedPlantBoss || CalamityWorld.downedCalamitas)

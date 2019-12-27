@@ -98,7 +98,7 @@ namespace CalamityMod
         internal static void Unload()
         {
             PlantCheckAgainst = null;
-            VineToGrass.Clear();
+            VineToGrass?.Clear();
             VineToGrass = null;
             tileMergeTypes = null;
         }
@@ -126,6 +126,10 @@ namespace CalamityMod
         #region Specific Framing Code
         internal static void PlantFrame(int x, int y)
         {
+            if (x < 0 || x >= Main.maxTilesX)
+                return;
+            if (y < 0 || y >= Main.maxTilesY)
+                return;
             Tile tile = Main.tile[x, y];
             if (tile is null)
                 return;
@@ -220,6 +224,10 @@ namespace CalamityMod
 
         internal static void VineFrame(int x, int y)
         {
+            if (x < 0 || x >= Main.maxTilesX)
+                return;
+            if (y < 0 || y >= Main.maxTilesY)
+                return;
             Tile tile = Main.tile[x, y];
             if (tile is null)
                 return;
@@ -271,6 +279,10 @@ namespace CalamityMod
 
         internal static bool BetterGemsparkFraming(int x, int y, bool resetFrame)
         {
+            if (x < 0 || x >= Main.maxTilesX)
+                return false;
+            if (y < 0 || y >= Main.maxTilesY)
+                return false;
             Tile tile = Main.tile[x, y];
             if (tile is null)
                 return false;
@@ -549,6 +561,10 @@ namespace CalamityMod
 
         internal static bool BrimstoneFraming(int x, int y, bool resetFrame)
         {
+            if (x < 0 || x >= Main.maxTilesX)
+                return false;
+            if (y < 0 || y >= Main.maxTilesY)
+                return false;
             Tile tile = Main.tile[x, y];
             if (tile is null)
                 return false;
@@ -831,7 +847,7 @@ namespace CalamityMod
             out bool mergedLeft, out bool mergedRight, out bool mergedDown, bool forceSameDown = false,
             bool forceSameUp = false, bool forceSameLeft = false, bool forceSameRight = false, bool resetFrame = true)
         {
-            if (Main.tile[x, y] is null)
+            if (x < 0 || x >= Main.maxTilesX || y < 0 || y >= Main.maxTilesY || Main.tile[x, y] is null)
             {
                 mergedUp = mergedLeft = mergedRight = mergedDown = false;
                 return;
@@ -1381,6 +1397,10 @@ namespace CalamityMod
 
         internal static void CustomMergeFrame(int x, int y, int myType, int mergeType)
         {
+            if (x < 0 || x >= Main.maxTilesX)
+                return;
+            if (y < 0 || y >= Main.maxTilesY)
+                return;
             Tile tile = Main.tile[x, y];
             if (tile is null)
                 return;

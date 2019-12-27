@@ -1,7 +1,7 @@
 ﻿using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,78 +12,102 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Obliterator");
+            DisplayName.SetDefault("The Obliterator");
+            ProjectileID.Sets.YoyosLifeTimeMultiplier[projectile.type] = -1f;
+            ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 580f;
+            ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 20f;
+
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
         }
 
         public override void SetDefaults()
         {
-            projectile.CloneDefaults(ProjectileID.TheEyeOfCthulhu);
+            projectile.aiStyle = 99;
             projectile.width = 16;
             projectile.height = 16;
+            projectile.scale = 1.6f;
+            projectile.friendly = true;
+            projectile.melee = true;
             projectile.penetrate = -1;
             projectile.extraUpdates = 1;
-            aiType = 555;
-            projectile.melee = true;
+
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 3;
+            projectile.localNPCHitCooldown = 5;
         }
 
+        // localAI[1] is the shot counter. Every 5 frames, The Obliterator tries to fire a laser at a nearby target.
+        // It has 4 "laser ports" which whirl around in circles with the yoyo. It uses each of these in order.
+        // localAI[1] counts up to 19 (4 x 5 - 1), then resets back to 0 for a 20-frame cycle.
         public override void AI()
         {
-            int[] array = new int[20];
-            int num428 = 0;
-            float num429 = 300f;
-            bool flag14 = false;
-            for (int num430 = 0; num430 < 200; num430++)
+            Lighting.AddLight(projectile.Center, 0.8f, 0.3f, 1f);
+            
+            projectile.localAI[1]++;
+            if (projectile.localAI[1] >= 20f)
+                projectile.localAI[1] = 0f;
+
+            // Attempt to fire a laser every 5 frames
+            if(projectile.localAI[1] % 5f == 0f)
             {
-                if (Main.npc[num430].CanBeChasedBy(projectile, false))
+                List<int> targets = new List<int>();
+                float laserRange = 300f;
+                for (int i = 0; i < Main.npc.Length; ++i)
                 {
-                    float num431 = Main.npc[num430].position.X + Main.npc[num430].width / 2;
-                    float num432 = Main.npc[num430].position.Y + Main.npc[num430].height / 2;
-                    float num433 = Math.Abs(projectile.position.X + projectile.width / 2 - num431) + Math.Abs(projectile.position.Y + projectile.height / 2 - num432);
-                    if (num433 < num429 && Collision.CanHit(projectile.Center, 1, 1, Main.npc[num430].Center, 1, 1))
+                    ref NPC n = ref Main.npc[i];
+                    if (n is null || !n.active)
+                        continue;
+
+                    if (n.CanBeChasedBy(projectile, false) && (n.Center - projectile.Center).Length() <= laserRange && Collision.CanHit(projectile.Center, 1, 1, n.Center, 1, 1))
                     {
-                        if (num428 < 20)
-                        {
-                            array[num428] = num430;
-                            num428++;
-                        }
-                        flag14 = true;
+                        targets.Add(i);
+                        // Bosses are added 5 times instead of 1 so that they are preferentially but not exclusively targeted.
+                        if (n.boss)
+                            for (int j = 0; j < 4; ++j)
+                                targets.Add(i);
                     }
                 }
-            }
-            if (flag14)
-            {
-                int num434 = Main.rand.Next(num428);
-                num434 = array[num434];
-                float num435 = Main.npc[num434].position.X + Main.npc[num434].width / 2;
-                float num436 = Main.npc[num434].position.Y + Main.npc[num434].height / 2;
-                projectile.localAI[0] += 1f;
-                if (projectile.localAI[0] > 16f)
+                if (targets.Count == 0)
+                    return;
+
+                // Pick which of the four corners the laser is spawning in
+                Vector2 laserSpawnPosition = projectile.Center;
+                Vector2 offset;
+                if (projectile.localAI[1] < 5f)
+                    offset = new Vector2(7, 7);
+                else if (projectile.localAI[1] < 10f)
+                    offset = new Vector2(-7, 7);
+                else if (projectile.localAI[1] < 15f)
+                    offset = new Vector2(-7, -7);
+                else
+                    offset = new Vector2(7, -7);
+                laserSpawnPosition += offset.RotatedBy(projectile.rotation);
+
+                ref NPC target = ref Main.npc[targets[Main.rand.Next(targets.Count)]];
+                const float laserSpeed = 6f;
+                int laserDamage = (int)(projectile.damage * 0.5f);
+                const float laserKB = 3f;
+                Vector2 velocity = target.Center - projectile.Center;
+                velocity = velocity.SafeNormalize(Vector2.Zero) * laserSpeed;
+                if (projectile.owner == Main.myPlayer)
                 {
-                    projectile.localAI[0] = 0f;
-                    float num437 = 6f;
-                    Vector2 value10 = new Vector2(projectile.position.X + projectile.width * 0.5f, projectile.position.Y + projectile.height * 0.5f);
-                    value10 += projectile.velocity * 4f;
-                    float num438 = num435 - value10.X;
-                    float num439 = num436 - value10.Y;
-                    float num440 = (float)Math.Sqrt(num438 * num438 + num439 * num439);
-                    num440 = num437 / num440;
-                    num438 *= num440;
-                    num439 *= num440;
-                    if (projectile.owner == Main.myPlayer)
-                    {
-                        int proj = Projectile.NewProjectile(value10.X, value10.Y, num438, num439, ModContent.ProjectileType<NebulaShot>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-                        Main.projectile[proj].Calamity().forceMelee = true;
-                    }
+                    // ai[0] = 1f for melee
+                    int proj = Projectile.NewProjectile(laserSpawnPosition, velocity, ModContent.ProjectileType<NebulaShot>(), laserDamage, laserKB, projectile.owner, 1f, 0f);
+                    Main.projectile[proj].Calamity().forceMelee = true;
                 }
             }
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            return false;
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Vector2 origin = new Vector2(10f, 10f);
-            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Melee/Yoyos/TheObliteratorGlow"), projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Melee/Yoyos/TheObliteratorGlow"), projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, origin, 2f, SpriteEffects.None, 0f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

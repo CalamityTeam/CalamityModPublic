@@ -34,6 +34,8 @@ namespace CalamityMod.NPCs.SlimeGod
             aiType = -1;
             npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
             npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
+			npc.buffImmune[BuffID.Slow] = true;
+			npc.buffImmune[BuffID.Webbed] = true;
             npc.knockBackResist = 0f;
             animationType = 50;
             npc.value = 0f;

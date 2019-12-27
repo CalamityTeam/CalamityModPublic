@@ -1,5 +1,4 @@
-﻿using CalamityMod.Projectiles.Typeless;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -8,26 +7,31 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee.Yoyos
 {
-    public class CnidarianProjectile : ModProjectile
+    public class ShimmersparkYoyo : ModProjectile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Cnidarian");
+            DisplayName.SetDefault("Shimmerspark");
+            ProjectileID.Sets.YoyosLifeTimeMultiplier[projectile.type] = 16f;
+            ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 275f;
+            ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 17f;
         }
 
         public override void SetDefaults()
         {
-            projectile.CloneDefaults(ProjectileID.CorruptYoyo);
+            projectile.aiStyle = 99;
             projectile.width = 16;
-            projectile.scale = 1.15f;
             projectile.height = 16;
-            projectile.penetrate = 6;
+            projectile.scale = 1f;
+            projectile.friendly = true;
             projectile.melee = true;
-            aiType = 542;
+            projectile.penetrate = -1;
         }
 
         public override void AI()
         {
+            if (Main.rand.NextBool(5))
+                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 73, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             int[] array = new int[20];
             int num428 = 0;
             float num429 = 300f;
@@ -57,7 +61,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                 float num435 = Main.npc[num434].position.X + Main.npc[num434].width / 2;
                 float num436 = Main.npc[num434].position.Y + Main.npc[num434].height / 2;
                 projectile.localAI[0] += 1f;
-                if (projectile.localAI[0] > 60f)
+                if (projectile.localAI[0] > 8f)
                 {
                     projectile.localAI[0] = 0f;
                     float num437 = 6f;
@@ -69,10 +73,13 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                     num440 = num437 / num440;
                     num438 *= num440;
                     num439 *= num440;
-                    if (projectile.owner == Main.myPlayer)
+                    if (Main.rand.NextBool(5))
                     {
-                        int projectile2 = Projectile.NewProjectile(value10.X, value10.Y, num438, num439, ModContent.ProjectileType<Seashell>(), projectile.damage / 3, 0f, projectile.owner, 0f, 0f);
-                        Main.projectile[projectile2].Calamity().forceMelee = true;
+                        if (projectile.owner == Main.myPlayer)
+                        {
+                            int proj = Projectile.NewProjectile(value10.X, value10.Y, num438, num439, 92, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                            Main.projectile[proj].Calamity().forceMelee = true;
+                        }
                     }
                 }
             }
@@ -83,6 +90,11 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             Texture2D tex = Main.projectileTexture[projectile.type];
             spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
             return false;
+        }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            target.AddBuff(BuffID.Frostburn, 120);
         }
     }
 }
