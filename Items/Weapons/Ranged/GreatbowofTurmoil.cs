@@ -73,7 +73,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                     default:
                         break;
                 }
-                int index = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
+                int index = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, (int)(damage * 0.5f), knockBack, player.whoAmI, 0f, 0f);
                 Main.projectile[index].noDropItem = true;
             }
             return false;
