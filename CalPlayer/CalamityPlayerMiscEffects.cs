@@ -461,7 +461,9 @@ namespace CalamityMod.CalPlayer
 				modPlayer.featherCrownCooldown--;
 			if (modPlayer.moonCrownCooldown > 0)
 				modPlayer.moonCrownCooldown--;
-			if (modPlayer.sandCloakCooldown > 0)
+            if (modPlayer.nanoFlareCooldown > 0)
+                modPlayer.nanoFlareCooldown--;
+            if (modPlayer.sandCloakCooldown > 0)
 				modPlayer.sandCloakCooldown--;
 			if (modPlayer.spectralVeilImmunity > 0)
 				modPlayer.spectralVeilImmunity--;
