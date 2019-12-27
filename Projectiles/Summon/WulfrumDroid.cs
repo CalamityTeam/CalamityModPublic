@@ -225,6 +225,8 @@ namespace CalamityMod.Projectiles.Summon
 			int bolt = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vec2.X, vec2.Y, ModContent.ProjectileType<WulfrumBolt>(), projectile.damage, 0.0f, Main.myPlayer, 0.0f, 0.0f);
 			Main.projectile[bolt].Calamity().forceMinion = true;
 			Main.projectile[bolt].netUpdate = true;
+			Main.projectile[bolt].penetrate = 1;
+			Main.projectile[bolt].extraUpdates = 1;
 			projectile.netUpdate = true;
         }
 
