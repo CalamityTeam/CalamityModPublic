@@ -475,6 +475,8 @@ namespace CalamityMod.CalPlayer
         public bool umbraphileSet = false;
         public bool reaverBlast = false;
         public bool reaverBurst = false;
+		//public bool fathomSwarmer = false;
+		//public bool fathomSwarmerVisage = false;
         public bool astralStarRain = false;
         public int astralStarRainCooldown = 0;
 		public bool plagueReaper = false;
@@ -1130,6 +1132,8 @@ namespace CalamityMod.CalPlayer
 
             umbraphileSet = false;
             plagueReaper = false;
+            //fathomSwarmer = false;
+            //fathomSwarmerVisage = false;
 
             tarraSet = false;
             tarraMelee = false;
@@ -1575,6 +1579,8 @@ namespace CalamityMod.CalPlayer
             umbraphileSet = false;
             reaverBlast = false;
             reaverBurst = false;
+            //fathomSwarmer = false;
+            //fathomSwarmerVisage = false;
             astralStarRain = false;
             plagueReaper = false;
             plagueReaperCooldown = 0;
@@ -3174,14 +3180,16 @@ namespace CalamityMod.CalPlayer
 				(player.arcticDivingGear ? 1 : 0) + //3
 				(jellyfishNecklace ? 1 : 0) + //4
 				((player.blueFairy || player.greenFairy || player.redFairy || player.petFlagDD2Ghost || babyGhostBell) ? 2 : 0) + //6
-				((shine || lumenousAmulet) ? 2 : 0) + //8
-				((player.wisp || player.suspiciouslookingTentacle || sirenPet) ? 3 : 0); //11
+				//(fathomSwarmerVisage ? 1 : 0) + //8
+				((shine || lumenousAmulet) ? 2 : 0) + //10
+				((player.wisp || player.suspiciouslookingTentacle || sirenPet) ? 3 : 0); //13
 
 			double breathLossMult = 1.0 -
 				(player.gills ? 0.2 : 0.0) - //0.8
 				(player.accDivingHelm ? 0.25 : 0.0) - //0.75
 				(player.arcticDivingGear ? 0.25 : 0.0) - //0.75
 				(aquaticEmblem ? 0.25 : 0.0) - //0.75
+				//(fathomSwarmerVisage ? 0.25 : 0.0) - //0.75
 				(player.accMerman ? 0.3 : 0.0) - //0.7
 				(victideSet ? 0.2 : 0.0) - //0.85
 				(((sirenBoobs || sirenBoobsAlt) && NPC.downedBoss3) ? 0.3 : 0.0) - //0.7
