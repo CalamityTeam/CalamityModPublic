@@ -149,7 +149,7 @@ namespace CalamityMod.Projectiles.Magic
             }
         }
 
-        public override void OnHitPvp(Player target, int damage, bool crit)
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             if (Main.rand.NextBool(3))
             {

@@ -1968,7 +1968,8 @@ namespace CalamityMod
                 ModContent.ItemType<BouncingBetty>(),
                 ModContent.ItemType<TotalityBreakers>(),
                 ModContent.ItemType<BlastBarrel>(),
-                ModContent.ItemType<Penumbra>()
+                ModContent.ItemType<Penumbra>(),
+                ModContent.ItemType<ShockGrenade>()
             };
 
             flaskBombProjList = new List<int>()
@@ -1983,7 +1984,8 @@ namespace CalamityMod
                 ModContent.ProjectileType<TotalityFlask>(),
                 ModContent.ProjectileType<ConsecratedWaterProjectile>(),
                 ModContent.ProjectileType<DesecratedWaterProj>(),
-                ModContent.ProjectileType<PenumbraBomb>()
+                ModContent.ProjectileType<PenumbraBomb>(),
+                ModContent.ProjectileType<ShockGrenadeProjectile>()
             };
 
             spikyBallList = new List<int>()

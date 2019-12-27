@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             DisplayName.SetDefault("The Obliterator");
             ProjectileID.Sets.YoyosLifeTimeMultiplier[projectile.type] = -1f;
             ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 580f;
-            ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 22f;
+            ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 20f;
 
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
             ProjectileID.Sets.TrailingMode[projectile.type] = 1;
