@@ -3,6 +3,7 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.World;
+using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
@@ -553,6 +554,10 @@ namespace CalamityMod.NPCs.StormWeaver
             {
                 damage /= projectile.penetrate;
             }
+			if (projectile.type == ModContent.ProjectileType<AlphaVirusProjectile>())
+			{
+				damage /= 2;
+			}
         }
 
         public override void HitEffect(int hitDirection, double damage)
