@@ -5,6 +5,7 @@ using CalamityMod.NPCs.AstrumDeus;
 using CalamityMod.NPCs.BrimstoneElemental;
 using CalamityMod.NPCs.Bumblebirb;
 using CalamityMod.NPCs.Calamitas;
+using CalamityMod.NPCs.CeaselessVoid;
 using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
@@ -85,7 +86,7 @@ namespace CalamityMod.NPCs
 					if (calamityGlobalNPC.newAI[0] == 1f)
 					{
 						npc.localAI[0] += 1f;
-						if (npc.localAI[0] >= ((npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 120f : 180f))
+						if (npc.localAI[0] >= ((calamityGlobalNPC.enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 120f : 180f))
 						{
 							int npcPoxX = (int)(npc.position.X + (float)(npc.width / 2)) / 16;
 							int npcPoxY = (int)(npc.position.Y + (float)(npc.height / 2)) / 16;
@@ -529,6 +530,8 @@ namespace CalamityMod.NPCs
 		#region Brimstone Elemental
 		public static void BrimstoneElementalAI(NPC npc, Mod mod)
 		{
+			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
+
 			// Used for Brimling AI states
 			CalamityGlobalNPC.brimstoneElemental = npc.whoAmI;
 
@@ -741,7 +744,7 @@ namespace CalamityMod.NPCs
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						float projectileSpeed = CalamityWorld.bossRushActive ? 7f : 5f;
-						if (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+						if (calamityGlobalNPC.enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 							projectileSpeed += 4f;
 						if (revenge)
 							projectileSpeed += 1f;
@@ -850,7 +853,7 @@ namespace CalamityMod.NPCs
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.localAI[0] += 1f + 2f * (1f - lifeRatio);
-					if (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+					if (calamityGlobalNPC.enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 						npc.localAI[0] += 2f;
 					if (CalamityWorld.death || !calamity)
 						npc.localAI[0] += 1f;
@@ -1203,7 +1206,7 @@ namespace CalamityMod.NPCs
 						{
 							npc.localAI[1] = 0f;
 							float num828 = CalamityWorld.bossRushActive ? 16f : (expertMode ? 14f : 12.5f);
-							if (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+							if (calamityGlobalNPC.enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 								num828 += 5f;
 
 							int num829 = expertMode ? 34 : 42;
@@ -1314,7 +1317,7 @@ namespace CalamityMod.NPCs
 								npc.localAI[1] += 0.5f;
 							if (CalamityWorld.death || CalamityWorld.bossRushActive)
 								npc.localAI[1] += 0.5f;
-							if (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+							if (calamityGlobalNPC.enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 								npc.localAI[1] += 0.5f;
 							if (expertMode)
 								npc.localAI[1] += 0.5f;
@@ -1368,13 +1371,523 @@ namespace CalamityMod.NPCs
 				}
 			}
 		}
+
+		public static void CataclysmAI(NPC npc, Mod mod)
+		{
+			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
+
+			CalamityGlobalNPC.cataclysm = npc.whoAmI;
+
+			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
+			bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
+			bool dayTime = Main.dayTime && !CalamityWorld.bossRushActive;
+			bool provy = CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive;
+
+			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest(true);
+
+			Player player = Main.player[npc.target];
+
+			float num840 = npc.position.X + (float)(npc.width / 2) - player.position.X - (float)(player.width / 2);
+			float num841 = npc.position.Y + (float)npc.height - 59f - player.position.Y - (float)(player.height / 2);
+			float num842 = (float)Math.Atan2((double)num841, (double)num840) + 1.57f;
+			if (num842 < 0f)
+				num842 += 6.283f;
+			else if ((double)num842 > 6.283)
+				num842 -= 6.283f;
+
+			float num843 = 0.15f;
+			if (npc.rotation < num842)
+			{
+				if ((double)(num842 - npc.rotation) > 3.1415)
+					npc.rotation -= num843;
+				else
+					npc.rotation += num843;
+			}
+			else if (npc.rotation > num842)
+			{
+				if ((double)(npc.rotation - num842) > 3.1415)
+					npc.rotation += num843;
+				else
+					npc.rotation -= num843;
+			}
+
+			if (npc.rotation > num842 - num843 && npc.rotation < num842 + num843)
+				npc.rotation = num842;
+			if (npc.rotation < 0f)
+				npc.rotation += 6.283f;
+			else if ((double)npc.rotation > 6.283)
+				npc.rotation -= 6.283f;
+			if (npc.rotation > num842 - num843 && npc.rotation < num842 + num843)
+				npc.rotation = num842;
+
+			if (!player.active || player.dead || (dayTime && !Main.eclipse))
+			{
+				npc.TargetClosest(false);
+				player = Main.player[npc.target];
+				if (!player.active || player.dead || (dayTime && !Main.eclipse))
+				{
+					npc.velocity = new Vector2(0f, -10f);
+					calamityGlobalNPC.newAI[0] = 1f;
+					if (npc.timeLeft > 150)
+						npc.timeLeft = 150;
+
+					return;
+				}
+			}
+			else
+				calamityGlobalNPC.newAI[0] = 0f;
+
+			if (npc.ai[1] == 0f)
+			{
+				float num861 = 5f;
+				float num862 = 0.1f;
+				if (provy)
+				{
+					num861 *= 1.25f;
+					num862 *= 1.25f;
+				}
+				if (CalamityWorld.bossRushActive)
+				{
+					num861 *= 1.5f;
+					num862 *= 1.5f;
+				}
+
+				int num863 = 1;
+				if (npc.position.X + (float)(npc.width / 2) < player.position.X + (float)player.width)
+					num863 = -1;
+
+				Vector2 vector86 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
+				float num864 = player.position.X + (float)(player.width / 2) + (float)(num863 * (CalamityWorld.bossRushActive ? 270 : 180)) - vector86.X;
+				float num865 = player.position.Y + (float)(player.height / 2) - vector86.Y;
+				float num866 = (float)Math.Sqrt((double)(num864 * num864 + num865 * num865));
+
+				if (expertMode || provy)
+				{
+					if (num866 > 300f)
+						num861 += 0.5f;
+					if (num866 > 400f)
+						num861 += 0.5f;
+					if (num866 > 500f)
+						num861 += 0.55f;
+					if (num866 > 600f)
+						num861 += 0.55f;
+					if (num866 > 700f)
+						num861 += 0.6f;
+					if (num866 > 800f)
+						num861 += 0.6f;
+				}
+
+				num866 = num861 / num866;
+				num864 *= num866;
+				num865 *= num866;
+
+				if (npc.velocity.X < num864)
+				{
+					npc.velocity.X = npc.velocity.X + num862;
+					if (npc.velocity.X < 0f && num864 > 0f)
+						npc.velocity.X = npc.velocity.X + num862;
+				}
+				else if (npc.velocity.X > num864)
+				{
+					npc.velocity.X = npc.velocity.X - num862;
+					if (npc.velocity.X > 0f && num864 < 0f)
+						npc.velocity.X = npc.velocity.X - num862;
+				}
+				if (npc.velocity.Y < num865)
+				{
+					npc.velocity.Y = npc.velocity.Y + num862;
+					if (npc.velocity.Y < 0f && num865 > 0f)
+						npc.velocity.Y = npc.velocity.Y + num862;
+				}
+				else if (npc.velocity.Y > num865)
+				{
+					npc.velocity.Y = npc.velocity.Y - num862;
+					if (npc.velocity.Y > 0f && num865 < 0f)
+						npc.velocity.Y = npc.velocity.Y - num862;
+				}
+
+				npc.ai[2] += (calamityGlobalNPC.enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 2f : 1f;
+				if (npc.ai[2] >= 240f)
+				{
+					npc.ai[1] = 1f;
+					npc.ai[2] = 0f;
+					npc.ai[3] = 0f;
+					npc.target = 255;
+					npc.netUpdate = true;
+				}
+
+				bool fireDelay = npc.ai[2] > 120f || (double)npc.life < (double)npc.lifeMax * 0.9;
+				if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height) && fireDelay)
+				{
+					npc.localAI[2] += 1f;
+					if (npc.localAI[2] > 22f)
+					{
+						npc.localAI[2] = 0f;
+						Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 34);
+					}
+
+					if (Main.netMode != NetmodeID.MultiplayerClient)
+					{
+						npc.localAI[1] += 1f;
+						if (revenge)
+							npc.localAI[1] += 0.5f;
+
+						if (npc.localAI[1] > 12f)
+						{
+							npc.localAI[1] = 0f;
+							float num867 = CalamityWorld.bossRushActive ? 9f : 6f;
+							int num868 = expertMode ? 30 : 38;
+							int num869 = ModContent.ProjectileType<BrimstoneFire>();
+							vector86 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
+							num864 = player.position.X + (float)(player.width / 2) - vector86.X;
+							num865 = player.position.Y + (float)(player.height / 2) - vector86.Y;
+							num866 = (float)Math.Sqrt((double)(num864 * num864 + num865 * num865));
+							num866 = num867 / num866;
+							num864 *= num866;
+							num865 *= num866;
+							num865 += npc.velocity.Y * 0.5f;
+							num864 += npc.velocity.X * 0.5f;
+							vector86.X -= num864 * 1f;
+							vector86.Y -= num865 * 1f;
+							Projectile.NewProjectile(vector86.X, vector86.Y, num864, num865, num869, num868 + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
+						}
+					}
+				}
+			}
+			else
+			{
+				if (npc.ai[1] == 1f)
+				{
+					Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 0);
+					npc.rotation = num842;
+
+					float num870 = 14f;
+					if (expertMode)
+						num870 += 2.5f;
+					if (revenge)
+						num870 += 2.5f;
+					if (calamityGlobalNPC.enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+						num870 += 4f;
+					if (provy)
+						num870 *= 1.15f;
+					if (CalamityWorld.bossRushActive)
+						num870 *= 1.25f;
+
+					Vector2 vector87 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
+					float num871 = player.position.X + (float)(player.width / 2) - vector87.X;
+					float num872 = player.position.Y + (float)(player.height / 2) - vector87.Y;
+					float num873 = (float)Math.Sqrt((double)(num871 * num871 + num872 * num872));
+					num873 = num870 / num873;
+					npc.velocity.X = num871 * num873;
+					npc.velocity.Y = num872 * num873;
+					npc.ai[1] = 2f;
+					return;
+				}
+
+				if (npc.ai[1] == 2f)
+				{
+					npc.ai[2] += 1f;
+					if (expertMode)
+						npc.ai[2] += 0.5f;
+					if (revenge)
+						npc.ai[2] += 0.5f;
+					if (CalamityWorld.bossRushActive)
+						npc.ai[2] += 0.25f;
+
+					if (npc.ai[2] >= 75f)
+					{
+						npc.velocity.X = npc.velocity.X * 0.93f;
+						npc.velocity.Y = npc.velocity.Y * 0.93f;
+
+						if ((double)npc.velocity.X > -0.1 && (double)npc.velocity.X < 0.1)
+							npc.velocity.X = 0f;
+						if ((double)npc.velocity.Y > -0.1 && (double)npc.velocity.Y < 0.1)
+							npc.velocity.Y = 0f;
+					}
+					else
+						npc.rotation = (float)Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X) - 1.57f;
+
+					if (npc.ai[2] >= 105f)
+					{
+						npc.ai[3] += 1f;
+						npc.ai[2] = 0f;
+						npc.target = 255;
+						npc.rotation = num842;
+						if (npc.ai[3] >= 3f)
+						{
+							npc.ai[1] = 0f;
+							npc.ai[3] = 0f;
+							return;
+						}
+						npc.ai[1] = 1f;
+					}
+				}
+			}
+		}
+
+		public static void CatastropheAI(NPC npc, Mod mod)
+		{
+			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
+
+			CalamityGlobalNPC.catastrophe = npc.whoAmI;
+
+			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
+			bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
+			bool dayTime = Main.dayTime && !CalamityWorld.bossRushActive;
+			bool provy = CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive;
+
+			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest(true);
+
+			Player player = Main.player[npc.target];
+
+			float num840 = npc.position.X + (float)(npc.width / 2) - player.position.X - (float)(player.width / 2);
+			float num841 = npc.position.Y + (float)npc.height - 59f - player.position.Y - (float)(player.height / 2);
+			float num842 = (float)Math.Atan2((double)num841, (double)num840) + 1.57f;
+			if (num842 < 0f)
+				num842 += 6.283f;
+			else if ((double)num842 > 6.283)
+				num842 -= 6.283f;
+
+			float num843 = 0.15f;
+			if (npc.rotation < num842)
+			{
+				if ((double)(num842 - npc.rotation) > 3.1415)
+					npc.rotation -= num843;
+				else
+					npc.rotation += num843;
+			}
+			else if (npc.rotation > num842)
+			{
+				if ((double)(npc.rotation - num842) > 3.1415)
+					npc.rotation += num843;
+				else
+					npc.rotation -= num843;
+			}
+
+			if (npc.rotation > num842 - num843 && npc.rotation < num842 + num843)
+				npc.rotation = num842;
+			if (npc.rotation < 0f)
+				npc.rotation += 6.283f;
+			else if ((double)npc.rotation > 6.283)
+				npc.rotation -= 6.283f;
+			if (npc.rotation > num842 - num843 && npc.rotation < num842 + num843)
+				npc.rotation = num842;
+
+			if (!player.active || player.dead || (dayTime && !Main.eclipse))
+			{
+				npc.TargetClosest(false);
+				player = Main.player[npc.target];
+				if (!player.active || player.dead || (dayTime && !Main.eclipse))
+				{
+					npc.velocity = new Vector2(0f, -10f);
+					calamityGlobalNPC.newAI[0] = 1f;
+					if (npc.timeLeft > 150)
+						npc.timeLeft = 150;
+
+					return;
+				}
+			}
+			else
+				calamityGlobalNPC.newAI[0] = 0f;
+
+			if (npc.ai[1] == 0f)
+			{
+				float num861 = 4.5f;
+				float num862 = 0.2f;
+				if (provy)
+				{
+					num861 *= 1.25f;
+					num862 *= 1.25f;
+				}
+				if (CalamityWorld.bossRushActive)
+				{
+					num861 *= 1.5f;
+					num862 *= 1.5f;
+				}
+
+				int num863 = 1;
+				if (npc.position.X + (float)(npc.width / 2) < player.position.X + (float)player.width)
+					num863 = -1;
+
+				Vector2 vector86 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
+				float num864 = player.position.X + (float)(player.width / 2) + (float)(num863 * (CalamityWorld.bossRushActive ? 270 : 180)) - vector86.X;
+				float num865 = player.position.Y + (float)(player.height / 2) - vector86.Y;
+				float num866 = (float)Math.Sqrt((double)(num864 * num864 + num865 * num865));
+
+				if (expertMode || provy)
+				{
+					if (num866 > 300f)
+						num861 += 0.5f;
+					if (num866 > 400f)
+						num861 += 0.5f;
+					if (num866 > 500f)
+						num861 += 0.55f;
+					if (num866 > 600f)
+						num861 += 0.55f;
+					if (num866 > 700f)
+						num861 += 0.6f;
+					if (num866 > 800f)
+						num861 += 0.6f;
+				}
+
+				num866 = num861 / num866;
+				num864 *= num866;
+				num865 *= num866;
+
+				if (npc.velocity.X < num864)
+				{
+					npc.velocity.X = npc.velocity.X + num862;
+					if (npc.velocity.X < 0f && num864 > 0f)
+						npc.velocity.X = npc.velocity.X + num862;
+				}
+				else if (npc.velocity.X > num864)
+				{
+					npc.velocity.X = npc.velocity.X - num862;
+					if (npc.velocity.X > 0f && num864 < 0f)
+						npc.velocity.X = npc.velocity.X - num862;
+				}
+				if (npc.velocity.Y < num865)
+				{
+					npc.velocity.Y = npc.velocity.Y + num862;
+					if (npc.velocity.Y < 0f && num865 > 0f)
+						npc.velocity.Y = npc.velocity.Y + num862;
+				}
+				else if (npc.velocity.Y > num865)
+				{
+					npc.velocity.Y = npc.velocity.Y - num862;
+					if (npc.velocity.Y > 0f && num865 < 0f)
+						npc.velocity.Y = npc.velocity.Y - num862;
+				}
+
+				npc.ai[2] += (calamityGlobalNPC.enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 2f : 1f;
+				if (npc.ai[2] >= 180f)
+				{
+					npc.ai[1] = 1f;
+					npc.ai[2] = 0f;
+					npc.ai[3] = 0f;
+					npc.target = 255;
+					npc.netUpdate = true;
+				}
+
+				bool fireDelay = npc.ai[2] > 120f || (double)npc.life < (double)npc.lifeMax * 0.9;
+				if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height) && fireDelay)
+				{
+					npc.localAI[2] += 1f;
+					if (npc.localAI[2] > 36f)
+					{
+						npc.localAI[2] = 0f;
+						Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 34);
+					}
+
+					if (Main.netMode != NetmodeID.MultiplayerClient)
+					{
+						npc.localAI[1] += 1f;
+						if (revenge)
+							npc.localAI[1] += 0.5f;
+
+						if (npc.localAI[1] > 50f)
+						{
+							npc.localAI[1] = 0f;
+							float num867 = CalamityWorld.bossRushActive ? 18f : 12f;
+							int num868 = expertMode ? 29 : 36;
+							int num869 = ModContent.ProjectileType<BrimstoneBall>();
+							vector86 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
+							num864 = player.position.X + (float)(player.width / 2) - vector86.X;
+							num865 = player.position.Y + (float)(player.height / 2) - vector86.Y;
+							num866 = (float)Math.Sqrt((double)(num864 * num864 + num865 * num865));
+							num866 = num867 / num866;
+							num864 *= num866;
+							num865 *= num866;
+							num865 += npc.velocity.Y * 0.5f;
+							num864 += npc.velocity.X * 0.5f;
+							vector86.X -= num864 * 1f;
+							vector86.Y -= num865 * 1f;
+							Projectile.NewProjectile(vector86.X, vector86.Y, num864, num865, num869, num868 + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
+						}
+					}
+				}
+			}
+			else
+			{
+				if (npc.ai[1] == 1f)
+				{
+					Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 0);
+					npc.rotation = num842;
+
+					float num870 = 16f;
+					if (expertMode)
+						num870 += 2.5f;
+					if (revenge)
+						num870 += 2.5f;
+					if (calamityGlobalNPC.enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+						num870 += 4f;
+					if (provy)
+						num870 *= 1.15f;
+					if (CalamityWorld.bossRushActive)
+						num870 *= 1.25f;
+
+					Vector2 vector87 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
+					float num871 = player.position.X + (float)(player.width / 2) - vector87.X;
+					float num872 = player.position.Y + (float)(player.height / 2) - vector87.Y;
+					float num873 = (float)Math.Sqrt((double)(num871 * num871 + num872 * num872));
+					num873 = num870 / num873;
+					npc.velocity.X = num871 * num873;
+					npc.velocity.Y = num872 * num873;
+					npc.ai[1] = 2f;
+					return;
+				}
+
+				if (npc.ai[1] == 2f)
+				{
+					npc.ai[2] += 1f;
+					if (expertMode)
+						npc.ai[2] += 0.5f;
+					if (revenge)
+						npc.ai[2] += 0.5f;
+					if (CalamityWorld.bossRushActive)
+						npc.ai[2] += 0.25f;
+
+					if (npc.ai[2] >= 60f) //50
+					{
+						npc.velocity.X = npc.velocity.X * 0.93f;
+						npc.velocity.Y = npc.velocity.Y * 0.93f;
+
+						if ((double)npc.velocity.X > -0.1 && (double)npc.velocity.X < 0.1)
+							npc.velocity.X = 0f;
+						if ((double)npc.velocity.Y > -0.1 && (double)npc.velocity.Y < 0.1)
+							npc.velocity.Y = 0f;
+					}
+					else
+						npc.rotation = (float)Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X) - 1.57f;
+
+					if (npc.ai[2] >= 90f) //80
+					{
+						npc.ai[3] += 1f;
+						npc.ai[2] = 0f;
+						npc.target = 255;
+						npc.rotation = num842;
+						if (npc.ai[3] >= 4f)
+						{
+							npc.ai[1] = 0f;
+							npc.ai[3] = 0f;
+							return;
+						}
+						npc.ai[1] = 1f;
+					}
+				}
+			}
+		}
 		#endregion
 
 		#region Astrum Aureus
 		public static void AstrumAureusAI(NPC npc, Mod mod)
         {
-            // Percent life remaining
-            float lifeRatio = (float)npc.life / (float)npc.lifeMax;
+			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
+
+			// Percent life remaining
+			float lifeRatio = (float)npc.life / (float)npc.lifeMax;
 
             // Phases
             bool phase2 = lifeRatio < 0.75f || CalamityWorld.bossRushActive;
@@ -1418,7 +1931,7 @@ namespace CalamityMod.NPCs
 
             // Fire projectiles while walking, teleporting, or falling
             if (npc.ai[0] == 2f || npc.ai[0] >= 5f || (npc.ai[0] == 4f && npc.velocity.Y > 0f) ||
-                npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                calamityGlobalNPC.enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
@@ -1433,7 +1946,7 @@ namespace CalamityMod.NPCs
                             laserDamage *= 3;
 
                         // Fire astral flames while teleporting
-                        if ((npc.ai[0] >= 5f && npc.ai[0] != 7) || npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                        if ((npc.ai[0] >= 5f && npc.ai[0] != 7) || calamityGlobalNPC.enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
                         {
                             Vector2 shootFromVector = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
                             float spread = 45f * 0.0174f;
@@ -1511,7 +2024,7 @@ namespace CalamityMod.NPCs
 
                 // Stay vulnerable for a maximum of 1.5 or 2.5 seconds
                 npc.ai[1] += 1f;
-                if (npc.ai[1] >= ((phase3 || npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 90f : 150f))
+                if (npc.ai[1] >= ((phase3 || calamityGlobalNPC.enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 90f : 150f))
                 {
                     // Increase defense
                     npc.defense = 70;
@@ -2400,7 +2913,7 @@ namespace CalamityMod.NPCs
 						npc.localAI[1] = 1f;
 						Rectangle rectangle12 = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
 						int rectX = 300;
-						int rectY = (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 100 : 200;
+						int rectY = (calamityGlobalNPC.enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 100 : 200;
 						bool flag95 = true;
 						if (npc.position.Y > Main.player[npc.target].position.Y)
 						{
@@ -2592,6 +3105,231 @@ namespace CalamityMod.NPCs
 						if (((npc.velocity.X > 0f && npc.oldVelocity.X < 0f) || (npc.velocity.X < 0f && npc.oldVelocity.X > 0f) || (npc.velocity.Y > 0f && npc.oldVelocity.Y < 0f) || (npc.velocity.Y < 0f && npc.oldVelocity.Y > 0f)) && !npc.justHit)
 						{
 							npc.netUpdate = true;
+						}
+					}
+				}
+			}
+		}
+		#endregion
+
+		#region Ceaseless Void
+		public static void CeaselessVoidAI(NPC npc, Mod mod)
+		{
+			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
+
+			if (CalamityWorld.bossRushActive)
+			{
+				calamityGlobalNPC.DR = 0.999999f;
+				calamityGlobalNPC.unbreakableDR = true;
+			}
+
+			double lifeRatio = (double)npc.life / (double)npc.lifeMax;
+			int lifePercentage = (int)(100.0 * lifeRatio);
+			bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
+			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
+
+			CalamityGlobalNPC.voidBoss = npc.whoAmI;
+			Vector2 vector = npc.Center;
+			npc.TargetClosest(true);
+			Player player = Main.player[npc.target];
+
+			if (NPC.CountNPCS(ModContent.NPCType<DarkEnergy>()) > 0 || NPC.CountNPCS(ModContent.NPCType<DarkEnergy2>()) > 0 || NPC.CountNPCS(ModContent.NPCType<DarkEnergy3>()) > 0)
+				npc.dontTakeDamage = true;
+			else
+				npc.dontTakeDamage = false;
+
+			if (!player.active || player.dead)
+			{
+				npc.TargetClosest(false);
+				player = Main.player[npc.target];
+				if (!player.active || player.dead)
+				{
+					npc.velocity = new Vector2(0f, -10f);
+					CalamityWorld.DoGSecondStageCountdown = 0;
+
+					if (Main.netMode == NetmodeID.Server)
+					{
+						var netMessage = mod.GetPacket();
+						netMessage.Write((byte)CalamityModMessageType.DoGCountdownSync);
+						netMessage.Write(CalamityWorld.DoGSecondStageCountdown);
+						netMessage.Send();
+					}
+
+					if (npc.timeLeft > 150)
+						npc.timeLeft = 150;
+
+					return;
+				}
+			}
+			else if (npc.timeLeft < 2400)
+				npc.timeLeft = 2400;
+
+			if (lifePercentage < 90)
+			{
+				float num472 = npc.Center.X;
+				float num473 = npc.Center.Y;
+				float num474 = (float)(500.0 * (1.0 - lifeRatio));
+				if (!player.ZoneDungeon)
+					num474 *= 1.25f;
+
+				npc.ai[0] += 1f;
+				if (npc.ai[0] == 60f)
+				{
+					npc.ai[0] = 0f;
+
+					int numDust = (int)(0.2f * MathHelper.TwoPi * num474);
+					float angleIncrement = MathHelper.TwoPi / (float)numDust;
+					Vector2 dustOffset = new Vector2(num474, 0f);
+					dustOffset = dustOffset.RotatedByRandom(MathHelper.TwoPi);
+
+					for (int i = 0; i < numDust; i++)
+					{
+						dustOffset = dustOffset.RotatedBy(angleIncrement);
+						int dust = Dust.NewDust(npc.Center, 1, 1, 173);
+						Main.dust[dust].position = npc.Center + dustOffset;
+						Main.dust[dust].noGravity = true;
+						Main.dust[dust].fadeIn = 1f;
+						Main.dust[dust].velocity *= 0f;
+						Main.dust[dust].scale = 0.5f;
+					}
+
+					for (int num475 = 0; num475 < 255; num475++)
+					{
+						if (Collision.CanHit(npc.Center, 1, 1, Main.player[num475].Center, 1, 1))
+						{
+							float num476 = Main.player[num475].position.X + (float)(Main.player[num475].width / 2);
+							float num477 = Main.player[num475].position.Y + (float)(Main.player[num475].height / 2);
+							float num478 = Math.Abs(npc.position.X + (float)(npc.width / 2) - num476) + Math.Abs(npc.position.Y + (float)(npc.height / 2) - num477);
+
+							if (num478 < num474)
+							{
+								if (Main.player[num475].position.X < num472)
+									Main.player[num475].velocity.X += 15f;
+								else
+									Main.player[num475].velocity.X -= 15f;
+								if (Main.player[num475].position.Y < num473)
+									Main.player[num475].velocity.Y += 15f;
+								else
+									Main.player[num475].velocity.Y -= 15f;
+							}
+						}
+					}
+				}
+			}
+
+			if (Main.netMode != NetmodeID.MultiplayerClient)
+			{
+				calamityGlobalNPC.newAI[1] += expertMode ? 2f : 1f;
+				calamityGlobalNPC.newAI[1] += calamityGlobalNPC.newAI[2];
+				if (CalamityWorld.death || CalamityWorld.bossRushActive)
+					calamityGlobalNPC.newAI[1] += 1f;
+				if (calamityGlobalNPC.enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+					calamityGlobalNPC.newAI[1] += 2f;
+
+				if (calamityGlobalNPC.newAI[1] >= 1200f)
+				{
+					calamityGlobalNPC.newAI[1] = 0f;
+					npc.TargetClosest(true);
+
+					if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
+					{
+						float num941 = 3f;
+						Vector2 vector104 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)(npc.height / 2));
+						float num942 = player.position.X + (float)player.width * 0.5f - vector104.X + (float)Main.rand.Next(-20, 21);
+						float num943 = player.position.Y + (float)player.height * 0.5f - vector104.Y + (float)Main.rand.Next(-20, 21);
+						float num944 = (float)Math.Sqrt((double)(num942 * num942 + num943 * num943));
+						num944 = num941 / num944;
+						num942 *= num944;
+						num943 *= num944;
+						int num945 = expertMode ? 50 : 60;
+						int num946 = ModContent.ProjectileType<DoGBeamPortal>();
+						vector104.X += num942 * 5f;
+						vector104.Y += num943 * 5f;
+						int num947 = Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, num946, num945, 0f, Main.myPlayer, 0f, 0f);
+						Main.projectile[num947].timeLeft = 300;
+						npc.netUpdate = true;
+					}
+
+					if (lifePercentage < 50 && revenge)
+					{
+						float spread = 45f * 0.0174f;
+						double startAngle = Math.Atan2(npc.velocity.X, npc.velocity.Y) - spread / 2;
+						double deltaAngle = spread / 8f;
+						double offsetAngle;
+						int damage = expertMode ? 50 : 60;
+						int i;
+						float passedVar = 1f;
+
+						for (i = 0; i < 4; i++)
+						{
+							offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
+							Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)(Math.Sin(offsetAngle) * 3f), (float)(Math.Cos(offsetAngle) * 3f), ModContent.ProjectileType<DarkEnergyBall>(), damage, 0f, Main.myPlayer, passedVar, 0f);
+							passedVar += 1f;
+						}
+					}
+				}
+			}
+
+			float num823 = 7.5f;
+			float num824 = 0.08f;
+			if (!player.ZoneDungeon || CalamityWorld.bossRushActive)
+				num823 = 25f;
+
+			Vector2 vector82 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
+			float num825 = player.position.X + (float)(player.width / 2) - vector82.X;
+			float num826 = player.position.Y + (float)(player.height / 2) - vector82.Y;
+			float num827 = (float)Math.Sqrt((double)(num825 * num825 + num826 * num826));
+
+			num827 = num823 / num827;
+			num825 *= num827;
+			num826 *= num827;
+
+			if (npc.velocity.X < num825)
+			{
+				npc.velocity.X = npc.velocity.X + num824;
+				if (npc.velocity.X < 0f && num825 > 0f)
+					npc.velocity.X = npc.velocity.X + num824;
+			}
+			else if (npc.velocity.X > num825)
+			{
+				npc.velocity.X = npc.velocity.X - num824;
+				if (npc.velocity.X > 0f && num825 < 0f)
+					npc.velocity.X = npc.velocity.X - num824;
+			}
+			if (npc.velocity.Y < num826)
+			{
+				npc.velocity.Y = npc.velocity.Y + num824;
+				if (npc.velocity.Y < 0f && num826 > 0f)
+					npc.velocity.Y = npc.velocity.Y + num824;
+			}
+			else if (npc.velocity.Y > num826)
+			{
+				npc.velocity.Y = npc.velocity.Y - num824;
+				if (npc.velocity.Y > 0f && num826 < 0f)
+					npc.velocity.Y = npc.velocity.Y - num824;
+			}
+
+			if (calamityGlobalNPC.newAI[0] == 0f && npc.life > 0)
+				calamityGlobalNPC.newAI[0] = (float)npc.lifeMax;
+
+			if (npc.life > 0)
+			{
+				if (Main.netMode != NetmodeID.MultiplayerClient)
+				{
+					int num660 = (int)((double)npc.lifeMax * 0.26);
+					if ((float)(npc.life + num660) < calamityGlobalNPC.newAI[0])
+					{
+						calamityGlobalNPC.newAI[0] = (float)npc.life;
+						calamityGlobalNPC.newAI[2] += 1f;
+						int glob = revenge ? 8 : 4;
+						if (calamityGlobalNPC.newAI[0] <= 0.5f)
+							glob = revenge ? 16 : 8;
+
+						for (int num662 = 0; num662 < glob; num662++)
+						{
+							NPC.NewNPC((int)npc.Center.X - 200, (int)npc.Center.Y - 200, ModContent.NPCType<DarkEnergy>());
+							NPC.NewNPC((int)npc.Center.X + 200, (int)npc.Center.Y - 200, ModContent.NPCType<DarkEnergy2>());
+							NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y + 200, ModContent.NPCType<DarkEnergy3>());
 						}
 					}
 				}
