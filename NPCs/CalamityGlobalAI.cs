@@ -4517,7 +4517,7 @@ namespace CalamityMod.NPCs
                     }
                 }
             }
-            fallSpeed += ((CalamityWorld.death || CalamityWorld.bossRushActive) ? 6f : 4f) * (1f - lifeRatio);
+            fallSpeed += ((CalamityWorld.death || CalamityWorld.bossRushActive) ? 6f : 5f) * (1f - lifeRatio);
 
             // Speed and movement
             float speed = ((CalamityWorld.death || CalamityWorld.bossRushActive) ? 0.11f : 0.1f) + ((targetFloatingUp ? 0.2f : 0.1f) * (1f - lifeRatio));
