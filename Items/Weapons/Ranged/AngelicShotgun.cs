@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class AngelicShotgun : ModItem
     {
-        private static int BaseDamage = 120;
+        private static int BaseDamage = 100;
         private static float BulletSpeed = 13f;
 
         public override void SetStaticDefaults()
@@ -66,7 +66,7 @@ Fighting 'til the war's won");
 
             // Spawn a beam from the sky ala Deathhail Staff or Lunar Flare
             float laserSpeed = 8f;
-            int laserDamage = 4 * BaseDamage;
+            int laserDamage = 3 * damage;
             float laserKB = 5f;
 
             Vector2 rrp = player.RotatedRelativePoint(player.MountedCenter, true);

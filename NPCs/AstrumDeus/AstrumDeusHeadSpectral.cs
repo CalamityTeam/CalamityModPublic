@@ -7,6 +7,7 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Projectiles.Magic;
@@ -226,8 +227,9 @@ namespace CalamityMod.NPCs.AstrumDeus
                 DropHelper.DropItemSpray(npc, ModContent.ItemType<Stardust>(), 50, 80, 5);
 
                 // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<TheMicrowave>(), 5);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Starfall>(), 5);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<TheMicrowave>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<StarSputter>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Starfall>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Quasar>(), DropHelper.RareVariantDropRateInt);
 
                 // Equipment

@@ -447,6 +447,8 @@ namespace CalamityMod.CalPlayer
 			// Cooldowns and timers
 			if (modPlayer.gainRageCooldown > 0)
 				modPlayer.gainRageCooldown--;
+			if (modPlayer.galileoCooldown > 0)
+				modPlayer.galileoCooldown--;
 			if (modPlayer.draconicSurgeCooldown > 0)
 				modPlayer.draconicSurgeCooldown--;
 			if (modPlayer.fleshTotemCooldown > 0)
@@ -461,7 +463,9 @@ namespace CalamityMod.CalPlayer
 				modPlayer.featherCrownCooldown--;
 			if (modPlayer.moonCrownCooldown > 0)
 				modPlayer.moonCrownCooldown--;
-			if (modPlayer.sandCloakCooldown > 0)
+            if (modPlayer.nanoFlareCooldown > 0)
+                modPlayer.nanoFlareCooldown--;
+            if (modPlayer.sandCloakCooldown > 0)
 				modPlayer.sandCloakCooldown--;
 			if (modPlayer.spectralVeilImmunity > 0)
 				modPlayer.spectralVeilImmunity--;

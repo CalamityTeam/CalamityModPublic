@@ -3483,114 +3483,117 @@ namespace CalamityMod.CalPlayer
 					break;
 			}
 
-			if (eGauntlet)
-            {
-                target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 120, false);
-                target.AddBuff(ModContent.BuffType<HolyFlames>(), 120, false);
-                target.AddBuff(ModContent.BuffType<Plague>(), 120, false);
-                target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120, false);
-                if (Main.rand.NextBool(5))
-                {
-                    target.AddBuff(ModContent.BuffType<GlacialState>(), 120, false);
-                }
-                target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 120, false);
-                target.AddBuff(BuffID.Poisoned, 120, false);
-                target.AddBuff(BuffID.OnFire, 120, false);
-                target.AddBuff(BuffID.CursedInferno, 120, false);
-                target.AddBuff(BuffID.Frostburn, 120, false);
-                target.AddBuff(BuffID.Ichor, 120, false);
-                target.AddBuff(BuffID.Venom, 120, false);
-            }
-            if (aWeapon)
-            {
-                if (Main.rand.NextBool(4))
-                {
-                    target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 360, false);
-                }
-                else if (Main.rand.NextBool(2))
-                {
-                    target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 240, false);
-                }
-                else
-                {
-                    target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 120, false);
-                }
-            }
-            if (abyssalAmulet)
-            {
-                if (Main.rand.NextBool(4))
-                {
-                    target.AddBuff(ModContent.BuffType<CrushDepth>(), 360, false);
-                }
-                else if (Main.rand.NextBool(2))
-                {
-                    target.AddBuff(ModContent.BuffType<CrushDepth>(), 240, false);
-                }
-                else
-                {
-                    target.AddBuff(ModContent.BuffType<CrushDepth>(), 120, false);
-                }
-            }
-            if (dsSetBonus)
-            {
-                if (Main.rand.NextBool(4))
-                {
-                    target.AddBuff(ModContent.BuffType<DemonFlames>(), 360, false);
-                }
-                else if (Main.rand.NextBool(2))
-                {
-                    target.AddBuff(ModContent.BuffType<DemonFlames>(), 240, false);
-                }
-                else
-                {
-                    target.AddBuff(ModContent.BuffType<DemonFlames>(), 120, false);
-                }
-            }
-            if (cryogenSoul || frostFlare)
-            {
-                if (Main.rand.NextBool(4))
-                {
-                    target.AddBuff(44, 360, false);
-                }
-                else if (Main.rand.NextBool(2))
-                {
-                    target.AddBuff(44, 240, false);
-                }
-                else
-                {
-                    target.AddBuff(44, 120, false);
-                }
-            }
-            if (yInsignia)
-            {
-                if (Main.rand.NextBool(4))
-                {
-                    target.AddBuff(ModContent.BuffType<HolyFlames>(), 360, false);
-                }
-                else if (Main.rand.NextBool(2))
-                {
-                    target.AddBuff(ModContent.BuffType<HolyFlames>(), 240, false);
-                }
-                else
-                {
-                    target.AddBuff(ModContent.BuffType<HolyFlames>(), 120, false);
-                }
-            }
-            if (ataxiaFire)
-            {
-                if (Main.rand.NextBool(4))
-                {
-                    target.AddBuff(BuffID.OnFire, 720, false);
-                }
-                else if (Main.rand.NextBool(2))
-                {
-                    target.AddBuff(BuffID.OnFire, 480, false);
-                }
-                else
-                {
-                    target.AddBuff(BuffID.OnFire, 240, false);
-                }
-            }
+			if (item.melee) //prevents Deep Sea Dumbell from snagging true melee debuff memes
+			{
+				if (eGauntlet)
+				{
+					target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 120, false);
+					target.AddBuff(ModContent.BuffType<HolyFlames>(), 120, false);
+					target.AddBuff(ModContent.BuffType<Plague>(), 120, false);
+					target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120, false);
+					if (Main.rand.NextBool(5))
+					{
+						target.AddBuff(ModContent.BuffType<GlacialState>(), 120, false);
+					}
+					target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 120, false);
+					target.AddBuff(BuffID.Poisoned, 120, false);
+					target.AddBuff(BuffID.OnFire, 120, false);
+					target.AddBuff(BuffID.CursedInferno, 120, false);
+					target.AddBuff(BuffID.Frostburn, 120, false);
+					target.AddBuff(BuffID.Ichor, 120, false);
+					target.AddBuff(BuffID.Venom, 120, false);
+				}
+				if (cryogenSoul || frostFlare)
+				{
+					if (Main.rand.NextBool(4))
+					{
+						target.AddBuff(44, 360, false);
+					}
+					else if (Main.rand.NextBool(2))
+					{
+						target.AddBuff(44, 240, false);
+					}
+					else
+					{
+						target.AddBuff(44, 120, false);
+					}
+				}
+				if (yInsignia)
+				{
+					if (Main.rand.NextBool(4))
+					{
+						target.AddBuff(ModContent.BuffType<HolyFlames>(), 360, false);
+					}
+					else if (Main.rand.NextBool(2))
+					{
+						target.AddBuff(ModContent.BuffType<HolyFlames>(), 240, false);
+					}
+					else
+					{
+						target.AddBuff(ModContent.BuffType<HolyFlames>(), 120, false);
+					}
+				}
+				if (ataxiaFire)
+				{
+					if (Main.rand.NextBool(4))
+					{
+						target.AddBuff(BuffID.OnFire, 720, false);
+					}
+					else if (Main.rand.NextBool(2))
+					{
+						target.AddBuff(BuffID.OnFire, 480, false);
+					}
+					else
+					{
+						target.AddBuff(BuffID.OnFire, 240, false);
+					}
+				}
+			}
+			if (aWeapon)
+			{
+				if (Main.rand.NextBool(4))
+				{
+					target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 360, false);
+				}
+				else if (Main.rand.NextBool(2))
+				{
+					target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 240, false);
+				}
+				else
+				{
+					target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 120, false);
+				}
+			}
+			if (abyssalAmulet)
+			{
+				if (Main.rand.NextBool(4))
+				{
+					target.AddBuff(ModContent.BuffType<CrushDepth>(), 360, false);
+				}
+				else if (Main.rand.NextBool(2))
+				{
+					target.AddBuff(ModContent.BuffType<CrushDepth>(), 240, false);
+				}
+				else
+				{
+					target.AddBuff(ModContent.BuffType<CrushDepth>(), 120, false);
+				}
+			}
+			if (dsSetBonus)
+			{
+				if (Main.rand.NextBool(4))
+				{
+					target.AddBuff(ModContent.BuffType<DemonFlames>(), 360, false);
+				}
+				else if (Main.rand.NextBool(2))
+				{
+					target.AddBuff(ModContent.BuffType<DemonFlames>(), 240, false);
+				}
+				else
+				{
+					target.AddBuff(ModContent.BuffType<DemonFlames>(), 120, false);
+				}
+			}
             if (alchFlask)
             {
                 if (Main.rand.NextBool(4))
