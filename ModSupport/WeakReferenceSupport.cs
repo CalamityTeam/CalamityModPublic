@@ -21,6 +21,7 @@ using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Mounts;
 using CalamityMod.Items.Pets;
 using CalamityMod.Items.Tools;
+using CalamityMod.Items.Tools.ClimateChange;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.NPCs.DesertScourge;
 using CalamityMod.NPCs.Crabulon;
@@ -71,6 +72,7 @@ namespace CalamityMod
         {
             Mod bossChecklist = ModLoader.GetMod("BossChecklist");
             Mod calamity = ModContent.GetInstance<CalamityMod>();
+            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
 
             if (bossChecklist != null)
             {
@@ -137,7 +139,7 @@ namespace CalamityMod
 				bossChecklist.Call(
 				"AddBoss", 
 				3.5f, 
-				new List<int>() {ModContent.NPCType<PerforatorHive>(), ModContent.NPCType<PerforatorHeadLarge>(), ModContent.NPCType<PerforatorBodyLarge>(), ModContent.NPCType<PerforatorTailLarge>(), ModContent.NPCType<PerforatorHeadMedium>(), ModContent.NPCType<PerforatorBodyMedium>(), ModContent.NPCType<PerforatorTailMedium>(), ModContent.NPCType<PerforatorHeadSmall>(), ModContent.NPCType<PerforatorBodySmall>(), ModContent.NPCType<PerforatorTailSmall>()}, 
+				new List<int>() {ModContent.NPCType<PerforatorHive>()}, 
 				calamity, 
 				"The Perforators", 
 				(Func<bool>)(() => CalamityWorld.downedPerforator), 
@@ -222,13 +224,13 @@ namespace CalamityMod
 				//Great Sand Shark
 				bossChecklist.Call(
 				"AddMiniBoss", 
-				10.1f, 
+				10.09f, 
 				ModContent.NPCType<GreatSandShark>(), 
 				calamity, 
 				"Great Sand Shark", 
 				(Func<bool>)(() => CalamityWorld.downedGSS), 
 				ModContent.ItemType<SandstormsCore>(), 
-				ItemID.None, 
+				new List<int>() {ItemID.MusicBoxSandstorm}, 
 				ModContent.ItemType<GrandScale>(), 
 				"Kill 10 sand sharks after defeating Plantera or use a [i:" + ModContent.ItemType<SandstormsCore>() + "] in the Desert Biome", 
 				"[c/DAA520:The apex predator of the sands disappears into the dunes...]");
@@ -302,7 +304,7 @@ namespace CalamityMod
 				(Func<bool>)(() => CalamityWorld.downedStarGod), 
 				ModContent.ItemType<Starcore>(), 
 				new List<int>() { ModContent.ItemType<AstrumDeusTrophy>(), ModContent.ItemType<AstrumDeusMask>(), ModContent.ItemType<KnowledgeAstrumDeus>(), ModContent.ItemType<KnowledgeAstralInfection>()}, 
-				new List<int>() { ModContent.ItemType<AstrumDeusBag>(), ModContent.ItemType<Stardust>(), ModContent.ItemType<Starfall>(), ModContent.ItemType<TheMicrowave>(), ModContent.ItemType<Quasar>(), ModContent.ItemType<AstralBulwark>(), ModContent.ItemType<HideofAstrumDeus>(), ItemID.FragmentSolar, ItemID.FragmentVortex, ItemID.FragmentNebula, ItemID.FragmentStardust, ItemID.GreaterHealingPotion}, 
+				new List<int>() { ModContent.ItemType<AstrumDeusBag>(), ModContent.ItemType<Stardust>(), ModContent.ItemType<TheMicrowave>(), ModContent.ItemType<StarSputter>(), ModContent.ItemType<Starfall>(), ModContent.ItemType<Quasar>(), ModContent.ItemType<AstralBulwark>(), ModContent.ItemType<HideofAstrumDeus>(), ItemID.FragmentSolar, ItemID.FragmentVortex, ItemID.FragmentNebula, ItemID.FragmentStardust, ItemID.GreaterHealingPotion}, 
 				"Defeat 3 empowered astral titans or use a [i:" + ModContent.ItemType<Starcore>() + "] at Night", 
 				"[c/FFD700:The infected deity retreats to the heavens.]", 
 				"CalamityMod/NPCs/AstrumDeus/AstrumDeus_BossChecklist");
@@ -314,9 +316,9 @@ namespace CalamityMod
 				new List<int>() { ModContent.NPCType<ProfanedGuardianBoss>()}, 
 				calamity, "Profaned Guardians", 
 				(Func<bool>)(() => CalamityWorld.downedGuardians), 
-				new List<int>() { ModContent.ItemType<ProfanedShard>(), ItemID.GreaterHealingPotion}, 
+				ModContent.ItemType<ProfanedShard>(), 
 				ModContent.ItemType<KnowledgeProfanedGuardians>(), 
-				ModContent.ItemType<ProfanedCore>(), 
+				new List<int>() { ModContent.ItemType<ProfanedCore>(), ItemID.GreaterHealingPotion}, 
 				"Use a [i:" + ModContent.ItemType<ProfanedShard>() + "] in the Hallow or Underworld Biomes", 
 				"[c/FFA500:The guardians must protect their goddess at all costs.]", 
 				"CalamityMod/NPCs/ProfanedGuardians/ProfanedGuardians_BossChecklist");
@@ -343,7 +345,7 @@ namespace CalamityMod
 				calamity, 
 				"Providence", 
 				(Func<bool>)(() => CalamityWorld.downedProvidence), 
-				ModContent.ItemType<ProfanedCore>(), 
+				new List<int>() {ModContent.ItemType<ProfanedCore>(), ModContent.ItemType<ProfanedCoreUnlimited>()}, 
 				new List<int>() {ModContent.ItemType<ProvidenceTrophy>(), ModContent.ItemType<ProvidenceMask>(), ModContent.ItemType<KnowledgeProvidence>()}, 
 				new List<int>() {ModContent.ItemType<ProvidenceBag>(), ModContent.ItemType<UnholyEssence>(), ModContent.ItemType<DivineGeode>(), ModContent.ItemType<HolyCollider>(), ModContent.ItemType<SolarFlare>(), ModContent.ItemType<TelluricGlare>(), ModContent.ItemType<BlissfulBombardier>(), ModContent.ItemType<PurgeGuzzler>(), ModContent.ItemType<MoltenAmputator>(), ModContent.ItemType<ElysianWings>(), ModContent.ItemType<ElysianAegis>(), ModContent.ItemType<SamuraiBadge>(), ModContent.ItemType<BlazingCore>(), ModContent.ItemType<RuneofCos>(), ItemID.SuperHealingPotion}, 
 				"Use a [i:" + ModContent.ItemType<ProfanedCore>() + "] in the Hallow or Underworld Biomes", 
@@ -413,7 +415,7 @@ namespace CalamityMod
 				calamity, 
 				"Devourer of Gods", 
 				(Func<bool>)(() => CalamityWorld.downedDoG), ModContent.ItemType<CosmicWorm>(), 
-				new List<int>() {ModContent.ItemType<DevourerofGodsTrophy>(), ModContent.ItemType<KnowledgeDevourerofGods>(), ModContent.ItemType<KnowledgeDevourerofGods>(), ModContent.ItemType<CosmicPlushie>()}, 
+				new List<int>() {ModContent.ItemType<DevourerofGodsTrophy>(), ModContent.ItemType<KnowledgeDevourerofGods>(), ModContent.ItemType<CosmicPlushie>()}, 
 				new List<int>() {ModContent.ItemType<DevourerofGodsBag>(), ModContent.ItemType<CosmiliteBar>(), ModContent.ItemType<CosmiliteBrick>(), ModContent.ItemType<Excelsus>(), ModContent.ItemType<EradicatorMelee>(), ModContent.ItemType<TheObliterator>(), ModContent.ItemType<Deathwind>(), ModContent.ItemType<DeathhailStaff>(), ModContent.ItemType<StaffoftheMechworm>(), ModContent.ItemType<Eradicator>(), ModContent.ItemType<Skullmasher>(), ModContent.ItemType<Norfleet>(), ModContent.ItemType<CosmicDischarge>(), ModContent.ItemType<NebulousCore>(), ModContent.ItemType<Fabsol>(), ModContent.ItemType<SupremeHealingPotion>()}, 
 				"Use a [i:" + ModContent.ItemType<CosmicWorm>() + "]", 
 				"[c/00FFFF:The Devourer of Gods has slain everyone and feasted on their essence.]", 
@@ -566,6 +568,12 @@ namespace CalamityMod
 				"Plantera", 
 				new List<int>() {ModContent.ItemType<KnowledgePlantera>()});
 
+				bossChecklist.Call(
+				"AddToBossSpawnItems", 
+				"Terraria", 
+				"Plantera", 
+				new List<int>() {ModContent.ItemType<BulbofDoom>()});
+
 				//Golem
 				bossChecklist.Call(
 				"AddToBossLoot", 
@@ -578,6 +586,12 @@ namespace CalamityMod
 				"Terraria", 
 				"Golem", 
 				new List<int>() {ModContent.ItemType<KnowledgeGolem>()});
+
+				bossChecklist.Call(
+				"AddToBossSpawnItems", 
+				"Terraria", 
+				"Golem", 
+				new List<int>() {ModContent.ItemType<OldPowerCell>()});
 
 				//Duke Fishron
 				bossChecklist.Call(
@@ -605,6 +619,12 @@ namespace CalamityMod
 				"CultistBoss", 
 				new List<int>() {ModContent.ItemType<KnowledgeLunaticCultist>(), ModContent.ItemType<KnowledgeBloodMoon>()});
 
+				bossChecklist.Call(
+				"AddToBossSpawnItems", 
+				"Terraria", 
+				"CultistBoss", 
+				new List<int>() {ModContent.ItemType<EidolonTablet>()});
+
 				//Moon Lord
 				bossChecklist.Call(
 				"AddToBossLoot", 
@@ -631,6 +651,12 @@ namespace CalamityMod
 				"Terraria", 
 				"Blood Moon", 
 				new List<int>() {ModContent.ItemType<BloodOrb>(), ModContent.ItemType<BouncingEyeball>(), ModContent.ItemType<Carnage>()});
+
+				bossChecklist.Call(
+				"AddToBossSpawnItems", 
+				"Terraria", 
+				"Blood Moon", 
+				new List<int>() {ModContent.ItemType<BloodIdol>()});
 
 				//Goblin Army
 				bossChecklist.Call(

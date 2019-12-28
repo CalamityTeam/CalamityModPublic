@@ -1,4 +1,5 @@
 using CalamityMod.Projectiles.Rogue;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,7 +11,8 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Reaper");
-            Tooltip.SetDefault("Slice 'n dice");
+            Tooltip.SetDefault("Slice 'n dice\n" +
+			"Stealth strikes throw five at once");
         }
 
         public override void SafeSetDefaults()
@@ -32,6 +34,23 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.shootSpeed = 20f;
             item.Calamity().rogue = true;
             item.Calamity().postMoonLordRarity = 22;
+        }
+
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
+            {
+                int spread = 4;
+                for (int i = 0; i < 5; i++)
+                {
+                    Vector2 perturbedspeed = new Vector2(speedX + Main.rand.Next(-3,4), speedY + Main.rand.Next(-3,4)).RotatedBy(MathHelper.ToRadians(spread));
+                    int proj = Projectile.NewProjectile(position.X, position.Y, perturbedspeed.X, perturbedspeed.Y, type, damage, knockBack, player.whoAmI, 0f, 0f);
+                    Main.projectile[proj].Calamity().stealthStrike = true;
+                    spread -= Main.rand.Next(1,4);
+                }
+                return false;
+            }
+            return true;
         }
     }
 }
