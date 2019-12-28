@@ -21,6 +21,7 @@ using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Mounts;
 using CalamityMod.Items.Pets;
 using CalamityMod.Items.Tools;
+using CalamityMod.Items.Tools.ClimateChange;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.NPCs.DesertScourge;
 using CalamityMod.NPCs.Crabulon;
@@ -71,6 +72,7 @@ namespace CalamityMod
         {
             Mod bossChecklist = ModLoader.GetMod("BossChecklist");
             Mod calamity = ModContent.GetInstance<CalamityMod>();
+            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
 
             if (bossChecklist != null)
             {
@@ -222,13 +224,13 @@ namespace CalamityMod
 				//Great Sand Shark
 				bossChecklist.Call(
 				"AddMiniBoss", 
-				10.1f, 
+				10.09f, 
 				ModContent.NPCType<GreatSandShark>(), 
 				calamity, 
 				"Great Sand Shark", 
 				(Func<bool>)(() => CalamityWorld.downedGSS), 
 				ModContent.ItemType<SandstormsCore>(), 
-				ItemID.None, 
+				new List<int>() {ItemID.MusicBoxSandstorm}, 
 				ModContent.ItemType<GrandScale>(), 
 				"Kill 10 sand sharks after defeating Plantera or use a [i:" + ModContent.ItemType<SandstormsCore>() + "] in the Desert Biome", 
 				"[c/DAA520:The apex predator of the sands disappears into the dunes...]");
@@ -302,7 +304,7 @@ namespace CalamityMod
 				(Func<bool>)(() => CalamityWorld.downedStarGod), 
 				ModContent.ItemType<Starcore>(), 
 				new List<int>() { ModContent.ItemType<AstrumDeusTrophy>(), ModContent.ItemType<AstrumDeusMask>(), ModContent.ItemType<KnowledgeAstrumDeus>(), ModContent.ItemType<KnowledgeAstralInfection>()}, 
-				new List<int>() { ModContent.ItemType<AstrumDeusBag>(), ModContent.ItemType<Stardust>(), ModContent.ItemType<Starfall>(), ModContent.ItemType<TheMicrowave>(), ModContent.ItemType<Quasar>(), ModContent.ItemType<AstralBulwark>(), ModContent.ItemType<HideofAstrumDeus>(), ItemID.FragmentSolar, ItemID.FragmentVortex, ItemID.FragmentNebula, ItemID.FragmentStardust, ItemID.GreaterHealingPotion}, 
+				new List<int>() { ModContent.ItemType<AstrumDeusBag>(), ModContent.ItemType<Stardust>(), ModContent.ItemType<TheMicrowave>(), ModContent.ItemType<StarSputter>(), ModContent.ItemType<Starfall>(), ModContent.ItemType<Quasar>(), ModContent.ItemType<AstralBulwark>(), ModContent.ItemType<HideofAstrumDeus>(), ItemID.FragmentSolar, ItemID.FragmentVortex, ItemID.FragmentNebula, ItemID.FragmentStardust, ItemID.GreaterHealingPotion}, 
 				"Defeat 3 empowered astral titans or use a [i:" + ModContent.ItemType<Starcore>() + "] at Night", 
 				"[c/FFD700:The infected deity retreats to the heavens.]", 
 				"CalamityMod/NPCs/AstrumDeus/AstrumDeus_BossChecklist");
@@ -566,6 +568,12 @@ namespace CalamityMod
 				"Plantera", 
 				new List<int>() {ModContent.ItemType<KnowledgePlantera>()});
 
+				bossChecklist.Call(
+				"AddToBossSpawnItems", 
+				"Terraria", 
+				"Plantera", 
+				new List<int>() {ModContent.ItemType<BulbofDoom>()});
+
 				//Golem
 				bossChecklist.Call(
 				"AddToBossLoot", 
@@ -578,6 +586,12 @@ namespace CalamityMod
 				"Terraria", 
 				"Golem", 
 				new List<int>() {ModContent.ItemType<KnowledgeGolem>()});
+
+				bossChecklist.Call(
+				"AddToBossSpawnItems", 
+				"Terraria", 
+				"Golem", 
+				new List<int>() {ModContent.ItemType<OldPowerCell>()});
 
 				//Duke Fishron
 				bossChecklist.Call(
@@ -605,6 +619,12 @@ namespace CalamityMod
 				"CultistBoss", 
 				new List<int>() {ModContent.ItemType<KnowledgeLunaticCultist>(), ModContent.ItemType<KnowledgeBloodMoon>()});
 
+				bossChecklist.Call(
+				"AddToBossSpawnItems", 
+				"Terraria", 
+				"CultistBoss", 
+				new List<int>() {ModContent.ItemType<EidolonTablet>()});
+
 				//Moon Lord
 				bossChecklist.Call(
 				"AddToBossLoot", 
@@ -631,6 +651,12 @@ namespace CalamityMod
 				"Terraria", 
 				"Blood Moon", 
 				new List<int>() {ModContent.ItemType<BloodOrb>(), ModContent.ItemType<BouncingEyeball>(), ModContent.ItemType<Carnage>()});
+
+				bossChecklist.Call(
+				"AddToBossSpawnItems", 
+				"Terraria", 
+				"Blood Moon", 
+				new List<int>() {ModContent.ItemType<BloodIdol>()});
 
 				//Goblin Army
 				bossChecklist.Call(
