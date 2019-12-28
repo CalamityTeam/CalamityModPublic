@@ -19,6 +19,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.SunkenSea
 {
+    [AutoloadBossHead]
     public class GiantClam : ModNPC
     {
         private int hitAmount = 0;
