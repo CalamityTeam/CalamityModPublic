@@ -13,7 +13,7 @@ namespace CalamityMod.NPCs.HiveMind
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hive Blob");
-            Main.npcFrameCount[npc.type] = 4;
+            //Main.npcFrameCount[npc.type] = 4;
         }
 
         public override void SetDefaults()
@@ -193,13 +193,13 @@ namespace CalamityMod.NPCs.HiveMind
             return false;
         }
 
-        public override void FindFrame(int frameHeight)
+        /*public override void FindFrame(int frameHeight)
         {
             npc.frameCounter += 0.1f;
             npc.frameCounter %= Main.npcFrameCount[npc.type];
             int frame = (int)npc.frameCounter;
             npc.frame.Y = frame * frameHeight;
-        }
+        }*/
 
         public override void HitEffect(int hitDirection, double damage)
         {

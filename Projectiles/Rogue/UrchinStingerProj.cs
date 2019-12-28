@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -6,9 +7,10 @@ using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
-{
+{   
     public class UrchinStingerProj : ModProjectile
     {
+        private int projdmg = 0;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Stinger");
@@ -24,6 +26,58 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.timeLeft = 600;
             aiType = 48;
             projectile.Calamity().rogue = true;
+        }
+
+        public override bool PreAI()
+        {
+            if (projectile.Calamity().stealthStrike)
+            {
+                CalamityUtils.StickyProjAI(projectile);
+                projectile.localAI[1]++;
+                if (projectile.localAI[1] <= 20f && projectile.ai[0] != 1f)
+                {
+                    projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
+                    projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi) + MathHelper.ToRadians(90) * projectile.direction;
+                }
+                if (projectile.localAI[1] > 20f && projectile.ai[0] != 1f)
+                {
+                    projectile.velocity.Y += 0.4f;
+                    projectile.velocity.X *= 0.97f;
+                    if (projectile.velocity.Y > 16f)
+                        projectile.velocity.Y = 16f;
+                    projectile.rotation += 0.2f * projectile.direction;
+                }
+                if (projectile.localAI[0] % 40 == 0 && projectile.ai[0] == 1f)
+                {
+                    Vector2 projspeed = new Vector2(Main.rand.NextFloat(-4f, 4f), Main.rand.NextFloat(-4f, 4f));
+                    int proj = Projectile.NewProjectile(projectile.Center, projspeed, ModContent.ProjectileType<SulphuricAcidBubbleFriendly>(), (int)(projdmg * 0.5f), 1f, projectile.owner, 0f, 0f);
+                    Main.projectile[proj].Calamity().rogue = true;
+                }
+                return false;
+            }
+            return true;
+        }
+
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            if (projectile.Calamity().stealthStrike)
+            {
+                projdmg = projectile.damage;
+                CalamityUtils.ModifyHitNPCSticky(projectile,4, false);
+            }
+        }
+
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+        {
+            if (projectile.Calamity().stealthStrike)
+            {
+                if (targetHitbox.Width > 8 && targetHitbox.Height > 8)
+                {
+                    targetHitbox.Inflate(-targetHitbox.Width / 8, -targetHitbox.Height / 8);
+                }
+                return null;
+            }
+            return base.Colliding(projHitbox, targetHitbox);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

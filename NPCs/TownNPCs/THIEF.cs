@@ -16,6 +16,7 @@ namespace CalamityMod.NPCs.TownNPCs
     [AutoloadHead]
     public class THIEF : ModNPC
     {
+        string npcName;
         public static List<string> PossibleNames = new List<string>()
         {
             "Laura", "Mie", "Bonnie",
@@ -69,7 +70,8 @@ namespace CalamityMod.NPCs.TownNPCs
 
         public override string TownNPCName()
         {
-            return PossibleNames[Main.rand.Next(PossibleNames.Count)];
+            npcName = PossibleNames[Main.rand.Next(PossibleNames.Count)];
+            return npcName;
         }
         public override string GetChat()
         {
@@ -198,6 +200,7 @@ namespace CalamityMod.NPCs.TownNPCs
         }
         public override void SetChatButtons(ref string button, ref string button2)
         {
+            
             button = Language.GetTextValue("LegacyInterface.28");
             button2 = "Refund";
         }
@@ -206,6 +209,7 @@ namespace CalamityMod.NPCs.TownNPCs
         {
             if (firstButton)
             {
+                
                 shop = true;
             }
             else
@@ -296,7 +300,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 nextSlot++;
             }
             //:BearWatchingYou:
-            if (npc.GivenName == "Laura")
+            if (npcName == "Laura")
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<BearEye>());
                 nextSlot++;

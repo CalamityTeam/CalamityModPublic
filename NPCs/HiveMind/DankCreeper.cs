@@ -18,8 +18,8 @@ namespace CalamityMod.NPCs.HiveMind
         public override void SetDefaults()
         {
             npc.damage = 25;
-            npc.width = 74;
-            npc.height = 74;
+            npc.width = 70;
+            npc.height = 70;
             npc.defense = 6;
             npc.lifeMax = 45;
             if (CalamityWorld.bossRushActive)

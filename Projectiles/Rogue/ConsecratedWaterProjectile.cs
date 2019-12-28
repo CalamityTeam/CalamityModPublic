@@ -40,6 +40,13 @@ namespace CalamityMod.Projectiles.Rogue
         }
         public override void Kill(int timeLeft)
         {
+            //Dust
+            for (int i = 0; i< 30;i++)
+            {
+                Vector2 dspeed = new Vector2(Main.rand.NextFloat(-4f, 4f), Main.rand.NextFloat(-4f, 4f));
+                Dust.NewDust(projectile.Center, 1, 1, DustID.BlueCrystalShard, dspeed.X, dspeed.Y, 0, default, 1.1f);
+            }
+
             Main.PlaySound(SoundID.Item107, projectile.Bottom);
             //normal
             if (projectile.ai[1] == 0f)
