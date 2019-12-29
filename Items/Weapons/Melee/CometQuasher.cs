@@ -80,7 +80,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 num79 *= num80;
                 float num114 = num78;
                 float num115 = num79 + (float)Main.rand.Next(-40, 41) * 0.02f;
-                int proj = Projectile.NewProjectile(vector2.X, vector2.Y, num114 * 0.75f, num115 * 0.75f, 424 + Main.rand.Next(3), (int)((float)item.damage * player.meleeDamage * 0.75f), knockback, player.whoAmI, 0f, 0.5f + (float)Main.rand.NextDouble() * 0.3f);
+                int proj = Projectile.NewProjectile(vector2.X, vector2.Y, num114 * 0.75f, num115 * 0.75f, 424 + Main.rand.Next(3), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f) * 0.75f), knockback, player.whoAmI, 0f, 0.5f + (float)Main.rand.NextDouble() * 0.3f);
                 Main.projectile[proj].Calamity().forceMelee = true;
             }
         }

@@ -3517,8 +3517,8 @@ namespace CalamityMod.NPCs
 
                 if (Main.npc[(int)npc.ai[1]].ai[1] != 0f)
                 {
-                    float maxX = CalamityWorld.bossRushActive ? 10f : 8f;
-                    float maxY = CalamityWorld.bossRushActive ? 7.5f : 6f;
+                    float maxX = CalamityWorld.bossRushActive ? 5f : 4f;
+                    float maxY = CalamityWorld.bossRushActive ? 3.75f : 3f;
                     if (npc.position.Y > Main.npc[(int)npc.ai[1]].position.Y - 100f)
                     {
                         if (npc.velocity.Y > 0f)
@@ -3564,8 +3564,8 @@ namespace CalamityMod.NPCs
                         npc.netUpdate = true;
                     }
 
-                    float maxX = CalamityWorld.bossRushActive ? 10f : 8f;
-                    float maxY = CalamityWorld.bossRushActive ? 4f : 3f;
+                    float maxX = CalamityWorld.bossRushActive ? 5f : 4f;
+                    float maxY = CalamityWorld.bossRushActive ? 2f : 1.5f;
 
                     if (npc.position.Y > Main.npc[(int)npc.ai[1]].position.Y + 230f)
                     {

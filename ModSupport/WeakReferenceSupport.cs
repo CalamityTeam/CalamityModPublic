@@ -50,6 +50,8 @@ using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.SunkenSea;
 using CalamityMod.NPCs.GreatSandShark;
 using CalamityMod.NPCs.TownNPCs;
+using CalamityMod.Buffs.Summon;
+using CalamityMod.Projectiles.Summon;
 using CalamityMod.World;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -66,6 +68,7 @@ namespace CalamityMod
         {
             BossChecklistSupport();
             CensusSupport();
+			SummonersAssociationSupport();
         }
 
         private static void BossChecklistSupport()
@@ -735,11 +738,43 @@ namespace CalamityMod
             Mod censusMod = ModLoader.GetMod("Census");
             if (censusMod != null)
             {
-                censusMod.Call("TownNPCCondition", ModContent.NPCType<SEAHOE>(), "Defeat a Giant Clam");
+                censusMod.Call("TownNPCCondition", ModContent.NPCType<SEAHOE>(), "Defeat a Giant Clam after defeating the Desert Scourge");
                 censusMod.Call("TownNPCCondition", ModContent.NPCType<THIEF>(), "Have a [i:" + ItemID.PlatinumCoin + "] in your inventory after defeating Skeletron");
                 censusMod.Call("TownNPCCondition", ModContent.NPCType<FAP>(), "Have [i:" + ModContent.ItemType<FabsolsVodka>() + "] in your inventory in Hardmode");
                 censusMod.Call("TownNPCCondition", ModContent.NPCType<DILF>(), "Defeat Cryogen");
             }
         }
+
+		private static void SummonersAssociationSupport()
+		{
+			Mod SummonersAssociation = ModLoader.GetMod("SummonersAssociation");
+			if(SummonersAssociation != null)
+			{
+				SummonersAssociation.Call("AddMinionInfo", ModContent.ItemType<WulfrumController>(), ModContent.BuffType<WulfrumDroidBuff>(), ModContent.ProjectileType<WulfrumDroid>());
+				SummonersAssociation.Call("AddMinionInfo", ModContent.ItemType<SunSpiritStaff>(), ModContent.BuffType<SolarSpirit>(), ModContent.ProjectileType<SolarPixie>());
+				SummonersAssociation.Call("AddMinionInfo", ModContent.ItemType<SeaboundStaff>(), ModContent.BuffType<BrittleStar>(), ModContent.ProjectileType<BrittleStarMinion>());
+				SummonersAssociation.Call("AddMinionInfo", ModContent.ItemType<MagicalConch>(), ModContent.BuffType<HermitCrab>(), ModContent.ProjectileType<HermitCrabMinion>());
+				SummonersAssociation.Call("AddMinionInfo", ModContent.ItemType<BloodClotStaff>(), ModContent.BuffType<BloodClot>(), ModContent.ProjectileType<BloodClotMinion>());
+				SummonersAssociation.Call("AddMinionInfo", ModContent.ItemType<DankStaff>(), ModContent.BuffType<DankCreeperBuff>(), ModContent.ProjectileType<DankCreeperMinion>());
+				SummonersAssociation.Call("AddMinionInfo", ModContent.ItemType<HerringStaff>(), ModContent.BuffType<Herring>(), ModContent.ProjectileType<HerringMinion>());
+				SummonersAssociation.Call("AddMinionInfo", ModContent.ItemType<CorroslimeStaff>(), ModContent.BuffType<Corroslime>(), ModContent.ProjectileType<CorroslimeMinion>());
+				SummonersAssociation.Call("AddMinionInfo", ModContent.ItemType<CrimslimeStaff>(), ModContent.BuffType<Crimslime>(), ModContent.ProjectileType<CrimslimeMinion>());
+				SummonersAssociation.Call("AddMinionInfo", ModContent.ItemType<AncientIceChunk>(), ModContent.BuffType<IceClasper>(), ModContent.ProjectileType<IceClasperMinion>());
+				SummonersAssociation.Call("AddMinionInfo", ModContent.ItemType<BlackHawkRemote>(), ModContent.BuffType<BlackHawkBuff>(), ModContent.ProjectileType<BlackHawkSummon>());
+				SummonersAssociation.Call("AddMinionInfo", ModContent.ItemType<ShellfishStaff>(), ModContent.BuffType<ShellfishBuff>(), ModContent.ProjectileType<Shellfish>());
+				SummonersAssociation.Call("AddMinionInfo", ModContent.ItemType<DeepseaStaff>(), ModContent.BuffType<AquaticStar>(), ModContent.ProjectileType<AquaticStarMinion>());
+				SummonersAssociation.Call("AddMinionInfo", ModContent.ItemType<SunGodStaff>(), ModContent.BuffType<SolarSpiritGod>(), ModContent.ProjectileType<SolarGod>());
+				SummonersAssociation.Call("AddMinionInfo", ModContent.ItemType<BlightedEyeStaff>(), ModContent.BuffType<CalamitasEyes>(), new List<int>() {ModContent.ProjectileType<Calamitamini>(), ModContent.ProjectileType<Cataclymini>(), ModContent.ProjectileType<Catastromini>()}, new List<float>() {(1f-0.6666666f), 0.3333333f, 0.3333333f}); //Entropy's Vigil is a bruh moment
+				SummonersAssociation.Call("AddMinionInfo", ModContent.ItemType<ResurrectionButterfly>(), ModContent.BuffType<ResurrectionButterflyBuff>(), new List<int>() {ModContent.ProjectileType<PinkButterfly>(), ModContent.ProjectileType<PurpleButterfly>()});
+				SummonersAssociation.Call("AddMinionInfo", ModContent.ItemType<SandSharknadoStaff>(), ModContent.BuffType<Sandnado>(), ModContent.ProjectileType<SandnadoMinion>());
+				SummonersAssociation.Call("AddMinionInfo", ModContent.ItemType<ElementalAxe>(), ModContent.BuffType<ElementalAxeBuff>(), ModContent.ProjectileType<ElementalAxeMinion>());
+				SummonersAssociation.Call("AddMinionInfo", ModContent.ItemType<Cosmilamp>(), ModContent.BuffType<CosmilampBuff>(), ModContent.ProjectileType<CosmilampMinion>());
+				SummonersAssociation.Call("AddMinionInfo", ModContent.ItemType<EtherealSubjugator>(), ModContent.BuffType<Phantom>(), ModContent.ProjectileType<PhantomGuy>());
+				SummonersAssociation.Call("AddMinionInfo", ModContent.ItemType<CalamarisLament>(), ModContent.BuffType<Calamari>(), ModContent.ProjectileType<CalamariMinion>());
+				SummonersAssociation.Call("AddMinionInfo", ModContent.ItemType<StaffoftheMechworm>(), ModContent.BuffType<Mechworm>(), ModContent.ProjectileType<MechwormBody>(), 1f);
+				SummonersAssociation.Call("AddMinionInfo", ModContent.ItemType<AngryChickenStaff>(), ModContent.BuffType<YharonKindleBuff>(), ModContent.ProjectileType<SonOfYharon>());
+				SummonersAssociation.Call("AddMinionInfo", ModContent.ItemType<CosmicImmaterializer>(), ModContent.BuffType<CosmicEnergy>(), ModContent.ProjectileType<CosmicEnergySpiral>());
+			}
+		}
     }
 }

@@ -66,7 +66,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             if (target.life <= (target.lifeMax * 0.05f))
             {
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<Exoboom>(), (int)((float)item.damage * player.meleeDamage), knockback, Main.myPlayer);
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<Exoboom>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), knockback, Main.myPlayer);
             }
             target.AddBuff(ModContent.BuffType<ExoFreeze>(), 30);
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
@@ -108,7 +108,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 for (int comet = 0; comet < 2; comet++)
                 {
                     float ai1 = Main.rand.NextFloat() + 0.5f;
-                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, ModContent.ProjectileType<Exocomet>(), (int)((float)item.damage * player.meleeDamage), knockback, player.whoAmI, 0f, ai1);
+                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, ModContent.ProjectileType<Exocomet>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), knockback, player.whoAmI, 0f, ai1);
                 }
             }
             if (target.type == NPCID.TargetDummy || !target.canGhostHeal)
