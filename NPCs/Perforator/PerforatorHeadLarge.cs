@@ -3,6 +3,7 @@ using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -206,7 +207,7 @@ namespace CalamityMod.NPCs.Perforator
             vector18.Y = (float)((int)(vector18.Y / 16f) * 16);
             num191 -= vector18.X;
             num192 -= vector18.Y;
-            float num193 = (float)System.Math.Sqrt((double)(num191 * num191 + num192 * num192));
+            float num193 = (float)Math.Sqrt((double)(num191 * num191 + num192 * num192));
             if (!flag94)
             {
                 npc.TargetClosest(true);
@@ -215,7 +216,7 @@ namespace CalamityMod.NPCs.Perforator
                 {
                     npc.velocity.Y = num188;
                 }
-                if ((double)(System.Math.Abs(npc.velocity.X) + System.Math.Abs(npc.velocity.Y)) < (double)num188 * 0.4)
+                if ((double)(Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y)) < (double)num188 * 0.4)
                 {
                     if (npc.velocity.X < 0f)
                     {
@@ -265,9 +266,9 @@ namespace CalamityMod.NPCs.Perforator
                     npc.soundDelay = (int)num195;
                     Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 1);
                 }
-                num193 = (float)System.Math.Sqrt((double)(num191 * num191 + num192 * num192));
-                float num196 = System.Math.Abs(num191);
-                float num197 = System.Math.Abs(num192);
+                num193 = (float)Math.Sqrt((double)(num191 * num191 + num192 * num192));
+                float num196 = Math.Abs(num191);
+                float num197 = Math.Abs(num192);
                 float num198 = num188 / num193;
                 num191 *= num198;
                 num192 *= num198;
@@ -298,7 +299,7 @@ namespace CalamityMod.NPCs.Perforator
                                 npc.velocity.Y = npc.velocity.Y - num189;
                             }
                         }
-                        if ((double)System.Math.Abs(num192) < (double)num188 * 0.2 && ((npc.velocity.X > 0f && num191 < 0f) || (npc.velocity.X < 0f && num191 > 0f)))
+                        if ((double)Math.Abs(num192) < (double)num188 * 0.2 && ((npc.velocity.X > 0f && num191 < 0f) || (npc.velocity.X < 0f && num191 > 0f)))
                         {
                             if (npc.velocity.Y > 0f)
                             {
@@ -309,7 +310,7 @@ namespace CalamityMod.NPCs.Perforator
                                 npc.velocity.Y = npc.velocity.Y - num189 * 2f;
                             }
                         }
-                        if ((double)System.Math.Abs(num191) < (double)num188 * 0.2 && ((npc.velocity.Y > 0f && num192 < 0f) || (npc.velocity.Y < 0f && num192 > 0f)))
+                        if ((double)Math.Abs(num191) < (double)num188 * 0.2 && ((npc.velocity.Y > 0f && num192 < 0f) || (npc.velocity.Y < 0f && num192 > 0f)))
                         {
                             if (npc.velocity.X > 0f)
                             {
@@ -333,7 +334,7 @@ namespace CalamityMod.NPCs.Perforator
                             {
                                 npc.velocity.X = npc.velocity.X - num189 * 1.1f;
                             }
-                            if ((double)(System.Math.Abs(npc.velocity.X) + System.Math.Abs(npc.velocity.Y)) < (double)num188 * 0.5)
+                            if ((double)(Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y)) < (double)num188 * 0.5)
                             {
                                 if (npc.velocity.Y > 0f)
                                 {
@@ -355,7 +356,7 @@ namespace CalamityMod.NPCs.Perforator
                             {
                                 npc.velocity.Y = npc.velocity.Y - num189 * 1.1f;
                             }
-                            if ((double)(System.Math.Abs(npc.velocity.X) + System.Math.Abs(npc.velocity.Y)) < (double)num188 * 0.5)
+                            if ((double)(Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y)) < (double)num188 * 0.5)
                             {
                                 if (npc.velocity.X > 0f)
                                 {
@@ -369,7 +370,7 @@ namespace CalamityMod.NPCs.Perforator
                         }
                     }
                 }
-                npc.rotation = (float)System.Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X) + 1.57f;
+                npc.rotation = (float)Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X) + 1.57f;
                 if (flag94)
                 {
                     if (npc.localAI[0] != 1f)
