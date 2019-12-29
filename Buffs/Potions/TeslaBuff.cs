@@ -1,0 +1,33 @@
+using CalamityMod.CalPlayer;
+using CalamityMod.Projectiles.Typeless;
+using Terraria;
+using Terraria.ModLoader;
+
+namespace CalamityMod.Buffs.Potions
+{
+    public class TeslaBuff : ModBuff
+    {
+        public override void SetDefaults()
+        {
+            DisplayName.SetDefault("Tesla's Electricity");
+            Description.SetDefault("Summons an aura of electricity");
+            Main.debuff[Type] = false;
+            Main.pvpBuff[Type] = true;
+            Main.buffNoSave[Type] = false;
+            longerExpertDebuff = false;
+        }
+
+        public override void Update(NPC npc, ref int buffIndex)
+        {
+			if (npc.Calamity().tesla < npc.buffTime[buffIndex])
+				npc.Calamity().tesla = npc.buffTime[buffIndex];
+			npc.DelBuff(buffIndex);
+			buffIndex--;
+        }
+
+        public override void Update(Player player, ref int buffIndex)
+        {
+            player.Calamity().tesla = true;
+        }
+    }
+}

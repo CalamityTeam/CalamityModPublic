@@ -2693,6 +2693,29 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
+			if (modPlayer.tesla)
+			{
+				if (player.whoAmI == Main.myPlayer)
+				{
+					if (player.ownedProjectileCounts[ModContent.ProjectileType<TeslaAura>()] < 1)
+						Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<TeslaAura>(), 25, 0f, Main.myPlayer, 0f, 0f);
+				}
+			}
+			else if (player.ownedProjectileCounts[ModContent.ProjectileType<TeslaAura>()] != 0)
+            {
+				if (player.whoAmI == Main.myPlayer)
+				{
+					for (int i = 0; i < 1000; i++)
+					{
+						if (Main.projectile[i].active && Main.projectile[i].type == ModContent.ProjectileType<TeslaAura>() && Main.projectile[i].owner == player.whoAmI)
+						{
+							Main.projectile[i].Kill();
+							break;
+						}
+					}
+				}
+			}
+
 			if (Config.ProficiencyEnabled)
 				modPlayer.GetStatBonuses();
 		}

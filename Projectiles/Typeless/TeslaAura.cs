@@ -1,35 +1,40 @@
-﻿using CalamityMod.NPCs;
+using CalamityMod.CalPlayer;
+using CalamityMod.NPCs;
+using CalamityMod.Buffs.Potions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-namespace CalamityMod.Projectiles.Rogue
+
+namespace CalamityMod.Projectiles.Typeless
 {
-    public class ShockTeslaAura : ModProjectile
+    public class TeslaAura : ModProjectile
     {
         private const float radius = 98f;
-        private const int lifetime = 240;
         private const int framesX = 3;
         private const int framesY = 6;
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Electrifying Aura");
+            DisplayName.SetDefault("Tesla's Electricity");
+            ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
             projectile.width = 218;
             projectile.height = 218;
-            projectile.friendly = true;
             projectile.ignoreWater = true;
+            projectile.minionSlots = 0f;
+            projectile.timeLeft = 18000;
             projectile.tileCollide = false;
+            projectile.friendly = true;
+            projectile.timeLeft *= 5;
             projectile.penetrate = -1;
-            projectile.timeLeft = lifetime;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 20;
-            projectile.Calamity().rogue = true;
         }
 
         public override void AI()
@@ -49,14 +54,27 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 projectile.localAI[1] = 0;
             }
-            
-            Player player = Main.player[Main.myPlayer];
-            Vector2 posDiff = player.Center - projectile.Center;
-            if (posDiff.Length() <= radius)
+            Player player = Main.player[projectile.owner];
+            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.15f / 255f, (255 - projectile.alpha) * 0.15f / 255f, (255 - projectile.alpha) * 0.01f / 255f);
+            projectile.Center = player.Center;
+        }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            if (CalamityGlobalNPC.ShouldAffectNPC(target))
             {
-                player.statDefense += 6;
-                player.lifeRegen += 2;
+                float knockbackMultiplier = knockback - target.knockBackResist;
+                if (knockbackMultiplier < 0)
+                {
+                    knockbackMultiplier = 0;
+                }
+                Vector2 trueKnockback = target.Center - projectile.Center;
+                trueKnockback.Normalize();
+                target.velocity = trueKnockback * knockbackMultiplier;
             }
+
+            target.AddBuff(BuffID.Electrified, 300);
+            target.AddBuff(ModContent.BuffType<TeslaBuff>(), 120);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -96,23 +114,6 @@ namespace CalamityMod.Projectiles.Rogue
 
             spriteBatch.Draw(sprite, projectile.Center - Main.screenPosition, sourceRect, drawColour * opacity, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
             return false;
-        }
-
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            if (CalamityGlobalNPC.ShouldAffectNPC(target))
-            {
-                float knockbackMultiplier = knockback - target.knockBackResist;
-                if (knockbackMultiplier < 0)
-                {
-                    knockbackMultiplier = 0;
-                }
-                Vector2 trueKnockback = target.Center - projectile.Center;
-                trueKnockback.Normalize();
-                target.velocity = trueKnockback * knockbackMultiplier;
-            }
-
-            target.AddBuff(BuffID.Electrified, 300);
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)

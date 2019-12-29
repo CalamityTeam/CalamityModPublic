@@ -746,6 +746,13 @@ namespace CalamityMod
             });
             RecipeGroup.RegisterGroup("AnyCopperBar", group);
 
+            group = new RecipeGroup(() => "Any Gold Ore", new int[]
+            {
+                ItemID.GoldOre,
+                ItemID.PlatinumOre
+            });
+            RecipeGroup.RegisterGroup("AnyGoldOre", group);
+
             group = new RecipeGroup(() => "Any Gold Bar", new int[]
             {
                 ItemID.GoldBar,
@@ -781,7 +788,7 @@ namespace CalamityMod
             });
             RecipeGroup.RegisterGroup("NForEE", group);
 
-            group = new RecipeGroup(() => "Fetid or Bloodletting Essence", new int[]
+            group = new RecipeGroup(() => "Any Evil Essence", new int[]
             {
                 ModContent.ItemType<FetidEssence>(),
                 ModContent.ItemType<BloodlettingEssence>()
