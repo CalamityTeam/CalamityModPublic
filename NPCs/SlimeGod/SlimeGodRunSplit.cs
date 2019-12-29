@@ -390,7 +390,7 @@ namespace CalamityMod.NPCs.SlimeGod
                     if (value74.Length() > 10f)
                     {
                         value74.Normalize();
-                        value74 *= CalamityWorld.bossRushActive ? 24f : 14f;
+                        value74 *= CalamityWorld.bossRushActive ? 24f : 16f;
                     }
                     npc.velocity = (npc.velocity * 4f + value74) / 5f;
                     return;
