@@ -49,13 +49,13 @@ namespace CalamityMod.Items.Weapons.Melee
                 player.statLife += 4;
                 player.HealEffect(4);
             }
-            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<RainbowBoom>(), (int)((float)item.damage * player.meleeDamage * 0.5f), 0f, player.whoAmI);
+            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<RainbowBoom>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f) * 0.5f), 0f, player.whoAmI);
             if (target.life <= (target.lifeMax * 0.5f))
             {
                 float randomSpeedX = (float)Main.rand.Next(9);
                 float randomSpeedY = (float)Main.rand.Next(6, 15);
-                Projectile.NewProjectile(player.Center.X, player.Center.Y, -randomSpeedX, -randomSpeedY, ModContent.ProjectileType<RainBolt>(), (int)((float)item.damage * player.meleeDamage * 0.75f), knockback, player.whoAmI);
-                Projectile.NewProjectile(player.Center.X, player.Center.Y, randomSpeedX, -randomSpeedY, ModContent.ProjectileType<RainBolt>(), (int)((float)item.damage * player.meleeDamage * 0.75f), knockback, player.whoAmI);
+                Projectile.NewProjectile(player.Center.X, player.Center.Y, -randomSpeedX, -randomSpeedY, ModContent.ProjectileType<RainBolt>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f) * 0.75f), knockback, player.whoAmI);
+                Projectile.NewProjectile(player.Center.X, player.Center.Y, randomSpeedX, -randomSpeedY, ModContent.ProjectileType<RainBolt>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f) * 0.75f), knockback, player.whoAmI);
                 Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -randomSpeedY, ModContent.ProjectileType<RainBolt>(), (int)((float)item.damage * player.meleeDamage * 0.75f), knockback, player.whoAmI);
             }
             if (target.life <= 0)

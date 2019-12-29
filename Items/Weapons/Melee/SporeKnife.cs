@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             if (target.life <= 0)
             {
-                int proj = Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, Main.rand.Next(569, 572), (int)((float)item.damage * player.meleeDamage), knockback, Main.myPlayer);
+                int proj = Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, Main.rand.Next(569, 572), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), knockback, Main.myPlayer);
                 Main.projectile[proj].Calamity().forceMelee = true;
             }
         }

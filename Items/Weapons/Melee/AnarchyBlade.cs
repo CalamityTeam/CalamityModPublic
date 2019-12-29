@@ -67,7 +67,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<BrimstoneBoom>(), (int)((float)item.damage * player.meleeDamage), knockback, Main.myPlayer);
+            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<BrimstoneBoom>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), knockback, Main.myPlayer);
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
 
             if (player.statLife < (player.statLifeMax2 * 0.5f) && Main.rand.NextBool(5))

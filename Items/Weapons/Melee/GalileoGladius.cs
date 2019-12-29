@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useTime = 10;
             item.width = 44;
             item.height = 44;
-            item.damage = 225;
+            item.damage = 200;
             item.melee = true;
             item.knockBack = 10f;
             item.UseSound = SoundID.Item1;
@@ -85,7 +85,7 @@ namespace CalamityMod.Items.Weapons.Melee
             {
 				if (player.Calamity().galileoCooldown <= 0)
 				{
-					int num19 = Projectile.NewProjectile(x, y, num15, num16, ModContent.ProjectileType<GalileosPlanet>(), (int)((float)item.damage * player.meleeDamage * 2f), 15f, player.whoAmI, 0f, 0f);
+					int num19 = Projectile.NewProjectile(x, y, num15, num16, ModContent.ProjectileType<GalileosPlanet>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f) * 2f), 15f, player.whoAmI, 0f, 0f);
 					Main.projectile[num19].ai[1] = player.position.Y;
 					player.Calamity().galileoCooldown = 15;
 				}

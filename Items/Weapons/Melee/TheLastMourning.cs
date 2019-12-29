@@ -71,8 +71,8 @@ namespace CalamityMod.Items.Weapons.Melee
             num5 = speed / num5;
             num3 *= num5;
             num4 *= num5;
-            Projectile.NewProjectile((float)num, (float)num2, num3, num4, ModContent.ProjectileType<MourningSkull>(), (int)((float)item.damage * player.meleeDamage * 1.5f), knockback, player.whoAmI, (float)target.whoAmI, 0f);
-            CalamityGlobalItem.HorsemansBladeOnHit(player, target.whoAmI, (int)(item.damage * player.meleeDamage * 1.5f), knockback, true);
+            Projectile.NewProjectile((float)num, (float)num2, num3, num4, ModContent.ProjectileType<MourningSkull>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f) * 1.5f), knockback, player.whoAmI, (float)target.whoAmI, 0f);
+            CalamityGlobalItem.HorsemansBladeOnHit(player, target.whoAmI, (int)(item.damage * (player.allDamage + player.meleeDamage - 1f) * 1.5f), knockback, true);
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
