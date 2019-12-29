@@ -6,6 +6,7 @@ using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
+using CalamityMod.Projectiles.Melee;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -14,9 +15,9 @@ namespace CalamityMod.Items.Weapons.Melee
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cosmic Shiv");
-			Tooltip.SetDefault("Fires a cosmic beam that home in on enemies\n" +
-                               "Upon hitting an enemy, a barrage of offscreen objects home in on the enemy as well as raining stars\n" +
-                               "'Definintely don't underestimate the power of shivs'");
+			Tooltip.SetDefault("Definintely don't underestimate the power of shivs\n" +
+							   "Fires a cosmic beam that home in on enemies\n" +
+                               "Upon hitting an enemy, a barrage of offscreen objects home in on the enemy as well as raining stars");
 		}
 
 		public override void SetDefaults()
@@ -35,10 +36,15 @@ namespace CalamityMod.Items.Weapons.Melee
 			item.UseSound = SoundID.Item1;
 			item.useTurn = true;
 			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("CosmicShivBall");
+			item.shoot = ModContent.ProjectileType<CosmicShivBall>();
 			item.shootSpeed = 14f;
 			item.value = Item.buyPrice(2, 50, 0, 0); //50 gold
             item.Calamity().postMoonLordRarity = 21;
+        }
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            Projectile.NewProjectile(position.X, position.Y, item.shootSpeed * player.direction, 0f, type, damage, knockBack, player.whoAmI, 0f, 0f);
+            return false;
         }
 		public override void AddRecipes()
         {

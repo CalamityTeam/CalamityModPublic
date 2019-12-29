@@ -62,7 +62,6 @@ namespace CalamityMod.Projectiles.Melee
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            var calamity = ModLoader.GetMod("CalamityMod");
             if (projectile.penetrate == penetrateMax)
             {
                 projectile.damage /= 15;
