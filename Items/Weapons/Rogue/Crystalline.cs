@@ -1,4 +1,5 @@
 using CalamityMod.Projectiles.Rogue;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,7 +11,8 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Crystalline");
-            Tooltip.SetDefault("Splits into several projectiles as it travels");
+            Tooltip.SetDefault("Splits into several projectiles as it travels \n" +
+                               "Stealth Strikes makes the blade split more and create crystals when destroyed");
         }
 
         public override void SafeSetDefaults()
@@ -43,6 +45,16 @@ namespace CalamityMod.Items.Weapons.Rogue
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
+        }
+
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            if (player.Calamity().StealthStrikeAvailable())
+            {
+                int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<CrystallineProj>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                Main.projectile[proj].Calamity().stealthStrike = true;
+            }
+            return true;
         }
     }
 }

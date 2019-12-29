@@ -18,18 +18,33 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.height = 10;
             projectile.friendly = true;
             projectile.penetrate = 1;
-            projectile.aiStyle = 113;
+            //projectile.aiStyle = 113;
             projectile.timeLeft = 30;
-            aiType = 598;
+            //aiType = 598;
             projectile.Calamity().rogue = true;
         }
 
         public override void AI()
         {
+            projectile.localAI[0]++;
             projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 2.355f;
             if (projectile.spriteDirection == -1)
             {
                 projectile.rotation -= 1.57f;
+            }
+            if(projectile.localAI[0] == 10f && projectile.ai[1] == 1f)
+            {
+                int numProj = 2;
+                float rotation = MathHelper.ToRadians(50);
+                if (projectile.owner == Main.myPlayer)
+                {
+                    for (int i = 0; i < numProj + 1; i++)
+                    {
+                        Vector2 perturbedSpeed = new Vector2(projectile.velocity.X * 0.8f, projectile.velocity.Y * 0.8f).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
+                        int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<Crystalline2>(), (int)((double)projectile.damage * 0.5f), projectile.knockBack, projectile.owner, 0f, 2f);
+                        Main.projectile[proj].timeLeft = 20;
+                    }
+                }
             }
         }
 
@@ -45,6 +60,14 @@ namespace CalamityMod.Projectiles.Rogue
             for (int k = 0; k < 5; k++)
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 154, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
+            }
+            if (projectile.ai[1] >= 1f)
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    Vector2 projspeed = new Vector2(Main.rand.NextFloat(-8f, 8f), Main.rand.NextFloat(-8f, 8f));
+                    Projectile.NewProjectile(projectile.Center, projspeed, 90, (int)(projectile.damage * 0.4f), 2f, projectile.owner, 0f, 0f);
+                }
             }
         }
     }
