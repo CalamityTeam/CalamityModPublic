@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.hostile = true;
             projectile.alpha = 50;
             projectile.penetrate = 1;
-            projectile.timeLeft = 180;
+            projectile.timeLeft = 300;
         }
 
         public override void AI()
@@ -40,8 +40,8 @@ namespace CalamityMod.Projectiles.Boss
                 for (i = 0; i < 3; i++)
                 {
                     offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<IceRain>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<IceRain>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<IceRain>(), projectile.damage, projectile.knockBack, projectile.owner, 1f, 0f);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<IceRain>(), projectile.damage, projectile.knockBack, projectile.owner, 1f, 0f);
                 }
             }
             for (int k = 0; k < 3; k++)
