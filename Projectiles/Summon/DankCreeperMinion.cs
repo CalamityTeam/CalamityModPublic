@@ -22,7 +22,6 @@ namespace CalamityMod.Projectiles.Summon
         {
             projectile.width = 30;
             projectile.height = 30;
-            projectile.scale = 0.75f;
             projectile.netImportant = true;
             projectile.friendly = true;
             projectile.minionSlots = 1;
@@ -66,7 +65,7 @@ namespace CalamityMod.Projectiles.Summon
             bool flag64 = projectile.type == ModContent.ProjectileType<DankCreeperMinion>();
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            player.AddBuff(ModContent.BuffType<DankCreeper>(), 3600);
+            player.AddBuff(ModContent.BuffType<DankCreeperBuff>(), 3600);
             if (flag64)
             {
                 if (player.dead)
