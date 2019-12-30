@@ -449,6 +449,8 @@ namespace CalamityMod.CalPlayer
 				modPlayer.gainRageCooldown--;
 			if (modPlayer.galileoCooldown > 0)
 				modPlayer.galileoCooldown--;
+			if (modPlayer.raiderCooldown > 0)
+				modPlayer.raiderCooldown--;
 			if (modPlayer.draconicSurgeCooldown > 0)
 				modPlayer.draconicSurgeCooldown--;
 			if (modPlayer.fleshTotemCooldown > 0)
