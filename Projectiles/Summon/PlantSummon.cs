@@ -439,7 +439,7 @@ namespace CalamityMod.Projectiles.Summon
 					if (Main.rand.NextBool(4))
 					{
 						num658 = ModContent.ProjectileType<PlantThornBall>();
-						projDmg = (int)(projectile.damage * 1.2f)
+						projDmg = (int)(projectile.damage * 1.2f);
 					}
 					if (flag25 && projectile.ai[1] == 0f)
 					{
