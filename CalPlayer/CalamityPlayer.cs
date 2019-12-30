@@ -642,6 +642,7 @@ namespace CalamityMod.CalPlayer
         public bool cLamp = false;
         public bool pGuy = false;
         public bool sandnado = false;
+        public bool plantera = false;
         public bool gDefense = false;
         public bool gOffense = false;
         public bool gHealer = false;
@@ -1385,6 +1386,7 @@ namespace CalamityMod.CalPlayer
             sCrystal = false;
             sGod = false;
             sandnado = false;
+            plantera = false;
             vUrchin = false;
             cSpirit = false;
             rOrb = false;

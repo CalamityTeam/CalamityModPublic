@@ -765,6 +765,7 @@ namespace CalamityMod
 				SummonersAssociation.Call("AddMinionInfo", ModContent.ItemType<DeepseaStaff>(), ModContent.BuffType<AquaticStar>(), ModContent.ProjectileType<AquaticStarMinion>());
 				SummonersAssociation.Call("AddMinionInfo", ModContent.ItemType<SunGodStaff>(), ModContent.BuffType<SolarSpiritGod>(), ModContent.ProjectileType<SolarGod>());
 				SummonersAssociation.Call("AddMinionInfo", ModContent.ItemType<BlightedEyeStaff>(), ModContent.BuffType<CalamitasEyes>(), new List<int>() {ModContent.ProjectileType<Calamitamini>(), ModContent.ProjectileType<Cataclymini>(), ModContent.ProjectileType<Catastromini>()}, new List<float>() {(1f-0.6666666f), 0.3333333f, 0.3333333f}); //Entropy's Vigil is a bruh moment
+				SummonersAssociation.Call("AddMinionInfo", ModContent.ItemType<PlantationStaff>(), ModContent.BuffType<PlantationBuff>(), ModContent.ProjectileType<PlantSummon>());
 				SummonersAssociation.Call("AddMinionInfo", ModContent.ItemType<ResurrectionButterfly>(), ModContent.BuffType<ResurrectionButterflyBuff>(), new List<int>() {ModContent.ProjectileType<PinkButterfly>(), ModContent.ProjectileType<PurpleButterfly>()});
 				SummonersAssociation.Call("AddMinionInfo", ModContent.ItemType<SandSharknadoStaff>(), ModContent.BuffType<Sandnado>(), ModContent.ProjectileType<SandnadoMinion>());
 				SummonersAssociation.Call("AddMinionInfo", ModContent.ItemType<ElementalAxe>(), ModContent.BuffType<ElementalAxeBuff>(), ModContent.ProjectileType<ElementalAxeMinion>());
