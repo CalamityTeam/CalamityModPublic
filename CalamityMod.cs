@@ -49,6 +49,7 @@ using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Ranged;
+using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Typeless;
 using CalamityMod.Skies;
