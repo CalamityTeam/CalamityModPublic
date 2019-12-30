@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Oracle");
-            Tooltip.SetDefault("Emits an aura of red lightning which charges up when hitting enemies\nFires auric orbs when supercharged\nAn exceptionally agile yoyo\n'Gaze into the past, the present, the future... and the circumstances of your inevitable demise'");
+            Tooltip.SetDefault("Emits an aura of red lightning which charges up when hitting enemies\nFires auric orbs when supercharged\nAn incredibly agile yoyo\n'Gaze into the past, the present, the future... and the circumstances of your inevitable demise'");
             ItemID.Sets.Yoyo[item.type] = true;
             ItemID.Sets.GamepadExtraRange[item.type] = 15;
             ItemID.Sets.GamepadSmartQuickReach[item.type] = true;
