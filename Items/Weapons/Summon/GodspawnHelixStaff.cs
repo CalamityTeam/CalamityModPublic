@@ -1,0 +1,44 @@
+using CalamityMod.Projectiles.Summon;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+
+namespace CalamityMod.Items.Weapons.Summon
+{
+    public class GodspawnHelixStaff : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Godspawn Helix Staff");
+            Tooltip.SetDefault("Summons astral probes to protect you");
+        }
+
+        public override void SetDefaults()
+        {
+            item.damage = 100;
+            item.mana = 10;
+            item.width = 50;
+            item.height = 50;
+            item.useTime = 36;
+            item.useAnimation = 36;
+            item.useStyle = 1;
+            item.noMelee = true;
+            item.knockBack = 1.25f;
+            item.value = Item.buyPrice(0, 95, 0, 0);
+            item.rare = 9;
+            item.UseSound = SoundID.Item44;
+            item.autoReuse = true;
+            item.shoot = ModContent.ProjectileType<AstralProbeSummon>();
+            item.summon = true;
+        }
+
+        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            position = Main.MouseWorld;
+            speedX = 0;
+            speedY = 0;
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+            return false;
+        }
+    }
+}
