@@ -24,12 +24,12 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             item.useStyle = 3;
 			item.useTurn = false;
-			item.useAnimation = 23;
-			item.useTime = 23;
+			item.useAnimation = 18;
+			item.useTime = 18;
 			item.width = 44;
 			item.height = 44;
 
-			item.damage = 720;
+			item.damage = 920;
 
 			item.melee = true;
 			item.knockBack = 9f;
