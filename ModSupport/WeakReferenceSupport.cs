@@ -715,7 +715,7 @@ namespace CalamityMod
 				"AddToBossLoot", 
 				"Terraria", 
 				"Martian Madness", 
-				new List<int>() {ModContent.ItemType<Wingman>(), ModContent.ItemType<NullificationRifle>()});
+				new List<int>() {ModContent.ItemType<Wingman>(), ModContent.ItemType<ShockGrenade>(), ModContent.ItemType<NullificationRifle>()});
 
 				//Martian Saucer
 				bossChecklist.Call(
