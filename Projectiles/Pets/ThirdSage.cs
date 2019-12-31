@@ -13,7 +13,6 @@ namespace CalamityMod.Projectiles.Pets
             DisplayName.SetDefault("Third Sage");
             Main.projPet[projectile.type] = true;
             Main.projFrames[projectile.type] = 7;
-            ProjectileID.Sets.LightPet[projectile.type] = true;
         }
 
         public override void SetDefaults()
