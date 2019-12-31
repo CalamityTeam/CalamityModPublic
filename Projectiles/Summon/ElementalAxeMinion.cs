@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Summon
             bool flag64 = projectile.type == ModContent.ProjectileType<ElementalAxeMinion>();
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            player.AddBuff(ModContent.BuffType<ElementalAxe>(), 3600);
+            player.AddBuff(ModContent.BuffType<ElementalAxeBuff>(), 3600);
             if (flag64)
             {
                 if (player.dead)

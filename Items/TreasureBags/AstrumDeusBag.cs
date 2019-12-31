@@ -5,6 +5,7 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.AstrumDeus;
 using Terraria;
 using Terraria.ModLoader;
@@ -47,6 +48,7 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItemChance(player, ModContent.ItemType<TheMicrowave>(), 3);
             DropHelper.DropItemChance(player, ModContent.ItemType<StarSputter>(), 3);
             DropHelper.DropItemChance(player, ModContent.ItemType<Starfall>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<GodspawnHelixStaff>(), 3);
             DropHelper.DropItemChance(player, ModContent.ItemType<Quasar>(), DropHelper.RareVariantDropRateInt);
 
             // Equipment

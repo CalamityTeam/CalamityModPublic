@@ -14,23 +14,28 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         // The aura turns on and begins damaging enemies at 20 charge.
         // The yoyo "supercharges" at 50 charge.
         // Its size caps out at 100 charge.
-        private static float MaxCharge = 200f;
-        private static float MinAuraRadius = 20f;
-        private static float SuperchargeThreshold = 50f;
-        private static float MaxAuraRadius = 100f;
-        private static float MinDischargeRate = 0.05f;
-        private static float MaxDischargeRate = 0.53f;
-        private static float ChargePerHit = 2.2f;
+        private const float MaxCharge = 200f;
+        private const float MinAuraRadius = 20f;
+        private const float SuperchargeThreshold = 50f;
+        private const float MaxAuraRadius = 100f;
+        private const float MinDischargeRate = 0.05f;
+        private const float MaxDischargeRate = 0.53f;
+        private const float ChargePerHit = 4f;
 
-        private static int AuraBaseDamage = 160;
-        private static int HitsPerOrbVolley = 10;
+        private const int AuraBaseDamage = 300;
+        private const float AuraChargeDamageMultiplier = 2f;
+        private const int HitsPerOrbVolley = 3;
+
+        // Ensures that the main AI only runs once per frame, despite the projectile's multiple updates
+        private int extraUpdateCounter = 0;
+        private const int UpdatesPerFrame = 3;
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Oracle");
             ProjectileID.Sets.YoyosLifeTimeMultiplier[projectile.type] = -1f;
             ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 800f;
-            ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 24f;
+            ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 16f;
 
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
             ProjectileID.Sets.TrailingMode[projectile.type] = 1;
@@ -45,14 +50,19 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             projectile.friendly = true;
             projectile.melee = true;
             projectile.penetrate = -1;
-            projectile.extraUpdates = 1;
+            projectile.MaxUpdates = UpdatesPerFrame;
 
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 4;
+            projectile.localNPCHitCooldown = 3 * UpdatesPerFrame;
         }
 
         public override void AI()
         {
+            // Only do stuff once per frame, despite the yoyo's extra updates.
+            extraUpdateCounter = (extraUpdateCounter + 1) % UpdatesPerFrame;
+            if (extraUpdateCounter != UpdatesPerFrame - 1)
+                return;
+
             // Produces golden dust constantly while in flight. This helps light the yoyo.
             if (Main.rand.NextBool())
             {
@@ -92,13 +102,11 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                 }
 
                 // The aura's direct damage scales with its charge: 100 base damage + 1 per charge point
-                int auraDamage = (int)(AuraBaseDamage + projectile.localAI[1]);
+                int auraDamage = (int)(AuraBaseDamage + AuraChargeDamageMultiplier * projectile.localAI[1]);
                 DealAuraDamage(auraRadius, auraDamage);
             }
             else
                 projectile.soundDelay = 2;
-
-            projectile.netUpdate = true;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

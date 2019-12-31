@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             DisplayName.SetDefault("Azathoth");
             ProjectileID.Sets.YoyosLifeTimeMultiplier[projectile.type] = -1f;
             ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 700f;
-            ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 20f;
+            ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 18f;
 
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
             ProjectileID.Sets.TrailingMode[projectile.type] = 1;
@@ -28,10 +28,10 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             projectile.friendly = true;
             projectile.melee = true;
             projectile.penetrate = -1;
-            projectile.extraUpdates = 1;
+            projectile.MaxUpdates = 2;
 
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 1;
+            projectile.localNPCHitCooldown = 2;
         }
 
         public override void AI()

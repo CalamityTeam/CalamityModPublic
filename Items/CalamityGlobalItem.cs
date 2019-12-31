@@ -1954,35 +1954,35 @@ Grants immunity to fire blocks, and temporary immunity to lava";
 
                     // Destroyer
                     case ItemID.DestroyerBossBag:
-                        float shpcChance = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : DropHelper.LegendaryDropRateFloat;
+                        float shpcChance = DropHelper.LegendaryDropRateFloat;
                         DropHelper.DropItemCondition(player, ModContent.ItemType<SHPC>(), CalamityWorld.revenge, shpcChance);
                         break;
 
                     // Plantera
                     case ItemID.PlanteraBossBag:
                         DropHelper.DropItem(player, ModContent.ItemType<LivingShard>(), 8, 11);
-                        float bFluxChance = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : DropHelper.LegendaryDropRateFloat;
+                        float bFluxChance = DropHelper.LegendaryDropRateFloat;
                         DropHelper.DropItemCondition(player, ModContent.ItemType<BlossomFlux>(), CalamityWorld.revenge, bFluxChance);
                         DropHelper.DropItemChance(player, ItemID.JungleKey, 5);
                         break;
 
                     // Golem
                     case ItemID.GolemBossBag:
-                        float aegisChance = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : DropHelper.LegendaryDropRateFloat;
+                        float aegisChance = DropHelper.LegendaryDropRateFloat;
                         DropHelper.DropItemCondition(player, ModContent.ItemType<AegisBlade>(), CalamityWorld.revenge, aegisChance);
                         DropHelper.DropItem(player, ModContent.ItemType<EssenceofCinder>(), 8, 13);
                         break;
 
                     // Duke Fishron
                     case ItemID.FishronBossBag:
-                        float baronChance = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : DropHelper.LegendaryDropRateFloat;
+                        float baronChance = DropHelper.LegendaryDropRateFloat;
                         DropHelper.DropItemCondition(player, ModContent.ItemType<BrinyBaron>(), CalamityWorld.revenge, baronChance);
                         DropHelper.DropItemChance(player, ModContent.ItemType<DukesDecapitator>(), 4);
                         break;
 
                     // Betsy
                     case ItemID.BossBagBetsy:
-                        float vesuviusChance = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : DropHelper.LegendaryDropRateFloat;
+                        float vesuviusChance = DropHelper.LegendaryDropRateFloat;
                         DropHelper.DropItemCondition(player, ModContent.ItemType<Vesuvius>(), CalamityWorld.revenge, vesuviusChance);
                         break;
 

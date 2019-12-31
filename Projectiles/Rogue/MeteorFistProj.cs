@@ -28,7 +28,6 @@ namespace CalamityMod.Projectiles.Rogue
             if (projectile.owner == Main.myPlayer && projectile.timeLeft <= 3)
             {
                 projectile.tileCollide = false;
-                projectile.ai[1] = 0f;
                 projectile.alpha = 255;
                 projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
                 projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
@@ -90,7 +89,8 @@ namespace CalamityMod.Projectiles.Rogue
                         projectile.netUpdate = true;
                     }
                 }
-                projectile.velocity.Y = projectile.velocity.Y + 0.2f;
+                if (!projectile.Calamity().stealthStrike)
+                    projectile.velocity.Y = projectile.velocity.Y + 0.2f;
             }
         }
 
@@ -165,6 +165,39 @@ namespace CalamityMod.Projectiles.Rogue
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.OnFire, 120);
+            float minDist = 999f;
+            int index = 0;
+            // Get the closest enemy to the axe
+            if (projectile.Calamity().stealthStrike && projectile.ai[1] > 0f && projectile.penetrate != -1)
+            {
+                for (int i = 0; i < Main.npc.Length; i++)
+                {
+                    NPC npc = Main.npc[i];
+                    if (!npc.friendly && !npc.townNPC && npc.active && !npc.dontTakeDamage && npc.chaseable && npc != target)
+                    {
+                        float dist = (projectile.Center - npc.Center).Length();
+                        if (dist < minDist)
+                        {
+                            minDist = dist;
+                            index = i;
+                        }
+                    }
+                }
+                Vector2 newFistVelocity;
+                if (minDist < 999f)
+                {
+                    newFistVelocity = Main.npc[index].Center - projectile.Center;
+                }
+                else
+                {
+                    newFistVelocity = -projectile.velocity;
+                }
+                newFistVelocity.Normalize();
+                newFistVelocity *= 20f;
+                float AI1 = projectile.ai[1] - 1f;
+                int p = Projectile.NewProjectile(projectile.position, newFistVelocity, ModContent.ProjectileType<MeteorFistProj>(), projectile.damage, 2f, projectile.owner, 0, AI1);
+                Main.projectile[p].Calamity().stealthStrike = true;
+            }
         }
     }
 }

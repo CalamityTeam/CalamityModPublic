@@ -80,7 +80,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<BrinyTyphoonBubble>(), (int)((float)item.damage * 0.5f * player.meleeDamage), knockback, player.whoAmI);
+            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<BrinyTyphoonBubble>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f) * 0.5f), knockback, player.whoAmI);
         }
     }
 }

@@ -49,6 +49,7 @@ using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Ranged;
+using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Typeless;
 using CalamityMod.Skies;
@@ -519,7 +520,8 @@ namespace CalamityMod
                 ModContent.ProjectileType<HyperiusSplit>(),
                 ModContent.ProjectileType<NorfleetCannon>(),
                 ModContent.ProjectileType<NorfleetComet>(),
-                ModContent.ProjectileType<NorfleetExplosion>()
+                ModContent.ProjectileType<NorfleetExplosion>(),
+                ModContent.ProjectileType<AetherBeam>()
             };
 
             projectileMinionList = new List<int>()
@@ -576,6 +578,7 @@ namespace CalamityMod
 				NPCID.GolemHeadFree,
 				NPCID.GolemFistRight,
                 NPCID.GolemFistLeft,
+                NPCID.GolemHeadFree,
                 NPCID.DukeFishron,
                 NPCID.CultistBoss,
                 NPCID.MoonLordHead,

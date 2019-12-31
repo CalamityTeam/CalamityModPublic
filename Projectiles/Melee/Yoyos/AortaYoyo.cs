@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             DisplayName.SetDefault("Aorta");
             ProjectileID.Sets.YoyosLifeTimeMultiplier[projectile.type] = 11f;
             ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 220f;
-            ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 14f;
+            ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 8.5f;
 
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             projectile.friendly = true;
             projectile.melee = true;
             projectile.penetrate = -1;
-            projectile.extraUpdates = 1;
+            projectile.MaxUpdates = 2;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

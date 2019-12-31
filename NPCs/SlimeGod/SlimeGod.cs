@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Buffs.Potions;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
@@ -34,6 +35,7 @@ namespace CalamityMod.NPCs.SlimeGod
             aiType = -1;
             npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
             npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
+            npc.buffImmune[ModContent.BuffType<TeslaBuff>()] = true;
 			npc.buffImmune[BuffID.Slow] = true;
 			npc.buffImmune[BuffID.Webbed] = true;
             npc.knockBackResist = 0f;

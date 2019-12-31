@@ -324,6 +324,9 @@ namespace CalamityMod.CalPlayer
         public bool raiderTalisman = false;
         public int raiderStack = 0;
         public int raiderCooldown = 0;
+        public bool gSabaton = false;
+        public int gSabatonFall = 0;
+        public int gSabatonCooldown = 0;
         public bool sGenerator = false;
         public bool sDefense = false;
         public bool sPower = false;
@@ -584,6 +587,7 @@ namespace CalamityMod.CalPlayer
         public bool profanedRage = false;
         public bool draconicSurge = false;
         public int draconicSurgeCooldown = 0;
+        public bool tesla = false;
         public bool vodka = false;
         public bool redWine = false;
         public bool grapeBeer = false;
@@ -641,6 +645,8 @@ namespace CalamityMod.CalPlayer
         public bool cLamp = false;
         public bool pGuy = false;
         public bool sandnado = false;
+        public bool plantera = false;
+        public bool aProbe = false;
         public bool gDefense = false;
         public bool gOffense = false;
         public bool gHealer = false;
@@ -1143,6 +1149,7 @@ namespace CalamityMod.CalPlayer
             royalGel = false;
             lol = false;
             raiderTalisman = false;
+            gSabaton = false;
             sGenerator = false;
             sDefense = false;
             sRegen = false;
@@ -1299,6 +1306,7 @@ namespace CalamityMod.CalPlayer
             holyWrath = false;
             profanedRage = false;
             draconicSurge = false;
+            tesla = false;
             trippy = false;
             amidiasBlessing = false;
             yPower = false;
@@ -1383,6 +1391,8 @@ namespace CalamityMod.CalPlayer
             sCrystal = false;
             sGod = false;
             sandnado = false;
+            plantera = false;
+            aProbe = false;
             vUrchin = false;
             cSpirit = false;
             rOrb = false;
@@ -1436,6 +1446,8 @@ namespace CalamityMod.CalPlayer
             adrenalineDmgMult = 1f;
             raiderStack = 0;
             raiderCooldown = 0;
+            gSabatonFall = 0;
+            gSabatonCooldown = 0;
             fleshTotemCooldown = 0;
             astralStarRainCooldown = 0;
             bloodflareMageCooldown = 0;
@@ -1546,6 +1558,7 @@ namespace CalamityMod.CalPlayer
             gravityNormalizer = false;
             holyWrath = false;
             profanedRage = false;
+            tesla = false;
             draconicSurge = false;
             draconicSurgeCooldown = 0;
             yPower = false;
@@ -6830,15 +6843,14 @@ namespace CalamityMod.CalPlayer
                         for (int num24 = 0; num24 < 20; num24++)
                         {
                             int num25 = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 246, 0f, 0f, 100, default, 3f);
-                            Dust expr_13AF_cp_0 = Main.dust[num25];
-                            expr_13AF_cp_0.position.X += (float)Main.rand.Next(-5, 6);
-                            Dust expr_13D6_cp_0 = Main.dust[num25];
-                            expr_13D6_cp_0.position.Y += (float)Main.rand.Next(-5, 6);
-                            Main.dust[num25].velocity *= 0.2f;
-                            Main.dust[num25].scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
-                            Main.dust[num25].shader = GameShaders.Armor.GetSecondaryShader(player.ArmorSetDye(), player);
-                            Main.dust[num25].noGravity = true;
-                            Main.dust[num25].fadeIn = 0.5f;
+                            Dust dust = Main.dust[num25];
+                            dust.position.X += (float)Main.rand.Next(-5, 6);
+                            dust.position.Y += (float)Main.rand.Next(-5, 6);
+                            dust.velocity *= 0.2f;
+                            dust.scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
+                            dust.shader = GameShaders.Armor.GetSecondaryShader(player.ArmorSetDye(), player);
+                            dust.noGravity = true;
+                            dust.fadeIn = 0.5f;
                         }
                     }
                 }
@@ -6893,15 +6905,14 @@ namespace CalamityMod.CalPlayer
                         for (int num24 = 0; num24 < 40; num24++)
                         {
                             int num25 = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 244, 0f, 0f, 100, default, 3f);
-                            Dust expr_13AF_cp_0 = Main.dust[num25];
-                            expr_13AF_cp_0.position.X += (float)Main.rand.Next(-5, 6);
-                            Dust expr_13D6_cp_0 = Main.dust[num25];
-                            expr_13D6_cp_0.position.Y += (float)Main.rand.Next(-5, 6);
-                            Main.dust[num25].velocity *= 0.2f;
-                            Main.dust[num25].scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
-                            Main.dust[num25].shader = GameShaders.Armor.GetSecondaryShader(player.ArmorSetDye(), player);
-                            Main.dust[num25].noGravity = true;
-                            Main.dust[num25].fadeIn = 0.5f;
+                            Dust dust = Main.dust[num25];
+                            dust.position.X += (float)Main.rand.Next(-5, 6);
+                            dust.position.Y += (float)Main.rand.Next(-5, 6);
+                            dust.velocity *= 0.2f;
+                            dust.scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
+                            dust.shader = GameShaders.Armor.GetSecondaryShader(player.ArmorSetDye(), player);
+                            dust.noGravity = true;
+                            dust.fadeIn = 0.5f;
                         }
                     }
                 }
@@ -6956,15 +6967,14 @@ namespace CalamityMod.CalPlayer
                         for (int num24 = 0; num24 < 60; num24++)
                         {
                             int num25 = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 244, 0f, 0f, 100, default, 3f);
-                            Dust expr_13AF_cp_0 = Main.dust[num25];
-                            expr_13AF_cp_0.position.X += (float)Main.rand.Next(-5, 6);
-                            Dust expr_13D6_cp_0 = Main.dust[num25];
-                            expr_13D6_cp_0.position.Y += (float)Main.rand.Next(-5, 6);
-                            Main.dust[num25].velocity *= 0.2f;
-                            Main.dust[num25].scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
-                            Main.dust[num25].shader = GameShaders.Armor.GetSecondaryShader(player.ArmorSetDye(), player);
-                            Main.dust[num25].noGravity = true;
-                            Main.dust[num25].fadeIn = 0.5f;
+                            Dust dust = Main.dust[num25];
+                            dust.position.X += (float)Main.rand.Next(-5, 6);
+                            dust.position.Y += (float)Main.rand.Next(-5, 6);
+                            dust.velocity *= 0.2f;
+                            dust.scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
+                            dust.shader = GameShaders.Armor.GetSecondaryShader(player.ArmorSetDye(), player);
+                            dust.noGravity = true;
+                            dust.fadeIn = 0.5f;
                         }
                     }
                 }
@@ -7019,15 +7029,14 @@ namespace CalamityMod.CalPlayer
                         for (int num24 = 0; num24 < 60; num24++)
                         {
                             int num25 = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 33, 0f, 0f, 100, default, 3f);
-                            Dust expr_13AF_cp_0 = Main.dust[num25];
-                            expr_13AF_cp_0.position.X += (float)Main.rand.Next(-5, 6);
-                            Dust expr_13D6_cp_0 = Main.dust[num25];
-                            expr_13D6_cp_0.position.Y += (float)Main.rand.Next(-5, 6);
-                            Main.dust[num25].velocity *= 0.2f;
-                            Main.dust[num25].scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
-                            Main.dust[num25].shader = GameShaders.Armor.GetSecondaryShader(player.ArmorSetDye(), player);
-                            Main.dust[num25].noGravity = true;
-                            Main.dust[num25].fadeIn = 0.5f;
+                            Dust dust = Main.dust[num25];
+                            dust.position.X += (float)Main.rand.Next(-5, 6);
+                            dust.position.Y += (float)Main.rand.Next(-5, 6);
+                            dust.velocity *= 0.2f;
+                            dust.scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
+                            dust.shader = GameShaders.Armor.GetSecondaryShader(player.ArmorSetDye(), player);
+                            dust.noGravity = true;
+                            dust.fadeIn = 0.5f;
                         }
                     }
                 }
@@ -7082,15 +7091,14 @@ namespace CalamityMod.CalPlayer
                         for (int num24 = 0; num24 < 60; num24++)
                         {
                             int num25 = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 67, 0f, 0f, 100, default, 1.25f);
-                            Dust expr_13AF_cp_0 = Main.dust[num25];
-                            expr_13AF_cp_0.position.X += (float)Main.rand.Next(-5, 6);
-                            Dust expr_13D6_cp_0 = Main.dust[num25];
-                            expr_13D6_cp_0.position.Y += (float)Main.rand.Next(-5, 6);
-                            Main.dust[num25].velocity *= 0.2f;
-                            Main.dust[num25].scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
-                            Main.dust[num25].shader = GameShaders.Armor.GetSecondaryShader(player.ArmorSetDye(), player);
-                            Main.dust[num25].noGravity = true;
-                            Main.dust[num25].fadeIn = 0.5f;
+                            Dust dust = Main.dust[num25];
+                            dust.position.X += (float)Main.rand.Next(-5, 6);
+                            dust.position.Y += (float)Main.rand.Next(-5, 6);
+                            dust.velocity *= 0.2f;
+                            dust.scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
+                            dust.shader = GameShaders.Armor.GetSecondaryShader(player.ArmorSetDye(), player);
+                            dust.noGravity = true;
+                            dust.fadeIn = 0.5f;
                         }
                     }
                 }
@@ -7116,17 +7124,16 @@ namespace CalamityMod.CalPlayer
                 for (int j = 0; j < 100; j++)
                 {
                     int num = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 235, 0f, 0f, 100, default, 2f);
-                    Dust expr_A4_cp_0 = Main.dust[num];
-                    expr_A4_cp_0.position.X += (float)Main.rand.Next(-20, 21);
-                    Dust expr_CB_cp_0 = Main.dust[num];
-                    expr_CB_cp_0.position.Y += (float)Main.rand.Next(-20, 21);
-                    Main.dust[num].velocity *= 0.4f;
-                    Main.dust[num].scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
-                    Main.dust[num].shader = GameShaders.Armor.GetSecondaryShader(player.cWaist, player);
+                    Dust dust = Main.dust[num];
+                    dust.position.X += (float)Main.rand.Next(-20, 21);
+                    dust.position.Y += (float)Main.rand.Next(-20, 21);
+                    dust.velocity *= 0.4f;
+                    dust.scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
+                    dust.shader = GameShaders.Armor.GetSecondaryShader(player.cWaist, player);
                     if (Main.rand.NextBool(2))
                     {
-                        Main.dust[num].scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
-                        Main.dust[num].noGravity = true;
+                        dust.scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
+                        dust.noGravity = true;
                     }
                 }
                 if (player.whoAmI == Main.myPlayer)

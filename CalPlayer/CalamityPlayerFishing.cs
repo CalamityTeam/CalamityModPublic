@@ -476,7 +476,7 @@ namespace CalamityMod.CalPlayer
 					{
 						caughtType = ModContent.ItemType<FishofFlight>();
 					}
-					if (Main.rand.NextBool(15))
+					else if (Main.rand.NextBool(14))
 					{
 						caughtType = ModContent.ItemType<SunbeamFish>();
 					}
@@ -508,7 +508,7 @@ namespace CalamityMod.CalPlayer
 
 				if (player.ZoneSnow)
 				{
-					if (Main.rand.NextBool(15))
+					if (Main.rand.NextBool(15) && Main.hardMode)
 					{
 						caughtType = ModContent.ItemType<FishofEleum>();
 					}

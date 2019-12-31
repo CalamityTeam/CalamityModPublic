@@ -248,7 +248,7 @@ namespace CalamityMod.NPCs.StormWeaver
             }
 			if (projectile.type == ModContent.ProjectileType<AlphaVirusProjectile>())
 			{
-				damage /= 4;
+				damage /= 6;
 			}
         }
 

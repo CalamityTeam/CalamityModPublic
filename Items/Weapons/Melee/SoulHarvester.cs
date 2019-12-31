@@ -64,7 +64,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 14);
 
                 // DEFECT -- HiveBombExplosion does not exist.
-                // Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<HiveBombExplosion>(), (int)((float)item.damage * player.meleeDamage), knockback, Main.myPlayer);
+                // Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<HiveBombExplosion>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), knockback, Main.myPlayer);
 
                 for (int num621 = 0; num621 < 30; num621++)
                 {

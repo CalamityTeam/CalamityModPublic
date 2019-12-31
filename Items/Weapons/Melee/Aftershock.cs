@@ -76,7 +76,7 @@ namespace CalamityMod.Items.Weapons.Melee
             num79 *= num80;
             float speedX4 = num78;
             float speedY5 = num79 + (float)Main.rand.Next(-10, 11) * 0.02f;
-            Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<AftershockRock>(), (int)((float)item.damage * player.meleeDamage), knockback, player.whoAmI, 0f, (float)Main.rand.Next(10));
+            Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<AftershockRock>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), knockback, player.whoAmI, 0f, (float)Main.rand.Next(10));
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

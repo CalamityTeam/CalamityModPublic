@@ -5,12 +5,12 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.Summon
 {
-    public class ElementalAxe : ModBuff
+    public class DankCreeperBuff : ModBuff
     {
         public override void SetDefaults()
         {
-            DisplayName.SetDefault("Elemental Axe");
-            Description.SetDefault("The elemental axe will protect you");
+            DisplayName.SetDefault("Dank Creeper");
+            Description.SetDefault("The dank creeper will protect you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
         }
@@ -18,11 +18,11 @@ namespace CalamityMod.Buffs.Summon
         public override void Update(Player player, ref int buffIndex)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<ElementalAxeMinion>()] > 0)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<DankCreeperMinion>()] > 0)
             {
-                modPlayer.eAxe = true;
+                modPlayer.dCreeper = true;
             }
-            if (!modPlayer.eAxe)
+            if (!modPlayer.dCreeper)
             {
                 player.DelBuff(buffIndex);
                 buffIndex--;
