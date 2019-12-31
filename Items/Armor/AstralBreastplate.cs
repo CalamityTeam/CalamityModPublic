@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.statLifeMax2 += 20;
-            player.statManaMax2 += 20;
+            player.statManaMax2 += 80;
             player.maxMinions += 3;
             player.detectCreature = true;
         }
