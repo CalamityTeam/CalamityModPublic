@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.timeLeft = lifetime;
             projectile.Calamity().rogue = true;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 15;
+            projectile.localNPCHitCooldown = 20;
         }
 
         public override void AI()
@@ -83,6 +83,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 target.AddBuff(ModContent.BuffType<Plague>(), 120);
             }
+			projectile.damage = (int)(float)projectile.damage * 0.75f;
         }
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)

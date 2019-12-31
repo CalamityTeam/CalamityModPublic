@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("The Reaper");
             Tooltip.SetDefault("Slice 'n dice\n" +
-			"Stealth strikes throw five at once");
+			"Stealth strikes throw four at once");
         }
 
         public override void SafeSetDefaults()
@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
                 int spread = 10;
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < 4; i++)
                 {
                     Vector2 perturbedspeed = new Vector2(speedX + Main.rand.Next(-3,4), speedY + Main.rand.Next(-3,4)).RotatedBy(MathHelper.ToRadians(spread));
                     int proj = Projectile.NewProjectile(position.X, position.Y, perturbedspeed.X, perturbedspeed.Y, type, damage / 2, knockBack, player.whoAmI, 0f, 0f);
