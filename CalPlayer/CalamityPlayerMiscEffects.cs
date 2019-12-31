@@ -1236,7 +1236,7 @@ namespace CalamityMod.CalPlayer
 		private static void AbyssEffects(Player player, CalamityPlayer modPlayer)
 		{
 			int lightStrength = 0 +
-				((player.lightOrb || player.crimsonHeart || player.magicLantern || modPlayer.radiator) ? 1 : 0) + // 1
+				((player.lightOrb || player.crimsonHeart || player.magicLantern || modPlayer.radiator || modPlayer.thirdSage) ? 1 : 0) + // 1
 				(modPlayer.aquaticEmblem ? 1 : 0) + // 2
 				(player.arcticDivingGear ? 1 : 0) + // 3
 				(modPlayer.jellyfishNecklace ? 1 : 0) + // 4

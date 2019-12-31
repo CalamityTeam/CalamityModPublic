@@ -59,9 +59,6 @@ namespace CalamityMod.Items.TreasureBags
 
             // Vanity
             DropHelper.DropItemChance(player, ModContent.ItemType<ProvidenceMask>(), 7);
-
-            // Other
-            DropHelper.DropItem(player, ModContent.ItemType<RuneofCos>());
         }
     }
 }

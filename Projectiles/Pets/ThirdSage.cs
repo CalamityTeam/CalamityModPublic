@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Pets
 {
@@ -12,6 +13,7 @@ namespace CalamityMod.Projectiles.Pets
             DisplayName.SetDefault("Third Sage");
             Main.projPet[projectile.type] = true;
             Main.projFrames[projectile.type] = 7;
+            ProjectileID.Sets.LightPet[projectile.type] = true;
         }
 
         public override void SetDefaults()
@@ -42,6 +44,7 @@ namespace CalamityMod.Projectiles.Pets
             {
                 projectile.timeLeft = 2;
             }
+            Lighting.AddLight(projectile.Center, 0.5f, 0.1f, 0.3f);
             float num16 = 0.5f;
             projectile.tileCollide = false;
             int num17 = 100;

@@ -11,7 +11,7 @@ namespace CalamityMod.Buffs.Pets
             DisplayName.SetDefault("Third Sage");
             Description.SetDefault("Eh? No way it's an oni.");
             Main.buffNoTimeDisplay[Type] = true;
-            Main.vanityPet[Type] = true;
+            Main.lightPet[Type] = true;
         }
 
         public override void Update(Player player, ref int buffIndex)
