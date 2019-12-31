@@ -577,6 +577,7 @@ namespace CalamityMod
                 NPCID.GolemHead,
                 NPCID.GolemFistRight,
                 NPCID.GolemFistLeft,
+                NPCID.GolemHeadFree,
                 NPCID.DukeFishron,
                 NPCID.CultistBoss,
                 NPCID.MoonLordHead,

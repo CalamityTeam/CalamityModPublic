@@ -1,4 +1,4 @@
-
+using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Mounts;
@@ -52,6 +52,7 @@ namespace CalamityMod.Items.TreasureBags
 
             // Equipment
             DropHelper.DropItemCondition(player, ModContent.ItemType<SquishyBeanMount>(), CalamityWorld.revenge && NPC.downedMoonlord);
+            DropHelper.DropItem(player, ModContent.ItemType<GravistarSabaton>());
 
             // Vanity
             DropHelper.DropItemChance(player, ModContent.ItemType<AureusMask>(), 7);

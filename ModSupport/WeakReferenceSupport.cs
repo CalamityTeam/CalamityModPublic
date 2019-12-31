@@ -263,7 +263,7 @@ namespace CalamityMod
 				(Func<bool>)(() => CalamityWorld.downedAstrageldon), 
 				ModContent.ItemType<AstralChunk>(), 
 				new List<int>() { ModContent.ItemType<AstrageldonTrophy>(), ModContent.ItemType<AureusMask>(), ModContent.ItemType<KnowledgeAstrumAureus>()}, 
-				new List<int>() { ModContent.ItemType<AstrageldonBag>(), ModContent.ItemType<Stardust>(), ItemID.FallenStar, ModContent.ItemType<Nebulash>(), ModContent.ItemType<AstralJelly>(), ItemID.HallowedKey, ItemID.FragmentSolar, ItemID.FragmentVortex, ItemID.FragmentNebula, ItemID.FragmentStardust, ModContent.ItemType<StarlightFuelCell>(), ItemID.GreaterHealingPotion}, 
+				new List<int>() { ModContent.ItemType<AstrageldonBag>(), ModContent.ItemType<Stardust>(), ItemID.FallenStar, ModContent.ItemType<Nebulash>(), ModContent.ItemType<GravistarSabaton>(), ModContent.ItemType<AstralJelly>(), ItemID.HallowedKey, ItemID.FragmentSolar, ItemID.FragmentVortex, ItemID.FragmentNebula, ItemID.FragmentStardust, ModContent.ItemType<StarlightFuelCell>(), ItemID.GreaterHealingPotion}, 
 				"Use an [i:" + ModContent.ItemType<AstralChunk>() + "] at Night in the Astral Biome", 
 				"[c/FFD700:Astrum Aureus’ program has been executed. Initiate recall.]", 
 				"CalamityMod/NPCs/AstrumAureus/AstrumAureus_BossChecklist");
