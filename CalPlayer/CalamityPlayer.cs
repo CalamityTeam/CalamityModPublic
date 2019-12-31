@@ -7393,7 +7393,6 @@ namespace CalamityMod.CalPlayer
             Item item = drawPlayer.inventory[drawPlayer.selectedItem];
 
             if (!drawPlayer.frozen &&
-                ((drawPlayer.itemAnimation > 0 && item.useStyle != 0) || (item.holdStyle > 0 && !drawPlayer.pulley)) &&
                 item.type > 0 &&
                 !drawPlayer.dead &&
                 !item.noUseGraphic &&
@@ -7416,130 +7415,156 @@ namespace CalamityMod.CalPlayer
                     else
                         effect = SpriteEffects.FlipHorizontally | SpriteEffects.FlipVertically;
                 }
+				if ((drawPlayer.itemAnimation > 0 && item.useStyle != 0) || (item.holdStyle > 0 && !drawPlayer.pulley))
+				{
+					// Staff
+					if (item.type == ModContent.ItemType<DeathhailStaff>() || item.type == ModContent.ItemType<Vesuvius>() || item.type == ModContent.ItemType<SoulPiercer>() ||
+					item.type == ModContent.ItemType<FatesReveal>())
+					{
+						Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/DeathhailStaffGlow");
+						if (item.type == ModContent.ItemType<Vesuvius>())
+							texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/VesuviusGlow");
+						else if (item.type == ModContent.ItemType<SoulPiercer>())
+							texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/SoulPiercerGlow");
+						else if (item.type == ModContent.ItemType<FatesReveal>())
+							texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/FatesRevealGlow");
 
-				// Staff
-                if (item.type == ModContent.ItemType<DeathhailStaff>() || item.type == ModContent.ItemType<Vesuvius>() || item.type == ModContent.ItemType<SoulPiercer>() ||
-				item.type == ModContent.ItemType<FatesReveal>())
-                {
-                    Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/DeathhailStaffGlow");
-					if (item.type == ModContent.ItemType<Vesuvius>())
-						texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/VesuviusGlow");
-					else if (item.type == ModContent.ItemType<SoulPiercer>())
-						texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/SoulPiercerGlow");
-					else if (item.type == ModContent.ItemType<FatesReveal>())
-						texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/FatesRevealGlow");
+						float num104 = drawPlayer.itemRotation + 0.785f * (float)drawPlayer.direction;
+						int num105 = 0;
+						Vector2 zero3 = new Vector2(0f, (float)Main.itemTexture[item.type].Height);
 
-                    float num104 = drawPlayer.itemRotation + 0.785f * (float)drawPlayer.direction;
-                    int num105 = 0;
-                    Vector2 zero3 = new Vector2(0f, (float)Main.itemTexture[item.type].Height);
+						if (drawPlayer.gravDir == -1f)
+						{
+							if (drawPlayer.direction == -1)
+							{
+								num104 += 1.57f;
+								zero3 = new Vector2((float)Main.itemTexture[item.type].Width, 0f);
+								num105 -= Main.itemTexture[item.type].Width;
+							}
+							else
+							{
+								num104 -= 1.57f;
+								zero3 = Vector2.Zero;
+							}
+						}
+						else if (drawPlayer.direction == -1)
+						{
+							zero3 = new Vector2((float)Main.itemTexture[item.type].Width, (float)Main.itemTexture[item.type].Height);
+							num105 -= Main.itemTexture[item.type].Width;
+						}
 
-                    if (drawPlayer.gravDir == -1f)
-                    {
-                        if (drawPlayer.direction == -1)
-                        {
-                            num104 += 1.57f;
-                            zero3 = new Vector2((float)Main.itemTexture[item.type].Width, 0f);
-                            num105 -= Main.itemTexture[item.type].Width;
-                        }
-                        else
-                        {
-                            num104 -= 1.57f;
-                            zero3 = Vector2.Zero;
-                        }
-                    }
-                    else if (drawPlayer.direction == -1)
-                    {
-                        zero3 = new Vector2((float)Main.itemTexture[item.type].Width, (float)Main.itemTexture[item.type].Height);
-                        num105 -= Main.itemTexture[item.type].Width;
-                    }
+						DrawData data = new DrawData(texture,
+							new Vector2((float)(int)(vector.X - Main.screenPosition.X + zero3.X + (float)num105), (float)(int)(vector.Y - Main.screenPosition.Y + 0f)),
+							new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, 0, Main.itemTexture[item.type].Width, Main.itemTexture[item.type].Height)),
+							Color.White,
+							num104,
+							zero3,
+							item.scale,
+							effect,
+							0);
 
-                    DrawData data = new DrawData(texture,
-                        new Vector2((float)(int)(vector.X - Main.screenPosition.X + zero3.X + (float)num105), (float)(int)(vector.Y - Main.screenPosition.Y + 0f)),
-                        new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, 0, Main.itemTexture[item.type].Width, Main.itemTexture[item.type].Height)),
-                        Color.White,
-                        num104,
-                        zero3,
-                        item.scale,
-                        effect,
-                        0);
+						Main.playerDrawData.Add(data);
+					}
 
-                    Main.playerDrawData.Add(data);
-                }
+					// Bow and Book
+					else if (item.type == ModContent.ItemType<Deathwind>() || item.type == ModContent.ItemType<Apotheosis>() || item.type == ModContent.ItemType<CleansingBlaze>() ||
+					item.type == ModContent.ItemType<SubsumingVortex>())
+					{
+						Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Ranged/DeathwindGlow");
+						int offsetX = 10;
+						if (item.type == ModContent.ItemType<Apotheosis>())
+						{
+							texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/ApotheosisGlow");
+							offsetX = 6;
+						}
+						else if (item.type == ModContent.ItemType<CleansingBlaze>())
+						{
+							texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Ranged/CleansingBlazeGlow");
+							offsetX = 37;
+						}
+						else if (item.type == ModContent.ItemType<SubsumingVortex>())
+						{
+							texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/SubsumingVortexGlow");
+							offsetX = 9;
+						}
 
-				// Bow and Book
-                else if (item.type == ModContent.ItemType<Deathwind>() || item.type == ModContent.ItemType<Apotheosis>() || item.type == ModContent.ItemType<CleansingBlaze>() ||
-                item.type == ModContent.ItemType<SubsumingVortex>())
-                {
-                    Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Ranged/DeathwindGlow");
-                    int offsetX = 10;
-                    if (item.type == ModContent.ItemType<Apotheosis>())
-                    {
-                        texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/ApotheosisGlow");
-                        offsetX = 6;
-                    }
-                    else if (item.type == ModContent.ItemType<CleansingBlaze>())
-                    {
-                        texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Ranged/CleansingBlazeGlow");
-                        offsetX = 37;
-                    }
-                    else if (item.type == ModContent.ItemType<SubsumingVortex>())
-                    {
-                        texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/SubsumingVortexGlow");
-                        offsetX = 9;
-                    }
+						Vector2 vector13 = new Vector2((float)(Main.itemTexture[item.type].Width / 2), (float)(Main.itemTexture[item.type].Height / 2));
+						Vector2 vector14 = vector13;
+						int num107 = (int)vector14.X - offsetX;
+						vector13.Y = vector14.Y;
 
-					Vector2 vector13 = new Vector2((float)(Main.itemTexture[item.type].Width / 2), (float)(Main.itemTexture[item.type].Height / 2));
-                    Vector2 vector14 = vector13;
-                    int num107 = (int)vector14.X - offsetX;
-                    vector13.Y = vector14.Y;
+						Vector2 origin4 = new Vector2(-(float)num107, (float)(Main.itemTexture[item.type].Height / 2));
+						if (drawPlayer.direction == -1)
+							origin4 = new Vector2((float)(Main.itemTexture[item.type].Width + num107), (float)(Main.itemTexture[item.type].Height / 2));
 
-                    Vector2 origin4 = new Vector2(-(float)num107, (float)(Main.itemTexture[item.type].Height / 2));
-                    if (drawPlayer.direction == -1)
-                        origin4 = new Vector2((float)(Main.itemTexture[item.type].Width + num107), (float)(Main.itemTexture[item.type].Height / 2));
+						DrawData data = new DrawData(texture,
+							new Vector2((float)(int)(vector.X - Main.screenPosition.X + vector13.X), (float)(int)(vector.Y - Main.screenPosition.Y + vector13.Y)),
+							new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, 0, Main.itemTexture[item.type].Width, Main.itemTexture[item.type].Height)),
+							Color.White,
+							drawPlayer.itemRotation,
+							origin4,
+							item.scale,
+							effect,
+							0);
 
-                    DrawData data = new DrawData(texture,
-                        new Vector2((float)(int)(vector.X - Main.screenPosition.X + vector13.X), (float)(int)(vector.Y - Main.screenPosition.Y + vector13.Y)),
-                        new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, 0, Main.itemTexture[item.type].Width, Main.itemTexture[item.type].Height)),
-                        Color.White,
-                        drawPlayer.itemRotation,
-                        origin4,
-                        item.scale,
-                        effect,
-                        0);
+						Main.playerDrawData.Add(data);
+					}
 
-                    Main.playerDrawData.Add(data);
-                }
+					// Sword
+					else if (item.type == ModContent.ItemType<Excelsus>() || item.type == ModContent.ItemType<EssenceFlayer>() || item.type == ModContent.ItemType<TheEnforcer>() ||
+					item.type == ModContent.ItemType<ElementalExcalibur>() || item.type == ModContent.ItemType<TerrorBlade>() || item.type == ModContent.ItemType<EtherealSubjugator>())
+					{
+						Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/ExcelsusGlow");
+						if (item.type == ModContent.ItemType<EssenceFlayer>())
+							texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/EssenceFlayerGlow");
+						else if (item.type == ModContent.ItemType<TheEnforcer>())
+							texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/TheEnforcerGlow");
+						else if (item.type == ModContent.ItemType<ElementalExcalibur>())
+							texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/ElementalExcaliburGlow");
+						else if (item.type == ModContent.ItemType<TerrorBlade>())
+							texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/TerrorBladeGlow");
+						else if (item.type == ModContent.ItemType<EtherealSubjugator>())
+							texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Summon/EtherealSubjugatorGlow");
 
-				// Sword
-                else if (item.type == ModContent.ItemType<Excelsus>() || item.type == ModContent.ItemType<EssenceFlayer>() || item.type == ModContent.ItemType<TheEnforcer>() ||
-                item.type == ModContent.ItemType<ElementalExcalibur>() || item.type == ModContent.ItemType<TerrorBlade>() || item.type == ModContent.ItemType<EtherealSubjugator>())
-                {
-                    Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/ExcelsusGlow");
-                    if (item.type == ModContent.ItemType<EssenceFlayer>())
-                        texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/EssenceFlayerGlow");
-                    else if (item.type == ModContent.ItemType<TheEnforcer>())
-                        texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/TheEnforcerGlow");
-                    else if (item.type == ModContent.ItemType<ElementalExcalibur>())
-                        texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/ElementalExcaliburGlow");
-					else if (item.type == ModContent.ItemType<TerrorBlade>())
-						texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/TerrorBladeGlow");
-					else if (item.type == ModContent.ItemType<EtherealSubjugator>())
-						texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Summon/EtherealSubjugatorGlow");
+						float yOffset = drawPlayer.gravDir == -1f ? 0f : (float)Main.itemTexture[item.type].Height;
 
-					float yOffset = drawPlayer.gravDir == -1f ? 0f : (float)Main.itemTexture[item.type].Height;
+						DrawData data = new DrawData(texture,
+							new Vector2((float)(int)(vector.X - Main.screenPosition.X), (float)(int)(vector.Y - Main.screenPosition.Y)),
+							new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, 0, Main.itemTexture[item.type].Width, Main.itemTexture[item.type].Height)),
+							Color.White,
+							drawPlayer.itemRotation,
+							new Vector2((float)Main.itemTexture[item.type].Width * 0.5f - (float)Main.itemTexture[item.type].Width * 0.5f * (float)drawPlayer.direction, yOffset) + Vector2.Zero,
+							item.scale,
+							effect,
+							0);
 
-                    DrawData data = new DrawData(texture,
-                        new Vector2((float)(int)(vector.X - Main.screenPosition.X), (float)(int)(vector.Y - Main.screenPosition.Y)),
-                        new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, 0, Main.itemTexture[item.type].Width, Main.itemTexture[item.type].Height)),
-                        Color.White,
-                        drawPlayer.itemRotation,
-                        new Vector2((float)Main.itemTexture[item.type].Width * 0.5f - (float)Main.itemTexture[item.type].Width * 0.5f * (float)drawPlayer.direction, yOffset) + Vector2.Zero,
-                        item.scale,
-                        effect,
-                        0);
+						Main.playerDrawData.Add(data);
+					}
+				}
 
-                    Main.playerDrawData.Add(data);
-                }
+				//NOTE -- This doesn't work and I don't know what I'm doing
+
+				/*Microsoft.Xna.Framework.Color color12 = drawPlayer.GetImmuneAlphaPure(Lighting.GetColor((int) ((double) drawPlayer.position.X + (double) drawPlayer.width * 0.5) / 16, (int) ((double) drawPlayer.position.Y + (double) drawPlayer.height * 0.5) / 16, Microsoft.Xna.Framework.Color.White), drawInfo.shadow);*/
+
+				if (item.type == ModContent.ItemType<FlurrystormCannon>())
+				//32 is the height of the texture, 14 is the width of the texture
+				{
+					Texture2D texture = ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/FlurrystormCannonTankFull");
+
+					DrawData data = new DrawData(texture,
+					new Vector2((float) (int) ((double) drawPlayer.position.X - (double) Main.screenPosition.X + (double) (drawPlayer.width / 2) - (double) (9 * drawPlayer.direction)) + -4f * (float) drawPlayer.direction,
+					(float) (int) ((double) drawPlayer.position.Y - (double) Main.screenPosition.Y + (double) (drawPlayer.height / 2) + 2.0 * (double) drawPlayer.gravDir + (double) -8f * (double) drawPlayer.gravDir)),
+					new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, 0, 14, 32)),
+					Color.White,
+					drawPlayer.bodyRotation,
+					new Vector2((float) (14 / 2),
+					(float) (32 / 2)),
+					1f,
+					effect,
+					0);
+
+					Main.playerDrawData.Add(data);
+				}
             }
         });
 
@@ -7968,7 +7993,51 @@ namespace CalamityMod.CalPlayer
                     fullBright = true;
                 }
             }
-        }
+		}
+
+		//btw this actually doesn't work and I don't know what I'm doing
+		/*public void DrawPlayer(Player drawPlayer, Vector2 Position, float rotation, Vector2 rotationOrigin, float shadow = 0.0f)
+		{
+			DrawData drawData = new DrawData();
+			SpriteEffects spriteEffects;
+			if ((double) drawPlayer.gravDir == 1.0)
+			{
+				if (drawPlayer.direction == 1)
+				{
+					spriteEffects = SpriteEffects.None;
+				}
+				else
+				{
+					spriteEffects = SpriteEffects.FlipHorizontally;
+				}
+			}
+			else
+			{
+				if (drawPlayer.direction == 1)
+				{
+					spriteEffects = SpriteEffects.FlipVertically;
+				}
+				else
+				{
+					spriteEffects = SpriteEffects.FlipHorizontally | SpriteEffects.FlipVertically;
+				}
+			}
+			Microsoft.Xna.Framework.Color color12 = drawPlayer.GetImmuneAlphaPure(Lighting.GetColor((int) ((double) Position.X + (double) drawPlayer.width * 0.5) / 16, (int) ((double) Position.Y + (double) drawPlayer.height * 0.5) / 16, Microsoft.Xna.Framework.Color.White), shadow);
+			Microsoft.Xna.Framework.Color drawColor = color12;
+			int type = drawPlayer.inventory[drawPlayer.selectedItem].type;
+			int index1 = 1;
+			float num23 = -4f;
+			float num24 = -8f;
+			int num25 = 0;
+
+			if (type == ModContent.ItemType<FlurrystormCannon>())
+			//32 is the height of the texture, 14 is the width of the texture
+			{
+				drawData = new DrawData(ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/FlurrystormCannonTankFull"), new Vector2((float) (int) ((double) Position.X - (double) Main.screenPosition.X + (double) (drawPlayer.width / 2) - (double) (9 * drawPlayer.direction)) + num23 * (float) drawPlayer.direction, (float) (int) ((double) Position.Y - (double) Main.screenPosition.Y + (double) (drawPlayer.height / 2) + 2.0 * (double) drawPlayer.gravDir + (double) num24 * (double) drawPlayer.gravDir)), new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, 0, 14, 32)), color12, drawPlayer.bodyRotation, new Vector2((float) (14 / 2), (float) (32 / 2)), 1f, spriteEffects, 0);
+				drawData.shader = num25;
+				Main.playerDrawData.Add(drawData);
+			}
+        }*/
         #endregion
 
         #region Nurse Modifications
