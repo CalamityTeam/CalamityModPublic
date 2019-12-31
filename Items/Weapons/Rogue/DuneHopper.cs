@@ -1,4 +1,5 @@
 using CalamityMod.Projectiles.Rogue;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,7 +11,8 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dune Hopper");
-            Tooltip.SetDefault("Throws a spear that bounces a lot");
+            Tooltip.SetDefault(@"Throws a spear that bounces a lot
+Stealth strikes throws three high speed spears");
         }
 
         public override void SafeSetDefaults()
@@ -32,6 +34,22 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;
             item.Calamity().postMoonLordRarity = 22;
+        }
+
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            if (player.Calamity().StealthStrikeAvailable())
+            {
+                int numProj = 2;
+                float rotation = MathHelper.ToRadians(3);
+                for (int i = 0; i < numProj + 1; i++)
+                {
+                    Vector2 perturbedSpeed = new Vector2(speedX - 3f, speedY - 3f).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
+                    Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<DuneHopperProjectile>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                }
+                return false;
+            }
+            return true;
         }
     }
 }
