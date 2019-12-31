@@ -5432,7 +5432,18 @@ namespace CalamityMod.CalPlayer
                             NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
                         }
                     }
-                    KillPlayer();
+					if (CalamityWorld.DoGSecondStageCountdown > 0)
+					{
+						CalamityWorld.DoGSecondStageCountdown = 0;
+						if (Main.netMode == NetmodeID.Server)
+						{
+							var netMessage = mod.GetPacket();
+							netMessage.Write((byte)CalamityModMessageType.DoGCountdownSync);
+							netMessage.Write(CalamityWorld.DoGSecondStageCountdown);
+							netMessage.Send();
+						}
+					}
+					KillPlayer();
                 }
             }
 
@@ -6099,7 +6110,7 @@ namespace CalamityMod.CalPlayer
         public void KillPlayer()
         {
             deathCount++;
-            if (player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
+			if (player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
             {
                 DeathPacket(false);
             }
