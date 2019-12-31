@@ -1,12 +1,17 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Rogue
 {
     public class ScourgeoftheDesertProj : ModProjectile
     {
+        private int StealthDamageCap = 0;
+        private int BaseDamage = 0;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Scourge");
@@ -25,8 +30,28 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.Calamity().rogue = true;
         }
 
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            if (projectile.Calamity().stealthStrike)
+            {
+                if (StealthDamageCap == 0)
+                {
+                    BaseDamage = damage;
+                }
+
+                projectile.damage = (int)((BaseDamage * ((StealthDamageCap > 10 ? 10 : StealthDamageCap) * 20) / 100) + BaseDamage); //20% damage boost per hit, max of 200%
+                StealthDamageCap++;
+            }
+        }
+
         public override void AI()
         {
+            if (projectile.Calamity().stealthStrike)
+            {
+                projectile.penetrate = 20 - StealthDamageCap;
+                projectile.velocity.Y *= 1.025f;
+                Dust.NewDust(projectile.position, projectile.width, projectile.height, 32);
+            }
             projectile.velocity.X *= 1.025f;
             projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 2.355f;
             if (projectile.spriteDirection == -1)
