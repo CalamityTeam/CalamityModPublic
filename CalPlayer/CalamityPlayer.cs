@@ -1909,11 +1909,18 @@ namespace CalamityMod.CalPlayer
         #region InventoryStartup
         public override void SetupStartInventory(IList<Item> items, bool mediumcoreDeath)
         {
+            Item createItem(int type)
+            {
+                Item i = new Item();
+                i.SetDefaults(type);
+                return i;
+            }
+
             if (!mediumcoreDeath)
             {
-                player.inventory[9].SetDefaults(ModContent.ItemType<Revenge>());
-                player.inventory[8].SetDefaults(ModContent.ItemType<IronHeart>());
-                player.inventory[7].SetDefaults(ModContent.ItemType<StarterBag>());
+                items.Add(createItem(ModContent.ItemType<StarterBag>()));
+                items.Add(createItem(ModContent.ItemType<Revenge>()));
+                items.Add(createItem(ModContent.ItemType<IronHeart>()));
             }
         }
         #endregion
