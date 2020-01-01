@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Terratomere");
             Tooltip.SetDefault("Linked to the essence of Terraria\n" +
-                               "Heals the player on enemy hits\n" +
+                               "Heals the player on true melee hits\n" +
                                "Fires a barrage of homing beams that inflict several debuffs");
         }
 
