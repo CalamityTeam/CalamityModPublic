@@ -50,6 +50,10 @@ namespace CalamityMod.Projectiles.Rogue
             }
             else
             {
+                if (projectile.velocity.X != oldVelocity.X)
+                {
+                    projectile.velocity.X = -oldVelocity.X;
+                }
                 if (projectile.velocity.Y != oldVelocity.Y)
                 {
                     projectile.velocity.Y = -oldVelocity.Y;
