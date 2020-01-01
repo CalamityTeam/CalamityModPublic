@@ -1,48 +1,54 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Dusts;
+using CalamityMod.Buffs.DamageOverTime;
 
-namespace CalamityMod.Projectiles.Melee
+namespace CalamityMod.Projectiles.Rogue
 {
-    public class AmidiasWhirlpool : ModProjectile
+    public class RegulusRiotProj : ModProjectile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Whirlpool");
+            DisplayName.SetDefault("Regulus Riot");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[projectile.type] = 2;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 58;
-            projectile.height = 58;
+            projectile.width = 28;
+            projectile.height = 28;
             projectile.friendly = true;
-            projectile.penetrate = 1;
+            projectile.penetrate = 3;
             projectile.extraUpdates = 1;
-            projectile.alpha = 100;
+            projectile.alpha = 255;
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
-            projectile.melee = true;
+            projectile.Calamity().rogue = true;
+            projectile.usesIDStaticNPCImmunity = true;
+            projectile.idStaticNPCHitCooldown = 15;
         }
 
         public override void AI()
         {
-            for (int num105 = 0; num105 < 2; num105++)
+            if (projectile.alpha > 0)
             {
-                float num99 = projectile.velocity.X / 3f * (float)num105;
-                float num100 = projectile.velocity.Y / 3f * (float)num105;
-                int num101 = 4;
-                int num102 = Dust.NewDust(new Vector2(projectile.position.X + (float)num101, projectile.position.Y + (float)num101), projectile.width - num101 * 2, projectile.height - num101 * 2, 33, 0f, 0f, 0, new Color(0, 142, 255), 1.5f);
-                Dust dust = Main.dust[num102];
-                dust.noGravity = true;
-                dust.velocity *= 0.1f;
-                dust.velocity += projectile.velocity * 0.1f;
-                dust.position.X -= num99;
-                dust.position.Y -= num100;
+                projectile.alpha -= 20;
             }
+            if (projectile.alpha < 0)
+            {
+                projectile.alpha = 0;
+            }
+			int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, ModContent.DustType<AstralBlue>(), 0f, 0f, 100, default, 1f);
+			Main.dust[num469].noGravity = true;
+			Main.dust[num469].velocity *= 0f;
+			num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 1f);
+			Main.dust[num469].noGravity = true;
+			Main.dust[num469].velocity *= 0f;
             projectile.ai[0] += 1f;
             int num1013 = 0;
             if (projectile.velocity.Length() <= 8f) //4
@@ -55,6 +61,7 @@ namespace CalamityMod.Projectiles.Melee
 
                 if (projectile.ai[0] >= 30f)
                 {
+					projectile.extraUpdates = 2;
                     projectile.velocity *= 0.98f;
                     projectile.rotation -= 0.0174532924f;
                 }
@@ -63,6 +70,7 @@ namespace CalamityMod.Projectiles.Melee
                     projectile.velocity.Normalize();
                     projectile.velocity *= 4f;
                     projectile.ai[0] = 0f;
+					projectile.extraUpdates = 1;
                 }
             }
             else if (num1013 == 1)
@@ -80,7 +88,7 @@ namespace CalamityMod.Projectiles.Melee
                         if (Main.npc[num1017].CanBeChasedBy(projectile, false))
                         {
                             Vector2 center13 = Main.npc[num1017].Center;
-                            if (projectile.Distance(center13) < num1015 && Collision.CanHit(new Vector2(projectile.position.X + (float)(projectile.width / 2), projectile.position.Y + (float)(projectile.height / 2)), 1, 1, Main.npc[num1017].position, Main.npc[num1017].width, Main.npc[num1017].height))
+                            if (projectile.Distance(center13) < num1015)
                             {
                                 num1015 = projectile.Distance(center13);
                                 vector145 = center13;
@@ -128,25 +136,55 @@ namespace CalamityMod.Projectiles.Melee
                     projectile.velocity.Y = (projectile.velocity.Y * (float)(num1020 - 1) + num1022) / (float)num1020;
                 }
             }
-            Lighting.AddLight(projectile.Center, 0f, 0.1f, 0.9f);
-            if (projectile.ai[0] >= 120f)
+            if (projectile.ai[0] >= 180f)
             {
                 projectile.Kill();
             }
         }
 
-        public override Color? GetAlpha(Color lightColor)
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            return new Color(30, 255, 253);
+            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 180);
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
+            return false;
         }
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 10);
-            for (int k = 0; k < 20; k++)
+            Main.PlaySound(SoundID.Item10, projectile.position);
+            for (int i = 0; i < 10; i++)
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 33, projectile.oldVelocity.X, projectile.oldVelocity.Y, 0, new Color(0, 142, 255), 1f);
+                int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, ModContent.DustType<AstralBlue>(), 0f, 0f, 100, default, 1.5f);
+                Main.dust[num469].noGravity = true;
+                Main.dust[num469].velocity *= 0f;
             }
+            for (int i = 0; i < 10; i++)
+            {
+                int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 1.5f);
+                Main.dust[num469].noGravity = true;
+                Main.dust[num469].velocity *= 0f;
+            }
+			if (projectile.Calamity().stealthStrike)
+			{
+                if (projectile.owner == Main.myPlayer)
+                {
+                    float spread = 60f * 0.0174f;
+                    double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
+                    double deltaAngle = spread / 6f;
+                    double offsetAngle;
+                    int i;
+                    for (i = 0; i < 3; i++)
+                    {
+                        offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
+                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 2f), (float)(Math.Cos(offsetAngle) * 2f), ModContent.ProjectileType<RegulusEnergy>(), (int)((double)projectile.damage * 0.4), projectile.knockBack, projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 2f), (float)(-Math.Cos(offsetAngle) * 2f), ModContent.ProjectileType<RegulusEnergy>(), (int)((double)projectile.damage * 0.4), projectile.knockBack, projectile.owner, 0f, 0f);
+                    }
+                }
+			}
         }
     }
 }

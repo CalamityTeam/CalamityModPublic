@@ -307,7 +307,7 @@ namespace CalamityMod
 				(Func<bool>)(() => CalamityWorld.downedStarGod), 
 				ModContent.ItemType<Starcore>(), 
 				new List<int>() { ModContent.ItemType<AstrumDeusTrophy>(), ModContent.ItemType<AstrumDeusMask>(), ModContent.ItemType<KnowledgeAstrumDeus>(), ModContent.ItemType<KnowledgeAstralInfection>()}, 
-				new List<int>() { ModContent.ItemType<AstrumDeusBag>(), ModContent.ItemType<Stardust>(), ModContent.ItemType<TheMicrowave>(), ModContent.ItemType<StarSputter>(), ModContent.ItemType<Starfall>(), ModContent.ItemType<GodspawnHelixStaff>(), ModContent.ItemType<Quasar>(), ModContent.ItemType<AstralBulwark>(), ModContent.ItemType<HideofAstrumDeus>(), ItemID.FragmentSolar, ItemID.FragmentVortex, ItemID.FragmentNebula, ItemID.FragmentStardust, ItemID.GreaterHealingPotion}, 
+				new List<int>() { ModContent.ItemType<AstrumDeusBag>(), ModContent.ItemType<Stardust>(), ModContent.ItemType<TheMicrowave>(), ModContent.ItemType<StarSputter>(), ModContent.ItemType<Starfall>(), ModContent.ItemType<GodspawnHelixStaff>(), ModContent.ItemType<RegulusRiot>(), ModContent.ItemType<Quasar>(), ModContent.ItemType<AstralBulwark>(), ModContent.ItemType<HideofAstrumDeus>(), ItemID.FragmentSolar, ItemID.FragmentVortex, ItemID.FragmentNebula, ItemID.FragmentStardust, ItemID.GreaterHealingPotion}, 
 				"Defeat 3 empowered astral titans or use a [i:" + ModContent.ItemType<Starcore>() + "] at Night", 
 				"[c/FFD700:The infected deity retreats to the heavens.]", 
 				"CalamityMod/NPCs/AstrumDeus/AstrumDeus_BossChecklist");

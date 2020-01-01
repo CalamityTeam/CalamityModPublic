@@ -32,27 +32,27 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-            Vector2 vector62 = Main.player[projectile.owner].Center - projectile.Center;
+			Player player = Main.player[projectile.owner];
+            Vector2 vector62 = player.Center - projectile.Center;
             projectile.rotation = vector62.ToRotation() - 1.57f;
-            if (Main.player[projectile.owner].dead)
+            if (player.dead)
             {
                 projectile.Kill();
                 return;
             }
-            Main.player[projectile.owner].itemAnimation = 10;
-            Main.player[projectile.owner].itemTime = 10;
-            float arg_1DC8F_0 = vector62.X;
+            player.itemAnimation = 10;
+            player.itemTime = 10;
             if (vector62.X < 0f)
             {
-                Main.player[projectile.owner].ChangeDir(1);
+                player.ChangeDir(1);
                 projectile.direction = 1;
             }
             else
             {
-                Main.player[projectile.owner].ChangeDir(-1);
+                player.ChangeDir(-1);
                 projectile.direction = -1;
             }
-            Main.player[projectile.owner].itemRotation = (vector62 * -1f * (float)projectile.direction).ToRotation();
+            player.itemRotation = (vector62 * -1f * (float)projectile.direction).ToRotation();
             projectile.spriteDirection = (vector62.X > 0f) ? -1 : 1;
             if (projectile.ai[0] == 0f && vector62.Length() > 400f)
             {
@@ -89,10 +89,7 @@ namespace CalamityMod.Projectiles.Melee
                     return;
                 }
             }
-            float[] var_2_1DE21_cp_0 = projectile.ai;
-            int var_2_1DE21_cp_1 = 1;
-            float num73 = var_2_1DE21_cp_0[var_2_1DE21_cp_1];
-            var_2_1DE21_cp_0[var_2_1DE21_cp_1] = num73 + 1f;
+            projectile.ai[1] += 1f;
             if (projectile.ai[1] > 5f)
             {
                 projectile.alpha = 0;
