@@ -351,6 +351,15 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
+			if (modPlayer.fearmonger) //see Misc effects file for def/dr boosts
+			{
+				if (Main.bloodMoon || Main.eclipse || Main.pumpkinMoon || Main.snowMoon)
+				{
+					player.lifeRegen += 5;
+					player.lifeRegenTime += 10;
+				}
+			}
+
 			// Last Debuffs
 
 			if (modPlayer.plaguebringerGoliathLore && player.lifeRegen > 0)

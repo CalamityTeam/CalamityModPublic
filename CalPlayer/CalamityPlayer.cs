@@ -506,6 +506,7 @@ namespace CalamityMod.CalPlayer
         public bool valkyrie = false;
         public bool slimeGod = false;
         public bool molluskSet = false;
+        public bool fearmonger = false;
         public bool daedalusCrystal = false;
         public bool reaverOrb = false;
         public bool chaosSpirit = false;
@@ -1032,6 +1033,7 @@ namespace CalamityMod.CalPlayer
             omegaBlueHentai = false;
 
             molluskSet = false;
+            fearmonger = false;
 
             ataxiaBolt = false;
             ataxiaGeyser = false;
@@ -1638,6 +1640,7 @@ namespace CalamityMod.CalPlayer
             omegaBlueSet = false;
             omegaBlueCooldown = 0;
             molluskSet = false;
+            fearmonger = false;
             daedalusReflect = false;
             daedalusSplit = false;
             daedalusAbsorb = false;
@@ -4695,6 +4698,8 @@ namespace CalamityMod.CalPlayer
                 damage = (int)((double)damage * 0.7);
             if (yharonLore)
                 damage = (int)((double)damage * 0.75);
+            if (fearmonger)
+                damage = (int)((double)damage * 0.9);
             #endregion
 
             if (tarraMage && crit && proj.magic)

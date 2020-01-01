@@ -2270,6 +2270,15 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.molluskSet)
 				player.velocity.X *= 0.985f;
 
+			if (modPlayer.fearmonger) //see regen file for regen boosts
+			{
+				if (Main.bloodMoon || Main.eclipse || Main.pumpkinMoon || Main.snowMoon)
+				{
+					player.statDefense += 15;
+					player.endurance += 0.05f;
+				}
+			}
+
 			if ((modPlayer.warped || modPlayer.caribbeanRum) && !player.slowFall && !player.mount.Active)
 				player.velocity.Y *= 1.01f;
 
