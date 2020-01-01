@@ -58,7 +58,7 @@ namespace CalamityMod.World
                     int y = WorldGen.genRand.Next((int)Main.worldSurface, MaxY);
                     if (Main.wallDungeon[Main.tile[x, y].wall] && !Main.tile[x, y].active())
                     {
-                        chest = AddChestWithDefaultLoot(x, y, (ushort)ChestTypes[i % ChestTypes.Length], 1, 1);
+                        chest = AddChestWithDefaultLoot(x, y, (ushort)ChestTypes[i % ChestTypes.Length], 1, tileStyle: 0);
                     }
                 }
                 if (chest != null)
@@ -69,7 +69,7 @@ namespace CalamityMod.World
             }
         }
 
-        internal static Chest AddChestWithDefaultLoot(int i, int j, ushort type = TileID.Containers, uint emptySlots = 1, int Style = 0)
+        internal static Chest AddChestWithDefaultLoot(int i, int j, ushort type = TileID.Containers, uint emptySlots = 1, int tileStyle = 0)
         {
             Chest chest = null;
             while (j < Main.maxTilesY - 210)
@@ -79,7 +79,7 @@ namespace CalamityMod.World
                     j++;
                     continue;
                 }
-                int chestIndex = WorldGen.PlaceChest(i - 1, j - 1, type, false, Style);
+                int chestIndex = WorldGen.PlaceChest(i - 1, j - 1, type, false, tileStyle);
                 if (chestIndex < 0)
                 {
                     break;
