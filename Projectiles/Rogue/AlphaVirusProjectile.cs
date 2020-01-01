@@ -2,6 +2,7 @@ using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using CalamityMod.NPCs.StormWeaver;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -88,6 +89,11 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
+			if (target.type == ModContent.NPCType<StormWeaverHeadNaked>() || target.type == ModContent.NPCType<StormWeaverBodyNaked>() || target.type == ModContent.NPCType<StormWeaverTailNaked>())
+            {
+                damage /= 5;
+            }
+
             float dist1 = Vector2.Distance(projectile.Center, target.Hitbox.TopLeft());
             float dist2 = Vector2.Distance(projectile.Center, target.Hitbox.TopRight());
             float dist3 = Vector2.Distance(projectile.Center, target.Hitbox.BottomLeft());
