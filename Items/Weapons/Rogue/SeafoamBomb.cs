@@ -1,5 +1,6 @@
 using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Rogue;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,7 +12,8 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Seafoam Bomb");
-            Tooltip.SetDefault("Throws a bomb that explodes into a bubble which deals extra damage to enemies");
+            Tooltip.SetDefault(@"Throws a bomb that explodes into a bubble which deals extra damage to enemies
+Stealth strikes are faster and explode into 5 bubbles");
         }
 
         public override void SafeSetDefaults()
@@ -42,6 +44,17 @@ namespace CalamityMod.Items.Weapons.Rogue
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
+        }
+
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            if (player.Calamity().StealthStrikeAvailable())
+            {
+                int stealth = Projectile.NewProjectile(position, new Vector2(speedX + speedX / 3, speedY + speedY / 3), type, damage, knockBack, player.whoAmI, 0f, 0f);
+                Main.projectile[stealth].Calamity().stealthStrike = true;
+                return false;
+            }
+            return true;
         }
     }
 }
