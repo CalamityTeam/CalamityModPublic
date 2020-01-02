@@ -2704,7 +2704,7 @@ namespace CalamityMod.CalPlayer
 							Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -3f, ModContent.ProjectileType<MiniGuardianDefense>(), (int)(baseDamage * player.minionDamage), 1f, Main.myPlayer, 0f, 0f);
 					}
 
-					if (modPlayer.tarraSummon || modPlayer.bloodflareSummon || modPlayer.godSlayerSummon || modPlayer.silvaSummon || modPlayer.dsSetBonus || modPlayer.omegaBlueSet)
+					if (modPlayer.tarraSummon || modPlayer.bloodflareSummon || modPlayer.godSlayerSummon || modPlayer.silvaSummon || modPlayer.dsSetBonus || modPlayer.omegaBlueSet || modPlayer.fearmongerSet)
 					{
 						if (player.FindBuffIndex(ModContent.BuffType<GuardianOffense>()) == -1)
 							player.AddBuff(ModContent.BuffType<GuardianOffense>(), 3600, true);
