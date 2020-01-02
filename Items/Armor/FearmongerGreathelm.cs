@@ -14,7 +14,9 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fearmonger Greathelm");
-            Tooltip.SetDefault("+60 max mana\n" + "15% increased minion damage and +2 max minions\n" + "Pure terror radiates from your eyes");
+            Tooltip.SetDefault("+60 max mana and 10% decreased mana usage\n" +
+			"10% increased minion damage and +2 max minions\n" +
+			"Pure terror radiates from your eyes");
         }
 
         public override void SetDefaults()
@@ -29,12 +31,13 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             // Don't override the Yoraiz0r's Eye effect if the accessory itself is equipped
-            if(player.yoraiz0rEye == 0)
+            if (player.yoraiz0rEye == 0)
                 player.yoraiz0rEye = 3;
 
             player.statManaMax2 += 60;
             player.maxMinions += 2;
-            player.minionDamage += 0.15f;
+            player.minionDamage += 0.1f;
+            player.manaCost *= 0.9f;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -49,11 +52,10 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = @"45% increased minion damage
+            player.setBonus = @"30% increased minion damage
 Minions deal full damage while wielding weaponry
 Immunity to all forms of frost and flame
 All minion attacks grant colossal life regeneration
-Panic Necklace effect
 15% increased damage reduction during the Pumpkin and Frost Moons
 This extra damage reduction ignores the soft cap";
 
@@ -62,15 +64,14 @@ This extra damage reduction ignores the soft cap";
 
             // All-class armors count as rogue sets, but don't grant stealth bonuses
             player.Calamity().wearingRogueArmor = true;
-            player.minionDamage += 0.45f;
-            player.panic = true;
+            player.minionDamage += 0.3f;
 
             int[] immuneDebuffs = {
                 BuffID.OnFire,
                 BuffID.Frostburn,
                 BuffID.CursedInferno,
-                BuffID.ShadowFlame,
-                BuffID.Daybreak,
+                BuffID.ShadowFlame, //doesn't do anything
+                BuffID.Daybreak, //doesn't do anything
                 BuffID.Burning,
                 ModContent.BuffType<Shadowflame>(),
                 ModContent.BuffType<BrimstoneFlames>(),

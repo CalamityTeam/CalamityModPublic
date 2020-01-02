@@ -13,7 +13,9 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fearmonger Plate Mail");
-            Tooltip.SetDefault("+100 max life and 8% increased damage reduction\n" + "+2 max minions\n" + "8% increased damage and critical strike chance");
+            Tooltip.SetDefault("+100 max life and 8% increased damage reduction\n" +
+			"+2 max minions\n" +
+			"5% increased damage and critical strike chance");
         }
 
         public override void SetDefaults()
@@ -30,8 +32,8 @@ namespace CalamityMod.Items.Armor
             player.statLifeMax2 += 100;
             player.endurance += 0.08f;
             player.maxMinions += 2;
-            player.allDamage += 0.08f;
-            player.Calamity().AllCritBoost(8);
+            player.allDamage += 0.05f;
+            player.Calamity().AllCritBoost(5);
         }
 
         public override void AddRecipes()
