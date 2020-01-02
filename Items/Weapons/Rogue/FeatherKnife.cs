@@ -1,5 +1,7 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
+using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -10,18 +12,19 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Feather Knife");
+            Tooltip.SetDefault("Stealth strike throws a volley of knives");
         }
 
         public override void SafeSetDefaults()
         {
             item.width = 18;
-            item.damage = 24;
+            item.damage = 25;
             item.noMelee = true;
             item.consumable = true;
             item.noUseGraphic = true;
             item.useAnimation = 11;
             item.useStyle = 1;
-            item.useTime = 11;
+            item.useTime = 18;
             item.knockBack = 2f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
@@ -30,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.value = 300;
             item.rare = 3;
             item.shoot = ModContent.ProjectileType<FeatherKnifeProjectile>();
-            item.shootSpeed = 14f;
+            item.shootSpeed = 25f;
             item.Calamity().rogue = true;
         }
 
@@ -41,6 +44,23 @@ namespace CalamityMod.Items.Weapons.Rogue
             recipe.AddTile(TileID.SkyMill);
             recipe.SetResult(this, 30);
             recipe.AddRecipe();
+        }
+
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
+            {
+                int spread = 6;
+                for (int i = 0; i < 5; i++)
+                {
+                    Vector2 perturbedspeed = new Vector2(speedX + Main.rand.Next(-3, 4), speedY + Main.rand.Next(-3, 4)).RotatedBy(MathHelper.ToRadians(spread));
+                    int proj = Projectile.NewProjectile(position.X, position.Y, perturbedspeed.X, perturbedspeed.Y, type, damage, knockBack, player.whoAmI, 0f, 0f);
+                    Main.projectile[proj].Calamity().stealthStrike = true;
+                    spread -= Main.rand.Next(2, 6);
+                }
+                return false;
+            }
+            return true;
         }
     }
 }

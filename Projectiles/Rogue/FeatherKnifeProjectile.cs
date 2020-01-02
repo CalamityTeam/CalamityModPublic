@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -7,6 +8,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class FeatherKnifeProjectile : ModProjectile
     {
+        private int featherTimer = 30;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Knife");
@@ -18,32 +21,10 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.height = 12;
             projectile.friendly = true;
             projectile.penetrate = 2;
-            projectile.aiStyle = 2;
+            projectile.aiStyle = 2; 
             projectile.timeLeft = 600;
             aiType = 48;
             projectile.Calamity().rogue = true;
-        }
-
-        public override bool OnTileCollide(Vector2 oldVelocity)
-        {
-            projectile.penetrate--;
-            if (projectile.penetrate <= 0)
-            {
-                projectile.Kill();
-            }
-            else
-            {
-                projectile.ai[0] += 0.1f;
-                if (projectile.velocity.X != oldVelocity.X)
-                {
-                    projectile.velocity.X = -oldVelocity.X;
-                }
-                if (projectile.velocity.Y != oldVelocity.Y)
-                {
-                    projectile.velocity.Y = -oldVelocity.Y;
-                }
-            }
-            return false;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -51,6 +32,19 @@ namespace CalamityMod.Projectiles.Rogue
             Texture2D tex = Main.projectileTexture[projectile.type];
             spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
             return false;
+        }
+
+        public override void AI()
+        {
+            if (featherTimer == 0)
+            {
+                if (projectile.owner == Main.myPlayer)
+                {
+                    Projectile.NewProjectile(projectile.position, new Vector2(projectile.velocity.X / 20, 2), ModContent.ProjectileType<StickyFeatherAero>(), (int)((double)projectile.damage * 0.5), projectile.knockBack, projectile.owner);
+                }
+                featherTimer = 30;
+            }
+            featherTimer--;
         }
 
         public override void Kill(int timeLeft)
