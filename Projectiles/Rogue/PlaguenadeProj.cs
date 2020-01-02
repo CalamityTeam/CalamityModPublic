@@ -71,16 +71,19 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (projectile.owner == Main.myPlayer)
             {
-                int num3;
-                for (int num639 = 0; num639 < 20; num639 = num3 + 1)
+                for (int num639 = 0; num639 < (projectile.Calamity().stealthStrike ? 28 : 20); num639++)
                 {
                     float speedX = (float)Main.rand.Next(-35, 36) * 0.02f;
                     float speedY = (float)Main.rand.Next(-35, 36) * 0.02f;
                     Projectile.NewProjectile(projectile.position.X, projectile.position.Y, speedX, speedY, ModContent.ProjectileType<PlaguenadeBee>(), Main.player[projectile.owner].beeDamage(projectile.damage), Main.player[projectile.owner].beeKB(0f), Main.myPlayer, 0f, 0f);
-                    num3 = num639;
                 }
             }
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
+			if (projectile.Calamity().stealthStrike)
+			{
+				projectile.position = projectile.Center;
+				projectile.width = projectile.height = 75;
+			}
             projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
             projectile.maxPenetrate = -1;
@@ -118,29 +121,22 @@ namespace CalamityMod.Projectiles.Rogue
                     scaleFactor10 = 1f;
                 }
                 int num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-                Main.gore[num626].velocity *= scaleFactor10;
-                Gore expr_13AB6_cp_0 = Main.gore[num626];
-                expr_13AB6_cp_0.velocity.X += 1f;
-                Gore expr_13AD6_cp_0 = Main.gore[num626];
-                expr_13AD6_cp_0.velocity.Y += 1f;
+                Gore gore = Main.gore[num626];
+                gore.velocity *= scaleFactor10;
+                gore.velocity.X += 1f;
+                gore.velocity.Y += 1f;
                 num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-                Main.gore[num626].velocity *= scaleFactor10;
-                Gore expr_13B79_cp_0 = Main.gore[num626];
-                expr_13B79_cp_0.velocity.X -= 1f;
-                Gore expr_13B99_cp_0 = Main.gore[num626];
-                expr_13B99_cp_0.velocity.Y += 1f;
+                gore.velocity *= scaleFactor10;
+                gore.velocity.X -= 1f;
+                gore.velocity.Y += 1f;
                 num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-                Main.gore[num626].velocity *= scaleFactor10;
-                Gore expr_13C3C_cp_0 = Main.gore[num626];
-                expr_13C3C_cp_0.velocity.X += 1f;
-                Gore expr_13C5C_cp_0 = Main.gore[num626];
-                expr_13C5C_cp_0.velocity.Y -= 1f;
+                gore.velocity *= scaleFactor10;
+                gore.velocity.X += 1f;
+                gore.velocity.Y -= 1f;
                 num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-                Main.gore[num626].velocity *= scaleFactor10;
-                Gore expr_13CFF_cp_0 = Main.gore[num626];
-                expr_13CFF_cp_0.velocity.X -= 1f;
-                Gore expr_13D1F_cp_0 = Main.gore[num626];
-                expr_13D1F_cp_0.velocity.Y -= 1f;
+                gore.velocity *= scaleFactor10;
+                gore.velocity.X -= 1f;
+                gore.velocity.Y -= 1f;
             }
         }
 

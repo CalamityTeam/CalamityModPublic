@@ -12,6 +12,7 @@ namespace CalamityMod.Projectiles.Rogue
     public class HeavenfallenStardiskBoomerang : ModProjectile
     {
         private bool explode = false;
+        private int stealth = 0;
 
         public override void SetStaticDefaults()
         {
@@ -35,6 +36,33 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
+			if (projectile.Calamity().stealthStrike)
+			{
+				stealth++;
+				if (stealth >= 5) //every 5 ticks
+				{
+					stealth = 0;
+					if (Main.rand.Next(2) == 0)
+					{
+						int spearAmt = Main.rand.Next(1, 4); //1 to 3 energy
+						for (int n = 0; n < spearAmt; n++)
+						{
+							float x = projectile.position.X + (float)Main.rand.Next(-400, 400);
+							float y = projectile.position.Y - (float)Main.rand.Next(500, 800);
+							Vector2 vector = new Vector2(x, y);
+							float num13 = projectile.position.X + (float)(projectile.width / 2) - vector.X;
+							float num14 = projectile.position.Y + (float)(projectile.height / 2) - vector.Y;
+							num13 += (float)Main.rand.Next(-100, 101);
+							int num15 = 29;
+							float num16 = (float)Math.Sqrt((double)(num13 * num13 + num14 * num14));
+							num16 = (float)num15 / num16;
+							num13 *= num16;
+							num14 *= num16;
+							Projectile.NewProjectile(x, y, num13, num14, ModContent.ProjectileType<HeavenfallenEnergy>(), (int)((double)projectile.damage * 0.4), projectile.knockBack, projectile.owner, 0f, 0f);
+						}
+					}
+				}
+			}
             if (projectile.alpha > 0)
             {
                 projectile.alpha -= 20;
