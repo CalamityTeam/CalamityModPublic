@@ -1,5 +1,6 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.CalPlayer;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Projectiles.Healing;
@@ -766,6 +767,7 @@ namespace CalamityMod.Projectiles
         }
         #endregion
 
+        // TODO -- there are a LOT of returns here which should be breaks or gotos out of if statements
         #region OnHitNPC
         public override void OnHitNPC(Projectile projectile, NPC target, int damage, float knockback, bool crit)
         {
@@ -809,7 +811,8 @@ namespace CalamityMod.Projectiles
                     Main.projectile[projectileIndex].netUpdate = true;
                 }
 
-				if (!target.canGhostHeal)
+				// Spectre Damage set and Nebula set work on enemies which are "immune to lifesteal"
+                if (!target.canGhostHeal)
 				{
 					if (Main.player[projectile.owner].ghostHurt)
 					{
@@ -835,7 +838,8 @@ namespace CalamityMod.Projectiles
 					}
 				}
 
-				if (Main.player[projectile.owner].ghostHeal)
+				// Increases the degree to which Spectre Healing set contributes to the lifesteal cap
+                if (Main.player[projectile.owner].ghostHeal)
 				{
 					if (Main.player[Main.myPlayer].lifeSteal <= 0f)
 					{
@@ -851,6 +855,7 @@ namespace CalamityMod.Projectiles
 					Main.player[Main.myPlayer].lifeSteal -= num2;
 				}
 
+                // Increases the degree to which Vampire Knives contribute to the lifesteal cap
                 if (projectile.type == ProjectileID.VampireKnife)
                 {
 					if (Main.player[Main.myPlayer].lifeSteal <= 0f)
@@ -1504,6 +1509,15 @@ namespace CalamityMod.Projectiles
                     if (Main.player[projectile.owner].Calamity().shadowMinions)
                     {
                         target.AddBuff(BuffID.ShadowFlame, 300);
+                    }
+
+                    // Fearmonger set's colossal life regeneration
+                    CalamityPlayer modPlayer = Main.player[projectile.owner].Calamity();
+                    if(modPlayer.fearmongerSet)
+                    {
+                        modPlayer.fearmongerRegenFrames += 20;
+                        if (modPlayer.fearmongerRegenFrames > 180)
+                            modPlayer.fearmongerRegenFrames = 180;
                     }
 
                     if (Main.player[projectile.owner].Calamity().godSlayerSummon && Main.player[projectile.owner].Calamity().godSlayerDmg <= 0)

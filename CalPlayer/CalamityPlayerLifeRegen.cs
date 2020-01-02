@@ -1,11 +1,9 @@
 ﻿using CalamityMod.Buffs.Alcohol;
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.CalPlayer
@@ -351,15 +349,6 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-			if (modPlayer.fearmonger) //see Misc effects file for def/dr boosts
-			{
-				if (Main.bloodMoon || Main.eclipse || Main.pumpkinMoon || Main.snowMoon)
-				{
-					player.lifeRegen += 5;
-					player.lifeRegenTime += 10;
-				}
-			}
-
 			// Last Debuffs
 
 			if (modPlayer.plaguebringerGoliathLore && player.lifeRegen > 0)
@@ -594,10 +583,19 @@ namespace CalamityMod.CalPlayer
 					player.lifeRegen += 2;
 			}
 
+            if(modPlayer.fearmongerSet && modPlayer.fearmongerRegenFrames > 0)
+            {
+                player.lifeRegen += 14;
+                player.lifeRegenTime += 7;
+                if (player.lifeRegenTime < 1800)
+                    player.lifeRegenTime = 1800;
+            }
+
 			if (modPlayer.etherealExtorter || player.ZoneGlowshroom)
 				player.lifeRegen += 1;
 
-			if (!player.shinyStone)
+			// Standing still healing bonuses (all exclusive with vanilla Shiny Stone)
+            if (!player.shinyStone)
             {
                 int lifeRegenTimeMaxBoost = CalamityPlayer.areThereAnyDamnBosses ? 450 : 1800;
                 int lifeRegenMaxBoost = CalamityPlayer.areThereAnyDamnBosses ? 1 : 4;

@@ -8,48 +8,39 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Armor
 {
     [AutoloadEquip(EquipType.Body)]
-    public class FearmongerChestplate : ModItem
+    public class FearmongerPlateMail : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Fearmonger Chestplate");
-            Tooltip.SetDefault(@"+100 max health and permanent Well Fed buffs
-Greatly increases life regeneration after striking an enemy");
+            DisplayName.SetDefault("Fearmonger Plate Mail");
+            Tooltip.SetDefault("+100 max life and 8% increased damage reduction\n" + "+2 max minions\n" + "8% increased damage and critical strike chance");
         }
 
         public override void SetDefaults()
         {
             item.width = 18;
             item.height = 18;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.defense = 55;
+            item.value = Item.buyPrice(gold: 60);
+            item.defense = 50;
             item.Calamity().postMoonLordRarity = 14;
         }
 
         public override void UpdateEquip(Player player)
         {
-            CalamityPlayer modPlayer = player.Calamity();
-            player.onHitRegen = true;
             player.statLifeMax2 += 100;
-
-			//well fed buffs
-			if (!player.HasBuff(BuffID.WellFed))
-			{
-				player.wellFed = true;
-				player.statDefense += 2;
-				player.allDamage += 0.05f;
-				modPlayer.AllCritBoost(2);
-				player.minionKB += 0.5f;
-				player.moveSpeed += 0.2f;
-			}
+            player.endurance += 0.08f;
+            player.maxMinions += 2;
+            player.allDamage += 0.08f;
+            player.Calamity().AllCritBoost(8);
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 16);
-            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 8);
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 8);
+            recipe.AddIngredient(ItemID.SpookyBreastplate);
+            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 12);
+            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 12);
+            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 12);
             recipe.AddIngredient(ItemID.SoulofFright, 12);
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);

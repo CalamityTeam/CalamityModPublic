@@ -39,6 +39,10 @@ namespace CalamityMod.CalPlayer
 
 			// No category
 
+			// Decrease the counter on Fearmonger set turbo regeneration
+			if (modPlayer.fearmongerRegenFrames > 0)
+				modPlayer.fearmongerRegenFrames--;
+
 			// Reduce the expert debuff time multiplier to the normal mode multiplier
 			if (Config.ExpertDebuffDurationReduction)
 				Main.expertDebuffTime = 1f;
@@ -2269,15 +2273,6 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.molluskSet)
 				player.velocity.X *= 0.985f;
-
-			if (modPlayer.fearmonger) //see regen file for regen boosts
-			{
-				if (Main.bloodMoon || Main.eclipse || Main.pumpkinMoon || Main.snowMoon)
-				{
-					player.statDefense += 15;
-					player.endurance += 0.05f;
-				}
-			}
 
 			if ((modPlayer.warped || modPlayer.caribbeanRum) && !player.slowFall && !player.mount.Active)
 				player.velocity.Y *= 1.01f;

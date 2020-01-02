@@ -12,32 +12,34 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fearmonger Greaves");
-            Tooltip.SetDefault(@"15% increased damage reduction
-Taking damage causes the player to panic");
+            Tooltip.SetDefault("+2 max minions and 7% increased damage\n" + "50% increased minion knockback\n" + "15% increased movement speed");
         }
 
         public override void SetDefaults()
         {
             item.width = 18;
             item.height = 18;
-            item.value = Item.buyPrice(0, 45, 0, 0);
-            item.defense = 48;
+            item.value = Item.buyPrice(gold: 45);
+            item.defense = 44;
             item.Calamity().postMoonLordRarity = 14;
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.endurance += 0.1f;
-			player.panic = true;
+            player.maxMinions += 2;
+            player.allDamage += 0.07f;
+            player.minionKB += 0.5f;
+            player.moveSpeed += 0.15f;
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 13);
-            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 6);
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 6);
-            recipe.AddIngredient(ItemID.SoulofFright, 9);
+            recipe.AddIngredient(ItemID.SpookyLeggings);
+            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 10);
+            recipe.AddIngredient(ItemID.SoulofFright, 10);
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();

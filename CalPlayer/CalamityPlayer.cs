@@ -1,25 +1,15 @@
 using CalamityMod.Buffs;
-using CalamityMod.Buffs.Alcohol;
 using CalamityMod.Buffs.Cooldowns;
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.Pets;
 using CalamityMod.Buffs.Potions;
 using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.Buffs.Summon;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Accessories.Vanity;
 using CalamityMod.Items.DifficultyItems;
-using CalamityMod.Items.Fishing;
-using CalamityMod.Items.Fishing.AstralCatches;
 using CalamityMod.Items.Fishing.BrimstoneCragCatches;
-using CalamityMod.Items.Fishing.SulphurCatches;
-using CalamityMod.Items.Fishing.SunkenSeaCatches;
-using CalamityMod.Items.Fishing.FishingRods;
 using CalamityMod.Items.Mounts;
-using CalamityMod.Items.Pets;
-using CalamityMod.Items.Placeables;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
@@ -27,8 +17,6 @@ using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs;
-using CalamityMod.NPCs.Astral;
-using CalamityMod.NPCs.AcidRain;
 using CalamityMod.NPCs.Calamitas;
 using CalamityMod.NPCs.DevourerofGods;
 using CalamityMod.NPCs.Leviathan;
@@ -40,7 +28,6 @@ using CalamityMod.NPCs.Yharon;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
-using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
 using CalamityMod.UI;
 using CalamityMod.World;
@@ -49,7 +36,6 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameInput;
@@ -506,7 +492,8 @@ namespace CalamityMod.CalPlayer
         public bool valkyrie = false;
         public bool slimeGod = false;
         public bool molluskSet = false;
-        public bool fearmonger = false;
+        public bool fearmongerSet = false;
+        public int fearmongerRegenFrames = 0;
         public bool daedalusCrystal = false;
         public bool reaverOrb = false;
         public bool chaosSpirit = false;
@@ -1033,7 +1020,7 @@ namespace CalamityMod.CalPlayer
             omegaBlueHentai = false;
 
             molluskSet = false;
-            fearmonger = false;
+            fearmongerSet = false;
 
             ataxiaBolt = false;
             ataxiaGeyser = false;
@@ -1640,7 +1627,7 @@ namespace CalamityMod.CalPlayer
             omegaBlueSet = false;
             omegaBlueCooldown = 0;
             molluskSet = false;
-            fearmonger = false;
+            fearmongerSet = false;
             daedalusReflect = false;
             daedalusSplit = false;
             daedalusAbsorb = false;
@@ -1689,6 +1676,8 @@ namespace CalamityMod.CalPlayer
             bloodflareMage = false;
             bloodflareSummon = false;
             bloodflareSummonTimer = 0;
+            fearmongerSet = false;
+            fearmongerRegenFrames = 0;
             xerocSet = false;
             IBoots = false;
             elysianFire = false;
@@ -4665,7 +4654,8 @@ namespace CalamityMod.CalPlayer
             #endregion
 
             #region MultiplicativeReductions
-            if (isSummon)
+            // Fearmonger armor makes you immune to the summoner cross-class nerf
+            if (isSummon && !fearmongerSet)
             {
                 if (heldItem.type > 0)
                 {
@@ -4698,8 +4688,6 @@ namespace CalamityMod.CalPlayer
                 damage = (int)((double)damage * 0.7);
             if (yharonLore)
                 damage = (int)((double)damage * 0.75);
-            if (fearmonger)
-                damage = (int)((double)damage * 0.9);
             #endregion
 
             if (tarraMage && crit && proj.magic)
@@ -5522,6 +5510,12 @@ namespace CalamityMod.CalPlayer
             if (purpleCandle)
             {
                 damage = (int)((double)damage - ((double)player.statDefense * 0.05));
+            }
+            // Fearmonger set provides 15% multiplicative DR that ignores caps during the Holiday Moons.
+            // To prevent abuse, this effect does not work if there are any bosses alive.
+            if(fearmongerSet && !areThereAnyDamnBosses && (Main.pumpkinMoon || Main.snowMoon))
+            {
+                damage = (int)(damage * 0.85f);
             }
             if (abyssalDivingSuitPlates)
             {
