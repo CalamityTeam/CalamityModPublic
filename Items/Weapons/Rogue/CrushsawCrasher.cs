@@ -1,5 +1,7 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Projectiles.Rogue;
+using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,7 +13,8 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Crushsaw Crasher");
-            Tooltip.SetDefault("Throws bouncing axes");
+            Tooltip.SetDefault("Throws bouncing axes\n" +
+			"Stealth strikes throw five at once");
         }
 
         public override void SafeSetDefaults()
@@ -30,6 +33,25 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.shoot = ModContent.ProjectileType<Crushax>();
             item.shootSpeed = 11f;
             item.Calamity().rogue = true;
+        }
+
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
+            {
+                int spread = 3;
+                for (int i = 0; i < 5; i++)
+                {
+                    Vector2 perturbedspeed = new Vector2(speedX + Main.rand.Next(-3,4), speedY + Main.rand.Next(-3,4)).RotatedBy(MathHelper.ToRadians(spread));
+                    int proj = Projectile.NewProjectile(position.X, position.Y, perturbedspeed.X, perturbedspeed.Y, type, damage, knockBack, player.whoAmI, 0f, 0f);
+                    Main.projectile[proj].Calamity().stealthStrike = true;
+                    Main.projectile[proj].usesLocalNPCImmunity = true;
+                    Main.projectile[proj].localNPCHitCooldown = 10;
+                    spread -= Main.rand.Next(1,4);
+                }
+                return false;
+            }
+            return true;
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)

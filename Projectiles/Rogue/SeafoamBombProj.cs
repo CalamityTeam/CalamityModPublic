@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void Kill(int timeLeft)
         {
             projectile.position = projectile.Center;
-            projectile.width = projectile.height = 128;
+            projectile.width = projectile.height = projectile.Calamity().stealthStrike ? 256 : 128;
             projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
             projectile.maxPenetrate = -1;
@@ -39,8 +39,15 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.localNPCHitCooldown = 10;
             projectile.Damage();
             Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 14);
-            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<SeafoamBubble>(), (int)((double)projectile.damage * 0.4), 0f, projectile.owner, 0f, 0f);
-            for (int num625 = 0; num625 < 3; num625++)
+
+            for (int i = 0; i < (projectile.Calamity().stealthStrike ? 5 : 1); i++)
+            {
+                float posX = projectile.Center.X + (projectile.Calamity().stealthStrike ? Main.rand.Next(-50, 51) : 0);
+                float posY = projectile.Center.Y + (projectile.Calamity().stealthStrike ? Main.rand.Next(-50, 51) : 0);
+                Projectile.NewProjectile(posX, posY, 0f, 0f, ModContent.ProjectileType<SeafoamBubble>(), (int)((double)projectile.damage * 0.4), 0f, projectile.owner, 0f, 0f);
+            }
+
+            for (int num625 = 0; num625 < (projectile.Calamity().stealthStrike ? 6 : 3); num625++)
             {
                 float scaleFactor10 = 0.33f;
                 if (num625 == 1)
