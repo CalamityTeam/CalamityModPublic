@@ -1,4 +1,5 @@
 using CalamityMod.Projectiles.Rogue;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,7 +12,8 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Heavenfallen Stardisk");
             Tooltip.SetDefault("Throws a stardisk upwards which then launches itself towards your mouse cursor,\n" +
-                               "explodes into several astral energy bolts if the thrower is moving vertically when throwing it and during its impact");
+                               "explodes into several astral energy bolts if the thrower is moving vertically when throwing it and during its impact\n" +
+							   "Stealth strikes spawn astral energy bolts from the sky as it flies");
         }
 
         public override void SafeSetDefaults()
@@ -35,9 +37,17 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.Calamity().rogue = true;
         }
 
-        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, 0f, -10f, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+            if (player.Calamity().StealthStrikeAvailable())
+            {
+                int proj = Projectile.NewProjectile(position.X, position.Y, 0f, -10f, type, damage, knockBack, player.whoAmI, 0f, 0f);
+                Main.projectile[proj].Calamity().stealthStrike = true;
+            }
+			else
+			{
+				Projectile.NewProjectile(position.X, position.Y, 0f, -10f, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+			}	
             return false;
         }
     }
