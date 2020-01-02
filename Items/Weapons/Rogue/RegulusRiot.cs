@@ -18,7 +18,7 @@ Stealth strikes explode into energy stars");
 
         public override void SafeSetDefaults()
         {
-            item.damage = 93;
+            item.damage = 101;
             item.knockBack = 4.5f;
 
             item.width = 28;

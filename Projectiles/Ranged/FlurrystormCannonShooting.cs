@@ -80,7 +80,7 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 num39++;
             }
-            int num40 = 20;
+            int num40 = 24;
             int num41 = 2;
             projectile.ai[1] -= 1f;
             bool flag15 = false;
