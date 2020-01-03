@@ -6111,6 +6111,11 @@ namespace CalamityMod.CalPlayer
                     }
                 }
             }
+
+			for (int k = 0; k < player.hurtCooldowns.Length; k++)
+			{
+				player.hurtCooldowns[k] = player.immuneTime;
+			}
         }
         #endregion
 
