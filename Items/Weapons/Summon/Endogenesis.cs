@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Summon
                                "Changes attack modes by resummoning or reusing the staff \n" +
                                "The first mode makes it shoot sweeping lasers aimed at the enemy \n" +
                                "The second mode sacrifices its limbs to shoot out homing projectiles \n" +
-                               "The third mode allows it to agressively tackle it's enemies \n" +
+                               "The third mode allows it to agressively tackle its enemies \n" +
                                "The fourth mode makes the limbs function as endothermic flamethrowers \n" +
                                "Requires 10 minion slots to be summoned \n" +
                                "There can only be one \n" +

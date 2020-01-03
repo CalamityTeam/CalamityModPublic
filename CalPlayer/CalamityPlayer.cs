@@ -3016,16 +3016,15 @@ namespace CalamityMod.CalPlayer
                 for (int j = 0; j < 25; j++)
                 {
                     int num = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 173, 0f, 0f, 100, default, 2f);
-                    Dust expr_A4_cp_0 = Main.dust[num];
-                    expr_A4_cp_0.position.X += (float)Main.rand.Next(-20, 21);
-                    Dust expr_CB_cp_0 = Main.dust[num];
-                    expr_CB_cp_0.position.Y += (float)Main.rand.Next(-20, 21);
-                    Main.dust[num].velocity *= 0.9f;
-                    Main.dust[num].scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
-                    Main.dust[num].shader = GameShaders.Armor.GetSecondaryShader(player.cWaist, player);
+                    Dust dust = Main.dust[num];
+                    dust.position.X += (float)Main.rand.Next(-20, 21);
+                    dust.position.Y += (float)Main.rand.Next(-20, 21);
+                    dust.velocity *= 0.9f;
+                    dust.scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
+                    dust.shader = GameShaders.Armor.GetSecondaryShader(player.cWaist, player);
                     if (Main.rand.NextBool(2))
                     {
-                        Main.dust[num].scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
+                        dust.scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
                     }
                 }
                 player.statLife += 100;
@@ -3042,16 +3041,15 @@ namespace CalamityMod.CalPlayer
                 for (int j = 0; j < 50; j++)
                 {
                     int num = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 173, 0f, 0f, 100, default, 2f);
-                    Dust expr_A4_cp_0 = Main.dust[num];
-                    expr_A4_cp_0.position.X += (float)Main.rand.Next(-20, 21);
-                    Dust expr_CB_cp_0 = Main.dust[num];
-                    expr_CB_cp_0.position.Y += (float)Main.rand.Next(-20, 21);
-                    Main.dust[num].velocity *= 0.9f;
-                    Main.dust[num].scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
-                    Main.dust[num].shader = GameShaders.Armor.GetSecondaryShader(player.cWaist, player);
+                    Dust dust = Main.dust[num];
+                    dust.position.X += (float)Main.rand.Next(-20, 21);
+                    dust.position.Y += (float)Main.rand.Next(-20, 21);
+                    dust.velocity *= 0.9f;
+                    dust.scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
+                    dust.shader = GameShaders.Armor.GetSecondaryShader(player.cWaist, player);
                     if (Main.rand.NextBool(2))
                     {
-                        Main.dust[num].scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
+                        dust.scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
                     }
                 }
                 int heal = draconicSurge ? player.statLifeMax2 : 150;
@@ -6111,11 +6109,6 @@ namespace CalamityMod.CalPlayer
                     }
                 }
             }
-
-			for (int k = 0; k < player.hurtCooldowns.Length; k++)
-			{
-				player.hurtCooldowns[k] = player.immuneTime;
-			}
         }
         #endregion
 
