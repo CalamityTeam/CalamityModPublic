@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ornate Shield");
+            Tooltip.SetDefault("Boosted damage reduction and health while wearing the Daedalus armor");
         }
 
         public override void SetDefaults()
@@ -21,6 +22,18 @@ namespace CalamityMod.Items.Accessories
             item.rare = 5;
             item.defense = 8;
             item.accessory = true;
+        }
+
+        public override void UpdateAccessory(Player player, bool hideVisual)
+        {
+            if ((player.armor[0].type == ModContent.ItemType<DaedalusHat>() || player.armor[0].type == ModContent.ItemType<DaedalusHeadgear>() ||
+                player.armor[0].type == ModContent.ItemType<DaedalusHelm>() || player.armor[0].type == ModContent.ItemType<DaedalusHelmet>() ||
+                player.armor[0].type == ModContent.ItemType<DaedalusVisor>()) &&
+                player.armor[1].type == ModContent.ItemType<DaedalusBreastplate>() && player.armor[2].type == ModContent.ItemType<DaedalusLeggings>())
+            {
+                player.endurance += 0.08f;
+                player.statLifeMax2 += 20;
+            }
         }
 
         public override void AddRecipes()

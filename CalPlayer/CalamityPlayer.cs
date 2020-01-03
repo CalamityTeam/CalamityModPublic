@@ -6798,13 +6798,12 @@ namespace CalamityMod.CalPlayer
                         for (int num17 = 0; num17 < 20; num17++)
                         {
                             int num18 = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 235, 0f, 0f, 100, default, 2f);
-                            Dust expr_CDB_cp_0 = Main.dust[num18];
-                            expr_CDB_cp_0.position.X += (float)Main.rand.Next(-5, 6);
-                            Dust expr_D02_cp_0 = Main.dust[num18];
-                            expr_D02_cp_0.position.Y += (float)Main.rand.Next(-5, 6);
-                            Main.dust[num18].velocity *= 0.2f;
-                            Main.dust[num18].scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
-                            Main.dust[num18].shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
+                            Dust dust = Main.dust[num18];
+                            dust.position.X += (float)Main.rand.Next(-5, 6);
+                            dust.position.Y += (float)Main.rand.Next(-5, 6);
+                            dust.velocity *= 0.2f;
+                            dust.scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
+                            dust.shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
                         }
                         return;
                     }
@@ -7993,50 +7992,6 @@ namespace CalamityMod.CalPlayer
                 }
             }
 		}
-
-		//btw this actually doesn't work and I don't know what I'm doing
-		/*public void DrawPlayer(Player drawPlayer, Vector2 Position, float rotation, Vector2 rotationOrigin, float shadow = 0.0f)
-		{
-			DrawData drawData = new DrawData();
-			SpriteEffects spriteEffects;
-			if ((double) drawPlayer.gravDir == 1.0)
-			{
-				if (drawPlayer.direction == 1)
-				{
-					spriteEffects = SpriteEffects.None;
-				}
-				else
-				{
-					spriteEffects = SpriteEffects.FlipHorizontally;
-				}
-			}
-			else
-			{
-				if (drawPlayer.direction == 1)
-				{
-					spriteEffects = SpriteEffects.FlipVertically;
-				}
-				else
-				{
-					spriteEffects = SpriteEffects.FlipHorizontally | SpriteEffects.FlipVertically;
-				}
-			}
-			Microsoft.Xna.Framework.Color color12 = drawPlayer.GetImmuneAlphaPure(Lighting.GetColor((int) ((double) Position.X + (double) drawPlayer.width * 0.5) / 16, (int) ((double) Position.Y + (double) drawPlayer.height * 0.5) / 16, Microsoft.Xna.Framework.Color.White), shadow);
-			Microsoft.Xna.Framework.Color drawColor = color12;
-			int type = drawPlayer.inventory[drawPlayer.selectedItem].type;
-			int index1 = 1;
-			float num23 = -4f;
-			float num24 = -8f;
-			int num25 = 0;
-
-			if (type == ModContent.ItemType<FlurrystormCannon>())
-			//32 is the height of the texture, 14 is the width of the texture
-			{
-				drawData = new DrawData(ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/FlurrystormCannonTankFull"), new Vector2((float) (int) ((double) Position.X - (double) Main.screenPosition.X + (double) (drawPlayer.width / 2) - (double) (9 * drawPlayer.direction)) + num23 * (float) drawPlayer.direction, (float) (int) ((double) Position.Y - (double) Main.screenPosition.Y + (double) (drawPlayer.height / 2) + 2.0 * (double) drawPlayer.gravDir + (double) num24 * (double) drawPlayer.gravDir)), new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, 0, 14, 32)), color12, drawPlayer.bodyRotation, new Vector2((float) (14 / 2), (float) (32 / 2)), 1f, spriteEffects, 0);
-				drawData.shader = num25;
-				Main.playerDrawData.Add(drawData);
-			}
-        }*/
         #endregion
 
         #region Nurse Modifications
