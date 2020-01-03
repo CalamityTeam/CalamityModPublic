@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -75,6 +76,30 @@ namespace CalamityMod.Projectiles.Summon
                 if (modPlayer.bStar)
                 {
                     projectile.timeLeft = 2;
+                }
+            }
+            float SAImovement = 0.05f;
+            for (int num638 = 0; num638 < Main.projectile.Length; num638++)
+            {
+                bool flag23 = Main.projectile[num638].type == ModContent.ProjectileType<BrittleStarMinion>();
+                if (num638 != projectile.whoAmI && Main.projectile[num638].active && Main.projectile[num638].owner == projectile.owner && flag23 && Math.Abs(projectile.position.X - Main.projectile[num638].position.X) + Math.Abs(projectile.position.Y - Main.projectile[num638].position.Y) < (float)projectile.width)
+                {
+                    if (projectile.position.X < Main.projectile[num638].position.X)
+                    {
+                        projectile.velocity.X -= SAImovement;
+                    }
+                    else
+                    {
+                        projectile.velocity.X += SAImovement;
+                    }
+                    if (projectile.position.Y < Main.projectile[num638].position.Y)
+                    {
+                        projectile.velocity.Y -= SAImovement;
+                    }
+                    else
+                    {
+                        projectile.velocity.Y += SAImovement;
+                    }
                 }
             }
         }
