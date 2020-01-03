@@ -2743,10 +2743,10 @@ namespace CalamityMod.World
             int num22 = i + (num2 / 2 + 1) * -num;
             WorldGen.PlaceTile(num22, num7 - 1, 14, true, false, -1, WorldGen.crimson ? 1 : 8); //table
             WorldGen.PlaceTile(num22 - 2, num7 - 1, 15, true, false, 0, WorldGen.crimson ? 2 : 11); //chair
-            Tile expr_510 = Main.tile[num22 - 2, num7 - 1];
-            expr_510.frameX += 18;
-            Tile expr_531 = Main.tile[num22 - 2, num7 - 2];
-            expr_531.frameX += 18;
+            Tile tile = Main.tile[num22 - 2, num7 - 1];
+            tile.frameX += 18;
+            Tile tile2 = Main.tile[num22 - 2, num7 - 2];
+            tile2.frameX += 18;
             WorldGen.PlaceTile(num22 + 2, num7 - 1, 15, true, false, 0, WorldGen.crimson ? 2 : 11); //chair
         }
         #endregion
@@ -3125,10 +3125,10 @@ namespace CalamityMod.World
             int num22 = i + (num2 / 2 + 1) * -num;
             WorldGen.PlaceTile(num22, num7 - 1, 14, true, false, -1, 13); //table
             WorldGen.PlaceTile(num22 - 2, num7 - 1, 15, true, false, 0, 16); //chair
-            Tile expr_510 = Main.tile[num22 - 2, num7 - 1];
-            expr_510.frameX += 18;
-            Tile expr_531 = Main.tile[num22 - 2, num7 - 2];
-            expr_531.frameX += 18;
+            Tile tile = Main.tile[num22 - 2, num7 - 1];
+            tile.frameX += 18;
+            Tile tile2 = Main.tile[num22 - 2, num7 - 2];
+            tile2.frameX += 18;
             WorldGen.PlaceTile(num22 + 2, num7 - 1, 15, true, false, 0, 16); //chair
         }
         #endregion

@@ -128,10 +128,10 @@ namespace CalamityMod.World
                 }
                 for (int num7 = 0; num7 < list.Count; num7++)
                 {
-                    foreach (Point expr_205 in list[num7])
+                    foreach (Point point in list[num7])
                     {
-                        int x = expr_205.X;
-                        int y = expr_205.Y;
+                        int x = point.X;
+                        int y = point.Y;
                         if (array2[x, y] == -1)
                         {
                             break;
