@@ -469,5 +469,10 @@ namespace CalamityMod.Projectiles.Summon
         {
             target.AddBuff(BuffID.Poisoned, 300);
         }
+
+        public override bool CanDamage()
+        {
+            return enraged == true;
+        }
     }
 }

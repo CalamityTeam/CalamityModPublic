@@ -383,12 +383,9 @@ namespace CalamityMod.Projectiles.Summon
             target.AddBuff(BuffID.Frostburn, 180);
         }
 
-        public override bool? CanHitNPC(NPC target)
+        public override bool CanDamage()
         {
-            if (AttackMode == 2 && !target.townNPC && target.type != NPCID.DD2EterniaCrystal && !target.immortal && !target.dontTakeDamage)
-                return true;
-            else
-                return false;
+            return AttackMode == 2;
         }
     }
 }
