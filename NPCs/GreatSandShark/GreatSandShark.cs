@@ -13,6 +13,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.GreatSandShark
 {
+    [AutoloadBossHead]
     public class GreatSandShark : ModNPC
     {
         private bool resetAI = false;

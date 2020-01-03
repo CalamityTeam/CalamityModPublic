@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             DisplayName.SetDefault("Chaotrix");
             ProjectileID.Sets.YoyosLifeTimeMultiplier[projectile.type] = 14f;
             ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 290f;
-            ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 16f;
+            ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 13f;
 
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             projectile.friendly = true;
             projectile.melee = true;
             projectile.penetrate = -1;
-            projectile.extraUpdates = 1;
+            projectile.MaxUpdates = 2;
         }
 
         public override void AI()

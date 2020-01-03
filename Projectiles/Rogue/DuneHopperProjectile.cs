@@ -7,6 +7,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class DuneHopperProjectile : ModProjectile
     {
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Scourge");
@@ -59,7 +60,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
+            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], projectile.Calamity().stealthStrike ? 4 : 2);
             return false;
         }
     }

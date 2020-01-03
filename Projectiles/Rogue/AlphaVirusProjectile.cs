@@ -2,6 +2,7 @@ using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using CalamityMod.NPCs.StormWeaver;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -24,7 +25,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 20;
             projectile.height = 20;
             projectile.friendly = true;
-            projectile.penetrate = 8;
+            projectile.penetrate = 5;
             projectile.timeLeft = lifetime;
             projectile.Calamity().rogue = true;
             projectile.usesLocalNPCImmunity = true;
@@ -50,12 +51,12 @@ namespace CalamityMod.Projectiles.Rogue
                 }
                 if (projectile.timeLeft < lifetime - 30 && projectile.timeLeft % 15 == 0 && projectile.ai[0] <= finalVelocity)
                 {
-                    int damage = projectile.damage / 2;
+                    int projdamage = projectile.damage / 2;
                     Vector2 randomVelocity = new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
                     randomVelocity.Normalize();
                     randomVelocity *= 5f;
 
-                    int p = Projectile.NewProjectile(projectile.Center, randomVelocity, ModContent.ProjectileType<AlphaSeeker>(), damage, 1f, projectile.owner, 2, projectile.identity);
+                    int p = Projectile.NewProjectile(projectile.Center, randomVelocity, ModContent.ProjectileType<AlphaSeeker>(), projdamage, 1f, projectile.owner, 2, projectile.identity);
                 }
             }
             else
@@ -87,6 +88,11 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
+			if (target.type == ModContent.NPCType<StormWeaverHeadNaked>() || target.type == ModContent.NPCType<StormWeaverBodyNaked>() || target.type == ModContent.NPCType<StormWeaverTailNaked>())
+            {
+                damage /= 5;
+            }
+
             float dist1 = Vector2.Distance(projectile.Center, target.Hitbox.TopLeft());
             float dist2 = Vector2.Distance(projectile.Center, target.Hitbox.TopRight());
             float dist3 = Vector2.Distance(projectile.Center, target.Hitbox.BottomLeft());
@@ -102,7 +108,7 @@ namespace CalamityMod.Projectiles.Rogue
 
             if (minDist > projectile.width)
             {
-                damage /= 4;
+                damage /= 5;
                 knockback = 0f;
             }
         }
@@ -165,10 +171,10 @@ namespace CalamityMod.Projectiles.Rogue
         {
             for (int i = 0; i < 6; i++)
             {
-                int damage = projectile.damage;
+                int damage2 = projectile.damage;
                 Vector2 velocity = new Vector2(0, 10);
                 velocity = velocity.RotatedBy(MathHelper.ToRadians(60) * i);
-                Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<AlphaSeeker>(), damage, 5, projectile.owner, i % 2, 0);
+                Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<AlphaSeeker>(), damage2, 5, projectile.owner, i % 2, 0);
             }
 
             int numDust = 20;

@@ -8,14 +8,20 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee.Yoyos
 {
-    public class TheObliteratorYoyo : ModProjectile
+    public class ObliteratorYoyo : ModProjectile
     {
+        private const int FramesPerShot = 5;
+
+        // Ensures that the main AI only runs once per frame, despite the projectile's multiple updates
+        private int extraUpdateCounter = 0;
+        private const int UpdatesPerFrame = 3;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Obliterator");
             ProjectileID.Sets.YoyosLifeTimeMultiplier[projectile.type] = -1f;
-            ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 580f;
-            ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 20f;
+            ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 640f;
+            ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 13f;
 
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
             ProjectileID.Sets.TrailingMode[projectile.type] = 1;
@@ -30,10 +36,10 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             projectile.friendly = true;
             projectile.melee = true;
             projectile.penetrate = -1;
-            projectile.extraUpdates = 1;
+            projectile.MaxUpdates = UpdatesPerFrame;
 
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 5;
+            projectile.localNPCHitCooldown = 3 * UpdatesPerFrame;
         }
 
         // localAI[1] is the shot counter. Every 5 frames, The Obliterator tries to fire a laser at a nearby target.
@@ -41,14 +47,19 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         // localAI[1] counts up to 19 (4 x 5 - 1), then resets back to 0 for a 20-frame cycle.
         public override void AI()
         {
+            // Only do stuff once per frame, despite the yoyo's extra updates.
+            extraUpdateCounter = (extraUpdateCounter + 1) % UpdatesPerFrame;
+            if (extraUpdateCounter != UpdatesPerFrame - 1)
+                return;
+
             Lighting.AddLight(projectile.Center, 0.8f, 0.3f, 1f);
             
             projectile.localAI[1]++;
-            if (projectile.localAI[1] >= 20f)
+            if (projectile.localAI[1] >= 4 * FramesPerShot)
                 projectile.localAI[1] = 0f;
 
             // Attempt to fire a laser every 5 frames
-            if(projectile.localAI[1] % 5f == 0f)
+            if(projectile.localAI[1] % FramesPerShot == 0f)
             {
                 List<int> targets = new List<int>();
                 float laserRange = 300f;
@@ -73,11 +84,11 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                 // Pick which of the four corners the laser is spawning in
                 Vector2 laserSpawnPosition = projectile.Center;
                 Vector2 offset;
-                if (projectile.localAI[1] < 5f)
+                if (projectile.localAI[1] < FramesPerShot)
                     offset = new Vector2(7, 7);
-                else if (projectile.localAI[1] < 10f)
+                else if (projectile.localAI[1] < 2 * FramesPerShot)
                     offset = new Vector2(-7, 7);
-                else if (projectile.localAI[1] < 15f)
+                else if (projectile.localAI[1] < 3 * FramesPerShot)
                     offset = new Vector2(-7, -7);
                 else
                     offset = new Vector2(7, -7);
@@ -107,7 +118,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Vector2 origin = new Vector2(10f, 10f);
-            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Melee/Yoyos/TheObliteratorGlow"), projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, origin, 2f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Melee/Yoyos/ObliteratorYoyoGlow"), projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, origin, 2f, SpriteEffects.None, 0f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

@@ -26,7 +26,7 @@ namespace CalamityMod.Buffs.StatDebuffs
 
         /*public override void Update(Player player, ref int buffIndex)
         {
-            player.GetCalamityPlayer().timeSlow = true;
+            player.Calamity().timeSlow = true;
         }*/
     }
 }

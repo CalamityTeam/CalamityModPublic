@@ -12,9 +12,9 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Air Spinner");
-            ProjectileID.Sets.YoyosLifeTimeMultiplier[projectile.type] = 6f;
+            ProjectileID.Sets.YoyosLifeTimeMultiplier[projectile.type] = 8f;
             ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 300f;
-            ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 14f;
+            ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 10.5f;
 
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             projectile.friendly = true;
             projectile.melee = true;
             projectile.penetrate = -1;
-            projectile.extraUpdates = 1;
+            projectile.MaxUpdates = 2;
         }
 
         public override void AI()

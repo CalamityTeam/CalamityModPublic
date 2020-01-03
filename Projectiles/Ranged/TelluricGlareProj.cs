@@ -21,6 +21,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.penetrate = -1;
             projectile.aiStyle = 1;
             projectile.timeLeft = 300;
+            projectile.arrow = true;
             aiType = 1;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 1;

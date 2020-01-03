@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.hostile = true;
             projectile.ignoreWater = true;
             projectile.penetrate = -1;
-            projectile.timeLeft = 600;
+            projectile.timeLeft = 300;
             projectile.alpha = 255;
         }
 
@@ -47,17 +47,43 @@ namespace CalamityMod.Projectiles.Boss
             if (projectile.alpha < 5)
                 projectile.alpha = 5;
 
-            //Rotation
-            projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
+			if (projectile.ai[0] != 0f && projectile.ai[1] != 0f)
+			{
+				bool flag15 = false;
+				bool flag16 = false;
+				if (projectile.velocity.X < 0f && projectile.position.X < projectile.ai[0])
+				{
+					flag15 = true;
+				}
+				if (projectile.velocity.X > 0f && projectile.position.X > projectile.ai[0])
+				{
+					flag15 = true;
+				}
+				if (projectile.velocity.Y < 0f && projectile.position.Y < projectile.ai[1])
+				{
+					flag16 = true;
+				}
+				if (projectile.velocity.Y > 0f && projectile.position.Y > projectile.ai[1])
+				{
+					flag16 = true;
+				}
+				if (flag15 & flag16)
+				{
+					projectile.Kill();
+				}
+			}
+
+			//Rotation
+			projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
             projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi) - MathHelper.ToRadians(90) * projectile.direction;
 
             projectile.velocity.Y *= 1.01f;
             projectile.velocity.X *= 1.01f;
             Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.5f / 255f, (255 - projectile.alpha) * 0.05f / 255f, (255 - projectile.alpha) * 0.05f / 255f);
-            if (projectile.ai[0] == 0f)
+            if (projectile.localAI[0] == 0f)
             {
                 Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 20);
-                projectile.ai[0] += 1f;
+                projectile.localAI[0] += 1f;
             }
 
             int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 235, 0f, 0f, 170, default, 1.1f);

@@ -966,6 +966,10 @@ namespace CalamityMod.NPCs
                     DropHelper.DropItemCondition(npc, ItemID.Yelets, NPC.downedMechBossAny, DropHelper.DefiledDropRateFloat);
                     break;
 
+                case NPCID.DeadlySphere:
+                    DropHelper.DropItemChance(npc, ItemID.DeadlySphereStaff, DropHelper.DefiledDropRateInt);
+                    break;
+
                 default:
                     break;
             }
@@ -1464,7 +1468,8 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.DeadlySphere:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<DefectiveSphere>(), Main.expertMode ? 0.0375f : 0.025f); //same as deadly sphere staff
+                    float defectiveDropRate = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : Main.expertMode ? 0.0375f : 0.025f;
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<DefectiveSphere>(), defectiveDropRate); //same as deadly sphere staff
                     break;
 
                 default:

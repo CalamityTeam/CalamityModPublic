@@ -3,6 +3,7 @@ using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.Placeables;
 using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Buffs.Potions;
 using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Accessories;
@@ -93,6 +94,7 @@ namespace CalamityMod.NPCs
 		public int vaporfied = 0;
         public int timeSlow = 0;
         public int gState = 0;
+        public int tesla = 0;
         public int tSad = 0;
         public int eFreeze = 0;
         public int silvaStun = 0;
@@ -546,9 +548,9 @@ namespace CalamityMod.NPCs
             ApplyDPSDebuff(bBlood, 50, 10, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(sulphurPoison, 180, 36, ref npc.lifeRegen, ref damage);
             if (npc.velocity.X == 0)
-                ApplyDPSDebuff(electrified, 4, 2, ref npc.lifeRegen, ref damage);
+                ApplyDPSDebuff(electrified, 10, 2, ref npc.lifeRegen, ref damage);
             else
-                ApplyDPSDebuff(electrified, 16, 16, ref npc.lifeRegen, ref damage);
+                ApplyDPSDebuff(electrified, 40, 8, ref npc.lifeRegen, ref damage);
         }
 
         public void ApplyDPSDebuff(int debuff, int lifeRegenValue, int damageValue, ref int lifeRegen, ref int damage)
@@ -614,9 +616,9 @@ namespace CalamityMod.NPCs
                     npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
                     npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
                     npc.buffImmune[ModContent.BuffType<TimeSlow>()] = true;
+                    npc.buffImmune[ModContent.BuffType<TeslaBuff>()] = true;
                     npc.buffImmune[BuffID.Webbed] = true;
                     npc.buffImmune[BuffID.Slow] = true;
-                    npc.buffImmune[BuffID.Electrified] = true;
                 }
 
                 if (DestroyerIDs.Contains(npc.type) || npc.type == NPCID.DD2EterniaCrystal || npc.townNPC)
@@ -722,7 +724,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.SkeletronPrime:
-                    npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 2.5) : (int)(npc.lifeMax * 1.6);
+                    npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 2.1) : (int)(npc.lifeMax * 1.45);
                     npc.npcSlots = 12f;
                     break;
 
@@ -876,7 +878,7 @@ namespace CalamityMod.NPCs
                 }
                 else if (npc.type == NPCID.SkeletronPrime)
                 {
-                    npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 1.45) : (int)(npc.lifeMax * 1.2);
+                    npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 1.35) : (int)(npc.lifeMax * 1.15);
                     npc.npcSlots = 12f;
                 }
                 else if (npc.type == NPCID.PrimeVice || npc.type == NPCID.PrimeCannon || npc.type == NPCID.PrimeSaw || npc.type == NPCID.PrimeLaser)
@@ -2115,6 +2117,8 @@ namespace CalamityMod.NPCs
 			//Debuff decrements
 			if (timeSlow > 0)
 				timeSlow--;
+			if (tesla > 0)
+				tesla--;
 			if (gState > 0)
 				gState--;
 			if (tSad > 0)
@@ -2194,7 +2198,7 @@ namespace CalamityMod.NPCs
                     npc.velocity = Vector2.Zero;
                 else if (timeSlow > 0 || webbed > 0)
                     npc.velocity *= 0.85f;
-                else if (slowed > 0)
+                else if (slowed > 0 || tesla > 0)
                     npc.velocity *= 0.9f;
             }
         }
@@ -3228,7 +3232,7 @@ namespace CalamityMod.NPCs
                 drawColor = Color.White;
             }
 
-            if (timeSlow > 0)
+            if (timeSlow > 0 || tesla > 0)
             {
                 drawColor = Color.Aquamarine;
             }

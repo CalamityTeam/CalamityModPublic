@@ -26,6 +26,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
             projectile.ranged = true;
+            projectile.arrow = true;
         }
 
         public override void AI()

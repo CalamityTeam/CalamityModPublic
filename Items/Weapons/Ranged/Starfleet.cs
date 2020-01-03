@@ -18,8 +18,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             item.damage = 78;
             item.ranged = true;
-            item.width = 80;
-            item.height = 26;
+            item.width = 76;
+            item.height = 36;
             item.useTime = 55;
             item.useAnimation = 55;
             item.useStyle = 5;
@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override Vector2? HoldoutOffset()
         {
-            return new Vector2(-5, 0);
+            return new Vector2(-8, -11);
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

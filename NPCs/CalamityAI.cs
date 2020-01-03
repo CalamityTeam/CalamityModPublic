@@ -88,11 +88,20 @@ namespace CalamityMod.NPCs
 						npc.localAI[0] += 1f;
 						if (npc.localAI[0] >= ((calamityGlobalNPC.enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 120f : 180f))
 						{
-							int npcPoxX = (int)(npc.position.X + (float)(npc.width / 2)) / 16;
-							int npcPoxY = (int)(npc.position.Y + (float)(npc.height / 2)) / 16;
+							int npcPosX = (int)(npc.position.X + (float)(npc.width / 2)) / 16;
+							int npcPosY = (int)(npc.position.Y + (float)(npc.height / 2)) / 16;
+
+							if (npcPosX < 0)
+								npcPosX = 0;
+							if (npcPosX > Main.maxTilesX)
+								npcPosX = Main.maxTilesX;
+							if (npcPosY < 0)
+								npcPosY = 0;
+							if (npcPosY > Main.maxTilesY)
+								npcPosY = Main.maxTilesY;
 
 							if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) < 300f &&
-								!Main.tile[npcPoxX, npcPoxY].active())
+								!Main.tile[npcPosX, npcPosY].active())
 							{
 								npc.localAI[0] = 0f;
 								npc.TargetClosest(true);
@@ -117,10 +126,19 @@ namespace CalamityMod.NPCs
 
 						if (npc.localAI[1] >= (CalamityWorld.bossRushActive ? 270f : 390f))
 						{
-							int npcPoxX = (int)(npc.position.X + (float)(npc.width / 2)) / 16;
-							int npcPoxY = (int)(npc.position.Y + (float)(npc.height / 2)) / 16;
+							int npcPosX = (int)(npc.position.X + (float)(npc.width / 2)) / 16;
+							int npcPosY = (int)(npc.position.Y + (float)(npc.height / 2)) / 16;
 
-							if (!Main.tile[npcPoxX, npcPoxY].active() && Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 300f)
+							if (npcPosX < 0)
+								npcPosX = 0;
+							if (npcPosX > Main.maxTilesX)
+								npcPosX = Main.maxTilesX;
+							if (npcPosY < 0)
+								npcPosY = 0;
+							if (npcPosY > Main.maxTilesY)
+								npcPosY = Main.maxTilesY;
+
+							if (!Main.tile[npcPosX, npcPosY].active() && Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 300f)
 							{
 								npc.localAI[1] = 0f;
 								npc.TargetClosest(true);
@@ -979,7 +997,7 @@ namespace CalamityMod.NPCs
 				CalamityGlobalNPC.calamitas = npc.whoAmI;
 
 				// Seeker ring
-				if (calamityGlobalNPC.newAI[1] == 0f && lifeRatio <= 0.5f)
+				if (calamityGlobalNPC.newAI[1] == 0f && lifeRatio <= 0.35f)
 				{
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
@@ -1205,7 +1223,7 @@ namespace CalamityMod.NPCs
 								npc.localAI[1] += 0.5f;
 						}
 
-						if (npc.localAI[1] > 180f && Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
+						if (npc.localAI[1] > 180f)
 						{
 							npc.localAI[1] = 0f;
 							float num828 = CalamityWorld.bossRushActive ? 16f : (expertMode ? 14f : 12.5f);
@@ -1220,7 +1238,13 @@ namespace CalamityMod.NPCs
 							num826 *= num827;
 							vector82.X += num825 * 6f;
 							vector82.Y += num826 * 6f;
-							Projectile.NewProjectile(vector82.X, vector82.Y, num825, num826, num830, num829 + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
+							if (!Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
+							{
+								int proj = Projectile.NewProjectile(vector82.X, vector82.Y, num825, num826, num830, num829 + (provy ? 30 : 0), 0f, Main.myPlayer, player.Center.X, player.Center.Y);
+								Main.projectile[proj].tileCollide = false;
+							}
+							else
+								Projectile.NewProjectile(vector82.X, vector82.Y, num825, num826, num830, num829 + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
 						}
 					}
 					else
@@ -1330,15 +1354,21 @@ namespace CalamityMod.NPCs
 						{
 							npc.localAI[1] = 0f;
 							float num837 = CalamityWorld.bossRushActive ? 15f : 11f;
-							int num838 = expertMode ? 28 : 35;
-							int num839 = ModContent.ProjectileType<BrimstoneLaser>();
+							int num838 = brotherAlive ? (expertMode ? 34 : 42) : (expertMode ? 28 : 35);
+							int num839 = brotherAlive ? ModContent.ProjectileType<BrimstoneHellfireball>() : ModContent.ProjectileType<BrimstoneLaser>();
 							num836 = (float)Math.Sqrt((double)(num834 * num834 + num835 * num835));
 							num836 = num837 / num836;
 							num834 *= num836;
 							num835 *= num836;
 							vector83.X += num834 * 12f;
 							vector83.Y += num835 * 12f;
-							Projectile.NewProjectile(vector83.X, vector83.Y, num834, num835, num839, num838 + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
+							if (!Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
+							{
+								int proj = Projectile.NewProjectile(vector83.X, vector83.Y, num834, num835, ModContent.ProjectileType<BrimstoneHellfireball>(), (expertMode ? 34 : 42) + (provy ? 30 : 0), 0f, Main.myPlayer, player.Center.X, player.Center.Y);
+								Main.projectile[proj].tileCollide = false;
+							}
+							else
+								Projectile.NewProjectile(vector83.X, vector83.Y, num834, num835, num839, num838 + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
 						}
 					}
 					else

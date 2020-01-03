@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Pets
 {
@@ -42,6 +43,7 @@ namespace CalamityMod.Projectiles.Pets
             {
                 projectile.timeLeft = 2;
             }
+            Lighting.AddLight(projectile.Center, 0.5f, 0.1f, 0.3f);
             float num16 = 0.5f;
             projectile.tileCollide = false;
             int num17 = 100;

@@ -12,7 +12,8 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ghoulish Gouger");
-            Tooltip.SetDefault("Throws a ghoulish scythe that ignores immunity frames");
+            Tooltip.SetDefault("Throws a ghoulish scythe that ignores immunity frames\n" +
+			"Stealth strikes spawn souls on enemy hits");
         }
 
         public override void SafeSetDefaults()

@@ -2,6 +2,7 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Ores;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Tiles.Furniture.CraftingStations;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,10 +11,13 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class Celestus : RogueWeapon
     {
+		private int counter = 0;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Celestus");
-            Tooltip.SetDefault("Throws a scythe that splits into multiple scythes on enemy hits");
+            Tooltip.SetDefault("Throws a scythe that splits into multiple scythes on enemy hits\n" +
+			"Stealth strikes throw a chain of three scythes");
         }
 
         public override void SafeSetDefaults()
@@ -23,9 +27,9 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.noMelee = true;
             item.noUseGraphic = true;
             item.autoReuse = true;
-            item.useAnimation = 20;
+            item.useAnimation = 21;
             item.useStyle = 1;
-            item.useTime = 20;
+            item.useTime = 7;
             item.knockBack = 6f;
             item.UseSound = SoundID.Item1;
             item.height = 20;
@@ -35,6 +39,25 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.shootSpeed = 25f;
             item.Calamity().rogue = true;
             item.Calamity().postMoonLordRarity = 15;
+        }
+
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+			counter++;
+			if (counter >= 3)
+				counter = 0;
+
+            if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
+            {
+                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage / 2, knockBack, player.whoAmI, 0f, 1f);
+                Main.projectile[stealth].Calamity().stealthStrike = true;
+                return false;
+            }
+			else if (counter == 1 || counter == 2)
+			{
+				return false;
+			}
+            return true;
         }
 
         public override void AddRecipes()

@@ -52,9 +52,9 @@ namespace CalamityMod.NPCs.SlimeGod
             }
         }
 
-        public override bool PreNPCLoot()
+        public override void NPCLoot()
         {
-            return false;
+            DropHelper.DropItemChance(npc, ItemID.Vitamins, Main.expertMode ? 50 : 100);
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

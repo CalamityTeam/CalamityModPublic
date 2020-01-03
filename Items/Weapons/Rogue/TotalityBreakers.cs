@@ -20,12 +20,12 @@ Stealth strikes leak tar as they fly");
         public override void SafeSetDefaults()
         {
             item.width = 30;
-            item.damage = 47;
+            item.damage = 55;
             item.noMelee = true;
             item.noUseGraphic = true;
-            item.useAnimation = 25;
+            item.useAnimation = 24;
             item.useStyle = 1;
-            item.useTime = 25;
+            item.useTime = 24;
             item.knockBack = 5f;
             item.UseSound = SoundID.Item106;
             item.autoReuse = true;

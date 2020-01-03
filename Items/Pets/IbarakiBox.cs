@@ -15,15 +15,13 @@ namespace CalamityMod.Items.Pets
                 "And waves wash the old moss’ hair…\n" +
                 "Thank you, Goodbye.\n" +
                 "While equipped, the player will spawn with full health rather than half.\n" +
-                "Summons the Third Sage");
+                "Summons the Third Sage\n" +
+                "Provides a small amount of light in the abyss");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 0;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.useStyle = 1;
+            item.CloneDefaults(ItemID.WispinaBottle);
             item.noMelee = true;
             item.width = 36;
             item.height = 30;

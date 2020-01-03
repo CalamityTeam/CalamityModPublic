@@ -10,6 +10,7 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Ranged;
@@ -230,6 +231,8 @@ namespace CalamityMod.NPCs.AstrumDeus
                 DropHelper.DropItemChance(npc, ModContent.ItemType<TheMicrowave>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<StarSputter>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Starfall>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<GodspawnHelixStaff>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<RegulusRiot>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Quasar>(), DropHelper.RareVariantDropRateInt);
 
                 // Equipment

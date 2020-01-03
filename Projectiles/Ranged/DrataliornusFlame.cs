@@ -25,6 +25,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
             projectile.ranged = true;
+            projectile.arrow = true;
             projectile.hide = true;
             projectile.timeLeft = 180;
         }

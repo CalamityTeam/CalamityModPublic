@@ -554,10 +554,6 @@ namespace CalamityMod.NPCs.StormWeaver
             {
                 damage /= projectile.penetrate;
             }
-			if (projectile.type == ModContent.ProjectileType<AlphaVirusProjectile>())
-			{
-				damage /= 6;
-			}
         }
 
         public override void HitEffect(int hitDirection, double damage)

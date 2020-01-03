@@ -25,6 +25,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.extraUpdates = 2;
             projectile.timeLeft = 300;
             projectile.ranged = true;
+            projectile.arrow = true;
         }
 
         public override void AI()

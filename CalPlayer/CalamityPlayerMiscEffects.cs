@@ -6,6 +6,7 @@ using CalamityMod.Buffs.Potions;
 using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Buffs.Summon;
+using CalamityMod.Dusts;
 using CalamityMod.Items.Fishing.AstralCatches;
 using CalamityMod.Items.Fishing.FishingRods;
 using CalamityMod.NPCs;
@@ -37,6 +38,10 @@ namespace CalamityMod.CalPlayer
 			CalamityPlayer modPlayer = player.Calamity();
 
 			// No category
+
+			// Decrease the counter on Fearmonger set turbo regeneration
+			if (modPlayer.fearmongerRegenFrames > 0)
+				modPlayer.fearmongerRegenFrames--;
 
 			// Reduce the expert debuff time multiplier to the normal mode multiplier
 			if (Config.ExpertDebuffDurationReduction)
@@ -352,6 +357,8 @@ namespace CalamityMod.CalPlayer
 					player.maxFallSpeed = 9f;
 				if (modPlayer.aeroSet && !player.wet)
 					player.maxFallSpeed = 15f;
+				if (modPlayer.gSabatonFall > 0 && !player.wet)
+					player.maxFallSpeed = 20f;
 				if (modPlayer.normalityRelocator)
 					player.maxFallSpeed *= 1.1f;
 				if (modPlayer.etherealExtorter && player.ZoneSkyHeight)
@@ -449,6 +456,12 @@ namespace CalamityMod.CalPlayer
 				modPlayer.gainRageCooldown--;
 			if (modPlayer.galileoCooldown > 0)
 				modPlayer.galileoCooldown--;
+			if (modPlayer.raiderCooldown > 0)
+				modPlayer.raiderCooldown--;
+			if (modPlayer.gSabatonCooldown > 0)
+				modPlayer.gSabatonCooldown--;
+			if (modPlayer.gSabatonFall > 0)
+				modPlayer.gSabatonFall--;
 			if (modPlayer.draconicSurgeCooldown > 0)
 				modPlayer.draconicSurgeCooldown--;
 			if (modPlayer.fleshTotemCooldown > 0)
@@ -661,6 +674,7 @@ namespace CalamityMod.CalPlayer
 				if ((double)Math.Abs(player.velocity.X) < 0.05 && (double)Math.Abs(player.velocity.Y) < 0.05 && player.itemAnimation == 0)
 					player.manaRegenBonus += 2;
 
+				//This stacks with Sea Shell
 				if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
 				{
 					player.statDefense += 2;
@@ -1192,6 +1206,32 @@ namespace CalamityMod.CalPlayer
 					Main.dust[dust].velocity *= 1.2f;
 					Main.dust[dust].velocity.Y -= 0.15f;
 				}
+			}
+
+			// Gravistar Sabaton effects
+			if (modPlayer.gSabaton)
+			{
+				if (modPlayer.gSabatonCooldown <= 0)
+				{
+					if (player.controlDown && player.releaseDown && player.position.Y != player.oldPosition.Y)
+					{
+						modPlayer.gSabatonFall = 300;
+						modPlayer.gSabatonCooldown = 480; //8 second cooldown
+						player.gravity *= 2f;
+						Projectile.NewProjectile(player.Center.X, player.Center.Y, player.velocity.X, player.velocity.Y, ModContent.ProjectileType<SabatonSlam>(), 0, 0, player.whoAmI);
+					}
+				}
+                if (modPlayer.gSabatonCooldown == 1) //dust when ready to use again
+                {
+                    for (int i = 0; i < 66; i++)
+                    {
+                        int d = Dust.NewDust(player.position, player.width, player.height, Main.rand.NextBool(2) ? ModContent.DustType<AstralBlue>() : ModContent.DustType<AstralOrange>(), 0, 0, 100, default, 2.6f);
+                        Main.dust[d].noGravity = true;
+                        Main.dust[d].noLight = true;
+                        Main.dust[d].fadeIn = 1f;
+                        Main.dust[d].velocity *= 6.6f;
+                    }
+                }
 			}
 		}
 		#endregion
@@ -2664,7 +2704,7 @@ namespace CalamityMod.CalPlayer
 							Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -3f, ModContent.ProjectileType<MiniGuardianDefense>(), (int)(baseDamage * player.minionDamage), 1f, Main.myPlayer, 0f, 0f);
 					}
 
-					if (modPlayer.tarraSummon || modPlayer.bloodflareSummon || modPlayer.godSlayerSummon || modPlayer.silvaSummon || modPlayer.dsSetBonus || modPlayer.omegaBlueSet)
+					if (modPlayer.tarraSummon || modPlayer.bloodflareSummon || modPlayer.godSlayerSummon || modPlayer.silvaSummon || modPlayer.dsSetBonus || modPlayer.omegaBlueSet || modPlayer.fearmongerSet)
 					{
 						if (player.FindBuffIndex(ModContent.BuffType<GuardianOffense>()) == -1)
 							player.AddBuff(ModContent.BuffType<GuardianOffense>(), 3600, true);
@@ -2688,6 +2728,29 @@ namespace CalamityMod.CalPlayer
 							Main.projectile[projIndex].type == ModContent.ProjectileType<CloudElementalMinion>() || Main.projectile[projIndex].type == ModContent.ProjectileType<FungalClumpMinion>())
 						{
 							Main.projectile[projIndex].Kill();
+						}
+					}
+				}
+			}
+
+			if (modPlayer.tesla)
+			{
+				if (player.whoAmI == Main.myPlayer)
+				{
+					if (player.ownedProjectileCounts[ModContent.ProjectileType<TeslaAura>()] < 1)
+						Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<TeslaAura>(), 25, 0f, Main.myPlayer, 0f, 0f);
+				}
+			}
+			else if (player.ownedProjectileCounts[ModContent.ProjectileType<TeslaAura>()] != 0)
+            {
+				if (player.whoAmI == Main.myPlayer)
+				{
+					for (int i = 0; i < 1000; i++)
+					{
+						if (Main.projectile[i].active && Main.projectile[i].type == ModContent.ProjectileType<TeslaAura>() && Main.projectile[i].owner == player.whoAmI)
+						{
+							Main.projectile[i].Kill();
+							break;
 						}
 					}
 				}

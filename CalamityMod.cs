@@ -49,6 +49,7 @@ using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Ranged;
+using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Typeless;
 using CalamityMod.Skies;
@@ -519,7 +520,9 @@ namespace CalamityMod
                 ModContent.ProjectileType<HyperiusSplit>(),
                 ModContent.ProjectileType<NorfleetCannon>(),
                 ModContent.ProjectileType<NorfleetComet>(),
-                ModContent.ProjectileType<NorfleetExplosion>()
+                ModContent.ProjectileType<NorfleetExplosion>(),
+                ModContent.ProjectileType<AetherBeam>(),
+                ModContent.ProjectileType<FlurrystormCannonShooting>()
             };
 
             projectileMinionList = new List<int>()
@@ -573,8 +576,10 @@ namespace CalamityMod
                 NPCID.Mothron,
                 NPCID.Golem,
                 NPCID.GolemHead,
-                NPCID.GolemFistRight,
+				NPCID.GolemHeadFree,
+				NPCID.GolemFistRight,
                 NPCID.GolemFistLeft,
+                NPCID.GolemHeadFree,
                 NPCID.DukeFishron,
                 NPCID.CultistBoss,
                 NPCID.MoonLordHead,
@@ -2632,9 +2637,9 @@ namespace CalamityMod
                 { NPCID.PresentMimic, 0.3f },
                 { NPCID.PrimeCannon, 0.2f },
                 { NPCID.PrimeLaser, 0.2f },
-                { NPCID.PrimeSaw, 0.25f },
-                { NPCID.PrimeVice, 0.25f },
-                { NPCID.Probe, 0.25f },
+                { NPCID.PrimeSaw, 0.2f },
+                { NPCID.PrimeVice, 0.2f },
+                { NPCID.Probe, 0.2f },
                 { NPCID.Pumpking, 0.1f },
                 { NPCID.QueenBee, 0.05f },
                 { NPCID.RaggedCaster, 0.2f },
@@ -2652,7 +2657,7 @@ namespace CalamityMod
                 { NPCID.SkeletonSniper, 0.2f },
                 { NPCID.SkeletronHand, 0.05f },
                 { NPCID.SkeletronHead, 0.05f },
-                { NPCID.SkeletronPrime, 0.25f },
+                { NPCID.SkeletronPrime, 0.2f },
                 { NPCID.Spazmatism, 0.2f },
                 { NPCID.TacticalSkeleton, 0.2f },
                 { NPCID.TheDestroyer, 0.1f },
