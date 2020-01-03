@@ -20,7 +20,6 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 12;
             projectile.height = 12;
             projectile.friendly = true;
-            projectile.penetrate = 2;
             projectile.aiStyle = 2; 
             projectile.timeLeft = 600;
             aiType = 48;
@@ -45,6 +44,11 @@ namespace CalamityMod.Projectiles.Rogue
                 featherTimer = 30;
             }
             featherTimer--;
+        }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            Projectile.NewProjectile(projectile.position, new Vector2(projectile.velocity.X / 20, 2), ModContent.ProjectileType<StickyFeatherAero>(), projectile.damage, projectile.knockBack, projectile.owner);
         }
 
         public override void Kill(int timeLeft)
