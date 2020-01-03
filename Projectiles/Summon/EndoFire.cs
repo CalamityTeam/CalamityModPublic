@@ -74,9 +74,9 @@ namespace CalamityMod.Projectiles.Summon
                 {
 
                     int num299 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num297, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default, 0.8f);
+                    Dust dust = Main.dust[num299];
                     if (Main.rand.NextBool(3))
                     {
-                        Dust dust = Main.dust[num299];
                         dust.scale *= 1.5f;
                         dust.velocity.X *= 1.2f;
                         dust.velocity.Y *= 1.2f;
