@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Tooltip.SetDefault("Summons an ascended ice construct to protect you \n" +
                                "Changes attack modes by resummoning or reusing the staff \n" +
                                "The first mode makes it shoot sweeping lasers aimed at the enemy \n" +
-                               "The second mode sacrifices it's limbs to shoot out homing projectiles \n" +
+                               "The second mode sacrifices its limbs to shoot out homing projectiles \n" +
                                "The third mode allows it to agressively tackle it's enemies \n" +
                                "The fourth mode makes the limbs function as endothermic flamethrowers \n" +
                                "Requires 10 minion slots to be summoned \n" +
