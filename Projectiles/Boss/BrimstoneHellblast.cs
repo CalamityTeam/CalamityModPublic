@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Boss
         public override void AI()
         {
             projectile.frameCounter++;
-            if (projectile.frameCounter > 12)
+            if (projectile.frameCounter >= 10)
             {
                 projectile.frame++;
                 projectile.frameCounter = 0;
