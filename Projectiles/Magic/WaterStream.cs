@@ -21,10 +21,16 @@ namespace CalamityMod.Projectiles.Magic
             projectile.penetrate = 3;
             projectile.extraUpdates = 2;
             projectile.magic = true;
+            projectile.tileCollide = false;
         }
 
         public override void AI()
         {
+            projectile.ai[1]++;
+            if (projectile.ai[1] >= 4f)
+            {
+                projectile.tileCollide = true;
+            }
             addSprayTimer--;
             if (addSprayTimer <= 0)
             {
