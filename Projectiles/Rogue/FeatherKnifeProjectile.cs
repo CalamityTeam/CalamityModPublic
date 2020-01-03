@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class FeatherKnifeProjectile : ModProjectile
     {
-        private int featherTimer = 30;
+        private int featherTimer = 35;
 
         public override void SetStaticDefaults()
         {
@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Rogue
                 {
                     Projectile.NewProjectile(projectile.position, new Vector2(projectile.velocity.X / 20, 2), ModContent.ProjectileType<StickyFeatherAero>(), (int)((double)projectile.damage * 0.5), projectile.knockBack, projectile.owner);
                 }
-                featherTimer = 30;
+                featherTimer = 35;
             }
             featherTimer--;
         }
