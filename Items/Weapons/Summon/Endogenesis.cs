@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Weapons.Summon
                                "The fourth mode makes the limbs function as endothermic flamethrowers \n" +
                                "Requires 10 minion slots to be summoned \n" +
                                "There can only be one \n" +
-                               "'Ice puns not included'"); //Icy no problems with that
+                               "[c/B0FBFF:Ice puns not included]"); //Icy no problems with that
         }
 
         public override void SetDefaults()
