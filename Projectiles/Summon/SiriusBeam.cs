@@ -23,6 +23,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.timeLeft = 1000;
 			projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = 10;
+			projectile.tileCollide = false;
         }
 
         public override void AI()

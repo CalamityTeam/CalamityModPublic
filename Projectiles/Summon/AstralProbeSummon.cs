@@ -95,7 +95,7 @@ namespace CalamityMod.Projectiles.Summon
             }
             else
             {
-                for (int num645 = 0; num645 < 200; num645++)
+                for (int num645 = 0; num645 < Main.npc.Length; num645++)
                 {
                     NPC nPC2 = Main.npc[num645];
                     if (nPC2.CanBeChasedBy(projectile, false))
@@ -155,9 +155,9 @@ namespace CalamityMod.Projectiles.Summon
             }
             if (projectile.ai[1] > 0f)
             {
-                projectile.ai[1] += (float)Main.rand.Next(1, 4);
+                projectile.ai[1] += (float)Main.rand.Next(1, 3);
             }
-            if (projectile.ai[1] > 90f)
+            if (projectile.ai[1] > 100f)
             {
                 projectile.ai[1] = 0f;
                 projectile.netUpdate = true;

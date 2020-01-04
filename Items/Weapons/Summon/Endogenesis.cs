@@ -50,27 +50,6 @@ namespace CalamityMod.Items.Weapons.Summon
             item.Calamity().postMoonLordRarity = 16;
         }
 
-        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
-        {
-            if (AttackMode == 0) //lasers
-            {
-                mult -= 0.25f; //75%
-            }
-            if (AttackMode == 1) //icicles
-            {
-                mult += 0f; //100%
-            }
-            if (AttackMode == 2) //ramming
-            {
-                mult += 0f; //100%
-            }
-            if (AttackMode == 3) //flamethrower
-            {
-                mult += 0f; //100%
-            }
-            base.ModifyWeaponDamage(player, ref add, ref mult, ref flat);
-		}
-
         public override bool CanUseItem(Player player)
         {
             if (player.maxMinions < 10f)
@@ -94,8 +73,17 @@ namespace CalamityMod.Items.Weapons.Summon
                         projectile.Kill();
                     }
                 }
-                int body = Projectile.NewProjectile(vector2.X, vector2.Y, 0f, 0f, type, damage, knockBack, player.whoAmI, AttackMode, 0f);
-                int limbs = Projectile.NewProjectile(vector2.X, vector2.Y, 0f, 0f, ModContent.ProjectileType<EndoCooperLimbs>(), damage, knockBack, player.whoAmI, AttackMode, body);
+                float dmgMult = 1f;
+				if (AttackMode == 0) //lasers
+					dmgMult = 0.75f;
+				if (AttackMode == 1) //icicles
+					dmgMult = 1f;
+				if (AttackMode == 2) //melee
+					dmgMult = 1f;
+				if (AttackMode == 3) //flamethrower
+					dmgMult = 1f;
+                int body = Projectile.NewProjectile(vector2.X, vector2.Y, 0f, 0f, type, (int)(damage * dmgMult), knockBack, player.whoAmI, AttackMode, 0f);
+                int limbs = Projectile.NewProjectile(vector2.X, vector2.Y, 0f, 0f, ModContent.ProjectileType<EndoCooperLimbs>(), (int)(damage * dmgMult), knockBack, player.whoAmI, AttackMode, body);
                 Main.projectile[body].ai[1] = limbs;
                 AttackMode++;
                 if (AttackMode > 3)

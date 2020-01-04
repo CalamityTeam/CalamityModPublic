@@ -42,32 +42,33 @@ namespace CalamityMod.Items.Weapons.Summon
             item.Calamity().postMoonLordRarity = 13;
         }
 
-        public override bool CanUseItem(Player player)
-		{
-			return siriusSlots >= 1;
-		}
-
 		public override void HoldItem(Player player)
         {
 			double minionCount = 0;
 			for (int j = 0; j < Main.projectile.Length; j++)
 			{
-				if (Main.projectile[j].active && Main.projectile[j].owner == player.whoAmI && Main.projectile[j].minion)
+                Projectile projectile = Main.projectile[j];
+				if (projectile.active && projectile.owner == player.whoAmI && projectile.minion && projectile.type != ModContent.ProjectileType<SiriusMinion>())
 				{
-					minionCount += Main.projectile[j].minionSlots;
+					minionCount += projectile.minionSlots;
 				}
 			}
 			siriusSlots = (int)((double)player.maxMinions - minionCount);
+		}
+
+        public override bool CanUseItem(Player player)
+		{
+			return siriusSlots >= 1;
 		}
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             for (int x = 0; x < Main.projectile.Length; x++)
             {
-                Projectile projectile = Main.projectile[x];
-                if (projectile.active && projectile.owner == player.whoAmI && projectile.type == ModContent.ProjectileType<SiriusMinion>())
+                Projectile projectile2 = Main.projectile[x];
+                if (projectile2.active && projectile2.owner == player.whoAmI && projectile2.type == ModContent.ProjectileType<SiriusMinion>())
                 {
-                    projectile.Kill();
+                    projectile2.Kill();
                 }
             }
             position = Main.MouseWorld;

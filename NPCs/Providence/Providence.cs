@@ -1079,7 +1079,7 @@ namespace CalamityMod.NPCs.Providence
             DropHelper.DropItemCondition(npc, ModContent.ItemType<ElysianWings>(), biomeType != 2);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<ElysianAegis>(), biomeType == 2);
 
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<RuneofCos>(), !CalamityWorld.downedProvidence);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<RuneofCos>(), true, !CalamityWorld.downedProvidence);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
             if (!Main.expertMode)
