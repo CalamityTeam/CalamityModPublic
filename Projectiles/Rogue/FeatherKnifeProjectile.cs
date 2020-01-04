@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 if (projectile.owner == Main.myPlayer)
                 {
-                    Projectile.NewProjectile(projectile.position, new Vector2(projectile.velocity.X / 20, 2), ModContent.ProjectileType<StickyFeatherAero>(), (int)((double)projectile.damage * 0.5), projectile.knockBack, projectile.owner);
+                    Projectile.NewProjectile(projectile.position, new Vector2(projectile.velocity.X / 20, 2), ModContent.ProjectileType<StickyFeatherAero>(), (int)((double)projectile.damage * 0.4), projectile.knockBack, projectile.owner);
                 }
                 featherTimer = 35;
             }
