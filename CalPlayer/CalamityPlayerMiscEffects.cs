@@ -1209,7 +1209,7 @@ namespace CalamityMod.CalPlayer
 			// Gravistar Sabaton effects
 			if (modPlayer.gSabaton)
 			{
-				if (modPlayer.gSabatonCooldown <= 0)
+				if (modPlayer.gSabatonCooldown <= 0 && !player.mount.Active)
 				{
 					if (player.controlDown && player.releaseDown && player.position.Y != player.oldPosition.Y)
 					{
