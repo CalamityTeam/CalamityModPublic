@@ -631,6 +631,7 @@ namespace CalamityMod.CalPlayer
         public bool eAxe = false;
         public bool endoCooper = false;
         public bool SPG = false;
+        public bool sirius = false;
         public bool aChicken = false;
         public bool cLamp = false;
         public bool pGuy = false;
@@ -1365,6 +1366,7 @@ namespace CalamityMod.CalPlayer
             eAxe = false;
             endoCooper = false;
             SPG = false;
+            sirius = false;
             aChicken = false;
             cLamp = false;
             pGuy = false;
