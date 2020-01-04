@@ -53,7 +53,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-            if (Main.rand.NextBool(2))
+            if (Main.rand.NextBool(2) && !projectile.Calamity().stealthStrike)
             {
                 Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, ModContent.ItemType<FeatherKnife>());
             }
