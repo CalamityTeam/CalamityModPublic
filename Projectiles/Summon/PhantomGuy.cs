@@ -59,10 +59,6 @@ namespace CalamityMod.Projectiles.Summon
                     (player.allDamage + player.minionDamage - 1f));
                 projectile.damage = damage2;
             }
-            float num633 = 700f;
-            float num634 = 1300f;
-            float num635 = 2600f;
-            float num636 = 600f;
             bool flag64 = projectile.type == ModContent.ProjectileType<PhantomGuy>();
             player.AddBuff(ModContent.BuffType<Phantom>(), 3600);
             if (flag64)
@@ -100,6 +96,10 @@ namespace CalamityMod.Projectiles.Summon
                     }
                 }
             }
+            float num633 = 700f;
+            float num634 = 1300f;
+            float num635 = 2600f;
+            float num636 = 600f;
             Vector2 vector46 = projectile.position;
             bool flag25 = false;
             if (player.HasMinionAttackTargetNPC)

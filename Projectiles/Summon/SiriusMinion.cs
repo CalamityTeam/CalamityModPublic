@@ -95,7 +95,7 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 float num396 = projectile.position.X;
                 float num397 = projectile.position.Y;
-                float num398 = 700f;
+                float minDistance = 7000f;
                 bool flag11 = false;
                 if (player.HasMinionAttackTargetNPC)
                 {
@@ -105,7 +105,7 @@ namespace CalamityMod.Projectiles.Summon
                         float num539 = npc.position.X + (float)(npc.width / 2);
                         float num540 = npc.position.Y + (float)(npc.height / 2);
                         float num541 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num539) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num540);
-                        if (num541 < num398 && Collision.CanHit(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
+                        if (num541 < minDistance)
                         {
                             num396 = num539;
                             num397 = num540;
@@ -122,9 +122,9 @@ namespace CalamityMod.Projectiles.Summon
                             float num400 = Main.npc[num399].position.X + (float)(Main.npc[num399].width / 2);
                             float num401 = Main.npc[num399].position.Y + (float)(Main.npc[num399].height / 2);
                             float num402 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num400) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num401);
-                            if (num402 < num398 && Collision.CanHit(projectile.position, projectile.width, projectile.height, Main.npc[num399].position, Main.npc[num399].width, Main.npc[num399].height))
+                            if (num402 < minDistance)
                             {
-                                num398 = num402;
+                                minDistance = num402;
                                 num396 = num400;
                                 num397 = num401;
                                 flag11 = true;

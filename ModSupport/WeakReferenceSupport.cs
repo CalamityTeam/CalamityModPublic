@@ -364,7 +364,7 @@ namespace CalamityMod
 				"Ceaseless Void", 
 				(Func<bool>)(() => CalamityWorld.downedSentinel1), 
 				ModContent.ItemType<RuneofCos>(), 
-				new List<int>() {ModContent.ItemType<CeaselessVoidTrophy>(), ModContent.ItemType<KnowledgeSentinels>()}, 
+				new List<int>() {ModContent.ItemType<CeaselessVoidTrophy>(), ModContent.ItemType<CeaselessVoidMask>(), ModContent.ItemType<KnowledgeSentinels>()}, 
 				new List<int>() {ModContent.ItemType<DarkPlasma>(), ModContent.ItemType<MirrorBlade>(), ModContent.ItemType<ArcanumoftheVoid>(), ModContent.ItemType<TheEvolution>(), ItemID.SuperHealingPotion}, "Use a [i:" + ModContent.ItemType<RuneofCos>() + "] in the Dungeon", 
 				"[c/4B0082:The rift in time and space has moved away from your reach.]");
 
@@ -376,7 +376,7 @@ namespace CalamityMod
 				calamity, 
 				"Storm Weaver", 
 				(Func<bool>)(() => CalamityWorld.downedSentinel2), ModContent.ItemType<RuneofCos>(), 
-				new List<int>() {ModContent.ItemType<WeaverTrophy>(), ModContent.ItemType<KnowledgeSentinels>()}, 
+				new List<int>() {ModContent.ItemType<WeaverTrophy>(), ModContent.ItemType<StormWeaverMask>(), ModContent.ItemType<KnowledgeSentinels>()}, 
 				new List<int>() {ModContent.ItemType<ArmoredShell>(), ModContent.ItemType<TheStorm>(), ModContent.ItemType<StormDragoon>(), ItemID.SuperHealingPotion}, 
 				"Use a [i:" + ModContent.ItemType<RuneofCos>() + "] in Space", 
 				"[c/EE82EE:Storm Weaver hid itself once again within the stormfront.]", 
@@ -391,7 +391,7 @@ namespace CalamityMod
 				"Signus", 
 				(Func<bool>)(() => CalamityWorld.downedSentinel3), 
 				ModContent.ItemType<RuneofCos>(), 
-				new List<int>() {ModContent.ItemType<SignusTrophy>(), ModContent.ItemType<KnowledgeSentinels>()}, 
+				new List<int>() {ModContent.ItemType<SignusTrophy>(), ModContent.ItemType<SignusMask>(), ModContent.ItemType<KnowledgeSentinels>()}, 
 				new List<int>() {ModContent.ItemType<TwistingNether>(), ModContent.ItemType<Cosmilamp>(), ModContent.ItemType<CosmicKunai>(), ModContent.ItemType<SpectralVeil>(), ItemID.SuperHealingPotion}, 
 				"Use a [i:" + ModContent.ItemType<RuneofCos>() + "] in the Underworld", 
 				"[c/BA55D3:The Devourer's assassin has finished its easy task.]");
