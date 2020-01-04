@@ -76,7 +76,7 @@ namespace CalamityMod.Items.Armor
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<SilvaCrystal>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<SilvaCrystal>(), (int)(3000f * player.minionDamage), 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<SilvaCrystal>(), (int)(3000f * (player.allDamage + player.minionDamage - 1f)), 0f, Main.myPlayer, 0f, 0f);
                 }
                 if (player.FindBuffIndex(ModContent.BuffType<Mechworm>()) == -1)
                 {
@@ -105,7 +105,7 @@ namespace CalamityMod.Items.Armor
                     {
                         maxMinionScale = 10;
                     }
-                    int damage = (int)(35 * ((player.minionDamage * 5 / 3) + (player.minionDamage * 0.46f * (maxMinionScale - 1))));
+                    int damage = (int)(35 * (((player.allDamage + player.minionDamage - 1f) * 5 / 3) + ((player.allDamage + player.minionDamage - 1f) * 0.46f * (maxMinionScale - 1))));
                     Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
                     Vector2 value = Vector2.UnitX.RotatedBy((double)player.fullRotation, default);
                     Vector2 vector3 = Main.MouseWorld - vector2;

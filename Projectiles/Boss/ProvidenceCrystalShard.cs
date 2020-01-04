@@ -178,9 +178,9 @@ namespace CalamityMod.Projectiles.Boss
                 Main.dust[num74].velocity = spinningpoint.RotatedBy((double)(6.28318548f * num73 / num69), default) * value5 * (0.8f + Main.rand.NextFloat() * 0.4f);
                 Dust dust = Main.dust[num74];
                 dust.velocity *= Main.rand.NextFloat() * 0.8f;
-                Main.dust[num74].noGravity = true;
-                Main.dust[num74].scale = Main.rand.NextFloat() * 1f;
-                Main.dust[num74].fadeIn = Main.rand.NextFloat() * 2f;
+                dust.noGravity = true;
+                dust.scale = Main.rand.NextFloat() * 1f;
+                dust.fadeIn = Main.rand.NextFloat() * 2f;
                 Dust dust12 = Dust.CloneDust(num74);
                 dust = dust12;
                 dust.scale /= 2f;
@@ -195,5 +195,10 @@ namespace CalamityMod.Projectiles.Boss
         {
             return new Color(255 - projectile.alpha, 255 - projectile.alpha, 255 - projectile.alpha, 0);
         }
+
+        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
+        {
+			target.Calamity().lastProjectileHit = projectile;
+		}
     }
 }

@@ -388,7 +388,7 @@ namespace CalamityMod.CalPlayer
 						if (!tentaclesPresent[i])
 						{
 							float modifier = player.meleeDamage + player.magicDamage + player.rangedDamage +
-								modPlayer.throwingDamage + player.minionDamage;
+								modPlayer.throwingDamage + player.minionDamage + ((player.allDamage - 1f) * 5f);
 
 							modifier /= 5f;
 							int damage = (int)(666 * modifier);
@@ -2456,7 +2456,7 @@ namespace CalamityMod.CalPlayer
 					{
 						float ai1 = (float)(I * 120);
 						Projectile.NewProjectile(player.Center.X + (float)(Math.Sin(I * 120) * 550), player.Center.Y + (float)(Math.Cos(I * 120) * 550), 0f, 0f,
-							ModContent.ProjectileType<GhostlyMine>(), (int)((modPlayer.auricSet ? 15000f : 5000f) * player.minionDamage), 1f, player.whoAmI, ai1, 0f);
+							ModContent.ProjectileType<GhostlyMine>(), (int)((modPlayer.auricSet ? 15000f : 5000f) * (player.allDamage + player.minionDamage - 1f)), 1f, player.whoAmI, ai1, 0f);
 					}
 				}
 			}
@@ -2675,7 +2675,7 @@ namespace CalamityMod.CalPlayer
 						player.AddBuff(ModContent.BuffType<YharonKindleBuff>(), 3600, true);
 
 					if (player.ownedProjectileCounts[ModContent.ProjectileType<SonOfYharon>()] < 2)
-						Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<SonOfYharon>(), (int)(232f * player.minionDamage), 2f, Main.myPlayer, 0f, 0f);
+						Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<SonOfYharon>(), (int)(232f * (player.allDamage + player.minionDamage - 1f)), 2f, Main.myPlayer, 0f, 0f);
 				}
 			}
 
@@ -2699,7 +2699,7 @@ namespace CalamityMod.CalPlayer
 							player.AddBuff(ModContent.BuffType<GuardianDefense>(), 3600, true);
 
 						if (player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianDefense>()] < 1)
-							Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -3f, ModContent.ProjectileType<MiniGuardianDefense>(), (int)(baseDamage * player.minionDamage), 1f, Main.myPlayer, 0f, 0f);
+							Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -3f, ModContent.ProjectileType<MiniGuardianDefense>(), (int)(baseDamage * (player.allDamage + player.minionDamage - 1f)), 1f, Main.myPlayer, 0f, 0f);
 					}
 
 					if (modPlayer.tarraSummon || modPlayer.bloodflareSummon || modPlayer.godSlayerSummon || modPlayer.silvaSummon || modPlayer.dsSetBonus || modPlayer.omegaBlueSet || modPlayer.fearmongerSet)
@@ -2708,7 +2708,7 @@ namespace CalamityMod.CalPlayer
 							player.AddBuff(ModContent.BuffType<GuardianOffense>(), 3600, true);
 
 						if (player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianAttack>()] < 1)
-							Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<MiniGuardianAttack>(), (int)(baseDamage * player.minionDamage), 1f, Main.myPlayer, 0f, 0f);
+							Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<MiniGuardianAttack>(), (int)(baseDamage * (player.allDamage + player.minionDamage - 1f)), 1f, Main.myPlayer, 0f, 0f);
 					}
 				}
 			}

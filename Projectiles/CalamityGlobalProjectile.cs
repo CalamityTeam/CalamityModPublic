@@ -1575,6 +1575,13 @@ namespace CalamityMod.Projectiles
         }
         #endregion
 
+		/*#ModifyHitPlayer
+        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
+        {
+			target.Calamity().lastProjectileHit = ModContent.ProjectileType<BrimstoneHellblast>();
+		}
+		#endregion*/
+
         #region CanDamage
         public override bool CanDamage(Projectile projectile)
         {
