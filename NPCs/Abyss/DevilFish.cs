@@ -357,6 +357,7 @@ namespace CalamityMod.NPCs.Abyss
             if (hitCounter <= 5)
             {
                 ++hitCounter;
+                hasBeenHit = true;
             }
         }
     }
