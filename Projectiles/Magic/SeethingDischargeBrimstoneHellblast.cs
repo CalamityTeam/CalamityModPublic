@@ -33,12 +33,12 @@ namespace CalamityMod.Projectiles.Magic
         public override void AI()
         {
             projectile.frameCounter++;
-            if (projectile.frameCounter > 12)
+            if (projectile.frameCounter >= 10)
             {
                 projectile.frame++;
                 projectile.frameCounter = 0;
             }
-            if (projectile.frame > 3)
+            if (projectile.frame >= 4)
             {
                 projectile.frame = 0;
             }
