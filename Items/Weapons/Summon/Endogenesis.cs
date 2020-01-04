@@ -41,8 +41,8 @@ namespace CalamityMod.Items.Weapons.Summon
             item.knockBack = 4f;
             item.crit += 18;
             item.autoReuse = true;
-            item.useTime = 35;
-            item.useAnimation = 35;
+            item.useTime = 36;
+            item.useAnimation = 36;
             item.shoot = ModContent.ProjectileType<EndoCooperBody>();
             item.shootSpeed = 10f;
 
@@ -65,7 +65,7 @@ namespace CalamityMod.Items.Weapons.Summon
                 Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
                 vector2.X = Main.mouseX + Main.screenPosition.X;
                 vector2.Y = Main.mouseY + Main.screenPosition.Y;
-                for (int x = 0; x < Main.npc.Length; x++)
+                for (int x = 0; x < Main.projectile.Length; x++)
                 {
                     Projectile projectile = Main.projectile[x];
                     if (projectile.active && projectile.owner == player.whoAmI && (projectile.type == ModContent.ProjectileType<EndoCooperBody>() || projectile.type == ModContent.ProjectileType<EndoCooperLimbs>() || projectile.type == ModContent.ProjectileType<EndoBeam>()))
@@ -95,6 +95,7 @@ namespace CalamityMod.Items.Weapons.Summon
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
+
         public override bool AltFunctionUse(Player player)
         {
             return true;
