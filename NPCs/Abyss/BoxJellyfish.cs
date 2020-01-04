@@ -22,7 +22,7 @@ namespace CalamityMod.NPCs.Abyss
             npc.noGravity = true;
             npc.damage = 22;
             npc.width = 30;
-            npc.height = 30;
+            npc.height = 33;
             npc.defense = 5;
             npc.lifeMax = 45;
             npc.alpha = 20;
