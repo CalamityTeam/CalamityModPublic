@@ -50,6 +50,27 @@ namespace CalamityMod.Items.Weapons.Summon
             item.Calamity().postMoonLordRarity = 16;
         }
 
+        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
+        {
+            if (AttackMode == 0) //lasers
+            {
+                mult -= 0.25f; //75%
+            }
+            if (AttackMode == 1) //icicles
+            {
+                mult += 0f; //100%
+            }
+            if (AttackMode == 2) //ramming
+            {
+                mult += 0f; //100%
+            }
+            if (AttackMode == 3) //flamethrower
+            {
+                mult += 0f; //100%
+            }
+            base.ModifyWeaponDamage(player, ref add, ref mult, ref flat);
+		}
+
         public override bool CanUseItem(Player player)
         {
             if (player.maxMinions < 10f)
