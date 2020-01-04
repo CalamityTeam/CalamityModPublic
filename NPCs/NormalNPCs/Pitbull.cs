@@ -63,7 +63,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void NPCLoot()
         {
             int bandageDropRate = CalamityWorld.defiled ? DropHelper.DefiledDropRateInt : Main.expertMode ? 50 : 100;
-            DropHelper.DropItemCondition(npc, ItemID.AdhesiveBandage, Main.hardMode, bandageDropRate, 1, 1);
+            DropHelper.DropItemChance(npc, ItemID.AdhesiveBandage, bandageDropRate, 1, 1);
         }
     }
 }
