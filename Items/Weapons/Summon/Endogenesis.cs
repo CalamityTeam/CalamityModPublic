@@ -77,7 +77,7 @@ namespace CalamityMod.Items.Weapons.Summon
 				if (AttackMode == 0) //lasers
 					dmgMult = 0.75f;
 				if (AttackMode == 1) //icicles
-					dmgMult = 1f;
+					dmgMult = 0.9f;
 				if (AttackMode == 2) //melee
 					dmgMult = 1f;
 				if (AttackMode == 3) //flamethrower
