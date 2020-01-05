@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
             item.summon = true;
             item.mana = 80;
-            item.damage = 8000;
+            item.damage = 7000;
             item.knockBack = 4f;
             item.crit += 18;
             item.autoReuse = true;
@@ -77,7 +77,7 @@ namespace CalamityMod.Items.Weapons.Summon
 				if (AttackMode == 0) //lasers
 					dmgMult = 0.75f;
 				if (AttackMode == 1) //icicles
-					dmgMult = 0.9f;
+					dmgMult = 1f;
 				if (AttackMode == 2) //melee
 					dmgMult = 1f;
 				if (AttackMode == 3) //flamethrower
