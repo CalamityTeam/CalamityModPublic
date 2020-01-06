@@ -196,7 +196,7 @@ namespace CalamityMod.World
 
 		public static void GenNewTemple(int x, int y)
 		{
-			Rectangle[] array = new Rectangle[40];
+			Rectangle[] array = new Rectangle[200];
 			float num = (float)(Main.maxTilesX / 4200);
 			int num2 = WorldGen.genRand.Next((int)(num * 12f), (int)(num * 16f));
 			int num3 = 1;
