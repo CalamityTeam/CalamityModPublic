@@ -202,9 +202,9 @@ namespace CalamityMod.Projectiles.Summon
 			}
 			projectile.rotation = projectile.velocity.X * 0.05f;
 			if ((double) projectile.velocity.X > 0.0)
-				projectile.spriteDirection = projectile.direction = -1;
-			else if ((double) projectile.velocity.X < 0.0)
 				projectile.spriteDirection = projectile.direction = 1;
+			else if ((double) projectile.velocity.X < 0.0)
+				projectile.spriteDirection = projectile.direction = -1;
 			if ((double) projectile.ai[1] > 0.0)
 				projectile.ai[1] += (float) Main.rand.Next(1, 4);
 			if ((double) projectile.ai[1] > 90.0)
