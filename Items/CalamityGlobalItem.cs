@@ -73,26 +73,26 @@ namespace CalamityMod.Items
             if (item.type >= ItemID.GreenSolution && item.type <= ItemID.RedSolution)
                 item.value = Item.buyPrice(0, 0, 5, 0);
 
-            if (CalamityMod.weaponAutoreuseList.Contains(item.type))
+            if (CalamityMod.weaponAutoreuseList?.Contains(item.type) ?? false)
                 item.autoReuse = true;
 
             if (item.type == ItemID.PsychoKnife)
                 item.damage *= 4;
             else if (item.type == ItemID.SpectreStaff)
                 item.damage *= 3;
-            else if (CalamityMod.doubleDamageBuffList.Contains(item.type))
+            else if (CalamityMod.doubleDamageBuffList?.Contains(item.type) ?? false)
                 item.damage *= 2;
             else if (item.type == ItemID.RainbowRod)
                 item.damage = (int)((double)item.damage * 1.75);
-            else if (CalamityMod.sixtySixDamageBuffList.Contains(item.type))
+            else if (CalamityMod.sixtySixDamageBuffList?.Contains(item.type) ?? false)
                 item.damage = (int)((double)item.damage * 1.66);
-            else if (CalamityMod.fiftyDamageBuffList.Contains(item.type))
+            else if (CalamityMod.fiftyDamageBuffList?.Contains(item.type) ?? false)
                 item.damage = (int)((double)item.damage * 1.5);
-            else if (CalamityMod.thirtyThreeDamageBuffList.Contains(item.type))
+            else if (CalamityMod.thirtyThreeDamageBuffList?.Contains(item.type) ?? false)
                 item.damage = (int)((double)item.damage * 1.33);
-            else if (CalamityMod.twentyFiveDamageBuffList.Contains(item.type))
+            else if (CalamityMod.twentyFiveDamageBuffList?.Contains(item.type) ?? false)
                 item.damage = (int)((double)item.damage * 1.25);
-            else if (CalamityMod.twentyDamageBuffList.Contains(item.type))
+            else if (CalamityMod.twentyDamageBuffList?.Contains(item.type) ?? false)
                 item.damage = (int)((double)item.damage * 1.2);
             else if (item.type == ItemID.Frostbrand || item.type == ItemID.MagnetSphere)
                 item.damage = (int)((double)item.damage * 1.1);
@@ -100,7 +100,7 @@ namespace CalamityMod.Items
                 item.damage = (int)((double)item.damage * 0.95);
             else if (item.type == ItemID.LastPrism)
                 item.damage = (int)((double)item.damage * 0.85);
-            else if (CalamityMod.quarterDamageNerfList.Contains(item.type))
+            else if (CalamityMod.quarterDamageNerfList?.Contains(item.type) ?? false)
                 item.damage = (int)((double)item.damage * 0.75);
 
             if (item.type == ItemID.BookStaff)
