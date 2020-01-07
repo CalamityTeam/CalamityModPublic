@@ -336,7 +336,7 @@ namespace CalamityMod
 				"Bumblebirb", 
 				(Func<bool>)(() => CalamityWorld.downedBumble), 
 				ModContent.ItemType<BirbPheromones>(), 
-				new List<int>() {ModContent.ItemType<BumblebirbTrophy>(), ModContent.ItemType<KnowledgeBumblebirb>()}, 
+				new List<int>() {ModContent.ItemType<BumblebirbTrophy>(), ModContent.ItemType<BumblefuckMask>(), ModContent.ItemType<KnowledgeBumblebirb>()}, 
 				new List<int>() {ModContent.ItemType<BumblebirbBag>(), ModContent.ItemType<EffulgentFeather>(), ModContent.ItemType<GildedProboscis>(), ModContent.ItemType<GoldenEagle>(), ModContent.ItemType<RougeSlash>(), ModContent.ItemType<Swordsplosion>(), ModContent.ItemType<DynamoStemCells>(), ModContent.ItemType<RedLightningContainer>(), ItemID.SuperHealingPotion}, 
 				"Use [i:" + ModContent.ItemType<BirbPheromones>() + "] in the Jungle Biome", 
 				"[c/FFD700:The failed experiment returns into its reproductive routine.]");
