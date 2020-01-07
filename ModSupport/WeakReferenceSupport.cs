@@ -190,7 +190,7 @@ namespace CalamityMod
 				"Brimstone Elemental", 
 				(Func<bool>)(() => CalamityWorld.downedBrimstoneElemental), 
 				ModContent.ItemType<CharredIdol>(), 
-				new List<int>() {ModContent.ItemType<BrimstoneElementalTrophy>(), ModContent.ItemType<KnowledgeBrimstoneCrag>(), ModContent.ItemType<KnowledgeBrimstoneElemental>(), ModContent.ItemType<CharredRelic>()}, 
+				new List<int>() {ModContent.ItemType<BrimstoneElementalTrophy>(), ModContent.ItemType<BrimstoneWaifuMask>(), ModContent.ItemType<KnowledgeBrimstoneCrag>(), ModContent.ItemType<KnowledgeBrimstoneElemental>(), ModContent.ItemType<CharredRelic>()}, 
 				new List<int>() {ModContent.ItemType<BrimstoneWaifuBag>(), ItemID.SoulofFright, ModContent.ItemType<EssenceofChaos>(), ModContent.ItemType<Bloodstone>(), ModContent.ItemType<Brimlance>(), ModContent.ItemType<SeethingDischarge>(), ModContent.ItemType<Abaddon>(), ModContent.ItemType<RoseStone>(), ModContent.ItemType<Gehenna>(), ModContent.ItemType<Brimrose>(), ItemID.GreaterHealingPotion}, 
 				"Use a [i:" + ModContent.ItemType<CharredIdol>() + "] in the Brimstone Crag", 
 				"[c/DC143C:Brimstone Elemental withdraws to the ruins of her shrine.]");
