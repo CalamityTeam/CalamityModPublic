@@ -406,7 +406,7 @@ namespace CalamityMod
 				"Polterghast", 
 				(Func<bool>)(() => CalamityWorld.downedPolterghast), 
 				ModContent.ItemType<NecroplasmicBeacon>(), 
-				new List<int>() {ModContent.ItemType<PolterghastTrophy>(), ModContent.ItemType<KnowledgePolterghast>()}, 
+				new List<int>() {ModContent.ItemType<PolterghastTrophy>(), ModContent.ItemType<PolterghastMask>(), ModContent.ItemType<KnowledgePolterghast>()}, 
 				new List<int>() {ModContent.ItemType<PolterghastBag>(), ModContent.ItemType<RuinousSoul>(), ModContent.ItemType<Phantoplasm>(), ModContent.ItemType<TerrorBlade>(), ModContent.ItemType<BansheeHook>(), ModContent.ItemType<DaemonsFlame>(), ModContent.ItemType<FatesReveal>(), ModContent.ItemType<GhastlyVisage>(), ModContent.ItemType<EtherealSubjugator>(), ModContent.ItemType<GhoulishGouger>(), ModContent.ItemType<Affliction>(), ModContent.ItemType<Ectoheart>(), ItemID.SuperHealingPotion}, 
 				"Kill 30 phantom spirits or use a [i:" + ModContent.ItemType<NecroplasmicBeacon>() + "] in the Dungeon", 
 				"[c/B0E0E6:The volatile spirits disperse throughout the depths of the dungeon.]");
