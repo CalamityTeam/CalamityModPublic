@@ -18,6 +18,7 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Items.Armor.Vanity;
 
 namespace CalamityMod.NPCs.AquaticScourge
 {
@@ -174,7 +175,7 @@ namespace CalamityMod.NPCs.AquaticScourge
                 DropHelper.DropItemChance(npc, ModContent.ItemType<AeroStone>(), 9);
 
                 // Vanity
-                // there is no Aquatic Scourge mask yet
+                DropHelper.DropItemChance(npc, ModContent.ItemType<AquaticScourgeMask>(), 7);
 
                 // Fishing
                 DropHelper.DropItemChance(npc, ItemID.HighTestFishingLine, 12);

@@ -204,7 +204,7 @@ namespace CalamityMod
 				"Aquatic Scourge", 
 				(Func<bool>)(() => CalamityWorld.downedAquaticScourge), 
 				ModContent.ItemType<Seafood>(), 
-				new List<int>() { ModContent.ItemType<AquaticScourgeTrophy>(), ModContent.ItemType<KnowledgeAquaticScourge>(), ModContent.ItemType<KnowledgeSulphurSea>()}, 
+				new List<int>() { ModContent.ItemType<AquaticScourgeTrophy>(), ModContent.ItemType<AquaticScourgeMask>(),  ModContent.ItemType<KnowledgeAquaticScourge>(), ModContent.ItemType<KnowledgeSulphurSea>()}, 
 				new List<int>() { ModContent.ItemType<AquaticScourgeBag>(), ModContent.ItemType<SulphurousSand>(), ItemID.SoulofSight, ModContent.ItemType<VictoryShard>(), ItemID.Coral, ItemID.Seashell, ItemID.Starfish, ModContent.ItemType<SubmarineShocker>(), ModContent.ItemType<Barinautical>(), ModContent.ItemType<Downpour>(), ModContent.ItemType<DeepseaStaff>(), ModContent.ItemType<ScourgeoftheSeas>(), ModContent.ItemType<SeasSearing>(), ModContent.ItemType<AeroStone>(), ModContent.ItemType<AquaticEmblem>(), ItemID.AnglerTackleBag, ItemID.HighTestFishingLine, ItemID.TackleBox, ItemID.AnglerEarring, ItemID.FishermansGuide, ItemID.WeatherRadio, ItemID.Sextant, ItemID.AnglerHat, ItemID.AnglerVest, ItemID.AnglerPants, ItemID.FishingPotion, ItemID.SonarPotion, ItemID.CratePotion, ItemID.GoldenBugNet, ItemID.GreaterHealingPotion}, 
 				"Use a [i:" + ModContent.ItemType<Seafood>() + "] in the Sulphuric Sea or wait for it to spawn in the Sulphuric Sea", 
 				"[c/F0E68C:The Aquatic Scourge swam back into the open ocean.]", 
