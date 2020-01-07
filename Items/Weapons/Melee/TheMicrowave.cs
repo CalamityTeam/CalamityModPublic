@@ -10,7 +10,6 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Microwave");
-            //Tooltip.SetDefault("MMMMMMMMMMMMM");
             Tooltip.SetDefault("Fries nearby enemies with radiation\n" +
 			"An exceptionally agile yoyo\n" +
 			"Cooking, Astral Infection style");
