@@ -75,7 +75,7 @@ namespace CalamityMod.Items.Weapons.Summon
                 }
                 float dmgMult = 1f;
 				if (AttackMode == 0) //lasers
-					dmgMult = 0.75f;
+					dmgMult = 0.65f;
 				if (AttackMode == 1) //icicles
 					dmgMult = 1f;
 				if (AttackMode == 2) //melee
