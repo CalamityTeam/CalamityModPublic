@@ -291,7 +291,7 @@ namespace CalamityMod
 				"Ravager", 
 				(Func<bool>)(() => CalamityWorld.downedScavenger), 
 				ModContent.ItemType<AncientMedallion>(), 
-				new List<int>() {ModContent.ItemType<RavagerTrophy>(), ModContent.ItemType<KnowledgeRavager>()}, 
+				new List<int>() {ModContent.ItemType<RavagerTrophy>(), ModContent.ItemType<RavagerMask>(), ModContent.ItemType<KnowledgeRavager>()}, 
 				new List<int>() {ModContent.ItemType<RavagerBag>(), ModContent.ItemType<Bloodstone>(), ModContent.ItemType<VerstaltiteBar>(), ModContent.ItemType<DraedonBar>(), ModContent.ItemType<CruptixBar>(), ModContent.ItemType<CoreofCinder>(), ModContent.ItemType<CoreofEleum>(), ModContent.ItemType<CoreofChaos>(), ModContent.ItemType<BarofLife>(), ModContent.ItemType<CoreofCalamity>(), ModContent.ItemType<UltimusCleaver>(), ModContent.ItemType<RealmRavager>(), ModContent.ItemType<Hematemesis>(), ModContent.ItemType<SpikecragStaff>(), ModContent.ItemType<CraniumSmasher>(), ModContent.ItemType<BloodPact>(), ModContent.ItemType<FleshTotem>(), ModContent.ItemType<BloodflareCore>(), ModContent.ItemType<InfernalBlood>(), ItemID.GreaterHealingPotion}, 
 				"Use an [i:" + ModContent.ItemType<AncientMedallion>() + "]", 
 				"[c/B22222:The automaton of misshapen victims went looking for the true perpetrator.]", 
