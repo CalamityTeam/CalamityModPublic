@@ -74,10 +74,10 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.timeLeft = 2;
                 }
             }
-            float num633 = 700f;
+            float num633 = 1000f;
             float num634 = 1300f;
             float num635 = 2600f;
-            float num636 = 600f;
+            float num636 = 700f;
             Vector2 vector46 = projectile.position;
             bool flag25 = false;
             if (player.HasMinionAttackTargetNPC)
@@ -157,7 +157,7 @@ namespace CalamityMod.Projectiles.Summon
             {
                 projectile.ai[1] += (float)Main.rand.Next(1, 3);
             }
-            if (projectile.ai[1] > 100f)
+            if (projectile.ai[1] > 80f)
             {
                 projectile.ai[1] = 0f;
                 projectile.netUpdate = true;

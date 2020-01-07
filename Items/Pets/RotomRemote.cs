@@ -1,6 +1,7 @@
 using CalamityMod.Buffs.Pets;
 using CalamityMod.Projectiles.Pets;
 using CalamityMod.Items.Placeables;
+using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -13,10 +14,10 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Suspicious Looking Remote");
+            DisplayName.SetDefault("Trifigelycen Etomer");
             Tooltip.SetDefault("Summons an electric troublemaker\n" +
 			"Zaps nearby enemies\n" +
-			"A little note is attached to the remote:\n" +
+			"A little note is attached:\n" +
 			"Thank you, Aloe! Very much appreciated from Ben");
         }
 
@@ -44,16 +45,12 @@ namespace CalamityMod.Items.Pets
             }
         }
 
-		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
-		{
-			CalamityUtils.DrawItemGlowmask(item, spriteBatch, 1, rotation, ModContent.GetTexture("CalamityMod/Items/Pets/RotomRemoteGlow"));
-		}
-
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<PrismShard>(), 5);
             recipe.AddIngredient(ItemID.IronBar, 10);
+            recipe.AddIngredient(ModContent.ItemType<DemonicBoneAsh>());
             recipe.anyIronBar = true;
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);

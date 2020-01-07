@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Pets
 				biome = 2; //wash
 			else if (player.ZoneTowerSolar || player.ZoneDesert || player.ZoneUndergroundDesert || player.ZoneUnderworldHeight || player.Calamity().ZoneCalamity)
 				biome = 3; //heat
-			else if (player.ZoneSnow)
+			else if (player.ZoneSnow || Main.snowMoon)
 				biome = 4; //frost
 			else if (player.ZoneJungle)
 				biome = 5; //mow
