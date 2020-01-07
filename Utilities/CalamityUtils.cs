@@ -18,6 +18,7 @@ using CalamityMod.Tiles.Ores;
 using CalamityMod.Tiles.SunkenSea;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -2063,6 +2064,66 @@ namespace CalamityMod
                 result.Append(' ');
             }
             return result.ToString();
+        }
+
+        /// <summary>
+        /// Calculates the sound volume and panning for a sound which is played at the specified location in the game world.<br/>
+        /// Note that sound does not play on dedicated servers or during world generation.
+        /// </summary>
+        /// <param name="soundPos">The position the sound is emitting from. If either X or Y is -1, the sound does not fade with distance.</param>
+        /// <param name="ambient">Whether the sound is considered ambient, which makes it use the ambient sound slider in the options. Defaults to false.</param>
+        /// <returns>Volume and pan, in that order. Volume is always between 0 and 1. Pan is always between -1 and 1.</returns>
+        public static (float, float) CalculateSoundStats(Vector2 soundPos, bool ambient = false)
+        {
+            float volume = 0f;
+            float pan = 0f;
+
+            if (soundPos.X == -1f || soundPos.Y == -1f)
+                volume = 1f;
+            else if (WorldGen.gen || Main.dedServ || Main.netMode == NetmodeID.Server)
+                volume = 0f;
+            else
+            {
+                float topLeftX = Main.screenPosition.X - Main.screenWidth * 2f;
+                float topLeftY = Main.screenPosition.Y - Main.screenHeight * 2f;
+
+                // Sounds cannot be heard from more than ~2.5 screens away.
+                // This rectangle is 5x5 screens centered on the current screen center position.
+                Rectangle audibleArea = new Rectangle((int)topLeftX, (int)topLeftY, Main.screenWidth * 5, Main.screenHeight * 5);
+                Rectangle soundHitbox = new Rectangle((int)soundPos.X, (int)soundPos.Y, 1, 1);
+                Vector2 screenCenter = Main.screenPosition + new Vector2(Main.screenWidth * 0.5f, Main.screenHeight * 0.5f);
+                if (audibleArea.Intersects(soundHitbox))
+                {
+                    pan = (soundPos.X - screenCenter.X) / (Main.screenWidth * 0.5f);
+                    float dist = Vector2.Distance(soundPos, screenCenter);
+                    volume = 1f - (dist / (Main.screenWidth * 1.5f));
+                }
+            }
+
+            pan = MathHelper.Clamp(pan, -1f, 1f);
+            volume = MathHelper.Clamp(volume, 0f, 1f);
+            if (ambient)
+                volume = Main.gameInactive ? 0f : volume * Main.ambientVolume;
+            else
+                volume *= Main.soundVolume;
+
+            // This is actually done by vanilla. I guess if the sound volume gets corrupted during gameplay, you can't blast your eardrums out.
+            volume = MathHelper.Clamp(volume, 0f, 1f);
+            return (volume, pan);
+        }
+
+        /// <summary>
+        /// Convenience function to utilize CalculateSoundStats immediately on an existing sound effect.<br/>
+        /// This allows updating a looping sound every single frame to have the correct volume and pan, even if the player drags the audio sliders around.
+        /// </summary>
+        /// <param name="sfx">The SoundEffectInstance which is having its values updated.</param>
+        /// <param name="soundPos">The position the sound is emitting from. If either X or Y is -1, the sound does not fade with distance.</param>
+        /// <param name="ambient">Whether the sound is considered ambient, which makes it use the ambient sound slider in the options. Defaults to false.</param>
+        public static void ApplySoundStats(ref SoundEffectInstance sfx, Vector2 soundPos, bool ambient = false)
+        {
+            if (sfx is null || sfx.IsDisposed)
+                return;
+            (sfx.Volume, sfx.Pan) = CalculateSoundStats(soundPos, ambient);
         }
 
         public static void StartSandstorm()
