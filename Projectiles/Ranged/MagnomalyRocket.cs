@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Nuke");
-            Main.projFrames[projectile.type] = 6;
+            Main.projFrames[projectile.type] = 4;
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
@@ -38,14 +38,14 @@ namespace CalamityMod.Projectiles.Ranged
                 projectile.frame++;
                 projectile.frameCounter = 0;
             }
-            if (projectile.frame >= 6)
+            if (projectile.frame >= 4)
             {
                 projectile.frame = 0;
             }
 
             //Rotation
             projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
-            projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
+            projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi) + MathHelper.ToRadians(90) * projectile.direction;
 
 			int num297 = Main.rand.NextBool(2) ? 107 : 234;
 			if (Main.rand.NextBool(4))
@@ -72,20 +72,26 @@ namespace CalamityMod.Projectiles.Ranged
             {
 				float num247 = projectile.velocity.X * 0.5f;
 				float num248 = projectile.velocity.Y * 0.5f;
-				int num249 = Dust.NewDust(new Vector2(projectile.position.X + 3f + num247, projectile.position.Y + 3f + num248) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, num297, 0f, 0f, 100, default, 0.5f);
-				Main.dust[num249].scale *= (float)Main.rand.Next(10) * 0.1f;
-				Main.dust[num249].velocity *= 0.2f;
-				Main.dust[num249].noGravity = true;
-				int dust2 = Dust.NewDust(new Vector2(projectile.position.X + 3f + num247, projectile.position.Y + 3f + num248) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, num297, 0f, 0f, 100, default, 0.25f);
-				Main.dust[dust2].fadeIn = 1f + (float)Main.rand.Next(5) * 0.1f;
-				Main.dust[dust2].velocity *= 0.05f;
-				Main.dust[dust2].noGravity = true;
+				if (Main.rand.NextBool(2))
+				{
+					int num249 = Dust.NewDust(new Vector2(projectile.position.X + 3f + num247, projectile.position.Y + 3f + num248) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, num297, 0f, 0f, 100, default, 0.5f);
+					Main.dust[num249].scale *= (float)Main.rand.Next(10) * 0.1f;
+					Main.dust[num249].velocity *= 0.2f;
+					Main.dust[num249].noGravity = true;
+				}
+				else
+				{
+					int dust2 = Dust.NewDust(new Vector2(projectile.position.X + 3f + num247, projectile.position.Y + 3f + num248) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, num297, 0f, 0f, 100, default, 0.25f);
+					Main.dust[dust2].fadeIn = 1f + (float)Main.rand.Next(5) * 0.1f;
+					Main.dust[dust2].velocity *= 0.05f;
+					Main.dust[dust2].noGravity = true;
+				}
             }
             float num472 = projectile.Center.X;
             float num473 = projectile.Center.Y;
             float num474 = 600f;
             bool flag17 = false;
-            for (int num475 = 0; num475 < 200; num475++)
+            for (int num475 = 0; num475 < Main.npc.Length; num475++)
             {
                 if (Main.npc[num475].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[num475].Center, 1, 1))
                 {
@@ -103,7 +109,7 @@ namespace CalamityMod.Projectiles.Ranged
             }
             if (flag17)
             {
-                float num483 = 15f;
+                float num483 = 16f;
                 Vector2 vector35 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
                 float num484 = num472 - vector35.X;
                 float num485 = num473 - vector35.Y;
@@ -118,27 +124,13 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void Kill(int timeLeft)
         {
-			float random = Main.rand.Next(30, 90);
-			float spread = random * 0.0174f;
-			double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
-			double deltaAngle = spread / 8f;
-			for (int i = 0; i < 4; i++)
-			{
-				double offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-				int proj1 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<MagnomalyBeam>(), projectile.damage / 5, projectile.knockBack / 5, projectile.owner, 0f, 1f);
-				int proj2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<MagnomalyBeam>(), projectile.damage / 5, projectile.knockBack / 5, projectile.owner, 0f, 1f);
-			}
-
             projectile.position = projectile.Center;
             projectile.width = projectile.height = 192;
             projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-            projectile.maxPenetrate = -1;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-            projectile.Damage();
             Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 14);
+			//DO NOT REMOVE THIS PROJECTILE
+			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<MagnomalyExplosion>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 
 			int num298 = Main.rand.NextBool(2) ? 107 : 234;
 			if (Main.rand.NextBool(4))
@@ -203,6 +195,16 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
+			float random = Main.rand.Next(30, 90);
+			float spread = random * 0.0174f;
+			double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
+			double deltaAngle = spread / 8f;
+			for (int i = 0; i < 4; i++)
+			{
+				double offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
+				int proj1 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<MagnomalyBeam>(), projectile.damage / 5, projectile.knockBack / 5, projectile.owner, 0f, 1f);
+				int proj2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<MagnomalyBeam>(), projectile.damage / 5, projectile.knockBack / 5, projectile.owner, 0f, 1f);
+			}
             target.AddBuff(ModContent.BuffType<ExoFreeze>(), 30);
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
             target.AddBuff(ModContent.BuffType<GlacialState>(), 120);

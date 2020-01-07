@@ -522,7 +522,9 @@ namespace CalamityMod
                 ModContent.ProjectileType<NorfleetComet>(),
                 ModContent.ProjectileType<NorfleetExplosion>(),
                 ModContent.ProjectileType<AetherBeam>(),
-                ModContent.ProjectileType<FlurrystormCannonShooting>()
+                ModContent.ProjectileType<FlurrystormCannonShooting>(),
+                ModContent.ProjectileType<MagnomalyBeam>(),
+                ModContent.ProjectileType<MagnomalyAura>()
             };
 
             projectileMinionList = new List<int>()
