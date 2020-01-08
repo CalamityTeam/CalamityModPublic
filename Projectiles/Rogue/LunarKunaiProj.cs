@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -16,6 +17,8 @@ namespace CalamityMod.Projectiles.Rogue
 		{
 			DisplayName.SetDefault("Kunai");
 			Main.projFrames[projectile.type] = 2;
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
 
         public override void SetDefaults()
@@ -90,6 +93,8 @@ namespace CalamityMod.Projectiles.Rogue
 				projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
 				projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
 				projectile.damage /= 4;
+				projectile.usesLocalNPCImmunity = true;
+				projectile.localNPCHitCooldown = 10;
 				for (int num194 = 0; num194 < 10; num194++)
 				{
 					int num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 229, 0f, 0f, 0, default, 1.5f);
@@ -111,6 +116,12 @@ namespace CalamityMod.Projectiles.Rogue
 					Main.dust[num304].velocity -= projectile.oldVelocity * 0.3f;
 				}
 			}
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            return false;
         }
     }
 }
