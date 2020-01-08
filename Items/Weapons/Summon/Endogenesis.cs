@@ -79,7 +79,7 @@ namespace CalamityMod.Items.Weapons.Summon
 				if (AttackMode == 1) //icicles
 					dmgMult = 1f;
 				if (AttackMode == 2) //melee
-					dmgMult = 0.9f;
+					dmgMult = 0.95f;
 				if (AttackMode == 3) //flamethrower
 					dmgMult = 0.9f;
                 int body = Projectile.NewProjectile(vector2.X, vector2.Y, 0f, 0f, type, (int)(damage * dmgMult), knockBack, player.whoAmI, AttackMode, 0f);

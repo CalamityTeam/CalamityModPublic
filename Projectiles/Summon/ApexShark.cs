@@ -278,7 +278,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 70, 0.5f);
             projectile.velocity = new Vector2(0f, 5f).RotatedBy(projectile.velocity.ToRotation() + 1.5f);
-            int sand = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<SandExplosion>(), projectile.damage, 5f, projectile.owner, 0f, 0f);
+            int sand = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<SandExplosion>(), (int)(projectile.damage * 0.7f), (int)(projectile.knockBack * 0.7f), projectile.owner, 0f, 0f);
             Main.projectile[sand].Center = projectile.Center;
             projectile.netUpdate = true;
             HitCooldown = 20;
