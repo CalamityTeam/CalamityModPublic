@@ -47,7 +47,6 @@ namespace CalamityMod.Projectiles.Rogue
             	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 176, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 
 			projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 0.785f;
-			projectile.spriteDirection = ((projectile.velocity.X > 0f) ? -1 : 1);
 
         	if (shardRainTimer == 0)
 			{
