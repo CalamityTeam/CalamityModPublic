@@ -320,9 +320,8 @@ namespace CalamityMod
 				calamity, "Profaned Guardians", 
 				(Func<bool>)(() => CalamityWorld.downedGuardians), 
 				ModContent.ItemType<ProfanedShard>(), 
-				ModContent.ItemType<KnowledgeProfanedGuardians>(), 
+				new List<int>() { ModContent.ItemType<ProfanedGuardianMask>(), ModContent.ItemType<KnowledgeProfanedGuardians>() },
 				new List<int>() { ModContent.ItemType<ProfanedCore>(), ItemID.GreaterHealingPotion}, 
-				new List<int>() { ModContent.ItemType<ProfanedGuardianMask>() },
 				"Use a [i:" + ModContent.ItemType<ProfanedShard>() + "] in the Hallow or Underworld Biomes", 
 				"[c/FFA500:The guardians must protect their goddess at all costs.]", 
 				"CalamityMod/NPCs/ProfanedGuardians/ProfanedGuardians_BossChecklist");
