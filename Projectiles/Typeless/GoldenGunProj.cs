@@ -92,41 +92,33 @@ namespace CalamityMod.Projectiles.Typeless
             for (int num362 = 0; num362 < 100; num362 = num3 + 1)
             {
                 int num363 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 170, 0f, 0f, 75, default, 1.2f);
-                Dust dust;
+                Dust dust = Main.dust[num363];
                 if (Main.rand.NextBool(2))
                 {
-                    dust = Main.dust[num363];
                     dust.alpha += 25;
                 }
                 if (Main.rand.NextBool(2))
                 {
-                    dust = Main.dust[num363];
                     dust.alpha += 25;
                 }
                 if (Main.rand.NextBool(2))
                 {
-                    dust = Main.dust[num363];
                     dust.alpha += 25;
                 }
                 if (Main.rand.NextBool(2))
                 {
-                    Main.dust[num363].scale = 0.6f;
+                    dust.scale = 0.6f;
                 }
                 else
                 {
-                    Main.dust[num363].noGravity = true;
+                    dust.noGravity = true;
                 }
-                dust = Main.dust[num363];
                 dust.velocity *= 0.3f;
-                dust = Main.dust[num363];
                 dust.velocity += projectile.velocity;
-                dust = Main.dust[num363];
                 dust.velocity *= 1f + (float)Main.rand.Next(-100, 101) * 0.01f;
-                Dust expr_C6F7_cp_0_cp_0 = Main.dust[num363];
-                expr_C6F7_cp_0_cp_0.velocity.X += (float)Main.rand.Next(-50, 51) * 0.015f;
-                Dust expr_C726_cp_0_cp_0 = Main.dust[num363];
-                expr_C726_cp_0_cp_0.velocity.Y += (float)Main.rand.Next(-50, 51) * 0.015f;
-                Main.dust[num363].position = projectile.Center;
+                dust.velocity.X += (float)Main.rand.Next(-50, 51) * 0.015f;
+                dust.velocity.Y += (float)Main.rand.Next(-50, 51) * 0.015f;
+                dust.position = projectile.Center;
                 num3 = num362;
             }
         }

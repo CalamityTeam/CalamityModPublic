@@ -16,7 +16,6 @@ namespace CalamityMod.NPCs.Abyss
 {
     public class DevilFish : ModNPC
     {
-        public bool hasBeenHit = false;
         public bool brokenMask = false;
         public int hitCounter = 0;
 
@@ -48,7 +47,6 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(hasBeenHit);
             writer.Write(brokenMask);
             writer.Write(hitCounter);
             writer.Write(npc.chaseable);
@@ -56,7 +54,6 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            hasBeenHit = reader.ReadBoolean();
             brokenMask = reader.ReadBoolean();
             hitCounter = reader.ReadInt32();
             npc.chaseable = reader.ReadBoolean();
@@ -72,7 +69,7 @@ namespace CalamityMod.NPCs.Abyss
             {
                 npc.TargetClosest(true);
             }
-            npc.chaseable = hasBeenHit;
+            npc.chaseable = brokenMask;
 
             if (hitCounter >= 5 && !brokenMask)
             {
@@ -231,7 +228,7 @@ namespace CalamityMod.NPCs.Abyss
         {
             if (projectile.minion)
             {
-                return hasBeenHit;
+                return brokenMask;
             }
             return null;
         }

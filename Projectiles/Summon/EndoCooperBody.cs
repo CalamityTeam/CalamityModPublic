@@ -77,7 +77,7 @@ namespace CalamityMod.Projectiles.Summon
             //Spawn effects
             if (projectile.localAI[0] == 0f)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = player.minionDamage;
+                projectile.Calamity().spawnedPlayerMinionDamageValue = (player.allDamage + player.minionDamage - 1f);
                 projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
                 AttackMode = (int)projectile.ai[0];
                 LimbID = (int)projectile.ai[1];
@@ -98,10 +98,10 @@ namespace CalamityMod.Projectiles.Summon
             }
 
             //Damage Update
-            if (player.minionDamage != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if ((player.allDamage + player.minionDamage - 1f) != projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
                 int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue * player.minionDamage);
+                    projectile.Calamity().spawnedPlayerMinionDamageValue * (player.allDamage + player.minionDamage - 1f));
                 projectile.damage = damage2;
             }
             //Variables

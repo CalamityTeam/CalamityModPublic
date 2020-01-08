@@ -47,15 +47,14 @@ namespace CalamityMod.Projectiles.Ranged
                 num463 *= num466;
                 num464 *= num466;
                 int num467 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 33, 0f, 0f, 100, default, 0.6f);
-                Main.dust[num467].noGravity = true;
-                Main.dust[num467].position.X = projectile.Center.X;
-                Main.dust[num467].position.Y = projectile.Center.Y;
-                Dust expr_149DF_cp_0 = Main.dust[num467];
-                expr_149DF_cp_0.position.X += (float)Main.rand.Next(-10, 11);
-                Dust expr_14A09_cp_0 = Main.dust[num467];
-                expr_14A09_cp_0.position.Y += (float)Main.rand.Next(-10, 11);
-                Main.dust[num467].velocity.X = num463;
-                Main.dust[num467].velocity.Y = num464;
+                Dust dust2 = Main.dust[num467];
+                dust2.noGravity = true;
+                dust2.position.X = projectile.Center.X;
+                dust2.position.Y = projectile.Center.Y;
+                dust2.position.X += (float)Main.rand.Next(-10, 11);
+                dust2.position.Y += (float)Main.rand.Next(-10, 11);
+                dust2.velocity.X = num463;
+                dust2.velocity.Y = num464;
             }
         }
     }

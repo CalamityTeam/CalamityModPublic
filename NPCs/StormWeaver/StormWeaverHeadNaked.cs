@@ -1,9 +1,9 @@
-﻿using CalamityMod.Items.LoreItems;
+﻿using CalamityMod.Items.Armor.Vanity;
+using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.World;
-using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
@@ -635,6 +635,7 @@ namespace CalamityMod.NPCs.StormWeaver
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<WeaverTrophy>(), 10);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<StormWeaverMask>(), 7);
 
                 // Other
                 bool lastSentinelKilled = CalamityWorld.downedSentinel1 && !CalamityWorld.downedSentinel2 && CalamityWorld.downedSentinel3;

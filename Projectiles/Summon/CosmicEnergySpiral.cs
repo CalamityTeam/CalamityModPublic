@@ -37,23 +37,23 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
+            Player player = Main.player[projectile.owner];
+            CalamityPlayer modPlayer = player.Calamity();
             Lighting.AddLight((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16, (float)Main.DiscoR / 255f, (float)Main.DiscoG / 255f, (float)Main.DiscoB / 255f);
             if (projectile.localAI[0] == 0f)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = Main.player[projectile.owner].minionDamage;
+                projectile.Calamity().spawnedPlayerMinionDamageValue = (player.allDamage + player.minionDamage - 1f);
                 projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
                 projectile.localAI[0] += 1f;
             }
-            if (Main.player[projectile.owner].minionDamage != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if ((player.allDamage + player.minionDamage - 1f) != projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
                 int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
                     projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    Main.player[projectile.owner].minionDamage);
+                    (player.allDamage + player.minionDamage - 1f));
                 projectile.damage = damage2;
             }
             bool flag64 = projectile.type == ModContent.ProjectileType<CosmicEnergySpiral>();
-            Player player = Main.player[projectile.owner];
-            CalamityPlayer modPlayer = player.Calamity();
             player.AddBuff(ModContent.BuffType<CosmicEnergy>(), 3600);
             if (flag64)
             {

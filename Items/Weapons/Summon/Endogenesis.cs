@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Summon
                                "Changes attack modes by resummoning or reusing the staff \n" +
                                "The first mode makes it shoot sweeping lasers aimed at the enemy \n" +
                                "The second mode sacrifices its limbs to shoot out homing projectiles \n" +
-                               "The third mode allows it to agressively tackle it's enemies \n" +
+                               "The third mode allows it to agressively tackle its enemies \n" +
                                "The fourth mode makes the limbs function as endothermic flamethrowers \n" +
                                "Requires 10 minion slots to be summoned \n" +
                                "There can only be one \n" +
@@ -37,12 +37,12 @@ namespace CalamityMod.Items.Weapons.Summon
 
             item.summon = true;
             item.mana = 80;
-            item.damage = 8000;
+            item.damage = 7000;
             item.knockBack = 4f;
             item.crit += 18;
             item.autoReuse = true;
-            item.useTime = 35;
-            item.useAnimation = 35;
+            item.useTime = 36;
+            item.useAnimation = 36;
             item.shoot = ModContent.ProjectileType<EndoCooperBody>();
             item.shootSpeed = 10f;
 
@@ -65,7 +65,7 @@ namespace CalamityMod.Items.Weapons.Summon
                 Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
                 vector2.X = Main.mouseX + Main.screenPosition.X;
                 vector2.Y = Main.mouseY + Main.screenPosition.Y;
-                for (int x = 0; x < Main.npc.Length; x++)
+                for (int x = 0; x < Main.projectile.Length; x++)
                 {
                     Projectile projectile = Main.projectile[x];
                     if (projectile.active && projectile.owner == player.whoAmI && (projectile.type == ModContent.ProjectileType<EndoCooperBody>() || projectile.type == ModContent.ProjectileType<EndoCooperLimbs>() || projectile.type == ModContent.ProjectileType<EndoBeam>()))
@@ -73,8 +73,17 @@ namespace CalamityMod.Items.Weapons.Summon
                         projectile.Kill();
                     }
                 }
-                int body = Projectile.NewProjectile(vector2.X, vector2.Y, 0f, 0f, type, damage, knockBack, player.whoAmI, AttackMode, 0f);
-                int limbs = Projectile.NewProjectile(vector2.X, vector2.Y, 0f, 0f, ModContent.ProjectileType<EndoCooperLimbs>(), damage, knockBack, player.whoAmI, AttackMode, body);
+                float dmgMult = 1f;
+				if (AttackMode == 0) //lasers
+					dmgMult = 0.65f;
+				if (AttackMode == 1) //icicles
+					dmgMult = 1f;
+				if (AttackMode == 2) //melee
+					dmgMult = 1f;
+				if (AttackMode == 3) //flamethrower
+					dmgMult = 1f;
+                int body = Projectile.NewProjectile(vector2.X, vector2.Y, 0f, 0f, type, (int)(damage * dmgMult), knockBack, player.whoAmI, AttackMode, 0f);
+                int limbs = Projectile.NewProjectile(vector2.X, vector2.Y, 0f, 0f, ModContent.ProjectileType<EndoCooperLimbs>(), (int)(damage * dmgMult), knockBack, player.whoAmI, AttackMode, body);
                 Main.projectile[body].ai[1] = limbs;
                 AttackMode++;
                 if (AttackMode > 3)
@@ -95,6 +104,7 @@ namespace CalamityMod.Items.Weapons.Summon
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
+
         public override bool AltFunctionUse(Player player)
         {
             return true;

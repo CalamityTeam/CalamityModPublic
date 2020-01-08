@@ -10,6 +10,7 @@ using CalamityMod.NPCs.AquaticScourge;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Items.Armor.Vanity;
 
 namespace CalamityMod.Items.TreasureBags
 {
@@ -65,7 +66,7 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItemChance(player, ModContent.ItemType<AeroStone>(), 8);
 
             // Vanity
-            // there is no Aquatic Scourge mask yet
+            DropHelper.DropItemChance(player, ModContent.ItemType<AquaticScourgeMask>(), 7);
 
             // Fishing
             DropHelper.DropItemChance(player, ItemID.HighTestFishingLine, 10);

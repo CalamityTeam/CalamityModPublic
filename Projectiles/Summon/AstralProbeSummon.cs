@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Summon
             CalamityPlayer modPlayer = player.Calamity();
             if (projectile.localAI[0] == 0f)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = player.minionDamage;
+                projectile.Calamity().spawnedPlayerMinionDamageValue = (player.allDamage + player.minionDamage - 1f);
                 projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
                 int num226 = 36;
                 for (int num227 = 0; num227 < num226; num227++)
@@ -54,11 +54,11 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 projectile.localAI[0] += 1f;
             }
-            if (player.minionDamage != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if ((player.allDamage + player.minionDamage - 1f) != projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
                 int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
                     projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    player.minionDamage);
+                    (player.allDamage + player.minionDamage - 1f));
                 projectile.damage = damage2;
             }
             bool flag64 = projectile.type == ModContent.ProjectileType<AstralProbeSummon>();
@@ -74,10 +74,10 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.timeLeft = 2;
                 }
             }
-            float num633 = 700f;
+            float num633 = 1000f;
             float num634 = 1300f;
             float num635 = 2600f;
-            float num636 = 600f;
+            float num636 = 700f;
             Vector2 vector46 = projectile.position;
             bool flag25 = false;
             if (player.HasMinionAttackTargetNPC)
@@ -95,7 +95,7 @@ namespace CalamityMod.Projectiles.Summon
             }
             else
             {
-                for (int num645 = 0; num645 < 200; num645++)
+                for (int num645 = 0; num645 < Main.npc.Length; num645++)
                 {
                     NPC nPC2 = Main.npc[num645];
                     if (nPC2.CanBeChasedBy(projectile, false))
@@ -155,9 +155,9 @@ namespace CalamityMod.Projectiles.Summon
             }
             if (projectile.ai[1] > 0f)
             {
-                projectile.ai[1] += (float)Main.rand.Next(1, 4);
+                projectile.ai[1] += (float)Main.rand.Next(1, 3);
             }
-            if (projectile.ai[1] > 90f)
+            if (projectile.ai[1] > 80f)
             {
                 projectile.ai[1] = 0f;
                 projectile.netUpdate = true;

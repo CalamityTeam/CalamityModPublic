@@ -84,25 +84,22 @@ namespace CalamityMod.Projectiles.Rogue
 			if (Main.rand.NextBool(4))
 			{
 				int num199 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 89, 0f, 0f, 100, default, 1f);
-				Dust expr_8976_cp_0 = Main.dust[num199];
-				expr_8976_cp_0.position.X -= 2f;
-				Dust expr_8994_cp_0 = Main.dust[num199];
-				expr_8994_cp_0.position.Y += 2f;
-				Main.dust[num199].scale += (float)Main.rand.Next(50) * 0.01f;
-				Main.dust[num199].noGravity = true;
-				Dust expr_89E7_cp_0 = Main.dust[num199];
-				expr_89E7_cp_0.velocity.Y -= 2f;
+				Dust dust = Main.dust[num199];
+				dust.position.X -= 2f;
+				dust.position.Y += 2f;
+				dust.scale += (float)Main.rand.Next(50) * 0.01f;
+				dust.noGravity = true;
+				dust.velocity.Y -= 2f;
 			}
             if (Main.rand.NextBool(10))
             {
                 int num200 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 89, 0f, 0f, 100, default, 1f);
-                Dust expr_8A4E_cp_0 = Main.dust[num200];
-                expr_8A4E_cp_0.position.X -= 2f;
-                Dust expr_8A6C_cp_0 = Main.dust[num200];
-                expr_8A6C_cp_0.position.Y += 2f;
-                Main.dust[num200].scale += 0.3f + (float)Main.rand.Next(50) * 0.01f;
-                Main.dust[num200].noGravity = true;
-                Main.dust[num200].velocity *= 0.1f;
+                Dust dust = Main.dust[num200];
+                dust.position.X -= 2f;
+                dust.position.Y += 2f;
+                dust.scale += 0.3f + (float)Main.rand.Next(50) * 0.01f;
+                dust.noGravity = true;
+                dust.velocity *= 0.1f;
             }
             if ((double)projectile.velocity.Y < 0.25 && (double)projectile.velocity.Y > 0.15)
             {

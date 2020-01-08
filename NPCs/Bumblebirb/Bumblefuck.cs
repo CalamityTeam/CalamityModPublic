@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
@@ -128,6 +129,9 @@ namespace CalamityMod.NPCs.Bumblebirb
             {
                 // Materials
                 DropHelper.DropItemSpray(npc, ModContent.ItemType<EffulgentFeather>(), 6, 11);
+
+                // Vanity
+                DropHelper.DropItemChance(npc, ModContent.ItemType<BumblefuckMask>(), 7);
 
                 // Weapons
                 DropHelper.DropItemFromSet(npc, ModContent.ItemType<GildedProboscis>(), ModContent.ItemType<GoldenEagle>(), ModContent.ItemType<RougeSlash>());

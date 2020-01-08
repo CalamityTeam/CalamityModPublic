@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.SummonItems;
 using CalamityMod.Projectiles.Boss;
@@ -424,6 +425,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
         public override void NPCLoot()
         {
             // Profaned Guardians have no actual drops and no treasure bag
+            DropHelper.DropItemChance(npc, ModContent.ItemType<ProfanedGuardianMask>(), 7);
             DropHelper.DropItem(npc, ModContent.ItemType<ProfanedCore>());
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeProfanedGuardians>(), true, !CalamityWorld.downedGuardians);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedGuardians, 5, 2, 1);

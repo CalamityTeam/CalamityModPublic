@@ -388,7 +388,7 @@ namespace CalamityMod.CalPlayer
 						if (!tentaclesPresent[i])
 						{
 							float modifier = player.meleeDamage + player.magicDamage + player.rangedDamage +
-								modPlayer.throwingDamage + player.minionDamage;
+								modPlayer.throwingDamage + player.minionDamage + ((player.allDamage - 1f) * 5f);
 
 							modifier /= 5f;
 							int damage = (int)(666 * modifier);
@@ -543,16 +543,15 @@ namespace CalamityMod.CalPlayer
 				for (int j = 0; j < 2; j++)
 				{
 					int num = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 157, 0f, 0f, 100, new Color(Main.DiscoR, 203, 103), 2f);
-					Dust expr_A4_cp_0 = Main.dust[num];
-					expr_A4_cp_0.position.X += (float)Main.rand.Next(-20, 21);
-					Dust expr_CB_cp_0 = Main.dust[num];
-					expr_CB_cp_0.position.Y += (float)Main.rand.Next(-20, 21);
-					Main.dust[num].velocity *= 0.9f;
-					Main.dust[num].noGravity = true;
-					Main.dust[num].scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
-					Main.dust[num].shader = GameShaders.Armor.GetSecondaryShader(player.cWaist, player);
+					Dust dust = Main.dust[num];
+					dust.position.X += (float)Main.rand.Next(-20, 21);
+					dust.position.Y += (float)Main.rand.Next(-20, 21);
+					dust.velocity *= 0.9f;
+					dust.noGravity = true;
+					dust.scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
+					dust.shader = GameShaders.Armor.GetSecondaryShader(player.cWaist, player);
 					if (Main.rand.NextBool(2))
-						Main.dust[num].scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
+						dust.scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
 				}
 			}
 
@@ -624,16 +623,15 @@ namespace CalamityMod.CalPlayer
 					for (int j = 0; j < 2; j++)
 					{
 						int num = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 5, 0f, 0f, 100, default, 2f);
-						Dust expr_A4_cp_0 = Main.dust[num];
-						expr_A4_cp_0.position.X += (float)Main.rand.Next(-20, 21);
-						Dust expr_CB_cp_0 = Main.dust[num];
-						expr_CB_cp_0.position.Y += (float)Main.rand.Next(-20, 21);
-						Main.dust[num].velocity *= 0.9f;
-						Main.dust[num].noGravity = true;
-						Main.dust[num].scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
-						Main.dust[num].shader = GameShaders.Armor.GetSecondaryShader(player.cWaist, player);
+						Dust dust = Main.dust[num];
+						dust.position.X += (float)Main.rand.Next(-20, 21);
+						dust.position.Y += (float)Main.rand.Next(-20, 21);
+						dust.velocity *= 0.9f;
+						dust.noGravity = true;
+						dust.scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
+						dust.shader = GameShaders.Armor.GetSecondaryShader(player.cWaist, player);
 						if (Main.rand.NextBool(2))
-							Main.dust[num].scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
+							dust.scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
 					}
 				}
 			}
@@ -1211,7 +1209,7 @@ namespace CalamityMod.CalPlayer
 			// Gravistar Sabaton effects
 			if (modPlayer.gSabaton)
 			{
-				if (modPlayer.gSabatonCooldown <= 0)
+				if (modPlayer.gSabatonCooldown <= 0 && !player.mount.Active)
 				{
 					if (player.controlDown && player.releaseDown && player.position.Y != player.oldPosition.Y)
 					{
@@ -2458,7 +2456,7 @@ namespace CalamityMod.CalPlayer
 					{
 						float ai1 = (float)(I * 120);
 						Projectile.NewProjectile(player.Center.X + (float)(Math.Sin(I * 120) * 550), player.Center.Y + (float)(Math.Cos(I * 120) * 550), 0f, 0f,
-							ModContent.ProjectileType<GhostlyMine>(), (int)((modPlayer.auricSet ? 15000f : 5000f) * player.minionDamage), 1f, player.whoAmI, ai1, 0f);
+							ModContent.ProjectileType<GhostlyMine>(), (int)((modPlayer.auricSet ? 15000f : 5000f) * (player.allDamage + player.minionDamage - 1f)), 1f, player.whoAmI, ai1, 0f);
 					}
 				}
 			}
@@ -2677,7 +2675,7 @@ namespace CalamityMod.CalPlayer
 						player.AddBuff(ModContent.BuffType<YharonKindleBuff>(), 3600, true);
 
 					if (player.ownedProjectileCounts[ModContent.ProjectileType<SonOfYharon>()] < 2)
-						Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<SonOfYharon>(), (int)(232f * player.minionDamage), 2f, Main.myPlayer, 0f, 0f);
+						Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<SonOfYharon>(), (int)(232f * (player.allDamage + player.minionDamage - 1f)), 2f, Main.myPlayer, 0f, 0f);
 				}
 			}
 
@@ -2701,7 +2699,7 @@ namespace CalamityMod.CalPlayer
 							player.AddBuff(ModContent.BuffType<GuardianDefense>(), 3600, true);
 
 						if (player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianDefense>()] < 1)
-							Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -3f, ModContent.ProjectileType<MiniGuardianDefense>(), (int)(baseDamage * player.minionDamage), 1f, Main.myPlayer, 0f, 0f);
+							Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -3f, ModContent.ProjectileType<MiniGuardianDefense>(), (int)(baseDamage * (player.allDamage + player.minionDamage - 1f)), 1f, Main.myPlayer, 0f, 0f);
 					}
 
 					if (modPlayer.tarraSummon || modPlayer.bloodflareSummon || modPlayer.godSlayerSummon || modPlayer.silvaSummon || modPlayer.dsSetBonus || modPlayer.omegaBlueSet || modPlayer.fearmongerSet)
@@ -2710,7 +2708,7 @@ namespace CalamityMod.CalPlayer
 							player.AddBuff(ModContent.BuffType<GuardianOffense>(), 3600, true);
 
 						if (player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianAttack>()] < 1)
-							Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<MiniGuardianAttack>(), (int)(baseDamage * player.minionDamage), 1f, Main.myPlayer, 0f, 0f);
+							Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<MiniGuardianAttack>(), (int)(baseDamage * (player.allDamage + player.minionDamage - 1f)), 1f, Main.myPlayer, 0f, 0f);
 					}
 				}
 			}
@@ -2738,7 +2736,7 @@ namespace CalamityMod.CalPlayer
 				if (player.whoAmI == Main.myPlayer)
 				{
 					if (player.ownedProjectileCounts[ModContent.ProjectileType<TeslaAura>()] < 1)
-						Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<TeslaAura>(), 25, 0f, Main.myPlayer, 0f, 0f);
+						Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<TeslaAura>(), 15, 0f, Main.myPlayer, 0f, 0f);
 				}
 			}
 			else if (player.ownedProjectileCounts[ModContent.ProjectileType<TeslaAura>()] != 0)

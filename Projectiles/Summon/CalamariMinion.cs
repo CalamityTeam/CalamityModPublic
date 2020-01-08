@@ -38,9 +38,11 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
+            Player player = Main.player[projectile.owner];
+            CalamityPlayer modPlayer = player.Calamity();
             if (projectile.localAI[1] == 0f)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = Main.player[projectile.owner].minionDamage; //66% = 1.66
+                projectile.Calamity().spawnedPlayerMinionDamageValue = (player.allDamage + player.minionDamage - 1f); //66% = 1.66
                 projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage; //300 * 1.66 = 498 (new value)
                 int num226 = 36;
                 for (int num227 = 0; num227 < num226; num227++)
@@ -55,11 +57,11 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 projectile.localAI[1] += 1f;
             }
-            if (Main.player[projectile.owner].minionDamage != projectile.Calamity().spawnedPlayerMinionDamageValue) //15% = 1.15 != 1.66
+            if ((player.allDamage + player.minionDamage - 1f) != projectile.Calamity().spawnedPlayerMinionDamageValue) //15% = 1.15 != 1.66
             {
                 int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue / //498
                     projectile.Calamity().spawnedPlayerMinionDamageValue * //1.66 498 / 1.66 = 300 (original value)
-                    Main.player[projectile.owner].minionDamage); //300 * 1.15 = 345 (new value)
+                    (player.allDamage + player.minionDamage - 1f)); //300 * 1.15 = 345 (new value)
                 projectile.damage = damage2;
             }
             projectile.frameCounter++;
@@ -73,8 +75,6 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.frame = 0;
             }
             bool flag64 = projectile.type == ModContent.ProjectileType<CalamariMinion>();
-            Player player = Main.player[projectile.owner];
-            CalamityPlayer modPlayer = player.Calamity();
             player.AddBuff(ModContent.BuffType<Calamari>(), 3600);
             if (flag64)
             {

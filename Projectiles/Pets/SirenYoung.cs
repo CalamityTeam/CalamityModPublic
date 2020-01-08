@@ -156,10 +156,7 @@ namespace CalamityMod.Projectiles.Pets
                     {
                         projectile.velocity.Y = 10f;
                     }
-                    float[] var_2_1C896_cp_0 = projectile.ai;
-                    int var_2_1C896_cp_1 = 1;
-                    float num73 = var_2_1C896_cp_0[var_2_1C896_cp_1];
-                    var_2_1C896_cp_0[var_2_1C896_cp_1] = num73 - 1f;
+                    projectile.ai[1] -= 1f;
                     if (projectile.ai[1] <= 0f)
                     {
                         projectile.ai[1] = 0f;

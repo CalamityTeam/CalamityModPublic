@@ -48,5 +48,10 @@ namespace CalamityMod.Projectiles.Boss
         {
             return new Color(255, 255, 255, projectile.alpha);
         }
+
+        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
+        {
+			target.Calamity().lastProjectileHit = projectile;
+		}
     }
 }

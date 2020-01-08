@@ -68,6 +68,7 @@ namespace CalamityMod.CalPlayer
         public int deathCount = 0;
 		public int actualMaxLife = 0;
 		public bool killSpikyBalls = false;
+		public Projectile lastProjectileHit;
 
 		// Stat Meter
 		public int[] damageStats = new int[5];
@@ -169,6 +170,7 @@ namespace CalamityMod.CalPlayer
         public bool perfmini = false;
         public bool akato = false;
         public bool leviPet = false;
+        public bool rotomPet = false;
         public bool sirenPet = false;
         public bool fox = false;
         public bool chibii = false;
@@ -630,6 +632,7 @@ namespace CalamityMod.CalPlayer
         public bool eAxe = false;
         public bool endoCooper = false;
         public bool SPG = false;
+        public bool sirius = false;
         public bool aChicken = false;
         public bool cLamp = false;
         public bool pGuy = false;
@@ -957,6 +960,7 @@ namespace CalamityMod.CalPlayer
             perfmini = false;
             akato = false;
             leviPet = false;
+            rotomPet = false;
             sirenPet = false;
             fox = false;
             chibii = false;
@@ -1366,6 +1370,7 @@ namespace CalamityMod.CalPlayer
             endoCooper = false;
             apexShark = false;
             SPG = false;
+            sirius = false;
             aChicken = false;
             cLamp = false;
             pGuy = false;
@@ -1421,6 +1426,8 @@ namespace CalamityMod.CalPlayer
 
             rageMode = false;
             adrenalineMode = false;
+
+			lastProjectileHit = null;
         }
         #endregion
 
@@ -1688,6 +1695,8 @@ namespace CalamityMod.CalPlayer
             elysianAegis = false;
             elysianGuard = false;
             #endregion
+
+			lastProjectileHit = null;
 
 
             if (CalamityWorld.bossRushActive)
@@ -3018,16 +3027,15 @@ namespace CalamityMod.CalPlayer
                 for (int j = 0; j < 25; j++)
                 {
                     int num = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 173, 0f, 0f, 100, default, 2f);
-                    Dust expr_A4_cp_0 = Main.dust[num];
-                    expr_A4_cp_0.position.X += (float)Main.rand.Next(-20, 21);
-                    Dust expr_CB_cp_0 = Main.dust[num];
-                    expr_CB_cp_0.position.Y += (float)Main.rand.Next(-20, 21);
-                    Main.dust[num].velocity *= 0.9f;
-                    Main.dust[num].scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
-                    Main.dust[num].shader = GameShaders.Armor.GetSecondaryShader(player.cWaist, player);
+                    Dust dust = Main.dust[num];
+                    dust.position.X += (float)Main.rand.Next(-20, 21);
+                    dust.position.Y += (float)Main.rand.Next(-20, 21);
+                    dust.velocity *= 0.9f;
+                    dust.scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
+                    dust.shader = GameShaders.Armor.GetSecondaryShader(player.cWaist, player);
                     if (Main.rand.NextBool(2))
                     {
-                        Main.dust[num].scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
+                        dust.scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
                     }
                 }
                 player.statLife += 100;
@@ -3044,16 +3052,15 @@ namespace CalamityMod.CalPlayer
                 for (int j = 0; j < 50; j++)
                 {
                     int num = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 173, 0f, 0f, 100, default, 2f);
-                    Dust expr_A4_cp_0 = Main.dust[num];
-                    expr_A4_cp_0.position.X += (float)Main.rand.Next(-20, 21);
-                    Dust expr_CB_cp_0 = Main.dust[num];
-                    expr_CB_cp_0.position.Y += (float)Main.rand.Next(-20, 21);
-                    Main.dust[num].velocity *= 0.9f;
-                    Main.dust[num].scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
-                    Main.dust[num].shader = GameShaders.Armor.GetSecondaryShader(player.cWaist, player);
+                    Dust dust = Main.dust[num];
+                    dust.position.X += (float)Main.rand.Next(-20, 21);
+                    dust.position.Y += (float)Main.rand.Next(-20, 21);
+                    dust.velocity *= 0.9f;
+                    dust.scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
+                    dust.shader = GameShaders.Armor.GetSecondaryShader(player.cWaist, player);
                     if (Main.rand.NextBool(2))
                     {
-                        Main.dust[num].scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
+                        dust.scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
                     }
                 }
                 int heal = draconicSurge ? player.statLifeMax2 : 150;
@@ -5632,29 +5639,22 @@ namespace CalamityMod.CalPlayer
                                 scaleFactor10 = 1f;
                             }
                             int num626 = Gore.NewGore(new Vector2(player.position.X + (float)(player.width / 2) - 24f, player.position.Y + (float)(player.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-                            Main.gore[num626].velocity *= scaleFactor10;
-                            Gore expr_13AB6_cp_0 = Main.gore[num626];
-                            expr_13AB6_cp_0.velocity.X += 1f;
-                            Gore expr_13AD6_cp_0 = Main.gore[num626];
-                            expr_13AD6_cp_0.velocity.Y += 1f;
+                            Gore gore = Main.gore[num626];
+                            gore.velocity *= scaleFactor10;
+                            gore.velocity.X += 1f;
+                            gore.velocity.Y += 1f;
                             num626 = Gore.NewGore(new Vector2(player.position.X + (float)(player.width / 2) - 24f, player.position.Y + (float)(player.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-                            Main.gore[num626].velocity *= scaleFactor10;
-                            Gore expr_13B79_cp_0 = Main.gore[num626];
-                            expr_13B79_cp_0.velocity.X -= 1f;
-                            Gore expr_13B99_cp_0 = Main.gore[num626];
-                            expr_13B99_cp_0.velocity.Y += 1f;
+                            gore.velocity *= scaleFactor10;
+                            gore.velocity.X -= 1f;
+                            gore.velocity.Y += 1f;
                             num626 = Gore.NewGore(new Vector2(player.position.X + (float)(player.width / 2) - 24f, player.position.Y + (float)(player.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-                            Main.gore[num626].velocity *= scaleFactor10;
-                            Gore expr_13C3C_cp_0 = Main.gore[num626];
-                            expr_13C3C_cp_0.velocity.X += 1f;
-                            Gore expr_13C5C_cp_0 = Main.gore[num626];
-                            expr_13C5C_cp_0.velocity.Y -= 1f;
+                            gore.velocity *= scaleFactor10;
+                            gore.velocity.X += 1f;
+                            gore.velocity.Y -= 1f;
                             num626 = Gore.NewGore(new Vector2(player.position.X + (float)(player.width / 2) - 24f, player.position.Y + (float)(player.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-                            Main.gore[num626].velocity *= scaleFactor10;
-                            Gore expr_13CFF_cp_0 = Main.gore[num626];
-                            expr_13CFF_cp_0.velocity.X -= 1f;
-                            Gore expr_13D1F_cp_0 = Main.gore[num626];
-                            expr_13D1F_cp_0.velocity.Y -= 1f;
+                            gore.velocity *= scaleFactor10;
+                            gore.velocity.X -= 1f;
+                            gore.velocity.Y -= 1f;
                         }
                     }
                 }
@@ -5789,40 +5789,41 @@ namespace CalamityMod.CalPlayer
                 player.AddBuff(ModContent.BuffType<BurntOut>(), 300, true);
             }
             bool hardMode = Main.hardMode;
+			int iFramesToAdd = 0;
             if (player.whoAmI == Main.myPlayer)
             {
                 if (cTracers && damage > 200)
                 {
-                    player.immuneTime += 60;
+                    iFramesToAdd += 60;
                 }
                 if (godSlayerThrowing && damage > 80)
                 {
-                    player.immuneTime += 30;
+                    iFramesToAdd += 30;
                 }
                 if (statigelSet && damage > 100)
                 {
-                    player.immuneTime += 30;
+                    iFramesToAdd += 30;
                 }
                 if (dAmulet)
                 {
                     if (damage == 1.0)
                     {
-                        player.immuneTime += 10;
+                        iFramesToAdd += 10;
                     }
                     else
                     {
-                        player.immuneTime += 20;
+                        iFramesToAdd += 20;
                     }
                 }
                 if (fabsolVodka)
                 {
                     if (damage == 1.0)
                     {
-                        player.immuneTime += 5;
+                        iFramesToAdd += 5;
                     }
                     else
                     {
-                        player.immuneTime += 10;
+                        iFramesToAdd += 10;
                     }
                 }
                 if (CalamityWorld.bossRushActive && Config.BossRushImmunityFrameCurse)
@@ -6113,10 +6114,23 @@ namespace CalamityMod.CalPlayer
                     }
                 }
             }
-
-			for (int k = 0; k < player.hurtCooldowns.Length; k++)
+			if (lastProjectileHit != null)
 			{
-				player.hurtCooldowns[k] = player.immuneTime;
+				switch (lastProjectileHit.modProjectile.cooldownSlot)
+				{
+					case 0:
+					case 1:
+						player.hurtCooldowns[lastProjectileHit.modProjectile.cooldownSlot] += iFramesToAdd;
+						break;
+					case -1:
+					default:
+						player.immuneTime += iFramesToAdd;
+						break;
+				}
+			}
+			else
+			{
+				player.immuneTime += iFramesToAdd;
 			}
         }
         #endregion
@@ -6403,7 +6417,7 @@ namespace CalamityMod.CalPlayer
                         Rectangle rect = nPC.getRect();
                         if (rectangle.Intersects(rect) && (nPC.noTileCollide || player.CanHit(nPC)))
                         {
-                            float num = 50f * player.meleeDamage;
+                            float num = 50f * (player.allDamage + player.meleeDamage - 1f);
                             float num2 = 3f;
                             bool crit = false;
                             if (player.kbGlove)
@@ -6451,7 +6465,7 @@ namespace CalamityMod.CalPlayer
                         Rectangle rect = nPC.getRect();
                         if (rectangle.Intersects(rect) && (nPC.noTileCollide || player.CanHit(nPC)))
                         {
-                            float num = 1500f * player.meleeDamage;
+                            float num = 1500f * (player.allDamage + player.meleeDamage - 1f);
                             float num2 = 15f;
                             bool crit = false;
                             if (player.kbGlove)
@@ -6502,7 +6516,7 @@ namespace CalamityMod.CalPlayer
                         Rectangle rect = nPC.getRect();
                         if (rectangle.Intersects(rect) && (nPC.noTileCollide || player.CanHit(nPC)))
                         {
-                            float num = 500f * player.meleeDamage;
+                            float num = 500f * (player.allDamage + player.meleeDamage - 1f);
                             float num2 = 12f;
                             bool crit = false;
                             if (player.kbGlove)
@@ -6552,7 +6566,7 @@ namespace CalamityMod.CalPlayer
                         Rectangle rect = nPC.getRect();
                         if (rectangle.Intersects(rect) && (nPC.noTileCollide || player.CanHit(nPC)))
                         {
-                            float num = 100f * player.meleeDamage;
+                            float num = 100f * (player.allDamage + player.meleeDamage - 1f);
                             float num2 = 9f;
                             bool crit = false;
                             if (player.kbGlove)
@@ -7287,7 +7301,7 @@ namespace CalamityMod.CalPlayer
 
                 rect.Width = 2;
                 rect.Inflate(6, 12);
-                float damage = 800f * player.minionDamage;
+                float damage = 800f * (player.allDamage + player.minionDamage - 1f);
                 float knockback = 10f;
                 int nPCImmuneTime = 30;
                 int playerImmuneTime = 6;
@@ -7303,7 +7317,7 @@ namespace CalamityMod.CalPlayer
 
                 rect2.Width = 2;
                 rect2.Inflate(6, 12);
-                float damage2 = 50f * player.minionDamage;
+                float damage2 = 50f * (player.allDamage + player.minionDamage - 1f);
                 float knockback2 = 8f;
                 int nPCImmuneTime2 = 30;
                 int playerImmuneTime2 = 6;
@@ -7319,7 +7333,7 @@ namespace CalamityMod.CalPlayer
 
                 rect2.Width = 2;
                 rect2.Inflate(6, 12);
-                float damage2 = 25f * player.minionDamage;
+                float damage2 = 25f * (player.allDamage + player.minionDamage - 1f);
                 float knockback2 = 5f;
                 int nPCImmuneTime2 = 30;
                 int playerImmuneTime2 = 6;

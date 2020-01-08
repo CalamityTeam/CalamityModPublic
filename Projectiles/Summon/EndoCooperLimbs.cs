@@ -87,10 +87,10 @@ namespace CalamityMod.Projectiles.Summon
             }
 
             //Damage Update
-            if (player.minionDamage != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if ((player.allDamage + player.minionDamage - 1f) != projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
                 int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue * player.minionDamage);
+                    projectile.Calamity().spawnedPlayerMinionDamageValue * (player.allDamage + player.minionDamage - 1f));
                 projectile.damage = damage2;
             }
 
@@ -154,12 +154,9 @@ namespace CalamityMod.Projectiles.Summon
             target.AddBuff(BuffID.Frostburn, 180);
         }
 
-        public override bool? CanHitNPC(NPC target)
+        public override bool CanDamage()
         {
-            if (AttackMode == 2 && !target.townNPC && target.type != NPCID.DD2EterniaCrystal && !target.immortal && !target.dontTakeDamage)
-                return true;
-            else
-                return false;
+            return AttackMode == 2;
         }
 
         private void SpawnShards()

@@ -2460,7 +2460,7 @@ namespace CalamityMod.NPCs
 				{
 					damage = (int)(damage * 0.2);
 				}
-				else if (projectile.type == ProjectileID.DD2BetsyArrow)
+				else if (projectile.type == ProjectileID.DD2BetsyArrow || projectile.type == ModContent.ProjectileType<PlaguenadeProj>())
 				{
 					damage = (int)(damage * 0.3);
 				}

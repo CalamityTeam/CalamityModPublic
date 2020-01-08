@@ -14,7 +14,7 @@ namespace CalamityMod.NPCs.Abyss
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Box Jellyfish");
-            Main.npcFrameCount[npc.type] = 5;
+            Main.npcFrameCount[npc.type] = 4;
         }
 
         public override void SetDefaults()
@@ -22,7 +22,7 @@ namespace CalamityMod.NPCs.Abyss
             npc.noGravity = true;
             npc.damage = 22;
             npc.width = 30;
-            npc.height = 30;
+            npc.height = 33;
             npc.defense = 5;
             npc.lifeMax = 45;
             npc.alpha = 20;

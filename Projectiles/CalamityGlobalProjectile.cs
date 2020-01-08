@@ -481,13 +481,13 @@ namespace CalamityMod.Projectiles
             {
                 if (setDamageValues)
                 {
-                    spawnedPlayerMinionDamageValue = Main.player[projectile.owner].minionDamage;
+                    spawnedPlayerMinionDamageValue = (Main.player[projectile.owner].allDamage + Main.player[projectile.owner].minionDamage - 1f);
                     spawnedPlayerMinionProjectileDamageValue = projectile.damage;
                     setDamageValues = false;
                 }
-                if (Main.player[projectile.owner].minionDamage != spawnedPlayerMinionDamageValue)
+                if ((Main.player[projectile.owner].allDamage + Main.player[projectile.owner].minionDamage - 1f) != spawnedPlayerMinionDamageValue)
                 {
-                    int damage2 = (int)((float)spawnedPlayerMinionProjectileDamageValue / spawnedPlayerMinionDamageValue * Main.player[projectile.owner].minionDamage);
+                    int damage2 = (int)((float)spawnedPlayerMinionProjectileDamageValue / spawnedPlayerMinionDamageValue * (Main.player[projectile.owner].allDamage + Main.player[projectile.owner].minionDamage - 1f));
                     projectile.damage = damage2;
                 }
             }
@@ -1574,6 +1574,13 @@ namespace CalamityMod.Projectiles
             }
         }
         #endregion
+
+		/*#ModifyHitPlayer
+        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
+        {
+			target.Calamity().lastProjectileHit = ModContent.ProjectileType<BrimstoneHellblast>();
+		}
+		#endregion*/
 
         #region CanDamage
         public override bool CanDamage(Projectile projectile)

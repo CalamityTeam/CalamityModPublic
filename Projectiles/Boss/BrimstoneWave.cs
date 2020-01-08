@@ -84,5 +84,10 @@ namespace CalamityMod.Projectiles.Boss
             target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 180);
             target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 120, true);
         }
+
+        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
+        {
+			target.Calamity().lastProjectileHit = projectile;
+		}
     }
 }

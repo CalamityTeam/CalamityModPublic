@@ -78,15 +78,14 @@ namespace CalamityMod.Projectiles.Typeless
                 num463 *= num466;
                 num464 *= num466;
                 int num467 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 127, 0f, 0f, 100, default, 1.5f);
-                Main.dust[num467].noGravity = true;
-                Main.dust[num467].position.X = projectile.Center.X;
-                Main.dust[num467].position.Y = projectile.Center.Y;
-                Dust expr_149DF_cp_0 = Main.dust[num467];
-                expr_149DF_cp_0.position.X += (float)Main.rand.Next(-10, 11);
-                Dust expr_14A09_cp_0 = Main.dust[num467];
-                expr_14A09_cp_0.position.Y += (float)Main.rand.Next(-10, 11);
-                Main.dust[num467].velocity.X = num463;
-                Main.dust[num467].velocity.Y = num464;
+                Dust dust = Main.dust[num467];
+                dust.noGravity = true;
+                dust.position.X = projectile.Center.X;
+                dust.position.Y = projectile.Center.Y;
+                dust.position.X += (float)Main.rand.Next(-10, 11);
+                dust.position.Y += (float)Main.rand.Next(-10, 11);
+                dust.velocity.X = num463;
+                dust.velocity.Y = num464;
                 num462++;
             }
         }

@@ -147,5 +147,10 @@ namespace CalamityMod.Projectiles.Boss
         {
             target.KillMe(PlayerDeathReason.ByOther(11), 1000.0, 0, false);
         }
+
+        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
+        {
+			target.Calamity().lastProjectileHit = projectile;
+		}
     }
 }

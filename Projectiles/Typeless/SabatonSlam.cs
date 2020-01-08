@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Typeless
     {
         public override void SetDefaults()
         {
-            projectile.width = 50;
+            projectile.width = 10;
             projectile.height = 50;
             projectile.friendly = true;
             projectile.timeLeft = 300;

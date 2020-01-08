@@ -1,6 +1,7 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -11,6 +12,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
     public class MicrowaveYoyo : ModProjectile
     {
         private const float Radius = 100f;
+        private SoundEffectInstance mmmmmm = null;
 
         public override void SetStaticDefaults()
         {
@@ -40,31 +42,49 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 
         public override void AI()
         {
-        	if (projectile.owner == Main.myPlayer)
-        	{
-            	Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<MicrowaveAura>(), (int)((double)projectile.damage * 0.5f), projectile.knockBack, projectile.owner, 0f, 0f);
+            // Sound is done manually, so that it can loop correctly.
+            if (mmmmmm is null)
+            {
+                mmmmmm = ModContent.GetSound("CalamityMod/Sounds/Custom/MMMMMMMMMMMMM").CreateInstance();
+                mmmmmm.IsLooped = true;
+                CalamityUtils.ApplySoundStats(ref mmmmmm, projectile.Center);
+                Main.PlaySoundInstance(mmmmmm);
+            }
+            else if(!mmmmmm.IsDisposed)
+                CalamityUtils.ApplySoundStats(ref mmmmmm, projectile.Center);
+            
+            // Spawn invisible but damaging aura projectile
+            if (projectile.owner == Main.myPlayer)
+            {
+                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<MicrowaveAura>(), (int)((double)projectile.damage * 0.5f), projectile.knockBack, projectile.owner, 0f, 0f);
+            }
 
-				//dust circle
-				int numDust = (int)(0.2f * MathHelper.TwoPi * Radius);
-				float angleIncrement = MathHelper.TwoPi / (float)numDust;
-				Vector2 dustOffset = new Vector2(Radius, 0f);
-				dustOffset = dustOffset.RotatedByRandom(MathHelper.TwoPi);
-				for (int i = 0; i < numDust; i++)
-				{
-					dustOffset = dustOffset.RotatedBy(angleIncrement);
-					int dustType = Utils.SelectRandom(Main.rand, new int[]
-					{
-						ModContent.DustType<AstralOrange>(),
-						ModContent.DustType<AstralBlue>()
-					});
-					int dust = Dust.NewDust(projectile.Center, 1, 1, dustType);
-					Main.dust[dust].position = projectile.Center + dustOffset;
-					Main.dust[dust].fadeIn = 1f;
-					Main.dust[dust].velocity *= 0.2f;
-					Main.dust[dust].scale = 0.1599999999f;
-				}
-			}
-		}
+            // Dust circle appears for all players, even though the aura projectile is only spawned by the owner
+            int numDust = (int)(0.2f * MathHelper.TwoPi * Radius);
+            float angleIncrement = MathHelper.TwoPi / (float)numDust;
+            Vector2 dustOffset = new Vector2(Radius, 0f);
+            dustOffset = dustOffset.RotatedByRandom(MathHelper.TwoPi);
+            for (int i = 0; i < numDust; i++)
+            {
+                dustOffset = dustOffset.RotatedBy(angleIncrement);
+                int dustType = Utils.SelectRandom(Main.rand, new int[]
+                {
+                        ModContent.DustType<AstralOrange>(),
+                        ModContent.DustType<AstralBlue>()
+                });
+                int dust = Dust.NewDust(projectile.Center, 1, 1, dustType);
+                Main.dust[dust].position = projectile.Center + dustOffset;
+                Main.dust[dust].fadeIn = 1f;
+                Main.dust[dust].velocity *= 0.2f;
+                Main.dust[dust].scale = 0.1599999999f;
+            }
+        }
+
+        public override void Kill(int timeLeft)
+        {
+            mmmmmm?.Stop();
+            mmmmmm?.Dispose();
+        }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {

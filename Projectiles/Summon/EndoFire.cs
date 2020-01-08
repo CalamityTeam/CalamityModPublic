@@ -74,26 +74,23 @@ namespace CalamityMod.Projectiles.Summon
                 {
 
                     int num299 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num297, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default, 0.8f);
+                    Dust dust = Main.dust[num299];
                     if (Main.rand.NextBool(3))
                     {
-                        Main.dust[num299].scale *= 1.5f;
-                        Dust expr_DBEF_cp_0 = Main.dust[num299];
-                        expr_DBEF_cp_0.velocity.X *= 1.2f;
-                        Dust expr_DC0F_cp_0 = Main.dust[num299];
-                        expr_DC0F_cp_0.velocity.Y *= 1.2f;
+                        dust.scale *= 1.5f;
+                        dust.velocity.X *= 1.2f;
+                        dust.velocity.Y *= 1.2f;
                     }
                     else
                     {
-                        Main.dust[num299].scale *= 0.85f;
+                        dust.scale *= 0.85f;
                     }
-                    Main.dust[num299].noGravity = true;
-                    Dust expr_DC74_cp_0 = Main.dust[num299];
-                    expr_DC74_cp_0.velocity.X *= 0.8f;
-                    Dust expr_DC94_cp_0 = Main.dust[num299];
-                    expr_DC94_cp_0.velocity.Y *= 0.8f;
-                    Main.dust[num299].scale *= num296;
-                    Main.dust[num299].velocity += projectile.velocity;
-                    Main.dust[num299].noLight = true;
+                    dust.noGravity = true;
+                    dust.velocity.X *= 0.8f;
+                    dust.velocity.Y *= 0.8f;
+                    dust.scale *= num296;
+                    dust.velocity += projectile.velocity;
+                    dust.noLight = true;
 
                 }
             }

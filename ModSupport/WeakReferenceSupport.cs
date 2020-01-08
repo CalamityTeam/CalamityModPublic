@@ -104,8 +104,8 @@ namespace CalamityMod
 				calamity, 
 				"Giant Clam", 
 				(Func<bool>)(() => CalamityWorld.downedCLAM), 
-				ItemID.None, 
-				ItemID.None, 
+				null, 
+				null, 
 				new List<int>() { ModContent.ItemType<Navystone>(), ModContent.ItemType<MolluskHusk>(), ModContent.ItemType<ClamCrusher>(), ModContent.ItemType<ClamorRifle>(), ModContent.ItemType<Poseidon>(), ModContent.ItemType<ShellfishStaff>(), ModContent.ItemType<GiantPearl>(), ModContent.ItemType<AmidiasPendant>()}, 
 				"Can spawn naturally in the Sunken Sea", 
 				"[c/7FFFD4:The Giant Clam returns into hiding in its grotto.]");
@@ -190,7 +190,7 @@ namespace CalamityMod
 				"Brimstone Elemental", 
 				(Func<bool>)(() => CalamityWorld.downedBrimstoneElemental), 
 				ModContent.ItemType<CharredIdol>(), 
-				new List<int>() {ModContent.ItemType<BrimstoneElementalTrophy>(), ModContent.ItemType<KnowledgeBrimstoneCrag>(), ModContent.ItemType<KnowledgeBrimstoneElemental>(), ModContent.ItemType<CharredRelic>()}, 
+				new List<int>() {ModContent.ItemType<BrimstoneElementalTrophy>(), ModContent.ItemType<BrimstoneWaifuMask>(), ModContent.ItemType<KnowledgeBrimstoneCrag>(), ModContent.ItemType<KnowledgeBrimstoneElemental>(), ModContent.ItemType<CharredRelic>()}, 
 				new List<int>() {ModContent.ItemType<BrimstoneWaifuBag>(), ItemID.SoulofFright, ModContent.ItemType<EssenceofChaos>(), ModContent.ItemType<Bloodstone>(), ModContent.ItemType<Brimlance>(), ModContent.ItemType<SeethingDischarge>(), ModContent.ItemType<Abaddon>(), ModContent.ItemType<RoseStone>(), ModContent.ItemType<Gehenna>(), ModContent.ItemType<Brimrose>(), ItemID.GreaterHealingPotion}, 
 				"Use a [i:" + ModContent.ItemType<CharredIdol>() + "] in the Brimstone Crag", 
 				"[c/DC143C:Brimstone Elemental withdraws to the ruins of her shrine.]");
@@ -204,7 +204,7 @@ namespace CalamityMod
 				"Aquatic Scourge", 
 				(Func<bool>)(() => CalamityWorld.downedAquaticScourge), 
 				ModContent.ItemType<Seafood>(), 
-				new List<int>() { ModContent.ItemType<AquaticScourgeTrophy>(), ModContent.ItemType<KnowledgeAquaticScourge>(), ModContent.ItemType<KnowledgeSulphurSea>()}, 
+				new List<int>() { ModContent.ItemType<AquaticScourgeTrophy>(), ModContent.ItemType<AquaticScourgeMask>(),  ModContent.ItemType<KnowledgeAquaticScourge>(), ModContent.ItemType<KnowledgeSulphurSea>()}, 
 				new List<int>() { ModContent.ItemType<AquaticScourgeBag>(), ModContent.ItemType<SulphurousSand>(), ItemID.SoulofSight, ModContent.ItemType<VictoryShard>(), ItemID.Coral, ItemID.Seashell, ItemID.Starfish, ModContent.ItemType<SubmarineShocker>(), ModContent.ItemType<Barinautical>(), ModContent.ItemType<Downpour>(), ModContent.ItemType<DeepseaStaff>(), ModContent.ItemType<ScourgeoftheSeas>(), ModContent.ItemType<SeasSearing>(), ModContent.ItemType<AeroStone>(), ModContent.ItemType<AquaticEmblem>(), ItemID.AnglerTackleBag, ItemID.HighTestFishingLine, ItemID.TackleBox, ItemID.AnglerEarring, ItemID.FishermansGuide, ItemID.WeatherRadio, ItemID.Sextant, ItemID.AnglerHat, ItemID.AnglerVest, ItemID.AnglerPants, ItemID.FishingPotion, ItemID.SonarPotion, ItemID.CratePotion, ItemID.GoldenBugNet, ItemID.GreaterHealingPotion}, 
 				"Use a [i:" + ModContent.ItemType<Seafood>() + "] in the Sulphuric Sea or wait for it to spawn in the Sulphuric Sea", 
 				"[c/F0E68C:The Aquatic Scourge swam back into the open ocean.]", 
@@ -214,7 +214,7 @@ namespace CalamityMod
 				bossChecklist.Call(
 				"AddBoss", 
 				9.7f, 
-				new List<int>() {ModContent.NPCType<Calamitas>()}, 
+				new List<int>() {ModContent.NPCType<CalamitasRun3>()}, 
 				calamity, 
 				"Calamitas", 
 				(Func<bool>)(() => CalamityWorld.downedCalamitas), 
@@ -246,7 +246,7 @@ namespace CalamityMod
 				calamity, 
 				"Leviathan", 
 				(Func<bool>)(() => CalamityWorld.downedLeviathan), 
-				ItemID.None, 
+				null, 
 				new List<int>() {ModContent.ItemType<LeviathanTrophy>(), ModContent.ItemType<LeviathanMask>(), ModContent.ItemType<KnowledgeOcean>(), ModContent.ItemType<KnowledgeLeviathanandSiren>()}, 
 				new List<int>() {ModContent.ItemType<LeviathanBag>(), ModContent.ItemType<Greentide>(), ModContent.ItemType<Leviatitan>(), ModContent.ItemType<SirensSong>(), ModContent.ItemType<Atlantis>(), ModContent.ItemType<BrackishFlask>(), ModContent.ItemType<LeviathanTeeth>(), ModContent.ItemType<LureofEnthrallment>(), ModContent.ItemType<LeviathanAmbergris>(), ModContent.ItemType<TheCommunity>(), ItemID.HotlineFishingHook, ItemID.BottomlessBucket, ItemID.SuperAbsorbantSponge, ItemID.FishingPotion, ItemID.SonarPotion, ItemID.CratePotion, ItemID.GreaterHealingPotion}, 
 				"By killing an unknown entity in the Ocean Biome", 
@@ -291,7 +291,7 @@ namespace CalamityMod
 				"Ravager", 
 				(Func<bool>)(() => CalamityWorld.downedScavenger), 
 				ModContent.ItemType<AncientMedallion>(), 
-				new List<int>() {ModContent.ItemType<RavagerTrophy>(), ModContent.ItemType<KnowledgeRavager>()}, 
+				new List<int>() {ModContent.ItemType<RavagerTrophy>(), ModContent.ItemType<RavagerMask>(), ModContent.ItemType<KnowledgeRavager>()}, 
 				new List<int>() {ModContent.ItemType<RavagerBag>(), ModContent.ItemType<Bloodstone>(), ModContent.ItemType<VerstaltiteBar>(), ModContent.ItemType<DraedonBar>(), ModContent.ItemType<CruptixBar>(), ModContent.ItemType<CoreofCinder>(), ModContent.ItemType<CoreofEleum>(), ModContent.ItemType<CoreofChaos>(), ModContent.ItemType<BarofLife>(), ModContent.ItemType<CoreofCalamity>(), ModContent.ItemType<UltimusCleaver>(), ModContent.ItemType<RealmRavager>(), ModContent.ItemType<Hematemesis>(), ModContent.ItemType<SpikecragStaff>(), ModContent.ItemType<CraniumSmasher>(), ModContent.ItemType<BloodPact>(), ModContent.ItemType<FleshTotem>(), ModContent.ItemType<BloodflareCore>(), ModContent.ItemType<InfernalBlood>(), ItemID.GreaterHealingPotion}, 
 				"Use an [i:" + ModContent.ItemType<AncientMedallion>() + "]", 
 				"[c/B22222:The automaton of misshapen victims went looking for the true perpetrator.]", 
@@ -322,6 +322,7 @@ namespace CalamityMod
 				ModContent.ItemType<ProfanedShard>(), 
 				ModContent.ItemType<KnowledgeProfanedGuardians>(), 
 				new List<int>() { ModContent.ItemType<ProfanedCore>(), ItemID.GreaterHealingPotion}, 
+				new List<int>() { ModContent.ItemType<ProfanedGuardianMask>() },
 				"Use a [i:" + ModContent.ItemType<ProfanedShard>() + "] in the Hallow or Underworld Biomes", 
 				"[c/FFA500:The guardians must protect their goddess at all costs.]", 
 				"CalamityMod/NPCs/ProfanedGuardians/ProfanedGuardians_BossChecklist");
@@ -335,7 +336,7 @@ namespace CalamityMod
 				"Bumblebirb", 
 				(Func<bool>)(() => CalamityWorld.downedBumble), 
 				ModContent.ItemType<BirbPheromones>(), 
-				new List<int>() {ModContent.ItemType<BumblebirbTrophy>(), ModContent.ItemType<KnowledgeBumblebirb>()}, 
+				new List<int>() {ModContent.ItemType<BumblebirbTrophy>(), ModContent.ItemType<BumblefuckMask>(), ModContent.ItemType<KnowledgeBumblebirb>()}, 
 				new List<int>() {ModContent.ItemType<BumblebirbBag>(), ModContent.ItemType<EffulgentFeather>(), ModContent.ItemType<GildedProboscis>(), ModContent.ItemType<GoldenEagle>(), ModContent.ItemType<RougeSlash>(), ModContent.ItemType<Swordsplosion>(), ModContent.ItemType<DynamoStemCells>(), ModContent.ItemType<RedLightningContainer>(), ItemID.SuperHealingPotion}, 
 				"Use [i:" + ModContent.ItemType<BirbPheromones>() + "] in the Jungle Biome", 
 				"[c/FFD700:The failed experiment returns into its reproductive routine.]");
@@ -364,7 +365,7 @@ namespace CalamityMod
 				"Ceaseless Void", 
 				(Func<bool>)(() => CalamityWorld.downedSentinel1), 
 				ModContent.ItemType<RuneofCos>(), 
-				new List<int>() {ModContent.ItemType<CeaselessVoidTrophy>(), ModContent.ItemType<KnowledgeSentinels>()}, 
+				new List<int>() {ModContent.ItemType<CeaselessVoidTrophy>(), ModContent.ItemType<CeaselessVoidMask>(), ModContent.ItemType<KnowledgeSentinels>()}, 
 				new List<int>() {ModContent.ItemType<DarkPlasma>(), ModContent.ItemType<MirrorBlade>(), ModContent.ItemType<ArcanumoftheVoid>(), ModContent.ItemType<TheEvolution>(), ItemID.SuperHealingPotion}, "Use a [i:" + ModContent.ItemType<RuneofCos>() + "] in the Dungeon", 
 				"[c/4B0082:The rift in time and space has moved away from your reach.]");
 
@@ -376,7 +377,7 @@ namespace CalamityMod
 				calamity, 
 				"Storm Weaver", 
 				(Func<bool>)(() => CalamityWorld.downedSentinel2), ModContent.ItemType<RuneofCos>(), 
-				new List<int>() {ModContent.ItemType<WeaverTrophy>(), ModContent.ItemType<KnowledgeSentinels>()}, 
+				new List<int>() {ModContent.ItemType<WeaverTrophy>(), ModContent.ItemType<StormWeaverMask>(), ModContent.ItemType<KnowledgeSentinels>()}, 
 				new List<int>() {ModContent.ItemType<ArmoredShell>(), ModContent.ItemType<TheStorm>(), ModContent.ItemType<StormDragoon>(), ItemID.SuperHealingPotion}, 
 				"Use a [i:" + ModContent.ItemType<RuneofCos>() + "] in Space", 
 				"[c/EE82EE:Storm Weaver hid itself once again within the stormfront.]", 
@@ -391,7 +392,7 @@ namespace CalamityMod
 				"Signus", 
 				(Func<bool>)(() => CalamityWorld.downedSentinel3), 
 				ModContent.ItemType<RuneofCos>(), 
-				new List<int>() {ModContent.ItemType<SignusTrophy>(), ModContent.ItemType<KnowledgeSentinels>()}, 
+				new List<int>() {ModContent.ItemType<SignusTrophy>(), ModContent.ItemType<SignusMask>(), ModContent.ItemType<KnowledgeSentinels>()}, 
 				new List<int>() {ModContent.ItemType<TwistingNether>(), ModContent.ItemType<Cosmilamp>(), ModContent.ItemType<CosmicKunai>(), ModContent.ItemType<SpectralVeil>(), ItemID.SuperHealingPotion}, 
 				"Use a [i:" + ModContent.ItemType<RuneofCos>() + "] in the Underworld", 
 				"[c/BA55D3:The Devourer's assassin has finished its easy task.]");
@@ -405,7 +406,7 @@ namespace CalamityMod
 				"Polterghast", 
 				(Func<bool>)(() => CalamityWorld.downedPolterghast), 
 				ModContent.ItemType<NecroplasmicBeacon>(), 
-				new List<int>() {ModContent.ItemType<PolterghastTrophy>(), ModContent.ItemType<KnowledgePolterghast>()}, 
+				new List<int>() {ModContent.ItemType<PolterghastTrophy>(), ModContent.ItemType<PolterghastMask>(), ModContent.ItemType<KnowledgePolterghast>()}, 
 				new List<int>() {ModContent.ItemType<PolterghastBag>(), ModContent.ItemType<RuinousSoul>(), ModContent.ItemType<Phantoplasm>(), ModContent.ItemType<TerrorBlade>(), ModContent.ItemType<BansheeHook>(), ModContent.ItemType<DaemonsFlame>(), ModContent.ItemType<FatesReveal>(), ModContent.ItemType<GhastlyVisage>(), ModContent.ItemType<EtherealSubjugator>(), ModContent.ItemType<GhoulishGouger>(), ModContent.ItemType<Affliction>(), ModContent.ItemType<Ectoheart>(), ItemID.SuperHealingPotion}, 
 				"Kill 30 phantom spirits or use a [i:" + ModContent.ItemType<NecroplasmicBeacon>() + "] in the Dungeon", 
 				"[c/B0E0E6:The volatile spirits disperse throughout the depths of the dungeon.]");
@@ -414,7 +415,7 @@ namespace CalamityMod
 				bossChecklist.Call(
 				"AddBoss", 
 				16f, 
-				new List<int>() {ModContent.NPCType<DevourerofGodsHead>(), ModContent.NPCType<DevourerofGodsBody>(), ModContent.NPCType<DevourerofGodsTail>()}, 
+				new List<int>() {ModContent.NPCType<DevourerofGodsHeadS>()}, 
 				calamity, 
 				"Devourer of Gods", 
 				(Func<bool>)(() => CalamityWorld.downedDoG), ModContent.ItemType<CosmicWorm>(), 
@@ -422,7 +423,8 @@ namespace CalamityMod
 				new List<int>() {ModContent.ItemType<DevourerofGodsBag>(), ModContent.ItemType<CosmiliteBar>(), ModContent.ItemType<CosmiliteBrick>(), ModContent.ItemType<Excelsus>(), ModContent.ItemType<EradicatorMelee>(), ModContent.ItemType<TheObliterator>(), ModContent.ItemType<Deathwind>(), ModContent.ItemType<DeathhailStaff>(), ModContent.ItemType<StaffoftheMechworm>(), ModContent.ItemType<Eradicator>(), ModContent.ItemType<Skullmasher>(), ModContent.ItemType<Norfleet>(), ModContent.ItemType<CosmicDischarge>(), ModContent.ItemType<NebulousCore>(), ModContent.ItemType<Fabsol>(), ModContent.ItemType<SupremeHealingPotion>()}, 
 				"Use a [i:" + ModContent.ItemType<CosmicWorm>() + "]", 
 				"[c/00FFFF:The Devourer of Gods has slain everyone and feasted on their essence.]", 
-				"CalamityMod/NPCs/DevourerofGods/DevourerofGods_BossChecklist");
+				"CalamityMod/NPCs/DevourerofGods/DevourerofGods_BossChecklist", 
+				"CalamityMod/NPCs/DevourerofGods/DevourerofGodsHead_Head_Boss");
 
 				//Yharon
 				bossChecklist.Call(

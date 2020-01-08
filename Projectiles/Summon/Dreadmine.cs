@@ -122,20 +122,39 @@ namespace CalamityMod.Projectiles.Summon
             bool flag49 = false;
             Vector2 center12 = new Vector2(0f, 0f);
             float num948 = 600f;
-            for (int num949 = 0; num949 < 200; num949++)
+            if (Main.player[projectile.owner].HasMinionAttackTargetNPC)
             {
-                if (Main.npc[num949].CanBeChasedBy(projectile, false))
+                NPC npc = Main.npc[Main.player[projectile.owner].MinionAttackTargetNPC];
+                if (npc.CanBeChasedBy(projectile, false))
                 {
-                    float num950 = Main.npc[num949].position.X + (float)(Main.npc[num949].width / 2);
-                    float num951 = Main.npc[num949].position.Y + (float)(Main.npc[num949].height / 2);
-                    float num952 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num950) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num951);
-                    if (num952 < num948)
-                    {
-                        num948 = num952;
-                        center12 = Main.npc[num949].Center;
-                        flag49 = true;
-                    }
-                }
+					float num950 = npc.position.X + (float)(npc.width / 2);
+					float num951 = npc.position.Y + (float)(npc.height / 2);
+					float num952 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num950) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num951);
+					if (num952 < num948)
+					{
+						num948 = num952;
+						center12 = npc.Center;
+						flag49 = true;
+					}
+				}
+			}
+			else
+			{
+				for (int num949 = 0; num949 < Main.npc.Length; num949++)
+				{
+					if (Main.npc[num949].CanBeChasedBy(projectile, false))
+					{
+						float num950 = Main.npc[num949].position.X + (float)(Main.npc[num949].width / 2);
+						float num951 = Main.npc[num949].position.Y + (float)(Main.npc[num949].height / 2);
+						float num952 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num950) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num951);
+						if (num952 < num948)
+						{
+							num948 = num952;
+							center12 = Main.npc[num949].Center;
+							flag49 = true;
+						}
+					}
+				}
             }
             if (flag49)
             {
@@ -193,29 +212,22 @@ namespace CalamityMod.Projectiles.Summon
                     scaleFactor10 = 1f;
                 }
                 int num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-                Main.gore[num626].velocity *= scaleFactor10;
-                Gore expr_13AB6_cp_0 = Main.gore[num626];
-                expr_13AB6_cp_0.velocity.X += 1f;
-                Gore expr_13AD6_cp_0 = Main.gore[num626];
-                expr_13AD6_cp_0.velocity.Y += 1f;
+                Gore gore = Main.gore[num626];
+                gore.velocity *= scaleFactor10;
+                gore.velocity.X += 1f;
+                gore.velocity.Y += 1f;
                 num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-                Main.gore[num626].velocity *= scaleFactor10;
-                Gore expr_13B79_cp_0 = Main.gore[num626];
-                expr_13B79_cp_0.velocity.X -= 1f;
-                Gore expr_13B99_cp_0 = Main.gore[num626];
-                expr_13B99_cp_0.velocity.Y += 1f;
+                gore.velocity *= scaleFactor10;
+                gore.velocity.X -= 1f;
+                gore.velocity.Y += 1f;
                 num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-                Main.gore[num626].velocity *= scaleFactor10;
-                Gore expr_13C3C_cp_0 = Main.gore[num626];
-                expr_13C3C_cp_0.velocity.X += 1f;
-                Gore expr_13C5C_cp_0 = Main.gore[num626];
-                expr_13C5C_cp_0.velocity.Y -= 1f;
+                gore.velocity *= scaleFactor10;
+                gore.velocity.X += 1f;
+                gore.velocity.Y -= 1f;
                 num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-                Main.gore[num626].velocity *= scaleFactor10;
-                Gore expr_13CFF_cp_0 = Main.gore[num626];
-                expr_13CFF_cp_0.velocity.X -= 1f;
-                Gore expr_13D1F_cp_0 = Main.gore[num626];
-                expr_13D1F_cp_0.velocity.Y -= 1f;
+                gore.velocity *= scaleFactor10;
+                gore.velocity.X -= 1f;
+                gore.velocity.Y -= 1f;
             }
         }
     }
