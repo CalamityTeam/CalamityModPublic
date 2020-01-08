@@ -125,8 +125,6 @@ namespace CalamityMod.Projectiles.Summon
             {
                 projectile.ai[1] += 1f;
                 projectile.extraUpdates = 1;
-                projectile.spriteDirection = projectile.direction;
-                projectile.rotation = projectile.velocity.ToRotation();
                 if (projectile.ai[1] > 60f)
                 {
                     projectile.ai[1] = 1f;
@@ -247,8 +245,8 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.velocity.Y = -0.05f;
                 }
             }
-            projectile.spriteDirection = projectile.direction;
-            projectile.rotation = projectile.velocity.ToRotation();
+            projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
+            projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
             if (projectile.ai[1] > 0f)
             {
                 projectile.ai[1] += (float)Main.rand.Next(1, 4);
@@ -274,15 +272,6 @@ namespace CalamityMod.Projectiles.Summon
                 }
             }
             
-        }
-
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-        {
-            Texture2D texture2D13 = Main.projectileTexture[projectile.type];
-            int num214 = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
-            int y6 = num214 * projectile.frame;
-            Main.spriteBatch.Draw(texture2D13, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, num214)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)num214 / 2f), projectile.scale, SpriteEffects.None, 0f);
-            return false;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
