@@ -64,7 +64,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             recipe.AddIngredient(ModContent.ItemType<BlissfulBombardier>());
             recipe.AddIngredient(ModContent.ItemType<AethersWhisper>());
             recipe.AddIngredient(ItemID.ElectrosphereLauncher);
-			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 5);
+			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
 			recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();
