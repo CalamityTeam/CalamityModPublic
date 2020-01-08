@@ -58,6 +58,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<SeafoamBomb>());
             recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 10);
             recipe.AddIngredient(ModContent.ItemType<SulphurousSand>(), 20);
             recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 10);
