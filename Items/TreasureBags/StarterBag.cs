@@ -1,6 +1,7 @@
 
 using CalamityMod.Items.DifficultyItems;
 using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Items.Weapons.Summon;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -36,7 +37,7 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItem(player, ItemID.WoodenArrow, 100);
             DropHelper.DropItem(player, ItemID.AmethystStaff);
             DropHelper.DropItem(player, ItemID.ManaCrystal);
-            DropHelper.DropItem(player, ItemID.SlimeStaff);
+            DropHelper.DropItem(player, ModContent.ItemType<WulfrumController>());
             DropHelper.DropItem(player, ModContent.ItemType<WulfrumKnife>(), 150);
 
             // Tools / Utility

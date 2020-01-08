@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.damage = 65;
+            item.damage = 42;
             item.mana = 10;
             item.width = 48;
             item.height = 56;
@@ -64,9 +64,9 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.TempestStaff);
+            recipe.AddIngredient(ModContent.ItemType<ForgottenApexWand>());
             recipe.AddIngredient(ModContent.ItemType<GrandScale>());
-            recipe.AddIngredient(ItemID.HallowedBar, 10);
+            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 10);
             recipe.AddIngredient(ItemID.AncientCloth, 5);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
