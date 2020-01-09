@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useTime = 12;
             item.width = 56;
             item.height = 56;
-            item.damage = 3599;
+            item.damage = 3001;
             item.melee = true;
             item.knockBack = 9.9f;
             item.UseSound = SoundID.Item1;
