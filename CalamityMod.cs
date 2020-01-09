@@ -1952,8 +1952,6 @@ namespace CalamityMod
                 ModContent.ProjectileType<RadiantStarKnife>(),
                 ModContent.ProjectileType<RadiantStar2>(),
                 ModContent.ProjectileType<ShatteredSunKnife>(),
-                ModContent.ProjectileType<ShatteredSun2>(),
-                ModContent.ProjectileType<ShatteredSun3>(),
                 ModContent.ProjectileType<StellarKnifeProj>(),
                 ModContent.ProjectileType<StormfrontRazorProjectile>(),
                 ModContent.ProjectileType<TarragonThrowingDartProjectile>(),
