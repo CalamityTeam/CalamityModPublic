@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Accessories
                 if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
                 {
                     line2.text = "Rogue projectiles create nanoblades as they travel\n" +
-                "Stealth strikes summon lunar flares and sparks on enemy hits\n" +
+                "Stealth strikes summon nanobeams and sparks on enemy hits\n" +
 				"Stealth strikes have +20 armor penetration, deal 5% more damage, and heal for 1 HP\n" +
                 "Rogue weapons have a chance to instantly kill normal enemies\n" +
                 "5% increased rogue damage, 5% increased rogue crit chance, and 15% increased rogue velocity\n" +
