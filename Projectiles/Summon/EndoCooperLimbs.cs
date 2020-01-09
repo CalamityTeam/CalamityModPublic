@@ -43,6 +43,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
+            Projectile body = Main.projectile[(int)projectile.ai[1]];
             //Apply the buff
             bool flag64 = projectile.type == ModContent.ProjectileType<EndoCooperLimbs>();
             Player player = Main.player[projectile.owner];
@@ -73,6 +74,18 @@ namespace CalamityMod.Projectiles.Summon
                 SpawnDust();
             }
 
+            //Rotation
+            if (AttackMode == 3)
+            {
+                projectile.rotation += 0.02f;
+            }
+            else
+            {
+                float rotateratio = 0.007f;
+                float rotation = (Math.Abs(body.velocity.X) + Math.Abs(body.velocity.Y)) * rotateratio;
+                projectile.rotation += rotation * body.direction;
+            }
+
             //Damage Update
             if ((player.allDamage + player.minionDamage - 1f) != projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
@@ -82,7 +95,7 @@ namespace CalamityMod.Projectiles.Summon
             }
 
             //Keep the limbs in place
-            Projectile body = Main.projectile[(int)projectile.ai[1]];
+            
             if (body.type != ModContent.ProjectileType<EndoCooperBody>() || !body.active)
                 projectile.Kill();
             projectile.Center = body.Center;
@@ -105,14 +118,11 @@ namespace CalamityMod.Projectiles.Summon
             //Flames
             if (projectile.ai[0] == 4f)
             {
-                SpawnFlames();                
+                SpawnFlames();
                 projectile.ai[0] = 0f;
             }
 
-            //Rotation
-            float rotateratio = AttackMode == 3 ? 0.01f : 0.007f;
-            float rotation = (Math.Abs(body.velocity.X) + Math.Abs(body.velocity.Y)) * rotateratio;
-            projectile.rotation += rotation * body.direction;
+            
         }
 
         public override void Kill(int timeLeft)

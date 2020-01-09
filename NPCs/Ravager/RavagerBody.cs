@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
@@ -637,6 +638,9 @@ namespace CalamityMod.NPCs.Ravager
                 // Equipment
                 DropHelper.DropItemChance(npc, ModContent.ItemType<BloodPact>(), 3);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<FleshTotem>(), 3);
+
+                // Vanity
+                DropHelper.DropItemChance(npc, ModContent.ItemType<RavagerMask>(), 7);
             }
 
             // Mark Ravager as dead

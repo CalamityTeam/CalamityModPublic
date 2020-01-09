@@ -8,6 +8,7 @@ using CalamityMod.NPCs.Bumblebirb;
 using CalamityMod.World;
 using Terraria;
 using Terraria.ModLoader;
+using CalamityMod.Items.Armor.Vanity;
 
 namespace CalamityMod.Items.TreasureBags
 {
@@ -50,6 +51,9 @@ namespace CalamityMod.Items.TreasureBags
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<DynamoStemCells>());
             DropHelper.DropItemCondition(player, ModContent.ItemType<RedLightningContainer>(), CalamityWorld.revenge);
+
+            // Vanity
+            DropHelper.DropItemChance(player, ModContent.ItemType<BumblefuckMask>(), 7);
         }
     }
 }

@@ -1,5 +1,6 @@
 
 using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Mounts;
 using CalamityMod.Items.Pets;
@@ -59,6 +60,7 @@ namespace CalamityMod.Items.TreasureBags
 
             // Vanity
             DropHelper.DropItemCondition(player, ModContent.ItemType<CharredRelic>(), CalamityWorld.revenge);
+            DropHelper.DropItemChance(player, ModContent.ItemType<BrimstoneWaifuMask>(), 7);
         }
     }
 }
