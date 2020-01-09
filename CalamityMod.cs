@@ -870,6 +870,8 @@ namespace CalamityMod
                 ModContent.ItemType<TotalityBreakers>(),
                 ModContent.ItemType<ProfanedPartisan>(),
                 ModContent.ItemType<BlastBarrel>(),
+                ModContent.ItemType<LatcherMine>(),
+                ModContent.ItemType<BouncingBetty>(),
                 ModContent.ItemType<HeliumFlash>()
             };
 
@@ -916,6 +918,8 @@ namespace CalamityMod
                 ModContent.ItemType<Icebreaker>(),
                 ModContent.ItemType<KelvinCatalyst>(),
                 ModContent.ItemType<FrostcrushValari>(),
+                ModContent.ItemType<Endogenesis>(),
+                ModContent.ItemType<FlurrystormCannon>(),
 				//Cryonic Bar set stuff, could potentially be removed
                 ModContent.ItemType<Trinity>(),
                 ModContent.ItemType<Shimmerspark>(),
@@ -1034,6 +1038,9 @@ namespace CalamityMod
                 ModContent.ItemType<PolarisParrotfish>(),
                 ModContent.ItemType<SparklingEmpress>(),
                 ModContent.ItemType<NastyCholla>(),
+                ModContent.ItemType<PoisonPack>(),
+                ModContent.ItemType<PlantationStaff>(),
+                ModContent.ItemType<SeasSearing>(),
                 ModContent.ItemType<YateveoBloom>()
             };
 
@@ -1976,6 +1983,8 @@ namespace CalamityMod
                 ModContent.ItemType<TotalityBreakers>(),
                 ModContent.ItemType<BlastBarrel>(),
                 ModContent.ItemType<Penumbra>(),
+                ModContent.ItemType<LatcherMine>(),
+                ModContent.ItemType<Supernova>(),
                 ModContent.ItemType<ShockGrenade>()
             };
 
@@ -1992,6 +2001,8 @@ namespace CalamityMod
                 ModContent.ProjectileType<ConsecratedWaterProjectile>(),
                 ModContent.ProjectileType<DesecratedWaterProj>(),
                 ModContent.ProjectileType<PenumbraBomb>(),
+                ModContent.ProjectileType<LatcherMineProjectile>(),
+                ModContent.ProjectileType<SupernovaBomb>(),
                 ModContent.ProjectileType<ShockGrenadeProjectile>()
             };
 
