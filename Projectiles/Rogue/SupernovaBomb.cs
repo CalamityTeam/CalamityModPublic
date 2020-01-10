@@ -73,7 +73,7 @@ namespace CalamityMod.Projectiles.Rogue
 				{
 					if (projectile.owner == Main.myPlayer)
 					{
-						Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0f, 2f, ModContent.ProjectileType<SupernovaHoming>(), (int)((double)projectile.damage * 0.6), projectile.knockBack, projectile.owner, 0f, 0f);
+						Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0f, 2f, ModContent.ProjectileType<SupernovaHoming>(), (int)((double)projectile.damage * 0.8), projectile.knockBack, projectile.owner, 0f, 0f);
 					}
 					stealthTimer = 8;
 				}
