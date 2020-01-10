@@ -392,7 +392,7 @@ namespace CalamityMod
 				(Func<bool>)(() => CalamityWorld.downedSentinel3), 
 				ModContent.ItemType<RuneofCos>(), 
 				new List<int>() {ModContent.ItemType<SignusTrophy>(), ModContent.ItemType<SignusMask>(), ModContent.ItemType<KnowledgeSentinels>()}, 
-				new List<int>() {ModContent.ItemType<TwistingNether>(), ModContent.ItemType<Cosmilamp>(), ModContent.ItemType<CosmicKunai>(), ModContent.ItemType<SpectralVeil>(), ItemID.SuperHealingPotion}, 
+				new List<int>() {ModContent.ItemType<TwistingNether>(), ModContent.ItemType<Cosmilamp>(), ModContent.ItemType<CosmicKunai>(), ModContent.ItemType<LanternoftheSoul>(), ModContent.ItemType<SpectralVeil>(), ItemID.SuperHealingPotion}, 
 				"Use a [i:" + ModContent.ItemType<RuneofCos>() + "] in the Underworld", 
 				"[c/BA55D3:The Devourer's assassin has finished its easy task.]");
 
