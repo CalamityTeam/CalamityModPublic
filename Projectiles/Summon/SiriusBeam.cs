@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Summon
         public override void AI()
         {
             projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] > 9f)
+            if (projectile.localAI[0] > 3f)
             {
                 for (int num447 = 0; num447 < 4; num447++)
                 {
