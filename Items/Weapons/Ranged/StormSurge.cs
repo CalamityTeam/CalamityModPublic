@@ -1,5 +1,6 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -32,6 +33,11 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.autoReuse = false;
             item.shoot = ModContent.ProjectileType<StormSurgeTornado>();
             item.shootSpeed = 12f;
+        }
+
+        public override Vector2? HoldoutOffset()
+        {
+            return new Vector2(-10, 0);
         }
 
         public override void AddRecipes()

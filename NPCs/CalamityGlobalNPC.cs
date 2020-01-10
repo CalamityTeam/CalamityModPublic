@@ -609,34 +609,31 @@ namespace CalamityMod.NPCs
             {
                 BossRushStatChanges(npc, mod);
             }
-            else
-            {
-                if (CalamityMod.enemyImmunityList.Contains(npc.type) || npc.boss)
-                {
-                    npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
-                    npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
-                    npc.buffImmune[ModContent.BuffType<TimeSlow>()] = true;
-                    npc.buffImmune[ModContent.BuffType<TeslaBuff>()] = true;
-                    npc.buffImmune[BuffID.Webbed] = true;
-                    npc.buffImmune[BuffID.Slow] = true;
-                }
+			if (CalamityMod.enemyImmunityList.Contains(npc.type) || npc.boss)
+			{
+				npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
+				npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
+				npc.buffImmune[ModContent.BuffType<TimeSlow>()] = true;
+				npc.buffImmune[ModContent.BuffType<TeslaBuff>()] = true;
+				npc.buffImmune[BuffID.Webbed] = true;
+				npc.buffImmune[BuffID.Slow] = true;
+			}
 
-                if (DestroyerIDs.Contains(npc.type) || npc.type == NPCID.DD2EterniaCrystal || npc.townNPC)
-                {
-                    for (int k = 0; k < npc.buffImmune.Length; k++)
-                    {
-                        npc.buffImmune[k] = true;
-                    }
+			if (DestroyerIDs.Contains(npc.type) || npc.type == NPCID.DD2EterniaCrystal || npc.townNPC)
+			{
+				for (int k = 0; k < npc.buffImmune.Length; k++)
+				{
+					npc.buffImmune[k] = true;
+				}
 
-                    if (npc.townNPC)
-                    {
-                        npc.buffImmune[BuffID.Wet] = false;
-                        npc.buffImmune[BuffID.Slimed] = false;
-                        npc.buffImmune[BuffID.Lovestruck] = false;
-                        npc.buffImmune[BuffID.Stinky] = false;
-                    }
-                }
-            }
+				if (npc.townNPC)
+				{
+					npc.buffImmune[BuffID.Wet] = false;
+					npc.buffImmune[BuffID.Slimed] = false;
+					npc.buffImmune[BuffID.Lovestruck] = false;
+					npc.buffImmune[BuffID.Stinky] = false;
+				}
+			}
 
 			if (npc.buffImmune[BuffID.Venom] == false)
 			{
