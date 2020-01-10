@@ -4258,7 +4258,7 @@ namespace CalamityMod.CalPlayer
                 {
                     if (item.melee)
                     {
-                        damageMult += CalamityWorld.death ? (DHorHoD ? 7.6 : 6.8) : (DHorHoD ? 2.3 : 2.0); // Death Mode values: 8.9 and 8.0, rev: 2.3 and 2.0
+                        damageMult += (DHorHoD ? 2.3 : 2.0);
                     }
                 }
                 else if (rageMode)
@@ -4266,10 +4266,10 @@ namespace CalamityMod.CalPlayer
                     if (item.melee)
                     {
                         double rageDamageBoost = 0.0 +
-                            (rageBoostOne ? (CalamityWorld.death ? 0.5 : 0.15) : 0.0) + // Death Mode values: 0.6, rev: 0.15
-                            (rageBoostTwo ? (CalamityWorld.death ? 0.5 : 0.15) : 0.0) + // Death Mode values: 0.6, rev: 0.15
-                            (rageBoostThree ? (CalamityWorld.death ? 0.5 : 0.15) : 0.0); // Death Mode values: 0.6, rev: 0.15
-                        double rageDamage = (CalamityWorld.death ? (DHorHoD ? 2.0 : 1.7) : (DHorHoD ? 0.65 : 0.5)) + rageDamageBoost; // Death Mode values: 2.3 and 2.0, rev: 0.65 and 0.5
+                            (rageBoostOne ? 0.15 : 0.0) +
+                            (rageBoostTwo ? 0.15 : 0.0) +
+                            (rageBoostThree ? 0.15 : 0.0);
+                        double rageDamage = (DHorHoD ? 0.65 : 0.5) + rageDamageBoost;
                         damageMult += rageDamage;
                     }
                 }
@@ -4277,7 +4277,7 @@ namespace CalamityMod.CalPlayer
                 {
                     if (item.melee)
                     {
-                        double damageMultAdr = (CalamityWorld.death ? 5.0 : 1.5) * (double)adrenalineDmgMult; // Death Mode values: 6, rev: 1.5
+                        double damageMultAdr = 1.5 * (double)adrenalineDmgMult;
                         damageMult += damageMultAdr;
                     }
                 }
@@ -4548,7 +4548,7 @@ namespace CalamityMod.CalPlayer
                 {
                     if (hasClassType)
                     {
-                        damageMult += CalamityWorld.death ? (DHorHoD ? 7.6 : 6.8) : (DHorHoD ? 2.3 : 2.0); // Death Mode values: 8.9 and 8.0, rev: 2.3 and 2.0
+                        damageMult += (DHorHoD ? 2.3 : 2.0);
                     }
                 }
                 else if (rageMode)
@@ -4556,10 +4556,10 @@ namespace CalamityMod.CalPlayer
                     if (hasClassType)
                     {
                         double rageDamageBoost = 0.0 +
-                            (rageBoostOne ? (CalamityWorld.death ? 0.5 : 0.15) : 0.0) + // Death Mode values: 0.6, rev: 0.15
-                            (rageBoostTwo ? (CalamityWorld.death ? 0.5 : 0.15) : 0.0) + // Death Mode values: 0.6, rev: 0.15
-                            (rageBoostThree ? (CalamityWorld.death ? 0.5 : 0.15) : 0.0); // Death Mode values: 0.6, rev: 0.15
-                        double rageDamage = (CalamityWorld.death ? (DHorHoD ? 2.0 : 1.7) : (DHorHoD ? 0.65 : 0.5)) + rageDamageBoost; // Death Mode values: 2.3 and 2.0, rev: 0.65 and 0.5
+                            (rageBoostOne ? 0.15 : 0.0) +
+                            (rageBoostTwo ? 0.15 : 0.0) +
+                            (rageBoostThree ? 0.15 : 0.0);
+                        double rageDamage = (DHorHoD ? 0.65 : 0.5) + rageDamageBoost;
                         damageMult += rageDamage;
                     }
                 }
@@ -4567,7 +4567,7 @@ namespace CalamityMod.CalPlayer
                 {
                     if (hasClassType)
                     {
-                        double damageMultAdr = (CalamityWorld.death ? 5.0 : 1.5) * (double)adrenalineDmgMult; // Death Mode values: 6, rev: 1.5
+                        double damageMultAdr = 1.5 * (double)adrenalineDmgMult;
                         damageMult += damageMultAdr;
                     }
                 }
