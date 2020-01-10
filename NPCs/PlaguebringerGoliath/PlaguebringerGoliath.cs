@@ -211,7 +211,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     }
 
                     while ((float)num596 == num595);
-                    if (num596 == 0 && ((double)npc.life <= (double)npc.lifeMax * 0.8 || CalamityWorld.death || CalamityWorld.bossRushActive) && distFromPlayer.Length() < 1800f)
+                    if (num596 == 0 && revenge && ((double)npc.life <= (double)npc.lifeMax * 0.8 || CalamityWorld.death || CalamityWorld.bossRushActive) && distFromPlayer.Length() < 1800f)
                     {
                         switch (Main.rand.Next(3))
                         {

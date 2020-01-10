@@ -87,7 +87,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             }
             else
             {
-                npc.dontTakeDamage = false;
+                npc.dontTakeDamage = Main.npc[(int)npc.ai[2]].dontTakeDamage;
             }
             if (npc.ai[3] > 0f)
             {
@@ -291,7 +291,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             player.AddBuff(BuffID.Darkness, 180, true);
 
             // TODO: don't talk if the player has iframes
-            if (player.immune)
+            if (player.immune || player.immuneTime > 0)
                 return;
 
             int num = Main.rand.Next(2);

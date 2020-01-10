@@ -259,7 +259,7 @@ namespace CalamityMod.NPCs.HiveMind
             npc.alpha = 0;
             phase2timer = 0;
             deceleration = npc.velocity / 255f * reelbackFade;
-            if (CalamityWorld.death || CalamityWorld.bossRushActive)
+            if (CalamityWorld.revenge || CalamityWorld.bossRushActive)
             {
                 state = 2;
                 Main.PlaySound(36, (int)npc.Center.X, (int)npc.Center.Y, -1, 1f, 0f);
@@ -305,16 +305,33 @@ namespace CalamityMod.NPCs.HiveMind
                     if (nextState == 0)
                     {
                         npc.TargetClosest(true);
-                        if (CalamityWorld.death || CalamityWorld.bossRushActive)
+                        if ((CalamityWorld.revenge && (double)npc.life < (double)npc.lifeMax * 0.66) || CalamityWorld.death || CalamityWorld.bossRushActive)
                         {
-                            do
-                                nextState = Main.rand.Next(3, 6);
-                            while (nextState == previousState);
-                            previousState = nextState;
+							if (CalamityWorld.death || CalamityWorld.bossRushActive)
+							{
+								do
+									nextState = Main.rand.Next(3, 6);
+								while (nextState == previousState);
+								previousState = nextState;
+							}
+							else if ((double)npc.life < (double)npc.lifeMax * 0.33)
+							{
+								do
+									nextState = Main.rand.Next(3, 6);
+								while (nextState == previousState);
+								previousState = nextState;
+							}
+							else
+							{
+								do
+									nextState = Main.rand.Next(3, 5);
+								while (nextState == previousState);
+								previousState = nextState;
+							}
                         }
                         else
                         {
-                            if (CalamityWorld.revenge && (Main.rand.NextBool(4) || reelCount == 3))
+                            if (CalamityWorld.revenge && (Main.rand.NextBool(3) || reelCount == 2))
                             {
                                 reelCount = 0;
                                 nextState = 2;
@@ -322,7 +339,14 @@ namespace CalamityMod.NPCs.HiveMind
                             else
                             {
                                 reelCount++;
-                                nextState = 1;
+								if (Main.expertMode && reelCount == 2)
+								{
+									reelCount = 0;
+									nextState = 2;
+								}
+								else
+									nextState = 1;
+
                                 npc.ai[1] = 0f;
                                 npc.ai[2] = 0f;
                             }
@@ -418,9 +442,9 @@ namespace CalamityMod.NPCs.HiveMind
                         npc.alpha = 255;
                         npc.velocity = Vector2.Zero;
                         dashStarted = false;
-                        if (CalamityWorld.death || CalamityWorld.bossRushActive)
+                        if ((CalamityWorld.revenge && (double)npc.life < (double)npc.lifeMax * 0.66) || CalamityWorld.death || CalamityWorld.bossRushActive)
                         {
-                            state = nextState;
+							state = nextState;
                             nextState = 0;
                             previousState = state;
                         }
@@ -436,7 +460,7 @@ namespace CalamityMod.NPCs.HiveMind
                             rotationDirection = player.direction;
                     }
                     break;
-                case 3: //rev lunge
+                case 3: //lunge
                     npc.netUpdate = true;
                     if (npc.alpha > 0)
                     {
@@ -482,7 +506,7 @@ namespace CalamityMod.NPCs.HiveMind
                         }
                     }
                     break;
-                case 4: //enemy spawn arc (death mode)
+                case 4: //enemy spawn arc
                     if (npc.alpha > 0)
                     {
                         npc.alpha -= 5;
@@ -537,7 +561,7 @@ namespace CalamityMod.NPCs.HiveMind
                         }
                     }
                     break;
-                case 5: //raindash (death mode)
+                case 5: //raindash
                     if (npc.alpha > 0)
                     {
                         npc.alpha -= 5;

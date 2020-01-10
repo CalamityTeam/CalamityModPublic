@@ -110,12 +110,19 @@ namespace CalamityMod.NPCs.Perforator
 				npc.timeLeft = 1800;
 			}
 
-			bool wormAlive = false;
-			if (NPC.AnyNPCs(ModContent.NPCType<PerforatorHeadLarge>()) || NPC.AnyNPCs(ModContent.NPCType<PerforatorHeadMedium>()) || NPC.AnyNPCs(ModContent.NPCType<PerforatorHeadSmall>()))
+			int wormsAlive = 0;
+			bool largeWormAlive = false;
+			if (NPC.AnyNPCs(ModContent.NPCType<PerforatorHeadLarge>()))
 			{
-				wormAlive = true;
+				wormsAlive++;
+				largeWormAlive = true;
 			}
-			if (wormAlive)
+			if (NPC.AnyNPCs(ModContent.NPCType<PerforatorHeadMedium>()))
+				wormsAlive++;
+			if (NPC.AnyNPCs(ModContent.NPCType<PerforatorHeadSmall>()))
+				wormsAlive++;
+
+			if (largeWormAlive)
 			{
 				npc.dontTakeDamage = true;
 			}
@@ -132,10 +139,11 @@ namespace CalamityMod.NPCs.Perforator
 					shoot += 3;
 				}
 				npc.localAI[0] += (float)Main.rand.Next(shoot);
-				if (npc.localAI[0] >= (float)Main.rand.Next(300, 900))
+				if (npc.localAI[0] >= (float)Main.rand.Next(300, 901) && npc.position.Y + (float)npc.height < player.position.Y && Vector2.Distance(player.Center, npc.Center) > 80f)
 				{
 					npc.localAI[0] = 0f;
 					Main.PlaySound(3, (int)npc.position.X, (int)npc.position.Y, 20);
+
 					for (int num621 = 0; num621 < 8; num621++)
 					{
 						int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 170, 0f, 0f, 100, default, 1f);
@@ -146,6 +154,7 @@ namespace CalamityMod.NPCs.Perforator
 							Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
 						}
 					}
+
 					for (int num623 = 0; num623 < 16; num623++)
 					{
 						int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 5, 0f, 0f, 100, default, 1.5f);
@@ -154,6 +163,7 @@ namespace CalamityMod.NPCs.Perforator
 						num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 5, 0f, 0f, 100, default, 1f);
 						Main.dust[num624].velocity *= 2f;
 					}
+
 					float num179 = 8f;
 					Vector2 value9 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 					float num180 = player.position.X + (float)player.width * 0.5f - value9.X;
@@ -168,6 +178,7 @@ namespace CalamityMod.NPCs.Perforator
 					int num185 = Main.rand.NextBool(2) ? ModContent.ProjectileType<IchorShot>() : ModContent.ProjectileType<BloodGeyser>();
 					value9.X += num180;
 					value9.Y += num182;
+
 					for (int num186 = 0; num186 < 20; num186++)
 					{
 						num180 = player.position.X + (float)player.width * 0.5f - value9.X;
@@ -183,28 +194,36 @@ namespace CalamityMod.NPCs.Perforator
 
 			npc.rotation = npc.velocity.X * 0.04f;
 			npc.spriteDirection = (npc.direction > 0) ? 1 : -1;
-			if (wormAlive)
+
+			if (revenge)
 			{
-				Movement(player, 4f, 1f, (CalamityWorld.bossRushActive ? 0.2f : 0.15f), 160f, 300f, 400f);
-			}
-			else
-			{
-				if (large)
+				if (wormsAlive == 1)
 				{
-					Movement(player, 5f, 1.5f, (CalamityWorld.bossRushActive ? 0.195f : 0.13f), 330f, 10f, 65f);
-				}
-				else if (medium)
-				{
-					Movement(player, 6f, 2f, (CalamityWorld.bossRushActive ? 0.18f : 0.12f), 320f, 15f, 60f);
-				}
-				else if (small)
-				{
-					Movement(player, 7f, 2.5f, (CalamityWorld.bossRushActive ? 0.165f : 0.11f), 310f, 20f, 55f);
+					Movement(player, 4f, 1f, (CalamityWorld.bossRushActive ? 0.2f : 0.15f), 160f, 300f, 400f);
 				}
 				else
 				{
-					Movement(player, 8f, 3f, (CalamityWorld.bossRushActive ? 0.15f : 0.1f), 300f, 25f, 50f);
+					if (large || CalamityWorld.death || CalamityWorld.bossRushActive)
+					{
+						Movement(player, 5f, 1.5f, (CalamityWorld.bossRushActive ? 0.195f : 0.13f), 360f, 10f, 50f);
+					}
+					else if (medium)
+					{
+						Movement(player, 6f, 2f, (CalamityWorld.bossRushActive ? 0.18f : 0.12f), 340f, 15f, 50f);
+					}
+					else if (small)
+					{
+						Movement(player, 7f, 2.5f, (CalamityWorld.bossRushActive ? 0.165f : 0.11f), 320f, 20f, 50f);
+					}
+					else
+					{
+						Movement(player, 8f, 3f, (CalamityWorld.bossRushActive ? 0.15f : 0.1f), 300f, 25f, 50f);
+					}
 				}
+			}
+			else
+			{
+				Movement(player, 4f, 1f, 0.1f, 160f, 300f, 400f);
 			}
 
 			if (npc.ai[3] == 0f && npc.life > 0)

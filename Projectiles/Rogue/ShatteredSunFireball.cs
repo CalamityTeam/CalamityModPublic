@@ -139,7 +139,7 @@ namespace CalamityMod.Projectiles.Rogue
             damage = (int)((double)damage * multiplier);
             if (projectile.Calamity().stealthStrike)
             {
-                int numProj = 5;
+                int numProj = 3;
                 float rotation = MathHelper.ToRadians(10);
                 if (projectile.owner == Main.myPlayer)
                 {
@@ -148,7 +148,7 @@ namespace CalamityMod.Projectiles.Rogue
                     {
                         Vector2 perturbedspeed = new Vector2(projectile.velocity.X, projectile.velocity.Y + Main.rand.Next(-3, 4)).RotatedBy(MathHelper.ToRadians(spread));
                         Vector2 position = Main.player[projectile.owner].position;
-                        Projectile.NewProjectile(position.X, position.Y - 10, perturbedspeed.X, perturbedspeed.Y, ModContent.ProjectileType<ShatteredSunFireball>(), projectile.damage, 1f, projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(position.X, position.Y - 10, perturbedspeed.X, perturbedspeed.Y, ModContent.ProjectileType<ShatteredSunFireball>(), (int)((double)projectile.damage * 0.3), 1f, projectile.owner, 0f, 0f);
                         spread -= Main.rand.Next(2, 6);
                     }
                     projectile.active = false;

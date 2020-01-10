@@ -90,7 +90,6 @@ namespace CalamityMod.NPCs.Calamitas
                 npc.netUpdate = true;
                 return false;
             }
-            Player player = Main.player[npc.target];
             NPC parent = Main.npc[NPC.FindFirstNPC(ModContent.NPCType<CalamitasRun3>())];
             double deg = (double)npc.ai[1];
             double rad = deg * (Math.PI / 180);

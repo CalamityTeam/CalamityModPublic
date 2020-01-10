@@ -131,7 +131,17 @@ namespace CalamityMod.NPCs.Signus
 
             Player player = Main.player[npc.target];
             npc.TargetClosest(true);
-            Vector2 vector142 = new Vector2(npc.Center.X, npc.Center.Y);
+
+			int targetLightStrength = player.Calamity().abyssLightLevelStat * 15;
+			if (revenge)
+			{
+				int fadeIn = (int)((double)lifeToAlpha * 1.5) - targetLightStrength;
+				if (fadeIn < 0)
+					fadeIn = 0;
+				Main.BlackFadeIn = fadeIn;
+			}
+
+			Vector2 vector142 = new Vector2(npc.Center.X, npc.Center.Y);
             Vector2 vectorCenter = npc.Center;
             float num1243 = player.Center.X - vector142.X;
             float num1244 = player.Center.Y - vector142.Y;
@@ -221,7 +231,7 @@ namespace CalamityMod.NPCs.Signus
             }
             if (npc.ai[0] == 0f)
             {
-                if (Main.netMode != NetmodeID.MultiplayerClient)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     npc.localAI[1] += 1f;
                     if (npc.localAI[1] >= 120f)
@@ -361,21 +371,14 @@ namespace CalamityMod.NPCs.Signus
                 Vector2 vector121 = new Vector2(npc.position.X + (float)(npc.width / 2), npc.position.Y + (float)(npc.height / 2));
                 npc.ai[1] += 1f;
                 bool flag104 = false;
-                if (npc.life < npc.lifeMax / 4 || CalamityWorld.death || CalamityWorld.bossRushActive)
+                if (npc.life < npc.lifeMax / 2 || CalamityWorld.death || CalamityWorld.bossRushActive)
                 {
-                    if (npc.ai[1] % 30f == 29f)
+                    if (npc.ai[1] % 45f == 44f)
                     {
                         flag104 = true;
                     }
                 }
-                else if (npc.life < npc.lifeMax / 2)
-                {
-                    if (npc.ai[1] % 35f == 34f)
-                    {
-                        flag104 = true;
-                    }
-                }
-                else if (npc.ai[1] % 40f == 39f)
+                else if (npc.ai[1] % 65f == 64f)
                 {
                     flag104 = true;
                 }
@@ -555,7 +558,7 @@ namespace CalamityMod.NPCs.Signus
                 }
                 else if (chargeSwitch == 1) //pause before charge
                 {
-                    npc.velocity *= scaleFactor4;
+					npc.velocity *= scaleFactor4;
                     npc.ai[1] += 1f;
                     if (npc.ai[1] >= num1001)
                     {
