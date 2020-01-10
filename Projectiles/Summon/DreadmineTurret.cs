@@ -27,17 +27,18 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
+			Player player = Main.player[projectile.owner];
             if (projectile.localAI[0] == 0f)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = Main.player[projectile.owner].minionDamage;
+                projectile.Calamity().spawnedPlayerMinionDamageValue = (player.allDamage + player.minionDamage - 1f);
                 projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
                 projectile.localAI[0] += 1f;
             }
-            if (Main.player[projectile.owner].minionDamage != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if ((player.allDamage + player.minionDamage - 1f) != projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
                 int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
                     projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    Main.player[projectile.owner].minionDamage);
+                    (player.allDamage + player.minionDamage - 1f));
                 projectile.damage = damage2;
             }
             projectile.frameCounter++;
@@ -60,7 +61,7 @@ namespace CalamityMod.Projectiles.Summon
             if (Main.rand.NextBool(15))
             {
                 int num = 0;
-                for (int i = 0; i < 1000; i++)
+                for (int i = 0; i < Main.projectile.Length; i++)
                 {
                     if (Main.projectile[i].active && Main.projectile[i].owner == Main.myPlayer && Main.projectile[i].type == ModContent.ProjectileType<Dreadmine>())
                     {

@@ -17,19 +17,20 @@ namespace CalamityMod.Items.Weapons.Magic
 
 		public override void SetDefaults() 
 		{
-			item.damage = 24;
+			item.damage = 21;
             item.noMelee = true;
             item.magic = true;
             item.channel = true;
             item.width = 86;
 			item.height = 32;
-			item.useTime = 50;
+			item.useTime = 20;
 			item.useAnimation = 20;
             item.UseSound = SoundID.Item13;
             item.useStyle = 5;
             item.mana = 10;
             item.value = Item.buyPrice(0, 4, 0, 0);
             item.rare = 3;
+            item.autoReuse = true;
             item.Calamity().postMoonLordRarity = 21;
             item.shoot = ModContent.ProjectileType<LightningArc>();
             item.shootSpeed = 14f;

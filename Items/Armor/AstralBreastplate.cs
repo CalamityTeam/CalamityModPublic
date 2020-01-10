@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Astral Breastplate");
-            Tooltip.SetDefault("+20 max mana and life\n" +
+            Tooltip.SetDefault("+80 max mana and +20 max life\n" +
                                "+3 max minions\n" +
                                "Creature detection");
         }
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.statLifeMax2 += 20;
-            player.statManaMax2 += 20;
+            player.statManaMax2 += 80;
             player.maxMinions += 3;
             player.detectCreature = true;
         }

@@ -120,15 +120,16 @@ namespace CalamityMod.Projectiles.Boss
             float scaleFactor5 = (float)Math.Cos((double)(6.28318548f * (projectile.localAI[0] / 60f))) + 3f + 3f;
             for (float num286 = 0f; num286 < 4f; num286 += 1f)
             {
-                SpriteBatch arg_F907_0 = Main.spriteBatch;
-                Texture2D arg_F907_1 = texture2D34;
-                Vector2 arg_F8CE_0 = vector59;
-                Vector2 arg_F8BE_0 = Vector2.UnitY;
-                double arg_F8BE_1 = (double)(num286 * 1.57079637f);
+                double angle = (double)(num286 * 1.57079637f);
                 Vector2 center = default;
-                arg_F907_0.Draw(arg_F907_1, arg_F8CE_0 + arg_F8BE_0.RotatedBy(arg_F8BE_1, center) * scaleFactor5, new Microsoft.Xna.Framework.Rectangle?(rectangle17), alpha5 * 0.2f, projectile.rotation, origin11, projectile.scale, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(texture2D34, vector59 + Vector2.UnitY.RotatedBy(angle, center) * scaleFactor5, new Microsoft.Xna.Framework.Rectangle?(rectangle17), alpha5 * 0.2f, projectile.rotation, origin11, projectile.scale, SpriteEffects.None, 0f);
             }
             return false;
         }
+
+        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
+        {
+			target.Calamity().lastProjectileHit = projectile;
+		}
     }
 }

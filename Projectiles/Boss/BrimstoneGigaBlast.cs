@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Boss
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Brimstone Fireblast");
-            Main.projFrames[projectile.type] = 6;
+            Main.projFrames[projectile.type] = 5;
         }
 
         public override void SetDefaults()
@@ -35,7 +35,7 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.frame++;
                 projectile.frameCounter = 0;
             }
-            if (projectile.frame > 5)
+            if (projectile.frame >= 5)
             {
                 projectile.frame = 0;
             }
@@ -121,5 +121,10 @@ namespace CalamityMod.Projectiles.Boss
                 Main.dust[num195].noGravity = true;
             }
         }
+
+        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
+        {
+			target.Calamity().lastProjectileHit = projectile;
+		}
     }
 }

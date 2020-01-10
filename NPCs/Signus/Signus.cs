@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
@@ -749,6 +750,7 @@ namespace CalamityMod.NPCs.Signus
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<SignusTrophy>(), 10);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<SignusMask>(), 7);
 
                 // Other
                 bool lastSentinelKilled = CalamityWorld.downedSentinel1 && CalamityWorld.downedSentinel2 && !CalamityWorld.downedSentinel3;

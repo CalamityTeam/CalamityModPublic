@@ -1,4 +1,5 @@
 using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.PermanentBoosters;
 using CalamityMod.Items.Weapons.Magic;
@@ -68,7 +69,7 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItemCondition(player, ModContent.ItemType<Ectoheart>(), CalamityWorld.revenge);
 
             // Vanity
-            // there is no Polterghast mask yet
+            DropHelper.DropItemChance(player, ModContent.ItemType<PolterghastMask>(), 7);
         }
     }
 }

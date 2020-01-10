@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
@@ -700,6 +701,9 @@ namespace CalamityMod.NPCs.Polterghast
                 // Materials
                 DropHelper.DropItem(npc, ModContent.ItemType<RuinousSoul>(), 5, 8);
                 DropHelper.DropItem(npc, ModContent.ItemType<Phantoplasm>(), 10, 20);
+
+                // Vanity
+                DropHelper.DropItemChance(npc, ModContent.ItemType<PolterghastMask>(), 7);
 
                 // Weapons
                 DropHelper.DropItemChance(npc, ModContent.ItemType<TerrorBlade>(), 4);

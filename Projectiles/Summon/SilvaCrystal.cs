@@ -35,22 +35,22 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
+            Player player = Main.player[projectile.owner];
+            CalamityPlayer modPlayer = player.Calamity();
             if (projectile.localAI[1] == 0f)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = Main.player[projectile.owner].minionDamage;
+                projectile.Calamity().spawnedPlayerMinionDamageValue = (player.allDamage + player.minionDamage - 1f);
                 projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
                 projectile.localAI[1] += 1f;
             }
-            if (Main.player[projectile.owner].minionDamage != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if ((player.allDamage + player.minionDamage - 1f) != projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
                 int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
                     projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    Main.player[projectile.owner].minionDamage);
+                    (player.allDamage + player.minionDamage - 1f));
                 projectile.damage = damage2;
             }
             bool flag64 = projectile.type == ModContent.ProjectileType<SilvaCrystal>();
-            Player player = Main.player[projectile.owner];
-            CalamityPlayer modPlayer = player.Calamity();
             if (!modPlayer.silvaSummon)
             {
                 projectile.active = false;
@@ -100,20 +100,14 @@ namespace CalamityMod.Projectiles.Summon
                 dust34.position = projectile.Center + Vector2.UnitY.RotatedByRandom(6.2831854820251465) * (4f * Main.rand.NextFloat() + 26f);
                 dust34.scale = 0.5f;
             }
-            float[] var_2_31123_cp_0 = projectile.localAI;
-            int var_2_31123_cp_1 = 0;
-            float num73 = var_2_31123_cp_0[var_2_31123_cp_1];
-            var_2_31123_cp_0[var_2_31123_cp_1] = num73 + 1f;
+            projectile.localAI[0] += 1f;
             if (projectile.localAI[0] >= 60f)
             {
                 projectile.localAI[0] = 0f;
             }
             if (projectile.ai[0] < 0f)
             {
-                float[] var_2_31169_cp_0 = projectile.ai;
-                int var_2_31169_cp_1 = 0;
-                float num730 = var_2_31169_cp_0[var_2_31169_cp_1];
-                var_2_31169_cp_0[var_2_31169_cp_1] = num730 + 1f;
+                projectile.ai[0] += 1f;
             }
             if (projectile.ai[0] == 0f)
             {
@@ -168,10 +162,7 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.netUpdate = true;
                     return;
                 }
-                float[] var_2_31390_cp_0 = projectile.ai;
-                int var_2_31390_cp_1 = 0;
-                float num731 = var_2_31390_cp_0[var_2_31390_cp_1];
-                var_2_31390_cp_0[var_2_31390_cp_1] = num731 + 1f;
+                projectile.ai[0] += 1f;
                 if (projectile.ai[0] >= 5f)
                 {
                     Vector2 vector154 = projectile.DirectionTo(Main.npc[num1079].Center);

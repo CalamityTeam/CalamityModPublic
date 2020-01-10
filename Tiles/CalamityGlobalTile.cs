@@ -181,64 +181,64 @@ namespace CalamityMod.Tiles
                 {
                     if (Main.rand.NextBool(10))
                     {
-                        int expr_B64 = WorldGen.genRand.Next(15);
-                        if (expr_B64 == 0)
+                        int pot = WorldGen.genRand.Next(15);
+                        if (pot == 0)
                         {
                             Item.NewItem(i * 16, j * 16, 16, 16, 296, 1, false, 0, false, false);
                         }
-                        if (expr_B64 == 1)
+                        if (pot == 1)
                         {
                             Item.NewItem(i * 16, j * 16, 16, 16, 294, 1, false, 0, false, false);
                         }
-                        if (expr_B64 == 2)
+                        if (pot == 2)
                         {
                             Item.NewItem(i * 16, j * 16, 16, 16, 298, 1, false, 0, false, false);
                         }
-                        if (expr_B64 == 3)
+                        if (pot == 3)
                         {
                             Item.NewItem(i * 16, j * 16, 16, 16, 302, 1, false, 0, false, false);
                         }
-                        if (expr_B64 == 4)
+                        if (pot == 4)
                         {
                             Item.NewItem(i * 16, j * 16, 16, 16, 288, 1, false, 0, false, false);
                         }
-                        if (expr_B64 == 5)
+                        if (pot == 5)
                         {
                             Item.NewItem(i * 16, j * 16, 16, 16, 305, 1, false, 0, false, false);
                         }
-                        if (expr_B64 == 6)
+                        if (pot == 6)
                         {
                             Item.NewItem(i * 16, j * 16, 16, 16, 289, 1, false, 0, false, false);
                         }
-                        if (expr_B64 == 7)
+                        if (pot == 7)
                         {
                             Item.NewItem(i * 16, j * 16, 16, 16, 302, 1, false, 0, false, false);
                         }
-                        if (expr_B64 == 8)
+                        if (pot == 8)
                         {
                             Item.NewItem(i * 16, j * 16, 16, 16, ModContent.ItemType<AnechoicCoating>(), 1, false, 0, false, false);
                         }
-                        if (expr_B64 == 9)
+                        if (pot == 9)
                         {
                             Item.NewItem(i * 16, j * 16, 16, 16, 291, 1, false, 0, false, false);
                         }
-                        if (expr_B64 == 10)
+                        if (pot == 10)
                         {
                             Item.NewItem(i * 16, j * 16, 16, 16, 2346, 1, false, 0, false, false);
                         }
-                        if (expr_B64 == 11)
+                        if (pot == 11)
                         {
                             Item.NewItem(i * 16, j * 16, 16, 16, 2323, 1, false, 0, false, false);
                         }
-                        if (expr_B64 == 12)
+                        if (pot == 12)
                         {
                             Item.NewItem(i * 16, j * 16, 16, 16, 2327, 1, false, 0, false, false);
                         }
-                        if (expr_B64 == 13)
+                        if (pot == 13)
                         {
                             Item.NewItem(i * 16, j * 16, 16, 16, 2345, 1, false, 0, false, false);
                         }
-                        if (expr_B64 == 14)
+                        if (pot == 14)
                         {
                             Item.NewItem(i * 16, j * 16, 16, 16, 2348, 1, false, 0, false, false);
                         }
@@ -341,64 +341,64 @@ namespace CalamityMod.Tiles
                 {
                     if (Main.rand.NextBool(15))
                     {
-                        int expr_B64 = WorldGen.genRand.Next(15);
-                        if (expr_B64 == 0)
+                        int pot = WorldGen.genRand.Next(15);
+                        if (pot == 0)
                         {
                             Item.NewItem(i * 16, j * 16, 16, 16, 296, 1, false, 0, false, false);
                         }
-                        if (expr_B64 == 1)
+                        if (pot == 1)
                         {
                             Item.NewItem(i * 16, j * 16, 16, 16, 294, 1, false, 0, false, false);
                         }
-                        if (expr_B64 == 2)
+                        if (pot == 2)
                         {
                             Item.NewItem(i * 16, j * 16, 16, 16, 298, 1, false, 0, false, false);
                         }
-                        if (expr_B64 == 3)
+                        if (pot == 3)
                         {
                             Item.NewItem(i * 16, j * 16, 16, 16, 302, 1, false, 0, false, false);
                         }
-                        if (expr_B64 == 4)
+                        if (pot == 4)
                         {
                             Item.NewItem(i * 16, j * 16, 16, 16, 288, 1, false, 0, false, false);
                         }
-                        if (expr_B64 == 5)
+                        if (pot == 5)
                         {
                             Item.NewItem(i * 16, j * 16, 16, 16, 305, 1, false, 0, false, false);
                         }
-                        if (expr_B64 == 6)
+                        if (pot == 6)
                         {
                             Item.NewItem(i * 16, j * 16, 16, 16, 289, 1, false, 0, false, false);
                         }
-                        if (expr_B64 == 7)
+                        if (pot == 7)
                         {
                             Item.NewItem(i * 16, j * 16, 16, 16, 302, 1, false, 0, false, false);
                         }
-                        if (expr_B64 == 8)
+                        if (pot == 8)
                         {
                             Item.NewItem(i * 16, j * 16, 16, 16, ModContent.ItemType<AnechoicCoating>(), 1, false, 0, false, false);
                         }
-                        if (expr_B64 == 9)
+                        if (pot == 9)
                         {
                             Item.NewItem(i * 16, j * 16, 16, 16, 291, 1, false, 0, false, false);
                         }
-                        if (expr_B64 == 10)
+                        if (pot == 10)
                         {
                             Item.NewItem(i * 16, j * 16, 16, 16, 2346, 1, false, 0, false, false);
                         }
-                        if (expr_B64 == 11)
+                        if (pot == 11)
                         {
                             Item.NewItem(i * 16, j * 16, 16, 16, 2323, 1, false, 0, false, false);
                         }
-                        if (expr_B64 == 12)
+                        if (pot == 12)
                         {
                             Item.NewItem(i * 16, j * 16, 16, 16, 2327, 1, false, 0, false, false);
                         }
-                        if (expr_B64 == 13)
+                        if (pot == 13)
                         {
                             Item.NewItem(i * 16, j * 16, 16, 16, 2345, 1, false, 0, false, false);
                         }
-                        if (expr_B64 == 14)
+                        if (pot == 14)
                         {
                             Item.NewItem(i * 16, j * 16, 16, 16, 2348, 1, false, 0, false, false);
                         }

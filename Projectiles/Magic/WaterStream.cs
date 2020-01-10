@@ -21,10 +21,16 @@ namespace CalamityMod.Projectiles.Magic
             projectile.penetrate = 3;
             projectile.extraUpdates = 2;
             projectile.magic = true;
+            projectile.tileCollide = false;
         }
 
         public override void AI()
         {
+            projectile.ai[1]++;
+            if (projectile.ai[1] >= 4f)
+            {
+                projectile.tileCollide = true;
+            }
             addSprayTimer--;
             if (addSprayTimer <= 0)
             {
@@ -52,13 +58,12 @@ namespace CalamityMod.Projectiles.Magic
                 float num153 = projectile.velocity.Y / 3f * (float)num151;
                 int num154 = 14;
                 int num155 = Dust.NewDust(new Vector2(projectile.position.X + (float)num154, projectile.position.Y + (float)num154), projectile.width - num154 * 2, projectile.height - num154 * 2, 14, 0f, 0f, 100, new Color(0, 255, 255), 1f);
-                Main.dust[num155].noGravity = true;
-                Main.dust[num155].velocity *= 0.1f;
-                Main.dust[num155].velocity += projectile.velocity * 0.5f;
-                Dust expr_6A04_cp_0 = Main.dust[num155];
-                expr_6A04_cp_0.position.X -= num152;
-                Dust expr_6A1F_cp_0 = Main.dust[num155];
-                expr_6A1F_cp_0.position.Y -= num153;
+                Dust dust = Main.dust[num155];
+                dust.noGravity = true;
+                dust.velocity *= 0.1f;
+                dust.velocity += projectile.velocity * 0.5f;
+                dust.position.X -= num152;
+                dust.position.Y -= num153;
             }
             if (Main.rand.NextBool(8))
             {

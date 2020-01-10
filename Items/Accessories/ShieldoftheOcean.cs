@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Items.Materials;
+using CalamityMod.Items.Armor;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,7 +11,8 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shield of the Ocean");
-            Tooltip.SetDefault("Increased defense by 5 when submerged in liquid");
+            Tooltip.SetDefault("Increased defense by 5 when submerged in liquid\n" +
+			"Increases movement speed and life regen while wearing the Victide armor");
         }
 
         public override void SetDefaults()
@@ -28,6 +30,14 @@ namespace CalamityMod.Items.Accessories
             if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
             {
                 player.statDefense += 5;
+            }
+            if ((player.armor[0].type == ModContent.ItemType<VictideHeadgear>() || player.armor[0].type == ModContent.ItemType<VictideHelm>() ||
+                player.armor[0].type == ModContent.ItemType<VictideHelmet>() || player.armor[0].type == ModContent.ItemType<VictideMask>() ||
+                player.armor[0].type == ModContent.ItemType<VictideVisage>()) &&
+                player.armor[1].type == ModContent.ItemType<VictideBreastplate>() && player.armor[2].type == ModContent.ItemType<VictideLeggings>())
+            {
+                player.moveSpeed += 0.1f;
+                player.lifeRegen += 2;
             }
         }
 

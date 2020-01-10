@@ -10,6 +10,7 @@ using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.World;
@@ -2176,7 +2177,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 ModContent.ItemType<Svantechnical>(), ModContent.ItemType<Svantechnical>(),
                 ModContent.ItemType<Judgement>(), ModContent.ItemType<Judgement>(), // The Dance of Light
                 ModContent.ItemType<TriactisTruePaladinianMageHammerofMightMelee>(), ModContent.ItemType<TriactisTruePaladinianMageHammerofMight>(),
-                ModContent.ItemType<Megafleet>(), ModContent.ItemType<Megafleet>() // Voidragon
+                ModContent.ItemType<Megafleet>(), ModContent.ItemType<Megafleet>(), // Voidragon
+                ModContent.ItemType<Endogenesis>(), ModContent.ItemType<Endogenesis>()
             );
             DropHelper.DropItemCondition(npc, ModContent.ItemType<Vehemenc>(), CalamityWorld.revenge);
 

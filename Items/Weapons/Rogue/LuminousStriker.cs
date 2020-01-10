@@ -47,6 +47,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<SpearofPaleolith>());
 			recipe.AddIngredient(ModContent.ItemType<ScourgeoftheSeas>());
+			recipe.AddIngredient(ModContent.ItemType<Turbulance>());
             recipe.AddIngredient(ModContent.ItemType<MeldiateBar>(), 10);
 			recipe.AddIngredient(ItemID.FragmentStardust, 10);
             recipe.AddTile(TileID.LunarCraftingStation);

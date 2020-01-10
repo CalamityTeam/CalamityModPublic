@@ -85,10 +85,7 @@ namespace CalamityMod.Projectiles.Rogue
 				}
                 int num988 = 15;
                 bool flag55 = false;
-                float[] var_2_2CB4E_cp_0 = projectile.localAI;
-                int var_2_2CB4E_cp_1 = 0;
-                float num73 = var_2_2CB4E_cp_0[var_2_2CB4E_cp_1];
-                var_2_2CB4E_cp_0[var_2_2CB4E_cp_1] = num73 + 1f;
+                projectile.localAI[0] += 1f;
                 if (projectile.localAI[0] % 30f == 0f)
                 {
                     flag55 = true;
@@ -115,7 +112,7 @@ namespace CalamityMod.Projectiles.Rogue
 				float pcy = projectile.Center.Y;
 				float var1 = 800f;
 				bool flag = false;
-				for (int npcvar = 0; npcvar < 200; npcvar++)
+				for (int npcvar = 0; npcvar < Main.npc.Length; npcvar++)
 				{
 					if (Main.npc[npcvar].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[npcvar].Center, 1, 1))
 					{
@@ -160,7 +157,7 @@ namespace CalamityMod.Projectiles.Rogue
             Rectangle myRect = new Rectangle((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height);
             if (projectile.owner == Main.myPlayer)
             {
-                for (int i = 0; i < 200; i++)
+                for (int i = 0; i < Main.npc.Length; i++)
                 {
                     if (Main.npc[i].active && !Main.npc[i].dontTakeDamage &&
                         ((projectile.friendly && (!Main.npc[i].friendly || projectile.type == 318 || (Main.npc[i].type == 22 && projectile.owner < 255 && Main.player[projectile.owner].killGuide) || (Main.npc[i].type == 54 && projectile.owner < 255 && Main.player[projectile.owner].killClothier))) ||

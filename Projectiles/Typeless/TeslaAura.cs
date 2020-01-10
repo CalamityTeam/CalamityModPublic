@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.timeLeft *= 5;
             projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 20;
+            projectile.localNPCHitCooldown = 25;
         }
 
         public override void AI()

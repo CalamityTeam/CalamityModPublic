@@ -55,12 +55,13 @@ namespace CalamityMod.Projectiles.Summon
             float num473 = projectile.Center.Y;
             float num474 = 1200f;
             bool flag17 = false;
-            for (int target = 0; target < 200; target++)
+            if (Main.player[projectile.owner].HasMinionAttackTargetNPC)
             {
-				if (Main.npc[target].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[target].Center, 1, 1))
-				{
-					float num476 = Main.npc[target].position.X + (float)(Main.npc[target].width / 2);
-					float num477 = Main.npc[target].position.Y + (float)(Main.npc[target].height / 2);
+                NPC npc = Main.npc[Main.player[projectile.owner].MinionAttackTargetNPC];
+                if (npc.CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, npc.Center, 1, 1))
+                {
+					float num476 = npc.position.X + (float)(npc.width / 2);
+					float num477 = npc.position.Y + (float)(npc.height / 2);
 					float num478 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num476) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num477);
 					if (num478 < num474)
 					{
@@ -68,6 +69,25 @@ namespace CalamityMod.Projectiles.Summon
 						num472 = num476;
 						num473 = num477;
 						flag17 = true;
+					}
+				}
+			}
+			else
+			{
+				for (int target = 0; target < Main.npc.Length; target++)
+				{
+					if (Main.npc[target].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[target].Center, 1, 1))
+					{
+						float num476 = Main.npc[target].position.X + (float)(Main.npc[target].width / 2);
+						float num477 = Main.npc[target].position.Y + (float)(Main.npc[target].height / 2);
+						float num478 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num476) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num477);
+						if (num478 < num474)
+						{
+							num474 = num478;
+							num472 = num476;
+							num473 = num477;
+							flag17 = true;
+						}
 					}
 				}
 			}

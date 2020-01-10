@@ -45,8 +45,8 @@ namespace CalamityMod.Items.Accessories
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<GladiatorSword>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<GladiatorSword>(), (int)(20f * player.minionDamage), 6f, Main.myPlayer, 0f, 0f);
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<GladiatorSword2>(), (int)(20f * player.minionDamage), 6f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<GladiatorSword>(), (int)(20f * (player.allDamage + player.minionDamage - 1f)), 6f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<GladiatorSword2>(), (int)(20f * (player.allDamage + player.minionDamage - 1f)), 6f, Main.myPlayer, 0f, 0f);
                 }
             }
         }

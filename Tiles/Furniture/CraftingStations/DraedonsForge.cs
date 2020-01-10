@@ -22,7 +22,7 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
             AddMapEntry(new Color(0, 255, 0), name);
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Anvils, TileID.Furnaces, TileID.WorkBenches, TileID.LunarCraftingStation,
-                TileID.MythrilAnvil, TileID.AdamantiteForge, TileID.Hellforge };
+                TileID.MythrilAnvil, TileID.AdamantiteForge, TileID.Hellforge, TileID.DemonAltar };
         }
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)

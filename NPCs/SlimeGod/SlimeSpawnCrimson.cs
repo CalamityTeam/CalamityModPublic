@@ -54,17 +54,7 @@ namespace CalamityMod.NPCs.SlimeGod
 
         public override void NPCLoot()
         {
-            if (Main.expertMode)
-            {
-                if (Main.rand.NextBool(50))
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Nazar);
-                }
-            }
-            else if (Main.rand.NextBool(100))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Nazar);
-            }
+            DropHelper.DropItemChance(npc, ItemID.Nazar, Main.expertMode ? 50 : 100);
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

@@ -24,6 +24,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.aiStyle = 1;
             projectile.timeLeft = 300;
             aiType = 1;
+            projectile.arrow = true;
 			projectile.coldDamage = true;
         }
 

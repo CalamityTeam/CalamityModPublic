@@ -1,4 +1,5 @@
 using CalamityMod.Projectiles.Rogue;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,7 +11,8 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Scourge of the Desert");
-            Tooltip.SetDefault("Gains velocity over time");
+            Tooltip.SetDefault(@"Gains velocity over time
+Stealth strikes gain damage as they damage enemies");
         }
 
         public override void SafeSetDefaults()
@@ -31,6 +33,17 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.shoot = ModContent.ProjectileType<ScourgeoftheDesertProj>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;
+        }
+
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            if (player.Calamity().StealthStrikeAvailable())
+            {
+                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
+                Main.projectile[stealth].Calamity().stealthStrike = true;
+                return false;
+            }
+            return true;
         }
     }
 }

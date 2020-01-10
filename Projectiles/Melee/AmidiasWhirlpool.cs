@@ -36,18 +36,14 @@ namespace CalamityMod.Projectiles.Melee
                 float num100 = projectile.velocity.Y / 3f * (float)num105;
                 int num101 = 4;
                 int num102 = Dust.NewDust(new Vector2(projectile.position.X + (float)num101, projectile.position.Y + (float)num101), projectile.width - num101 * 2, projectile.height - num101 * 2, 33, 0f, 0f, 0, new Color(0, 142, 255), 1.5f);
-                Main.dust[num102].noGravity = true;
-                Main.dust[num102].velocity *= 0.1f;
-                Main.dust[num102].velocity += projectile.velocity * 0.1f;
-                Dust expr_47FA_cp_0 = Main.dust[num102];
-                expr_47FA_cp_0.position.X -= num99;
-                Dust expr_4815_cp_0 = Main.dust[num102];
-                expr_4815_cp_0.position.Y -= num100;
+                Dust dust = Main.dust[num102];
+                dust.noGravity = true;
+                dust.velocity *= 0.1f;
+                dust.velocity += projectile.velocity * 0.1f;
+                dust.position.X -= num99;
+                dust.position.Y -= num100;
             }
-            float[] var_2_2DDF8_cp_0 = projectile.ai;
-            int var_2_2DDF8_cp_1 = 0;
-            float num73 = var_2_2DDF8_cp_0[var_2_2DDF8_cp_1];
-            var_2_2DDF8_cp_0[var_2_2DDF8_cp_1] = num73 + 1f;
+            projectile.ai[0] += 1f;
             int num1013 = 0;
             if (projectile.velocity.Length() <= 8f) //4
             {

@@ -35,9 +35,11 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
+            Player player = Main.player[projectile.owner];
+            CalamityPlayer modPlayer = player.Calamity();
             if (projectile.localAI[0] == 0f)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = Main.player[projectile.owner].minionDamage;
+                projectile.Calamity().spawnedPlayerMinionDamageValue = (player.allDamage + player.minionDamage - 1f);
                 projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
                 int num226 = 36;
                 for (int num227 = 0; num227 < num226; num227++)
@@ -51,11 +53,11 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 projectile.localAI[0] += 1f;
             }
-            if (Main.player[projectile.owner].minionDamage != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if ((player.allDamage + player.minionDamage - 1f) != projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
                 int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
                     projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    Main.player[projectile.owner].minionDamage);
+                    (player.allDamage + player.minionDamage - 1f));
                 projectile.damage = damage2;
             }
             float num633 = 700f;
@@ -63,8 +65,6 @@ namespace CalamityMod.Projectiles.Summon
             float num635 = 2400f;
             float num636 = 150f;
             bool flag64 = projectile.type == ModContent.ProjectileType<Cataclymini>();
-            Player player = Main.player[projectile.owner];
-            CalamityPlayer modPlayer = player.Calamity();
             if (flag64)
             {
                 if (player.dead)

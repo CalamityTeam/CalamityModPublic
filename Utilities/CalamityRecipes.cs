@@ -409,6 +409,15 @@ namespace CalamityMod
             r.AddTile(TileID.Bookcases);
             r.SetResult(ItemID.WaterBolt);
             r.AddRecipe();
+
+            //Slime Staff
+            r = GetNewRecipe();
+            r.AddIngredient(ItemID.Wood, 6);
+            r.AddIngredient(ItemID.Gel, 40);
+            r.AddIngredient(ItemID.PinkGel, 10);
+            r.AddTile(TileID.Anvils);
+            r.SetResult(ItemID.SlimeStaff);
+            r.AddRecipe();
         }
         #endregion
 

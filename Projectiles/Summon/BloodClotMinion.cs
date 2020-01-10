@@ -36,9 +36,11 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
+            Player player = Main.player[projectile.owner];
+            CalamityPlayer modPlayer = player.Calamity();
             if (projectile.localAI[0] == 0f)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = Main.player[projectile.owner].minionDamage;
+                projectile.Calamity().spawnedPlayerMinionDamageValue = (player.allDamage + player.minionDamage - 1f);
                 projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
                 int num226 = 36;
                 for (int num227 = 0; num227 < num226; num227++)
@@ -53,11 +55,11 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 projectile.localAI[0] += 1f;
             }
-            if (Main.player[projectile.owner].minionDamage != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if ((player.allDamage + player.minionDamage - 1f) != projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
                 int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
                     projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    Main.player[projectile.owner].minionDamage);
+                    (player.allDamage + player.minionDamage - 1f));
                 projectile.damage = damage2;
             }
             int num1262 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 5, 0f, 0f, 0, default, 1f);
@@ -75,8 +77,6 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.frame = 0;
             }
             bool flag64 = projectile.type == ModContent.ProjectileType<BloodClotMinion>();
-            Player player = Main.player[projectile.owner];
-            CalamityPlayer modPlayer = player.Calamity();
             player.AddBuff(ModContent.BuffType<BloodClot>(), 3600);
             if (flag64)
             {

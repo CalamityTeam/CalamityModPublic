@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.NPCs.NormalNPCs;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -52,12 +53,22 @@ namespace CalamityMod.Projectiles.Rogue
                 }
             }
         }
-        public override bool? CanHitNPC(NPC target) => HomingCooldown == 0 && !target.townNPC 
-            && target.type != NPCID.DD2EterniaCrystal && !target.immortal && !target.dontTakeDamage;
+
+        public override bool CanDamage()
+		{
+			return HomingCooldown == 0;
+		}
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             HomingCooldown = 25;
             projectile.velocity *= -0.75f; //bounce off of enemy
+
+			//prevent dummy exploits
+            if (target.type == NPCID.TargetDummy || target.type == ModContent.NPCType<SuperDummy>())
+            {
+                projectile.Kill();
+            }
         }
         public override void Kill(int timeLeft)
         {

@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Boss
         public override void AI()
         {
             projectile.frameCounter++;
-            if (projectile.frameCounter > 12)
+            if (projectile.frameCounter >= 10)
             {
                 projectile.frame++;
                 projectile.frameCounter = 0;
@@ -91,5 +91,10 @@ namespace CalamityMod.Projectiles.Boss
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 235, 0f, 0f);
             }
         }
+
+        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
+        {
+			target.Calamity().lastProjectileHit = projectile;
+		}
     }
 }

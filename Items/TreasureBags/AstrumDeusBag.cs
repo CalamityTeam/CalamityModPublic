@@ -49,6 +49,7 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItemChance(player, ModContent.ItemType<StarSputter>(), 3);
             DropHelper.DropItemChance(player, ModContent.ItemType<Starfall>(), 3);
             DropHelper.DropItemChance(player, ModContent.ItemType<GodspawnHelixStaff>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<RegulusRiot>(), 3);
             DropHelper.DropItemChance(player, ModContent.ItemType<Quasar>(), DropHelper.RareVariantDropRateInt);
 
             // Equipment

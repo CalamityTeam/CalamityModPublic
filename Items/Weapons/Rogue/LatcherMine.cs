@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class LatcherMine : RogueWeapon
     {
-        public const int BaseDamage = 60;
+        public const int BaseDamage = 80;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Latcher Mine");

@@ -1,5 +1,6 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,7 +12,8 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Plaguenade");
-            Tooltip.SetDefault("Releases a swarm of angry plague bees");
+            Tooltip.SetDefault("Releases a swarm of angry plague bees\n" +
+			"Stealth strikes spawn more bees and generate a larger explosion");
         }
 
         public override void SafeSetDefaults()
@@ -35,6 +37,16 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;
             item.Calamity().postMoonLordRarity = 21;
+        }
+
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            if (player.Calamity().StealthStrikeAvailable())
+            {
+                int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
+                Main.projectile[proj].Calamity().stealthStrike = true;
+            }
+            return true;
         }
 
         public override void AddRecipes()

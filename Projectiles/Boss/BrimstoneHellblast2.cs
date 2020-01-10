@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Boss
         public override void AI()
         {
             projectile.frameCounter++;
-            if (projectile.frameCounter > 12)
+            if (projectile.frameCounter >= 10)
             {
                 projectile.frame++;
                 projectile.frameCounter = 0;
@@ -74,5 +74,10 @@ namespace CalamityMod.Projectiles.Boss
             target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 180);
             target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 120, true);
         }
+
+        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
+        {
+			target.Calamity().lastProjectileHit = projectile;
+		}
     }
 }

@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Materials;
 using CalamityMod.Items.Mounts;
 using CalamityMod.Items.Pets;
 using CalamityMod.Items.Placeables.Furniture;
@@ -34,44 +35,50 @@ namespace CalamityMod.World
 {
     public class WorldGenerationMethods : ModWorld
     {
-        #region BiomeChests
+        #region Dungeon Biome Chests
         public static void GenerateBiomeChests(GenerationProgress progress)
         {
+            progress.Message = "Calamity Mod: Biome Chests";
+
             // Get dungeon size field infos. These fields are private for some reason
             int MinX = (int)typeof(WorldGen).GetField("dMinX", BindingFlags.Static | BindingFlags.NonPublic).GetValue(null) + 25;
             int MaxX = (int)typeof(WorldGen).GetField("dMaxX", BindingFlags.Static | BindingFlags.NonPublic).GetValue(null) - 25;
             int MaxY = (int)typeof(WorldGen).GetField("dMaxY", BindingFlags.Static | BindingFlags.NonPublic).GetValue(null) - 25;
-            int[] ChestTypes = new int[] { ModContent.TileType<AstralChestLocked>() };
-            int[] ItemTypes = new int[] { ModContent.ItemType<HeavenfallenStardisk>() };
 
-            progress.Message = "Calamity Mod: Biome Chests";
+            int[] ChestTypes = { ModContent.TileType<AstralChestLocked>() };
+            int[] ItemTypes = { ModContent.ItemType<HeavenfallenStardisk>() };
+            int[] ChestStyles = { 1 }; // Astral Chest generates in style 1, which is locked
 
-            int rounds = 1;
-            for (int i = 0; i < ChestTypes.Length * rounds; i++)
+            for (int i = 0; i < ChestTypes.Length; ++i)
             {
                 Chest chest = null;
                 int attempts = 0;
+
+                // Try 1000 times to place the chest somewhere in the dungeon.
+                // The placement algorithm ensures that if it tries to appear in midair, it is moved down to the floor.
                 while (chest == null && attempts < 1000)
                 {
                     attempts++;
                     int x = WorldGen.genRand.Next(MinX, MaxX);
                     int y = WorldGen.genRand.Next((int)Main.worldSurface, MaxY);
                     if (Main.wallDungeon[Main.tile[x, y].wall] && !Main.tile[x, y].active())
-                    {
-                        chest = AddChestWithDefaultLoot(x, y, (ushort)ChestTypes[i % ChestTypes.Length], 1, 1);
-                    }
+                        chest = AddChestWithLoot(x, y, (ushort)ChestTypes[i], tileStyle: ChestStyles[i]);
                 }
+
+                // If a chest was placed, force its first item to be the unique Biome Chest weapon.
                 if (chest != null)
                 {
-                    chest.item[0].SetDefaults(ItemTypes[i % ChestTypes.Length]);
+                    chest.item[0].SetDefaults(ItemTypes[i]);
                     chest.item[0].Prefix(-1);
                 }
             }
         }
 
-        internal static Chest AddChestWithDefaultLoot(int i, int j, ushort type = TileID.Containers, uint emptySlots = 1, int Style = 0)
+        private static Chest AddChestWithLoot(int i, int j, ushort type = TileID.Containers, uint startingSlot = 1, int tileStyle = 0)
         {
-            Chest chest = null;
+            int chestIndex = -1;
+            
+            // Slide downwards on the Y axis trying to find the floor beneath the empty position initially picked
             while (j < Main.maxTilesY - 210)
             {
                 if (!WorldGen.SolidTile(i, j))
@@ -79,93 +86,87 @@ namespace CalamityMod.World
                     j++;
                     continue;
                 }
-                int chestIndex = WorldGen.PlaceChest(i - 1, j - 1, type, false, Style);
-                if (chestIndex < 0)
-                {
-                    break;
-                }
-                chest = Main.chest[chestIndex];
-                uint itemIndex = emptySlots;
-                while (itemIndex == emptySlots)
-                {
-                    bool AstralChest = type == ModContent.TileType<AstralChestLocked>();
-                    int cItem;
-                    cItem = WorldGen.genRand.NextBool() ? WorldGen.goldBar : WorldGen.silverBar;
-                    int addAmount = 0;
-                    if (AstralChest)
-                        addAmount = 4;
-                    chest.item[itemIndex].SetDefaults(cItem, false);
-                    chest.item[itemIndex].stack = WorldGen.genRand.Next(3 + addAmount, 11 + addAmount * 2);
-                    itemIndex++;
-                    if (WorldGen.genRand.NextBool())
-                    {
-                        cItem = ItemID.HolyArrow;
-                        int addAmount2 = 0;
-                        if (AstralChest)
-                            addAmount2 = 25;
-                        chest.item[itemIndex].SetDefaults(cItem, false);
-                        chest.item[itemIndex].stack = WorldGen.genRand.Next(25 + addAmount2, 51 + addAmount2 * 2);
-                        itemIndex++;
-                    }
-                    if (AstralChest)
-                    {
-                        chest.item[itemIndex].SetDefaults(ModContent.ItemType<AstralJelly>(), false);
-                        chest.item[itemIndex].stack = WorldGen.genRand.Next(3, 6);
-                        itemIndex++;
-                    }
-                    if (WorldGen.genRand.NextBool())
-                    {
-                        int[] items = new int[] {
-                            ItemID.SpelunkerPotion, ItemID.FeatherfallPotion, ItemID.NightOwlPotion,
-                            ItemID.WaterWalkingPotion, ItemID.ArcheryPotion, ItemID.GravitationPotion
-                        };
-                        if (AstralChest)
-                        {
-                            items[1] = ModContent.ItemType<RevivifyPotion>();
-                            items[4] = ItemID.ShinePotion;
-                            items[5] = ItemID.HunterPotion;
-                        }
-                        chest.item[itemIndex].SetDefaults(WorldGen.genRand.Next(items), false);
-                        chest.item[itemIndex].stack = WorldGen.genRand.Next(1, 3);
-                        itemIndex++;
-                    }
-                    if (WorldGen.genRand.NextBool())
-                    {
-                        int[] items = new int[] {
-                            ItemID.ThornsPotion, ItemID.WaterWalkingPotion, ItemID.InvisibilityPotion,
-                            ItemID.ManaRegenerationPotion, ItemID.TeleportationPotion, ItemID.TrapsightPotion, ItemID.TrapsightPotion // yes, dangersense potions have double the chance as other potions in vanilla for some reason
-                        };
-                        if (AstralChest)
-                        {
-                            items[1] = ItemID.MagicPowerPotion;
-                            items[2] = ModContent.ItemType<ZenPotion>();
-                            items[5] = ModContent.ItemType<CadencePotion>();
-                        }
-                        chest.item[itemIndex].SetDefaults(WorldGen.genRand.Next(items), false);
-                        chest.item[itemIndex].stack = WorldGen.genRand.Next(1, 3);
-                        itemIndex++;
-                    }
-                    if (WorldGen.genRand.NextBool())
-                    {
-                        cItem = ItemID.RecallPotion;
-                        int addAmount2 = 0;
-                        if (AstralChest)
-                        {
-                            cItem = ItemID.BouncyDynamite;
-                            addAmount2 = 2;
-                        }
-                        chest.item[itemIndex].SetDefaults(cItem, false);
-                        chest.item[itemIndex].stack = WorldGen.genRand.Next(1, 3) * addAmount2;
-                        itemIndex++;
-                    }
-                    if (AstralChest)
-                        addAmount = 2;
-                    chest.item[itemIndex].SetDefaults(ItemID.GoldCoin, false);
-                    chest.item[itemIndex].stack = WorldGen.genRand.Next(1, 3) * addAmount;
-                    itemIndex++;
-                }
+
+                // If there are already 1,000 chests in the world and this one fails to place, just give up.
+                chestIndex = WorldGen.PlaceChest(i - 1, j - 1, type, false, tileStyle);
+                break;
             }
+
+            if (chestIndex < 0)
+                return null;
+            Chest chest = Main.chest[chestIndex];
+            PlaceLootInChest(ref chest, type, startingSlot);
             return chest;
+        }
+
+        private static void PlaceLootInChest(ref Chest chest, ushort type, uint startingSlot)
+        {
+            uint itemIndex = startingSlot;
+
+            void PutItemInChest(ref Chest c, int id, int minQuantity = 0, int maxQuantity = 0, bool condition = true)
+            {
+                if (!condition)
+                    return;
+                c.item[itemIndex].SetDefaults(id, false);
+
+                // Don't set quantity unless quantity is specified
+                if(minQuantity > 0)
+                {
+                    // Max quantity cannot be less than min quantity. It's zero if not specified, meaning you get exactly minQuantity.
+                    if (maxQuantity < minQuantity)
+                        maxQuantity = minQuantity;
+                    c.item[itemIndex].stack = WorldGen.genRand.Next(minQuantity, maxQuantity + 1);
+                }
+                itemIndex++;
+            }
+
+            // Astral Chest has completely different loot in it
+            if (type == ModContent.TileType<AstralChestLocked>())
+            {
+                PutItemInChest(ref chest, ModContent.ItemType<Stardust>(), 30, 80);
+                PutItemInChest(ref chest, ModContent.ItemType<AstralJelly>(), 10, 14);
+                PutItemInChest(ref chest, ModContent.ItemType<ZergPotion>(), 8);
+                PutItemInChest(ref chest, ModContent.ItemType<ZenPotion>(), 3, 5);
+                PutItemInChest(ref chest, ItemID.FallenStar, 12, 30);
+
+                // Gold Coins don't stack above 100, so this efficiently lets you stuff over a platinum into a chest
+                int goldCoins = WorldGen.genRand.Next(30, 120);
+                if (goldCoins > 100)
+                {
+                    PutItemInChest(ref chest, ItemID.PlatinumCoin);
+                    goldCoins -= 100;
+                }
+                PutItemInChest(ref chest, ItemID.GoldCoin, goldCoins);
+            }
+
+            // Default loot
+            else
+            {
+                // Silver, Tungsten, Gold or Platinum bars (following worldgen choice)
+                int barID = WorldGen.genRand.NextBool() ? WorldGen.goldBar : WorldGen.silverBar;
+                PutItemInChest(ref chest, barID, 3, 10);
+
+                // 50% chance of 25-50 Holy Arrows
+                PutItemInChest(ref chest, ItemID.HolyArrow, 25, 50, WorldGen.genRand.NextBool());
+
+                // 50% chance of 1 or 2 of the following potions
+                int[] potions = new int[] {
+                    ItemID.SpelunkerPotion, ItemID.FeatherfallPotion, ItemID.NightOwlPotion,
+                    ItemID.WaterWalkingPotion, ItemID.ArcheryPotion, ItemID.GravitationPotion
+                };
+                PutItemInChest(ref chest, WorldGen.genRand.Next(potions), 1, 2, WorldGen.genRand.NextBool());
+
+                // 50% chance of 1 or 2 of the following potions
+                // Yes, in vanilla, Dangersense Potions have double the chance to appear.
+                potions = new int[] {
+                    ItemID.ThornsPotion, ItemID.WaterWalkingPotion, ItemID.InvisibilityPotion,
+                    ItemID.ManaRegenerationPotion, ItemID.TeleportationPotion, ItemID.TrapsightPotion, ItemID.TrapsightPotion
+                };
+
+                PutItemInChest(ref chest, WorldGen.genRand.Next(potions), 1, 2, WorldGen.genRand.NextBool());
+                PutItemInChest(ref chest, ItemID.RecallPotion, 1, 2, WorldGen.genRand.NextBool());
+                PutItemInChest(ref chest, ItemID.GoldCoin, 1, 2);
+            }
         }
 		#endregion
 
@@ -195,7 +196,7 @@ namespace CalamityMod.World
 
 		public static void GenNewTemple(int x, int y)
 		{
-			Rectangle[] array = new Rectangle[40];
+			Rectangle[] array = new Rectangle[200];
 			float num = (float)(Main.maxTilesX / 4200);
 			int num2 = WorldGen.genRand.Next((int)(num * 12f), (int)(num * 16f));
 			int num3 = 1;
@@ -2742,10 +2743,10 @@ namespace CalamityMod.World
             int num22 = i + (num2 / 2 + 1) * -num;
             WorldGen.PlaceTile(num22, num7 - 1, 14, true, false, -1, WorldGen.crimson ? 1 : 8); //table
             WorldGen.PlaceTile(num22 - 2, num7 - 1, 15, true, false, 0, WorldGen.crimson ? 2 : 11); //chair
-            Tile expr_510 = Main.tile[num22 - 2, num7 - 1];
-            expr_510.frameX += 18;
-            Tile expr_531 = Main.tile[num22 - 2, num7 - 2];
-            expr_531.frameX += 18;
+            Tile tile = Main.tile[num22 - 2, num7 - 1];
+            tile.frameX += 18;
+            Tile tile2 = Main.tile[num22 - 2, num7 - 2];
+            tile2.frameX += 18;
             WorldGen.PlaceTile(num22 + 2, num7 - 1, 15, true, false, 0, WorldGen.crimson ? 2 : 11); //chair
         }
         #endregion
@@ -3124,10 +3125,10 @@ namespace CalamityMod.World
             int num22 = i + (num2 / 2 + 1) * -num;
             WorldGen.PlaceTile(num22, num7 - 1, 14, true, false, -1, 13); //table
             WorldGen.PlaceTile(num22 - 2, num7 - 1, 15, true, false, 0, 16); //chair
-            Tile expr_510 = Main.tile[num22 - 2, num7 - 1];
-            expr_510.frameX += 18;
-            Tile expr_531 = Main.tile[num22 - 2, num7 - 2];
-            expr_531.frameX += 18;
+            Tile tile = Main.tile[num22 - 2, num7 - 1];
+            tile.frameX += 18;
+            Tile tile2 = Main.tile[num22 - 2, num7 - 2];
+            tile2.frameX += 18;
             WorldGen.PlaceTile(num22 + 2, num7 - 1, 15, true, false, 0, 16); //chair
         }
         #endregion

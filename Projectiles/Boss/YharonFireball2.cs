@@ -75,9 +75,9 @@ namespace CalamityMod.Projectiles.Boss
             }
             if (Main.rand.NextBool(16))
             {
-                Dust expr_733B = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 55, 0f, 0f, 200, default, 1f);
-                expr_733B.scale *= 0.7f;
-                expr_733B.velocity += projectile.velocity * 0.25f;
+                Dust dust = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 55, 0f, 0f, 200, default, 1f);
+                dust.scale *= 0.7f;
+                dust.velocity += projectile.velocity * 0.25f;
             }
         }
 
@@ -123,5 +123,10 @@ namespace CalamityMod.Projectiles.Boss
             }
             projectile.Damage();
         }
+
+        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
+        {
+			target.Calamity().lastProjectileHit = projectile;
+		}
     }
 }
