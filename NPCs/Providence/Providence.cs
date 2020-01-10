@@ -60,7 +60,7 @@ namespace CalamityMod.NPCs.Providence
             global.customDR = true;
             global.flatDRReductions.Add(BuffID.Ichor, 0.05f);
             global.flatDRReductions.Add(BuffID.CursedInferno, 0.05f);
-            npc.LifeMaxNERD(440000, 500000, 715000, 12500000, 15000000);
+            npc.LifeMaxNERB(440000, 500000, 12500000);
             double HPBoost = Config.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;

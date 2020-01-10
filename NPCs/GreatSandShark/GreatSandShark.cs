@@ -34,11 +34,7 @@ namespace CalamityMod.NPCs.GreatSandShark
             npc.height = 120;
             npc.defense = 60;
             npc.Calamity().RevPlusDR(0.25f);
-            npc.lifeMax = CalamityWorld.revenge ? 11000 : 8000;
-            if (CalamityWorld.death)
-            {
-                npc.lifeMax = 16000;
-            }
+			npc.LifeMaxNERB(8000, 11000);
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;

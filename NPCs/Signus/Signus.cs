@@ -46,23 +46,15 @@ namespace CalamityMod.NPCs.Signus
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/ScourgeofTheUniverse");
             else
                 music = MusicID.Boss4;
-            npc.lifeMax = CalamityWorld.revenge ? 109500 : 70000;
-            if (CalamityWorld.DoGSecondStageCountdown <= 0)
+			bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0;
+			npc.LifeMaxNERB(notDoGFight ? 280000 : 70000, notDoGFight ? 445500 : 109500, 2400000);
+            if (notDoGFight)
             {
                 npc.value = Item.buyPrice(0, 35, 0, 0);
                 if (calamityModMusic != null)
                     music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Signus");
                 else
                     music = MusicID.Boss4;
-                npc.lifeMax = CalamityWorld.revenge ? 445500 : 280000;
-                if (CalamityWorld.death)
-                {
-                    npc.lifeMax = 722250;
-                }
-            }
-            if (CalamityWorld.bossRushActive)
-            {
-                npc.lifeMax = CalamityWorld.death ? 2600000 : 2400000;
             }
             double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);

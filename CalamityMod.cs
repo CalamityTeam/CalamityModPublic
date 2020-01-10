@@ -3478,6 +3478,5 @@ namespace CalamityMod
         ArmageddonBoolSync,
         DemonTrophyBoolSync,
         NPCRegenerationSync
-        //DistanceFromBossSync
     }
 }

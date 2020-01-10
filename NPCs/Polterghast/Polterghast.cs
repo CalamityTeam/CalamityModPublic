@@ -27,7 +27,6 @@ namespace CalamityMod.NPCs.Polterghast
     {
         private int despawnTimer = 600;
         private bool spawnGhost = false;
-
         private bool boostDR = false;
         public static float phase1DR = 0.1f;
         public static float phase2DR = 0.15f;
@@ -52,7 +51,7 @@ namespace CalamityMod.NPCs.Polterghast
             global.customDR = true;
             global.multDRReductions.Add(BuffID.Ichor, 0.88f);
             global.multDRReductions.Add(BuffID.CursedInferno, 0.9f);
-            npc.LifeMaxNERD(412500, 495000, 660000, 3250000, 3500000);
+            npc.LifeMaxNERB(412500, 495000, 3250000);
             double HPBoost = Config.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;

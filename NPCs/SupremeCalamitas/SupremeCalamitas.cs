@@ -91,15 +91,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             global.multDRReductions.Add(BuffID.Ichor, 0.9f);
             global.multDRReductions.Add(BuffID.CursedInferno, 0.91f);
             npc.value = Item.buyPrice(10, 0, 0, 0);
-            npc.lifeMax = CalamityWorld.revenge ? 5500000 : 5000000;
-            if (CalamityWorld.death)
-            {
-                npc.lifeMax = 6250000;
-            }
-            if (CalamityWorld.bossRushActive)
-            {
-                npc.lifeMax = CalamityWorld.death ? 2300000 : 2100000;
-            }
+			npc.LifeMaxNERB(5000000, 5500000, 2100000);
             double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
             npc.aiStyle = -1;

@@ -27,7 +27,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             npc.height = 80;
             npc.defense = 35;
             npc.Calamity().RevPlusDR(0.05f);
-            npc.LifeMaxNERD(25000, 35000, 50000, 200000, 240000);
+            npc.LifeMaxNERB(25000, 35000, 200000);
             double HPBoost = Config.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;

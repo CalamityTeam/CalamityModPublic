@@ -34,7 +34,7 @@ namespace CalamityMod.NPCs.Calamitas
             npc.lifeMax = 2500;
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 200000 : 150000;
+                npc.lifeMax = 150000;
             }
             for (int k = 0; k < npc.buffImmune.Length; k++)
             {

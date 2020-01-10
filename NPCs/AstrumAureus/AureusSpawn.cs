@@ -31,7 +31,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             global.DR = 0.999999f;
             global.unbreakableDR = true;
             npc.lifeMax = Main.expertMode ? 1007 : 1012;
-            if (CalamityWorld.death || CalamityWorld.bossRushActive)
+            if (CalamityWorld.bossRushActive)
             {
                 npc.lifeMax = 1002;
             }

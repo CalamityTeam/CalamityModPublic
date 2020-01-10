@@ -1172,9 +1172,7 @@ namespace CalamityMod.World
                 {
                     double spawnRate = 100000D;
 
-                    if (death)
-                        spawnRate *= 0.75D;
-                    else if (revenge)
+                    if (revenge)
                         spawnRate *= 0.85D;
 
                     if (demonMode)
