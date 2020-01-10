@@ -34,28 +34,6 @@ namespace CalamityMod.Projectiles.Magic
                 Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 20);
                 projectile.localAI[0] += 1f;
             }
-            bool flag15 = false;
-            bool flag16 = false;
-            if (projectile.velocity.X < 0f && projectile.position.X < projectile.ai[0])
-            {
-                flag15 = true;
-            }
-            if (projectile.velocity.X > 0f && projectile.position.X > projectile.ai[0])
-            {
-                flag15 = true;
-            }
-            if (projectile.velocity.Y < 0f && projectile.position.Y < projectile.ai[1])
-            {
-                flag16 = true;
-            }
-            if (projectile.velocity.Y > 0f && projectile.position.Y > projectile.ai[1])
-            {
-                flag16 = true;
-            }
-            if (flag15 && flag16)
-            {
-                projectile.Kill();
-            }
             float num461 = 25f;
             if (projectile.ai[0] > 180f)
             {

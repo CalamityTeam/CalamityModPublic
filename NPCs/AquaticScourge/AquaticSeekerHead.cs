@@ -13,8 +13,8 @@ namespace CalamityMod.NPCs.AquaticScourge
     {
         public const int minLength = 3;
         public const int maxLength = 4;
-        public float speed = 3f; //10
-        public float turnSpeed = 0.05f; //0.15
+        public float speed = 3f;
+        public float turnSpeed = 0.05f;
         bool TailSpawned = false;
 
         public override void SetStaticDefaults()
@@ -24,11 +24,11 @@ namespace CalamityMod.NPCs.AquaticScourge
 
         public override void SetDefaults()
         {
-            npc.damage = 20;
-            npc.width = 22; //36
-            npc.height = 28; //20
+            npc.damage = Main.hardMode ? 40 : 20;
+            npc.width = 22;
+            npc.height = 28;
             npc.defense = 5;
-            npc.lifeMax = 60;
+            npc.lifeMax = Main.hardMode ? 500 : 60;
             if (CalamityWorld.bossRushActive)
             {
                 npc.lifeMax = 60000;
@@ -109,8 +109,8 @@ namespace CalamityMod.NPCs.AquaticScourge
             {
                 npc.active = false;
             }
-            float num188 = speed;
-            float num189 = turnSpeed;
+            float num188 = speed * (Main.hardMode ? 3f : 1f);
+            float num189 = turnSpeed * (Main.hardMode ? 3f : 1f);
             Vector2 vector18 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
             float num191 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2);
             float num192 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2);

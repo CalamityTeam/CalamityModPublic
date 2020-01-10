@@ -30,28 +30,6 @@ namespace CalamityMod.Projectiles.Magic
             float num = (float)Main.rand.Next(90, 111) * 0.01f;
             num *= Main.essScale;
             Lighting.AddLight(projectile.Center, 5f * num, 1f * num, 4f * num);
-            bool flag15 = false;
-            bool flag16 = false;
-            if (projectile.velocity.X < 0f && projectile.position.X < projectile.ai[0])
-            {
-                flag15 = true;
-            }
-            if (projectile.velocity.X > 0f && projectile.position.X > projectile.ai[0])
-            {
-                flag15 = true;
-            }
-            if (projectile.velocity.Y < 0f && projectile.position.Y < projectile.ai[1])
-            {
-                flag16 = true;
-            }
-            if (projectile.velocity.Y > 0f && projectile.position.Y > projectile.ai[1])
-            {
-                flag16 = true;
-            }
-            if (flag15 && flag16)
-            {
-                projectile.Kill();
-            }
             float num461 = 25f;
             if (projectile.ai[0] > 180f)
             {
@@ -99,7 +77,6 @@ namespace CalamityMod.Projectiles.Magic
                 Main.dust[num467].velocity.Y = num464;
                 num462++;
             }
-            return;
         }
     }
 }

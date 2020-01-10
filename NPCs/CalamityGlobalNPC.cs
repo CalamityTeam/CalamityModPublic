@@ -713,18 +713,18 @@ namespace CalamityMod.NPCs
                 case NPCID.TheDestroyer:
                 case NPCID.TheDestroyerBody:
                 case NPCID.TheDestroyerTail:
-                    npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 2.7) : (int)(npc.lifeMax * 1.8);
+                    npc.lifeMax = (int)(npc.lifeMax * 1.8);
                     npc.scale = 1.5f;
                     npc.npcSlots = 10f;
                     break;
 
                 case NPCID.Probe:
-                    npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 1.9) : (int)(npc.lifeMax * 1.6);
-                    npc.scale *= CalamityWorld.death ? 1.25f : 1.2f;
+                    npc.lifeMax = (int)(npc.lifeMax * 1.6);
+                    npc.scale *= 1.2f;
                     break;
 
                 case NPCID.SkeletronPrime:
-                    npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 2.1) : (int)(npc.lifeMax * 1.45);
+                    npc.lifeMax = (int)(npc.lifeMax * 1.45);
                     npc.npcSlots = 12f;
                     break;
 
@@ -732,12 +732,12 @@ namespace CalamityMod.NPCs
                 case NPCID.PrimeCannon:
                 case NPCID.PrimeSaw:
                 case NPCID.PrimeLaser:
-                    npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 1.15) : (int)(npc.lifeMax * 1.05);
+                    npc.lifeMax = (int)(npc.lifeMax * 1.05);
                     break;
 
                 case NPCID.Retinazer:
                 case NPCID.Spazmatism:
-                    npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 3.0) : (int)(npc.lifeMax * 1.8);
+                    npc.lifeMax = (int)(npc.lifeMax * 1.8);
                     npc.npcSlots = 10f;
                     break;
             }
@@ -755,20 +755,20 @@ namespace CalamityMod.NPCs
             }
             else if (npc.type == NPCID.MoonLordCore)
             {
-                npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 2.7) : (int)(npc.lifeMax * 2.2);
+                npc.lifeMax = (int)(npc.lifeMax * 2.2);
                 npc.npcSlots = 36f;
             }
             else if (npc.type == NPCID.MoonLordHand || npc.type == NPCID.MoonLordHead || npc.type == NPCID.MoonLordLeechBlob)
             {
-                npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 1.4) : (int)(npc.lifeMax * 1.2);
+                npc.lifeMax = (int)(npc.lifeMax * 1.2);
             }
             else if (npc.type >= NPCID.CultistDragonHead && npc.type <= NPCID.CultistDragonTail)
             {
-                npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 10.0) : (int)(npc.lifeMax * 5.0);
+                npc.lifeMax = (int)(npc.lifeMax * 5.0);
             }
             else if (npc.type == NPCID.DukeFishron)
             {
-                npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 3.525) : (int)(npc.lifeMax * 1.85);
+                npc.lifeMax = (int)(npc.lifeMax * 1.85);
                 npc.npcSlots = 20f;
             }
             else if (npc.type == NPCID.Sharkron || npc.type == NPCID.Sharkron2)
@@ -777,21 +777,21 @@ namespace CalamityMod.NPCs
             }
             else if (npc.type == NPCID.Golem)
             {
-                npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 7.0) : (int)(npc.lifeMax * 4.0);
+                npc.lifeMax = (int)(npc.lifeMax * 4.0);
                 npc.npcSlots = 64f;
             }
             else if (npc.type == NPCID.GolemHead)
             {
-                npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 2.0) : (int)(npc.lifeMax * 1.5);
+                npc.lifeMax = (int)(npc.lifeMax * 1.5);
             }
             else if (npc.type == NPCID.GolemHeadFree)
             {
-                npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 1.5) : (int)(npc.lifeMax * 1.25);
+                npc.lifeMax = (int)(npc.lifeMax * 1.25);
                 npc.dontTakeDamage = false;
             }
             else if (npc.type == NPCID.Plantera)
             {
-                npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 3.4) : (int)(npc.lifeMax * 2.3);
+                npc.lifeMax = (int)(npc.lifeMax * 2.3);
                 npc.npcSlots = 32f;
             }
             else if (npc.type == NPCID.PlanterasHook)
@@ -800,7 +800,7 @@ namespace CalamityMod.NPCs
             }
             else if (npc.type == NPCID.WallofFlesh || npc.type == NPCID.WallofFleshEye)
             {
-                npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 2.6) : (int)(npc.lifeMax * 1.9);
+                npc.lifeMax = (int)(npc.lifeMax * 1.9);
 
                 if (npc.type == NPCID.WallofFlesh)
                 {
@@ -809,34 +809,34 @@ namespace CalamityMod.NPCs
             }
             else if (npc.type == NPCID.TheHungryII || npc.type == NPCID.LeechHead || npc.type == NPCID.LeechBody || npc.type == NPCID.LeechTail)
             {
-                npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 1.15) : (int)(npc.lifeMax * 1.05);
+                npc.lifeMax = (int)(npc.lifeMax * 1.05);
             }
             else if (npc.type == NPCID.SkeletronHead)
             {
-                npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 1.4) : (int)(npc.lifeMax * 1.25);
+                npc.lifeMax = (int)(npc.lifeMax * 1.25);
                 npc.npcSlots = 12f;
             }
             else if (npc.type == NPCID.SkeletronHand)
             {
-                npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 0.9) : (int)(npc.lifeMax * 0.75);
+                npc.lifeMax = (int)(npc.lifeMax * 0.75);
             }
             else if (npc.type == NPCID.QueenBee)
             {
-                npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 1.65) : (int)(npc.lifeMax * 1.15);
+                npc.lifeMax = (int)(npc.lifeMax * 1.15);
                 npc.npcSlots = 14f;
             }
             else if (npc.type == NPCID.BrainofCthulhu)
             {
-                npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 2.1) : (int)(npc.lifeMax * 1.6);
+                npc.lifeMax = (int)(npc.lifeMax * 1.6);
                 npc.npcSlots = 12f;
             }
             else if (npc.type == NPCID.Creeper)
             {
-                npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 1.2) : (int)(npc.lifeMax * 1.1);
+                npc.lifeMax = (int)(npc.lifeMax * 1.1);
             }
             else if (EaterofWorldsIDs.Contains(npc.type))
             {
-                npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 1.4) : (int)(npc.lifeMax * 1.3);
+                npc.lifeMax = (int)(npc.lifeMax * 1.3);
 
                 if (npc.type == NPCID.EaterofWorldsHead)
                 {
@@ -845,15 +845,8 @@ namespace CalamityMod.NPCs
             }
             else if (npc.type == NPCID.EyeofCthulhu)
             {
-                npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 2.3) : (int)(npc.lifeMax * 1.25);
+                npc.lifeMax = (int)(npc.lifeMax * 1.25);
                 npc.npcSlots = 10f;
-            }
-            else if (npc.type == NPCID.KingSlime)
-            {
-                if (CalamityWorld.death)
-                {
-                    npc.lifeMax = (int)(npc.lifeMax * 1.85);
-                }
             }
             else if (npc.type == NPCID.Wraith || npc.type == NPCID.Mimic || npc.type == NPCID.Reaper || npc.type == NPCID.PresentMimic || npc.type == NPCID.SandElemental)
             {
@@ -864,38 +857,27 @@ namespace CalamityMod.NPCs
             {
                 if (DestroyerIDs.Contains(npc.type))
                 {
-                    npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 1.6) : (int)(npc.lifeMax * 1.25);
+                    npc.lifeMax = (int)(npc.lifeMax * 1.25);
                     npc.scale = 1.5f;
                     npc.npcSlots = 10f;
                 }
-                else if (npc.type == NPCID.Probe)
-                {
-                    if (CalamityWorld.death)
-                    {
-                        npc.lifeMax = (int)(npc.lifeMax * 1.25);
-                        npc.scale *= 1.2f;
-                    }
-                }
                 else if (npc.type == NPCID.SkeletronPrime)
                 {
-                    npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 1.35) : (int)(npc.lifeMax * 1.15);
+                    npc.lifeMax = (int)(npc.lifeMax * 1.15);
                     npc.npcSlots = 12f;
                 }
                 else if (npc.type == NPCID.PrimeVice || npc.type == NPCID.PrimeCannon || npc.type == NPCID.PrimeSaw || npc.type == NPCID.PrimeLaser)
                 {
-                    if (!CalamityWorld.death)
-                    {
-                        npc.lifeMax = (int)(npc.lifeMax * 0.9);
-                    }
+                    npc.lifeMax = (int)(npc.lifeMax * 0.9);
                 }
                 else if (npc.type == NPCID.Retinazer)
                 {
-                    npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 1.4) : (int)(npc.lifeMax * 1.25);
+                    npc.lifeMax = (int)(npc.lifeMax * 1.25);
                     npc.npcSlots = 10f;
                 }
                 else if (npc.type == NPCID.Spazmatism)
                 {
-                    npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 1.45) : (int)(npc.lifeMax * 1.3);
+                    npc.lifeMax = (int)(npc.lifeMax * 1.3);
                     npc.npcSlots = 10f;
                 }
             }
@@ -929,7 +911,7 @@ namespace CalamityMod.NPCs
 
             if (npc.type == NPCID.CultistBoss)
             {
-                npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 2.5) : (int)(npc.lifeMax * (CalamityWorld.revenge ? 1.7 : 1.2));
+                npc.lifeMax = (int)(npc.lifeMax * (CalamityWorld.revenge ? 1.7 : 1.2));
                 npc.npcSlots = 20f;
             }
 
@@ -1073,42 +1055,42 @@ namespace CalamityMod.NPCs
                         npc.type == thorium.NPCType("BoreanHopper") || npc.type == thorium.NPCType("BoreanMyte1") || npc.type == thorium.NPCType("EnemyBeholder") ||
                         npc.type == thorium.NPCType("ThousandSoulPhalactry") || npc.type == thorium.NPCType("AbyssalSpawn"))
                     {
-                        npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 2.3) : (int)(npc.lifeMax * 1.5);
+                        npc.lifeMax = (int)(npc.lifeMax * 1.5);
                     }
                     else if (npc.type == thorium.NPCType("TheGrandThunderBirdv2"))
                     {
                         npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
                         npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
 
-                        npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 2.3) : (int)(npc.lifeMax * 1.5);
+                        npc.lifeMax = (int)(npc.lifeMax * 1.5);
                     }
                     else if (npc.type == thorium.NPCType("QueenJelly"))
                     {
                         npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
                         npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
 
-                        npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 1.9) : (int)(npc.lifeMax * 1.35);
+                        npc.lifeMax = (int)(npc.lifeMax * 1.35);
                     }
                     else if (npc.type == thorium.NPCType("Viscount"))
                     {
                         npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
                         npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
 
-                        npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 1.65) : (int)(npc.lifeMax * 1.25);
+                        npc.lifeMax = (int)(npc.lifeMax * 1.25);
                     }
                     else if (npc.type == thorium.NPCType("GraniteEnergyStorm"))
                     {
                         npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
                         npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
 
-                        npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 1.25) : (int)(npc.lifeMax * 1.1);
+                        npc.lifeMax = (int)(npc.lifeMax * 1.1);
                     }
                     else if (npc.type == thorium.NPCType("TheBuriedWarrior") || npc.type == thorium.NPCType("TheBuriedWarrior1") || npc.type == thorium.NPCType("TheBuriedWarrior2"))
                     {
                         npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
                         npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
 
-                        npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 1.5) : (int)(npc.lifeMax * 1.2);
+                        npc.lifeMax = (int)(npc.lifeMax * 1.2);
                     }
                     else if (npc.type == thorium.NPCType("ThePrimeScouter") || npc.type == thorium.NPCType("CryoCore") || npc.type == thorium.NPCType("BioCore") ||
                         npc.type == thorium.NPCType("PyroCore"))
@@ -1116,35 +1098,35 @@ namespace CalamityMod.NPCs
                         npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
                         npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
 
-                        npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 1.75) : (int)(npc.lifeMax * 1.3);
+                        npc.lifeMax = (int)(npc.lifeMax * 1.3);
                     }
                     else if (npc.type == thorium.NPCType("BoreanStrider") || npc.type == thorium.NPCType("BoreanStriderPopped"))
                     {
                         npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
                         npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
 
-                        npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 2.0) : (int)(npc.lifeMax * 1.4);
+                        npc.lifeMax = (int)(npc.lifeMax * 1.4);
                     }
                     else if (npc.type == thorium.NPCType("FallenDeathBeholder") || npc.type == thorium.NPCType("FallenDeathBeholder2"))
                     {
                         npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
                         npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
 
-                        npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 2.5) : (int)(npc.lifeMax * 1.6);
+                        npc.lifeMax = (int)(npc.lifeMax * 1.6);
                     }
                     else if (npc.type == thorium.NPCType("Lich") || npc.type == thorium.NPCType("LichHeadless"))
                     {
                         npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
                         npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
 
-                        npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 2.5) : (int)(npc.lifeMax * 1.6);
+                        npc.lifeMax = (int)(npc.lifeMax * 1.6);
                     }
                     else if (npc.type == thorium.NPCType("Abyssion") || npc.type == thorium.NPCType("AbyssionCracked") || npc.type == thorium.NPCType("AbyssionReleased"))
                     {
                         npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
                         npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
 
-                        npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 2.3) : (int)(npc.lifeMax * 1.5);
+                        npc.lifeMax = (int)(npc.lifeMax * 1.5);
                     }
                     else if (npc.type == thorium.NPCType("SlagFury") || npc.type == thorium.NPCType("Omnicide") || npc.type == thorium.NPCType("RealityBreaker") ||
                         npc.type == thorium.NPCType("Aquaius") || npc.type == thorium.NPCType("Aquaius2"))
@@ -1152,7 +1134,7 @@ namespace CalamityMod.NPCs
                         npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
                         npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
 
-                        npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 1.75) : (int)(npc.lifeMax * 1.3);
+                        npc.lifeMax = (int)(npc.lifeMax * 1.3);
                     }
                 }
             }
@@ -2834,11 +2816,13 @@ namespace CalamityMod.NPCs
 				maxSpawns = (int)(maxSpawns * 1.5f);
 			}
 
-			if (CalamityWorld.death)
+			if (CalamityWorld.death && Main.bloodMoon)
 			{
-				spawnRate = (int)(spawnRate * 0.75);
+				spawnRate = (int)(spawnRate * 0.25);
+				maxSpawns = (int)(maxSpawns * 10f);
 			}
-			else if (CalamityWorld.revenge)
+
+			if (CalamityWorld.revenge)
 			{
 				spawnRate = (int)(spawnRate * 0.85);
 			}
@@ -4042,7 +4026,6 @@ namespace CalamityMod.NPCs
         #region Any Boss NPCs
         public static bool AnyBossNPCS()
         {
-
             for (int i = 0; i < 200; i++)
             {
                 if (Main.npc[i].active && Main.npc[i].type != NPCID.MartianSaucerCore &&

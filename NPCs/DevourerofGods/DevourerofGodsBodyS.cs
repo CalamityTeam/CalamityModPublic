@@ -91,7 +91,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             }
             else
             {
-                npc.dontTakeDamage = false;
+                npc.dontTakeDamage = Main.npc[(int)npc.ai[2]].dontTakeDamage;
             }
             if (npc.ai[3] > 0f)
             {

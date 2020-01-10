@@ -201,7 +201,7 @@ namespace CalamityMod.NPCs.Crabulon
                 npc.velocity.X *= 0.98f;
                 npc.velocity.Y *= 0.98f;
                 npc.ai[1] += 1f;
-                if (npc.ai[1] >= 60f)
+                if (npc.ai[1] >= (revenge ? 30f : 60f))
                 {
                     npc.noGravity = true;
                     npc.noTileCollide = true;
@@ -314,25 +314,68 @@ namespace CalamityMod.NPCs.Crabulon
                     npc.ai[1] += 1f;
                     if (npc.ai[1] > 0f)
                     {
+						if (revenge)
+						{
+							switch ((int)npc.ai[3])
+							{
+								case 0:
+									break;
+								case 1:
+									npc.ai[1] += 1f;
+									break;
+								case 2:
+									npc.ai[1] += 3f;
+									break;
+								case 3:
+									npc.ai[1] += 6f;
+									break;
+								default:
+									break;
+							}
+						}
                         if (npc.life < npc.lifeMax / 2 || CalamityWorld.bossRushActive)
                         {
-                            npc.ai[1] += 4f;
+                            npc.ai[1] += (!revenge ? 4f : 1f);
                         }
-                        if (npc.life < npc.lifeMax / 10 || CalamityWorld.bossRushActive)
+                        if (npc.life < npc.lifeMax / 4 || CalamityWorld.bossRushActive)
                         {
-                            npc.ai[1] += 8f;
+                            npc.ai[1] += (!revenge ? 4f : 1f);
                         }
                     }
+
                     if (npc.ai[1] >= 300f)
                     {
                         npc.ai[1] = -20f;
-                        npc.frameCounter = 0.0;
                     }
                     else if (npc.ai[1] == -1f)
                     {
                         npc.TargetClosest(true);
-                        npc.velocity.X = (float)((CalamityWorld.bossRushActive ? 12 : 4) * npc.direction);
-                        npc.velocity.Y = CalamityWorld.bossRushActive ? -16f : -12.1f;
+
+						int velocityX = CalamityWorld.bossRushActive ? 12 : 4;
+						float velocityY = CalamityWorld.bossRushActive ? -16f : -12f;
+						if (revenge)
+						{
+							switch ((int)npc.ai[3])
+							{
+								case 0: // Normal
+									break;
+								case 1: // High
+									velocityY -= 4f;
+									break;
+								case 2: // Low
+									velocityY += 4f;
+									break;
+								case 3: // Long and low
+									velocityX += 4;
+									velocityY += 4f;
+									break;
+								default:
+									break;
+							}
+						}
+						npc.velocity.X = (float)(velocityX * npc.direction);
+                        npc.velocity.Y = velocityY;
+
                         npc.ai[0] = 4f;
                         npc.ai[1] = 0f;
                     }
@@ -343,30 +386,50 @@ namespace CalamityMod.NPCs.Crabulon
                 if (npc.velocity.Y == 0f)
                 {
                     Main.PlaySound(SoundID.Item14, npc.position);
+
                     if (Main.netMode != NetmodeID.MultiplayerClient)
-                    {
                         Projectile.NewProjectile((int)npc.Center.X, (int)npc.Center.Y + 20, 0f, 0f, ModContent.ProjectileType<Mushmash>(), 20, 0f, Main.myPlayer, 0f, 0f);
-                    }
-                    npc.ai[2] += 1f;
-                    if (npc.ai[2] >= 3f)
+
+					int num354 = expertMode ? 11 : 14;
+					if (npc.ai[2] % 2f == 0f && (double)npc.life < (double)npc.lifeMax * 0.5 && revenge)
+					{
+						if (Main.netMode != NetmodeID.MultiplayerClient)
+						{
+							float velocityX = npc.ai[2] == 0f ? -4f : 4f;
+							for (int x = 0; x < 20; x++)
+							{
+								Projectile.NewProjectile(npc.Center.X + (float)shotSpacing, npc.Center.Y - 1000f, velocityX, 0f, ModContent.ProjectileType<MushBombFall>(), num354, 0f, Main.myPlayer, 0f, 0f);
+								shotSpacing -= 100;
+							}
+							shotSpacing = 1000;
+						}
+					}
+
+					npc.ai[2] += 1f;
+					if (npc.ai[2] >= ((double)npc.life < (double)npc.lifeMax * 0.5 ? 4f : 3f))
                     {
-                        if (Main.netMode != NetmodeID.MultiplayerClient && revenge)
+                        if (Main.netMode != NetmodeID.MultiplayerClient && revenge && (double)npc.life >= (double)npc.lifeMax * 0.5)
                         {
                             for (int x = 0; x < 20; x++)
                             {
-                                int num354 = expertMode ? 11 : 14;
                                 Projectile.NewProjectile(npc.Center.X + (float)shotSpacing, npc.Center.Y - 1000f, 0f, 0f, ModContent.ProjectileType<MushBombFall>(), num354, 0f, Main.myPlayer, 0f, 0f);
                                 shotSpacing -= 100;
                             }
                             shotSpacing = 1000;
                         }
+
                         npc.ai[0] = 1f;
                         npc.ai[2] = 0f;
+						if (revenge)
+							npc.ai[3] = 0f;
                     }
                     else
                     {
                         npc.ai[0] = 3f;
-                    }
+						if (revenge)
+							npc.ai[3] += 1f;
+					}
+
                     for (int num622 = (int)npc.position.X - 20; num622 < (int)npc.position.X + npc.width + 40; num622 += 20)
                     {
                         for (int num623 = 0; num623 < 4; num623++)
@@ -386,20 +449,21 @@ namespace CalamityMod.NPCs.Crabulon
                     }
                     else
                     {
+						float velocityX = 0.11f +
+							(expertMode ? 0.02f : 0f) +
+							(revenge ? 0.02f : 0f);
+
                         if (npc.direction < 0)
-                        {
-                            npc.velocity.X = npc.velocity.X - 0.2f;
-                        }
+                            npc.velocity.X = npc.velocity.X - velocityX;
                         else if (npc.direction > 0)
-                        {
-                            npc.velocity.X = npc.velocity.X + 0.2f;
-                        }
+                            npc.velocity.X = npc.velocity.X + velocityX;
+
                         float num626 = CalamityWorld.bossRushActive ? 5f : 2.5f;
                         if (revenge)
                         {
                             num626 += 1f;
                         }
-                        if (npc.Calamity().enraged > 0|| (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                        if (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
                         {
                             num626 += 3f;
                         }
@@ -426,6 +490,7 @@ namespace CalamityMod.NPCs.Crabulon
                     }
                 }
             }
+
             if (npc.localAI[0] == 0f && npc.life > 0)
             {
                 npc.localAI[0] = (float)npc.lifeMax;

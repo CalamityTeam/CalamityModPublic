@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.World;
+using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Boss
@@ -25,7 +27,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-            projectile.velocity.Y = 5f;
+            projectile.velocity.Y = CalamityWorld.death ? 6f : 5f;
+
             projectile.frameCounter++;
             if (projectile.frameCounter > 4)
             {
@@ -36,12 +39,14 @@ namespace CalamityMod.Projectiles.Boss
             {
                 projectile.frame = 0;
             }
+
             if (projectile.timeLeft < 90)
-            {
                 projectile.tileCollide = true;
-            }
-            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0.15f / 255f, (255 - projectile.alpha) * 0.3f / 255f);
-            projectile.velocity.X *= 0.99f;
+
+            Lighting.AddLight(projectile.Center, 0f, 0.15f, 0.3f);
+
+			if (Math.Abs(projectile.velocity.X) > 2f)
+				projectile.velocity.X *= 0.99f;
         }
 
         public override void Kill(int timeLeft)

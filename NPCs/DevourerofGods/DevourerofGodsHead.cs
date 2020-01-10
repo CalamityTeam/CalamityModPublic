@@ -782,7 +782,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             }
 
             // TODO: don't talk if the player has iframes
-            if (player.immuneTime > 0)
+            if (player.immuneTime > 0 || player.immune)
                 return;
 
             int num = Main.rand.Next(5);

@@ -35,6 +35,7 @@ using CalamityMod.NPCs.Leviathan;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.PlaguebringerGoliath;
 using CalamityMod.NPCs.Providence;
+using CalamityMod.NPCs.Signus;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.Yharon;
 using CalamityMod.Projectiles.Melee;
@@ -1758,7 +1759,10 @@ namespace CalamityMod.CalPlayer
             bool useHoly = NPC.AnyNPCs(ModContent.NPCType<Providence>());
             player.ManageSpecialBiomeVisuals("CalamityMod:Providence", useHoly);
 
-            bool useSBrimstone = NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>());
+			bool useDark = NPC.AnyNPCs(ModContent.NPCType<Signus>());
+			player.ManageSpecialBiomeVisuals("CalamityMod:Signus", useDark);
+
+			bool useSBrimstone = NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>());
             player.ManageSpecialBiomeVisuals("CalamityMod:SupremeCalamitas", useSBrimstone);
 
             bool inAstral = ZoneAstral;
@@ -1909,11 +1913,18 @@ namespace CalamityMod.CalPlayer
         #region InventoryStartup
         public override void SetupStartInventory(IList<Item> items, bool mediumcoreDeath)
         {
-            if (!mediumcoreDeath)
+			Item createItem(int type)
+			{
+				Item i = new Item();
+				i.SetDefaults(type);
+				return i;
+			}
+
+			if (!mediumcoreDeath)
             {
-                player.inventory[9].SetDefaults(ModContent.ItemType<Revenge>());
-                player.inventory[8].SetDefaults(ModContent.ItemType<IronHeart>());
-                player.inventory[7].SetDefaults(ModContent.ItemType<StarterBag>());
+                items.Add(createItem(ModContent.ItemType<Revenge>()));
+                items.Add(createItem(ModContent.ItemType<IronHeart>()));
+                items.Add(createItem(ModContent.ItemType<StarterBag>()));
             }
         }
         #endregion
@@ -4248,7 +4259,7 @@ namespace CalamityMod.CalPlayer
                 {
                     if (item.melee)
                     {
-                        damageMult += CalamityWorld.death ? (DHorHoD ? 7.6 : 6.8) : (DHorHoD ? 2.3 : 2.0); // Death Mode values: 8.9 and 8.0, rev: 2.3 and 2.0
+                        damageMult += (DHorHoD ? 2.3 : 2.0);
                     }
                 }
                 else if (rageMode)
@@ -4256,10 +4267,10 @@ namespace CalamityMod.CalPlayer
                     if (item.melee)
                     {
                         double rageDamageBoost = 0.0 +
-                            (rageBoostOne ? (CalamityWorld.death ? 0.5 : 0.15) : 0.0) + // Death Mode values: 0.6, rev: 0.15
-                            (rageBoostTwo ? (CalamityWorld.death ? 0.5 : 0.15) : 0.0) + // Death Mode values: 0.6, rev: 0.15
-                            (rageBoostThree ? (CalamityWorld.death ? 0.5 : 0.15) : 0.0); // Death Mode values: 0.6, rev: 0.15
-                        double rageDamage = (CalamityWorld.death ? (DHorHoD ? 2.0 : 1.7) : (DHorHoD ? 0.65 : 0.5)) + rageDamageBoost; // Death Mode values: 2.3 and 2.0, rev: 0.65 and 0.5
+                            (rageBoostOne ? 0.15 : 0.0) +
+                            (rageBoostTwo ? 0.15 : 0.0) +
+                            (rageBoostThree ? 0.15 : 0.0);
+                        double rageDamage = (DHorHoD ? 0.65 : 0.5) + rageDamageBoost;
                         damageMult += rageDamage;
                     }
                 }
@@ -4267,7 +4278,7 @@ namespace CalamityMod.CalPlayer
                 {
                     if (item.melee)
                     {
-                        double damageMultAdr = (CalamityWorld.death ? 5.0 : 1.5) * (double)adrenalineDmgMult; // Death Mode values: 6, rev: 1.5
+                        double damageMultAdr = 1.5 * (double)adrenalineDmgMult;
                         damageMult += damageMultAdr;
                     }
                 }
@@ -4538,7 +4549,7 @@ namespace CalamityMod.CalPlayer
                 {
                     if (hasClassType)
                     {
-                        damageMult += CalamityWorld.death ? (DHorHoD ? 7.6 : 6.8) : (DHorHoD ? 2.3 : 2.0); // Death Mode values: 8.9 and 8.0, rev: 2.3 and 2.0
+                        damageMult += (DHorHoD ? 2.3 : 2.0);
                     }
                 }
                 else if (rageMode)
@@ -4546,10 +4557,10 @@ namespace CalamityMod.CalPlayer
                     if (hasClassType)
                     {
                         double rageDamageBoost = 0.0 +
-                            (rageBoostOne ? (CalamityWorld.death ? 0.5 : 0.15) : 0.0) + // Death Mode values: 0.6, rev: 0.15
-                            (rageBoostTwo ? (CalamityWorld.death ? 0.5 : 0.15) : 0.0) + // Death Mode values: 0.6, rev: 0.15
-                            (rageBoostThree ? (CalamityWorld.death ? 0.5 : 0.15) : 0.0); // Death Mode values: 0.6, rev: 0.15
-                        double rageDamage = (CalamityWorld.death ? (DHorHoD ? 2.0 : 1.7) : (DHorHoD ? 0.65 : 0.5)) + rageDamageBoost; // Death Mode values: 2.3 and 2.0, rev: 0.65 and 0.5
+                            (rageBoostOne ? 0.15 : 0.0) +
+                            (rageBoostTwo ? 0.15 : 0.0) +
+                            (rageBoostThree ? 0.15 : 0.0);
+                        double rageDamage = (DHorHoD ? 0.65 : 0.5) + rageDamageBoost;
                         damageMult += rageDamage;
                     }
                 }
@@ -4557,7 +4568,7 @@ namespace CalamityMod.CalPlayer
                 {
                     if (hasClassType)
                     {
-                        double damageMultAdr = (CalamityWorld.death ? 5.0 : 1.5) * (double)adrenalineDmgMult; // Death Mode values: 6, rev: 1.5
+                        double damageMultAdr = 1.5 * (double)adrenalineDmgMult;
                         damageMult += damageMultAdr;
                     }
                 }

@@ -20,11 +20,11 @@ namespace CalamityMod.NPCs.AquaticScourge
         {
             npc.aiStyle = -1;
             aiType = -1;
-            npc.damage = 25;
-            npc.width = 40; //324
-            npc.height = 40; //216
+            npc.damage = Main.hardMode ? 50 : 25;
+            npc.width = 40;
+            npc.height = 40;
             npc.defense = 10;
-            npc.lifeMax = 50;
+            npc.lifeMax = Main.hardMode ? 300 : 50;
             if (CalamityWorld.bossRushActive)
             {
                 npc.lifeMax = 50000;

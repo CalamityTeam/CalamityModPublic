@@ -64,11 +64,13 @@ namespace CalamityMod.NPCs.AquaticScourge
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(npc.chaseable);
-        }
+			writer.Write(npc.localAI[1]);
+		}
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             npc.chaseable = reader.ReadBoolean();
+			npc.localAI[1] = reader.ReadSingle();
         }
 
         public override void AI()

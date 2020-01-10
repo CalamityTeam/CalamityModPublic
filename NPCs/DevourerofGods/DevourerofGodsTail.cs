@@ -224,7 +224,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             player.AddBuff(BuffID.Darkness, 180, true);
 
             // TODO: don't talk if the player has iframes
-            if (player.immuneTime > 0)
+            if (player.immuneTime > 0 || player.immune)
                 return;
 
             int num = Main.rand.Next(2);
