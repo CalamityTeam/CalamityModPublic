@@ -157,7 +157,7 @@ namespace CalamityMod.Projectiles.Rogue
             Rectangle myRect = new Rectangle((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height);
             if (projectile.owner == Main.myPlayer)
             {
-                for (int i = 0; i < 200; i++)
+                for (int i = 0; i < Main.npc.Length; i++)
                 {
                     if (Main.npc[i].active && !Main.npc[i].dontTakeDamage &&
                         ((projectile.friendly && (!Main.npc[i].friendly || projectile.type == 318 || (Main.npc[i].type == 22 && projectile.owner < 255 && Main.player[projectile.owner].killGuide) || (Main.npc[i].type == 54 && projectile.owner < 255 && Main.player[projectile.owner].killClothier))) ||
