@@ -42,7 +42,9 @@ namespace CalamityMod.Projectiles.Rogue
             }
             if (counter % 5 == 0)
             {
-                multiplier -= 0.05f;
+                multiplier -= 0.06f;
+                projectile.velocity.X += 0.1f;
+                projectile.velocity.Y += 0.1f;
             }
             projectile.frameCounter++;
             if (projectile.frameCounter > 8)
