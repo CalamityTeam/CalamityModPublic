@@ -35,6 +35,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
             projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
 
+            Lighting.AddLight(projectile.Center, 0.1f, 0f, 0.5f);
             if (projectile.ai[0] < 0.2f)
             {
                 projectile.ai[0] += 0.1f;

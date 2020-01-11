@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Main.dust[num300].noGravity = true;
                 Main.dust[num300].velocity *= 0.2f;
             }
-            projectile.velocity *= 0.999f;
+            projectile.velocity *= 0.996f;
             if (counter > 100f)
             {
                 projectile.scale -= 0.05f;
