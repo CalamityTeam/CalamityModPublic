@@ -580,6 +580,7 @@ namespace CalamityMod.CalPlayer
         public bool draconicSurge = false;
         public int draconicSurgeCooldown = 0;
         public bool tesla = false;
+        public bool baguette = false;
         public bool vodka = false;
         public bool redWine = false;
         public bool grapeBeer = false;
@@ -1304,6 +1305,7 @@ namespace CalamityMod.CalPlayer
             profanedRage = false;
             draconicSurge = false;
             tesla = false;
+            baguette = false;
             trippy = false;
             amidiasBlessing = false;
             yPower = false;
@@ -1561,6 +1563,7 @@ namespace CalamityMod.CalPlayer
             holyWrath = false;
             profanedRage = false;
             tesla = false;
+            baguette = false;
             draconicSurge = false;
             draconicSurgeCooldown = 0;
             yPower = false;

@@ -170,6 +170,8 @@ namespace CalamityMod.CalPlayer
 			{
 				modPlayer.alcoholPoisonLevel++;
 				player.lifeRegen -= 1;
+				if (modPlayer.baguette)
+					player.lifeRegen -= 3;
 			}
 			if (modPlayer.grapeBeer)
 			{
