@@ -96,6 +96,7 @@ namespace CalamityMod.Projectiles.Summon
                     Main.dust[dust].noGravity = true;
                 }
             }
+            projectile.localAI[1] = AttackMode;
 
             //Damage Update
             if ((player.allDamage + player.minionDamage - 1f) != projectile.Calamity().spawnedPlayerMinionDamageValue)

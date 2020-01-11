@@ -39,6 +39,10 @@ namespace CalamityMod.Projectiles.Typeless
                 }
                 projectile.ai[1] = 0f;
             }
+            if (projectile.timeLeft < 25)
+            {
+                projectile.damage = 0;
+            }
             
         }
 

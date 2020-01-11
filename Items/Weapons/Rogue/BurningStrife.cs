@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
             item.useAnimation = 25;
             item.useTime = 25;
-            item.damage = 60;
+            item.damage = 80;
             item.crit = 8;
             item.shootSpeed = 8f;
             item.shoot = ModContent.ProjectileType<BurningStrifeProj>();

@@ -42,6 +42,10 @@ namespace CalamityMod.Projectiles.Typeless
                 }
                 projectile.ai[1] = 0f;
             }
+            if (projectile.timeLeft < 25)
+            {
+                projectile.damage = 0;
+            }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
