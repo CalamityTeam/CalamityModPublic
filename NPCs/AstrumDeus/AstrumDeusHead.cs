@@ -31,16 +31,8 @@ namespace CalamityMod.NPCs.AstrumDeus
             npc.height = 56;
             npc.defense = 20;
             npc.Calamity().RevPlusDR(0.1f);
-            npc.lifeMax = CalamityWorld.revenge ? 18000 : 12000;
-            if (CalamityWorld.death)
-            {
-                npc.lifeMax = 29100;
-            }
-            if (CalamityWorld.bossRushActive)
-            {
-                npc.lifeMax = CalamityWorld.death ? 420000 : 360000;
-            }
-            double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
+			npc.LifeMaxNERB(12000, 18000, 360000);
+			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
             npc.aiStyle = 6;
             aiType = -1;

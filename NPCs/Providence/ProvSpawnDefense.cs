@@ -28,7 +28,7 @@ namespace CalamityMod.NPCs.Providence
             npc.lifeMax = 25000;
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 360000 : 300000;
+                npc.lifeMax = 300000;
             }
             double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);

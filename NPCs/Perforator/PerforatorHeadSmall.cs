@@ -30,12 +30,8 @@ namespace CalamityMod.NPCs.Perforator
             npc.npcSlots = 5f;
             npc.width = 42;
             npc.height = 62;
-            npc.lifeMax = 1250;
-            if (CalamityWorld.bossRushActive)
-            {
-                npc.lifeMax = CalamityWorld.death ? 600000 : 500000;
-            }
-            double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
+			npc.LifeMaxNERB(1250, 1500, 500000);
+			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
             npc.aiStyle = 6;
             aiType = -1;

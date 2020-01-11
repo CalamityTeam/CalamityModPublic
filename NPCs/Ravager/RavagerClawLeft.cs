@@ -58,7 +58,7 @@ namespace CalamityMod.NPCs.Ravager
             }
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 300000 : 260000;
+                npc.lifeMax = 260000;
             }
             double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);

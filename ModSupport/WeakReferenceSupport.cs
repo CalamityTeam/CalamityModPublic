@@ -320,9 +320,8 @@ namespace CalamityMod
 				calamity, "Profaned Guardians", 
 				(Func<bool>)(() => CalamityWorld.downedGuardians), 
 				ModContent.ItemType<ProfanedShard>(), 
-				ModContent.ItemType<KnowledgeProfanedGuardians>(), 
+				new List<int>() { ModContent.ItemType<ProfanedGuardianMask>(), ModContent.ItemType<KnowledgeProfanedGuardians>() },
 				new List<int>() { ModContent.ItemType<ProfanedCore>(), ItemID.GreaterHealingPotion}, 
-				new List<int>() { ModContent.ItemType<ProfanedGuardianMask>() },
 				"Use a [i:" + ModContent.ItemType<ProfanedShard>() + "] in the Hallow or Underworld Biomes", 
 				"[c/FFA500:The guardians must protect their goddess at all costs.]", 
 				"CalamityMod/NPCs/ProfanedGuardians/ProfanedGuardians_BossChecklist");
@@ -393,7 +392,7 @@ namespace CalamityMod
 				(Func<bool>)(() => CalamityWorld.downedSentinel3), 
 				ModContent.ItemType<RuneofCos>(), 
 				new List<int>() {ModContent.ItemType<SignusTrophy>(), ModContent.ItemType<SignusMask>(), ModContent.ItemType<KnowledgeSentinels>()}, 
-				new List<int>() {ModContent.ItemType<TwistingNether>(), ModContent.ItemType<Cosmilamp>(), ModContent.ItemType<CosmicKunai>(), ModContent.ItemType<SpectralVeil>(), ItemID.SuperHealingPotion}, 
+				new List<int>() {ModContent.ItemType<TwistingNether>(), ModContent.ItemType<Cosmilamp>(), ModContent.ItemType<CosmicKunai>(), ModContent.ItemType<LanternoftheSoul>(), ModContent.ItemType<SpectralVeil>(), ItemID.SuperHealingPotion}, 
 				"Use a [i:" + ModContent.ItemType<RuneofCos>() + "] in the Underworld", 
 				"[c/BA55D3:The Devourer's assassin has finished its easy task.]");
 

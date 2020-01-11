@@ -43,7 +43,7 @@ namespace CalamityMod.Items.Armor
             modPlayer.xerocSet = true;
             modPlayer.rogueStealthMax += 1.25f;
             player.setBonus = "9% increased rogue damage and velocity\n" +
-                "All projectile types have special effects on enemy hits\n" +
+                "Rogue projectiles have special effects on enemy hits\n" +
                 "Imbued with cosmic wrath and rage when you are damaged\n" +
                 "Rogue stealth builds while not attacking and not moving, up to a max of 125\n" +
                 "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +

@@ -34,7 +34,7 @@ namespace CalamityMod.NPCs.Calamitas
             npc.lifeMax = 2500;
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 200000 : 150000;
+                npc.lifeMax = 150000;
             }
             for (int k = 0; k < npc.buffImmune.Length; k++)
             {
@@ -90,7 +90,6 @@ namespace CalamityMod.NPCs.Calamitas
                 npc.netUpdate = true;
                 return false;
             }
-            Player player = Main.player[npc.target];
             NPC parent = Main.npc[NPC.FindFirstNPC(ModContent.NPCType<CalamitasRun3>())];
             double deg = (double)npc.ai[1];
             double rad = deg * (Math.PI / 180);

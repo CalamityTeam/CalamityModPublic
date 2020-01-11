@@ -49,15 +49,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             npc.height = 198;
             npc.defense = 40;
             npc.Calamity().RevPlusDR(0.25f);
-            npc.lifeMax = CalamityWorld.revenge ? 77275 : 58500;
-            if (CalamityWorld.death)
-            {
-                npc.lifeMax = 110000;
-            }
-            if (CalamityWorld.bossRushActive)
-            {
-                npc.lifeMax = CalamityWorld.death ? 4000000 : 3700000;
-            }
+			npc.LifeMaxNERB(58500, 77275, 3700000);
             double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
@@ -211,7 +203,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     }
 
                     while ((float)num596 == num595);
-                    if (num596 == 0 && ((double)npc.life <= (double)npc.lifeMax * 0.8 || CalamityWorld.death || CalamityWorld.bossRushActive) && distFromPlayer.Length() < 1800f)
+                    if (num596 == 0 && revenge && ((double)npc.life <= (double)npc.lifeMax * 0.8 || CalamityWorld.death || CalamityWorld.bossRushActive) && distFromPlayer.Length() < 1800f)
                     {
                         switch (Main.rand.Next(3))
                         {

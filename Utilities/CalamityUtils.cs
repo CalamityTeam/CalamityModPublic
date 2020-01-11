@@ -82,20 +82,14 @@ namespace CalamityMod
         /// <param name="npc">The NPC whose lifeMax value you are trying to set.</param>
         /// <param name="normal">The value lifeMax will be set to in normal mode, this value gets doubled automatically in Expert mode.</param>
         /// <param name="revengeance">The value lifeMax will be set to in Revegeneance mode.</param>
-        /// <param name="death">The value lifeMax will be set to in Death mode.</param>
         /// <param name="bossRush">The value lifeMax will be set to during the Boss Rush.</param>
-        /// <param name="bossRushDeath">The value lifeMax will be set to during the Boss Rush, if Death mode is active.</param>
-        public static void LifeMaxNERD(this NPC npc, int normal, int? revengeance = null, int? death = null, int? bossRush = null, int? bossRushDeath = null)
+        public static void LifeMaxNERB(this NPC npc, int normal, int? revengeance = null, int? bossRush = null)
         {
             npc.lifeMax = normal;
 
             if (bossRush.HasValue && CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = bossRushDeath.HasValue && CalamityWorld.death ? bossRushDeath.Value : bossRush.Value;
-            }
-            else if (death.HasValue && CalamityWorld.death)
-            {
-                npc.lifeMax = death.Value;
+                npc.lifeMax = bossRush.Value;
             }
             else if (revengeance.HasValue && CalamityWorld.revenge)
             {

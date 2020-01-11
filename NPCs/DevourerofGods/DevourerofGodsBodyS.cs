@@ -29,7 +29,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             CalamityGlobalNPC global = npc.Calamity();
             global.DR = CalamityWorld.death ? 0.97f : 0.955f;
             global.unbreakableDR = true;
-            npc.LifeMaxNERD(1150000, 1350000, 2100000, 9200000, 10000000);
+            npc.LifeMaxNERB(1150000, 1350000, 9200000);
             double HPBoost = Config.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
@@ -91,7 +91,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             }
             else
             {
-                npc.dontTakeDamage = false;
+                npc.dontTakeDamage = Main.npc[(int)npc.ai[2]].dontTakeDamage;
             }
             if (npc.ai[3] > 0f)
             {

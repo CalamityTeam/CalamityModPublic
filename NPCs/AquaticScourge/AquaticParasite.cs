@@ -17,11 +17,11 @@ namespace CalamityMod.NPCs.AquaticScourge
         public override void SetDefaults()
         {
             npc.noGravity = true;
-            npc.damage = 15;
+            npc.damage = Main.hardMode ? 35 : 15;
             npc.width = 28;
             npc.height = 28;
             npc.defense = 5;
-            npc.LifeMaxNERD(30, bossRush: 30000);
+            npc.LifeMaxNERB((Main.hardMode ? 200 : 30), bossRush: 30000);
             npc.aiStyle = -1;
             aiType = -1;
             for (int k = 0; k < npc.buffImmune.Length; k++)

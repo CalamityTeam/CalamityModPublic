@@ -35,6 +35,11 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useAmmo = 23;
         }
 
+        public override Vector2? HoldoutOffset()
+        {
+            return new Vector2(-10, 0);
+        }
+
         public override bool ConsumeAmmo(Player player)
         {
             if (Main.rand.Next(0, 100) < 50)

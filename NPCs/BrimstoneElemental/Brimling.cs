@@ -33,10 +33,6 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             npc.defense = 0;
             npc.Calamity().DR = normalDR;
             npc.lifeMax = 4000;
-            if (CalamityWorld.death)
-            {
-                npc.lifeMax = 6000;
-            }
             npc.knockBackResist = 0f;
             for (int k = 0; k < npc.buffImmune.Length; k++)
             {

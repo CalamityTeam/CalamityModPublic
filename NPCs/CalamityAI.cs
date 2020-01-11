@@ -50,6 +50,68 @@ namespace CalamityMod.NPCs
 
 			npc.velocity.Length();
 
+			// Circular movement
+			bool doSpiral = false;
+			if (head && calamityGlobalNPC.newAI[0] == 1f && calamityGlobalNPC.newAI[2] == 1f && (CalamityWorld.revenge || CalamityWorld.bossRushActive))
+			{
+				float ai3 = 600f;
+				calamityGlobalNPC.newAI[3] += 1f;
+				doSpiral = calamityGlobalNPC.newAI[1] == 0f && calamityGlobalNPC.newAI[3] >= ai3;
+				if (doSpiral)
+				{
+					// Barf out enemies
+					if (calamityGlobalNPC.newAI[3] % 60f == 0f)
+					{
+						Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 13);
+
+						int npcPosX = (int)(npc.position.X + (float)(npc.width / 2)) / 16;
+						int npcPosY = (int)(npc.position.Y + (float)(npc.height / 2)) / 16;
+
+						if (npcPosX < 0)
+							npcPosX = 0;
+						if (npcPosX > Main.maxTilesX)
+							npcPosX = Main.maxTilesX;
+						if (npcPosY < 0)
+							npcPosY = 0;
+						if (npcPosY > Main.maxTilesY)
+							npcPosY = Main.maxTilesY;
+
+						Vector2 spawnPosition = new Vector2((float)(npcPosX * 16), (float)(npcPosY * 16));
+
+						if (!Main.tile[npcPosX, npcPosY].active() && Main.netMode != NetmodeID.MultiplayerClient)
+						{
+							if (NPC.CountNPCS(ModContent.NPCType<AquaticSeekerHead>()) < 1)
+								NPC.NewNPC((int)spawnPosition.X, (int)spawnPosition.Y, ModContent.NPCType<AquaticSeekerHead>());
+							if (NPC.CountNPCS(ModContent.NPCType<AquaticUrchin>()) < 4)
+								NPC.NewNPC((int)spawnPosition.X, (int)spawnPosition.Y, ModContent.NPCType<AquaticUrchin>());
+							if (NPC.CountNPCS(ModContent.NPCType<AquaticParasite>()) < 8)
+								NPC.NewNPC((int)spawnPosition.X, (int)spawnPosition.Y, ModContent.NPCType<AquaticParasite>());
+						}
+					}
+
+					// Velocity boost
+					if (calamityGlobalNPC.newAI[3] == ai3)
+					{
+						npc.velocity.Normalize();
+						npc.velocity *= 24f;
+					}
+
+					 // Spin velocity
+					float velocity = (float)(Math.PI * 2D) / 120f;
+					npc.velocity = npc.velocity.RotatedBy((double)(-(double)velocity * npc.localAI[1]));
+					npc.rotation = (float)System.Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X) + 1.57f;
+
+					// Reset and charge at target
+					if (calamityGlobalNPC.newAI[3] >= ai3 + 180f)
+					{
+						calamityGlobalNPC.newAI[3] = 0f;
+						npc.velocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * 12f;
+					}
+				}
+				else
+					npc.localAI[1] = (npc.Center.X - Main.player[npc.target].Center.X < 0 ? 1f : -1f);
+			}
+
 			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				if (head)
@@ -82,49 +144,14 @@ namespace CalamityMod.NPCs
 						calamityGlobalNPC.newAI[2] = 1f;
 					}
 
-					// Big barf attack, spawns enemies and projectile swarms
-					if (calamityGlobalNPC.newAI[0] == 1f)
+					// Big barf attack
+					if (calamityGlobalNPC.newAI[0] == 1f && !doSpiral)
 					{
 						npc.localAI[0] += 1f;
-						if (npc.localAI[0] >= ((calamityGlobalNPC.enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 120f : 180f))
-						{
-							int npcPosX = (int)(npc.position.X + (float)(npc.width / 2)) / 16;
-							int npcPosY = (int)(npc.position.Y + (float)(npc.height / 2)) / 16;
-
-							if (npcPosX < 0)
-								npcPosX = 0;
-							if (npcPosX > Main.maxTilesX)
-								npcPosX = Main.maxTilesX;
-							if (npcPosY < 0)
-								npcPosY = 0;
-							if (npcPosY > Main.maxTilesY)
-								npcPosY = Main.maxTilesY;
-
-							if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) < 300f &&
-								!Main.tile[npcPosX, npcPosY].active())
-							{
-								npc.localAI[0] = 0f;
-								npc.TargetClosest(true);
-								npc.netUpdate = true;
-
-								int random = Main.rand.Next(3);
-								Main.PlaySound(3, (int)npc.Center.X, (int)npc.Center.Y, 8);
-								Vector2 spawnAt = npc.Center + new Vector2(0f, (float)npc.height / 2f);
-
-								if (random == 0 && NPC.CountNPCS(ModContent.NPCType<AquaticSeekerHead>()) < 1)
-									NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<AquaticSeekerHead>());
-								else if (random == 1 && NPC.CountNPCS(ModContent.NPCType<AquaticUrchin>()) < 3)
-									NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<AquaticUrchin>());
-								else if (NPC.CountNPCS(ModContent.NPCType<AquaticParasite>()) < 8)
-									NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<AquaticParasite>());
-							}
-						}
-
-						npc.localAI[1] += 1f;
 						if (Main.player[npc.target].gravDir == -1f)
-							npc.localAI[1] += 2f;
+							npc.localAI[0] += 2f;
 
-						if (npc.localAI[1] >= (CalamityWorld.bossRushActive ? 270f : 390f))
+						if (npc.localAI[0] >= (CalamityWorld.bossRushActive ? 300f : (CalamityWorld.revenge ? 360f : 420f)))
 						{
 							int npcPosX = (int)(npc.position.X + (float)(npc.width / 2)) / 16;
 							int npcPosY = (int)(npc.position.Y + (float)(npc.height / 2)) / 16;
@@ -140,7 +167,7 @@ namespace CalamityMod.NPCs
 
 							if (!Main.tile[npcPosX, npcPosY].active() && Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 300f)
 							{
-								npc.localAI[1] = 0f;
+								npc.localAI[0] = 0f;
 								npc.TargetClosest(true);
 								npc.netUpdate = true;
 								Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 13);
@@ -320,7 +347,7 @@ namespace CalamityMod.NPCs
 			int num43 = (int)(Main.player[npc.target].Center.X / 16f);
 			int num44 = (int)(Main.player[npc.target].Center.Y / 16f);
 
-			if (head)
+			if (head && !doSpiral)
 			{
 				for (int num45 = num43 - 2; num45 <= num43 + 2; num45++)
 				{
@@ -467,7 +494,7 @@ namespace CalamityMod.NPCs
 					}
 				}
 			}
-			else
+			else if (!doSpiral)
 			{
 				float num196 = System.Math.Abs(num191);
 				float num197 = System.Math.Abs(num192);
@@ -1007,7 +1034,6 @@ namespace CalamityMod.NPCs
 							int FireEye = NPC.NewNPC((int)(npc.Center.X + (Math.Sin(I * 72) * 150)), (int)(npc.Center.Y + (Math.Cos(I * 72) * 150)), ModContent.NPCType<SoulSeeker>(), npc.whoAmI, 0, 0, 0, -1);
 							NPC Eye = Main.npc[FireEye];
 							Eye.ai[0] = I * 72;
-							Eye.ai[3] = I * 72;
 						}
 					}
 
@@ -3283,21 +3309,32 @@ namespace CalamityMod.NPCs
 						npc.netUpdate = true;
 					}
 
-					if (lifePercentage < 50 && revenge)
+					if (revenge)
 					{
-						float spread = 45f * 0.0174f;
-						double startAngle = Math.Atan2(npc.velocity.X, npc.velocity.Y) - spread / 2;
-						double deltaAngle = spread / 8f;
-						double offsetAngle;
 						int damage = expertMode ? 50 : 60;
-						int i;
-						float passedVar = 1f;
-
-						for (i = 0; i < 4; i++)
+						if (lifePercentage < 50 || CalamityWorld.death || CalamityWorld.bossRushActive || !player.ZoneDungeon)
 						{
-							offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-							Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)(Math.Sin(offsetAngle) * 3f), (float)(Math.Cos(offsetAngle) * 3f), ModContent.ProjectileType<DarkEnergyBall>(), damage, 0f, Main.myPlayer, passedVar, 0f);
-							passedVar += 1f;
+							for (int i = 0; i < 12; i++)
+							{
+								float ai1 = player.ZoneDungeon ? 0f : 1f;
+								Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, 0f, ModContent.ProjectileType<DarkEnergyBall2>(), damage, 0f, Main.myPlayer, (float)(i * 30), ai1);
+							}
+						}
+						else
+						{
+							float spread = 45f * 0.0174f;
+							double startAngle = Math.Atan2(npc.velocity.X, npc.velocity.Y) - spread / 2;
+							double deltaAngle = spread / 8f;
+							double offsetAngle;
+							int i;
+							float passedVar = 1f;
+
+							for (i = 0; i < 4; i++)
+							{
+								offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
+								Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)(Math.Sin(offsetAngle) * 3f), (float)(Math.Cos(offsetAngle) * 3f), ModContent.ProjectileType<DarkEnergyBall>(), damage, 0f, Main.myPlayer, passedVar, 0f);
+								passedVar += 1f;
+							}
 						}
 					}
 				}

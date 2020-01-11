@@ -40,6 +40,7 @@ namespace CalamityMod.NPCs.DevourerofGods
         private int idleCounter = (CalamityWorld.death || CalamityWorld.bossRushActive) ? 540 : 360;
         public int laserWallPhase = 0;
         private int laserWallCounter = 0;
+		private int postTeleportTimer = 0;
 
         public override void SetStaticDefaults()
         {
@@ -53,7 +54,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             npc.width = 186;
             npc.height = 186;
             npc.defense = 50;
-            npc.LifeMaxNERD(1150000, 1350000, 2100000, 9200000, 10000000);
+            npc.LifeMaxNERB(1150000, 1350000, 9200000);
             double HPBoost = Config.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.takenDamageMultiplier = 1.25f;
@@ -82,6 +83,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         public override void SendExtraAI(BinaryWriter writer)
         {
+			writer.Write(npc.dontTakeDamage);
             writer.Write(halfLife);
             writer.Write(laserShoot);
             writer.Write(phaseSwitch);
@@ -92,10 +94,12 @@ namespace CalamityMod.NPCs.DevourerofGods
             writer.Write(idleCounter);
             writer.Write(laserWallPhase);
             writer.Write(laserWallCounter);
+			writer.Write(postTeleportTimer);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
+			npc.dontTakeDamage = reader.ReadBoolean();
             halfLife = reader.ReadBoolean();
             laserShoot = reader.ReadInt32();
             phaseSwitch = reader.ReadInt32();
@@ -106,6 +110,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             idleCounter = reader.ReadInt32();
             laserWallPhase = reader.ReadInt32();
             laserWallCounter = reader.ReadInt32();
+			postTeleportTimer = reader.ReadInt32();
         }
 
         public override void BossHeadRotation(ref float rotation)
@@ -127,14 +132,36 @@ namespace CalamityMod.NPCs.DevourerofGods
             Vector2 vector = npc.Center;
             bool flies = npc.ai[2] == 0f;
             bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
+			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
+			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
             bool speedBoost = lifeRatio < 0.6 || (CalamityWorld.bossRushActive && lifeRatio < 0.9);
             bool speedBoost2 = lifeRatio < 0.2;
             bool breathFireMore = lifeRatio < 0.15;
 
-            // Laser walls
-            if (speedBoost && !speedBoost2)
+			// Light
+			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
+
+			// Worm shit again
+			if (npc.ai[3] > 0f)
+				npc.realLife = (int)npc.ai[3];
+
+			// Target
+			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
+				npc.TargetClosest(true);
+
+			// Velocity
+			npc.velocity.Length();
+
+			float distanceFromTarget = Vector2.Distance(Main.player[npc.target].Center, vector);
+			bool tooFarAway = distanceFromTarget > 5600f;
+
+			// Immunity after teleport
+			npc.dontTakeDamage = postTeleportTimer > 0;
+
+			// Laser walls
+			if (speedBoost && !speedBoost2 && postTeleportTimer <= 0)
             {
-                if (laserWallPhase == 0) //start laser wall phase
+                if (laserWallPhase == 0) // Start laser wall phase
                 {
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
@@ -146,7 +173,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                         }
                     }
                 }
-                else if (laserWallPhase == 1) //turn invisible and fire laser walls
+                else if (laserWallPhase == 1) // Turn invisible and fire laser walls
                 {
                     npc.alpha += 5;
                     if (npc.alpha == 255)
@@ -159,32 +186,48 @@ namespace CalamityMod.NPCs.DevourerofGods
                         if (idleCounter <= 0)
                         {
                             laserWallPhase = 2;
-                            idleCounter = (CalamityWorld.death || CalamityWorld.bossRushActive) ? 540 : 360;
+                            idleCounter = death ? 540 : 360;
                         }
                     }
                 }
-                else if (laserWallPhase == 2) //turn visible
+                else if (laserWallPhase == 2) // Turn visible
                 {
-                    npc.alpha -= 1;
-                    if (npc.alpha <= 0)
-                    {
-                        npc.alpha = 0;
-                        laserWallPhase = 0;
-                    }
+					if (distanceFromTarget > 500f && revenge)
+						Teleport();
+					else
+					{
+						npc.alpha -= 1;
+						if (npc.alpha <= 0)
+						{
+							npc.alpha = 0;
+							laserWallPhase = 0;
+						}
+					}
                 }
             }
             else
             {
-                npc.alpha -= 6;
-                if (npc.alpha < 0)
-                    npc.alpha = 0;
+				if (postTeleportTimer > 0)
+				{
+					postTeleportTimer -= 4;
+					if (postTeleportTimer < 0)
+						postTeleportTimer = 0;
+
+					npc.alpha = postTeleportTimer;
+				}
+				else
+				{
+					npc.alpha -= 6;
+					if (npc.alpha < 0)
+						npc.alpha = 0;
+				}
 
                 if (laserWallPhase > 0)
                     laserWallPhase = 0;
             }
 
-            // Anger message
-            if (speedBoost2)
+			// Anger message
+			if (speedBoost2)
             {
                 if (!halfLife)
                 {
@@ -198,20 +241,6 @@ namespace CalamityMod.NPCs.DevourerofGods
                     halfLife = true;
                 }
             }
-
-            // Light
-            Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
-
-            // Worm shit again
-            if (npc.ai[3] > 0f)
-                npc.realLife = (int)npc.ai[3];
-
-            // Target
-            if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
-                npc.TargetClosest(true);
-
-            // Velocity
-            npc.velocity.Length();
 
             // Spawn segments and fire projectiles
             if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -241,7 +270,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 int projectileDamage = expertMode ? 69 : 80;
 
                 // Fireballs
-                if (npc.alpha <= 0 && Vector2.Distance(Main.player[npc.target].Center, vector) > 500f && expertMode)
+                if (npc.alpha <= 0 && distanceFromTarget > 500f && expertMode)
                 {
                     calamityGlobalNPC.newAI[0] += 1f;
                     if (calamityGlobalNPC.newAI[0] >= 150f && calamityGlobalNPC.newAI[0] % (breathFireMore ? 60f : 120f) == 0f)
@@ -267,7 +296,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                         }
                     }
                 }
-                else if (Vector2.Distance(Main.player[npc.target].Center, vector) < 250f)
+                else if (distanceFromTarget < 250f)
                     calamityGlobalNPC.newAI[0] = 0f;
 
                 // Laser walls
@@ -292,7 +321,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                             shotSpacing[0] -= spacingVar;
                         }
 
-                        if (Main.rand.NextBool(2) && (CalamityWorld.revenge || CalamityWorld.bossRushActive))
+                        if (Main.rand.NextBool(2) && revenge)
                         {
                             for (int x = 0; x < 10; x++)
                             {
@@ -313,7 +342,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                         shotSpacing[1] = 1050;
 
                         // Upper wall
-                        if (lifeRatio < 0.4f && (CalamityWorld.revenge || CalamityWorld.bossRushActive))
+                        if (lifeRatio < 0.4f && revenge)
                         {
                             if (shotSpacing[2] < 2100)
                                 shotSpacing[2] = 2100;
@@ -361,7 +390,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                     }
                 }
             }
-            fallSpeed += ((CalamityWorld.death || CalamityWorld.bossRushActive) ? 5f : 3.5f) * (1f - lifeRatio);
+            fallSpeed += (death ? 5f : 3.5f) * (1f - lifeRatio);
 
             // Movement
             int num180 = (int)(npc.position.X / 16f) - 1;
@@ -397,20 +426,25 @@ namespace CalamityMod.NPCs.DevourerofGods
 
                 phaseSwitch += 1;
 
-                int phaseLimit = ((CalamityWorld.death || CalamityWorld.bossRushActive) ? 600 : 900) / (1 + (int)(5f * (1f - lifeRatio)));
+                int phaseLimit = (death ? 600 : 900) / (1 + (int)(5f * (1f - lifeRatio)));
 
                 npc.localAI[1] = 0f;
 
-                float speed = ((CalamityWorld.death || CalamityWorld.bossRushActive) ? 18f : 15f) + (3f * (1f - lifeRatio));
-                float turnSpeed = ((CalamityWorld.death || CalamityWorld.bossRushActive) ? 0.33f : 0.3f) + (0.06f * (1f - lifeRatio));
-                float homingSpeed = ((CalamityWorld.death || CalamityWorld.bossRushActive) ? 28f : 24f) + (12f * (1f - lifeRatio));
-                float homingTurnSpeed = ((CalamityWorld.death || CalamityWorld.bossRushActive) ? 0.36f : 0.33f) + (0.15f * (1f - lifeRatio));
+                float speed = (death ? 18f : 15f) + (3f * (1f - lifeRatio));
+                float turnSpeed = (death ? 0.33f : 0.3f) + (0.06f * (1f - lifeRatio));
+                float homingSpeed = (death ? 28f : 24f) + (12f * (1f - lifeRatio));
+                float homingTurnSpeed = (death ? 0.36f : 0.33f) + (0.15f * (1f - lifeRatio));
 
-                // Go to ground phase sooner
-                if (Vector2.Distance(Main.player[npc.target].Center, vector) > 5600f)
-                    phaseSwitch += 10;
+				// Go to ground phase sooner
+				if (tooFarAway)
+				{
+					if (revenge && laserWallPhase == 0)
+						Teleport();
+					else
+						phaseSwitch += 10;
+				}
 
-                float num188 = speed;
+				float num188 = speed;
                 float num189 = turnSpeed;
                 Vector2 vector18 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
                 float num191 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2);
@@ -420,7 +454,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 int num44 = (int)(Main.player[npc.target].Center.Y / 16f);
 
                 // Charge at target for 1.5 seconds
-                bool flyAtTarget = (!speedBoost || speedBoost2) && phaseSwitch > phaseLimit - 90 && (CalamityWorld.revenge || CalamityWorld.bossRushActive);
+                bool flyAtTarget = (!speedBoost || speedBoost2) && phaseSwitch > phaseLimit - 90 && revenge;
 
                 for (int num45 = num43 - 2; num45 <= num43 + 2; num45++)
                 {
@@ -618,14 +652,19 @@ namespace CalamityMod.NPCs.DevourerofGods
 
                 phaseSwitch += 1;
 
-                float turnSpeed = 0.18f + (((CalamityWorld.death || CalamityWorld.bossRushActive) ? 0.14f : 0.12f) * (1f - lifeRatio));
-                bool increaseSpeed = Vector2.Distance(Main.player[npc.target].Center, vector) > 3200f;
+                float turnSpeed = 0.18f + ((death ? 0.14f : 0.12f) * (1f - lifeRatio));
+                bool increaseSpeed = distanceFromTarget > 3200f;
 
-                // Enrage
-                if (Vector2.Distance(Main.player[npc.target].Center, vector) > 5600f)
-                    turnSpeed *= 6f;
-                else if (increaseSpeed)
-                    turnSpeed *= 3f;
+				// Enrage
+				if (tooFarAway)
+				{
+					if (revenge && laserWallPhase == 0)
+						Teleport();
+					else
+						turnSpeed *= 6f;
+				}
+				else if (increaseSpeed)
+					turnSpeed *= 3f;
 
                 if (!flies)
                 {
@@ -725,8 +764,8 @@ namespace CalamityMod.NPCs.DevourerofGods
                 }
                 else
                 {
-                    double maximumSpeed1 = (increaseSpeed ? 1.2 : 0.4) + (double)(((CalamityWorld.death || CalamityWorld.bossRushActive) ? 0.14f : 0.12f) * (1f - lifeRatio));
-                    double maximumSpeed2 = (increaseSpeed ? 3.0 : 1.0) + (double)(((CalamityWorld.death || CalamityWorld.bossRushActive) ? 0.3f : 0.25f) * (1f - lifeRatio));
+                    double maximumSpeed1 = (increaseSpeed ? 1.2 : 0.4) + (double)((death ? 0.14f : 0.12f) * (1f - lifeRatio));
+                    double maximumSpeed2 = (increaseSpeed ? 3.0 : 1.0) + (double)((death ? 0.3f : 0.25f) * (1f - lifeRatio));
 
                     num193 = (float)Math.Sqrt((double)(num191 * num191 + num192 * num192));
                     float num25 = Math.Abs(num191);
@@ -828,7 +867,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 if (((npc.velocity.X > 0f && npc.oldVelocity.X < 0f) || (npc.velocity.X < 0f && npc.oldVelocity.X > 0f) || (npc.velocity.Y > 0f && npc.oldVelocity.Y < 0f) || (npc.velocity.Y < 0f && npc.oldVelocity.Y > 0f)) && !npc.justHit)
                     npc.netUpdate = true;
 
-                if (phaseSwitch > ((CalamityWorld.death || CalamityWorld.bossRushActive) ? 600 : 900))
+                if (phaseSwitch > (death ? 600 : 900))
                 {
                     npc.ai[2] = 0f;
                     phaseSwitch = 0;
@@ -836,6 +875,95 @@ namespace CalamityMod.NPCs.DevourerofGods
                 }
             }
         }
+
+		private void Teleport()
+		{
+			postTeleportTimer = 255;
+			npc.alpha = postTeleportTimer;
+
+			int playerWidth = Main.player[npc.target].width / 2;
+			int playerHeight = Main.player[npc.target].height / 2;
+
+			float playerVelocityX = Main.player[npc.target].velocity.X;
+			float playerVelocityY = Main.player[npc.target].velocity.Y;
+
+			int x = (int)Main.player[npc.target].position.X + playerWidth - 25;
+			int y = (int)Main.player[npc.target].position.Y + playerHeight - 25;
+
+			float velocityThreshold = 0.05f;
+			int vectorAdjustment = 500;
+			if (playerVelocityX >= velocityThreshold)
+			{
+				x += vectorAdjustment;
+				yAdjustment();
+			}
+			else if (playerVelocityX <= -velocityThreshold)
+			{
+				x -= vectorAdjustment;
+				yAdjustment();
+			}
+
+			void yAdjustment()
+			{
+				if (playerVelocityY >= velocityThreshold)
+					y += vectorAdjustment;
+				else if (playerVelocityY <= -velocityThreshold)
+					y -= vectorAdjustment;
+			}
+
+			int x2 = x + 50;
+			int y2 = y + 50;
+
+			float locationX = (float)Main.rand.Next(x, x2);
+			float locationY = (float)Main.rand.Next(y, y2);
+			Vector2 teleportLocation = new Vector2(locationX, locationY);
+
+			npc.position = teleportLocation;
+			npc.netUpdate = true;
+
+			for (int i = 0; i < 200; i++)
+			{
+				if (Main.npc[i].active && (Main.npc[i].type == ModContent.NPCType<DevourerofGodsBodyS>() || Main.npc[i].type == ModContent.NPCType<DevourerofGodsTailS>()))
+				{
+					Main.npc[i].position = teleportLocation;
+					Main.npc[i].netUpdate = true;
+				}
+			}
+
+			Vector2 npcCenter = new Vector2(npc.position.X + (float)(npc.width / 2), npc.position.Y + (float)(npc.height / 2));
+			Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LargeMechGaussRifle"), (int)npcCenter.X, (int)npcCenter.Y);
+
+			int dustAmt = 50;
+			int random = 5;
+
+			for (int j = 0; j < 10; j++)
+			{
+				random += j * 2;
+				int dustAmtSpawned = 0;
+				int scale = random * 13;
+				float dustPositionX = npcCenter.X - (float)(scale / 2);
+				float dustPositionY = npcCenter.Y - (float)(scale / 2);
+				while (dustAmtSpawned < dustAmt)
+				{
+					float dustVelocityX = (float)Main.rand.Next(-random, random);
+					float dustVelocityY = (float)Main.rand.Next(-random, random);
+					float dustVelocityScalar = (float)random * 2f;
+					float dustVelocity = (float)Math.Sqrt((double)(dustVelocityX * dustVelocityX + dustVelocityY * dustVelocityY));
+					dustVelocity = dustVelocityScalar / dustVelocity;
+					dustVelocityX *= dustVelocity;
+					dustVelocityY *= dustVelocity;
+					int dust = Dust.NewDust(new Vector2(dustPositionX, dustPositionY), scale, scale, 173, 0f, 0f, 100, default, 5f);
+					Main.dust[dust].noGravity = true;
+					Main.dust[dust].position.X = teleportLocation.X;
+					Main.dust[dust].position.Y = teleportLocation.Y;
+					Main.dust[dust].position.X += (float)Main.rand.Next(-10, 11);
+					Main.dust[dust].position.Y += (float)Main.rand.Next(-10, 11);
+					Main.dust[dust].velocity.X = dustVelocityX;
+					Main.dust[dust].velocity.Y = dustVelocityY;
+					dustAmtSpawned++;
+				}
+			}
+		}
 
         public override void BossLoot(ref string name, ref int potionType)
         {
@@ -928,7 +1056,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             if (dist4 < minDist)
                 minDist = dist4;
 
-            return minDist <= 80f && npc.alpha == 0;
+            return minDist <= 80f && npc.alpha <= 0;
         }
 
         // Projectiles can only hit within certain distance
@@ -1048,7 +1176,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             }
 
             // TODO: don't talk if the player has iframes
-            if (player.immune)
+            if (player.immune || player.immuneTime > 0)
                 return;
 
             int num = Main.rand.Next(5);

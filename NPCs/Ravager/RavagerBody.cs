@@ -42,7 +42,7 @@ namespace CalamityMod.NPCs.Ravager
             npc.defense = 55;
             npc.value = Item.buyPrice(0, 25, 0, 0);
             npc.Calamity().RevPlusDR(0.4f);
-            npc.LifeMaxNERD(42700, 53500, 90000, 4600000, 4800000);
+            npc.LifeMaxNERB(42700, 53500, 4600000);
             if (CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive)
             {
                 npc.damage *= 2;
@@ -388,7 +388,15 @@ namespace CalamityMod.NPCs.Ravager
                     npc.ai[1] += 1f;
                     if (npc.ai[1] > 0f)
                     {
-                        if ((!rightClawActive && !leftClawActive) || npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+						if (CalamityWorld.revenge || CalamityWorld.bossRushActive)
+						{
+							if (npc.Calamity().newAI[0] % 3f == 0f)
+								npc.ai[1] += 1f;
+							else if (npc.Calamity().newAI[0] % 2f == 0f)
+								npc.ai[1] += 1f;
+						}
+
+						if ((!rightClawActive && !leftClawActive) || npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
                             npc.ai[1] += 1f;
                         if (!headActive || npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
                             npc.ai[1] += 1f;
@@ -402,20 +410,32 @@ namespace CalamityMod.NPCs.Ravager
                     {
                         npc.TargetClosest(true);
 
-                        float velocityX = ((enrage || npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 8f : 4f) + (4f * (1f - lifeRatio));
-                        npc.velocity.X = velocityX * (float)npc.direction;
+						bool shouldFall = (Main.player[npc.target].position.Y >= npc.position.Y + (float)npc.height);
+						float velocityX = ((enrage || npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 8f : 4f) + (4f * (1f - lifeRatio));
+						float velocityY = -16f;
 
-                        if (CalamityWorld.revenge || CalamityWorld.bossRushActive)
-                        {
-                            if (Main.player[npc.target].position.Y < npc.position.Y + (float)npc.height)
-                                npc.velocity.Y = -15.2f;
-                            else
-                                npc.velocity.Y = 1f;
+						if (CalamityWorld.revenge || CalamityWorld.bossRushActive)
+						{
+							npc.noTileCollide = true;
+							if (shouldFall)
+								velocityY = 1f;
 
-                            npc.noTileCollide = true;
-                        }
-                        else
-                            npc.velocity.Y = -15.2f;
+							if (npc.Calamity().newAI[0] % 3f == 0f)
+							{
+								velocityX *= 2f;
+								if (!shouldFall)
+									velocityY *= 0.5f;
+							}
+							else if (npc.Calamity().newAI[0] % 2f == 0f)
+							{
+								velocityX *= 1.5f;
+								if (!shouldFall)
+									velocityY *= 0.75f;
+							}
+						}
+
+						npc.velocity.X = velocityX * (float)npc.direction;
+                        npc.velocity.Y = velocityY;
 
                         npc.ai[0] = 1f;
                         npc.ai[1] = 0f;
@@ -445,7 +465,10 @@ namespace CalamityMod.NPCs.Ravager
                         }
                     }
 
-                    for (int stompDustArea = (int)npc.position.X - 30; stompDustArea < (int)npc.position.X + npc.width + 60; stompDustArea += 30)
+					if (CalamityWorld.revenge || CalamityWorld.bossRushActive)
+						npc.Calamity().newAI[0] += 1f;
+
+					for (int stompDustArea = (int)npc.position.X - 30; stompDustArea < (int)npc.position.X + npc.width + 60; stompDustArea += 30)
                     {
                         for (int stompDustAmount = 0; stompDustAmount < 6; stompDustAmount++)
                         {

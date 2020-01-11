@@ -23,7 +23,7 @@ namespace CalamityMod.NPCs.SlimeGod
 
         public override void SetDefaults()
         {
-            npc.LifeMaxNERD(1750, 2407, 3369, 800000, 850000);
+            npc.LifeMaxNERB(1750, 2407, 800000);
             double HPBoost = Config.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.damage = 45;

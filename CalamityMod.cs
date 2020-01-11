@@ -280,7 +280,10 @@ namespace CalamityMod
             Filters.Scene["CalamityMod:SupremeCalamitas"] = new Filter(new SCalScreenShaderData("FilterMiniTower").UseColor(1.1f, 0.3f, 0.3f).UseOpacity(0.65f), EffectPriority.VeryHigh);
             SkyManager.Instance["CalamityMod:SupremeCalamitas"] = new SCalSky();
 
-            Filters.Scene["CalamityMod:Astral"] = new Filter(new AstralScreenShaderData(new Ref<Effect>(CustomShader), "AstralPass").UseColor(0.18f, 0.08f, 0.24f), EffectPriority.VeryHigh);
+			Filters.Scene["CalamityMod:Signus"] = new Filter(new SignusScreenShaderData("FilterMiniTower").UseColor(0.35f, 0.1f, 0.55f).UseOpacity(0.35f), EffectPriority.VeryHigh);
+			SkyManager.Instance["CalamityMod:Signus"] = new SignusSky();
+
+			Filters.Scene["CalamityMod:Astral"] = new Filter(new AstralScreenShaderData(new Ref<Effect>(CustomShader), "AstralPass").UseColor(0.18f, 0.08f, 0.24f), EffectPriority.VeryHigh);
             SkyManager.Instance["CalamityMod:Astral"] = new AstralSky();
 
             UIHandler.OnLoad(this);
@@ -870,6 +873,8 @@ namespace CalamityMod
                 ModContent.ItemType<TotalityBreakers>(),
                 ModContent.ItemType<ProfanedPartisan>(),
                 ModContent.ItemType<BlastBarrel>(),
+                ModContent.ItemType<LatcherMine>(),
+                ModContent.ItemType<BouncingBetty>(),
                 ModContent.ItemType<HeliumFlash>()
             };
 
@@ -916,6 +921,8 @@ namespace CalamityMod
                 ModContent.ItemType<Icebreaker>(),
                 ModContent.ItemType<KelvinCatalyst>(),
                 ModContent.ItemType<FrostcrushValari>(),
+                ModContent.ItemType<Endogenesis>(),
+                ModContent.ItemType<FlurrystormCannon>(),
 				//Cryonic Bar set stuff, could potentially be removed
                 ModContent.ItemType<Trinity>(),
                 ModContent.ItemType<Shimmerspark>(),
@@ -1034,6 +1041,9 @@ namespace CalamityMod
                 ModContent.ItemType<PolarisParrotfish>(),
                 ModContent.ItemType<SparklingEmpress>(),
                 ModContent.ItemType<NastyCholla>(),
+                ModContent.ItemType<PoisonPack>(),
+                ModContent.ItemType<PlantationStaff>(),
+                ModContent.ItemType<SeasSearing>(),
                 ModContent.ItemType<YateveoBloom>()
             };
 
@@ -1945,8 +1955,6 @@ namespace CalamityMod
                 ModContent.ProjectileType<RadiantStarKnife>(),
                 ModContent.ProjectileType<RadiantStar2>(),
                 ModContent.ProjectileType<ShatteredSunKnife>(),
-                ModContent.ProjectileType<ShatteredSun2>(),
-                ModContent.ProjectileType<ShatteredSun3>(),
                 ModContent.ProjectileType<StellarKnifeProj>(),
                 ModContent.ProjectileType<StormfrontRazorProjectile>(),
                 ModContent.ProjectileType<TarragonThrowingDartProjectile>(),
@@ -1976,6 +1984,8 @@ namespace CalamityMod
                 ModContent.ItemType<TotalityBreakers>(),
                 ModContent.ItemType<BlastBarrel>(),
                 ModContent.ItemType<Penumbra>(),
+                ModContent.ItemType<LatcherMine>(),
+                ModContent.ItemType<Supernova>(),
                 ModContent.ItemType<ShockGrenade>()
             };
 
@@ -1992,6 +2002,8 @@ namespace CalamityMod
                 ModContent.ProjectileType<ConsecratedWaterProjectile>(),
                 ModContent.ProjectileType<DesecratedWaterProj>(),
                 ModContent.ProjectileType<PenumbraBomb>(),
+                ModContent.ProjectileType<LatcherMineProjectile>(),
+                ModContent.ProjectileType<SupernovaBomb>(),
                 ModContent.ProjectileType<ShockGrenadeProjectile>()
             };
 
@@ -3466,6 +3478,5 @@ namespace CalamityMod
         ArmageddonBoolSync,
         DemonTrophyBoolSync,
         NPCRegenerationSync
-        //DistanceFromBossSync
     }
 }

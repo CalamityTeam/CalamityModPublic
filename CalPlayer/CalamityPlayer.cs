@@ -4258,7 +4258,7 @@ namespace CalamityMod.CalPlayer
                 {
                     if (item.melee)
                     {
-                        damageMult += CalamityWorld.death ? (DHorHoD ? 7.6 : 6.8) : (DHorHoD ? 2.3 : 2.0); // Death Mode values: 8.9 and 8.0, rev: 2.3 and 2.0
+                        damageMult += (DHorHoD ? 2.3 : 2.0);
                     }
                 }
                 else if (rageMode)
@@ -4266,10 +4266,10 @@ namespace CalamityMod.CalPlayer
                     if (item.melee)
                     {
                         double rageDamageBoost = 0.0 +
-                            (rageBoostOne ? (CalamityWorld.death ? 0.5 : 0.15) : 0.0) + // Death Mode values: 0.6, rev: 0.15
-                            (rageBoostTwo ? (CalamityWorld.death ? 0.5 : 0.15) : 0.0) + // Death Mode values: 0.6, rev: 0.15
-                            (rageBoostThree ? (CalamityWorld.death ? 0.5 : 0.15) : 0.0); // Death Mode values: 0.6, rev: 0.15
-                        double rageDamage = (CalamityWorld.death ? (DHorHoD ? 2.0 : 1.7) : (DHorHoD ? 0.65 : 0.5)) + rageDamageBoost; // Death Mode values: 2.3 and 2.0, rev: 0.65 and 0.5
+                            (rageBoostOne ? 0.15 : 0.0) +
+                            (rageBoostTwo ? 0.15 : 0.0) +
+                            (rageBoostThree ? 0.15 : 0.0);
+                        double rageDamage = (DHorHoD ? 0.65 : 0.5) + rageDamageBoost;
                         damageMult += rageDamage;
                     }
                 }
@@ -4277,7 +4277,7 @@ namespace CalamityMod.CalPlayer
                 {
                     if (item.melee)
                     {
-                        double damageMultAdr = (CalamityWorld.death ? 5.0 : 1.5) * (double)adrenalineDmgMult; // Death Mode values: 6, rev: 1.5
+                        double damageMultAdr = 1.5 * (double)adrenalineDmgMult;
                         damageMult += damageMultAdr;
                     }
                 }
@@ -4548,7 +4548,7 @@ namespace CalamityMod.CalPlayer
                 {
                     if (hasClassType)
                     {
-                        damageMult += CalamityWorld.death ? (DHorHoD ? 7.6 : 6.8) : (DHorHoD ? 2.3 : 2.0); // Death Mode values: 8.9 and 8.0, rev: 2.3 and 2.0
+                        damageMult += (DHorHoD ? 2.3 : 2.0);
                     }
                 }
                 else if (rageMode)
@@ -4556,10 +4556,10 @@ namespace CalamityMod.CalPlayer
                     if (hasClassType)
                     {
                         double rageDamageBoost = 0.0 +
-                            (rageBoostOne ? (CalamityWorld.death ? 0.5 : 0.15) : 0.0) + // Death Mode values: 0.6, rev: 0.15
-                            (rageBoostTwo ? (CalamityWorld.death ? 0.5 : 0.15) : 0.0) + // Death Mode values: 0.6, rev: 0.15
-                            (rageBoostThree ? (CalamityWorld.death ? 0.5 : 0.15) : 0.0); // Death Mode values: 0.6, rev: 0.15
-                        double rageDamage = (CalamityWorld.death ? (DHorHoD ? 2.0 : 1.7) : (DHorHoD ? 0.65 : 0.5)) + rageDamageBoost; // Death Mode values: 2.3 and 2.0, rev: 0.65 and 0.5
+                            (rageBoostOne ? 0.15 : 0.0) +
+                            (rageBoostTwo ? 0.15 : 0.0) +
+                            (rageBoostThree ? 0.15 : 0.0);
+                        double rageDamage = (DHorHoD ? 0.65 : 0.5) + rageDamageBoost;
                         damageMult += rageDamage;
                     }
                 }
@@ -4567,7 +4567,7 @@ namespace CalamityMod.CalPlayer
                 {
                     if (hasClassType)
                     {
-                        double damageMultAdr = (CalamityWorld.death ? 5.0 : 1.5) * (double)adrenalineDmgMult; // Death Mode values: 6, rev: 1.5
+                        double damageMultAdr = 1.5 * (double)adrenalineDmgMult;
                         damageMult += damageMultAdr;
                     }
                 }
@@ -7439,8 +7439,7 @@ namespace CalamityMod.CalPlayer
 				if ((drawPlayer.itemAnimation > 0 && item.useStyle != 0) || (item.holdStyle > 0 && !drawPlayer.pulley))
 				{
 					// Staff
-					if (item.type == ModContent.ItemType<DeathhailStaff>() || item.type == ModContent.ItemType<Vesuvius>() || item.type == ModContent.ItemType<SoulPiercer>() ||
-					item.type == ModContent.ItemType<FatesReveal>())
+					if (item.type == ModContent.ItemType<DeathhailStaff>() || item.type == ModContent.ItemType<Vesuvius>() || item.type == ModContent.ItemType<SoulPiercer>() || item.type == ModContent.ItemType<FatesReveal>())
 					{
 						Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/DeathhailStaffGlow");
 						if (item.type == ModContent.ItemType<Vesuvius>())
@@ -7562,32 +7561,74 @@ namespace CalamityMod.CalPlayer
 						Main.playerDrawData.Add(data);
 					}
 				}
-
-				//NOTE -- This doesn't work and I don't know what I'm doing
-
-				/*Microsoft.Xna.Framework.Color color12 = drawPlayer.GetImmuneAlphaPure(Lighting.GetColor((int) ((double) drawPlayer.position.X + (double) drawPlayer.width * 0.5) / 16, (int) ((double) drawPlayer.position.Y + (double) drawPlayer.height * 0.5) / 16, Microsoft.Xna.Framework.Color.White), drawInfo.shadow);*/
-
-				if (item.type == ModContent.ItemType<FlurrystormCannon>())
-				//32 is the height of the texture, 14 is the width of the texture
-				{
-					Texture2D texture = ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/FlurrystormCannonTankFull");
-
-					DrawData data = new DrawData(texture,
-					new Vector2((float) (int) ((double) drawPlayer.position.X - (double) Main.screenPosition.X + (double) (drawPlayer.width / 2) - (double) (9 * drawPlayer.direction)) + -4f * (float) drawPlayer.direction,
-					(float) (int) ((double) drawPlayer.position.Y - (double) Main.screenPosition.Y + (double) (drawPlayer.height / 2) + 2.0 * (double) drawPlayer.gravDir + (double) -8f * (double) drawPlayer.gravDir)),
-					new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, 0, 14, 32)),
-					Color.White,
-					drawPlayer.bodyRotation,
-					new Vector2((float) (14 / 2),
-					(float) (32 / 2)),
-					1f,
-					effect,
-					0);
-
-					Main.playerDrawData.Add(data);
-				}
             }
         });
+
+		public override void ModifyDrawInfo(ref PlayerDrawInfo drawInfo)
+		{
+            if (drawInfo.shadow != 0f)
+                return;
+
+            Player drawPlayer = drawInfo.drawPlayer;
+            Item item = drawPlayer.inventory[drawPlayer.selectedItem];
+
+            if (!drawPlayer.frozen &&
+                item.type > 0 &&
+                !drawPlayer.dead &&
+                !item.noUseGraphic &&
+                (!drawPlayer.wet || !item.noWet))
+            {
+				if (item.type == ModContent.ItemType<FlurrystormCannon>() || item.type == ModContent.ItemType<MepheticSprayer>() || item.type == ModContent.ItemType<BrimstoneFlameblaster>() || item.type == ModContent.ItemType<BrimstoneFlamesprayer>() || item.type == ModContent.ItemType<SparkSpreader>() || item.type == ModContent.ItemType<HalleysInferno>() || item.type == ModContent.ItemType<CleansingBlaze>() || item.type == ModContent.ItemType<ElementalEruption>() || item.type == ModContent.ItemType<TheEmpyrean>() || item.type == ModContent.ItemType<Meowthrower>() || item.type == ModContent.ItemType<OverloadedBlaster>() || item.type == ModContent.ItemType<TerraFlameburster>() || item.type == ModContent.ItemType<Photoviscerator>() || item.type == ModContent.ItemType<Shadethrower>())
+				{
+					Color color89 = drawInfo.middleArmorColor = drawPlayer.GetImmuneAlphaPure(Lighting.GetColor((int)(drawPlayer.position.X + drawPlayer.width * 0.5) / 16, (int)(drawPlayer.position.Y + drawPlayer.height * 0.5) / 16, Color.White), drawInfo.shadow);
+					SpriteEffects spriteEffects = player.direction == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+
+					Texture2D thingToDraw = ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_FlurrystormCannon");
+					if (item.type == ModContent.ItemType<MepheticSprayer>())
+						thingToDraw = ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_BlightSpewer");
+					else if (item.type == ModContent.ItemType<BrimstoneFlameblaster>())
+						thingToDraw = ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_BrimstoneFlameblaster");
+					else if (item.type == ModContent.ItemType<BrimstoneFlamesprayer>())
+						thingToDraw = ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_HavocsBreath");
+					else if (item.type == ModContent.ItemType<SparkSpreader>())
+						thingToDraw = ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_SparkSpreader");
+					else if (item.type == ModContent.ItemType<HalleysInferno>())
+						thingToDraw = ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_HalleysInferno");
+					else if (item.type == ModContent.ItemType<CleansingBlaze>())
+						thingToDraw = ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_CleansingBlaze");
+					else if (item.type == ModContent.ItemType<ElementalEruption>())
+						thingToDraw = ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_ElementalEruption");
+					else if (item.type == ModContent.ItemType<TheEmpyrean>())
+						thingToDraw = ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_TheEmpyrean");
+					else if (item.type == ModContent.ItemType<Meowthrower>())
+						thingToDraw = ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_Meowthrower");
+					else if (item.type == ModContent.ItemType<OverloadedBlaster>())
+						thingToDraw = ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_OverloadedBlaster");
+					else if (item.type == ModContent.ItemType<TerraFlameburster>())
+						thingToDraw = ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_TerraFlameburster");
+					else if (item.type == ModContent.ItemType<Photoviscerator>())
+						thingToDraw = ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_Photoviscerator");
+					else if (item.type == ModContent.ItemType<Shadethrower>())
+						thingToDraw = ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_Shadethrower");
+
+					float num25 = -4f;
+					float num24 = -8f;
+					DrawData howDoIDrawThings = new DrawData(thingToDraw,
+						new Vector2((int)(drawPlayer.position.X - Main.screenPosition.X + (drawPlayer.width / 2) - (9 * drawPlayer.direction)) + num25 * drawPlayer.direction,
+						(int)(drawPlayer.position.Y - Main.screenPosition.Y + (drawPlayer.height / 2) + 2f * drawPlayer.gravDir + num24 * drawPlayer.gravDir)),
+						new Rectangle(0, 0, thingToDraw.Width, thingToDraw.Height),
+						color89,
+						drawPlayer.bodyRotation,
+						new Vector2(thingToDraw.Width / 2,
+						thingToDraw.Height / 2),
+						1f,
+						spriteEffects,
+						0);
+					howDoIDrawThings.shader = 0;
+					Main.playerDrawData.Add(howDoIDrawThings);
+				}
+			}
+		}
 
         public override void ModifyDrawLayers(List<PlayerLayer> list)
         {

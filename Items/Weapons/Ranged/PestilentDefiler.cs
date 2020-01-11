@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;
             item.UseSound = SoundID.Item40;
-            item.autoReuse = false;
+            item.autoReuse = true;
             item.shootSpeed = 20f;
             item.shoot = ModContent.ProjectileType<SicknessRound>();
             item.useAmmo = 97;

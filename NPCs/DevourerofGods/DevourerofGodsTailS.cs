@@ -27,7 +27,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             npc.width = 80;
             npc.height = 140;
             npc.defense = 50;
-            npc.LifeMaxNERD(1150000, 1350000, 2100000, 9200000, 10000000);
+            npc.LifeMaxNERB(1150000, 1350000, 9200000);
             double HPBoost = Config.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.takenDamageMultiplier = 1.25f;
@@ -87,7 +87,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             }
             else
             {
-                npc.dontTakeDamage = false;
+                npc.dontTakeDamage = Main.npc[(int)npc.ai[2]].dontTakeDamage;
             }
             if (npc.ai[3] > 0f)
             {
@@ -291,7 +291,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             player.AddBuff(BuffID.Darkness, 180, true);
 
             // TODO: don't talk if the player has iframes
-            if (player.immune)
+            if (player.immune || player.immuneTime > 0)
                 return;
 
             int num = Main.rand.Next(2);

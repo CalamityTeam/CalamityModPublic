@@ -46,23 +46,15 @@ namespace CalamityMod.NPCs.Signus
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/ScourgeofTheUniverse");
             else
                 music = MusicID.Boss4;
-            npc.lifeMax = CalamityWorld.revenge ? 109500 : 70000;
-            if (CalamityWorld.DoGSecondStageCountdown <= 0)
+			bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0;
+			npc.LifeMaxNERB(notDoGFight ? 280000 : 70000, notDoGFight ? 445500 : 109500, 2400000);
+            if (notDoGFight)
             {
                 npc.value = Item.buyPrice(0, 35, 0, 0);
                 if (calamityModMusic != null)
                     music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Signus");
                 else
                     music = MusicID.Boss4;
-                npc.lifeMax = CalamityWorld.revenge ? 445500 : 280000;
-                if (CalamityWorld.death)
-                {
-                    npc.lifeMax = 722250;
-                }
-            }
-            if (CalamityWorld.bossRushActive)
-            {
-                npc.lifeMax = CalamityWorld.death ? 2600000 : 2400000;
             }
             double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
@@ -131,7 +123,17 @@ namespace CalamityMod.NPCs.Signus
 
             Player player = Main.player[npc.target];
             npc.TargetClosest(true);
-            Vector2 vector142 = new Vector2(npc.Center.X, npc.Center.Y);
+
+			int targetLightStrength = player.Calamity().abyssLightLevelStat * 15;
+			if (revenge)
+			{
+				int fadeIn = (int)((double)lifeToAlpha * 1.5) - targetLightStrength;
+				if (fadeIn < 0)
+					fadeIn = 0;
+				Main.BlackFadeIn = fadeIn;
+			}
+
+			Vector2 vector142 = new Vector2(npc.Center.X, npc.Center.Y);
             Vector2 vectorCenter = npc.Center;
             float num1243 = player.Center.X - vector142.X;
             float num1244 = player.Center.Y - vector142.Y;
@@ -221,7 +223,7 @@ namespace CalamityMod.NPCs.Signus
             }
             if (npc.ai[0] == 0f)
             {
-                if (Main.netMode != NetmodeID.MultiplayerClient)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     npc.localAI[1] += 1f;
                     if (npc.localAI[1] >= 120f)
@@ -361,21 +363,14 @@ namespace CalamityMod.NPCs.Signus
                 Vector2 vector121 = new Vector2(npc.position.X + (float)(npc.width / 2), npc.position.Y + (float)(npc.height / 2));
                 npc.ai[1] += 1f;
                 bool flag104 = false;
-                if (npc.life < npc.lifeMax / 4 || CalamityWorld.death || CalamityWorld.bossRushActive)
+                if (npc.life < npc.lifeMax / 2 || CalamityWorld.death || CalamityWorld.bossRushActive)
                 {
-                    if (npc.ai[1] % 30f == 29f)
+                    if (npc.ai[1] % 45f == 44f)
                     {
                         flag104 = true;
                     }
                 }
-                else if (npc.life < npc.lifeMax / 2)
-                {
-                    if (npc.ai[1] % 35f == 34f)
-                    {
-                        flag104 = true;
-                    }
-                }
-                else if (npc.ai[1] % 40f == 39f)
+                else if (npc.ai[1] % 65f == 64f)
                 {
                     flag104 = true;
                 }
@@ -555,7 +550,7 @@ namespace CalamityMod.NPCs.Signus
                 }
                 else if (chargeSwitch == 1) //pause before charge
                 {
-                    npc.velocity *= scaleFactor4;
+					npc.velocity *= scaleFactor4;
                     npc.ai[1] += 1f;
                     if (npc.ai[1] >= num1001)
                     {
@@ -741,6 +736,13 @@ namespace CalamityMod.NPCs.Signus
                 // Weapons
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Cosmilamp>(), 3);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<CosmicKunai>(), 3);
+                float f = Main.rand.NextFloat();
+                bool replaceWithRare = f <= DropHelper.RareVariantDropRateFloat; // 1/40 chance overall of getting Lantern of the Soul
+                if (f < 0.3333333f) // 1/3 chance of getting Cosmilamp OR Lantern of the Soul replacing it
+                {
+                    DropHelper.DropItemCondition(npc, ModContent.ItemType<Cosmilamp>(), !replaceWithRare);
+                    DropHelper.DropItemCondition(npc, ModContent.ItemType<LanternoftheSoul>(), replaceWithRare);
+                }
 
 				//Equipment
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<SpectralVeil>(), CalamityWorld.revenge, 4, 1, 1);

@@ -1,4 +1,5 @@
 using CalamityMod.Projectiles.Ranged;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -30,6 +31,11 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shoot = ModContent.ProjectileType<BrimstoneFireFriendly>();
             item.shootSpeed = 8.5f;
             item.useAmmo = 23;
+        }
+
+        public override Vector2? HoldoutOffset()
+        {
+            return new Vector2(-10, 0);
         }
     }
 }

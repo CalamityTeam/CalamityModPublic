@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Melee
             float num473 = projectile.Center.Y;
             float num474 = 600f;
             bool flag17 = false;
-            for (int num475 = 0; num475 < 200; num475++)
+            for (int num475 = 0; num475 < Main.npc.Length; num475++)
             {
                 if (Main.npc[num475].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[num475].Center, 1, 1))
                 {

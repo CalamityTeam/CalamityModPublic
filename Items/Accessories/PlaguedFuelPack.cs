@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Plagued Fuel Pack");
-            Tooltip.SetDefault("*5 increased rogue damage\n" +
+            Tooltip.SetDefault("5% increased rogue damage\n" +
                 "15% increased rogue projectile velocity\n" +
                 "Press [Hotkey] to consume 25% of your maximum stealth to perform a swift upwards/diagonal dash which leaves a trail of plagued clouds\n" + 
                 "This effect has a 3 second cooldown before it can be used again");

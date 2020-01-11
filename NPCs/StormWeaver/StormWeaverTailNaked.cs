@@ -24,23 +24,19 @@ namespace CalamityMod.NPCs.StormWeaver
             npc.npcSlots = 5f;
             npc.width = 48;
             npc.height = 80;
-            npc.lifeMax = 100000;
-            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+			bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0;
+			npc.LifeMaxNERB(notDoGFight ? 600000 : 100000, notDoGFight ? 600000 : 100000, 3500000);
+			Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
             if (calamityModMusic != null)
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/ScourgeofTheUniverse");
             else
                 music = MusicID.Boss3;
-            if (CalamityWorld.DoGSecondStageCountdown <= 0)
+            if (notDoGFight)
             {
                 if (calamityModMusic != null)
                     music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Weaver");
                 else
                     music = MusicID.Boss3;
-                npc.lifeMax = 600000;
-            }
-            if (CalamityWorld.bossRushActive)
-            {
-                npc.lifeMax = 3500000;
             }
             double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);

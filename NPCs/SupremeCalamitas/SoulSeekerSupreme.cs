@@ -31,11 +31,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.damage = 0;
             npc.defense = 80;
             npc.Calamity().RevPlusDR(0.35f);
-            npc.lifeMax = Main.expertMode ? 90000 : 50000;
-            if (CalamityWorld.revenge)
-            {
-                npc.lifeMax = CalamityWorld.death ? 100000 : 170000;
-            }
+			npc.LifeMaxNERB(Main.expertMode ? 90000 : 50000, 170000);
             for (int k = 0; k < npc.buffImmune.Length; k++)
             {
                 npc.buffImmune[k] = true;

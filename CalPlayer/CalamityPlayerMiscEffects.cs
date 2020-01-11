@@ -2822,10 +2822,10 @@ namespace CalamityMod.CalPlayer
 				(modPlayer.adrenalineBoostThree ? 5 : 0);
 			bool DHorHoD = modPlayer.draedonsHeart || modPlayer.heartOfDarkness;
 			int rageDamageBoost = 0 +
-				(modPlayer.rageBoostOne ? (CalamityWorld.death ? 50 : 15) : 0) +
-				(modPlayer.rageBoostTwo ? (CalamityWorld.death ? 50 : 15) : 0) +
-				(modPlayer.rageBoostThree ? (CalamityWorld.death ? 50 : 15) : 0);
-			modPlayer.rageDamageStat = (CalamityWorld.death ? (DHorHoD ? 200 : 170) : (DHorHoD ? 65 : 50)) + rageDamageBoost; // Death Mode values: 2.3 and 2.0, rev: 0.65 and 0.5
+				(modPlayer.rageBoostOne ? 15 : 0) +
+				(modPlayer.rageBoostTwo ? 15 : 0) +
+				(modPlayer.rageBoostThree ? 15 : 0);
+			modPlayer.rageDamageStat = (DHorHoD ? 65 : 50) + rageDamageBoost;
 		}
 		#endregion
 

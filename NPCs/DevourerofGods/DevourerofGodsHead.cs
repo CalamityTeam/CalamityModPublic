@@ -35,12 +35,8 @@ namespace CalamityMod.NPCs.DevourerofGods
             npc.width = 104;
             npc.height = 104;
             npc.defense = 50;
-            npc.lifeMax = CalamityWorld.revenge ? 750000 : 675000;
-            if (CalamityWorld.death)
-            {
-                npc.lifeMax = 1300000;
-            }
-            double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
+			npc.LifeMaxNERB(675000, 750000);
+			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
             npc.takenDamageMultiplier = 1.25f;
             npc.aiStyle = -1;
@@ -782,7 +778,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             }
 
             // TODO: don't talk if the player has iframes
-            if (player.immuneTime > 0)
+            if (player.immuneTime > 0 || player.immune)
                 return;
 
             int num = Main.rand.Next(5);

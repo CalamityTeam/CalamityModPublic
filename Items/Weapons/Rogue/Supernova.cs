@@ -21,7 +21,7 @@ Stealth strikes release energy as they fly");
         public override void SafeSetDefaults()
         {
             item.width = 34;
-            item.damage = 699;
+            item.damage = 1299;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useAnimation = 24;
@@ -62,7 +62,7 @@ Stealth strikes release energy as they fly");
 			//replaces Duststorm in a Bottle when added
 			//recipe.AddIngredient(ModContent.ItemType<SealedSingularity>());
 
-			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 5);
+			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
 			recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();

@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
             item.knockBack = 4f;
             item.mana = 15;
-            item.damage = 120;
+            item.damage = 28;
             item.useTime = 30;
             item.useAnimation = 30;
             item.shoot = ModContent.ProjectileType<ApexShark>();

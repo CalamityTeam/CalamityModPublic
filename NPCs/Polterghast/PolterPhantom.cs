@@ -26,15 +26,7 @@ namespace CalamityMod.NPCs.Polterghast
             npc.damage = 210;
             npc.width = 90;
             npc.height = 120;
-            npc.lifeMax = CalamityWorld.revenge ? 150000 : 130000;
-            if (CalamityWorld.death)
-            {
-                npc.lifeMax = 225000;
-            }
-            if (CalamityWorld.bossRushActive)
-            {
-                npc.lifeMax = CalamityWorld.death ? 1100000 : 900000;
-            }
+			npc.LifeMaxNERB(130000, 150000, 900000);
             double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
