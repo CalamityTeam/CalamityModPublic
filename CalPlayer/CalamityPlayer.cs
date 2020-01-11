@@ -81,6 +81,8 @@ namespace CalamityMod.CalPlayer
 		public int minionSlotStat = 0;
 		public int lifeRegenStat = 0;
 		public int manaRegenStat = 0;
+		public int ammoReductionRanged = 0;
+		public int ammoReductionRogue = 0;
 		public int armorPenetrationStat = 0;
 		public int wingFlightTimeStat = 0;
 		public int adrenalineChargeStat = 0;
