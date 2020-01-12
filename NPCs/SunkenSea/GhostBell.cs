@@ -1,10 +1,12 @@
 ﻿using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Items.Accessories;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.NPCs.SunkenSea
 {
     public class GhostBell : ModNPC
@@ -156,6 +158,11 @@ namespace CalamityMod.NPCs.SunkenSea
                     Dust.NewDust(npc.position, npc.width, npc.height, 68, hitDirection, -1f, 0, default, 1f);
                 }
             }
+        }
+
+        public override void NPCLoot()
+        {
+            DropHelper.DropItemChance(npc, ModContent.ItemType<VoltaicJelly>(), 5);
         }
     }
 }

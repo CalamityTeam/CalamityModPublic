@@ -486,6 +486,8 @@ namespace CalamityMod.CalPlayer
 				modPlayer.plaguedFuelPackCooldown--;
 			if (modPlayer.plaguedFuelPackDash > 0)
 				modPlayer.plaguedFuelPackDash--;
+			if (modPlayer.jellyDmg > 0f)
+				modPlayer.jellyDmg -= 1f;
 			if (modPlayer.ataxiaDmg > 0f)
 				modPlayer.ataxiaDmg -= 1.5f;
 			if (modPlayer.ataxiaDmg < 0f)

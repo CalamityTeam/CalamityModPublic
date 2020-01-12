@@ -7,6 +7,7 @@ using CalamityMod.Projectiles.Healing;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -1511,6 +1512,64 @@ namespace CalamityMod.Projectiles
                         target.AddBuff(BuffID.ShadowFlame, 300);
                     }
 
+                    if (Main.player[projectile.owner].Calamity().voltaicJelly)
+                    {
+                        target.AddBuff(BuffID.Electrified, 60);
+                    }
+
+					if (Main.player[projectile.owner].Calamity().jellyChargedBattery)
+					{
+						if (Main.player[projectile.owner].Calamity().jellyDmg <= 0)
+						{
+							int num = projectile.damage / 2;
+							Main.player[projectile.owner].Calamity().jellyDmg += (float)num;
+							int[] array = new int[200];
+							int num3 = 0;
+							int num4 = 0;
+							for (int i = 0; i < 200; i++)
+							{
+								if (Main.npc[i].CanBeChasedBy(projectile, false))
+								{
+									float num5 = Math.Abs(Main.npc[i].position.X + (float)(Main.npc[i].width / 2) - projectile.position.X + (float)(projectile.width / 2)) + Math.Abs(Main.npc[i].position.Y + (float)(Main.npc[i].height / 2) - projectile.position.Y + (float)(projectile.height / 2));
+									if (num5 < 800f)
+									{
+										if (Collision.CanHit(projectile.position, 1, 1, Main.npc[i].position, Main.npc[i].width, Main.npc[i].height) && num5 > 50f)
+										{
+											array[num4] = i;
+											num4++;
+										}
+										else if (num4 == 0)
+										{
+											array[num3] = i;
+											num3++;
+										}
+									}
+								}
+							}
+							if (num3 == 0 && num4 == 0)
+							{
+								return;
+							}
+							int num6;
+							if (num4 > 0)
+							{
+								num6 = array[Main.rand.Next(num4)];
+							}
+							else
+							{
+								num6 = array[Main.rand.Next(num3)];
+							}
+							float num7 = 15f;
+							float num8 = (float)Main.rand.Next(-100, 101);
+							float num9 = (float)Main.rand.Next(-100, 101);
+							float num10 = (float)Math.Sqrt((double)(num8 * num8 + num9 * num9));
+							num10 = num7 / num10;
+							num8 *= num10;
+							num9 *= num10;
+							Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num8, num9, ModContent.ProjectileType<EnergyOrb>(), (int)((double)num * 1.2), 0f, projectile.owner, (float)num6, 0f);
+						}
+					}
+
                     // Fearmonger set's colossal life regeneration
                     CalamityPlayer modPlayer = Main.player[projectile.owner].Calamity();
                     if(modPlayer.fearmongerSet)
@@ -1574,13 +1633,6 @@ namespace CalamityMod.Projectiles
             }
         }
         #endregion
-
-		/*#ModifyHitPlayer
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
-        {
-			target.Calamity().lastProjectileHit = ModContent.ProjectileType<BrimstoneHellblast>();
-		}
-		#endregion*/
 
         #region CanDamage
         public override bool CanDamage(Projectile projectile)
