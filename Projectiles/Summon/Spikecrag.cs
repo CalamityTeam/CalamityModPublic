@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
@@ -11,6 +12,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             DisplayName.SetDefault("Spikecrag");
             Main.projFrames[projectile.type] = 4;
+            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
         }
 
         public override void SetDefaults()
