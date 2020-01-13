@@ -168,47 +168,6 @@ namespace CalamityMod.CalPlayer
 								player.AddBuff(ModContent.BuffType<HeartAttack>(), 18000);
 						}
 
-						// Play Adrenaline burnout sounds that happen the more time you wait while having max Adrenaline
-						if (modPlayer.adrenaline >= modPlayer.adrenalineMax)
-						{
-							modPlayer.adrenalineMaxTimer--;
-							if (modPlayer.adrenalineMaxTimer <= 0)
-							{
-								if (modPlayer.playAdrenalineBurnoutSound)
-								{
-									modPlayer.playAdrenalineBurnoutSound = false;
-									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AdrenalineBurnout1"), (int)player.position.X, (int)player.position.Y);
-								}
-
-								modPlayer.adrenalineDmgDown--;
-								if (modPlayer.adrenalineDmgDown < 0)
-								{
-									if (modPlayer.playFullAdrenalineBurnoutSound)
-									{
-										modPlayer.playFullAdrenalineBurnoutSound = false;
-										Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AdrenalineBurnout2"), (int)player.position.X, (int)player.position.Y);
-									}
-									modPlayer.adrenalineDmgDown = 0;
-								}
-								modPlayer.adrenalineMaxTimer = 0;
-							}
-						}
-
-						// Reset Adrenaline burnout variables
-						else if (!modPlayer.adrenalineMode && modPlayer.adrenaline <= 0)
-						{
-							modPlayer.playAdrenalineBurnoutSound = true;
-							modPlayer.playFullAdrenalineBurnoutSound = true;
-							modPlayer.adrenalineDmgDown = 600;
-							modPlayer.adrenalineMaxTimer = 300;
-							modPlayer.adrenalineDmgMult = 1f;
-						}
-
-						// Reduce Adrenaline Mode damage based on burnout
-						modPlayer.adrenalineDmgMult = 0.1f * (float)(modPlayer.adrenalineDmgDown / 60);
-						if (modPlayer.adrenalineDmgMult < 0.33f)
-							modPlayer.adrenalineDmgMult = 0.33f;
-
 						// Amount of Adrenaline gained per 'tick'
 						int adrenalineGain = 0;
 						bool SCalAlive = NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>());
