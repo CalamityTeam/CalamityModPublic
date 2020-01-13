@@ -16,6 +16,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             DisplayName.SetDefault("Mechworm");
             ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
+            ProjectileID.Sets.NeedsUUID[projectile.type] = true;
         }
 
         public override void SetDefaults()
@@ -73,34 +74,30 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.ai[1] = 0f;
                 projectile.netUpdate = true;
             }
-            int chase = (int)projectile.ai[0];
             float num1064;
             float scaleFactor17;
             float scaleFactor18;
-            if (chase >= 0 && Main.projectile[chase].active)
+            int byUUID = Projectile.GetByUUID(projectile.owner, (int)projectile.ai[0]);
+            if (byUUID >= 0 && Main.projectile[byUUID].active && (Main.projectile[byUUID].type == ModContent.ProjectileType<MechwormHead>() ||
+                                                                                                  Main.projectile[byUUID].type == ModContent.ProjectileType<MechwormBody>() ||
+                                                                                                  Main.projectile[byUUID].type == ModContent.ProjectileType<MechwormBody2>()))
             {
-                //Delete the player's mechworm if it's attaching to something weird
-                if (Main.projectile[chase].type != ModContent.ProjectileType<MechwormBody2>() &&
-                    Main.projectile[chase].type != ModContent.ProjectileType<MechwormBody>())
+                value68 = Main.projectile[byUUID].Center;
+                num1064 = Main.projectile[byUUID].rotation;
+                float num1063 = MathHelper.Clamp(Main.projectile[byUUID].scale, 0f, 50f);
+                scaleFactor17 = 16f;
+                scaleFactor18 = num1063;
+                Main.projectile[byUUID].localAI[0] = projectile.localAI[0] + 1f;
+                if (Main.projectile[byUUID].type != ModContent.ProjectileType<MechwormHead>())
                 {
-                    for (int i = 0; i < Main.projectile.Length; i++)
-                    {
-                        if (Main.projectile[i].active && Main.projectile[i].owner == projectile.owner &&
-                            (Main.projectile[i].type == ModContent.ProjectileType<MechwormBody2>() ||
-                             Main.projectile[i].type == ModContent.ProjectileType<MechwormBody>() ||
-                             Main.projectile[i].type == ModContent.ProjectileType<MechwormHead>() ||
-                             Main.projectile[i].type == ModContent.ProjectileType<MechwormTail>()))
-                        {
-                            Main.projectile[i].Kill();
-                        }
-                    }
+                    Main.projectile[byUUID].localAI[1] = (float)projectile.whoAmI;
                 }
-                value68 = Main.projectile[chase].Center;
-                Vector2 arg_2DE6A_0 = Main.projectile[chase].velocity;
-                num1064 = Main.projectile[chase].rotation;
-                scaleFactor18 = MathHelper.Clamp(Main.projectile[chase].scale, 0f, 50f);
-                scaleFactor17 = 6f;
-                Main.projectile[chase].localAI[0] = projectile.localAI[0] + 1f;
+                if (projectile.owner == Main.myPlayer && Main.projectile[byUUID].type == ModContent.ProjectileType<MechwormHead>() && projectile.type == ModContent.ProjectileType<MechwormTail>())
+                {
+                    Main.projectile[byUUID].Kill();
+                    projectile.Kill();
+                    return;
+                }
             }
             else
             {

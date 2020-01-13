@@ -112,7 +112,8 @@ namespace CalamityMod.NPCs.Cryogen
             bool isChill = player.ZoneSnow;
             bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
             bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
-            double multAdd = revenge ? 0.1 : 0D;
+			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
+			double multAdd = revenge ? 0.1 : 0D;
             npc.TargetClosest(true);
 
             if (npc.ai[2] == 0f && npc.localAI[1] == 0f && Main.netMode != NetmodeID.MultiplayerClient && (npc.ai[0] < 4f || CalamityWorld.bossRushActive)) //spawn shield for phase 0 1 2 3, not 4 5 6
@@ -176,9 +177,6 @@ namespace CalamityMod.NPCs.Cryogen
             if (Main.netMode != NetmodeID.MultiplayerClient && expertMode && (npc.ai[0] < 5f || !revenge || (double)npc.life >= (double)npc.lifeMax * 0.15))
             {
                 time++;
-                if (CalamityWorld.death || CalamityWorld.bossRushActive)
-                    time++;
-
                 if (time >= 600)
                 {
                     Vector2 value9 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
@@ -236,7 +234,7 @@ namespace CalamityMod.NPCs.Cryogen
                 float num1244 = player.Center.Y - vector142.Y;
                 float num1245 = (float)Math.Sqrt((double)(num1243 * num1243 + num1244 * num1244));
                 float num1246 = isChill ? 4f : 8f;
-                if (CalamityWorld.death)
+                if (death)
                 {
                     num1246 = isChill ? 5f : 10f;
                 }
@@ -250,7 +248,8 @@ namespace CalamityMod.NPCs.Cryogen
                 npc.velocity.X = (npc.velocity.X * 50f + num1243) / 51f;
                 npc.velocity.Y = (npc.velocity.Y * 50f + num1244) / 51f;
 
-                if ((double)npc.life < (double)npc.lifeMax * (0.83 + multAdd))
+				double HPMult = death ? 0.95 : 0.83 + multAdd;
+                if ((double)npc.life < (double)npc.lifeMax * HPMult)
                 {
                     npc.ai[0] = 1f;
                     npc.localAI[0] = 0f;
@@ -290,7 +289,7 @@ namespace CalamityMod.NPCs.Cryogen
 
                 float velocity = isChill ? 7.5f : 4f;
                 float acceleration = isChill ? 0.1f : 0.15f;
-                if (CalamityWorld.death)
+                if (death)
                     velocity = isChill ? 7f : 3.5f;
 				if (CalamityWorld.bossRushActive)
 				{
@@ -357,7 +356,8 @@ namespace CalamityMod.NPCs.Cryogen
                     }
                 }
 
-                if ((double)npc.life < (double)npc.lifeMax * (0.66 + multAdd))
+				double HPMult = death ? 0.8 : 0.66 + multAdd;
+				if ((double)npc.life < (double)npc.lifeMax * HPMult)
                 {
                     npc.ai[0] = 2f;
                     npc.localAI[0] = 0f;
@@ -435,7 +435,7 @@ namespace CalamityMod.NPCs.Cryogen
                 float num1244 = player.Center.Y - vector142.Y;
                 float num1245 = (float)Math.Sqrt((double)(num1243 * num1243 + num1244 * num1244));
                 float num1246 = isChill ? 6f : 12f;
-                if (CalamityWorld.death)
+                if (death)
                 {
                     num1246 = isChill ? 7f : 14f;
                 }
@@ -449,7 +449,8 @@ namespace CalamityMod.NPCs.Cryogen
                 npc.velocity.X = (npc.velocity.X * 50f + num1243) / 51f;
                 npc.velocity.Y = (npc.velocity.Y * 50f + num1244) / 51f;
 
-                if ((double)npc.life < (double)npc.lifeMax * (0.49 + multAdd))
+				double HPMult = death ? 0.7 : 0.49 + multAdd;
+				if ((double)npc.life < (double)npc.lifeMax * HPMult)
                 {
                     npc.ai[0] = 3f;
                     npc.localAI[0] = 0f;
@@ -501,7 +502,7 @@ namespace CalamityMod.NPCs.Cryogen
 
 				float velocity = isChill ? 7.5f : 4f;
 				float acceleration = isChill ? 0.1f : 0.15f;
-				if (CalamityWorld.death)
+				if (death)
 					velocity = isChill ? 7f : 3.5f;
 				if (CalamityWorld.bossRushActive)
 				{
@@ -568,7 +569,8 @@ namespace CalamityMod.NPCs.Cryogen
                     }
                 }
 
-                if ((double)npc.life < (double)npc.lifeMax * (0.32 + multAdd))
+				double HPMult = death ? 0.55 : 0.32 + multAdd;
+				if ((double)npc.life < (double)npc.lifeMax * HPMult)
                 {
                     npc.ai[0] = 4f;
                     npc.localAI[0] = 0f;
@@ -705,7 +707,8 @@ namespace CalamityMod.NPCs.Cryogen
                     }
                 }
 
-                if ((double)npc.life < (double)npc.lifeMax * (0.15 + multAdd))
+				double HPMult = death ? 0.4 : 0.15 + multAdd;
+				if ((double)npc.life < (double)npc.lifeMax * HPMult)
                 {
                     Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 15);
                     drawAltTexture = true;
@@ -758,7 +761,8 @@ namespace CalamityMod.NPCs.Cryogen
 			{
                 npc.damage = (int)((float)npc.defDamage * 1.5f);
 
-				if (revenge && (double)npc.life < (double)npc.lifeMax * 0.15)
+				double HPMult = death ? 0.25 : 0.15;
+				if (revenge && (double)npc.life < (double)npc.lifeMax * HPMult)
 				{
 					if (npc.ai[1] == 60f)
 						npc.velocity = Vector2.Normalize(player.Center - npc.Center) * (CalamityWorld.bossRushActive ? 30f : (isChill ? 18f : 24f));
@@ -806,7 +810,7 @@ namespace CalamityMod.NPCs.Cryogen
                 num1374 *= num1376;
                 iceShard--;
 
-				if ((double)npc.life < (double)npc.lifeMax * (0.1 + multAdd) || CalamityWorld.death || CalamityWorld.bossRushActive)
+				if ((double)npc.life < (double)npc.lifeMax * (0.1 + multAdd) || death)
                 {
                     if (num1375 < 170f || iceShard > 0)
                     {
@@ -860,7 +864,7 @@ namespace CalamityMod.NPCs.Cryogen
 			else
 			{
 				time++;
-				if (time >= 60)
+				if (time >= 75)
 				{
 					Vector2 value9 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 					float spread = 45f * 0.0174f;
@@ -908,7 +912,7 @@ namespace CalamityMod.NPCs.Cryogen
 
 				float velocity = isChill ? 6f : 3f;
 				float acceleration = isChill ? 0.2f : 0.3f;
-				if (CalamityWorld.death)
+				if (death)
 					velocity = isChill ? 5f : 2.5f;
 				if (CalamityWorld.bossRushActive)
 				{
@@ -959,7 +963,7 @@ namespace CalamityMod.NPCs.Cryogen
 				}
 			}
 
-			if (!revenge || (double)npc.life >= (double)npc.lifeMax * 0.15)
+			if (!revenge || (double)npc.life >= (double)npc.lifeMax * (death ? 0.25 : 0.15))
 			{
 				if (npc.ai[3] == 0f && npc.life > 0)
 				{

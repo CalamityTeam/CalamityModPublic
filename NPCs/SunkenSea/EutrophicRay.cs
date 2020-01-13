@@ -194,10 +194,7 @@ namespace CalamityMod.NPCs.SunkenSea
 
         public override void NPCLoot()
         {
-            if (Main.rand.NextBool(3))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EutrophicShank>());
-            }
+            DropHelper.DropItemChance(npc, ModContent.ItemType<EutrophicShank>(), 3);
         }
 
         public override void HitEffect(int hitDirection, double damage)

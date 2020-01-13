@@ -168,47 +168,6 @@ namespace CalamityMod.CalPlayer
 								player.AddBuff(ModContent.BuffType<HeartAttack>(), 18000);
 						}
 
-						// Play Adrenaline burnout sounds that happen the more time you wait while having max Adrenaline
-						if (modPlayer.adrenaline >= modPlayer.adrenalineMax)
-						{
-							modPlayer.adrenalineMaxTimer--;
-							if (modPlayer.adrenalineMaxTimer <= 0)
-							{
-								if (modPlayer.playAdrenalineBurnoutSound)
-								{
-									modPlayer.playAdrenalineBurnoutSound = false;
-									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AdrenalineBurnout1"), (int)player.position.X, (int)player.position.Y);
-								}
-
-								modPlayer.adrenalineDmgDown--;
-								if (modPlayer.adrenalineDmgDown < 0)
-								{
-									if (modPlayer.playFullAdrenalineBurnoutSound)
-									{
-										modPlayer.playFullAdrenalineBurnoutSound = false;
-										Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AdrenalineBurnout2"), (int)player.position.X, (int)player.position.Y);
-									}
-									modPlayer.adrenalineDmgDown = 0;
-								}
-								modPlayer.adrenalineMaxTimer = 0;
-							}
-						}
-
-						// Reset Adrenaline burnout variables
-						else if (!modPlayer.adrenalineMode && modPlayer.adrenaline <= 0)
-						{
-							modPlayer.playAdrenalineBurnoutSound = true;
-							modPlayer.playFullAdrenalineBurnoutSound = true;
-							modPlayer.adrenalineDmgDown = 600;
-							modPlayer.adrenalineMaxTimer = 300;
-							modPlayer.adrenalineDmgMult = 1f;
-						}
-
-						// Reduce Adrenaline Mode damage based on burnout
-						modPlayer.adrenalineDmgMult = 0.1f * (float)(modPlayer.adrenalineDmgDown / 60);
-						if (modPlayer.adrenalineDmgMult < 0.33f)
-							modPlayer.adrenalineDmgMult = 0.33f;
-
 						// Amount of Adrenaline gained per 'tick'
 						int adrenalineGain = 0;
 						bool SCalAlive = NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>());
@@ -486,6 +445,8 @@ namespace CalamityMod.CalPlayer
 				modPlayer.plaguedFuelPackCooldown--;
 			if (modPlayer.plaguedFuelPackDash > 0)
 				modPlayer.plaguedFuelPackDash--;
+			if (modPlayer.jellyDmg > 0f)
+				modPlayer.jellyDmg -= 1f;
 			if (modPlayer.ataxiaDmg > 0f)
 				modPlayer.ataxiaDmg -= 1.5f;
 			if (modPlayer.ataxiaDmg < 0f)
@@ -2806,6 +2767,15 @@ namespace CalamityMod.CalPlayer
 			modPlayer.critStats[1] = player.rangedCrit;
 			modPlayer.critStats[2] = player.magicCrit;
 			modPlayer.critStats[3] = modPlayer.throwingCrit;
+			modPlayer.ammoReductionRanged = (int)(100f *
+				(player.ammoBox ? 0.8f : 1f) *
+				(player.ammoPotion ? 0.8f : 1f) *
+				(player.ammoCost80 ? 0.8f : 1f) *
+				(player.ammoCost75 ? 0.75f : 1f));
+			modPlayer.ammoReductionRogue = (int)(100f *
+				(modPlayer.throwingAmmoCost75 ? 0.75f : 1f) *
+				(modPlayer.throwingAmmoCost66 ? 0.66f : 1f) *
+				(modPlayer.throwingAmmoCost50 ? 0.5f : 1f));
 			modPlayer.defenseStat = player.statDefense;
 			modPlayer.DRStat = (int)(player.endurance * 100f);
 			modPlayer.meleeSpeedStat = (int)((1f - player.meleeSpeed) * (100f / player.meleeSpeed));

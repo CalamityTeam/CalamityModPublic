@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Items.Materials;
+using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Placeables.Banners;
 using Terraria;
 using Terraria.ID;
@@ -69,11 +70,9 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<WulfrumShard>(), Main.rand.Next(1, 4));
-            if (Main.expertMode && Main.rand.NextBool(2))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<WulfrumShard>());
-            }
+            DropHelper.DropItem(npc, ModContent.ItemType<WulfrumShard>(), 1, 3);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<WulfrumShard>(), Main.expertMode, 1, 1);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<WulfrumBattery>(), 10);
         }
     }
 }

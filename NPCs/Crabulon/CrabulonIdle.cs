@@ -73,7 +73,8 @@ namespace CalamityMod.NPCs.Crabulon
         {
             Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0f, 0.5f, 1f);
             Player player = Main.player[npc.target];
-            bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
+			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
+			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
             bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
             npc.spriteDirection = (npc.direction > 0) ? 1 : -1;
             if (!player.active || player.dead)
@@ -113,12 +114,12 @@ namespace CalamityMod.NPCs.Crabulon
                         npc.localAI[3] += 2f;
                         num352 += 3;
                     }
-                    if ((double)npc.life < (double)npc.lifeMax * 0.5 || CalamityWorld.bossRushActive)
+                    if ((double)npc.life < (double)npc.lifeMax * 0.5 || death)
                     {
                         npc.localAI[3] += 1f;
                         num352 += 2;
                     }
-                    if ((double)npc.life < (double)npc.lifeMax * 0.1 || CalamityWorld.bossRushActive)
+                    if ((double)npc.life < (double)npc.lifeMax * 0.1 || death)
                     {
                         npc.localAI[3] += 2f;
                         num352 += 3;
@@ -148,19 +149,14 @@ namespace CalamityMod.NPCs.Crabulon
                             num354 += 3;
                             num353 += 3f;
                         }
-                        if ((double)npc.life < (double)npc.lifeMax * 0.5 || CalamityWorld.bossRushActive)
+                        if ((double)npc.life < (double)npc.lifeMax * 0.5 || death)
                         {
                             num354++;
                             num353 += 1f;
                         }
-                        if ((double)npc.life < (double)npc.lifeMax * 0.1 || CalamityWorld.bossRushActive)
+                        if ((double)npc.life < (double)npc.lifeMax * 0.1 || death)
                         {
                             num354++;
-                            num353 += 1f;
-                        }
-                        if (CalamityWorld.death || CalamityWorld.bossRushActive)
-                        {
-                            num354 += 3;
                             num353 += 1f;
                         }
                         vector34 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
@@ -214,9 +210,9 @@ namespace CalamityMod.NPCs.Crabulon
             {
                 float num823 = 1.25f;
                 bool flag51 = false;
-                if ((double)npc.life < (double)npc.lifeMax * 0.5)
+                if ((double)npc.life < (double)npc.lifeMax * 0.5 || death)
                     num823 = 1.5f;
-                if ((double)npc.life < (double)npc.lifeMax * 0.1)
+                if ((double)npc.life < (double)npc.lifeMax * 0.1 || death)
                     num823 = 2f;
                 if (CalamityWorld.bossRushActive)
                     num823 = 12f;
@@ -333,11 +329,11 @@ namespace CalamityMod.NPCs.Crabulon
 									break;
 							}
 						}
-                        if (npc.life < npc.lifeMax / 2 || CalamityWorld.bossRushActive)
+                        if (npc.life < npc.lifeMax / 2 || death)
                         {
                             npc.ai[1] += (!revenge ? 4f : 1f);
                         }
-                        if (npc.life < npc.lifeMax / 4 || CalamityWorld.bossRushActive)
+                        if (npc.life < npc.lifeMax / 4 || death)
                         {
                             npc.ai[1] += (!revenge ? 4f : 1f);
                         }
@@ -467,15 +463,11 @@ namespace CalamityMod.NPCs.Crabulon
                         {
                             num626 += 3f;
                         }
-                        if (CalamityWorld.death || CalamityWorld.bossRushActive)
-                        {
-                            num626 += 2f;
-                        }
-                        if (npc.life < npc.lifeMax / 2 || CalamityWorld.bossRushActive)
+                        if (npc.life < npc.lifeMax / 2 || death)
                         {
                             num626 += 1f;
                         }
-                        if (npc.life < npc.lifeMax / 10 || CalamityWorld.bossRushActive)
+                        if (npc.life < npc.lifeMax / 10 || death)
                         {
                             num626 += 1f;
                         }

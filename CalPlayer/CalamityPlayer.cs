@@ -81,6 +81,8 @@ namespace CalamityMod.CalPlayer
 		public int minionSlotStat = 0;
 		public int lifeRegenStat = 0;
 		public int manaRegenStat = 0;
+		public int ammoReductionRanged = 0;
+		public int ammoReductionRogue = 0;
 		public int armorPenetrationStat = 0;
 		public int wingFlightTimeStat = 0;
 		public int adrenalineChargeStat = 0;
@@ -118,8 +120,6 @@ namespace CalamityMod.CalPlayer
         public bool playRogueStealthSound = false;
         public bool playFullRageSound = true;
         public bool playFullAdrenalineSound = true;
-        public bool playAdrenalineBurnoutSound = true;
-        public bool playFullAdrenalineBurnoutSound = true;
 
         // Proficiency
         public int meleeLevel = 0;
@@ -193,9 +193,6 @@ namespace CalamityMod.CalPlayer
 
         // Adrenaline
         public int adrenalineMax = 10000;
-        public int adrenalineMaxTimer = 300;
-        public int adrenalineDmgDown = 600;
-        public float adrenalineDmgMult = 1f;
         public int adrenaline;
         public int adrenalineCD;
         public bool adrenalineMode = false;
@@ -371,6 +368,9 @@ namespace CalamityMod.CalPlayer
         public bool dynamoStemCells = false;
         public bool etherealExtorter = false;
         public bool blazingCore = false;
+        public bool voltaicJelly = false;
+        public bool jellyChargedBattery = false;
+        public float jellyDmg;
         //public bool dukeScales = false;
         public bool sandWaifu = false;
         public bool sandBoobWaifu = false;
@@ -578,6 +578,7 @@ namespace CalamityMod.CalPlayer
         public bool draconicSurge = false;
         public int draconicSurgeCooldown = 0;
         public bool tesla = false;
+        public bool baguette = false;
         public bool vodka = false;
         public bool redWine = false;
         public bool grapeBeer = false;
@@ -1161,6 +1162,8 @@ namespace CalamityMod.CalPlayer
             etherealExtorter = false;
             //dukeScales = false;
             blazingCore = false;
+            voltaicJelly = false;
+            jellyChargedBattery = false;
             veneratedLocket = false;
 
             daedalusReflect = false;
@@ -1302,6 +1305,7 @@ namespace CalamityMod.CalPlayer
             profanedRage = false;
             draconicSurge = false;
             tesla = false;
+            baguette = false;
             trippy = false;
             amidiasBlessing = false;
             yPower = false;
@@ -1441,9 +1445,6 @@ namespace CalamityMod.CalPlayer
 			galileoCooldown = 0;
             stress = 0;
             adrenaline = 0;
-            adrenalineMaxTimer = 300;
-            adrenalineDmgDown = 600;
-            adrenalineDmgMult = 1f;
             raiderStack = 0;
             raiderCooldown = 0;
             gSabatonFall = 0;
@@ -1559,6 +1560,7 @@ namespace CalamityMod.CalPlayer
             holyWrath = false;
             profanedRage = false;
             tesla = false;
+            baguette = false;
             draconicSurge = false;
             draconicSurgeCooldown = 0;
             yPower = false;
@@ -2304,7 +2306,7 @@ namespace CalamityMod.CalPlayer
                     player.AddBuff(ModContent.BuffType<RageMode>(), 300);
                 }
             }
-            if (CalamityMod.AdrenalineHotKey.JustPressed)
+            if (CalamityMod.AdrenalineHotKey.JustPressed && Config.AdrenalineAndRage && CalamityWorld.revenge)
             {
                 if (adrenaline == adrenalineMax && !adrenalineMode)
                 {
@@ -4277,8 +4279,7 @@ namespace CalamityMod.CalPlayer
                 {
                     if (item.melee)
                     {
-                        double damageMultAdr = 1.5 * (double)adrenalineDmgMult;
-                        damageMult += damageMultAdr;
+                        damageMult += 1.5;
                     }
                 }
             }
@@ -4541,7 +4542,7 @@ namespace CalamityMod.CalPlayer
             {
                 damageMult += 0.33;
             }
-            if (CalamityWorld.revenge)
+            if (CalamityWorld.revenge && Config.AdrenalineAndRage)
             {
                 bool DHorHoD = draedonsHeart || heartOfDarkness;
                 if (rageMode && adrenalineMode)
@@ -4567,8 +4568,7 @@ namespace CalamityMod.CalPlayer
                 {
                     if (hasClassType)
                     {
-                        double damageMultAdr = 1.5 * (double)adrenalineDmgMult;
-                        damageMult += damageMultAdr;
+                        damageMult += 1.5;
                     }
                 }
             }
@@ -5524,7 +5524,7 @@ namespace CalamityMod.CalPlayer
             }
             // Fearmonger set provides 15% multiplicative DR that ignores caps during the Holiday Moons.
             // To prevent abuse, this effect does not work if there are any bosses alive.
-            if(fearmongerSet && !areThereAnyDamnBosses && (Main.pumpkinMoon || Main.snowMoon))
+            if (fearmongerSet && !areThereAnyDamnBosses && (Main.pumpkinMoon || Main.snowMoon))
             {
                 damage = (int)(damage * 0.85f);
             }
@@ -5540,8 +5540,15 @@ namespace CalamityMod.CalPlayer
             {
                 if (!CalamityWorld.downedBossAny)
                     damage = (int)((double)damage * 0.8);
+
+				if (Config.AdrenalineAndRage)
+				{
+					if (adrenaline == adrenalineMax && !adrenalineMode)
+						damage = (int)((double)damage * 0.5);
+				}
             }
-            if (player.mount.Active && (player.mount.Type == ModContent.MountType<AngryDogMount>() || player.mount.Type == ModContent.MountType<OnyxExcavator>()) && Math.Abs(player.velocity.X) > player.mount.RunSpeed / 2f)
+            if (player.mount.Active && (player.mount.Type == ModContent.MountType<AngryDogMount>() || player.mount.Type == ModContent.MountType<OnyxExcavator>())
+				&& Math.Abs(player.velocity.X) > player.mount.RunSpeed / 2f)
             {
                 damage = (int)((double)damage * 0.9);
             }
@@ -5583,20 +5590,23 @@ namespace CalamityMod.CalPlayer
             modStealth = 1f;
             if (player.whoAmI == Main.myPlayer)
             {
-                if (rageMode)
-                {
-                    stress = 0;
-                    if (player.FindBuffIndex(ModContent.BuffType<RageMode>()) > -1)
-						player.ClearBuff(ModContent.BuffType<RageMode>());
-                }
+				if (Config.AdrenalineAndRage && CalamityWorld.revenge)
+				{
+					if (rageMode)
+					{
+						stress = 0;
+						if (player.FindBuffIndex(ModContent.BuffType<RageMode>()) > -1)
+							player.ClearBuff(ModContent.BuffType<RageMode>());
+					}
+					if (!adrenalineMode)
+					{
+						adrenaline = 0;
+					}
+				}
                 if (amidiasBlessing)
                 {
                     player.ClearBuff(ModContent.BuffType<AmidiasBlessing>());
                     Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 96);
-                }
-                if (!adrenalineMode && adrenaline != adrenalineMax)
-                {
-                    adrenaline = 0;
                 }
                 if ((gShell || fabledTortoise) && !player.panic)
                 {
