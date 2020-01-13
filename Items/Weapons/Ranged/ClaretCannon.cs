@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override Vector2? HoldoutOffset()
         {
-            return new Vector2(0, -5);
+            return new Vector2(-5, 0);
         }
 
         public override void AddRecipes()
