@@ -52,7 +52,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             recipe.AddIngredient(ModContent.ItemType<ClaretCannon>());
             recipe.AddIngredient(ModContent.ItemType<Spyker>());
             recipe.AddIngredient(ModContent.ItemType<Fungicide>());
-            recipe.AddIngredient(ModContent.ItemType<FantasyTalisman>(), 500);
+            recipe.AddIngredient(ModContent.ItemType<FantasyTalisman>(), 52);
             recipe.AddIngredient(ModContent.ItemType<HellcasterFragment>(), 6);
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
