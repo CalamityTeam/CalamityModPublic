@@ -12,6 +12,9 @@ namespace CalamityMod.Projectiles.Rogue
     {
         int counter = 0;
         float multiplier = 1f;
+        Vector2 originalVelocity;
+        bool stealthOrigin = false;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Flare");
@@ -35,14 +38,22 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
+            
             counter++;
-            if (counter == 20 && !projectile.Calamity().stealthStrike)
+            if (counter == 1)
+            {
+                stealthOrigin = projectile.ai[0] == 1f;
+                projectile.ai[0] = 0f;
+                originalVelocity = projectile.velocity;
+            }
+            if (counter == 20 && !projectile.Calamity().stealthStrike && !stealthOrigin)
             {
                 projectile.tileCollide = true;
             }
             if (counter % 5 == 0)
             {
-                multiplier -= 0.05f;
+                multiplier -= 0.07f;
+                projectile.velocity *= 1.1f;
             }
             projectile.frameCounter++;
             if (projectile.frameCounter > 8)
@@ -146,10 +157,11 @@ namespace CalamityMod.Projectiles.Rogue
                     int spread = 6;
                     for (int i = 0; i < numProj; i++)
                     {
-                        Vector2 perturbedspeed = new Vector2(projectile.velocity.X, projectile.velocity.Y + Main.rand.Next(-3, 4)).RotatedBy(MathHelper.ToRadians(spread));
+                        Vector2 perturbedspeed = new Vector2(originalVelocity.X, originalVelocity.Y + Main.rand.Next(-3, 4)).RotatedBy(MathHelper.ToRadians(spread));
                         Vector2 position = Main.player[projectile.owner].position;
-                        Projectile.NewProjectile(position.X, position.Y - 10, perturbedspeed.X, perturbedspeed.Y, ModContent.ProjectileType<ShatteredSunFireball>(), (int)((double)projectile.damage * 0.3), 1f, projectile.owner, 0f, 0f);
+                        int proj = Projectile.NewProjectile(position.X, position.Y - 10, perturbedspeed.X, perturbedspeed.Y, ModContent.ProjectileType<ShatteredSunFireball>(), (int)((double)projectile.damage * 0.3), 1f, projectile.owner, 0f, 0f);
                         spread -= Main.rand.Next(2, 6);
+                        Main.projectile[proj].ai[0] = 1f;
                     }
                     projectile.active = false;
                 }

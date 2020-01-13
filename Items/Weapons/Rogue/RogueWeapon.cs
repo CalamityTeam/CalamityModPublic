@@ -31,6 +31,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             crit = item.crit + player.Calamity().throwingCrit;
         }
+
         public override float UseTimeMultiplier(Player player)
         {
             float rogueAS = 1f;

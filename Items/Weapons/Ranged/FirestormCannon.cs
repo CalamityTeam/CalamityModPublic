@@ -2,6 +2,7 @@ using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -32,6 +33,11 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shoot = 163;
             item.shootSpeed = 5.5f;
             item.useAmmo = 931;
+        }
+
+        public override Vector2? HoldoutOffset()
+        {
+            return new Vector2(-10, 0);
         }
 
         public override bool ConsumeAmmo(Player player)

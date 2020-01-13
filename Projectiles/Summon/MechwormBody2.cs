@@ -16,6 +16,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             DisplayName.SetDefault("Mechworm");
             ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
+            ProjectileID.Sets.NeedsUUID[projectile.type] = true;
         }
 
         public override void SetDefaults()

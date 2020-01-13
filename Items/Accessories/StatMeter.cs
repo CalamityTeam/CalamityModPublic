@@ -31,6 +31,8 @@ namespace CalamityMod.Items.Accessories
 			int manaCost = modPlayer.manaCostStat;
 			int rogueVelocity = modPlayer.rogueVelocityStat;
 			int minionSlots = modPlayer.minionSlotStat;
+			int ammoConsumption = modPlayer.ammoReductionRanged;
+			int rogueConsumption = modPlayer.ammoReductionRogue;
 			int lifeRegen = modPlayer.lifeRegenStat;
 			int manaRegen = modPlayer.manaRegenStat;
 			int armorPenetration = modPlayer.armorPenetrationStat;
@@ -52,11 +54,12 @@ namespace CalamityMod.Items.Accessories
 							"Melee Damage: " + modPlayer.damageStats[0] + "% | Melee Crit Chance: " + modPlayer.critStats[0] + "%\n" +
 							"Melee Speed Boost: " + meleeSpeed + "%\n\n" +
 							"Ranged Damage: " + modPlayer.damageStats[1] + "% | Ranged Crit Chance: " + modPlayer.critStats[1] + "%\n\n" +
+							"Ammo Consumption Chance: " + modPlayer.ammoReductionRanged + "%\n" +
 							"Magic Damage: " + modPlayer.damageStats[2] + "% | Magic Crit Chance: " + modPlayer.critStats[2] + "%\n" +
 							"Mana Usage: " + manaCost + "% | Mana Regen: " + manaRegen + "\n\n" +
 							"Minion Damage: " + modPlayer.damageStats[3] + "% | Minion Slots: " + minionSlots + "\n\n" +
 							"Rogue Damage: " + modPlayer.damageStats[4] + "% | Rogue Crit Chance: " + modPlayer.critStats[3] + "%\n" +
-							"Rogue Velocity Boost: " + rogueVelocity + "%\n\n" +
+							"Rogue Velocity Boost: " + rogueVelocity + "% | Rogue Weapon Consumption Chance: " + modPlayer.ammoReductionRogue + "%\n\n" +
 							"Defense: " + defense + " | DR: " + DR + "%\n" +
 							"Life Regen: " + lifeRegen + " | Armor Penetration: " + armorPenetration + "\n" +
 							"Wing Flight Time: " + wingFlightTime + " | Movement Speed Boost: " + moveSpeed + "%\n\n" +
@@ -81,11 +84,12 @@ namespace CalamityMod.Items.Accessories
 						line2.text = "Melee Damage: " + modPlayer.damageStats[0] + "% | Melee Crit Chance: " + modPlayer.critStats[0] + "%\n" +
 							"Melee Speed Boost: " + meleeSpeed + "%\n\n" +
 							"Ranged Damage: " + modPlayer.damageStats[1] + "% | Ranged Crit Chance: " + modPlayer.critStats[1] + "%\n\n" +
+							"Ammo Consumption Chance: " + modPlayer.ammoReductionRanged + "%\n" +
 							"Magic Damage: " + modPlayer.damageStats[2] + "% | Magic Crit Chance: " + modPlayer.critStats[2] + "%\n" +
 							"Mana Usage: " + manaCost + "% | Mana Regen: " + manaRegen + "\n\n" +
 							"Minion Damage: " + modPlayer.damageStats[3] + "% | Minion Slots: " + minionSlots + "\n\n" +
 							"Rogue Damage: " + modPlayer.damageStats[4] + "% | Rogue Crit Chance: " + modPlayer.critStats[3] + "%\n" +
-							"Rogue Velocity Boost: " + rogueVelocity + "%\n\n" +
+							"Rogue Velocity Boost: " + rogueVelocity + "% | Rogue Weapon Consumption Chance: " + modPlayer.ammoReductionRogue + "%\n\n" +
 							"Defense: " + defense + " | DR: " + DR + "%\n" +
 							"Life Regen: " + lifeRegen + " | Armor Penetration: " + armorPenetration + "\n" +
 							"Wing Flight Time: " + wingFlightTime + " | Movement Speed Boost: " + moveSpeed + "%\n\n" +

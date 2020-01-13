@@ -593,7 +593,7 @@ namespace CalamityMod.NPCs
                 if (npc.type != ModContent.NPCType<HiveMindP2>() && npc.type != ModContent.NPCType<Leviathan.Leviathan>() && npc.type != ModContent.NPCType<StormWeaverHeadNaked>() &&
                     npc.type != ModContent.NPCType<StormWeaverBodyNaked>() && npc.type != ModContent.NPCType<StormWeaverTailNaked>() &&
                     npc.type != ModContent.NPCType<DevourerofGodsHeadS>() && npc.type != ModContent.NPCType<DevourerofGodsBodyS>() &&
-                    npc.type != ModContent.NPCType<DevourerofGodsTailS>())
+                    npc.type != ModContent.NPCType<DevourerofGodsTailS>() && npc.type != ModContent.NPCType<CalamitasRun3>())
                 {
                     if (Main.netMode != NetmodeID.Server)
                     {
@@ -609,41 +609,8 @@ namespace CalamityMod.NPCs
             {
                 BossRushStatChanges(npc, mod);
             }
-            else
-            {
-                if (CalamityMod.enemyImmunityList.Contains(npc.type) || npc.boss)
-                {
-                    npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
-                    npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
-                    npc.buffImmune[ModContent.BuffType<TimeSlow>()] = true;
-                    npc.buffImmune[ModContent.BuffType<TeslaBuff>()] = true;
-                    npc.buffImmune[BuffID.Webbed] = true;
-                    npc.buffImmune[BuffID.Slow] = true;
-                }
 
-                if (DestroyerIDs.Contains(npc.type) || npc.type == NPCID.DD2EterniaCrystal || npc.townNPC)
-                {
-                    for (int k = 0; k < npc.buffImmune.Length; k++)
-                    {
-                        npc.buffImmune[k] = true;
-                    }
-
-                    if (npc.townNPC)
-                    {
-                        npc.buffImmune[BuffID.Wet] = false;
-                        npc.buffImmune[BuffID.Slimed] = false;
-                        npc.buffImmune[BuffID.Lovestruck] = false;
-                        npc.buffImmune[BuffID.Stinky] = false;
-                    }
-                }
-            }
-
-			if (npc.buffImmune[BuffID.Venom] == false)
-			{
-				npc.buffImmune[ModContent.BuffType<SulphuricPoisoning>()] = false;
-			}
-
-            npc.buffImmune[ModContent.BuffType<Enraged>()] = false;
+            DebuffImmunities(npc);
 
             BossValueChanges(npc);
 
@@ -688,6 +655,44 @@ namespace CalamityMod.NPCs
                     break;
                 }
             }
+        }
+        #endregion
+
+        #region Debuff Immunities
+        private void DebuffImmunities(NPC npc)
+        {
+			if (CalamityMod.enemyImmunityList.Contains(npc.type) || npc.boss)
+			{
+				npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
+				npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
+				npc.buffImmune[ModContent.BuffType<TimeSlow>()] = true;
+				npc.buffImmune[ModContent.BuffType<TeslaBuff>()] = true;
+				npc.buffImmune[BuffID.Webbed] = true;
+				npc.buffImmune[BuffID.Slow] = true;
+			}
+
+			if (DestroyerIDs.Contains(npc.type) || npc.type == NPCID.DD2EterniaCrystal || npc.townNPC)
+			{
+				for (int k = 0; k < npc.buffImmune.Length; k++)
+				{
+					npc.buffImmune[k] = true;
+				}
+
+				if (npc.townNPC)
+				{
+					npc.buffImmune[BuffID.Wet] = false;
+					npc.buffImmune[BuffID.Slimed] = false;
+					npc.buffImmune[BuffID.Lovestruck] = false;
+					npc.buffImmune[BuffID.Stinky] = false;
+				}
+			}
+
+			if (npc.buffImmune[BuffID.Venom] == false)
+			{
+				npc.buffImmune[ModContent.BuffType<SulphuricPoisoning>()] = false;
+			}
+
+            npc.buffImmune[ModContent.BuffType<Enraged>()] = false;
         }
         #endregion
 

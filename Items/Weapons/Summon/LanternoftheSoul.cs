@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Lantern of the Soul");
+            DisplayName.SetDefault("Guidelight of Oblivion");
             Tooltip.SetDefault("Summons a lantern turret to fight for you");
         }
 

@@ -445,6 +445,8 @@ namespace CalamityMod.CalPlayer
 				modPlayer.plaguedFuelPackCooldown--;
 			if (modPlayer.plaguedFuelPackDash > 0)
 				modPlayer.plaguedFuelPackDash--;
+			if (modPlayer.jellyDmg > 0f)
+				modPlayer.jellyDmg -= 1f;
 			if (modPlayer.ataxiaDmg > 0f)
 				modPlayer.ataxiaDmg -= 1.5f;
 			if (modPlayer.ataxiaDmg < 0f)
@@ -2765,6 +2767,15 @@ namespace CalamityMod.CalPlayer
 			modPlayer.critStats[1] = player.rangedCrit;
 			modPlayer.critStats[2] = player.magicCrit;
 			modPlayer.critStats[3] = modPlayer.throwingCrit;
+			modPlayer.ammoReductionRanged = (int)(100f *
+				(player.ammoBox ? 0.8f : 1f) *
+				(player.ammoPotion ? 0.8f : 1f) *
+				(player.ammoCost80 ? 0.8f : 1f) *
+				(player.ammoCost75 ? 0.75f : 1f));
+			modPlayer.ammoReductionRogue = (int)(100f *
+				(modPlayer.throwingAmmoCost75 ? 0.75f : 1f) *
+				(modPlayer.throwingAmmoCost66 ? 0.66f : 1f) *
+				(modPlayer.throwingAmmoCost50 ? 0.5f : 1f));
 			modPlayer.defenseStat = player.statDefense;
 			modPlayer.DRStat = (int)(player.endurance * 100f);
 			modPlayer.meleeSpeedStat = (int)((1f - player.meleeSpeed) * (100f / player.meleeSpeed));

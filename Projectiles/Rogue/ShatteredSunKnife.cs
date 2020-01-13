@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles.Rogue
                     for (int i = 0; i < numProj; i++)
                     {
                         Vector2 perturbedspeed = new Vector2(projectile.velocity.X, projectile.velocity.Y + Main.rand.Next(-3, 4)).RotatedBy(MathHelper.ToRadians(spread));
-                        int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedspeed.X * 0.8f, perturbedspeed.Y * 0.8f, ModContent.ProjectileType<ShatteredSunFireball>(), (int)((double)projectile.damage * 1.5), 1f, projectile.owner, 0f, 0f);
+                        int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedspeed.X * 0.2f, perturbedspeed.Y * 0.2f, ModContent.ProjectileType<ShatteredSunFireball>(), (int)((double)projectile.damage * 0.5), 1f, projectile.owner, 0f, 0f);
                         Main.projectile[proj].Calamity().stealthStrike = projectile.Calamity().stealthStrike;
                         spread -= Main.rand.Next(2, 6);
                     }

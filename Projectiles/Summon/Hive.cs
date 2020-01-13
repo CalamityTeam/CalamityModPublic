@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
@@ -10,6 +11,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             DisplayName.SetDefault("Hive");
             Main.projFrames[projectile.type] = 6;
+            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
         }
 
         public override void SetDefaults()

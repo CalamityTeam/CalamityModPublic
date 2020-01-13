@@ -165,11 +165,13 @@ namespace CalamityMod.Projectiles.Pets
                     projectile.velocity.Y = projectile.velocity.Y - num16 * 2f;
                 }
             }
+
 			projectile.rotation = projectile.velocity.X * 0.05f;
 			if ((double) projectile.velocity.X > 0.25)
 				projectile.spriteDirection = projectile.direction = 1;
 			else if ((double) projectile.velocity.X < -0.25)
 				projectile.spriteDirection = projectile.direction = -1;
+
             projectile.frameCounter++;
             if (projectile.frameCounter > 6)
             {
@@ -237,7 +239,7 @@ namespace CalamityMod.Projectiles.Pets
                     num406 = num403 / num406;
                     num404 *= num406;
                     num405 *= num406;
-					Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 93);
+					//Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 93);
                     Projectile.NewProjectile(projectile.Center.X - 4f, projectile.Center.Y, num404, num405, ModContent.ProjectileType<RotomBeam>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                     projectile.ai[0] = 50f;
                 }

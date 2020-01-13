@@ -16,6 +16,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             DisplayName.SetDefault("Mechworm");
             ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
+            ProjectileID.Sets.NeedsUUID[projectile.type] = true;
         }
 
         public override void SetDefaults()
@@ -97,7 +98,6 @@ namespace CalamityMod.Projectiles.Summon
                     }
                 }
                 value68 = Main.projectile[chase].Center;
-                Vector2 arg_2DE6A_0 = Main.projectile[chase].velocity;
                 num1064 = Main.projectile[chase].rotation;
                 scaleFactor18 = MathHelper.Clamp(Main.projectile[chase].scale, 0f, 50f);
                 scaleFactor17 = 16f;

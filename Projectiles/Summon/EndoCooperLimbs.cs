@@ -73,11 +73,12 @@ namespace CalamityMod.Projectiles.Summon
 
                 SpawnDust();
             }
+            AttackMode = (int)body.localAI[1];
 
             //Rotation
             if (AttackMode == 3)
             {
-                projectile.rotation += 0.02f;
+                projectile.rotation += 0.015f;
             }
             else
             {

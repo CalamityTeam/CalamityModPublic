@@ -128,14 +128,17 @@ namespace CalamityMod.Items.Weapons.Summon
                 vector2.X = (float)Main.mouseX + Main.screenPosition.X;
                 vector2.Y = (float)Main.mouseY + Main.screenPosition.Y;
                 int curr = Projectile.NewProjectile(vector2.X, vector2.Y, velX, velY, ModContent.ProjectileType<MechwormHead>(), damage, knockBack, owner);
+                int head2 = curr;
 
                 int prev = curr;
                 curr = Projectile.NewProjectile(vector2.X, vector2.Y, velX, velY, ModContent.ProjectileType<MechwormBody>(), damage, knockBack, owner, (float)prev);
+                Main.projectile[curr].identity = head2;
 
                 prev = curr;
                 curr = Projectile.NewProjectile(vector2.X, vector2.Y, velX, velY, ModContent.ProjectileType<MechwormBody2>(), damage, knockBack, owner, (float)prev);
                 Main.projectile[prev].localAI[1] = (float)curr;
                 Main.projectile[prev].netUpdate = true;
+                Main.projectile[curr].identity = head2;
 
                 prev = curr;
                 curr = Projectile.NewProjectile(vector2.X, vector2.Y, velX, velY, ModContent.ProjectileType<MechwormTail>(), damage, knockBack, owner, (float)prev);
@@ -144,18 +147,21 @@ namespace CalamityMod.Items.Weapons.Summon
             }
             else if (head != -1 && tail != -1)
             {
-                int body = Projectile.NewProjectile(vector2.X, vector2.Y, velX, velY, ModContent.ProjectileType<MechwormBody>(), damage, knockBack, owner, Main.projectile[tail].ai[0]);
+                float uuid = (float)Projectile.GetByUUID(Main.myPlayer, Main.projectile[tail].ai[0]);
+                int body = Projectile.NewProjectile(vector2.X, vector2.Y, velX, velY, ModContent.ProjectileType<MechwormBody>(), damage, knockBack, owner, uuid);
                 int back = Projectile.NewProjectile(vector2.X, vector2.Y, velX, velY, ModContent.ProjectileType<MechwormBody2>(), damage, knockBack, owner, (float)body);
 
                 Main.projectile[body].localAI[1] = (float)back;
                 Main.projectile[body].ai[1] = 1f;
                 Main.projectile[body].netUpdate = true;
+                Main.projectile[body].identity = head;
 
                 Main.projectile[back].localAI[1] = (float)tail;
                 Main.projectile[back].netUpdate = true;
                 Main.projectile[back].ai[1] = 1f;
+                Main.projectile[body].identity = head;
 
-                Main.projectile[tail].ai[0] = (float)back;
+                Main.projectile[tail].ai[0] = Main.projectile[body].projUUID;
                 Main.projectile[tail].netUpdate = true;
                 Main.projectile[tail].ai[1] = 1f;
             }
