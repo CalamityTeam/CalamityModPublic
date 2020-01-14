@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Items.Critters;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
@@ -16,6 +17,7 @@ namespace CalamityMod.NPCs.SunkenSea
         {
             DisplayName.SetDefault("Baby Ghost Bell");
             Main.npcFrameCount[npc.type] = 4;
+            Main.npcCatchable[npc.type] = true;
         }
 
         public override void SetDefaults()
@@ -36,6 +38,7 @@ namespace CalamityMod.NPCs.SunkenSea
             npc.DeathSound = SoundID.NPCDeath28;
             banner = npc.type;
             bannerItem = ModContent.ItemType<GhostBellSmallBanner>();
+            npc.catchItem = (short)ModContent.ItemType<BabyGhostBellItem>();
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -54,7 +57,8 @@ namespace CalamityMod.NPCs.SunkenSea
         {
             if (npc.localAI[0] == 0f)
             {
-                npc.catchItem = (Main.rand.NextBool(20)) ? (short)ModContent.ItemType<RustedJingleBell>() : ItemID.None;
+				if (Main.rand.NextBool(20))
+					npc.catchItem = (short)ModContent.ItemType<RustedJingleBell>();
                 npc.localAI[0] = 1f;
                 npc.velocity.Y = -3f;
                 npc.netUpdate = true;
