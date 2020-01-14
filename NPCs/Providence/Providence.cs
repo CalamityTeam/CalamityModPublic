@@ -1076,10 +1076,11 @@ namespace CalamityMod.NPCs.Providence
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeProvidence>(), true, !CalamityWorld.downedProvidence);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedProvidence, 5, 2, 1);
 
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<ElysianWings>(), biomeType != 2);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<ElysianAegis>(), biomeType == 2);
-
             DropHelper.DropItemCondition(npc, ModContent.ItemType<RuneofCos>(), true, !CalamityWorld.downedProvidence);
+
+			//Accessories clientside only in Expert
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<ElysianWings>(), true, biomeType != 2 && Main.expertMode);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<ElysianAegis>(), true, biomeType == 2 && Main.expertMode);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
             if (!Main.expertMode)
@@ -1098,6 +1099,8 @@ namespace CalamityMod.NPCs.Providence
 
                 // Equipment
                 DropHelper.DropItemChance(npc, ModContent.ItemType<SamuraiBadge>(), 40);
+				DropHelper.DropItemCondition(npc, ModContent.ItemType<ElysianWings>(), biomeType != 2);
+				DropHelper.DropItemCondition(npc, ModContent.ItemType<ElysianAegis>(), biomeType == 2);
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<ProvidenceMask>(), 7);
