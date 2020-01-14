@@ -1633,7 +1633,7 @@ namespace CalamityMod.Projectiles
 
                 if (projectile.ranged)
                 {
-                    if (Main.player[projectile.owner].Calamity().tarraRanged && Main.rand.Next(0, 100) >= 88 && (projectile.timeLeft <= 2 || projectile.penetrate <= 1))
+                    if (Main.player[projectile.owner].Calamity().tarraRanged && Main.rand.Next(0, 100) >= 88 && Main.player[projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<TarraEnergy>()] <= 20 && (projectile.timeLeft <= 2 || projectile.penetrate <= 1))
                     {
                         int num251 = Main.rand.Next(2, 4);
                         for (int num252 = 0; num252 < num251; num252++)
