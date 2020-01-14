@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Weapons.Summon
                 position = Main.MouseWorld;
                 speedX = 0;
                 speedY = 0;
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 1f);
             }
             return false;
         }
