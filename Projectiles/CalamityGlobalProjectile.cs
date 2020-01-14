@@ -1630,6 +1630,30 @@ namespace CalamityMod.Projectiles
                         Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num8, num9, ModContent.ProjectileType<GodSlayerPhantom>(), (int)((double)num * 2.0), 0f, projectile.owner, 0f, ai1);
                     }
                 }
+
+                if (projectile.ranged)
+                {
+                    if (Main.player[projectile.owner].Calamity().tarraRanged && Main.rand.Next(0, 100) >= 88 && (projectile.timeLeft <= 2 || projectile.penetrate <= 1))
+                    {
+                        int num251 = Main.rand.Next(2, 4);
+                        for (int num252 = 0; num252 < num251; num252++)
+                        {
+                            Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+                            while (value15.X == 0f && value15.Y == 0f)
+                            {
+                                value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+                            }
+                            value15.Normalize();
+                            value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
+                            int newDamage = (int)((double)projectile.damage * 0.33);
+                            if (newDamage > 65)
+                            {
+                                newDamage = 65;
+                            }
+                            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<TarraEnergy>(), newDamage, 0f, projectile.owner, 0f, 0f);
+                        }
+                    }
+                }
             }
         }
         #endregion
@@ -1795,30 +1819,6 @@ namespace CalamityMod.Projectiles
                     {
                         int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 244, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f, 0, default, 1f);
                         Main.dust[dust].noGravity = true;
-                    }
-                }
-
-                if (projectile.ranged)
-                {
-                    if (Main.player[projectile.owner].Calamity().tarraRanged && Main.rand.Next(0, 100) >= 88)
-                    {
-                        int num251 = Main.rand.Next(2, 4);
-                        for (int num252 = 0; num252 < num251; num252++)
-                        {
-                            Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                            while (value15.X == 0f && value15.Y == 0f)
-                            {
-                                value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                            }
-                            value15.Normalize();
-                            value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-                            int newDamage = (int)((double)projectile.damage * 0.33);
-                            if (newDamage > 65)
-                            {
-                                newDamage = 65;
-                            }
-                            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<TarraEnergy>(), newDamage, 0f, projectile.owner, 0f, 0f);
-                        }
                     }
                 }
 
