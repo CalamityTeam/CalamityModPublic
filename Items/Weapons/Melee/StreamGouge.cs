@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Stream Gouge");
-            Tooltip.SetDefault("Fires an essence flame beam\n" +
+            Tooltip.SetDefault("Fires an essence spear clone\n" +
                 "Ignores immunity frames");
         }
 

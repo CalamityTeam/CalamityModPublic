@@ -1,4 +1,5 @@
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Critters;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Placeables.Ores;
 using CalamityMod.Items.Potions;
@@ -69,6 +70,7 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
             //Bait
             DropHelper.DropItemChance(player, ItemID.MasterBait, 10, 1, 2);
             DropHelper.DropItemChance(player, ItemID.JourneymanBait, 5, 1, 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<SeaMinnowItem>(), 5, 1, 3);
             DropHelper.DropItemChance(player, ItemID.ApprenticeBait, 3, 2, 3);
 
             //Potions

@@ -1,5 +1,5 @@
 using CalamityMod.Dusts;
-using CalamityMod.Items.Fishing.AstralCatches;
+using CalamityMod.Items.Critters;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

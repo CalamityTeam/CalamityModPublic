@@ -122,7 +122,7 @@ namespace CalamityMod.Projectiles.Summon
 			}
 			if (!flag)
 			{
-				for (int index2 = 0; index2 < 200; ++index2)
+				for (int index2 = 0; index2 < Main.npc.Length; ++index2)
 				{
 					NPC npc = Main.npc[index2];
 					if (npc.CanBeChasedBy((object) this, false))
