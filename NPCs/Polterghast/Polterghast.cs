@@ -114,12 +114,13 @@ namespace CalamityMod.NPCs.Polterghast
             Vector2 vector = npc.Center;
             bool speedBoost1 = false;
             bool despawnBoost = false;
-            bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
+			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
+			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
             bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
-            bool phase2 = (double)npc.life < (double)npc.lifeMax * 0.75; //hooks fire beams
-            bool phase3 = (double)npc.life < (double)npc.lifeMax * (revenge ? 0.5 : 0.33); //hooks stop shooting and polter begins charging with ghosts spinning around player
-            bool phase4 = (double)npc.life < (double)npc.lifeMax * (revenge ? 0.33 : 0.2); //starts spitting ghost dudes
-            bool phase5 = (double)npc.life < (double)npc.lifeMax * (revenge ? 0.1 : 0.05); //starts moving incredibly fast
+            bool phase2 = (double)npc.life < (double)npc.lifeMax * (death ? 0.9 : 0.75); //hooks fire beams
+            bool phase3 = (double)npc.life < (double)npc.lifeMax * (revenge ? (death ? 0.8 : 0.5) : 0.33); //hooks stop shooting and polter begins charging with ghosts spinning around player
+            bool phase4 = (double)npc.life < (double)npc.lifeMax * (revenge ? (death ? 0.5 : 0.33) : 0.2); //starts spitting ghost dudes
+            bool phase5 = (double)npc.life < (double)npc.lifeMax * (revenge ? (death ? 0.25 : 0.1) : 0.05); //starts moving incredibly fast
 
             // Target
             npc.TargetClosest(true);
@@ -736,14 +737,16 @@ namespace CalamityMod.NPCs.Polterghast
 
         public override void FindFrame(int frameHeight)
         {
-            bool phase2 = (double)npc.life >= (double)npc.lifeMax * (CalamityWorld.revenge ? 0.5 : 0.33);
+			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
+			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
+			bool phase2 = (double)npc.life >= (double)npc.lifeMax * (revenge ? (death ? 0.8 : 0.5) : 0.33);
             npc.frameCounter += 1.0;
             if (npc.frameCounter > 6.0)
             {
                 npc.frameCounter = 0.0;
                 npc.frame.Y = npc.frame.Y + frameHeight;
             }
-            if ((double)npc.life >= (double)npc.lifeMax * 0.75)
+            if ((double)npc.life >= (double)npc.lifeMax * (death ? 0.9 : 0.75))
             {
                 if (npc.frame.Y > frameHeight * 3)
                 {

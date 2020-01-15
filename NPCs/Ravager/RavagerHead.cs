@@ -68,7 +68,7 @@ namespace CalamityMod.NPCs.Ravager
         {
             bool provy = CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive;
             bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
-            Player player = Main.player[npc.target];
+			Player player = Main.player[npc.target];
             if (CalamityGlobalNPC.scavenger < 0 || !Main.npc[CalamityGlobalNPC.scavenger].active)
             {
                 npc.active = false;

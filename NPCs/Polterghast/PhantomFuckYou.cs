@@ -72,7 +72,10 @@ namespace CalamityMod.NPCs.Polterghast
                 return false;
             }
 
-            npc.TargetClosest(true);
+			// Percent life remaining, Polter
+			float lifeRatio = (float)Main.npc[CalamityGlobalNPC.ghostBoss].life / (float)Main.npc[CalamityGlobalNPC.ghostBoss].lifeMax;
+
+			npc.TargetClosest(true);
 
             Vector2 direction = Main.player[npc.target].Center - npc.Center;
             direction.Normalize();
@@ -80,9 +83,6 @@ namespace CalamityMod.NPCs.Polterghast
             npc.rotation = direction.ToRotation();
 
             timer++;
-            if (CalamityWorld.death || CalamityWorld.bossRushActive)
-                timer++;
-
             if (timer >= 150)
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -100,7 +100,10 @@ namespace CalamityMod.NPCs.Polterghast
             double dist = 500;
             npc.position.X = player.Center.X - (int)(Math.Cos(rad) * dist) - npc.width / 2;
             npc.position.Y = player.Center.Y - (int)(Math.Sin(rad) * dist) - npc.height / 2;
-            npc.ai[1] += 0.5f; //1f
+			float SPEEN = 1f - lifeRatio * 2f;
+			if (SPEEN < 0f)
+				SPEEN = 0f;
+			npc.ai[1] += 0.5f + SPEEN; //1f
             return false;
         }
 

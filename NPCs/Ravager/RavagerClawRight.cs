@@ -73,7 +73,8 @@ namespace CalamityMod.NPCs.Ravager
                 npc.netUpdate = true;
                 return;
             }
-            if (npc.timeLeft < 3000)
+			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
+			if (npc.timeLeft < 3000)
             {
                 npc.timeLeft = 3000;
             }
@@ -90,15 +91,15 @@ namespace CalamityMod.NPCs.Ravager
             {
                 npc.noTileCollide = true;
                 float num659 = 14f;
-                if (npc.life < npc.lifeMax / 2)
+                if (npc.life < npc.lifeMax / 2 || death)
                 {
                     num659 += 1f;
                 }
-                if (npc.life < npc.lifeMax / 3)
+                if (npc.life < npc.lifeMax / 3 || death)
                 {
                     num659 += 1f;
                 }
-                if (npc.life < npc.lifeMax / 5)
+                if (npc.life < npc.lifeMax / 5 || death)
                 {
                     num659 += 1f;
                 }
@@ -114,15 +115,15 @@ namespace CalamityMod.NPCs.Ravager
                     npc.velocity.X = num660;
                     npc.velocity.Y = num661;
                     npc.ai[1] += 1f;
-                    if (npc.life < npc.lifeMax / 2)
+                    if (npc.life < npc.lifeMax / 2 || death)
                     {
                         npc.ai[1] += 1f;
                     }
-                    if (npc.life < npc.lifeMax / 3)
+                    if (npc.life < npc.lifeMax / 3 || death)
                     {
                         npc.ai[1] += 1f;
                     }
-                    if (npc.life < npc.lifeMax / 5)
+                    if (npc.life < npc.lifeMax / 5 || death)
                     {
                         npc.ai[1] += 10f;
                     }
@@ -153,15 +154,15 @@ namespace CalamityMod.NPCs.Ravager
                 npc.collideX = false;
                 npc.collideY = false;
                 float num663 = 12f;
-                if (npc.life < npc.lifeMax / 2)
+                if (npc.life < npc.lifeMax / 2 || death)
                 {
                     num663 += 4f;
                 }
-                if (npc.life < npc.lifeMax / 3)
+                if (npc.life < npc.lifeMax / 3 || death)
                 {
                     num663 += 4f;
                 }
-                if (npc.life < npc.lifeMax / 5)
+                if (npc.life < npc.lifeMax / 5 || death)
                 {
                     num663 += 10f;
                 }

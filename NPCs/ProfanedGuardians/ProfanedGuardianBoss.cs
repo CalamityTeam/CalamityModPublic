@@ -108,7 +108,8 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             }
             bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
             bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
-            bool isHoly = player.ZoneHoly;
+			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
+			bool isHoly = player.ZoneHoly;
             bool isHell = player.ZoneUnderworldHeight;
             npc.defense = (isHoly || isHell || CalamityWorld.bossRushActive) ? 50 : 99999;
             Vector2 vectorCenter = npc.Center;
@@ -155,7 +156,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             float num998 = 8f;
             float scaleFactor3 = 300f;
             float num999 = 800f;
-            float num1000 = (lifeRatio < 0.75f || CalamityWorld.death || CalamityWorld.bossRushActive) ? 14f : 16f;
+            float num1000 = (lifeRatio < 0.75f || death) ? 14f : 16f;
             if (revenge)
             {
                 num1000 *= 1.15f;
@@ -166,7 +167,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             float scaleFactor5 = 10f;
             float num1003 = 30f;
             float num1004 = 150f;
-            float num1005 = (lifeRatio < 0.75f || CalamityWorld.death || CalamityWorld.bossRushActive) ? 14f : 16f;
+            float num1005 = (lifeRatio < 0.75f || death) ? 14f : 16f;
             if (revenge)
             {
                 num1005 *= 1.15f;
@@ -188,7 +189,8 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             }
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                npc.localAI[0] += 1f + (2f * (1f - lifeRatio));
+				float shootBoost = death ? 2f : 2f * (1f - lifeRatio);
+                npc.localAI[0] += 1f + shootBoost;
                 if (npc.localAI[0] >= (CalamityWorld.bossRushActive ? 210f : 240f))
                 {
                     npc.localAI[0] = 0f;
@@ -314,7 +316,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     dustTimer--;
-                    if ((lifeRatio < 0.5f || CalamityWorld.death) && dustTimer <= 0)
+                    if ((lifeRatio < 0.5f || death) && dustTimer <= 0)
                     {
                         Main.PlaySound(SoundID.Item20, npc.position);
                         int damage = expertMode ? 55 : 70;
