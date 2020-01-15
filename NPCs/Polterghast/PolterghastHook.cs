@@ -60,9 +60,12 @@ namespace CalamityMod.NPCs.Polterghast
             // Bools
             bool speedBoost1 = false;
             bool despawnBoost = false;
+			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
+			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
+			bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
 
-            // Despawn if Polter is gone
-            if (CalamityGlobalNPC.ghostBoss < 0 || !Main.npc[CalamityGlobalNPC.ghostBoss].active)
+			// Despawn if Polter is gone
+			if (CalamityGlobalNPC.ghostBoss < 0 || !Main.npc[CalamityGlobalNPC.ghostBoss].active)
             {
                 npc.active = false;
                 npc.netUpdate = true;
@@ -87,13 +90,13 @@ namespace CalamityMod.NPCs.Polterghast
                 despawnTimer++;
 
             // Phase 2
-            if (lifeRatio < 0.75f && lifeRatio >= ((CalamityWorld.revenge || CalamityWorld.bossRushActive) ? 0.5 : 0.33))
+            if (lifeRatio < (death ? 0.9f : 0.75f) && lifeRatio >= (revenge ? (death ? 0.8f : 0.5f) : 0.33f))
             {
                 phase2 = true;
 
                 npc.TargetClosest(true);
 
-                Movement(phase2, Main.expertMode || CalamityWorld.bossRushActive, CalamityWorld.revenge || CalamityWorld.bossRushActive, speedBoost1, despawnBoost, lifeRatio);
+                Movement(phase2, expertMode, revenge, death, speedBoost1, despawnBoost, lifeRatio);
 
                 // Fire projectiles
                 Vector2 vector17 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
@@ -130,7 +133,7 @@ namespace CalamityMod.NPCs.Polterghast
                     if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] == 20f)
                     {
                         float num151 = CalamityWorld.bossRushActive ? 7.5f : 5f;
-                        int num152 = Main.expertMode ? 48 : 60;
+                        int num152 = expertMode ? 48 : 60;
                         int num153 = ModContent.ProjectileType<PhantomHookShot>();
                         num149 = num151 / num149;
                         num147 *= num149;
@@ -143,10 +146,10 @@ namespace CalamityMod.NPCs.Polterghast
 
             // Phase 1 or 3
             phase2 = false;
-            Movement(phase2, Main.expertMode || CalamityWorld.bossRushActive, CalamityWorld.revenge || CalamityWorld.bossRushActive, speedBoost1, despawnBoost, lifeRatio);
+            Movement(phase2, expertMode, revenge, death, speedBoost1, despawnBoost, lifeRatio);
         }
 
-        private void Movement(bool phase2, bool expertMode, bool revenge, bool speedBoost1, bool despawnBoost, float lifeRatio)
+        private void Movement(bool phase2, bool expertMode, bool revenge, bool death, bool speedBoost1, bool despawnBoost, float lifeRatio)
         {
             if (phase2)
             {
@@ -169,11 +172,10 @@ namespace CalamityMod.NPCs.Polterghast
                 if (npc.ai[0] == 0f || npc.ai[1] == 0f)
                     npc.localAI[0] = 0f;
 
-                npc.localAI[0] -= 1f + (2f * (1f - lifeRatio));
+				float shootBoost = death ? 2f : 2f * (1f - lifeRatio);
+                npc.localAI[0] -= 1f + shootBoost;
                 if (speedBoost1)
                     npc.localAI[0] -= 6f;
-                if (CalamityWorld.death || CalamityWorld.bossRushActive)
-                    npc.localAI[0] -= 0.5f;
 
                 if (!despawnBoost && npc.localAI[0] <= 0f && npc.ai[0] != 0f)
                 {
@@ -226,12 +228,11 @@ namespace CalamityMod.NPCs.Polterghast
 
             if (npc.ai[0] > 0f && npc.ai[1] > 0f)
             {
-                float velocity = 8f + (2f * (1f - lifeRatio));
+				float velocityBoost = death ? 2f : 2f * (1f - lifeRatio);
+                float velocity = 8f + velocityBoost;
                 if (expertMode)
                     velocity += 1f;
                 if (revenge)
-                    velocity += 1f;
-                if (CalamityWorld.death || CalamityWorld.bossRushActive)
                     velocity += 1f;
                 if (speedBoost1)
                     velocity *= 2f;

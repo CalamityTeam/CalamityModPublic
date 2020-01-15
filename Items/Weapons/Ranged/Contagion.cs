@@ -37,6 +37,19 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.Calamity().postMoonLordRarity = 16;
         }
 
+        public override bool CanUseItem(Player player)
+        {
+            for (int i = 0; i < Main.projectile.Length; i++)
+            {
+                Projectile p = Main.projectile[i];
+                if (p.active && p.type == ModContent.ProjectileType<ContagionBow>() && p.owner == player.whoAmI)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

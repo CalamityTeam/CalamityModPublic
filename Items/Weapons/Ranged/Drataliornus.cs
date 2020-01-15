@@ -68,6 +68,14 @@ Right click to fire two devastating barrages of five empowered fireballs.
                 item.useTime = 9;
                 item.reuseDelay = 0;
                 item.noUseGraphic = true;
+				for (int i = 0; i < Main.projectile.Length; i++)
+				{
+					Projectile p = Main.projectile[i];
+					if (p.active && p.type == ModContent.ProjectileType<DrataliornusBow>() && p.owner == player.whoAmI)
+					{
+						return false;
+					}
+				}
             }
             return base.CanUseItem(player);
         }
