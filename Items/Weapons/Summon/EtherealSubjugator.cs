@@ -43,11 +43,6 @@ namespace CalamityMod.Items.Weapons.Summon
 			spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/Weapons/Summon/EtherealSubjugatorGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
 		}
 
-        public override bool AltFunctionUse(Player player)
-        {
-            return true;
-        }
-
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             if (player.altFunctionUse != 2)
@@ -84,15 +79,6 @@ namespace CalamityMod.Items.Weapons.Summon
 				Projectile.NewProjectile(vector2.X + spinningpoint.X, vector2.Y + spinningpoint.Y, spinningpoint.X, spinningpoint.Y, type, damage, num74, i, 0f, 0f);
 			}
 			return false;
-        }
-
-        public override bool UseItem(Player player)
-        {
-            if (player.altFunctionUse == 2)
-            {
-                player.MinionNPCTargetAim();
-            }
-            return base.UseItem(player);
         }
     }
 }

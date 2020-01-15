@@ -59,19 +59,5 @@ namespace CalamityMod.Items.Weapons.Summon
             }
             return false;
         }
-
-        public override bool AltFunctionUse(Player player)
-        {
-            return true;
-        }
-
-        public override bool UseItem(Player player)
-        {
-            if (player.altFunctionUse == 2)
-            {
-                player.MinionNPCTargetAim();
-            }
-            return base.UseItem(player);
-        }
     }
 }
