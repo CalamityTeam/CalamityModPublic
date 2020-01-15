@@ -74,6 +74,7 @@ namespace CalamityMod.NPCs.DesertScourge
         {
             Player player = Main.player[npc.target];
             npc.dontTakeDamage = !player.ZoneDesert && !CalamityWorld.bossRushActive;
+			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
             if (!Main.npc[(int)npc.ai[1]].active)
             {
                 npc.life = 0;
@@ -88,7 +89,7 @@ namespace CalamityMod.NPCs.DesertScourge
                     npc.alpha = 0;
                 }
             }
-            if (Main.netMode != NetmodeID.MultiplayerClient && (CalamityWorld.revenge || CalamityWorld.bossRushActive))
+            if (Main.netMode != NetmodeID.MultiplayerClient && revenge)
             {
                 npc.localAI[0] += (float)Main.rand.Next(4);
                 if (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))

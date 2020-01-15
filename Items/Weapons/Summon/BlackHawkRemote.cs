@@ -34,11 +34,6 @@ namespace CalamityMod.Items.Weapons.Summon
             item.rare = 4;
         }
 
-        public override bool AltFunctionUse(Player player)
-        {
-            return true;
-        }
-
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             if (player.altFunctionUse != 2)
@@ -49,15 +44,6 @@ namespace CalamityMod.Items.Weapons.Summon
                 Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
             }
             return false;
-        }
-
-        public override bool UseItem(Player player)
-        {
-            if (player.altFunctionUse == 2)
-            {
-                player.MinionNPCTargetAim();
-            }
-            return base.UseItem(player);
         }
     }
 }

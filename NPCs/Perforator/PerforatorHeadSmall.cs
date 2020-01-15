@@ -53,15 +53,15 @@ namespace CalamityMod.NPCs.Perforator
         public override void AI()
         {
             bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
-            float speedMult = expertMode ? 1.5f : 1.425f;
+			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
+			float speedMult = expertMode ? 1.5f : 1.425f;
             if (CalamityWorld.bossRushActive)
                 speedMult = 3f;
 
-            float life = (float)npc.life;
-            float totalLife = (float)npc.lifeMax;
-            speed = 13f * (speedMult - (life / totalLife));
-            turnSpeed = 0.11f * (speedMult - (life / totalLife));
-            if (npc.ai[3] > 0f)
+			float speedBoost = death ? speedMult : speedMult - ((float)npc.life / (float)npc.lifeMax);
+			speed = 13f * speedBoost;
+			turnSpeed = 0.11f * speedBoost;
+			if (npc.ai[3] > 0f)
             {
                 npc.realLife = (int)npc.ai[3];
             }

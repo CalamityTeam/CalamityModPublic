@@ -134,9 +134,9 @@ namespace CalamityMod.NPCs.DevourerofGods
             bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
 			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
-            bool speedBoost = lifeRatio < 0.6 || (CalamityWorld.bossRushActive && lifeRatio < 0.9);
+            bool speedBoost = lifeRatio < 0.6 || (death && lifeRatio < 0.9);
             bool speedBoost2 = lifeRatio < 0.2;
-            bool breathFireMore = lifeRatio < 0.15;
+            bool breathFireMore = lifeRatio < 0.15 || death;
 
 			// Light
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
@@ -305,7 +305,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                     laserShoot += 1;
 
                     float speed = 4f;
-                    int divisor = CalamityWorld.bossRushActive ? 90 : (CalamityWorld.death ? 105 : 120);
+                    int divisor = CalamityWorld.bossRushActive ? 90 : (death ? 105 : 120);
 
                     if (laserShoot % divisor == 0)
                     {
@@ -342,7 +342,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                         shotSpacing[1] = 1050;
 
                         // Upper wall
-                        if (lifeRatio < 0.4f && revenge)
+                        if ((lifeRatio < 0.4f || death) && revenge)
                         {
                             if (shotSpacing[2] < 2100)
                                 shotSpacing[2] = 2100;
@@ -390,7 +390,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                     }
                 }
             }
-            fallSpeed += (death ? 5f : 3.5f) * (1f - lifeRatio);
+            fallSpeed += death ? 3.7f : 3.5f * (1f - lifeRatio);
 
             // Movement
             int num180 = (int)(npc.position.X / 16f) - 1;
@@ -426,14 +426,14 @@ namespace CalamityMod.NPCs.DevourerofGods
 
                 phaseSwitch += 1;
 
-                int phaseLimit = (death ? 600 : 900) / (1 + (int)(5f * (1f - lifeRatio)));
+                int phaseLimit = death ? 180 : 900 / (1 + (int)(5f * (1f - lifeRatio)));
 
                 npc.localAI[1] = 0f;
 
-                float speed = (death ? 18f : 15f) + (3f * (1f - lifeRatio));
-                float turnSpeed = (death ? 0.33f : 0.3f) + (0.06f * (1f - lifeRatio));
-                float homingSpeed = (death ? 28f : 24f) + (12f * (1f - lifeRatio));
-                float homingTurnSpeed = (death ? 0.36f : 0.33f) + (0.15f * (1f - lifeRatio));
+                float speed = death ? 20f : 15f + (3f * (1f - lifeRatio));
+                float turnSpeed = death ? 0.38f : 0.3f + (0.06f * (1f - lifeRatio));
+                float homingSpeed = death ? 38f : 24f + (12f * (1f - lifeRatio));
+                float homingTurnSpeed = death ? 0.5f : 0.33f + (0.15f * (1f - lifeRatio));
 
 				// Go to ground phase sooner
 				if (tooFarAway)
@@ -652,7 +652,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
                 phaseSwitch += 1;
 
-                float turnSpeed = 0.18f + ((death ? 0.14f : 0.12f) * (1f - lifeRatio));
+                float turnSpeed = 0.18f + (death ? 0.14f : 0.12f * (1f - lifeRatio));
                 bool increaseSpeed = distanceFromTarget > 3200f;
 
 				// Enrage
@@ -693,10 +693,10 @@ namespace CalamityMod.NPCs.DevourerofGods
 
                     Rectangle rectangle12 = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
                     int num954 = 1200;
-                    if (lifeRatio < 0.8f && lifeRatio > 0.2f)
+                    if (lifeRatio < 0.8f && lifeRatio > 0.2f && !death)
                         num954 = 1400;
 
-                    num954 -= (int)(150f * (1f - lifeRatio));
+                    num954 -= death ? 150 : (int)(150f * (1f - lifeRatio));
 
                     bool flag95 = true;
                     if (npc.position.Y > Main.player[npc.target].position.Y)
@@ -764,8 +764,8 @@ namespace CalamityMod.NPCs.DevourerofGods
                 }
                 else
                 {
-                    double maximumSpeed1 = (increaseSpeed ? 1.2 : 0.4) + (double)((death ? 0.14f : 0.12f) * (1f - lifeRatio));
-                    double maximumSpeed2 = (increaseSpeed ? 3.0 : 1.0) + (double)((death ? 0.3f : 0.25f) * (1f - lifeRatio));
+                    double maximumSpeed1 = (increaseSpeed ? 1.2 : 0.4) + (double)(death ? 0.14f : 0.12f * (1f - lifeRatio));
+                    double maximumSpeed2 = (increaseSpeed ? 3.0 : 1.0) + (double)(death ? 0.27f : 0.25f * (1f - lifeRatio));
 
                     num193 = (float)Math.Sqrt((double)(num191 * num191 + num192 * num192));
                     float num25 = Math.Abs(num191);

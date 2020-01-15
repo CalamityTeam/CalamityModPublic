@@ -86,18 +86,16 @@ namespace CalamityMod.NPCs.DesertScourge
             Player player = Main.player[npc.target];
             npc.dontTakeDamage = !player.ZoneDesert && !CalamityWorld.bossRushActive;
             bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
-            float speedMult = expertMode ? 1.5f : 1.45f;
-            if (CalamityWorld.death || CalamityWorld.bossRushActive)
-                speedMult = 1.6f;
+			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
+			float speedMult = expertMode ? 1.5f : 1.45f;
             if (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
                 speedMult = 2f;
             if (CalamityWorld.bossRushActive)
                 speedMult *= 2f;
 
-            float life = (float)npc.life;
-            float totalLife = (float)npc.lifeMax;
-            speed = 13f * (speedMult - (life / totalLife));
-            turnSpeed = 0.13f * (speedMult - (life / totalLife));
+			float speedBoost = death ? speedMult : speedMult - ((float)npc.life / (float)npc.lifeMax);
+			speed = 13f * speedBoost;
+            turnSpeed = 0.13f * speedBoost;
             if (npc.ai[3] > 0f)
             {
                 npc.realLife = (int)npc.ai[3];

@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Items.Critters;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -11,6 +12,7 @@ namespace CalamityMod.NPCs.SunkenSea
         {
             DisplayName.SetDefault("Sea Minnow");
             Main.npcFrameCount[npc.type] = 4;
+            Main.npcCatchable[npc.type] = true;
         }
 
         public override void SetDefaults()
@@ -29,6 +31,7 @@ namespace CalamityMod.NPCs.SunkenSea
             banner = npc.type;
             bannerItem = ModContent.ItemType<SeaMinnowBanner>();
             npc.chaseable = false;
+            npc.catchItem = (short)ModContent.ItemType<SeaMinnowItem>();
         }
 
         public override void AI()
@@ -210,6 +213,16 @@ namespace CalamityMod.NPCs.SunkenSea
             for (int k = 0; k < 5; k++)
             {
                 Dust.NewDust(npc.position, npc.width, npc.height, 68, hitDirection, -1f, 0, default, 1f);
+            }
+        }
+
+        public override void OnCatchNPC(Player player, Item item)
+        {
+            try
+            {
+            } catch
+            {
+                return;
             }
         }
     }

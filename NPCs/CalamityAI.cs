@@ -2487,11 +2487,12 @@ namespace CalamityMod.NPCs
 			{
 				flies = true;
 				npc.TargetClosest(false);
-				npc.velocity.Y = npc.velocity.Y - 3f;
+				float velocity = finalWorm ? 10f : 3f;
+				npc.velocity.Y = npc.velocity.Y - velocity;
 				if ((double)npc.position.Y < Main.topWorld + 16f)
 				{
 					maxSpeed = 40f;
-					npc.velocity.Y = npc.velocity.Y - 3f;
+					npc.velocity.Y = npc.velocity.Y - velocity;
 				}
 
 				if ((double)npc.position.Y < Main.topWorld + 16f)

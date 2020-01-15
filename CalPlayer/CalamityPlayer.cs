@@ -5592,16 +5592,8 @@ namespace CalamityMod.CalPlayer
             {
 				if (Config.AdrenalineAndRage && CalamityWorld.revenge)
 				{
-					if (rageMode)
-					{
-						stress = 0;
-						if (player.FindBuffIndex(ModContent.BuffType<RageMode>()) > -1)
-							player.ClearBuff(ModContent.BuffType<RageMode>());
-					}
 					if (!adrenalineMode)
-					{
 						adrenaline = 0;
-					}
 				}
                 if (amidiasBlessing)
                 {
