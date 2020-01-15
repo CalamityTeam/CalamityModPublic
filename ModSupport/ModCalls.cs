@@ -1183,6 +1183,12 @@ namespace CalamityMod
         }
         #endregion
 
+        #region Boss Health Bars
+        public static bool BossHealthBarVisible() => Main.LocalPlayer.Calamity().drawBossHPBar;
+
+        public static bool SetBossHealthBarVisible(bool visible) => Main.LocalPlayer.Calamity().drawBossHPBar = visible;
+        #endregion
+
         #region Call
         public static object Call(params object[] args)
         {
@@ -1424,6 +1430,18 @@ namespace CalamityMod
                     int npcID = (int)args[1];
                     float DR = (float)args[2];
                     return SetDamageReduction(npcID, DR);
+
+                case "BossHealthBarVisible":
+                case "BossHealthBarsVisible":
+                case "GetBossHealthBarVisible":
+                case "GetBossHealthBarsVisible":
+                    return BossHealthBarVisible();
+
+                case "SetBossHealthBarVisible":
+                case "SetBossHealthBarsVisible":
+                    if (args.Length < 2 || !(args[1] is bool bossBarEnabled))
+                        return new ArgumentNullException("ERROR: Must specify a bool.");
+                    return SetBossHealthBarVisible(bossBarEnabled);
 
                 default:
                     return new ArgumentException("ERROR: Invalid method name.");
