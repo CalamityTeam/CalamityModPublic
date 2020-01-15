@@ -12,8 +12,8 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shattered Sun");
-            Tooltip.SetDefault("Throws daggers that transform into homing meteors\n" +
-                "Stealth strikes fire volleys of meteors from the player on meteor hits");
+            Tooltip.SetDefault("Throws daggers that split into scorching homing daggers\n" +
+                "Stealth strikes fire volleys of homing daggers from the player on dagger hits");
         }
 
         public override void SafeSetDefaults()
