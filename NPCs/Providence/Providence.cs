@@ -832,8 +832,8 @@ namespace CalamityMod.NPCs.Providence
                         float num858 = player.Center.Y - vector.Y;
                         float num859 = (float)Math.Sqrt((double)(num857 * num857 + num858 * num858));
 
-						float shootBoost = death ? 2.5f : 2.5f * (1f - lifeRatio);
-						float num860 = (expertMode ? 10.25f : 9f) + shootBoost;
+						float shootBoost2 = death ? 2.5f : 2.5f * (1f - lifeRatio);
+						float num860 = (expertMode ? 10.25f : 9f) + shootBoost2;
                         if (CalamityWorld.bossRushActive)
                             num860 = 12.75f;
 
