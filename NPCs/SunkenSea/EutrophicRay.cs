@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
@@ -194,7 +195,7 @@ namespace CalamityMod.NPCs.SunkenSea
 
         public override void NPCLoot()
         {
-            DropHelper.DropItemChance(npc, ModContent.ItemType<EutrophicShank>(), 3);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<EutrophicShank>(), CalamityWorld.downedDesertScourge, 3, 1, 1);
         }
 
         public override void HitEffect(int hitDirection, double damage)

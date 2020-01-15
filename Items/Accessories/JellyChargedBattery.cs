@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Accessories
 			player.Calamity().voltaicJelly = true;
 			player.Calamity().jellyChargedBattery = true;
             player.maxMinions ++;
-            player.minionDamage += 0.1f;
+            player.minionDamage += 0.07f;
         }
 
         public override void AddRecipes()
