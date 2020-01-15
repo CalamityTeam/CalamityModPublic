@@ -40,7 +40,8 @@ namespace CalamityMod.Projectiles.Rogue
                 projectile.localAI[0] += 1f;
             }
             Lighting.AddLight(projectile.Center, 0.1f, 1f, 2f);
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+            projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
+            projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi) + MathHelper.ToRadians(90) * projectile.direction;
             projectile.velocity.Y += projectile.ai[0];
             if (Main.rand.NextBool(2))
             {

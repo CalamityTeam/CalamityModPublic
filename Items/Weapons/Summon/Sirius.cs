@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.Calamity().postMoonLordRarity = 13;
         }
 
-		public override void HoldItem(Player player)
+        public override void UpdateInventory(Player player)
         {
 			double minionCount = 0;
 			for (int j = 0; j < Main.projectile.Length; j++)
@@ -87,20 +87,6 @@ namespace CalamityMod.Items.Weapons.Summon
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
-        }
-
-        public override bool AltFunctionUse(Player player)
-        {
-            return true;
-        }
-
-        public override bool UseItem(Player player)
-        {
-            if (player.altFunctionUse == 2)
-            {
-                player.MinionNPCTargetAim();
-            }
-            return base.UseItem(player);
         }
     }
 }

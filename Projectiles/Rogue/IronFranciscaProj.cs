@@ -1,6 +1,7 @@
 using CalamityMod.Items.Weapons.Rogue;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -33,7 +34,9 @@ namespace CalamityMod.Projectiles.Rogue
                 projectile.penetrate = -1;
             }
 
-            projectile.rotation += 0.4f * projectile.direction;
+            float rotateratio = 0.019f;
+            float rotation = (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * rotateratio;
+            projectile.rotation += rotation * projectile.direction;
 
             projectile.velocity.Y = projectile.velocity.Y + 0.2f;
             if (projectile.velocity.Y > 16f)
