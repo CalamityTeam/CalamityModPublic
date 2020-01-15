@@ -59,7 +59,6 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         public override void AI()
         {
-            bool expertMode = Main.expertMode;
             float playerRunAcceleration = Main.player[npc.target].velocity.Y == 0f ? Math.Abs(Main.player[npc.target].moveSpeed * 0.3f) : (Main.player[npc.target].runAcceleration * 0.8f);
             if (playerRunAcceleration <= 1f)
             {

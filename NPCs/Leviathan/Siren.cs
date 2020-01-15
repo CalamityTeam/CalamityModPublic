@@ -104,7 +104,8 @@ namespace CalamityMod.NPCs.Leviathan
 
             // Variables
             Player player = Main.player[npc.target];
-            bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
+			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
+			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
             bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
             Vector2 vector = npc.Center;
             Vector2 spawnAt = vector + new Vector2(0f, (float)npc.height / 2f);
@@ -114,8 +115,8 @@ namespace CalamityMod.NPCs.Leviathan
             float lifeRatio = (float)npc.life / (float)npc.lifeMax;
 
             // Phases
-            bool phase2 = lifeRatio < 0.66f;
-            bool phase3 = lifeRatio < 0.33f;
+            bool phase2 = lifeRatio < 0.66f || death;
+            bool phase3 = lifeRatio < 0.33f || (death && lifeRatio < 0.66f);
 
             // Check for Leviathan
             bool leviAlive = false;
@@ -125,7 +126,7 @@ namespace CalamityMod.NPCs.Leviathan
             // Spawn Leviathan and Clones, change music
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                if (phase2 || CalamityWorld.death || CalamityWorld.bossRushActive)
+                if (phase2 || death)
                 {
                     if (!spawnedLevi)
                     {
@@ -305,9 +306,9 @@ namespace CalamityMod.NPCs.Leviathan
                 float num1060 = (float)Math.Sqrt((double)(num1058 * num1058 + num1059 * num1059));
 
                 npc.ai[1] += 1f;
-                if (phase2 || CalamityWorld.bossRushActive)
+                if (phase2)
                     npc.ai[1] += 0.25f;
-                if (phase3 || CalamityWorld.bossRushActive)
+                if (phase3)
                     npc.ai[1] += 0.25f;
 
                 bool flag103 = false;
@@ -396,7 +397,7 @@ namespace CalamityMod.NPCs.Leviathan
                 }
                 else
                 {
-                    if (((phase3 || CalamityWorld.death) && !leviAlive) || CalamityWorld.bossRushActive)
+                    if ((phase3 && !leviAlive) || CalamityWorld.bossRushActive)
                     {
                         if (npc.ai[1] % 20f == 19f)
                             flag104 = true;
@@ -417,7 +418,7 @@ namespace CalamityMod.NPCs.Leviathan
                         float num1070 = revenge ? 15f : 13f;
                         if (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
                             num1070 = 24f;
-                        else if (isNotOcean || (!leviAlive && phase2) || CalamityWorld.death || CalamityWorld.bossRushActive)
+                        else if (isNotOcean || (!leviAlive && phase2) || death)
                             num1070 = revenge ? 17f : 16f;
                         else
                         {
