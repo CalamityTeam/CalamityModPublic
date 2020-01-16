@@ -26,8 +26,8 @@ namespace CalamityMod.Items.Weapons.Summon
             item.useStyle = 1;
             item.noMelee = true;
             item.knockBack = 2f;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = 8;
+            item.value = Item.buyPrice(0, 60, 0, 0);
+            item.rare = 7;
             item.UseSound = SoundID.Item44;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<SandnadoMinion>();
