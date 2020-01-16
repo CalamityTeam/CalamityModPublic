@@ -876,7 +876,8 @@ namespace CalamityMod
                 ModContent.ItemType<LatcherMine>(),
                 ModContent.ItemType<BouncingBetty>(),
                 ModContent.ItemType<HeliumFlash>(),
-                ModContent.ItemType<ShatteredSun>()
+                ModContent.ItemType<ShatteredSun>(),
+                ModContent.ItemType<DivineHatchet>()
             };
 
             iceWeaponList = new List<int>()
@@ -924,6 +925,8 @@ namespace CalamityMod
                 ModContent.ItemType<FrostcrushValari>(),
                 ModContent.ItemType<Endogenesis>(),
                 ModContent.ItemType<FlurrystormCannon>(),
+                ModContent.ItemType<Hypothermia>(),
+                ModContent.ItemType<IceBarrage>(),
 				//Cryonic Bar set stuff, could potentially be removed
                 ModContent.ItemType<Trinity>(),
                 ModContent.ItemType<Shimmerspark>(),
@@ -1045,7 +1048,9 @@ namespace CalamityMod
                 ModContent.ItemType<PoisonPack>(),
                 ModContent.ItemType<PlantationStaff>(),
                 ModContent.ItemType<SeasSearing>(),
-                ModContent.ItemType<YateveoBloom>()
+                ModContent.ItemType<YateveoBloom>(),
+                ModContent.ItemType<TerraDisk>(),
+                ModContent.ItemType<TerraDiskMelee>()
             };
 
             alcoholList = new List<int>()
