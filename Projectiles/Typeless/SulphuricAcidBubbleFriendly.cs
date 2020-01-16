@@ -8,6 +8,7 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class SulphuricAcidBubbleFriendly : ModProjectile
     {
+        private bool fromArmour = false;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Acid Bubble");
@@ -28,6 +29,12 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void AI()
         {
+            if (projectile.ai[0] == 1f)
+            {
+                projectile.ai[0] = 0f;
+                projectile.scale = 1f;
+                fromArmour = true;
+            }
             projectile.frameCounter++;
             if (projectile.frameCounter > 6)
             {
@@ -41,15 +48,15 @@ namespace CalamityMod.Projectiles.Typeless
             if (projectile.localAI[1] < 1f)
             {
                 projectile.localAI[1] += 0.01f;
-                if (projectile.scale < 1f)
+                if (projectile.scale < 1f || (fromArmour && projectile.scale < 1.8f))
                     projectile.scale += 0.02f;
                 projectile.width = (int)(30f * projectile.scale);
                 projectile.height = (int)(30f * projectile.scale);
             }
             else
             {
-                projectile.width = 30;
-                projectile.height = 30;
+                projectile.width = fromArmour ? projectile.width : 30;
+                projectile.height = fromArmour ? projectile.height : 30;
                 projectile.tileCollide = true;
             }
             if (projectile.localAI[0] > 2f)
@@ -103,7 +110,7 @@ namespace CalamityMod.Projectiles.Typeless
             {
                 return;
             }
-            target.AddBuff(BuffID.Venom, 120);
+            target.AddBuff(BuffID.Venom, fromArmour ? 150 : 120);
             projectile.Kill();
         }
 
