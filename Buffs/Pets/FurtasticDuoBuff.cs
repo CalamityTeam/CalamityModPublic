@@ -20,6 +20,7 @@ namespace CalamityMod.Buffs.Pets
         {
             player.buffTime[buffIndex] = 18000;
             player.Calamity().kendra = true;
+            player.Calamity().bearPet = true;
 
             // Spawn both component pets individually
             if (player.whoAmI == Main.myPlayer)
