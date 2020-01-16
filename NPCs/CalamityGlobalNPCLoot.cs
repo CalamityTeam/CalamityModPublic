@@ -771,18 +771,18 @@ namespace CalamityMod.NPCs
                     break;
 
                 // This is all the random skeletons in the hardmode dungeon
-                case 269:
-                case 270:
-                case 271:
-                case 272:
-                case 273:
-                case 274:
-                case 275:
-                case 276:
-                case 277:
-                case 278:
-                case 279:
-                case 280:
+                case NPCID.RustyArmoredBonesAxe:
+                case NPCID.RustyArmoredBonesFlail:
+                case NPCID.RustyArmoredBonesSword:
+                case NPCID.RustyArmoredBonesSwordNoArmor:
+                case NPCID.BlueArmoredBones:
+                case NPCID.BlueArmoredBonesMace:
+                case NPCID.BlueArmoredBonesNoPants:
+                case NPCID.BlueArmoredBonesSword:
+                case NPCID.HellArmoredBones:
+                case NPCID.HellArmoredBonesSpikeShield:
+                case NPCID.HellArmoredBonesMace:
+                case NPCID.HellArmoredBonesSword:
                     DropHelper.DropItemChance(npc, ItemID.Keybrand, DropHelper.DefiledDropRateInt);
                     DropHelper.DropItemChance(npc, ItemID.BoneFeather, DropHelper.DefiledDropRateInt);
                     DropHelper.DropItemChance(npc, ItemID.MagnetSphere, DropHelper.DefiledDropRateInt);
@@ -872,11 +872,6 @@ namespace CalamityMod.NPCs
                     DropHelper.DropItemChance(npc, ItemID.Hook, DropHelper.DefiledDropRateInt);
                     break;
 
-                case NPCID.DiabolistRed:
-                case NPCID.DiabolistWhite:
-                    DropHelper.DropItemChance(npc, ItemID.InfernoFork, DropHelper.DefiledDropRateInt);
-                    break;
-
                 case NPCID.PinkJellyfish:
                     DropHelper.DropItemChance(npc, ItemID.JellyfishNecklace, DropHelper.DefiledDropRateInt);
                     break;
@@ -922,26 +917,12 @@ namespace CalamityMod.NPCs
                     DropHelper.DropItemChance(npc, ItemID.PoisonStaff, DropHelper.DefiledDropRateInt);
                     break;
 
-                case NPCID.SkeletonSniper:
-                    DropHelper.DropItemChance(npc, ItemID.RifleScope, DropHelper.DefiledDropRateInt);
-                    break;
-
                 case NPCID.ChaosElemental:
                     DropHelper.DropItemChance(npc, ItemID.RodofDiscord, DropHelper.DefiledDropRateInt);
                     break;
 
-                case NPCID.Necromancer:
-                case NPCID.NecromancerArmored:
-                    DropHelper.DropItemChance(npc, ItemID.ShadowbeamStaff, DropHelper.DefiledDropRateInt);
-                    break;
-
                 case NPCID.SnowFlinx:
                     DropHelper.DropItemChance(npc, ItemID.SnowballLauncher, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.RaggedCaster:
-                case NPCID.RaggedCasterOpenCoat:
-                    DropHelper.DropItemChance(npc, ItemID.SpectreStaff, DropHelper.DefiledDropRateInt);
                     break;
 
                 case NPCID.Plantera:
