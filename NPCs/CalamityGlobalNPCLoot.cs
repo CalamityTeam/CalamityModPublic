@@ -918,6 +918,7 @@ namespace CalamityMod.NPCs
 
                 case NPCID.FireImp:
                     DropHelper.DropItemChance(npc, ItemID.ObsidianRose, DropHelper.DefiledDropRateInt);
+                    DropHelper.DropItemCondition(npc, ItemID.Cascade, NPC.downedBoss3, DropHelper.DefiledDropRateFloat);
                     break;
 
                 case NPCID.BlackRecluse:
@@ -996,10 +997,6 @@ namespace CalamityMod.NPCs
 
                 case NPCID.GoblinWarrior:
                     DropHelper.DropItemChance(npc, ItemID.Harpoon, DropHelper.DefiledDropRateInt);
-                    break;
-
-                case NPCID.FireImp:
-                    DropHelper.DropItemCondition(npc, ItemID.Cascade, NPC.downedBoss3, DropHelper.DefiledDropRateFloat);
                     break;
 
                 default:
