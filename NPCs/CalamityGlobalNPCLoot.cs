@@ -868,10 +868,6 @@ namespace CalamityMod.NPCs
                     DropHelper.DropItemCondition(npc, ItemID.GiantHarpyFeather, Main.hardMode && !npc.SpawnedFromStatue, DropHelper.DefiledDropRateFloat);
                     break;
 
-                case NPCID.QueenBee:
-                    DropHelper.DropItemChance(npc, ItemID.HoneyedGoggles, DropHelper.DefiledDropRateInt);
-                    break;
-
                 case NPCID.Piranha:
                     DropHelper.DropItemChance(npc, ItemID.Hook, DropHelper.DefiledDropRateInt);
                     break;
