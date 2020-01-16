@@ -876,7 +876,8 @@ namespace CalamityMod
                 ModContent.ItemType<LatcherMine>(),
                 ModContent.ItemType<BouncingBetty>(),
                 ModContent.ItemType<HeliumFlash>(),
-                ModContent.ItemType<ShatteredSun>()
+                ModContent.ItemType<ShatteredSun>(),
+                ModContent.ItemType<DivineHatchet>()
             };
 
             iceWeaponList = new List<int>()
