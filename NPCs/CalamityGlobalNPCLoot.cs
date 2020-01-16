@@ -809,6 +809,7 @@ namespace CalamityMod.NPCs
 
                 case NPCID.DarkCaster:
                     DropHelper.DropItemChance(npc, ItemID.ClothierVoodooDoll, DropHelper.DefiledDropRateInt);
+                    DropHelper.DropItemChance(npc, ItemID.TallyCounter, DropHelper.DefiledDropRateInt);
                     break;
 
                 case NPCID.PirateCaptain:
@@ -845,6 +846,7 @@ namespace CalamityMod.NPCs
 
                 case NPCID.RedDevil:
                     DropHelper.DropItemChance(npc, ItemID.FireFeather, DropHelper.DefiledDropRateInt);
+                    DropHelper.DropItemChance(npc, ItemID.UnholyTrident, DropHelper.DefiledDropRateInt);
                     break;
 
                 case NPCID.IceElemental:
@@ -863,7 +865,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.Harpy:
-                    DropHelper.DropItemCondition(npc, ItemID.GiantHarpyFeather, Main.hardMode, DropHelper.DefiledDropRateFloat);
+                    DropHelper.DropItemCondition(npc, ItemID.GiantHarpyFeather, Main.hardMode && !npc.SpawnedFromStatue, DropHelper.DefiledDropRateFloat);
                     break;
 
                 case NPCID.QueenBee:
@@ -968,6 +970,36 @@ namespace CalamityMod.NPCs
 
                 case NPCID.DeadlySphere:
                     DropHelper.DropItemChance(npc, ItemID.DeadlySphereStaff, DropHelper.DefiledDropRateInt);
+                    break;
+
+                case NPCID.DrManFly:
+                    DropHelper.DropItemChance(npc, ItemID.ToxicFlask, DropHelper.DefiledDropRateInt);
+                    break;
+
+                case NPCID.CreatureFromTheDeep:
+                    DropHelper.DropItemChance(npc, ItemID.NeptunesShell, DropHelper.DefiledDropRateInt);
+                    break;
+
+                case NPCID.Butcher:
+                    DropHelper.DropItemChance(npc, ItemID.ButchersChainsaw, DropHelper.DefiledDropRateInt);
+                    break;
+
+                case NPCID.Psycho:
+                    DropHelper.DropItemChance(npc, ItemID.PsychoKnife, DropHelper.DefiledDropRateInt);
+                    break;
+
+                case NPCID.Drippler:
+                case NPCID.BloodZombie:
+                    DropHelper.DropItemCondition(npc, ItemID.SharkToothNecklace, !npc.SpawnedFromStatue, DropHelper.DefiledDropRateFloat);
+                    DropHelper.DropItemCondition(npc, ItemID.MoneyTrough, !npc.SpawnedFromStatue, DropHelper.DefiledDropRateFloat);
+                    break;
+
+                case NPCID.GoblinWarrior:
+                    DropHelper.DropItemChance(npc, ItemID.Harpoon, DropHelper.DefiledDropRateInt);
+                    break;
+
+                case NPCID.FireImp:
+                    DropHelper.DropItemCondition(npc, ItemID.Cascade, NPC.downedBoss3, DropHelper.DefiledDropRateFloat);
                     break;
 
                 default:
