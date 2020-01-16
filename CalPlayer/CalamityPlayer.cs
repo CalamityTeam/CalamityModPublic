@@ -33,8 +33,6 @@ using CalamityMod.UI;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoMod.Cil;
-using static Mono.Cecil.Cil.OpCodes;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -2834,6 +2832,8 @@ namespace CalamityMod.CalPlayer
         }
         #endregion
 
+        #region PostUpdate
+
         public override void PostUpdateMiscEffects()
         {
 			CalamityPlayerMiscEffects.CalamityPostUpdateMiscEffects(player, mod);
@@ -2958,6 +2958,8 @@ namespace CalamityMod.CalPlayer
             }
             #endregion
         }
+
+        #endregion
 
         #region Rogue Mirrors
         public void AbyssMirrorEvade()
