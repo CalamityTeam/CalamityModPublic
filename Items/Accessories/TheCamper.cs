@@ -1,4 +1,5 @@
 ﻿using CalamityMod.CalPlayer;
+using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -56,10 +57,10 @@ namespace CalamityMod.Items.Accessories
                             NPC npc = Main.npc[i];
                             if (npc.active && !npc.friendly && npc.damage > -1 && !npc.dontTakeDamage && Vector2.Distance(player.Center, npc.Center) <= range)
                             {
-                                npc.StrikeNPC((int) (Main.rand.Next(30, 51) * player.allDamage), 0, 0, false, false);
-                                if (!npc.buffImmune[BuffID.Burning])
+                                Projectile p = Projectile.NewProjectileDirect(npc.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), (int)(Main.rand.Next(20, 41) * player.allDamage), 0f, player.whoAmI);
+                                if (!npc.buffImmune[BuffID.OnFire])
                                 {
-                                    npc.AddBuff(BuffID.Burning, 120);
+                                    npc.AddBuff(BuffID.OnFire, 120);
                                 }
                             }
                         }
