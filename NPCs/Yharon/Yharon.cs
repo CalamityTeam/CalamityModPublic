@@ -226,17 +226,17 @@ namespace CalamityMod.NPCs.Yharon
                 return;
             }
 
-            // Phase bools
+			// Phase bools
+			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
             bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
             bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
             bool phase2Check = (double)npc.life <= (double)npc.lifeMax * (revenge ? 0.85 : 0.7);
             bool phase3Check = (double)npc.life <= (double)npc.lifeMax * (revenge ? 0.6 : 0.4);
             bool phase4Check = (double)npc.life <= (double)npc.lifeMax * (revenge ? 0.25 : 0.2);
-            if (CalamityWorld.death && !CalamityWorld.bossRushActive)
+            if (death)
             {
-                phase2Check = (double)npc.life <= (double)npc.lifeMax * 0.9;
-                phase3Check = (double)npc.life <= (double)npc.lifeMax * 0.8;
-                phase4Check = (double)npc.life <= (double)npc.lifeMax * 0.3;
+                phase2Check = (double)npc.life <= (double)npc.lifeMax * 0.95;
+                phase3Check = (double)npc.life <= (double)npc.lifeMax * 0.9;
             }
             bool phase5Check = (double)npc.life <= (double)npc.lifeMax * 0.1;
             bool phase2Change = npc.ai[0] > 5f;
@@ -1241,7 +1241,7 @@ namespace CalamityMod.NPCs.Yharon
                         case 1:
                         case 2:
                         case 3:
-                            aiState = (CalamityWorld.death && !CalamityWorld.bossRushActive) ? 5 : 1; //normal charges
+                            aiState = death ? 5 : 1; //normal charges
                             break;
                         case 4:
                         case 5:
@@ -1561,7 +1561,7 @@ namespace CalamityMod.NPCs.Yharon
                 {
                     Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoarShort"), (int)npc.position.X, (int)npc.position.Y);
                 }
-                if (CalamityWorld.death && !CalamityWorld.bossRushActive)
+                if (death)
                 {
                     if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] == (float)(num1457 - 30))
                     {
@@ -1832,22 +1832,23 @@ namespace CalamityMod.NPCs.Yharon
         #region AI2
         public void Yharon_AI2()
         {
+			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
             bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
             bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
             bool phase2 = (double)npc.life <= (double)npc.lifeMax * 0.75;
             bool phase3 = (double)npc.life <= (double)npc.lifeMax * 0.5;
-            bool phase4 = (double)npc.life <= (double)npc.lifeMax * 0.05;
-            if (CalamityWorld.death || CalamityWorld.bossRushActive)
+            bool phase4 = (double)npc.life <= (double)npc.lifeMax * 0.1;
+            if (death)
             {
                 phase2 = (double)npc.life <= (double)npc.lifeMax * 0.95;
-                phase3 = (double)npc.life <= (double)npc.lifeMax * 0.7;
-                phase4 = (double)npc.life <= (double)npc.lifeMax * 0.15;
+                phase3 = (double)npc.life <= (double)npc.lifeMax * 0.9;
+                phase4 = (double)npc.life <= (double)npc.lifeMax * 0.35;
             }
             else if (revenge)
             {
                 phase2 = (double)npc.life <= (double)npc.lifeMax * 0.85;
                 phase3 = (double)npc.life <= (double)npc.lifeMax * 0.6;
-                phase4 = (double)npc.life <= (double)npc.lifeMax * 0.1;
+                phase4 = (double)npc.life <= (double)npc.lifeMax * 0.2;
             }
             if (npc.ai[0] != 8f)
             {
@@ -1945,17 +1946,17 @@ namespace CalamityMod.NPCs.Yharon
                 num4 = (int)((double)num4 * 1.25);
             }
             float num6 = revenge ? 0.6f : 0.55f;
-            float scaleFactor = revenge ? 10f : 9f;
+            float scaleFactor = revenge ? 10.5f : 9f;
             float chargeTime = 34f;
             float chargeTime2 = 30f;
-            float chargeSpeed = revenge ? 26f : 25f;
-            float chargeSpeed2 = revenge ? 40f : 38f;
+            float chargeSpeed = revenge ? 27f : 25f;
+            float chargeSpeed2 = revenge ? 41f : 38f;
             float num11 = 40f;
             float num12 = 80f;
             float num13 = num11 + num12;
             float num15 = 60f;
             float scaleFactor3 = 14f;
-            float scaleFactor4 = revenge ? 16f : 15f; //12
+            float scaleFactor4 = revenge ? 16.5f : 15f; //12
             int num16 = 10;
             int num17 = 6 * num16;
             float num18 = 60f;
@@ -1963,15 +1964,7 @@ namespace CalamityMod.NPCs.Yharon
             float num20 = 60f;
             float num21 = 1f;
             float num22 = 6.28318548f * (num21 / num20);
-            float scaleFactor5 = revenge ? 38f : 36.5f; //32
-            if (CalamityWorld.death || CalamityWorld.bossRushActive)
-            {
-                scaleFactor = 10.5f;
-                chargeSpeed = 27f;
-                chargeSpeed2 = 41f;
-                scaleFactor4 = 16.5f;
-                scaleFactor5 = 39f;
-            }
+            float scaleFactor5 = revenge ? 39f : 36.5f; //32
             if (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
             {
                 num6 = 0.65f;

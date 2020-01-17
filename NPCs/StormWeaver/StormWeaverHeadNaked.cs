@@ -87,7 +87,8 @@ namespace CalamityMod.NPCs.StormWeaver
 
         public override void AI()
         {
-            bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
+			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
+			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
             bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
             if (invinceTime > 0)
             {
@@ -107,7 +108,7 @@ namespace CalamityMod.NPCs.StormWeaver
             double lifeRatio = (double)npc.life / (double)npc.lifeMax;
             int lifePercentage = (int)(100.0 * lifeRatio);
             int BoltProjectiles = 2;
-            if (lifePercentage < 33)
+            if (lifePercentage < 33 || death)
             {
                 BoltProjectiles = 4;
             }
@@ -166,7 +167,7 @@ namespace CalamityMod.NPCs.StormWeaver
                 }
                 int damage = expertMode ? 62 : 75;
                 npc.localAI[0] += 1f;
-                if (npc.localAI[0] >= ((CalamityWorld.death || CalamityWorld.bossRushActive) ? 180f : 300f))
+                if (npc.localAI[0] >= 300f)
                 {
                     npc.localAI[0] = 0f;
                     npc.TargetClosest(true);

@@ -67,7 +67,8 @@ namespace CalamityMod.NPCs.SlimeGod
             CalamityGlobalNPC.slimeGod = npc.whoAmI;
             bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
             bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
-            Player player = Main.player[npc.target];
+			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
+			Player player = Main.player[npc.target];
             int randomDust = Main.rand.Next(2);
             if (randomDust == 0)
             {
@@ -81,7 +82,7 @@ namespace CalamityMod.NPCs.SlimeGod
             Main.dust[num658].noGravity = true;
             Main.dust[num658].velocity *= 0.5f;
             bool flag100 = false;
-            if (!CalamityWorld.bossRushActive)
+            if (!death)
             {
                 if (CalamityGlobalNPC.slimeGodRed != -1)
                 {
