@@ -103,6 +103,12 @@ namespace CalamityMod.Projectiles
 
             // Disable Lunatic Cultist's homing resistance globally
             ProjectileID.Sets.Homing[projectile.type] = false;
+
+			if (projectile.minion && (projectile.type == 260 || projectile.type == ModContent.ProjectileType<WulfrumBolt>() || projectile.type == ModContent.ProjectileType<BrimstoneHellfireballFriendly>() || projectile.type == ModContent.ProjectileType<HellfireExplosionFriendly>()))
+				ProjectileID.Sets.MinionShot[projectile.type] = true;
+
+			if (projectile.minion && (projectile.type == ModContent.ProjectileType<FrostShardFriendly>() || projectile.type == ModContent.ProjectileType<FrostBoltProjectile>()))
+				ProjectileID.Sets.SentryShot[projectile.type] = true;
         }
         #endregion
 
@@ -898,7 +904,7 @@ namespace CalamityMod.Projectiles
 				}
 
                 if (Main.player[projectile.owner].Calamity().alchFlask &&
-                    (projectile.magic || rogue || projectile.melee || projectile.minion || projectile.ranged || projectile.sentry || CalamityMod.projectileMinionList.Contains(projectile.type)) &&
+                    (projectile.magic || rogue || projectile.melee || projectile.minion || projectile.ranged || projectile.sentry || CalamityMod.projectileMinionList.Contains(projectile.type) || ProjectileID.Sets.MinionShot[projectile.type] || ProjectileID.Sets.SentryShot[projectile.type]) &&
                     Main.player[projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<PlagueSeeker>()] < 6)
                 {
                     int newDamage = (int)((double)projectile.damage * 0.25);
@@ -1495,7 +1501,7 @@ namespace CalamityMod.Projectiles
                         }
                     }
                 }
-                else if (projectile.minion || projectile.sentry || CalamityMod.projectileMinionList.Contains(projectile.type))
+                else if (projectile.minion || projectile.sentry || CalamityMod.projectileMinionList.Contains(projectile.type) || ProjectileID.Sets.MinionShot[projectile.type] || ProjectileID.Sets.SentryShot[projectile.type])
                 {
                     if (Main.player[projectile.owner].Calamity().pArtifact)
                     {

@@ -16,6 +16,7 @@ namespace CalamityMod.Projectiles.Summon
             Main.projFrames[projectile.type] = 4;
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.SentryShot[projectile.type] = true;
         }
 
         public override void SetDefaults()

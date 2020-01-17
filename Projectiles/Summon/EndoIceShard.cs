@@ -16,6 +16,7 @@ namespace CalamityMod.Projectiles.Summon
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
             ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+            ProjectileID.Sets.MinionShot[projectile.type] = true;
         }
 
         public override void SetDefaults()
