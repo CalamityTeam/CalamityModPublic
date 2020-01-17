@@ -51,8 +51,11 @@ namespace CalamityMod.Projectiles.Rogue
             }
             if (counter % 5 == 0)
             {
-                multiplier -= 0.07f;
                 projectile.velocity *= 1.1f;
+            }
+            if (counter % 10 == 0)
+            {
+                multiplier -= 0.07f;
             }
             if (counter % 9 == 0 || (counter % 5 == 0 && projectile.Calamity().stealthStrike))
             {
@@ -152,7 +155,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (multiplier > 0.5f)
+            if (multiplier < 0.5f)
                 multiplier = 0.5f;
             damage = stealthOrigin ? damage : (int)((double)damage * multiplier);
             if (projectile.Calamity().stealthStrike)
