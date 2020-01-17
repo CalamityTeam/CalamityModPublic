@@ -58,7 +58,8 @@ namespace CalamityMod.Tiles.Furniture
             b = 0.55f;
         }
 
-		public virtual bool NewRightClick(int i, int j)
+		//this doesn't work
+		/*public virtual bool NewRightClick(int i, int j)
 		{
             Item.NewItem(i * 16, j * 16, 8, 8, ModContent.ItemType<Items.Placeables.Furniture.TranquilityCandle>());
 			if (Main.tile[i, j] != null && Main.tile[i, j].active())
@@ -75,6 +76,6 @@ namespace CalamityMod.Tiles.Furniture
 		public override bool HasSmartInteract()
 		{
 			return true;
-		}
+		}*/
     }
 }
