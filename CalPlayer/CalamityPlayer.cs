@@ -2336,7 +2336,7 @@ namespace CalamityMod.CalPlayer
                     player.AddBuff(ModContent.BuffType<AdrenalineMode>(), 300);
                 }
             }
-            if ((sulfurSet || camper) && player.controlJump && player.justJumped && player.jumpAgainSandstorm)
+            if (sulfurSet && player.controlJump && player.justJumped && player.jumpAgainSandstorm)
             {
                 Projectile.NewProjectile(new Vector2(Main.LocalPlayer.position.X, Main.LocalPlayer.position.Y + (Main.LocalPlayer.gravDir == -1f ? 20 : -20)), new Vector2(0f, 0f), ModContent.ProjectileType<SulphuricAcidBubbleFriendly>(), (int)(Main.LocalPlayer.allDamage + (Main.LocalPlayer.Calamity().throwingDamage / 2f)), 0f, Main.LocalPlayer.whoAmI, 1f, 0f);
             }
