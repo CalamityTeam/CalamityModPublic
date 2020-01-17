@@ -578,6 +578,10 @@ namespace CalamityMod.CalPlayer
 				player.lifeRegenTime += 8;
 				player.lifeRegen += 16;
 			}
+            if (modPlayer.camper)
+            {
+                player.lifeRegen += 2;
+            }
 
 			if (modPlayer.bloodflareSummon)
 			{
@@ -758,13 +762,33 @@ namespace CalamityMod.CalPlayer
                         }
                     }
                 }
+                else if (modPlayer.camper && player.statLife < modPlayer.actualMaxLife)
+                {
+                    player.lifeRegen = (int)((player.lifeRegen * 2) * 1.75f);
+                    player.lifeRegenCount = player.lifeRegenCount > 30 ? player.lifeRegenCount : 30;
+                    player.lifeRegenCount++;
+                    if (Main.rand.Next(30000) < player.lifeRegenTime || Main.rand.NextBool(2))
+                    {
+                        int num5 = Dust.NewDust(player.position, player.width, player.height, 12, 0f, 0f, 200, Color.OrangeRed, 1f);
+                        Main.dust[num5].noGravity = true;
+                        Main.dust[num5].velocity *= 0.75f;
+                        Main.dust[num5].fadeIn = 1.3f;
+                        Vector2 vector = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+                        vector.Normalize();
+                        vector *= (float)Main.rand.Next(50, 100) * 0.04f;
+                        Main.dust[num5].velocity = vector;
+                        vector.Normalize();
+                        vector *= 34f;
+                        Main.dust[num5].position = player.Center - vector;
+                    }
+                }
             }
 
 			if (CalamityWorld.revenge)
 			{
 				if (player.statLife < modPlayer.actualMaxLife)
 				{
-					bool noLifeRegenCap = (player.shinyStone || modPlayer.draedonsHeart || modPlayer.cFreeze || modPlayer.shadeRegen || modPlayer.photosynthesis) &&
+					bool noLifeRegenCap = (player.shinyStone || modPlayer.draedonsHeart || modPlayer.cFreeze || modPlayer.shadeRegen || modPlayer.photosynthesis || modPlayer.camper) &&
 						(double)Math.Abs(player.velocity.X) < 0.05 && (double)Math.Abs(player.velocity.Y) < 0.05 && player.itemAnimation == 0;
 
 					if (!noLifeRegenCap)
