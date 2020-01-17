@@ -27,17 +27,6 @@ namespace CalamityMod.Buffs.Summon
             {
                 player.buffTime[buffIndex] = 18000;
             }
-
-            bool defense = modPlayer.gDefense;
-            bool offense = modPlayer.gOffense;
-            if (offense || defense)
-            {
-                DisplayName.SetDefault("Profaned " + (offense ? "Offensive " : "Defensive ") + "Duo");
-            }
-            else if (offense && defense)
-            {
-                DisplayName.SetDefault("Profaned Guardian Trio");
-            }
         }
     }
 }
