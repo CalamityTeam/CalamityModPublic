@@ -12,14 +12,13 @@ namespace CalamityMod.Projectiles.Rogue
     {
         int counter = 0;
         float multiplier = 1f;
-        Vector2 originalVelocity;
         bool stealthOrigin = false;
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Scorched Blade");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
 
         public override void SetDefaults()
@@ -43,7 +42,6 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 stealthOrigin = projectile.ai[0] == 1f;
                 projectile.ai[0] = 0f;
-                originalVelocity = projectile.velocity;
             }
             if (counter == 20 && !projectile.Calamity().stealthStrike && !stealthOrigin)
             {
@@ -52,10 +50,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (counter % 5 == 0)
             {
                 projectile.velocity *= 1.1f;
-            }
-            if (counter % 10 == 0)
-            {
-                multiplier -= 0.07f;
+                multiplier -= 0.005f;
             }
             if (counter % 9 == 0 || (counter % 5 == 0 && projectile.Calamity().stealthStrike))
             {
@@ -149,7 +144,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 4);
+            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
             return false;
         }
 
