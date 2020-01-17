@@ -1,11 +1,9 @@
+using CalamityMod.Buffs.Placeables;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
-using Terraria.DataStructures;
-using Terraria.Enums;
-using CalamityMod.Buffs.Placeables;
 
 namespace CalamityMod.Tiles.Furniture
 {
@@ -47,6 +45,8 @@ namespace CalamityMod.Tiles.Furniture
         public override void NearbyEffects(int i, int j, bool closer)
         {
             Player player = Main.LocalPlayer;
+            if (player is null)
+                return;
             if (!player.dead && player.active)
                 player.AddBuff(ModContent.BuffType<TranquilityCandleBuff>(), 20);
         }

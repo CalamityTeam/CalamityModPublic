@@ -1,6 +1,5 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Potions;
-using CalamityMod.Buffs.Placeables;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
