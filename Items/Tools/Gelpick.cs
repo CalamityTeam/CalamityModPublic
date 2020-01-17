@@ -28,6 +28,7 @@ namespace CalamityMod.Items.Tools
             item.rare = 4;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
+            item.useTurn = true;
         }
 
         public override void AddRecipes()
