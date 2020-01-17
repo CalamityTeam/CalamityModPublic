@@ -152,6 +152,8 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
+            if (multiplier > 0.5f)
+                multiplier = 0.5f;
             damage = stealthOrigin ? damage : (int)((double)damage * multiplier);
             if (projectile.Calamity().stealthStrike)
             {
