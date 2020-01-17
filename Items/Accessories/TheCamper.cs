@@ -46,7 +46,7 @@ namespace CalamityMod.Items.Accessories
             {
                 if ((double)Math.Abs(player.velocity.X) < 0.05 && (double)Math.Abs(player.velocity.Y) < 0.05)
                 {
-                    player.allDamage += 0.1f;
+                    player.allDamage += 0.15f;
                     auraCounter++;
                     float range = 200f;
                     if (auraCounter == 9)
@@ -74,32 +74,23 @@ namespace CalamityMod.Items.Accessories
                         bool magic = player.HeldItem.magic;
                         if (summon)
                         {
-                            player.minionDamage += 0.15f;
                             player.AddBuff(BuffID.Bewitched, 60, true);
                         }
                         else if (rogue)
                         {
-                            modPlayer.throwingDamage += 0.15f;
                             modPlayer.throwingVelocity += 0.10f;
-                            modPlayer.throwingCrit += 5;
                         }
                         else if (melee)
                         {
-                            player.meleeDamage += 0.15f;
-                            player.meleeCrit += 5;
                             player.meleeSpeed += 0.10f;
                             player.AddBuff(BuffID.Sharpened, 60, true);
                         }
                         else if (ranged)
                         {
-                            player.rangedDamage += 0.15f;
-                            player.rangedCrit += 5;
                             player.ammoBox = true;
                         }
                         else if (magic)
                         {
-                            player.magicDamage += 0.15f;
-                            player.magicCrit += 5;
                             player.AddBuff(BuffID.Clairvoyance, 60, true);
                         }
                     }
