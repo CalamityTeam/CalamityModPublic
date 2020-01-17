@@ -3,6 +3,9 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
+using Terraria.DataStructures;
+using Terraria.Enums;
+using CalamityMod.Buffs.Placeables;
 
 namespace CalamityMod.Tiles.Furniture
 {
@@ -45,7 +48,7 @@ namespace CalamityMod.Tiles.Furniture
         {
             Player player = Main.LocalPlayer;
             if (!player.dead && player.active)
-                player.AddBuff(ModContent.BuffType<Buffs.Placeables.ChaosCandle>(), 20);
+                player.AddBuff(ModContent.BuffType<ChaosCandleBuff>(), 20);
         }
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
@@ -55,10 +58,24 @@ namespace CalamityMod.Tiles.Furniture
             b = 0.25f;
         }
 
-        /*public override void RightClick(int i, int j)
-        {
-            Item.NewItem(i * 16, j * 16, 8, 8, ModContent.ItemType<Items.Placeables.ChaosCandle>());
-            ?? KillTile( i, j);
-        }*/
+		//this doesn't work
+		/*public virtual bool NewRightClick(int i, int j)
+		{
+            Item.NewItem(i * 16, j * 16, 8, 8, ModContent.ItemType<Items.Placeables.Furniture.ChaosCandle>());
+			if (Main.tile[i, j] != null && Main.tile[i, j].active())
+			{
+				WorldGen.KillTile(i, j, false, false, false);
+				if (!Main.tile[i, j].active() && Main.netMode != NetmodeID.SinglePlayer)
+				{
+					NetMessage.SendData(17, -1, -1, null, 0, (float)i, (float)j, 0f, 0, 0, 0);
+				}
+			}
+			return true;
+		}
+
+		public override bool HasSmartInteract()
+		{
+			return true;
+		}*/
     }
 }

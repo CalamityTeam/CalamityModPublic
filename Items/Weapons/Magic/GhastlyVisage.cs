@@ -35,6 +35,19 @@ namespace CalamityMod.Items.Weapons.Magic
             item.Calamity().postMoonLordRarity = 13;
         }
 
+        public override bool CanUseItem(Player player)
+        {
+            for (int i = 0; i < Main.projectile.Length; i++)
+            {
+                Projectile p = Main.projectile[i];
+                if (p.active && p.type == ModContent.ProjectileType<GhastlyVisageProj>() && p.owner == player.whoAmI)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
 			Vector2 origin = new Vector2(16f, 16f);

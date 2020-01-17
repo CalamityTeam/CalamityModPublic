@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.Placeables
 {
-    public class ChaosCandle : ModBuff
+    public class ChaosCandleBuff : ModBuff
     {
         public override void SetDefaults()
         {

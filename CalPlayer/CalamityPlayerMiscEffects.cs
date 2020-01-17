@@ -2654,7 +2654,7 @@ namespace CalamityMod.CalPlayer
 						(CalamityWorld.downedDoG ? 100f : 0f) +
 						(CalamityWorld.downedYharon ? 100f : 0f);
 
-					if (player.maxMinions >= 8)
+					if (player.maxMinions >= 10)
 					{
 						if (player.FindBuffIndex(ModContent.BuffType<GuardianDefense>()) == -1)
 							player.AddBuff(ModContent.BuffType<GuardianDefense>(), 3600, true);

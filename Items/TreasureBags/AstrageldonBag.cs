@@ -5,6 +5,7 @@ using CalamityMod.Items.Mounts;
 using CalamityMod.Items.PermanentBoosters;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.AstrumAureus;
 using CalamityMod.World;
 using Terraria;
@@ -49,6 +50,7 @@ namespace CalamityMod.Items.TreasureBags
 
             // Weapons
             DropHelper.DropItemChance(player, ModContent.ItemType<Nebulash>(), 4);
+            DropHelper.DropItemChance(player, ModContent.ItemType<BorealisBomber>(), 4);
 
             // Equipment
             DropHelper.DropItemCondition(player, ModContent.ItemType<SquishyBeanMount>(), CalamityWorld.revenge && NPC.downedMoonlord);

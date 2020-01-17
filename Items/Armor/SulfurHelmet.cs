@@ -1,0 +1,72 @@
+﻿using CalamityMod.CalPlayer;
+using CalamityMod.Items.Placeables;
+using CalamityMod.Items.Weapons.Rogue;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+
+namespace CalamityMod.Items.Armor
+{
+    [AutoloadEquip(EquipType.Head)]
+    public class SulfurHelmet : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Sulphurous Helmet");
+            Tooltip.SetDefault("8% increased rogue damage\n" +
+                "2% increased rogue critical strike chance");
+        }
+
+        public override void SetDefaults()
+        {
+            item.width = 18;
+            item.height = 18;
+            item.value = Item.buyPrice(0, 1, 0, 0);
+            item.rare = 2;
+            item.defense = 5; 
+        }
+
+        public override bool IsArmorSet(Item head, Item body, Item legs)
+        {
+            return body.type == ModContent.ItemType<SulfurBreastplate>() && legs.type == ModContent.ItemType<SulfurLeggings>();
+        }
+
+        public override void UpdateArmorSet(Player player)
+        {
+            player.setBonus = "Attacking and being attacked by enemies inflicts poison\n" +
+                "Grants a sulphurous bubble jump that applies venom on hit\n" +
+                "Slightly reduces breath loss in the abyss\n" +
+                "Rogue stealth builds while not attacking and not moving, up to a max of 100\n" +
+                "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
+                "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
+                "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
+            CalamityPlayer modPlayer = player.Calamity();
+            modPlayer.sulfurSet = true;
+            modPlayer.rogueStealthMax += 1f;
+            modPlayer.wearingRogueArmor = true;
+            player.ignoreWater = true;
+            player.doubleJumpSandstorm = true;
+        }
+
+        public override void UpdateEquip(Player player)
+        {
+            player.Calamity().throwingDamage += 0.08f;
+            player.Calamity().throwingCrit += 2;
+            player.gills = true;
+        }
+
+        public override void AddRecipes()
+        {
+            //todo when acidwood is added
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddRecipeGroup("AnyEvilOre", 10);
+            recipe.AddIngredient(ModContent.ItemType<UrchinStinger>(), 15);
+            recipe.AddIngredient(ModContent.ItemType<SulphurousSand>(), 10);
+            //recipe.AddIngredient(ModContent.ItemType<AcidWood>(), 5);
+
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this);
+            //recipe.AddRecipe();
+        }
+    }
+}

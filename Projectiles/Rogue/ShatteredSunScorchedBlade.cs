@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class ShatteredSunFireball : ModProjectile
+    public class ShatteredSunScorchedBlade : ModProjectile
     {
         int counter = 0;
         float multiplier = 1f;
@@ -17,16 +17,15 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Flare");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 2;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-            Main.projFrames[projectile.type] = 3;
+            DisplayName.SetDefault("Scorched Blade");
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 42;
-            projectile.height = 42;
+            projectile.width = 56;
+            projectile.height = 56;
             projectile.friendly = true;
             projectile.ignoreWater = true;
             projectile.extraUpdates = 1;
@@ -55,18 +54,24 @@ namespace CalamityMod.Projectiles.Rogue
                 multiplier -= 0.07f;
                 projectile.velocity *= 1.1f;
             }
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 8)
+            if (counter % 9 == 0 || (counter % 5 == 0 && projectile.Calamity().stealthStrike))
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
-            }
-            if (projectile.frame > 2)
-            {
-                projectile.frame = 0;
+                int timesToSpawnDust = projectile.Calamity().stealthStrike  ? 2 : 1;
+                for (int i = 0; i < timesToSpawnDust; i++)
+                {
+                    int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 127, 0f, 0f, 100, default, projectile.Calamity().stealthStrike ? 1.8f : 1.3f);
+                    Main.dust[num624].noGravity = true;
+                    Main.dust[num624].velocity *= 5f;
+                    num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 127, 0f, 0f, 100, default, projectile.Calamity().stealthStrike ? 1.8f : 1.3f);
+                    Main.dust[num624].velocity *= 2f;
+                }
             }
 
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 2.355f;
+            if (projectile.spriteDirection == -1)
+            {
+                projectile.rotation -= 1.57f;
+            }
 
             Lighting.AddLight(projectile.Center, 0.7f, 0.3f, 0f);
             float num472 = projectile.Center.X;
@@ -141,7 +146,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 4);
             return false;
         }
 
@@ -150,7 +155,7 @@ namespace CalamityMod.Projectiles.Rogue
             damage = (int)((double)damage * multiplier);
             if (projectile.Calamity().stealthStrike)
             {
-                int numProj = 3;
+                int numProj = 2;
                 float rotation = MathHelper.ToRadians(10);
                 if (projectile.owner == Main.myPlayer)
                 {
@@ -159,11 +164,11 @@ namespace CalamityMod.Projectiles.Rogue
                     {
                         Vector2 perturbedspeed = new Vector2(originalVelocity.X, originalVelocity.Y + Main.rand.Next(-3, 4)).RotatedBy(MathHelper.ToRadians(spread));
                         Vector2 position = Main.player[projectile.owner].position;
-                        int proj = Projectile.NewProjectile(position.X, position.Y - 10, perturbedspeed.X, perturbedspeed.Y, ModContent.ProjectileType<ShatteredSunFireball>(), (int)((double)projectile.damage * 0.3), 1f, projectile.owner, 0f, 0f);
+                        int proj = Projectile.NewProjectile(position.X, position.Y - 10, perturbedspeed.X, perturbedspeed.Y, ModContent.ProjectileType<ShatteredSunScorchedBlade>(), (int)((double)projectile.damage * 0.55), 1f, projectile.owner, 0f, 0f);
                         spread -= Main.rand.Next(2, 6);
                         Main.projectile[proj].ai[0] = 1f;
                     }
-                    projectile.active = false;
+                    projectile.Kill();
                 }
             }
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);

@@ -8,6 +8,7 @@ using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -320,6 +321,7 @@ namespace CalamityMod.NPCs.AstrumAureus
 
                 // Weapons
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Nebulash>(), 5);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<BorealisBomber>(), 5);
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<AureusMask>(), 7);

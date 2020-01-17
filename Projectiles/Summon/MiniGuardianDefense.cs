@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Summon
             {
                 projectile.timeLeft = 2;
             }
-            if (!modPlayer.pArtifact || player.maxMinions < 8)
+            if (!modPlayer.pArtifact || player.maxMinions < 10)
             {
                 projectile.active = false;
                 return;

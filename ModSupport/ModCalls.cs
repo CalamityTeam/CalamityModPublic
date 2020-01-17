@@ -25,6 +25,11 @@ namespace CalamityMod
                 case "desert scourge":
                     return CalamityWorld.downedDesertScourge;
 
+                case "clam":
+                case "giantclam":
+                case "giant clam":
+                    return CalamityWorld.downedCLAM;
+
                 case "crabulon":
                     return CalamityWorld.downedCrabulon;
 
@@ -65,6 +70,11 @@ namespace CalamityMod
                 case "calamitasdoppelganger":
                 case "calamitas doppelganger":
                     return CalamityWorld.downedCalamitas;
+
+                case "gss":
+                case "greatsandshark":
+                case "great sand shark":
+                    return CalamityWorld.downedGSS;
 
                 case "siren":
                 case "thesiren":
@@ -564,6 +574,10 @@ namespace CalamityMod
                     return mp.reaverSpore;
             }
 
+            // Umbraphile
+            if (setBonus == "umbraphile")
+                return mp.umbraphileSet;
+
             // Ataxia
             switch (setBonus)
             {
@@ -587,6 +601,10 @@ namespace CalamityMod
                 case "ataxia rogue":
                     return mp.ataxiaVolley;
             }
+
+            // Plague Reaper
+            if (setBonus == "plaguereaper" || setBonus == "plague reaper")
+                return mp.plagueReaper;
 
             // Astral
             if (setBonus == "astral")
@@ -677,6 +695,10 @@ namespace CalamityMod
                 case "god slayer rogue":
                     return mp.godSlayerThrowing;
             }
+
+            // Fearmonger
+            if (setBonus == "fearmonger")
+                return mp.fearmongerSet;
 
             // Silva
             switch (setBonus)
@@ -825,6 +847,13 @@ namespace CalamityMod
                     return true;
             }
 
+            // Umbraphile
+            if (setBonus == "umbraphile")
+            {
+                mp.umbraphileSet = enabled;
+                return true;
+            }
+
             // Ataxia
             switch (setBonus)
             {
@@ -858,6 +887,13 @@ namespace CalamityMod
                     mp.ataxiaBlaze = enabled;
                     mp.ataxiaVolley = enabled;
                     return true;
+            }
+
+            // Plague Reaper
+            if (setBonus == "plaguereaper" || setBonus == "plague reaper")
+            {
+                mp.plagueReaper = enabled;
+                return true;
             }
 
             // Astral
@@ -990,6 +1026,13 @@ namespace CalamityMod
                     mp.godSlayer = enabled;
                     mp.godSlayerThrowing = enabled;
                     return true;
+            }
+
+            // Fearmonger
+            if (setBonus == "fearmonger")
+            {
+                mp.fearmongerSet = enabled;
+                return true;
             }
 
             // Silva
@@ -1138,6 +1181,12 @@ namespace CalamityMod
             CalamityMod.DRValues.Add(npcID, dr);
             return oldDR;
         }
+        #endregion
+
+        #region Boss Health Bars
+        public static bool BossHealthBarVisible() => Main.LocalPlayer.Calamity().drawBossHPBar;
+
+        public static bool SetBossHealthBarVisible(bool visible) => Main.LocalPlayer.Calamity().drawBossHPBar = visible;
         #endregion
 
         #region Call
@@ -1381,6 +1430,18 @@ namespace CalamityMod
                     int npcID = (int)args[1];
                     float DR = (float)args[2];
                     return SetDamageReduction(npcID, DR);
+
+                case "BossHealthBarVisible":
+                case "BossHealthBarsVisible":
+                case "GetBossHealthBarVisible":
+                case "GetBossHealthBarsVisible":
+                    return BossHealthBarVisible();
+
+                case "SetBossHealthBarVisible":
+                case "SetBossHealthBarsVisible":
+                    if (args.Length < 2 || !(args[1] is bool bossBarEnabled))
+                        return new ArgumentNullException("ERROR: Must specify a bool.");
+                    return SetBossHealthBarVisible(bossBarEnabled);
 
                 default:
                     return new ArgumentException("ERROR: Invalid method name.");

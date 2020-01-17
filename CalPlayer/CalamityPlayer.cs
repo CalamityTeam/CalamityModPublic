@@ -410,6 +410,7 @@ namespace CalamityMod.CalPlayer
 
         // Armor Set
         public bool victideSet = false;
+        public bool sulfurSet = false;
         public bool aeroSet = false;
         public bool statigelSet = false;
         public bool tarraSet = false;
@@ -1188,6 +1189,8 @@ namespace CalamityMod.CalPlayer
             astralStarRain = false;
 
             victideSet = false;
+
+            sulfurSet = false;
 
             aeroSet = false;
 
@@ -2331,6 +2334,10 @@ namespace CalamityMod.CalPlayer
                     player.AddBuff(ModContent.BuffType<AdrenalineMode>(), 300);
                 }
             }
+            if (sulfurSet && player.controlJump && player.justJumped && player.jumpAgainSandstorm)
+            {
+                Projectile.NewProjectile(new Vector2(Main.LocalPlayer.position.X, Main.LocalPlayer.position.Y + (Main.LocalPlayer.gravDir == -1f ? 20 : -20)), new Vector2(0f, 0f), ModContent.ProjectileType<SulphuricAcidBubbleFriendly>(), (int)(Main.LocalPlayer.allDamage + (Main.LocalPlayer.Calamity().throwingDamage / 2f)), 0f, Main.LocalPlayer.whoAmI, 1f, 0f);
+            }
         }
         #endregion
 
@@ -2779,8 +2786,6 @@ namespace CalamityMod.CalPlayer
         }
         #endregion
 
-        #region PostUpdate
-
         #region PostUpdateBuffs
         public override void PostUpdateBuffs()
         {
@@ -2826,6 +2831,8 @@ namespace CalamityMod.CalPlayer
             }
         }
         #endregion
+
+        #region PostUpdate
 
         public override void PostUpdateMiscEffects()
         {
@@ -2952,6 +2959,8 @@ namespace CalamityMod.CalPlayer
             #endregion
         }
 
+        #endregion
+
         #region Rogue Mirrors
         public void AbyssMirrorEvade()
         {
@@ -2998,8 +3007,6 @@ namespace CalamityMod.CalPlayer
                 int eclipseBurst = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<EclipseMirrorBurst>(), 8000, 0, player.whoAmI);
             }
         }
-        #endregion
-
         #endregion
 
         #region Pre Kill
@@ -3495,7 +3502,8 @@ namespace CalamityMod.CalPlayer
         {
             if (omegaBlueChestplate)
                 target.AddBuff(ModContent.BuffType<CrushDepth>(), 240);
-
+            if (sulfurSet)
+                target.AddBuff(BuffID.Poisoned, 120);
 			switch (item.type)
 			{
 				case ItemID.IceSickle:
@@ -3662,6 +3670,8 @@ namespace CalamityMod.CalPlayer
         #region On Hit NPC With Proj
         public override void OnHitNPCWithProj(Projectile proj, NPC target, int damage, float knockback, bool crit)
         {
+            if (sulfurSet && proj.friendly && !target.friendly)
+                target.AddBuff(BuffID.Poisoned, 120);
             if (omegaBlueChestplate && proj.friendly && !target.friendly)
                 target.AddBuff(ModContent.BuffType<CrushDepth>(), 240);
 
@@ -5164,6 +5174,8 @@ namespace CalamityMod.CalPlayer
         #region On Hit
         public override void OnHitByNPC(NPC npc, int damage, bool crit)
         {
+            if (sulfurSet)
+                npc.AddBuff(BuffID.Poisoned, 120);
             if (CalamityWorld.revenge)
             {
                 if (npc.type == NPCID.ShadowFlameApparition || (npc.type == NPCID.ChaosBall && Main.hardMode))
@@ -5198,6 +5210,21 @@ namespace CalamityMod.CalPlayer
 
         public override void OnHitByProjectile(Projectile proj, int damage, bool crit)
         {
+            if (sulfurSet && !proj.friendly)
+            {
+                if (Main.player[proj.owner] == null)
+                {
+                    if (!Main.npc[proj.owner].friendly)
+                        Main.npc[proj.owner].AddBuff(BuffID.Poisoned, 120);
+                } 
+                else
+                {
+                    Player p = Main.player[proj.owner];
+                    if (p.hostile && player.hostile && (player.team != p.team || p.team == 0))
+                        p.AddBuff(BuffID.Poisoned, 120);
+                }
+            }
+                
             if (CalamityWorld.revenge && proj.hostile)
             {
 				if (proj.type == ProjectileID.Explosives)

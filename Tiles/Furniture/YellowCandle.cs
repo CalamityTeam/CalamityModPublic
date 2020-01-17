@@ -41,7 +41,7 @@ namespace CalamityMod.Tiles.Furniture
                 player.AddBuff(ModContent.BuffType<YellowDamageCandle>(), 20);
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    for (int m = 0; m < 200; m++)
+                    for (int m = 0; m < Main.npc.Length; m++)
                     {
                         if (Main.npc[m].active && !Main.npc[m].friendly)
                         {
