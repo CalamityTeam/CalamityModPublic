@@ -2595,7 +2595,7 @@ namespace CalamityMod.NPCs
         #region On Hit By Projectile
         public override void OnHitByProjectile(NPC npc, Projectile projectile, int damage, float knockback, bool crit)
         {
-            bool isSummon = projectile.minion || projectile.sentry || CalamityMod.projectileMinionList.Contains(projectile.type);
+            bool isSummon = projectile.minion || projectile.sentry || CalamityMod.projectileMinionList.Contains(projectile.type) || ProjectileID.Sets.MinionShot[projectile.type] || ProjectileID.Sets.SentryShot[projectile.type];
 
             if (Main.player[projectile.owner].Calamity().sGenerator)
             {

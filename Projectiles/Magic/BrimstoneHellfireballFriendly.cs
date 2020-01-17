@@ -46,7 +46,11 @@ namespace CalamityMod.Projectiles.Magic
         {
             if (projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<HellfireExplosionFriendly>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                int fire = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<HellfireExplosionFriendly>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+				if (projectile.minion)
+				{
+					Main.projectile[fire].Calamity().forceMinion = true;
+				}
             }
         }
 
