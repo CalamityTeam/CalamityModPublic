@@ -1,4 +1,5 @@
 using CalamityMod.Projectiles.Rogue;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,7 +12,8 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Spear of Paleolith");
             Tooltip.SetDefault("Throws an ancient spear that shatters enemy armor\n" +
-                "Spears rain fossil shards as they travel");
+                "Spears rain fossil shards as they travel\n" +
+                "Stealth Strikes travel slower but further, raining more fossil shards");
         }
 
         public override void SafeSetDefaults()
@@ -42,6 +44,17 @@ namespace CalamityMod.Items.Weapons.Rogue
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
+        }
+
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            if (player.Calamity().StealthStrikeAvailable())
+            {
+                int stabDevice = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
+                Main.projectile[stabDevice].Calamity().stealthStrike = true;
+                return false;
+            }
+            return true;
         }
     }
 }
