@@ -31,6 +31,14 @@ namespace CalamityMod.Tiles.FurnitureAbyss
             num = fail ? 1 : 3;
         }
 
+        public override void MouseOver(int i, int j)
+        {
+            Player player = Main.LocalPlayer;
+            player.noThrow = 2;
+            player.showItemIcon = true;
+            player.showItemIcon2 = ModContent.ItemType<Items.Placeables.FurnitureAbyss.AbyssTorch>();
+        }
+
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
             Tile tile = Main.tile[i, j];
