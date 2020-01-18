@@ -40,7 +40,8 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 float num472 = projectile.Center.X;
                 float num473 = projectile.Center.Y;
-                float num474 = 600f;
+                float num474 = projectile.Calamity().stealthStrike ? 1800f : 600f;
+                float homingSpeed = 0.25f;
                 for (int num475 = 0; num475 < 200; num475++)
                 {
                     if (Main.npc[num475].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[num475].Center, 1, 1) && !CalamityPlayer.areThereAnyDamnBosses)
@@ -52,19 +53,19 @@ namespace CalamityMod.Projectiles.Rogue
                         {
                             if (Main.npc[num475].position.X < num472)
                             {
-                                Main.npc[num475].velocity.X += 0.25f;
+                                Main.npc[num475].velocity.X += homingSpeed;
                             }
                             else
                             {
-                                Main.npc[num475].velocity.X -= 0.25f;
+                                Main.npc[num475].velocity.X -= homingSpeed;
                             }
                             if (Main.npc[num475].position.Y < num473)
                             {
-                                Main.npc[num475].velocity.Y += 0.25f;
+                                Main.npc[num475].velocity.Y += homingSpeed;
                             }
                             else
                             {
-                                Main.npc[num475].velocity.Y -= 0.25f;
+                                Main.npc[num475].velocity.Y -= homingSpeed;
                             }
                         }
                     }
@@ -74,7 +75,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 float centerX = projectile.Center.X;
                 float centerY = projectile.Center.Y;
-                float num474 = 600f;
+                float num474 = projectile.Calamity().stealthStrike ? 1800f : 600f;
                 bool homeIn = false;
                 for (int i = 0; i < 200; i++)
                 {

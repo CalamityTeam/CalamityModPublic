@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class RadiantExplosion : ModProjectile
     {
+        private bool updatedTime = false;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Explosion");
@@ -29,8 +31,14 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
-            projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] > 4f)
+            if (projectile.ai[0] == 1f || (projectile.Calamity().stealthStrike && !updatedTime))
+            {
+                projectile.timeLeft = 100;
+                projectile.ai[0] = 0f;
+                updatedTime = true;
+            }
+            
+            if (projectile.timeLeft >= 80)
             {
                 for (int i = 0; i < 5; i++)
                 {
