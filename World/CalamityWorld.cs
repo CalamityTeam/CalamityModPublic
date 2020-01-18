@@ -626,7 +626,7 @@ namespace CalamityMod.World
         {
             calamityTiles = tileCounts[ModContent.TileType<CharredOre>()] + tileCounts[ModContent.TileType<BrimstoneSlag>()];
             sunkenSeaTiles = tileCounts[ModContent.TileType<EutrophicSand>()] + tileCounts[ModContent.TileType<Navystone>()] + tileCounts[ModContent.TileType<SeaPrism>()];
-            abyssTiles = tileCounts[ModContent.TileType<AbyssGravel>()];
+            abyssTiles = tileCounts[ModContent.TileType<AbyssGravel>()] + tileCounts[ModContent.TileType<Voidstone>()];
             sulphurTiles = tileCounts[ModContent.TileType<SulphurousSand>()];
 
             #region Astral Stuff
