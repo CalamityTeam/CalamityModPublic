@@ -885,6 +885,8 @@ namespace CalamityMod.Projectiles
 					float heal = (float)damage * 0.015f;
 					if ((int)heal == 0)
 						return;
+                    if ((int)heal > 6)
+                        heal = 6;
 					if (Main.player[Main.myPlayer].lifeSteal <= 0f)
 						return;
 
