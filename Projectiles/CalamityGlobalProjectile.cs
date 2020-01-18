@@ -890,7 +890,7 @@ namespace CalamityMod.Projectiles
 					if (Main.player[Main.myPlayer].lifeSteal <= 0f)
 						return;
 
-					Main.player[Main.myPlayer].lifeSteal -= heal * 1.5f;
+					Main.player[Main.myPlayer].lifeSteal -= heal * 2f;
 					int owner = projectile.owner;
 					Projectile.NewProjectile(target.position.X, target.position.Y, 0f, 0f, ProjectileID.VampireHeal, 0, 0f, projectile.owner, (float)owner, heal);
 				}

@@ -1,5 +1,6 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,6 +13,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Ice Star");
             Tooltip.SetDefault("Throws homing ice stars\n" +
+                "Stealth strikes pierce infinitely and spawn ice shards on hit" +
                 "Ice Stars are too brittle to be recovered after being thrown");
         }
 
@@ -45,6 +47,17 @@ namespace CalamityMod.Items.Weapons.Rogue
             recipe.AddTile(TileID.IceMachine);
             recipe.SetResult(this, 50);
             recipe.AddRecipe();
+        }
+
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            if (player.Calamity().StealthStrikeAvailable())
+            {
+                int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
+                Main.projectile[proj].Calamity().stealthStrike = true;
+                return false;
+            }
+            return true;
         }
     }
 }
