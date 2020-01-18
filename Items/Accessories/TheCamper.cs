@@ -57,7 +57,7 @@ namespace CalamityMod.Items.Accessories
                             NPC npc = Main.npc[i];
                             if (npc.active && !npc.friendly && npc.damage > -1 && !npc.dontTakeDamage && Vector2.Distance(player.Center, npc.Center) <= range)
                             {
-                                Projectile p = Projectile.NewProjectileDirect(npc.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), (int)(Main.rand.Next(20, 41) * player.allDamage), 0f, player.whoAmI);
+                                Projectile p = Projectile.NewProjectileDirect(npc.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), (int)(Main.rand.Next(20, 41) * player.allDamage), 0f, player.whoAmI, i);
                                 if (!npc.buffImmune[BuffID.OnFire])
                                 {
                                     npc.AddBuff(BuffID.OnFire, 120);
