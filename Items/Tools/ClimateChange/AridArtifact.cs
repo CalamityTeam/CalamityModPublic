@@ -46,7 +46,7 @@ namespace CalamityMod.Items.Tools.ClimateChange
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.AncientBattleArmorMaterial);
             recipe.AddRecipeGroup("AnyAdamantiteBar", 5);
-            recipe.AddTile(TileID.Anvils);
+            recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
