@@ -11,6 +11,7 @@ namespace CalamityMod.Projectiles.Rogue
     public class SpearofPaleolithProj : ModProjectile
     {
         private int shardRainTimer = 3;
+        private bool stealthInit = false;
 
         public override void SetStaticDefaults()
         {
@@ -33,7 +34,15 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
+            if (projectile.Calamity().stealthStrike && !stealthInit)
+            {
+                projectile.velocity *= 0.5f;
+                projectile.timeLeft = 1800;
+                stealthInit = true;
+            }
             shardRainTimer--;
+
+
             if (Main.rand.NextBool(4))
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 159, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
