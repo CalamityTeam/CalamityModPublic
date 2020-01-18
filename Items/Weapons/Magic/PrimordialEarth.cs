@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Weapons.Magic
             recipe.AddIngredient(ItemID.AncientBattleArmorMaterial, 3);
             recipe.AddIngredient(ItemID.MeteoriteBar, 5);
             recipe.AddIngredient(ItemID.Ectoplasm, 5);
-            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddTile(TileID.Bookcases);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

@@ -73,7 +73,7 @@ namespace CalamityMod.Items.Weapons.Magic
             recipe.AddIngredient(ModContent.ItemType<PurifiedGel>(), 10);
             recipe.AddIngredient(ModContent.ItemType<EbonianGel>(), 20);
             recipe.AddIngredient(ItemID.Book);
-            recipe.AddTile(TileID.Anvils);
+            recipe.AddTile(TileID.Bookcases);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

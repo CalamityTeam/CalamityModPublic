@@ -5,7 +5,6 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Tiles.Furniture.CraftingStations;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -60,7 +59,7 @@ namespace CalamityMod.Items.Weapons.Magic
             recipe.AddIngredient(ModContent.ItemType<Starfall>());
             recipe.AddIngredient(ModContent.ItemType<NuclearFury>());
             recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 15);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddTile(TileID.Bookcases);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
