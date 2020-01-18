@@ -398,7 +398,7 @@ namespace CalamityMod
             // Muramasa
             r = GetNewRecipe();
             r.AddRecipeGroup("AnyCobaltBar", 15);
-            r.AddTile(TileID.MythrilAnvil);
+            r.AddTile(TileID.Anvils);
             r.SetResult(ItemID.Muramasa);
             r.AddRecipe();
 
@@ -584,7 +584,7 @@ namespace CalamityMod
             // Cobalt Shield
             ModRecipe r = GetNewRecipe();
             r.AddRecipeGroup("AnyCobaltBar", 10);
-            r.AddTile(TileID.MythrilAnvil);
+            r.AddTile(TileID.Anvils);
             r.SetResult(ItemID.CobaltShield);
             r.AddRecipe();
 
