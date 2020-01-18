@@ -305,7 +305,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                     laserShoot += 1;
 
                     float speed = 4f;
-                    int divisor = CalamityWorld.bossRushActive ? 90 : (death ? 105 : 120);
+                    int divisor = CalamityWorld.bossRushActive ? 90 : 120;
 
                     if (laserShoot % divisor == 0)
                     {

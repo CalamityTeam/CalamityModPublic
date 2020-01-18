@@ -1926,7 +1926,7 @@ namespace CalamityMod.NPCs.Yharon
                 npc.damage = npc.defDamage;
                 if (phase4)
                 {
-                    npc.damage = (int)((float)npc.defDamage * 1.25f);
+                    npc.damage = (int)((float)npc.defDamage * 1.1f);
                 }
                 protectionBoost = false;
                 if (npc.timeLeft < 3600)
@@ -1943,7 +1943,7 @@ namespace CalamityMod.NPCs.Yharon
             int num4 = expertMode ? 110 : 125;
             if (phase4)
             {
-                num4 = (int)((double)num4 * 1.25);
+                num4 = (int)((double)num4 * 1.1);
             }
             float num6 = revenge ? 0.6f : 0.55f;
             float scaleFactor = revenge ? 10.5f : 9f;
@@ -2569,9 +2569,9 @@ namespace CalamityMod.NPCs.Yharon
                 {
                     if (npc.ai[1] == 0f)
                     {
-                        npc.ai[1] = (float)(300 * Math.Sign((npcCenter - targetData.Center).X));
+                        npc.ai[1] = (float)(450 * Math.Sign((npcCenter - targetData.Center).X));
                     }
-                    teleportLocation = Main.rand.NextBool(2) ? (revenge ? 600 : 700) : (revenge ? -600 : -700);
+                    teleportLocation = Main.rand.NextBool(2) ? (revenge ? 500 : 600) : (revenge ? -500 : -600);
                     Vector2 center = targetData.Center + new Vector2(-npc.ai[1], (float)teleportLocation); //teleport distance
                     npcCenter = npc.Center = center;
                 }
