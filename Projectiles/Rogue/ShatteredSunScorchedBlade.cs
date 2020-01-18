@@ -12,14 +12,13 @@ namespace CalamityMod.Projectiles.Rogue
     {
         int counter = 0;
         float multiplier = 1f;
-        Vector2 originalVelocity;
         bool stealthOrigin = false;
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Scorched Blade");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
 
         public override void SetDefaults()
@@ -43,7 +42,6 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 stealthOrigin = projectile.ai[0] == 1f;
                 projectile.ai[0] = 0f;
-                originalVelocity = projectile.velocity;
             }
             if (counter == 20 && !projectile.Calamity().stealthStrike && !stealthOrigin)
             {
@@ -51,8 +49,8 @@ namespace CalamityMod.Projectiles.Rogue
             }
             if (counter % 5 == 0)
             {
-                multiplier -= 0.07f;
                 projectile.velocity *= 1.1f;
+                multiplier -= 0.005f;
             }
             if (counter % 9 == 0 || (counter % 5 == 0 && projectile.Calamity().stealthStrike))
             {
@@ -146,25 +144,31 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 4);
+            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
             return false;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            damage = (int)((double)damage * multiplier);
+            if (multiplier < 0.5f)
+                multiplier = 0.5f;
+            damage = stealthOrigin ? damage : (int)((double)damage * multiplier);
             if (projectile.Calamity().stealthStrike)
             {
                 int numProj = 2;
                 float rotation = MathHelper.ToRadians(10);
                 if (projectile.owner == Main.myPlayer)
                 {
+                    Player owner = Main.player[projectile.owner];
+                    Vector2 correctedVelocity = target.Center - owner.Center;
+                    correctedVelocity.Normalize();
+                    correctedVelocity *= 10f;
                     int spread = 6;
                     for (int i = 0; i < numProj; i++)
                     {
-                        Vector2 perturbedspeed = new Vector2(originalVelocity.X, originalVelocity.Y + Main.rand.Next(-3, 4)).RotatedBy(MathHelper.ToRadians(spread));
-                        Vector2 position = Main.player[projectile.owner].position;
-                        int proj = Projectile.NewProjectile(position.X, position.Y - 10, perturbedspeed.X, perturbedspeed.Y, ModContent.ProjectileType<ShatteredSunScorchedBlade>(), (int)((double)projectile.damage * 0.55), 1f, projectile.owner, 0f, 0f);
+                        Vector2 perturbedspeed = new Vector2(correctedVelocity.X, correctedVelocity.Y + Main.rand.Next(-3, 4)).RotatedBy(MathHelper.ToRadians(spread));
+                        
+                        int proj = Projectile.NewProjectile(owner.Center.X, owner.Center.Y - 10, perturbedspeed.X, perturbedspeed.Y, ModContent.ProjectileType<ShatteredSunScorchedBlade>(), (int)((double)projectile.damage * 0.55), 1f, projectile.owner, 0f, 0f);
                         spread -= Main.rand.Next(2, 6);
                         Main.projectile[proj].ai[0] = 1f;
                     }

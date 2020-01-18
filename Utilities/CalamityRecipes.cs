@@ -5,6 +5,7 @@ using CalamityMod.Items.Fishing.BrimstoneCragCatches;
 using CalamityMod.Items.Fishing.SunkenSeaCatches;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
+using CalamityMod.Items.Potions;
 using CalamityMod.Items.Weapons.Melee;
 using System.Collections.Generic;
 using System.Linq;
@@ -769,7 +770,7 @@ namespace CalamityMod
             });
             RecipeGroup.RegisterGroup("AnyGoldBar", group);
 
-            group = new RecipeGroup(() => "AnyEvilOre", new int[]
+            group = new RecipeGroup(() => "Any Evil Ore", new int[]
             {
                 ItemID.CrimtaneOre,
                 ItemID.DemoniteOre
@@ -871,6 +872,27 @@ namespace CalamityMod
                 ItemID.LunarHamaxeStardust
             });
             RecipeGroup.RegisterGroup("LunarHamaxe", group);
+
+            group = new RecipeGroup(() => "Any Food Item", new int[]
+            {
+                ItemID.CookedFish,
+                ItemID.CookedMarshmallow,
+                ItemID.PadThai,
+                ItemID.Pho,
+                ItemID.CookedShrimp,
+                ItemID.Sashimi,
+                ItemID.Bacon,
+                ItemID.BowlofSoup,
+                ItemID.GrubSoup,
+                ItemID.GingerbreadCookie,
+                ItemID.SugarCookie,
+                ItemID.ChristmasPudding,
+                ItemID.PumpkinPie,
+                ModContent.ItemType<Baguette>(),
+                ModContent.ItemType<DeliciousMeat>(),
+                ModContent.ItemType<SunkenStew>()
+            });
+            RecipeGroup.RegisterGroup("AnyFood", group);
 
             group = new RecipeGroup(() => "Any Wings", new int[]
             {

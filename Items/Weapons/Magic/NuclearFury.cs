@@ -59,6 +59,7 @@ namespace CalamityMod.Items.Weapons.Magic
             recipe.AddIngredient(ItemID.SoulofSight, 10);
             recipe.AddIngredient(ItemID.UnicornHorn, 5);
             recipe.AddIngredient(ItemID.RazorbladeTyphoon);
+            recipe.AddIngredient(ModContent.ItemType<Poseidon>());
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

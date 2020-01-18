@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            Projectile.NewProjectile(projectile.position, new Vector2(projectile.velocity.X / 20, 2), ModContent.ProjectileType<StickyFeatherAero>(), projectile.damage, projectile.knockBack, projectile.owner);
+            Projectile.NewProjectile(projectile.position, new Vector2(projectile.velocity.X / 20, 2), ModContent.ProjectileType<StickyFeatherAero>(), (int)((double)projectile.damage * 0.69), projectile.knockBack, projectile.owner);
         }
 
         public override void Kill(int timeLeft)

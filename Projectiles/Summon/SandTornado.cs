@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
@@ -10,6 +11,7 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Tornado");
+            ProjectileID.Sets.MinionShot[projectile.type] = true;
         }
 
         public override void SetDefaults()

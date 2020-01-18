@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.ID;
 using Terraria.Enums;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
@@ -21,6 +22,7 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ray");
+            ProjectileID.Sets.MinionShot[projectile.type] = true;
         }
 
         public override void SetDefaults()

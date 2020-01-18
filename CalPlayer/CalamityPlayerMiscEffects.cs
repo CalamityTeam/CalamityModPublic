@@ -2644,8 +2644,8 @@ namespace CalamityMod.CalPlayer
 			{
 				if (player.whoAmI == Main.myPlayer)
 				{
-					if (player.FindBuffIndex(ModContent.BuffType<GuardianHealer>()) == -1)
-						player.AddBuff(ModContent.BuffType<GuardianHealer>(), 3600, true);
+					if (player.FindBuffIndex(ModContent.BuffType<ProfanedBabs>()) == -1)
+						player.AddBuff(ModContent.BuffType<ProfanedBabs>(), 3600, true);
 
 					if (player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianHealer>()] < 1)
 						Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -6f, ModContent.ProjectileType<MiniGuardianHealer>(), 0, 0f, Main.myPlayer, 0f, 0f);
@@ -2656,8 +2656,7 @@ namespace CalamityMod.CalPlayer
 
 					if (player.maxMinions >= 10)
 					{
-						if (player.FindBuffIndex(ModContent.BuffType<GuardianDefense>()) == -1)
-							player.AddBuff(ModContent.BuffType<GuardianDefense>(), 3600, true);
+						player.Calamity().gDefense = true;
 
 						if (player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianDefense>()] < 1)
 							Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -3f, ModContent.ProjectileType<MiniGuardianDefense>(), (int)(baseDamage * (player.allDamage + player.minionDamage - 1f)), 1f, Main.myPlayer, 0f, 0f);
@@ -2665,8 +2664,7 @@ namespace CalamityMod.CalPlayer
 
 					if (modPlayer.tarraSummon || modPlayer.bloodflareSummon || modPlayer.godSlayerSummon || modPlayer.silvaSummon || modPlayer.dsSetBonus || modPlayer.omegaBlueSet || modPlayer.fearmongerSet)
 					{
-						if (player.FindBuffIndex(ModContent.BuffType<GuardianOffense>()) == -1)
-							player.AddBuff(ModContent.BuffType<GuardianOffense>(), 3600, true);
+						player.Calamity().gOffense = true;
 
 						if (player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianAttack>()] < 1)
 							Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<MiniGuardianAttack>(), (int)(baseDamage * (player.allDamage + player.minionDamage - 1f)), 1f, Main.myPlayer, 0f, 0f);

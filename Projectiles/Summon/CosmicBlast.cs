@@ -14,6 +14,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             DisplayName.SetDefault("Blast");
             Main.projFrames[projectile.type] = 4;
+            ProjectileID.Sets.MinionShot[projectile.type] = true;
         }
 
         public override void SetDefaults()

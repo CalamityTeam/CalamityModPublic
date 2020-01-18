@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Sulphurous Helmet");
             Tooltip.SetDefault("8% increased rogue damage\n" +
-                "2% increased rogue critical strike chance");
+                "2% increased rogue critical strike chance\n" +
+                "Grants underwater breathing");
         }
 
         public override void SetDefaults()

@@ -407,6 +407,7 @@ namespace CalamityMod.CalPlayer
         public int plaguedFuelPackDash = 0;
         public int plaguedFuelPackDirection = 0;
         public bool veneratedLocket = false;
+        public bool camper = false;
 
         // Armor Set
         public bool victideSet = false;
@@ -1246,6 +1247,7 @@ namespace CalamityMod.CalPlayer
             sandCloak = false;
             spectralVeil = false;
             plaguedFuelPack = false;
+            camper = false;
 
 			alcoholPoisoning = false;
             shadowflame = false;
@@ -5303,6 +5305,46 @@ namespace CalamityMod.CalPlayer
                 proj.velocity.Y = -proj.velocity.Y;
             }
         }
+        #endregion
+
+        #region Can Hit
+
+        public override bool? CanHitNPC(Item item, NPC target)
+        {
+            bool notMoving = (double)Math.Abs(player.velocity.X) < 0.05 && (double)Math.Abs(player.velocity.Y) < 0.05;
+            if (camper && !notMoving)
+            {
+                target.chaseable = false;
+                target.dontTakeDamage = true;
+                player.MinionAttackTargetNPC = -1;
+                return false;
+            }
+            return null;
+        }
+
+        public override bool? CanHitNPCWithProj(Projectile proj, NPC target)
+        {
+            bool notMoving = (double)Math.Abs(player.velocity.X) < 0.05 && (double)Math.Abs(player.velocity.Y) < 0.05;
+            if (camper && !notMoving)
+            {
+                target.chaseable = false;
+                target.dontTakeDamage = true;
+                player.MinionAttackTargetNPC = -1;
+                return false;
+            }
+            return null;
+        }
+
+        public override bool CanHitPvp(Item item, Player target)
+        {
+            return !(camper && !((double)Math.Abs(player.velocity.X) < 0.05 && (double)Math.Abs(player.velocity.Y) < 0.05));
+        }
+
+        public override bool CanHitPvpWithProj(Projectile proj, Player target)
+        {
+            return !(camper && !((double)Math.Abs(player.velocity.X) < 0.05 && (double)Math.Abs(player.velocity.Y) < 0.05));
+        }
+
         #endregion
 
         #region Fishing

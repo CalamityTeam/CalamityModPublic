@@ -36,6 +36,8 @@ namespace CalamityMod.Tiles.Furniture
         public override void NearbyEffects(int i, int j, bool closer)
         {
             Player player = Main.LocalPlayer;
+            if (player is null)
+                return;
             if (!player.dead && player.active)
                 player.AddBuff(ModContent.BuffType<PurpleDefenseCandle>(), 20);
         }

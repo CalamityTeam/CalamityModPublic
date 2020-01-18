@@ -1,0 +1,66 @@
+using CalamityMod.Items.Materials;
+using CalamityMod.Projectiles.Magic;
+using Microsoft.Xna.Framework;
+using System;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+using CalamityMod.Tiles.Furniture.CraftingStations;
+
+namespace CalamityMod.Items.Weapons.Magic
+{
+    public class EventHorizon : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Event Horizon");
+            Tooltip.SetDefault("Nothing, not even light, can return.");
+        }
+
+        public override void SetDefaults()
+        {
+            item.width = 28;
+            item.height = 30;
+
+            item.damage = 241;
+            item.knockBack = 3.5f;
+            item.noMelee = true;
+            item.magic = true;
+            item.mana = 12;
+
+            item.useTime = 26;
+            item.useAnimation = 26;
+            item.useStyle = 5;
+            item.autoReuse = true;
+
+            item.rare = 10;
+            item.Calamity().postMoonLordRarity = 14;
+            item.value = Item.buyPrice(1, 80, 0, 0);
+
+            item.UseSound = SoundID.Item84;
+            item.shoot = ModContent.ProjectileType<EventHorizonStar>();
+            item.shootSpeed = 25f;
+        }
+
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            for (float i = 0; i < 8; i++)
+            {
+                float angle = MathHelper.TwoPi / 8f * i;
+                Projectile.NewProjectile(player.Center, angle.ToRotationVector2() * 8f, type, damage, knockBack, player.whoAmI, angle, 0f);
+            }
+            return false;
+        }
+
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<Starfall>());
+            recipe.AddIngredient(ModContent.ItemType<NuclearFury>());
+            recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 15);
+            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
+    }
+}

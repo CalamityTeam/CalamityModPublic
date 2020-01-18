@@ -1,4 +1,5 @@
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Buffs.Summon;
 using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
@@ -97,6 +98,20 @@ namespace CalamityMod.Buffs
                 tip += ". All damage taken increased by 20%";
             else if (type == BuffID.Warmth)
                 tip += ". Immunity to the Chilled, Frozen, and Glacial State debuffs";
+            else if (type == ModContent.BuffType<ProfanedBabs>())
+            {
+                Player player = Main.player[Main.myPlayer];
+                bool offense = player.Calamity().gOffense;
+                bool defense = player.Calamity().gDefense;
+                if (offense && defense)
+                {
+                    tip = "The Profaned Babs will defend and fight for you!";
+                }
+                else if (offense || defense)
+                {
+                    tip = "The " + (offense ? "Offensive" : "Defensive") + " Duo will " + (offense ? "fight and heal for you!" : "defend and heal you!");
+                }
+            }
         }
     }
 }

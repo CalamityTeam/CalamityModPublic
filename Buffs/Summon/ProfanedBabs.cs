@@ -5,12 +5,12 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.Summon
 {
-    public class GuardianOffense : ModBuff
+    public class ProfanedBabs : ModBuff //Buff name is reference to how I refer to the guardians as my babs ~Amber
     {
         public override void SetDefaults()
         {
-            DisplayName.SetDefault("Offensive Guardian");
-            Description.SetDefault("The attacker will fight for you");
+            DisplayName.SetDefault("The Profaned Soul");
+            Description.SetDefault("The healer will heal your wounds");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
         }
@@ -18,11 +18,7 @@ namespace CalamityMod.Buffs.Summon
         public override void Update(Player player, ref int buffIndex)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianAttack>()] > 0)
-            {
-                modPlayer.gOffense = true;
-            }
-            if (!modPlayer.gOffense)
+            if (!modPlayer.gHealer)
             {
                 player.DelBuff(buffIndex);
                 buffIndex--;
