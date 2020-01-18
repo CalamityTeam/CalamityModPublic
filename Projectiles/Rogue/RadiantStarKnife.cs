@@ -88,11 +88,11 @@ namespace CalamityMod.Projectiles.Rogue
                         speed *= (float)Main.rand.Next(30, 61) * 0.1f * 2.5f;
                         int stabber2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, speed.X, speed.Y, ModContent.ProjectileType<RadiantStar2>(), projectile.damage, projectile.knockBack, projectile.owner,
                             projectile.ai[0] == 1f ? 1f : 0f, 0f);
-                        Main.projectile[stabber2].Calamity().stealthStrike = true;
+                        Main.projectile[stabber2].Calamity().stealthStrike = projectile.Calamity().stealthStrike;
                     }
                     Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
                     int boomer = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<RadiantExplosion>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-                    Main.projectile[boomer].Calamity().stealthStrike = true;
+                    Main.projectile[boomer].Calamity().stealthStrike = projectile.Calamity().stealthStrike;
                     projectile.active = false;
                 }
             }

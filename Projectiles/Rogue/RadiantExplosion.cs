@@ -35,10 +35,15 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 projectile.timeLeft = 100;
                 projectile.ai[0] = 0f;
+                if (projectile.Calamity().stealthStrike)
+                {
+                    projectile.width += 150;
+                    projectile.height += 150;
+                }
                 updatedTime = true;
             }
             
-            if (projectile.timeLeft >= 80)
+            if (projectile.timeLeft >= (updatedTime ? 80 : 6))
             {
                 for (int i = 0; i < 5; i++)
                 {
