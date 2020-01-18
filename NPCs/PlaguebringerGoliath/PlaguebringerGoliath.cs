@@ -169,8 +169,10 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             if (!Main.player[npc.target].ZoneJungle && !CalamityWorld.bossRushActive)
                 jungleEnrage = true;
 
-            // Despawn
-            if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 5600f)
+			bool diagonalDash = revenge && ((double)npc.life <= (double)npc.lifeMax * 0.8 || death);
+
+			// Despawn
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 5600f)
             {
                 if (despawnTimer > 0)
                     despawnTimer--;
@@ -204,7 +206,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     }
 
                     while ((float)num596 == num595);
-                    if (num596 == 0 && revenge && ((double)npc.life <= (double)npc.lifeMax * 0.8 || death) && distFromPlayer.Length() < 1800f)
+                    if (num596 == 0 && diagonalDash && distFromPlayer.Length() < 1800f)
                     {
                         switch (Main.rand.Next(3))
                         {
@@ -248,18 +250,21 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
                     if (Math.Abs(npc.position.Y + (float)(npc.height / 2) - (Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - (float)chargeDistance)) < 40f)
                     {
-                        switch (Main.rand.Next(3))
-                        {
-                            case 0:
-                                chargeDistance = 0;
-                                break;
-                            case 1:
-                                chargeDistance = 400;
-                                break;
-                            case 2:
-                                chargeDistance = -400;
-                                break;
-                        }
+						if (diagonalDash)
+						{
+							switch (Main.rand.Next(3))
+							{
+								case 0:
+									chargeDistance = 0;
+									break;
+								case 1:
+									chargeDistance = 400;
+									break;
+								case 2:
+									chargeDistance = -400;
+									break;
+							}
+						}
 
                         charging = true;
 
