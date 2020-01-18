@@ -11,6 +11,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class StellarKnifeProj : ModProjectile
     {
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Stellar Knife");
@@ -25,6 +26,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.friendly = true;
             projectile.penetrate = 1;
             projectile.timeLeft = 600;
+            projectile.tileCollide = true;
             projectile.Calamity().rogue = true;
         }
 
@@ -33,7 +35,6 @@ namespace CalamityMod.Projectiles.Rogue
             if (projectile.ai[0] == 1f)
             {
                 projectile.ai[0] = 0f;
-                projectile.tileCollide = false;
                 projectile.damage = (int)((double) projectile.damage * (projectile.ai[1] == 1f ? 0.9f : 0.75f));
                 projectile.ai[1] = 0f;
             }

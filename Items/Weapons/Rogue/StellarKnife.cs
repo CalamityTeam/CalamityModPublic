@@ -8,11 +8,12 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class StellarKnife : RogueWeapon
     {
+        int knifeCount = 20;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Stellar Knife");
             Tooltip.SetDefault("Throws knives that stop middair and then home into enemies\n" +
-                               "Stealth strikes throw a volley of 20 knives in a spread" +
+                               "Stealth strikes throw a volley of " + knifeCount + " knives in a spread" +
                                "Za Warudo");
         }
 
@@ -41,13 +42,12 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             if (player.Calamity().StealthStrikeAvailable())
             {
-                int knifeCount = 20;
                 int spread = 20;
                 for (int i = 0; i < knifeCount; i++)
                 {
-                    speedX *= 0.8f;
+                    speedX *= 0.9f;
                     Vector2 perturbedspeed = new Vector2(speedX, speedY + Main.rand.Next(-3, 4)).RotatedBy(MathHelper.ToRadians(spread));
-                    Projectile.NewProjectile(position, perturbedspeed, type, damage, knockBack, player.whoAmI, 1f, i % 5 == 0 ? 1f : 0f);
+                    Projectile.NewProjectile(position, perturbedspeed, type, damage, knockBack, player.whoAmI, 1f, i %5 == 0 ? 1f : 0f);
                     spread -= Main.rand.Next(1, 3);
                 }
                 return false;
