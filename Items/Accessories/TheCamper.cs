@@ -27,8 +27,8 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 26;
             item.height = 26;
-            item.value = Item.buyPrice(0, 16, 0, 0); 
-            item.rare = 9;
+            item.value = Item.buyPrice(0, 12, 0, 0); 
+            item.rare = 7;
             item.accessory = true;
             item.defense = 10;
         }
@@ -87,7 +87,7 @@ namespace CalamityMod.Items.Accessories
                         }
                         else if (ranged)
                         {
-                            player.ammoBox = true;
+                            player.AddBuff(BuffID.AmmoBox, 60, true);
                         }
                         else if (magic)
                         {
