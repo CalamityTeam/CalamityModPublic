@@ -17,7 +17,9 @@ namespace CalamityMod.Items.DifficultyItems
                 "Allows certain bosses to spawn naturally.\n" +
                 "Increases enemy damage by 15% and spawn rates by 25%.\n" +
                 "Nerfs the effectiveness of life steal.\n" +
-                "Greatly increases the effectiveness of Rage and Adrenaline.\n" +
+                "Makes the abyss more treachorous to navigate.\n" +
+                "Nurse no longer heals while a boss is alive.\n" +
+                "Increases damage done by several debuffs.\n" +
                 "Effect can be toggled on and off.\n" +
                 "Effect will only work if Revengeance Mode is active.\n" +
                 "Using this while a boss is alive will instantly kill you and despawn the boss.");
