@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Stellar Knife");
             Tooltip.SetDefault("Throws knives that stop middair and then home into enemies\n" +
-                               "Stealth strikes throw a volley of " + knifeCount + " knives in a spread" +
+                               "Stealth strikes throw a volley of " + knifeCount + " knives in a spread\n" +
                                "Za Warudo");
         }
 
