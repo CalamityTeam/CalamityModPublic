@@ -303,6 +303,17 @@ namespace CalamityMod.Items
                     }
                 }
             }
+			if (item.type == ItemID.StarCannon)
+			{
+				Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY)) * 5f;
+				if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0))
+				{
+					position += muzzleOffset;
+				}
+				Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<FallenStarProj>(), damage, knockBack, player.whoAmI);
+				Main.PlaySound(SoundID.Item11.WithPitchVariance(0.05f), position); // <--- This is optional; if using, add "item.UseSound = null" to GlobalItem.SetDefaults when checking for the Star Cannon's ID
+				return false;
+			}
             return true;
         }
         #endregion

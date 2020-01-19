@@ -1,5 +1,6 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Potions;
+using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -31,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.UseSound = SoundID.Item9;
             item.autoReuse = true;
-            item.shoot = 12;
+            item.shoot = ModContent.ProjectileType<FallenStarProj>();
             item.shootSpeed = 15f;
             item.useAmmo = AmmoID.FallenStar;
         }
@@ -51,6 +52,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 switch (Main.rand.Next(3))
                 {
                     case 0:
+                        type = ModContent.ProjectileType<FallenStarProj>();
                         break;
                     case 1:
                         type = 9;
