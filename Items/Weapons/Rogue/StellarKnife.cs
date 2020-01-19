@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class StellarKnife : RogueWeapon
     {
-        int knifeCount = 20;
+        int knifeCount = 10;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Stellar Knife");
