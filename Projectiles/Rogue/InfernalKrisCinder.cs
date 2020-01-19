@@ -53,6 +53,11 @@ namespace CalamityMod.Projectiles.Rogue
             target.AddBuff(BuffID.OnFire, 120);
         }
 
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(BuffID.OnFire, 120);
+        }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             // If this is a stealth strike, make the blade glow orange

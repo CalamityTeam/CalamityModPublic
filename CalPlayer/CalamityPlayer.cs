@@ -56,24 +56,6 @@ namespace CalamityMod.CalPlayer
     public class CalamityPlayer : ModPlayer
     {
 
-        #region Camper Cleanup
-        private void camperCleanup()
-        {
-            if (!camper && camperIgnore.Count > 0)
-            {
-                for (int i = 0; i < Main.maxNPCs; i++)
-                {
-                    if (camperIgnore.ContainsKey(Main.npc[i]))
-                    {
-                        Main.npc[i].chaseable = camperIgnore[Main.npc[i]].Contains("chase");
-                        Main.npc[i].dontTakeDamage = camperIgnore[Main.npc[i]].Contains("nodmg");
-                    }
-                }
-                camperIgnore.Clear();
-            }
-        }
-        #endregion
-
         #region Variables
         // No Category
         public static bool areThereAnyDamnBosses = false;
@@ -427,7 +409,6 @@ namespace CalamityMod.CalPlayer
         public int plaguedFuelPackDirection = 0;
         public bool veneratedLocket = false;
         public bool camper = false;
-        public Dictionary<NPC, String> camperIgnore = new Dictionary<NPC, String>();
 
         // Armor Set
         public bool victideSet = false;
@@ -552,6 +533,7 @@ namespace CalamityMod.CalPlayer
         public bool bOut = false;
         public bool clamity = false;
         public bool sulphurPoison = false;
+        public bool nightwither = false;
 
         // Buff
         public bool trinketOfChiBuff = false;
@@ -1268,7 +1250,6 @@ namespace CalamityMod.CalPlayer
             spectralVeil = false;
             plaguedFuelPack = false;
             camper = false;
-            camperCleanup();
 
 			alcoholPoisoning = false;
             shadowflame = false;
@@ -1299,6 +1280,7 @@ namespace CalamityMod.CalPlayer
             enraged = false;
             snowmanNoseless = false;
             sulphurPoison = false;
+            nightwither = false;
 
 			revivify = false;
             trinketOfChiBuff = false;
@@ -1484,7 +1466,15 @@ namespace CalamityMod.CalPlayer
             theBeeDamage = 0;
             reforges = 0;
             polarisBoostCounter = 0;
+            sandCloakCooldown = 0;
+            spectralVeilImmunity = 0;
+            plaguedFuelPackCooldown = 0;
+            plaguedFuelPackDash = 0;
+            plaguedFuelPackDirection = 0;
 			killSpikyBalls = false;
+            moonCrownCooldown = 0;
+            featherCrownCooldown = 0;
+            nanoFlareCooldown = 0;
 
 			alcoholPoisoning = false;
             shadowflame = false;
@@ -1521,15 +1511,8 @@ namespace CalamityMod.CalPlayer
             inkBombCooldown = false;
             abyssalMirrorCooldown = false;
             eclipseMirrorCooldown = false;
-            moonCrownCooldown = 0;
-            featherCrownCooldown = 0;
-            nanoFlareCooldown = 0;
             sulphurPoison = false;
-            sandCloakCooldown = 0;
-            spectralVeilImmunity = 0;
-            plaguedFuelPackCooldown = 0;
-            plaguedFuelPackDash = 0;
-            plaguedFuelPackDirection = 0;
+            nightwither = false;
             #endregion
 
             #region Rogue
@@ -2857,12 +2840,6 @@ namespace CalamityMod.CalPlayer
 
         #region PostUpdate
 
-        public override void PostUpdate()
-        {
-            if (camperIgnore.Count > 0 && (!camper || (player.velocity.X <= 0.5f && player.velocity.Y <= 0.5f)))
-                camperCleanup();
-        }
-
         public override void PostUpdateMiscEffects()
         {
 			CalamityPlayerMiscEffects.CalamityPostUpdateMiscEffects(player, mod);
@@ -3234,6 +3211,10 @@ namespace CalamityMod.CalPlayer
                     damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s infection spread too far.");
                 else
                     damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s skin was replaced by the astral virus.");
+            }
+            if (nightwither && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
+            {
+                damageSource = PlayerDeathReason.ByCustomReason(player.name + " was incinerated by lunar rays.");
             }
             if (manaOverloader && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
             {
@@ -5338,16 +5319,9 @@ namespace CalamityMod.CalPlayer
 
         public override bool? CanHitNPC(Item item, NPC target)
         {
-            if (camper && !((double)Math.Abs(player.velocity.X) < 0.05 && (double)Math.Abs(player.velocity.Y) < 0.05) && !camperIgnore.ContainsKey(target))
+            if (camper && ((double)Math.Abs(player.velocity.X) > 0.05 || (double)Math.Abs(player.velocity.Y) > 0.05))
             {
-                string context = "";
-                if (target.chaseable)
-                    context += "chase ";
-                if (target.dontTakeDamage)
-                    context += "nodmg";
-                target.chaseable = false;
-                target.dontTakeDamage = true;
-                camperIgnore.Add(target, context);
+
                 return false;
             }
             return null;
@@ -5355,16 +5329,9 @@ namespace CalamityMod.CalPlayer
 
         public override bool? CanHitNPCWithProj(Projectile proj, NPC target)
         {
-            if (camper && !((double)Math.Abs(player.velocity.X) < 0.05 && (double)Math.Abs(player.velocity.Y) < 0.05) && !camperIgnore.ContainsKey(target))
+            if (camper && ((double)Math.Abs(player.velocity.X) > 0.05 || (double)Math.Abs(player.velocity.Y) > 0.05))
             {
-                string context = "";
-                if (target.chaseable)
-                    context += "chase ";
-                if (target.dontTakeDamage)
-                    context += "nodmg";
-                target.chaseable = false;
-                target.dontTakeDamage = true;
-                camperIgnore.Add(target, context);
+
                 return false;
             }
             return null;
@@ -8074,6 +8041,24 @@ namespace CalamityMod.CalPlayer
                     r *= 0.07f;
                     g *= 0.15f;
                     b *= 0.01f;
+                    fullBright = true;
+                }
+            }
+            if (nightwither)
+            {
+                if (Main.rand.NextBool(4) && drawInfo.shadow == 0f)
+                {
+                    int dust = Dust.NewDust(drawInfo.position - new Vector2(2f, 2f), player.width + 4, player.height + 4, 176, player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 3f);
+                    Main.dust[dust].noGravity = true;
+                    Main.dust[dust].velocity *= 1.8f;
+                    Main.dust[dust].velocity.Y -= 0.5f;
+                    Main.playerDrawDust.Add(dust);
+                }
+                if (noRogueStealth)
+                {
+                    r *= 0.25f;
+                    g *= 0.25f;
+                    b *= 0.1f;
                     fullBright = true;
                 }
             }

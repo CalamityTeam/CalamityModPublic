@@ -84,5 +84,26 @@ namespace CalamityMod.Projectiles.Rogue
 				}
 			}
 		}
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+			float spread = 45f * 0.0174f;
+			double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
+			double deltaAngle = spread / 8f;
+			double offsetAngle;
+			int i;
+			if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<PhantasmalSoul>()] < 8)
+			{
+				for (i = 0; i < 8; i++)
+				{
+					float ai1 = Main.rand.NextFloat() + 0.5f;
+					float randomSpeed = (float)Main.rand.Next(1, 7);
+					float randomSpeed2 = (float)Main.rand.Next(1, 7);
+					offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
+					int num23 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f) + randomSpeed, ModContent.ProjectileType<PhantasmalSoul>(), (int)((double)projectile.damage * 0.05), 0f, projectile.owner, 1f, ai1);
+					int num24 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f) + randomSpeed2, ModContent.ProjectileType<PhantasmalSoul>(), (int)((double)projectile.damage * 0.05), 0f, projectile.owner, 1f, ai1);
+				}
+			}
+		}
     }
 }

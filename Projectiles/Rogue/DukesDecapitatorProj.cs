@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Rogue
 
 		public override void AI()
         {
-            CalamityPlayer modPlayer = Main.player[Main.myPlayer].Calamity();
+            CalamityPlayer modPlayer = Main.player[projectile.owner].Calamity();
 			if(projectile.velocity.X != 0 || projectile.velocity.Y != 0){
 				projectile.velocity.X *= 0.99f;
 				projectile.velocity.Y *= 0.99f;

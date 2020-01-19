@@ -75,5 +75,10 @@ namespace CalamityMod.Projectiles.Rogue
         {
             projectile.velocity *= 0.5f;
         }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            projectile.velocity *= 0.5f;
+        }
     }
 }

@@ -109,6 +109,27 @@ namespace CalamityMod.Projectiles.Rogue
             }
         }
 
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            grind += 5; //THE GRIND NEVER STOPS
+            if (grind >= 10)
+            {
+                grind = 10;
+            }
+            Player player = Main.player[projectile.owner];
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
+            if (projectile.ai[1] == 1f && projectile.owner == Main.myPlayer && grind >= 1) //stealth strike attack
+            {
+                int stealth = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<Blood>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+                Main.projectile[stealth].Calamity().forceRogue = true;
+            }
+            if (Main.rand.NextBool(2))
+            {
+                player.statLife += 1; //Trello said 2 hp per hit. Sounds like a fat balancing problem.
+                player.HealEffect(1);
+            }
+        }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) //afterimages
         {
             CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);

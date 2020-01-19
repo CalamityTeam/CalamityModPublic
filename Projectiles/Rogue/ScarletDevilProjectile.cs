@@ -83,8 +83,23 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 return;
             }
-            Main.player[Main.myPlayer].statLife += 120;
-            Main.player[Main.myPlayer].HealEffect(120);
+            Main.player[projectile.owner].statLife += 120;
+            Main.player[projectile.owner].HealEffect(120);
+        }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            projectile.position = projectile.Center;
+            projectile.width = projectile.height = 150;
+            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
+            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ScarletBlast>(), (int)((double)projectile.damage * 0.0075), 0f, projectile.owner, 0f, 0f);
+            if (!lifesteal)
+            {
+                return;
+            }
+            Main.player[projectile.owner].statLife += 120;
+            Main.player[projectile.owner].HealEffect(120);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

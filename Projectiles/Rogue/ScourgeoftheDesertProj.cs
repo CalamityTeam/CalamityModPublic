@@ -36,7 +36,21 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 if (StealthDamageCap == 0)
                 {
-                    BaseDamage = damage;
+                    BaseDamage = projectile.damage;
+                }
+
+                projectile.damage = (int)((BaseDamage * ((StealthDamageCap > 10 ? 10 : StealthDamageCap) * 20) / 100) + BaseDamage); //20% damage boost per hit, max of 200%
+                StealthDamageCap++;
+            }
+        }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            if (projectile.Calamity().stealthStrike)
+            {
+                if (StealthDamageCap == 0)
+                {
+                    BaseDamage = projectile.damage;
                 }
 
                 projectile.damage = (int)((BaseDamage * ((StealthDamageCap > 10 ? 10 : StealthDamageCap) * 20) / 100) + BaseDamage); //20% damage boost per hit, max of 200%

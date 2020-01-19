@@ -39,7 +39,8 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 if (projectile.owner == Main.myPlayer)
                 {
-                    Projectile.NewProjectile(projectile.position, new Vector2(projectile.velocity.X / 20, 2), ModContent.ProjectileType<StickyFeatherAero>(), (int)((double)projectile.damage * 0.4), projectile.knockBack, projectile.owner);
+                    int proj = Projectile.NewProjectile(projectile.position, new Vector2(projectile.velocity.X / 20, 2), ModContent.ProjectileType<StickyFeatherAero>(), (int)((double)projectile.damage * 0.4), projectile.knockBack, projectile.owner);
+					Main.projectile[proj].Calamity().forceRogue = true;
                 }
                 featherTimer = 35;
             }
@@ -48,7 +49,8 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            Projectile.NewProjectile(projectile.position, new Vector2(projectile.velocity.X / 20, 2), ModContent.ProjectileType<StickyFeatherAero>(), (int)((double)projectile.damage * 0.69), projectile.knockBack, projectile.owner);
+            int proj = Projectile.NewProjectile(projectile.position, new Vector2(projectile.velocity.X / 20, 2), ModContent.ProjectileType<StickyFeatherAero>(), (int)((double)projectile.damage * 0.69), projectile.knockBack, projectile.owner);
+			Main.projectile[proj].Calamity().forceRogue = true;
         }
 
         public override void Kill(int timeLeft)

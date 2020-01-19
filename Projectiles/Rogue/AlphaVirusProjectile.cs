@@ -86,6 +86,27 @@ namespace CalamityMod.Projectiles.Rogue
             }
         }
 
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            float dist1 = Vector2.Distance(projectile.Center, target.Hitbox.TopLeft());
+            float dist2 = Vector2.Distance(projectile.Center, target.Hitbox.TopRight());
+            float dist3 = Vector2.Distance(projectile.Center, target.Hitbox.BottomLeft());
+            float dist4 = Vector2.Distance(projectile.Center, target.Hitbox.BottomRight());
+
+            float minDist = dist1;
+            if (dist2 < minDist)
+                minDist = dist2;
+            if (dist3 < minDist)
+                minDist = dist3;
+            if (dist4 < minDist)
+                minDist = dist4;
+
+            if (minDist <= projectile.width)
+            {
+                target.AddBuff(ModContent.BuffType<Plague>(), 120);
+            }
+        }
+
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
 			if (target.type == ModContent.NPCType<StormWeaverHeadNaked>() || target.type == ModContent.NPCType<StormWeaverBodyNaked>() || target.type == ModContent.NPCType<StormWeaverTailNaked>())

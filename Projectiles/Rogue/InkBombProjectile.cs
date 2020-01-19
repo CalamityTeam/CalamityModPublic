@@ -38,6 +38,11 @@ namespace CalamityMod.Projectiles.Rogue
                 CreateInk();
         }
 
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            CreateInk();
+        }
+
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             CreateInk();

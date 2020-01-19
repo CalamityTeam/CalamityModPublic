@@ -58,6 +58,15 @@ namespace CalamityMod.Projectiles.Rogue
 			}
         }
 
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(BuffID.Venom, 600);
+            if (projectile.Calamity().stealthStrike == true) //stealth strike attack
+            {
+				target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 600);
+			}
+        }
+
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);

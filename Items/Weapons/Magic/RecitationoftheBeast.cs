@@ -1,6 +1,5 @@
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Items.Materials;
-using CalamityMod.Tiles.Furniture.CraftingStations;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -62,7 +61,7 @@ namespace CalamityMod.Items.Weapons.Magic
             recipe.AddIngredient(ItemID.DemonScythe);
             recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 17);
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddTile(TileID.Bookcases);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
