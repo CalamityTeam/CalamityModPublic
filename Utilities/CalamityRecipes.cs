@@ -777,6 +777,13 @@ namespace CalamityMod
             });
             RecipeGroup.RegisterGroup("AnyEvilOre", group);
 
+            group = new RecipeGroup(() => "Any Evil Block", new int[]
+            {
+                ItemID.EbonstoneBlock,
+                ItemID.CrimstoneBlock
+            });
+            RecipeGroup.RegisterGroup("AnyEvilBlock", group);
+
             group = new RecipeGroup(() => "Any Evil Bar", new int[]
             {
                 ItemID.DemoniteBar,
