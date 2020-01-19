@@ -8152,10 +8152,20 @@ namespace CalamityMod.CalPlayer
                 }
             }
 		}
-        #endregion
+		#endregion
 
-        #region Nurse Modifications
-        public override void ModifyNursePrice(NPC nurse, int health, bool removeDebuffs, ref int price)
+		#region Nurse Modifications
+		public override bool ModifyNurseHeal(NPC nurse, ref int health, ref bool removeDebuffs, ref string chatText)
+		{
+			if (CalamityWorld.death && areThereAnyDamnBosses)
+			{
+				chatText = "Now is not the time!";
+				return false;
+			}
+			return true;
+		}
+
+		public override void ModifyNursePrice(NPC nurse, int health, bool removeDebuffs, ref int price)
         {
             // In Rev+, nurse costs scale as the game progresses.
             // Base:            300     3 silver

@@ -230,14 +230,9 @@ namespace CalamityMod.NPCs.Yharon
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
             bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
             bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
-            bool phase2Check = (double)npc.life <= (double)npc.lifeMax * (revenge ? 0.85 : 0.7);
-            bool phase3Check = (double)npc.life <= (double)npc.lifeMax * (revenge ? 0.6 : 0.4);
+            bool phase2Check = (double)npc.life <= (double)npc.lifeMax * (revenge ? 0.8 : 0.7);
+            bool phase3Check = (double)npc.life <= (double)npc.lifeMax * (revenge ? 0.5 : 0.4);
             bool phase4Check = (double)npc.life <= (double)npc.lifeMax * (revenge ? 0.25 : 0.2);
-            if (death)
-            {
-                phase2Check = (double)npc.life <= (double)npc.lifeMax * 0.95;
-                phase3Check = (double)npc.life <= (double)npc.lifeMax * 0.9;
-            }
             bool phase5Check = (double)npc.life <= (double)npc.lifeMax * 0.1;
             bool phase2Change = npc.ai[0] > 5f;
             bool phase3Change = npc.ai[0] > 12f;
@@ -300,6 +295,19 @@ namespace CalamityMod.NPCs.Yharon
                     chargeSpeed2 = 39f;
                 }
             }
+
+			if (revenge)
+			{
+				int chargeTimeDecrease = death ? 4 : 2;
+				float velocityMult = death ? 1.1f : 1.05f;
+				aiChangeRate -= chargeTimeDecrease;
+				npcVelocity *= velocityMult;
+				scaleFactor *= velocityMult;
+				chargeTime -= chargeTimeDecrease;
+				chargeTime2 -= chargeTimeDecrease;
+				chargeSpeed *= velocityMult;
+				chargeSpeed2 *= velocityMult;
+			}
 
             // Variables for charging and etc.
             int xPos = npc.direction == 1 ? 25 : -25;
@@ -1835,21 +1843,9 @@ namespace CalamityMod.NPCs.Yharon
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
             bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
             bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
-            bool phase2 = (double)npc.life <= (double)npc.lifeMax * 0.75;
-            bool phase3 = (double)npc.life <= (double)npc.lifeMax * 0.5;
-            bool phase4 = (double)npc.life <= (double)npc.lifeMax * 0.1;
-            if (death)
-            {
-                phase2 = (double)npc.life <= (double)npc.lifeMax * 0.95;
-                phase3 = (double)npc.life <= (double)npc.lifeMax * 0.9;
-                phase4 = (double)npc.life <= (double)npc.lifeMax * 0.35;
-            }
-            else if (revenge)
-            {
-                phase2 = (double)npc.life <= (double)npc.lifeMax * 0.85;
-                phase3 = (double)npc.life <= (double)npc.lifeMax * 0.6;
-                phase4 = (double)npc.life <= (double)npc.lifeMax * 0.2;
-            }
+            bool phase2 = (double)npc.life <= (double)npc.lifeMax * (revenge ? 0.85 : 0.75);
+            bool phase3 = (double)npc.life <= (double)npc.lifeMax * (revenge ? 0.6 : 0.5);
+            bool phase4 = (double)npc.life <= (double)npc.lifeMax * (revenge ? 0.2 : 0.1);
             if (npc.ai[0] != 8f)
             {
                 npc.alpha -= 25;
@@ -1945,36 +1941,49 @@ namespace CalamityMod.NPCs.Yharon
             {
                 num4 = (int)((double)num4 * 1.1);
             }
-            float num6 = revenge ? 0.6f : 0.55f;
-            float scaleFactor = revenge ? 10.5f : 9f;
+            float num6 = 0.575f;
+            float scaleFactor = 10f;
             float chargeTime = 34f;
             float chargeTime2 = 30f;
-            float chargeSpeed = revenge ? 27f : 25f;
-            float chargeSpeed2 = revenge ? 41f : 38f;
+            float chargeSpeed = 25.75f;
+            float chargeSpeed2 = 39f;
             float num11 = 40f;
-            float num12 = 80f;
-            float num13 = num11 + num12;
+            float num13 = num11 + 80f;
             float num15 = 60f;
             float scaleFactor3 = 14f;
-            float scaleFactor4 = revenge ? 16.5f : 15f; //12
+            float scaleFactor4 = 15.75f;
             int num16 = 10;
             int num17 = 6 * num16;
             float num18 = 60f;
             float num19 = num15 + (float)num17 + num18;
             float num20 = 60f;
-            float num21 = 1f;
-            float num22 = 6.28318548f * (num21 / num20);
-            float scaleFactor5 = revenge ? 39f : 36.5f; //32
-            if (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+            float num22 = 6.28318548f * (1f / num20);
+            float scaleFactor5 = 37.25f;
+			if (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
             {
-                num6 = 0.65f;
-                scaleFactor = 11f;
+                num6 = 0.7f;
+                scaleFactor = 12f;
+				chargeTime = 28f;
+				chargeTime2 = 24f;
                 chargeSpeed = 32f;
                 chargeSpeed2 = 45f;
-                scaleFactor4 = 18f;
-                scaleFactor5 = 40f;
+                scaleFactor4 = 20f;
+                scaleFactor5 = 43f;
             }
-            float num25 = 20f;
+			else if (revenge)
+			{
+				float chargeTimeDecrease = death ? 4f : 2f;
+				float velocityMult = death ? 1.1f : 1.05f;
+				num6 *= velocityMult;
+				scaleFactor *= velocityMult;
+				chargeTime -= chargeTimeDecrease;
+				chargeTime2 -= chargeTimeDecrease;
+				chargeSpeed *= velocityMult;
+				chargeSpeed2 *= velocityMult;
+				scaleFactor4 *= velocityMult;
+				scaleFactor5 *= velocityMult;
+			}
+			float num25 = 20f;
             float arg_F9_0 = npc.ai[0];
             float num26;
             if (npc.ai[0] == 0f)

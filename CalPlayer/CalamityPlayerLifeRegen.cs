@@ -16,15 +16,55 @@ namespace CalamityMod.CalPlayer
             Point point = player.Center.ToTileCoordinates();
             CalamityPlayer modPlayer = player.Calamity();
 
-            // Initial Debuffs
+			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
+			int lifeRegenMult = death ? 2 : 1;
+			int lifeRegenLost = 0;
 
+            // Initial Debuffs
+			
+			// Vanilla
+			if (death)
+			{
+				if (player.poisoned)
+					lifeRegenLost += 4;
+
+				if (player.onFire)
+					lifeRegenLost += 8;
+
+				if (player.tongued)
+					lifeRegenLost += 100;
+
+				if (player.venom)
+					lifeRegenLost += 12;
+
+				if (player.onFrostBurn)
+					lifeRegenLost += 12;
+
+				if (player.onFire2)
+					lifeRegenLost += 12;
+
+				if (player.burned)
+					lifeRegenLost += 60;
+
+				if (player.suffocating)
+					lifeRegenLost += 40;
+
+				if (player.electrified)
+				{
+					lifeRegenLost += 8;
+					if (player.controlLeft || player.controlRight)
+						lifeRegenLost += 32;
+				}
+			}
+
+			// Calamity
             if (modPlayer.shadowflame)
             {
                 if (player.lifeRegen > 0)
                     player.lifeRegen = 0;
 
                 player.lifeRegenTime = 0;
-                player.lifeRegen -= 30;
+				lifeRegenLost += 30;
             }
 
             if (modPlayer.wDeath)
@@ -41,7 +81,7 @@ namespace CalamityMod.CalPlayer
                     player.lifeRegen = 0;
 
                 player.lifeRegenTime = 0;
-                player.lifeRegen -= 16;
+				lifeRegenLost += 16;
             }
 
             if (modPlayer.bFlames)
@@ -50,7 +90,7 @@ namespace CalamityMod.CalPlayer
                     player.lifeRegen = 0;
 
                 player.lifeRegenTime = 0;
-                player.lifeRegen -= 16;
+				lifeRegenLost += 16;
             }
 
             if (modPlayer.ZoneCalamity && player.lavaWet)
@@ -59,7 +99,7 @@ namespace CalamityMod.CalPlayer
                     player.lifeRegen = 0;
 
                 player.lifeRegenTime = 0;
-                player.lifeRegen -= 30;
+				lifeRegenLost += 30;
             }
 
             if (modPlayer.gsInferno)
@@ -68,7 +108,7 @@ namespace CalamityMod.CalPlayer
                     player.lifeRegen = 0;
 
                 player.lifeRegenTime = 0;
-                player.lifeRegen -= 30;
+				lifeRegenLost += 30;
             }
 
             if (modPlayer.astralInfection)
@@ -77,7 +117,7 @@ namespace CalamityMod.CalPlayer
                     player.lifeRegen = 0;
 
                 player.lifeRegenTime = 0;
-                player.lifeRegen -= 20;
+				lifeRegenLost += 20;
             }
 
             if (modPlayer.ZoneSulphur && Collision.DrownCollision(player.position, player.width, player.height, player.gravDir) && !modPlayer.aquaticScourgeLore)
@@ -89,10 +129,10 @@ namespace CalamityMod.CalPlayer
                     player.lifeRegen = 0;
 
                 player.lifeRegenTime = 0;
-                player.lifeRegen -= modPlayer.pissWaterBoost / 250;
+				lifeRegenLost += (modPlayer.pissWaterBoost / 250);
 
-                if (player.lifeRegen < -8)
-                    player.lifeRegen = -8;
+                if (lifeRegenLost < -8)
+                    lifeRegenLost = -8;
             }
             else
                 modPlayer.pissWaterBoost = 0;
@@ -103,7 +143,7 @@ namespace CalamityMod.CalPlayer
                     player.lifeRegen = 0;
 
                 player.lifeRegenTime = 0;
-                player.lifeRegen -= 12;
+				lifeRegenLost += 12;
             }
 
             if (modPlayer.hFlames)
@@ -112,7 +152,7 @@ namespace CalamityMod.CalPlayer
                     player.lifeRegen = 0;
 
                 player.lifeRegenTime = 0;
-                player.lifeRegen -= 20;
+				lifeRegenLost += 20;
             }
 
             if (modPlayer.pFlames)
@@ -121,7 +161,7 @@ namespace CalamityMod.CalPlayer
                     player.lifeRegen = 0;
 
                 player.lifeRegenTime = 0;
-                player.lifeRegen -= 20;
+				lifeRegenLost += 20;
             }
 
             if (modPlayer.bBlood)
@@ -130,7 +170,7 @@ namespace CalamityMod.CalPlayer
                     player.lifeRegen = 0;
 
                 player.lifeRegenTime = 0;
-                player.lifeRegen -= 8;
+				lifeRegenLost += 8;
             }
 
             if (modPlayer.vHex)
@@ -139,7 +179,7 @@ namespace CalamityMod.CalPlayer
                     player.lifeRegen = 0;
 
                 player.lifeRegenTime = 0;
-                player.lifeRegen -= 16;
+				lifeRegenLost += 16;
             }
 
             if (modPlayer.cDepth)
@@ -157,21 +197,21 @@ namespace CalamityMod.CalPlayer
                         player.lifeRegen = 0;
 
                     player.lifeRegenTime = 0;
-                    player.lifeRegen -= calcDepthDamage;
+					lifeRegenLost += calcDepthDamage;
                 }
             }
 
 			if (modPlayer.vodka)
 			{
 				modPlayer.alcoholPoisonLevel++;
-				player.lifeRegen -= 1;
+				lifeRegenLost += 1;
 			}
 			if (modPlayer.redWine)
 			{
 				modPlayer.alcoholPoisonLevel++;
-				player.lifeRegen -= 1;
+				lifeRegenLost += 1;
 				if (modPlayer.baguette)
-					player.lifeRegen -= 3;
+					lifeRegenLost += 3;
 			}
 			if (modPlayer.grapeBeer)
 			{
@@ -180,7 +220,7 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.moonshine)
 			{
 				modPlayer.alcoholPoisonLevel++;
-				player.lifeRegen -= 1;
+				lifeRegenLost += 1;
 			}
 			if (modPlayer.rum)
 			{
@@ -189,7 +229,7 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.fireball)
 			{
 				modPlayer.alcoholPoisonLevel++;
-				player.lifeRegen -= 1;
+				lifeRegenLost += 1;
 			}
 			if (modPlayer.whiskey)
 			{
@@ -198,27 +238,27 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.everclear)
 			{
 				modPlayer.alcoholPoisonLevel += 2;
-				player.lifeRegen -= 10;
+				lifeRegenLost += 10;
 			}
 			if (modPlayer.bloodyMary)
 			{
 				modPlayer.alcoholPoisonLevel++;
-				player.lifeRegen -= 2;
+				lifeRegenLost += 2;
 			}
 			if (modPlayer.tequila)
 			{
 				modPlayer.alcoholPoisonLevel++;
-				player.lifeRegen -= 1;
+				lifeRegenLost += 1;
 			}
 			if (modPlayer.tequilaSunrise)
 			{
 				modPlayer.alcoholPoisonLevel++;
-				player.lifeRegen -= 1;
+				lifeRegenLost += 1;
 			}
 			if (modPlayer.screwdriver)
 			{
 				modPlayer.alcoholPoisonLevel++;
-				player.lifeRegen -= 1;
+				lifeRegenLost += 1;
 			}
 			if (modPlayer.caribbeanRum)
 			{
@@ -231,27 +271,27 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.margarita)
 			{
 				modPlayer.alcoholPoisonLevel++;
-				player.lifeRegen -= 1;
+				lifeRegenLost += 1;
 			}
 			if (modPlayer.starBeamRye)
 			{
 				modPlayer.alcoholPoisonLevel++;
-				player.lifeRegen -= 1;
+				lifeRegenLost += 1;
 			}
 			if (modPlayer.moscowMule)
 			{
 				modPlayer.alcoholPoisonLevel++;
-				player.lifeRegen -= 2;
+				lifeRegenLost += 2;
 			}
 			if (modPlayer.whiteWine)
 			{
 				modPlayer.alcoholPoisonLevel++;
-				player.lifeRegen -= 1;
+				lifeRegenLost += 1;
 			}
 			if (modPlayer.evergreenGin)
 			{
 				modPlayer.alcoholPoisonLevel++;
-				player.lifeRegen -= 1;
+				lifeRegenLost += 1;
 			}
 			if (modPlayer.alcoholPoisonLevel > 3)
 			{
@@ -262,14 +302,16 @@ namespace CalamityMod.CalPlayer
 					player.lifeRegen = 0;
 
 				player.lifeRegenTime = 0;
-				player.lifeRegen -= 3 * modPlayer.alcoholPoisonLevel;
+				lifeRegenLost += 3 * modPlayer.alcoholPoisonLevel;
 			}
 
 			if (modPlayer.manaOverloader)
 			{
 				if (player.statMana > (int)((double)player.statManaMax2 * 0.5))
-					player.lifeRegen -= 3;
+					lifeRegenLost += 3;
 			}
+
+			player.lifeRegen -= lifeRegenLost * lifeRegenMult;
 
 			// Buffs
 
@@ -395,7 +437,7 @@ namespace CalamityMod.CalPlayer
                     if (player.lavaRose)
                         lifeRegenDown = 3;
 
-                    player.lifeRegen -= lifeRegenDown;
+                    player.lifeRegen -= lifeRegenDown * lifeRegenMult;
                 }
             }
 
@@ -407,7 +449,7 @@ namespace CalamityMod.CalPlayer
                     player.lifeRegen = 0;
 
                 player.lifeRegenTime = 0;
-                player.lifeRegen -= modPlayer.hInfernoBoost;
+                player.lifeRegen -= modPlayer.hInfernoBoost * lifeRegenMult;
 
                 if (player.lifeRegen < -200)
                     player.lifeRegen = -200;
@@ -425,7 +467,7 @@ namespace CalamityMod.CalPlayer
 							player.lifeRegen = 0;
 
 						player.lifeRegenTime = 0;
-						player.lifeRegen -= 160;
+						player.lifeRegen -= 160 * lifeRegenMult;
 					}
 				}
 			}

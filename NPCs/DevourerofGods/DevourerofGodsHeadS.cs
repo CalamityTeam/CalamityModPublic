@@ -307,63 +307,48 @@ namespace CalamityMod.NPCs.DevourerofGods
                     float speed = 4f;
                     int divisor = CalamityWorld.bossRushActive ? 90 : 120;
 
-                    if (laserShoot % divisor == 0)
-                    {
-                        Main.PlaySound(2, (int)Main.player[npc.target].position.X, (int)Main.player[npc.target].position.Y, 12);
+					if (laserShoot % divisor == 0)
+					{
+						Main.PlaySound(2, (int)Main.player[npc.target].position.X, (int)Main.player[npc.target].position.Y, 12);
 
-                        float targetPosY = Main.player[npc.target].position.Y + (Main.rand.NextBool(2) ? 50f : 0f);
+						float targetPosY = Main.player[npc.target].position.Y + (Main.rand.NextBool(2) ? 50f : 0f);
 
-                        // Side walls
-                        for (int x = 0; x < totalShots; x++)
-                        {
-                            Projectile.NewProjectile(Main.player[npc.target].position.X + 1000f, targetPosY + (float)shotSpacing[0], -speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
-                            Projectile.NewProjectile(Main.player[npc.target].position.X - 1000f, targetPosY + (float)shotSpacing[0], speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
-                            shotSpacing[0] -= spacingVar;
-                        }
+						// Side walls
+						for (int x = 0; x < totalShots; x++)
+						{
+							Projectile.NewProjectile(Main.player[npc.target].position.X + 1000f, targetPosY + (float)shotSpacing[0], -speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+							Projectile.NewProjectile(Main.player[npc.target].position.X - 1000f, targetPosY + (float)shotSpacing[0], speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+							shotSpacing[0] -= spacingVar;
+						}
 
-                        if (Main.rand.NextBool(2) && revenge)
-                        {
-                            for (int x = 0; x < 10; x++)
-                            {
-                                Projectile.NewProjectile(Main.player[npc.target].position.X + 1000f, targetPosY + (float)shotSpacing[3], -speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
-                                Projectile.NewProjectile(Main.player[npc.target].position.X - 1000f, targetPosY + (float)shotSpacing[3], speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
-                                shotSpacing[3] -= Main.rand.NextBool(2) ? 180 : 200;
-                            }
-                            shotSpacing[3] = 1050;
-                        }
-                        shotSpacing[0] = 1050;
+						if (Main.rand.NextBool(2) && revenge)
+						{
+							for (int x = 0; x < 10; x++)
+							{
+								Projectile.NewProjectile(Main.player[npc.target].position.X + 1000f, targetPosY + (float)shotSpacing[3], -speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+								Projectile.NewProjectile(Main.player[npc.target].position.X - 1000f, targetPosY + (float)shotSpacing[3], speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+								shotSpacing[3] -= Main.rand.NextBool(2) ? 180 : 200;
+							}
+							shotSpacing[3] = 1050;
+						}
+						shotSpacing[0] = 1050;
 
-                        // Lower wall
-                        for (int x = 0; x < totalShots; x++)
-                        {
-                            Projectile.NewProjectile(Main.player[npc.target].position.X + (float)shotSpacing[1], Main.player[npc.target].position.Y + 1000f, 0f, -speed, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
-                            shotSpacing[1] -= spacingVar;
-                        }
-                        shotSpacing[1] = 1050;
+						// Lower wall
+						for (int x = 0; x < totalShots; x++)
+						{
+							Projectile.NewProjectile(Main.player[npc.target].position.X + (float)shotSpacing[1], Main.player[npc.target].position.Y + 1000f, 0f, -speed, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+							shotSpacing[1] -= spacingVar;
+						}
+						shotSpacing[1] = 1050;
 
-                        // Upper wall
-                        if ((lifeRatio < 0.4f || death) && revenge)
-                        {
-                            if (shotSpacing[2] < 2100)
-                                shotSpacing[2] = 2100;
-
-                            for (int x = 0; x < 40; x++)
-                            {
-                                Projectile.NewProjectile(Main.player[npc.target].position.X + (float)shotSpacing[2], Main.player[npc.target].position.Y - 1000f, 0f, speed, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
-                                shotSpacing[2] -= spacingVar;
-                            }
-                            shotSpacing[2] = 2100;
-                        }
-                        else
-                        {
-                            for (int x = 0; x < totalShots; x++)
-                            {
-                                Projectile.NewProjectile(Main.player[npc.target].position.X + (float)shotSpacing[2], Main.player[npc.target].position.Y - 1000f, 0f, speed, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
-                                shotSpacing[2] -= spacingVar;
-                            }
-                            shotSpacing[2] = 1050;
-                        }
-                    }
+						// Upper wall
+						for (int x = 0; x < totalShots; x++)
+						{
+							Projectile.NewProjectile(Main.player[npc.target].position.X + (float)shotSpacing[2], Main.player[npc.target].position.Y - 1000f, 0f, speed, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+							shotSpacing[2] -= spacingVar;
+						}
+						shotSpacing[2] = 1050;
+					}
                 }
             }
 

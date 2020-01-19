@@ -309,6 +309,34 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
+			// Hot and cold effects
+			if (CalamityWorld.death)
+			{
+				if (player.whoAmI == Main.myPlayer)
+				{
+					bool hasMoltenSet = player.head == 9 && player.body == 9 && player.legs == 9;
+
+					bool immunityToHotAndCold = hasMoltenSet || player.magmaStone || player.frostArmor || modPlayer.fBulwark || modPlayer.fBarrier ||
+						modPlayer.frostFlare || modPlayer.rampartOfDeities || modPlayer.cryogenSoul || modPlayer.snowman;
+
+					bool immunityToCold = Main.campfire || player.resistCold || immunityToHotAndCold;
+
+					bool immunityToHot = player.lavaImmune || player.lavaRose || player.lavaMax != 0 || immunityToHotAndCold;
+
+					if (!player.behindBackWall && Main.raining && player.ZoneSnow && !immunityToCold)
+					{
+						player.AddBuff(BuffID.Chilled, 2, false);
+						if (player.wet && !player.lavaWet && !player.honeyWet && !player.arcticDivingGear)
+							player.AddBuff(BuffID.Frostburn, 2, false);
+					}
+
+					if (player.ZoneUnderworldHeight && !immunityToHot)
+					{
+						player.AddBuff(BuffID.OnFire, 2, false);
+					}
+				}
+			}
+
 			// Increase fall speed
 			if (!player.mount.Active)
 			{
@@ -1270,9 +1298,13 @@ namespace CalamityMod.CalPlayer
 					bool lightLevelTwo = lightStrength > 2; // 3+
 					bool lightLevelThree = lightStrength > 4; // 5+
 					bool lightLevelFour = lightStrength > 6; // 7+
+					int deathModeDarknessLevel = 0;
 
 					if (modPlayer.ZoneAbyssLayer4) // 3200 and below
 					{
+						if (CalamityWorld.death)
+							deathModeDarknessLevel = 200 - lightStrength * 25;
+
 						breathLoss = 54;
 						if (!lightLevelFour)
 							player.blind = true;
@@ -1284,6 +1316,9 @@ namespace CalamityMod.CalPlayer
 					}
 					else if (modPlayer.ZoneAbyssLayer3) // 2700 to 3200
 					{
+						if (CalamityWorld.death)
+							deathModeDarknessLevel = 150 - lightStrength * 25;
+
 						breathLoss = 18;
 						if (!lightLevelThree)
 							player.blind = true;
@@ -1296,6 +1331,9 @@ namespace CalamityMod.CalPlayer
 					}
 					else if (modPlayer.ZoneAbyssLayer2) // 2100 to 2700
 					{
+						if (CalamityWorld.death)
+							deathModeDarknessLevel = 100 - lightStrength * 25;
+
 						breathLoss = 6;
 						if (!lightLevelTwo)
 							player.blind = true;
@@ -1306,9 +1344,19 @@ namespace CalamityMod.CalPlayer
 					}
 					else if (modPlayer.ZoneAbyssLayer1) // 1500 to 2100
 					{
+						if (CalamityWorld.death)
+							deathModeDarknessLevel = 50 - lightStrength * 25;
+
 						if (!lightLevelOne)
 							player.blind = true;
 						player.statDefense -= modPlayer.anechoicPlating ? 5 : 15;
+					}
+
+					if (CalamityWorld.death)
+					{
+						if (deathModeDarknessLevel < 0)
+							deathModeDarknessLevel = 0;
+						Main.BlackFadeIn = deathModeDarknessLevel;
 					}
 
 					breathLoss = (int)((double)breathLoss * breathLossMult);
