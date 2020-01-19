@@ -36,11 +36,11 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
-            
             counter++;
             if (counter == 1)
             {
                 stealthOrigin = projectile.ai[0] == 1f;
+                projectile.alpha += (int) projectile.ai[1];
                 projectile.ai[0] = 0f;
             }
             if (counter == 20 && !projectile.Calamity().stealthStrike && !stealthOrigin)
@@ -51,6 +51,8 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 projectile.velocity *= 1.1f;
                 multiplier -= 0.005f;
+                if (multiplier >= 0.5f && !stealthOrigin && projectile.alpha < 200)
+                    projectile.alpha += Main.rand.Next(5, 7);
             }
             if (counter % 9 == 0 || (counter % 5 == 0 && projectile.Calamity().stealthStrike))
             {
@@ -168,7 +170,7 @@ namespace CalamityMod.Projectiles.Rogue
                     {
                         Vector2 perturbedspeed = new Vector2(correctedVelocity.X, correctedVelocity.Y + Main.rand.Next(-3, 4)).RotatedBy(MathHelper.ToRadians(spread));
                         
-                        int proj = Projectile.NewProjectile(owner.Center.X, owner.Center.Y - 10, perturbedspeed.X, perturbedspeed.Y, ModContent.ProjectileType<ShatteredSunScorchedBlade>(), (int)((double)projectile.damage * 0.55), 1f, projectile.owner, 0f, 0f);
+                        int proj = Projectile.NewProjectile(owner.Center.X, owner.Center.Y - 10, perturbedspeed.X, perturbedspeed.Y, ModContent.ProjectileType<ShatteredSunScorchedBlade>(), (int)((double)projectile.damage * 0.55), 1f, projectile.owner, 1f, projectile.alpha);
                         spread -= Main.rand.Next(2, 6);
                         Main.projectile[proj].ai[0] = 1f;
                     }
