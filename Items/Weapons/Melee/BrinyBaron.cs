@@ -82,5 +82,10 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<BrinyTyphoonBubble>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f) * 0.5f), knockback, player.whoAmI);
         }
+
+        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        {
+            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<BrinyTyphoonBubble>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f) * 0.5f), item.knockBack, player.whoAmI);
+        }
     }
 }

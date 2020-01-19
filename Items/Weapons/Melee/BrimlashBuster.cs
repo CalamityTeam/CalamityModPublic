@@ -67,5 +67,18 @@ namespace CalamityMod.Items.Weapons.Melee
                 item.damage = 126;
             }
         }
+
+        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
+            if (Main.rand.NextBool(3))
+            {
+                item.damage = 378;
+            }
+            else
+            {
+                item.damage = 126;
+            }
+        }
     }
 }

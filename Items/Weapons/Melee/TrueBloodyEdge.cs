@@ -64,5 +64,15 @@ namespace CalamityMod.Items.Weapons.Melee
                 player.HealEffect(healAmount);
             }
         }
+
+        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        {
+            int healAmount = Main.rand.Next(6) + 1;
+            if (Main.rand.NextBool(2))
+            {
+                player.statLife += healAmount;
+                player.HealEffect(healAmount);
+            }
+        }
     }
 }

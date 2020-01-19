@@ -49,5 +49,24 @@ namespace CalamityMod.Items.Weapons.Melee
                 item.knockBack = 8f;
             }
         }
+
+        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        {
+            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<FossilSpike>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), item.knockBack, Main.myPlayer);
+            if (Main.rand.NextBool(3))
+            {
+                item.damage = 82;
+                item.useAnimation = 15;
+                item.useTime = 15;
+                item.knockBack = 14f;
+            }
+            else
+            {
+                item.damage = 55;
+                item.useAnimation = 30;
+                item.useTime = 30;
+                item.knockBack = 8f;
+            }
+        }
     }
 }

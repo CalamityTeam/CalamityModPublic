@@ -99,5 +99,20 @@ namespace CalamityMod.Items.Weapons.Melee
             player.statLife += healAmount;
             player.HealEffect(healAmount);
         }
+
+        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        {
+            if (Main.rand.NextBool(3))
+            {
+                target.AddBuff(ModContent.BuffType<GlacialState>(), 300);
+            }
+            target.AddBuff(BuffID.CursedInferno, 600);
+            target.AddBuff(BuffID.Frostburn, 600);
+            target.AddBuff(BuffID.OnFire, 600);
+            target.AddBuff(BuffID.Ichor, 300);
+            int healAmount = Main.rand.Next(3) + 2;
+            player.statLife += healAmount;
+            player.HealEffect(healAmount);
+        }
     }
 }

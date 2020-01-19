@@ -150,5 +150,13 @@ namespace CalamityMod.Items.Weapons.Melee
                 target.AddBuff(ModContent.BuffType<HolyFlames>(), 300);
             }
         }
+
+        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        {
+            if (Main.rand.NextBool(2))
+            {
+                target.AddBuff(ModContent.BuffType<HolyFlames>(), 300);
+            }
+        }
     }
 }

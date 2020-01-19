@@ -57,5 +57,10 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             target.AddBuff(BuffID.Slimed, 300);
         }
+
+        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        {
+            target.AddBuff(BuffID.Slimed, 300);
+        }
     }
 }

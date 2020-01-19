@@ -271,5 +271,24 @@ namespace CalamityMod.Items.Weapons.Melee
                 player.velocity.Y = -16f;
             }
         }
+
+        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        {
+            if (item.useStyle == 4)
+            {
+                //"Well you did refresh the cooldown but like i dont want it to be wasted on a player hit so imma ask you for a refund"
+                if (Didrefresh)
+                {
+                    Roxcooldown = 600;
+                    Didrefresh = false;
+                }
+                //End the alt attack
+                player.itemAnimation = 0;
+                player.itemTime = 0;
+                RoxAlt = false;
+                RoxCanUse = 0;
+                player.velocity.Y = -16f;
+            }
+        }
     }
 }

@@ -65,5 +65,10 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             target.AddBuff(BuffID.Frostburn, 180);
         }
+
+        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        {
+            target.AddBuff(BuffID.Frostburn, 180);
+        }
     }
 }

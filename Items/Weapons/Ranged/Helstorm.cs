@@ -57,5 +57,10 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             target.AddBuff(BuffID.OnFire, 360);
         }
+
+        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        {
+            target.AddBuff(BuffID.OnFire, 360);
+        }
     }
 }

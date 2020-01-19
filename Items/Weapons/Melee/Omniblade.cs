@@ -32,12 +32,21 @@ namespace CalamityMod.Items.Weapons.Melee
             item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;
         }
+
         public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)
         {
             hitbox = CalamityUtils.FixSwingHitbox(102, 102);
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+        {
+            if (Main.rand.NextBool(5))
+            {
+                target.AddBuff(ModContent.BuffType<WhisperingDeath>(), 360);
+            }
+        }
+
+        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
             if (Main.rand.NextBool(5))
             {
