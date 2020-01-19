@@ -3680,10 +3680,55 @@ namespace CalamityMod.CalPlayer
                     }
                 }
             }
+            if (item.Calamity().rogue)
+            {
+                if (player.meleeEnchant > 0)
+                {
+                    if (player.meleeEnchant == 1)
+                    {
+                        target.AddBuff(BuffID.Venom, 60 * Main.rand.Next(5, 10), false);
+                    }
+                    if (player.meleeEnchant == 2)
+                    {
+                        target.AddBuff(BuffID.CursedInferno, 60 * Main.rand.Next(3, 7), false);
+                    }
+                    if (player.meleeEnchant == 3)
+                    {
+                        target.AddBuff(BuffID.OnFire, 60 * Main.rand.Next(3, 7), false);
+                    }
+                    if (player.meleeEnchant == 5)
+                    {
+                        target.AddBuff(BuffID.Ichor, 60 * Main.rand.Next(10, 20), false);
+                    }
+                    if (player.meleeEnchant == 6)
+                    {
+                        target.AddBuff(BuffID.Confused, 60 * Main.rand.Next(1, 4), false);
+                    }
+                    if (player.meleeEnchant == 8)
+                    {
+                        target.AddBuff(BuffID.Poisoned, 60 * Main.rand.Next(5, 10), false);
+                    }
+                    /*if (player.meleeEnchant == 4)
+                    {
+                        target.AddBuff(BuffID.Midas, 120, false);
+                    }*/
+                }
+			}
             if (holyWrath)
             {
                 target.AddBuff(ModContent.BuffType<HolyFlames>(), 600, false);
             }
+			if (vexation)
+			{
+				if ((player.armor[0].type == ModContent.ItemType<ReaverCap>() || player.armor[0].type == ModContent.ItemType<ReaverHelm>() ||
+					player.armor[0].type == ModContent.ItemType<ReaverHelmet>() || player.armor[0].type == ModContent.ItemType<ReaverMask>() ||
+					player.armor[0].type == ModContent.ItemType<ReaverVisage>()) &&
+					player.armor[1].type == ModContent.ItemType<ReaverScaleMail>() && player.armor[2].type == ModContent.ItemType<ReaverCuisses>())
+				{
+                    target.AddBuff(BuffID.CursedInferno, 120, false);
+                    target.AddBuff(BuffID.Venom, 120, false);
+				}
+			}
         }
         #endregion
 
@@ -3951,6 +3996,17 @@ namespace CalamityMod.CalPlayer
 					}
 				}					
             }
+			if (vexation)
+			{
+				if ((player.armor[0].type == ModContent.ItemType<ReaverCap>() || player.armor[0].type == ModContent.ItemType<ReaverHelm>() ||
+					player.armor[0].type == ModContent.ItemType<ReaverHelmet>() || player.armor[0].type == ModContent.ItemType<ReaverMask>() ||
+					player.armor[0].type == ModContent.ItemType<ReaverVisage>()) &&
+					player.armor[1].type == ModContent.ItemType<ReaverScaleMail>() && player.armor[2].type == ModContent.ItemType<ReaverCuisses>())
+				{
+                    target.AddBuff(BuffID.CursedInferno, 120, false);
+                    target.AddBuff(BuffID.Venom, 120, false);
+				}
+			}
         }
         #endregion
 
@@ -3959,100 +4015,116 @@ namespace CalamityMod.CalPlayer
         {
             if (omegaBlueChestplate)
                 target.AddBuff(ModContent.BuffType<CrushDepth>(), 240);
+            if (sulfurSet)
+                target.AddBuff(BuffID.Poisoned, 120);
+			switch (item.type)
+			{
+				case ItemID.IceSickle:
+				case ItemID.Frostbrand:
+					target.AddBuff(BuffID.Frostburn, 600);
+					break;
 
-            if (eGauntlet)
-            {
-                target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 120, false);
-                target.AddBuff(ModContent.BuffType<HolyFlames>(), 120, false);
-                target.AddBuff(ModContent.BuffType<Plague>(), 120, false);
-                target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120, false);
-                if (Main.rand.NextBool(5))
-                {
-                    target.AddBuff(ModContent.BuffType<GlacialState>(), 120, false);
-                }
-                target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 120, false);
-                target.AddBuff(BuffID.Poisoned, 120, false);
-                target.AddBuff(BuffID.OnFire, 120, false);
-                target.AddBuff(BuffID.CursedInferno, 120, false);
-                target.AddBuff(BuffID.Frostburn, 120, false);
-                target.AddBuff(BuffID.Ichor, 120, false);
-                target.AddBuff(BuffID.Venom, 120, false);
-            }
-            if (aWeapon)
-            {
-                if (Main.rand.NextBool(4))
-                {
-                    target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 360, false);
-                }
-                else if (Main.rand.NextBool(2))
-                {
-                    target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 240, false);
-                }
-                else
-                {
-                    target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 120, false);
-                }
-            }
-            if (abyssalAmulet)
-            {
-                if (Main.rand.NextBool(4))
-                {
-                    target.AddBuff(ModContent.BuffType<CrushDepth>(), 360, false);
-                }
-                else if (Main.rand.NextBool(2))
-                {
-                    target.AddBuff(ModContent.BuffType<CrushDepth>(), 240, false);
-                }
-                else
-                {
-                    target.AddBuff(ModContent.BuffType<CrushDepth>(), 120, false);
-                }
-            }
-            if (cryogenSoul || frostFlare)
-            {
-                if (Main.rand.NextBool(4))
-                {
-                    target.AddBuff(44, 360, false);
-                }
-                else if (Main.rand.NextBool(2))
-                {
-                    target.AddBuff(44, 240, false);
-                }
-                else
-                {
-                    target.AddBuff(44, 120, false);
-                }
-            }
-            if (yInsignia)
-            {
-                if (Main.rand.NextBool(4))
-                {
-                    target.AddBuff(ModContent.BuffType<HolyFlames>(), 360, false);
-                }
-                else if (Main.rand.NextBool(2))
-                {
-                    target.AddBuff(ModContent.BuffType<HolyFlames>(), 240, false);
-                }
-                else
-                {
-                    target.AddBuff(ModContent.BuffType<HolyFlames>(), 120, false);
-                }
-            }
-            if (ataxiaFire)
-            {
-                if (Main.rand.NextBool(4))
-                {
-                    target.AddBuff(BuffID.OnFire, 720, false);
-                }
-                else if (Main.rand.NextBool(2))
-                {
-                    target.AddBuff(BuffID.OnFire, 480, false);
-                }
-                else
-                {
-                    target.AddBuff(BuffID.OnFire, 240, false);
-                }
-            }
+				case ItemID.IceBlade:
+					target.AddBuff(BuffID.Frostburn, 360);
+					break;
+			}
+
+			if (item.melee)
+			{
+				if (eGauntlet)
+				{
+					target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 120, false);
+					target.AddBuff(ModContent.BuffType<HolyFlames>(), 120, false);
+					target.AddBuff(ModContent.BuffType<Plague>(), 120, false);
+					target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120, false);
+					if (Main.rand.NextBool(5))
+					{
+						target.AddBuff(ModContent.BuffType<GlacialState>(), 120, false);
+					}
+					target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 120, false);
+					target.AddBuff(BuffID.Poisoned, 120, false);
+					target.AddBuff(BuffID.OnFire, 120, false);
+					target.AddBuff(BuffID.CursedInferno, 120, false);
+					target.AddBuff(BuffID.Frostburn, 120, false);
+					target.AddBuff(BuffID.Ichor, 120, false);
+					target.AddBuff(BuffID.Venom, 120, false);
+				}
+				if (aWeapon)
+				{
+					if (Main.rand.NextBool(4))
+					{
+						target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 360, false);
+					}
+					else if (Main.rand.NextBool(2))
+					{
+						target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 240, false);
+					}
+					else
+					{
+						target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 120, false);
+					}
+				}
+				if (abyssalAmulet)
+				{
+					if (Main.rand.NextBool(4))
+					{
+						target.AddBuff(ModContent.BuffType<CrushDepth>(), 360, false);
+					}
+					else if (Main.rand.NextBool(2))
+					{
+						target.AddBuff(ModContent.BuffType<CrushDepth>(), 240, false);
+					}
+					else
+					{
+						target.AddBuff(ModContent.BuffType<CrushDepth>(), 120, false);
+					}
+				}
+				if (cryogenSoul || frostFlare)
+				{
+					if (Main.rand.NextBool(4))
+					{
+						target.AddBuff(44, 360, false);
+					}
+					else if (Main.rand.NextBool(2))
+					{
+						target.AddBuff(44, 240, false);
+					}
+					else
+					{
+						target.AddBuff(44, 120, false);
+					}
+				}
+				if (yInsignia)
+				{
+					if (Main.rand.NextBool(4))
+					{
+						target.AddBuff(ModContent.BuffType<HolyFlames>(), 360, false);
+					}
+					else if (Main.rand.NextBool(2))
+					{
+						target.AddBuff(ModContent.BuffType<HolyFlames>(), 240, false);
+					}
+					else
+					{
+						target.AddBuff(ModContent.BuffType<HolyFlames>(), 120, false);
+					}
+				}
+				if (ataxiaFire)
+				{
+					if (Main.rand.NextBool(4))
+					{
+						target.AddBuff(BuffID.OnFire, 720, false);
+					}
+					else if (Main.rand.NextBool(2))
+					{
+						target.AddBuff(BuffID.OnFire, 480, false);
+					}
+					else
+					{
+						target.AddBuff(BuffID.OnFire, 240, false);
+					}
+				}
+			}
             if (alchFlask)
             {
                 if (Main.rand.NextBool(4))
@@ -4068,19 +4140,101 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(ModContent.BuffType<Plague>(), 120, false);
                 }
             }
+            if (item.Calamity().rogue)
+            {
+                if (player.meleeEnchant > 0)
+                {
+                    if (player.meleeEnchant == 1)
+                    {
+                        target.AddBuff(BuffID.Venom, 60 * Main.rand.Next(5, 10), false);
+                    }
+                    if (player.meleeEnchant == 2)
+                    {
+                        target.AddBuff(BuffID.CursedInferno, 60 * Main.rand.Next(3, 7), false);
+                    }
+                    if (player.meleeEnchant == 3)
+                    {
+                        target.AddBuff(BuffID.OnFire, 60 * Main.rand.Next(3, 7), false);
+                    }
+                    if (player.meleeEnchant == 5)
+                    {
+                        target.AddBuff(BuffID.Ichor, 60 * Main.rand.Next(10, 20), false);
+                    }
+                    if (player.meleeEnchant == 6)
+                    {
+                        target.AddBuff(BuffID.Confused, 60 * Main.rand.Next(1, 4), false);
+                    }
+                    if (player.meleeEnchant == 8)
+                    {
+                        target.AddBuff(BuffID.Poisoned, 60 * Main.rand.Next(5, 10), false);
+                    }
+                    /*if (player.meleeEnchant == 4)
+                    {
+                        target.AddBuff(BuffID.Midas, 120, false);
+                    }*/
+                }
+			}
             if (holyWrath)
             {
                 target.AddBuff(ModContent.BuffType<HolyFlames>(), 600, false);
             }
+			if (vexation)
+			{
+				if ((player.armor[0].type == ModContent.ItemType<ReaverCap>() || player.armor[0].type == ModContent.ItemType<ReaverHelm>() ||
+					player.armor[0].type == ModContent.ItemType<ReaverHelmet>() || player.armor[0].type == ModContent.ItemType<ReaverMask>() ||
+					player.armor[0].type == ModContent.ItemType<ReaverVisage>()) &&
+					player.armor[1].type == ModContent.ItemType<ReaverScaleMail>() && player.armor[2].type == ModContent.ItemType<ReaverCuisses>())
+				{
+                    target.AddBuff(BuffID.CursedInferno, 120, false);
+                    target.AddBuff(BuffID.Venom, 120, false);
+				}
+			}
         }
 
         public override void OnHitPvpWithProj(Projectile proj, Player target, int damage, bool crit)
         {
-            if (omegaBlueChestplate)
+            if (sulfurSet && proj.friendly && !target.friendly)
+                target.AddBuff(BuffID.Poisoned, 120);
+            if (omegaBlueChestplate && proj.friendly && !target.friendly)
                 target.AddBuff(ModContent.BuffType<CrushDepth>(), 240);
 
             if (proj.melee && silvaMelee && Main.rand.NextBool(4))
                 target.AddBuff(ModContent.BuffType<SilvaStun>(), 20);
+
+			switch (proj.type)
+			{
+				case ProjectileID.BoneArrow:
+					target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 300);
+					break;
+
+				case ProjectileID.FrostBlastFriendly:
+				case ProjectileID.NorthPoleWeapon:
+					target.AddBuff(BuffID.Frostburn, 600);
+					break;
+
+				case ProjectileID.FrostBoltStaff:
+				case ProjectileID.IceSickle:
+				case ProjectileID.FrostBoltSword:
+				case ProjectileID.FrostArrow:
+				case ProjectileID.NorthPoleSpear:
+					target.AddBuff(BuffID.Frostburn, 480);
+					break;
+
+				case ProjectileID.IceBoomerang:
+				case ProjectileID.IceBolt:
+				case ProjectileID.Blizzard:
+				case ProjectileID.NorthPoleSnowflake:
+					target.AddBuff(BuffID.Frostburn, 240);
+					break;
+
+				case ProjectileID.FrostDaggerfish:
+					target.AddBuff(BuffID.Frostburn, 180);
+					break;
+
+				case ProjectileID.SnowBallFriendly:
+					target.AddBuff(BuffID.Frostburn, 120);
+					break;
+			}
 
             if (abyssalAmulet)
             {
@@ -4259,12 +4413,43 @@ namespace CalamityMod.CalPlayer
                     {
                         target.AddBuff(BuffID.Poisoned, 60 * Main.rand.Next(5, 10), false);
                     }
-                    if (player.meleeEnchant == 4)
+                    /*if (player.meleeEnchant == 4)
                     {
                         target.AddBuff(BuffID.Midas, 120, false);
-                    }
+                    }*/
                 }
+				if (etherealExtorter)
+				{
+					if (ZoneSunkenSea)
+					{
+						target.AddBuff(ModContent.BuffType<TemporalSadness>(), 60, false);
+					}
+					if (ZoneSulphur)
+					{
+						target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 120, false);
+						target.AddBuff(ModContent.BuffType<Irradiated>(), 300, false);
+					}
+					if (Main.moonPhase == 6) //first quarter
+					{
+						target.AddBuff(BuffID.Midas, 120, false);
+					}
+					if (ZoneCalamity && CalamityMod.fireWeaponList.Contains(player.inventory[player.selectedItem].type))
+					{
+						target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 240, false);
+					}
+				}
             }
+			if (vexation)
+			{
+				if ((player.armor[0].type == ModContent.ItemType<ReaverCap>() || player.armor[0].type == ModContent.ItemType<ReaverHelm>() ||
+					player.armor[0].type == ModContent.ItemType<ReaverHelmet>() || player.armor[0].type == ModContent.ItemType<ReaverMask>() ||
+					player.armor[0].type == ModContent.ItemType<ReaverVisage>()) &&
+					player.armor[1].type == ModContent.ItemType<ReaverScaleMail>() && player.armor[2].type == ModContent.ItemType<ReaverCuisses>())
+				{
+                    target.AddBuff(BuffID.CursedInferno, 120, false);
+                    target.AddBuff(BuffID.Venom, 120, false);
+				}
+			}
         }
         #endregion
 

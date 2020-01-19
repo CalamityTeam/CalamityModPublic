@@ -2441,7 +2441,7 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.vexation)
 			{
 				if (player.statLife < (int)((double)player.statLifeMax2 * 0.5))
-					player.allDamage += 0.15f;
+					player.allDamage += 0.2f;
 			}
 
 			if (modPlayer.ataxiaBlaze)
