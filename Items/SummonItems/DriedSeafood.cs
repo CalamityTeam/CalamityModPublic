@@ -52,7 +52,7 @@ namespace CalamityMod.Items.SummonItems
             recipe.AddIngredient(ItemID.AntlionMandible, 3);
             recipe.AddIngredient(ItemID.Cactus, 10);
             recipe.AddIngredient(ModContent.ItemType<StormlionMandible>());
-            recipe.AddTile(TileID.Anvils);
+            recipe.AddTile(TileID.DemonAltar);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
