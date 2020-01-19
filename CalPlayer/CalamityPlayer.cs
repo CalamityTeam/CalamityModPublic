@@ -56,24 +56,6 @@ namespace CalamityMod.CalPlayer
     public class CalamityPlayer : ModPlayer
     {
 
-        #region Camper Cleanup
-        private void camperCleanup()
-        {
-            if (!camper && camperIgnore.Count > 0)
-            {
-                for (int i = 0; i < Main.maxNPCs; i++)
-                {
-                    if (camperIgnore.ContainsKey(Main.npc[i]))
-                    {
-                        Main.npc[i].chaseable = camperIgnore[Main.npc[i]].Contains("chase");
-                        Main.npc[i].dontTakeDamage = camperIgnore[Main.npc[i]].Contains("nodmg");
-                    }
-                }
-                camperIgnore.Clear();
-            }
-        }
-        #endregion
-
         #region Variables
         // No Category
         public static bool areThereAnyDamnBosses = false;
@@ -427,7 +409,6 @@ namespace CalamityMod.CalPlayer
         public int plaguedFuelPackDirection = 0;
         public bool veneratedLocket = false;
         public bool camper = false;
-        public Dictionary<NPC, String> camperIgnore = new Dictionary<NPC, String>();
 
         // Armor Set
         public bool victideSet = false;
@@ -1268,7 +1249,6 @@ namespace CalamityMod.CalPlayer
             spectralVeil = false;
             plaguedFuelPack = false;
             camper = false;
-            camperCleanup();
 
 			alcoholPoisoning = false;
             shadowflame = false;
@@ -2856,12 +2836,6 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region PostUpdate
-
-        public override void PostUpdate()
-        {
-            if (camperIgnore.Count > 0 && (!camper || (player.velocity.X <= 0.5f && player.velocity.Y <= 0.5f)))
-                camperCleanup();
-        }
 
         public override void PostUpdateMiscEffects()
         {
@@ -5338,16 +5312,9 @@ namespace CalamityMod.CalPlayer
 
         public override bool? CanHitNPC(Item item, NPC target)
         {
-            if (camper && !((double)Math.Abs(player.velocity.X) < 0.05 && (double)Math.Abs(player.velocity.Y) < 0.05) && !camperIgnore.ContainsKey(target))
+            if (camper && ((double)Math.Abs(player.velocity.X) > 0.05 || (double)Math.Abs(player.velocity.Y) > 0.05))
             {
-                string context = "";
-                if (target.chaseable)
-                    context += "chase ";
-                if (target.dontTakeDamage)
-                    context += "nodmg";
-                target.chaseable = false;
-                target.dontTakeDamage = true;
-                camperIgnore.Add(target, context);
+
                 return false;
             }
             return null;
@@ -5355,16 +5322,9 @@ namespace CalamityMod.CalPlayer
 
         public override bool? CanHitNPCWithProj(Projectile proj, NPC target)
         {
-            if (camper && !((double)Math.Abs(player.velocity.X) < 0.05 && (double)Math.Abs(player.velocity.Y) < 0.05) && !camperIgnore.ContainsKey(target))
+            if (camper && ((double)Math.Abs(player.velocity.X) > 0.05 || (double)Math.Abs(player.velocity.Y) > 0.05))
             {
-                string context = "";
-                if (target.chaseable)
-                    context += "chase ";
-                if (target.dontTakeDamage)
-                    context += "nodmg";
-                target.chaseable = false;
-                target.dontTakeDamage = true;
-                camperIgnore.Add(target, context);
+
                 return false;
             }
             return null;
