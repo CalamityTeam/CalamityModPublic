@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class StellarKnife : RogueWeapon
     {
-        int knifeCount = 10;
+        int knifeCount = 15;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Stellar Knife");
@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            if (player.Calamity().StealthStrikeAvailable())
+            if (player.Calamity().StealthStrikeAvailable() && player.ownedProjectileCounts[ModContent.ProjectileType<StellarKnifeProj>()] < 10)
             {
                 int spread = 20;
                 for (int i = 0; i < knifeCount; i++)
