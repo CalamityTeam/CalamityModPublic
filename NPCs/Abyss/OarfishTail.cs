@@ -56,14 +56,14 @@ namespace CalamityMod.NPCs.Abyss
                 npc.TargetClosest(true);
             }
             npc.velocity.Length();
-            if (npc.velocity.X < 0f)
+            /*if (npc.velocity.X < 0f)
             {
                 npc.spriteDirection = -1;
             }
             else if (npc.velocity.X > 0f)
             {
                 npc.spriteDirection = 1;
-            }
+            }*/
             bool flag = false;
             if (npc.ai[1] <= 0f)
             {
@@ -124,14 +124,14 @@ namespace CalamityMod.NPCs.Abyss
                 npc.velocity = Vector2.Zero;
                 npc.position.X = npc.position.X + num191;
                 npc.position.Y = npc.position.Y + num192;
-                if (num191 < 0f)
+                /*if (num191 < 0f)
                 {
                     npc.spriteDirection = -1;
                 }
                 else if (num191 > 0f)
                 {
                     npc.spriteDirection = 1;
-                }
+                }*/
             }
         }
 
