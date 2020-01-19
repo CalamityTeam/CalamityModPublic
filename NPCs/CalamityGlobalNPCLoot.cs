@@ -188,6 +188,8 @@ namespace CalamityMod.NPCs
                 {
                     string key2 = "Mods.CalamityMod.PlantOreText";
                     Color messageColor2 = Color.GreenYellow;
+                    string key3 = "Mods.CalamityMod.SandSharkText3";
+                    Color messageColor3 = Color.Goldenrod;
 
                     WorldGenerationMethods.SpawnOre(ModContent.TileType<PerennialOre>(), 12E-05, .5f, .7f);
                     ;
@@ -195,10 +197,12 @@ namespace CalamityMod.NPCs
                     if (Main.netMode == NetmodeID.SinglePlayer)
                     {
                         Main.NewText(Language.GetTextValue(key2), messageColor2);
+                        Main.NewText(Language.GetTextValue(key3), messageColor3);
                     }
                     else if (Main.netMode == NetmodeID.Server)
                     {
                         NetMessage.BroadcastChatMessage(NetworkText.FromKey(key2), messageColor2);
+                        NetMessage.BroadcastChatMessage(NetworkText.FromKey(key3), messageColor3);
                     }
                 }
 

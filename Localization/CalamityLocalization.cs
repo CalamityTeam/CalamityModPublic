@@ -99,6 +99,7 @@ namespace CalamityMod.Localization
 
                 new [] { "SandSharkText", "Something stirs in the warm desert sands..." },
                 new [] { "SandSharkText2", "An enormous apex predator approaches..." },
+                new [] { "SandSharkText3", "The desert sand shifts intensely!" },
 
                 new [] { "CryogenBossText", "Cryogen is derping out!" },
 

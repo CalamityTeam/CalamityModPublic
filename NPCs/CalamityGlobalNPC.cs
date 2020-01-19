@@ -2703,13 +2703,13 @@ namespace CalamityMod.NPCs
                                 for (int num262 = 0; num262 < num261; num262 = num + 1)
                                 {
                                     int num263 = NPC.NewNPC((int)(npc.position.X + npc.width / 2), (int)(npc.position.Y + npc.height), 1, 0, 0f, 0f, 0f, 0f, 255);
-                                    NPC npc = Main.npc[num263];
-                                    npc.SetDefaults(-5, -1f);
-                                    npc.velocity.X = npc.velocity.X * 2f;
-                                    npc.velocity.Y = npc.velocity.Y;
-                                    npc.velocity.X += Main.rand.Next(-20, 20) * 0.1f + num262 * npc.direction * 0.3f;
-                                    npc.velocity.Y -= Main.rand.Next(0, 10) * 0.1f + num262;
-                                    npc.ai[0] = -1000 * Main.rand.Next(3);
+                                    NPC npc2 = Main.npc[num263];
+                                    npc2.SetDefaults(-5, -1f);
+                                    npc2.velocity.X = npc.velocity.X * 2f;
+                                    npc2.velocity.Y = npc.velocity.Y;
+                                    npc2.velocity.X += Main.rand.Next(-20, 20) * 0.1f + num262 * npc.direction * 0.3f;
+                                    npc2.velocity.Y -= Main.rand.Next(0, 10) * 0.1f + num262;
+                                    npc2.ai[0] = -1000 * Main.rand.Next(3);
 
                                     if (Main.netMode == NetmodeID.Server && num263 < 200)
                                     {
