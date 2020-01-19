@@ -610,10 +610,9 @@ namespace CalamityMod.NPCs
             if (Main.rand.NextBool(5))
             {
                 int num10 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + (float)npc.height * 0.25f), npc.width, (int)((float)npc.height * 0.5f), 5, npc.velocity.X, 2f, 0, default, 1f);
-                Dust var_9_825_cp_0_cp_0 = Main.dust[num10];
-                var_9_825_cp_0_cp_0.velocity.X *= 0.5f;
-                Dust var_9_845_cp_0_cp_0 = Main.dust[num10];
-                var_9_845_cp_0_cp_0.velocity.Y *= 0.1f;
+                Dust dust = Main.dust[num10];
+                dust.velocity.X *= 0.5f;
+                dust.velocity.Y *= 0.1f;
             }
 
             if (Main.dayTime | dead)
@@ -4759,10 +4758,9 @@ namespace CalamityMod.NPCs
             if (Main.rand.NextBool(5))
             {
                 int num380 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + (float)npc.height * 0.25f), npc.width, (int)((float)npc.height * 0.5f), 5, npc.velocity.X, 2f, 0, default, 1f);
-                Dust var_9_131D1_cp_0_cp_0 = Main.dust[num380];
-                var_9_131D1_cp_0_cp_0.velocity.X *= 0.5f;
-                Dust var_9_131F5_cp_0_cp_0 = Main.dust[num380];
-                var_9_131F5_cp_0_cp_0.velocity.Y *= 0.1f;
+                Dust dust = Main.dust[num380];
+                dust.velocity.X *= 0.5f;
+                dust.velocity.Y *= 0.1f;
             }
 
             if (Main.netMode != NetmodeID.MultiplayerClient && !Main.dayTime && !Main.player[npc.target].dead && npc.timeLeft < 10)
