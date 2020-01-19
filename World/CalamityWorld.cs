@@ -1181,7 +1181,7 @@ namespace CalamityMod.World
                         spawnRate *= 0.75D;
 
                     if (death && Main.bloodMoon)
-                        spawnRate *= 0.3D;
+                        spawnRate *= 0.2D;
                     if (Main.player[closestPlayer].Calamity().zerg)
                         spawnRate *= 0.5D;
                     if (Main.player[closestPlayer].Calamity().chaosCandle)
@@ -1194,13 +1194,13 @@ namespace CalamityMod.World
                     if (Main.player[closestPlayer].Calamity().bossZen || DoGSecondStageCountdown > 0)
                         spawnRate *= 50D;
                     if (Main.player[closestPlayer].Calamity().zen || (Config.DisableExpertEnemySpawnsNearHouse && Main.player[closestPlayer].townNPCs > 1f && Main.expertMode))
-                        spawnRate *= 40D;
+                        spawnRate *= 2D;
                     if (Main.player[closestPlayer].Calamity().tranquilityCandle)
-                        spawnRate *= 30D;
+                        spawnRate *= 1.67D;
                     if (Main.player[closestPlayer].calmed)
-                        spawnRate *= 20D;
+                        spawnRate *= 1.43D;
                     if (Main.peaceCandles > 0)
-                        spawnRate *= 10D;
+                        spawnRate *= 1.25D;
 
                     int chance = (int)spawnRate;
                     if (Main.rand.Next(chance) == 0)
