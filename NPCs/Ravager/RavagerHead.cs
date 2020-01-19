@@ -35,6 +35,7 @@ namespace CalamityMod.NPCs.Ravager
             npc.buffImmune[BuffID.CursedInferno] = false;
 			npc.buffImmune[BuffID.Frostburn] = false;
 			npc.buffImmune[BuffID.Daybreak] = false;
+			npc.buffImmune[BuffID.BetsysCurse] = false;
             npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
             npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
             npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
