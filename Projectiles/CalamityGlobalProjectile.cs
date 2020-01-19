@@ -724,8 +724,12 @@ namespace CalamityMod.Projectiles
 				if (Main.player[projectile.owner].Calamity().providenceLore && projectile.owner == Main.myPlayer && projectile.damage > 0 &&
 					(projectile.melee || projectile.ranged || projectile.magic || rogue))
 				{
-					int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 244, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f, 0, default, 0.5f);
-					Main.dust[dust].noGravity = true;
+					if (Main.rand.NextBool(5))
+					{
+						int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 244, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f, 0, default, 0.5f);
+						Main.dust[dust].noGravity = true;
+						Main.dust[dust].noLight = true;
+					}
 				}
 
 				if (rogue)
