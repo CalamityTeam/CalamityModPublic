@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Ice Star");
             Tooltip.SetDefault("Throws homing ice stars\n" +
-                "Stealth strikes pierce infinitely and spawn ice shards on hit" +
+                "Stealth strikes pierce infinitely and spawn ice shards on hit\n" +
                 "Ice Stars are too brittle to be recovered after being thrown");
         }
 
