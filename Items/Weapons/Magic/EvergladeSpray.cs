@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Ichor, 20);
+            recipe.AddIngredient(ItemID.GoldenShower);
             recipe.AddIngredient(ModContent.ItemType<DraedonBar>(), 3);
             recipe.AddTile(TileID.Bookcases);
             recipe.SetResult(this);
