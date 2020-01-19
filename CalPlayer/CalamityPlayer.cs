@@ -536,6 +536,7 @@ namespace CalamityMod.CalPlayer
         public bool nightwither = false;
         public bool eFreeze = false;
         public bool silvaStun = false;
+        public bool wCleave = false;
 
         // Buff
         public bool trinketOfChiBuff = false;
@@ -1285,6 +1286,7 @@ namespace CalamityMod.CalPlayer
             nightwither = false;
             eFreeze = false;
             silvaStun = false;
+            wCleave = false;
 
 			revivify = false;
             trinketOfChiBuff = false;
@@ -1519,6 +1521,7 @@ namespace CalamityMod.CalPlayer
             nightwither = false;
             eFreeze = false;
             silvaStun = false;
+            wCleave = false;
             #endregion
 
             #region Rogue

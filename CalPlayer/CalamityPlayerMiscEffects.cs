@@ -2238,6 +2238,12 @@ namespace CalamityMod.CalPlayer
 				player.endurance *= 0.33f;
 			}
 
+			if (modPlayer.wCleave)
+			{
+				player.statDefense -= WarCleave.DefenseReduction;
+				player.endurance *= 0.75f;
+			}
+
 			if (modPlayer.vHex)
 			{
 				player.blind = true;
