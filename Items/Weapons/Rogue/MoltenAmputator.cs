@@ -1,4 +1,5 @@
 using CalamityMod.Projectiles.Rogue;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,7 +11,8 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Molten Amputator");
-            Tooltip.SetDefault("Throws a scythe that emits molten globs on enemy hits");
+            Tooltip.SetDefault("Throws a scythe that emits molten globs on enemy hits\n" +
+                "Stealth strikes spawn molten globs periodically in flight and more on-hit");
         }
 
         public override void SafeSetDefaults()
@@ -32,6 +34,17 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;
             item.Calamity().postMoonLordRarity = 12;
+        }
+
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            if (player.Calamity().StealthStrikeAvailable())
+            {
+                int boomer = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
+                Main.projectile[boomer].Calamity().stealthStrike = true;
+                return false;
+            }
+            return true;
         }
     }
 }
