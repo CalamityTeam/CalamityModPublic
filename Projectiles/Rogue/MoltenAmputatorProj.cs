@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.tileCollide = false;
             projectile.penetrate = -1;
             projectile.aiStyle = 3;
-            projectile.timeLeft = 300;
+            projectile.timeLeft = 180;
             aiType = 52;
             projectile.Calamity().rogue = true;
         }
