@@ -534,6 +534,8 @@ namespace CalamityMod.CalPlayer
         public bool clamity = false;
         public bool sulphurPoison = false;
         public bool nightwither = false;
+        public bool eFreeze = false;
+        public bool silvaStun = false;
 
         // Buff
         public bool trinketOfChiBuff = false;
@@ -1281,6 +1283,8 @@ namespace CalamityMod.CalPlayer
             snowmanNoseless = false;
             sulphurPoison = false;
             nightwither = false;
+            eFreeze = false;
+            silvaStun = false;
 
 			revivify = false;
             trinketOfChiBuff = false;
@@ -1513,6 +1517,8 @@ namespace CalamityMod.CalPlayer
             eclipseMirrorCooldown = false;
             sulphurPoison = false;
             nightwither = false;
+            eFreeze = false;
+            silvaStun = false;
             #endregion
 
             #region Rogue
@@ -8063,7 +8069,7 @@ namespace CalamityMod.CalPlayer
                     fullBright = true;
                 }
             }
-            if (gState || cDepth)
+            if (eFreeze || silvaStun || gState || cDepth)
             {
                 if (noRogueStealth)
                 {

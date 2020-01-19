@@ -2257,6 +2257,12 @@ namespace CalamityMod.CalPlayer
 				player.velocity.X = 0f;
 			}
 
+			if (modPlayer.eFreeze || modPlayer.silvaStun)
+			{
+				player.velocity.Y = 0f;
+				player.velocity.X = 0f;
+			}
+
 			if (modPlayer.eGravity)
 			{
 				if (player.wingTimeMax < 0)
