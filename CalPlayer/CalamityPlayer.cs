@@ -5,6 +5,7 @@ using CalamityMod.Buffs.Potions;
 using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
+using CalamityMod.Items.Armor;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Accessories.Vanity;
 using CalamityMod.Items.DifficultyItems;
@@ -4193,9 +4194,9 @@ namespace CalamityMod.CalPlayer
 
         public override void OnHitPvpWithProj(Projectile proj, Player target, int damage, bool crit)
         {
-            if (sulfurSet && proj.friendly && !target.friendly)
+            if (sulfurSet && proj.friendly)
                 target.AddBuff(BuffID.Poisoned, 120);
-            if (omegaBlueChestplate && proj.friendly && !target.friendly)
+            if (omegaBlueChestplate && proj.friendly)
                 target.AddBuff(ModContent.BuffType<CrushDepth>(), 240);
 
             if (proj.melee && silvaMelee && Main.rand.NextBool(4))
