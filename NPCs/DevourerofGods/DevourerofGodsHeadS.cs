@@ -423,7 +423,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 				// Go to ground phase sooner
 				if (tooFarAway)
 				{
-					if (revenge && laserWallPhase == 0)
+					if (revenge && laserWallPhase == 0 && !Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
 						Teleport();
 					else
 						phaseSwitch += 10;
@@ -643,7 +643,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 				// Enrage
 				if (tooFarAway)
 				{
-					if (revenge && laserWallPhase == 0)
+					if (revenge && laserWallPhase == 0 && !Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
 						Teleport();
 					else
 						turnSpeed *= 6f;

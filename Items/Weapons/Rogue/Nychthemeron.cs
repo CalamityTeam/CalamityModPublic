@@ -91,7 +91,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             recipe.AddIngredient(ItemID.LightShard);
             recipe.AddIngredient(ItemID.DarkShard);
             recipe.AddIngredient(ItemID.HallowedBar, 2);
-            recipe.AddTile(TileID.Anvils);
+            recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

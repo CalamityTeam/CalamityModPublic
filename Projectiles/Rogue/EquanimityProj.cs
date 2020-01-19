@@ -89,6 +89,27 @@ namespace CalamityMod.Projectiles.Rogue
             }
         }
 
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(BuffID.Confused, 30);
+
+            if (!recall)
+            {
+                int shardCount = Main.rand.Next(1, 3);
+                for (int i = 0; i <= shardCount; i++)
+                {
+                    Vector2 shardVelocity = new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-1f, 1f));
+                    shardVelocity.Normalize();
+                    shardVelocity *= 5f;
+                    Projectile.NewProjectile(projectile.Center, shardVelocity, ModContent.ProjectileType<EquanimityLightShard>(), (int)(projectile.damage * 0.1f), 0f, projectile.owner);
+                    if (projectile.Calamity().stealthStrike)
+                    {
+                        Projectile.NewProjectile(projectile.Center, -shardVelocity, ModContent.ProjectileType<EquanimityDarkShard>(), (int)(projectile.damage * 0.1f), 0f, projectile.owner);
+                    }
+                }
+            }
+        }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 3);

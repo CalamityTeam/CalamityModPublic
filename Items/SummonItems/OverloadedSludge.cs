@@ -46,19 +46,13 @@ namespace CalamityMod.Items.SummonItems
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<EbonianGel>(), 25);
-            recipe.AddIngredient(ItemID.EbonstoneBlock, 25);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<EbonianGel>(), 25);
-            recipe.AddIngredient(ItemID.CrimstoneBlock, 25);
-            recipe.AddTile(TileID.Anvils);
+            recipe.AddRecipeGroup("AnyEvilBlock", 25);
+            recipe.AddTile(TileID.DemonAltar);
             recipe.SetResult(this);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<PurifiedGel>(), 25);
-            recipe.AddTile(TileID.Anvils);
+            recipe.AddTile(TileID.DemonAltar);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

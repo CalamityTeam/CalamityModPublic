@@ -1574,7 +1574,7 @@ namespace CalamityMod.Projectiles
 							num10 = num7 / num10;
 							num8 *= num10;
 							num9 *= num10;
-							Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num8, num9, ModContent.ProjectileType<EnergyOrb>(), (int)((double)num * 1.2), 0f, projectile.owner, (float)num6, 0f);
+							Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num8, num9, ModContent.ProjectileType<EnergyOrb>(), (int)((double)num * 1.05), 0f, projectile.owner, (float)num6, 0f);
 						}
 					}
 

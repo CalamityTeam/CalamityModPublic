@@ -1,4 +1,5 @@
 using CalamityMod.Projectiles.Rogue;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -6,11 +7,14 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Weapons.Rogue
 {
     public class CosmicKunai : RogueWeapon
-    {
+
+
+    { 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cosmic Kunai");
-            Tooltip.SetDefault("Fires a stream of short-range kunai");
+            Tooltip.SetDefault("Fires a stream of short-range kunai\n" +
+                "Stealth strikes spawn 5 Cosmic Scythes which home and explode");
         }
 
         public override void SafeSetDefaults()
@@ -35,9 +39,19 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.Calamity().postMoonLordRarity = 13;
         }
 
-        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
+            if (player.Calamity().StealthStrikeAvailable())
+            {
+                player.Calamity().StealthStrike();
+                Main.PlaySound(SoundID.Item73, player.position);
+                for (float i = 0; i < 5; i++)
+                {
+                    float angle = MathHelper.TwoPi / 5f * i;
+                    Projectile.NewProjectile(player.Center, angle.ToRotationVector2() * 8f, ModContent.ProjectileType<CosmicScythe>(), damage, knockBack, player.whoAmI, angle, 0f);
+                }
+            }
             return false;
         }
     }

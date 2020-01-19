@@ -93,6 +93,15 @@ namespace CalamityMod.CalPlayer
 				lifeRegenLost += 16;
             }
 
+            if (modPlayer.nightwither)
+            {
+                if (player.lifeRegen > 0)
+                    player.lifeRegen = 0;
+
+                player.lifeRegenTime = 0;
+                player.lifeRegen -= 16;
+            }
+
             if (modPlayer.ZoneCalamity && player.lavaWet)
             {
                 if (player.lifeRegen > 0)

@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Weapons.Magic
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<MeldiateBar>(), 9);
             recipe.AddIngredient(ItemID.SpellTome);
-            recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.AddTile(TileID.Bookcases);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

@@ -67,6 +67,21 @@ namespace CalamityMod.Projectiles.Rogue
 			}
         }
 
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
+			if (projectile.ai[1] != 1f)
+			{
+				projectile.velocity.X = -projectile.velocity.X;
+				projectile.velocity.Y = -projectile.velocity.Y;
+				projectile.ai[1] = 1f;
+				projectile.ai[0] = 1f;
+				projectile.extraUpdates = 2;
+				if (projectile.timeLeft > 280)
+					projectile.timeLeft = 280;
+			}
+        }
+
         public override void AI()
         {
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;

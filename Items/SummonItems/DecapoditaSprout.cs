@@ -43,7 +43,7 @@ namespace CalamityMod.Items.SummonItems
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.GlowingMushroom, 25);
-            recipe.AddTile(TileID.Anvils);
+            recipe.AddTile(TileID.DemonAltar);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

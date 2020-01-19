@@ -87,6 +87,24 @@ namespace CalamityMod.Projectiles.Rogue
 			}
 		}
 
+		public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+			if (projectile.owner == Main.myPlayer)
+			{
+				for (int i = 0; i < 7; i++)
+				{
+					Vector2 speed = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
+					while (speed.X == 0f && speed.Y == 0f)
+					{
+						speed = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
+					}
+					speed.Normalize();
+					speed *= ((float)Main.rand.Next(30, 61) * 0.1f) * 2f;
+					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, speed.X, speed.Y, ModContent.ProjectileType<LuminousShard>(), (int)((double)projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
+				}
+			}
+		}
+
         public override void Kill(int timeLeft)
         {
         	for (int i = 0; i <= 10; i++)

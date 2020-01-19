@@ -49,6 +49,11 @@ namespace CalamityMod.Projectiles.Rogue
             target.AddBuff(ModContent.BuffType<Plague>(), 600);
         }
 
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<Plague>(), 600);
+        }
+
         public override void Kill(int timeLeft)
         {
             projectile.position = projectile.Center;

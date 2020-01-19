@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Godly Soul Artifact");
             Tooltip.SetDefault("Loyalty\n" +
-                "Boosts max minions by 8");
+                "Spawns two Sons of Yharon to fight for you");
         }
 
         public override void SetDefaults()

@@ -43,6 +43,18 @@ namespace CalamityMod.Projectiles.Rogue
 				target.AddBuff(BuffID.Webbed, 60);
 			}
         }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+			if (projectile.Calamity().stealthStrike == true)
+			{
+				target.AddBuff(BuffID.Webbed, 180);
+			}
+			else
+			{
+				target.AddBuff(BuffID.Webbed, 60);
+			}
+        }
     }
 }
 

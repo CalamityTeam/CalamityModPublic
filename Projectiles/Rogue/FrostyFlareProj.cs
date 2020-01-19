@@ -121,6 +121,12 @@ namespace CalamityMod.Projectiles.Rogue
             }
         }
 
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(BuffID.Frostburn, 300);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
+        }
+
         public override bool CanDamage()
         {
             return projectile.ai[0] == 0f;

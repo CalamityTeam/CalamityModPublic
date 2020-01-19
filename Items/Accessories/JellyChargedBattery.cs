@@ -1,3 +1,4 @@
+using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -35,6 +36,7 @@ namespace CalamityMod.Items.Accessories
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<WulfrumBattery>());
             recipe.AddIngredient(ModContent.ItemType<VoltaicJelly>());
+            recipe.AddIngredient(ModContent.ItemType<PurifiedGel>(), 10);
             recipe.AddTile(TileID.TinkerersWorkbench);
             recipe.SetResult(this);
             recipe.AddRecipe();

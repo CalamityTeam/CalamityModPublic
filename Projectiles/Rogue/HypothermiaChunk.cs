@@ -78,6 +78,11 @@ namespace CalamityMod.Projectiles.Rogue
             target.AddBuff(BuffID.Frostburn, 300);
 		}
 
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(BuffID.Frostburn, 300);
+        }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);

@@ -48,5 +48,10 @@ namespace CalamityMod.Projectiles.Rogue
         {
             target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 180);
         }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 180);
+        }
     }
 }

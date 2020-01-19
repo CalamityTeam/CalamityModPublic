@@ -124,5 +124,30 @@ namespace CalamityMod.Projectiles.Rogue
 				}
 			}
 		}
+
+		public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+			Player player = Main.player[projectile.owner];
+            CalamityPlayer modPlayer = player.Calamity();
+			if (projectile.owner == Main.myPlayer)
+			{
+				if (cooldown == 5)
+				{
+					if (modPlayer.wearingRogueArmor && modPlayer.rogueStealthMax != 0)
+					{
+						if (modPlayer.rogueStealth < modPlayer.rogueStealthMax)
+							modPlayer.rogueStealth += 0.01f;
+							cooldown = 0;
+					}
+				}
+				if (Main.rand.NextBool(8))
+				{
+					float speedMult = Main.rand.Next(3,6);
+                    Vector2 vector1 = new Vector2(projectile.Center.X - player.Center.X, projectile.Center.Y - player.Center.Y);
+                    vector1.Normalize();
+					Projectile.NewProjectile(player.Center.X, player.Center.Y, -vector1.X * speedMult, -vector1.Y * speedMult, ModContent.ProjectileType<SylvanSlash>(), (int)((double)projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
+				}
+			}
+		}
     }
 }

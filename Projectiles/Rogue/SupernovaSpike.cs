@@ -74,6 +74,19 @@ namespace CalamityMod.Projectiles.Rogue
             target.AddBuff(BuffID.Ichor, 120);
         }
 
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<ExoFreeze>(), 30);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
+            target.AddBuff(ModContent.BuffType<Plague>(), 120);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
+            target.AddBuff(BuffID.CursedInferno, 120);
+            target.AddBuff(BuffID.Frostburn, 120);
+            target.AddBuff(BuffID.OnFire, 120);
+            target.AddBuff(BuffID.Ichor, 120);
+        }
+
         internal static void Visuals(Projectile projectile, ref Color c)
         {
             CalamityUtils.IterateDisco(ref c, ref projectile.localAI[0], 15);

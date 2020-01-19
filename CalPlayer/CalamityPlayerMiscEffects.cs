@@ -1232,8 +1232,9 @@ namespace CalamityMod.CalPlayer
 				(player.arcticDivingGear ? 1 : 0) + // 3
 				(modPlayer.jellyfishNecklace ? 1 : 0) + // 4
 				((player.blueFairy || player.greenFairy || player.redFairy || player.petFlagDD2Ghost || modPlayer.babyGhostBell) ? 2 : 0) + // 6
-				((modPlayer.shine || modPlayer.lumenousAmulet) ? 2 : 0) + // 8
-				((player.wisp || player.suspiciouslookingTentacle || modPlayer.sirenPet) ? 3 : 0); // 11
+				((modPlayer.shine) ? 2 : 0) + // 8
+				((modPlayer.lumenousAmulet) ? 2 : 0) + // 10
+				((player.wisp || player.suspiciouslookingTentacle || modPlayer.sirenPet) ? 3 : 0); // 13
 
 			double breathLossMult = 1.0 -
 				(player.gills ? 0.2 : 0.0) - // 0.8

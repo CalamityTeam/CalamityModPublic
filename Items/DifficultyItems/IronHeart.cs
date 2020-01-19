@@ -47,7 +47,8 @@ namespace CalamityMod.Items.DifficultyItems
             for (int doom = 0; doom < 200; doom++)
             {
                 if ((Main.npc[doom].active && (Main.npc[doom].boss || Main.npc[doom].type == NPCID.EaterofWorldsHead || Main.npc[doom].type == NPCID.EaterofWorldsTail || Main.npc[doom].type == ModContent.NPCType<SlimeGodRun>() ||
-                    Main.npc[doom].type == ModContent.NPCType<SlimeGodRunSplit>() || Main.npc[doom].type == ModContent.NPCType<SlimeGod>() || Main.npc[doom].type == ModContent.NPCType<SlimeGodSplit>())) || CalamityWorld.DoGSecondStageCountdown > 0)
+                    Main.npc[doom].type == ModContent.NPCType<SlimeGodRunSplit>() || Main.npc[doom].type == ModContent.NPCType<SlimeGod>() || Main.npc[doom].type == ModContent.NPCType<SlimeGodSplit>())) || CalamityWorld.DoGSecondStageCountdown > 0 || 
+					Main.npc[doom].type == NPCID.TheDestroyerBody || Main.npc[doom].type == NPCID.TheDestroyerTail)
                 {
 					player.KillMeForGood();
                     Main.npc[doom].active = false;
