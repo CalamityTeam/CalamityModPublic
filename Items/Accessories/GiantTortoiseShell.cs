@@ -1,4 +1,5 @@
 ﻿using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
@@ -26,6 +27,15 @@ namespace CalamityMod.Items.Accessories
         {
             player.moveSpeed -= 0.1f;
             player.thorns = 0.25f;
+        }
+
+        // This item cannot be crafted, but it can be crafted into a normal Turtle Shell.
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(this);
+            recipe.SetResult(ItemID.TurtleShell);
+            recipe.AddRecipe();
         }
     }
 }
