@@ -552,6 +552,7 @@ namespace CalamityMod.CalPlayer
         public bool bOut = false;
         public bool clamity = false;
         public bool sulphurPoison = false;
+        public bool nightwither = false;
 
         // Buff
         public bool trinketOfChiBuff = false;
@@ -1299,6 +1300,7 @@ namespace CalamityMod.CalPlayer
             enraged = false;
             snowmanNoseless = false;
             sulphurPoison = false;
+            nightwither = false;
 
 			revivify = false;
             trinketOfChiBuff = false;
@@ -1484,7 +1486,15 @@ namespace CalamityMod.CalPlayer
             theBeeDamage = 0;
             reforges = 0;
             polarisBoostCounter = 0;
+            sandCloakCooldown = 0;
+            spectralVeilImmunity = 0;
+            plaguedFuelPackCooldown = 0;
+            plaguedFuelPackDash = 0;
+            plaguedFuelPackDirection = 0;
 			killSpikyBalls = false;
+            moonCrownCooldown = 0;
+            featherCrownCooldown = 0;
+            nanoFlareCooldown = 0;
 
 			alcoholPoisoning = false;
             shadowflame = false;
@@ -1521,15 +1531,8 @@ namespace CalamityMod.CalPlayer
             inkBombCooldown = false;
             abyssalMirrorCooldown = false;
             eclipseMirrorCooldown = false;
-            moonCrownCooldown = 0;
-            featherCrownCooldown = 0;
-            nanoFlareCooldown = 0;
             sulphurPoison = false;
-            sandCloakCooldown = 0;
-            spectralVeilImmunity = 0;
-            plaguedFuelPackCooldown = 0;
-            plaguedFuelPackDash = 0;
-            plaguedFuelPackDirection = 0;
+            nightwither = false;
             #endregion
 
             #region Rogue
@@ -3234,6 +3237,10 @@ namespace CalamityMod.CalPlayer
                     damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s infection spread too far.");
                 else
                     damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s skin was replaced by the astral virus.");
+            }
+            if (nightwither && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
+            {
+                damageSource = PlayerDeathReason.ByCustomReason(player.name + " was incinerated by lunar rays.");
             }
             if (manaOverloader && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
             {
@@ -8074,6 +8081,24 @@ namespace CalamityMod.CalPlayer
                     r *= 0.07f;
                     g *= 0.15f;
                     b *= 0.01f;
+                    fullBright = true;
+                }
+            }
+            if (nightwither)
+            {
+                if (Main.rand.NextBool(4) && drawInfo.shadow == 0f)
+                {
+                    int dust = Dust.NewDust(drawInfo.position - new Vector2(2f, 2f), player.width + 4, player.height + 4, 176, player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 3f);
+                    Main.dust[dust].noGravity = true;
+                    Main.dust[dust].velocity *= 1.8f;
+                    Main.dust[dust].velocity.Y -= 0.5f;
+                    Main.playerDrawDust.Add(dust);
+                }
+                if (noRogueStealth)
+                {
+                    r *= 0.25f;
+                    g *= 0.25f;
+                    b *= 0.1f;
                     fullBright = true;
                 }
             }
