@@ -64,5 +64,12 @@ namespace CalamityMod.Projectiles.Rogue
 			if (projectile.Calamity().stealthStrike == true)
 				player.AddBuff(ModContent.BuffType<Mushy>(), 720);
         }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            Player player = Main.player[projectile.owner];
+			if (projectile.Calamity().stealthStrike == true)
+				player.AddBuff(ModContent.BuffType<Mushy>(), 720);
+        }
     }
 }

@@ -92,6 +92,11 @@ namespace CalamityMod.Projectiles.Rogue
             target.AddBuff(BuffID.Electrified, 180);
         }
 
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(BuffID.Electrified, 180);
+        }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D sprite;

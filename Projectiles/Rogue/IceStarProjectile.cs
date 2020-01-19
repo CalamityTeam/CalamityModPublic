@@ -100,7 +100,32 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if(initStealth)
+            if (initStealth)
+            {
+                if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<KelvinCatalystStar>()] < 15)
+                {
+                    float spread = 45f * 0.0174f;
+                    double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
+                    double deltaAngle = spread / 8f;
+                    double offsetAngle;
+                    int i;
+                    for (i = 0; i < 4; i++)
+                    {
+                        offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
+
+                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 4f), (float)(Math.Cos(offsetAngle) * 4f),
+                            ModContent.ProjectileType<KelvinCatalystStar>(), projectile.damage / 8, projectile.knockBack * 0.5f, projectile.owner, 0f, 0f);
+
+                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 4f), (float)(-Math.Cos(offsetAngle) * 4f),
+                            ModContent.ProjectileType<KelvinCatalystStar>(), projectile.damage / 8, projectile.knockBack * 0.5f, projectile.owner, 0f, 0f);
+                    }
+                }
+            }
+        }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            if (initStealth)
             {
                 if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<KelvinCatalystStar>()] < 15)
                 {

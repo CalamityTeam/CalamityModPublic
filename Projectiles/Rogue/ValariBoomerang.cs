@@ -152,6 +152,33 @@ namespace CalamityMod.Projectiles.Rogue
 				target.AddBuff(ModContent.BuffType<GlacialState>(), 60);
         }
 
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            //Start homing at player if you hit someone
+            projectile.ai[0] = 1;
+
+			int num251 = Main.rand.Next(2, 4);
+			if (projectile.owner == Main.myPlayer)
+			{
+				for (int num252 = 0; num252 < num251; num252++)
+				{
+					Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+					while (value15.X == 0f && value15.Y == 0f)
+					{
+						value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+					}
+					value15.Normalize();
+					value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
+					int shard = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, (Main.rand.NextBool(2) ? ModContent.ProjectileType<Valaricicle>() : ModContent.ProjectileType<Valaricicle2>()), projectile.damage / 3, 0f, projectile.owner, 0f, 0f);
+				}
+			}
+
+            target.AddBuff(BuffID.Frostburn, 240);
+            target.AddBuff(ModContent.BuffType<CrushDepth>(), 240);
+			if (Main.rand.NextBool(5))
+				target.AddBuff(ModContent.BuffType<GlacialState>(), 60);
+        }
+
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             //Bounce off tiles and start homing on player if it hits a tile

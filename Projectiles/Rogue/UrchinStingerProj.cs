@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Rogue
                 {
                     Vector2 projspeed = new Vector2(Main.rand.NextFloat(-4f, 4f), Main.rand.NextFloat(-4f, 4f));
                     int proj = Projectile.NewProjectile(projectile.Center, projspeed, ModContent.ProjectileType<SulphuricAcidBubbleFriendly>(), (int)(projdmg * 0.5f), 1f, projectile.owner, 0f, 0f);
-                    Main.projectile[proj].Calamity().rogue = true;
+                    Main.projectile[proj].Calamity().forceRogue = true;
                 }
                 return false;
             }
@@ -81,6 +81,11 @@ namespace CalamityMod.Projectiles.Rogue
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            target.AddBuff(BuffID.Venom, 360);
+        }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
         {
             target.AddBuff(BuffID.Venom, 360);
         }
