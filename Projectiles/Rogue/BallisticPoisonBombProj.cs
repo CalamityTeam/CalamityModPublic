@@ -188,5 +188,11 @@ namespace CalamityMod.Projectiles.Rogue
             target.AddBuff(BuffID.Venom, 240);
             projectile.Kill();
         }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(BuffID.Venom, 240);
+            projectile.Kill();
+        }
     }
 }

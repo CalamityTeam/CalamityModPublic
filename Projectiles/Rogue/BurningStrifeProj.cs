@@ -64,6 +64,18 @@ namespace CalamityMod.Projectiles.Rogue
             }
         }
 
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(BuffID.ShadowFlame, 180);
+            if (projectile.Calamity().stealthStrike && projectile.penetrate != 1)
+            {
+                Main.PlaySound(2, projectile.Center, 103);
+                int proj = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<ShadowflameExplosionBig>(), (int)(projectile.damage * 0.25), projectile.knockBack, projectile.owner);
+                Main.projectile[proj].Center = projectile.Center;
+                Main.projectile[proj].Calamity().rogue = true;
+            }
+        }
+
         public override void Kill(int timeLeft)
         {
             int proj;

@@ -106,6 +106,15 @@ namespace CalamityMod.Projectiles.Rogue
 			}
         }
 
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+			if (projectile.ai[0] == 1f)
+			{
+				target.AddBuff(BuffID.Ichor, 180);
+				target.AddBuff(BuffID.CursedInferno, 180);
+			}
+        }
+
         // Cannot deal damage for the first several frames of existence.
         public override bool CanDamage()
         {

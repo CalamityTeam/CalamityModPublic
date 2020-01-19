@@ -185,6 +185,18 @@ namespace CalamityMod.Projectiles.Rogue
             }
         }
 
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(BuffID.Venom, 240);
+            target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 240);
+            target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 240);
+            if (projectile.Calamity().stealthStrike)
+            {
+                target.AddBuff(ModContent.BuffType<CrushDepth>(), 240);
+                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<JawsShockwave>(), 100, 10f, projectile.owner, 0, 0);
+            }
+        }
+
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             Collision.HitTiles(projectile.position + projectile.velocity, projectile.velocity, projectile.width, projectile.height);

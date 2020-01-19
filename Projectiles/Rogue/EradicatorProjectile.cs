@@ -105,5 +105,11 @@ namespace CalamityMod.Projectiles.Rogue
             target.AddBuff(BuffID.OnFire, 600);
             target.AddBuff(BuffID.Frostburn, 600);
         }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(BuffID.OnFire, 600);
+            target.AddBuff(BuffID.Frostburn, 600);
+        }
     }
 }

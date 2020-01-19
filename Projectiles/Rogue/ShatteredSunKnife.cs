@@ -98,6 +98,12 @@ namespace CalamityMod.Projectiles.Rogue
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
         }
 
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ShatteredExplosion>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
+        }
+
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ShatteredExplosion>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);

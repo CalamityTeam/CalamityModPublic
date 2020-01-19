@@ -93,5 +93,10 @@ namespace CalamityMod.Projectiles.Rogue
             target.AddBuff(BuffID.Daybreak, 180);
             target.AddBuff(ModContent.BuffType<Nightwither>(), 180);
         }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<Nightwither>(), 180);
+        }
     }
 }

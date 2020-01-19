@@ -66,5 +66,15 @@ namespace CalamityMod.Projectiles.Rogue
             target.immune[projectile.owner] = 2;
             target.AddBuff(BuffID.CursedInferno, 300);
         }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            projectile.damage /= 2;
+            if (projectile.damage < 1)
+            {
+                projectile.damage = 1;
+            }
+            target.AddBuff(BuffID.CursedInferno, 300);
+        }
     }
 }

@@ -47,6 +47,11 @@ namespace CalamityMod.Projectiles.Rogue
             hitCount++;
         }
 
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            hitCount++;
+        }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D tex = Main.projectileTexture[projectile.type];

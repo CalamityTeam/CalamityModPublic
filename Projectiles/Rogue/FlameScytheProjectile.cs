@@ -54,5 +54,15 @@ namespace CalamityMod.Projectiles.Rogue
                 Main.projectile[proj].Calamity().forceRogue = true;
             }
         }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(BuffID.OnFire, 300);
+            if (projectile.owner == Main.myPlayer)
+            {
+                int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<FuckYou>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+                Main.projectile[proj].Calamity().forceRogue = true;
+            }
+        }
     }
 }

@@ -60,6 +60,14 @@ namespace CalamityMod.Projectiles.Rogue
             }
         }
 
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            if (target.statLife <= 0)
+            {
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<ShinobiHealOrb>(), 0, 0, Main.myPlayer, 0, 10);
+            }
+        }
+
         public override void Kill(int timeLeft)
         {
             for (int i = 0; i < 5; i++)
