@@ -192,9 +192,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
         {
             if (CalamityWorld.DoGSecondStageCountdown <= 0)
             {
-                if (projectile.type == ModContent.ProjectileType<ShatteredSunScorchedBlade>())
-                    damage /= 2;
-                else if (projectile.type == ModContent.ProjectileType<MoltenAmputatorProj>())
+                if (projectile.type == ModContent.ProjectileType<MoltenAmputatorProj>())
                     damage = (int)((double)damage * 0.9);
             }
         }
