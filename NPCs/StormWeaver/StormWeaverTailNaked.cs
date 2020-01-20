@@ -242,6 +242,10 @@ namespace CalamityMod.NPCs.StormWeaver
             {
                 damage /= projectile.penetrate;
             }
+            if (projectile.type == ModContent.ProjectileType<ShatteredSunScorchedBlade>())
+            {
+                damage /= 2;
+            }
         }
 
         public override void HitEffect(int hitDirection, double damage)
