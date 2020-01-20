@@ -6,7 +6,6 @@ using Terraria.GameContent.UI.Elements;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
 using Terraria.UI;
-using CalamityMod;
 
 namespace CalamityMod.UI
 {
@@ -51,13 +50,14 @@ namespace CalamityMod.UI
 
         public override void OnInitialize()
         {
-			Vector2 configVec = CalamityMod.CalamityConfig.RageMeterPos; //CHANGE THIS CONFIG TO CHANGE WHERE IT STARTS ON SCREEN!
+            float posX = CalamityMod.CalamityConfig.RageMeterPosX;
+			float posY = CalamityMod.CalamityConfig.RageMeterPosY; //CHANGE THESE TWO TO CHANGE WHERE IT STARTS ON SCREEN!
             if (backPanel == null) //if not using textures set up panels
             {
                 backPanel = new UIPanel();
                 ((UIPanel)backPanel).SetPadding(0);
-                backPanel.Left.Set(configVec.X, 0f);
-                backPanel.Top.Set(configVec.Y, 0f);
+                backPanel.Left.Set(posX, 0f);
+                backPanel.Top.Set(posY, 0f);
                 backPanel.Width.Set(barWidth + 20f, 0f);
                 backPanel.Height.Set(50f, 0f);
                 ((UIPanel)backPanel).BackgroundColor = new Color(73, 94, 171);
@@ -71,13 +71,13 @@ namespace CalamityMod.UI
                 barPanel.Top.Set(10f, 0f);
                 barPanel.Width.Set(barWidth, 0f);
                 barPanel.Height.Set(30f, 0f);
-                ((UIPanel)barPanel).BackgroundColor = new Color(0, 0, 200);
+                ((UIPanel)barPanel).BackgroundColor = new Color(200, 0, 0);
                 backPanel.Append(barPanel);
             }
             else //otherwise using images so just move it into position
             {
-                backPanel.Left.Set(configVec.X, 0f);
-                backPanel.Top.Set(configVec.Y, 0f);
+                backPanel.Left.Set(posX, 0f);
+                backPanel.Top.Set(posY, 0f);
                 backPanel.OnMouseDown += new MouseEvent(DragStart);
                 backPanel.OnMouseUp += new MouseEvent(DragEnd);
 
@@ -95,29 +95,32 @@ namespace CalamityMod.UI
             return (float)getValue() / Math.Max(1, (float)valueMax - 1);
         }
 
-		private void DragStart(UIMouseEvent evt, UIElement listeningElement)
-		{
-			offset = new Vector2(evt.MousePosition.X - backPanel.Left.Pixels, evt.MousePosition.Y - backPanel.Top.Pixels);
-			dragging = true;
-		}
+        private void DragStart(UIMouseEvent evt, UIElement listeningElement)
+        {
+            offset = new Vector2(evt.MousePosition.X - backPanel.Left.Pixels, evt.MousePosition.Y - backPanel.Top.Pixels);
+            dragging = true;
+        }
 
-		private void DragEnd(UIMouseEvent evt, UIElement listeningElement)
-		{
-			Vector2 end = evt.MousePosition;
-			dragging = false;
+        private void DragEnd(UIMouseEvent evt, UIElement listeningElement)
+        {
+            Vector2 end = evt.MousePosition;
+            dragging = false;
 
-			backPanel.Left.Set(end.X - Main.screenWidth - offset.X, 1f);
-			backPanel.Top.Set(end.Y - Main.screenHeight - offset.Y, 1f);
+            backPanel.Left.Set(end.X - offset.X, 0f);
+            backPanel.Top.Set(end.Y - offset.Y, 0f);
 
-			Recalculate();
-			CalamityMod.CalamityConfig.RageMeterPos = new Vector2(backPanel.Left.Pixels, backPanel.Top.Pixels);
+            Recalculate();
+			CalamityMod.CalamityConfig.RageMeterPosX = backPanel.Left.Pixels;
+			CalamityMod.CalamityConfig.RageMeterPosY = backPanel.Top.Pixels;
 			CalamityMod.SaveConfig(CalamityMod.CalamityConfig);
-		}
+        }
 
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
             Recalculate(); //THIS IS IMPORTANT! IDK why but when this is included it updates the drawing every tick.
+			backPanel.Left.Pixels = CalamityMod.CalamityConfig.RageMeterPosX;
+			backPanel.Top.Pixels = CalamityMod.CalamityConfig.RageMeterPosY;
             tick = Main.player[Main.myPlayer].Calamity().stress; //updates the testing tick
             if (tick >= 10000)
             {

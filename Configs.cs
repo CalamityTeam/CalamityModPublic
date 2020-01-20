@@ -42,17 +42,29 @@ namespace CalamityMod
 		[Tooltip("Enables the Adrenaline and Rage mechanics")]
 		public bool AdrenalineAndRage { get; set; }
 
-		[DefaultValue(typeof(Vector2), "-900, -1820")]
-		[Range(-1920f, 0f)]
-		[Label("Rage Meter Position")]
-		[Tooltip("Changes the position of the Rage Meter")]
-		public Vector2 RageMeterPos { get; set; }
+		[Label("Rage Meter Position X")]
+		[Tooltip("Changes the X position of the Rage Meter")]
+		[Range(0f, 1000f)]
+		[DefaultValue(500f)]
+		public float RageMeterPosX { get; set; }
 
-		[DefaultValue(typeof(Vector2), "-750, -1820")]
-		[Range(-1920f, 0f)]
-		[Label("Adrenaline Meter Position")]
-		[Tooltip("Changes the position of the Adrenaline Meter")]
-		public Vector2 AdrenalineMeterPos { get; set; }
+		[Label("Rage Meter Position Y")]
+		[Tooltip("Changes the Y position of the Rage Meter")]
+		[Range(0f, 1000f)]
+		[DefaultValue(30f)]
+		public float RageMeterPosY { get; set; }
+
+		[Label("Adrenaline Meter Position X")]
+		[Tooltip("Changes the X position of the Adrenaline Meter")]
+		[Range(0f, 1000f)]
+		[DefaultValue(650f)]
+		public float AdrenalineMeterPosX { get; set; }
+
+		[Label("Adrenaline Meter Position Y")]
+		[Tooltip("Changes the Y position of the Adrenaline Meter")]
+		[Range(0f, 1000f)]
+		[DefaultValue(30f)]
+		public float AdrenalineMeterPosY { get; set; }
 
 		[DefaultValue(false)]
 		[Label("Revengeance and Death Thorium Boss buff")]
