@@ -91,7 +91,7 @@ namespace CalamityMod.Projectiles.Rogue
 					bool flag17 = false;
 					for (int num475 = 0; num475 < 200; num475++)
 					{
-						if (Main.npc[num475].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[num475].Center, 1, 1))
+						if (Main.npc[num475].CanBeChasedBy(projectile, false))
 						{
 							float num476 = Main.npc[num475].position.X + (float)(Main.npc[num475].width / 2);
 							float num477 = Main.npc[num475].position.Y + (float)(Main.npc[num475].height / 2);
