@@ -105,8 +105,6 @@ namespace CalamityMod
         public static ModHotKey AdrenalineHotKey;
         public static ModHotKey AstralTeleportHotKey;
         public static ModHotKey AstralArcanumUIHotkey;
-        public static ModHotKey BossBarToggleHotKey;
-        public static ModHotKey BossBarToggleSmallTextHotKey;
         public static ModHotKey MomentumCapacitatorHotkey;
         public static ModHotKey SandCloakHotkey;
         public static ModHotKey SpectralVeilHotKey;
@@ -217,8 +215,6 @@ namespace CalamityMod
             SandCloakHotkey = RegisterHotKey("Sand Cloak Effect", "C");
             SpectralVeilHotKey = RegisterHotKey("Spectral Veil Teleport", "Z");
             PlaguePackHotKey = RegisterHotKey("Plagued Fuel Pack Dash", "Q");
-            BossBarToggleHotKey = RegisterHotKey("Boss Health Bar Toggle", "NumPad0");
-            BossBarToggleSmallTextHotKey = RegisterHotKey("Boss Health Bar Small Text Toggle", "NumPad1");
 
             if (!Main.dedServ)
             {
@@ -311,8 +307,6 @@ namespace CalamityMod
             SandCloakHotkey = null;
             SpectralVeilHotKey = null;
             PlaguePackHotKey = null;
-            BossBarToggleHotKey = null;
-            BossBarToggleSmallTextHotKey = null;
 
             AstralCactusTexture = null;
             AstralCactusGlowTexture = null;

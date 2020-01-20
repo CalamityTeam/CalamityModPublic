@@ -110,6 +110,16 @@ namespace CalamityMod
 		[Tooltip("Increases the severity of lava with a new debuff to punish those who stay in lava for too long")]
 		public bool LethalLava { get; set; }
 
+		[DefaultValue(true)]
+		[Label("Boss Health Bar")]
+		[Tooltip("Enables the Boss Health Bar to show while a boss or miniboss is alive")]
+		public bool DrawBossBar { get; set; }
+
+		[DefaultValue(true)]
+		[Label("Boss Health Bar Small Text")]
+		[Tooltip("Enables the small text below the health bar\nThis displays the exact health amount or remaining boss parts")]
+		public bool DrawSmallText { get; set; }
+
 		[DefaultValue(false)]
 		[Label("Mining Speed Boost")]
 		[Tooltip("Boosts the player's mining speed by 75%")]

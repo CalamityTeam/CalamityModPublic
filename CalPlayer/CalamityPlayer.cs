@@ -2098,28 +2098,6 @@ namespace CalamityMod.CalPlayer
                 Main.PlaySound(2, player.position, 66);
                 Main.PlaySound(2, player.position, 34);
             }
-            if (CalamityMod.BossBarToggleHotKey.JustPressed)
-            {
-                if (drawBossHPBar)
-                {
-                    drawBossHPBar = false;
-                }
-                else
-                {
-                    drawBossHPBar = true;
-                }
-            }
-            if (CalamityMod.BossBarToggleSmallTextHotKey.JustPressed)
-            {
-                if (shouldDrawSmallText)
-                {
-                    shouldDrawSmallText = false;
-                }
-                else
-                {
-                    shouldDrawSmallText = true;
-                }
-            }
             if (CalamityMod.TarraHotKey.JustPressed)
             {
                 if (tarraMelee && !tarragonCloakCooldown && !tarragonCloak)
@@ -2662,6 +2640,23 @@ namespace CalamityMod.CalPlayer
 
         public override void UpdateEquips(ref bool wallSpeedBuff, ref bool tileSpeedBuff, ref bool tileRangeBuff)
         {
+            if (CalamityMod.CalamityConfig.DrawBossBar)
+            {
+                drawBossHPBar = true;
+            }
+            else
+            {
+                drawBossHPBar = false;
+            }
+            if (CalamityMod.CalamityConfig.DrawSmallText)
+            {
+                shouldDrawSmallText = true;
+            }
+            else
+            {
+                shouldDrawSmallText = false;
+            }
+
             if (CalamityMod.CalamityConfig.MiningSpeedBoost)
             {
                 player.pickSpeed *= 0.75f;
