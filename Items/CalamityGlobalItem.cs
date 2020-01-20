@@ -838,6 +838,17 @@ namespace CalamityMod.Items
                     }
                 }
             }
+            if (item.type == ItemID.GoldenFishingRod)
+            {
+                foreach (TooltipLine line2 in tooltips)
+                {
+                    if (line2.mod == "Terraria" && line2.Name == "NeedsBait")
+                    {
+                        line2.text = "Requires bait to catch fish\n" +
+                            "The line will never break";
+                    }
+                }
+            }
             if (item.type == ItemID.MeteorHelmet || item.type == ItemID.MeteorSuit || item.type == ItemID.MeteorLeggings)
             {
                 foreach (TooltipLine line2 in tooltips)

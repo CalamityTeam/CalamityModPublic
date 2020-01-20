@@ -25,5 +25,10 @@ namespace CalamityMod.Items.Placeables
             item.value = Item.sellPrice(silver: 6);
             item.rare = 3;
         }
+
+		public override void CaughtFishStack(ref int stack)
+		{
+			stack = Main.rand.Next(5,16);
+		}
     }
 }
