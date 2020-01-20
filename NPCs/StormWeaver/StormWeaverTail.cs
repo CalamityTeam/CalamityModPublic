@@ -201,14 +201,6 @@ namespace CalamityMod.NPCs.StormWeaver
             }
         }
 
-        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-        {
-            if (projectile.type == ModContent.ProjectileType<ShatteredSunScorchedBlade>())
-            {
-                damage /= 3;
-            }
-        }
-
         public override bool CheckActive()
         {
             return false;
