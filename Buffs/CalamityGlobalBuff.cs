@@ -109,7 +109,7 @@ namespace CalamityMod.Buffs
                 }
                 else if (offense || defense)
                 {
-                    tip = "The " + (offense ? "Offensive" : "Defensive") + " Duo will " + (offense ? "fight for and heal for you!" : "protect and heal you!");
+                    tip = "The " + (offense ? "Offensive" : "Defensive") + " Duo will " + (offense ? "fight for and heal you!" : "protect and heal you!");
                 }
             }
         }
