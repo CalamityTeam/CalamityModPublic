@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAbyss
 
         public override void HoldItem(Player player)
         {
-            if (Main.rand.Next(player.itemAnimation > 0 ? 40 : 80) == 0)
+            if (Main.rand.Next(player.itemAnimation > 0 ? 10 : 20) == 0)
             {
                 // TODO -- This dust was an invalid dust. Replaced with a random dust.
                 Dust.NewDust(new Vector2(player.itemLocation.X + 16f * player.direction, player.itemLocation.Y - 14f * player.gravDir), 4, 4, 135);
