@@ -4258,20 +4258,27 @@ namespace CalamityMod.NPCs
             // Check if other segments are still alive, if not, die
             if (npc.type > NPCID.TheDestroyer)
             {
-                bool flag = false;
-                if (npc.ai[1] <= 0f)
-                    flag = true;
-                else if (Main.npc[(int)npc.ai[1]].life <= 0)
-                    flag = true;
-
-                if (flag)
+                bool shouldDespawn = true;
+                for (int i = 0; i < Main.maxNPCs; i++)
+                {
+                    if (Main.npc[i].active && Main.npc[i].type == NPCID.TheDestroyer)
+                        shouldDespawn = false;
+                }
+                if (!shouldDespawn)
+                {
+                    if (npc.ai[1] > 0f)
+                        shouldDespawn = false;
+                    else if (Main.npc[(int)npc.ai[1]].life > 0)
+                        shouldDespawn = false;
+                }
+                if (shouldDespawn)
                 {
                     npc.life = 0;
                     npc.HitEffect(0, 10.0);
                     npc.checkDead();
+                    npc.active = false;
                 }
             }
-
             if (npc.type == NPCID.TheDestroyerBody)
             {
                 // Gain more defense as health lowers with a max of 30, lose defense if probe has been launched
