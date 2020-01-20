@@ -62,8 +62,11 @@ namespace CalamityMod.UI
                 backPanel.Height.Set(50f, 0f);
                 ((UIPanel)backPanel).BackgroundColor = new Color(73, 94, 171);
 
-                backPanel.OnMouseDown += new MouseEvent(DragStart);
-                backPanel.OnMouseUp += new MouseEvent(DragEnd);
+				if (!CalamityMod.CalamityConfig.MeterPosLock)
+				{
+					backPanel.OnMouseDown += new MouseEvent(DragStart);
+					backPanel.OnMouseUp += new MouseEvent(DragEnd);
+				}
 
                 barPanel = new UIPanel();
                 ((UIPanel)barPanel).SetPadding(0);
@@ -78,8 +81,11 @@ namespace CalamityMod.UI
             {
                 backPanel.Left.Set(posX, 0f);
                 backPanel.Top.Set(posY, 0f);
-                backPanel.OnMouseDown += new MouseEvent(DragStart);
-                backPanel.OnMouseUp += new MouseEvent(DragEnd);
+				if (!CalamityMod.CalamityConfig.MeterPosLock)
+				{
+					backPanel.OnMouseDown += new MouseEvent(DragStart);
+					backPanel.OnMouseUp += new MouseEvent(DragEnd);
+				}
 
                 barPanel.Left.Set(barOffset, 0f);
                 barPanel.Top.Set(0f, 0f);
@@ -97,22 +103,28 @@ namespace CalamityMod.UI
 
         private void DragStart(UIMouseEvent evt, UIElement listeningElement)
         {
-            offset = new Vector2(evt.MousePosition.X - backPanel.Left.Pixels, evt.MousePosition.Y - backPanel.Top.Pixels);
-            dragging = true;
+			if (!CalamityMod.CalamityConfig.MeterPosLock)
+			{
+				offset = new Vector2(evt.MousePosition.X - backPanel.Left.Pixels, evt.MousePosition.Y - backPanel.Top.Pixels);
+				dragging = true;
+			}
         }
 
         private void DragEnd(UIMouseEvent evt, UIElement listeningElement)
         {
-            Vector2 end = evt.MousePosition;
-            dragging = false;
+			if (!CalamityMod.CalamityConfig.MeterPosLock)
+			{
+				Vector2 end = evt.MousePosition;
+				dragging = false;
 
-            backPanel.Left.Set(end.X - offset.X, 0f);
-            backPanel.Top.Set(end.Y - offset.Y, 0f);
+				backPanel.Left.Set(end.X - offset.X, 0f);
+				backPanel.Top.Set(end.Y - offset.Y, 0f);
 
-            Recalculate();
-			CalamityMod.CalamityConfig.RageMeterPosX = backPanel.Left.Pixels;
-			CalamityMod.CalamityConfig.RageMeterPosY = backPanel.Top.Pixels;
-			CalamityMod.SaveConfig(CalamityMod.CalamityConfig);
+				Recalculate();
+				CalamityMod.CalamityConfig.RageMeterPosX = backPanel.Left.Pixels;
+				CalamityMod.CalamityConfig.RageMeterPosY = backPanel.Top.Pixels;
+				CalamityMod.SaveConfig(CalamityMod.CalamityConfig);
+			}
         }
 
         public override void Update(GameTime gameTime)
@@ -137,12 +149,15 @@ namespace CalamityMod.UI
                 Main.LocalPlayer.mouseInterface = true;
                 Main.instance.MouseText("Rage: " + getValue() + "/" + valueMax + "", 0, 0, -1, -1, -1, -1); //only way I got this to show up consistently, otherwise it fucked up and showed up anywhere onscreen lol.
             }
-            if (dragging)
-            {
-                backPanel.Left.Set(MousePosition.X - offset.X, 0f);
-                backPanel.Top.Set(MousePosition.Y - offset.Y, 0f);
-                Recalculate();
-            }
+			if (!CalamityMod.CalamityConfig.MeterPosLock)
+			{
+				if (dragging)
+				{
+					backPanel.Left.Set(MousePosition.X - offset.X, 0f);
+					backPanel.Top.Set(MousePosition.Y - offset.Y, 0f);
+					Recalculate();
+				}
+			}
         }
     }
 }

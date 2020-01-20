@@ -67,6 +67,11 @@ namespace CalamityMod
 		public float AdrenalineMeterPosY { get; set; }
 
 		[DefaultValue(false)]
+		[Label("Meter Position Lock")]
+		[Tooltip("Prevents the movement of the Adrenaline and Rage bars with the Mouse")]
+		public bool MeterPosLock { get; set; }
+
+		[DefaultValue(false)]
 		[Label("Revengeance and Death Thorium Boss buff")]
 		[Tooltip("Buffs the health of Thorium bosses if Revengeance or Death is enabled")]
 		public bool RevengeanceAndDeathThoriumBossBuff { get; set; }
