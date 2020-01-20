@@ -2477,10 +2477,14 @@ namespace CalamityMod.NPCs
 			}
 			else if (StormWeaverIDs.Contains(npc.type))
 			{
-				if (projectile.type == ModContent.ProjectileType<MoltenAmputatorProj>() || projectile.type == ModContent.ProjectileType<ShatteredSunScorchedBlade>())
+				if (projectile.type == ModContent.ProjectileType<ShatteredSunScorchedBlade>())
 				{
 					damage = (int)(damage * 0.5);
 				}
+                else if (projectile.type == ModContent.ProjectileType<MoltenAmputatorProj>())
+                {
+                    damage = (int)((double)damage * 0.2);
+                }
 
 				if (projectile.penetrate == -1 && !projectile.minion)
 				{

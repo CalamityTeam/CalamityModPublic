@@ -190,9 +190,12 @@ namespace CalamityMod.NPCs.CeaselessVoid
 
         public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
         {
-            if (CalamityWorld.DoGSecondStageCountdown <= 0 && projectile.type == ModContent.ProjectileType<ShatteredSunScorchedBlade>())
+            if (CalamityWorld.DoGSecondStageCountdown <= 0)
             {
-                damage /= 2;
+                if (projectile.type == ModContent.ProjectileType<ShatteredSunScorchedBlade>())
+                    damage /= 2;
+                else if (projectile.type == ModContent.ProjectileType<MoltenAmputatorProj>())
+                    damage = (int)((double)damage * 0.9);
             }
         }
 
