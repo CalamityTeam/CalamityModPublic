@@ -2484,7 +2484,7 @@ namespace CalamityMod.NPCs
                 else if (projectile.type == ModContent.ProjectileType<MoltenAmputatorProj>() || projectile.type == ModContent.ProjectileType<MoltenBlobThrown>())
                 {
                     if (projectile.penetrate == -1)
-                        projectile.penetrate = projectile.Calamity().stealthStrike ? 4 : 7;
+                        projectile.penetrate = projectile.Calamity().stealthStrike ? 6 : 9;
                     damage = (int)((double)damage * 0.75);
                 }
 

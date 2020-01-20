@@ -1522,7 +1522,7 @@ namespace CalamityMod.Projectiles
                         target.AddBuff(BuffID.ShadowFlame, 300);
                     }
 
-                    if (Main.player[projectile.owner].Calamity().voltaicJelly)
+                    if (Main.player[projectile.owner].Calamity().voltaicJelly && Main.rand.Next(0, 5) == 0)
                     {
                         target.AddBuff(BuffID.Electrified, 60);
                     }
