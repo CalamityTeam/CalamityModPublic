@@ -245,18 +245,6 @@ namespace CalamityMod.NPCs.StormWeaver
             return false;
         }
 
-        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-        {
-            if (projectile.penetrate == -1 && !projectile.minion)
-            {
-                damage = (int)((double)damage * 0.2);
-            }
-            else if (projectile.penetrate > 1)
-            {
-                damage /= projectile.penetrate;
-            }
-        }
-
         public override void HitEffect(int hitDirection, double damage)
         {
             if (npc.life <= 0)

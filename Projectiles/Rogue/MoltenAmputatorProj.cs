@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Rogue
                 }
                 iAmSpeed.Normalize();
                 iAmSpeed *= (float)Main.rand.Next(70, 101) * 0.1f;
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, iAmSpeed.X, iAmSpeed.Y, ModContent.ProjectileType<MoltenBlobThrown>(), (int)((double)projectile.damage * 0.5), 0f, projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, iAmSpeed.X, iAmSpeed.Y, ModContent.ProjectileType<MoltenBlobThrown>(), (int)((double)projectile.damage * 0.25), 0f, projectile.owner, 0f, 0f);
             }
         }
 
@@ -66,7 +66,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.immune[projectile.owner] = 3;
+            target.immune[projectile.owner] = 4;
             if (projectile.owner == Main.myPlayer)
             {
                 fireInTheBlob(projectile.Calamity().stealthStrike ? Main.rand.Next(3, 5) : Main.rand.Next(1, 3));
@@ -80,7 +80,6 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            int num251 = Main.rand.Next(1, 3);
             if (projectile.owner == Main.myPlayer)
             {
                 fireInTheBlob(projectile.Calamity().stealthStrike ? Main.rand.Next(3, 5) : Main.rand.Next(1, 3));

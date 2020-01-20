@@ -283,6 +283,13 @@ namespace CalamityMod.NPCs
 			NPCID.TheDestroyerBody,
 			NPCID.TheDestroyerTail
 		};
+
+		public static List<int> StormWeaverIDs = new List<int>
+		{
+			ModContent.NPCType<StormWeaverHeadNaked>(),
+			ModContent.NPCType<StormWeaverBodyNaked>(),
+			ModContent.NPCType<StormWeaverTailNaked>()
+		};
 		#endregion
 
 		#region Instance Per Entity
@@ -2464,6 +2471,22 @@ namespace CalamityMod.NPCs
 						damage = (int)(damage * 0.2);
 				}
 				else if (projectile.penetrate > 1 && projectile.type != ModContent.ProjectileType<BrinySpout>())
+				{
+					damage /= projectile.penetrate;
+				}
+			}
+			else if (StormWeaverIDs.Contains(npc.type))
+			{
+				if (projectile.type == ModContent.ProjectileType<MoltenAmputatorProj>())
+				{
+					damage = (int)(damage * 0.5);
+				}
+
+				if (projectile.penetrate == -1 && !projectile.minion)
+				{
+					damage = (int)((double)damage * 0.2);
+				}
+				else if (projectile.penetrate > 1)
 				{
 					damage /= projectile.penetrate;
 				}
