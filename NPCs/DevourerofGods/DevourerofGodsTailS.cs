@@ -20,6 +20,11 @@ namespace CalamityMod.NPCs.DevourerofGods
             DisplayName.SetDefault("The Devourer of Gods");
         }
 
+        internal void setInvulTime(int time)
+        {
+            invinceTime = time;
+        }
+
         public override void SetDefaults()
         {
             npc.damage = 180;

@@ -911,6 +911,10 @@ namespace CalamityMod.NPCs.DevourerofGods
 				if (Main.npc[i].active && (Main.npc[i].type == ModContent.NPCType<DevourerofGodsBodyS>() || Main.npc[i].type == ModContent.NPCType<DevourerofGodsTailS>()))
 				{
 					Main.npc[i].position = teleportLocation;
+                    if (Main.npc[i].type == ModContent.NPCType<DevourerofGodsTailS>())
+                    {
+                        ((DevourerofGodsTailS)Main.npc[i].modNPC).setInvulTime(720);
+                    }
 					Main.npc[i].netUpdate = true;
 				}
 			}
