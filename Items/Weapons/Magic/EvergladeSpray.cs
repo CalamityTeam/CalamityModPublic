@@ -42,6 +42,12 @@ namespace CalamityMod.Items.Weapons.Magic
             recipe.AddTile(TileID.Bookcases);
             recipe.SetResult(this);
             recipe.AddRecipe();
+            recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.CursedFlames);
+            recipe.AddIngredient(ModContent.ItemType<DraedonBar>(), 3);
+            recipe.AddTile(TileID.Bookcases);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
         }
     }
 }
