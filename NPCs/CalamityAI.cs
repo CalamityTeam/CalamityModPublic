@@ -282,17 +282,25 @@ namespace CalamityMod.NPCs
 			// Kill body and tail
 			if (!head)
 			{
-				bool flag = false;
-				if (npc.ai[1] <= 0f)
-					flag = true;
-				else if (Main.npc[(int)npc.ai[1]].life <= 0)
-					flag = true;
-
-				if (flag)
+				bool shouldDespawn = true;
+				for (int i = 0; i < Main.maxNPCs; i++)
+				{
+					if (Main.npc[i].active && Main.npc[i].type == ModContent.NPCType<AquaticScourgeHead>())
+						shouldDespawn = false;
+				}
+				if (!shouldDespawn)
+				{
+					if (npc.ai[1] > 0f)
+						shouldDespawn = false;
+					else if (Main.npc[(int)npc.ai[1]].life > 0)
+						shouldDespawn = false;
+				}
+				if (shouldDespawn)
 				{
 					npc.life = 0;
 					npc.HitEffect(0, 10.0);
 					npc.checkDead();
+					npc.active = false;
 				}
 			}
 
