@@ -59,7 +59,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
             if (projectile.owner == Main.myPlayer)
             {
-				for (int num252 = 0; num252 < 3; num252++)
+				for (int num252 = 0; num252 < Main.rand.Next(1,4); num252++)
 				{
 					Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
 					while (value15.X == 0f && value15.Y == 0f)
@@ -68,7 +68,7 @@ namespace CalamityMod.Projectiles.Rogue
 					}
 					value15.Normalize();
 					value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-					int shard = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<HypothermiaShard>(), (int)((float)projectile.damage * 0.75f), projectile.knockBack * 0.75f, Main.myPlayer, Main.rand.Next(0,4), 1f);
+					int shard = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<HypothermiaShard>(), (int)((float)projectile.damage * 0.33f), projectile.knockBack * 0.75f, Main.myPlayer, Main.rand.Next(0,4), 1f);
 				}
 			}
         }
