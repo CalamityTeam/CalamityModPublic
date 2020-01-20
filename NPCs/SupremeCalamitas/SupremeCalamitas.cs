@@ -384,7 +384,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
             // Set DR to be 99% and unbreakable if enraged. Boost DR during the 5th attack.
             CalamityGlobalNPC global = npc.Calamity();
-            if (protectionBoost)
+            if (protectionBoost && !gettingTired5)
             {
                 global.DR = enragedDR;
                 global.unbreakableDR = true;
