@@ -2479,7 +2479,7 @@ namespace CalamityMod.NPCs
 			{
 				if (projectile.type == ModContent.ProjectileType<ShatteredSunScorchedBlade>())
 				{
-					damage = (int)(damage * 0.5);
+					damage = (int)(damage * 0.9);
 				}
                 else if (projectile.type == ModContent.ProjectileType<MoltenAmputatorProj>() || projectile.type == ModContent.ProjectileType<MoltenBlobThrown>())
                 {
