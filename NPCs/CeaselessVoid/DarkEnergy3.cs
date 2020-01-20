@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Projectiles.Rogue;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -175,6 +176,14 @@ namespace CalamityMod.NPCs.CeaselessVoid
             {
                 npc.velocity.X = (npc.velocity.X * 7f + num1373) / 8f;
                 npc.velocity.Y = (npc.velocity.Y * 7f + num1374) / 8f;
+            }
+        }
+
+        public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
+        {
+            if (CalamityWorld.DoGSecondStageCountdown <= 0 && projectile.type == ModContent.ProjectileType<ShatteredSunScorchedBlade>())
+            {
+                damage /= 2;
             }
         }
 
