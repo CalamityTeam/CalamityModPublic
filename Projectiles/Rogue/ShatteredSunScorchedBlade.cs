@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
             if (counter % 5 == 0)
             {
-                projectile.velocity *= 1.1f;
+                projectile.velocity *= 1.15f;
                 multiplier -= 0.005f;
                 if (multiplier >= 0.5f && !stealthOrigin && projectile.alpha < 200)
                     projectile.alpha += Main.rand.Next(5, 7);

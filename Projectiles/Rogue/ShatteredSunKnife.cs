@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Rogue
                 projectile.tileCollide = false;
             }
 
-            if (projectile.ai[1] == 25f)
+            if (projectile.ai[1] == 20f)
             {
                 int numProj = 5;
                 float rotation = MathHelper.ToRadians(10);
