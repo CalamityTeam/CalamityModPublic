@@ -15,6 +15,8 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Config;
+using CalamityMod;
 
 namespace CalamityMod.NPCs.Bumblebirb
 {
@@ -37,7 +39,7 @@ namespace CalamityMod.NPCs.Bumblebirb
             npc.height = 80;
             npc.defense = 40;
             npc.LifeMaxNERB(227500, 252500, 3000000);
-            double HPBoost = Config.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
             for (int k = 0; k < npc.buffImmune.Length; k++)

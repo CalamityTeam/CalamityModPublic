@@ -18,6 +18,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Config;
+using CalamityMod;
 
 namespace CalamityMod.NPCs.AstrumAureus
 {
@@ -78,7 +80,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             {
                 npc.value = Item.buyPrice(0, 35, 0, 0);
             }
-            double HPBoost = Config.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
         }
 

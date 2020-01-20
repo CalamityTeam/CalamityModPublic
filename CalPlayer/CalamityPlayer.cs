@@ -1,3 +1,4 @@
+using CalamityMod;
 using CalamityMod.Buffs;
 using CalamityMod.Buffs.Cooldowns;
 using CalamityMod.Buffs.DamageOverTime;
@@ -46,6 +47,7 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+using Terraria.ModLoader.Config;
 
 namespace CalamityMod.CalPlayer
 {
@@ -946,8 +948,10 @@ namespace CalamityMod.CalPlayer
 				player.extraAccessorySlots = 2;
 			if (CalamityWorld.bossRushActive)
 			{
-				if (Config.BossRushAccessoryCurse)
+				if (CalamityMod.CalamityConfig.BossRushAccessoryCurse)
+				{
 					player.extraAccessorySlots = 0;
+				}
 			}
 
 			ResetRogueStealth();
@@ -2302,7 +2306,7 @@ namespace CalamityMod.CalPlayer
                     }
                     stress = 0;
                 }
-                if (stress == stressMax && !rageMode)
+                if (stress == stressMax && CalamityMod.CalamityConfig.AdrenalineAndRage && !rageMode)
                 {
                     Main.PlaySound(29, (int)player.position.X, (int)player.position.Y, 104);
                     for (int num502 = 0; num502 < 64; num502++)
@@ -2325,7 +2329,7 @@ namespace CalamityMod.CalPlayer
                     player.AddBuff(ModContent.BuffType<RageMode>(), 300);
                 }
             }
-            if (CalamityMod.AdrenalineHotKey.JustPressed && Config.AdrenalineAndRage && CalamityWorld.revenge)
+            if (CalamityMod.AdrenalineHotKey.JustPressed && CalamityMod.CalamityConfig.AdrenalineAndRage && CalamityWorld.revenge)
             {
                 if (adrenaline == adrenalineMax && !adrenalineMode)
                 {
@@ -2658,7 +2662,7 @@ namespace CalamityMod.CalPlayer
 
         public override void UpdateEquips(ref bool wallSpeedBuff, ref bool tileSpeedBuff, ref bool tileRangeBuff)
         {
-            if (Config.MiningSpeedBoost)
+            if (CalamityMod.CalamityConfig.MiningSpeedBoost)
             {
                 player.pickSpeed *= 0.75f;
             }
@@ -2736,7 +2740,7 @@ namespace CalamityMod.CalPlayer
             {
                 meleeSpeedMult += 0.1f;
             }
-            if (Config.ProficiencyEnabled)
+            if (CalamityMod.CalamityConfig.ProficiencyEnabled)
             {
                 meleeSpeedMult += GetMeleeSpeedBonus();
             }
@@ -2812,7 +2816,7 @@ namespace CalamityMod.CalPlayer
             if (weakPetrification)
                 WeakPetrification();
 
-            if (player.mount.Active || player.mount.Cart || (Config.BossRushDashCurse && CalamityWorld.bossRushActive))
+            if (player.mount.Active || player.mount.Cart || (CalamityMod.CalamityConfig.BossRushDashCurse && CalamityWorld.bossRushActive))
             {
                 player.dashDelay = 60;
                 dashMod = 0;
@@ -2835,7 +2839,7 @@ namespace CalamityMod.CalPlayer
             if (weakPetrification)
                 WeakPetrification();
 
-            if (player.mount.Active || player.mount.Cart || (Config.BossRushDashCurse && CalamityWorld.bossRushActive))
+            if (player.mount.Active || player.mount.Cart || (CalamityMod.CalamityConfig.BossRushDashCurse && CalamityWorld.bossRushActive))
             {
                 player.dashDelay = 60;
                 dashMod = 0;
@@ -4465,11 +4469,11 @@ namespace CalamityMod.CalPlayer
             {
                 damageMult += 4.0;
             }
-            if (enraged && !Config.BossRushXerocCurse)
+            if (enraged && !CalamityMod.CalamityConfig.BossRushXerocCurse)
             {
                 damageMult += 1.25;
             }
-            if (CalamityWorld.revenge && Config.AdrenalineAndRage)
+            if (CalamityWorld.revenge && CalamityMod.CalamityConfig.AdrenalineAndRage)
             {
                 bool DHorHoD = draedonsHeart || heartOfDarkness;
                 if (rageMode && adrenalineMode)
@@ -4600,7 +4604,7 @@ namespace CalamityMod.CalPlayer
                         player.HealEffect(healAmount);
                     }
                 }
-                if (Config.ProficiencyEnabled)
+                if (CalamityMod.CalamityConfig.ProficiencyEnabled)
                 {
                     if (gainLevelCooldown <= 0)
                     {
@@ -4626,7 +4630,7 @@ namespace CalamityMod.CalPlayer
                         }
                     }
                 }
-                if (CalamityWorld.revenge && Config.AdrenalineAndRage)
+                if (CalamityWorld.revenge && CalamityMod.CalamityConfig.AdrenalineAndRage)
                 {
                     if (item.melee)
                     {
@@ -4707,7 +4711,7 @@ namespace CalamityMod.CalPlayer
             {
                 damageMult += 4.0;
             }
-            if (enraged && !Config.BossRushXerocCurse)
+            if (enraged && !CalamityMod.CalamityConfig.BossRushXerocCurse)
             {
                 damageMult += 1.25;
             }
@@ -4758,7 +4762,7 @@ namespace CalamityMod.CalPlayer
             {
                 damageMult += 0.33;
             }
-            if (CalamityWorld.revenge && Config.AdrenalineAndRage)
+            if (CalamityWorld.revenge && CalamityMod.CalamityConfig.AdrenalineAndRage)
             {
                 bool DHorHoD = draedonsHeart || heartOfDarkness;
                 if (rageMode && adrenalineMode)
@@ -5080,7 +5084,7 @@ namespace CalamityMod.CalPlayer
                 {
                     polarisBoostCounter += 1;
                 }
-                if (Config.ProficiencyEnabled)
+                if (CalamityMod.CalamityConfig.ProficiencyEnabled)
                 {
                     if (gainLevelCooldown <= 0) //max is 12501 to avoid setting off fireworks forever
                     {
@@ -5187,7 +5191,7 @@ namespace CalamityMod.CalPlayer
                     raiderStack++;
 					raiderCooldown = 30;
                 }
-                if (CalamityWorld.revenge && Config.AdrenalineAndRage)
+                if (CalamityWorld.revenge && CalamityMod.CalamityConfig.AdrenalineAndRage)
                 {
                     if (isTrueMelee)
                     {
@@ -5259,7 +5263,7 @@ namespace CalamityMod.CalPlayer
             }
             if (player.whoAmI == Main.myPlayer && gainRageCooldown <= 0)
             {
-                if (CalamityWorld.revenge && Config.AdrenalineAndRage && !npc.SpawnedFromStatue)
+                if (CalamityWorld.revenge && CalamityMod.CalamityConfig.AdrenalineAndRage && !npc.SpawnedFromStatue)
                 {
                     gainRageCooldown = 60;
                     int stressGain = damage * (profanedRage ? 3 : 2);
@@ -5354,7 +5358,7 @@ namespace CalamityMod.CalPlayer
 
 			if (player.whoAmI == Main.myPlayer && gainRageCooldown <= 0)
             {
-                if (CalamityWorld.revenge && Config.AdrenalineAndRage && !CalamityMod.trapProjectileList.Contains(proj.type))
+                if (CalamityWorld.revenge && CalamityMod.CalamityConfig.AdrenalineAndRage && !CalamityMod.trapProjectileList.Contains(proj.type))
                 {
                     gainRageCooldown = 60;
                     int stressGain = damage * (profanedRage ? 3 : 2);
@@ -5798,7 +5802,7 @@ namespace CalamityMod.CalPlayer
                 if (!CalamityWorld.downedBossAny)
                     damage = (int)((double)damage * 0.8);
 
-				if (Config.AdrenalineAndRage)
+				if (CalamityMod.CalamityConfig.AdrenalineAndRage)
 				{
 					if (adrenaline == adrenalineMax && !adrenalineMode)
 						damage = (int)((double)damage * 0.5);
@@ -5847,7 +5851,7 @@ namespace CalamityMod.CalPlayer
             modStealth = 1f;
             if (player.whoAmI == Main.myPlayer)
             {
-				if (Config.AdrenalineAndRage && CalamityWorld.revenge)
+				if (CalamityMod.CalamityConfig.AdrenalineAndRage && CalamityWorld.revenge)
 				{
 					if (!adrenalineMode)
 						adrenaline = 0;
@@ -6085,7 +6089,7 @@ namespace CalamityMod.CalPlayer
                         iFramesToAdd += 10;
                     }
                 }
-                if (CalamityWorld.bossRushActive && Config.BossRushImmunityFrameCurse)
+                if (CalamityWorld.bossRushActive && CalamityMod.CalamityConfig.BossRushImmunityFrameCurse)
                 {
                     bossRushImmunityFrameCurseTimer = 300 + player.immuneTime;
                 }

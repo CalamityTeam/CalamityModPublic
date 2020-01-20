@@ -1,4 +1,5 @@
-﻿using CalamityMod.Buffs.Alcohol;
+﻿using CalamityMod;
+using CalamityMod.Buffs.Alcohol;
 using CalamityMod.Buffs.Cooldowns;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.Pets;
@@ -27,6 +28,7 @@ using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Config;
 
 namespace CalamityMod.CalPlayer
 {
@@ -44,7 +46,7 @@ namespace CalamityMod.CalPlayer
 				modPlayer.fearmongerRegenFrames--;
 
 			// Reduce the expert debuff time multiplier to the normal mode multiplier
-			if (Config.ExpertDebuffDurationReduction)
+			if (CalamityMod.CalamityConfig.ExpertDebuffDurationReduction)
 				Main.expertDebuffTime = 1f;
 
 			// Bool for any existing bosses, true if any boss NPC is active
@@ -119,7 +121,7 @@ namespace CalamityMod.CalPlayer
 						player.immuneTime = 120;
 
 					// Adrenaline and Rage
-					if (Config.AdrenalineAndRage)
+					if (CalamityMod.CalamityConfig.AdrenalineAndRage)
 					{
 						// Amount of Rage gained per 'tick'
 						int stressGain = 0;
@@ -258,7 +260,7 @@ namespace CalamityMod.CalPlayer
 		private static void MiscEffects(Player player, CalamityPlayer modPlayer, Mod mod)
 		{
 			// Proficiency level ups
-			if (Config.ProficiencyEnabled)
+			if (CalamityMod.CalamityConfig.ProficiencyEnabled)
 				modPlayer.GetExactLevelUp();
 
 			// Nebula Armor nerf
@@ -293,7 +295,7 @@ namespace CalamityMod.CalPlayer
 				player.buffImmune[BuffID.Electrified] = true;
 
 			// Reduce breath meter while in icy water instead of chilling
-			if (Config.ExpertChilledWaterRemoval)
+			if (CalamityMod.CalamityConfig.ExpertChilledWaterRemoval)
 			{
 				if (Main.expertMode && player.ZoneSnow && player.wet && !player.lavaWet && !player.honeyWet && !player.arcticDivingGear)
 				{
@@ -2774,7 +2776,7 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
-			if (Config.ProficiencyEnabled)
+			if (CalamityMod.CalamityConfig.ProficiencyEnabled)
 				modPlayer.GetStatBonuses();
 		}
 		#endregion

@@ -18,6 +18,8 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Config;
+using CalamityMod;
 namespace CalamityMod.NPCs.Leviathan
 {
     [AutoloadBossHead]
@@ -40,7 +42,7 @@ namespace CalamityMod.NPCs.Leviathan
             npc.defense = 40;
             npc.Calamity().RevPlusDR(0.35f);
             npc.LifeMaxNERB(69000, 90700, 7000000);
-            double HPBoost = Config.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
             npc.aiStyle = -1;
@@ -260,7 +262,7 @@ namespace CalamityMod.NPCs.Leviathan
                                     num418 = (sirenAlive && !death) ? 14f : 17f;
                                     num419 = 33;
                                 }
-                                if (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                                if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
                                 {
                                     num418 = 22f;
                                 }
@@ -427,7 +429,7 @@ namespace CalamityMod.NPCs.Leviathan
                             {
                                 num1044 += 2f;
                             }
-                            if (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                            if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
                             {
                                 num1044 += 4f;
                             }
@@ -460,7 +462,7 @@ namespace CalamityMod.NPCs.Leviathan
                             num1048 += 2f;
                             num1049 += 0.1f;
                         }
-                        if (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                        if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
                         {
                             num1048 += 3f;
                             num1049 += 0.2f;

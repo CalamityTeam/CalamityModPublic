@@ -4,16 +4,17 @@ using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Accessories.Vanity;
+using CalamityMod.Items.Fishing.AstralCatches;
+using CalamityMod.Items.Fishing.SunkenSeaCatches;
+using CalamityMod.Items.Fishing.FishingRods;
+using CalamityMod.Items.LoreItems;
+using CalamityMod.Items.Materials;
 using CalamityMod.Items.Tools;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
-using CalamityMod.Items.Materials;
-using CalamityMod.Items.Fishing.AstralCatches;
-using CalamityMod.Items.Fishing.SunkenSeaCatches;
-using CalamityMod.Items.Fishing.FishingRods;
 using CalamityMod.Localization;
 using CalamityMod.NPCs;
 using CalamityMod.NPCs.Abyss;
@@ -74,17 +75,21 @@ using CalamityMod.UI;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Graphics;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.Graphics;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Config;
 using Terraria.UI;
-using CalamityMod.Items.LoreItems;
+using Terraria.UI.Chat;
 
 namespace CalamityMod
 {
@@ -189,9 +194,12 @@ namespace CalamityMod
 
         private Mod thorium = null;
 
+		internal static Configs CalamityConfig;
+		internal static CalamityMod instance;
         #region Load
         public override void Load()
         {
+			instance = this;
 			heartOriginal2 = Main.heartTexture;
 			heartOriginal = Main.heart2Texture;
 			rainOriginal = Main.rainTexture;
@@ -222,8 +230,6 @@ namespace CalamityMod
             BossHealthBarManager.Load(this);
 
             TileFraming.Load();
-
-            Config.Load();
 
             SetupLists();
             SetupVanillaDR();
@@ -376,6 +382,9 @@ namespace CalamityMod
 
             thorium = null;
 
+			CalamityConfig = null;
+			instance = null;
+
             BossHealthBarManager.Unload();
             base.Unload();
 
@@ -400,6 +409,19 @@ namespace CalamityMod
 			carpetOriginal = null;
 		}
         #endregion
+
+		#region ConfigCrap
+		internal static void SaveConfig(Configs CalamityConfig)
+		{
+			// in-game ModConfig saving from mod code is not supported yet in tmodloader, and subject to change, so we need to be extra careful.
+			// This code only supports client configs, and doesn't call onchanged. It also doesn't support ReloadRequired or anything else.
+			MethodInfo saveMethodInfo = typeof(ConfigManager).GetMethod("Save", BindingFlags.Static | BindingFlags.NonPublic);
+			if (saveMethodInfo != null)
+				saveMethodInfo.Invoke(null, new object[] { CalamityConfig });
+			else
+				CalamityMod.instance.Logger.Warn("In-game SaveConfig failed, code update required");
+		}
+		#endregion
 
         #region SetupLists
         public static void SetupLists()
@@ -2457,7 +2479,7 @@ namespace CalamityMod
             };
 
             Mod thorium = ModLoader.GetMod("ThoriumMod");
-            if (Config.RevengeanceAndDeathThoriumBossBuff && thorium != null)
+            if (CalamityMod.CalamityConfig.RevengeanceAndDeathThoriumBossBuff && thorium != null)
             {
                 enemyImmunityList.Add(thorium.NPCType("TheGrandThunderBirdv2"));
                 enemyImmunityList.Add(thorium.NPCType("QueenJelly"));
@@ -2694,7 +2716,7 @@ namespace CalamityMod
         #region Thorium Boss DR
         private void SetupThoriumBossDR(Mod thorium)
         {
-            if (thorium is null || !Config.RevengeanceAndDeathThoriumBossBuff)
+            if (thorium is null || !CalamityMod.CalamityConfig.RevengeanceAndDeathThoriumBossBuff)
                 return;
 
             void ThoriumDR(string npcName, float dr) {
@@ -2840,7 +2862,7 @@ namespace CalamityMod
         #region DrawingStuff
         public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
         {
-            if (CalamityWorld.revenge && Config.AdrenalineAndRage)
+            if (CalamityWorld.revenge && CalamityMod.CalamityConfig.AdrenalineAndRage)
             {
                 UIHandler.ModifyInterfaceLayers(ModContent.GetInstance<CalamityMod>(), layers);
             }

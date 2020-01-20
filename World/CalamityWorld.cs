@@ -1,3 +1,4 @@
+using CalamityMod;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.NPCs;
@@ -45,6 +46,7 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+using Terraria.ModLoader.Config;
 using Terraria.World.Generation;
 
 namespace CalamityMod.World
@@ -151,7 +153,7 @@ namespace CalamityMod.World
         #region Initialize
         public override void Initialize()
         {
-            if (Config.ExpertPillarEnemyKillCountReduction)
+            if (CalamityMod.CalamityConfig.ExpertPillarEnemyKillCountReduction)
             {
                 NPC.LunarShieldPowerExpert = 100;
             }
@@ -1193,7 +1195,7 @@ namespace CalamityMod.World
 
                     if (Main.player[closestPlayer].Calamity().bossZen || DoGSecondStageCountdown > 0)
                         spawnRate *= 50D;
-                    if (Main.player[closestPlayer].Calamity().zen || (Config.DisableExpertEnemySpawnsNearHouse && Main.player[closestPlayer].townNPCs > 1f && Main.expertMode))
+                    if (Main.player[closestPlayer].Calamity().zen || (CalamityMod.CalamityConfig.DisableExpertEnemySpawnsNearHouse && Main.player[closestPlayer].townNPCs > 1f && Main.expertMode))
                         spawnRate *= 2D;
                     if (Main.player[closestPlayer].Calamity().tranquilityCandle)
                         spawnRate *= 1.67D;

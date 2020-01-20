@@ -1,3 +1,4 @@
+using CalamityMod;
 using CalamityMod.Buffs;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.Placeables;
@@ -56,6 +57,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Config;
 
 namespace CalamityMod.NPCs
 {
@@ -988,7 +990,7 @@ namespace CalamityMod.NPCs
 
             if ((npc.boss && npc.type != NPCID.MartianSaucerCore && npc.type < NPCID.Count) || CalamityMod.bossHPScaleList.Contains(npc.type))
             {
-                double HPBoost = Config.BossHealthPercentageBoost * 0.01;
+                double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
                 npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             }
         }
@@ -1058,7 +1060,7 @@ namespace CalamityMod.NPCs
         #region Scale Thorium Boss Health
         private void ScaleThoriumBossHealth(NPC npc, Mod mod)
         {
-            if (Config.RevengeanceAndDeathThoriumBossBuff)
+            if (CalamityMod.CalamityConfig.RevengeanceAndDeathThoriumBossBuff)
             {
                 Mod thorium = ModLoader.GetMod("ThoriumMod");
                 if (thorium != null)
@@ -2082,7 +2084,7 @@ namespace CalamityMod.NPCs
 
             if (CalamityWorld.revenge || CalamityWorld.bossRushActive)
             {
-                bool configBossRushBoost = Config.BossRushXerocCurse && CalamityWorld.bossRushActive;
+                bool configBossRushBoost = CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive;
 
                 switch (npc.type)
                 {
@@ -2227,7 +2229,7 @@ namespace CalamityMod.NPCs
 
             if (CalamityWorld.revenge)
             {
-                if (Config.RevengeanceAndDeathThoriumBossBuff)
+                if (CalamityMod.CalamityConfig.RevengeanceAndDeathThoriumBossBuff)
                 {
                     Mod thorium = ModLoader.GetMod("ThoriumMod");
                     if (thorium != null)
@@ -2902,7 +2904,7 @@ namespace CalamityMod.NPCs
                 spawnRate = (int)(spawnRate * 1.4);
                 maxSpawns = (int)(maxSpawns * 0.4f);
             }
-			if (player.Calamity().zen || (Config.DisableExpertEnemySpawnsNearHouse && player.townNPCs > 1f && Main.expertMode))
+			if (player.Calamity().zen || (CalamityMod.CalamityConfig.DisableExpertEnemySpawnsNearHouse && player.townNPCs > 1f && Main.expertMode))
 			{
 				spawnRate = (int)(spawnRate * 1.66);
 				maxSpawns = (int)(maxSpawns * 0.3f);
@@ -3262,7 +3264,7 @@ namespace CalamityMod.NPCs
                 return new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, npc.alpha);
             }
 
-            if (enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+            if (enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
             {
                 return new Color(200, 50, 50, npc.alpha);
             }

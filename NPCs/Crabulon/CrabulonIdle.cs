@@ -17,6 +17,8 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Config;
+using CalamityMod;
 namespace CalamityMod.NPCs.Crabulon
 {
     [AutoloadBossHead]
@@ -38,7 +40,7 @@ namespace CalamityMod.NPCs.Crabulon
             npc.height = 160;
             npc.defense = 8;
             npc.LifeMaxNERB(3000, 4000, 11000000);
-            double HPBoost = Config.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
             aiType = -1;
@@ -216,7 +218,7 @@ namespace CalamityMod.NPCs.Crabulon
                     num823 = 2f;
                 if (CalamityWorld.bossRushActive)
                     num823 = 12f;
-                if (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
                     num823 = 16f;
 
                 if (Math.Abs(npc.Center.X - Main.player[npc.target].Center.X) < 50f)
@@ -459,7 +461,7 @@ namespace CalamityMod.NPCs.Crabulon
                         {
                             num626 += 1f;
                         }
-                        if (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                        if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
                         {
                             num626 += 3f;
                         }

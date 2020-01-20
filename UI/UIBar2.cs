@@ -4,7 +4,9 @@ using System;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Config;
 using Terraria.UI;
+using CalamityMod;
 
 namespace CalamityMod.UI
 {
@@ -14,6 +16,9 @@ namespace CalamityMod.UI
         public int barWidth = 150; //the exact width of the bar texture/panel.
         public Func<int> getValue; //the func used to get the value displayed.
         public int valueMax = 1, barOffset = 0; //the maximum value of the value displayed :: the offset used to draw the bar inwards.
+
+		private Vector2 offset;
+		public static bool dragging;
 
         public UIBar2(Texture2D imageBack, Texture2D imageBar, int barOff) : this(imageBack, imageBar, barOff, 10000, GetTickedValue) //uses textures and the test ticker for drawing
         {
@@ -46,13 +51,13 @@ namespace CalamityMod.UI
 
         public override void OnInitialize()
         {
-            float posX = (float)Config.AdrenalineMeterXPos, posY = (float)Config.AdrenalineMeterYPos; //CHANGE THESE TWO TO CHANGE WHERE IT STARTS ON SCREEN!
+			Vector2 configVec = CalamityMod.CalamityConfig.AdrenalineMeterPos; //CHANGE THIS CONFIG TO CHANGE WHERE IT STARTS ON SCREEN!
             if (backPanel == null) //if not using textures set up panels
             {
                 backPanel = new UIPanel();
                 ((UIPanel)backPanel).SetPadding(0);
-                backPanel.Left.Set(posX, 0f);
-                backPanel.Top.Set(posY, 0f);
+                backPanel.Left.Set(configVec.X, 0f);
+                backPanel.Top.Set(configVec.Y, 0f);
                 backPanel.Width.Set(barWidth + 20f, 0f);
                 backPanel.Height.Set(50f, 0f);
                 ((UIPanel)backPanel).BackgroundColor = new Color(73, 94, 171);
@@ -71,8 +76,8 @@ namespace CalamityMod.UI
             }
             else //otherwise using images so just move it into position
             {
-                backPanel.Left.Set(posX, 0f);
-                backPanel.Top.Set(posY, 0f);
+                backPanel.Left.Set(configVec.X, 0f);
+                backPanel.Top.Set(configVec.Y, 0f);
                 backPanel.OnMouseDown += new MouseEvent(DragStart);
                 backPanel.OnMouseUp += new MouseEvent(DragEnd);
 
@@ -90,24 +95,24 @@ namespace CalamityMod.UI
             return (float)getValue() / Math.Max(1, (float)valueMax - 1);
         }
 
-        Vector2 offset;
-        public bool dragging = false;
-        private void DragStart(UIMouseEvent evt, UIElement listeningElement)
-        {
-            offset = new Vector2(evt.MousePosition.X - backPanel.Left.Pixels, evt.MousePosition.Y - backPanel.Top.Pixels);
-            dragging = true;
-        }
+		private void DragStart(UIMouseEvent evt, UIElement listeningElement)
+		{
+			offset = new Vector2(evt.MousePosition.X - backPanel.Left.Pixels, evt.MousePosition.Y - backPanel.Top.Pixels);
+			dragging = true;
+		}
 
-        private void DragEnd(UIMouseEvent evt, UIElement listeningElement)
-        {
-            Vector2 end = evt.MousePosition;
-            dragging = false;
+		private void DragEnd(UIMouseEvent evt, UIElement listeningElement)
+		{
+			Vector2 end = evt.MousePosition;
+			dragging = false;
 
-            backPanel.Left.Set(end.X - offset.X, 0f);
-            backPanel.Top.Set(end.Y - offset.Y, 0f);
+			backPanel.Left.Set(end.X - Main.screenWidth - offset.X, 1f);
+			backPanel.Top.Set(end.Y - Main.screenHeight - offset.Y, 1f);
 
-            Recalculate();
-        }
+			Recalculate();
+			CalamityMod.CalamityConfig.AdrenalineMeterPos = new Vector2(backPanel.Left.Pixels, backPanel.Top.Pixels);
+			CalamityMod.SaveConfig(CalamityMod.CalamityConfig);
+		}
 
         public override void Update(GameTime gameTime)
         {

@@ -24,6 +24,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Config;
+using CalamityMod;
 namespace CalamityMod.NPCs.Providence
 {
     [AutoloadBossHead]
@@ -61,7 +63,7 @@ namespace CalamityMod.NPCs.Providence
             global.flatDRReductions.Add(BuffID.Ichor, 0.05f);
             global.flatDRReductions.Add(BuffID.CursedInferno, 0.05f);
             npc.LifeMaxNERB(440000, 500000, 12500000);
-            double HPBoost = Config.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
             npc.aiStyle = -1;
@@ -619,7 +621,7 @@ namespace CalamityMod.NPCs.Providence
 
 					int shootBoost = death ? 3 : (int)(4f * (1f - lifeRatio));
                     int num856 = (expertMode ? 24 : 26) - shootBoost;
-                    if (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                    if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
                         num856 = 19;
 
                     num856 = (int)((double)num856 * attackRateMult);
@@ -636,7 +638,7 @@ namespace CalamityMod.NPCs.Providence
 
 						float velocityBoost = death ? 2.5f : 2.5f * (1f - lifeRatio);
                         float num860 = (expertMode ? 10.25f : 9f) + velocityBoost;
-                        if (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                        if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
                             num860 = 12.75f;
 
                         if (revenge)
@@ -871,7 +873,7 @@ namespace CalamityMod.NPCs.Providence
 
 					int shootBoost = death ? 14 : (int)(15f * (1f - lifeRatio));
                     int num864 = (expertMode ? 73 : 77) - shootBoost;
-                    if (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                    if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
                         num864 = 59;
 
                     num864 = (int)((double)num864 * attackRateMult);
@@ -914,7 +916,7 @@ namespace CalamityMod.NPCs.Providence
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
 					float shootBoost = death ? 2f : 2f * (1f - lifeRatio);
-                    npc.ai[2] += ((npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 2f : 1f) + shootBoost;
+                    npc.ai[2] += ((npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 2f : 1f) + shootBoost;
 
                     if (CalamityWorld.bossRushActive)
                         npc.ai[2] += 1f;

@@ -7,6 +7,8 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Config;
+using CalamityMod;
 namespace CalamityMod.NPCs.CeaselessVoid
 {
     public class DarkEnergy : ModNPC
@@ -36,7 +38,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
             {
                 npc.lifeMax = 44000;
             }
-            double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
+            double HPBoost = (double)CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
             npc.knockBackResist = 0.25f;
             npc.noGravity = true;
