@@ -105,11 +105,11 @@ namespace CalamityMod.Buffs
                 bool defense = player.Calamity().gDefense;
                 if (offense && defense)
                 {
-                    tip = "The Profaned Babs will defend and fight for you!";
+                    tip = "The Profaned Babs will fight for and defend you!";
                 }
                 else if (offense || defense)
                 {
-                    tip = "The " + (offense ? "Offensive" : "Defensive") + " Duo will " + (offense ? "fight and heal for you!" : "defend and heal you!");
+                    tip = "The " + (offense ? "Offensive" : "Defensive") + " Duo will " + (offense ? "fight for and heal for you!" : "protect and heal you!");
                 }
             }
         }
