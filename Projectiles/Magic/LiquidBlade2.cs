@@ -63,13 +63,13 @@ namespace CalamityMod.Projectiles.Magic
             for (int num488 = 0; num488 < num487; num488++)
             {
                 int num489 = Dust.NewDust(projectile.Center, 0, 0, 66, 0f, 0f, 100, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1f);
-                Main.dust[num489].velocity *= 1.6f;
-                Dust expr_FEDF_cp_0 = Main.dust[num489];
-                expr_FEDF_cp_0.velocity.Y -= 1f;
-                Main.dust[num489].velocity += -projectile.velocity * (Main.rand.NextFloat() * 2f - 1f) * 0.5f;
-                Main.dust[num489].scale = 2f;
-                Main.dust[num489].fadeIn = 0.5f;
-                Main.dust[num489].noGravity = true;
+                Dust dust = Main.dust[num489];
+                dust.velocity *= 1.6f;
+                dust.velocity.Y -= 1f;
+                dust.velocity += -projectile.velocity * (Main.rand.NextFloat() * 2f - 1f) * 0.5f;
+                dust.scale = 2f;
+                dust.fadeIn = 0.5f;
+                dust.noGravity = true;
             }
         }
 
@@ -120,9 +120,9 @@ namespace CalamityMod.Projectiles.Magic
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.Ichor, 1200);
-            target.AddBuff(BuffID.Frostburn, 600);
-            target.AddBuff(BuffID.OnFire, 600);
-            target.AddBuff(BuffID.CursedInferno, 600);
+            target.AddBuff(BuffID.Frostburn, 1200);
+            target.AddBuff(BuffID.OnFire, 1200);
+            target.AddBuff(BuffID.CursedInferno, 1200);
         }
     }
 }
