@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Weapons.Magic
             recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 6);
             recipe.AddIngredient(ItemID.SunplateBlock, 5);
             recipe.AddIngredient(ItemID.Feather, 3);
-            recipe.AddTile(TileID.SkyMill);
+            recipe.AddTile(TileID.Bookcases);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

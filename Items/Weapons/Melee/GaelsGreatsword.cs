@@ -138,6 +138,14 @@ namespace CalamityMod.Items.Weapons.Melee
                 damage = (int)(TrueMeleeBoost * damage);
             }
         }
+        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        {
+            //True melee boost
+            if (player.Calamity().gaelSwipes % 3 == 2)
+            {
+                damage = (int)(TrueMeleeBoost * damage);
+            }
+        }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             if (player.altFunctionUse == 2)

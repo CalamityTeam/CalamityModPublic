@@ -7,6 +7,8 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Config;
+using CalamityMod;
 namespace CalamityMod.NPCs.Ravager
 {
     public class RavagerClawRight : ModNPC
@@ -36,6 +38,7 @@ namespace CalamityMod.NPCs.Ravager
             npc.buffImmune[BuffID.CursedInferno] = false;
 			npc.buffImmune[BuffID.Frostburn] = false;
 			npc.buffImmune[BuffID.Daybreak] = false;
+			npc.buffImmune[BuffID.BetsysCurse] = false;
             npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
             npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
             npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
@@ -61,7 +64,7 @@ namespace CalamityMod.NPCs.Ravager
             {
                 npc.lifeMax = 260000;
             }
-            double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
+            double HPBoost = (double)CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
         }
 
@@ -73,7 +76,8 @@ namespace CalamityMod.NPCs.Ravager
                 npc.netUpdate = true;
                 return;
             }
-            if (npc.timeLeft < 3000)
+			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
+			if (npc.timeLeft < 3000)
             {
                 npc.timeLeft = 3000;
             }
@@ -90,15 +94,15 @@ namespace CalamityMod.NPCs.Ravager
             {
                 npc.noTileCollide = true;
                 float num659 = 14f;
-                if (npc.life < npc.lifeMax / 2)
+                if (npc.life < npc.lifeMax / 2 || death)
                 {
                     num659 += 1f;
                 }
-                if (npc.life < npc.lifeMax / 3)
+                if (npc.life < npc.lifeMax / 3 || death)
                 {
                     num659 += 1f;
                 }
-                if (npc.life < npc.lifeMax / 5)
+                if (npc.life < npc.lifeMax / 5 || death)
                 {
                     num659 += 1f;
                 }
@@ -114,15 +118,15 @@ namespace CalamityMod.NPCs.Ravager
                     npc.velocity.X = num660;
                     npc.velocity.Y = num661;
                     npc.ai[1] += 1f;
-                    if (npc.life < npc.lifeMax / 2)
+                    if (npc.life < npc.lifeMax / 2 || death)
                     {
                         npc.ai[1] += 1f;
                     }
-                    if (npc.life < npc.lifeMax / 3)
+                    if (npc.life < npc.lifeMax / 3 || death)
                     {
                         npc.ai[1] += 1f;
                     }
-                    if (npc.life < npc.lifeMax / 5)
+                    if (npc.life < npc.lifeMax / 5 || death)
                     {
                         npc.ai[1] += 10f;
                     }
@@ -153,15 +157,15 @@ namespace CalamityMod.NPCs.Ravager
                 npc.collideX = false;
                 npc.collideY = false;
                 float num663 = 12f;
-                if (npc.life < npc.lifeMax / 2)
+                if (npc.life < npc.lifeMax / 2 || death)
                 {
                     num663 += 4f;
                 }
-                if (npc.life < npc.lifeMax / 3)
+                if (npc.life < npc.lifeMax / 3 || death)
                 {
                     num663 += 4f;
                 }
-                if (npc.life < npc.lifeMax / 5)
+                if (npc.life < npc.lifeMax / 5 || death)
                 {
                     num663 += 10f;
                 }

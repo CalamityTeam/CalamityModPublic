@@ -65,5 +65,10 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
         }
+
+        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
+        }
     }
 }

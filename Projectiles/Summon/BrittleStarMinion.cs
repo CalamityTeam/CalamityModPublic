@@ -102,6 +102,10 @@ namespace CalamityMod.Projectiles.Summon
                     }
                 }
             }
+
+			//if you can't go through tiles, you can go through tiles
+			if (projectile.tileCollide == true)
+				projectile.tileCollide = false;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)

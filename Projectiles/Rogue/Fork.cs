@@ -40,6 +40,13 @@ namespace CalamityMod.Projectiles.Rogue
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             Player player = Main.player[projectile.owner];
+            target.AddBuff(ModContent.BuffType<BurningBlood>(), 300);
+            player.AddBuff(BuffID.WellFed, 180);
+        }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            Player player = Main.player[projectile.owner];
             target.AddBuff(BuffID.Bleeding, 300);
             target.AddBuff(ModContent.BuffType<BurningBlood>(), 300);
             player.AddBuff(BuffID.WellFed, 180);

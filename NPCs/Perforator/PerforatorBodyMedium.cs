@@ -8,6 +8,8 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Config;
+using CalamityMod;
 namespace CalamityMod.NPCs.Perforator
 {
     public class PerforatorBodyMedium : ModNPC
@@ -25,7 +27,7 @@ namespace CalamityMod.NPCs.Perforator
             npc.height = 54;
             npc.defense = 6;
 			npc.LifeMaxNERB(2000, 2200, 700000);
-            double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
+            double HPBoost = (double)CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
             npc.aiStyle = 6;
             aiType = -1;

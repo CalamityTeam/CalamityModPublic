@@ -11,6 +11,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             DisplayName.SetDefault("Flame");
             Main.projFrames[projectile.type] = 4;
+            ProjectileID.Sets.SentryShot[projectile.type] = true;
         }
 
         public override void SetDefaults()

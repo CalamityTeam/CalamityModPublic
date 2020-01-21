@@ -9,6 +9,8 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Config;
+using CalamityMod;
 
 namespace CalamityMod.NPCs.DevourerofGods
 {
@@ -36,7 +38,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             npc.height = 104;
             npc.defense = 50;
 			npc.LifeMaxNERB(675000, 750000);
-			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
+			double HPBoost = (double)CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
             npc.takenDamageMultiplier = 1.25f;
             npc.aiStyle = -1;
@@ -88,6 +90,8 @@ namespace CalamityMod.NPCs.DevourerofGods
             // Variables
             Vector2 vector = npc.Center;
             bool flies = npc.ai[2] == 0f;
+			bool revenge = CalamityWorld.revenge;
+			bool death = CalamityWorld.death;
 
             // Percent life remaining
             float lifeRatio = (float)npc.life / (float)npc.lifeMax;
@@ -108,7 +112,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             {
                 if (!halfLife)
                 {
-                    if (CalamityWorld.revenge)
+                    if (revenge)
                         spawnDoGCountdown = 10;
 
                     string key = "Mods.CalamityMod.EdgyBossText";
@@ -134,7 +138,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             {
                 if (!halfLife2)
                 {
-                    if (CalamityWorld.revenge)
+                    if (revenge)
                         spawnDoGCountdown = 10;
 
                     halfLife2 = true;
@@ -246,10 +250,10 @@ namespace CalamityMod.NPCs.DevourerofGods
                 phaseSwitch += 1 + (int)(9f * (1f - lifeRatio));
                 npc.localAI[1] = 0f;
 
-                float speed = (CalamityWorld.death ? 18f : 15f) + (3f * (1f - lifeRatio));
-                float turnSpeed = (CalamityWorld.death ? 0.33f : 0.3f) + (0.06f * (1f - lifeRatio));
-                float homingSpeed = (CalamityWorld.death ? 22f : 18f) + (9f * (1f - lifeRatio));
-                float homingTurnSpeed = (CalamityWorld.death ? 0.36f : 0.33f) + (0.15f * (1f - lifeRatio));
+                float speed = death ? 20f : 15f + (3f * (1f - lifeRatio));
+                float turnSpeed = death ? 0.38f : 0.3f + (0.06f * (1f - lifeRatio));
+                float homingSpeed = death ? 29f : 18f + (9f * (1f - lifeRatio));
+                float homingTurnSpeed = death ? 0.5f : 0.33f + (0.15f * (1f - lifeRatio));
 
                 // Go to ground phase sooner
                 if (Vector2.Distance(Main.player[npc.target].Center, vector) > 5600f)
@@ -454,9 +458,9 @@ namespace CalamityMod.NPCs.DevourerofGods
 
                 phaseSwitch += 1;
 
-                float fallSpeed = 16f + ((CalamityWorld.death ? 5f : 3.5f) * (1f - lifeRatio));
-                float speed = (CalamityWorld.death ? 0.2f : 0.18f) + (0.08f * (1f - lifeRatio));
-                float turnSpeed = (CalamityWorld.death ? 0.14f : 0.12f) + (0.12f * (1f - lifeRatio));
+                float fallSpeed = 16f + (death ? 3.7f : 3.5f * (1f - lifeRatio));
+                float speed = death ? 0.28f : 0.18f + (0.08f * (1f - lifeRatio));
+                float turnSpeed = death ? 0.26f : 0.12f + (0.12f * (1f - lifeRatio));
                 bool increaseSpeed = Vector2.Distance(Main.player[npc.target].Center, vector) > 3200f;
 
                 // Enrage
@@ -562,8 +566,8 @@ namespace CalamityMod.NPCs.DevourerofGods
                 }
                 else
                 {
-                    double maximumSpeed1 = (increaseSpeed ? 1.2 : 0.4) + (double)((CalamityWorld.death ? 0.1f : 0.08f) * (1f - lifeRatio));
-                    double maximumSpeed2 = (increaseSpeed ? 3.0 : 1.0) + (double)((CalamityWorld.death ? 0.2f : 0.16f) * (1f - lifeRatio));
+                    double maximumSpeed1 = (increaseSpeed ? 1.2 : 0.4) + (double)(death ? 0.1f : 0.08f * (1f - lifeRatio));
+                    double maximumSpeed2 = (increaseSpeed ? 3.0 : 1.0) + (double)(death ? 0.18f : 0.16f * (1f - lifeRatio));
 
                     num22 = (float)Math.Sqrt((double)(num20 * num20 + num21 * num21));
                     float num25 = Math.Abs(num20);

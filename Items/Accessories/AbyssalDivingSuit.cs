@@ -57,7 +57,7 @@ namespace CalamityMod.Items.Accessories
             recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 40);
             recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 15);
             recipe.AddIngredient(ItemID.LunarBar, 5);
-            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

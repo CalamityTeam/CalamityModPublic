@@ -12,6 +12,8 @@ using Terraria.Localization;
 using Terraria.GameContent.Events;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Config;
+using CalamityMod;
 
 namespace CalamityMod.NPCs
 {
@@ -544,7 +546,7 @@ namespace CalamityMod.NPCs
         public static bool BuffedEyeofCthulhuAI(NPC npc, bool enraged, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
-            bool configBossRushBoost = Config.BossRushXerocCurse && CalamityWorld.bossRushActive;
+            bool configBossRushBoost = CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive;
             float num5 = 20f;
 
             // Percent life remaining
@@ -610,10 +612,9 @@ namespace CalamityMod.NPCs
             if (Main.rand.NextBool(5))
             {
                 int num10 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + (float)npc.height * 0.25f), npc.width, (int)((float)npc.height * 0.5f), 5, npc.velocity.X, 2f, 0, default, 1f);
-                Dust var_9_825_cp_0_cp_0 = Main.dust[num10];
-                var_9_825_cp_0_cp_0.velocity.X *= 0.5f;
-                Dust var_9_845_cp_0_cp_0 = Main.dust[num10];
-                var_9_845_cp_0_cp_0.velocity.Y *= 0.1f;
+                Dust dust = Main.dust[num10];
+                dust.velocity.X *= 0.5f;
+                dust.velocity.Y *= 0.1f;
             }
 
             if (Main.dayTime | dead)
@@ -1365,7 +1366,7 @@ namespace CalamityMod.NPCs
         public static bool BuffedEaterofWorldsAI(NPC npc, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
-            bool configBossRushBoost = Config.BossRushXerocCurse && CalamityWorld.bossRushActive;
+            bool configBossRushBoost = CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive;
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
 
             // Total body segments
@@ -3075,7 +3076,7 @@ namespace CalamityMod.NPCs
         public static bool BuffedSkeletronAI(NPC npc, bool enraged, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
-            bool configBossRushBoost = Config.BossRushXerocCurse && CalamityWorld.bossRushActive;
+            bool configBossRushBoost = CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive;
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
 
             // Percent life remaining
@@ -3706,7 +3707,7 @@ namespace CalamityMod.NPCs
         public static bool BuffedWallofFleshAI(NPC npc, bool enraged, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
-            bool configBossRushBoost = Config.BossRushXerocCurse && CalamityWorld.bossRushActive;
+            bool configBossRushBoost = CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive;
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
 
             // Despawn
@@ -4080,7 +4081,7 @@ namespace CalamityMod.NPCs
         public static bool BuffedWallofFleshEyeAI(NPC npc, bool enraged, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
-            bool configBossRushBoost = Config.BossRushXerocCurse && CalamityWorld.bossRushActive;
+            bool configBossRushBoost = CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive;
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
 
             // Despawn
@@ -4211,7 +4212,7 @@ namespace CalamityMod.NPCs
         public static bool BuffedDestroyerAI(NPC npc, bool enraged, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
-            bool configBossRushBoost = Config.BossRushXerocCurse && CalamityWorld.bossRushActive;
+            bool configBossRushBoost = CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive;
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
 
 			// 8 seconds of reistance to prevent spawn killing
@@ -4259,20 +4260,27 @@ namespace CalamityMod.NPCs
             // Check if other segments are still alive, if not, die
             if (npc.type > NPCID.TheDestroyer)
             {
-                bool flag = false;
-                if (npc.ai[1] <= 0f)
-                    flag = true;
-                else if (Main.npc[(int)npc.ai[1]].life <= 0)
-                    flag = true;
-
-                if (flag)
+                bool shouldDespawn = true;
+                for (int i = 0; i < Main.maxNPCs; i++)
+                {
+                    if (Main.npc[i].active && Main.npc[i].type == NPCID.TheDestroyer)
+                        shouldDespawn = false;
+                }
+                if (!shouldDespawn)
+                {
+                    if (npc.ai[1] > 0f)
+                        shouldDespawn = false;
+                    else if (Main.npc[(int)npc.ai[1]].life > 0)
+                        shouldDespawn = false;
+                }
+                if (shouldDespawn)
                 {
                     npc.life = 0;
                     npc.HitEffect(0, 10.0);
                     npc.checkDead();
+                    npc.active = false;
                 }
             }
-
             if (npc.type == NPCID.TheDestroyerBody)
             {
                 // Gain more defense as health lowers with a max of 30, lose defense if probe has been launched
@@ -4700,7 +4708,7 @@ namespace CalamityMod.NPCs
         public static bool BuffedRetinazerAI(NPC npc, bool enraged, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
-            bool configBossRushBoost = Config.BossRushXerocCurse && CalamityWorld.bossRushActive;
+            bool configBossRushBoost = CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive;
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
 
 			// Enrage variable if player is floating upside down
@@ -4759,10 +4767,9 @@ namespace CalamityMod.NPCs
             if (Main.rand.NextBool(5))
             {
                 int num380 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + (float)npc.height * 0.25f), npc.width, (int)((float)npc.height * 0.5f), 5, npc.velocity.X, 2f, 0, default, 1f);
-                Dust var_9_131D1_cp_0_cp_0 = Main.dust[num380];
-                var_9_131D1_cp_0_cp_0.velocity.X *= 0.5f;
-                Dust var_9_131F5_cp_0_cp_0 = Main.dust[num380];
-                var_9_131F5_cp_0_cp_0.velocity.Y *= 0.1f;
+                Dust dust = Main.dust[num380];
+                dust.velocity.X *= 0.5f;
+                dust.velocity.Y *= 0.1f;
             }
 
             if (Main.netMode != NetmodeID.MultiplayerClient && !Main.dayTime && !Main.player[npc.target].dead && npc.timeLeft < 10)
@@ -5382,7 +5389,7 @@ namespace CalamityMod.NPCs
         public static bool BuffedSpazmatismAI(NPC npc, bool enraged, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
-            bool configBossRushBoost = Config.BossRushXerocCurse && CalamityWorld.bossRushActive;
+            bool configBossRushBoost = CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive;
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
 
 			// Enrage variable if player is floating upside down
@@ -6133,7 +6140,7 @@ namespace CalamityMod.NPCs
         public static bool BuffedSkeletronPrimeAI(NPC npc, bool enraged, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
-            bool configBossRushBoost = Config.BossRushXerocCurse && CalamityWorld.bossRushActive;
+            bool configBossRushBoost = CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive;
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
 
 			// Enrage variable if player is floating upside down

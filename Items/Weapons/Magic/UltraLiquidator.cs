@@ -50,9 +50,8 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<InfernalRift>());
-            recipe.AddIngredient(ItemID.GoldenShower);
+            recipe.AddIngredient(ModContent.ItemType<EvergladeSpray>());
             recipe.AddIngredient(ItemID.AquaScepter);
-            recipe.AddIngredient(ItemID.CursedFlames);
             recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5);
             recipe.AddIngredient(ItemID.LunarBar, 5);
             recipe.AddTile(TileID.LunarCraftingStation);

@@ -1,10 +1,8 @@
-using CalamityMod.Items.Weapons.Rogue;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
@@ -22,8 +20,8 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
+            projectile.width = 12;
+            projectile.height = 12;
             projectile.friendly = true;
             projectile.penetrate = 4;
             projectile.timeLeft = 600;
@@ -32,6 +30,10 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
+            if (Main.rand.Next(7) == 0)
+            {
+                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 246, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+            }
             if (hasHitEnemy)
             {
                 projectile.rotation += projectile.direction * 0.4f;
@@ -122,5 +124,14 @@ namespace CalamityMod.Projectiles.Rogue
             spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
+
+        public override void Kill(int timeLeft)
+        {
+            for (int num621 = 0; num621 < 8; num621++)
+            {
+                int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 246, 0f, 0f, 100, default, 1f);
+                Main.dust[num622].velocity *= 1f;
+            }
+		}
     }
 }

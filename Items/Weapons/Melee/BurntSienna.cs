@@ -44,6 +44,18 @@ namespace CalamityMod.Items.Weapons.Melee
             }
         }
 
+        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        {
+            if (target.statLife <= 0)
+            {
+                float randomSpeedX = (float)Main.rand.Next(3);
+                float randomSpeedY = (float)Main.rand.Next(3, 5);
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, -randomSpeedX, -randomSpeedY, ModContent.ProjectileType<BurntSiennaProj>(), 0, 0f, player.whoAmI);
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, randomSpeedX, -randomSpeedY, ModContent.ProjectileType<BurntSiennaProj>(), 0, 0f, player.whoAmI);
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, -randomSpeedY, ModContent.ProjectileType<BurntSiennaProj>(), 0, 0f, player.whoAmI);
+            }
+        }
+
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(5))

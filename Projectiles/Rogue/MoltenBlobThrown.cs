@@ -17,7 +17,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.height = 12;
             projectile.friendly = true;
             projectile.penetrate = 1;
-            projectile.timeLeft = 300;
+            projectile.timeLeft = 180;
             projectile.Calamity().rogue = true;
         }
 

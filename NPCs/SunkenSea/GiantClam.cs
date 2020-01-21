@@ -426,8 +426,8 @@ namespace CalamityMod.NPCs.SunkenSea
             );
 
             // Equipment
-            DropHelper.DropItemChance(npc, ModContent.ItemType<GiantPearl>(), 3);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<AmidiasPendant>(), CalamityWorld.revenge, 0.5f);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<GiantPearl>(), CalamityWorld.downedDesertScourge, 3, 1, 1);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<AmidiasPendant>(), CalamityWorld.revenge && CalamityWorld.downedDesertScourge, 0.5f);
 
             // Mark Giant Clam as dead
             CalamityWorld.downedCLAM = true;

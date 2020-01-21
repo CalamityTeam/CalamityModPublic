@@ -1,4 +1,5 @@
-﻿using CalamityMod.Buffs.Alcohol;
+﻿using CalamityMod;
+using CalamityMod.Buffs.Alcohol;
 using CalamityMod.Buffs.Cooldowns;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.Pets;
@@ -27,6 +28,7 @@ using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Config;
 
 namespace CalamityMod.CalPlayer
 {
@@ -44,7 +46,7 @@ namespace CalamityMod.CalPlayer
 				modPlayer.fearmongerRegenFrames--;
 
 			// Reduce the expert debuff time multiplier to the normal mode multiplier
-			if (Config.ExpertDebuffDurationReduction)
+			if (CalamityMod.CalamityConfig.ExpertDebuffDurationReduction)
 				Main.expertDebuffTime = 1f;
 
 			// Bool for any existing bosses, true if any boss NPC is active
@@ -119,7 +121,7 @@ namespace CalamityMod.CalPlayer
 						player.immuneTime = 120;
 
 					// Adrenaline and Rage
-					if (Config.AdrenalineAndRage)
+					if (CalamityMod.CalamityConfig.AdrenalineAndRage)
 					{
 						// Amount of Rage gained per 'tick'
 						int stressGain = 0;
@@ -258,7 +260,7 @@ namespace CalamityMod.CalPlayer
 		private static void MiscEffects(Player player, CalamityPlayer modPlayer, Mod mod)
 		{
 			// Proficiency level ups
-			if (Config.ProficiencyEnabled)
+			if (CalamityMod.CalamityConfig.ProficiencyEnabled)
 				modPlayer.GetExactLevelUp();
 
 			// Nebula Armor nerf
@@ -293,7 +295,7 @@ namespace CalamityMod.CalPlayer
 				player.buffImmune[BuffID.Electrified] = true;
 
 			// Reduce breath meter while in icy water instead of chilling
-			if (Config.ExpertChilledWaterRemoval)
+			if (CalamityMod.CalamityConfig.ExpertChilledWaterRemoval)
 			{
 				if (Main.expertMode && player.ZoneSnow && player.wet && !player.lavaWet && !player.honeyWet && !player.arcticDivingGear)
 				{
@@ -305,6 +307,34 @@ namespace CalamityMod.CalPlayer
 							if (player.breath > 0)
 								player.breath--;
 						}
+					}
+				}
+			}
+
+			// Hot and cold effects
+			if (CalamityWorld.death)
+			{
+				if (player.whoAmI == Main.myPlayer)
+				{
+					bool hasMoltenSet = player.head == 9 && player.body == 9 && player.legs == 9;
+
+					bool immunityToHotAndCold = hasMoltenSet || player.magmaStone || player.frostArmor || modPlayer.fBulwark || modPlayer.fBarrier ||
+						modPlayer.frostFlare || modPlayer.rampartOfDeities || modPlayer.cryogenSoul || modPlayer.snowman;
+
+					bool immunityToCold = Main.campfire || player.resistCold || immunityToHotAndCold;
+
+					bool immunityToHot = player.lavaImmune || player.lavaRose || player.lavaMax != 0 || immunityToHotAndCold;
+
+					if (!player.behindBackWall && Main.raining && player.ZoneSnow && !immunityToCold)
+					{
+						player.AddBuff(BuffID.Chilled, 2, false);
+						if (player.wet && !player.lavaWet && !player.honeyWet && !player.arcticDivingGear)
+							player.AddBuff(BuffID.Frostburn, 2, false);
+					}
+
+					if (player.ZoneUnderworldHeight && !immunityToHot)
+					{
+						player.AddBuff(BuffID.OnFire, 2, false);
 					}
 				}
 			}
@@ -1204,8 +1234,9 @@ namespace CalamityMod.CalPlayer
 				(player.arcticDivingGear ? 1 : 0) + // 3
 				(modPlayer.jellyfishNecklace ? 1 : 0) + // 4
 				((player.blueFairy || player.greenFairy || player.redFairy || player.petFlagDD2Ghost || modPlayer.babyGhostBell) ? 2 : 0) + // 6
-				((modPlayer.shine || modPlayer.lumenousAmulet) ? 2 : 0) + // 8
-				((player.wisp || player.suspiciouslookingTentacle || modPlayer.sirenPet) ? 3 : 0); // 11
+				((modPlayer.shine) ? 2 : 0) + // 8
+				((modPlayer.lumenousAmulet) ? 2 : 0) + // 10
+				((player.wisp || player.suspiciouslookingTentacle || modPlayer.sirenPet) ? 3 : 0); // 13
 
 			double breathLossMult = 1.0 -
 				(player.gills ? 0.2 : 0.0) - // 0.8
@@ -1270,9 +1301,13 @@ namespace CalamityMod.CalPlayer
 					bool lightLevelTwo = lightStrength > 2; // 3+
 					bool lightLevelThree = lightStrength > 4; // 5+
 					bool lightLevelFour = lightStrength > 6; // 7+
+					int deathModeDarknessLevel = 0;
 
 					if (modPlayer.ZoneAbyssLayer4) // 3200 and below
 					{
+						if (CalamityWorld.death)
+							deathModeDarknessLevel = 200 - lightStrength * 25;
+
 						breathLoss = 54;
 						if (!lightLevelFour)
 							player.blind = true;
@@ -1284,6 +1319,9 @@ namespace CalamityMod.CalPlayer
 					}
 					else if (modPlayer.ZoneAbyssLayer3) // 2700 to 3200
 					{
+						if (CalamityWorld.death)
+							deathModeDarknessLevel = 150 - lightStrength * 25;
+
 						breathLoss = 18;
 						if (!lightLevelThree)
 							player.blind = true;
@@ -1296,6 +1334,9 @@ namespace CalamityMod.CalPlayer
 					}
 					else if (modPlayer.ZoneAbyssLayer2) // 2100 to 2700
 					{
+						if (CalamityWorld.death)
+							deathModeDarknessLevel = 100 - lightStrength * 25;
+
 						breathLoss = 6;
 						if (!lightLevelTwo)
 							player.blind = true;
@@ -1306,9 +1347,19 @@ namespace CalamityMod.CalPlayer
 					}
 					else if (modPlayer.ZoneAbyssLayer1) // 1500 to 2100
 					{
+						if (CalamityWorld.death)
+							deathModeDarknessLevel = 50 - lightStrength * 25;
+
 						if (!lightLevelOne)
 							player.blind = true;
 						player.statDefense -= modPlayer.anechoicPlating ? 5 : 15;
+					}
+
+					if (CalamityWorld.death)
+					{
+						if (deathModeDarknessLevel < 0)
+							deathModeDarknessLevel = 0;
+						Main.BlackFadeIn = deathModeDarknessLevel;
 					}
 
 					breathLoss = (int)((double)breathLoss * breathLossMult);
@@ -2189,6 +2240,12 @@ namespace CalamityMod.CalPlayer
 				player.endurance *= 0.33f;
 			}
 
+			if (modPlayer.wCleave)
+			{
+				player.statDefense -= WarCleave.DefenseReduction;
+				player.endurance *= 0.75f;
+			}
+
 			if (modPlayer.vHex)
 			{
 				player.blind = true;
@@ -2204,6 +2261,12 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.gState)
 			{
 				player.statDefense -= GlacialState.DefenseReduction;
+				player.velocity.Y = 0f;
+				player.velocity.X = 0f;
+			}
+
+			if (modPlayer.eFreeze || modPlayer.silvaStun)
+			{
 				player.velocity.Y = 0f;
 				player.velocity.X = 0f;
 			}
@@ -2380,7 +2443,7 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.vexation)
 			{
 				if (player.statLife < (int)((double)player.statLifeMax2 * 0.5))
-					player.allDamage += 0.15f;
+					player.allDamage += 0.2f;
 			}
 
 			if (modPlayer.ataxiaBlaze)
@@ -2644,8 +2707,8 @@ namespace CalamityMod.CalPlayer
 			{
 				if (player.whoAmI == Main.myPlayer)
 				{
-					if (player.FindBuffIndex(ModContent.BuffType<GuardianHealer>()) == -1)
-						player.AddBuff(ModContent.BuffType<GuardianHealer>(), 3600, true);
+					if (player.FindBuffIndex(ModContent.BuffType<ProfanedBabs>()) == -1)
+						player.AddBuff(ModContent.BuffType<ProfanedBabs>(), 3600, true);
 
 					if (player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianHealer>()] < 1)
 						Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -6f, ModContent.ProjectileType<MiniGuardianHealer>(), 0, 0f, Main.myPlayer, 0f, 0f);
@@ -2654,10 +2717,9 @@ namespace CalamityMod.CalPlayer
 						(CalamityWorld.downedDoG ? 100f : 0f) +
 						(CalamityWorld.downedYharon ? 100f : 0f);
 
-					if (player.maxMinions >= 8)
+					if (player.maxMinions >= 10)
 					{
-						if (player.FindBuffIndex(ModContent.BuffType<GuardianDefense>()) == -1)
-							player.AddBuff(ModContent.BuffType<GuardianDefense>(), 3600, true);
+						player.Calamity().gDefense = true;
 
 						if (player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianDefense>()] < 1)
 							Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -3f, ModContent.ProjectileType<MiniGuardianDefense>(), (int)(baseDamage * (player.allDamage + player.minionDamage - 1f)), 1f, Main.myPlayer, 0f, 0f);
@@ -2665,8 +2727,7 @@ namespace CalamityMod.CalPlayer
 
 					if (modPlayer.tarraSummon || modPlayer.bloodflareSummon || modPlayer.godSlayerSummon || modPlayer.silvaSummon || modPlayer.dsSetBonus || modPlayer.omegaBlueSet || modPlayer.fearmongerSet)
 					{
-						if (player.FindBuffIndex(ModContent.BuffType<GuardianOffense>()) == -1)
-							player.AddBuff(ModContent.BuffType<GuardianOffense>(), 3600, true);
+						player.Calamity().gOffense = true;
 
 						if (player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianAttack>()] < 1)
 							Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<MiniGuardianAttack>(), (int)(baseDamage * (player.allDamage + player.minionDamage - 1f)), 1f, Main.myPlayer, 0f, 0f);
@@ -2715,7 +2776,7 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
-			if (Config.ProficiencyEnabled)
+			if (CalamityMod.CalamityConfig.ProficiencyEnabled)
 				modPlayer.GetStatBonuses();
 		}
 		#endregion

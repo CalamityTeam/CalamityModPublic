@@ -72,5 +72,35 @@ namespace CalamityMod.Items.Weapons.Melee
                 item.damage = 4000;
             }
         }
+
+        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 6000);
+            int damageRan = Main.rand.Next(195); //0 to 195
+            if (damageRan >= 50 && damageRan <= 99) //25%
+            {
+                item.damage = 6000;
+            }
+            else if (damageRan >= 100 && damageRan <= 139) //20%
+            {
+                item.damage = 9000;
+            }
+            else if (damageRan >= 140 && damageRan <= 169) //15%
+            {
+                item.damage = 15000;
+            }
+            else if (damageRan >= 170 && damageRan <= 189) //10%
+            {
+                item.damage = 30000;
+            }
+            else if (damageRan >= 190 && damageRan <= 194) //5%
+            {
+                item.damage = 50000;
+            }
+            else
+            {
+                item.damage = 4000;
+            }
+        }
     }
 }

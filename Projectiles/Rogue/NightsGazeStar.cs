@@ -101,6 +101,11 @@ namespace CalamityMod.Projectiles.Rogue
             target.AddBuff(ModContent.BuffType<Nightwither>(), 120);
         }
 
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<Nightwither>(), 120);
+        }
+
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             Collision.HitTiles(projectile.position + projectile.velocity, projectile.velocity, projectile.width, projectile.height);
@@ -110,7 +115,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, Color.White, ProjectileID.Sets.TrailingMode[projectile.type], 3);
+            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, Color.White, ProjectileID.Sets.TrailingMode[projectile.type], 1);
             return false;
         }
 

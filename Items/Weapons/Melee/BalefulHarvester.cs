@@ -49,5 +49,11 @@ namespace CalamityMod.Items.Weapons.Melee
             CalamityGlobalItem.HorsemansBladeOnHit(player, target.whoAmI, (int)(item.damage * (player.allDamage + player.meleeDamage - 1f) * 1.5f), knockback, false);
             target.AddBuff(BuffID.OnFire, 300);
         }
+
+        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        {
+            CalamityGlobalItem.HorsemansBladeOnHit(player, target.whoAmI, (int)(item.damage * (player.allDamage + player.meleeDamage - 1f) * 1.5f), item.knockBack, false);
+            target.AddBuff(BuffID.OnFire, 300);
+        }
     }
 }

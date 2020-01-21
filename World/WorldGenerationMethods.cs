@@ -1268,7 +1268,9 @@ namespace CalamityMod.World
                         (Main.tile[x, y].type == ModContent.TileType<AstralSand>() || Main.tile[x, y].type == ModContent.TileType<AstralSandstone>() ||
                         Main.tile[x, y].type == ModContent.TileType<HardenedAstralSand>() || Main.tile[x, y].type == ModContent.TileType<AstralIce>() ||
                         Main.tile[x, y].type == ModContent.TileType<AstralDirt>() || Main.tile[x, y].type == ModContent.TileType<AstralStone>() ||
-                        Main.tile[x, y].type == ModContent.TileType<AstralGrass>()))
+                        Main.tile[x, y].type == ModContent.TileType<AstralGrass>() || Main.tile[x, y].type == ModContent.TileType<AstralSilt>() ||
+						Main.tile[x, y].type == ModContent.TileType<AstralFossil>() || Main.tile[x, y].type == ModContent.TileType<AstralSnow>() ||
+						Main.tile[x, y].type == ModContent.TileType<AstralClay>() || Main.tile[x, y].type == ModContent.TileType<AstralStone>()))
                     {
                         astralTileCount++;
                         if (astralTileCount > astralTilesAllowed)
@@ -1686,6 +1688,9 @@ namespace CalamityMod.World
                             case WallID.IceUnsafe:
                                 Main.tile[x, y].wall = (ushort)ModContent.WallType<AstralIceWall>();
                                 break;
+                            case WallID.LivingWood:
+                                Main.tile[x, y].wall = (ushort)ModContent.WallType<AstralMonolithWall>();
+                                break;
                         }
                     }
                     if (TileID.Sets.Conversion.Grass[type] && !TileID.Sets.GrassSpecial[type])
@@ -1735,6 +1740,16 @@ namespace CalamityMod.World
                                 break;
                             case TileID.Vines:
                                 Main.tile[x, y].type = (ushort)ModContent.TileType<AstralVines>();
+                                break;
+                            case TileID.LivingWood:
+                                Main.tile[x, y].type = (ushort)ModContent.TileType<AstralMonolith>();
+                                break;
+                            case TileID.LeafBlock:
+                                WorldGen.KillTile(x, y);
+								if (Main.netMode == 1)
+								{
+									NetMessage.SendData(17, -1, -1, null, 0, x, y);
+								}
                                 break;
                             case TileID.LargePiles:
                                 if (tile.frameX <= 1170)
@@ -1944,6 +1959,10 @@ namespace CalamityMod.World
                     {
                         Main.tile[x, y].wall = WallID.IceUnsafe;
                     }
+                    else if (wallType == ModContent.WallType<AstralMonolithWall>())
+                    {
+                        Main.tile[x, y].wall = WallID.LivingWood;
+                    }
                     else if (wallType == ModContent.WallType<AstralStoneWall>())
                     {
                         switch (convert)
@@ -1995,6 +2014,10 @@ namespace CalamityMod.World
                     else if (type == ModContent.TileType<AstralStone>())
                     {
                         SetTileFromConvert(x, y, convert, TileID.Ebonstone, TileID.Crimstone, TileID.Pearlstone, TileID.Stone);
+                    }
+                    else if (type == ModContent.TileType<AstralMonolith>())
+                    {
+                        tile.type = TileID.LivingWood;
                     }
                     else if (type == ModContent.TileType<AstralSand>())
                     {

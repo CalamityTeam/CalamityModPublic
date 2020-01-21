@@ -22,5 +22,10 @@ namespace CalamityMod.Buffs.StatDebuffs
 			npc.DelBuff(buffIndex);
 			buffIndex--;
         }
+
+        public override void Update(Player player, ref int buffIndex)
+        {
+            player.Calamity().silvaStun = true;
+        }
     }
 }

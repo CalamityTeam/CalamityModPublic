@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class MoltenAmputatorProj : ModProjectile
     {
+        private int stealthyBlobTimer = 6;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Amputator");
@@ -23,7 +25,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.tileCollide = false;
             projectile.penetrate = -1;
             projectile.aiStyle = 3;
-            projectile.timeLeft = 300;
+            projectile.timeLeft = 180;
             aiType = 52;
             projectile.Calamity().rogue = true;
         }
@@ -34,23 +36,53 @@ namespace CalamityMod.Projectiles.Rogue
             return false;
         }
 
+        private void fireInTheBlob(int blobCount)
+        {
+            for (int i = 0; i < blobCount; i++)
+            {
+                Vector2 iAmSpeed = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+                while (iAmSpeed.X == 0f && iAmSpeed.Y == 0f)
+                {
+                    iAmSpeed = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+                }
+                iAmSpeed.Normalize();
+                iAmSpeed *= (float)Main.rand.Next(70, 101) * 0.1f;
+                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, iAmSpeed.X, iAmSpeed.Y, ModContent.ProjectileType<MoltenBlobThrown>(), (int)((double)projectile.damage * 0.25), 0f, projectile.owner, 0f, 0f);
+            }
+        }
+
+        public override void AI()
+        {
+            if (projectile.Calamity().stealthStrike)
+            {
+                stealthyBlobTimer--;
+                if (stealthyBlobTimer <= 0 && projectile.timeLeft % 2 == 0)
+                {
+                    fireInTheBlob(1);
+                    stealthyBlobTimer = Main.rand.Next(4, 10);
+                }
+            }
+        }
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.immune[projectile.owner] = 3;
-            int num251 = Main.rand.Next(1, 3);
+            target.immune[projectile.owner] = 4;
             if (projectile.owner == Main.myPlayer)
             {
-                for (int num252 = 0; num252 < num251; num252++)
-                {
-                    Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                    while (value15.X == 0f && value15.Y == 0f)
-                    {
-                        value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                    }
-                    value15.Normalize();
-                    value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<MoltenBlobThrown>(), (int)((double)projectile.damage * 0.5), 0f, projectile.owner, 0f, 0f);
-                }
+                fireInTheBlob(projectile.Calamity().stealthStrike ? Main.rand.Next(3, 5) : Main.rand.Next(1, 3));
+            }
+            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 20);
+            for (int k = 0; k < 10; k++)
+            {
+                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 244, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
+            }
+        }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            if (projectile.owner == Main.myPlayer)
+            {
+                fireInTheBlob(projectile.Calamity().stealthStrike ? Main.rand.Next(3, 5) : Main.rand.Next(1, 3));
             }
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 20);
             for (int k = 0; k < 10; k++)

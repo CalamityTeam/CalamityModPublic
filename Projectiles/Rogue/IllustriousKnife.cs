@@ -115,6 +115,23 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.NewProjectile(target.position.X, target.position.Y, 0f, 0f, ModContent.ProjectileType<RoyalHeal>(), 0, 0f, projectile.owner, (float)num2, num);
         }
 
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 600);
+            float num = (float)damage * 0.015f;
+            if ((int)num == 0)
+            {
+                return;
+            }
+            if (Main.player[Main.myPlayer].lifeSteal <= 0f)
+            {
+                return;
+            }
+            Main.player[Main.myPlayer].lifeSteal -= num * 1.5f;
+            int num2 = projectile.owner;
+            Projectile.NewProjectile(target.position.X, target.position.Y, 0f, 0f, ModContent.ProjectileType<RoyalHeal>(), 0, 0f, projectile.owner, (float)num2, num);
+        }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);

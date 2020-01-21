@@ -142,6 +142,34 @@ namespace CalamityMod.Projectiles.Rogue
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 122);
         }
 
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<ExoFreeze>(), 30);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
+            target.AddBuff(ModContent.BuffType<Plague>(), 120);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
+            target.AddBuff(BuffID.CursedInferno, 120);
+            target.AddBuff(BuffID.Frostburn, 120);
+            target.AddBuff(BuffID.OnFire, 120);
+            target.AddBuff(BuffID.Ichor, 120);
+            if (projectile.owner == Main.myPlayer)
+            {
+                float spread = 45f * 0.0174f;
+                double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
+                double deltaAngle = spread / 8f;
+                double offsetAngle;
+                int i;
+                for (i = 0; i < 4; i++)
+                {
+                    offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 2f), (float)(Math.Cos(offsetAngle) * 2f), ModContent.ProjectileType<Celestus2>(), (int)(projectile.damage* 0.7f), projectile.knockBack, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 2f), (float)(-Math.Cos(offsetAngle) * 2f), ModContent.ProjectileType<Celestus2>(), (int)(projectile.damage * 0.7f), projectile.knockBack, projectile.owner, 0f, 0f);
+                }
+            }
+            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 122);
+        }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);

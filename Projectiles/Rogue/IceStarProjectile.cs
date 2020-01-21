@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Projectiles.Typeless;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -7,6 +8,9 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class IceStarProjectile : ModProjectile
     {
+        private bool initStealth = false;
+        private Vector2 initialVelocity;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Star");
@@ -27,6 +31,16 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
+            if (!initStealth && projectile.Calamity().stealthStrike)
+            {
+                projectile.penetrate = -1;
+                projectile.usesLocalNPCImmunity = true;
+                projectile.localNPCHitCooldown = 9;
+                projectile.tileCollide = false;
+                initialVelocity = projectile.velocity;
+                initStealth = true;
+            }
+
             projectile.rotation += 0.5f;
             if (Main.rand.NextBool(3))
             {
@@ -34,7 +48,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
             float num472 = projectile.Center.X;
             float num473 = projectile.Center.Y;
-            float num474 = 400f;
+            float num474 = projectile.Calamity().stealthStrike ? 800f : 400f;
             bool flag17 = false;
             for (int num475 = 0; num475 < 200; num475++)
             {
@@ -65,6 +79,7 @@ namespace CalamityMod.Projectiles.Rogue
                 projectile.velocity.X = (projectile.velocity.X * 20f + num484) / 21f;
                 projectile.velocity.Y = (projectile.velocity.Y * 20f + num485) / 21f;
             }
+            projectile.velocity = initStealth && !flag17 ? initialVelocity : projectile.velocity;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -80,6 +95,56 @@ namespace CalamityMod.Projectiles.Rogue
             for (int k = 0; k < 5; k++)
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 67, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
+            }
+        }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            if (initStealth)
+            {
+                if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<KelvinCatalystStar>()] < 15)
+                {
+                    float spread = 45f * 0.0174f;
+                    double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
+                    double deltaAngle = spread / 8f;
+                    double offsetAngle;
+                    int i;
+                    for (i = 0; i < 4; i++)
+                    {
+                        offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
+
+                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 4f), (float)(Math.Cos(offsetAngle) * 4f),
+                            ModContent.ProjectileType<KelvinCatalystStar>(), projectile.damage / 8, projectile.knockBack * 0.5f, projectile.owner, 0f, 0f);
+
+                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 4f), (float)(-Math.Cos(offsetAngle) * 4f),
+                            ModContent.ProjectileType<KelvinCatalystStar>(), projectile.damage / 8, projectile.knockBack * 0.5f, projectile.owner, 0f, 0f);
+                    }
+                }
+            }
+        }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            if (initStealth)
+            {
+                if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<KelvinCatalystStar>()] < 15)
+                {
+                    float spread = 45f * 0.0174f;
+                    double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
+                    double deltaAngle = spread / 8f;
+                    double offsetAngle;
+                    int i;
+                    for (i = 0; i < 4; i++)
+                    {
+                        offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
+
+                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 4f), (float)(Math.Cos(offsetAngle) * 4f),
+                            ModContent.ProjectileType<KelvinCatalystStar>(), projectile.damage / 8, projectile.knockBack * 0.5f, projectile.owner, 0f, 0f);
+
+                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 4f), (float)(-Math.Cos(offsetAngle) * 4f),
+                            ModContent.ProjectileType<KelvinCatalystStar>(), projectile.damage / 8, projectile.knockBack * 0.5f, projectile.owner, 0f, 0f);
+                    }
+                }
             }
         }
     }

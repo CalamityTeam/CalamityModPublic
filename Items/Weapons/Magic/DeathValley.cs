@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Weapons.Magic
             recipe.AddIngredient(ItemID.FossilOre, 25);
             recipe.AddIngredient(ItemID.AncientBattleArmorMaterial);
             recipe.AddIngredient(ModContent.ItemType<DesertFeather>(), 5);
-            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddTile(TileID.Bookcases);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

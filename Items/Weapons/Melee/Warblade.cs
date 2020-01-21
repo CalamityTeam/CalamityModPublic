@@ -37,5 +37,13 @@ namespace CalamityMod.Items.Weapons.Melee
                 target.AddBuff(ModContent.BuffType<WarCleave>(), 450);
             }
         }
+
+        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        {
+            if (crit)
+            {
+                target.AddBuff(ModContent.BuffType<WarCleave>(), 450);
+            }
+        }
     }
 }

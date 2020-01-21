@@ -81,5 +81,11 @@ namespace CalamityMod.Items.Weapons.Melee
                 }
             }
         }
+
+        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        {
+            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<BrimstoneBoom>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), item.knockBack, Main.myPlayer);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
+        }
     }
 }

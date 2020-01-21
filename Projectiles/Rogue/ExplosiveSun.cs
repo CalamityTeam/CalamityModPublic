@@ -41,19 +41,24 @@ namespace CalamityMod.Projectiles.Rogue
             if (projectile.ai[0] == 1f)
             {
                 Texture2D texture = ModContent.GetTexture("CalamityMod/Projectiles/Rogue/ExplosiveSun2");
-                Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, 30, 30)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2(texture.Width / 2f, 20 / 2f), projectile.scale, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, texture.Width, texture.Height)), projectile.GetAlpha(lightColor), projectile.rotation, texture.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
                 return false;
             }
             if (projectile.ai[0] == 2f)
             {
                 Texture2D texture = ModContent.GetTexture("CalamityMod/Projectiles/Rogue/ExplosiveSun3");
-                Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, 34, 34)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2(texture.Width / 2f, 20 / 2f), projectile.scale, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, texture.Width, texture.Height)), projectile.GetAlpha(lightColor), projectile.rotation, texture.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
                 return false;
             }
             return true;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
+        }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
         }

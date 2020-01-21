@@ -47,6 +47,19 @@ namespace CalamityMod.Items.Weapons.Melee
             Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<TerracottaExplosion>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), knockback, player.whoAmI);
         }
 
+        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        {
+            if (target.statLife <= 0)
+            {
+                float randomSpeedX = (float)Main.rand.Next(3);
+                float randomSpeedY = (float)Main.rand.Next(3, 5);
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, -randomSpeedX, -randomSpeedY, ModContent.ProjectileType<TerracottaProj>(), 0, 0f, player.whoAmI);
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, randomSpeedX, -randomSpeedY, ModContent.ProjectileType<TerracottaProj>(), 0, 0f, player.whoAmI);
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, -randomSpeedY, ModContent.ProjectileType<TerracottaProj>(), 0, 0f, player.whoAmI);
+            }
+            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<TerracottaExplosion>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), item.knockBack, player.whoAmI);
+        }
+
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(5))

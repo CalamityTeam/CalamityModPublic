@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.Placeables;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -44,8 +45,10 @@ namespace CalamityMod.Tiles.Furniture
         public override void NearbyEffects(int i, int j, bool closer)
         {
             Player player = Main.LocalPlayer;
+            if (player is null)
+                return;
             if (!player.dead && player.active)
-                player.AddBuff(ModContent.BuffType<Buffs.Placeables.TranquilityCandle>(), 20);
+                player.AddBuff(ModContent.BuffType<TranquilityCandleBuff>(), 20);
         }
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
@@ -55,10 +58,24 @@ namespace CalamityMod.Tiles.Furniture
             b = 0.55f;
         }
 
-        /*public override void RightClick(int i, int j)
-        {
-            Item.NewItem(i * 16, j * 16, 8, 8, ModContent.ItemType<Items.Placeables.TranquilityCandle>());
-            ?? KillTile( i, j);
-        }*/
+		//this doesn't work
+		/*public virtual bool NewRightClick(int i, int j)
+		{
+            Item.NewItem(i * 16, j * 16, 8, 8, ModContent.ItemType<Items.Placeables.Furniture.TranquilityCandle>());
+			if (Main.tile[i, j] != null && Main.tile[i, j].active())
+			{
+				WorldGen.KillTile(i, j, false, false, false);
+				if (!Main.tile[i, j].active() && Main.netMode != NetmodeID.SinglePlayer)
+				{
+					NetMessage.SendData(17, -1, -1, null, 0, (float)i, (float)j, 0f, 0, 0, 0);
+				}
+			}
+			return true;
+		}
+
+		public override bool HasSmartInteract()
+		{
+			return true;
+		}*/
     }
 }

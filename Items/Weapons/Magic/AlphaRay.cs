@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -87,7 +88,7 @@ namespace CalamityMod.Items.Weapons.Magic
             recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 15);
             recipe.AddIngredient(ModContent.ItemType<Wingman>(), 2);
             recipe.AddIngredient(ModContent.ItemType<Genisis>());
-            recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

@@ -49,6 +49,14 @@ namespace CalamityMod.Projectiles.Rogue
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
         }
 
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
+            target.AddBuff(ModContent.BuffType<Plague>(), 120);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
+        }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);

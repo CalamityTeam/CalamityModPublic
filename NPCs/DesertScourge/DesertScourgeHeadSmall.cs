@@ -51,7 +51,6 @@ namespace CalamityMod.NPCs.DesertScourge
         public override void AI()
         {
             Player player = Main.player[npc.target];
-            bool expertMode = Main.expertMode;
             if (npc.ai[3] > 0f)
             {
                 npc.realLife = (int)npc.ai[3];

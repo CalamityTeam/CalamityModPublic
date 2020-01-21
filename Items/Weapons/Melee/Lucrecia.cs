@@ -87,5 +87,14 @@ namespace CalamityMod.Items.Weapons.Melee
                 player.immuneTime = 5;
             }
         }
+
+        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        {
+            if (!player.immune)
+            {
+                player.immune = true;
+                player.immuneTime = 5;
+            }
+        }
     }
 }

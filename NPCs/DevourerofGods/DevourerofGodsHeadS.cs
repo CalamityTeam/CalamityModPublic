@@ -22,6 +22,8 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Config;
+using CalamityMod;
 
 namespace CalamityMod.NPCs.DevourerofGods
 {
@@ -55,7 +57,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             npc.height = 186;
             npc.defense = 50;
             npc.LifeMaxNERB(1150000, 1350000, 9200000);
-            double HPBoost = Config.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.takenDamageMultiplier = 1.25f;
             npc.aiStyle = -1;
@@ -134,9 +136,9 @@ namespace CalamityMod.NPCs.DevourerofGods
             bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
 			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
-            bool speedBoost = lifeRatio < 0.6 || (CalamityWorld.bossRushActive && lifeRatio < 0.9);
+            bool speedBoost = lifeRatio < 0.6 || (death && lifeRatio < 0.9);
             bool speedBoost2 = lifeRatio < 0.2;
-            bool breathFireMore = lifeRatio < 0.15;
+            bool breathFireMore = lifeRatio < 0.15 || death;
 
 			// Light
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
@@ -300,70 +302,55 @@ namespace CalamityMod.NPCs.DevourerofGods
                     calamityGlobalNPC.newAI[0] = 0f;
 
                 // Laser walls
-                if (!speedBoost2 && (laserWallPhase == 1 || calamityGlobalNPC.enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)))
+                if (!speedBoost2 && (laserWallPhase == 1 || calamityGlobalNPC.enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive)))
                 {
                     laserShoot += 1;
 
                     float speed = 4f;
-                    int divisor = CalamityWorld.bossRushActive ? 90 : (CalamityWorld.death ? 105 : 120);
+                    int divisor = CalamityWorld.bossRushActive ? 90 : 120;
 
-                    if (laserShoot % divisor == 0)
-                    {
-                        Main.PlaySound(2, (int)Main.player[npc.target].position.X, (int)Main.player[npc.target].position.Y, 12);
+					if (laserShoot % divisor == 0)
+					{
+						Main.PlaySound(2, (int)Main.player[npc.target].position.X, (int)Main.player[npc.target].position.Y, 12);
 
-                        float targetPosY = Main.player[npc.target].position.Y + (Main.rand.NextBool(2) ? 50f : 0f);
+						float targetPosY = Main.player[npc.target].position.Y + (Main.rand.NextBool(2) ? 50f : 0f);
 
-                        // Side walls
-                        for (int x = 0; x < totalShots; x++)
-                        {
-                            Projectile.NewProjectile(Main.player[npc.target].position.X + 1000f, targetPosY + (float)shotSpacing[0], -speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
-                            Projectile.NewProjectile(Main.player[npc.target].position.X - 1000f, targetPosY + (float)shotSpacing[0], speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
-                            shotSpacing[0] -= spacingVar;
-                        }
+						// Side walls
+						for (int x = 0; x < totalShots; x++)
+						{
+							Projectile.NewProjectile(Main.player[npc.target].position.X + 1000f, targetPosY + (float)shotSpacing[0], -speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+							Projectile.NewProjectile(Main.player[npc.target].position.X - 1000f, targetPosY + (float)shotSpacing[0], speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+							shotSpacing[0] -= spacingVar;
+						}
 
-                        if (Main.rand.NextBool(2) && revenge)
-                        {
-                            for (int x = 0; x < 10; x++)
-                            {
-                                Projectile.NewProjectile(Main.player[npc.target].position.X + 1000f, targetPosY + (float)shotSpacing[3], -speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
-                                Projectile.NewProjectile(Main.player[npc.target].position.X - 1000f, targetPosY + (float)shotSpacing[3], speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
-                                shotSpacing[3] -= Main.rand.NextBool(2) ? 180 : 200;
-                            }
-                            shotSpacing[3] = 1050;
-                        }
-                        shotSpacing[0] = 1050;
+						if (Main.rand.NextBool(2) && revenge)
+						{
+							for (int x = 0; x < 10; x++)
+							{
+								Projectile.NewProjectile(Main.player[npc.target].position.X + 1000f, targetPosY + (float)shotSpacing[3], -speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+								Projectile.NewProjectile(Main.player[npc.target].position.X - 1000f, targetPosY + (float)shotSpacing[3], speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+								shotSpacing[3] -= Main.rand.NextBool(2) ? 180 : 200;
+							}
+							shotSpacing[3] = 1050;
+						}
+						shotSpacing[0] = 1050;
 
-                        // Lower wall
-                        for (int x = 0; x < totalShots; x++)
-                        {
-                            Projectile.NewProjectile(Main.player[npc.target].position.X + (float)shotSpacing[1], Main.player[npc.target].position.Y + 1000f, 0f, -speed, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
-                            shotSpacing[1] -= spacingVar;
-                        }
-                        shotSpacing[1] = 1050;
+						// Lower wall
+						for (int x = 0; x < totalShots; x++)
+						{
+							Projectile.NewProjectile(Main.player[npc.target].position.X + (float)shotSpacing[1], Main.player[npc.target].position.Y + 1000f, 0f, -speed, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+							shotSpacing[1] -= spacingVar;
+						}
+						shotSpacing[1] = 1050;
 
-                        // Upper wall
-                        if (lifeRatio < 0.4f && revenge)
-                        {
-                            if (shotSpacing[2] < 2100)
-                                shotSpacing[2] = 2100;
-
-                            for (int x = 0; x < 40; x++)
-                            {
-                                Projectile.NewProjectile(Main.player[npc.target].position.X + (float)shotSpacing[2], Main.player[npc.target].position.Y - 1000f, 0f, speed, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
-                                shotSpacing[2] -= spacingVar;
-                            }
-                            shotSpacing[2] = 2100;
-                        }
-                        else
-                        {
-                            for (int x = 0; x < totalShots; x++)
-                            {
-                                Projectile.NewProjectile(Main.player[npc.target].position.X + (float)shotSpacing[2], Main.player[npc.target].position.Y - 1000f, 0f, speed, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
-                                shotSpacing[2] -= spacingVar;
-                            }
-                            shotSpacing[2] = 1050;
-                        }
-                    }
+						// Upper wall
+						for (int x = 0; x < totalShots; x++)
+						{
+							Projectile.NewProjectile(Main.player[npc.target].position.X + (float)shotSpacing[2], Main.player[npc.target].position.Y - 1000f, 0f, speed, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+							shotSpacing[2] -= spacingVar;
+						}
+						shotSpacing[2] = 1050;
+					}
                 }
             }
 
@@ -390,7 +377,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                     }
                 }
             }
-            fallSpeed += (death ? 5f : 3.5f) * (1f - lifeRatio);
+            fallSpeed += death ? 3.7f : 3.5f * (1f - lifeRatio);
 
             // Movement
             int num180 = (int)(npc.position.X / 16f) - 1;
@@ -426,19 +413,19 @@ namespace CalamityMod.NPCs.DevourerofGods
 
                 phaseSwitch += 1;
 
-                int phaseLimit = (death ? 600 : 900) / (1 + (int)(5f * (1f - lifeRatio)));
+                int phaseLimit = death ? 180 : 900 / (1 + (int)(5f * (1f - lifeRatio)));
 
                 npc.localAI[1] = 0f;
 
-                float speed = (death ? 18f : 15f) + (3f * (1f - lifeRatio));
-                float turnSpeed = (death ? 0.33f : 0.3f) + (0.06f * (1f - lifeRatio));
-                float homingSpeed = (death ? 28f : 24f) + (12f * (1f - lifeRatio));
-                float homingTurnSpeed = (death ? 0.36f : 0.33f) + (0.15f * (1f - lifeRatio));
+                float speed = death ? 20f : 15f + (3f * (1f - lifeRatio));
+                float turnSpeed = death ? 0.38f : 0.3f + (0.06f * (1f - lifeRatio));
+                float homingSpeed = death ? 38f : 24f + (12f * (1f - lifeRatio));
+                float homingTurnSpeed = death ? 0.5f : 0.33f + (0.15f * (1f - lifeRatio));
 
 				// Go to ground phase sooner
 				if (tooFarAway)
 				{
-					if (revenge && laserWallPhase == 0)
+					if (revenge && laserWallPhase == 0 && !Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
 						Teleport();
 					else
 						phaseSwitch += 10;
@@ -652,13 +639,13 @@ namespace CalamityMod.NPCs.DevourerofGods
 
                 phaseSwitch += 1;
 
-                float turnSpeed = 0.18f + ((death ? 0.14f : 0.12f) * (1f - lifeRatio));
+                float turnSpeed = 0.18f + (death ? 0.14f : 0.12f * (1f - lifeRatio));
                 bool increaseSpeed = distanceFromTarget > 3200f;
 
 				// Enrage
 				if (tooFarAway)
 				{
-					if (revenge && laserWallPhase == 0)
+					if (revenge && laserWallPhase == 0 && !Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
 						Teleport();
 					else
 						turnSpeed *= 6f;
@@ -693,10 +680,10 @@ namespace CalamityMod.NPCs.DevourerofGods
 
                     Rectangle rectangle12 = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
                     int num954 = 1200;
-                    if (lifeRatio < 0.8f && lifeRatio > 0.2f)
+                    if (lifeRatio < 0.8f && lifeRatio > 0.2f && !death)
                         num954 = 1400;
 
-                    num954 -= (int)(150f * (1f - lifeRatio));
+                    num954 -= death ? 150 : (int)(150f * (1f - lifeRatio));
 
                     bool flag95 = true;
                     if (npc.position.Y > Main.player[npc.target].position.Y)
@@ -764,8 +751,8 @@ namespace CalamityMod.NPCs.DevourerofGods
                 }
                 else
                 {
-                    double maximumSpeed1 = (increaseSpeed ? 1.2 : 0.4) + (double)((death ? 0.14f : 0.12f) * (1f - lifeRatio));
-                    double maximumSpeed2 = (increaseSpeed ? 3.0 : 1.0) + (double)((death ? 0.3f : 0.25f) * (1f - lifeRatio));
+                    double maximumSpeed1 = (increaseSpeed ? 1.2 : 0.4) + (double)(death ? 0.14f : 0.12f * (1f - lifeRatio));
+                    double maximumSpeed2 = (increaseSpeed ? 3.0 : 1.0) + (double)(death ? 0.27f : 0.25f * (1f - lifeRatio));
 
                     num193 = (float)Math.Sqrt((double)(num191 * num191 + num192 * num192));
                     float num25 = Math.Abs(num191);
@@ -926,6 +913,10 @@ namespace CalamityMod.NPCs.DevourerofGods
 				if (Main.npc[i].active && (Main.npc[i].type == ModContent.NPCType<DevourerofGodsBodyS>() || Main.npc[i].type == ModContent.NPCType<DevourerofGodsTailS>()))
 				{
 					Main.npc[i].position = teleportLocation;
+                    if (Main.npc[i].type == ModContent.NPCType<DevourerofGodsTailS>())
+                    {
+                        ((DevourerofGodsTailS)Main.npc[i].modNPC).setInvulTime(720);
+                    }
 					Main.npc[i].netUpdate = true;
 				}
 			}

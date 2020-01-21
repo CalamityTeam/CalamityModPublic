@@ -43,6 +43,12 @@ namespace CalamityMod.Projectiles.Rogue
             player.AddBuff(BuffID.WellFed, 180);
         }
 
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            Player player = Main.player[projectile.owner];
+            player.AddBuff(BuffID.WellFed, 180);
+        }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);

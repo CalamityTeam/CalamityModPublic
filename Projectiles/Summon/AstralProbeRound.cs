@@ -15,6 +15,7 @@ namespace CalamityMod.Projectiles.Summon
             DisplayName.SetDefault("Blast");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.MinionShot[projectile.type] = true;
         }
 
         public override void SetDefaults()

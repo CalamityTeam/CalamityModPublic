@@ -6,6 +6,8 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Config;
+using CalamityMod;
 
 namespace CalamityMod.NPCs.StormWeaver
 {
@@ -38,7 +40,7 @@ namespace CalamityMod.NPCs.StormWeaver
                 else
                     music = MusicID.Boss3;
             }
-            double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
+            double HPBoost = (double)CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
             aiType = -1;
@@ -230,18 +232,6 @@ namespace CalamityMod.NPCs.StormWeaver
         {
             cooldownSlot = 1;
             return true;
-        }
-
-        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-        {
-            if (projectile.penetrate == -1 && !projectile.minion)
-            {
-                damage = (int)((double)damage * 0.2);
-            }
-            else if (projectile.penetrate > 1)
-            {
-                damage /= projectile.penetrate;
-            }
         }
 
         public override void HitEffect(int hitDirection, double damage)

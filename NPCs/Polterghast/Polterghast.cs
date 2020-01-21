@@ -20,6 +20,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Config;
+using CalamityMod;
 namespace CalamityMod.NPCs.Polterghast
 {
     [AutoloadBossHead]
@@ -52,7 +54,7 @@ namespace CalamityMod.NPCs.Polterghast
             global.multDRReductions.Add(BuffID.Ichor, 0.88f);
             global.multDRReductions.Add(BuffID.CursedInferno, 0.9f);
             npc.LifeMaxNERB(412500, 495000, 3250000);
-            double HPBoost = Config.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
             npc.aiStyle = -1; //new
@@ -114,12 +116,13 @@ namespace CalamityMod.NPCs.Polterghast
             Vector2 vector = npc.Center;
             bool speedBoost1 = false;
             bool despawnBoost = false;
-            bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
+			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
+			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
             bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
-            bool phase2 = (double)npc.life < (double)npc.lifeMax * 0.75; //hooks fire beams
-            bool phase3 = (double)npc.life < (double)npc.lifeMax * (revenge ? 0.5 : 0.33); //hooks stop shooting and polter begins charging with ghosts spinning around player
-            bool phase4 = (double)npc.life < (double)npc.lifeMax * (revenge ? 0.33 : 0.2); //starts spitting ghost dudes
-            bool phase5 = (double)npc.life < (double)npc.lifeMax * (revenge ? 0.1 : 0.05); //starts moving incredibly fast
+            bool phase2 = (double)npc.life < (double)npc.lifeMax * (death ? 0.9 : 0.75); //hooks fire beams
+            bool phase3 = (double)npc.life < (double)npc.lifeMax * (revenge ? (death ? 0.8 : 0.5) : 0.33); //hooks stop shooting and polter begins charging with ghosts spinning around player
+            bool phase4 = (double)npc.life < (double)npc.lifeMax * (revenge ? (death ? 0.5 : 0.33) : 0.2); //starts spitting ghost dudes
+            bool phase5 = (double)npc.life < (double)npc.lifeMax * (revenge ? (death ? 0.25 : 0.1) : 0.05); //starts moving incredibly fast
 
             // Target
             npc.TargetClosest(true);
@@ -387,7 +390,7 @@ namespace CalamityMod.NPCs.Polterghast
                                 num742 += 1f;
                             if (CalamityWorld.bossRushActive)
                                 num742 = 13f;
-                            if (speedBoost1 || npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                            if (speedBoost1 || npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
                                 num742 *= 2f;
 
                             Vector2 vector93 = new Vector2(vector.X, vector.Y);
@@ -409,7 +412,7 @@ namespace CalamityMod.NPCs.Polterghast
                                 num747 = ModContent.ProjectileType<PhantomBlast>();
                             }
 
-                            if (speedBoost1 || npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                            if (speedBoost1 || npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
                                 num746 *= 2;
 
                             vector93.X += num743 * 3f;
@@ -425,7 +428,7 @@ namespace CalamityMod.NPCs.Polterghast
                                 num742 += 1f;
                             if (CalamityWorld.bossRushActive)
                                 num742 = 18f;
-                            if (speedBoost1 || npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                            if (speedBoost1 || npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
                                 num742 *= 2f;
 
                             Vector2 vector93 = new Vector2(vector.X, vector.Y);
@@ -439,7 +442,7 @@ namespace CalamityMod.NPCs.Polterghast
 
                             int num746 = expertMode ? 60 : 70;
                             int num747 = ModContent.ProjectileType<PhantomBlast>();
-                            if (speedBoost1 || npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                            if (speedBoost1 || npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
                                 num746 *= 2;
 
                             vector93.X += num743 * 3f;
@@ -491,7 +494,7 @@ namespace CalamityMod.NPCs.Polterghast
                 npc.damage = (int)((float)npc.defDamage * 1.2f);
                 npc.defense = (int)((float)npc.defDefense * 0.8f);
 
-                if (speedBoost1 || npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                if (speedBoost1 || npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
                 {
                     npc.defense *= 2;
                     npc.damage *= 2;
@@ -521,7 +524,7 @@ namespace CalamityMod.NPCs.Polterghast
                                 num742 += 1f;
                             if (CalamityWorld.bossRushActive)
                                 num742 = 13f;
-                            if (speedBoost1 || npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                            if (speedBoost1 || npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
                                 num742 *= 2f;
 
                             Vector2 vector93 = new Vector2(vector.X, vector.Y);
@@ -543,7 +546,7 @@ namespace CalamityMod.NPCs.Polterghast
                                 num747 = ModContent.ProjectileType<PhantomBlast2>();
                             }
 
-                            if (speedBoost1 || npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                            if (speedBoost1 || npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
                                 num746 *= 2;
 
                             vector93.X += num743 * 3f;
@@ -559,7 +562,7 @@ namespace CalamityMod.NPCs.Polterghast
                                 num742 += 1f;
                             if (CalamityWorld.bossRushActive)
                                 num742 = 18f;
-                            if (speedBoost1 || npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                            if (speedBoost1 || npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
                                 num742 *= 2f;
 
                             Vector2 vector93 = new Vector2(vector.X, vector.Y);
@@ -574,7 +577,7 @@ namespace CalamityMod.NPCs.Polterghast
                             int num746 = expertMode ? 65 : 75;
                             int num747 = ModContent.ProjectileType<PhantomBlast2>();
 
-                            if (speedBoost1 || npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                            if (speedBoost1 || npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
                                 num746 *= 2;
 
                             vector93.X += num743 * 3f;
@@ -642,7 +645,7 @@ namespace CalamityMod.NPCs.Polterghast
                 npc.damage = (int)((float)npc.defDamage * 1.4f);
                 npc.defense = (int)((float)npc.defDefense * 0.5f);
 
-                if (speedBoost1 || npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                if (speedBoost1 || npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
                 {
                     npc.defense *= 2;
                     npc.damage *= 2;
@@ -736,14 +739,16 @@ namespace CalamityMod.NPCs.Polterghast
 
         public override void FindFrame(int frameHeight)
         {
-            bool phase2 = (double)npc.life >= (double)npc.lifeMax * (CalamityWorld.revenge ? 0.5 : 0.33);
+			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
+			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
+			bool phase2 = (double)npc.life >= (double)npc.lifeMax * (revenge ? (death ? 0.8 : 0.5) : 0.33);
             npc.frameCounter += 1.0;
             if (npc.frameCounter > 6.0)
             {
                 npc.frameCounter = 0.0;
                 npc.frame.Y = npc.frame.Y + frameHeight;
             }
-            if ((double)npc.life >= (double)npc.lifeMax * 0.75)
+            if ((double)npc.life >= (double)npc.lifeMax * (death ? 0.9 : 0.75))
             {
                 if (npc.frame.Y > frameHeight * 3)
                 {

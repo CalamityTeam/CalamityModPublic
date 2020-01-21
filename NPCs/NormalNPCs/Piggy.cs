@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Items.Critters;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -11,6 +12,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             DisplayName.SetDefault("Piggy");
             Main.npcFrameCount[npc.type] = 5;
+            Main.npcCatchable[npc.type] = true;
         }
 
         public override void SetDefaults()
@@ -29,6 +31,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.DeathSound = SoundID.NPCDeath1;
             banner = npc.type;
             bannerItem = ModContent.ItemType<PiggyBanner>();
+            npc.catchItem = (short)ModContent.ItemType<PiggyItem>();
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -79,7 +82,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Bacon);
+            DropHelper.DropItem(npc, ItemID.Bacon, 1, 1);
         }
 
         public override void HitEffect(int hitDirection, double damage)
@@ -94,6 +97,16 @@ namespace CalamityMod.NPCs.NormalNPCs
                 {
                     Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
                 }
+            }
+        }
+
+        public override void OnCatchNPC(Player player, Item item)
+        {
+            try
+            {
+            } catch
+            {
+                return;
             }
         }
     }

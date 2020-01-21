@@ -7,6 +7,8 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Config;
+using CalamityMod;
 namespace CalamityMod.NPCs.Ravager
 {
     public class RavagerHead : ModNPC
@@ -35,6 +37,7 @@ namespace CalamityMod.NPCs.Ravager
             npc.buffImmune[BuffID.CursedInferno] = false;
 			npc.buffImmune[BuffID.Frostburn] = false;
 			npc.buffImmune[BuffID.Daybreak] = false;
+			npc.buffImmune[BuffID.BetsysCurse] = false;
             npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
             npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
             npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
@@ -60,7 +63,7 @@ namespace CalamityMod.NPCs.Ravager
             {
                 npc.lifeMax = 450000;
             }
-            double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
+            double HPBoost = (double)CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
         }
 
@@ -68,7 +71,7 @@ namespace CalamityMod.NPCs.Ravager
         {
             bool provy = CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive;
             bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
-            Player player = Main.player[npc.target];
+			Player player = Main.player[npc.target];
             if (CalamityGlobalNPC.scavenger < 0 || !Main.npc[CalamityGlobalNPC.scavenger].active)
             {
                 npc.active = false;

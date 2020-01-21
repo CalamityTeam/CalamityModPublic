@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Materials
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shadowspec Bar");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(8, 10));
+            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(8, 8));
         }
 
         public override void SetDefaults()

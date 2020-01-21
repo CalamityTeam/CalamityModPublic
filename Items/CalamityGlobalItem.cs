@@ -303,6 +303,17 @@ namespace CalamityMod.Items
                     }
                 }
             }
+			if (item.type == ItemID.StarCannon)
+			{
+				Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY)) * 5f;
+				if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0))
+				{
+					position += muzzleOffset;
+				}
+				Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<FallenStarProj>(), damage, knockBack, player.whoAmI);
+				Main.PlaySound(SoundID.Item11.WithPitchVariance(0.05f), position); // <--- This is optional; if using, add "item.UseSound = null" to GlobalItem.SetDefaults when checking for the Star Cannon's ID
+				return false;
+			}
             return true;
         }
         #endregion
@@ -824,6 +835,17 @@ namespace CalamityMod.Items
                     {
                         line2.text = "Grants invisibility\n" +
                             "Boosts certain stats when holding certain types of rogue weapons";
+                    }
+                }
+            }
+            if (item.type == ItemID.GoldenFishingRod)
+            {
+                foreach (TooltipLine line2 in tooltips)
+                {
+                    if (line2.mod == "Terraria" && line2.Name == "NeedsBait")
+                    {
+                        line2.text = "Requires bait to catch fish\n" +
+                            "The line will never break";
                     }
                 }
             }

@@ -32,12 +32,22 @@ namespace CalamityMod.Items.Weapons.Melee
             item.shoot = ModContent.ProjectileType<DarkIceZero>();
             item.shootSpeed = 3f;
         }
+
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
         {
             target.AddBuff(BuffID.Frostburn, 600);
             target.AddBuff(ModContent.BuffType<GlacialState>(), 300);
 
-            int p = Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<DarkIceZero>(), damage, knockBack * 3f, player.whoAmI);
+            int p = Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<DarkIceZero>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), knockBack * 3f, player.whoAmI);
+            Main.projectile[p].Kill();
+        }
+
+        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        {
+            target.AddBuff(BuffID.Frostburn, 600);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 300);
+
+            int p = Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<DarkIceZero>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), 12f, player.whoAmI);
             Main.projectile[p].Kill();
         }
     }

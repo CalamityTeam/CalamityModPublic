@@ -7,6 +7,8 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Config;
+using CalamityMod;
 namespace CalamityMod.NPCs.Perforator
 {
     [AutoloadBossHead]
@@ -32,7 +34,7 @@ namespace CalamityMod.NPCs.Perforator
             npc.height = 68;
             npc.defense = 2;
 			npc.LifeMaxNERB(2000, 2200, 700000);
-			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
+			double HPBoost = (double)CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
             npc.aiStyle = 6;
             aiType = -1;
@@ -55,14 +57,14 @@ namespace CalamityMod.NPCs.Perforator
         public override void AI()
         {
             bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
-            float speedMult = expertMode ? 1.5f : 1.425f;
+			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
+			float speedMult = expertMode ? 1.5f : 1.425f;
             if (CalamityWorld.bossRushActive)
                 speedMult = 3f;
 
-            float life = (float)npc.life;
-            float totalLife = (float)npc.lifeMax;
-            speed = 15f * (speedMult - (life / totalLife));
-            turnSpeed = 0.13f * (speedMult - (life / totalLife));
+			float speedBoost = death ? speedMult : speedMult - ((float)npc.life / (float)npc.lifeMax);
+			speed = 15f * speedBoost;
+			turnSpeed = 0.13f * speedBoost;
             if (npc.ai[3] > 0f)
             {
                 npc.realLife = (int)npc.ai[3];

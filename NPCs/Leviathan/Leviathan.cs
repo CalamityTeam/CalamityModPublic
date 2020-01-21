@@ -18,6 +18,8 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Config;
+using CalamityMod;
 namespace CalamityMod.NPCs.Leviathan
 {
     [AutoloadBossHead]
@@ -40,7 +42,7 @@ namespace CalamityMod.NPCs.Leviathan
             npc.defense = 40;
             npc.Calamity().RevPlusDR(0.35f);
             npc.LifeMaxNERB(69000, 90700, 7000000);
-            double HPBoost = Config.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
             npc.aiStyle = -1;
@@ -54,6 +56,7 @@ namespace CalamityMod.NPCs.Leviathan
             npc.buffImmune[BuffID.CursedInferno] = false;
 			npc.buffImmune[BuffID.Frostburn] = false;
 			npc.buffImmune[BuffID.Daybreak] = false;
+			npc.buffImmune[BuffID.BetsysCurse] = false;
             npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
             npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
             npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
@@ -95,6 +98,7 @@ namespace CalamityMod.NPCs.Leviathan
         {
             CalamityGlobalNPC.leviathan = npc.whoAmI;
 
+			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
             bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
             bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
             Vector2 vector = npc.Center;
@@ -123,8 +127,7 @@ namespace CalamityMod.NPCs.Leviathan
             }
             if (Main.rand.NextBool(600))
             {
-                Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y,
-                    (sirenAlive && !CalamityWorld.death && !CalamityWorld.bossRushActive) ? soundChoice : soundChoiceRage);
+                Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, (sirenAlive && !death) ? soundChoice : soundChoiceRage);
             }
 
             if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -225,7 +228,7 @@ namespace CalamityMod.NPCs.Leviathan
                     }
 
                     npc.ai[1] += 1f;
-                    if (npc.ai[1] >= ((CalamityWorld.death || CalamityWorld.bossRushActive) ? 120f : 240f))
+                    if (npc.ai[1] >= 240f)
                     {
                         npc.ai[0] = 1f;
                         npc.ai[1] = 0f;
@@ -238,7 +241,7 @@ namespace CalamityMod.NPCs.Leviathan
                         if (!player.dead)
                         {
                             npc.ai[2] += 1f;
-                            if (!sirenAlive)
+                            if (!sirenAlive || death)
                                 npc.ai[2] += 2f;
                         }
 
@@ -251,15 +254,15 @@ namespace CalamityMod.NPCs.Leviathan
 
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
-                                float num418 = sirenAlive ? 13.5f : 16f;
+                                float num418 = (sirenAlive && !death) ? 13.5f : 16f;
                                 int num419 = 40;
                                 int num420 = ModContent.ProjectileType<LeviathanBomb>();
                                 if (expertMode)
                                 {
-                                    num418 = sirenAlive ? 14f : 17f;
+                                    num418 = (sirenAlive && !death) ? 14f : 17f;
                                     num419 = 33;
                                 }
-                                if (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                                if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
                                 {
                                     num418 = 22f;
                                 }
@@ -290,7 +293,7 @@ namespace CalamityMod.NPCs.Leviathan
                     float num1060 = (float)Math.Sqrt((double)(num1058 * num1058 + num1059 * num1059));
 
                     npc.ai[1] += revenge ? 2f : 1f;
-                    if (!sirenAlive || CalamityWorld.death || CalamityWorld.bossRushActive)
+                    if (!sirenAlive || death)
                     {
                         npc.ai[1] += 2.5f;
                     }
@@ -380,7 +383,7 @@ namespace CalamityMod.NPCs.Leviathan
 
                     if (npc.ai[2] > (sirenAlive ? 2f : 3f))
                     {
-                        npc.ai[0] = (double)npc.life < (double)npc.lifeMax * 0.5 ? 2f : 0f;
+                        npc.ai[0] = ((double)npc.life < (double)npc.lifeMax * 0.5 || death) ? 2f : 0f;
                         npc.ai[1] = 0f;
                         npc.ai[2] = 0f;
                         npc.netUpdate = true;
@@ -418,15 +421,15 @@ namespace CalamityMod.NPCs.Leviathan
                             npc.ai[1] += 1f;
                             npc.ai[2] = 0f;
                             float num1044 = revenge ? 20f : 18f;
-                            if ((double)npc.life < (double)npc.lifeMax * 0.25 || CalamityWorld.bossRushActive)
+                            if ((double)npc.life < (double)npc.lifeMax * 0.25 || death)
                             {
                                 num1044 += 2f;
                             }
-                            if ((double)npc.life < (double)npc.lifeMax * 0.1 || CalamityWorld.bossRushActive)
+                            if ((double)npc.life < (double)npc.lifeMax * 0.1 || death)
                             {
                                 num1044 += 2f;
                             }
-                            if (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                            if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
                             {
                                 num1044 += 4f;
                             }
@@ -449,17 +452,17 @@ namespace CalamityMod.NPCs.Leviathan
 
                         float num1048 = revenge ? 7.5f : 6.5f;
                         float num1049 = revenge ? 0.12f : 0.11f;
-                        if ((double)npc.life < (double)npc.lifeMax * 0.25 || CalamityWorld.bossRushActive)
+                        if ((double)npc.life < (double)npc.lifeMax * 0.25 || death)
                         {
                             num1048 += 2f;
                             num1049 += 0.05f;
                         }
-                        if ((double)npc.life < (double)npc.lifeMax * 0.1 || CalamityWorld.bossRushActive)
+                        if ((double)npc.life < (double)npc.lifeMax * 0.1 || death)
                         {
                             num1048 += 2f;
                             num1049 += 0.1f;
                         }
-                        if (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                        if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
                         {
                             num1048 += 3f;
                             num1049 += 0.2f;
@@ -541,12 +544,12 @@ namespace CalamityMod.NPCs.Leviathan
                         npc.spriteDirection = npc.direction;
                         npc.velocity *= 0.9f;
                         float num1052 = revenge ? 0.11f : 0.1f;
-                        if (npc.life < npc.lifeMax / 4 || CalamityWorld.bossRushActive)
+                        if (npc.life < npc.lifeMax / 4 || death)
                         {
                             npc.velocity *= 0.9f;
                             num1052 += 0.05f;
                         }
-                        if (npc.life < npc.lifeMax / 10 || CalamityWorld.bossRushActive)
+                        if (npc.life < npc.lifeMax / 10 || death)
                         {
                             npc.velocity *= 0.9f;
                             num1052 += 0.05f;

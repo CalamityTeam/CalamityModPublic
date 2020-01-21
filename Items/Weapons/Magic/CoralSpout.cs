@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Weapons.Magic
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<VictideBar>(), 2);
             recipe.AddIngredient(ItemID.Coral, 5);
-            recipe.AddTile(TileID.Anvils);
+            recipe.AddTile(TileID.Bookcases);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

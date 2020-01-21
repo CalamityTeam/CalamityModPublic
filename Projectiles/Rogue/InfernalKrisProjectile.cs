@@ -82,13 +82,35 @@ namespace CalamityMod.Projectiles.Rogue
             }
         }
 
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(BuffID.OnFire, 120);
+
+            if (projectile.Calamity().stealthStrike)
+            {
+                int sparkCount = Main.rand.Next(3, 7);
+                for (int i = 0; i < sparkCount; i++)
+                {
+                    int sparkScatter = 1;
+                    Vector2 sparkVelocity = new Vector2(Main.rand.NextFloat(-sparkScatter, sparkScatter), Main.rand.NextFloat(-sparkScatter - 2, sparkScatter + 2));
+
+                    sparkVelocity.Normalize();
+                    sparkVelocity *= 3;
+
+                    Projectile.NewProjectile(projectile.Center, sparkVelocity, ModContent.ProjectileType<InfernalKrisCinder>(), 10, 0, projectile.owner, 0, 0);
+                }
+                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<InfernalKrisExplosion>(), 10, 0, projectile.owner, 0, 0);
+                Main.PlaySound(2, projectile.position, 74);
+            }
+        }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             if (projectile.Calamity().stealthStrike)
             {
                 // If this is a stealth strike, make the blade glow orange
                 Color glowColour = new Color(255, 215, 100, 100);
-                CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, glowColour, ProjectileID.Sets.TrailingMode[projectile.type], 3);
+                CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, glowColour, ProjectileID.Sets.TrailingMode[projectile.type], 1);
 
                 float minScale = 1.9f;
                 float maxScale = 2.5f;
@@ -97,7 +119,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
             else
             {
-                CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 3);
+                CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
             }
             return false;
         }

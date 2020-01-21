@@ -103,6 +103,12 @@ namespace CalamityMod.Projectiles
 
             // Disable Lunatic Cultist's homing resistance globally
             ProjectileID.Sets.Homing[projectile.type] = false;
+
+			if (projectile.minion && (projectile.type == 260 || projectile.type == ModContent.ProjectileType<WulfrumBolt>() || projectile.type == ModContent.ProjectileType<BrimstoneHellfireballFriendly>() || projectile.type == ModContent.ProjectileType<HellfireExplosionFriendly>()))
+				ProjectileID.Sets.MinionShot[projectile.type] = true;
+
+			if (projectile.minion && (projectile.type == ModContent.ProjectileType<FrostShardFriendly>() || projectile.type == ModContent.ProjectileType<FrostBoltProjectile>()))
+				ProjectileID.Sets.SentryShot[projectile.type] = true;
         }
         #endregion
 
@@ -580,8 +586,6 @@ namespace CalamityMod.Projectiles
                     }
                 }
             }
-            else if (projectile.type == ProjectileID.FallingStar && Main.player[projectile.owner].inventory[Main.player[projectile.owner].selectedItem].type == ItemID.StarCannon)
-                projectile.ranged = true;
             else if (projectile.type == ProjectileID.SoulDrain)
                 projectile.magic = true;
 
@@ -718,8 +722,12 @@ namespace CalamityMod.Projectiles
 				if (Main.player[projectile.owner].Calamity().providenceLore && projectile.owner == Main.myPlayer && projectile.damage > 0 &&
 					(projectile.melee || projectile.ranged || projectile.magic || rogue))
 				{
-					int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 244, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f, 0, default, 0.5f);
-					Main.dust[dust].noGravity = true;
+					if (Main.rand.NextBool(5))
+					{
+						int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 244, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f, 0, default, 0.5f);
+						Main.dust[dust].noGravity = true;
+						Main.dust[dust].noLight = true;
+					}
 				}
 
 				if (rogue)
@@ -879,10 +887,12 @@ namespace CalamityMod.Projectiles
 					float heal = (float)damage * 0.015f;
 					if ((int)heal == 0)
 						return;
+                    if ((int)heal > 6)
+                        heal = 6;
 					if (Main.player[Main.myPlayer].lifeSteal <= 0f)
 						return;
 
-					Main.player[Main.myPlayer].lifeSteal -= heal * 1.5f;
+					Main.player[Main.myPlayer].lifeSteal -= heal * 2f;
 					int owner = projectile.owner;
 					Projectile.NewProjectile(target.position.X, target.position.Y, 0f, 0f, ProjectileID.VampireHeal, 0, 0f, projectile.owner, (float)owner, heal);
 				}
@@ -898,7 +908,7 @@ namespace CalamityMod.Projectiles
 				}
 
                 if (Main.player[projectile.owner].Calamity().alchFlask &&
-                    (projectile.magic || rogue || projectile.melee || projectile.minion || projectile.ranged || projectile.sentry || CalamityMod.projectileMinionList.Contains(projectile.type)) &&
+                    (projectile.magic || rogue || projectile.melee || projectile.minion || projectile.ranged || projectile.sentry || CalamityMod.projectileMinionList.Contains(projectile.type) || ProjectileID.Sets.MinionShot[projectile.type] || ProjectileID.Sets.SentryShot[projectile.type]) &&
                     Main.player[projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<PlagueSeeker>()] < 6)
                 {
                     int newDamage = (int)((double)projectile.damage * 0.25);
@@ -1495,7 +1505,7 @@ namespace CalamityMod.Projectiles
                         }
                     }
                 }
-                else if (projectile.minion || projectile.sentry || CalamityMod.projectileMinionList.Contains(projectile.type))
+                else if (projectile.minion || projectile.sentry || CalamityMod.projectileMinionList.Contains(projectile.type) || ProjectileID.Sets.MinionShot[projectile.type] || ProjectileID.Sets.SentryShot[projectile.type])
                 {
                     if (Main.player[projectile.owner].Calamity().pArtifact)
                     {
@@ -1512,7 +1522,7 @@ namespace CalamityMod.Projectiles
                         target.AddBuff(BuffID.ShadowFlame, 300);
                     }
 
-                    if (Main.player[projectile.owner].Calamity().voltaicJelly)
+                    if (Main.player[projectile.owner].Calamity().voltaicJelly && Main.rand.Next(0, 5) == 0)
                     {
                         target.AddBuff(BuffID.Electrified, 60);
                     }
@@ -1566,7 +1576,7 @@ namespace CalamityMod.Projectiles
 							num10 = num7 / num10;
 							num8 *= num10;
 							num9 *= num10;
-							Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num8, num9, ModContent.ProjectileType<EnergyOrb>(), (int)((double)num * 1.2), 0f, projectile.owner, (float)num6, 0f);
+							Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num8, num9, ModContent.ProjectileType<EnergyOrb>(), (int)((double)num * 1.05), 0f, projectile.owner, (float)num6, 0f);
 						}
 					}
 
@@ -1628,6 +1638,30 @@ namespace CalamityMod.Projectiles
                         num8 *= num10;
                         num9 *= num10;
                         Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num8, num9, ModContent.ProjectileType<GodSlayerPhantom>(), (int)((double)num * 2.0), 0f, projectile.owner, 0f, ai1);
+                    }
+                }
+
+                if (projectile.ranged)
+                {
+                    if (Main.player[projectile.owner].Calamity().tarraRanged && Main.rand.Next(0, 100) >= 88 && Main.player[projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<TarraEnergy>()] <= 20 && (projectile.timeLeft <= 2 || projectile.penetrate <= 1))
+                    {
+                        int num251 = Main.rand.Next(2, 4);
+                        for (int num252 = 0; num252 < num251; num252++)
+                        {
+                            Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+                            while (value15.X == 0f && value15.Y == 0f)
+                            {
+                                value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+                            }
+                            value15.Normalize();
+                            value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
+                            int newDamage = (int)((double)projectile.damage * 0.33);
+                            if (newDamage > 65)
+                            {
+                                newDamage = 65;
+                            }
+                            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<TarraEnergy>(), newDamage, 0f, projectile.owner, 0f, 0f);
+                        }
                     }
                 }
             }
@@ -1795,30 +1829,6 @@ namespace CalamityMod.Projectiles
                     {
                         int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 244, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f, 0, default, 1f);
                         Main.dust[dust].noGravity = true;
-                    }
-                }
-
-                if (projectile.ranged)
-                {
-                    if (Main.player[projectile.owner].Calamity().tarraRanged && Main.rand.Next(0, 100) >= 88)
-                    {
-                        int num251 = Main.rand.Next(2, 4);
-                        for (int num252 = 0; num252 < num251; num252++)
-                        {
-                            Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                            while (value15.X == 0f && value15.Y == 0f)
-                            {
-                                value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                            }
-                            value15.Normalize();
-                            value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-                            int newDamage = (int)((double)projectile.damage * 0.33);
-                            if (newDamage > 65)
-                            {
-                                newDamage = 65;
-                            }
-                            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<TarraEnergy>(), newDamage, 0f, projectile.owner, 0f, 0f);
-                        }
                     }
                 }
 

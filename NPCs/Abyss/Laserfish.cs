@@ -20,7 +20,7 @@ namespace CalamityMod.NPCs.Abyss
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Laserfish");
-            Main.npcFrameCount[npc.type] = 12;
+            Main.npcFrameCount[npc.type] = 6;
         }
 
         public override void SetDefaults()
@@ -149,7 +149,7 @@ namespace CalamityMod.NPCs.Abyss
                             {
                                 damage = 30;
                             }
-                            int beam = Projectile.NewProjectile(npc.Center.X + (npc.spriteDirection == 1 ? 15f : -15f), npc.Center.Y, num6, num7, 259, damage, 0f, Main.myPlayer, 0f, 0f);
+                            int beam = Projectile.NewProjectile(npc.Center.X + (npc.spriteDirection == 1 ? 25f : -25f), npc.Center.Y + (Main.player[npc.target].position.Y > npc.Center.Y ? 5f : -5f), num6, num7, 259, damage, 0f, Main.myPlayer, 0f, 0f);
                             Main.projectile[beam].tileCollide = true;
                         }
                     }
@@ -269,10 +269,10 @@ namespace CalamityMod.NPCs.Abyss
             Vector2 center = new Vector2(npc.Center.X, npc.Center.Y);
             Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
             Vector2 vector = center - Main.screenPosition;
-            vector -= new Vector2((float)ModContent.GetTexture("CalamityMod/NPCs/Abyss/LaserfishGlow").Width, (float)(ModContent.GetTexture("CalamityMod/NPCs/Abyss/LaserfishGlow").Height / Main.npcFrameCount[npc.type])) * 1f / 2f;
+            vector -= new Vector2((float)ModContent.GetTexture("CalamityMod/NPCs/Abyss/Laserfishglow").Width, (float)(ModContent.GetTexture("CalamityMod/NPCs/Abyss/Laserfishglow").Height / Main.npcFrameCount[npc.type])) * 1f / 2f;
             vector += vector11 * 1f + new Vector2(0f, 0f + 4f + npc.gfxOffY);
             Color color = new Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.Yellow);
-            Main.spriteBatch.Draw(ModContent.GetTexture("CalamityMod/NPCs/Abyss/LaserfishGlow"), vector,
+            Main.spriteBatch.Draw(ModContent.GetTexture("CalamityMod/NPCs/Abyss/Laserfishglow"), vector,
                 new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, vector11, 1f, spriteEffects, 0f);
         }
 

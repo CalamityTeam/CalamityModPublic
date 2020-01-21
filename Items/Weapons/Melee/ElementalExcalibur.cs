@@ -89,6 +89,12 @@ namespace CalamityMod.Items.Weapons.Melee
 				damage *= 2;
 		}
 
+		public override void ModifyHitPvp(Player player, Player target, ref int damage, ref bool crit)
+		{
+			if (player.altFunctionUse == 2)
+				damage *= 2;
+		}
+
 		public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(4))
@@ -155,6 +161,22 @@ namespace CalamityMod.Items.Weapons.Melee
             {
                 return;
             }
+            int healAmount = Main.rand.Next(10) + 10;
+            player.statLife += healAmount;
+            player.HealEffect(healAmount);
+        }
+
+        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<ExoFreeze>(), 60);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 240);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 240);
+            target.AddBuff(ModContent.BuffType<Plague>(), 240);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 240);
+            target.AddBuff(BuffID.CursedInferno, 240);
+            target.AddBuff(BuffID.Frostburn, 240);
+            target.AddBuff(BuffID.OnFire, 240);
+            target.AddBuff(BuffID.Ichor, 240);
             int healAmount = Main.rand.Next(10) + 10;
             player.statLife += healAmount;
             player.HealEffect(healAmount);

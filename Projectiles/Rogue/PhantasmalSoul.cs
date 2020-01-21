@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class PhantasmalSoul : ModProjectile
     {
+        private int originDamage;
+        private int divider = 10;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Phantasmal Soul");
@@ -33,6 +35,18 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
+            if (projectile.timeLeft == 600)
+            {
+                originDamage = projectile.damage;
+                projectile.damage = 0;
+            }
+            else if (projectile.timeLeft % 5 == 0 && divider > 0)
+            {
+                projectile.damage = originDamage / divider;
+                divider--;
+            }
+            else if (divider == 0)
+                projectile.damage = originDamage;
             projectile.frameCounter++;
             if (projectile.frameCounter > 6)
             {
@@ -77,7 +91,7 @@ namespace CalamityMod.Projectiles.Rogue
 					bool flag17 = false;
 					for (int num475 = 0; num475 < 200; num475++)
 					{
-						if (Main.npc[num475].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[num475].Center, 1, 1))
+						if (Main.npc[num475].CanBeChasedBy(projectile, false))
 						{
 							float num476 = Main.npc[num475].position.X + (float)(Main.npc[num475].width / 2);
 							float num477 = Main.npc[num475].position.Y + (float)(Main.npc[num475].height / 2);

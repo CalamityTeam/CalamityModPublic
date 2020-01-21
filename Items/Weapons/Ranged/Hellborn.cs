@@ -49,7 +49,17 @@ namespace CalamityMod.Items.Weapons.Ranged
             damage *= 15;
         }
 
+        public override void ModifyHitPvp(Player player, Player target, ref int damage, ref bool crit)
+        {
+            damage *= 15;
+        }
+
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+        {
+            target.AddBuff(BuffID.OnFire, 360);
+        }
+
+        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
             target.AddBuff(BuffID.OnFire, 360);
         }

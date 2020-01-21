@@ -56,6 +56,11 @@ namespace CalamityMod.Projectiles.Rogue
             target.AddBuff(BuffID.Electrified, 300);
         }
 
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(BuffID.Electrified, 300);
+        }
+
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             float dist1 = Vector2.Distance(projectile.Center, targetHitbox.TopLeft());

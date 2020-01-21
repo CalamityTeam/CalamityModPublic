@@ -21,6 +21,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Config;
+using CalamityMod;
 namespace CalamityMod.NPCs.Perforator
 {
     [AutoloadBossHead]
@@ -44,7 +46,7 @@ namespace CalamityMod.NPCs.Perforator
             npc.height = 100;
             npc.defense = 4;
             npc.LifeMaxNERB(3750, 5400, 2700000);
-            double HPBoost = Config.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
             aiType = -1;
@@ -85,6 +87,7 @@ namespace CalamityMod.NPCs.Perforator
 			bool isCrimson = player.ZoneCrimson || CalamityWorld.bossRushActive;
 			bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
 			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
+			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
 
 			if (Vector2.Distance(player.Center, npc.Center) > 5600f)
 			{
@@ -134,10 +137,6 @@ namespace CalamityMod.NPCs.Perforator
 			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				int shoot = revenge ? 6 : 4;
-				if (CalamityWorld.death || CalamityWorld.bossRushActive)
-				{
-					shoot += 3;
-				}
 				npc.localAI[0] += (float)Main.rand.Next(shoot);
 				if (npc.localAI[0] >= (float)Main.rand.Next(300, 901) && npc.position.Y + (float)npc.height < player.position.Y && Vector2.Distance(player.Center, npc.Center) > 80f)
 				{
@@ -203,7 +202,7 @@ namespace CalamityMod.NPCs.Perforator
 				}
 				else
 				{
-					if (large || CalamityWorld.death || CalamityWorld.bossRushActive)
+					if (large || death)
 					{
 						Movement(player, 5f, 1.5f, (CalamityWorld.bossRushActive ? 0.195f : 0.13f), 360f, 10f, 50f);
 					}

@@ -36,22 +36,21 @@ namespace CalamityMod.Tiles.Furniture
         public override void NearbyEffects(int i, int j, bool closer)
         {
             Player player = Main.LocalPlayer;
-            if (!player.dead && player.active)
+            if (player == null || !player.active || player.dead)
+                return;
+            player.AddBuff(ModContent.BuffType<YellowDamageCandle>(), 20);
+            if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                player.AddBuff(ModContent.BuffType<YellowDamageCandle>(), 20);
-                if (Main.netMode != NetmodeID.MultiplayerClient)
+                for (int m = 0; m < Main.maxNPCs; m++)
                 {
-                    for (int m = 0; m < 200; m++)
+                    if (Main.npc[m].active && !Main.npc[m].friendly)
                     {
-                        if (Main.npc[m].active && !Main.npc[m].friendly)
+                        Main.npc[m].buffImmune[ModContent.BuffType<YellowDamageCandle>()] = false;
+                        if (Main.npc[m].Calamity().DR >= 0.99f)
                         {
-                            Main.npc[m].buffImmune[ModContent.BuffType<YellowDamageCandle>()] = false;
-                            if (Main.npc[m].Calamity().DR >= 0.99f)
-                            {
-                                Main.npc[m].buffImmune[ModContent.BuffType<YellowDamageCandle>()] = true;
-                            }
-                            Main.npc[m].AddBuff(ModContent.BuffType<YellowDamageCandle>(), 20, false);
+                            Main.npc[m].buffImmune[ModContent.BuffType<YellowDamageCandle>()] = true;
                         }
+                        Main.npc[m].AddBuff(ModContent.BuffType<YellowDamageCandle>(), 20, false);
                     }
                 }
             }

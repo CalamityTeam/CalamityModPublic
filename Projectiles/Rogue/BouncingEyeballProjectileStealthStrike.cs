@@ -20,8 +20,8 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 28;
-            projectile.height = 22;
+            projectile.width = 30;
+            projectile.height = 26;
             projectile.friendly = true;
             projectile.tileCollide = true;
             projectile.timeLeft = 280;

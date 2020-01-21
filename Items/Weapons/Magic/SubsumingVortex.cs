@@ -62,7 +62,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<AuguroftheElements>());
-            recipe.AddIngredient(ModContent.ItemType<NuclearFury>());
+            recipe.AddIngredient(ModContent.ItemType<EventHorizon>());
             recipe.AddIngredient(ModContent.ItemType<RelicofRuin>());
             recipe.AddIngredient(ModContent.ItemType<TearsofHeaven>());
 			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 4);

@@ -12,6 +12,8 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Config;
+using CalamityMod;
 
 namespace CalamityMod.NPCs.AstrumDeus
 {
@@ -33,7 +35,7 @@ namespace CalamityMod.NPCs.AstrumDeus
             npc.defense = 40;
             npc.Calamity().RevPlusDR(0.1f);
             npc.LifeMaxNERB(12000, 18000, 360000);
-            double HPBoost = Config.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = 6;
             aiType = -1;

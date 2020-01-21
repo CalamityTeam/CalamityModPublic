@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
@@ -11,6 +12,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             DisplayName.SetDefault("Mist");
             Main.projFrames[projectile.type] = 6;
+            ProjectileID.Sets.MinionShot[projectile.type] = true;
         }
 
         public override void SetDefaults()

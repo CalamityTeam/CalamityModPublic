@@ -11,6 +11,8 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Config;
+using CalamityMod;
 namespace CalamityMod.NPCs.Calamitas
 {
     [AutoloadBossHead]
@@ -37,7 +39,7 @@ namespace CalamityMod.NPCs.Calamitas
                 npc.defense *= 5;
                 npc.lifeMax *= 3;
             }
-            double HPBoost = Config.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
             aiType = -1;
@@ -55,6 +57,7 @@ namespace CalamityMod.NPCs.Calamitas
 			npc.buffImmune[BuffID.Frostburn] = false;
 			npc.buffImmune[BuffID.CursedInferno] = false;
             npc.buffImmune[BuffID.Daybreak] = false;
+            npc.buffImmune[BuffID.BetsysCurse] = false;
             npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
             npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
             npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;

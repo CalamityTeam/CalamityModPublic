@@ -36,6 +36,19 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shootSpeed = 30f; //30
         }
 
+        public override bool CanUseItem(Player player)
+        {
+            for (int i = 0; i < Main.projectile.Length; i++)
+            {
+                Projectile p = Main.projectile[i];
+                if (p.active && p.type == ModContent.ProjectileType<FlakKrakenGun>() && p.owner == player.whoAmI)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<FlakKrakenGun>(), damage, knockBack, player.whoAmI, 0f, 0f);

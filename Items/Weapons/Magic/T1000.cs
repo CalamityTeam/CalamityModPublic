@@ -36,6 +36,19 @@ namespace CalamityMod.Items.Weapons.Magic
             item.Calamity().postMoonLordRarity = 14;
         }
 
+        public override bool CanUseItem(Player player)
+        {
+            for (int i = 0; i < Main.projectile.Length; i++)
+            {
+                Projectile p = Main.projectile[i];
+                if (p.active && p.type == ModContent.ProjectileType<T1000Proj>() && p.owner == player.whoAmI)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

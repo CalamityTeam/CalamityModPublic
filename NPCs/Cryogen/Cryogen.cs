@@ -22,6 +22,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Config;
+using CalamityMod;
 namespace CalamityMod.NPCs.Cryogen
 {
     [AutoloadBossHead]
@@ -46,7 +48,7 @@ namespace CalamityMod.NPCs.Cryogen
             npc.defense = 12;
             npc.Calamity().RevPlusDR(0.1f);
             npc.LifeMaxNERB(17900, 26300, 3000000);
-            double HPBoost = Config.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
             aiType = -1;
@@ -62,6 +64,7 @@ namespace CalamityMod.NPCs.Cryogen
             npc.buffImmune[BuffID.OnFire] = false;
             npc.buffImmune[BuffID.CursedInferno] = false;
             npc.buffImmune[BuffID.Daybreak] = false;
+			npc.buffImmune[BuffID.BetsysCurse] = false;
             npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
             npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
             npc.buffImmune[ModContent.BuffType<BrimstoneFlames>()] = false;

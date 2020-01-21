@@ -182,68 +182,6 @@ namespace CalamityMod.Projectiles.Pets
             {
                 projectile.frame = 0;
             }
-
-            if (projectile.owner == Main.myPlayer)
-            {
-                if (projectile.ai[0] != 0f)
-                {
-                    projectile.ai[0] -= 1f;
-                    return;
-                }
-                float num396 = projectile.position.X;
-                float num397 = projectile.position.Y;
-                float num398 = 700f;
-                bool flag11 = false;
-                if (player.HasMinionAttackTargetNPC)
-                {
-                    NPC npc = Main.npc[player.MinionAttackTargetNPC];
-                    if (npc.CanBeChasedBy(projectile, false))
-                    {
-                        float num539 = npc.Center.X + (float)(npc.width / 2);
-                        float num540 = npc.Center.Y + (float)(npc.height / 2);
-                        float num541 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num539) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num540);
-                        if (num541 < num398 && Collision.CanHit(projectile.position, projectile.width, projectile.height, npc.Center, npc.width, npc.height))
-                        {
-                            num396 = num539;
-                            num397 = num540;
-                            flag11 = true;
-                        }
-                    }
-                }
-                else
-                {
-                    for (int num399 = 0; num399 < Main.npc.Length; num399++)
-                    {
-                        if (Main.npc[num399].CanBeChasedBy(projectile, true))
-                        {
-                            float num400 = Main.npc[num399].Center.X + (float)(Main.npc[num399].width / 2);
-                            float num401 = Main.npc[num399].Center.Y + (float)(Main.npc[num399].height / 2);
-                            float num402 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num400) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num401);
-                            if (num402 < num398 && Collision.CanHit(projectile.position, projectile.width, projectile.height, Main.npc[num399].Center, Main.npc[num399].width, Main.npc[num399].height))
-                            {
-                                num398 = num402;
-                                num396 = num400;
-                                num397 = num401;
-                                flag11 = true;
-                            }
-                        }
-                    }
-                }
-                if (flag11)
-                {
-                    float num403 = 30f;
-                    Vector2 vector29 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
-                    float num404 = num396 - vector29.X;
-                    float num405 = num397 - vector29.Y;
-                    float num406 = (float)Math.Sqrt((double)(num404 * num404 + num405 * num405));
-                    num406 = num403 / num406;
-                    num404 *= num406;
-                    num405 *= num406;
-					//Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 93);
-                    Projectile.NewProjectile(projectile.Center.X - 4f, projectile.Center.Y, num404, num405, ModContent.ProjectileType<RotomBeam>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-                    projectile.ai[0] = 50f;
-                }
-            }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

@@ -88,5 +88,16 @@ namespace CalamityMod.Projectiles.Rogue
             }
             target.AddBuff(ModContent.BuffType<Plague>(), 300);
         }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            if (projectile.ai[0] == 0f)
+            {
+                int projectileIndex = Projectile.NewProjectile(projectile.Center, projectile.velocity, ModContent.ProjectileType<PlagueSeeker>(), (int)(projectile.damage * 0.25f), 2f, projectile.owner);
+                Main.projectile[projectileIndex].Calamity().forceRogue = true;
+                projectile.ai[0] = 12f; //0.2th of a second cooldown
+            }
+            target.AddBuff(ModContent.BuffType<Plague>(), 300);
+        }
     }
 }

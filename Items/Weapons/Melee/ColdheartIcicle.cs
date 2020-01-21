@@ -27,6 +27,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.rare = 5;
         }
+
         public override void ModifyHitPvp(Player player, Player target, ref int damage, ref bool crit)
         {
             damage = target.statLifeMax2 * 2 / 100;

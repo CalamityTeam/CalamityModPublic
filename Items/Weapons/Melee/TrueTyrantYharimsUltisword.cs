@@ -87,5 +87,15 @@ namespace CalamityMod.Items.Weapons.Melee
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 300);
         }
+
+        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        {
+            player.AddBuff(ModContent.BuffType<TyrantsFury>(), 300);
+            target.AddBuff(BuffID.OnFire, 300);
+            target.AddBuff(BuffID.Venom, 300);
+            target.AddBuff(BuffID.CursedInferno, 300);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 300);
+        }
     }
 }

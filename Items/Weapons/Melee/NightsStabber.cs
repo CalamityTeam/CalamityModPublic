@@ -71,5 +71,16 @@ namespace CalamityMod.Items.Weapons.Melee
                 }
             }
         }
+
+        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        {
+            if (target.statLife <= 0)
+            {
+                for (int i = 0; i <= 2; i++)
+                {
+                    Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<NightStabber>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), item.knockBack, Main.myPlayer);
+                }
+            }
+        }
     }
 }

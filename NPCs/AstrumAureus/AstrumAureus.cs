@@ -8,6 +8,7 @@ using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -17,6 +18,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Config;
+using CalamityMod;
 
 namespace CalamityMod.NPCs.AstrumAureus
 {
@@ -54,6 +57,7 @@ namespace CalamityMod.NPCs.AstrumAureus
 			npc.buffImmune[BuffID.Frostburn] = false;
 			npc.buffImmune[BuffID.CursedInferno] = false;
             npc.buffImmune[BuffID.Daybreak] = false;
+			npc.buffImmune[BuffID.BetsysCurse] = false;
             npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
             npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
             npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
@@ -76,7 +80,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             {
                 npc.value = Item.buyPrice(0, 35, 0, 0);
             }
-            double HPBoost = Config.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
         }
 
@@ -320,6 +324,7 @@ namespace CalamityMod.NPCs.AstrumAureus
 
                 // Weapons
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Nebulash>(), 5);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<BorealisBomber>(), 5);
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<AureusMask>(), 7);

@@ -24,6 +24,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Config;
+using CalamityMod;
 namespace CalamityMod.NPCs.Providence
 {
     [AutoloadBossHead]
@@ -61,7 +63,7 @@ namespace CalamityMod.NPCs.Providence
             global.flatDRReductions.Add(BuffID.Ichor, 0.05f);
             global.flatDRReductions.Add(BuffID.CursedInferno, 0.05f);
             npc.LifeMaxNERB(440000, 500000, 12500000);
-            double HPBoost = Config.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
             npc.aiStyle = -1;
@@ -140,8 +142,9 @@ namespace CalamityMod.NPCs.Providence
             Player player = Main.player[npc.target];
             Vector2 vector = npc.Center;
 
-            // Difficulty bools
-            bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
+			// Difficulty bools
+			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
+			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
             bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
 
             // Target's current biome
@@ -155,8 +158,8 @@ namespace CalamityMod.NPCs.Providence
             float lifeRatio = (float)npc.life / (float)npc.lifeMax;
 
             // Phases
-            bool ignoreGuardianAmt = lifeRatio < 0.15f;
-            bool phase2 = lifeRatio < 0.75f;
+            bool ignoreGuardianAmt = lifeRatio < (death ? 0.25f : 0.15f);
+            bool phase2 = lifeRatio < 0.75f || death;
 
             // Projectile fire rate multiplier
             double attackRateMult = 1.0;
@@ -248,9 +251,6 @@ namespace CalamityMod.NPCs.Providence
             if (healerAlive)
             {
                 float heal = revenge ? 90f : 120f;
-                if (CalamityWorld.death || CalamityWorld.bossRushActive)
-                    heal = 30f;
-
                 switch (guardianAmt)
                 {
                     case 1:
@@ -370,8 +370,10 @@ namespace CalamityMod.NPCs.Providence
 
                 // Velocity and acceleration
                 bool increaseSpeed = calamityGlobalNPC.newAI[0] > 150f;
-                float acceleration = (expertMode ? 1.1f : 1.05f) + (0.2f * (1f - lifeRatio));
-                float velocity = (expertMode ? 16f : 15f) + (4f * (1f - lifeRatio));
+				float accelerationBoost = death ? 0.2f : 0.2f * (1f - lifeRatio);
+				float velocityBoost = death ? 4f : 4f * (1f - lifeRatio);
+                float acceleration = (expertMode ? 1.1f : 1.05f) + accelerationBoost;
+                float velocity = (expertMode ? 16f : 15f) + velocityBoost;
                 if (CalamityWorld.bossRushActive)
                 {
                     acceleration = 1.3f;
@@ -425,7 +427,7 @@ namespace CalamityMod.NPCs.Providence
                 bool useCrystal = (phase2 && biomeType == 2) || CalamityWorld.bossRushActive;
 
                 // Unique pattern for Death Mode and Boss Rush
-                if (CalamityWorld.death || CalamityWorld.bossRushActive)
+                if (death)
                 {
                     switch (phaseChange)
                     {
@@ -617,8 +619,9 @@ namespace CalamityMod.NPCs.Providence
                 {
                     npc.ai[3] += 1f;
 
-                    int num856 = (expertMode ? 24 : 26) - (int)(4f * (1f - lifeRatio));
-                    if (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+					int shootBoost = death ? 3 : (int)(4f * (1f - lifeRatio));
+                    int num856 = (expertMode ? 24 : 26) - shootBoost;
+                    if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
                         num856 = 19;
 
                     num856 = (int)((double)num856 * attackRateMult);
@@ -633,8 +636,9 @@ namespace CalamityMod.NPCs.Providence
                         float num858 = player.Center.Y - vector.Y;
                         float num859 = (float)Math.Sqrt((double)(num857 * num857 + num858 * num858));
 
-                        float num860 = (expertMode ? 10.25f : 9f) + (2.5f * (1f - lifeRatio));
-                        if (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+						float velocityBoost = death ? 2.5f : 2.5f * (1f - lifeRatio);
+                        float num860 = (expertMode ? 10.25f : 9f) + velocityBoost;
+                        if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
                             num860 = 12.75f;
 
                         if (revenge)
@@ -669,7 +673,8 @@ namespace CalamityMod.NPCs.Providence
                 {
                     npc.ai[3] += 1f;
 
-                    int num864 = (expertMode ? 36 : 39) - (int)(8f * (1f - lifeRatio));
+					int shootBoost = death ? 7 : (int)(8f * (1f - lifeRatio));
+					int num864 = (expertMode ? 36 : 39) - shootBoost;
                     if (CalamityWorld.bossRushActive)
                         num864 = 29;
 
@@ -724,7 +729,8 @@ namespace CalamityMod.NPCs.Providence
 
                 npc.ai[3] += 1f;
 
-                int num870 = (expertMode ? 3 : 4) - (int)(4f * (1f - lifeRatio));
+				int shootBoost = death ? 3 : (int)(4f * (1f - lifeRatio));
+				int num870 = (expertMode ? 3 : 4) - shootBoost;
                 num870 = (int)((double)num870 * attackRateMult);
 
                 if (CalamityWorld.bossRushActive)
@@ -736,7 +742,7 @@ namespace CalamityMod.NPCs.Providence
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        if (Main.rand.NextBool(4) && !CalamityWorld.death && !CalamityWorld.bossRushActive)
+                        if (Main.rand.NextBool(4) && !death)
                             Projectile.NewProjectile(vector114.X, vector114.Y, num866, num867, ModContent.ProjectileType<HolyLight>(), 0, 0f, Main.myPlayer, 0f, 0f);
                         else
                             Projectile.NewProjectile(vector114.X, vector114.Y, num866, num867, ModContent.ProjectileType<HolyBurnOrb>(), 0, 0f, Main.myPlayer, 0f, 0f);
@@ -811,7 +817,8 @@ namespace CalamityMod.NPCs.Providence
                 {
                     npc.ai[3] += 1f;
 
-                    int num856 = (expertMode ? 16 : 18) - (int)(3f * (1f - lifeRatio));
+					int shootBoost = death ? 2 : (int)(3f * (1f - lifeRatio));
+					int num856 = (expertMode ? 16 : 18) - shootBoost;
                     if (CalamityWorld.bossRushActive)
                         num856 = 14;
 
@@ -827,7 +834,8 @@ namespace CalamityMod.NPCs.Providence
                         float num858 = player.Center.Y - vector.Y;
                         float num859 = (float)Math.Sqrt((double)(num857 * num857 + num858 * num858));
 
-                        float num860 = (expertMode ? 10.25f : 9f) + (2.5f * (1f - lifeRatio));
+						float shootBoost2 = death ? 2.5f : 2.5f * (1f - lifeRatio);
+						float num860 = (expertMode ? 10.25f : 9f) + shootBoost2;
                         if (CalamityWorld.bossRushActive)
                             num860 = 12.75f;
 
@@ -863,8 +871,9 @@ namespace CalamityMod.NPCs.Providence
                 {
                     npc.ai[3] += 1f;
 
-                    int num864 = (expertMode ? 73 : 77) - (int)(15f * (1f - lifeRatio));
-                    if (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+					int shootBoost = death ? 14 : (int)(15f * (1f - lifeRatio));
+                    int num864 = (expertMode ? 73 : 77) - shootBoost;
+                    if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
                         num864 = 59;
 
                     num864 = (int)((double)num864 * attackRateMult);
@@ -906,7 +915,8 @@ namespace CalamityMod.NPCs.Providence
 
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    npc.ai[2] += ((npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 2f : 1f) + (2f * (1f - lifeRatio));
+					float shootBoost = death ? 2f : 2f * (1f - lifeRatio);
+                    npc.ai[2] += ((npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 2f : 1f) + shootBoost;
 
                     if (CalamityWorld.bossRushActive)
                         npc.ai[2] += 1f;
@@ -1076,10 +1086,11 @@ namespace CalamityMod.NPCs.Providence
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeProvidence>(), true, !CalamityWorld.downedProvidence);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedProvidence, 5, 2, 1);
 
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<ElysianWings>(), biomeType != 2);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<ElysianAegis>(), biomeType == 2);
-
             DropHelper.DropItemCondition(npc, ModContent.ItemType<RuneofCos>(), true, !CalamityWorld.downedProvidence);
+
+			//Accessories clientside only in Expert
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<ElysianWings>(), true, biomeType != 2 && Main.expertMode);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<ElysianAegis>(), true, biomeType == 2 && Main.expertMode);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
             if (!Main.expertMode)
@@ -1098,6 +1109,8 @@ namespace CalamityMod.NPCs.Providence
 
                 // Equipment
                 DropHelper.DropItemChance(npc, ModContent.ItemType<SamuraiBadge>(), 40);
+				DropHelper.DropItemCondition(npc, ModContent.ItemType<ElysianWings>(), biomeType != 2);
+				DropHelper.DropItemCondition(npc, ModContent.ItemType<ElysianAegis>(), biomeType == 2);
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<ProvidenceMask>(), 7);

@@ -91,5 +91,30 @@ namespace CalamityMod.Items.Weapons.Melee
 				}
             }
         }
+
+        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<Nightwither>(), 300);
+            float x = player.position.X + (float)Main.rand.Next(-400, 400);
+            float y = player.position.Y - (float)Main.rand.Next(500, 800);
+            Vector2 vector = new Vector2(x, y);
+            float num15 = player.position.X + (float)(player.width / 2) - vector.X;
+            float num16 = player.position.Y + (float)(player.height / 2) - vector.Y;
+            num15 += (float)Main.rand.Next(-100, 101);
+            int num17 = 25;
+            float num18 = (float)Math.Sqrt((double)(num15 * num15 + num16 * num16));
+            num18 = (float)num17 / num18;
+            num15 *= num18;
+            num16 *= num18;
+            if (player.whoAmI == Main.myPlayer)
+            {
+				if (player.Calamity().galileoCooldown <= 0)
+				{
+					int num19 = Projectile.NewProjectile(x, y, num15, num16, ModContent.ProjectileType<GalileosPlanet>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f) * 2f), 15f, player.whoAmI, 0f, 0f);
+					Main.projectile[num19].ai[1] = player.position.Y;
+					player.Calamity().galileoCooldown = 15;
+				}
+            }
+        }
     }
 }

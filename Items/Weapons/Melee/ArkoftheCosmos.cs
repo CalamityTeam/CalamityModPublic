@@ -214,5 +214,98 @@ namespace CalamityMod.Items.Weapons.Melee
                 player.AddBuff(BuffID.DryadsWard, 600);
             }
         }
+
+        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        {
+            bool jungle = player.ZoneJungle;
+            bool snow = player.ZoneSnow;
+            bool beach = player.ZoneBeach;
+            bool corrupt = player.ZoneCorrupt;
+            bool crimson = player.ZoneCrimson;
+            bool dungeon = player.ZoneDungeon;
+            bool desert = player.ZoneDesert;
+            bool glow = player.ZoneGlowshroom;
+            bool hell = player.ZoneUnderworldHeight;
+            bool holy = player.ZoneHoly;
+            bool nebula = player.ZoneTowerNebula;
+            bool stardust = player.ZoneTowerStardust;
+            bool solar = player.ZoneTowerSolar;
+            bool vortex = player.ZoneTowerVortex;
+            bool bloodMoon = Main.bloodMoon;
+            bool snowMoon = Main.snowMoon;
+            bool pumpkinMoon = Main.pumpkinMoon;
+            if (bloodMoon)
+            {
+                player.AddBuff(BuffID.Battle, 600);
+            }
+            if (snowMoon)
+            {
+                player.AddBuff(BuffID.RapidHealing, 600);
+            }
+            if (pumpkinMoon)
+            {
+                player.AddBuff(BuffID.WellFed, 600);
+            }
+            if (jungle)
+            {
+                player.AddBuff(BuffID.Thorns, 600);
+            }
+            else if (snow)
+            {
+                player.AddBuff(BuffID.Warmth, 600);
+            }
+            else if (beach)
+            {
+                player.AddBuff(BuffID.Wet, 600);
+            }
+            else if (corrupt)
+            {
+                player.AddBuff(BuffID.Wrath, 600);
+            }
+            else if (crimson)
+            {
+                player.AddBuff(BuffID.Rage, 600);
+            }
+            else if (dungeon)
+            {
+                player.AddBuff(BuffID.Dangersense, 600);
+            }
+            else if (desert)
+            {
+                player.AddBuff(BuffID.Endurance, 600);
+            }
+            else if (glow)
+            {
+                player.AddBuff(BuffID.Spelunker, 600);
+            }
+            else if (hell)
+            {
+                player.AddBuff(BuffID.Inferno, 600);
+            }
+            else if (holy)
+            {
+                player.AddBuff(BuffID.Heartreach, 600);
+            }
+            else if (nebula)
+            {
+                player.AddBuff(BuffID.MagicPower, 600);
+            }
+            else if (stardust)
+            {
+                player.AddBuff(BuffID.Summoning, 600);
+            }
+            else if (solar)
+            {
+                player.AddBuff(BuffID.Titan, 600);
+            }
+            else if (vortex)
+            {
+                player.AddBuff(BuffID.AmmoReservation, 600);
+            }
+            else
+            {
+                player.AddBuff(BuffID.DryadsWard, 600);
+            }
+        }
     }
 }

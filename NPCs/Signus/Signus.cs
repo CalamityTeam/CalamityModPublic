@@ -16,6 +16,8 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Config;
+using CalamityMod;
 namespace CalamityMod.NPCs.Signus
 {
     [AutoloadBossHead]
@@ -56,7 +58,7 @@ namespace CalamityMod.NPCs.Signus
                 else
                     music = MusicID.Boss4;
             }
-            double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
+            double HPBoost = (double)CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
             npc.aiStyle = -1;
@@ -106,20 +108,20 @@ namespace CalamityMod.NPCs.Signus
 
         public override void AI()
         {
-            bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
+			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
+			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
             bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
 
             double lifeRatio = (double)npc.life / (double)npc.lifeMax;
             lifeToAlpha = (int)(100.0 * (1.0 - lifeRatio));
 
             double mult = 1.0 -
-                (revenge ? 0.25 : 0.0) -
-                (CalamityWorld.death ? 0.25 : 0.0);
+                (revenge ? 0.25 : 0.0);
 
-            bool cosmicDust = lifeToAlpha > (int)(15D * mult) || CalamityWorld.bossRushActive;
-            bool speedBoost = lifeToAlpha > (int)(25D * mult) || CalamityWorld.bossRushActive;
-            bool cosmicRain = lifeToAlpha > (int)(35D * mult) || CalamityWorld.bossRushActive;
-            bool cosmicSpeed = lifeToAlpha > (int)(50D * mult) || CalamityWorld.bossRushActive;
+            bool cosmicDust = lifeToAlpha > (int)(15D * mult) || death;
+            bool speedBoost = lifeToAlpha > (int)(25D * mult) || death;
+            bool cosmicRain = lifeToAlpha > (int)(35D * mult) || death;
+            bool cosmicSpeed = lifeToAlpha > (int)(50D * mult) || death;
 
             Player player = Main.player[npc.target];
             npc.TargetClosest(true);
@@ -203,7 +205,7 @@ namespace CalamityMod.NPCs.Signus
                 {
                     speed = expertMode ? 16f : 14f;
                 }
-                if (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
                 {
                     speed += 3f;
                 }
@@ -363,7 +365,7 @@ namespace CalamityMod.NPCs.Signus
                 Vector2 vector121 = new Vector2(npc.position.X + (float)(npc.width / 2), npc.position.Y + (float)(npc.height / 2));
                 npc.ai[1] += 1f;
                 bool flag104 = false;
-                if (npc.life < npc.lifeMax / 2 || CalamityWorld.death || CalamityWorld.bossRushActive)
+                if (npc.life < npc.lifeMax / 2 || death)
                 {
                     if (npc.ai[1] % 45f == 44f)
                     {
@@ -378,14 +380,14 @@ namespace CalamityMod.NPCs.Signus
                 {
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        float num1070 = 15f; //changed from 10
-                        if (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                        float num1070 = 15f;
+                        if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
                         {
                             num1070 += 3f;
                         }
                         if (cosmicRain)
                         {
-                            num1070 += 1f; //changed from 3 not a prob
+                            num1070 += 1f;
                         }
                         if (cosmicSpeed)
                         {
@@ -395,18 +397,14 @@ namespace CalamityMod.NPCs.Signus
                         {
                             num1070 += 1f;
                         }
-                        if (CalamityWorld.death || CalamityWorld.bossRushActive)
-                        {
-                            num1070 += 1f;
-                        }
                         float num1071 = player.position.X + (float)player.width * 0.5f - vector121.X;
                         float num1072 = player.position.Y + (float)player.height * 0.5f - vector121.Y;
                         float num1073 = (float)Math.Sqrt((double)(num1071 * num1071 + num1072 * num1072));
                         num1073 = num1070 / num1073;
                         num1071 *= num1073;
                         num1072 *= num1073;
-                        int num1074 = expertMode ? 48 : 60; //projectile damage
-                        int num1075 = ModContent.ProjectileType<SignusScythe>(); //projectile type
+                        int num1074 = expertMode ? 48 : 60;
+                        int num1075 = ModContent.ProjectileType<SignusScythe>();
                         Projectile.NewProjectile(vector121.X, vector121.Y, num1071, num1072, num1075, num1074, 0f, Main.myPlayer, 0f, (float)(npc.target + 1));
                     }
                 }
@@ -417,9 +415,9 @@ namespace CalamityMod.NPCs.Signus
                         npc.velocity.Y = npc.velocity.Y * 0.975f;
                     }
                     npc.velocity.Y = npc.velocity.Y - (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
-                    if (npc.velocity.Y > 4f)
+                    if (npc.velocity.Y > 3f)
                     {
-                        npc.velocity.Y = 4f;
+                        npc.velocity.Y = 3f;
                     }
                 }
                 else if (npc.position.Y < player.position.Y - 400f) //500
@@ -429,9 +427,9 @@ namespace CalamityMod.NPCs.Signus
                         npc.velocity.Y = npc.velocity.Y * 0.975f;
                     }
                     npc.velocity.Y = npc.velocity.Y + (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
-                    if (npc.velocity.Y < -4f)
+                    if (npc.velocity.Y < -3f)
                     {
-                        npc.velocity.Y = -4f;
+                        npc.velocity.Y = -3f;
                     }
                 }
                 if (npc.position.X + (float)(npc.width / 2) > player.position.X + (float)(player.width / 2) + 500f) //100
@@ -441,9 +439,9 @@ namespace CalamityMod.NPCs.Signus
                         npc.velocity.X = npc.velocity.X * 0.98f;
                     }
                     npc.velocity.X = npc.velocity.X - (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
-                    if (npc.velocity.X > 15f)
+                    if (npc.velocity.X > 8f)
                     {
-                        npc.velocity.X = 15f;
+                        npc.velocity.X = 8f;
                     }
                 }
                 if (npc.position.X + (float)(npc.width / 2) < player.position.X + (float)(player.width / 2) - 500f) //100
@@ -453,9 +451,9 @@ namespace CalamityMod.NPCs.Signus
                         npc.velocity.X = npc.velocity.X * 0.98f;
                     }
                     npc.velocity.X = npc.velocity.X + (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
-                    if (npc.velocity.X < -15f)
+                    if (npc.velocity.X < -8f)
                     {
-                        npc.velocity.X = -15f;
+                        npc.velocity.X = -8f;
                     }
                 }
                 if (npc.ai[1] > 300f)
@@ -734,11 +732,10 @@ namespace CalamityMod.NPCs.Signus
                 DropHelper.DropItem(npc, ModContent.ItemType<TwistingNether>(), true, 2, 3);
 
                 // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Cosmilamp>(), 3);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<CosmicKunai>(), 3);
                 float f = Main.rand.NextFloat();
                 bool replaceWithRare = f <= DropHelper.RareVariantDropRateFloat; // 1/40 chance overall of getting Lantern of the Soul
-                if (f < 0.3333333f) // 1/3 chance of getting Cosmilamp OR Lantern of the Soul replacing it
+                if (Main.rand.NextBool(3)) // 1/3 chance of getting Cosmilamp OR Lantern of the Soul replacing it
                 {
                     DropHelper.DropItemCondition(npc, ModContent.ItemType<Cosmilamp>(), !replaceWithRare);
                     DropHelper.DropItemCondition(npc, ModContent.ItemType<LanternoftheSoul>(), replaceWithRare);

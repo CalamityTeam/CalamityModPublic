@@ -39,7 +39,8 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 float num472 = projectile.Center.X;
                 float num473 = projectile.Center.Y;
-                float num474 = 600f;
+                float num474 = projectile.Calamity().stealthStrike ? 1800f : 600f;
+                float homingSpeed = 0.25f;
                 for (int num475 = 0; num475 < 200; num475++)
                 {
                     if (Main.npc[num475].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[num475].Center, 1, 1) && !Main.npc[num475].boss)
@@ -51,19 +52,19 @@ namespace CalamityMod.Projectiles.Rogue
                         {
                             if (Main.npc[num475].position.X < num472)
                             {
-                                Main.npc[num475].velocity.X += 0.25f;
+                                Main.npc[num475].velocity.X += homingSpeed;
                             }
                             else
                             {
-                                Main.npc[num475].velocity.X -= 0.25f;
+                                Main.npc[num475].velocity.X -= homingSpeed;
                             }
                             if (Main.npc[num475].position.Y < num473)
                             {
-                                Main.npc[num475].velocity.Y += 0.25f;
+                                Main.npc[num475].velocity.Y += homingSpeed;
                             }
                             else
                             {
-                                Main.npc[num475].velocity.Y -= 0.25f;
+                                Main.npc[num475].velocity.Y -= homingSpeed;
                             }
                         }
                     }
@@ -72,11 +73,11 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.ai[1] += 1f;
             if (projectile.ai[1] == 25f)
             {
-                int numProj = 2;
+                int numProj = projectile.Calamity().stealthStrike ? 6 : 3;
                 float rotation = MathHelper.ToRadians(50);
                 if (projectile.owner == Main.myPlayer)
                 {
-                    for (int i = 0; i < numProj + 1; i++)
+                    for (int i = 0; i < numProj; i++)
                     {
                         Vector2 speed = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
                         while (speed.X == 0f && speed.Y == 0f)
@@ -85,17 +86,24 @@ namespace CalamityMod.Projectiles.Rogue
                         }
                         speed.Normalize();
                         speed *= (float)Main.rand.Next(30, 61) * 0.1f * 2.5f;
-                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, speed.X, speed.Y, ModContent.ProjectileType<RadiantStar2>(), projectile.damage, projectile.knockBack, projectile.owner,
+                        int stabber2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, speed.X, speed.Y, ModContent.ProjectileType<RadiantStar2>(), projectile.damage, projectile.knockBack, projectile.owner,
                             projectile.ai[0] == 1f ? 1f : 0f, 0f);
+                        Main.projectile[stabber2].Calamity().stealthStrike = projectile.Calamity().stealthStrike;
                     }
                     Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<RadiantExplosion>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                    int boomer = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<RadiantExplosion>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                    Main.projectile[boomer].Calamity().stealthStrike = projectile.Calamity().stealthStrike;
                     projectile.active = false;
                 }
             }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120);
+        }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120);
         }

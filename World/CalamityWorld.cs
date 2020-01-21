@@ -1,3 +1,4 @@
+using CalamityMod;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.NPCs;
@@ -45,6 +46,7 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+using Terraria.ModLoader.Config;
 using Terraria.World.Generation;
 
 namespace CalamityMod.World
@@ -55,6 +57,7 @@ namespace CalamityMod.World
         public static int DoGSecondStageCountdown = 0;
         public static bool dragonScalesBought = false;
         private const int saveVersion = 0;
+        public static int ArmoredDiggerSpawnCooldown = 0;
 
         //Boss Rush
         public static bool bossRushActive = false; //Whether Boss Rush is active or not
@@ -150,7 +153,7 @@ namespace CalamityMod.World
         #region Initialize
         public override void Initialize()
         {
-            if (Config.ExpertPillarEnemyKillCountReduction)
+            if (CalamityMod.CalamityConfig.ExpertPillarEnemyKillCountReduction)
             {
                 NPC.LunarShieldPowerExpert = 100;
             }
@@ -169,6 +172,7 @@ namespace CalamityMod.World
             CalamityGlobalNPC.brimstoneElemental = -1;
             bossRushStage = 0;
             DoGSecondStageCountdown = 0;
+            ArmoredDiggerSpawnCooldown = 0;
             bossRushActive = false;
             bossRushSpawnCountdown = 180;
             bossSpawnCountdown = 0;
@@ -626,7 +630,7 @@ namespace CalamityMod.World
         {
             calamityTiles = tileCounts[ModContent.TileType<CharredOre>()] + tileCounts[ModContent.TileType<BrimstoneSlag>()];
             sunkenSeaTiles = tileCounts[ModContent.TileType<EutrophicSand>()] + tileCounts[ModContent.TileType<Navystone>()] + tileCounts[ModContent.TileType<SeaPrism>()];
-            abyssTiles = tileCounts[ModContent.TileType<AbyssGravel>()];
+            abyssTiles = tileCounts[ModContent.TileType<AbyssGravel>()] + tileCounts[ModContent.TileType<Voidstone>()];
             sulphurTiles = tileCounts[ModContent.TileType<SulphurousSand>()];
 
             #region Astral Stuff
@@ -1178,28 +1182,42 @@ namespace CalamityMod.World
                     if (demonMode)
                         spawnRate *= 0.75D;
 
-                    if (Main.player[closestPlayer].Calamity().zerg && Main.player[closestPlayer].Calamity().chaosCandle)
-                        spawnRate *= 0.005D;
-                    else if (Main.player[closestPlayer].Calamity().zerg)
-                        spawnRate *= 0.01D;
-                    else if (Main.player[closestPlayer].Calamity().chaosCandle)
-                        spawnRate *= 0.02D;
+                    if (death && Main.bloodMoon)
+                        spawnRate *= 0.2D;
+                    if (Main.player[closestPlayer].Calamity().zerg)
+                        spawnRate *= 0.5D;
+                    if (Main.player[closestPlayer].Calamity().chaosCandle)
+                        spawnRate *= 0.6D;
+                    if (Main.player[closestPlayer].enemySpawns)
+                        spawnRate *= 0.7D;
+                    if (Main.waterCandles > 0)
+                        spawnRate *= 0.8D;
 
-                    if (Main.player[closestPlayer].Calamity().zen && Main.player[closestPlayer].Calamity().tranquilityCandle)
-                        spawnRate *= 75D;
-                    else if (Main.player[closestPlayer].Calamity().zen)
+                    if (Main.player[closestPlayer].Calamity().bossZen || DoGSecondStageCountdown > 0)
                         spawnRate *= 50D;
-                    else if (Main.player[closestPlayer].Calamity().tranquilityCandle)
-                        spawnRate *= 25D;
+                    if (Main.player[closestPlayer].Calamity().zen || (CalamityMod.CalamityConfig.DisableExpertEnemySpawnsNearHouse && Main.player[closestPlayer].townNPCs > 1f && Main.expertMode))
+                        spawnRate *= 2D;
+                    if (Main.player[closestPlayer].Calamity().tranquilityCandle)
+                        spawnRate *= 1.67D;
+                    if (Main.player[closestPlayer].calmed)
+                        spawnRate *= 1.43D;
+                    if (Main.peaceCandles > 0)
+                        spawnRate *= 1.25D;
 
                     int chance = (int)spawnRate;
                     if (Main.rand.Next(chance) == 0)
                     {
-                        if (!NPC.AnyNPCs(ModContent.NPCType<ArmoredDiggerHead>()) && Main.netMode != NetmodeID.MultiplayerClient)
+                        if (!NPC.AnyNPCs(ModContent.NPCType<ArmoredDiggerHead>()) && Main.netMode != NetmodeID.MultiplayerClient && 
+						ArmoredDiggerSpawnCooldown <= 0)
+						{
                             NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<ArmoredDiggerHead>());
+							ArmoredDiggerSpawnCooldown = 3600;
+						}
                     }
                 }
             }
+			if (ArmoredDiggerSpawnCooldown > 0)
+				ArmoredDiggerSpawnCooldown--;
 
             if (Main.dayTime && Main.hardMode)
             {

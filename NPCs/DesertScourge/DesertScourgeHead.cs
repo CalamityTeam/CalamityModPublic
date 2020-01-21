@@ -17,6 +17,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Config;
+using CalamityMod;
 namespace CalamityMod.NPCs.DesertScourge
 {
     [AutoloadBossHead]
@@ -41,7 +43,7 @@ namespace CalamityMod.NPCs.DesertScourge
             npc.width = 32;
             npc.height = 80;
             npc.LifeMaxNERB(2300, 2650, 16500000);
-            double HPBoost = Config.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = 6;
             aiType = -1;
@@ -86,18 +88,16 @@ namespace CalamityMod.NPCs.DesertScourge
             Player player = Main.player[npc.target];
             npc.dontTakeDamage = !player.ZoneDesert && !CalamityWorld.bossRushActive;
             bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
-            float speedMult = expertMode ? 1.5f : 1.45f;
-            if (CalamityWorld.death || CalamityWorld.bossRushActive)
-                speedMult = 1.6f;
-            if (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
+			float speedMult = expertMode ? 1.5f : 1.45f;
+            if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
                 speedMult = 2f;
             if (CalamityWorld.bossRushActive)
                 speedMult *= 2f;
 
-            float life = (float)npc.life;
-            float totalLife = (float)npc.lifeMax;
-            speed = 13f * (speedMult - (life / totalLife));
-            turnSpeed = 0.13f * (speedMult - (life / totalLife));
+			float speedBoost = death ? speedMult : speedMult - ((float)npc.life / (float)npc.lifeMax);
+			speed = 13f * speedBoost;
+            turnSpeed = 0.13f * speedBoost;
             if (npc.ai[3] > 0f)
             {
                 npc.realLife = (int)npc.ai[3];
@@ -183,7 +183,7 @@ namespace CalamityMod.NPCs.DesertScourge
             {
                 npc.localAI[1] = 1f;
                 Rectangle rectangle12 = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
-                int num954 = (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 500 : 1000;
+                int num954 = (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 500 : 1000;
                 if (CalamityWorld.bossRushActive)
                     num954 /= 2;
 

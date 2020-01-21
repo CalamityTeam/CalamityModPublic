@@ -19,6 +19,8 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Config;
+using CalamityMod;
 namespace CalamityMod.NPCs.SlimeGod
 {
     [AutoloadBossHead]
@@ -37,7 +39,7 @@ namespace CalamityMod.NPCs.SlimeGod
             npc.height = 44;
             npc.defense = 6;
             npc.LifeMaxNERB(3000, 3750, 2500000);
-            double HPBoost = Config.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             NPCID.Sets.TrailCacheLength[npc.type] = 8;
             NPCID.Sets.TrailingMode[npc.type] = 1;
@@ -67,7 +69,8 @@ namespace CalamityMod.NPCs.SlimeGod
             CalamityGlobalNPC.slimeGod = npc.whoAmI;
             bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
             bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
-            Player player = Main.player[npc.target];
+			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
+			Player player = Main.player[npc.target];
             int randomDust = Main.rand.Next(2);
             if (randomDust == 0)
             {
@@ -81,7 +84,7 @@ namespace CalamityMod.NPCs.SlimeGod
             Main.dust[num658].noGravity = true;
             Main.dust[num658].velocity *= 0.5f;
             bool flag100 = false;
-            if (!CalamityWorld.bossRushActive)
+            if (!death)
             {
                 if (CalamityGlobalNPC.slimeGodRed != -1)
                 {
@@ -130,7 +133,7 @@ namespace CalamityMod.NPCs.SlimeGod
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    npc.localAI[1] += (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 2f : 1f;
+                    npc.localAI[1] += (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 2f : 1f;
                     if (expertMode && Main.rand.NextBool(2))
                     {
                         if (npc.localAI[0] >= 75f)
@@ -237,7 +240,7 @@ namespace CalamityMod.NPCs.SlimeGod
             {
                 num1372 = 22f;
             }
-            if (npc.Calamity().enraged > 0 || player.gravDir == -1f || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+            if (npc.Calamity().enraged > 0 || player.gravDir == -1f || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
             {
                 num1372 += 8f;
             }

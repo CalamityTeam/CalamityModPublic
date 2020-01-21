@@ -5,7 +5,6 @@ using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
-using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Tiles
 {
@@ -30,6 +29,7 @@ namespace CalamityMod.Tiles
             AddMapEntry(new Color(13, 88, 130), name);
         }
 
+        // TODO -- encode these giant switch statements as a sequence in the main class' lists section
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
             int style = frameX / 18;
@@ -371,346 +371,348 @@ namespace CalamityMod.Tiles
 
         public override void NearbyEffects(int i, int j, bool closer)
         {
-            if (closer)
+            if (!closer)
+                return;
+            Player player = Main.LocalPlayer;
+            if (player is null || !player.active || player.dead)
+                return;
+
+            int style = Main.tile[i, j].frameX / 18;
+            string type;
+            switch (style)
             {
-                Player player = Main.LocalPlayer;
-                int style = Main.tile[i, j].frameX / 18;
-                string type;
-                switch (style)
-                {
-                    case 0:
-                        type = "AquaticParasite";
-                        break;
-                    case 1:
-                        type = "Flounder";
-                        break;
-                    case 2:
-                        type = "Gnasher";
-                        break;
-                    case 3:
-                        type = "Trasher";
-                        break;
-                    case 4:
-                        type = "Catfish";
-                        break;
-                    case 5:
-                        type = "Mauler";
-                        break;
-                    case 6:
-                        type = "AquaticSeekerHead";
-                        break;
-                    case 7:
-                        type = "AquaticUrchin";
-                        break;
-                    case 8:
-                        type = "Frogfish";
-                        break;
-                    case 9:
-                        type = "MantisShrimp";
-                        break;
-                    case 10:
-                        type = "AquaticAberration";
-                        break;
-                    case 11:
-                        type = "Parasea";
-                        break;
-                    case 12:
-                        type = "SeaUrchin";
-                        break;
-                    case 13:
-                        type = "BoxJellyfish";
-                        break;
-                    case 14:
-                        type = "MorayEel";
-                        break;
-                    case 15:
-                        type = "DevilFish";
-                        break;
-                    case 16:
-                        type = "Cuttlefish";
-                        break;
-                    case 17:
-                        type = "ToxicMinnow";
-                        break;
-                    case 18:
-                        type = "Viperfish";
-                        break;
-                    case 19:
-                        type = "LuminousCorvina";
-                        break;
-                    case 20:
-                        type = "GiantSquid";
-                        break;
-                    case 21:
-                        type = "Laserfish";
-                        break;
-                    case 22:
-                        type = "OarfishHead";
-                        break;
-                    case 23:
-                        type = "ColossalSquid";
-                        break;
-                    case 24:
-                        type = "MirageJelly";
-                        break;
-                    case 25:
-                        type = "Eidolist";
-                        break;
-                    case 26:
-                        type = "GulperEelHead";
-                        break;
-                    case 27:
-                        type = "EidolonWyrmHead";
-                        break;
-                    case 28:
-                        type = "Bloatfish";
-                        break;
-                    case 29:
-                        type = "BobbitWormHead";
-                        break;
-                    case 30:
-                        type = "ChaoticPuffer";
-                        break;
-                    case 31:
-                        type = "AstralProbe";
-                        break;
-                    case 32:
-                        type = "SmallSightseer";
-                        break;
-                    case 33:
-                        type = "BigSightseer";
-                        break;
-                    case 34:
-                        type = "Aries";
-                        break;
-                    case 35:
-                        type = "AstralSlime";
-                        break;
-                    case 36:
-                        type = "Atlas";
-                        break;
-                    case 37:
-                        type = "Mantis";
-                        break;
-                    case 38:
-                        type = "Nova";
-                        break;
-                    case 39:
-                        type = "AstralachneaGround";
-                        break;
-                    case 40:
-                        type = "Hive";
-                        break;
-                    case 41:
-                        type = "StellarCulex";
-                        break;
-                    case 42:
-                        type = "FusionFeeder";
-                        break;
-                    case 43:
-                        type = "Hadarian";
-                        break;
-                    case 44:
-                        type = "HeatSpirit";
-                        break;
-                    case 45:
-                        type = "Scryllar";
-                        break;
-                    case 46:
-                        type = "DespairStone";
-                        break;
-                    case 47:
-                        type = "SoulSlurper";
-                        break;
-                    case 48:
-                        type = "ImpiousImmolator";
-                        break;
-                    case 49:
-                        type = "ScornEater";
-                        break;
-                    case 50:
-                        type = "ProfanedEnergyBody";
-                        break;
-                    case 51:
-                        type = "WulfrumSlime";
-                        break;
-                    case 52:
-                        type = "WulfrumDrone";
-                        break;
-                    case 53:
-                        type = "Pitbull";
-                        break;
-                    case 54:
-                        type = "BlightedEye";
-                        break;
-                    case 55:
-                        type = "CalamityEye";
-                        break;
-                    case 56:
-                        type = "Sunskater";
-                        break;
-                    case 57:
-                        type = "ShockstormShuttle";
-                        break;
-                    case 58:
-                        type = "ThiccWaifu";
-                        break;
-                    case 59:
-                        type = "AngryDog";
-                        break;
-                    case 60:
-                        type = "Cryon";
-                        break;
-                    case 61:
-                        type = "IceClasper";
-                        break;
-                    case 62:
-                        type = "StormlionCharger";
-                        break;
-                    case 63:
-                        type = "Cnidrion";
-                        break;
-                    case 64:
-                        type = "SandTortoise";
-                        break;
-                    case 65:
-                        type = "GreatSandShark";
-                        break;
-                    case 66:
-                        type = "CrawlerAmethyst";
-                        break;
-                    case 67:
-                        type = "CrawlerTopaz";
-                        break;
-                    case 68:
-                        type = "CrawlerSapphire";
-                        break;
-                    case 69:
-                        type = "CrawlerEmerald";
-                        break;
-                    case 70:
-                        type = "CrawlerRuby";
-                        break;
-                    case 71:
-                        type = "CrawlerDiamond";
-                        break;
-                    case 72:
-                        type = "CrawlerAmber";
-                        break;
-                    case 73:
-                        type = "CrawlerCrystal";
-                        break;
-                    case 74:
-                        type = "SunBat";
-                        break;
-                    case 75:
-                        type = "CosmicElemental";
-                        break;
-                    case 76:
-                        type = "Horse";
-                        break;
-                    case 77:
-                        type = "ArmoredDiggerHead";
-                        break;
-                    case 78:
-                        type = "PlaguedFlyingFox";
-                        break;
-                    case 79:
-                        type = "PlaguedJungleSlime";
-                        break;
-                    case 80:
-                        type = "PlaguedTortoise";
-                        break;
-                    case 81:
-                        type = "PlagueBee";
-                        break;
-                    case 82:
-                        type = "PlaguedDerpling";
-                        break;
-                    case 83:
-                        type = "PlaguebringerShade";
-                        break;
-                    case 84:
-                        type = "PhantomSpirit";
-                        break;
-                    case 85:
-                        type = "OverloadedSoldier";
-                        break;
-                    case 86:
-                        type = "PhantomDebris";
-                        break;
-                    case 87:
-                        type = "Bohldohr";
-                        break;
-                    case 88:
-                        type = "EbonianBlightSlime";
-                        break;
-                    case 89:
-                        type = "CrimulanBlightSlime";
-                        break;
-                    case 90:
-                        type = "AeroSlime";
-                        break;
-                    case 91:
-                        type = "CryoSlime";
-                        break;
-                    case 92:
-                        type = "PerennialSlime";
-                        break;
-                    case 93:
-                        type = "CharredSlime";
-                        break;
-                    case 94:
-                        type = "BloomSlime";
-                        break;
-                    case 95:
-                        type = "CultistAssassin";
-                        break;
-                    case 96:
-                        type = "Reaper";
-                        break;
-                    case 97:
-                        type = "IrradiatedSlime";
-                        break;
-                    case 98:
-                        type = "PrismTurtle";
-                        break;
-                    case 99:
-                        type = "Clam";
-                        break;
-                    case 100:
-                        type = "EutrophicRay";
-                        break;
-                    case 101:
-                        type = "GhostBell";
-                        break;
-                    case 102:
-                        type = "GhostBellSmall";
-                        break;
-                    case 103:
-                        type = "SeaFloaty";
-                        break;
-                    case 104:
-                        type = "BlindedAngler";
-                        break;
-                    case 105:
-                        type = "SeaMinnow";
-                        break;
-                    case 106:
-                        type = "SeaSerpent1";
-                        break;
-                    case 107:
-                        type = "GiantClam";
-                        break;
-                    case 108:
-                        type = "Piggy";
-                        break;
-                    default:
-                        return;
-                }
-                player.NPCBannerBuff[mod.NPCType(type)] = true;
-                player.hasBanner = true;
+                case 0:
+                    type = "AquaticParasite";
+                    break;
+                case 1:
+                    type = "Flounder";
+                    break;
+                case 2:
+                    type = "Gnasher";
+                    break;
+                case 3:
+                    type = "Trasher";
+                    break;
+                case 4:
+                    type = "Catfish";
+                    break;
+                case 5:
+                    type = "Mauler";
+                    break;
+                case 6:
+                    type = "AquaticSeekerHead";
+                    break;
+                case 7:
+                    type = "AquaticUrchin";
+                    break;
+                case 8:
+                    type = "Frogfish";
+                    break;
+                case 9:
+                    type = "MantisShrimp";
+                    break;
+                case 10:
+                    type = "AquaticAberration";
+                    break;
+                case 11:
+                    type = "Parasea";
+                    break;
+                case 12:
+                    type = "SeaUrchin";
+                    break;
+                case 13:
+                    type = "BoxJellyfish";
+                    break;
+                case 14:
+                    type = "MorayEel";
+                    break;
+                case 15:
+                    type = "DevilFish";
+                    break;
+                case 16:
+                    type = "Cuttlefish";
+                    break;
+                case 17:
+                    type = "ToxicMinnow";
+                    break;
+                case 18:
+                    type = "Viperfish";
+                    break;
+                case 19:
+                    type = "LuminousCorvina";
+                    break;
+                case 20:
+                    type = "GiantSquid";
+                    break;
+                case 21:
+                    type = "Laserfish";
+                    break;
+                case 22:
+                    type = "OarfishHead";
+                    break;
+                case 23:
+                    type = "ColossalSquid";
+                    break;
+                case 24:
+                    type = "MirageJelly";
+                    break;
+                case 25:
+                    type = "Eidolist";
+                    break;
+                case 26:
+                    type = "GulperEelHead";
+                    break;
+                case 27:
+                    type = "EidolonWyrmHead";
+                    break;
+                case 28:
+                    type = "Bloatfish";
+                    break;
+                case 29:
+                    type = "BobbitWormHead";
+                    break;
+                case 30:
+                    type = "ChaoticPuffer";
+                    break;
+                case 31:
+                    type = "AstralProbe";
+                    break;
+                case 32:
+                    type = "SmallSightseer";
+                    break;
+                case 33:
+                    type = "BigSightseer";
+                    break;
+                case 34:
+                    type = "Aries";
+                    break;
+                case 35:
+                    type = "AstralSlime";
+                    break;
+                case 36:
+                    type = "Atlas";
+                    break;
+                case 37:
+                    type = "Mantis";
+                    break;
+                case 38:
+                    type = "Nova";
+                    break;
+                case 39:
+                    type = "AstralachneaGround";
+                    break;
+                case 40:
+                    type = "Hive";
+                    break;
+                case 41:
+                    type = "StellarCulex";
+                    break;
+                case 42:
+                    type = "FusionFeeder";
+                    break;
+                case 43:
+                    type = "Hadarian";
+                    break;
+                case 44:
+                    type = "HeatSpirit";
+                    break;
+                case 45:
+                    type = "Scryllar";
+                    break;
+                case 46:
+                    type = "DespairStone";
+                    break;
+                case 47:
+                    type = "SoulSlurper";
+                    break;
+                case 48:
+                    type = "ImpiousImmolator";
+                    break;
+                case 49:
+                    type = "ScornEater";
+                    break;
+                case 50:
+                    type = "ProfanedEnergyBody";
+                    break;
+                case 51:
+                    type = "WulfrumSlime";
+                    break;
+                case 52:
+                    type = "WulfrumDrone";
+                    break;
+                case 53:
+                    type = "Pitbull";
+                    break;
+                case 54:
+                    type = "BlightedEye";
+                    break;
+                case 55:
+                    type = "CalamityEye";
+                    break;
+                case 56:
+                    type = "Sunskater";
+                    break;
+                case 57:
+                    type = "ShockstormShuttle";
+                    break;
+                case 58:
+                    type = "ThiccWaifu";
+                    break;
+                case 59:
+                    type = "AngryDog";
+                    break;
+                case 60:
+                    type = "Cryon";
+                    break;
+                case 61:
+                    type = "IceClasper";
+                    break;
+                case 62:
+                    type = "StormlionCharger";
+                    break;
+                case 63:
+                    type = "Cnidrion";
+                    break;
+                case 64:
+                    type = "SandTortoise";
+                    break;
+                case 65:
+                    type = "GreatSandShark";
+                    break;
+                case 66:
+                    type = "CrawlerAmethyst";
+                    break;
+                case 67:
+                    type = "CrawlerTopaz";
+                    break;
+                case 68:
+                    type = "CrawlerSapphire";
+                    break;
+                case 69:
+                    type = "CrawlerEmerald";
+                    break;
+                case 70:
+                    type = "CrawlerRuby";
+                    break;
+                case 71:
+                    type = "CrawlerDiamond";
+                    break;
+                case 72:
+                    type = "CrawlerAmber";
+                    break;
+                case 73:
+                    type = "CrawlerCrystal";
+                    break;
+                case 74:
+                    type = "SunBat";
+                    break;
+                case 75:
+                    type = "CosmicElemental";
+                    break;
+                case 76:
+                    type = "Horse";
+                    break;
+                case 77:
+                    type = "ArmoredDiggerHead";
+                    break;
+                case 78:
+                    type = "PlaguedFlyingFox";
+                    break;
+                case 79:
+                    type = "PlaguedJungleSlime";
+                    break;
+                case 80:
+                    type = "PlaguedTortoise";
+                    break;
+                case 81:
+                    type = "PlagueBee";
+                    break;
+                case 82:
+                    type = "PlaguedDerpling";
+                    break;
+                case 83:
+                    type = "PlaguebringerShade";
+                    break;
+                case 84:
+                    type = "PhantomSpirit";
+                    break;
+                case 85:
+                    type = "OverloadedSoldier";
+                    break;
+                case 86:
+                    type = "PhantomDebris";
+                    break;
+                case 87:
+                    type = "Bohldohr";
+                    break;
+                case 88:
+                    type = "EbonianBlightSlime";
+                    break;
+                case 89:
+                    type = "CrimulanBlightSlime";
+                    break;
+                case 90:
+                    type = "AeroSlime";
+                    break;
+                case 91:
+                    type = "CryoSlime";
+                    break;
+                case 92:
+                    type = "PerennialSlime";
+                    break;
+                case 93:
+                    type = "CharredSlime";
+                    break;
+                case 94:
+                    type = "BloomSlime";
+                    break;
+                case 95:
+                    type = "CultistAssassin";
+                    break;
+                case 96:
+                    type = "Reaper";
+                    break;
+                case 97:
+                    type = "IrradiatedSlime";
+                    break;
+                case 98:
+                    type = "PrismTurtle";
+                    break;
+                case 99:
+                    type = "Clam";
+                    break;
+                case 100:
+                    type = "EutrophicRay";
+                    break;
+                case 101:
+                    type = "GhostBell";
+                    break;
+                case 102:
+                    type = "GhostBellSmall";
+                    break;
+                case 103:
+                    type = "SeaFloaty";
+                    break;
+                case 104:
+                    type = "BlindedAngler";
+                    break;
+                case 105:
+                    type = "SeaMinnow";
+                    break;
+                case 106:
+                    type = "SeaSerpent1";
+                    break;
+                case 107:
+                    type = "GiantClam";
+                    break;
+                case 108:
+                    type = "Piggy";
+                    break;
+                default:
+                    return;
             }
+            player.NPCBannerBuff[mod.NPCType(type)] = true;
+            player.hasBanner = true;
         }
 
         public override void SetSpriteEffects(int i, int j, ref SpriteEffects spriteEffects)
