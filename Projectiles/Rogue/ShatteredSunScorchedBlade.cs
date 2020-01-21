@@ -152,7 +152,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (multiplier < 0.5f)
+            if (multiplier > 0.5f)
                 multiplier = 0.5f;
             damage = stealthOrigin ? damage : (int)((double)damage * multiplier);
             if (projectile.Calamity().stealthStrike)
@@ -177,12 +177,13 @@ namespace CalamityMod.Projectiles.Rogue
                     projectile.Kill();
                 }
             }
+            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ShatteredExplosion>(), (int)((double)damage * 0.03), projectile.knockBack, projectile.owner, 0f, 0f);
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            if (multiplier < 0.5f)
+            if (multiplier > 0.5f)
                 multiplier = 0.5f;
             damage = stealthOrigin ? damage : (int)((double)damage * multiplier);
             if (projectile.Calamity().stealthStrike)
@@ -207,6 +208,7 @@ namespace CalamityMod.Projectiles.Rogue
                     projectile.Kill();
                 }
             }
+            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ShatteredExplosion>(), (int)((double)damage * 0.03), projectile.knockBack, projectile.owner, 0f, 0f);
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
         }
 
