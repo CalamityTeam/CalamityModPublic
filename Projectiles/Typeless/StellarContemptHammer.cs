@@ -189,5 +189,71 @@ namespace CalamityMod.Projectiles.Typeless
                 }
             }
         }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            // Some dust gets produced on impact.
+            int dustCount = Main.rand.Next(20, 24);
+            int dustRadius = 6;
+            Vector2 corner = new Vector2(target.Center.X - (float)dustRadius, target.Center.Y - (float)dustRadius);
+            for (int i = 0; i < dustCount; ++i)
+            {
+                int dustType = 229;
+                float scale = 0.8f + Main.rand.NextFloat(1.1f);
+                int idx = Dust.NewDust(corner, 2 * dustRadius, 2 * dustRadius, dustType);
+                Main.dust[idx].noGravity = true;
+                Main.dust[idx].velocity *= 3f;
+                Main.dust[idx].scale = scale;
+            }
+
+            // Applies Nightwither on contact at night.
+            if (!Main.dayTime)
+                target.AddBuff(ModContent.BuffType<Nightwither>(), 480);
+
+            // Play the Lunar Flare sound centered on the user, not the target (consistent with Lunar Flare and Stellar Striker)
+            Player user = Main.player[projectile.owner];
+            Main.PlaySound(2, (int)user.position.X, (int)user.position.Y, 88);
+            projectile.netUpdate = true;
+
+            int numFlares = 2;
+            int flareDamage = (int)(0.3f * projectile.damage);
+            float flareKB = 4f;
+            for (int i = 0; i < numFlares; ++i)
+            {
+                float flareSpeed = Main.rand.NextFloat(8f, 11f);
+
+                // Flares never come from straight up, there is always at least an 80 pixel horizontal offset
+                float xDist = Main.rand.NextFloat(80f, 320f) * (Main.rand.NextBool() ? -1f : 1f);
+                float yDist = Main.rand.NextFloat(1200f, 1440f);
+                Vector2 startPoint = target.Center + new Vector2(xDist, -yDist);
+
+                // The flare is somewhat inaccurate based on the size of the target.
+                float xVariance = target.width / 4f;
+                if (xVariance < 8f)
+                    xVariance = 8f;
+                float yVariance = target.height / 4f;
+                if (yVariance < 8f)
+                    yVariance = 8f;
+                float xOffset = Main.rand.NextFloat(-xVariance, xVariance);
+                float yOffset = Main.rand.NextFloat(-yVariance, yVariance);
+                Vector2 offsetTarget = target.Center + new Vector2(xOffset, yOffset);
+
+                // Finalize the velocity vector and make sure it's going at the right speed.
+                Vector2 velocity = offsetTarget - startPoint;
+                velocity.Normalize();
+                velocity *= flareSpeed;
+
+                float AI1 = (float)Main.rand.Next(3);
+                if (projectile.owner == Main.myPlayer)
+                {
+                    int proj = Projectile.NewProjectile(startPoint, velocity, ProjectileID.LunarFlare, flareDamage, flareKB, Main.myPlayer, 0f, AI1);
+                    CalamityGlobalProjectile cgp = Main.projectile[proj].Calamity();
+                    if (projectile.melee)
+                        cgp.forceMelee = true;
+                    else
+                        cgp.forceRogue = true;
+                }
+            }
+        }
     }
 }

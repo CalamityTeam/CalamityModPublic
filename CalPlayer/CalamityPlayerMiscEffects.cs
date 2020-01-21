@@ -2280,6 +2280,12 @@ namespace CalamityMod.CalPlayer
 				player.velocity.X = 0f;
 			}
 
+			if (modPlayer.vaporfied)
+			{
+				player.velocity.Y *= 0.98f;
+				player.velocity.X *= 0.98f;
+			}
+
 			if (modPlayer.eGravity)
 			{
 				if (player.wingTimeMax < 0)

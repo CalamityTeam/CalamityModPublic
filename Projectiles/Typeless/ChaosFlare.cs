@@ -79,5 +79,11 @@ namespace CalamityMod.Projectiles.Typeless
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
             target.AddBuff(BuffID.OnFire, 180);
         }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(BuffID.OnFire, 180);
+			target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
+        }
     }
 }

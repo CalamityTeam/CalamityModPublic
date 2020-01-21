@@ -42,33 +42,25 @@ namespace CalamityMod.Projectiles.Typeless
                     float num589 = projectile.velocity.Y / 6f * (float)num587;
                     int num590 = 6;
                     int num591 = Dust.NewDust(new Vector2(projectile.position.X + (float)num590, projectile.position.Y + (float)num590), projectile.width - num590 * 2, projectile.height - num590 * 2, 170, 0f, 0f, 75, default, 1.2f);
-                    Dust dust;
+                    Dust dust = Main.dust[num591];
                     if (Main.rand.NextBool(2))
                     {
-                        dust = Main.dust[num591];
                         dust.alpha += 25;
                     }
                     if (Main.rand.NextBool(2))
                     {
-                        dust = Main.dust[num591];
                         dust.alpha += 25;
                     }
                     if (Main.rand.NextBool(2))
                     {
-                        dust = Main.dust[num591];
                         dust.alpha += 25;
                     }
-                    Main.dust[num591].noGravity = true;
-                    dust = Main.dust[num591];
+                    dust.noGravity = true;
                     dust.velocity *= 0.3f;
-                    dust = Main.dust[num591];
                     dust.velocity += projectile.velocity * 0.5f;
-                    Main.dust[num591].position = projectile.Center;
-                    Dust var_2_18F52_cp_0_cp_0 = Main.dust[num591];
-                    var_2_18F52_cp_0_cp_0.position.X -= num588;
-                    Dust var_2_18F74_cp_0_cp_0 = Main.dust[num591];
-                    var_2_18F74_cp_0_cp_0.position.Y -= num589;
-                    dust = Main.dust[num591];
+                    dust.position = projectile.Center;
+                    dust.position.X -= num588;
+                    dust.position.Y -= num589;
                     dust.velocity *= 0.2f;
                     num3 = num587;
                 }
@@ -78,7 +70,6 @@ namespace CalamityMod.Projectiles.Typeless
                     int num593 = Dust.NewDust(new Vector2(projectile.position.X + (float)num592, projectile.position.Y + (float)num592), projectile.width - num592 * 2, projectile.height - num592 * 2, 170, 0f, 0f, 75, default, 0.65f);
                     Dust dust = Main.dust[num593];
                     dust.velocity *= 0.5f;
-                    dust = Main.dust[num593];
                     dust.velocity += projectile.velocity * 0.5f;
                 }
                 num3 = num586;
@@ -124,6 +115,11 @@ namespace CalamityMod.Projectiles.Typeless
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            target.AddBuff(BuffID.Ichor, 600);
+        }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
         {
             target.AddBuff(BuffID.Ichor, 600);
         }

@@ -544,6 +544,7 @@ namespace CalamityMod.CalPlayer
         public bool eutrophication = false;
         public bool iCantBreathe = false; //Frozen Lungs debuff
         public bool cragsLava = false;
+        public bool vaporfied = false;
 
         // Buff
         public bool trinketOfChiBuff = false;
@@ -1303,6 +1304,7 @@ namespace CalamityMod.CalPlayer
             eutrophication = false;
             iCantBreathe = false;
             cragsLava = false;
+            vaporfied = false;
 
 			revivify = false;
             trinketOfChiBuff = false;
@@ -1541,6 +1543,7 @@ namespace CalamityMod.CalPlayer
             eutrophication = false;
             iCantBreathe = false;
             cragsLava = false;
+            vaporfied = false;
             #endregion
 
             #region Rogue
@@ -3243,6 +3246,10 @@ namespace CalamityMod.CalPlayer
             if (nightwither && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
             {
                 damageSource = PlayerDeathReason.ByCustomReason(player.name + " was incinerated by lunar rays.");
+            }
+            if (vaporfied && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
+            {
+                damageSource = PlayerDeathReason.ByCustomReason(player.name + " vaporized into thin air.");
             }
             if (manaOverloader && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
             {
@@ -8265,6 +8272,39 @@ namespace CalamityMod.CalPlayer
                     Main.dust[dust].noGravity = true;
                     Main.dust[dust].velocity *= 1.8f;
                     Main.dust[dust].velocity.Y -= 0.5f;
+                    Main.playerDrawDust.Add(dust);
+                }
+                if (noRogueStealth)
+                {
+                    r *= 0.25f;
+                    g *= 0.25f;
+                    b *= 0.1f;
+                    fullBright = true;
+                }
+            }
+            if (vaporfied)
+            {
+				int dustType = Utils.SelectRandom(Main.rand, new int[]
+				{
+					246,
+					242,
+					229,
+					226,
+					247,
+					187,
+					234
+				});
+                if (Main.rand.NextBool(4) && drawInfo.shadow == 0f)
+                {
+                    int dust = Dust.NewDust(drawInfo.position - new Vector2(2f, 2f), player.width + 4, player.height + 4, dustType, player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 3f);
+                    Main.dust[dust].noGravity = true;
+                    Main.dust[dust].velocity *= 1.8f;
+                    Main.dust[dust].velocity.Y -= 0.5f;
+					if (Main.rand.NextBool(4))
+					{
+						Main.dust[dust].noGravity = false;
+						Main.dust[dust].scale *= 0.5f;
+					}
                     Main.playerDrawDust.Add(dust);
                 }
                 if (noRogueStealth)

@@ -59,5 +59,11 @@ namespace CalamityMod.Projectiles.Typeless
             target.AddBuff(BuffID.Venom, 120);
             target.AddBuff(BuffID.Poisoned, 120);
         }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(BuffID.Venom, 120);
+            target.AddBuff(BuffID.Poisoned, 120);
+        }
     }
 }

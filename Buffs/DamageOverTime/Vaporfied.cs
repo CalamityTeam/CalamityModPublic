@@ -21,5 +21,10 @@ namespace CalamityMod.Buffs.DamageOverTime
 			npc.DelBuff(buffIndex);
 			buffIndex--;
 		}
+
+        public override void Update(Player player, ref int buffIndex)
+        {
+            player.Calamity().vaporfied = true;
+        }
     }
 }

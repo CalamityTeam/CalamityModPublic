@@ -123,5 +123,10 @@ namespace CalamityMod.Projectiles.Typeless
         {
             target.AddBuff(BuffID.Frostburn, 60);
         }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(BuffID.Frostburn, 60);
+        }
     }
 }

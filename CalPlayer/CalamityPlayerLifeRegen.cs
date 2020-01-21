@@ -104,6 +104,15 @@ namespace CalamityMod.CalPlayer
                 player.lifeRegen -= 16;
             }
 
+            if (modPlayer.vaporfied)
+            {
+                if (player.lifeRegen > 0)
+                    player.lifeRegen = 0;
+
+                player.lifeRegenTime = 0;
+                player.lifeRegen -= 8;
+            }
+
 			if (modPlayer.cragsLava)
 			{
                 if (player.lifeRegen > 0)

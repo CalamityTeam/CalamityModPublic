@@ -114,6 +114,16 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.Kill();
         }
 
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            if (projectile.localAI[1] < 1f)
+            {
+                return;
+            }
+            target.AddBuff(BuffID.Venom, fromArmour ? 150 : 120);
+            projectile.Kill();
+		}
+
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(SoundID.Item54, projectile.position);

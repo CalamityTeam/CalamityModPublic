@@ -67,5 +67,10 @@ namespace CalamityMod.Projectiles.Typeless
         {
             target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 180);
         }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 180);
+        }
     }
 }

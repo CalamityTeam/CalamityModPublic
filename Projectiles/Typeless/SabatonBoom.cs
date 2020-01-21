@@ -21,5 +21,10 @@ namespace CalamityMod.Projectiles.Typeless
         {
             target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 300);
         }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 300);
+        }
     }
 }

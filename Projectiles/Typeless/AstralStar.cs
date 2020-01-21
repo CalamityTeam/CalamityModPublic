@@ -94,6 +94,11 @@ namespace CalamityMod.Projectiles.Typeless
             target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120);
         }
 
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120);
+        }
+
         public override Color? GetAlpha(Color lightColor)
         {
             return new Color(200, 100, 250, projectile.alpha);

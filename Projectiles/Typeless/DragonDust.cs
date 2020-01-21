@@ -87,5 +87,10 @@ namespace CalamityMod.Projectiles.Typeless
             target.immune[projectile.owner] = 0;
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
         }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
+        }
     }
 }

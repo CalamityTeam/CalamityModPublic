@@ -77,6 +77,11 @@ namespace CalamityMod.Projectiles.Typeless
             target.AddBuff(ModContent.BuffType<TeslaBuff>(), 120);
         }
 
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(BuffID.Electrified, 300);
+		}
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D sprite = Main.projectileTexture[projectile.type];

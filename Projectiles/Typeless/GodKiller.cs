@@ -139,6 +139,11 @@ namespace CalamityMod.Projectiles.Typeless
             target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 180);
         }
 
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 180);
+        }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);

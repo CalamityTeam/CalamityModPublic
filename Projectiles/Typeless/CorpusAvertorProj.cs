@@ -94,5 +94,18 @@ namespace CalamityMod.Projectiles.Typeless
             int owner = projectile.owner;
             Projectile.NewProjectile(target.position.X, target.position.Y, 0f, 0f, ProjectileID.VampireHeal, 0, 0f, projectile.owner, (float)owner, heal);
         }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            float heal = (float)damage * 0.05f;
+            if ((int)heal == 0)
+                return;
+            if (Main.player[Main.myPlayer].lifeSteal <= 0f)
+                return;
+
+            Main.player[Main.myPlayer].lifeSteal -= heal * 1.5f;
+            int owner = projectile.owner;
+            Projectile.NewProjectile(target.position.X, target.position.Y, 0f, 0f, ProjectileID.VampireHeal, 0, 0f, projectile.owner, (float)owner, heal);
+        }
     }
 }
