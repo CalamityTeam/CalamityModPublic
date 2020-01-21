@@ -339,7 +339,7 @@ namespace CalamityMod.CalPlayer
         public bool alchFlask = false;
         public bool community = false;
         public bool fleshTotem = false;
-        public int fleshTotemCooldown = 0;
+        public bool fleshTotemCooldown = false;
         public bool bloodPact = false;
         public bool bloodflareCore = false;
         public bool coreOfTheBloodGod = false;
@@ -404,7 +404,7 @@ namespace CalamityMod.CalPlayer
         public bool bloodyGlove = false;
         public bool filthyGlove = false;
         public bool sandCloak = false;
-        public int sandCloakCooldown = 0;
+        public bool sandCloakCooldown = false;
         public bool spectralVeil = false;
         public int spectralVeilImmunity = 0;
         public bool plaguedFuelPack = false;
@@ -590,7 +590,7 @@ namespace CalamityMod.CalPlayer
         public bool holyWrath = false;
         public bool profanedRage = false;
         public bool draconicSurge = false;
-        public int draconicSurgeCooldown = 0;
+        public bool draconicSurgeCooldown = false;
         public bool tesla = false;
         public bool baguette = false;
         public bool vodka = false;
@@ -1479,7 +1479,7 @@ namespace CalamityMod.CalPlayer
             raiderCooldown = 0;
             gSabatonFall = 0;
             gSabatonCooldown = 0;
-            fleshTotemCooldown = 0;
+            fleshTotemCooldown = false;
             astralStarRainCooldown = 0;
             bloodflareMageCooldown = 0;
             tarraMageHealCooldown = 0;
@@ -1488,7 +1488,7 @@ namespace CalamityMod.CalPlayer
             theBeeDamage = 0;
             reforges = 0;
             polarisBoostCounter = 0;
-            sandCloakCooldown = 0;
+            sandCloakCooldown = false;
             spectralVeilImmunity = 0;
             plaguedFuelPackCooldown = 0;
             plaguedFuelPackDash = 0;
@@ -1599,7 +1599,7 @@ namespace CalamityMod.CalPlayer
             tesla = false;
             baguette = false;
             draconicSurge = false;
-            draconicSurgeCooldown = 0;
+            draconicSurgeCooldown = false;
             yPower = false;
             aWeapon = false;
             tScale = false;
@@ -2032,9 +2032,9 @@ namespace CalamityMod.CalPlayer
                 }
             }
             if (CalamityMod.SandCloakHotkey.JustPressed && sandCloak && Main.myPlayer == player.whoAmI && player.Calamity().rogueStealth >= player.Calamity().rogueStealthMax * 0.25f &&
-                wearingRogueArmor && player.Calamity().rogueStealthMax > 0 && sandCloakCooldown == 0)
+                wearingRogueArmor && player.Calamity().rogueStealthMax > 0 && !sandCloakCooldown)
             {
-                sandCloakCooldown = 900;
+				player.AddBuff(ModContent.BuffType<SandCloakCooldown>(), 900, false); //15 seconds
                 player.Calamity().rogueStealth -= player.Calamity().rogueStealthMax * 0.25f;
                 Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<SandCloakVeil>(), 7, 8, player.whoAmI, 0, 0);
                 Main.PlaySound(2, player.position, 45);
@@ -3116,7 +3116,7 @@ namespace CalamityMod.CalPlayer
                 if (player.FindBuffIndex(ModContent.BuffType<DraconicSurgeBuff>()) > -1)
                 {
                     player.ClearBuff(ModContent.BuffType<DraconicSurgeBuff>());
-                    draconicSurgeCooldown = 1800;
+					player.AddBuff(ModContent.BuffType<DraconicSurgeCooldown>(), 1800);
                 }
                 player.AddBuff(ModContent.BuffType<GodSlayerCooldown>(), 2700);
                 return false;
@@ -3142,7 +3142,7 @@ namespace CalamityMod.CalPlayer
                         if (player.FindBuffIndex(ModContent.BuffType<DraconicSurgeBuff>()) > -1)
                         {
                             player.ClearBuff(ModContent.BuffType<DraconicSurgeBuff>());
-                            draconicSurgeCooldown = 1800;
+							player.AddBuff(ModContent.BuffType<DraconicSurgeCooldown>(), 1800);
                         }
                     }
                 }
@@ -5251,9 +5251,9 @@ namespace CalamityMod.CalPlayer
                     npc.type == NPCID.MartianTurret || npc.type == ModContent.NPCType<StormlionCharger>())
                     damage /= 2;
             }
-            if (fleshTotem && fleshTotemCooldown <= 0)
+            if (fleshTotem && !fleshTotemCooldown)
             {
-                fleshTotemCooldown = 1200; //20 seconds
+				player.AddBuff(ModContent.BuffType<FleshTotemCooldown>(), 1200, false); //20 seconds
                 damage /= 2;
             }
             if (tarragonCloak && !tarragonCloakCooldown && tarraMelee)

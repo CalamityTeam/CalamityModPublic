@@ -465,10 +465,6 @@ namespace CalamityMod.CalPlayer
 				modPlayer.gSabatonCooldown--;
 			if (modPlayer.gSabatonFall > 0)
 				modPlayer.gSabatonFall--;
-			if (modPlayer.draconicSurgeCooldown > 0)
-				modPlayer.draconicSurgeCooldown--;
-			if (modPlayer.fleshTotemCooldown > 0)
-				modPlayer.fleshTotemCooldown--;
 			if (modPlayer.astralStarRainCooldown > 0)
 				modPlayer.astralStarRainCooldown--;
 			if (modPlayer.bloodflareMageCooldown > 0)
@@ -481,8 +477,6 @@ namespace CalamityMod.CalPlayer
 				modPlayer.moonCrownCooldown--;
             if (modPlayer.nanoFlareCooldown > 0)
                 modPlayer.nanoFlareCooldown--;
-            if (modPlayer.sandCloakCooldown > 0)
-				modPlayer.sandCloakCooldown--;
 			if (modPlayer.spectralVeilImmunity > 0)
 				modPlayer.spectralVeilImmunity--;
 			if (modPlayer.plaguedFuelPackCooldown > 0)

@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Potions
 
         public override bool CanUseItem(Player player)
         {
-            return player.Calamity().draconicSurgeCooldown == 0;
+            return !player.Calamity().draconicSurgeCooldown;
         }
 
         public override void AddRecipes()
