@@ -1,7 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Buffs.StatDebuffs
+namespace CalamityMod.Buffs.DamageOverTime
 {
     public class CragsLava : ModBuff
     {
