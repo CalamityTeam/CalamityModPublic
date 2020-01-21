@@ -2481,13 +2481,17 @@ namespace CalamityMod.NPCs
 			{
 				if (projectile.type == ModContent.ProjectileType<ShatteredSunScorchedBlade>())
 				{
-					damage = (int)(damage * 0.9);
+                    damage = (int)((double)damage * 0.9);
 				}
                 else if (projectile.type == ModContent.ProjectileType<MoltenAmputatorProj>() || projectile.type == ModContent.ProjectileType<MoltenBlobThrown>())
                 {
                     if (projectile.penetrate == -1)
                         projectile.penetrate = projectile.Calamity().stealthStrike ? 6 : 9;
                     damage = (int)((double)damage * 0.75);
+                }
+                else if (projectile.type == ModContent.ProjectileType<ElementalAxeMinion>())
+                {
+                    damage = (int)((double)damage * 0.5);
                 }
 
 				if (projectile.penetrate == -1 && !projectile.minion)
