@@ -16,7 +16,6 @@ namespace CalamityMod.Items.Pets
         {
             DisplayName.SetDefault("Trifigelycen Etomer");
             Tooltip.SetDefault("Summons an electric troublemaker\n" +
-			"Zaps nearby enemies\n" +
 			"A little note is attached:\n" +
 			"Thank you, Aloe! Very much appreciated from Ben");
         }
