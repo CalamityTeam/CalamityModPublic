@@ -46,10 +46,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (target.rarity != 2 && !target.boss)
-            {
-                target.AddBuff(ModContent.BuffType<SilvaStun>(), 15);
-            }
+            target.AddBuff(ModContent.BuffType<Eutrophication>(), 15);
         }
     }
 }

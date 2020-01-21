@@ -31,10 +31,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (target.rarity != 2 && !CalamityPlayer.areThereAnyDamnBosses)
-            {
-                target.AddBuff(ModContent.BuffType<SilvaStun>(), 15);
-            }
+            target.AddBuff(ModContent.BuffType<Eutrophication>(), 15);
         }
 
         public override void AI()

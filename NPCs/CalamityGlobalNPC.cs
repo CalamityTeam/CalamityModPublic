@@ -100,6 +100,7 @@ namespace CalamityMod.NPCs
         public int tSad = 0;
         public int eFreeze = 0;
         public int silvaStun = 0;
+        public int eutrophication = 0;
         public int webbed = 0;
         public int slowed = 0;
         public int electrified = 0;
@@ -676,6 +677,7 @@ namespace CalamityMod.NPCs
 				npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
 				npc.buffImmune[ModContent.BuffType<TimeSlow>()] = true;
 				npc.buffImmune[ModContent.BuffType<TeslaBuff>()] = true;
+				npc.buffImmune[ModContent.BuffType<Eutrophication>()] = true;
 				npc.buffImmune[BuffID.Webbed] = true;
 				npc.buffImmune[BuffID.Slow] = true;
 			}
@@ -2123,6 +2125,8 @@ namespace CalamityMod.NPCs
 				eFreeze--;
 			if (silvaStun > 0)
 				silvaStun--;
+			if (eutrophication > 0)
+				eutrophication--;
 			if (webbed > 0)
 				webbed--;
             if (slowed > 0)
@@ -2190,7 +2194,7 @@ namespace CalamityMod.NPCs
 
             if (!CalamityWorld.bossRushActive)
             {
-                if (silvaStun > 0)
+                if (silvaStun > 0 || eutrophication > 0)
                     npc.velocity = Vector2.Zero;
                 else if (timeSlow > 0 || webbed > 0)
                     npc.velocity *= 0.85f;
@@ -3146,7 +3150,7 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (tSad > 0 || cDepth > 0)
+            if (tSad > 0 || cDepth > 0 || eutrophication > 0)
             {
                 if (Main.rand.Next(6) < 3)
                 {

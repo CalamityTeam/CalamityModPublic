@@ -541,6 +541,7 @@ namespace CalamityMod.CalPlayer
         public bool eFreeze = false;
         public bool silvaStun = false;
         public bool wCleave = false;
+        public bool eutrophication = false;
 
         // Buff
         public bool trinketOfChiBuff = false;
@@ -1297,6 +1298,7 @@ namespace CalamityMod.CalPlayer
             eFreeze = false;
             silvaStun = false;
             wCleave = false;
+            eutrophication = false;
 
 			revivify = false;
             trinketOfChiBuff = false;
@@ -1532,6 +1534,7 @@ namespace CalamityMod.CalPlayer
             eFreeze = false;
             silvaStun = false;
             wCleave = false;
+            eutrophication = false;
             #endregion
 
             #region Rogue
@@ -8262,7 +8265,7 @@ namespace CalamityMod.CalPlayer
                     fullBright = true;
                 }
             }
-            if (eFreeze || silvaStun || gState || cDepth)
+            if (eFreeze || silvaStun || gState || cDepth || eutrophication)
             {
                 if (noRogueStealth)
                 {

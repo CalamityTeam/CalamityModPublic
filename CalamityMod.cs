@@ -799,7 +799,10 @@ namespace CalamityMod
                 ModContent.BuffType<AbyssalFlames>(),
                 ModContent.BuffType<CrushDepth>(),
                 ModContent.BuffType<Horror>(),
-                ModContent.BuffType<MarkedforDeath>()
+                ModContent.BuffType<MarkedforDeath>(),
+                ModContent.BuffType<WarCleave>(),
+                ModContent.BuffType<Vaporified>(),
+                ModContent.BuffType<Eutrophication>()
             };
 
             fireWeaponList = new List<int>()

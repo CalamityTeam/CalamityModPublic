@@ -44,13 +44,12 @@ namespace CalamityMod.Projectiles.Melee
                     float num100 = projectile.velocity.Y / 3f * (float)num105;
                     int num101 = 4;
                     int waterDust = Dust.NewDust(new Vector2(projectile.position.X + (float)num101, projectile.position.Y + (float)num101), projectile.width - num101 * 2, projectile.height - num101 * 2, 33, 0f, 0f, 0, new Color(0, 142, 255), 1.5f);
-                    Main.dust[waterDust].noGravity = true;
-                    Main.dust[waterDust].velocity *= 0.1f;
-                    Main.dust[waterDust].velocity += projectile.velocity * 0.1f;
-                    Dust expr_47FA_cp_0 = Main.dust[waterDust];
-                    expr_47FA_cp_0.position.X -= num99;
-                    Dust expr_4815_cp_0 = Main.dust[waterDust];
-                    expr_4815_cp_0.position.Y -= num100;
+                    Dust waterdust = Main.dust[waterDust];
+                    waterdust.noGravity = true;
+                    waterdust.velocity *= 0.1f;
+                    waterdust.velocity += projectile.velocity * 0.1f;
+                    waterdust.position.X -= num99;
+                    waterdust.position.Y -= num100;
                 }
             }
             if (projectile.ai[1] == 5f)
@@ -66,7 +65,6 @@ namespace CalamityMod.Projectiles.Melee
             }
             Main.player[projectile.owner].itemAnimation = 10;
             Main.player[projectile.owner].itemTime = 10;
-            float arg_1DC8F_0 = vector62.X;
             if (vector62.X < 0f)
             {
                 Main.player[projectile.owner].ChangeDir(1);
@@ -114,10 +112,7 @@ namespace CalamityMod.Projectiles.Melee
                     return;
                 }
             }
-            float[] var_2_1DE21_cp_0 = projectile.ai;
-            int var_2_1DE21_cp_1 = 1;
-            float num73 = var_2_1DE21_cp_0[var_2_1DE21_cp_1];
-            var_2_1DE21_cp_0[var_2_1DE21_cp_1] = num73 + 1f;
+            projectile.ai[1] += 1f;
             if (projectile.ai[1] > 5f)
             {
                 projectile.alpha = 0;
@@ -189,17 +184,14 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (!CalamityPlayer.areThereAnyDamnBosses)
-            {
-                if (target.rarity != 2)
-                {
-                    target.AddBuff(ModContent.BuffType<SilvaStun>(), 60);
-                }
-                else if (projectile.ai[1] >= 45f && (projectile.ai[0] != 1f || projectile.ai[0] != 2f))
-                {
-                    target.AddBuff(ModContent.BuffType<SilvaStun>(), 30);
-                }
-            }
+			if (target.rarity < 2)
+			{
+				target.AddBuff(ModContent.BuffType<Eutrophication>(), 60);
+			}
+			else if (projectile.ai[1] >= 45f && (projectile.ai[0] != 1f || projectile.ai[0] != 2f))
+			{
+				target.AddBuff(ModContent.BuffType<Eutrophication>(), 30);
+			}
             projectile.ai[0] = 1f;
             projectile.netUpdate = true;
             Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/ClamImpact"), (int)projectile.position.X, (int)projectile.position.Y);
