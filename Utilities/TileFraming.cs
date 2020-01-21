@@ -73,7 +73,6 @@ namespace CalamityMod
             tileMergeTypes[ModContent.TileType<AstralDirt>()][ModContent.TileType<AstralOre>()] = true;
             tileMergeTypes[ModContent.TileType<AstralDirt>()][ModContent.TileType<AstralStone>()] = true;
             tileMergeTypes[ModContent.TileType<AstralDirt>()][ModContent.TileType<AstralSand>()] = true;
-            tileMergeTypes[ModContent.TileType<AstralDirt>()][ModContent.TileType<AstralMonolith>()] = true;
             tileMergeTypes[ModContent.TileType<AstralDirt>()][ModContent.TileType<AstralSnow>()] = true;
             tileMergeTypes[ModContent.TileType<AstralDirt>()][ModContent.TileType<AstralClay>()] = true;
             tileMergeTypes[ModContent.TileType<AstralDirt>()][ModContent.TileType<AstralSilt>()] = true;
@@ -110,6 +109,46 @@ namespace CalamityMod
             if (myTile is null || mergeTile is null)
                 return false;
             return mergeTile.active() && (mergeTile.type == myTile.type || Main.tileMerge[myTile.type][mergeTile.type]);
+        }
+
+        private static void GetAdjacentTiles(int x, int y, out bool up, out bool down, out bool left, out bool right, out bool upLeft, out bool upRight, out bool downLeft, out bool downRight)
+        {
+            // These all get null checked in the GetMerge function
+            Tile tile = Main.tile[x, y];
+            Tile north = Main.tile[x, y - 1];
+            Tile south = Main.tile[x, y + 1];
+            Tile west = Main.tile[x - 1, y];
+            Tile east = Main.tile[x + 1, y];
+            Tile southwest = Main.tile[x - 1, y + 1];
+            Tile southeast = Main.tile[x + 1, y + 1];
+            Tile northwest = Main.tile[x - 1, y - 1];
+            Tile northeast = Main.tile[x + 1, y - 1];
+
+            left = false;
+            right = false;
+            up = false;
+            down = false;
+            upLeft = false;
+            upRight = false;
+            downLeft = false;
+            downRight = false;
+
+            if (GetMerge(tile, north) && (north.slope() == 0 || north.slope() == 1 || north.slope() == 2))
+                up = true;
+            if (GetMerge(tile, south) && (south.slope() == 0 || south.slope() == 3 || south.slope() == 4))
+                down = true;
+            if (GetMerge(tile, west) && (west.slope() == 0 || west.slope() == 2 || west.slope() == 4))
+                left = true;
+            if (GetMerge(tile, east) && (east.slope() == 0 || east.slope() == 1 || east.slope() == 3))
+                right = true;
+            if (GetMerge(tile, north) && GetMerge(tile, west) && GetMerge(tile, northwest) && (northwest.slope() == 0 || northwest.slope() == 2) && (north.slope() == 0 || north.slope() == 1 || north.slope() == 3) && (west.slope() == 0 || west.slope() == 3 || west.slope() == 4))
+                upLeft = true;
+            if (GetMerge(tile, north) && GetMerge(tile, east) && GetMerge(tile, northeast) && (northeast.slope() == 0 || northeast.slope() == 1) && (north.slope() == 0 || north.slope() == 2 || north.slope() == 4) && (east.slope() == 0 || east.slope() == 3 || east.slope() == 4))
+                upRight = true;
+            if (GetMerge(tile, south) && GetMerge(tile, west) && GetMerge(tile, southwest) && !southwest.halfBrick() && (southwest.slope() == 0 || southwest.slope() == 4) && (south.slope() == 0 || south.slope() == 1 || south.slope() == 3) && (west.slope() == 0 || west.slope() == 1 || west.slope() == 2))
+                downLeft = true;
+            if (GetMerge(tile, south) && GetMerge(tile, east) && GetMerge(tile, southeast) && !southeast.halfBrick() && (southeast.slope() == 0 || southeast.slope() == 3) && (south.slope() == 0 || south.slope() == 2 || south.slope() == 4) && (east.slope() == 0 || east.slope() == 1 || east.slope() == 2))
+                downRight = true;
         }
 
         private static void SetFrameAt(int x, int y, int frameX, int frameY)
@@ -292,41 +331,7 @@ namespace CalamityMod
                 return true;
             }
 
-            // these all get null checked in the GetMerge function
-            Tile north = Main.tile[x, y - 1];
-            Tile south = Main.tile[x, y + 1];
-            Tile west = Main.tile[x - 1, y];
-            Tile east = Main.tile[x + 1, y];
-            Tile southwest = Main.tile[x - 1, y + 1];
-            Tile southeast = Main.tile[x + 1, y + 1];
-            Tile northwest = Main.tile[x - 1, y - 1];
-            Tile northeast = Main.tile[x + 1, y - 1];
-
-            bool left = false;
-            bool right = false;
-            bool up = false;
-            bool down = false;
-            bool upLeft = false;
-            bool upRight = false;
-            bool downLeft = false;
-            bool downRight = false;
-
-            if (GetMerge(tile, north) && (north.slope() == 0 || north.slope() == 1 || north.slope() == 2))
-                up = true;
-            if (GetMerge(tile, south) && (south.slope() == 0 || south.slope() == 3 || south.slope() == 4))
-                down = true;
-            if (GetMerge(tile, west) && (west.slope() == 0 || west.slope() == 2 || west.slope() == 4))
-                left = true;
-            if (GetMerge(tile, east) && (east.slope() == 0 || east.slope() == 1 || east.slope() == 3))
-                right = true;
-            if (GetMerge(tile, north) && GetMerge(tile, west) && GetMerge(tile, northwest) && (northwest.slope() == 0 || northwest.slope() == 2) && (north.slope() == 0 || north.slope() == 1 || north.slope() == 3) && (west.slope() == 0 || west.slope() == 3 || west.slope() == 4))
-                upLeft = true;
-            if (GetMerge(tile, north) && GetMerge(tile, east) && GetMerge(tile, northeast) && (northeast.slope() == 0 || northeast.slope() == 1) && (north.slope() == 0 || north.slope() == 2 || north.slope() == 4) && (east.slope() == 0 || east.slope() == 3 || east.slope() == 4))
-                upRight = true;
-            if (GetMerge(tile, south) && GetMerge(tile, west) && GetMerge(tile, southwest) && !southwest.halfBrick() && (southwest.slope() == 0 || southwest.slope() == 4) && (south.slope() == 0 || south.slope() == 1 || south.slope() == 3) && (west.slope() == 0 || west.slope() == 1 || west.slope() == 2))
-                downLeft = true;
-            if (GetMerge(tile, south) && GetMerge(tile, east) && GetMerge(tile, southeast) && !southeast.halfBrick() && (southeast.slope() == 0 || southeast.slope() == 3) && (south.slope() == 0 || south.slope() == 2 || south.slope() == 4) && (east.slope() == 0 || east.slope() == 1 || east.slope() == 2))
-                downRight = true;
+            GetAdjacentTiles(x, y, out bool up, out bool down, out bool left, out bool right, out bool upLeft, out bool upRight, out bool downLeft, out bool downRight);
 
             // Reset the tile's random frame style if the frame is being reset.
             int randomFrame;
@@ -574,41 +579,7 @@ namespace CalamityMod
                 return true;
             }
 
-            // these all get null checked in the GetMerge function
-            Tile north = Main.tile[x, y - 1];
-            Tile south = Main.tile[x, y + 1];
-            Tile west = Main.tile[x - 1, y];
-            Tile east = Main.tile[x + 1, y];
-            Tile southwest = Main.tile[x - 1, y + 1];
-            Tile southeast = Main.tile[x + 1, y + 1];
-            Tile northwest = Main.tile[x - 1, y - 1];
-            Tile northeast = Main.tile[x + 1, y - 1];
-
-            bool left = false;
-            bool right = false;
-            bool up = false;
-            bool down = false;
-            bool upLeft = false;
-            bool upRight = false;
-            bool downLeft = false;
-            bool downRight = false;
-
-            if (GetMerge(tile, north) && (north.slope() == 0 || north.slope() == 1 || north.slope() == 2))
-                up = true;
-            if (GetMerge(tile, south) && (south.slope() == 0 || south.slope() == 3 || south.slope() == 4))
-                down = true;
-            if (GetMerge(tile, west) && (west.slope() == 0 || west.slope() == 2 || west.slope() == 4))
-                left = true;
-            if (GetMerge(tile, east) && (east.slope() == 0 || east.slope() == 1 || east.slope() == 3))
-                right = true;
-            if (GetMerge(tile, north) && GetMerge(tile, west) && GetMerge(tile, northwest) && (northwest.slope() == 0 || northwest.slope() == 2) && (north.slope() == 0 || north.slope() == 1 || north.slope() == 3) && (west.slope() == 0 || west.slope() == 3 || west.slope() == 4))
-                upLeft = true;
-            if (GetMerge(tile, north) && GetMerge(tile, east) && GetMerge(tile, northeast) && (northeast.slope() == 0 || northeast.slope() == 1) && (north.slope() == 0 || north.slope() == 2 || north.slope() == 4) && (east.slope() == 0 || east.slope() == 3 || east.slope() == 4))
-                upRight = true;
-            if (GetMerge(tile, south) && GetMerge(tile, west) && GetMerge(tile, southwest) && !southwest.halfBrick() && (southwest.slope() == 0 || southwest.slope() == 4) && (south.slope() == 0 || south.slope() == 1 || south.slope() == 3) && (west.slope() == 0 || west.slope() == 1 || west.slope() == 2))
-                downLeft = true;
-            if (GetMerge(tile, south) && GetMerge(tile, east) && GetMerge(tile, southeast) && !southeast.halfBrick() && (southeast.slope() == 0 || southeast.slope() == 3) && (south.slope() == 0 || south.slope() == 2 || south.slope() == 4) && (east.slope() == 0 || east.slope() == 1 || east.slope() == 2))
-                downRight = true;
+            GetAdjacentTiles(x, y, out bool up, out bool down, out bool left, out bool right, out bool upLeft, out bool upRight, out bool downLeft, out bool downRight);
 
             // Reset the tile's random frame style if the frame is being reset.
             int randomFrame;
@@ -839,6 +810,360 @@ namespace CalamityMod
             #endregion
 
             return true;
+        }
+
+        internal static void CompactFraming(int x, int y, bool resetFrame = true)
+        {
+            if (x < 0 || x >= Main.maxTilesX)
+                return;
+            if (y < 0 || y >= Main.maxTilesY)
+                return;
+            Tile tile = Main.tile[x, y];
+            if (tile is null)
+                return;
+
+            if (tile.slope() > 0 && TileID.Sets.HasSlopeFrames[tile.type])
+            {
+                return;
+            }
+
+            // Reset the tile's random frame style if the frame is being reset.
+            int randomFrame;
+            if (resetFrame)
+            {
+                randomFrame = WorldGen.genRand.Next(3);
+                Main.tile[x, y].frameNumber((byte)randomFrame);
+            }
+            else
+            {
+                randomFrame = Main.tile[x, y].frameNumber();
+            }
+
+            GetAdjacentTiles(x, y, out bool up, out bool down, out bool left, out bool right, out bool upLeft, out bool upRight, out bool downLeft, out bool downRight);
+
+            #region Middle State
+            if (up && down && left && right && upLeft && upRight && downLeft && downRight)
+            {
+                tile.frameX = 18;
+                tile.frameY = 18;
+                return;
+            }
+            #endregion
+
+            #region Single State
+            if (!up && !down && !left && !right)
+            {
+                tile.frameX = 54;
+                tile.frameY = 54;
+                return;
+            }
+            #endregion
+
+            #region Edges
+            if (!up && down && left && right && downLeft && downRight)
+            {
+                tile.frameX = 18;
+                tile.frameY = 0;
+                return;
+            }
+            if (up && down && !left && right && upRight && downRight)
+            {
+                tile.frameX = 0;
+                tile.frameY = 18;
+                return;
+            }
+            if (up && !down && left && right && upLeft && upRight)
+            {
+                tile.frameX = 18;
+                tile.frameY = 36;
+                return;
+            }
+            if (up && down && left && !right && upLeft && downLeft)
+            {
+                tile.frameX = 36;
+                tile.frameY = 18;
+                return;
+            }
+            #endregion
+
+            #region Edge Corners
+            if (!up && down && !left && right && downRight)
+            {
+                tile.frameX = 0;
+                tile.frameY = 0;
+                return;
+            }
+            if (!up && down && left && !right && downLeft)
+            {
+                tile.frameX = 36;
+                tile.frameY = 0;
+                return;
+            }
+            if (up && !down && !left && right && upRight)
+            {
+                tile.frameX = 0;
+                tile.frameY = 36;
+                return;
+            }
+            if (up && !down && left && !right && upLeft)
+            {
+                tile.frameX = 36;
+                tile.frameY = 36;
+                return;
+            }
+            #endregion
+
+            #region I States
+            if (up && down && !left && !right)
+            {
+                tile.frameX = 54;
+                tile.frameY = 18;
+                return;
+            }
+            if (!up && !down && left && right)
+            {
+                tile.frameX = 18;
+                tile.frameY = 54;
+                return;
+            }
+            #endregion
+
+            #region I End States
+            if (!up && down && !left && !right)
+            {
+                tile.frameX = 54;
+                tile.frameY = 0;
+                return;
+            }
+            if (up && !down && !left && !right)
+            {
+                tile.frameX = 54;
+                tile.frameY = 36;
+                return;
+            }
+            if (!up && !down && !left && right)
+            {
+                tile.frameX = 0;
+                tile.frameY = 54;
+                return;
+            }
+            if (!up && !down && left && !right)
+            {
+                tile.frameX = 36;
+                tile.frameY = 54;
+                return;
+            }
+            #endregion
+
+            #region L States
+            if (!up && down && !left && right && !downRight)
+            {
+                tile.frameX = 72;
+                tile.frameY = 0;
+                return;
+            }
+            if (!up && down && left && !right && !downLeft)
+            {
+                tile.frameX = 108;
+                tile.frameY = 0;
+                return;
+            }
+            if (up && !down && !left && right && !upRight)
+            {
+                tile.frameX = 72;
+                tile.frameY = 36;
+                return;
+            }
+            if (up && !down && left && !right && !upLeft)
+            {
+                tile.frameX = 108;
+                tile.frameY = 36;
+                return;
+            }
+            #endregion
+
+            #region T States
+            if (!up && down && left && right && !downLeft && !downRight)
+            {
+                tile.frameX = 90;
+                tile.frameY = 0;
+                return;
+            }
+            if (up && !down && left && right && !upLeft && !upRight)
+            {
+                tile.frameX = 90;
+                tile.frameY = 36;
+                return;
+            }
+            if (up && down && !left && right && !downRight && !upRight)
+            {
+                tile.frameX = 72;
+                tile.frameY = 18;
+                return;
+            }
+            if (up && down && left && !right && !downLeft && !upLeft)
+            {
+                tile.frameX = 108;
+                tile.frameY = 18;
+                return;
+            }
+            #endregion
+
+            #region X State
+            if (up && down && left && right && !downLeft && !downRight && !upLeft && !upRight)
+            {
+                tile.frameX = 90;
+                tile.frameY = 18;
+                return;
+            }
+            #endregion
+
+            #region Inner Corner x1
+            if (up && down && left && right && !downLeft && downRight && upLeft && upRight)
+            {
+                tile.frameX = 144;
+                tile.frameY = 36;
+                return;
+            }
+            if (up && down && left && right && downLeft && !downRight && upLeft && upRight)
+            {
+                tile.frameX = 126;
+                tile.frameY = 36;
+                return;
+            }
+            if (up && down && left && right && downLeft && downRight && !upLeft && upRight)
+            {
+                tile.frameX = 144;
+                tile.frameY = 54;
+                return;
+            }
+            if (up && down && left && right && downLeft && downRight && upLeft && !upRight)
+            {
+                tile.frameX = 126;
+                tile.frameY = 54;
+                return;
+            }
+            #endregion
+
+            #region Inner Corner x2 (same side)
+            if (up && down && left && right && !downLeft && !downRight && upLeft && upRight)
+            {
+                tile.frameX = 198;
+                tile.frameY = 18;
+                return;
+            }
+            if (up && down && left && right && downLeft && downRight && !upLeft && !upRight)
+            {
+                tile.frameX = 198;
+                tile.frameY = 18;
+                return;
+            }
+            if (up && down && left && right && !downLeft && downRight && !upLeft && upRight)
+            {
+                tile.frameX = 198;
+                tile.frameY = 36;
+                return;
+            }
+            if (up && down && left && right && downLeft && !downRight && upLeft && !upRight)
+            {
+                tile.frameX = 198;
+                tile.frameY = 54;
+                return;
+            }
+            #endregion
+
+            #region Inner Corner x2 (opposite corners)
+            if (up && down && left && right && !downLeft && downRight && upLeft && !upRight)
+            {
+                tile.frameX = 108;
+                tile.frameY = 54;
+                return;
+            }
+            if (up && down && left && right && downLeft && !downRight && !upLeft && upRight)
+            {
+                tile.frameX = 90;
+                tile.frameY = 54;
+                return;
+            }
+            #endregion
+
+            #region Inner Corner x3
+            if (up && down && left && right && !downLeft && !downRight && !upLeft && upRight)
+            {
+                tile.frameX = 126;
+                tile.frameY = 18;
+                return;
+            }
+            if (up && down && left && right && !downLeft && downRight && !upLeft && !upRight)
+            {
+                tile.frameX = 126;
+                tile.frameY = 0;
+                return;
+            }
+            if (up && down && left && right && !downLeft && !downRight && upLeft && !upRight)
+            {
+                tile.frameX = 144;
+                tile.frameY = 18;
+                return;
+            }
+            if (up && down && left && right && downLeft && !downRight && !upLeft && !upRight)
+            {
+                tile.frameX = 144;
+                tile.frameY = 0;
+                return;
+            }
+            #endregion
+
+            #region Corner and Side
+            if (!up && down && left && right && !downLeft && downRight && !upLeft && !upRight)
+            {
+                tile.frameX = 180;
+                tile.frameY = 0;
+                return;
+            }
+            if (!up && down && left && right && downLeft && !downRight && !upLeft && !upRight)
+            {
+                tile.frameX = 162;
+                tile.frameY = 0;
+                return;
+            }
+            if (up && !down && left && right && !downLeft && !downRight && !upLeft && upRight)
+            {
+                tile.frameX = 180;
+                tile.frameY = 18;
+                return;
+            }
+            if (up && !down && left && right && !downLeft && !downRight && upLeft && !upRight)
+            {
+                tile.frameX = 162;
+                tile.frameY = 18;
+                return;
+            }
+            if (up && down && !left && right && !downLeft && !downRight && !upLeft && upRight)
+            {
+                tile.frameX = 162;
+                tile.frameY = 36;
+                return;
+            }
+            if (up && down && !left && right && !downLeft && downRight && !upLeft && !upRight)
+            {
+                tile.frameX = 162;
+                tile.frameY = 54;
+                return;
+            }
+            if (up && down && left && !right && !downLeft && !downRight && upLeft && !upRight)
+            {
+                tile.frameX = 180;
+                tile.frameY = 36;
+                return;
+            }
+            if (up && down && left && !right && downLeft && !downRight && !upLeft && !upRight)
+            {
+                tile.frameX = 180;
+                tile.frameY = 54;
+                return;
+            }
+            #endregion
         }
         #endregion
 
