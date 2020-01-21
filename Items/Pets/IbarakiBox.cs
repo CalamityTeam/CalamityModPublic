@@ -1,7 +1,11 @@
 ﻿using CalamityMod.Buffs.Pets;
 using CalamityMod.Projectiles.Pets;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Pets
@@ -14,14 +18,17 @@ namespace CalamityMod.Items.Pets
             Tooltip.SetDefault("As the ice melts in the springs\n" +
                 "And waves wash the old moss’ hair…\n" +
                 "Thank you, Goodbye.\n" +
-                "While equipped, the player will spawn with full health rather than half.\n" +
                 "Summons the Third Sage\n" +
-                "Provides a small amount of light in the abyss");
+                "Use the item with right click to gain the Third Sage's blessing.\n" +
+				"With the blessing, the player will spawn with full health rather than half.");
         }
 
         public override void SetDefaults()
         {
-            item.CloneDefaults(ItemID.WispinaBottle);
+            item.damage = 0;
+            item.useTime = 20;
+            item.useAnimation = 20;
+            item.useStyle = 1;
             item.noMelee = true;
             item.width = 36;
             item.height = 30;
@@ -32,12 +39,61 @@ namespace CalamityMod.Items.Pets
             item.rare = 5;
         }
 
+        public override bool CanUseItem(Player player)
+        {
+            if (player.altFunctionUse == 2)
+            {
+                if (!player.Calamity().healToFull)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+			else
+			{
+				return true;
+			}
+        }
+
+        public override bool AltFunctionUse(Player player)
+        {
+            return true;
+        }
+
         public override void UseStyle(Player player)
         {
-            if (player.whoAmI == Main.myPlayer && player.itemTime == 0)
-            {
-                player.AddBuff(item.buffType, 3600, true);
-            }
-        }
+            if (player.altFunctionUse == 2)
+			{
+				if (!player.Calamity().healToFull)
+				{
+					player.Calamity().healToFull = true;
+					string key = "Mods.CalamityMod.ThirdSageBlessingText";
+					Color messageColor = Color.Violet;
+					if (Main.netMode == NetmodeID.SinglePlayer)
+					{
+						Main.NewText(Language.GetTextValue(key), messageColor);
+					}
+					else if (Main.netMode == NetmodeID.Server)
+					{
+						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+					}
+				}
+			}
+			else
+			{
+				if (player.whoAmI == Main.myPlayer && player.itemTime == 0)
+				{
+					player.AddBuff(item.buffType, 3600, true);
+				}
+			}
+		}
+
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+			return false;
+		}
     }
 }

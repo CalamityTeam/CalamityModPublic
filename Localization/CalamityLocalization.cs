@@ -150,6 +150,8 @@ namespace CalamityMod.Localization
                 new [] { "OpenSunkenSea", "The depths of the underground desert are rumbling..." },
                 new [] { "SandstormTrigger", "The desert wind is blowing furiously!" },
 
+                new [] { "ThirdSageBlessingText", "You have been blessed by the Third Sage!" },
+
                 new [] { "AprilFools", "The LORDE is approaching..." }
             };
         }

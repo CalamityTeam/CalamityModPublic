@@ -217,6 +217,7 @@ namespace CalamityMod.CalPlayer
         public bool adrenalineBoostOne = false;
         public bool adrenalineBoostTwo = false;
         public bool adrenalineBoostThree = false;
+		public bool healToFull = false;
 
         // Lore
         public bool kingSlimeLore = false;
@@ -733,6 +734,7 @@ namespace CalamityMod.CalPlayer
             adrenalineBoostThree = false;
             drawBossHPBar = true;
             shouldDrawSmallText = true;
+            healToFull = false;
         }
 
         public override TagCompound Save()
@@ -755,6 +757,7 @@ namespace CalamityMod.CalPlayer
             boost.AddWithCondition("adrenalineThree", adrenalineBoostThree);
             boost.AddWithCondition("bossHPBar", drawBossHPBar);
             boost.AddWithCondition("drawSmallText", shouldDrawSmallText);
+            boost.AddWithCondition("fullHPRespawn", healToFull);
 
             return new TagCompound
             {
@@ -799,6 +802,7 @@ namespace CalamityMod.CalPlayer
             adrenalineBoostThree = boost.Contains("adrenalineThree");
             drawBossHPBar = boost.Contains("bossHPBar");
             shouldDrawSmallText = boost.Contains("drawSmallText");
+            healToFull = boost.Contains("fullHPRespawn");
 
             stress = tag.GetInt("stress");
             adrenaline = tag.GetInt("adrenaline");
@@ -866,6 +870,7 @@ namespace CalamityMod.CalPlayer
 
                 BitsByte flags3 = reader.ReadByte();
                 shouldDrawSmallText = flags3[0];
+                healToFull = flags3[1];
             }
             else
             {

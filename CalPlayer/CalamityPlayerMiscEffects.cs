@@ -1838,6 +1838,7 @@ namespace CalamityMod.CalPlayer
 			{
 				player.longInvince = true;
 				player.kbGlove = true;
+				player.magmaStone = true;
 				player.meleeDamage += 0.15f;
 				player.meleeCrit += 5;
 				player.lavaMax += 240;
@@ -2320,7 +2321,7 @@ namespace CalamityMod.CalPlayer
 			// The player's true max life value with Calamity adjustments
 			modPlayer.actualMaxLife = player.statLifeMax2;
 
-			if (modPlayer.thirdSageH && !player.dead && player.HasBuff(ModContent.BuffType<ThirdSageBuff>()))
+			if (modPlayer.thirdSageH && !player.dead && modPlayer.healToFull)
 				player.statLife = player.statLifeMax2;
 
 			if (modPlayer.pinkCandle)
