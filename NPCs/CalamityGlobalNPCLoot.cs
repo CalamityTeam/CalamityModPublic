@@ -980,6 +980,10 @@ namespace CalamityMod.NPCs
                     DropHelper.DropItemChance(npc, ItemID.Harpoon, DropHelper.DefiledDropRateInt);
                     break;
 
+                case NPCID.Pinky:
+                    DropHelper.DropItemChance(npc, ItemID.SlimeStaff, DropHelper.DefiledDropRateInt);
+                    break;
+
                 default:
                     break;
             }
