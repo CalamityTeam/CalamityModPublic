@@ -180,7 +180,7 @@ namespace CalamityMod.Projectiles.Rogue
                     projectile.Kill();
                 }
             }
-            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ShatteredExplosion>(), (int)((double)damage * 0.03), projectile.knockBack, projectile.owner, 1f, 0f);
+            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ShatteredExplosion>(), (int)((double)damage * 0.15), projectile.knockBack, projectile.owner, 1f, 0f);
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
         }
 
@@ -211,7 +211,7 @@ namespace CalamityMod.Projectiles.Rogue
                     projectile.Kill();
                 }
             }
-            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ShatteredExplosion>(), (int)((double)damage * 0.03), projectile.knockBack, projectile.owner, 1f, 0f);
+            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ShatteredExplosion>(), (int)((double)damage * 0.15), projectile.knockBack, projectile.owner, 1f, 0f);
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
         }
 
