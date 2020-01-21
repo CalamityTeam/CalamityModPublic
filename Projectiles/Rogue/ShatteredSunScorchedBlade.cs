@@ -157,7 +157,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (multiplier < 0.5f)
                 multiplier = 0.5f;
-            damage = stealthOrigin ? damage : (int)((double)damage * multiplier);
+            damage = stealthOrigin ? damage : (int)((float)damage * multiplier);
             if (projectile.Calamity().stealthStrike)
             {
                 int numProj = 2;
@@ -180,7 +180,6 @@ namespace CalamityMod.Projectiles.Rogue
                     projectile.Kill();
                 }
             }
-            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ShatteredExplosion>(), (int)((double)damage * 0.15), projectile.knockBack, projectile.owner, 1f, 0f);
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
         }
 
@@ -211,7 +210,6 @@ namespace CalamityMod.Projectiles.Rogue
                     projectile.Kill();
                 }
             }
-            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ShatteredExplosion>(), (int)((double)damage * 0.15), projectile.knockBack, projectile.owner, 1f, 0f);
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
         }
 
