@@ -2075,6 +2075,10 @@ namespace CalamityMod.CalPlayer
                         {
                             player.statLife -= player.statLifeMax2 / 7;
                             PlayerDeathReason damageSource = PlayerDeathReason.ByOther(13);
+                            if (Main.rand.NextBool(2))
+                            {
+                                damageSource = PlayerDeathReason.ByOther(player.Male ? 14 : 15);
+                            }
                             if (player.statLife <= 0)
                             {
                                 player.KillMe(damageSource, 1.0, 0, false);
