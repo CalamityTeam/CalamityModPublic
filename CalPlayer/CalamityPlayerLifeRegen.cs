@@ -104,8 +104,8 @@ namespace CalamityMod.CalPlayer
                 player.lifeRegen -= 16;
             }
 
-            if (modPlayer.ZoneCalamity && player.lavaWet)
-            {
+			if (modPlayer.cragsLava)
+			{
                 if (player.lifeRegen > 0)
                     player.lifeRegen = 0;
 

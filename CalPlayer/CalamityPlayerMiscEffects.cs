@@ -295,20 +295,34 @@ namespace CalamityMod.CalPlayer
 				player.buffImmune[BuffID.Electrified] = true;
 
 			// Reduce breath meter while in icy water instead of chilling
+			if (player.arcticDivingGear)
+			{
+				player.buffImmune[ModContent.BuffType<FrozenLungs>()] = true;
+			}
 			if (CalamityMod.CalamityConfig.ExpertChilledWaterRemoval)
 			{
-				if (Main.expertMode && player.ZoneSnow && player.wet && !player.lavaWet && !player.honeyWet && !player.arcticDivingGear)
+				if (Main.expertMode && player.ZoneSnow && player.wet && !player.lavaWet && !player.honeyWet)
 				{
 					player.buffImmune[BuffID.Chilled] = true;
 					if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
 					{
 						if (Main.myPlayer == player.whoAmI && !player.gills && !player.merman)
 						{
-							if (player.breath > 0)
-								player.breath--;
+							player.AddBuff(ModContent.BuffType<FrozenLungs>(), 2, false);
 						}
 					}
 				}
+				if (modPlayer.iCantBreathe)
+				{
+					if (player.breath > 0)
+						player.breath--;
+				}
+			}
+			
+			//extra DoT in the lava of the crags			
+            if (modPlayer.ZoneCalamity && player.lavaWet)
+            {
+				player.AddBuff(ModContent.BuffType<CragsLava>(), 2, false);
 			}
 
 			// Hot and cold effects

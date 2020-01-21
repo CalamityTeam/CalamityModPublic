@@ -542,6 +542,8 @@ namespace CalamityMod.CalPlayer
         public bool silvaStun = false;
         public bool wCleave = false;
         public bool eutrophication = false;
+        public bool iCantBreathe = false; //Frozen Lungs debuff
+        public bool cragsLava = false;
 
         // Buff
         public bool trinketOfChiBuff = false;
@@ -1299,6 +1301,8 @@ namespace CalamityMod.CalPlayer
             silvaStun = false;
             wCleave = false;
             eutrophication = false;
+            iCantBreathe = false;
+            cragsLava = false;
 
 			revivify = false;
             trinketOfChiBuff = false;
@@ -1535,6 +1539,8 @@ namespace CalamityMod.CalPlayer
             silvaStun = false;
             wCleave = false;
             eutrophication = false;
+            iCantBreathe = false;
+            cragsLava = false;
             #endregion
 
             #region Rogue
