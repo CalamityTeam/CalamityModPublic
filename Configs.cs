@@ -132,9 +132,9 @@ namespace CalamityMod
 
 		[Label("Boss Health Percentage Boost")]
 		[Tooltip("Boosts the health of bosses to a maximum of +900% health")]
-		[Range(0, 900)]
-		[DefaultValue(0)]
-		public int BossHealthPercentageBoost { get; set; }
+		[Range(0f, 900f)]
+		[DefaultValue(0f)]
+		public float BossHealthPercentageBoost { get; set; }
 
 		public override bool AcceptClientChanges(ModConfig pendingConfig, int whoAmI, ref string message)
 		{
