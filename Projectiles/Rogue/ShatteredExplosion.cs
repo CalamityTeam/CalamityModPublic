@@ -6,6 +6,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class ShatteredExplosion : ModProjectile
     {
+        bool dust = true;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Explosion");
@@ -27,8 +29,13 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
+            if (projectile.ai[0] == 1f)
+            {
+                projectile.ai[0] = 0f;
+                dust = false;
+            }
             projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] > 4f)
+            if (dust && projectile.localAI[0] > 4f)
             {
                 for (int i = 0; i < 5; i++)
                 {

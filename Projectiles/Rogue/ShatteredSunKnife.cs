@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Rogue
 
             if (projectile.ai[1] == 20f)
             {
-                int numProj = 5;
+                int numProj = (!projectile.Calamity().stealthStrike && Main.rand.Next(0, 10) == 0) ? 6 : 5;
                 float rotation = MathHelper.ToRadians(10);
                 if (projectile.owner == Main.myPlayer)
                 {

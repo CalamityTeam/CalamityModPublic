@@ -50,6 +50,9 @@ namespace CalamityMod.Projectiles.Rogue
             if (counter % 5 == 0)
             {
                 projectile.velocity *= 1.15f;
+            }
+            if (counter % 10 == 0)
+            {
                 multiplier -= 0.005f;
                 if (multiplier >= 0.5f && !stealthOrigin && projectile.alpha < 200)
                     projectile.alpha += Main.rand.Next(5, 7);
@@ -152,7 +155,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (multiplier > 0.5f)
+            if (multiplier < 0.5f)
                 multiplier = 0.5f;
             damage = stealthOrigin ? damage : (int)((double)damage * multiplier);
             if (projectile.Calamity().stealthStrike)
@@ -170,20 +173,20 @@ namespace CalamityMod.Projectiles.Rogue
                     {
                         Vector2 perturbedspeed = new Vector2(correctedVelocity.X, correctedVelocity.Y + Main.rand.Next(-3, 4)).RotatedBy(MathHelper.ToRadians(spread));
                         
-                        int proj = Projectile.NewProjectile(owner.Center.X, owner.Center.Y - 10, perturbedspeed.X, perturbedspeed.Y, ModContent.ProjectileType<ShatteredSunScorchedBlade>(), (int)((double)projectile.damage * 0.55), 1f, projectile.owner, 1f, projectile.alpha);
+                        int proj = Projectile.NewProjectile(owner.Center.X, owner.Center.Y - 10, perturbedspeed.X, perturbedspeed.Y, ModContent.ProjectileType<ShatteredSunScorchedBlade>(), (int)((double)projectile.damage * 0.6), 1f, projectile.owner, 1f, projectile.alpha);
                         spread -= Main.rand.Next(2, 6);
                         Main.projectile[proj].ai[0] = 1f;
                     }
                     projectile.Kill();
                 }
             }
-            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ShatteredExplosion>(), (int)((double)damage * 0.03), projectile.knockBack, projectile.owner, 0f, 0f);
+            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ShatteredExplosion>(), (int)((double)damage * 0.03), projectile.knockBack, projectile.owner, 1f, 0f);
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            if (multiplier > 0.5f)
+            if (multiplier < 0.5f)
                 multiplier = 0.5f;
             damage = stealthOrigin ? damage : (int)((double)damage * multiplier);
             if (projectile.Calamity().stealthStrike)
@@ -208,7 +211,7 @@ namespace CalamityMod.Projectiles.Rogue
                     projectile.Kill();
                 }
             }
-            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ShatteredExplosion>(), (int)((double)damage * 0.03), projectile.knockBack, projectile.owner, 0f, 0f);
+            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ShatteredExplosion>(), (int)((double)damage * 0.03), projectile.knockBack, projectile.owner, 1f, 0f);
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
         }
 
@@ -238,6 +241,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Main.dust[num624].velocity *= 5f;
                 num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 244, 0f, 0f, 100, default, 2f);
                 Main.dust[num624].velocity *= 2f;
+
             }
             for (int num625 = 0; num625 < 3; num625++)
             {
