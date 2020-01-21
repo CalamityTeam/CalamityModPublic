@@ -3140,10 +3140,10 @@ namespace CalamityMod.NPCs
                     });
 
                     int num4 = Dust.NewDust(hitbox.TopLeft(), npc.width, npc.height, num3, 0f, -2.5f, 0, default, 1f);
-                    Main.dust[num4].noGravity = true;
-                    Main.dust[num4].alpha = 200;
-                    Main.dust[num4].velocity.Y -= 0.2f;
                     Dust dust = Main.dust[num4];
+                    dust.noGravity = true;
+                    dust.alpha = 200;
+                    dust.velocity.Y -= 0.2f;
                     dust.velocity *= 1.2f;
                     dust = Main.dust[num4];
                     dust.scale += Main.rand.NextFloat();
