@@ -98,6 +98,8 @@ namespace CalamityMod.Buffs
                 tip += ". All damage taken increased by 20%";
             else if (type == BuffID.Warmth)
                 tip += ". Immunity to the Chilled, Frozen, and Glacial State debuffs";
+            else if (type == BuffID.Invisibility)
+                tip += ". Grants rogue bonuses while holding certain rogue weapons";
             else if (type == ModContent.BuffType<ProfanedBabs>())
             {
                 Player player = Main.player[Main.myPlayer];
