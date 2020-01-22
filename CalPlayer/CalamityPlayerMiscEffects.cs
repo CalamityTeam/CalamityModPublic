@@ -342,12 +342,27 @@ namespace CalamityMod.CalPlayer
 
 					bool immunityToHot = player.lavaImmune || player.lavaRose || player.lavaMax != 0 || immunityToHotAndCold;
 
-					if (player.ZoneSnow && Main.raining && player.ZoneOverworldHeight)
+					if (Main.raining && player.ZoneOverworldHeight && !CalamityPlayer.areThereAnyDamnBosses)
 					{
-						int divisor = Main.hardMode ? 59 : 99;
-						Vector2 velocity = new Vector2((float)Main.rand.Next(-3, 4) * Main.rand.NextFloat(), 3f * Main.rand.NextFloat());
-						if (player.miscCounter % divisor == 0)
-							Projectile.NewProjectile(player.Center.X + Main.rand.Next(-500, 501), player.Center.Y - Main.rand.Next(600, 701), velocity.X, velocity.Y, ProjectileID.FrostShard, 20, 0f, player.whoAmI, (float)Main.rand.Next(5), 0f);
+						Vector2 spawnPoint = new Vector2(player.Center.X + (float)Main.rand.Next(-500, 501), player.Center.Y - (float)Main.rand.Next(600, 701));
+						if (player.ZoneSnow)
+						{
+							int divisor = Main.hardMode ? 10 : 15;
+							Vector2 velocity = new Vector2((float)Main.rand.Next(-3, 4) * Main.rand.NextFloat(), 3f * Main.rand.NextFloat());
+							if (player.miscCounter % divisor == 0 && Main.rand.NextBool(4))
+								Projectile.NewProjectile(spawnPoint.X, spawnPoint.Y, velocity.X, velocity.Y, ProjectileID.FrostShard, 20, 0f, player.whoAmI, (float)Main.rand.Next(5), 0f);
+						}
+						else
+						{
+							if (player.miscCounter == 150)
+							{
+								Vector2 fireTo = new Vector2(spawnPoint.X, spawnPoint.Y + 900);
+								Vector2 ai0 = fireTo - spawnPoint;
+								float ai = (float)Main.rand.Next(100);
+								Vector2 velocity = Vector2.Normalize(ai0.RotatedByRandom(0.78539818525314331)) * 7f;
+								Projectile.NewProjectile(spawnPoint.X, spawnPoint.Y, velocity.X, velocity.Y, ProjectileID.CultistBossLightningOrbArc, 50, 0f, player.whoAmI, ai0.ToRotation(), ai);
+							}
+						}
 					}
 
 					if (!player.behindBackWall && Main.raining && player.ZoneSnow && !immunityToCold)
