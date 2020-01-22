@@ -331,7 +331,7 @@ namespace CalamityMod.CalPlayer
 				if (player.whoAmI == Main.myPlayer)
 				{
 					bool hasMoltenSet = player.head == 9 && player.body == 9 && player.legs == 9;
-					bool hasEskimoSet = (player.head == 58 || player.head == 77) && (player.body == 38 || player.head == 50) && (player.legs == 36 || player.head == 46);
+					bool hasEskimoSet = (player.head == 58 || player.head == 77) && (player.body == 38 || player.head == 50) && (player.legs == 36 || player.head == 46); //this is normal and pink eskimo armor (you can mix and match)
 
 					bool immunityToHotAndCold = hasMoltenSet || player.magmaStone || player.frostArmor || modPlayer.fBulwark || modPlayer.fBarrier ||
 						modPlayer.frostFlare || modPlayer.rampartOfDeities || modPlayer.cryogenSoul || modPlayer.snowman;
