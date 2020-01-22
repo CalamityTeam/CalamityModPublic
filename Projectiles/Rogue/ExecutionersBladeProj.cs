@@ -10,6 +10,23 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class ExecutionersBladeProj : ModProjectile
     {
+
+        private void handleStealth(Vector2 position, int damage, bool crit, float knockback)
+        {
+            if (Main.myPlayer == projectile.owner)
+            {
+                Player player = Main.player[projectile.owner];
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<ExecutionersBladeStealthProj>()] == 0)
+                {
+                    Main.PlaySound(SoundID.Item73, projectile.position);
+                    for (int i = 0; i < 20; i++)
+                    {
+                        Projectile.NewProjectile(new Vector2(position.X + (-600 + i * 60), position.Y - 800), new Vector2(0f, 5f), ModContent.ProjectileType<ExecutionersBladeStealthProj>(), (int)((double)damage * 1.4f), knockback, player.whoAmI);
+                    }
+                }
+            }
+        }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blade");
@@ -81,11 +98,19 @@ namespace CalamityMod.Projectiles.Rogue
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
+            if (projectile.Calamity().stealthStrike)
+            {
+                handleStealth(target.Center, damage, crit, knockback);
+            }
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
+            if (projectile.Calamity().stealthStrike)
+            {
+                handleStealth(target.Center, damage, crit, 0f);
+            }
         }
 
         public override void Kill(int timeLeft)
