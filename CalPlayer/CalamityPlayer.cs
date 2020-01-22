@@ -2037,7 +2037,7 @@ namespace CalamityMod.CalPlayer
             if (CalamityMod.SandCloakHotkey.JustPressed && sandCloak && Main.myPlayer == player.whoAmI && player.Calamity().rogueStealth >= player.Calamity().rogueStealthMax * 0.25f &&
                 wearingRogueArmor && player.Calamity().rogueStealthMax > 0 && !sandCloakCooldown)
             {
-				player.AddBuff(ModContent.BuffType<SandCloakCooldown>(), 900, false); //15 seconds
+				player.AddBuff(ModContent.BuffType<SandCloakCooldown>(), 1800, false); //30 seconds
                 player.Calamity().rogueStealth -= player.Calamity().rogueStealthMax * 0.25f;
                 Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<SandCloakVeil>(), 7, 8, player.whoAmI, 0, 0);
                 Main.PlaySound(2, player.position, 45);

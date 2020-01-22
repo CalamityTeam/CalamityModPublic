@@ -506,6 +506,8 @@ namespace CalamityMod.CalPlayer
 				modPlayer.gaelRageCooldown--;
 			if (modPlayer.projRefRareLifeRegenCounter > 0)
 				modPlayer.projRefRareLifeRegenCounter--;
+			if (modPlayer.sandCloakCooldown && !player.HasBuff(ModContent.BuffType<SandCloakCooldown>()))
+				modPlayer.sandCloakCooldown = false;
 
 			// Silva invincibility effects
 			if (modPlayer.silvaCountdown > 0 && modPlayer.hasSilvaEffect && modPlayer.silvaSet)
