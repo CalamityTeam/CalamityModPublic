@@ -7,11 +7,12 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class LanternSoul : ModProjectile
     {
-        public float count = 0;
+        public float count = 0f;
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Lantern");
+            Main.projFrames[projectile.type] = 4;
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
         }
 
@@ -28,13 +29,24 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.5f / 255f, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0.65f / 255f);
+            Lighting.AddLight(projectile.Center, 1f, 0f, 0f);
+            projectile.frameCounter++;
+            if (projectile.frameCounter > 4)
+            {
+                projectile.frame++;
+                projectile.frameCounter = 0;
+            }
+            if (projectile.frame >= 4)
+            {
+                projectile.frame = 0;
+            }
+
 			Player player = Main.player[projectile.owner];
-            if (projectile.localAI[0] == 0f)
+            if (count == 0f)
             {
                 projectile.Calamity().spawnedPlayerMinionDamageValue = (player.allDamage + player.minionDamage - 1f);
                 projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
-                projectile.localAI[0] += 1f;
+                count += 1f;
             }
             if ((player.allDamage + player.minionDamage - 1f) != projectile.Calamity().spawnedPlayerMinionDamageValue)
             {

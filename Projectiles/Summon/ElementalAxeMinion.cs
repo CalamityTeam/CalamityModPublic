@@ -34,6 +34,8 @@ namespace CalamityMod.Projectiles.Summon
             projectile.minion = true;
             projectile.tileCollide = false;
             projectile.extraUpdates = 1;
+            projectile.usesIDStaticNPCImmunity = true;
+            projectile.idStaticNPCHitCooldown = 4;
         }
 
         public override void AI()
@@ -260,7 +262,6 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.immune[projectile.owner] = 4;
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
             target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
             target.AddBuff(ModContent.BuffType<Plague>(), 120);
