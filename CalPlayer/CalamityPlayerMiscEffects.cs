@@ -327,9 +327,21 @@ namespace CalamityMod.CalPlayer
 				player.AddBuff(ModContent.BuffType<CragsLava>(), 2, false);
 			}
 
-			// Hot and cold effects
+			// Death Mode effects
 			if (CalamityWorld.death)
 			{
+				Point point = player.Center.ToTileCoordinates();
+				if ((double)point.Y > Main.worldSurface && !modPlayer.ZoneAbyss && !player.ZoneUnderworldHeight)
+				{
+					double maxDistanceBelow = (double)(Main.maxTilesY - 200 - (int)Main.worldSurface);
+					double distanceBelow = (double)point.Y - Main.worldSurface;
+					double distanceBelowRatio = distanceBelow / maxDistanceBelow;
+					int lightStrength = LightStrength(player, modPlayer);
+					Main.BlackFadeIn = (int)(distanceBelowRatio * 200D) - lightStrength * 25;
+					if (Main.BlackFadeIn < 0)
+						Main.BlackFadeIn = 0;
+				}
+
 				if (player.whoAmI == Main.myPlayer)
 				{
 					bool hasMoltenSet = player.head == 9 && player.body == 9 && player.legs == 9;
@@ -341,6 +353,20 @@ namespace CalamityMod.CalPlayer
 					bool immunityToCold = Main.campfire || player.resistCold || hasEskimoSet || immunityToHotAndCold;
 
 					bool immunityToHot = player.lavaImmune || player.lavaRose || player.lavaMax != 0 || immunityToHotAndCold;
+
+					if (Space(player))
+					{
+						if (Main.dayTime)
+						{
+							if (!immunityToHot)
+								player.AddBuff(BuffID.Burning, 2, false);
+						}
+						else
+						{
+							if (!immunityToCold)
+								player.AddBuff(BuffID.Frostburn, 2, false);
+						}
+					}
 
 					if (Main.raining && player.ZoneOverworldHeight && !CalamityPlayer.areThereAnyDamnBosses)
 					{
@@ -1282,15 +1308,7 @@ namespace CalamityMod.CalPlayer
 		#region Abyss Effects
 		private static void AbyssEffects(Player player, CalamityPlayer modPlayer)
 		{
-			int lightStrength = 0 +
-				((player.lightOrb || player.crimsonHeart || player.magicLantern || modPlayer.radiator) ? 1 : 0) + // 1
-				(modPlayer.aquaticEmblem ? 1 : 0) + // 2
-				(player.arcticDivingGear ? 1 : 0) + // 3
-				(modPlayer.jellyfishNecklace ? 1 : 0) + // 4
-				((player.blueFairy || player.greenFairy || player.redFairy || player.petFlagDD2Ghost || modPlayer.babyGhostBell) ? 2 : 0) + // 6
-				((modPlayer.shine) ? 2 : 0) + // 8
-				((modPlayer.lumenousAmulet) ? 2 : 0) + // 10
-				((player.wisp || player.suspiciouslookingTentacle || modPlayer.sirenPet) ? 3 : 0); // 13
+			int lightStrength = LightStrength(player, modPlayer);
 
 			double breathLossMult = 1.0 -
 				(player.gills ? 0.2 : 0.0) - // 0.8
@@ -1761,10 +1779,7 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.gravityNormalizer)
 			{
 				player.buffImmune[BuffID.VortexDebuff] = true;
-				float x = (float)(Main.maxTilesX / 4200);
-				x *= x;
-				float spaceGravityMult = (float)((double)(player.position.Y / 16f - (60f + 10f * x)) / (Main.worldSurface / 6.0));
-				if (spaceGravityMult < 1f)
+				if (Space(player))
 				{
 					player.gravity = Player.defaultGravity;
 					if (player.wet)
@@ -2960,6 +2975,31 @@ namespace CalamityMod.CalPlayer
 					}
 				}
 			}
+		}
+		#endregion
+
+		#region Misc
+		private static int LightStrength(Player player, CalamityPlayer modPlayer)
+		{
+			int lightStrength = 0 +
+				((player.lightOrb || player.crimsonHeart || player.magicLantern || modPlayer.radiator) ? 1 : 0) + // 1
+				(modPlayer.aquaticEmblem ? 1 : 0) + // 2
+				(player.arcticDivingGear ? 1 : 0) + // 3
+				(modPlayer.jellyfishNecklace ? 1 : 0) + // 4
+				((player.blueFairy || player.greenFairy || player.redFairy || player.petFlagDD2Ghost || modPlayer.babyGhostBell) ? 2 : 0) + // 6
+				((modPlayer.shine) ? 2 : 0) + // 8
+				((modPlayer.lumenousAmulet) ? 2 : 0) + // 10
+				((player.wisp || player.suspiciouslookingTentacle || modPlayer.sirenPet) ? 3 : 0); // 13
+
+			return lightStrength;
+		}
+
+		private static bool Space(Player player)
+		{
+			float x = (float)(Main.maxTilesX / 4200);
+			x *= x;
+			float spaceGravityMult = (float)((double)(player.position.Y / 16f - (60f + 10f * x)) / (Main.worldSurface / 6.0));
+			return spaceGravityMult < 1f;
 		}
 		#endregion
 	}
