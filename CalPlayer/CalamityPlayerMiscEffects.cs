@@ -331,11 +331,12 @@ namespace CalamityMod.CalPlayer
 				if (player.whoAmI == Main.myPlayer)
 				{
 					bool hasMoltenSet = player.head == 9 && player.body == 9 && player.legs == 9;
+					bool hasEskimoSet = player.head == 58 && player.body == 38 && player.legs == 36;
 
 					bool immunityToHotAndCold = hasMoltenSet || player.magmaStone || player.frostArmor || modPlayer.fBulwark || modPlayer.fBarrier ||
 						modPlayer.frostFlare || modPlayer.rampartOfDeities || modPlayer.cryogenSoul || modPlayer.snowman;
 
-					bool immunityToCold = Main.campfire || player.resistCold || immunityToHotAndCold;
+					bool immunityToCold = Main.campfire || player.resistCold || hasEskimoSet || immunityToHotAndCold;
 
 					bool immunityToHot = player.lavaImmune || player.lavaRose || player.lavaMax != 0 || immunityToHotAndCold;
 
