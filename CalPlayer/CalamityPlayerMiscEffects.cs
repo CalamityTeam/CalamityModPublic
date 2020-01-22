@@ -297,7 +297,8 @@ namespace CalamityMod.CalPlayer
 				player.buffImmune[BuffID.Electrified] = true;
 
 			// Reduce breath meter while in icy water instead of chilling
-			if (player.arcticDivingGear)
+			bool canBreath = ((modPlayer.sirenBoobs && NPC.downedBoss3) || (modPlayer.sirenBoobsAlt && NPC.downedBoss3) || player.gills || player.merman);
+			if (player.arcticDivingGear || canBreath)
 			{
 				player.buffImmune[ModContent.BuffType<FrozenLungs>()] = true;
 			}
@@ -308,7 +309,7 @@ namespace CalamityMod.CalPlayer
 					player.buffImmune[BuffID.Chilled] = true;
 					if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
 					{
-						if (Main.myPlayer == player.whoAmI && !player.gills && !player.merman)
+						if (Main.myPlayer == player.whoAmI)
 						{
 							player.AddBuff(ModContent.BuffType<FrozenLungs>(), 2, false);
 						}
