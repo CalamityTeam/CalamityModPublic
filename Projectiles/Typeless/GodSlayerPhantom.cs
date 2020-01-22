@@ -129,6 +129,11 @@ namespace CalamityMod.Projectiles.Typeless
             target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
         }
 
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
+        }
+
         public override void Kill(int timeLeft)
         {
             projectile.position = projectile.Center;

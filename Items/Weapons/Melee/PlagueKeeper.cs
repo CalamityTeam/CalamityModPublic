@@ -57,5 +57,17 @@ namespace CalamityMod.Items.Weapons.Melee
                 Main.projectile[bee].Calamity().forceMelee = true;
             }
         }
+
+        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<Plague>(), 300);
+            for (int i = 0; i < 3; i++)
+            {
+                int bee = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, player.beeType(),
+                    player.beeDamage(item.damage / 3), player.beeKB(0f), player.whoAmI, 0f, 0f);
+                Main.projectile[bee].penetrate = 1;
+                Main.projectile[bee].Calamity().forceMelee = true;
+            }
+		}
     }
 }

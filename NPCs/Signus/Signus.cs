@@ -16,6 +16,8 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Config;
+using CalamityMod;
 namespace CalamityMod.NPCs.Signus
 {
     [AutoloadBossHead]
@@ -56,7 +58,7 @@ namespace CalamityMod.NPCs.Signus
                 else
                     music = MusicID.Boss4;
             }
-            double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
+            double HPBoost = (double)CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
             npc.aiStyle = -1;
@@ -203,7 +205,7 @@ namespace CalamityMod.NPCs.Signus
                 {
                     speed = expertMode ? 16f : 14f;
                 }
-                if (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
                 {
                     speed += 3f;
                 }
@@ -379,7 +381,7 @@ namespace CalamityMod.NPCs.Signus
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         float num1070 = 15f;
-                        if (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                        if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
                         {
                             num1070 += 3f;
                         }

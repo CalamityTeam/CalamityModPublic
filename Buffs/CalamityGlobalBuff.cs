@@ -98,6 +98,8 @@ namespace CalamityMod.Buffs
                 tip += ". All damage taken increased by 20%";
             else if (type == BuffID.Warmth)
                 tip += ". Immunity to the Chilled, Frozen, and Glacial State debuffs";
+            else if (type == BuffID.Invisibility)
+                tip += ". Grants rogue bonuses while holding certain rogue weapons";
             else if (type == ModContent.BuffType<ProfanedBabs>())
             {
                 Player player = Main.player[Main.myPlayer];
@@ -105,11 +107,11 @@ namespace CalamityMod.Buffs
                 bool defense = player.Calamity().gDefense;
                 if (offense && defense)
                 {
-                    tip = "The Profaned Babs will defend and fight for you!";
+                    tip = "The Profaned Babs will fight for and defend you!";
                 }
                 else if (offense || defense)
                 {
-                    tip = "The " + (offense ? "Offensive" : "Defensive") + " Duo will " + (offense ? "fight and heal for you!" : "defend and heal you!");
+                    tip = "The " + (offense ? "Offensive" : "Defensive") + " Duo will " + (offense ? "fight for and heal you!" : "protect and heal you!");
                 }
             }
         }

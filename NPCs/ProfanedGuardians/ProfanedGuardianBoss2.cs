@@ -7,6 +7,8 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Config;
+using CalamityMod;
 namespace CalamityMod.NPCs.ProfanedGuardians
 {
     [AutoloadBossHead]
@@ -28,7 +30,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             npc.defense = 50;
             npc.Calamity().RevPlusDR(0.25f);
             npc.LifeMaxNERB(40000, 50000, 300000);
-            double HPBoost = Config.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
             npc.noGravity = true;

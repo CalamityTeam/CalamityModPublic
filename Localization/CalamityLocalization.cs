@@ -99,6 +99,7 @@ namespace CalamityMod.Localization
 
                 new [] { "SandSharkText", "Something stirs in the warm desert sands..." },
                 new [] { "SandSharkText2", "An enormous apex predator approaches..." },
+                new [] { "SandSharkText3", "The desert sand shifts intensely!" },
 
                 new [] { "CryogenBossText", "Cryogen is derping out!" },
 
@@ -148,6 +149,8 @@ namespace CalamityMod.Localization
 
                 new [] { "OpenSunkenSea", "The depths of the underground desert are rumbling..." },
                 new [] { "SandstormTrigger", "The desert wind is blowing furiously!" },
+
+                new [] { "ThirdSageBlessingText", "You have been blessed by the Third Sage!" },
 
                 new [] { "AprilFools", "The LORDE is approaching..." }
             };

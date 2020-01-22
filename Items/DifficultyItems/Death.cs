@@ -15,9 +15,12 @@ namespace CalamityMod.Items.DifficultyItems
             DisplayName.SetDefault("Death");
             Tooltip.SetDefault("Makes bosses even more EXTREME.\n" +
                 "Allows certain bosses to spawn naturally.\n" +
-                "Increases enemy damage by 15% and spawn rates by 25%.\n" +
+                "Increases enemy damage by 15%.\n" +
+                "Greatly boosts the spawn rate during blood moons.\n" +
                 "Nerfs the effectiveness of life steal.\n" +
-                "Greatly increases the effectiveness of Rage and Adrenaline.\n" +
+                "Makes the abyss more treachorous to navigate.\n" +
+                "Nurse no longer heals while a boss is alive.\n" +
+                "Increases damage done by several debuffs.\n" +
                 "Effect can be toggled on and off.\n" +
                 "Effect will only work if Revengeance Mode is active.\n" +
                 "Using this while a boss is alive will instantly kill you and despawn the boss.");
@@ -49,8 +52,7 @@ namespace CalamityMod.Items.DifficultyItems
             for (int doom = 0; doom < 200; doom++)
             {
                 if ((Main.npc[doom].active && (Main.npc[doom].boss || Main.npc[doom].type == NPCID.EaterofWorldsHead || Main.npc[doom].type == NPCID.EaterofWorldsTail || Main.npc[doom].type == ModContent.NPCType<SlimeGodRun>() ||
-                    Main.npc[doom].type == ModContent.NPCType<SlimeGodRunSplit>() || Main.npc[doom].type == ModContent.NPCType<SlimeGod>() || Main.npc[doom].type == ModContent.NPCType<SlimeGodSplit>())) || CalamityWorld.DoGSecondStageCountdown > 0 || 
-					Main.npc[doom].type == NPCID.TheDestroyerBody || Main.npc[doom].type == NPCID.TheDestroyerTail)
+                    Main.npc[doom].type == ModContent.NPCType<SlimeGodRunSplit>() || Main.npc[doom].type == ModContent.NPCType<SlimeGod>() || Main.npc[doom].type == ModContent.NPCType<SlimeGodSplit>())) || CalamityWorld.DoGSecondStageCountdown > 0)
                 {
                     player.KillMe(PlayerDeathReason.ByCustomReason(player.name + " tried to change the rules."), 1000.0, 0, false);
                     Main.npc[doom].active = false;

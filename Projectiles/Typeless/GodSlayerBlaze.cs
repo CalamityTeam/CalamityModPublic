@@ -80,5 +80,13 @@ namespace CalamityMod.Projectiles.Typeless
             else
                 target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
         }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            if (projectile.ai[1] == 1f)
+                target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 300);
+            else
+                target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
+        }
     }
 }

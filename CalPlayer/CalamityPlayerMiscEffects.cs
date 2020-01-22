@@ -1,4 +1,5 @@
-﻿using CalamityMod.Buffs.Alcohol;
+﻿using CalamityMod;
+using CalamityMod.Buffs.Alcohol;
 using CalamityMod.Buffs.Cooldowns;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.Pets;
@@ -27,6 +28,7 @@ using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Config;
 
 namespace CalamityMod.CalPlayer
 {
@@ -44,7 +46,7 @@ namespace CalamityMod.CalPlayer
 				modPlayer.fearmongerRegenFrames--;
 
 			// Reduce the expert debuff time multiplier to the normal mode multiplier
-			if (Config.ExpertDebuffDurationReduction)
+			if (CalamityMod.CalamityConfig.ExpertDebuffDurationReduction)
 				Main.expertDebuffTime = 1f;
 
 			// Bool for any existing bosses, true if any boss NPC is active
@@ -119,7 +121,7 @@ namespace CalamityMod.CalPlayer
 						player.immuneTime = 120;
 
 					// Adrenaline and Rage
-					if (Config.AdrenalineAndRage)
+					if (CalamityMod.CalamityConfig.AdrenalineAndRage)
 					{
 						// Amount of Rage gained per 'tick'
 						int stressGain = 0;
@@ -260,7 +262,7 @@ namespace CalamityMod.CalPlayer
 		private static void MiscEffects(Player player, CalamityPlayer modPlayer, Mod mod)
 		{
 			// Proficiency level ups
-			if (Config.ProficiencyEnabled)
+			if (CalamityMod.CalamityConfig.ProficiencyEnabled)
 				modPlayer.GetExactLevelUp();
 
 			// Nebula Armor nerf
@@ -295,20 +297,34 @@ namespace CalamityMod.CalPlayer
 				player.buffImmune[BuffID.Electrified] = true;
 
 			// Reduce breath meter while in icy water instead of chilling
-			if (Config.ExpertChilledWaterRemoval)
+			if (player.arcticDivingGear)
 			{
-				if (Main.expertMode && player.ZoneSnow && player.wet && !player.lavaWet && !player.honeyWet && !player.arcticDivingGear)
+				player.buffImmune[ModContent.BuffType<FrozenLungs>()] = true;
+			}
+			if (CalamityMod.CalamityConfig.ExpertChilledWaterRemoval)
+			{
+				if (Main.expertMode && player.ZoneSnow && player.wet && !player.lavaWet && !player.honeyWet)
 				{
 					player.buffImmune[BuffID.Chilled] = true;
 					if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
 					{
 						if (Main.myPlayer == player.whoAmI && !player.gills && !player.merman)
 						{
-							if (player.breath > 0)
-								player.breath--;
+							player.AddBuff(ModContent.BuffType<FrozenLungs>(), 2, false);
 						}
 					}
 				}
+				if (modPlayer.iCantBreathe)
+				{
+					if (player.breath > 0)
+						player.breath--;
+				}
+			}
+			
+			//extra DoT in the lava of the crags			
+            if (modPlayer.ZoneCalamity && player.lavaWet)
+            {
+				player.AddBuff(ModContent.BuffType<CragsLava>(), 2, false);
 			}
 
 			// Hot and cold effects
@@ -317,11 +333,12 @@ namespace CalamityMod.CalPlayer
 				if (player.whoAmI == Main.myPlayer)
 				{
 					bool hasMoltenSet = player.head == 9 && player.body == 9 && player.legs == 9;
+					bool hasEskimoSet = (player.head == 58 || player.head == 77) && (player.body == 38 || player.head == 50) && (player.legs == 36 || player.head == 46);
 
 					bool immunityToHotAndCold = hasMoltenSet || player.magmaStone || player.frostArmor || modPlayer.fBulwark || modPlayer.fBarrier ||
 						modPlayer.frostFlare || modPlayer.rampartOfDeities || modPlayer.cryogenSoul || modPlayer.snowman;
 
-					bool immunityToCold = Main.campfire || player.resistCold || immunityToHotAndCold;
+					bool immunityToCold = Main.campfire || player.resistCold || hasEskimoSet || immunityToHotAndCold;
 
 					bool immunityToHot = player.lavaImmune || player.lavaRose || player.lavaMax != 0 || immunityToHotAndCold;
 
@@ -477,10 +494,6 @@ namespace CalamityMod.CalPlayer
 				modPlayer.gSabatonCooldown--;
 			if (modPlayer.gSabatonFall > 0)
 				modPlayer.gSabatonFall--;
-			if (modPlayer.draconicSurgeCooldown > 0)
-				modPlayer.draconicSurgeCooldown--;
-			if (modPlayer.fleshTotemCooldown > 0)
-				modPlayer.fleshTotemCooldown--;
 			if (modPlayer.astralStarRainCooldown > 0)
 				modPlayer.astralStarRainCooldown--;
 			if (modPlayer.bloodflareMageCooldown > 0)
@@ -493,8 +506,6 @@ namespace CalamityMod.CalPlayer
 				modPlayer.moonCrownCooldown--;
             if (modPlayer.nanoFlareCooldown > 0)
                 modPlayer.nanoFlareCooldown--;
-            if (modPlayer.sandCloakCooldown > 0)
-				modPlayer.sandCloakCooldown--;
 			if (modPlayer.spectralVeilImmunity > 0)
 				modPlayer.spectralVeilImmunity--;
 			if (modPlayer.plaguedFuelPackCooldown > 0)
@@ -523,6 +534,8 @@ namespace CalamityMod.CalPlayer
 				modPlayer.gaelRageCooldown--;
 			if (modPlayer.projRefRareLifeRegenCounter > 0)
 				modPlayer.projRefRareLifeRegenCounter--;
+			if (modPlayer.sandCloakCooldown && !player.HasBuff(ModContent.BuffType<SandCloakCooldown>()))
+				modPlayer.sandCloakCooldown = false;
 
 			// Silva invincibility effects
 			if (modPlayer.silvaCountdown > 0 && modPlayer.hasSilvaEffect && modPlayer.silvaSet)
@@ -1199,10 +1212,10 @@ namespace CalamityMod.CalPlayer
 			}
 
 			// Plagued Fuel Pack effects
-			if (modPlayer.plaguedFuelPack && modPlayer.plaguedFuelPackDash > 0)
+			if (modPlayer.plaguedFuelPackDash > 0)
 			{
 				int velocityMult = modPlayer.plaguedFuelPackDash > 1 ? 25 : 5;
-				player.velocity = new Vector2(modPlayer.plaguedFuelPackDirection, -1) * velocityMult;
+				player.velocity = new Vector2(modPlayer.plaguedFuelPackDirection, player.velocity.Y < 0 ? -1 : (player.velocity.Y == 0 ? -1 : 1)) * velocityMult;
 
 				int numClouds = Main.rand.Next(2, 10);
 				for (int i = 0; i < numClouds; i++)
@@ -1864,6 +1877,7 @@ namespace CalamityMod.CalPlayer
 			{
 				player.longInvince = true;
 				player.kbGlove = true;
+				player.magmaStone = true;
 				player.meleeDamage += 0.15f;
 				player.meleeCrit += 5;
 				player.lavaMax += 240;
@@ -2266,6 +2280,12 @@ namespace CalamityMod.CalPlayer
 				player.endurance *= 0.33f;
 			}
 
+			if (modPlayer.wCleave)
+			{
+				player.statDefense -= WarCleave.DefenseReduction;
+				player.endurance *= 0.75f;
+			}
+
 			if (modPlayer.vHex)
 			{
 				player.blind = true;
@@ -2283,6 +2303,18 @@ namespace CalamityMod.CalPlayer
 				player.statDefense -= GlacialState.DefenseReduction;
 				player.velocity.Y = 0f;
 				player.velocity.X = 0f;
+			}
+
+			if (modPlayer.eFreeze || modPlayer.silvaStun || modPlayer.eutrophication)
+			{
+				player.velocity.Y = 0f;
+				player.velocity.X = 0f;
+			}
+
+			if (modPlayer.vaporfied)
+			{
+				player.velocity.Y *= 0.98f;
+				player.velocity.X *= 0.98f;
 			}
 
 			if (modPlayer.eGravity)
@@ -2334,7 +2366,7 @@ namespace CalamityMod.CalPlayer
 			// The player's true max life value with Calamity adjustments
 			modPlayer.actualMaxLife = player.statLifeMax2;
 
-			if (modPlayer.thirdSageH && !player.dead && player.HasBuff(ModContent.BuffType<ThirdSageBuff>()))
+			if (modPlayer.thirdSageH && !player.dead && modPlayer.healToFull)
 				player.statLife = player.statLifeMax2;
 
 			if (modPlayer.pinkCandle)
@@ -2457,7 +2489,7 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.vexation)
 			{
 				if (player.statLife < (int)((double)player.statLifeMax2 * 0.5))
-					player.allDamage += 0.15f;
+					player.allDamage += 0.2f;
 			}
 
 			if (modPlayer.ataxiaBlaze)
@@ -2790,7 +2822,7 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
-			if (Config.ProficiencyEnabled)
+			if (CalamityMod.CalamityConfig.ProficiencyEnabled)
 				modPlayer.GetStatBonuses();
 		}
 		#endregion

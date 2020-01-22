@@ -26,6 +26,8 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.Utilities;
+using Terraria.ModLoader.Config;
+using CalamityMod;
 
 namespace CalamityMod.NPCs.Yharon
 {
@@ -64,7 +66,7 @@ namespace CalamityMod.NPCs.Yharon
             npc.height = 200;
             npc.defense = 150;
             npc.LifeMaxNERB(2275000, 2525000, 3700000);
-            double HPBoost = Config.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
             npc.aiStyle = -1;
@@ -246,7 +248,7 @@ namespace CalamityMod.NPCs.Yharon
             int aiChangeRate = expertMode ? 36 : 38;
             float npcVelocity = expertMode ? 0.7f : 0.69f;
             float scaleFactor = expertMode ? 11f : 10.8f;
-            if (phase4Change || npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+            if (phase4Change || npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
             {
                 npcVelocity = 0.95f;
                 scaleFactor = 14f;
@@ -273,7 +275,7 @@ namespace CalamityMod.NPCs.Yharon
             int chargeTime2 = expertMode ? 34 : 36;
             float chargeSpeed = expertMode ? 22f : 20.5f;
             float chargeSpeed2 = expertMode ? 37f : 34f;
-            if (phase4Change || npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+            if (phase4Change || npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
             {
                 chargeTime = 28;
                 chargeSpeed = 31f;
@@ -1959,7 +1961,7 @@ namespace CalamityMod.NPCs.Yharon
             float num20 = 60f;
             float num22 = 6.28318548f * (1f / num20);
             float scaleFactor5 = 37.25f;
-			if (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+			if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
             {
                 num6 = 0.7f;
                 scaleFactor = 12f;

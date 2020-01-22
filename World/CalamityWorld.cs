@@ -1,3 +1,4 @@
+using CalamityMod;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.NPCs;
@@ -45,6 +46,7 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+using Terraria.ModLoader.Config;
 using Terraria.World.Generation;
 
 namespace CalamityMod.World
@@ -55,6 +57,7 @@ namespace CalamityMod.World
         public static int DoGSecondStageCountdown = 0;
         public static bool dragonScalesBought = false;
         private const int saveVersion = 0;
+        public static int ArmoredDiggerSpawnCooldown = 0;
 
         //Boss Rush
         public static bool bossRushActive = false; //Whether Boss Rush is active or not
@@ -65,6 +68,7 @@ namespace CalamityMod.World
         //Death Mode natural boss spawns
         public static int bossSpawnCountdown = 0; //Death Mode natural boss spawn countdown
         public static int bossType = 0; //Death Mode natural boss spawn type
+		public static int deathBossSpawnCooldown = 0; //Cooldown between Death Mode natural boss spawns
 
         //Modes
         public static bool demonMode = false; //Spawn rate boost
@@ -150,7 +154,7 @@ namespace CalamityMod.World
         #region Initialize
         public override void Initialize()
         {
-            if (Config.ExpertPillarEnemyKillCountReduction)
+            if (CalamityMod.CalamityConfig.ExpertPillarEnemyKillCountReduction)
             {
                 NPC.LunarShieldPowerExpert = 100;
             }
@@ -169,6 +173,7 @@ namespace CalamityMod.World
             CalamityGlobalNPC.brimstoneElemental = -1;
             bossRushStage = 0;
             DoGSecondStageCountdown = 0;
+            ArmoredDiggerSpawnCooldown = 0;
             bossRushActive = false;
             bossRushSpawnCountdown = 180;
             bossSpawnCountdown = 0;
@@ -1178,28 +1183,42 @@ namespace CalamityMod.World
                     if (demonMode)
                         spawnRate *= 0.75D;
 
-                    if (Main.player[closestPlayer].Calamity().zerg && Main.player[closestPlayer].Calamity().chaosCandle)
-                        spawnRate *= 0.005D;
-                    else if (Main.player[closestPlayer].Calamity().zerg)
-                        spawnRate *= 0.01D;
-                    else if (Main.player[closestPlayer].Calamity().chaosCandle)
-                        spawnRate *= 0.02D;
+                    if (death && Main.bloodMoon)
+                        spawnRate *= 0.2D;
+                    if (Main.player[closestPlayer].Calamity().zerg)
+                        spawnRate *= 0.5D;
+                    if (Main.player[closestPlayer].Calamity().chaosCandle)
+                        spawnRate *= 0.6D;
+                    if (Main.player[closestPlayer].enemySpawns)
+                        spawnRate *= 0.7D;
+                    if (Main.waterCandles > 0)
+                        spawnRate *= 0.8D;
 
-                    if (Main.player[closestPlayer].Calamity().zen && Main.player[closestPlayer].Calamity().tranquilityCandle)
-                        spawnRate *= 75D;
-                    else if (Main.player[closestPlayer].Calamity().zen)
+                    if (Main.player[closestPlayer].Calamity().bossZen || DoGSecondStageCountdown > 0)
                         spawnRate *= 50D;
-                    else if (Main.player[closestPlayer].Calamity().tranquilityCandle)
-                        spawnRate *= 25D;
+                    if (Main.player[closestPlayer].Calamity().zen || (CalamityMod.CalamityConfig.DisableExpertEnemySpawnsNearHouse && Main.player[closestPlayer].townNPCs > 1f && Main.expertMode))
+                        spawnRate *= 2D;
+                    if (Main.player[closestPlayer].Calamity().tranquilityCandle)
+                        spawnRate *= 1.67D;
+                    if (Main.player[closestPlayer].calmed)
+                        spawnRate *= 1.43D;
+                    if (Main.peaceCandles > 0)
+                        spawnRate *= 1.25D;
 
                     int chance = (int)spawnRate;
                     if (Main.rand.Next(chance) == 0)
                     {
-                        if (!NPC.AnyNPCs(ModContent.NPCType<ArmoredDiggerHead>()) && Main.netMode != NetmodeID.MultiplayerClient)
+                        if (!NPC.AnyNPCs(ModContent.NPCType<ArmoredDiggerHead>()) && Main.netMode != NetmodeID.MultiplayerClient && 
+						ArmoredDiggerSpawnCooldown <= 0)
+						{
                             NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<ArmoredDiggerHead>());
+							ArmoredDiggerSpawnCooldown = 3600;
+						}
                     }
                 }
             }
+			if (ArmoredDiggerSpawnCooldown > 0)
+				ArmoredDiggerSpawnCooldown--;
 
             if (Main.dayTime && Main.hardMode)
             {
@@ -1240,7 +1259,7 @@ namespace CalamityMod.World
 
             if (death && !CalamityPlayer.areThereAnyDamnBosses && Main.player[closestPlayer].statLifeMax2 >= 300)
             {
-                if (bossSpawnCountdown <= 0) //check for countdown being 0
+                if (bossSpawnCountdown <= 0 && deathBossSpawnCooldown <= 0) //check for countdown and cooldown being 0
                 {
                     if (Main.rand.NextBool(50000))
                     {
@@ -1537,9 +1556,14 @@ namespace CalamityMod.World
                                 NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<DesertScourgeHeadSmall>());
                             }
                             if (bossType == NPCID.DukeFishron)
+							{
                                 NPC.NewNPC((int)Main.player[closestPlayer].Center.X - 300, (int)Main.player[closestPlayer].Center.Y - 300, bossType);
+							}
                             else
+							{
                                 NPC.SpawnOnPlayer(closestPlayer, bossType);
+							}
+							deathBossSpawnCooldown = 86400; //24 minutes (1 full Terraria day)
                         }
                         bossType = 0;
                         if (Main.netMode == NetmodeID.Server)
@@ -1552,6 +1576,8 @@ namespace CalamityMod.World
                     }
                 }
             }
+			if (deathBossSpawnCooldown > 0)
+				deathBossSpawnCooldown--;
 
             if (!downedDesertScourge && Main.netMode != NetmodeID.MultiplayerClient)
                 CalamityUtils.StopSandstorm();

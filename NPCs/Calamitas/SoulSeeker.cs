@@ -42,6 +42,7 @@ namespace CalamityMod.NPCs.Calamitas
             }
             npc.buffImmune[BuffID.Ichor] = false;
             npc.buffImmune[BuffID.CursedInferno] = false;
+            npc.buffImmune[BuffID.BetsysCurse] = false;
             npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = SoundID.NPCDeath14;
         }

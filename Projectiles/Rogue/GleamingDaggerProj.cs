@@ -30,6 +30,10 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
+            if (Main.rand.Next(7) == 0)
+            {
+                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 247, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+            }
             if (hasHitEnemy)
             {
                 projectile.rotation += projectile.direction * 0.4f;
@@ -120,5 +124,14 @@ namespace CalamityMod.Projectiles.Rogue
             spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
+
+        public override void Kill(int timeLeft)
+        {
+            for (int num621 = 0; num621 < 8; num621++)
+            {
+                int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 247, 0f, 0f, 100, default, 1f);
+                Main.dust[num622].velocity *= 1f;
+            }
+		}
     }
 }

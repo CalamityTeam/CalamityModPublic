@@ -1,3 +1,4 @@
+using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Pets;
 using CalamityMod.Items.Placeables.Banners;
 using Terraria;
@@ -102,6 +103,11 @@ namespace CalamityMod.NPCs.AcidRain
             {
                 return;
             }
+        }
+
+        public override void NPCLoot()
+        {
+            DropHelper.DropItemChance(npc, ModContent.ItemType<LeadCore>(), 20);
         }
     }
 }

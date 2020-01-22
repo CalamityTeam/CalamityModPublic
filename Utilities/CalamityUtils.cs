@@ -1314,12 +1314,13 @@ namespace CalamityMod
         /// </summary>
         /// <param name="mt">The ModTile which is being initialized.</param>
         /// <param name="lavaImmune">Whether this tile is supposed to be immune to lava. Defaults to false.</param>
-        internal static void SetUpBookcase(this ModTile mt, bool lavaImmune = false)
+        /// <param name="solidTop">Whether this tile is supposed to have a solid top. Defaults to true.</param>
+        internal static void SetUpBookcase(this ModTile mt, bool lavaImmune = false, bool solidTop = true)
         {
-            Main.tileSolidTop[mt.Type] = true;
+            Main.tileSolidTop[mt.Type] = solidTop;
             Main.tileLighted[mt.Type] = true;
             Main.tileFrameImportant[mt.Type] = true;
-            Main.tileTable[mt.Type] = true;
+            Main.tileTable[mt.Type] = solidTop;
             Main.tileLavaDeath[mt.Type] = !lavaImmune;
             Main.tileWaterDeath[mt.Type] = false;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x4);

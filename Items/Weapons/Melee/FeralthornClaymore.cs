@@ -60,5 +60,18 @@ namespace CalamityMod.Items.Weapons.Melee
                 Projectile.NewProjectile(player.position.X - 40f + (float)Main.rand.Next(-150, 1), player.position.Y + 36f, 0f, -18f, ProjectileID.VilethornBase, (int)(item.damage * (player.allDamage + player.meleeDamage - 1f) * 0.2), 0f, Main.myPlayer, 0f, 0f);
             }
         }
+
+        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        {
+            target.AddBuff(BuffID.Venom, 300);
+            for (int x = 0; x < 2; x++)
+            {
+                Projectile.NewProjectile(player.position.X + 40f + (float)Main.rand.Next(0, 151), player.position.Y + 36f, 0f, -18f, ProjectileID.VilethornBase, (int)(item.damage * (player.allDamage + player.meleeDamage - 1f) * 0.2), 0f, Main.myPlayer, 0f, 0f);
+            }
+            for (int x = 0; x < 2; x++)
+            {
+                Projectile.NewProjectile(player.position.X - 40f + (float)Main.rand.Next(-150, 1), player.position.Y + 36f, 0f, -18f, ProjectileID.VilethornBase, (int)(item.damage * (player.allDamage + player.meleeDamage - 1f) * 0.2), 0f, Main.myPlayer, 0f, 0f);
+            }
+        }
     }
 }

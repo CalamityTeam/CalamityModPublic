@@ -7,6 +7,8 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Config;
+using CalamityMod;
 
 namespace CalamityMod.NPCs.Polterghast
 {
@@ -27,7 +29,7 @@ namespace CalamityMod.NPCs.Polterghast
             npc.width = 90;
             npc.height = 120;
 			npc.LifeMaxNERB(130000, 150000, 900000);
-            double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
+            double HPBoost = (double)CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
             npc.aiStyle = -1;

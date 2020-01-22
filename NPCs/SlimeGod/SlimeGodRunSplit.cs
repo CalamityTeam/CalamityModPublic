@@ -8,6 +8,8 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Config;
+using CalamityMod;
 namespace CalamityMod.NPCs.SlimeGod
 {
     [AutoloadBossHead]
@@ -24,7 +26,7 @@ namespace CalamityMod.NPCs.SlimeGod
         public override void SetDefaults()
         {
             npc.LifeMaxNERB(1750, 2407, 800000);
-            double HPBoost = Config.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.damage = 45;
             npc.width = 150;
@@ -35,6 +37,7 @@ namespace CalamityMod.NPCs.SlimeGod
             npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
             npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
             npc.buffImmune[ModContent.BuffType<TeslaBuff>()] = true;
+            npc.buffImmune[ModContent.BuffType<Eutrophication>()] = true;
 			npc.buffImmune[BuffID.Slow] = true;
 			npc.buffImmune[BuffID.Webbed] = true;
             animationType = 50;

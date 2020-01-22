@@ -11,6 +11,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Stormfront Knife");
+            Main.projFrames[projectile.type] = 4;
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
@@ -28,6 +29,16 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
+            projectile.frameCounter++;
+            if (projectile.frameCounter >= 6)
+            {
+                projectile.frame++;
+                projectile.frameCounter = 0;
+            }
+            if (projectile.frame >= 4)
+            {
+                projectile.frame = 0;
+            }
             drawOriginOffsetX = 50;
             drawOriginOffsetY = 20;
             projectile.ai[0]++;

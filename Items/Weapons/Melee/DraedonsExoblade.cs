@@ -119,6 +119,60 @@ namespace CalamityMod.Items.Weapons.Melee
             player.HealEffect(healAmount);
         }
 
+        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        {
+            if (target.statLife <= (target.statLifeMax2 * 0.05f))
+            {
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<Exoboom>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), item.knockBack, Main.myPlayer);
+            }
+            target.AddBuff(ModContent.BuffType<ExoFreeze>(), 30);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
+            target.AddBuff(ModContent.BuffType<Plague>(), 120);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
+            target.AddBuff(BuffID.CursedInferno, 120);
+            target.AddBuff(BuffID.Frostburn, 120);
+            target.AddBuff(BuffID.OnFire, 120);
+            target.AddBuff(BuffID.Ichor, 120);
+            Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 88);
+            float xPos = Main.rand.NextBool(2) ? player.position.X + 800 : player.position.X - 800;
+            Vector2 vector2 = new Vector2(xPos, player.position.Y + Main.rand.Next(-800, 801));
+            float num80 = xPos;
+            float speedX = (float)target.position.X - vector2.X;
+            float speedY = (float)target.position.Y - vector2.Y;
+            float dir = (float)Math.Sqrt((double)(speedX * speedX + speedY * speedY));
+            dir = 10 / num80;
+            speedX *= dir * 150;
+            speedY *= dir * 150;
+            if (speedX > 15f)
+            {
+                speedX = 15f;
+            }
+            if (speedX < -15f)
+            {
+                speedX = -15f;
+            }
+            if (speedY > 15f)
+            {
+                speedY = 15f;
+            }
+            if (speedY < -15f)
+            {
+                speedY = -15f;
+            }
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<Exocomet>()] < 8)
+            {
+                for (int comet = 0; comet < 2; comet++)
+                {
+                    float ai1 = Main.rand.NextFloat() + 0.5f;
+                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, ModContent.ProjectileType<Exocomet>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), item.knockBack, player.whoAmI, 0f, ai1);
+                }
+            }
+            int healAmount = Main.rand.Next(5) + 5;
+            player.statLife += healAmount;
+            player.HealEffect(healAmount);
+        }
+
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

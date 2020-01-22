@@ -175,25 +175,27 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
+			Player player = Main.player[projectile.owner];
             target.AddBuff(BuffID.Venom, 240);
             target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 240);
             target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 240);
             if (projectile.Calamity().stealthStrike)
             {
                 target.AddBuff(ModContent.BuffType<CrushDepth>(), 240);
-                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<JawsShockwave>(), 100, 10f, projectile.owner, 0, 0);
+                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<JawsShockwave>(), (int)(100f * (player.allDamage + player.Calamity().throwingDamage - 1f)), 10f, projectile.owner, 0, 0);
             }
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
+			Player player = Main.player[projectile.owner];
             target.AddBuff(BuffID.Venom, 240);
             target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 240);
             target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 240);
             if (projectile.Calamity().stealthStrike)
             {
                 target.AddBuff(ModContent.BuffType<CrushDepth>(), 240);
-                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<JawsShockwave>(), 100, 10f, projectile.owner, 0, 0);
+                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<JawsShockwave>(), (int)(100f * (player.allDamage + player.Calamity().throwingDamage - 1f)), 10f, projectile.owner, 0, 0);
             }
         }
 

@@ -164,6 +164,30 @@ namespace CalamityMod.Projectiles.Typeless
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 30);
         }
 
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(BuffID.Frostburn, 240);
+            if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<KelvinCatalystStar>()] < 25)
+            {
+                float spread = 45f * 0.0174f;
+                double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
+                double deltaAngle = spread / 8f;
+                double offsetAngle;
+                int i;
+                for (i = 0; i < 4; i++)
+                {
+                    offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
+
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 4f), (float)(Math.Cos(offsetAngle) * 4f),
+                        ModContent.ProjectileType<KelvinCatalystStar>(), projectile.damage / 6, projectile.knockBack * 0.5f, projectile.owner, 0f, 0f);
+
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 4f), (float)(-Math.Cos(offsetAngle) * 4f),
+                        ModContent.ProjectileType<KelvinCatalystStar>(), projectile.damage / 6, projectile.knockBack * 0.5f, projectile.owner, 0f, 0f);
+                }
+            }
+            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 30);
+        }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);

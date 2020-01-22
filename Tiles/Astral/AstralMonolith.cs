@@ -10,6 +10,9 @@ namespace CalamityMod.Tiles.Astral
 {
     public class AstralMonolith : ModTile
     {
+        private static int sheetWidth = 216;
+        private static int sheetHeight = 72;
+
         public override void SetDefaults()
         {
             Main.tileSolid[Type] = true;
@@ -24,9 +27,7 @@ namespace CalamityMod.Tiles.Astral
 
             drop = ModContent.ItemType<Items.Placeables.AstralMonolith>();
             AddMapEntry(new Color(45, 36, 63));
-            animationFrameHeight = 270;
         }
-        int animationFrameWidth = 288;
 
         public override bool CreateDust(int i, int j, ref int type)
         {
@@ -38,41 +39,92 @@ namespace CalamityMod.Tiles.Astral
         {
             int xPos = i % 4;
             int yPos = j % 4;
-            frameXOffset = xPos * animationFrameWidth;
-            frameYOffset = yPos * animationFrameHeight;
+
+            if ((xPos == 0 && yPos == 2) || (xPos == 1 && yPos == 3) || (xPos == 3 && yPos == 1))
+                Main.tile[i, j].frameNumber(Main.tile[i, j - 1].frameNumber());
+            else if (xPos == 2 && yPos == 2)
+                Main.tile[i, j].frameNumber(Main.tile[i - 1, j].frameNumber());
+            else if (xPos == 2 && yPos == 3)
+                Main.tile[i, j].frameNumber(Main.tile[i - 1, j - 1].frameNumber());
+
+            GetDrawSpecifics(i, j, ref xPos, ref yPos);
+
+            frameXOffset = xPos * sheetWidth;
+            frameYOffset = yPos * sheetHeight;
         }
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            int xPos = Main.tile[i, j].frameX;
-            int yPos = Main.tile[i, j].frameY;
+            Tile tile = Main.tile[i, j];
+
             int xOffset = i % 4;
             int yOffset = j % 4;
-            xOffset *= 288;
-            yOffset *= 270;
+
+            GetDrawSpecifics(i, j, ref xOffset, ref yOffset);
+
+            xOffset *= sheetWidth;
+            yOffset *= sheetHeight;
+
+            int xPos = tile.frameX;
+            int yPos = tile.frameY;
             xPos += xOffset;
             yPos += yOffset;
             Texture2D glowmask = ModContent.GetTexture("CalamityMod/Tiles/Astral/AstralMonolithGlow");
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
             Color drawColour = GetDrawColour(i, j, new Color(50, 50, 50, 50));
-            Tile trackTile = Main.tile[i, j];
-            Texture2D texture3 = glowmask;
-            double num6 = Main.time * 0.08;
-            if (!trackTile.halfBrick() && trackTile.slope() == 0)
+            if (!tile.halfBrick() && tile.slope() == 0)
             {
-                Main.spriteBatch.Draw(texture3, drawOffset, new Rectangle?(new Rectangle(xPos, yPos, 18, 18)), drawColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                Main.spriteBatch.Draw(glowmask, drawOffset, new Rectangle?(new Rectangle(xPos, yPos, 18, 18)), drawColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
             }
-            else if (trackTile.halfBrick())
+            else if (tile.halfBrick())
             {
-                Main.spriteBatch.Draw(texture3, drawOffset + new Vector2(0f, 8f), new Rectangle?(new Rectangle(xPos, yPos, 18, 8)), drawColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                Main.spriteBatch.Draw(glowmask, drawOffset + new Vector2(0f, 8f), new Rectangle?(new Rectangle(xPos, yPos, 18, 8)), drawColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
             }
         }
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            TileFraming.CustomMergeFrame(i, j, Type, ModContent.TileType<AstralDirt>(), false, false, false, false, resetFrame);
+            TileFraming.CompactFraming(i, j, resetFrame);
             return false;
+        }
+
+        private void GetDrawSpecifics(int i, int j, ref int xPos, ref int yPos)
+        {
+            Tile tile = Main.tile[i, j];
+            // Make sure the features work as intended
+            if (tile.frameNumber() == 1)
+            {
+                if (xPos == 0 && (yPos == 1 || yPos == 2))
+                    yPos += 3;
+                else if ((xPos == 1 || xPos == 2) && (yPos == 2 || yPos == 3))
+                    yPos += 2;
+                else if (xPos == 3 && (yPos == 0 || yPos == 1))
+                    yPos += 4;
+            }
+            else if (tile.frameNumber() == 2)
+            {
+                if (xPos == 1 && yPos == 0)
+                {
+                    xPos = 0;
+                    yPos = 6;
+                }
+                else if (xPos == 2 && yPos == 1)
+                {
+                    xPos = 1;
+                    yPos = 6;
+                }
+                else if (xPos == 1 && yPos == 3)
+                {
+                    xPos = 2;
+                    yPos = 6;
+                }
+                else if (xPos == 3 && yPos == 3)
+                {
+                    xPos = 3;
+                    yPos = 6;
+                }
+            }
         }
 
         private Color GetDrawColour(int i, int j, Color colour)

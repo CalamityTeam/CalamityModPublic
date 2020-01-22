@@ -110,5 +110,13 @@ namespace CalamityMod.Items.Weapons.Melee
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 480);
             target.AddBuff(ModContent.BuffType<Plague>(), 480);
         }
+
+        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 480);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 480);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 480);
+            target.AddBuff(ModContent.BuffType<Plague>(), 480);
+        }
     }
 }

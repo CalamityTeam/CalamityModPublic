@@ -3,6 +3,8 @@ using CalamityMod.World;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Config;
+using CalamityMod;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -41,7 +43,7 @@ namespace CalamityMod.Items.Accessories
 			int lightLevel = modPlayer.abyssLightLevelStat;
 			int breathLossRate = modPlayer.abyssBreathLossRateStat;
 
-			if (CalamityWorld.revenge && Config.AdrenalineAndRage)
+			if (CalamityWorld.revenge && CalamityMod.CalamityConfig.AdrenalineAndRage)
 			{
 				int adrenalineChargeTime = modPlayer.adrenalineChargeStat;
 				int rageDamage = modPlayer.rageDamageStat;

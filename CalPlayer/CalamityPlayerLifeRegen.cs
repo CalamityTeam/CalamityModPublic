@@ -5,6 +5,8 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Config;
+using CalamityMod;
 
 namespace CalamityMod.CalPlayer
 {
@@ -102,8 +104,17 @@ namespace CalamityMod.CalPlayer
                 player.lifeRegen -= 16;
             }
 
-            if (modPlayer.ZoneCalamity && player.lavaWet)
+            if (modPlayer.vaporfied)
             {
+                if (player.lifeRegen > 0)
+                    player.lifeRegen = 0;
+
+                player.lifeRegenTime = 0;
+                player.lifeRegen -= 8;
+            }
+
+			if (modPlayer.cragsLava)
+			{
                 if (player.lifeRegen > 0)
                     player.lifeRegen = 0;
 
@@ -418,7 +429,7 @@ namespace CalamityMod.CalPlayer
                     player.lifeRegenCount = 0;
             }
 
-            if (Config.LethalLava)
+            if (CalamityMod.CalamityConfig.LethalLava)
             {
                 if (Main.myPlayer == player.whoAmI)
                 {
@@ -861,7 +872,7 @@ namespace CalamityMod.CalPlayer
 
 			if (CalamityWorld.bossRushActive)
 			{
-				if (Config.BossRushHealthCurse)
+				if (CalamityMod.CalamityConfig.BossRushHealthCurse)
 				{
 					if (player.lifeRegen > 0)
 						player.lifeRegen = 0;

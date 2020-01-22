@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Projectiles.Rogue;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -6,6 +7,9 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Config;
+using CalamityMod;
+
 namespace CalamityMod.NPCs.CeaselessVoid
 {
     public class DarkEnergy3 : ModNPC
@@ -34,7 +38,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
             {
                 npc.lifeMax = 44000;
             }
-            double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
+            double HPBoost = (double)CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
             aiType = -1;
@@ -175,6 +179,15 @@ namespace CalamityMod.NPCs.CeaselessVoid
             {
                 npc.velocity.X = (npc.velocity.X * 7f + num1373) / 8f;
                 npc.velocity.Y = (npc.velocity.Y * 7f + num1374) / 8f;
+            }
+        }
+
+        public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
+        {
+            if (CalamityWorld.DoGSecondStageCountdown <= 0)
+            {
+                if (projectile.type == ModContent.ProjectileType<MoltenAmputatorProj>())
+                    damage = (int)((double)damage * 0.9);
             }
         }
 

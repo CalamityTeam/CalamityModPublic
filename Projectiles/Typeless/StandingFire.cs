@@ -97,5 +97,10 @@ namespace CalamityMod.Projectiles.Typeless
             target.immune[projectile.owner] = 7;
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
         }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
+        }
     }
 }

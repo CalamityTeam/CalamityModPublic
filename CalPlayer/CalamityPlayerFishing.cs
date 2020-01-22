@@ -320,6 +320,74 @@ namespace CalamityMod.CalPlayer
 
 			if (water)
 			{
+				if ((player.ZoneCrimson || player.ZoneCorrupt) && player.ZoneRockLayerHeight && Main.hardMode)
+				{
+					if (Main.rand.NextBool(15))
+					{
+						caughtType = ModContent.ItemType<FishofNight>();
+					}
+				}
+
+				if (player.ZoneHoly && player.ZoneRockLayerHeight && Main.hardMode)
+				{
+					if (Main.rand.NextBool(15))
+					{
+						caughtType = ModContent.ItemType<FishofLight>();
+					}
+				}
+
+				if (player.ZoneSkyHeight && Main.hardMode)
+				{
+					if (Main.rand.NextBool(15))
+					{
+						caughtType = ModContent.ItemType<FishofFlight>();
+					}
+					else if (Main.rand.NextBool(14))
+					{
+						caughtType = ModContent.ItemType<SunbeamFish>();
+					}
+				}
+
+				if (player.ZoneOverworldHeight && !Main.dayTime)
+				{
+					if (Main.rand.NextBool(10))
+					{
+						caughtType = ModContent.ItemType<EnchantedStarfish>();
+					}
+				}
+
+				if (player.ZoneOverworldHeight && Main.dayTime)
+				{
+					if (Main.rand.NextBool(15))
+					{
+						caughtType = ModContent.ItemType<StuffedFish>();
+					}
+				}
+
+				if (player.ZoneRockLayerHeight)
+				{
+					if (Main.rand.NextBool(15))
+					{
+						caughtType = ModContent.ItemType<GlimmeringGemfish>();
+					}
+				}
+
+				if (player.ZoneSnow)
+				{
+					if (Main.rand.NextBool(15) && Main.hardMode)
+					{
+						caughtType = ModContent.ItemType<FishofEleum>();
+					}
+				}
+
+				if (player.ZoneDirtLayerHeight)
+				{
+					if (Main.rand.NextBool(Main.hardMode ? 100 : 40))
+					{
+						caughtType = ModContent.ItemType<Spadefish>();
+					}
+				}
+
 				if (modPlayer.ZoneAstral) // Astral Infection, fishing in water
 				{
 					int astralFish = Main.rand.Next(100);
@@ -451,74 +519,6 @@ namespace CalamityMod.CalPlayer
 					else // 33% w/o crate pot, 23% w/ crate pot + 18% if prehardmode
 					{
 						caughtType = ModContent.ItemType<PrismaticGuppy>();
-					}
-				}
-
-				if ((player.ZoneCrimson || player.ZoneCorrupt) && player.ZoneRockLayerHeight && Main.hardMode)
-				{
-					if (Main.rand.NextBool(15))
-					{
-						caughtType = ModContent.ItemType<FishofNight>();
-					}
-				}
-
-				if (player.ZoneHoly && player.ZoneRockLayerHeight && Main.hardMode)
-				{
-					if (Main.rand.NextBool(15))
-					{
-						caughtType = ModContent.ItemType<FishofLight>();
-					}
-				}
-
-				if (player.ZoneSkyHeight && Main.hardMode)
-				{
-					if (Main.rand.NextBool(15))
-					{
-						caughtType = ModContent.ItemType<FishofFlight>();
-					}
-					else if (Main.rand.NextBool(14))
-					{
-						caughtType = ModContent.ItemType<SunbeamFish>();
-					}
-				}
-
-				if (player.ZoneOverworldHeight && !Main.dayTime)
-				{
-					if (Main.rand.NextBool(10))
-					{
-						caughtType = ModContent.ItemType<EnchantedStarfish>();
-					}
-				}
-
-				if (player.ZoneOverworldHeight && Main.dayTime)
-				{
-					if (Main.rand.NextBool(15))
-					{
-						caughtType = ModContent.ItemType<StuffedFish>();
-					}
-				}
-
-				if (player.ZoneRockLayerHeight)
-				{
-					if (Main.rand.NextBool(15))
-					{
-						caughtType = ModContent.ItemType<GlimmeringGemfish>();
-					}
-				}
-
-				if (player.ZoneSnow)
-				{
-					if (Main.rand.NextBool(15) && Main.hardMode)
-					{
-						caughtType = ModContent.ItemType<FishofEleum>();
-					}
-				}
-
-				if (player.ZoneDirtLayerHeight)
-				{
-					if (Main.rand.NextBool(Main.hardMode ? 100 : 40))
-					{
-						caughtType = ModContent.ItemType<Spadefish>();
 					}
 				}
 

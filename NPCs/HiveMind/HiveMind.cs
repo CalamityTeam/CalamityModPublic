@@ -5,6 +5,8 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Config;
+using CalamityMod;
 namespace CalamityMod.NPCs.HiveMind
 {
     [AutoloadBossHead]
@@ -26,7 +28,7 @@ namespace CalamityMod.NPCs.HiveMind
             npc.height = 120;
             npc.defense = 10;
             npc.LifeMaxNERB(1200, 1800, 350000);
-            double HPBoost = Config.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
             aiType = -1;
@@ -159,7 +161,7 @@ namespace CalamityMod.NPCs.HiveMind
                             int x = (int)(npc.position.X + (float)Main.rand.Next(npc.width - 32));
                             int y = (int)(npc.position.Y + (float)Main.rand.Next(npc.height - 32));
                             int num663 = ModContent.NPCType<HiveBlob>();
-                            if (Main.rand.NextBool(3) || npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                            if (Main.rand.NextBool(3) || npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
                             {
                                 num663 = ModContent.NPCType<DankCreeper>();
                             }

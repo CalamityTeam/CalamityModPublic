@@ -80,7 +80,7 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 if (canFire)
                 {
-                    int type = 12;
+                    int type = ModContent.ProjectileType<FallenStarProj>();
                     float scaleFactor = 16f;
                     int damage = player.GetWeaponDamage(player.inventory[player.selectedItem]);
                     float knockBack = player.inventory[player.selectedItem].knockBack;
@@ -109,9 +109,9 @@ namespace CalamityMod.Projectiles.Ranged
                             case 2:
                                 type = ModContent.ProjectileType<GalacticaComet>();
                                 break;
-                            case 3:
+                            case 3: //falling star projectile
                                 break;
-                            case 4:
+                            case 4: //starfury projectile
                                 type = 9;
                                 break;
                         }

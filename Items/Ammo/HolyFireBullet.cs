@@ -23,6 +23,7 @@ namespace CalamityMod.Items.Ammo
             item.knockBack = 2f;
             item.value = 2000;
             item.rare = 10;
+            item.Calamity().postMoonLordRarity = 12;
             item.shoot = ModContent.ProjectileType<HolyFireBulletProj>();
             item.shootSpeed = 12f;
             item.ammo = 97;

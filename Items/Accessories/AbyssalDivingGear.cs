@@ -66,7 +66,7 @@ namespace CalamityMod.Items.Accessories
             recipe.AddIngredient(ModContent.ItemType<DepthCharm>());
             recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 10);
             recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 10);
-            recipe.AddTile(TileID.TinkerersWorkbench);
+            recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

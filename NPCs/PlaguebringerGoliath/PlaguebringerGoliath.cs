@@ -20,6 +20,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Config;
+using CalamityMod;
 namespace CalamityMod.NPCs.PlaguebringerGoliath
 {
     [AutoloadBossHead]
@@ -50,7 +52,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             npc.defense = 40;
             npc.Calamity().RevPlusDR(0.25f);
 			npc.LifeMaxNERB(58500, 77275, 3700000);
-            double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
+            double HPBoost = (double)CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
             npc.aiStyle = -1;
@@ -67,6 +69,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             npc.buffImmune[BuffID.CursedInferno] = false;
 			npc.buffImmune[BuffID.Frostburn] = false;
 			npc.buffImmune[BuffID.Daybreak] = false;
+			npc.buffImmune[BuffID.BetsysCurse] = false;
             npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
             npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
             npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
@@ -278,7 +281,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                             num1044 += 2f;
                         if ((double)npc.life < (double)npc.lifeMax * 0.33 || death)
                             num1044 += 2f;
-                        if (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                        if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
                             num1044 += 2f;
 
                         Vector2 vector117 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
@@ -311,7 +314,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         num1048 += 2f;
                         num1049 += 0.05f;
                     }
-                    if (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                    if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
                     {
                         num1048 += 2f;
                         num1049 += 0.1f;
@@ -359,7 +362,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     npc.spriteDirection = npc.direction;
 
                     int num1050 = revenge ? 525 : 550;
-                    if (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                    if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
                         num1050 = 250;
                     else if (aboveGroundEnrage || CalamityWorld.bossRushActive)
                         num1050 = 350;
@@ -601,7 +604,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
                 npc.ai[1] += 1f;
                 bool flag104 = false;
-                if (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
                 {
                     if (npc.ai[1] % 10f == 9f)
                         flag104 = true;
@@ -626,7 +629,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         float projectileSpeed = revenge ? 6.5f : 6f;
-                        if (jungleEnrage || npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                        if (jungleEnrage || npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
                             projectileSpeed += 10f;
                         if (CalamityWorld.bossRushActive)
                             projectileSpeed *= 1.5f;

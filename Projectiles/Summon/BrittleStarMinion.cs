@@ -103,15 +103,6 @@ namespace CalamityMod.Projectiles.Summon
                 }
             }
 
-			if (projectile.extraUpdates == 2 || projectile.extraUpdates == 1)
-			{
-				projectile.extraUpdates = 2;
-			}
-			else
-			{
-				projectile.extraUpdates = 0;
-			}
-
 			//if you can't go through tiles, you can go through tiles
 			if (projectile.tileCollide == true)
 				projectile.tileCollide = false;

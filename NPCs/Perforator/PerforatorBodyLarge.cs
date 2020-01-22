@@ -9,6 +9,8 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Config;
+using CalamityMod;
 namespace CalamityMod.NPCs.Perforator
 {
     public class PerforatorBodyLarge : ModNPC
@@ -26,7 +28,7 @@ namespace CalamityMod.NPCs.Perforator
             npc.height = 60;
             npc.defense = 8;
 			npc.LifeMaxNERB(2500, 2700, 800000);
-            double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
+            double HPBoost = (double)CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
             npc.aiStyle = 6;
             aiType = -1;
@@ -35,6 +37,7 @@ namespace CalamityMod.NPCs.Perforator
             npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
             npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
             npc.buffImmune[ModContent.BuffType<TeslaBuff>()] = true;
+            npc.buffImmune[ModContent.BuffType<Eutrophication>()] = true;
 			npc.buffImmune[BuffID.Slow] = true;
 			npc.buffImmune[BuffID.Webbed] = true;
             npc.behindTiles = true;

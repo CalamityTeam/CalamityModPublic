@@ -10,6 +10,8 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Config;
+using CalamityMod;
 namespace CalamityMod.NPCs.Leviathan
 {
     [AutoloadBossHead]
@@ -35,7 +37,7 @@ namespace CalamityMod.NPCs.Leviathan
             npc.defense = 20;
             npc.Calamity().RevPlusDR(0.05f);
             npc.LifeMaxNERB(27400, 41600, 2600000);
-            double HPBoost = Config.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
             npc.aiStyle = -1;
@@ -51,6 +53,7 @@ namespace CalamityMod.NPCs.Leviathan
 			npc.buffImmune[BuffID.Frostburn] = false;
 			npc.buffImmune[BuffID.CursedInferno] = false;
             npc.buffImmune[BuffID.Daybreak] = false;
+			npc.buffImmune[BuffID.BetsysCurse] = false;
             npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
             npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
             npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
@@ -390,7 +393,7 @@ namespace CalamityMod.NPCs.Leviathan
 
                 npc.ai[1] += 1f;
                 bool flag104 = false;
-                if (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
                 {
                     if (npc.ai[1] % 10f == 9f)
                         flag104 = true;
@@ -416,7 +419,7 @@ namespace CalamityMod.NPCs.Leviathan
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         float num1070 = revenge ? 15f : 13f;
-                        if (npc.Calamity().enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                        if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
                             num1070 = 24f;
                         else if (isNotOcean || (!leviAlive && phase2) || death)
                             num1070 = revenge ? 17f : 16f;

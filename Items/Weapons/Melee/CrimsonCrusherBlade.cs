@@ -48,6 +48,11 @@ namespace CalamityMod.Items.Weapons.Melee
             }
         }
 
+        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        {
+            target.AddBuff(BuffID.Ichor, 180);
+        }
+
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

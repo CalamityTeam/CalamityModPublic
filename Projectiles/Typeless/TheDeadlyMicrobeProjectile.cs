@@ -178,6 +178,11 @@ namespace CalamityMod.Projectiles.Typeless
             target.AddBuff(BuffID.CursedInferno, 90);
         }
 
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(BuffID.CursedInferno, 90);
+		}
+
         public override void Kill(int timeLeft)
         {
             projectile.position = projectile.Center;

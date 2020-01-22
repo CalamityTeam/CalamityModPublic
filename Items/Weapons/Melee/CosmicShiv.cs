@@ -41,11 +41,13 @@ namespace CalamityMod.Items.Weapons.Melee
 			item.value = Item.buyPrice(2, 50, 0, 0); //50 gold
             item.Calamity().postMoonLordRarity = 21;
         }
+
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             Projectile.NewProjectile(position.X, position.Y, item.shootSpeed * player.direction, 0f, type, damage, knockBack, player.whoAmI, 0f, 0f);
             return false;
         }
+
 		public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
@@ -61,11 +63,29 @@ namespace CalamityMod.Items.Weapons.Melee
             recipe.SetResult(this);
 	        recipe.AddRecipe();
         }
+
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 173);
         }
+
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+        {
+            for (int k = 0; k < 36; k++)
+            {
+                int dustID = Dust.NewDust(new Vector2(player.position.X, player.position.Y + 16f), player.width, player.height - 16, 173, 0f, 0f, 0, default, 1f);
+                Main.dust[dustID].velocity *= 3f;
+                Main.dust[dustID].scale *= 2f;
+            }
+
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 420);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 420);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 420);
+            target.AddBuff(ModContent.BuffType<Plague>(), 420);
+            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 360);
+        }
+
+        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
             for (int k = 0; k < 36; k++)
             {

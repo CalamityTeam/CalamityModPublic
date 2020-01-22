@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Rogue
                 projectile.tileCollide = false;
             }
 
-            if (projectile.ai[1] == 25f)
+            if (projectile.ai[1] == 20f)
             {
                 int numProj = 5;
                 float rotation = MathHelper.ToRadians(10);
@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles.Rogue
                     for (int i = 0; i < numProj; i++)
                     {
                         Vector2 perturbedspeed = new Vector2(projectile.velocity.X, projectile.velocity.Y + Main.rand.Next(-3, 4)).RotatedBy(MathHelper.ToRadians(spread));
-                        int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedspeed.X * 0.2f, perturbedspeed.Y * 0.2f, ModContent.ProjectileType<ShatteredSunScorchedBlade>(), (int)((double)projectile.damage * 0.5), 1f, projectile.owner, 0f, 0f);
+                        int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedspeed.X * 0.2f, perturbedspeed.Y * 0.2f, ModContent.ProjectileType<ShatteredSunScorchedBlade>(), (int)((double)projectile.damage * 0.75), 1f, projectile.owner, 0f, 0f);
                         Main.projectile[proj].Calamity().stealthStrike = projectile.Calamity().stealthStrike;
                         spread -= Main.rand.Next(2, 6);
                     }
@@ -94,19 +94,19 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ShatteredExplosion>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ShatteredExplosion>(), (int) ((double) damage * 0.15), projectile.knockBack, projectile.owner, 0f, 0f);
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ShatteredExplosion>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ShatteredExplosion>(), (int)((double)damage * 0.15), projectile.knockBack, projectile.owner, 0f, 0f);
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ShatteredExplosion>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ShatteredExplosion>(), (int)((double)projectile.damage * 0.15), projectile.knockBack, projectile.owner, 0f, 0f);
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
             return true;
         }

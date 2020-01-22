@@ -51,6 +51,12 @@ namespace CalamityMod.Projectiles.Typeless
             target.AddBuff(ModContent.BuffType<GlacialState>(), 480);
         }
 
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(BuffID.Frostburn, 480);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 480);
+        }
+
         public override Color? GetAlpha(Color lightColor)
         {
             return new Color(198, 197, 246);

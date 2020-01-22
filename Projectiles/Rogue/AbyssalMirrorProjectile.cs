@@ -35,9 +35,9 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (!target.friendly && target.rarity != 2 && !CalamityPlayer.areThereAnyDamnBosses)
+            if (!target.friendly)
             {
-                target.AddBuff(ModContent.BuffType<SilvaStun>(), 300);
+                target.AddBuff(ModContent.BuffType<Eutrophication>(), 300);
             }
         }
     }

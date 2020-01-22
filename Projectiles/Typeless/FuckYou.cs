@@ -120,6 +120,12 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.direction = Main.player[projectile.owner].direction;
         }
 
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(BuffID.OnFire, 300);
+            projectile.direction = Main.player[projectile.owner].direction;
+        }
+
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
             damage = (int)((double)damage * 0.3);

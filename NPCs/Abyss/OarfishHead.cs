@@ -86,14 +86,14 @@ namespace CalamityMod.NPCs.Abyss
                     TailSpawned = true;
                 }
             }
-            if (npc.velocity.X < 0f)
+            /*if (npc.velocity.X < 0f)
             {
                 npc.spriteDirection = -1;
             }
             else if (npc.velocity.X > 0f)
             {
                 npc.spriteDirection = 1;
-            }
+            }*/
             if (Main.player[npc.target].dead)
             {
                 npc.TargetClosest(false);

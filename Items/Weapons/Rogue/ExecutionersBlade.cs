@@ -13,7 +13,8 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Executioner's Blade");
-            Tooltip.SetDefault("Throws a stream of homing blades");
+            Tooltip.SetDefault("Throws a stream of homing blades\n" +
+                "Stealth strikes summons a guillotine of blades on hit");
         }
 
         public override void SafeSetDefaults()
@@ -51,6 +52,18 @@ namespace CalamityMod.Items.Weapons.Rogue
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
+        }
+
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            if (player.Calamity().StealthStrikeAvailable())
+            {
+                player.Calamity().StealthStrike();
+                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+                Main.projectile[stealth].Calamity().stealthStrike = true;
+                return false;
+            }
+            return true;
         }
     }
 }

@@ -18,7 +18,6 @@ namespace CalamityMod.Items.DifficultyItems
                 "You gain rage whenever you take damage or hit an enemy with a true melee weapon.\n" +
                 "Activates adrenaline. When adrenaline is maxed press B to activate adrenaline mode.\n" +
                 "You gain adrenaline whenever a boss is alive. Getting hit drops adrenaline back to 0.\n" +
-                "If you hit max adrenaline and don't use it within 5 seconds your adrenaline damage will drop gradually.\n" +
                 "All enemies drop 50% more cash.\n" +
                 "All enemies gain a new damage reduction stat, which can be reduced by applying various debuffs to them.\n" +
                 "The amount of this damage reduction stat varies based on enemy type.\n" +
@@ -61,8 +60,7 @@ namespace CalamityMod.Items.DifficultyItems
             for (int doom = 0; doom < 200; doom++)
             {
                 if ((Main.npc[doom].active && (Main.npc[doom].boss || Main.npc[doom].type == NPCID.EaterofWorldsHead || Main.npc[doom].type == NPCID.EaterofWorldsTail || Main.npc[doom].type == ModContent.NPCType<SlimeGodRun>() ||
-                    Main.npc[doom].type == ModContent.NPCType<SlimeGodRunSplit>() || Main.npc[doom].type == ModContent.NPCType<SlimeGod>() || Main.npc[doom].type == ModContent.NPCType<SlimeGodSplit>())) || CalamityWorld.DoGSecondStageCountdown > 0 || 
-					Main.npc[doom].type == NPCID.TheDestroyerBody || Main.npc[doom].type == NPCID.TheDestroyerTail)
+                    Main.npc[doom].type == ModContent.NPCType<SlimeGodRunSplit>() || Main.npc[doom].type == ModContent.NPCType<SlimeGod>() || Main.npc[doom].type == ModContent.NPCType<SlimeGodSplit>())) || CalamityWorld.DoGSecondStageCountdown > 0)
                 {
                     player.KillMe(PlayerDeathReason.ByCustomReason(player.name + " tried to change the rules."), 1000.0, 0, false);
                     Main.npc[doom].active = false;

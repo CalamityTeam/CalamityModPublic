@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.friendly = true;
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
-            projectile.timeLeft = 300;
+            projectile.timeLeft = 400;
             projectile.alpha = 100;
             projectile.penetrate = 5;
             projectile.Calamity().rogue = true;
@@ -40,14 +40,14 @@ namespace CalamityMod.Projectiles.Rogue
             Main.dust[num469].noGravity = true;
             Main.dust[num469].velocity *= 0f;
             projectile.velocity *= 0.95f;
-            if (projectile.timeLeft == 300)
+            if (projectile.timeLeft == 400)
             {
                 originalDamage = projectile.damage;
                 projectile.damage = 0;
             }
-            if (projectile.timeLeft <= 275)
+            if (projectile.timeLeft <= 375)
             {
-                if (projectile.timeLeft > 250)
+                if (projectile.timeLeft > 350)
                     projectile.velocity *= 1.06f;
                 projectile.damage = (int) ((double)originalDamage * 1.25);
                 float num472 = projectile.Center.X;

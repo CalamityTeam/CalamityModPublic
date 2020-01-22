@@ -20,6 +20,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Config;
+using CalamityMod;
 /* states:
  * 0 = slow drift
  * 1 = reelback and teleport after spawn enemy
@@ -72,7 +74,7 @@ namespace CalamityMod.NPCs.HiveMind
             npc.height = 120;
             npc.defense = 5;
             npc.LifeMaxNERB(5800, 7560, 3000000);
-            double HPBoost = Config.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
             aiType = -1;

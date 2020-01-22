@@ -1,3 +1,4 @@
+using CalamityMod;
 using CalamityMod.Buffs;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.Placeables;
@@ -56,6 +57,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Config;
 
 namespace CalamityMod.NPCs
 {
@@ -98,6 +100,7 @@ namespace CalamityMod.NPCs
         public int tSad = 0;
         public int eFreeze = 0;
         public int silvaStun = 0;
+        public int eutrophication = 0;
         public int webbed = 0;
         public int slowed = 0;
         public int electrified = 0;
@@ -282,6 +285,13 @@ namespace CalamityMod.NPCs
 			NPCID.TheDestroyer,
 			NPCID.TheDestroyerBody,
 			NPCID.TheDestroyerTail
+		};
+
+		public static List<int> StormWeaverIDs = new List<int>
+		{
+			ModContent.NPCType<StormWeaverHeadNaked>(),
+			ModContent.NPCType<StormWeaverBodyNaked>(),
+			ModContent.NPCType<StormWeaverTailNaked>()
 		};
 		#endregion
 
@@ -667,6 +677,7 @@ namespace CalamityMod.NPCs
 				npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
 				npc.buffImmune[ModContent.BuffType<TimeSlow>()] = true;
 				npc.buffImmune[ModContent.BuffType<TeslaBuff>()] = true;
+				npc.buffImmune[ModContent.BuffType<Eutrophication>()] = true;
 				npc.buffImmune[BuffID.Webbed] = true;
 				npc.buffImmune[BuffID.Slow] = true;
 			}
@@ -981,7 +992,7 @@ namespace CalamityMod.NPCs
 
             if ((npc.boss && npc.type != NPCID.MartianSaucerCore && npc.type < NPCID.Count) || CalamityMod.bossHPScaleList.Contains(npc.type))
             {
-                double HPBoost = Config.BossHealthPercentageBoost * 0.01;
+                double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
                 npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             }
         }
@@ -1051,7 +1062,7 @@ namespace CalamityMod.NPCs
         #region Scale Thorium Boss Health
         private void ScaleThoriumBossHealth(NPC npc, Mod mod)
         {
-            if (Config.RevengeanceAndDeathThoriumBossBuff)
+            if (CalamityMod.CalamityConfig.RevengeanceAndDeathThoriumBossBuff)
             {
                 Mod thorium = ModLoader.GetMod("ThoriumMod");
                 if (thorium != null)
@@ -2075,7 +2086,7 @@ namespace CalamityMod.NPCs
 
             if (CalamityWorld.revenge || CalamityWorld.bossRushActive)
             {
-                bool configBossRushBoost = Config.BossRushXerocCurse && CalamityWorld.bossRushActive;
+                bool configBossRushBoost = CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive;
 
                 switch (npc.type)
                 {
@@ -2114,6 +2125,8 @@ namespace CalamityMod.NPCs
 				eFreeze--;
 			if (silvaStun > 0)
 				silvaStun--;
+			if (eutrophication > 0)
+				eutrophication--;
 			if (webbed > 0)
 				webbed--;
             if (slowed > 0)
@@ -2181,7 +2194,7 @@ namespace CalamityMod.NPCs
 
             if (!CalamityWorld.bossRushActive)
             {
-                if (silvaStun > 0)
+                if (silvaStun > 0 || eutrophication > 0)
                     npc.velocity = Vector2.Zero;
                 else if (timeSlow > 0 || webbed > 0)
                     npc.velocity *= 0.85f;
@@ -2220,7 +2233,7 @@ namespace CalamityMod.NPCs
 
             if (CalamityWorld.revenge)
             {
-                if (Config.RevengeanceAndDeathThoriumBossBuff)
+                if (CalamityMod.CalamityConfig.RevengeanceAndDeathThoriumBossBuff)
                 {
                     Mod thorium = ModLoader.GetMod("ThoriumMod");
                     if (thorium != null)
@@ -2468,6 +2481,32 @@ namespace CalamityMod.NPCs
 					damage /= projectile.penetrate;
 				}
 			}
+			else if (StormWeaverIDs.Contains(npc.type))
+			{
+				if (projectile.type == ModContent.ProjectileType<ShatteredSunScorchedBlade>())
+				{
+                    damage = (int)((double)damage * 0.9);
+				}
+                else if (projectile.type == ModContent.ProjectileType<MoltenAmputatorProj>() || projectile.type == ModContent.ProjectileType<MoltenBlobThrown>())
+                {
+                    if (projectile.penetrate == -1)
+                        projectile.penetrate = projectile.Calamity().stealthStrike ? 6 : 9;
+                    damage = (int)((double)damage * 0.75);
+                }
+                else if (projectile.type == ModContent.ProjectileType<ElementalAxeMinion>())
+                {
+                    damage = (int)((double)damage * 0.5);
+                }
+
+				if (projectile.penetrate == -1 && !projectile.minion)
+				{
+					damage = (int)((double)damage * 0.2);
+				}
+				else if (projectile.penetrate > 1)
+				{
+					damage /= projectile.penetrate;
+				}
+			}
             else if (DestroyerIDs.Contains(npc.type))
             {
                 if (((projectile.penetrate == -1 || projectile.penetrate > 1) && !projectile.minion) || projectile.type == ModContent.ProjectileType<KelvinCatalystStar>())
@@ -2703,14 +2742,13 @@ namespace CalamityMod.NPCs
                                 for (int num262 = 0; num262 < num261; num262 = num + 1)
                                 {
                                     int num263 = NPC.NewNPC((int)(npc.position.X + npc.width / 2), (int)(npc.position.Y + npc.height), 1, 0, 0f, 0f, 0f, 0f, 255);
-                                    Main.npc[num263].SetDefaults(-5, -1f);
-                                    Main.npc[num263].velocity.X = npc.velocity.X * 2f;
-                                    Main.npc[num263].velocity.Y = npc.velocity.Y;
-                                    NPC var_324_BB1A_cp_0_cp_0 = Main.npc[num263];
-                                    var_324_BB1A_cp_0_cp_0.velocity.X += Main.rand.Next(-20, 20) * 0.1f + num262 * npc.direction * 0.3f;
-                                    NPC var_324_BB6F_cp_0_cp_0 = Main.npc[num263];
-                                    var_324_BB6F_cp_0_cp_0.velocity.Y -= Main.rand.Next(0, 10) * 0.1f + num262;
-                                    Main.npc[num263].ai[0] = -1000 * Main.rand.Next(3);
+                                    NPC npc2 = Main.npc[num263];
+                                    npc2.SetDefaults(-5, -1f);
+                                    npc2.velocity.X = npc.velocity.X * 2f;
+                                    npc2.velocity.Y = npc.velocity.Y;
+                                    npc2.velocity.X += Main.rand.Next(-20, 20) * 0.1f + num262 * npc.direction * 0.3f;
+                                    npc2.velocity.Y -= Main.rand.Next(0, 10) * 0.1f + num262;
+                                    npc2.ai[0] = -1000 * Main.rand.Next(3);
 
                                     if (Main.netMode == NetmodeID.Server && num263 < 200)
                                     {
@@ -2874,7 +2912,7 @@ namespace CalamityMod.NPCs
                 spawnRate = (int)(spawnRate * 1.4);
                 maxSpawns = (int)(maxSpawns * 0.4f);
             }
-			if (player.Calamity().zen || (Config.DisableExpertEnemySpawnsNearHouse && player.townNPCs > 1f && Main.expertMode))
+			if (player.Calamity().zen || (CalamityMod.CalamityConfig.DisableExpertEnemySpawnsNearHouse && player.townNPCs > 1f && Main.expertMode))
 			{
 				spawnRate = (int)(spawnRate * 1.66);
 				maxSpawns = (int)(maxSpawns * 0.3f);
@@ -3102,17 +3140,17 @@ namespace CalamityMod.NPCs
                     });
 
                     int num4 = Dust.NewDust(hitbox.TopLeft(), npc.width, npc.height, num3, 0f, -2.5f, 0, default, 1f);
-                    Main.dust[num4].noGravity = true;
-                    Main.dust[num4].alpha = 200;
-                    Main.dust[num4].velocity.Y -= 0.2f;
                     Dust dust = Main.dust[num4];
+                    dust.noGravity = true;
+                    dust.alpha = 200;
+                    dust.velocity.Y -= 0.2f;
                     dust.velocity *= 1.2f;
                     dust = Main.dust[num4];
                     dust.scale += Main.rand.NextFloat();
                 }
             }
 
-            if (tSad > 0 || cDepth > 0)
+            if (tSad > 0 || cDepth > 0 || eutrophication > 0)
             {
                 if (Main.rand.Next(6) < 3)
                 {
@@ -3234,7 +3272,7 @@ namespace CalamityMod.NPCs
                 return new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, npc.alpha);
             }
 
-            if (enraged > 0 || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+            if (enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
             {
                 return new Color(200, 50, 50, npc.alpha);
             }

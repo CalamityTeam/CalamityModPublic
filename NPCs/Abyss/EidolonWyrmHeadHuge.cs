@@ -79,7 +79,10 @@ namespace CalamityMod.NPCs.Abyss
             {
 				if (!detectsPlayer)
 				{
-					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/Scare"), (int)Main.player[npc.target].position.X, (int)Main.player[npc.target].position.Y);
+					if (Main.netMode == NetmodeID.SinglePlayer) //don't kill my ears in multiplayer, thank you
+					{
+						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/Scare"), (int)Main.player[npc.target].position.X, (int)Main.player[npc.target].position.Y);
+					}
 					detectsPlayer = true;
 				}
                 npc.damage = 1500;

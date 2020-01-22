@@ -3,6 +3,7 @@ using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
@@ -14,6 +15,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Stormfront Razor");
             Tooltip.SetDefault("Throws a throwing knife that leaves sparks as it travels.\n" +
                                "Stealth strike causes the knife to be faster and leave a huge shower of sparks as it travels");
+            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 4));
         }
 
         public override void SafeSetDefaults()

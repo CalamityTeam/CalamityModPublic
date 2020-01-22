@@ -68,6 +68,27 @@ namespace CalamityMod.Items.Weapons.Melee
             }
         }
 
+        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        {
+            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<RainbowBoom>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f) * 0.5f), 0f, player.whoAmI);
+            if (target.statLife <= (target.statLifeMax2 * 0.5f))
+            {
+                float randomSpeedX = (float)Main.rand.Next(9);
+                float randomSpeedY = (float)Main.rand.Next(6, 15);
+                Projectile.NewProjectile(player.Center.X, player.Center.Y, -randomSpeedX, -randomSpeedY, ModContent.ProjectileType<RainBolt>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f) * 0.75f), item.knockBack, player.whoAmI);
+                Projectile.NewProjectile(player.Center.X, player.Center.Y, randomSpeedX, -randomSpeedY, ModContent.ProjectileType<RainBolt>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f) * 0.75f), item.knockBack, player.whoAmI);
+                Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -randomSpeedY, ModContent.ProjectileType<RainBolt>(), (int)((float)item.damage * player.meleeDamage * 0.75f), item.knockBack, player.whoAmI);
+            }
+            if (target.statLife <= 0)
+            {
+                float randomSpeedX = (float)Main.rand.Next(9);
+                float randomSpeedY = (float)Main.rand.Next(6, 15);
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, -randomSpeedX, -randomSpeedY, ModContent.ProjectileType<RainHeal>(), 0, 0f, player.whoAmI);
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, randomSpeedX, -randomSpeedY, ModContent.ProjectileType<RainHeal>(), 0, 0f, player.whoAmI);
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, -randomSpeedY, ModContent.ProjectileType<RainHeal>(), 0, 0f, player.whoAmI);
+            }
+        }
+
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(3))

@@ -295,6 +295,15 @@ namespace CalamityMod
             r.AddTile(TileID.Anvils);
             r.SetResult(ItemID.IceMachine);
             r.AddRecipe();
+
+            // Bug Net
+            r = GetNewRecipe();
+            r.AddIngredient(ItemID.Cobweb, 30);
+            r.AddIngredient(ItemID.IronBar, 3);
+            r.anyIronBar = true;
+            r.AddTile(TileID.Anvils);
+            r.SetResult(ItemID.BugNet);
+            r.AddRecipe();
         }
         #endregion
 

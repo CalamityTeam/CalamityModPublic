@@ -586,8 +586,6 @@ namespace CalamityMod.Projectiles
                     }
                 }
             }
-            else if (projectile.type == ProjectileID.FallingStar && Main.player[projectile.owner].inventory[Main.player[projectile.owner].selectedItem].type == ItemID.StarCannon)
-                projectile.ranged = true;
             else if (projectile.type == ProjectileID.SoulDrain)
                 projectile.magic = true;
 
@@ -724,8 +722,12 @@ namespace CalamityMod.Projectiles
 				if (Main.player[projectile.owner].Calamity().providenceLore && projectile.owner == Main.myPlayer && projectile.damage > 0 &&
 					(projectile.melee || projectile.ranged || projectile.magic || rogue))
 				{
-					int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 244, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f, 0, default, 0.5f);
-					Main.dust[dust].noGravity = true;
+					if (Main.rand.NextBool(5))
+					{
+						int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 244, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f, 0, default, 0.5f);
+						Main.dust[dust].noGravity = true;
+						Main.dust[dust].noLight = true;
+					}
 				}
 
 				if (rogue)
@@ -1520,7 +1522,7 @@ namespace CalamityMod.Projectiles
                         target.AddBuff(BuffID.ShadowFlame, 300);
                     }
 
-                    if (Main.player[projectile.owner].Calamity().voltaicJelly)
+                    if (Main.player[projectile.owner].Calamity().voltaicJelly && Main.rand.Next(0, 5) == 0)
                     {
                         target.AddBuff(BuffID.Electrified, 60);
                     }

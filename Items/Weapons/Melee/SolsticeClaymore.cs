@@ -85,5 +85,13 @@ namespace CalamityMod.Items.Weapons.Melee
                 target.AddBuff(ModContent.BuffType<Nightwither>(), 300);
             }
         }
+
+        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+        {
+            if (!Main.dayTime)
+            {
+                target.AddBuff(ModContent.BuffType<Nightwither>(), 300);
+            }
+        }
     }
 }

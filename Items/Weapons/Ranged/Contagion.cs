@@ -54,7 +54,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
-            recipe.AddIngredient(ItemID.Phantasm);
+            recipe.AddIngredient(ModContent.ItemType<Phangasm>());
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();
