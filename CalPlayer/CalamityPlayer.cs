@@ -4905,8 +4905,10 @@ namespace CalamityMod.CalPlayer
             #endregion
 
             #region MultiplicativeReductions
-            // Fearmonger armor makes you immune to the summoner cross-class nerf
-            if (isSummon && !fearmongerSet)
+            // Forbidden and Fearmonger armor makes you immune to the summoner cross-class nerf
+			bool forbidden = player.armor[0].type == ItemID.AncientBattleArmorHat && 
+			player.armor[1].type == ItemID.AncientBattleArmorShirt && player.armor[2].type == ItemID.AncientBattleArmorPants;
+            if (isSummon && !fearmongerSet && !forbidden)
             {
                 if (heldItem.type > 0)
                 {
@@ -5618,14 +5620,13 @@ namespace CalamityMod.CalPlayer
                     num79 *= num80;
                     float speedX4 = num78 + (float)Main.rand.Next(-30, 31) * 0.02f;
                     float speedY5 = num79 + (float)Main.rand.Next(-30, 31) * 0.02f;
-                    int p = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, type, (int)(damage), (int)(knockBack), player.whoAmI, 0f, (float)Main.rand.Next(15));
-                    Main.projectile[p].damage /= 5;
+                    int p = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, type, (int)((float)damage * 0.15f), (int)(knockBack), player.whoAmI, 0f, (float)Main.rand.Next(15));
                     Main.projectile[p].knockBack /= 2;
                     Main.projectile[p].Calamity().forceRogue = true; //in case melee/rogue variants bug out
                     if (StealthStrikeAvailable())
                     {
                         int knifeCount = 15;
-                        int knifeDamage = 250;
+                        int knifeDamage = 200;
                         float angleStep = MathHelper.TwoPi / knifeCount;
                         float speed = 15f;
 

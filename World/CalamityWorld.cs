@@ -68,6 +68,7 @@ namespace CalamityMod.World
         //Death Mode natural boss spawns
         public static int bossSpawnCountdown = 0; //Death Mode natural boss spawn countdown
         public static int bossType = 0; //Death Mode natural boss spawn type
+		public static int deathBossSpawnCooldown = 0; //Cooldown between Death Mode natural boss spawns
 
         //Modes
         public static bool demonMode = false; //Spawn rate boost
@@ -1258,7 +1259,7 @@ namespace CalamityMod.World
 
             if (death && !CalamityPlayer.areThereAnyDamnBosses && Main.player[closestPlayer].statLifeMax2 >= 300)
             {
-                if (bossSpawnCountdown <= 0) //check for countdown being 0
+                if (bossSpawnCountdown <= 0 && deathBossSpawnCooldown <= 0) //check for countdown and cooldown being 0
                 {
                     if (Main.rand.NextBool(50000))
                     {
@@ -1555,9 +1556,14 @@ namespace CalamityMod.World
                                 NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<DesertScourgeHeadSmall>());
                             }
                             if (bossType == NPCID.DukeFishron)
+							{
                                 NPC.NewNPC((int)Main.player[closestPlayer].Center.X - 300, (int)Main.player[closestPlayer].Center.Y - 300, bossType);
+							}
                             else
+							{
                                 NPC.SpawnOnPlayer(closestPlayer, bossType);
+							}
+							deathBossSpawnCooldown = 86400; //24 minutes (1 full Terraria day)
                         }
                         bossType = 0;
                         if (Main.netMode == NetmodeID.Server)
@@ -1570,6 +1576,8 @@ namespace CalamityMod.World
                     }
                 }
             }
+			if (deathBossSpawnCooldown > 0)
+				deathBossSpawnCooldown--;
 
             if (!downedDesertScourge && Main.netMode != NetmodeID.MultiplayerClient)
                 CalamityUtils.StopSandstorm();
