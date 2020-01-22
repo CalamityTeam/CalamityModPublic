@@ -6601,6 +6601,29 @@ namespace CalamityMod.CalPlayer
                 }
                 player.DropTombstone(coinsOwned, deathText, 0);
             }
+			else if (CalamityWorld.death && deathModeBlizzardTime > 1980)
+			{
+				deathModeBlizzardTime = 0;
+				PlayerDeathReason damageSource = PlayerDeathReason.ByCustomReason(player.name + " was chilled to the bone by the frigid environment.");
+				NetworkText deathText = damageSource.GetDeathText(player.name);
+				if (Main.netMode == NetmodeID.MultiplayerClient && player.whoAmI == Main.myPlayer)
+				{
+					NetMessage.SendPlayerDeath(player.whoAmI, damageSource, (int)1000.0, 0, false, -1, -1);
+				}
+				if (Main.netMode == NetmodeID.Server)
+				{
+					NetMessage.BroadcastChatMessage(deathText, new Color(225, 25, 25), -1);
+				}
+				else if (Main.netMode == NetmodeID.SinglePlayer)
+				{
+					Main.NewText(deathText.ToString(), 225, 25, 25, false);
+				}
+				if (player.whoAmI == Main.myPlayer && player.difficulty == 0)
+				{
+					player.DropCoins();
+				}
+				player.DropTombstone(coinsOwned, deathText, 0);
+			}
             else if (SCalLore)
             {
                 PlayerDeathReason damageSource = PlayerDeathReason.ByCustomReason(player.Male ? player.name + " was consumed by his inner hatred." : player.name + " was consumed by her inner hatred.");
@@ -6667,29 +6690,6 @@ namespace CalamityMod.CalPlayer
                 }
                 player.DropTombstone(coinsOwned, deathText, 0);
             }
-			else if (CalamityWorld.death && deathModeBlizzardTime > 1980)
-			{
-				deathModeBlizzardTime = 0;
-				PlayerDeathReason damageSource = PlayerDeathReason.ByCustomReason(player.name + " was chilled to the bone by the frigid environment.");
-				NetworkText deathText = damageSource.GetDeathText(player.name);
-				if (Main.netMode == NetmodeID.MultiplayerClient && player.whoAmI == Main.myPlayer)
-				{
-					NetMessage.SendPlayerDeath(player.whoAmI, damageSource, (int)1000.0, 0, false, -1, -1);
-				}
-				if (Main.netMode == NetmodeID.Server)
-				{
-					NetMessage.BroadcastChatMessage(deathText, new Color(225, 25, 25), -1);
-				}
-				else if (Main.netMode == NetmodeID.SinglePlayer)
-				{
-					Main.NewText(deathText.ToString(), 225, 25, 25, false);
-				}
-				if (player.whoAmI == Main.myPlayer && player.difficulty == 0)
-				{
-					player.DropCoins();
-				}
-				player.DropTombstone(coinsOwned, deathText, 0);
-			}
 			else
             {
                 PlayerDeathReason damageSource = PlayerDeathReason.ByOther(player.Male ? 14 : 15);
