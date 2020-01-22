@@ -1184,10 +1184,10 @@ namespace CalamityMod.CalPlayer
 			}
 
 			// Plagued Fuel Pack effects
-			if (modPlayer.plaguedFuelPack && modPlayer.plaguedFuelPackDash > 0)
+			if (modPlayer.plaguedFuelPackDash > 0)
 			{
 				int velocityMult = modPlayer.plaguedFuelPackDash > 1 ? 25 : 5;
-				player.velocity = new Vector2(modPlayer.plaguedFuelPackDirection, -1) * velocityMult;
+				player.velocity = new Vector2(modPlayer.plaguedFuelPackDirection, player.velocity.Y < 0 ? -1 : (player.velocity.Y == 0 ? -1 : 1)) * velocityMult;
 
 				int numClouds = Main.rand.Next(2, 10);
 				for (int i = 0; i < numClouds; i++)
