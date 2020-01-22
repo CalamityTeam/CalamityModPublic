@@ -3414,7 +3414,13 @@ namespace CalamityMod
                 case CalamityModMessageType.DeathCountSync:
                     Main.player[reader.ReadInt32()].Calamity().HandleDeathCount(reader);
                     break;
-                case CalamityModMessageType.RevengeanceBoolSync:
+				case CalamityModMessageType.DeathModeUnderworldTimeSync:
+					Main.player[reader.ReadInt32()].Calamity().HandleDeathModeUnderworldTime(reader);
+					break;
+				case CalamityModMessageType.DeathModeBlizzardTimeSync:
+					Main.player[reader.ReadInt32()].Calamity().HandleDeathModeBlizzardTime(reader);
+					break;
+				case CalamityModMessageType.RevengeanceBoolSync:
                     bool revActive = reader.ReadBoolean();
                     CalamityWorld.revenge = revActive;
                     break;
@@ -3502,6 +3508,8 @@ namespace CalamityMod
         IronHeartBoolSync,
         ArmageddonBoolSync,
         DemonTrophyBoolSync,
-        NPCRegenerationSync
-    }
+        NPCRegenerationSync,
+		DeathModeUnderworldTimeSync,
+		DeathModeBlizzardTimeSync
+	}
 }
