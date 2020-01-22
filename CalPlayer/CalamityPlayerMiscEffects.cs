@@ -249,6 +249,8 @@ namespace CalamityMod.CalPlayer
 					modPlayer.packetTimer = 0;
 					modPlayer.StressPacket(false);
 					modPlayer.AdrenalinePacket(false);
+					modPlayer.DeathModeUnderworldTimePacket(false);
+					modPlayer.DeathModeBlizzardTimePacket(false);
 				}
 			}
 		}
@@ -323,17 +325,43 @@ namespace CalamityMod.CalPlayer
 
 					bool immunityToHot = player.lavaImmune || player.lavaRose || player.lavaMax != 0 || immunityToHotAndCold;
 
+					if (player.ZoneSnow && Main.raining && player.ZoneOverworldHeight)
+					{
+						int divisor = Main.hardMode ? 59 : 99;
+						Vector2 velocity = new Vector2((float)Main.rand.Next(-3, 4) * Main.rand.NextFloat(), 3f * Main.rand.NextFloat());
+						if (player.miscCounter % divisor == 0)
+							Projectile.NewProjectile(player.Center.X + Main.rand.Next(-500, 501), player.Center.Y - Main.rand.Next(600, 701), velocity.X, velocity.Y, ProjectileID.FrostShard, 20, 0f, player.whoAmI, (float)Main.rand.Next(5), 0f);
+					}
+
 					if (!player.behindBackWall && Main.raining && player.ZoneSnow && !immunityToCold)
 					{
-						player.AddBuff(BuffID.Chilled, 2, false);
+						modPlayer.deathModeBlizzardTime++;
 						if (player.wet && !player.lavaWet && !player.honeyWet && !player.arcticDivingGear)
-							player.AddBuff(BuffID.Frostburn, 2, false);
+							modPlayer.deathModeBlizzardTime++;
+						if (modPlayer.deathModeBlizzardTime > 1800)
+							player.AddBuff(BuffID.Frozen, 2, false);
+						if (modPlayer.deathModeBlizzardTime > 1980)
+							modPlayer.KillPlayer();
 					}
+					else
+						modPlayer.deathModeBlizzardTime = 0;
 
 					if (player.ZoneUnderworldHeight && !immunityToHot)
 					{
-						player.AddBuff(BuffID.OnFire, 2, false);
+						modPlayer.deathModeUnderworldTime++;
+						if (modPlayer.deathModeUnderworldTime > 360)
+							player.AddBuff(BuffID.Weak, 2, false);
+						if (modPlayer.deathModeUnderworldTime > 720)
+							player.AddBuff(BuffID.Slow, 2, false);
+						if (modPlayer.deathModeUnderworldTime > 1080)
+							player.AddBuff(BuffID.OnFire, 2, false);
+						if (modPlayer.deathModeUnderworldTime > 1440)
+							player.AddBuff(BuffID.Confused, 2, false);
+						if (modPlayer.deathModeUnderworldTime > 1800)
+							player.AddBuff(BuffID.Burning, 2, false);
 					}
+					else
+						modPlayer.deathModeUnderworldTime = 0;
 				}
 			}
 

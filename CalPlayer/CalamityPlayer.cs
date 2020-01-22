@@ -53,6 +53,7 @@ namespace CalamityMod.CalPlayer
         LoseRage = 0,
         None = 1
     }
+
     public class CalamityPlayer : ModPlayer
     {
 
@@ -68,6 +69,8 @@ namespace CalamityMod.CalPlayer
         public int sCalKillCount = 0;
         public int deathCount = 0;
 		public int actualMaxLife = 0;
+		public int deathModeUnderworldTime = 0;
+		public int deathModeBlizzardTime = 0;
 		public bool killSpikyBalls = false;
 		public Projectile lastProjectileHit;
 
@@ -769,7 +772,9 @@ namespace CalamityMod.CalPlayer
                 { "exactRogueLevel", exactRogueLevel },
                 { "deathCount", deathCount },
                 { "moneyStolenByBandit", moneyStolenByBandit },
-                { "reforges", reforges }
+                { "reforges", reforges },
+				{ "deathModeUnderworldTime", deathModeUnderworldTime },
+				{ "deathModeBlizzardTime", deathModeBlizzardTime }
             };
         }
 
@@ -801,6 +806,8 @@ namespace CalamityMod.CalPlayer
             deathCount = tag.GetInt("deathCount");
             moneyStolenByBandit = tag.GetInt("moneyStolenByBandit");
             reforges = tag.GetInt("reforges");
+			deathModeUnderworldTime = tag.GetInt("deathModeUnderworldTime");
+			deathModeBlizzardTime = tag.GetInt("deathModeBlizzardTime");
 
             meleeLevel = tag.GetInt("meleeLevel");
             rangedLevel = tag.GetInt("rangedLevel");
@@ -824,6 +831,8 @@ namespace CalamityMod.CalPlayer
             deathCount = reader.ReadInt32();
             moneyStolenByBandit = reader.ReadInt32();
             reforges = reader.ReadInt32();
+			deathModeUnderworldTime = reader.ReadInt32();
+			deathModeBlizzardTime = reader.ReadInt32();
 
             meleeLevel = reader.ReadInt32();
             rangedLevel = reader.ReadInt32();
@@ -2939,6 +2948,12 @@ namespace CalamityMod.CalPlayer
             {
                 runSpeedMult *= 0.6666667f;
             }
+			if (CalamityWorld.death && deathModeBlizzardTime > 0)
+			{
+				float speedMult = (float)(3600 - deathModeBlizzardTime) / 3600f;
+				runAccMult *= speedMult;
+				runSpeedMult *= speedMult;
+			}
 
             player.runAcceleration *= runAccMult;
             player.maxRunSpeed *= runSpeedMult;
@@ -6433,7 +6448,30 @@ namespace CalamityMod.CalPlayer
                 }
                 player.DropTombstone(coinsOwned, deathText, 0);
             }
-            else
+			else if (CalamityWorld.death && deathModeBlizzardTime > 1980)
+			{
+				deathModeBlizzardTime = 0;
+				PlayerDeathReason damageSource = PlayerDeathReason.ByCustomReason(player.name + " was chilled to the bone by the frigid environment.");
+				NetworkText deathText = damageSource.GetDeathText(player.name);
+				if (Main.netMode == NetmodeID.MultiplayerClient && player.whoAmI == Main.myPlayer)
+				{
+					NetMessage.SendPlayerDeath(player.whoAmI, damageSource, (int)1000.0, 0, false, -1, -1);
+				}
+				if (Main.netMode == NetmodeID.Server)
+				{
+					NetMessage.BroadcastChatMessage(deathText, new Color(225, 25, 25), -1);
+				}
+				else if (Main.netMode == NetmodeID.SinglePlayer)
+				{
+					Main.NewText(deathText.ToString(), 225, 25, 25, false);
+				}
+				if (player.whoAmI == Main.myPlayer && player.difficulty == 0)
+				{
+					player.DropCoins();
+				}
+				player.DropTombstone(coinsOwned, deathText, 0);
+			}
+			else
             {
                 PlayerDeathReason damageSource = PlayerDeathReason.ByOther(player.Male ? 14 : 15);
                 NetworkText deathText = damageSource.GetDeathText(player.name);
@@ -8507,7 +8545,33 @@ namespace CalamityMod.CalPlayer
                 packet.Send(-1, player.whoAmI);
         }
 
-        internal void HandleExactLevels(BinaryReader reader, int levelType)
+		public void DeathModeUnderworldTimePacket(bool server)
+		{
+			ModPacket packet = mod.GetPacket(256);
+			packet.Write((byte)CalamityModMessageType.DeathModeUnderworldTimeSync);
+			packet.Write(player.whoAmI);
+			packet.Write(deathModeUnderworldTime);
+
+			if (!server)
+				packet.Send();
+			else
+				packet.Send(-1, player.whoAmI);
+		}
+
+		public void DeathModeBlizzardTimePacket(bool server)
+		{
+			ModPacket packet = mod.GetPacket(256);
+			packet.Write((byte)CalamityModMessageType.DeathModeBlizzardTimeSync);
+			packet.Write(player.whoAmI);
+			packet.Write(deathModeBlizzardTime);
+
+			if (!server)
+				packet.Send();
+			else
+				packet.Send(-1, player.whoAmI);
+		}
+
+		internal void HandleExactLevels(BinaryReader reader, int levelType)
         {
             switch (levelType)
             {
@@ -8578,7 +8642,21 @@ namespace CalamityMod.CalPlayer
                 DeathPacket(true);
         }
 
-        public override void OnEnterWorld(Player player)
+		internal void HandleDeathModeUnderworldTime(BinaryReader reader)
+		{
+			deathModeUnderworldTime = reader.ReadInt32();
+			if (Main.netMode == NetmodeID.Server)
+				DeathModeUnderworldTimePacket(true);
+		}
+
+		internal void HandleDeathModeBlizzardTime(BinaryReader reader)
+		{
+			deathModeBlizzardTime = reader.ReadInt32();
+			if (Main.netMode == NetmodeID.Server)
+				DeathModeBlizzardTimePacket(true);
+		}
+
+		public override void OnEnterWorld(Player player)
         {
             if (Main.netMode == NetmodeID.MultiplayerClient)
             {
@@ -8595,7 +8673,9 @@ namespace CalamityMod.CalPlayer
                 StressPacket(false);
                 AdrenalinePacket(false);
                 DeathPacket(false);
-            }
+				DeathModeUnderworldTimePacket(false);
+				DeathModeBlizzardTimePacket(false);
+			}
         }
         #endregion
 
