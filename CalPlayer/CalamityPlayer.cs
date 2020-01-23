@@ -5431,10 +5431,6 @@ namespace CalamityMod.CalPlayer
                 {
                     player.AddBuff(ModContent.BuffType<Shadowflame>(), 180);
                 }
-                else if (npc.type == NPCID.SkeletronPrime || npc.type == NPCID.PrimeVice || npc.type == NPCID.PrimeSaw)
-                {
-                    player.AddBuff(BuffID.Bleeding, 300);
-                }
                 else if (npc.type == NPCID.Spazmatism && npc.ai[0] != 1f && npc.ai[0] != 2f && npc.ai[0] != 0f)
                 {
                     player.AddBuff(BuffID.Bleeding, 300);
@@ -5448,11 +5444,6 @@ namespace CalamityMod.CalPlayer
                 {
                     player.AddBuff(BuffID.Poisoned, 120);
                     player.AddBuff(BuffID.Bleeding, 180);
-                }
-                else if (npc.type == NPCID.Golem || npc.type == NPCID.GolemFistLeft || npc.type == NPCID.GolemFistRight ||
-                    npc.type == NPCID.GolemHead || npc.type == NPCID.GolemHeadFree)
-                {
-                    player.AddBuff(BuffID.BrokenArmor, 180);
                 }
             }
         }

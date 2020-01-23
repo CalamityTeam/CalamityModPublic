@@ -801,6 +801,7 @@ namespace CalamityMod
                 ModContent.BuffType<Horror>(),
                 ModContent.BuffType<MarkedforDeath>(),
                 ModContent.BuffType<WarCleave>(),
+                ModContent.BuffType<ArmorCrunch>(),
                 ModContent.BuffType<Vaporfied>(),
                 ModContent.BuffType<Eutrophication>()
             };

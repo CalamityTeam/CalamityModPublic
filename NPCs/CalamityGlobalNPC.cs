@@ -2410,6 +2410,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.GolemHead:
+                case NPCID.GolemHeadFree:
                 case NPCID.GolemFistRight:
                 case NPCID.GolemFistLeft:
                     target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 180);
@@ -2418,6 +2419,48 @@ namespace CalamityMod.NPCs
                 default:
                     break;
             }
+
+			if (Main.hardMode)
+			{
+				switch (npc.type)
+				{
+					case NPCID.BigBoned:
+					case NPCID.ShortBones:
+					case NPCID.AngryBones:
+					case NPCID.AngryBonesBig:
+					case NPCID.AngryBonesBigMuscle:
+					case NPCID.AngryBonesBigHelmet:
+						target.AddBuff(ModContent.BuffType<WarCleave>(), 60);
+						break;
+
+					default:
+						break;
+				}
+
+				if (NPC.downedPlantBoss)
+				{
+					switch (npc.type)
+					{
+						case NPCID.RustyArmoredBonesAxe:
+						case NPCID.RustyArmoredBonesFlail:
+						case NPCID.RustyArmoredBonesSword:
+						case NPCID.RustyArmoredBonesSwordNoArmor:
+						case NPCID.BlueArmoredBones:
+						case NPCID.BlueArmoredBonesMace:
+						case NPCID.BlueArmoredBonesNoPants:
+						case NPCID.BlueArmoredBonesSword:
+						case NPCID.HellArmoredBones:
+						case NPCID.HellArmoredBonesSpikeShield:
+						case NPCID.HellArmoredBonesMace:
+						case NPCID.HellArmoredBonesSword:
+							target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 120);
+							break;
+
+						default:
+							break;
+					}
+				}
+			}
 
             if (CalamityWorld.revenge)
             {
@@ -2596,12 +2639,8 @@ namespace CalamityMod.NPCs
                         break;
 
                     case NPCID.Spazmatism:
-                    case NPCID.PrimeSaw:
-                    case NPCID.PrimeVice:
                     case NPCID.Probe:
                     case NPCID.QueenBee:
-                    case NPCID.GolemFistLeft:
-                    case NPCID.GolemFistRight:
                     case NPCID.Spore:
                     case NPCID.BoneLee:
                     case NPCID.Flocko:
@@ -2621,6 +2660,28 @@ namespace CalamityMod.NPCs
                     case NPCID.DetonatingBubble:
                         target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 360);
                         break;
+
+                    case NPCID.PrimeSaw:
+                    case NPCID.PrimeVice:
+						target.AddBuff(BuffID.Bleeding, 300);
+                        target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 180);
+						break;
+
+                    case NPCID.SkeletronPrime:
+						target.AddBuff(BuffID.Bleeding, 300);
+						break;
+
+					case NPCID.Golem:
+					case NPCID.GolemHead:
+					case NPCID.GolemHeadFree:
+						target.AddBuff(BuffID.BrokenArmor, 180);
+						break;
+
+					case NPCID.GolemFistRight:
+					case NPCID.GolemFistLeft:
+						target.AddBuff(BuffID.BrokenArmor, 180);
+                        target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 180);
+						break;
 
                     default:
                         break;

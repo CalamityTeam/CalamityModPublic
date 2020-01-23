@@ -404,6 +404,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
+            player.AddBuff(ModContent.BuffType<WarCleave>(), 60);
             if (CalamityWorld.revenge)
             {
                 player.AddBuff(ModContent.BuffType<MarkedforDeath>(), 120);
