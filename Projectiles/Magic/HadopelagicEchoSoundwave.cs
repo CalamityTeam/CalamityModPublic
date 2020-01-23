@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.alpha = 100;
             projectile.friendly = true;
             projectile.ignoreWater = true;
-            projectile.penetrate = -1;
+            projectile.penetrate = 30;
             projectile.magic = true;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 0;
@@ -74,6 +74,11 @@ namespace CalamityMod.Projectiles.Magic
                 projectile.velocity.Y = -oldVelocity.Y;
             }
             return false;
+        }
+
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            damage = (int)((double)damage * (double)projectile.localAI[0]);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
