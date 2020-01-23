@@ -80,6 +80,7 @@ namespace CalamityMod.Projectiles.Magic
         {
             target.AddBuff(ModContent.BuffType<CrushDepth>(), 600);
             target.AddBuff(BuffID.Ichor, 600);
+            target.AddBuff(BuffID.Electrified, 600);
             projectile.velocity *= 0.85f;
 
 			if (echoCooldown == 0 && projectile.ai[0] == 4f)
