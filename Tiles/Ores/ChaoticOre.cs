@@ -3,6 +3,7 @@ using CalamityMod.Projectiles.Enemy;
 using CalamityMod.Tiles.Abyss;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.Ores
 {
@@ -42,14 +43,14 @@ namespace CalamityMod.Tiles.Ores
             {
                 return;
             }
-            if (closer && Main.rand.Next(300) == 0)
+            if (closer && Main.rand.NextBool(300))
             {
                 int tileLocationY = j + 1;
                 if (Main.tile[i, tileLocationY] != null)
                 {
                     if (!Main.tile[i, tileLocationY].active())
                     {
-                        if (Main.netMode != 1)
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
                             Projectile.NewProjectile((float)(i * 16 + 16), (float)(tileLocationY * 16 + 16), 0f, 0.1f, ModContent.ProjectileType<LavaChunk>(), 25, 2f, Main.myPlayer, 0f, 0f);
                         }

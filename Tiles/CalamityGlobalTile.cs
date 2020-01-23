@@ -501,5 +501,76 @@ namespace CalamityMod.Tiles
             }
             return true;
         }
-    }
+
+		public override void NearbyEffects(int i, int j, int type, bool closer)
+		{
+			if (Main.gamePaused)
+			{
+				return;
+			}
+			if (CalamityWorld.death && !CalamityPlayer.areThereAnyDamnBosses)
+			{
+				if ((type == TileID.Ash || type == TileID.Hellstone) && closer)
+				{
+					if (j > Main.maxTilesY - 180 && j < Main.maxTilesY - 50)
+					{
+						if (Main.tile[i, j - 1] == null)
+							Main.tile[i, j - 1] = new Tile();
+
+						Tile tileAboveAsh = Main.tile[i, j - 1];
+						if (tileAboveAsh.liquidType() == 1 && !tileAboveAsh.active())
+						{
+							// Only shoot flames if tiles underneath are lava and if tiles above and below aren't active
+							bool shootFlames = Main.netMode != NetmodeID.MultiplayerClient && Main.rand.NextBool(300);
+							if (shootFlames)
+							{
+								int lavaTilesAboveAsh = 0;
+								int lavaTopY = 0;
+								Tile lavaTop = new Tile();
+								for (int k = j - 1; k > Main.maxTilesY - 180; k--)
+								{
+									if (!Main.tile[i, k].active() && Main.tile[i, k].liquidType() == 1)
+									{
+										if (lavaTilesAboveAsh < 5)
+											lavaTilesAboveAsh++;
+									}
+									else
+									{
+										if (lavaTilesAboveAsh == 5)
+										{
+											if (Main.tile[i, k] == null)
+												Main.tile[i, k] = new Tile();
+
+											lavaTopY = k;
+											lavaTop = Main.tile[i, k];
+										}
+										else
+											shootFlames = false;
+
+										break;
+									}
+								}
+								if (shootFlames)
+								{
+									for (int l = lavaTopY - 1; l > lavaTopY - 10; l--)
+									{
+										if (Main.tile[i, l].active())
+										{
+											shootFlames = false;
+											break;
+										}
+									}
+								}
+							}
+							if (shootFlames)
+							{
+								float randomVelocity = Main.rand.NextFloat() + 0.5f;
+								Projectile.NewProjectile((float)(i * 16), (float)(j * 16), 0f, -8f * randomVelocity, ProjectileID.GeyserTrap, 20, 2f, Main.myPlayer, 0f, 0f);
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 }
