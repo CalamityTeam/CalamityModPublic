@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Rogue
                     Main.PlaySound(SoundID.Item73, projectile.position);
                     for (int i = 0; i < 20; i++)
                     {
-                        Projectile.NewProjectile(new Vector2(position.X + (-600 + i * 60), position.Y - 800), new Vector2(0f, 5f), ModContent.ProjectileType<ExecutionersBladeStealthProj>(), (int)((double)damage * 1.4f), knockback, player.whoAmI);
+                        Projectile.NewProjectile(new Vector2(position.X + (-600 + i * 60), position.Y - 800), new Vector2(0f, 5f), ModContent.ProjectileType<ExecutionersBladeStealthProj>(), (int)((double)projectile.damage * 1.2f), projectile.knockBack, player.whoAmI);
                     }
                 }
             }
