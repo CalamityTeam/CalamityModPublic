@@ -91,7 +91,7 @@ namespace CalamityMod.NPCs.TownNPCs
             }
             if (BirthdayParty.PartyIsUp)
             {
-                PossibleDialogs.Add("Where is my party hat? Well i stole it of course.");
+                PossibleDialogs.Add("Where is my party hat? Well, I stole it of course.");
             }
             if (npc.GivenName == "Laura")
             {

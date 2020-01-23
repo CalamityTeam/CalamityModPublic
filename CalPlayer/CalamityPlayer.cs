@@ -1154,6 +1154,7 @@ namespace CalamityMod.CalPlayer
             stressPills = false;
             laudanum = false;
             fleshTotem = false;
+			fleshTotemCooldown = false;
             bloodPact = false;
             bloodflareCore = false;
             coreOfTheBloodGod = false;
@@ -1273,6 +1274,7 @@ namespace CalamityMod.CalPlayer
             bloodyGlove = false;
             filthyGlove = false;
             sandCloak = false;
+            sandCloakCooldown = false;
             spectralVeil = false;
             plaguedFuelPack = false;
             camper = false;
@@ -1345,6 +1347,7 @@ namespace CalamityMod.CalPlayer
             holyWrath = false;
             profanedRage = false;
             draconicSurge = false;
+            draconicSurgeCooldown = false;
             tesla = false;
             baguette = false;
             trippy = false;
@@ -1490,7 +1493,6 @@ namespace CalamityMod.CalPlayer
             raiderCooldown = 0;
             gSabatonFall = 0;
             gSabatonCooldown = 0;
-            fleshTotemCooldown = false;
             astralStarRainCooldown = 0;
             bloodflareMageCooldown = 0;
             tarraMageHealCooldown = 0;
@@ -1499,7 +1501,6 @@ namespace CalamityMod.CalPlayer
             theBeeDamage = 0;
             reforges = 0;
             polarisBoostCounter = 0;
-            sandCloakCooldown = false;
             spectralVeilImmunity = 0;
             plaguedFuelPackCooldown = 0;
             plaguedFuelPackDash = 0;
@@ -1508,6 +1509,8 @@ namespace CalamityMod.CalPlayer
             moonCrownCooldown = 0;
             featherCrownCooldown = 0;
             nanoFlareCooldown = 0;
+            fleshTotemCooldown = false;
+            sandCloakCooldown = false;
 
 			alcoholPoisoning = false;
             shadowflame = false;
