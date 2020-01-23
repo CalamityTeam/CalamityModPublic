@@ -81,6 +81,11 @@ namespace CalamityMod.Projectiles.Magic
             damage = (int)((double)damage * (double)projectile.localAI[0]);
         }
 
+        public override void ModifyHitPvp(Player target, ref int damage, ref bool crit)
+        {
+            damage = (int)((double)damage * (double)projectile.localAI[0]);
+        }
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<CrushDepth>(), 600);
