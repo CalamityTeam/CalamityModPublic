@@ -609,6 +609,14 @@ namespace CalamityMod.CalPlayer
 						caughtType = ModContent.ItemType<AbyssalCrate>();
 					}
 				}
+
+				if (player.ZoneOverworldHeight && Main.bloodMoon)
+				{
+					if (Main.rand.NextBool(15))
+					{
+						caughtType = ModContent.ItemType<Xerocodile>();
+					}
+				}
 			}
 
 			if (lava)
