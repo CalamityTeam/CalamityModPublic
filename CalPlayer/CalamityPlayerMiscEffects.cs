@@ -384,7 +384,7 @@ namespace CalamityMod.CalPlayer
 						}
 						else
 						{
-							if (player.miscCounter == (int)(240f * frequencyMult))
+							if (player.miscCounter == (int)(240f * frequencyMult) && Main.rand.NextBool(3))
 							{
 								float randomVelocity = Main.rand.NextFloat() - 0.5f;
 								Vector2 fireTo = new Vector2(spawnPoint.X + 100f * randomVelocity, spawnPoint.Y + 900);
