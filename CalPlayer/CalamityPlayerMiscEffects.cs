@@ -15,6 +15,7 @@ using CalamityMod.NPCs.AcidRain;
 using CalamityMod.NPCs.Astral;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.SupremeCalamitas;
+using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
@@ -371,19 +372,22 @@ namespace CalamityMod.CalPlayer
 
 					if (Main.raining && player.ZoneOverworldHeight && !CalamityPlayer.areThereAnyDamnBosses)
 					{
-						Vector2 spawnPoint = new Vector2(player.Center.X + (float)Main.rand.Next(-500, 501), player.Center.Y - (float)Main.rand.Next(600, 701));
+						float frequencyMult = 1f - Main.cloudAlpha; // 1 to 0.11
+						Vector2 spawnPoint = new Vector2(player.Center.X + (float)Main.rand.Next(-800, 801), player.Center.Y - (float)Main.rand.Next(700, 801));
 						if (player.ZoneSnow)
 						{
-							int divisor = Main.hardMode ? 10 : 15;
-							Vector2 velocity = new Vector2((float)Main.rand.Next(-3, 4) * Main.rand.NextFloat(), 3f * Main.rand.NextFloat());
-							if (player.miscCounter % divisor == 0 && Main.rand.NextBool(4))
-								Projectile.NewProjectile(spawnPoint.X, spawnPoint.Y, velocity.X, velocity.Y, ProjectileID.FrostShard, 20, 0f, player.whoAmI, (float)Main.rand.Next(5), 0f);
+							int divisor = (int)((Main.hardMode ? 50f : 60f) * frequencyMult);
+							float windVelocity = (float)Math.Sqrt((double)Math.Abs(Main.windSpeed)) * (float)Math.Sign(Main.windSpeed) * (Main.cloudAlpha + 0.5f) * 25f + Main.rand.NextFloat() * 0.2f - 0.1f;
+							Vector2 velocity = new Vector2(windVelocity, 3f * Main.rand.NextFloat());
+							if (player.miscCounter % divisor == 0 && Main.rand.NextBool(3))
+								Projectile.NewProjectile(spawnPoint.X, spawnPoint.Y, velocity.X, velocity.Y, ModContent.ProjectileType<IceRain>(), 20, 0f, player.whoAmI, 1f, 0f);
 						}
 						else
 						{
-							if (player.miscCounter == 150)
+							if (player.miscCounter == (int)(240f * frequencyMult))
 							{
-								Vector2 fireTo = new Vector2(spawnPoint.X, spawnPoint.Y + 900);
+								float randomVelocity = Main.rand.NextFloat() - 0.5f;
+								Vector2 fireTo = new Vector2(spawnPoint.X + 100f * randomVelocity, spawnPoint.Y + 900);
 								Vector2 ai0 = fireTo - spawnPoint;
 								float ai = (float)Main.rand.Next(100);
 								Vector2 velocity = Vector2.Normalize(ai0.RotatedByRandom(0.78539818525314331)) * 7f;
@@ -2981,6 +2985,7 @@ namespace CalamityMod.CalPlayer
 		private static int LightStrength(Player player, CalamityPlayer modPlayer)
 		{
 			int lightStrength = 0 +
+				((Main.campfire && !modPlayer.ZoneAbyss) ? 1 : 0) +
 				((player.lightOrb || player.crimsonHeart || player.magicLantern || modPlayer.radiator) ? 1 : 0) + // 1
 				(modPlayer.aquaticEmblem ? 1 : 0) + // 2
 				(player.arcticDivingGear ? 1 : 0) + // 3

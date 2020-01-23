@@ -1,3 +1,4 @@
+using CalamityMod.CalPlayer;
 using CalamityMod.Items.Potions;
 using CalamityMod.Tiles.Abyss;
 using CalamityMod.Tiles.Astral;
@@ -529,6 +530,9 @@ namespace CalamityMod.Tiles
 								Tile lavaTop = new Tile();
 								for (int k = j - 1; k > Main.maxTilesY - 180; k--)
 								{
+									if (Main.tile[i, k] == null)
+										Main.tile[i, k] = new Tile();
+
 									if (!Main.tile[i, k].active() && Main.tile[i, k].liquidType() == 1)
 									{
 										if (lavaTilesAboveAsh < 5)
@@ -538,9 +542,6 @@ namespace CalamityMod.Tiles
 									{
 										if (lavaTilesAboveAsh == 5)
 										{
-											if (Main.tile[i, k] == null)
-												Main.tile[i, k] = new Tile();
-
 											lavaTopY = k;
 											lavaTop = Main.tile[i, k];
 										}
