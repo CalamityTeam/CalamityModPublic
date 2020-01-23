@@ -571,7 +571,7 @@ namespace CalamityMod.NPCs.Abyss
                     Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CalamarisLament>());
                 }
             }
-            if (NPC.downedPlantBoss || CalamityWorld.downedCalamitas)
+            if (CalamityWorld.downedCalamitas)
             {
                 if (Main.rand.NextBool(2))
                 {

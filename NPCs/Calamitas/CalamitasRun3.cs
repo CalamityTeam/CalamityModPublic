@@ -212,11 +212,11 @@ namespace CalamityMod.NPCs.Calamitas
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeCalamitasClone>(), !CalamityWorld.downedCalamitas);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedCalamitas, 4, 2, 1);
 
-            // Abyss awakens after killing Calamitas OR Plantera
+            // Abyss awakens after killing Calamitas
             string key = "Mods.CalamityMod.PlantBossText";
             Color messageColor = Color.RoyalBlue;
 
-            if (!CalamityWorld.downedCalamitas && !NPC.downedPlantBoss)
+            if (!CalamityWorld.downedCalamitas)
             {
                 if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
                     Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/WyrmScream"), (int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y);

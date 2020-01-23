@@ -691,7 +691,7 @@ namespace CalamityMod.NPCs.Abyss
                     }
                 }
             }
-            if (NPC.downedPlantBoss || CalamityWorld.downedCalamitas)
+            if (CalamityWorld.downedCalamitas)
             {
                 if (Main.rand.NextBool(2))
                 {
