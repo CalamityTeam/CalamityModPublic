@@ -9737,9 +9737,9 @@ namespace CalamityMod.NPCs
                     int num20 = 36;
                     for (int i = 0; i < num20; i++)
                     {
-                        Vector2 expr_80F = (Vector2.Normalize(npc.velocity) * new Vector2((float)npc.width / 2f, (float)npc.height) * 0.75f * 0.5f).RotatedBy((double)((float)(i - (num20 / 2 - 1)) * 6.28318548f / (float)num20), default) + npc.Center;
-                        Vector2 vector2 = expr_80F - npc.Center;
-                        int num21 = Dust.NewDust(expr_80F + vector2, 0, 0, 172, vector2.X * 2f, vector2.Y * 2f, 100, default, 1.4f);
+                        Vector2 dust = (Vector2.Normalize(npc.velocity) * new Vector2((float)npc.width / 2f, (float)npc.height) * 0.75f * 0.5f).RotatedBy((double)((float)(i - (num20 / 2 - 1)) * 6.28318548f / (float)num20), default) + npc.Center;
+                        Vector2 vector2 = dust - npc.Center;
+                        int num21 = Dust.NewDust(dust + vector2, 0, 0, 172, vector2.X * 2f, vector2.Y * 2f, 100, default, 1.4f);
                         Main.dust[num21].noGravity = true;
                         Main.dust[num21].noLight = true;
                         Main.dust[num21].velocity = Vector2.Normalize(vector2) * 3f;
@@ -14246,11 +14246,8 @@ namespace CalamityMod.NPCs
 					{
 						npc.ai[0] = 1000f;
 					}
-					float[] expr_710_cp_0 = npc.ai;
-					int expr_710_cp_1 = 0;
-					float num6 = expr_710_cp_0[expr_710_cp_1] + 1f;
-					expr_710_cp_0[expr_710_cp_1] = num6;
-					if (num6 >= 1300f)
+					npc.ai[0] += 1f;
+					if (npc.ai[0] >= 1300f)
 					{
 						npc.ai[0] = 1000f;
 						npc.netUpdate = true;
@@ -14381,11 +14378,11 @@ namespace CalamityMod.NPCs
 							for (float num17 = 0f; num17 < 2f; num17 += 1f)
 							{
 								Vector2 vector2 = Vector2.UnitY.RotatedByRandom(6.2831854820251465) * (Main.rand.NextFloat() * 0.5f + 0.5f);
-								Dust expr_D34 = Main.dust[Dust.NewDust(vector, 0, 0, 228, 0f, 0f, 0, default(Color), 1f)];
-								expr_D34.position = vector + vector2 * scaleFactor;
-								expr_D34.noGravity = true;
-								expr_D34.velocity = vector2 * 2f;
-								expr_D34.scale = 0.5f + Main.rand.NextFloat() * 0.5f;
+								Dust dust = Main.dust[Dust.NewDust(vector, 0, 0, 228, 0f, 0f, 0, default(Color), 1f)];
+								dust.position = vector + vector2 * scaleFactor;
+								dust.noGravity = true;
+								dust.velocity = vector2 * 2f;
+								dust.scale = 0.5f + Main.rand.NextFloat() * 0.5f;
 							}
 						}
 						Lighting.AddLight(npc.Center, 0.9f, 0.75f, 0.1f);
@@ -14416,11 +14413,11 @@ namespace CalamityMod.NPCs
 							for (float num19 = 0f; num19 < 1f; num19 += 1f)
 							{
 								Vector2 vector4 = Vector2.UnitY.RotatedByRandom(6.2831854820251465) * (Main.rand.NextFloat() * 0.5f + 0.5f);
-								Dust expr_F62 = Main.dust[Dust.NewDust(vector3, 0, 0, 228, 0f, 0f, 0, default(Color), 1f)];
-								expr_F62.position = vector3 + vector4 * scaleFactor2;
-								expr_F62.noGravity = true;
-								expr_F62.velocity = vector4 * 4f;
-								expr_F62.scale = 0.5f + Main.rand.NextFloat();
+								Dust dust = Main.dust[Dust.NewDust(vector3, 0, 0, 228, 0f, 0f, 0, default(Color), 1f)];
+								dust.position = vector3 + vector4 * scaleFactor2;
+								dust.noGravity = true;
+								dust.velocity = vector4 * 4f;
+								dust.scale = 0.5f + Main.rand.NextFloat();
 							}
 						}
 						if (Main.netMode != 2)
@@ -14867,10 +14864,8 @@ namespace CalamityMod.NPCs
 					dust.noLight = true;
 					dust.velocity = npc.DirectionFrom(dust.position) * dust.velocity.Length();
 					dust.position -= dust.velocity * 5f;
-					Dust expr_22DE_cp_0_cp_0 = dust;
-					expr_22DE_cp_0_cp_0.position.X = expr_22DE_cp_0_cp_0.position.X + (float)(npc.direction * 6);
-					Dust expr_22F7_cp_0_cp_0 = dust;
-					expr_22F7_cp_0_cp_0.position.Y = expr_22F7_cp_0_cp_0.position.Y + 4f;
+					dust.position.X += (float)(npc.direction * 6);
+					dust.position.Y += 4f;
 				}
 			}
 			if (npc.type == NPCID.VortexHornet)
@@ -14916,10 +14911,10 @@ namespace CalamityMod.NPCs
 				}
 				if (Main.rand.Next(maxValue2) == 0)
 				{
-					Dust expr_2471 = Main.dust[Dust.NewDust(npc.position, npc.width, npc.height, 229, 0f, 0f, 0, default(Color), 1f)];
-					expr_2471.noGravity = true;
-					expr_2471.scale = 1f;
-					expr_2471.noLight = true;
+					Dust dust = Main.dust[Dust.NewDust(npc.position, npc.width, npc.height, 229, 0f, 0f, 0, default(Color), 1f)];
+					dust.noGravity = true;
+					dust.scale = 1f;
+					dust.noLight = true;
 				}
 			}
 			bool flag3 = false;
@@ -14958,16 +14953,16 @@ namespace CalamityMod.NPCs
 					for (int m = 0; m < 20; m++)
 					{
 						int num39 = Dust.NewDust(npc.position, npc.width, npc.height, 71, num36, num37, 200, default(Color), 2f);
-						Main.dust[num39].noGravity = true;
-						Dust expr_2688_cp_0_cp_0 = Main.dust[num39];
-						expr_2688_cp_0_cp_0.velocity.X = expr_2688_cp_0_cp_0.velocity.X * 2f;
+						Dust dust = Main.dust[num39];
+						dust.noGravity = true;
+						dust.velocity.X *= 2f;
 					}
 					for (int n = 0; n < 20; n++)
 					{
 						int num40 = Dust.NewDust(npc.oldPos[2], npc.width, npc.height, 71, -num36, -num37, 200, default(Color), 2f);
-						Main.dust[num40].noGravity = true;
-						Dust expr_26FD_cp_0_cp_0 = Main.dust[num40];
-						expr_26FD_cp_0_cp_0.velocity.X = expr_26FD_cp_0_cp_0.velocity.X * 2f;
+						Dust dust = Main.dust[num40];
+						dust.noGravity = true;
+						dust.velocity.X *= 2f;
 					}
 				}
 			}
@@ -16311,10 +16306,10 @@ namespace CalamityMod.NPCs
 					{
 						Vector2 position = npc.Center + new Vector2((float)(npc.direction * -14), -8f) - Vector2.One * 4f;
 						Vector2 vector14 = new Vector2((float)(npc.direction * -6), 12f) * 0.2f + Utils.RandomVector2(Main.rand, -1f, 1f) * 0.1f;
-						Dust expr_70AD = Main.dust[Dust.NewDust(position, 8, 8, 229, vector14.X, vector14.Y, 100, Color.Transparent, 1f + Main.rand.NextFloat() * 0.5f)];
-						expr_70AD.noGravity = true;
-						expr_70AD.velocity = vector14;
-						expr_70AD.customData = npc;
+						Dust dust = Main.dust[Dust.NewDust(position, 8, 8, 229, vector14.X, vector14.Y, 100, Color.Transparent, 1f + Main.rand.NextFloat() * 0.5f)];
+						dust.noGravity = true;
+						dust.velocity = vector14;
+						dust.customData = npc;
 					}
 					for (int num83 = 0; num83 < 200; num83++)
 					{
@@ -16525,10 +16520,10 @@ namespace CalamityMod.NPCs
 				}
 				if (Main.rand.Next(6) == 0 && npc.ai[1] <= 20f)
 				{
-					Dust expr_7CF3 = Main.dust[Dust.NewDust(npc.Center + new Vector2((float)((npc.spriteDirection == 1) ? 8 : -20), -20f), 8, 8, 229, npc.velocity.X, npc.velocity.Y, 100, default(Color), 1f)];
-					expr_7CF3.velocity = expr_7CF3.velocity / 4f + npc.velocity / 2f;
-					expr_7CF3.scale = 0.6f;
-					expr_7CF3.noLight = true;
+					Dust dust = Main.dust[Dust.NewDust(npc.Center + new Vector2((float)((npc.spriteDirection == 1) ? 8 : -20), -20f), 8, 8, 229, npc.velocity.X, npc.velocity.Y, 100, default(Color), 1f)];
+					dust.velocity = dust.velocity / 4f + npc.velocity / 2f;
+					dust.scale = 0.6f;
+					dust.noLight = true;
 				}
 				if (npc.ai[1] >= 57f)
 				{
@@ -16537,10 +16532,10 @@ namespace CalamityMod.NPCs
 						161,
 						229
 					});
-					Dust expr_7DBD = Main.dust[Dust.NewDust(npc.Center + new Vector2((float)((npc.spriteDirection == 1) ? 8 : -20), -20f), 8, 8, num91, npc.velocity.X, npc.velocity.Y, 100, default(Color), 1f)];
-					expr_7DBD.velocity = expr_7DBD.velocity / 4f + npc.DirectionTo(Main.player[npc.target].Top);
-					expr_7DBD.scale = 1.2f;
-					expr_7DBD.noLight = true;
+					Dust dust = Main.dust[Dust.NewDust(npc.Center + new Vector2((float)((npc.spriteDirection == 1) ? 8 : -20), -20f), 8, 8, num91, npc.velocity.X, npc.velocity.Y, 100, default(Color), 1f)];
+					dust.velocity = dust.velocity / 4f + npc.DirectionTo(Main.player[npc.target].Top);
+					dust.scale = 1.2f;
+					dust.noLight = true;
 				}
 				if (Main.rand.Next(6) == 0)
 				{
