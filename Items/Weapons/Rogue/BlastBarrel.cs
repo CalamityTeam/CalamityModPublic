@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Blast Barrel");
             Tooltip.SetDefault("Throws a rolling barrel that explodes on wall collision\n" +
-                               "Stealth strikes makes the barrel bounce twice before dissapearing with varied effects after each bounce\n" +
+                               "Stealth strikes makes the barrel bounce twice before disappearing with varied effects after each bounce\n" +
                                "'Some people used to jump over these'");
         }
 
