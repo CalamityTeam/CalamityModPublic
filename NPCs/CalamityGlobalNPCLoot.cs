@@ -205,27 +205,6 @@ namespace CalamityMod.NPCs
                         NetMessage.BroadcastChatMessage(NetworkText.FromKey(key3), messageColor3);
                     }
                 }
-
-                // Awaken the Abyss if neither Plantera or Calamitas has been killed
-                if (!NPC.downedPlantBoss && !CalamityWorld.downedCalamitas)
-                {
-                    string key = "Mods.CalamityMod.PlantBossText";
-                    Color messageColor = Color.RoyalBlue;
-
-                    if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
-                    {
-                        Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/WyrmScream"), (int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y);
-                    }
-
-                    if (Main.netMode == NetmodeID.SinglePlayer)
-                    {
-                        Main.NewText(Language.GetTextValue(key), messageColor);
-                    }
-                    else if (Main.netMode == NetmodeID.Server)
-                    {
-                        NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                    }
-                }
             }
             else if (npc.type == NPCID.Golem)
             {

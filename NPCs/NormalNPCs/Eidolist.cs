@@ -320,10 +320,13 @@ namespace CalamityMod.NPCs.NormalNPCs
                 {
                     Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EidolonTablet>());
                 }
+            }
+			if (Main.rand.NextBool(10))
+			{
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.BlueLunaticHood);
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.BlueLunaticRobe);
-            }
-            if (CalamityWorld.downedCalamitas || NPC.downedPlantBoss)
+			}
+            if (CalamityWorld.downedCalamitas)
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Lumenite>(), Main.rand.Next(8, 11));
                 if (Main.expertMode && Main.rand.NextBool(2))
