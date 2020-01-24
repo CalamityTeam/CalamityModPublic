@@ -12,7 +12,7 @@ namespace CalamityMod.Buffs
     {
         public override bool ReApply(int type, Player player, int time, int buffIndex)
         {
-            if (type == BuffID.ChaosState && (player.Calamity().SCalLore || (CalamityWorld.armageddon && CalamityPlayer.areThereAnyDamnBosses)))
+            if (type == BuffID.ChaosState && player.Calamity().SCalLore)
             {
                 player.Calamity().KillPlayer();
             }
