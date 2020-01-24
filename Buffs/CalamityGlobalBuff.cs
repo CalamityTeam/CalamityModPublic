@@ -1,5 +1,6 @@
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Buffs.Summon;
+using CalamityMod.CalPlayer;
 using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
@@ -11,7 +12,7 @@ namespace CalamityMod.Buffs
     {
         public override bool ReApply(int type, Player player, int time, int buffIndex)
         {
-            if (type == BuffID.ChaosState && (player.Calamity().SCalLore || CalamityWorld.armageddon))
+            if (type == BuffID.ChaosState && (player.Calamity().SCalLore || (CalamityWorld.armageddon && CalamityPlayer.areThereAnyDamnBosses)))
             {
                 player.Calamity().KillPlayer();
             }
