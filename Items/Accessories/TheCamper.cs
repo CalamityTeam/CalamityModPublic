@@ -40,7 +40,6 @@ namespace CalamityMod.Items.Accessories
             modPlayer.camper = true;
             player.AddBuff(BuffID.HeartLamp, 60, true);
             player.AddBuff(BuffID.Campfire, 60, true);
-            Main.campfire = true;
             player.AddBuff(BuffID.WellFed, 60, true);
             player.lifeRegen += 2;
             Lighting.AddLight(player.Center, 0.825f, 0.66f, 0f);
