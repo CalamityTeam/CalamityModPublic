@@ -52,7 +52,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             float num818 = Main.player[npc.target].Center.X - vector102.X;
             float num819 = Main.player[npc.target].Center.Y - vector102.Y;
             float num820 = (float)Math.Sqrt((double)(num818 * num818 + num819 * num819));
-            float num821 = 13.5f;
+            float num821 = CalamityWorld.death ? 18f : 13.5f;
             num820 = num821 / num820;
             num818 *= num820;
             num819 *= num820;

@@ -535,7 +535,6 @@ namespace CalamityMod.NPCs.NormalNPCs
                     npc.velocity.X = 8f * npc.ai[2];
                 }
                 npc.rotation = 0f;
-                return;
             }
         }
 

@@ -2,6 +2,7 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Projectiles.Enemy;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -65,29 +66,29 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.TargetClosest(true);
             bool flag51 = false;
             int offsetX = 80;
-            if ((double)npc.life < (double)npc.lifeMax * 0.33)
+            if ((double)npc.life < (double)npc.lifeMax * 0.33 || CalamityWorld.death)
             {
                 num823 = 2f;
             }
-            if ((double)npc.life < (double)npc.lifeMax * 0.1)
+            if ((double)npc.life < (double)npc.lifeMax * 0.1 || CalamityWorld.death)
             {
                 num823 = 4f;
             }
             if (npc.ai[0] == 0f)
             {
                 npc.ai[1] += 1f;
-                if ((double)npc.life < (double)npc.lifeMax * 0.33)
+                if ((double)npc.life < (double)npc.lifeMax * 0.33 || CalamityWorld.death)
                 {
                     npc.ai[1] += 1f;
                 }
-                if ((double)npc.life < (double)npc.lifeMax * 0.1)
+                if ((double)npc.life < (double)npc.lifeMax * 0.1 || CalamityWorld.death)
                 {
                     npc.ai[1] += 1f;
                 }
                 if (npc.ai[1] >= 300f && Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     npc.ai[1] = 0f;
-                    if ((double)npc.life < (double)npc.lifeMax * 0.25)
+                    if ((double)npc.life < (double)npc.lifeMax * 0.25 || CalamityWorld.death)
                     {
                         npc.ai[0] = (float)Main.rand.Next(3, 5);
                     }

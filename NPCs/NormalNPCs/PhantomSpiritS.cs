@@ -51,7 +51,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             float num818 = Main.player[npc.target].Center.X - vector102.X;
             float num819 = Main.player[npc.target].Center.Y - vector102.Y;
             float num820 = (float)Math.Sqrt((double)(num818 * num818 + num819 * num819));
-            float num821 = 15f;
+            float num821 = CalamityWorld.death ? 20f : 15f;
             num820 = num821 / num820;
             num818 *= num820;
             num819 *= num820;
@@ -63,7 +63,6 @@ namespace CalamityMod.NPCs.NormalNPCs
             dust.velocity *= 0.1f;
             Main.dust[num822].scale = 1.3f;
             Main.dust[num822].noGravity = true;
-            return;
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

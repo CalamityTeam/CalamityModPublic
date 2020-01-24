@@ -69,8 +69,13 @@ namespace CalamityMod.NPCs.NormalNPCs
             float num1465 = (float)npc.life / (float)npc.lifeMax;
             num1461 += (1f - num1465) * 6f;
             num1462 += (1f - num1465) * 0.02f;
+			if (CalamityWorld.death)
+			{
+				num1461 = 10f;
+				num1462 = 0.15f;
+			}
 
-            if (num1465 < 0.5f)
+            if (num1465 < 0.5f || CalamityWorld.death)
                 npc.knockBackResist = 0f;
 
             npc.localAI[2] = 0f;

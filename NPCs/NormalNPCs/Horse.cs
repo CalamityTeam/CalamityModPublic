@@ -4,6 +4,7 @@ using CalamityMod.Items.Tools.ClimateChange;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Projectiles.Enemy;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
@@ -218,9 +219,9 @@ namespace CalamityMod.NPCs.NormalNPCs
             Vector2 direction = Main.player[npc.target].Center - npc.Center;
             direction.Normalize();
             chargetimer += expertMode ? 2 : 1;
-            if (chargetimer >= Math.Sqrt(npc.life) * 14.0)
+            if (chargetimer >= (CalamityWorld.death ? 14D : Math.Sqrt(npc.life) * 14D))
             {
-                if (Main.rand.Next(25) == 1)
+                if (Main.rand.NextBool(25))
                 {
                     direction.X *= 6f;
                     direction.Y *= 6f;

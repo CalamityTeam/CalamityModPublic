@@ -61,7 +61,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AngryDogGrowl"), (int)npc.position.X, (int)npc.position.Y);
             }
-            bool phase2 = (double)npc.life <= (double)npc.lifeMax * 0.5;
+            bool phase2 = (double)npc.life <= (double)npc.lifeMax * (CalamityWorld.death ? 0.9 : 0.5);
             if (phase2)
             {
                 if (!reset)

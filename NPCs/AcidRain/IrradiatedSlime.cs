@@ -16,6 +16,7 @@ namespace CalamityMod.NPCs.AcidRain
         public override void SetDefaults()
         {
             npc.aiStyle = 1;
+			aiType = 141;
             npc.damage = 50;
             npc.width = 40;
             npc.height = 30;

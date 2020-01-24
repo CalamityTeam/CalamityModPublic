@@ -2,6 +2,7 @@
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Projectiles.Enemy;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
@@ -108,24 +109,25 @@ namespace CalamityMod.NPCs.NormalNPCs
                     npc.TargetClosest(true);
                     npc.velocity.X = npc.velocity.X + (float)npc.direction * 0.2f;
                     npc.velocity.Y = npc.velocity.Y + (float)npc.directionY * 0.2f;
-                    if (npc.velocity.X > 12f)
+					float velocityMax = CalamityWorld.death ? 16f : 12f;
+					if (npc.velocity.X > velocityMax)
                     {
-                        npc.velocity.X = 12f;
+                        npc.velocity.X = velocityMax;
                     }
-                    if (npc.velocity.X < -12f)
+                    if (npc.velocity.X < -velocityMax)
                     {
-                        npc.velocity.X = -12f;
+                        npc.velocity.X = -velocityMax;
                     }
-                    if (npc.velocity.Y > 12f)
+                    if (npc.velocity.Y > velocityMax)
                     {
-                        npc.velocity.Y = 12f;
+                        npc.velocity.Y = velocityMax;
                     }
-                    if (npc.velocity.Y < -12f)
+                    if (npc.velocity.Y < -velocityMax)
                     {
-                        npc.velocity.Y = -12f;
+                        npc.velocity.Y = -velocityMax;
                     }
                     npc.localAI[0] += 1f;
-                    if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[0] >= 90f)
+                    if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[0] >= (CalamityWorld.death ? 60f : 90f))
                     {
                         npc.localAI[0] = 0f;
                         if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
@@ -227,7 +229,6 @@ namespace CalamityMod.NPCs.NormalNPCs
             if ((double)npc.rotation > 0.1)
             {
                 npc.rotation = 0.1f;
-                return;
             }
         }
 

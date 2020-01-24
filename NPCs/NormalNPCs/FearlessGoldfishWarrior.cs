@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.World;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using Terraria;
@@ -107,10 +108,13 @@ namespace CalamityMod.NPCs.NormalNPCs
                     npc.velocity.X = 0f;
                 return;
             }
-            float num65 = 1f;
-            float num66 = 0.08f;
-            num65 += (1f - (float)npc.life / (float)npc.lifeMax) * 2f;
-            num66 += (1f - (float)npc.life / (float)npc.lifeMax) * 0.2f;
+            float num65 = CalamityWorld.death ? 3f : 1f;
+            float num66 = CalamityWorld.death ? 0.28f : 0.08f;
+			if (!CalamityWorld.death)
+			{
+				num65 += (1f - (float)npc.life / (float)npc.lifeMax) * 2f;
+				num66 += (1f - (float)npc.life / (float)npc.lifeMax) * 0.2f;
+			}
             if (npc.velocity.X < -num65 || npc.velocity.X > num65)
             {
                 if (npc.velocity.Y == 0f)

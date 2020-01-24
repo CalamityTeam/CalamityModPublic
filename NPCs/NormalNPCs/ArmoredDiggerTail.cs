@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -20,8 +21,8 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.height = 34;
             npc.defense = 45;
             npc.Calamity().RevPlusDR(0.45f);
-            npc.lifeMax = 20000;
-            npc.knockBackResist = 0f;
+			npc.lifeMax = CalamityWorld.death ? 30000 : 20000;
+			npc.knockBackResist = 0f;
             npc.aiStyle = -1;
             aiType = -1;
             npc.behindTiles = true;

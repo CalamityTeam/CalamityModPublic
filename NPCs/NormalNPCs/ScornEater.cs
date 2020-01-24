@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.World;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -55,6 +56,10 @@ namespace CalamityMod.NPCs.NormalNPCs
                 {
                     num321 = 12;
                 }
+				if (CalamityWorld.death)
+				{
+					num321 /= 4;
+				}
                 if (npc.ai[2] < (float)num321)
                 {
                     npc.velocity.X = npc.velocity.X * 0.9f;

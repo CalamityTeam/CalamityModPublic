@@ -2,6 +2,7 @@
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.SummonItems;
 using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -26,7 +27,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.height = 54;
             npc.defense = 15;
             npc.Calamity().RevPlusDR(0.15f);
-            npc.lifeMax = 20000;
+            npc.lifeMax = CalamityWorld.death ? 30000 : 20000;
             npc.knockBackResist = 0f;
             npc.aiStyle = -1;
             aiType = -1;
@@ -63,7 +64,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                     npc.ai[3] = (float)npc.whoAmI;
                     npc.realLife = npc.whoAmI;
                     int num2 = npc.whoAmI;
-                    int num3 = 40;
+                    int num3 = CalamityWorld.death ? 60 : 40;
                     for (int j = 0; j <= num3; j++)
                     {
                         int num4 = ModContent.NPCType<ArmoredDiggerBody>();

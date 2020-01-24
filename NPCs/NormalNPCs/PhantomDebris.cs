@@ -138,6 +138,11 @@ namespace CalamityMod.NPCs.NormalNPCs
 			}
 			float num65 = 1.2f + ((Main.player[npc.target].Center - npc.Center).Length() * 0.005f);
 			float num66 = 0.12f + ((Main.player[npc.target].Center - npc.Center).Length() * 0.0005f);
+			if (CalamityWorld.death)
+			{
+				num65 *= 1.5f;
+				num66 *= 1.5f;
+			}
 			if (npc.velocity.X < -num65 || npc.velocity.X > num65)
 			{
 				if (npc.velocity.Y == 0f)

@@ -1,8 +1,11 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Potions;
+using CalamityMod.Projectile.Boss;
 using CalamityMod.Tiles.Abyss;
 using CalamityMod.Tiles.Astral;
 using CalamityMod.Tiles.AstralDesert;
+using CalamityMod.Tiles.Crags;
+using CalamityMod.Tiles.Ores;
 using CalamityMod.Tiles.SunkenSea;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -511,21 +514,23 @@ namespace CalamityMod.Tiles
 			}
 			if (CalamityWorld.death && !CalamityPlayer.areThereAnyDamnBosses)
 			{
-				if ((type == TileID.Ash || type == TileID.Hellstone) && closer)
+				bool underworldTile = type == TileID.Ash || type == TileID.Hellstone;
+				bool cragTile = type == ModContent.TileType<BrimstoneSlag>() || type == ModContent.TileType<CharredOre>();
+				if ((underworldTile || cragTile) && closer)
 				{
 					if (j > Main.maxTilesY - 180 && j < Main.maxTilesY - 50)
 					{
 						if (Main.tile[i, j - 1] == null)
 							Main.tile[i, j - 1] = new Tile();
 
-						Tile tileAboveAsh = Main.tile[i, j - 1];
-						if (tileAboveAsh.liquidType() == 1 && !tileAboveAsh.active())
+						Tile tileAbove = Main.tile[i, j - 1];
+						if (tileAbove.liquidType() == 1 && !tileAbove.active())
 						{
 							// Only shoot flames if tiles underneath are lava and if tiles above and below aren't active
 							bool shootFlames = Main.netMode != NetmodeID.MultiplayerClient && Main.rand.NextBool(300);
 							if (shootFlames)
 							{
-								int lavaTilesAboveAsh = 0;
+								int lavaTilesAbove = 0;
 								int lavaTopY = 0;
 								Tile lavaTop = new Tile();
 								for (int k = j - 1; k > Main.maxTilesY - 180; k--)
@@ -535,12 +540,12 @@ namespace CalamityMod.Tiles
 
 									if (!Main.tile[i, k].active() && Main.tile[i, k].liquidType() == 1)
 									{
-										if (lavaTilesAboveAsh < 5)
-											lavaTilesAboveAsh++;
+										if (lavaTilesAbove < 5)
+											lavaTilesAbove++;
 									}
 									else
 									{
-										if (lavaTilesAboveAsh == 5)
+										if (lavaTilesAbove == 5)
 										{
 											lavaTopY = k;
 											lavaTop = Main.tile[i, k];
@@ -565,8 +570,9 @@ namespace CalamityMod.Tiles
 							}
 							if (shootFlames)
 							{
+								int projectileType = underworldTile ? ProjectileID.GeyserTrap : ModContent.ProjectileType<BrimstoneFire>();
 								float randomVelocity = Main.rand.NextFloat() + 0.5f;
-								Projectile.NewProjectile((float)(i * 16), (float)(j * 16), 0f, -8f * randomVelocity, ProjectileID.GeyserTrap, 20, 2f, Main.myPlayer, 0f, 0f);
+								Projectile.NewProjectile((float)(i * 16), (float)(j * 16), 0f, -8f * randomVelocity, projectileType, 20, 2f, Main.myPlayer, 0f, 0f);
 							}
 						}
 					}

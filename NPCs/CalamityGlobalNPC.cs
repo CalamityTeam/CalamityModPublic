@@ -1554,6 +1554,40 @@ namespace CalamityMod.NPCs
 			{
 				switch (npc.aiStyle)
 				{
+					case 1:
+						switch (npc.type)
+						{
+							case NPCID.BlueSlime:
+							case NPCID.MotherSlime:
+							case NPCID.LavaSlime:
+							case NPCID.DungeonSlime:
+							case NPCID.CorruptSlime:
+							case NPCID.IlluminantSlime:
+							case NPCID.ToxicSludge:
+							case NPCID.IceSlime:
+							case NPCID.Crimslime:
+							case NPCID.SpikedIceSlime:
+							case NPCID.SpikedJungleSlime:
+							case NPCID.UmbrellaSlime:
+							case NPCID.RainbowSlime:
+							case NPCID.SlimeMasked:
+							case NPCID.HoppinJack:
+							case NPCID.SlimeRibbonWhite:
+							case NPCID.SlimeRibbonYellow:
+							case NPCID.SlimeRibbonGreen:
+							case NPCID.SlimeRibbonRed:
+							case NPCID.SlimeSpiked:
+							case NPCID.SandSlime:
+							case ModContent.NPCType<BloomSlime>():
+							case ModContent.NPCType<CharredSlime>():
+							case ModContent.NPCType<CrimulanBlightSlime>():
+							case ModContent.NPCType<CryoSlime>():
+							case ModContent.NPCType<EbonianBlightSlime>():
+							case ModContent.NPCType<PerennialSlime>():
+							case ModContent.NPCType<WulfrumSlime>():
+							case ModContent.NPCType<IrradiatedSlime>():
+								return CalamityGlobalAI.BuffedSlimeAI(npc, mod);
+						}
 					case 3:
 						switch (npc.type)
 						{
@@ -1737,6 +1771,8 @@ namespace CalamityMod.NPCs
 							case NPCID.MartianWalker:
 							case NPCID.DemonTaxCollector:
 							case NPCID.TheBride:
+							case ModContent.NPCType<StormlionCharger>():
+							case ModContent.NPCType<WulfrumDrone>():
 								return CalamityGlobalAI.BuffedFighterAI(npc, mod);
 						}
 						break;
