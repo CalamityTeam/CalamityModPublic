@@ -2416,6 +2416,10 @@ namespace CalamityMod.NPCs
                     target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 180);
                     break;
 
+                case NPCID.Lavabat:
+                    target.AddBuff(BuffID.OnFire, 180);
+                    break;
+
                 default:
                     break;
             }
@@ -2459,6 +2463,19 @@ namespace CalamityMod.NPCs
 						default:
 							break;
 					}
+				}
+			}
+
+			if (Main.expertMode)
+			{
+				switch (npc.type)
+				{
+					case NPCID.Hellbat:
+						target.AddBuff(BuffID.OnFire, 120);
+						break;
+
+					default:
+						break;
 				}
 			}
 
