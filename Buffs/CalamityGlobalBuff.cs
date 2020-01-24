@@ -9,6 +9,15 @@ namespace CalamityMod.Buffs
 {
     public class CalamityGlobalBuff : GlobalBuff
     {
+        public override bool ReApply(int type, Player player, int time, int buffIndex)
+        {
+            if (type == BuffID.ChaosState && (player.Calamity().SCalLore || CalamityWorld.armageddon))
+            {
+                player.Calamity().KillPlayer();
+            }
+            return false;
+        }
+
         public override void Update(int type, Player player, ref int buffIndex)
         {
             if (type == BuffID.Shine)
