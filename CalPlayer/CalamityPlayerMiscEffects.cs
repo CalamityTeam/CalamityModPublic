@@ -332,6 +332,7 @@ namespace CalamityMod.CalPlayer
 			// Death Mode effects
 			if (CalamityWorld.death)
 			{
+				// Darkness while underground
 				Point point = player.Center.ToTileCoordinates();
 				if ((double)point.Y > Main.worldSurface && !modPlayer.ZoneAbyss && !player.ZoneUnderworldHeight)
 				{
@@ -346,6 +347,7 @@ namespace CalamityMod.CalPlayer
 
 				if (player.whoAmI == Main.myPlayer)
 				{
+					// Immunity bools
 					bool hasMoltenSet = player.head == 9 && player.body == 9 && player.legs == 9;
 					bool hasEskimoSet = (player.head == 58 || player.head == 77) && (player.body == 38 || player.head == 50) && (player.legs == 36 || player.head == 46); //this is normal and pink eskimo armor (you can mix and match)
 
@@ -356,6 +358,7 @@ namespace CalamityMod.CalPlayer
 
 					bool immunityToHot = player.lavaImmune || player.lavaRose || player.lavaMax != 0 || immunityToHotAndCold;
 
+					// Space effects
 					if (Space(player))
 					{
 						if (Main.dayTime)
@@ -370,6 +373,7 @@ namespace CalamityMod.CalPlayer
 						}
 					}
 
+					// Ice shards and lightning
 					if (Main.raining && player.ZoneOverworldHeight && !CalamityPlayer.areThereAnyDamnBosses)
 					{
 						float frequencyMult = 1f - Main.cloudAlpha; // 1 to 0.11
@@ -396,35 +400,77 @@ namespace CalamityMod.CalPlayer
 						}
 					}
 
+					// Cold timer
 					if (!player.behindBackWall && Main.raining && player.ZoneSnow && !immunityToCold)
 					{
-						modPlayer.deathModeBlizzardTime++;
-						if (player.wet && !player.lavaWet && !player.honeyWet && !player.arcticDivingGear)
-							modPlayer.deathModeBlizzardTime++;
-						if (modPlayer.deathModeBlizzardTime > 1800)
-							player.AddBuff(BuffID.Frozen, 2, false);
-						if (modPlayer.deathModeBlizzardTime > 1980)
-							modPlayer.KillPlayer();
-					}
-					else
-						modPlayer.deathModeBlizzardTime = 0;
+						bool affectedByColdWater = player.wet && !player.lavaWet && !player.honeyWet && !player.arcticDivingGear;
 
+						modPlayer.deathModeBlizzardTime++;
+						if (affectedByColdWater)
+							modPlayer.deathModeBlizzardTime++;
+
+						if (modPlayer.deathModeUnderworldTime > 0)
+						{
+							modPlayer.deathModeUnderworldTime--;
+							if (affectedByColdWater)
+								modPlayer.deathModeUnderworldTime--;
+							if (modPlayer.deathModeUnderworldTime < 0)
+								modPlayer.deathModeUnderworldTime = 0;
+						}
+					}
+					else if (modPlayer.deathModeBlizzardTime > 0)
+					{
+						modPlayer.deathModeBlizzardTime--;
+						if (immunityToCold)
+							modPlayer.deathModeBlizzardTime--;
+						if (modPlayer.deathModeBlizzardTime < 0)
+							modPlayer.deathModeBlizzardTime = 0;
+					}
+
+					// Hot timer
 					if (player.ZoneUnderworldHeight && !immunityToHot)
 					{
+						bool affectedByHotLava = player.lavaWet;
+
 						modPlayer.deathModeUnderworldTime++;
-						if (modPlayer.deathModeUnderworldTime > 360)
-							player.AddBuff(BuffID.Weak, 2, false);
-						if (modPlayer.deathModeUnderworldTime > 720)
-							player.AddBuff(BuffID.Slow, 2, false);
-						if (modPlayer.deathModeUnderworldTime > 1080)
-							player.AddBuff(BuffID.OnFire, 2, false);
-						if (modPlayer.deathModeUnderworldTime > 1440)
-							player.AddBuff(BuffID.Confused, 2, false);
-						if (modPlayer.deathModeUnderworldTime > 1800)
-							player.AddBuff(BuffID.Burning, 2, false);
+						if (affectedByHotLava)
+							modPlayer.deathModeUnderworldTime++;
+
+						if (modPlayer.deathModeBlizzardTime > 0)
+						{
+							modPlayer.deathModeBlizzardTime--;
+							if (affectedByHotLava)
+								modPlayer.deathModeBlizzardTime--;
+							if (modPlayer.deathModeBlizzardTime < 0)
+								modPlayer.deathModeBlizzardTime = 0;
+						}
 					}
-					else
-						modPlayer.deathModeUnderworldTime = 0;
+					else if (modPlayer.deathModeUnderworldTime > 0)
+					{
+						modPlayer.deathModeUnderworldTime--;
+						if (immunityToHot)
+							modPlayer.deathModeUnderworldTime--;
+						if (modPlayer.deathModeUnderworldTime < 0)
+							modPlayer.deathModeUnderworldTime = 0;
+					}
+
+					// Cold effects
+					if (modPlayer.deathModeBlizzardTime > 1800)
+						player.AddBuff(BuffID.Frozen, 2, false);
+					if (modPlayer.deathModeBlizzardTime > 1980)
+						modPlayer.KillPlayer();
+
+					// Hot effects
+					if (modPlayer.deathModeUnderworldTime > 360)
+						player.AddBuff(BuffID.Weak, 2, false);
+					if (modPlayer.deathModeUnderworldTime > 720)
+						player.AddBuff(BuffID.Slow, 2, false);
+					if (modPlayer.deathModeUnderworldTime > 1080)
+						player.AddBuff(BuffID.OnFire, 2, false);
+					if (modPlayer.deathModeUnderworldTime > 1440)
+						player.AddBuff(BuffID.Confused, 2, false);
+					if (modPlayer.deathModeUnderworldTime > 1800)
+						player.AddBuff(BuffID.Burning, 2, false);
 				}
 			}
 
