@@ -43,6 +43,7 @@ namespace CalamityMod.Items.Materials
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<BarofLife>());
             recipe.AddIngredient(ModContent.ItemType<AuricOre>(), 20);
+			recipe.AddIngredient(ModContent.ItemType<UnholyEssence>(), 2);
 			recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 2);
 			recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 2);
 			recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 2);
