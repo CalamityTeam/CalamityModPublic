@@ -9,6 +9,7 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Accessories
 {
     //Dedicated to Dzicozan
+    [AutoloadEquip(EquipType.Back)]
     class TheCamper : ModItem
     {
         int auraCounter = 0;
@@ -39,6 +40,7 @@ namespace CalamityMod.Items.Accessories
             modPlayer.camper = true;
             player.AddBuff(BuffID.HeartLamp, 60, true);
             player.AddBuff(BuffID.Campfire, 60, true);
+            Main.campfire = true;
             player.AddBuff(BuffID.WellFed, 60, true);
             player.lifeRegen += 2;
             Lighting.AddLight(player.Center, 0.825f, 0.66f, 0f);
@@ -74,6 +76,7 @@ namespace CalamityMod.Items.Accessories
                         bool magic = player.HeldItem.magic;
                         if (summon)
                         {
+                            player.minionKB += 0.10f;
                             player.AddBuff(BuffID.Bewitched, 60, true);
                         }
                         else if (rogue)
