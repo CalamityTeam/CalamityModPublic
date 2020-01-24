@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Magic
     {
 		private int echoCooldown = 0;
 		private bool playedSound = false;
-		private int penetrationAmt = 50;
+		private static int penetrationAmt = 50;
 
         public override void SetStaticDefaults()
         {
