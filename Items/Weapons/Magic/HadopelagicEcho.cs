@@ -15,7 +15,8 @@ namespace CalamityMod.Items.Weapons.Magic
             DisplayName.SetDefault("Hadopelagic Echo");
             Tooltip.SetDefault("Fires a string of bouncing sound waves\n" +
 			"Sound waves fired later in the chain deal more damage\n" +
-			"Sound waves echo additional sound waves on enemy hits");
+			"Sound waves echo additional sound waves on enemy hits\n" +
+			"Sound waves deal more damage the more they pierce");
         }
 
         public override void SetDefaults()

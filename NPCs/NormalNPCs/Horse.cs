@@ -1,4 +1,5 @@
-﻿using CalamityMod.Items.Placeables.Banners;
+﻿using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Tools.ClimateChange;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
@@ -146,29 +147,22 @@ namespace CalamityMod.NPCs.NormalNPCs
                         scaleFactor10 = 1f;
                     }
                     int num626 = Gore.NewGore(new Vector2(npc.position.X + (float)(npc.width / 2) - 24f, npc.position.Y + (float)(npc.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-                    Main.gore[num626].velocity *= scaleFactor10;
-                    Gore expr_13AB6_cp_0 = Main.gore[num626];
-                    expr_13AB6_cp_0.velocity.X += 1f;
-                    Gore expr_13AD6_cp_0 = Main.gore[num626];
-                    expr_13AD6_cp_0.velocity.Y += 1f;
+                    Gore gore = Main.gore[num626];
+                    gore.velocity *= scaleFactor10;
+                    gore.velocity.X += 1f;
+                    gore.velocity.Y += 1f;
                     num626 = Gore.NewGore(new Vector2(npc.position.X + (float)(npc.width / 2) - 24f, npc.position.Y + (float)(npc.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-                    Main.gore[num626].velocity *= scaleFactor10;
-                    Gore expr_13B79_cp_0 = Main.gore[num626];
-                    expr_13B79_cp_0.velocity.X -= 1f;
-                    Gore expr_13B99_cp_0 = Main.gore[num626];
-                    expr_13B99_cp_0.velocity.Y += 1f;
+                    gore.velocity *= scaleFactor10;
+                    gore.velocity.X -= 1f;
+                    gore.velocity.Y += 1f;
                     num626 = Gore.NewGore(new Vector2(npc.position.X + (float)(npc.width / 2) - 24f, npc.position.Y + (float)(npc.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-                    Main.gore[num626].velocity *= scaleFactor10;
-                    Gore expr_13C3C_cp_0 = Main.gore[num626];
-                    expr_13C3C_cp_0.velocity.X += 1f;
-                    Gore expr_13C5C_cp_0 = Main.gore[num626];
-                    expr_13C5C_cp_0.velocity.Y -= 1f;
+                    gore.velocity *= scaleFactor10;
+                    gore.velocity.X += 1f;
+                    gore.velocity.Y -= 1f;
                     num626 = Gore.NewGore(new Vector2(npc.position.X + (float)(npc.width / 2) - 24f, npc.position.Y + (float)(npc.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-                    Main.gore[num626].velocity *= scaleFactor10;
-                    Gore expr_13CFF_cp_0 = Main.gore[num626];
-                    expr_13CFF_cp_0.velocity.X -= 1f;
-                    Gore expr_13D1F_cp_0 = Main.gore[num626];
-                    expr_13D1F_cp_0.velocity.Y -= 1f;
+                    gore.velocity *= scaleFactor10;
+                    gore.velocity.X -= 1f;
+                    gore.velocity.Y -= 1f;
                 }
             }
         }
@@ -243,7 +237,11 @@ namespace CalamityMod.NPCs.NormalNPCs
                 npc.velocity = direction * basespeed;
             }
             return false;
+        }
 
+        public override void OnHitPlayer(Player player, int damage, bool crit)
+        {
+            player.AddBuff(ModContent.BuffType<ArmorCrunch>(), 180);
         }
     }
 }
