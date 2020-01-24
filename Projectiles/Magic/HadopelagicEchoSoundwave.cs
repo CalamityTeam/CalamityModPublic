@@ -93,7 +93,7 @@ namespace CalamityMod.Projectiles.Magic
             target.AddBuff(BuffID.Electrified, 600);
             projectile.velocity *= 0.85f;
 
-			if (echoCooldown == 0 && projectile.ai[0] == 4f)
+			if (echoCooldown == 0)
 			{
 				echoCooldown = 60;
 				int echoID = ModContent.ProjectileType<HadopelagicEcho2>();
