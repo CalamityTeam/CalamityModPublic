@@ -5,6 +5,11 @@ namespace CalamityMod.Items.Placeables.Banners
 {
     public class BOHLDOHRBanner : ModItem
     {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Bohldohr Banner");
+        }
+
         public override void SetDefaults()
         {
             item.width = 10;
