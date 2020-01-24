@@ -11,7 +11,7 @@ namespace CalamityMod.NPCs.NormalNPCs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("BOHLDOHR");
+            DisplayName.SetDefault("Bohldohr");
         }
 
         public override void SetDefaults()
@@ -23,7 +23,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.height = 40;
             npc.defense = 18;
             npc.lifeMax = 300;
-            npc.knockBackResist = 0.9f;
+            npc.knockBackResist = 0.95f;
             npc.value = Item.buyPrice(0, 0, 10, 0);
             npc.HitSound = SoundID.NPCHit7;
             npc.DeathSound = SoundID.NPCDeath35;
@@ -315,7 +315,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.playerSafe || !NPC.downedPlantBoss)
+            if (spawnInfo.playerSafe)
             {
                 return 0f;
             }
@@ -342,8 +342,11 @@ namespace CalamityMod.NPCs.NormalNPCs
             if (CalamityWorld.downedSCal)
             {
                 // RIP LORDE
-                // Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Items.NO>());
+                // Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<NO>());
             }
+            DropHelper.DropItem(npc, ItemID.LihzahrdBrick, 10, 30);
+            DropHelper.DropItemChance(npc, ItemID.LunarTabletFragment, 7, 1, 3); //solar tablet fragment
+            DropHelper.DropItemChance(npc, ItemID.LihzahrdPowerCell, 50);
         }
     }
 }

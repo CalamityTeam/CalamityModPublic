@@ -3754,20 +3754,20 @@ namespace CalamityMod.World
                             num22 = num19;
                             num23 = num21;
                         }
-                        int num24 = WorldGen.genRand.Next(3);
-                        if (num24 == 0)
+                        int specialItem = WorldGen.genRand.Next(3);
+                        if (specialItem == 0)
                         {
-                            num24 = 1861; //diving gear
+                            specialItem = ItemID.ArcticDivingGear; //diving gear
                         }
-                        else if (num24 == 1)
+                        else if (specialItem == 1)
                         {
-                            num24 = 1163; //balloon
+                            specialItem = ItemID.BlizzardinaBalloon; //balloon
                         }
-                        else if (num24 == 2)
+                        else if (specialItem == 2)
                         {
-                            num24 = 1253; //shell
+                            specialItem = ItemID.FrozenTurtleShell; //shell
                         }
-                        WorldGen.AddBuriedChest((num22 + num23) / 2, num9, num24, false, 22);
+                        WorldGen.AddBuriedChest((num22 + num23) / 2, num9, specialItem, false, 22);
                         int num25 = WorldGen.genRand.Next(1, 10);
                         for (int num26 = 0; num26 < num25; num26++)
                         {

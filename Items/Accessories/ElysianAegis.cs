@@ -1,4 +1,5 @@
 ﻿using CalamityMod.CalPlayer;
+using CalamityMod.Buffs.DamageOverTime;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -10,7 +11,7 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Elysian Aegis");
-            Tooltip.SetDefault("Grants immunity to fire blocks and knockback\n" +
+            Tooltip.SetDefault("Grants immunity to fire blocks, knockback, and Holy Flames\n" +
                                "+40 max life and increased life regen\n" +
                                "Grants a supreme holy flame dash\n" +
                                "Can be used to ram enemies\n" +
@@ -36,6 +37,7 @@ namespace CalamityMod.Items.Accessories
             if (!hideVisual)
             { modPlayer.dashMod = 3; }
             modPlayer.elysianAegis = true;
+            player.buffImmune[ModContent.BuffType<HolyFlames>()] = true;
             player.noKnockback = true;
             player.fireWalk = true;
             player.lifeRegen += 2;

@@ -963,6 +963,10 @@ namespace CalamityMod.NPCs
                     DropHelper.DropItemChance(npc, ItemID.SlimeStaff, DropHelper.DefiledDropRateInt);
                     break;
 
+                case NPCID.FlyingSnake:
+                    DropHelper.DropItemChance(npc, ItemID.LizardEgg, DropHelper.DefiledDropRateInt);
+                    break;
+
                 default:
                     break;
             }
