@@ -11,6 +11,7 @@ namespace CalamityMod.Projectiles.Magic
     {
 		private int echoCooldown = 0;
 		private bool playedSound = false;
+		private int penetrationAmt = 50;
 
         public override void SetStaticDefaults()
         {
@@ -27,7 +28,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.alpha = 100;
             projectile.friendly = true;
             projectile.ignoreWater = true;
-            projectile.penetrate = 30;
+            projectile.penetrate = penetrationAmt;
             projectile.magic = true;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 0;
@@ -78,12 +79,12 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            damage = (int)(((double)damage * (double)projectile.localAI[0]) * ((31 - projectile.penetrate) * 0.02f));
+            damage = (int)(((double)damage * (double)projectile.localAI[0]) * (((penetrationAmt + 1) - projectile.penetrate) * 0.02f));
         }
 
         public override void ModifyHitPvp(Player target, ref int damage, ref bool crit)
         {
-            damage = (int)(((double)damage * (double)projectile.localAI[0]) * ((31 - projectile.penetrate) * 0.02f));
+            damage = (int)(((double)damage * (double)projectile.localAI[0]) * (((penetrationAmt + 1) - projectile.penetrate) * 0.02f));
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -97,7 +98,7 @@ namespace CalamityMod.Projectiles.Magic
 			{
 				echoCooldown = 60;
 				int echoID = ModContent.ProjectileType<HadopelagicEcho2>();
-				int echoDamage = (int)(0.2f * projectile.damage * ((31 - projectile.penetrate) * 0.02f));
+				int echoDamage = (int)(0.2f * projectile.damage * (((penetrationAmt + 1) - projectile.penetrate) * 0.02f));
 				float echoKB = projectile.knockBack / 3;
 				int echos = 5;
 				for (int i = 0; i < echos; ++i)
