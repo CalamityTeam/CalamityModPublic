@@ -136,7 +136,7 @@ namespace CalamityMod.Tiles
         // LATER -- clean up copied decompiled pot code here
         public override bool Drop(int i, int j, int type)
         {
-            if (type == 28)
+            if (type == TileID.Pots)
             {
                 int x = Main.maxTilesX;
                 int y = Main.maxTilesY;
@@ -182,92 +182,83 @@ namespace CalamityMod.Tiles
                 {
                     if (Main.rand.NextBool(10))
                     {
-                        int pot = WorldGen.genRand.Next(15);
-                        if (pot == 0)
-                        {
-                            Item.NewItem(i * 16, j * 16, 16, 16, 296, 1, false, 0, false, false);
-                        }
-                        if (pot == 1)
-                        {
-                            Item.NewItem(i * 16, j * 16, 16, 16, 294, 1, false, 0, false, false);
-                        }
-                        if (pot == 2)
-                        {
-                            Item.NewItem(i * 16, j * 16, 16, 16, 298, 1, false, 0, false, false);
-                        }
-                        if (pot == 3)
-                        {
-                            Item.NewItem(i * 16, j * 16, 16, 16, 302, 1, false, 0, false, false);
-                        }
-                        if (pot == 4)
-                        {
-                            Item.NewItem(i * 16, j * 16, 16, 16, 288, 1, false, 0, false, false);
-                        }
-                        if (pot == 5)
-                        {
-                            Item.NewItem(i * 16, j * 16, 16, 16, 305, 1, false, 0, false, false);
-                        }
-                        if (pot == 6)
-                        {
-                            Item.NewItem(i * 16, j * 16, 16, 16, 289, 1, false, 0, false, false);
-                        }
-                        if (pot == 7)
-                        {
-                            Item.NewItem(i * 16, j * 16, 16, 16, 302, 1, false, 0, false, false);
-                        }
-                        if (pot == 8)
-                        {
-                            Item.NewItem(i * 16, j * 16, 16, 16, ModContent.ItemType<AnechoicCoating>(), 1, false, 0, false, false);
-                        }
-                        if (pot == 9)
-                        {
-                            Item.NewItem(i * 16, j * 16, 16, 16, 291, 1, false, 0, false, false);
-                        }
-                        if (pot == 10)
-                        {
-                            Item.NewItem(i * 16, j * 16, 16, 16, 2346, 1, false, 0, false, false);
-                        }
-                        if (pot == 11)
-                        {
-                            Item.NewItem(i * 16, j * 16, 16, 16, 2323, 1, false, 0, false, false);
-                        }
-                        if (pot == 12)
-                        {
-                            Item.NewItem(i * 16, j * 16, 16, 16, 2327, 1, false, 0, false, false);
-                        }
-                        if (pot == 13)
-                        {
-                            Item.NewItem(i * 16, j * 16, 16, 16, 2345, 1, false, 0, false, false);
-                        }
-                        if (pot == 14)
-                        {
-                            Item.NewItem(i * 16, j * 16, 16, 16, 2348, 1, false, 0, false, false);
-                        }
+						int potionType = ItemID.SpelunkerPotion;
+						switch (WorldGen.genRand.Next(15))
+						{
+							case 0:
+								potionType = ItemID.SpelunkerPotion;
+								break;
+							case 1:
+								potionType = ItemID.MagicPowerPotion;
+								break;
+							case 2:
+								potionType = ItemID.ShinePotion;
+								break;
+							case 3:
+								potionType = ItemID.WaterWalkingPotion;
+								break;
+							case 4:
+								potionType = ItemID.ObsidianSkinPotion;
+								break;
+							case 5:
+								potionType = ItemID.GravitationPotion;
+								break;
+							case 6:
+								potionType = ItemID.RegenerationPotion;
+								break;
+							case 7:
+								potionType = ModContent.ItemType<TriumphPotion>();
+								break;
+							case 8:
+								potionType = ModContent.ItemType<AnechoicCoating>();
+								break;
+							case 9:
+								potionType = ItemID.GillsPotion;
+								break;
+							case 10:
+								potionType = ItemID.EndurancePotion;
+								break;
+							case 11:
+								potionType = ItemID.HeartreachPotion;
+								break;
+							case 12:
+								potionType = ItemID.FlipperPotion;
+								break;
+							case 13:
+								potionType = ItemID.LifeforcePotion;
+								break;
+							case 14:
+								potionType = ItemID.InfernoPotion;
+								break;
+							default:
+								break;
+						}
+                        Item.NewItem(i * 16, j * 16, 16, 16, potionType, 1, false, 0, false, false);
                     }
                     else
                     {
-                        int num9 = Main.rand.Next(10); //0 to 9
-                        if (num9 == 0) //spelunker glowsticks
+                        int lootType = Main.rand.Next(10); //0 to 9
+                        if (lootType == 0) //spelunker glowsticks
                         {
-                            int num10 = Main.rand.Next(2, 6);
+                            int sglowstickAmt = Main.rand.Next(2, 6);
                             if (Main.expertMode)
                             {
-                                num10 += Main.rand.Next(1, 7);
+                                sglowstickAmt += Main.rand.Next(1, 7);
                             }
-                            Item.NewItem(i * 16, j * 16, 16, 16, 3002, num10, false, 0, false, false);
+                            Item.NewItem(i * 16, j * 16, 16, 16, ItemID.SpelunkerGlowstick, sglowstickAmt, false, 0, false, false);
                         }
-                        else if (num9 == 1) //hellfire arrows
+                        else if (lootType == 1) //hellfire arrows
                         {
-                            int stack = Main.rand.Next(10, 21);
-                            Item.NewItem(i * 16, j * 16, 16, 16, 265, stack, false, 0, false, false);
+                            int arrowAmt = Main.rand.Next(10, 21);
+                            Item.NewItem(i * 16, j * 16, 16, 16, ItemID.HellfireArrow, arrowAmt, false, 0, false, false);
                         }
-                        else if (num9 == 2) //stew
+                        else if (lootType == 2) //stew
                         {
                             Item.NewItem(i * 16, j * 16, 16, 16, ModContent.ItemType<SunkenStew>(), 1, false, 0, false, false);
                         }
-                        else if (num9 == 3) //sticky dynamite
+                        else if (lootType == 3) //sticky dynamite
                         {
-                            Item.NewItem(i * 16, j * 16, 16, 16, 2896, 1, false, 0, false, false);
+                            Item.NewItem(i * 16, j * 16, 16, 16, ItemID.StickyDynamite, 1, false, 0, false, false);
                         }
                         else //money
                         {
@@ -276,63 +267,63 @@ namespace CalamityMod.Tiles
                             {
                                 if (num13 > 1000000f)
                                 {
-                                    int num14 = (int)(num13 / 1000000f);
-                                    if (num14 > 50 && Main.rand.NextBool(2))
+                                    int ptCoinAmt = (int)(num13 / 1000000f);
+                                    if (ptCoinAmt > 50 && Main.rand.NextBool(2))
                                     {
-                                        num14 /= Main.rand.Next(3) + 1;
+                                        ptCoinAmt /= Main.rand.Next(3) + 1;
                                     }
                                     if (Main.rand.NextBool(2))
                                     {
-                                        num14 /= Main.rand.Next(3) + 1;
+                                        ptCoinAmt /= Main.rand.Next(3) + 1;
                                     }
-                                    num13 -= (float)(1000000 * num14);
-                                    Item.NewItem(i * 16, j * 16, 16, 16, 74, num14, false, 0, false, false);
+                                    num13 -= (float)(1000000 * ptCoinAmt);
+                                    Item.NewItem(i * 16, j * 16, 16, 16, ItemID.PlatinumCoin, ptCoinAmt, false, 0, false, false);
                                 }
                                 else if (num13 > 10000f)
                                 {
-                                    int num15 = (int)(num13 / 10000f);
-                                    if (num15 > 50 && Main.rand.NextBool(2))
+                                    int auCoinAmt = (int)(num13 / 10000f);
+                                    if (auCoinAmt > 50 && Main.rand.NextBool(2))
                                     {
-                                        num15 /= Main.rand.Next(3) + 1;
+                                        auCoinAmt /= Main.rand.Next(3) + 1;
                                     }
                                     if (Main.rand.NextBool(2))
                                     {
-                                        num15 /= Main.rand.Next(3) + 1;
+                                        auCoinAmt /= Main.rand.Next(3) + 1;
                                     }
-                                    num13 -= (float)(10000 * num15);
-                                    Item.NewItem(i * 16, j * 16, 16, 16, 73, num15, false, 0, false, false);
+                                    num13 -= (float)(10000 * auCoinAmt);
+                                    Item.NewItem(i * 16, j * 16, 16, 16, ItemID.GoldCoin, auCoinAmt, false, 0, false, false);
                                 }
                                 else if (num13 > 100f)
                                 {
-                                    int num16 = (int)(num13 / 100f);
-                                    if (num16 > 50 && Main.rand.NextBool(2))
+                                    int agCoinAmt = (int)(num13 / 100f);
+                                    if (agCoinAmt > 50 && Main.rand.NextBool(2))
                                     {
-                                        num16 /= Main.rand.Next(3) + 1;
+                                        agCoinAmt /= Main.rand.Next(3) + 1;
                                     }
                                     if (Main.rand.NextBool(2))
                                     {
-                                        num16 /= Main.rand.Next(3) + 1;
+                                        agCoinAmt /= Main.rand.Next(3) + 1;
                                     }
-                                    num13 -= (float)(100 * num16);
-                                    Item.NewItem(i * 16, j * 16, 16, 16, 72, num16, false, 0, false, false);
+                                    num13 -= (float)(100 * agCoinAmt);
+                                    Item.NewItem(i * 16, j * 16, 16, 16, ItemID.SilverCoin, agCoinAmt, false, 0, false, false);
                                 }
                                 else
                                 {
-                                    int num17 = (int)num13;
-                                    if (num17 > 50 && Main.rand.NextBool(2))
+                                    int cuCoinAmt = (int)num13;
+                                    if (cuCoinAmt > 50 && Main.rand.NextBool(2))
                                     {
-                                        num17 /= Main.rand.Next(3) + 1;
+                                        cuCoinAmt /= Main.rand.Next(3) + 1;
                                     }
                                     if (Main.rand.NextBool(2))
                                     {
-                                        num17 /= Main.rand.Next(4) + 1;
+                                        cuCoinAmt /= Main.rand.Next(4) + 1;
                                     }
-                                    if (num17 < 1)
+                                    if (cuCoinAmt < 1)
                                     {
-                                        num17 = 1;
+                                        cuCoinAmt = 1;
                                     }
-                                    num13 -= (float)num17;
-                                    Item.NewItem(i * 16, j * 16, 16, 16, 71, num17, false, 0, false, false);
+                                    num13 -= (float)cuCoinAmt;
+                                    Item.NewItem(i * 16, j * 16, 16, 16, ItemID.CopperCoin, cuCoinAmt, false, 0, false, false);
                                 }
                             }
                         }
@@ -342,93 +333,84 @@ namespace CalamityMod.Tiles
                 {
                     if (Main.rand.NextBool(15))
                     {
-                        int pot = WorldGen.genRand.Next(15);
-                        if (pot == 0)
-                        {
-                            Item.NewItem(i * 16, j * 16, 16, 16, 296, 1, false, 0, false, false);
-                        }
-                        if (pot == 1)
-                        {
-                            Item.NewItem(i * 16, j * 16, 16, 16, 294, 1, false, 0, false, false);
-                        }
-                        if (pot == 2)
-                        {
-                            Item.NewItem(i * 16, j * 16, 16, 16, 298, 1, false, 0, false, false);
-                        }
-                        if (pot == 3)
-                        {
-                            Item.NewItem(i * 16, j * 16, 16, 16, 302, 1, false, 0, false, false);
-                        }
-                        if (pot == 4)
-                        {
-                            Item.NewItem(i * 16, j * 16, 16, 16, 288, 1, false, 0, false, false);
-                        }
-                        if (pot == 5)
-                        {
-                            Item.NewItem(i * 16, j * 16, 16, 16, 305, 1, false, 0, false, false);
-                        }
-                        if (pot == 6)
-                        {
-                            Item.NewItem(i * 16, j * 16, 16, 16, 289, 1, false, 0, false, false);
-                        }
-                        if (pot == 7)
-                        {
-                            Item.NewItem(i * 16, j * 16, 16, 16, 302, 1, false, 0, false, false);
-                        }
-                        if (pot == 8)
-                        {
-                            Item.NewItem(i * 16, j * 16, 16, 16, ModContent.ItemType<AnechoicCoating>(), 1, false, 0, false, false);
-                        }
-                        if (pot == 9)
-                        {
-                            Item.NewItem(i * 16, j * 16, 16, 16, 291, 1, false, 0, false, false);
-                        }
-                        if (pot == 10)
-                        {
-                            Item.NewItem(i * 16, j * 16, 16, 16, 2346, 1, false, 0, false, false);
-                        }
-                        if (pot == 11)
-                        {
-                            Item.NewItem(i * 16, j * 16, 16, 16, 2323, 1, false, 0, false, false);
-                        }
-                        if (pot == 12)
-                        {
-                            Item.NewItem(i * 16, j * 16, 16, 16, 2327, 1, false, 0, false, false);
-                        }
-                        if (pot == 13)
-                        {
-                            Item.NewItem(i * 16, j * 16, 16, 16, 2345, 1, false, 0, false, false);
-                        }
-                        if (pot == 14)
-                        {
-                            Item.NewItem(i * 16, j * 16, 16, 16, 2348, 1, false, 0, false, false);
-                        }
+						int potionType = ItemID.SpelunkerPotion;
+						switch (WorldGen.genRand.Next(15))
+						{
+							case 0:
+								potionType = ItemID.SpelunkerPotion;
+								break;
+							case 1:
+								potionType = ItemID.MagicPowerPotion;
+								break;
+							case 2:
+								potionType = ItemID.ShinePotion;
+								break;
+							case 3:
+								potionType = ItemID.WaterWalkingPotion;
+								break;
+							case 4:
+								potionType = ItemID.ObsidianSkinPotion;
+								break;
+							case 5:
+								potionType = ItemID.GravitationPotion;
+								break;
+							case 6:
+								potionType = ItemID.RegenerationPotion;
+								break;
+							case 7:
+								potionType = ModContent.ItemType<TriumphPotion>();
+								break;
+							case 8:
+								potionType = ModContent.ItemType<AnechoicCoating>();
+								break;
+							case 9:
+								potionType = ItemID.GillsPotion;
+								break;
+							case 10:
+								potionType = ItemID.EndurancePotion;
+								break;
+							case 11:
+								potionType = ItemID.HeartreachPotion;
+								break;
+							case 12:
+								potionType = ItemID.FlipperPotion;
+								break;
+							case 13:
+								potionType = ItemID.LifeforcePotion;
+								break;
+							case 14:
+								potionType = ItemID.InfernoPotion;
+								break;
+							default:
+								break;
+						}
+                        Item.NewItem(i * 16, j * 16, 16, 16, potionType, 1, false, 0, false, false);
                     }
                     else
                     {
-                        int num9 = Main.rand.Next(10); //0 to 9
-                        if (num9 == 0) //glowsticks
+                        int lootType = Main.rand.Next(10); //0 to 9
+                        if (lootType == 0) //glowsticks
                         {
-                            int num10 = Main.rand.Next(2, 6);
+                            int glowstickAmt = Main.rand.Next(2, 6);
                             if (Main.expertMode)
                             {
-                                num10 += Main.rand.Next(1, 7);
+                                glowstickAmt += Main.rand.Next(1, 7);
                             }
-                            Item.NewItem(i * 16, j * 16, 16, 16, 282, num10, false, 0, false, false);
+                            Item.NewItem(i * 16, j * 16, 16, 16, ItemID.Glowstick, glowstickAmt, false, 0, false, false);
                         }
-                        else if (num9 == 1) //jesters arrows
+                        else if (lootType == 1) //jesters arrows
                         {
-                            int stack = Main.rand.Next(10, 21);
-                            Item.NewItem(i * 16, j * 16, 16, 16, 51, stack, false, 0, false, false);
+                            int jArrowAmt = Main.rand.Next(10, 21);
+                            Item.NewItem(i * 16, j * 16, 16, 16, ItemID.JestersArrow, jArrowAmt, false, 0, false, false);
                         }
-                        else if (num9 == 2) //potion
+                        else if (lootType == 2) //potion
                         {
-                            Item.NewItem(i * 16, j * 16, 16, 16, 188, 1, false, 0, false, false);
+                            Item.NewItem(i * 16, j * 16, 16, 16, ItemID.HealingPotion, 1, false, 0, false, false);
                         }
-                        else if (num9 == 3) //bomb
+                        else if (lootType == 3) //bomb
                         {
-                            int stack = Main.rand.Next(5, 9);
-                            Item.NewItem(i * 16, j * 16, 16, 16, 166, 1, false, 0, false, false);
+                            int bombAmt = Main.rand.Next(5, 9);
+                            Item.NewItem(i * 16, j * 16, 16, 16, ItemID.Bomb, bombAmt, false, 0, false, false);
                         }
                         else //money
                         {
@@ -437,63 +419,63 @@ namespace CalamityMod.Tiles
                             {
                                 if (num13 > 1000000f)
                                 {
-                                    int num14 = (int)(num13 / 1000000f);
-                                    if (num14 > 50 && Main.rand.NextBool(2))
+                                    int ptCoinAmt = (int)(num13 / 1000000f);
+                                    if (ptCoinAmt > 50 && Main.rand.NextBool(2))
                                     {
-                                        num14 /= Main.rand.Next(3) + 1;
+                                        ptCoinAmt /= Main.rand.Next(3) + 1;
                                     }
                                     if (Main.rand.NextBool(2))
                                     {
-                                        num14 /= Main.rand.Next(3) + 1;
+                                        ptCoinAmt /= Main.rand.Next(3) + 1;
                                     }
-                                    num13 -= (float)(1000000 * num14);
-                                    Item.NewItem(i * 16, j * 16, 16, 16, 74, num14, false, 0, false, false);
+                                    num13 -= (float)(1000000 * ptCoinAmt);
+                                    Item.NewItem(i * 16, j * 16, 16, 16, ItemID.PlatinumCoin, ptCoinAmt, false, 0, false, false);
                                 }
                                 else if (num13 > 10000f)
                                 {
-                                    int num15 = (int)(num13 / 10000f);
-                                    if (num15 > 50 && Main.rand.NextBool(2))
+                                    int auCoinAmt = (int)(num13 / 10000f);
+                                    if (auCoinAmt > 50 && Main.rand.NextBool(2))
                                     {
-                                        num15 /= Main.rand.Next(3) + 1;
+                                        auCoinAmt /= Main.rand.Next(3) + 1;
                                     }
                                     if (Main.rand.NextBool(2))
                                     {
-                                        num15 /= Main.rand.Next(3) + 1;
+                                        auCoinAmt /= Main.rand.Next(3) + 1;
                                     }
-                                    num13 -= (float)(10000 * num15);
-                                    Item.NewItem(i * 16, j * 16, 16, 16, 73, num15, false, 0, false, false);
+                                    num13 -= (float)(10000 * auCoinAmt);
+                                    Item.NewItem(i * 16, j * 16, 16, 16, ItemID.GoldCoin, auCoinAmt, false, 0, false, false);
                                 }
                                 else if (num13 > 100f)
                                 {
-                                    int num16 = (int)(num13 / 100f);
-                                    if (num16 > 50 && Main.rand.NextBool(2))
+                                    int agCoinAmt = (int)(num13 / 100f);
+                                    if (agCoinAmt > 50 && Main.rand.NextBool(2))
                                     {
-                                        num16 /= Main.rand.Next(3) + 1;
+                                        agCoinAmt /= Main.rand.Next(3) + 1;
                                     }
                                     if (Main.rand.NextBool(2))
                                     {
-                                        num16 /= Main.rand.Next(3) + 1;
+                                        agCoinAmt /= Main.rand.Next(3) + 1;
                                     }
-                                    num13 -= (float)(100 * num16);
-                                    Item.NewItem(i * 16, j * 16, 16, 16, 72, num16, false, 0, false, false);
+                                    num13 -= (float)(100 * agCoinAmt);
+                                    Item.NewItem(i * 16, j * 16, 16, 16, ItemID.SilverCoin, agCoinAmt, false, 0, false, false);
                                 }
                                 else
                                 {
-                                    int num17 = (int)num13;
-                                    if (num17 > 50 && Main.rand.NextBool(2))
+                                    int cuCoinAmt = (int)num13;
+                                    if (cuCoinAmt > 50 && Main.rand.NextBool(2))
                                     {
-                                        num17 /= Main.rand.Next(3) + 1;
+                                        cuCoinAmt /= Main.rand.Next(3) + 1;
                                     }
                                     if (Main.rand.NextBool(2))
                                     {
-                                        num17 /= Main.rand.Next(4) + 1;
+                                        cuCoinAmt /= Main.rand.Next(4) + 1;
                                     }
-                                    if (num17 < 1)
+                                    if (cuCoinAmt < 1)
                                     {
-                                        num17 = 1;
+                                        cuCoinAmt = 1;
                                     }
-                                    num13 -= (float)num17;
-                                    Item.NewItem(i * 16, j * 16, 16, 16, 71, num17, false, 0, false, false);
+                                    num13 -= (float)cuCoinAmt;
+                                    Item.NewItem(i * 16, j * 16, 16, 16, ItemID.CopperCoin, cuCoinAmt, false, 0, false, false);
                                 }
                             }
                         }
