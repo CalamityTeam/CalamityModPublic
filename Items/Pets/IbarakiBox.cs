@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Pets
                 "And waves wash the old moss’ hair…\n" +
                 "Thank you, Goodbye.\n" +
                 "Summons the Third Sage\n" +
-                "Use the item with right click to gain the Third Sage's blessing.\n" +
+                "Use the item with right click to permanently gain the Third Sage's blessing.\n" +
 				"With the blessing, the player will spawn with full health rather than half.");
         }
 
