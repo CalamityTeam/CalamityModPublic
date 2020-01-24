@@ -7339,11 +7339,7 @@ namespace CalamityMod.CalPlayer
                 player.AddBuff(ModContent.BuffType<ScarfMeleeBoost>(), 540);
                 player.AddBuff(ModContent.BuffType<ScarfCooldown>(), player.chaosState ? 1800 : 900);
                 player.immune = true;
-                player.immuneTime = 60;
-                if (player.longInvince)
-                {
-                    player.immuneTime += 40;
-                }
+                player.immuneTime = player.longInvince ? 100 : 60;
                 for (int k = 0; k < player.hurtCooldowns.Length; k++)
                 {
                     player.hurtCooldowns[k] = player.immuneTime;
