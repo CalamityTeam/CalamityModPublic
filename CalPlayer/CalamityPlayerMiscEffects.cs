@@ -354,7 +354,7 @@ namespace CalamityMod.CalPlayer
 					bool immunityToHotAndCold = hasMoltenSet || player.magmaStone || player.frostArmor || modPlayer.fBulwark || modPlayer.fBarrier ||
 						modPlayer.frostFlare || modPlayer.rampartOfDeities || modPlayer.cryogenSoul || modPlayer.snowman;
 
-					bool immunityToCold = Main.campfire || player.resistCold || hasEskimoSet || immunityToHotAndCold;
+					bool immunityToCold = player.HasBuff(BuffID.Campfire) || Main.campfire || player.resistCold || hasEskimoSet || player.buffImmune[BuffID.Frozen] || immunityToHotAndCold;
 
 					bool immunityToHot = player.lavaImmune || player.lavaRose || player.lavaMax != 0 || immunityToHotAndCold;
 
@@ -3031,7 +3031,7 @@ namespace CalamityMod.CalPlayer
 		private static int LightStrength(Player player, CalamityPlayer modPlayer)
 		{
 			int lightStrength = 0 +
-				((Main.campfire && !modPlayer.ZoneAbyss) ? 1 : 0) +
+				(((player.HasBuff(BuffID.Campfire) || Main.campfire) && !modPlayer.ZoneAbyss) ? 1 : 0) +
 				((player.lightOrb || player.crimsonHeart || player.magicLantern || modPlayer.radiator) ? 1 : 0) + // 1
 				(modPlayer.aquaticEmblem ? 1 : 0) + // 2
 				(player.arcticDivingGear ? 1 : 0) + // 3
