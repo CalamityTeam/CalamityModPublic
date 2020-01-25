@@ -9,7 +9,7 @@ namespace CalamityMod.Buffs.StatBuffs
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Adrenaline Mode");
-            Description.SetDefault("150% damage boost. Can burnout down to 49.5%.");
+            Description.SetDefault("150% damage boost.");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = false;
