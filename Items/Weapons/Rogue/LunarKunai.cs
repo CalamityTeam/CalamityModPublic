@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Lunar Kunai");
 			Tooltip.SetDefault("Throws out a set of three kunai that ignore gravity and slightly home in on enemies\n"
 							  +"After traveling enough distance, the kunai supercharge with lunar energy, homing in far more aggressively and exploding on impact\n"
-							  +"Stealth strikes instantly throw twelve supercharged Kunai");
+							  +"Stealth strikes instantly throw nine supercharged Kunai");
         }
 
         public override void SafeSetDefaults()
@@ -68,7 +68,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             num79 *= num80;
 			if (player.Calamity().StealthStrikeAvailable())
 			{
-				for (int i = 0; i < 12; i++)
+				for (int i = 0; i < 9; i++)
 				{
 					float num148 = num78;
 					float num149 = num79;
@@ -81,7 +81,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 					num149 *= num80;
 					float x4 = vector2.X;
 					float y4 = vector2.Y;
-					int stealth = Projectile.NewProjectile(x4, y4, num148, num149, ModContent.ProjectileType<LunarKunaiProj>(), (int)(damage *1.1) , knockBack, player.whoAmI, 0f, 0f);
+					int stealth = Projectile.NewProjectile(x4, y4, num148, num149, ModContent.ProjectileType<LunarKunaiProj>(), damage, knockBack, player.whoAmI, 0f, 0f);
 					Main.projectile[stealth].Calamity().stealthStrike = true;
 				}
 			}
