@@ -185,19 +185,13 @@ namespace CalamityMod.CalPlayer
 
 							if (abyssPosX)
 							{
-								switch (Main.rand.Next(4))
+								switch (Main.rand.Next(2))
 								{
 									case 0:
-										rareItemList.Add(ModContent.ItemType<IronBoots>());
+										rareItemList.Add(ModContent.ItemType<AlluringBait>());
 										break;
 									case 1:
-										rareItemList.Add(ModContent.ItemType<DepthCharm>());
-										break;
-									case 2:
-										rareItemList.Add(ModContent.ItemType<AnechoicPlating>());
-										break;
-									case 3:
-										rareItemList.Add(ModContent.ItemType<StrangeOrb>());
+										rareItemList.Add(ModContent.ItemType<AbyssalAmulet>());
 										break;
 								}
 							}
