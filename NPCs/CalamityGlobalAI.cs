@@ -1,3 +1,4 @@
+using CalamityMod.NPCs.AcidRain;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Items.LoreItems;
@@ -14170,7 +14171,6 @@ namespace CalamityMod.NPCs
 				npc.color.A = 100;
 				npc.alpha = 175;
 			}
-			bool flag = true;
 			if (npc.type == 81)
 			{
 				if (Main.rand.Next(30) == 0)

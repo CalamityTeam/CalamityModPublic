@@ -1,6 +1,6 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Potions;
-using CalamityMod.Projectile.Boss;
+using CalamityMod.Projectiles.Boss;
 using CalamityMod.Tiles.Abyss;
 using CalamityMod.Tiles.Astral;
 using CalamityMod.Tiles.AstralDesert;
