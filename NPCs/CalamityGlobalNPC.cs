@@ -16,6 +16,7 @@ using CalamityMod.Items.SummonItems;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.NPCs.Abyss;
+using CalamityMod.NPCs.AcidRain;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.AstrumAureus;
 using CalamityMod.NPCs.AstrumDeus;
@@ -1578,14 +1579,6 @@ namespace CalamityMod.NPCs
 							case NPCID.SlimeRibbonRed:
 							case NPCID.SlimeSpiked:
 							case NPCID.SandSlime:
-							case ModContent.NPCType<BloomSlime>():
-							case ModContent.NPCType<CharredSlime>():
-							case ModContent.NPCType<CrimulanBlightSlime>():
-							case ModContent.NPCType<CryoSlime>():
-							case ModContent.NPCType<EbonianBlightSlime>():
-							case ModContent.NPCType<PerennialSlime>():
-							case ModContent.NPCType<WulfrumSlime>():
-							case ModContent.NPCType<IrradiatedSlime>():
 								return CalamityGlobalAI.BuffedSlimeAI(npc, mod);
 						}
 					case 3:
@@ -1771,14 +1764,21 @@ namespace CalamityMod.NPCs
 							case NPCID.MartianWalker:
 							case NPCID.DemonTaxCollector:
 							case NPCID.TheBride:
-							case ModContent.NPCType<StormlionCharger>():
-							case ModContent.NPCType<WulfrumDrone>():
 								return CalamityGlobalAI.BuffedFighterAI(npc, mod);
 						}
 						break;
 
 					default:
 						break;
+				}
+				//modded NPCs can't be in switch cases
+				if (npc.type == ModContent.NPCType<BloomSlime>() || npc.type == ModContent.NPCType<CharredSlime>() || npc.type == ModContent.NPCType<CrimulanBlightSlime>() || npc.type == ModContent.NPCType<CryoSlime>() || npc.type == ModContent.NPCType<EbonianBlightSlime>() || npc.type == ModContent.NPCType<PerennialSlime>() || npc.type == ModContent.NPCType<WulfrumSlime>() || npc.type == ModContent.NPCType<IrradiatedSlime>())
+				{
+					return CalamityGlobalAI.BuffedSlimeAI(npc, mod);
+				}
+				if (npc.type == ModContent.NPCType<StormlionCharger>() || npc.type == ModContent.NPCType<WulfrumDrone>())
+				{
+					return CalamityGlobalAI.BuffedFighterAI(npc, mod);
 				}
 			}
 
