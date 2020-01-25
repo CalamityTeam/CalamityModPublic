@@ -559,6 +559,12 @@ namespace CalamityMod
 				"SkeletronPrime", 
 				new List<int>() {ModContent.ItemType<KnowledgeSkeletronPrime>(), ModContent.ItemType<KnowledgeMechs>()});
 
+				bossChecklist.Call(
+					"AddToBossLoot",
+					"Terraria",
+					"SkeletronPrime",
+					new List<int>() {ModContent.ItemType<GoldBurdenBreaker>()});
+
 				//Plantera
 				bossChecklist.Call(
 				"AddToBossLoot", 
