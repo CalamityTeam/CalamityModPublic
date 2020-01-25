@@ -5,6 +5,7 @@ using CalamityMod.Projectiles.Summon;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.Player;
 
 namespace CalamityMod.Items.Armor
 {
@@ -41,7 +42,8 @@ namespace CalamityMod.Items.Armor
             modPlayer.statigelSet = true;
             modPlayer.slimeGod = true;
             player.doubleJumpSail = true;
-            player.jumpBoost = true;
+			Player.jumpHeight += 5;
+			player.jumpSpeedBoost += 1.5f;
             player.minionDamage += 0.18f;
             if (player.whoAmI == Main.myPlayer)
             {
