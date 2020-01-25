@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Obliterator");
-            Tooltip.SetDefault("Ruins nearby enemies with death lasers\nAn exceptionally agile yoyo\n");
+            Tooltip.SetDefault("Ruins nearby enemies with death lasers\nAn incredibly agile yoyo\n");
             ItemID.Sets.Yoyo[item.type] = true;
             ItemID.Sets.GamepadExtraRange[item.type] = 15;
             ItemID.Sets.GamepadSmartQuickReach[item.type] = true;
