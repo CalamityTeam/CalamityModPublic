@@ -84,7 +84,7 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.damage = damage2;
             }
             projectile.frameCounter++;
-            if (projectile.frameCounter > 20)
+            if (projectile.frameCounter > 16)
             {
                 projectile.frame++;
                 projectile.frameCounter = 0;
