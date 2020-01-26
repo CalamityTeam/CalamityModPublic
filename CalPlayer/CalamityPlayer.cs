@@ -76,6 +76,7 @@ namespace CalamityMod.CalPlayer
 		public int deathModeBlizzardTime = 0;
 		public bool killSpikyBalls = false;
 		public Projectile lastProjectileHit;
+        public double acidRoundMultiplier = 1D;
 
 		// Stat Meter
 		public int[] damageStats = new int[5];
@@ -1499,6 +1500,7 @@ namespace CalamityMod.CalPlayer
             bossRushImmunityFrameCurseTimer = 0;
             aBulwarkRareMeleeBoostTimer = 0;
             theBeeDamage = 0;
+            acidRoundMultiplier = 1D;
             reforges = 0;
             polarisBoostCounter = 0;
             spectralVeilImmunity = 0;
@@ -3400,6 +3402,15 @@ namespace CalamityMod.CalPlayer
             {
                 theBeeDamage = 0;
             }
+
+			if (item.ranged)
+			{
+				acidRoundMultiplier = (double)(item.useTime) / 20D;
+			}
+			else
+			{
+				acidRoundMultiplier = 1D;
+			}
         }
         public override void GetWeaponKnockback(Item item, ref float knockback)
         {
@@ -4885,7 +4896,7 @@ namespace CalamityMod.CalPlayer
             }
             if (proj.type == ModContent.ProjectileType<AcidBulletProj>())
             {
-                int defenseAdd = (int)((double)target.defense * 0.1 * ((double)damage / 50.0)); //100 defense * 0.1 = 10
+                int defenseAdd = (int)((double)target.defense * 0.05 * ((double)proj.damage / 50.0) * acidRoundMultiplier); //100 defense * 0.05 = 5
                 damage += defenseAdd;
             }
             if (uberBees && (proj.type == ProjectileID.GiantBee || proj.type == ProjectileID.Bee || proj.type == ProjectileID.Wasp || proj.type == ModContent.ProjectileType<PlaguenadeBee>()))

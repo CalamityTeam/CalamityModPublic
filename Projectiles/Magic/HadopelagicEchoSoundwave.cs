@@ -79,12 +79,12 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            damage = (int)(((double)damage * (double)projectile.localAI[0]) / (projectile.penetrate / 2));
+            damage = (int)(((double)damage * (double)projectile.localAI[0]) * (0.5D + (0.5D / (double)projectile.penetrate)));
         }
 
         public override void ModifyHitPvp(Player target, ref int damage, ref bool crit)
         {
-            damage = (int)(((double)damage * (double)projectile.localAI[0]) / (projectile.penetrate / 2));
+            damage = (int)(((double)damage * (double)projectile.localAI[0]) * (0.5D + (0.5D / (double)projectile.penetrate)));
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -94,7 +94,7 @@ namespace CalamityMod.Projectiles.Magic
             target.AddBuff(BuffID.Electrified, 600);
             projectile.velocity *= 0.85f;
 
-			if (echoCooldown == 0)
+			if (echoCooldown <= 0)
 			{
 				echoCooldown = 60;
 				int echoID = ModContent.ProjectileType<HadopelagicEcho2>();
