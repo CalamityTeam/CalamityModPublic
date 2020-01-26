@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.World;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -117,23 +118,25 @@ namespace CalamityMod.NPCs.Abyss
                     if (flag14)
                     {
                         npc.TargetClosest(true);
-                        npc.velocity.X = npc.velocity.X + (float)npc.direction * 0.15f;
-                        npc.velocity.Y = npc.velocity.Y + (float)npc.directionY * 0.15f;
-                        if (npc.velocity.X > 3.5f)
+                        npc.velocity.X = npc.velocity.X + (float)npc.direction * (CalamityWorld.death ? 0.3f : 0.15f);
+                        npc.velocity.Y = npc.velocity.Y + (float)npc.directionY * (CalamityWorld.death ? 0.3f : 0.15f);
+						float velocityX = CalamityWorld.death ? 7f : 3.5f;
+						float velocityY = CalamityWorld.death ? 3f : 1.5f;
+						if (npc.velocity.X > velocityX)
                         {
-                            npc.velocity.X = 3.5f;
+                            npc.velocity.X = velocityX;
                         }
-                        if (npc.velocity.X < -3.5f)
+                        if (npc.velocity.X < -velocityX)
                         {
-                            npc.velocity.X = -3.5f;
+                            npc.velocity.X = -velocityX;
                         }
-                        if (npc.velocity.Y > 1.5f)
+                        if (npc.velocity.Y > velocityY)
                         {
-                            npc.velocity.Y = 1.5f;
+                            npc.velocity.Y = velocityY;
                         }
-                        if (npc.velocity.Y < -1.5f)
+                        if (npc.velocity.Y < -velocityY)
                         {
-                            npc.velocity.Y = -1.5f;
+                            npc.velocity.Y = -velocityY;
                         }
                     }
                     else
@@ -215,7 +218,6 @@ namespace CalamityMod.NPCs.Abyss
                 if ((double)npc.rotation > 0.2)
                 {
                     npc.rotation = 0.2f;
-                    return;
                 }
             }
         }

@@ -84,9 +84,10 @@ namespace CalamityMod.NPCs.Abyss
                 {
                     ++screamTimer;
 
-                    if (screamTimer >= 300)
+					int screamLimit = CalamityWorld.death ? 150 : 300;
+                    if (screamTimer >= screamLimit)
                     {
-                        if (screamTimer == 300)
+                        if (screamTimer == screamLimit)
                         {
                             Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/CorvinaScream"), (int)npc.position.X, (int)npc.position.Y);
                             if (Main.netMode != NetmodeID.Server)
@@ -97,7 +98,7 @@ namespace CalamityMod.NPCs.Abyss
                                 }
                             }
                         }
-                        if (screamTimer >= 360)
+                        if (screamTimer >= screamLimit + 60)
                         {
                             screamTimer = 0;
                         }
@@ -205,7 +206,6 @@ namespace CalamityMod.NPCs.Abyss
             if ((double)npc.rotation > 0.2)
             {
                 npc.rotation = 0.2f;
-                return;
             }
         }
 

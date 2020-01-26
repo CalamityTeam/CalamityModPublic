@@ -112,25 +112,26 @@ namespace CalamityMod.NPCs.Abyss
                 if (flag14)
                 {
                     npc.TargetClosest(true);
-                    npc.velocity.X = npc.velocity.X + (float)npc.direction * 0.15f;
-                    npc.velocity.Y = npc.velocity.Y + (float)npc.directionY * 0.15f;
-                    if (npc.velocity.X > 4f)
+                    npc.velocity.X = npc.velocity.X + (float)npc.direction * (CalamityWorld.death ? 0.3f : 0.15f);
+                    npc.velocity.Y = npc.velocity.Y + (float)npc.directionY * (CalamityWorld.death ? 0.3f : 0.15f);
+					float velocity = CalamityWorld.death ? 8f : 4f;
+					if (npc.velocity.X > velocity)
                     {
-                        npc.velocity.X = 4f;
+                        npc.velocity.X = velocity;
                     }
-                    if (npc.velocity.X < -4f)
+                    if (npc.velocity.X < -velocity)
                     {
-                        npc.velocity.X = -4f;
+                        npc.velocity.X = -velocity;
                     }
-                    if (npc.velocity.Y > 4f)
+                    if (npc.velocity.Y > velocity)
                     {
-                        npc.velocity.Y = 4f;
+                        npc.velocity.Y = velocity;
                     }
-                    if (npc.velocity.Y < -4f)
+                    if (npc.velocity.Y < -velocity)
                     {
-                        npc.velocity.Y = -4f;
+                        npc.velocity.Y = -velocity;
                     }
-                    npc.localAI[0] += 1f;
+                    npc.localAI[0] += (CalamityWorld.death ? 2f : 1f);
                     if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[0] >= 120f)
                     {
                         npc.localAI[0] = 0f;
@@ -233,7 +234,6 @@ namespace CalamityMod.NPCs.Abyss
             if ((double)npc.rotation > 0.1)
             {
                 npc.rotation = 0.1f;
-                return;
             }
         }
 

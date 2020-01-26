@@ -165,8 +165,10 @@ namespace CalamityMod.NPCs.Polterghast
             num730 /= (float)num732;
             num731 /= (float)num732;
 
-            // Velocity and acceleration
-            float num734 = 2.5f;
+			// Velocity and acceleration
+			bool charging = npc.ai[2] >= 300f;
+			bool reset = npc.ai[2] >= 600f;
+			float num734 = 2.5f;
             float num735 = 0.025f;
             if (!Main.player[npc.target].ZoneDungeon && !CalamityWorld.bossRushActive && (double)Main.player[npc.target].position.Y < Main.worldSurface * 16.0)
             {
@@ -189,18 +191,33 @@ namespace CalamityMod.NPCs.Polterghast
             {
                 num734 += 1.5f;
                 num735 += 0.01f;
-            }
+			}
 
-            if (phase3)
+			if (!phase3)
+			{
+				if (charging)
+				{
+					num734 += phase2 ? 9.5f : 8.5f;
+					num735 += phase2 ? 0.05f : 0.045f;
+				}
+
+				npc.ai[2] += 1f;
+				if (reset)
+				{
+					npc.ai[2] = 0f;
+					npc.netUpdate = true;
+				}
+			}
+			else
             {
                 if (cloneAlive)
                 {
                     boostDR = true;
 
-                    if (npc.ai[2] >= 300f)
+                    if (charging)
                     {
-                        num734 += phase5 ? 14.5f : 8.5f;
-                        num735 += phase5 ? 0.085f : 0.045f;
+                        num734 += phase5 ? 14.5f : 10.5f;
+                        num735 += phase5 ? 0.085f : 0.055f;
                     }
                     else
                     {
@@ -222,7 +239,7 @@ namespace CalamityMod.NPCs.Polterghast
                     }
 
                     npc.ai[2] += 1f;
-                    if (npc.ai[2] >= 600f)
+                    if (reset)
                     {
                         npc.ai[2] = 0f;
                         npc.netUpdate = true;
@@ -276,7 +293,7 @@ namespace CalamityMod.NPCs.Polterghast
             if (expertMode)
             {
                 num734 += revenge ? 1.5f : 1f;
-                num734 *= revenge ? 1.25f : 1.1f;
+                num734 *= revenge ? 1.2f : 1.1f;
                 num735 += revenge ? 0.015f : 0.01f;
                 num735 *= revenge ? 1.2f : 1.1f;
             }

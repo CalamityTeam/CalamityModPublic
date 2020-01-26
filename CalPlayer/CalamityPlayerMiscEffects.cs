@@ -373,6 +373,12 @@ namespace CalamityMod.CalPlayer
 						}
 					}
 
+					// Leech bleed
+					if (player.ZoneJungle && player.wet && !player.lavaWet && !player.honeyWet)
+					{
+						player.AddBuff(BuffID.Bleeding, 300, false);
+					}
+
 					// Ice shards and lightning
 					if (Main.raining && player.ZoneOverworldHeight && !CalamityPlayer.areThereAnyDamnBosses)
 					{

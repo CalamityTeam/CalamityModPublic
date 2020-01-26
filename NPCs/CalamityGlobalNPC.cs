@@ -1592,6 +1592,32 @@ namespace CalamityMod.NPCs
 							}
 						}
 						break;
+					case 2:
+						if (npc.type == ModContent.NPCType<BlightedEye>() || npc.type == ModContent.NPCType<CalamityEye>())
+						{
+							return CalamityGlobalAI.BuffedDemonEyeAI(npc, mod);
+						}
+						else
+						{
+							switch (npc.type)
+							{
+								case NPCID.DemonEye:
+								case NPCID.TheHungryII:
+								case NPCID.WanderingEye:
+								case NPCID.PigronCorruption:
+								case NPCID.PigronHallow:
+								case NPCID.PigronCrimson:
+								case NPCID.CataractEye:
+								case NPCID.SleepyEye:
+								case NPCID.DialatedEye:
+								case NPCID.GreenEye:
+								case NPCID.PurpleEye:
+								case NPCID.DemonEyeOwl:
+								case NPCID.DemonEyeSpaceship:
+									return CalamityGlobalAI.BuffedDemonEyeAI(npc, mod);
+							}
+						}
+						break;
 					case 3:
 						if (npc.type == ModContent.NPCType<StormlionCharger>() || npc.type == ModContent.NPCType<WulfrumDrone>())
 						{
@@ -1783,6 +1809,91 @@ namespace CalamityMod.NPCs
 								case NPCID.TheBride:
 									return CalamityGlobalAI.BuffedFighterAI(npc, mod);
 							}
+						}
+						break;
+					case 5:
+						switch (npc.type)
+						{
+							case NPCID.ServantofCthulhu:
+							case NPCID.EaterofSouls:
+							case NPCID.MeteorHead:
+							case NPCID.Corruptor:
+							case NPCID.Probe:
+							case NPCID.Crimera:
+							case NPCID.Moth:
+							case NPCID.Parrot:
+								return CalamityGlobalAI.BuffedFlyingAI(npc, mod);
+						}
+						break;
+					case 8:
+						switch (npc.type)
+						{
+							case NPCID.FireImp:
+							case NPCID.DarkCaster:
+							case NPCID.Tim:
+							case NPCID.RuneWizard:
+							case NPCID.RaggedCaster:
+							case NPCID.RaggedCasterOpenCoat:
+							case NPCID.Necromancer:
+							case NPCID.NecromancerArmored:
+							case NPCID.DiabolistRed:
+							case NPCID.DiabolistWhite:
+							case NPCID.DesertDjinn:
+							case NPCID.GoblinSorcerer:
+								return CalamityGlobalAI.BuffedCasterAI(npc, mod);
+						}
+						break;
+					case 14:
+						switch (npc.type)
+						{
+							case NPCID.Harpy:
+							case NPCID.CaveBat:
+							case NPCID.JungleBat:
+							case NPCID.Hellbat:
+							case NPCID.Demon:
+							case NPCID.VoodooDemon:
+							case NPCID.GiantBat:
+							case NPCID.Slimer:
+							case NPCID.IlluminantBat:
+							case NPCID.IceBat:
+							case NPCID.Lavabat:
+							case NPCID.GiantFlyingFox:
+							case NPCID.RedDevil:
+							case NPCID.FlyingSnake:
+							case NPCID.VampireBat:
+								return CalamityGlobalAI.BuffedBatAI(npc, mod);
+						}
+						break;
+					case 16:
+						switch (npc.type)
+						{
+							case NPCID.CorruptGoldfish:
+							case NPCID.Piranha:
+							case NPCID.Shark:
+							case NPCID.AnglerFish:
+							case NPCID.Arapaima:
+							case NPCID.BloodFeeder:
+							case NPCID.CrimsonGoldfish:
+								return CalamityGlobalAI.BuffedSwimmingAI(npc, mod);
+						}
+						break;
+					case 18:
+						switch (npc.type)
+						{
+							case NPCID.BlueJellyfish:
+							case NPCID.PinkJellyfish:
+							case NPCID.GreenJellyfish:
+							case NPCID.Squid:
+							case NPCID.BloodJelly:
+							case NPCID.FungoFish:
+								return CalamityGlobalAI.BuffedJellyfishAI(npc, mod);
+						}
+						break;
+					case 21:
+						switch (npc.type)
+						{
+							case NPCID.BlazingWheel:
+								return CalamityGlobalAI.BuffedBlazingWheelAI(npc, mod);
 						}
 						break;
 					default:

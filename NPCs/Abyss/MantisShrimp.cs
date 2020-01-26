@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -50,7 +51,7 @@ namespace CalamityMod.NPCs.Abyss
             {
                 num78 = 2.5f - num79;
             }
-            num78 *= 0.8f;
+            num78 *= (CalamityWorld.death ? 1.2f : 0.8f);
             if (npc.velocity.X < -num78 || npc.velocity.X > num78)
             {
                 if (npc.velocity.Y == 0f)

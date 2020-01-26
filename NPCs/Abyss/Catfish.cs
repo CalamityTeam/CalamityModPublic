@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.World;
 using System;
 using System.IO;
 using Terraria;
@@ -106,23 +107,23 @@ namespace CalamityMod.NPCs.Abyss
                 if (flag14)
                 {
                     npc.TargetClosest(true);
-                    npc.velocity.X = npc.velocity.X + (float)npc.direction * 0.25f;
-                    npc.velocity.Y = npc.velocity.Y + (float)npc.directionY * 0.15f;
-                    if (npc.velocity.X > 8f)
+                    npc.velocity.X = npc.velocity.X + (float)npc.direction * (CalamityWorld.death ? 0.5f : 0.25f);
+                    npc.velocity.Y = npc.velocity.Y + (float)npc.directionY * (CalamityWorld.death ? 0.3f : 0.15f);
+                    if (npc.velocity.X > (CalamityWorld.death ? 16f : 8f))
                     {
-                        npc.velocity.X = 8f;
+                        npc.velocity.X = (CalamityWorld.death ? 16f : 8f);
                     }
-                    if (npc.velocity.X < -8f)
+                    if (npc.velocity.X < (CalamityWorld.death ? -16f : -8f))
                     {
-                        npc.velocity.X = -8f;
+                        npc.velocity.X = (CalamityWorld.death ? -16f : -8f);
                     }
-                    if (npc.velocity.Y > 6f)
+                    if (npc.velocity.Y > (CalamityWorld.death ? 12f : 6f))
                     {
-                        npc.velocity.Y = 6f;
+                        npc.velocity.Y = (CalamityWorld.death ? 12f : 6f);
                     }
-                    if (npc.velocity.Y < -6f)
+                    if (npc.velocity.Y < (CalamityWorld.death ? -12f : -6f))
                     {
-                        npc.velocity.Y = -6f;
+                        npc.velocity.Y = (CalamityWorld.death ? -12f : -6f);
                     }
                 }
                 else
@@ -204,7 +205,6 @@ namespace CalamityMod.NPCs.Abyss
             if ((double)npc.rotation > 0.2)
             {
                 npc.rotation = 0.2f;
-                return;
             }
         }
 

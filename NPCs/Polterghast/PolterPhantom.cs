@@ -134,14 +134,14 @@ namespace CalamityMod.NPCs.Polterghast
 
             if (Main.npc[CalamityGlobalNPC.ghostBoss].ai[2] < 300f)
             {
-                num734 = 18f;
+                num734 = 18.5f;
                 num735 = 0.12f;
             }
 
             if (expertMode)
             {
                 num734 += revenge ? 1.5f : 1f;
-                num734 *= revenge ? 1.25f : 1.1f;
+                num734 *= revenge ? 1.2f : 1.1f;
                 num735 += revenge ? 0.015f : 0.01f;
                 num735 *= revenge ? 1.2f : 1.1f;
             }

@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Items.Pets;
 using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
@@ -108,23 +109,25 @@ namespace CalamityMod.NPCs.Abyss
                 if (flag14)
                 {
                     npc.TargetClosest(true);
-                    npc.velocity.X = npc.velocity.X + (float)npc.direction * 0.3f;
-                    npc.velocity.Y = npc.velocity.Y + (float)npc.directionY * 0.1f;
-                    if (npc.velocity.X > 10f)
+                    npc.velocity.X = npc.velocity.X + (float)npc.direction * (CalamityWorld.death ? 0.6f : 0.3f);
+                    npc.velocity.Y = npc.velocity.Y + (float)npc.directionY * (CalamityWorld.death ? 0.2f : 0.1f);
+					float velocityX = CalamityWorld.death ? 20f : 10f;
+					float velocityY = CalamityWorld.death ? 10f : 5f;
+					if (npc.velocity.X > velocityX)
                     {
-                        npc.velocity.X = 10f;
+                        npc.velocity.X = velocityX;
                     }
-                    if (npc.velocity.X < -10f)
+                    if (npc.velocity.X < -velocityX)
                     {
-                        npc.velocity.X = -10f;
+                        npc.velocity.X = -velocityX;
                     }
-                    if (npc.velocity.Y > 5f)
+                    if (npc.velocity.Y > velocityY)
                     {
-                        npc.velocity.Y = 5f;
+                        npc.velocity.Y = velocityY;
                     }
-                    if (npc.velocity.Y < -5f)
+                    if (npc.velocity.Y < -velocityY)
                     {
-                        npc.velocity.Y = -5f;
+                        npc.velocity.Y = -velocityY;
                     }
                 }
                 else
@@ -193,11 +196,11 @@ namespace CalamityMod.NPCs.Abyss
                 float num823 = 1f;
                 npc.TargetClosest(true);
                 bool flag51 = false;
-                if ((double)npc.life < (double)npc.lifeMax * 0.5)
+                if ((double)npc.life < (double)npc.lifeMax * 0.5 || CalamityWorld.death)
                 {
                     num823 = 1.5f;
                 }
-                if ((double)npc.life < (double)npc.lifeMax * 0.25)
+                if ((double)npc.life < (double)npc.lifeMax * 0.25 || CalamityWorld.death)
                 {
                     num823 = 2.5f;
                 }
@@ -283,7 +286,6 @@ namespace CalamityMod.NPCs.Abyss
             if ((double)npc.rotation > 0.1)
             {
                 npc.rotation = 0.1f;
-                return;
             }
         }
 

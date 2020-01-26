@@ -115,23 +115,24 @@ namespace CalamityMod.NPCs.Abyss
                 if (flag14)
                 {
                     npc.TargetClosest(true);
-                    npc.velocity.X = npc.velocity.X + (float)npc.direction * 0.25f;
-                    npc.velocity.Y = npc.velocity.Y + (float)npc.directionY * 0.15f;
-                    if (npc.velocity.X > 6f)
+                    npc.velocity.X = npc.velocity.X + (float)npc.direction * (CalamityWorld.death ? 0.5f : 0.25f);
+                    npc.velocity.Y = npc.velocity.Y + (float)npc.directionY * (CalamityWorld.death ? 0.3f : 0.15f);
+					float velocity = CalamityWorld.death ? 12f : 6f;
+					if (npc.velocity.X > velocity)
                     {
-                        npc.velocity.X = 6f;
+                        npc.velocity.X = velocity;
                     }
-                    if (npc.velocity.X < -6f)
+                    if (npc.velocity.X < -velocity)
                     {
-                        npc.velocity.X = -6f;
+                        npc.velocity.X = -velocity;
                     }
-                    if (npc.velocity.Y > 6f)
+                    if (npc.velocity.Y > velocity)
                     {
-                        npc.velocity.Y = 6f;
+                        npc.velocity.Y = velocity;
                     }
-                    if (npc.velocity.Y < -6f)
+                    if (npc.velocity.Y < -velocity)
                     {
-                        npc.velocity.Y = -6f;
+                        npc.velocity.Y = -velocity;
                     }
                 }
                 else
@@ -213,7 +214,6 @@ namespace CalamityMod.NPCs.Abyss
             if ((double)npc.rotation > 0.2)
             {
                 npc.rotation = 0.2f;
-                return;
             }
         }
 

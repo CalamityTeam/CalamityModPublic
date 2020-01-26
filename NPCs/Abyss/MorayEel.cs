@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -109,23 +110,25 @@ namespace CalamityMod.NPCs.Abyss
                 if (flag14)
                 {
                     npc.TargetClosest(true);
-                    npc.velocity.X = npc.velocity.X + (float)npc.direction * 0.15f;
-                    npc.velocity.Y = npc.velocity.Y + (float)npc.directionY * 0.1f;
-                    if (npc.velocity.X > 6f)
+                    npc.velocity.X = npc.velocity.X + (float)npc.direction * (CalamityWorld.death ? 0.3f : 0.15f);
+                    npc.velocity.Y = npc.velocity.Y + (float)npc.directionY * (CalamityWorld.death ? 0.2f : 0.1f);
+					float velocityX = CalamityWorld.death ? 12f : 6f;
+					float velocityY = CalamityWorld.death ? 8f : 4f;
+					if (npc.velocity.X > velocityX)
                     {
-                        npc.velocity.X = 6f;
+                        npc.velocity.X = velocityX;
                     }
-                    if (npc.velocity.X < -6f)
+                    if (npc.velocity.X < -velocityX)
                     {
-                        npc.velocity.X = -6f;
+                        npc.velocity.X = -velocityX;
                     }
-                    if (npc.velocity.Y > 4f)
+                    if (npc.velocity.Y > velocityY)
                     {
-                        npc.velocity.Y = 4f;
+                        npc.velocity.Y = velocityY;
                     }
-                    if (npc.velocity.Y < -4f)
+                    if (npc.velocity.Y < -velocityY)
                     {
-                        npc.velocity.Y = -4f;
+                        npc.velocity.Y = -velocityY;
                     }
                 }
                 else
@@ -207,7 +210,6 @@ namespace CalamityMod.NPCs.Abyss
             if ((double)npc.rotation > 0.2)
             {
                 npc.rotation = 0.2f;
-                return;
             }
         }
 

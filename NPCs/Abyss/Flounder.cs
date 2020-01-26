@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Projectiles.Enemy;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -141,7 +142,7 @@ namespace CalamityMod.NPCs.Abyss
                         }
                         if ((Main.player[npc.target].Center - npc.Center).Length() < 350f)
                         {
-                            npc.localAI[0] += 1f;
+                            npc.localAI[0] += (CalamityWorld.death ? 3f : 1f);
                             if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[0] >= 180f)
                             {
                                 npc.localAI[0] = 0f;
@@ -244,7 +245,6 @@ namespace CalamityMod.NPCs.Abyss
                 if ((double)npc.rotation > 0.2)
                 {
                     npc.rotation = 0.2f;
-                    return;
                 }
             }
         }

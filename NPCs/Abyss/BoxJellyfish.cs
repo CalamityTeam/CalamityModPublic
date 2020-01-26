@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -96,7 +97,7 @@ namespace CalamityMod.NPCs.Abyss
                 if (npc.velocity.X > -num263 && npc.velocity.X < num263 && npc.velocity.Y > -num263 && npc.velocity.Y < num263)
                 {
                     npc.TargetClosest(true);
-                    float num264 = 8f;
+                    float num264 = CalamityWorld.death ? 12f : 8f;
                     Vector2 vector31 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
                     float num265 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector31.X;
                     float num266 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - vector31.Y;
@@ -106,7 +107,6 @@ namespace CalamityMod.NPCs.Abyss
                     num266 *= num267;
                     npc.velocity.X = num265;
                     npc.velocity.Y = num266;
-                    return;
                 }
             }
             else
