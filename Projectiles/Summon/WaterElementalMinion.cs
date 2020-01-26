@@ -77,7 +77,7 @@ namespace CalamityMod.Projectiles.Summon
             }
             Lighting.AddLight(projectile.Center, 0f, 0.25f, 1.5f);
             projectile.frameCounter++;
-            if (projectile.frameCounter > 12)
+            if (projectile.frameCounter > 8)
             {
                 projectile.frame++;
                 projectile.frameCounter = 0;

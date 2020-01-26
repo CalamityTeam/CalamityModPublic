@@ -123,7 +123,7 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.ai[1] += 1f;
                 projectile.extraUpdates = 2;
                 projectile.frameCounter++;
-                if (projectile.frameCounter > 48)
+                if (projectile.frameCounter > 16)
                 {
                     projectile.frame++;
                     projectile.frameCounter = 0;
