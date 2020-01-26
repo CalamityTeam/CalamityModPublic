@@ -3296,6 +3296,11 @@ namespace CalamityMod.NPCs
 				spawnRate = (int)(spawnRate * 0.75);
 			}
 
+			if (player.Calamity().perforatorLore)
+			{
+				spawnRate = (int)(spawnRate * 0.7);
+				maxSpawns = (int)(maxSpawns * 1.8f);
+			}
 			if (Main.waterCandles > 0)
 			{
 				spawnRate = (int)(spawnRate * 0.9);
@@ -3318,6 +3323,11 @@ namespace CalamityMod.NPCs
             }
 
 			// Reductions
+			if (player.Calamity().hiveMindLore)
+			{
+				spawnRate = (int)(spawnRate * 1.3);
+				maxSpawns = (int)(maxSpawns * 0.6f);
+			}
 			if (Main.peaceCandles > 0)
 			{
 				spawnRate = (int)(spawnRate * 1.1);

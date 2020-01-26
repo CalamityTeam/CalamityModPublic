@@ -12,7 +12,8 @@ namespace CalamityMod.Items.LoreItems
             Tooltip.SetDefault("An odd pair of creatures; one seeking companionship and the other seeking sustenance.\n" +
                 "Perhaps two genetic misfits outcast from their homes that found comfort in assisting one another.\n" +
                 "Place in your inventory to gain increased max health while wearing the siren heart and treasure detect while wearing the strange orb.\n" +
-                "Allows the young siren pet to move normally while outside of liquids.");
+                "Allows the young siren pet to move normally while outside of liquids.\n" +
+				"However, if you're not submerged in liquid you will have decreased defense and damage reduction.");
         }
 
         public override void SetDefaults()

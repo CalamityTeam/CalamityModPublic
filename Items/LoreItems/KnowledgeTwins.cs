@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.LoreItems
@@ -10,7 +11,9 @@ namespace CalamityMod.Items.LoreItems
             DisplayName.SetDefault("The Twins");
             Tooltip.SetDefault("The bio-mechanical watchers of the night, originally created as security using the souls extracted from human eyes.\n" +
                 "These creatures did not belong in this world, it's best to be rid of them.\n" +
-                "Place in your inventory to gain invisibility and rogue bonuses at night.");
+                "Place in your inventory to gain invisibility and rogue bonuses at night.\n" +
+				"However, your defense is reduced while above 50% life due to you feeling softer.\n" +
+				"Your movement speed is reduced while below 50% life due to you feeling heavier.");
         }
 
         public override void SetDefaults()
@@ -28,10 +31,8 @@ namespace CalamityMod.Items.LoreItems
 
         public override void UpdateInventory(Player player)
         {
-            if (!Main.dayTime)
-            {
-                player.invis = true;
-            }
+			CalamityPlayer modPlayer = player.Calamity();
+			modPlayer.twinsLore = true;
         }
     }
 }

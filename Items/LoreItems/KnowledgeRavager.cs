@@ -11,7 +11,7 @@ namespace CalamityMod.Items.LoreItems
             DisplayName.SetDefault("Ravager");
             Tooltip.SetDefault("The flesh golem constructed using twisted necromancy during the time of my conquest to counter my unstoppable forces.\n" +
                 "Its creators were slaughtered by it moments after its conception. It is for the best that it has been destroyed.\n" +
-                "Place in your inventory to gain an increase to all damage but reduced wing flight time.");
+                "Place in your inventory to gain an increase to all damage, but at the cost of reduced wing flight time.");
         }
 
         public override void SetDefaults()

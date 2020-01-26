@@ -225,12 +225,14 @@ namespace CalamityMod.CalPlayer
         // Lore
         public bool kingSlimeLore = false;
         public bool desertScourgeLore = false;
+		public bool crabulonLore = false;
         public bool eaterOfWorldsLore = false;
         public bool hiveMindLore = false;
         public bool perforatorLore = false;
         public bool queenBeeLore = false;
         public bool skeletronLore = false;
         public bool wallOfFleshLore = false;
+		public bool twinsLore = false;
         public bool destroyerLore = false;
         public bool aquaticScourgeLore = false;
         public bool skeletronPrimeLore = false;
@@ -949,8 +951,12 @@ namespace CalamityMod.CalPlayer
 				player.statLifeMax2 = (int)((double)player.statLifeMax2 * 0.75);
 			if (regenator)
 				player.statLifeMax2 = (int)((double)player.statLifeMax2 * 0.5);
+			if (skeletronLore)
+				player.statLifeMax2 = (int)((double)player.statLifeMax2 * 0.9);
 			if (calamitasLore)
 				player.statLifeMax2 = (int)((double)player.statLifeMax2 * 0.75);
+			if (providenceLore)
+				player.statLifeMax2 = (int)((double)player.statLifeMax2 * 0.8);
 
 			// Max mana bonuses
 			player.statManaMax2 +=
@@ -1076,12 +1082,14 @@ namespace CalamityMod.CalPlayer
 
             kingSlimeLore = false;
             desertScourgeLore = false;
+			crabulonLore = false;
             eaterOfWorldsLore = false;
             hiveMindLore = false;
             perforatorLore = false;
             queenBeeLore = false;
             skeletronLore = false;
             wallOfFleshLore = false;
+			twinsLore = false;
             destroyerLore = false;
             aquaticScourgeLore = false;
             skeletronPrimeLore = false;
@@ -4743,7 +4751,7 @@ namespace CalamityMod.CalPlayer
             }
             if (providenceLore && hasClassType)
             {
-                damageMult += 0.05;
+                damageMult += 0.1;
             }
             if (silvaMelee && Main.rand.NextBool(4) && isTrueMelee)
             {
@@ -5771,6 +5779,7 @@ namespace CalamityMod.CalPlayer
             #region MultiplierBoosts
             double damageMult = 1.0 +
                 (dArtifact ? 0.25 : 0.0) +
+				(DoGLore ? 0.1 : 0.0) +
                 ((player.beetleDefense && player.beetleOrbs > 0) ? (0.05 * (double)player.beetleOrbs) : 0.0) +
                 (enraged ? 0.25 : 0.0) +
                 ((CalamityWorld.defiled && Main.rand.NextBool(4)) ? 0.5 : 0.0) +

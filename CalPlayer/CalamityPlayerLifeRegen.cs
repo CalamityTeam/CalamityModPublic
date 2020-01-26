@@ -415,8 +415,14 @@ namespace CalamityMod.CalPlayer
 
 			// Last Debuffs
 
-			if (modPlayer.plaguebringerGoliathLore && player.lifeRegen > 0)
-				player.lifeRegen /= 2;
+			if (player.lifeRegen > 0)
+			{
+				if (modPlayer.plaguebringerGoliathLore)
+					player.lifeRegen /= 2;
+
+				if (modPlayer.eaterOfWorldsLore)
+					player.lifeRegen /= 2;
+			}
 
 			if (modPlayer.omegaBlueChestplate)
             {

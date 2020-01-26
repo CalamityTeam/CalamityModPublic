@@ -11,7 +11,8 @@ namespace CalamityMod.Items.LoreItems
             DisplayName.SetDefault("The Eater of Worlds");
             Tooltip.SetDefault("Perhaps it was just a giant worm infected by the microbe, given centuries to feed and grow its festering body.\n" +
                 "Seems likely, given the origins of this place.\n" +
-                "Deadly microbes spawn around you while this is placed in your inventory.");
+                "Deadly microbes spawn around you while this is placed in your inventory.\n" +
+				"However, you will have decreased life regen due to your skin rotting off.");
         }
 
         public override void SetDefaults()

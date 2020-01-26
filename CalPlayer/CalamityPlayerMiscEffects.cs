@@ -376,7 +376,8 @@ namespace CalamityMod.CalPlayer
 					// Leech bleed
 					if (player.ZoneJungle && player.wet && !player.lavaWet && !player.honeyWet)
 					{
-						player.AddBuff(BuffID.Bleeding, 300, false);
+						if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
+							player.AddBuff(BuffID.Bleeding, 300, false);
 					}
 
 					// Ice shards and lightning
@@ -979,12 +980,29 @@ namespace CalamityMod.CalPlayer
 			{
 				player.moveSpeed += 0.05f;
 				player.jumpSpeedBoost += player.autoJump ? 0f : 0.1f;
+				player.statDefense -= 5;
 			}
 			if (modPlayer.desertScourgeLore)
-				player.statDefense += 5;
+			{
+				if (player.ZoneDesert || player.Calamity().ZoneSunkenSea)
+				{
+					player.statDefense += 5;
+					player.allDamage -= 0.025f;
+				}
+			}
+			if (modPlayer.crabulonLore)
+			{
+				if (player.ZoneGlowshroom || player.ZoneDirtLayerHeight || player.ZoneRockLayerHeight)
+				{
+					if (Main.myPlayer == player.whoAmI)
+						player.AddBuff(ModContent.BuffType<Mushy>(), 2);
+
+					player.moveSpeed -= 0.1f;
+				}
+			}
 			if (modPlayer.eaterOfWorldsLore)
 			{
-				int damage = 10;
+				int damage = 20;
 				float knockBack = 1f;
 				if (Main.rand.NextBool(15))
 				{
@@ -1056,25 +1074,47 @@ namespace CalamityMod.CalPlayer
 			}
 			if (modPlayer.skeletronLore)
 			{
-				player.allDamage += 0.05f;
+				player.allDamage += 0.1f;
 				modPlayer.AllCritBoost(5);
-				player.statDefense += 5;
 			}
 			if (modPlayer.destroyerLore)
-				player.pickSpeed -= 0.05f;
-			if (modPlayer.aquaticScourgeLore && player.wellFed)
 			{
-				player.statDefense += 1;
-				player.allDamage += 0.025f;
-				modPlayer.AllCritBoost(1);
-				player.meleeSpeed += 0.025f;
-				player.minionKB += 0.25f;
-				player.moveSpeed += 0.1f;
+				player.pickSpeed -= 0.05f;
+				player.moveSpeed -= 0.025f;
+			}
+			if (modPlayer.aquaticScourgeLore)
+			{
+				if (player.wellFed)
+				{
+					player.statDefense += 1;
+					player.allDamage += 0.025f;
+					modPlayer.AllCritBoost(1);
+					player.meleeSpeed += 0.025f;
+					player.minionKB += 0.25f;
+					player.moveSpeed += 0.1f;
+				}
+				else
+				{
+					player.statDefense -= 1;
+					player.allDamage -= 0.025f;
+					modPlayer.AllCritBoost(-1);
+					player.meleeSpeed -= 0.025f;
+					player.minionKB -= 0.25f;
+					player.moveSpeed -= 0.1f;
+				}
 			}
 			if (modPlayer.skeletronPrimeLore)
+			{
 				player.armorPenetration += 5;
+				player.moveSpeed -= 0.025f;
+			}
 			if (modPlayer.leviathanAndSirenLore)
 			{
+				if (!Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
+				{
+					player.statDefense -= 20;
+					player.endurance -= 0.1f;
+				}
 				if (modPlayer.sirenPet)
 				{
 					player.spelunkerTimer += 1;
@@ -1131,12 +1171,22 @@ namespace CalamityMod.CalPlayer
 			}
 			if (modPlayer.dukeFishronLore)
 			{
-				player.allDamage += 0.05f;
-				modPlayer.AllCritBoost(5);
-				player.moveSpeed += 0.1f;
+				if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
+				{
+					player.allDamage += 0.05f;
+					modPlayer.AllCritBoost(5);
+					player.moveSpeed += 0.1f;
+				}
+				else
+				{
+					player.allDamage -= 0.02f;
+					modPlayer.AllCritBoost(-2);
+					player.moveSpeed -= 0.04f;
+				}
 			}
 			if (modPlayer.lunaticCultistLore)
 			{
+				player.blind = true;
 				player.endurance += 0.04f;
 				player.statDefense += 4;
 				player.allDamage += 0.04f;
@@ -1155,6 +1205,8 @@ namespace CalamityMod.CalPlayer
 					player.minionKB += 1.5f;
 					player.moveSpeed += 0.15f;
 				}
+				else
+					player.confused = true;
 			}
 
 			// Calcium Potion buff
@@ -2473,6 +2525,21 @@ namespace CalamityMod.CalPlayer
 				player.magicDamage += 0.06f;
 				if (player.statMana < (int)((double)player.statManaMax2 * 0.1))
 					player.ghostHeal = true;
+			}
+
+			if (modPlayer.twinsLore)
+			{
+				if (!Main.dayTime)
+				{
+					player.invis = true;
+					modPlayer.throwingCrit += 5;
+					modPlayer.throwingDamage += 0.05f;
+				}
+
+				if (player.statLife < (int)((double)player.statLifeMax2 * 0.5))
+					player.moveSpeed -= 0.025f;
+				else
+					player.statDefense -= 10;
 			}
 
 			if (modPlayer.rBrain)

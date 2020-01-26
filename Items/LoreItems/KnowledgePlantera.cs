@@ -12,7 +12,7 @@ namespace CalamityMod.Items.LoreItems
             Tooltip.SetDefault("Well done, you killed a plant.\n" +
                 "It was used as a vessel to house the spirits of those unfortunate enough to find their way down here.\n" +
                 "I wish you luck in dealing with the fallout.\n" +
-                "Place in your inventory to gain a boost to your item grab range.");
+				"Place in your inventory to gain increased item grab range.");
         }
 
         public override void SetDefaults()

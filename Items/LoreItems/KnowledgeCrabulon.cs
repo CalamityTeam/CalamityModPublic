@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Buffs.StatBuffs;
+using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.LoreItems
@@ -10,7 +11,8 @@ namespace CalamityMod.Items.LoreItems
             DisplayName.SetDefault("Crabulon");
             Tooltip.SetDefault("A crab and its mushrooms, a love story.\n" +
                 "It's interesting how creatures can adapt given certain circumstances.\n" +
-                "Place in your inventory to gain the Mushy buff while underground or in the mushroom biome.");
+                "Place in your inventory to gain the Mushy buff while underground or in the mushroom biome.\n" +
+				"However, your movement speed will be decreased while in these areas due to you being covered in fungi.");
         }
 
         public override void SetDefaults()
@@ -28,13 +30,8 @@ namespace CalamityMod.Items.LoreItems
 
         public override void UpdateInventory(Player player)
         {
-            if (player.ZoneGlowshroom || player.ZoneDirtLayerHeight || player.ZoneRockLayerHeight)
-            {
-                if (Main.myPlayer == player.whoAmI)
-                {
-                    player.AddBuff(ModContent.BuffType<Mushy>(), 2);
-                }
-            }
+			CalamityPlayer modPlayer = player.Calamity();
+			modPlayer.crabulonLore = true;
         }
     }
 }

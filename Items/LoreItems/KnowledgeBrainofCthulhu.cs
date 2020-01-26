@@ -13,7 +13,8 @@ namespace CalamityMod.Items.LoreItems
             DisplayName.SetDefault("The Brain of Cthulhu");
             Tooltip.SetDefault("An eye and now a brain.\n" +
                 "Most likely another abomination spawned from this inchoate mass of flesh.\n" +
-                "Allows you to teleport similar to the Rod of Discord while in the crimson. Place in your hotbar to use it.");
+                "Allows you to teleport similar to the Rod of Discord while in the crimson. Place in your hotbar to use it.\n" +
+				"However, you become confused for a few seconds after you use it due to your overwhelming brain power.");
         }
 
         public override void SetDefaults()
@@ -74,7 +75,8 @@ namespace CalamityMod.Items.LoreItems
                             player.lifeRegenTime = 0;
                         }
                         player.AddBuff(BuffID.ChaosState, 480, true);
-                    }
+						player.AddBuff(BuffID.Confused, 150, true);
+					}
                 }
             }
             return true;
