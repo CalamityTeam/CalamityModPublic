@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Magic
             DisplayName.SetDefault("Vivid Clarity");
             Tooltip.SetDefault("Fires three randomized beams of elemental energy at the cursor\n" +
 							   "On enemy and tile hits, beams either explode into a big flash,\n" +
-							   "summon additonal lasers from the sky,\n" +
+							   "summon an additonal laser from the sky,\n" +
 							   "or split into energy orbs\n" +
                                "High IQ increases the weapon's potential");
             Item.staff[item.type] = true;
