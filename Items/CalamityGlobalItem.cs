@@ -134,6 +134,12 @@ namespace CalamityMod.Items
 				ItemID.Sets.ItemNoGravity[item.type] = true;
 			if (CalamityMod.lavaFishList.Contains(item.type))
 				ItemID.Sets.CanFishInLava[item.type] = true;
+
+			if (item.type == ItemID.GravityGlobe)
+			{
+				item.expert = false;
+				item.rare = 10;
+			}
         }
         #endregion
 
