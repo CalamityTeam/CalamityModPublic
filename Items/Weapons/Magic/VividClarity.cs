@@ -15,10 +15,11 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Vivid Clarity");
-            Tooltip.SetDefault("Fires 3 beams of elemental energy near the mouse cursor that bounce\n" +
-                               "The beams split when enemies are near\n" +
-                               "The more enemies and tiles the beams hit the more damage they do\n" +
-                                "High IQ required");
+            Tooltip.SetDefault("Fires three randomized beams of elemental energy at the cursor\n" +
+							   "On enemy and tile hits, beams either explode into a big flash,\n" +
+							   "summon additonal lasers from the sky,\n" +
+							   "or split into energy orbs\n" +
+                               "High IQ increases the weapon's potential");
             Item.staff[item.type] = true;
         }
 
@@ -26,11 +27,12 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             item.damage = 500;
             item.magic = true;
-            item.mana = 150;
+            item.mana = 101;
             item.width = 90;
             item.height = 112;
-            item.useTime = 33;
-            item.useAnimation = 33;
+            item.useAnimation = 21;
+            item.useTime = 7;
+            item.reuseDelay = item.useAnimation;
             item.useStyle = 5;
             item.noMelee = true;
             item.knockBack = 7.5f;
@@ -38,7 +40,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.rare = 10;
             item.UseSound = SoundID.Item60;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<VividClarityBeam>();
+            item.shoot = ModContent.ProjectileType<VividBeam>();
             item.shootSpeed = 6f;
             item.Calamity().postMoonLordRarity = 15;
         }
@@ -50,50 +52,29 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            float num72 = item.shootSpeed;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
-            float num78 = (float)Main.mouseX + Main.screenPosition.X + vector2.X;
-            float num79 = (float)Main.mouseY + Main.screenPosition.Y + vector2.Y;
-            if (player.gravDir == -1f)
+            float num72 = item.shootSpeed;
+            float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
+            float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
+            float f = Main.rand.NextFloat() * 6.28318548f;
+            float value12 = 20f;
+            float value13 = 60f;
+            Vector2 vector13 = vector2 + f.ToRotationVector2() * MathHelper.Lerp(value12, value13, Main.rand.NextFloat());
+            for (int num202 = 0; num202 < 50; num202++)
             {
-                num79 = Main.screenPosition.Y + (float)Main.screenHeight + (float)Main.mouseY + vector2.Y;
-            }
-            float num80 = (float)Math.Sqrt((double)(num78 * num78 + num79 * num79));
-            if ((float.IsNaN(num78) && float.IsNaN(num79)) || (num78 == 0f && num79 == 0f))
-            {
-                num78 = (float)player.direction;
-                num79 = 0f;
-                num80 = num72;
-            }
-            else
-            {
-                num80 = num72 / num80;
-            }
-
-            int num130 = 3;
-            for (int num131 = 0; num131 < num130; num131++)
-            {
-                vector2 = new Vector2(player.position.X + (float)player.width * 0.5f + (float)(Main.rand.Next(201) * -(float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y);
-                vector2.X = (vector2.X + player.Center.X) / 2f + (float)Main.rand.Next(-200, 201);
-                vector2.Y -= (float)(100 * num131);
-                num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
-                num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
-                if (num79 < 0f)
+                vector13 = vector2 + f.ToRotationVector2() * MathHelper.Lerp(value12, value13, Main.rand.NextFloat());
+                if (Collision.CanHit(vector2, 0, 0, vector13 + (vector13 - vector2).SafeNormalize(Vector2.UnitX) * 8f, 0, 0))
                 {
-                    num79 *= -1f;
+                    break;
                 }
-                if (num79 < 20f)
-                {
-                    num79 = 20f;
-                }
-                num80 = (float)Math.Sqrt((double)(num78 * num78 + num79 * num79));
-                num80 = num72 / num80;
-                num78 *= num80;
-                num79 *= num80;
-                float speedX4 = num78 + (float)Main.rand.Next(-40, 41) * 0.02f;
-                float speedY5 = num79 + (float)Main.rand.Next(-40, 41) * 0.02f;
-                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<VividClarityBeam>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                f = Main.rand.NextFloat() * 6.28318548f;
             }
+            Vector2 mouseWorld = Main.MouseWorld;
+            Vector2 vector14 = mouseWorld - vector13;
+            Vector2 vector15 = new Vector2(num78, num79).SafeNormalize(Vector2.UnitY) * num72;
+            vector14 = vector14.SafeNormalize(vector15) * num72;
+            vector14 = Vector2.Lerp(vector14, vector15, 0.25f);
+            Projectile.NewProjectile(vector13, vector14, type, damage, knockBack, player.whoAmI, 0f, Main.rand.Next(3));
             return false;
         }
 
@@ -103,7 +84,7 @@ namespace CalamityMod.Items.Weapons.Magic
             recipe.AddIngredient(ModContent.ItemType<ElementalRay>());
             recipe.AddIngredient(ModContent.ItemType<ArchAmaryllis>());
             recipe.AddIngredient(ModContent.ItemType<AsteroidStaff>());
-            recipe.AddIngredient(ModContent.ItemType<HellwingStaff>());
+            recipe.AddIngredient(ModContent.ItemType<UltraLiquidator>());
             recipe.AddIngredient(ModContent.ItemType<PhantasmalFury>());
             recipe.AddIngredient(ModContent.ItemType<ShadowboltStaff>());
             recipe.AddIngredient(ModContent.ItemType<HeliumFlash>());
