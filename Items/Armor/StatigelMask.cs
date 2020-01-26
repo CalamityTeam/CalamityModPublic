@@ -3,6 +3,7 @@ using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.Player;
 
 namespace CalamityMod.Items.Armor
 {
@@ -42,7 +43,8 @@ namespace CalamityMod.Items.Armor
             modPlayer.statigelSet = true;
             modPlayer.rogueStealthMax += 1.05f;
             player.doubleJumpSail = true;
-            player.jumpBoost = true;
+			Player.jumpHeight += 5;
+			player.jumpSpeedBoost += 1.5f;
             player.Calamity().wearingRogueArmor = true;
         }
 

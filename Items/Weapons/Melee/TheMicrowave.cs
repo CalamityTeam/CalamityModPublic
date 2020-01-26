@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("The Microwave");
             Tooltip.SetDefault("Fries nearby enemies with radiation\n" +
-			"An exceptionally agile yoyo\n" +
+			"A very agile yoyo\n" +
 			"Cooking, Astral Infection style");
             ItemID.Sets.Yoyo[item.type] = true;
             ItemID.Sets.GamepadExtraRange[item.type] = 15;

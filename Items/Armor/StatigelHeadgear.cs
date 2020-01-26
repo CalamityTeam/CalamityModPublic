@@ -3,6 +3,7 @@ using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.Player;
 
 namespace CalamityMod.Items.Armor
 {
@@ -37,7 +38,8 @@ namespace CalamityMod.Items.Armor
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.statigelSet = true;
             player.doubleJumpSail = true;
-            player.jumpBoost = true;
+			Player.jumpHeight += 5;
+			player.jumpSpeedBoost += 1.5f;
         }
 
         public override void UpdateEquip(Player player)

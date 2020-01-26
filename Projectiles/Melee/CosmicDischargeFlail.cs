@@ -13,8 +13,6 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class CosmicDischargeFlail : ModProjectile
     {
-     
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cosmic Discharge");
@@ -271,7 +269,7 @@ namespace CalamityMod.Projectiles.Melee
             }
             if (projectile.localAI[1] <= 0f && projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<CosmicIceBurst>(), damage, 10f, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<CosmicIceBurst>(), projectile.damage, 10f, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
             }
             projectile.localAI[1] = 4f;
             player.AddBuff(ModContent.BuffType<CosmicFreeze>(), 300);

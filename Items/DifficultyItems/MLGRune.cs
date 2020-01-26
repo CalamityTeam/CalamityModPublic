@@ -27,6 +27,11 @@ namespace CalamityMod.Items.DifficultyItems
             item.consumable = true;
         }
 
+        public override bool CanUseItem(Player player)
+        {
+            return !CalamityWorld.demonMode;
+        }
+
         public override bool UseItem(Player player)
         {
             CalamityWorld.demonMode = true;

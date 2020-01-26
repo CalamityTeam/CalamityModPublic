@@ -179,9 +179,18 @@ namespace CalamityMod.Projectiles.Rogue
         }
 
         // Cannot deal damage for the first several frames of existence.
-        public override bool CanDamage()
-        {
-            return projectile.timeLeft < 590;
-        }
+        public override bool? CanHitNPC(NPC target)
+		{
+			if (projectile.timeLeft >= 590)
+			{
+				return false;
+			}
+			return null;
+		}
+
+        public override bool CanHitPvp(Player target)
+		{
+			return projectile.timeLeft < 590;
+		}
     }
 }
