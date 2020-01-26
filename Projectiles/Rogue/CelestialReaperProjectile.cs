@@ -54,7 +54,16 @@ namespace CalamityMod.Projectiles.Rogue
             }
         }
 
-        public override bool CanDamage()
+        public override bool? CanHitNPC(NPC target)
+		{
+			if (HomingCooldown != 0)
+			{
+				return false;
+			}
+			return null;
+		}
+
+        public override bool CanHitPvp(Player target)
 		{
 			return HomingCooldown == 0;
 		}
@@ -63,12 +72,6 @@ namespace CalamityMod.Projectiles.Rogue
         {
             HomingCooldown = 25;
             projectile.velocity *= -0.75f; //bounce off of enemy
-
-			//prevent dummy exploits
-            if (target.type == NPCID.TargetDummy || target.type == ModContent.NPCType<SuperDummy>())
-            {
-                projectile.Kill();
-            }
         }
         public override void Kill(int timeLeft)
         {

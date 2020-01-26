@@ -10,7 +10,8 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Solar Flare");
-            Tooltip.SetDefault("Emits large holy explosions on hit\nAn exceptionally agile yoyo");
+            Tooltip.SetDefault("Emits large holy explosions on hit\n" +
+			"A very agile yoyo");
             ItemID.Sets.Yoyo[item.type] = true;
             ItemID.Sets.GamepadExtraRange[item.type] = 15;
             ItemID.Sets.GamepadSmartQuickReach[item.type] = true;
