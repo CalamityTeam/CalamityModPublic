@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Trifigelycen Etomer");
+            DisplayName.SetDefault("Triboluminescent Etomer");
             Tooltip.SetDefault("Summons an electric troublemaker\n" +
 			"A little note is attached:\n" +
 			"Thank you, Aloe! Very much appreciated from Ben");
@@ -48,9 +48,8 @@ namespace CalamityMod.Items.Pets
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<PrismShard>(), 5);
-            recipe.AddIngredient(ItemID.IronBar, 10);
+            recipe.AddRecipeGroup("AnyGoldBar", 8);
             recipe.AddIngredient(ModContent.ItemType<DemonicBoneAsh>());
-            recipe.anyIronBar = true;
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
