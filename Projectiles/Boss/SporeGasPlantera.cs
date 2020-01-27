@@ -40,7 +40,10 @@ namespace CalamityMod.Projectiles.Boss
         {
             projectile.ai[1] += 1f;
             if (projectile.ai[1] > 570f)
+			{
                 projectile.localAI[0] += 10f;
+				projectile.damage = 0;
+			}
 
             if (projectile.localAI[0] > 255f)
             {

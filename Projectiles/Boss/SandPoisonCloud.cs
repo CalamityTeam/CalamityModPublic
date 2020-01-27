@@ -44,6 +44,7 @@ namespace CalamityMod.Projectiles.Boss
 
             if (projectile.timeLeft < 180)
             {
+				projectile.damage = 0;
                 if (projectile.alpha < 255)
                 {
                     projectile.alpha += 5;
