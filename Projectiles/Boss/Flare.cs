@@ -169,8 +169,7 @@ namespace CalamityMod.Projectiles.Boss
                         break;
                     }
                 }
-                int num235 = Main.expertMode ? 85 : 100;
-                int num236 = Projectile.NewProjectile((float)(num232 * 16 + 8), (float)(num231 * 16 - 24), 0f, 0f, ModContent.ProjectileType<Flarenado>(), num235, 4f, Main.myPlayer, 11f, 8f + (revenge ? 2f : 0f));
+                int num236 = Projectile.NewProjectile((float)(num232 * 16 + 8), (float)(num231 * 16 - 24), 0f, 0f, ModContent.ProjectileType<Flarenado>(), 0, 4f, Main.myPlayer, 11f, 8f + (revenge ? 2f : 0f));
                 Main.projectile[num236].netUpdate = true;
             }
         }

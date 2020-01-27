@@ -60,8 +60,8 @@ namespace CalamityMod.NPCs.AstrumDeus
             if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[0] >= 720f)
             {
                 npc.localAI[0] = 0f;
-                int num8 = expertMode ? 45 : 60;
-                Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X, direction.Y, ModContent.ProjectileType<DeusMine>(), num8, 0f, Main.myPlayer, 0f, 0f);
+                int seeProjFileforDmg = 0;
+                Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X, direction.Y, ModContent.ProjectileType<DeusMine>(), seeProjFileforDmg, 0f, Main.myPlayer, 0f, 0f);
             }
             bool anySmallDeusHeads = NPC.AnyNPCs(ModContent.NPCType<AstrumDeusHead>());
             if (CalamityGlobalNPC.astrumDeusHeadMain < 0 || !Main.npc[CalamityGlobalNPC.astrumDeusHeadMain].active)

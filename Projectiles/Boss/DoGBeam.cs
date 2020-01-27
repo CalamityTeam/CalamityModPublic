@@ -51,6 +51,11 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.velocity.Normalize();
                 projectile.velocity *= scaleFactor2;
             }
+            int projectileDamage = Main.expertMode ? 64 : 75;
+			if (projectile.timeLeft == 950)
+				projectile.damage = projectileDamage;
+			if (projectile.timeLeft < 85)
+				projectile.damage = 0;
         }
 
         public override bool CanHitPlayer(Player target)

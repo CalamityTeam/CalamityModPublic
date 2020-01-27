@@ -3082,7 +3082,7 @@ namespace CalamityMod.CalPlayer
 
 			for (int i = 0; i < 1000; i++)
 			{
-				if (Main.projectile[i].active && !Main.projectile[i].friendly && Main.projectile[i].hostile && Main.projectile[i].damage > 0)
+				if (Main.projectile[i].active && Main.projectile[i].hostile && Main.projectile[i].damage > 0)
 				{
 					Projectile proj = Main.projectile[i];
 					Rectangle rect = proj.getRect();

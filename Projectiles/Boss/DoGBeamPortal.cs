@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Boss
                     for (i = 0; i < 4; i++)
                     {
                         float speed = 4f;
-                        int projectileDamage = Main.expertMode ? 64 : 75;
+                        int seeProjFileforDmg = 0;
                         if (CalamityWorld.death)
                         {
                             speed = 7f;
@@ -79,8 +79,8 @@ namespace CalamityMod.Projectiles.Boss
                             speed = 5f;
                         }
                         offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * speed), (float)(Math.Cos(offsetAngle) * speed), ModContent.ProjectileType<DoGBeam>(), projectileDamage, projectile.knockBack, projectile.owner, 0f, 0f);
-                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * speed), (float)(-Math.Cos(offsetAngle) * speed), ModContent.ProjectileType<DoGBeam>(), projectileDamage, projectile.knockBack, projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * speed), (float)(Math.Cos(offsetAngle) * speed), ModContent.ProjectileType<DoGBeam>(), seeProjFileforDmg, projectile.knockBack, projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * speed), (float)(-Math.Cos(offsetAngle) * speed), ModContent.ProjectileType<DoGBeam>(), seeProjFileforDmg, projectile.knockBack, projectile.owner, 0f, 0f);
                     }
                 }
                 beamTimer = 180;
@@ -123,6 +123,8 @@ namespace CalamityMod.Projectiles.Boss
                     Main.dust[num624].velocity *= 2f;
                 }
             }
+			if (projectile.timeLeft < 85)
+				projectile.damage = 0;
         }
 
         public override bool CanHitPlayer(Player target)

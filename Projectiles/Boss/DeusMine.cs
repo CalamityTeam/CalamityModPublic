@@ -44,6 +44,11 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.ai[1] = 1f;
                 Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 33);
             }
+            int num8 = Main.expertMode ? 45 : 60;
+			if (projectile.timeLeft == 935)
+				projectile.damage = num8;
+			if (projectile.timeLeft < 85)
+				projectile.damage = 0;
         }
 
         public override bool CanHitPlayer(Player target)

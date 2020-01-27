@@ -117,6 +117,9 @@ namespace CalamityMod.Projectiles.Boss
                 num624 = (float)(Math.Cos((double)(num622 * -(double)projectile.ai[0])) - 0.5) * num623;
                 projectile.position.X = projectile.position.X + num624 * (float)-(float)projectile.direction;
             }
+            int damage = Main.expertMode ? 130 : 150;
+			if (projectile.timeLeft == 720)
+				projectile.damage = damage;
         }
 
         public override bool CanHitPlayer(Player target)

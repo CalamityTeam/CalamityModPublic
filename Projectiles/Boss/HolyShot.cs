@@ -50,6 +50,11 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.localAI[0] = 1f;
                 Main.PlayTrackedSound(SoundID.DD2_BetsyFireballShot, projectile.Center);
             }
+            int num746 = Main.expertMode ? 52 : 65;
+			if (projectile.timeLeft == 883)
+				projectile.damage = num746;
+			if (projectile.timeLeft < 85)
+				projectile.damage = 0;
         }
 
         public override bool CanHitPlayer(Player target)

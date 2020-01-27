@@ -938,10 +938,10 @@ namespace CalamityMod.NPCs.Providence
                         vector93.X += num743 * 3f;
                         vector93.Y += num744 * 3f;
 
-                        int num746 = expertMode ? 52 : 65;
+                        int seeProjFilesforDmg = 0;
                         int num747 = ModContent.ProjectileType<HolyShot>();
-                        Projectile.NewProjectile(vector93.X, vector93.Y, num743, num744, num747, num746, 0f, Main.myPlayer, 0f, 0f);
-                        Projectile.NewProjectile(player.position.X + (float)Main.rand.Next(-1000, 1000), player.position.Y + (float)Main.rand.Next(-100, 100), 0f, 0f, ModContent.ProjectileType<HolySpear>(), num746, 0f, Main.myPlayer, (float)Main.rand.Next(2), 0f);
+                        Projectile.NewProjectile(vector93.X, vector93.Y, num743, num744, num747, seeProjFilesforDmg, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile(player.position.X + (float)Main.rand.Next(-1000, 1000), player.position.Y + (float)Main.rand.Next(-100, 100), 0f, 0f, ModContent.ProjectileType<HolySpear>(), seeProjFilesforDmg, 0f, Main.myPlayer, (float)Main.rand.Next(2), 0f);
                     }
                 }
 
