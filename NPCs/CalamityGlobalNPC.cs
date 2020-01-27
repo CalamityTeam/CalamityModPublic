@@ -1896,9 +1896,71 @@ namespace CalamityMod.NPCs
 								return CalamityGlobalAI.BuffedBlazingWheelAI(npc, mod);
 						}
 						break;
+					case 23:
+						switch (npc.type)
+						{
+							case NPCID.CursedHammer:
+							case NPCID.EnchantedSword:
+							case NPCID.CrimsonAxe:
+								return CalamityGlobalAI.BuffedFlyingWeaponAI(npc, mod);
+						}
+						break;
+					case 40:
+						switch (npc.type)
+						{
+							case NPCID.BlackRecluseWall:
+							case NPCID.WallCreeperWall:
+							case NPCID.JungleCreeperWall:
+							case NPCID.BloodCrawlerWall:
+							case NPCID.DesertScorpionWall:
+								return CalamityGlobalAI.BuffedSpiderAI(npc, mod);
+						}
+						break;
+					case 44:
+						switch (npc.type)
+						{
+							case NPCID.FlyingFish:
+							case NPCID.FlyingAntlion:
+								return CalamityGlobalAI.BuffedFlyingFishAI(npc, mod);
+						}
+						break;
+					case 49:
+						switch (npc.type)
+						{
+							case NPCID.AngryNimbus:
+								return CalamityGlobalAI.BuffedAngryNimbusAI(npc, mod);
+						}
+						break;
+					case 50:
+						switch (npc.type)
+						{
+							case NPCID.FungiSpore:
+							case NPCID.Spore:
+								return CalamityGlobalAI.BuffedSporeAI(npc, mod, true);
+						}
+						break;
+					case 91:
+						if (npc.type == ModContent.NPCType<CosmicElemental>())
+						{
+							return CalamityGlobalAI.BuffedGraniteElementalAI(npc, mod);
+						}
+						else
+						{
+							switch (npc.type)
+							{
+								case NPCID.GraniteFlyer:
+									return CalamityGlobalAI.BuffedGraniteElementalAI(npc, mod);
+							}
+						}
+						break;
 					default:
 						break;
 				}
+			}
+			else if (Main.expertMode)
+			{
+				if (npc.type == NPCID.FungiSpore || npc.type == NPCID.Spore)
+					return CalamityGlobalAI.BuffedSporeAI(npc, mod, false);
 			}
 
             return true;
