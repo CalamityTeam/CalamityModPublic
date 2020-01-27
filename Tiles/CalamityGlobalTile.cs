@@ -557,7 +557,8 @@ namespace CalamityMod.Tiles
 							{
 								int projectileType = underworldTile ? ProjectileID.GeyserTrap : ModContent.ProjectileType<BrimstoneFire>();
 								float randomVelocity = Main.rand.NextFloat() + 0.5f;
-								Projectile.NewProjectile((float)(i * 16), (float)(j * 16), 0f, -8f * randomVelocity, projectileType, 20, 2f, Main.myPlayer, 0f, 0f);
+								int proj = Projectile.NewProjectile((float)(i * 16), (float)(j * 16), 0f, -8f * randomVelocity, projectileType, 20, 2f, Main.myPlayer, 0f, 0f);
+								Main.projectile[proj].friendly = false;
 							}
 						}
 					}
