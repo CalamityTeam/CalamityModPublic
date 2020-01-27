@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
-            CalamityPlayer modPlayer = Main.player[Main.myPlayer].Calamity();
+            CalamityPlayer modPlayer = Main.player[projectile.owner].Calamity();
         	projectile.ai[0] += 1f;
 			if(projectile.ai[0] == 1f && modPlayer.StealthStrikeAvailable())
 				lunarEnhance = true;
@@ -89,7 +89,7 @@ namespace CalamityMod.Projectiles.Rogue
 			{
 				Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
 				projectile.position = projectile.Center;
-				projectile.width = (projectile.height = 32);
+				projectile.width = projectile.height = 28;
 				projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
 				projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
 				projectile.damage /= 4;
