@@ -509,7 +509,7 @@ namespace CalamityMod.Tiles
 						if (tileAbove.liquidType() == 1 && !tileAbove.active())
 						{
 							// Only shoot flames if tiles underneath are lava and if tiles above and below aren't active
-							bool shootFlames = Main.netMode != NetmodeID.MultiplayerClient && Main.rand.NextBool(300);
+							bool shootFlames = Main.netMode != NetmodeID.MultiplayerClient && Main.rand.NextBool(500);
 							if (shootFlames)
 							{
 								int lavaTilesAbove = 0;
@@ -542,6 +542,9 @@ namespace CalamityMod.Tiles
 								{
 									for (int l = lavaTopY - 1; l > lavaTopY - 10; l--)
 									{
+										if (Main.tile[i, l] == null)
+											Main.tile[i, l] = new Tile();
+
 										if (Main.tile[i, l].active())
 										{
 											shootFlames = false;
