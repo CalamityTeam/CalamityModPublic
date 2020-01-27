@@ -73,7 +73,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            projectile.damage = (int)((double)projectile.damage * 1.1);
+            projectile.damage = (int)((double)projectile.damage * 1.2);
             projectile.penetrate--;
             if (projectile.penetrate <= 0)
             {
@@ -96,11 +96,6 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (target.type == NPCID.TargetDummy)
-            {
-                return;
-            }
-            projectile.damage = (int)((double)projectile.damage * 1.05);
             target.AddBuff(ModContent.BuffType<ExoFreeze>(), 30);
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
             target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
@@ -110,6 +105,11 @@ namespace CalamityMod.Projectiles.Magic
             target.AddBuff(BuffID.Frostburn, 120);
             target.AddBuff(BuffID.OnFire, 120);
             target.AddBuff(BuffID.Ichor, 120);
+            if (target.type == NPCID.TargetDummy)
+            {
+                return;
+            }
+            projectile.damage = (int)((double)projectile.damage * 1.1);
         }
     }
 }

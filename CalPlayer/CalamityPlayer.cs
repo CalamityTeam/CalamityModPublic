@@ -4813,7 +4813,7 @@ namespace CalamityMod.CalPlayer
             if (proj.type == ModContent.ProjectileType<FrostsparkBulletProj>())
             {
                 if (target.buffImmune[ModContent.BuffType<GlacialState>()])
-                    damageMult += 0.2;
+                    damageMult += 0.1;
             }
             else if (proj.type == ProjectileID.InfernoFriendlyBlast)
             {
