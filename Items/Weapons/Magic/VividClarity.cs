@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Vivid Clarity");
-            Tooltip.SetDefault("Fires three randomized beams of elemental energy at the cursor\n" +
+            Tooltip.SetDefault("Fires five randomized beams of elemental energy at the cursor\n" +
 							   "On enemy and tile hits, beams either explode into a big flash,\n" +
 							   "summon an additonal laser from the sky,\n" +
 							   "or split into energy orbs\n" +
@@ -25,13 +25,13 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 500;
+            item.damage = 550;
             item.magic = true;
-            item.mana = 101;
+            item.mana = 69;
             item.width = 90;
             item.height = 112;
-            item.useAnimation = 21;
-            item.useTime = 7;
+            item.useAnimation = 20;
+            item.useTime = 4;
             item.reuseDelay = item.useAnimation;
             item.useStyle = 5;
             item.noMelee = true;
