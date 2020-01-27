@@ -234,7 +234,7 @@ namespace CalamityMod
 				(Func<bool>)(() => CalamityWorld.downedGSS), 
 				ModContent.ItemType<SandstormsCore>(), 
 				new List<int>() {ItemID.MusicBoxSandstorm}, 
-				ModContent.ItemType<GrandScale>(), 
+				new List<int>() {ModContent.ItemType<GrandScale>(), ItemID.AncientBattleArmorMaterial}, 
 				"Kill 10 sand sharks after defeating Plantera or use a [i:" + ModContent.ItemType<SandstormsCore>() + "] in the Desert Biome", 
 				"[c/DAA520:The apex predator of the sands disappears into the dunes...]");
 

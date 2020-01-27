@@ -855,6 +855,17 @@ namespace CalamityMod.Items
                     }
                 }
             }
+            if (item.type == ItemID.Picksaw)
+            {
+                foreach (TooltipLine line2 in tooltips)
+                {
+                    if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
+                    {
+                        line2.text = "Capable of mining Lihzahrd Bricks\n" +
+                            "Also capable of mining Chaotic Ore found in the Abyss";
+                    }
+                }
+            }
             if (item.type == ItemID.MeteorHelmet || item.type == ItemID.MeteorSuit || item.type == ItemID.MeteorLeggings)
             {
                 foreach (TooltipLine line2 in tooltips)
