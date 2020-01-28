@@ -6,6 +6,7 @@ using CalamityMod.Items.Fishing.SunkenSeaCatches;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Potions;
+using CalamityMod.Items.Tools;
 using CalamityMod.Items.Weapons.Melee;
 using System.Collections.Generic;
 using System.Linq;
@@ -447,7 +448,7 @@ namespace CalamityMod
             // Hermes Boots
             r = GetNewRecipe();
             r.AddIngredient(ItemID.Silk, 10);
-            r.AddIngredient(ItemID.SwiftnessPotion, 4);
+            r.AddIngredient(ItemID.SwiftnessPotion, 2);
             r.AddTile(TileID.Loom);
             r.SetResult(ItemID.HermesBoots);
             r.AddRecipe();
@@ -876,7 +877,8 @@ namespace CalamityMod
                 ItemID.SolarFlarePickaxe,
                 ItemID.VortexPickaxe,
                 ItemID.NebulaPickaxe,
-                ItemID.StardustPickaxe
+                ItemID.StardustPickaxe,
+				ModContent.ItemType<GallantPickaxe>()
             });
             RecipeGroup.RegisterGroup("LunarPickaxe", group);
 

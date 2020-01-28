@@ -23,15 +23,16 @@ namespace CalamityMod.Items.Tools
             item.useTime = 6;
             item.useAnimation = 12;
             item.useTurn = true;
-            item.pick = 250;
+            item.pick = 225;
             item.useStyle = 1;
-            item.knockBack = 6f;
+            item.knockBack = 5.5f;
             item.value = Item.buyPrice(1, 20, 0, 0);
             item.rare = 10;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.tileBoost += 5;
+            item.tileBoost += 4;
             item.Calamity().postMoonLordRarity = 12;
+			item.useTurn = true;
         }
 
         public override void AddRecipes()
@@ -39,7 +40,7 @@ namespace CalamityMod.Items.Tools
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<MeldiateBar>(), 9);
             recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>());
-            recipe.AddRecipeGroup("LunarPickaxe");
+            recipe.AddIngredient(ItemID.LunarBar, 10);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
