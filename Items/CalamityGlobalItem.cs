@@ -1181,8 +1181,8 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                             "Acceleration multiplier: 1\n" +
                             "Average vertical speed\n" +
                             "Flight time: 160\n" +
-                            "7% increased melee and ranged damage\n" +
-                            "and 3% increased melee and ranged critical strike chance\n" +
+                            "2% increased melee and ranged damage\n" +
+                            "and 1% increased melee and ranged critical strike chance\n" +
                             "while wearing the Frost Armor";
                     }
                 }
@@ -2258,10 +2258,10 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 player.noFallDmg = true;
                 if (player.head == ArmorIDs.Head.FrostHelmet && player.body == ArmorIDs.Body.FrostBreastplate && player.legs == ArmorIDs.Legs.FrostLeggings)
                 {
-                    player.meleeDamage += 0.07f;
-                    player.rangedDamage += 0.07f;
-                    player.meleeCrit += 3;
-                    player.rangedCrit += 3;
+                    player.meleeDamage += 0.02f;
+                    player.rangedDamage += 0.02f;
+                    player.meleeCrit += 1;
+                    player.rangedCrit += 1;
                 }
             }
             else if (item.type == ItemID.FlameWings) // Bonus to melee stats

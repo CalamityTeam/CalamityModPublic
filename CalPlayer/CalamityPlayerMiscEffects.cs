@@ -407,29 +407,103 @@ namespace CalamityMod.CalPlayer
 							player.AddBuff(BuffID.Bleeding, 300, false);
 					}
 
-					// Ice shards and lightning
-					if (Main.raining && player.ZoneOverworldHeight && !CalamityPlayer.areThereAnyDamnBosses)
+					// Ice shards, lightning and sharknadoes
+					if (player.ZoneOverworldHeight && !CalamityPlayer.areThereAnyDamnBosses)
 					{
-						float frequencyMult = 1f - Main.cloudAlpha; // 1 to 0.11
-						Vector2 spawnPoint = new Vector2(player.Center.X + (float)Main.rand.Next(-800, 801), player.Center.Y - (float)Main.rand.Next(700, 801));
-						if (player.ZoneSnow)
+						Vector2 sharknadoSpawnPoint = new Vector2(player.Center.X - (float)Main.rand.Next(300, 701), player.Center.Y - (float)Main.rand.Next(700, 801));
+						if (point.X > Main.maxTilesX / 2)
+							sharknadoSpawnPoint.X = player.Center.X + (float)Main.rand.Next(300, 701);
+						if (Main.raining)
 						{
-							int divisor = (int)((Main.hardMode ? 50f : 60f) * frequencyMult);
-							float windVelocity = (float)Math.Sqrt((double)Math.Abs(Main.windSpeed)) * (float)Math.Sign(Main.windSpeed) * (Main.cloudAlpha + 0.5f) * 25f + Main.rand.NextFloat() * 0.2f - 0.1f;
-							Vector2 velocity = new Vector2(windVelocity, 3f * Main.rand.NextFloat());
-							if (player.miscCounter % divisor == 0 && Main.rand.NextBool(3))
-								Projectile.NewProjectile(spawnPoint.X, spawnPoint.Y, velocity.X, velocity.Y, ModContent.ProjectileType<IceRain>(), 20, 0f, player.whoAmI, 1f, 0f);
+							float frequencyMult = 1f - Main.cloudAlpha; // 1 to 0.11
+							Vector2 spawnPoint = new Vector2(player.Center.X + (float)Main.rand.Next(-800, 801), player.Center.Y - (float)Main.rand.Next(700, 801));
+							if (player.ZoneSnow)
+							{
+								int divisor = (int)((Main.hardMode ? 50f : 60f) * frequencyMult);
+								float windVelocity = (float)Math.Sqrt((double)Math.Abs(Main.windSpeed)) * (float)Math.Sign(Main.windSpeed) * (Main.cloudAlpha + 0.5f) * 25f + Main.rand.NextFloat() * 0.2f - 0.1f;
+								Vector2 velocity = new Vector2(windVelocity, 3f * Main.rand.NextFloat());
+								if (player.miscCounter % divisor == 0 && Main.rand.NextBool(3))
+									Projectile.NewProjectile(spawnPoint.X, spawnPoint.Y, velocity.X, velocity.Y, ModContent.ProjectileType<IceRain>(), 20, 0f, player.whoAmI, 1f, 0f);
+							}
+							else
+							{
+								if (player.ZoneBeach)
+								{
+									int randomFrequency = (int)(100f * frequencyMult);
+									if (player.miscCounter == 280 && Main.rand.NextBool(randomFrequency) && player.ownedProjectileCounts[ProjectileID.Cthulunado] < 1)
+									{
+										Main.PlaySound(4, (int)sharknadoSpawnPoint.X, (int)sharknadoSpawnPoint.Y, 19, 1f, 0f);
+										int num331 = (int)(sharknadoSpawnPoint.Y / 16f);
+										int num332 = (int)(sharknadoSpawnPoint.X / 16f);
+										int num333 = 100;
+										if (num332 < 10)
+											num332 = 10;
+										if (num332 > Main.maxTilesX - 10)
+											num332 = Main.maxTilesX - 10;
+										if (num331 < 10)
+											num331 = 10;
+										if (num331 > Main.maxTilesY - num333 - 10)
+											num331 = Main.maxTilesY - num333 - 10;
+
+										int spawnAreaY = Main.maxTilesY - num331;
+										for (int num334 = num331; num334 < num331 + spawnAreaY; num334++)
+										{
+											Tile tile = Main.tile[num332, num334];
+											if (tile.active() && (Main.tileSolid[(int)tile.type] || tile.liquid != 0))
+											{
+												num331 = num334;
+												break;
+											}
+										}
+
+										int num336 = Projectile.NewProjectile((float)(num332 * 16 + 8), (float)(num331 * 16 - 24), 0f, 0f, ProjectileID.Cthulunado, 50, 4f, player.whoAmI, 16f, 24f);
+										Main.projectile[num336].netUpdate = true;
+									}
+								}
+								if (player.miscCounter == (int)(240f * frequencyMult) && Main.rand.NextBool(3))
+								{
+									float randomVelocity = Main.rand.NextFloat() - 0.5f;
+									Vector2 fireTo = new Vector2(spawnPoint.X + 100f * randomVelocity, spawnPoint.Y + 900);
+									Vector2 ai0 = fireTo - spawnPoint;
+									float ai = (float)Main.rand.Next(100);
+									Vector2 velocity = Vector2.Normalize(ai0.RotatedByRandom(0.78539818525314331)) * 7f;
+									Projectile.NewProjectile(spawnPoint.X, spawnPoint.Y, velocity.X, velocity.Y, ProjectileID.CultistBossLightningOrbArc, 50, 0f, player.whoAmI, ai0.ToRotation(), ai);
+								}
+							}
 						}
 						else
 						{
-							if (player.miscCounter == (int)(240f * frequencyMult) && Main.rand.NextBool(3))
+							if (player.ZoneBeach)
 							{
-								float randomVelocity = Main.rand.NextFloat() - 0.5f;
-								Vector2 fireTo = new Vector2(spawnPoint.X + 100f * randomVelocity, spawnPoint.Y + 900);
-								Vector2 ai0 = fireTo - spawnPoint;
-								float ai = (float)Main.rand.Next(100);
-								Vector2 velocity = Vector2.Normalize(ai0.RotatedByRandom(0.78539818525314331)) * 7f;
-								Projectile.NewProjectile(spawnPoint.X, spawnPoint.Y, velocity.X, velocity.Y, ProjectileID.CultistBossLightningOrbArc, 50, 0f, player.whoAmI, ai0.ToRotation(), ai);
+								if (player.miscCounter == 280 && Main.rand.NextBool(15) && player.ownedProjectileCounts[ProjectileID.Sharknado] < 1)
+								{
+									Main.PlaySound(4, (int)sharknadoSpawnPoint.X, (int)sharknadoSpawnPoint.Y, 19, 1f, 0f);
+									int num331 = (int)(sharknadoSpawnPoint.Y / 16f);
+									int num332 = (int)(sharknadoSpawnPoint.X / 16f);
+									int num333 = 100;
+									if (num332 < 10)
+										num332 = 10;
+									if (num332 > Main.maxTilesX - 10)
+										num332 = Main.maxTilesX - 10;
+									if (num331 < 10)
+										num331 = 10;
+									if (num331 > Main.maxTilesY - num333 - 10)
+										num331 = Main.maxTilesY - num333 - 10;
+
+									int spawnAreaY = Main.maxTilesY - num331;
+									for (int num334 = num331; num334 < num331 + spawnAreaY; num334++)
+									{
+										Tile tile = Main.tile[num332, num334];
+										if (tile.active() && (Main.tileSolid[(int)tile.type] || tile.liquid != 0))
+										{
+											num331 = num334;
+											break;
+										}
+									}
+
+									int num336 = Projectile.NewProjectile((float)(num332 * 16 + 8), (float)(num331 * 16 - 24), 0.01f, 0f, ProjectileID.Sharknado, 25, 4f, player.whoAmI, 16f, 15f);
+									Main.projectile[num336].netUpdate = true;
+								}
 							}
 						}
 					}
