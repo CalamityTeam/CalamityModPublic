@@ -31,8 +31,8 @@ namespace CalamityMod.NPCs.Abyss
         public override void SetDefaults()
         {
             npc.damage = 135;
-            npc.width = 38; //36
-            npc.height = 38; //20
+            npc.width = 66; //36
+            npc.height = 86; //20
             npc.defense = 50;
             npc.lifeMax = 80000;
             npc.aiStyle = -1;
