@@ -6,6 +6,7 @@ using CalamityMod.Items.Fishing.SunkenSeaCatches;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Potions;
+using CalamityMod.Items.Tools;
 using CalamityMod.Items.Weapons.Melee;
 using System.Collections.Generic;
 using System.Linq;
@@ -876,7 +877,8 @@ namespace CalamityMod
                 ItemID.SolarFlarePickaxe,
                 ItemID.VortexPickaxe,
                 ItemID.NebulaPickaxe,
-                ItemID.StardustPickaxe
+                ItemID.StardustPickaxe,
+				ModContent.ItemType<GallantPickaxe>()
             });
             RecipeGroup.RegisterGroup("LunarPickaxe", group);
 
