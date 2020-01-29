@@ -29,11 +29,11 @@ namespace CalamityMod.Items.Weapons.Melee
             item.UseSound = SoundID.Item1;
             item.melee = true;
             item.height = 62;
-            item.value = Item.buyPrice(1, 40, 0, 0);
+            item.value = Item.buyPrice(1, 20, 0, 0);
             item.rare = 8;
             item.shoot = ModContent.ProjectileType<DivineHatchetBoomerang>();
             item.shootSpeed = 14f;
-            item.Calamity().postMoonLordRarity = 13;
+            item.Calamity().postMoonLordRarity = 12;
         }
 
         public override void AddRecipes()
@@ -42,6 +42,7 @@ namespace CalamityMod.Items.Weapons.Melee
             recipe.AddIngredient(ItemID.PossessedHatchet);
             recipe.AddIngredient(ModContent.ItemType<DivineGeode>(), 5);
             recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 9);
+            recipe.AddIngredient(ModContent.ItemType<UnholyEssence>(), 8);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
