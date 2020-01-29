@@ -2010,10 +2010,14 @@ namespace CalamityMod.NPCs
                         break;
 
                     case NPCID.Steampunker:
-                        switch (Main.rand.Next(22)) // 21 steampunker names
+                        switch (Main.rand.Next(23)) // 21 steampunker names
                         {
                             case 0:
                                 npc.GivenName = "Vorbis";
+                                break;
+
+                            case 1:
+                                npc.GivenName = "Angel";
                                 break;
 
                             default:
