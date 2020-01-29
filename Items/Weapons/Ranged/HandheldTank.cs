@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/TankCannon");
             item.noMelee = true;
 
-            item.value = Item.buyPrice(1, 40, 0, 0);
+            item.value = Item.buyPrice(1, 20, 0, 0);
             item.rare = 10;
             item.Calamity().postMoonLordRarity = 21;
 

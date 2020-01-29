@@ -516,7 +516,9 @@ namespace CalamityMod
                 "Melvin Brouwers",
                 "Vroomy Has -3,000 IQ",
                 "The Goliath",
-                "DaPyRo"
+                "DaPyRo",
+                "Apotheosis",
+                "Termi"
             };
 
             rangedProjectileExceptionList = new List<int>()

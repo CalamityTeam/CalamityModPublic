@@ -1976,14 +1976,18 @@ namespace CalamityMod.NPCs
                 switch (npc.type)
                 {
                     case NPCID.Guide:
-                        switch (Main.rand.Next(36)) // 34 guide names
+                        switch (Main.rand.Next(37)) // 34 guide names
                         {
                             case 0:
                                 npc.GivenName = "Lapp";
                                 break;
 
                             case 1:
-                                npc.GivenName = "Ben Shapiro";
+                                npc.GivenName = "Ben Shapiro"; 
+                                break;
+
+                            case 2:
+                                npc.GivenName = "StreakistYT";
                                 break;
 
                             default:
@@ -1993,10 +1997,14 @@ namespace CalamityMod.NPCs
                         break;
 
                     case NPCID.Wizard:
-                        switch (Main.rand.Next(24)) // 23 wizard names
+                        switch (Main.rand.Next(25)) // 23 wizard names
                         {
                             case 0:
                                 npc.GivenName = "Mage One-Trick";
+                                break;
+
+                            case 1:
+                                npc.GivenName = "Inorim, son of Ivukey";
                                 break;
 
                             default:
@@ -2006,10 +2014,14 @@ namespace CalamityMod.NPCs
                         break;
 
                     case NPCID.Steampunker:
-                        switch (Main.rand.Next(22)) // 21 steampunker names
+                        switch (Main.rand.Next(23)) // 21 steampunker names
                         {
                             case 0:
                                 npc.GivenName = "Vorbis";
+                                break;
+
+                            case 1:
+                                npc.GivenName = "Angel";
                                 break;
 
                             default:
@@ -2049,6 +2061,49 @@ namespace CalamityMod.NPCs
                         {
                             case 0:
                                 npc.GivenName = "Emmett";
+                                break;
+
+                            default:
+                                break;
+                        }
+
+                        break;
+
+                    case NPCID.Pirate:
+                        switch (Main.rand.Next(12)) // 11 pirate names
+                        {
+                            case 0:
+                                npc.GivenName = "Tyler Van Hook";
+                                break;
+
+                            default:
+                                break;
+                        }
+
+                        break;
+
+                    case NPCID.Mechanic:
+                        switch (Main.rand.Next(26)) // 24 mechanic names
+                        {
+                            case 0:
+                                npc.GivenName = "Lilly";
+                                break;
+
+                            case 1:
+                                npc.GivenName = "Daawn"; 
+                                break;
+
+                            default:
+                                break;
+                        }
+
+                        break;
+
+                    case NPCID.ArmsDealer:
+                        switch (Main.rand.Next(25)) // 24 arms dealer names
+                        {
+                            case 0:
+                                npc.GivenName = "Drifter";
                                 break;
 
                             default:
