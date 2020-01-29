@@ -583,7 +583,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.playerSafe || !NPC.downedGolemBoss)
+            if (spawnInfo.playerSafe || !NPC.downedGolemBoss || NPC.AnyNPCs(ModContent.NPCType<PlaguebringerShade>()))
             {
                 return 0f;
             }
