@@ -91,12 +91,16 @@ namespace CalamityMod.NPCs.BrimstoneElemental
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(npc.chaseable);
-        }
+			writer.Write(npc.localAI[0]);
+			writer.Write(npc.localAI[1]);
+		}
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             npc.chaseable = reader.ReadBoolean();
-        }
+			npc.localAI[0] = reader.ReadSingle();
+			npc.localAI[1] = reader.ReadSingle();
+		}
 
         public override void AI()
         {
@@ -126,7 +130,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
                     npc.frame.Y = 0;
                 }
             }
-            else if (npc.ai[0] == 3f)
+            else if (npc.ai[0] == 3f || npc.ai[0] == 5f)
             {
                 if (npc.frameCounter > 12.0)
                 {

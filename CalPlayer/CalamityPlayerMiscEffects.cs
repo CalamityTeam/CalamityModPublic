@@ -427,9 +427,9 @@ namespace CalamityMod.CalPlayer
 							}
 							else
 							{
-								if (player.ZoneBeach)
+								if (player.ZoneBeach && !modPlayer.ZoneSulphur)
 								{
-									int randomFrequency = (int)(100f * frequencyMult);
+									int randomFrequency = (int)(50f * frequencyMult);
 									if (player.miscCounter == 280 && Main.rand.NextBool(randomFrequency) && player.ownedProjectileCounts[ProjectileID.Cthulunado] < 1)
 									{
 										Main.PlaySound(4, (int)sharknadoSpawnPoint.X, (int)sharknadoSpawnPoint.Y, 19, 1f, 0f);
@@ -449,7 +449,7 @@ namespace CalamityMod.CalPlayer
 										for (int num334 = num331; num334 < num331 + spawnAreaY; num334++)
 										{
 											Tile tile = Main.tile[num332, num334];
-											if (tile.active() && (Main.tileSolid[(int)tile.type] || tile.liquid != 0))
+											if ((tile.active() && Main.tileSolid[(int)tile.type]) || tile.liquid >= 200)
 											{
 												num331 = num334;
 												break;
@@ -473,9 +473,9 @@ namespace CalamityMod.CalPlayer
 						}
 						else
 						{
-							if (player.ZoneBeach)
+							if (player.ZoneBeach && !modPlayer.ZoneSulphur)
 							{
-								if (player.miscCounter == 280 && Main.rand.NextBool(15) && player.ownedProjectileCounts[ProjectileID.Sharknado] < 1)
+								if (player.miscCounter == 280 && Main.rand.NextBool(10) && player.ownedProjectileCounts[ProjectileID.Sharknado] < 1)
 								{
 									Main.PlaySound(4, (int)sharknadoSpawnPoint.X, (int)sharknadoSpawnPoint.Y, 19, 1f, 0f);
 									int num331 = (int)(sharknadoSpawnPoint.Y / 16f);
@@ -494,7 +494,7 @@ namespace CalamityMod.CalPlayer
 									for (int num334 = num331; num334 < num331 + spawnAreaY; num334++)
 									{
 										Tile tile = Main.tile[num332, num334];
-										if (tile.active() && (Main.tileSolid[(int)tile.type] || tile.liquid != 0))
+										if ((tile.active() && Main.tileSolid[(int)tile.type]) || tile.liquid >= 200)
 										{
 											num331 = num334;
 											break;

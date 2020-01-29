@@ -1592,8 +1592,9 @@ namespace CalamityMod
                 ModContent.ProjectileType<HellfireExplosion>(),
                 ModContent.ProjectileType<BrimstoneBarrage>(),
                 ModContent.ProjectileType<BrimstoneHellblast>(),
+				ModContent.ProjectileType<BrimstoneRay>(),
 
-                ModContent.ProjectileType<BrimstoneLaser>(),
+				ModContent.ProjectileType<BrimstoneLaser>(),
                 ModContent.ProjectileType<BrimstoneLaserSplit>(),
                 ModContent.ProjectileType<BrimstoneBall>(),
                 ModContent.ProjectileType<BrimstoneFire>(),
@@ -3395,9 +3396,6 @@ namespace CalamityMod
                 case CalamityModMessageType.AdrenalineSync:
                     Main.player[reader.ReadInt32()].Calamity().HandleAdrenaline(reader);
                     break;
-                /*case CalamityModMessageType.DistanceFromBossSync:
-                    Main.player[reader.ReadInt32()].Calamity().HandleDistanceFromBoss(reader);
-                    break;*/
                 case CalamityModMessageType.TeleportPlayer:
                     Main.player[reader.ReadInt32()].Calamity().HandleTeleport(reader.ReadInt32(), true, whoAmI);
                     break;
@@ -3409,7 +3407,11 @@ namespace CalamityMod
                     int countdown2 = reader.ReadInt32();
                     CalamityWorld.bossSpawnCountdown = countdown2;
                     break;
-                case CalamityModMessageType.BossTypeSync:
+				case CalamityModMessageType.DeathBossSpawnCountdownSync:
+					int countdown3 = reader.ReadInt32();
+					CalamityWorld.deathBossSpawnCooldown = countdown3;
+					break;
+				case CalamityModMessageType.BossTypeSync:
                     int type = reader.ReadInt32();
                     CalamityWorld.bossType = type;
                     break;
@@ -3512,6 +3514,7 @@ namespace CalamityMod
         DemonTrophyBoolSync,
         NPCRegenerationSync,
 		DeathModeUnderworldTimeSync,
-		DeathModeBlizzardTimeSync
+		DeathModeBlizzardTimeSync,
+		DeathBossSpawnCountdownSync
 	}
 }

@@ -605,18 +605,19 @@ namespace CalamityMod.NPCs
 			Player player = Main.player[npc.target];
 			CalamityPlayer modPlayer = player.Calamity();
 
+			// Reset defense
+			npc.defense = npc.defDefense;
+
+			// Percent life remaining
+			float lifeRatio = (float)npc.life / (float)npc.lifeMax;
+
 			// Variables for buffing the AI
 			bool provy = CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive;
 			bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
 			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
 			bool calamity = modPlayer.ZoneCalamity;
-
-			// Reset defense
-			npc.defense = npc.defDefense;
-
-			// Percent life remaining
-			float lifeRatio = (float)npc.life / (float)npc.lifeMax;
+			bool phase2 = (lifeRatio < 0.5f && revenge) || death;
 
 			// Center
 			Vector2 vectorCenter = npc.Center;
@@ -666,15 +667,18 @@ namespace CalamityMod.NPCs
 			float totalDistance = (float)Math.Sqrt((double)(xDistance * xDistance + yDistance * yDistance));
 
 			// Static movement towards target
-			if (npc.ai[0] <= 2f)
+			if (npc.ai[0] <= 2f || npc.ai[0] == 5f)
 			{
 				npc.rotation = npc.velocity.X * 0.04f;
-				npc.spriteDirection = (npc.direction > 0) ? 1 : -1;
-				totalDistance = speed / totalDistance;
-				xDistance *= totalDistance;
-				yDistance *= totalDistance;
-				npc.velocity.X = (npc.velocity.X * 50f + xDistance) / 51f;
-				npc.velocity.Y = (npc.velocity.Y * 50f + yDistance) / 51f;
+				if (npc.ai[0] != 5 || (npc.ai[1] < 180f && npc.ai[0] == 5f))
+				{
+					npc.spriteDirection = (npc.direction > 0) ? 1 : -1;
+					totalDistance = (npc.ai[0] == 5f ? speed * 0.15f : speed) / totalDistance;
+					xDistance *= totalDistance;
+					yDistance *= totalDistance;
+					npc.velocity.X = (npc.velocity.X * 50f + xDistance) / 51f;
+					npc.velocity.Y = (npc.velocity.Y * 50f + yDistance) / 51f;
+				}
 			}
 
 			// Pick a location to teleport to
@@ -764,9 +768,9 @@ namespace CalamityMod.NPCs
 					npc.chaseable = true;
 					npc.ai[3] += 1f;
 					npc.alpha = 0;
-					if (npc.ai[3] >= 2f)
+					if (npc.ai[3] >= 2f || phase2)
 					{
-						npc.ai[0] = 3f;
+						npc.ai[0] = (phase2 ? 5f : 3f);
 						npc.ai[1] = 0f;
 						npc.ai[2] = 0f;
 						npc.ai[3] = 0f;
@@ -993,6 +997,104 @@ namespace CalamityMod.NPCs
 					npc.ai[2] = 0f;
 					npc.ai[3] = 0f;
 					npc.netUpdate = true;
+				}
+			}
+
+			// Laser beam attack
+			else if (npc.ai[0] == 5f)
+			{
+				float num742 = 6f;
+				Vector2 vector93 = new Vector2(vectorCenter.X + (npc.spriteDirection > 0 ? 34f : -34f), vectorCenter.Y - 74f);
+				float num743 = player.position.X + (float)player.width * 0.5f - vector93.X;
+				float num744 = player.position.Y + (float)player.height * 0.5f - vector93.Y;
+				float num745 = (float)Math.Sqrt((double)(num743 * num743 + num744 * num744));
+
+				num745 = num742 / num745;
+				num743 *= num745;
+				num744 *= num745;
+
+				switch ((int)npc.ai[2])
+				{
+					case 0:
+						num743 += player.velocity.X * 0.5f;
+						num744 += player.velocity.Y * 0.5f;
+						break;
+					case 1:
+						num743 += player.velocity.X * 0.25f;
+						num744 += player.velocity.Y * 0.25f;
+						break;
+					case 2:
+						num743 += player.velocity.X * 0.125f;
+						num744 += player.velocity.Y * 0.125f;
+						break;
+				}
+
+				npc.ai[1] += 1f;
+				if (npc.ai[1] >= 300f)
+				{
+					npc.ai[2] += 1f;
+					npc.localAI[0] = 0f;
+					npc.localAI[1] = 0f;
+					if (npc.ai[2] >= 3f)
+					{
+						npc.ai[0] = 3f;
+						npc.ai[1] = 0f;
+						npc.ai[2] = 0f;
+					}
+					else
+						npc.ai[1] = 0f;
+				}
+				else if (npc.ai[1] >= 180f)
+				{
+					npc.velocity *= 0.95f;
+					if (Main.netMode != NetmodeID.MultiplayerClient)
+					{
+						if (npc.ai[1] == 180f)
+						{
+							Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 104);
+							Vector2 laserVelocity = new Vector2(npc.localAI[0], npc.localAI[1]);
+							laserVelocity.Normalize();
+							Projectile.NewProjectile(vector93.X, vector93.Y, laserVelocity.X, laserVelocity.Y, ModContent.ProjectileType<BrimstoneRay>(), 40, 0f, Main.myPlayer, 0f, (float)npc.whoAmI);
+						}
+					}
+				}
+				else
+				{
+					float playSoundTimer = 20f;
+					if (npc.ai[1] < 150f)
+					{
+						switch ((int)npc.ai[2])
+						{
+							case 0:
+								break;
+							case 1:
+								npc.ai[1] += 0.5f;
+								playSoundTimer = 30f;
+								break;
+							case 2:
+								npc.ai[1] += 1f;
+								playSoundTimer = 40f;
+								break;
+						}
+					}
+
+					if (npc.ai[1] % playSoundTimer == 0f)
+						Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 20);
+
+					if (Main.netMode != NetmodeID.MultiplayerClient)
+					{
+						if (npc.ai[1] < 150f)
+							Projectile.NewProjectile(vector93.X, vector93.Y, num743, num744, ModContent.ProjectileType<BrimstoneTargetRay>(), 0, 0f, Main.myPlayer, 0f, 0f);
+						else
+						{
+							if (npc.ai[1] == 150f)
+							{
+								npc.localAI[0] = num743;
+								npc.localAI[1] = num744;
+							}
+							Projectile.NewProjectile(vector93.X, vector93.Y, npc.localAI[0], npc.localAI[1], ModContent.ProjectileType<BrimstoneTargetRay>(), 0, 0f, Main.myPlayer, 0f, 0f);
+						}
+					}
 				}
 			}
 		}
@@ -2509,7 +2611,8 @@ namespace CalamityMod.NPCs
 				{
 					for (int num957 = 0; num957 < 200; num957++)
 					{
-						if (Main.npc[num957].aiStyle == npc.aiStyle)
+						if (Main.npc[num957].aiStyle == npc.aiStyle || Main.npc[num957].type == ModContent.NPCType<AstrumDeusHeadSpectral>() ||
+							Main.npc[num957].type == ModContent.NPCType<AstrumDeusBodySpectral>() || Main.npc[num957].type == ModContent.NPCType<AstrumDeusTailSpectral>())
 							Main.npc[num957].active = false;
 					}
 				}

@@ -402,12 +402,8 @@ namespace CalamityMod.NPCs.Polterghast
 
                         if (flag47)
                         {
-                            float num742 = 6f;
-                            if (expertMode)
-                                num742 += 1f;
-                            if (CalamityWorld.bossRushActive)
-                                num742 = 13f;
-                            if (speedBoost1 || npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
+							float num742 = CalamityWorld.bossRushActive ? 7f : 5f;
+							if (speedBoost1 || npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
                                 num742 *= 2f;
 
                             Vector2 vector93 = new Vector2(vector.X, vector.Y);
@@ -440,11 +436,7 @@ namespace CalamityMod.NPCs.Polterghast
                         }
                         else
                         {
-                            float num742 = 11f;
-                            if (expertMode)
-                                num742 += 1f;
-                            if (CalamityWorld.bossRushActive)
-                                num742 = 18f;
+                            float num742 = CalamityWorld.bossRushActive ? 14f : 11f;
                             if (speedBoost1 || npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
                                 num742 *= 2f;
 
@@ -536,11 +528,7 @@ namespace CalamityMod.NPCs.Polterghast
 
                         if (flag47)
                         {
-                            float num742 = 6f;
-                            if (expertMode)
-                                num742 += 1f;
-                            if (CalamityWorld.bossRushActive)
-                                num742 = 13f;
+                            float num742 = CalamityWorld.bossRushActive ? 8f : 6f;
                             if (speedBoost1 || npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
                                 num742 *= 2f;
 
@@ -574,11 +562,7 @@ namespace CalamityMod.NPCs.Polterghast
                         }
                         else
                         {
-                            float num742 = 11f;
-                            if (expertMode)
-                                num742 += 1f;
-                            if (CalamityWorld.bossRushActive)
-                                num742 = 18f;
+                            float num742 = CalamityWorld.bossRushActive ? 14f : 11f;
                             if (speedBoost1 || npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
                                 num742 *= 2f;
 
@@ -668,7 +652,41 @@ namespace CalamityMod.NPCs.Polterghast
                     npc.damage *= 2;
                 }
 
-                if (phase4)
+				npc.ai[1] += 1f;
+				if (npc.ai[1] >= 420f && Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
+				{
+					npc.ai[1] = 0f;
+					Vector2 vector93 = new Vector2(vector.X, vector.Y);
+					float num742 = CalamityWorld.bossRushActive ? 7f : 5f;
+					float num743 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector93.X;
+					float num744 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector93.Y;
+					float num745 = (float)Math.Sqrt((double)(num743 * num743 + num744 * num744));
+
+					num745 = num742 / num745;
+					num743 *= num745;
+					num744 *= num745;
+					vector93.X += num743 * 3f;
+					vector93.Y += num744 * 3f;
+
+					int damage = expertMode ? 53 : 65;
+					int numProj = 4;
+					int spread = 45;
+					float rotation = MathHelper.ToRadians(spread);
+					float baseSpeed = (float)Math.Sqrt(num743 * num743 + num744 * num744);
+					double startAngle = Math.Atan2(num743, num744) - rotation / 2;
+					double deltaAngle = rotation / (float)numProj;
+					double offsetAngle;
+					int type = ModContent.ProjectileType<PhantomShot>();
+					for (int i = 0; i < numProj; i++)
+					{
+						offsetAngle = startAngle + deltaAngle * i;
+						if (i == 1 || i == 2)
+							type = ModContent.ProjectileType<PhantomShot2>();
+						Projectile.NewProjectile(vector93.X, vector93.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer, 0f, 0f);
+					}
+				}
+
+				if (phase4)
                 {
                     npc.localAI[1] += 1f;
                     if (npc.localAI[1] >= 150f)
@@ -677,9 +695,9 @@ namespace CalamityMod.NPCs.Polterghast
 
                         float num757 = 8f;
                         Vector2 vector94 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-                        float num758 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector94.X + (float)Main.rand.Next(-10, 11);
+                        float num758 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector94.X;
                         float num759 = Math.Abs(num758 * 0.2f);
-                        float num760 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector94.Y + (float)Main.rand.Next(-10, 11);
+                        float num760 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector94.Y;
                         if (num760 > 0f)
                             num759 = 0f;
 
@@ -689,7 +707,7 @@ namespace CalamityMod.NPCs.Polterghast
                         num758 *= num761;
                         num760 *= num761;
 
-                        if (NPC.CountNPCS(ModContent.NPCType<PhantomSpiritL>()) < (revenge ? 3 : 2) && Main.netMode != NetmodeID.MultiplayerClient)
+                        if (NPC.CountNPCS(ModContent.NPCType<PhantomSpiritL>()) < 2 && Main.netMode != NetmodeID.MultiplayerClient)
                         {
                             int num762 = NPC.NewNPC((int)vector.X, (int)vector.Y, ModContent.NPCType<PhantomSpiritL>(), 0, 0f, 0f, 0f, 0f, 255);
                             Main.npc[num762].velocity.X = num758;

@@ -960,8 +960,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             #region DespawnProjectiles
             if (bulletHellCounter2 % 900 == 0 && despawnProj)
             {
-                int proj;
-                for (int x = 0; x < 1000; x = proj + 1)
+                for (int x = 0; x < Main.maxProjectiles; x++)
                 {
                     Projectile projectile = Main.projectile[x];
                     if (projectile.active)
@@ -978,7 +977,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             projectile.active = false;
                         }
                     }
-                    proj = x;
                 }
                 despawnProj = false;
             }

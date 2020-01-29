@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Boss
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             projectile.penetrate--;
-            projectile.localAI[1] -= 180f;
+            projectile.localAI[1] = -120f;
             if (projectile.penetrate <= 0)
             {
                 projectile.Kill();
@@ -67,19 +67,12 @@ namespace CalamityMod.Projectiles.Boss
             }
             projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
             projectile.localAI[1] += 1f;
-            if (projectile.localAI[1] > 300f)
-            {
-                if (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y) < 24f)
-                    projectile.velocity *= 1.015f;
-
-                if (projectile.localAI[1] > 480f)
-                {
-                    projectile.localAI[1] = 0f;
-                    projectile.penetrate--;
-                    projectile.velocity.X = -projectile.velocity.X;
-                    projectile.velocity.Y = -projectile.velocity.Y;
-                }
-            }
+			if (projectile.localAI[1] > 180f)
+			{
+				projectile.localAI[1] = 0f;
+				projectile.penetrate--;
+				projectile.velocity *= -1f;
+			}
             projectile.localAI[0] += 1f;
             if (projectile.localAI[0] > 9f)
             {

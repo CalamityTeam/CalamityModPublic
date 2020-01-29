@@ -132,7 +132,7 @@ namespace CalamityMod.NPCs.Polterghast
 
                     if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] == 20f)
                     {
-                        float num151 = CalamityWorld.bossRushActive ? 7.5f : 5f;
+                        float num151 = 1.5f;
                         int num152 = expertMode ? 48 : 60;
                         int num153 = ModContent.ProjectileType<PhantomHookShot>();
                         num149 = num151 / num149;

@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Boss
         {
             DisplayName.SetDefault("Brimstone Hellblast");
             Main.projFrames[projectile.type] = 4;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 2;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
 

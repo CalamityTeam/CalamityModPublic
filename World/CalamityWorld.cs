@@ -177,6 +177,7 @@ namespace CalamityMod.World
             bossRushActive = false;
             bossRushSpawnCountdown = 180;
             bossSpawnCountdown = 0;
+			deathBossSpawnCooldown = 0;
             bossType = 0;
 			newAltarX = 0;
 			newAltarY = 0;
@@ -1259,16 +1260,16 @@ namespace CalamityMod.World
 
             if (death && !CalamityPlayer.areThereAnyDamnBosses && Main.player[closestPlayer].statLifeMax2 >= 300)
             {
-                if (bossSpawnCountdown <= 0 && deathBossSpawnCooldown <= 0) //check for countdown and cooldown being 0
+                if (bossSpawnCountdown <= 0 && deathBossSpawnCooldown <= 0) // Check for countdown and cooldown being 0
                 {
                     if (Main.rand.NextBool(50000))
                     {
-                        if (!NPC.downedBoss1 && bossType == 0) //only set countdown and boss type if conditions are met
+                        if (!NPC.downedBoss1 && bossType == 0) // Only set countdown and boss type if conditions are met
                             if (!Main.dayTime && (Main.player[closestPlayer].ZoneOverworldHeight || Main.player[closestPlayer].ZoneSkyHeight))
                             {
                                 BossText();
                                 bossType = NPCID.EyeofCthulhu;
-                                bossSpawnCountdown = 3600; //1 minute
+                                bossSpawnCountdown = 3600; // 1 minute
                             }
 
                         if (!NPC.downedBoss2 && bossType == 0)
@@ -1437,15 +1438,19 @@ namespace CalamityMod.World
                 }
                 else
                 {
-                    bossSpawnCountdown--;
-                    if (Main.netMode == NetmodeID.Server)
-                    {
-                        var netMessage = mod.GetPacket();
-                        netMessage.Write((byte)CalamityModMessageType.BossSpawnCountdownSync);
-                        netMessage.Write(bossSpawnCountdown);
-                        netMessage.Send();
-                    }
-                    if (bossSpawnCountdown <= 0)
+					if (bossSpawnCountdown > 0)
+					{
+						bossSpawnCountdown--;
+						if (Main.netMode == NetmodeID.Server)
+						{
+							var netMessage = mod.GetPacket();
+							netMessage.Write((byte)CalamityModMessageType.BossSpawnCountdownSync);
+							netMessage.Write(bossSpawnCountdown);
+							netMessage.Send();
+						}
+					}
+
+                    if (bossSpawnCountdown <= 0 && deathBossSpawnCooldown <= 0) // Check both cooldowns again here to avoid infinite message possibilities
                     {
                         bool canSpawn = true;
                         switch (bossType)
@@ -1541,30 +1546,42 @@ namespace CalamityMod.World
                                 canSpawn = false;
                         }
 
-                        if (canSpawn && Main.netMode != NetmodeID.MultiplayerClient)
+                        if (canSpawn)
                         {
-                            if (bossType == NPCID.Spazmatism)
-                                NPC.SpawnOnPlayer(closestPlayer, NPCID.Retinazer);
-                            else if (bossType == ModContent.NPCType<ProfanedGuardianBoss>())
-                            {
-                                NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<ProfanedGuardianBoss2>());
-                                NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<ProfanedGuardianBoss3>());
-                            }
-                            else if (bossType == ModContent.NPCType<DesertScourgeHead>())
-                            {
-                                NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<DesertScourgeHeadSmall>());
-                                NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<DesertScourgeHeadSmall>());
-                            }
-                            if (bossType == NPCID.DukeFishron)
+							if (Main.netMode != NetmodeID.MultiplayerClient)
 							{
-                                NPC.NewNPC((int)Main.player[closestPlayer].Center.X - 300, (int)Main.player[closestPlayer].Center.Y - 300, bossType);
+								if (bossType == NPCID.Spazmatism)
+									NPC.SpawnOnPlayer(closestPlayer, NPCID.Retinazer);
+								else if (bossType == ModContent.NPCType<ProfanedGuardianBoss>())
+								{
+									NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<ProfanedGuardianBoss2>());
+									NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<ProfanedGuardianBoss3>());
+								}
+								else if (bossType == ModContent.NPCType<DesertScourgeHead>())
+								{
+									NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<DesertScourgeHeadSmall>());
+									NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<DesertScourgeHeadSmall>());
+								}
+								if (bossType == NPCID.DukeFishron)
+								{
+									NPC.NewNPC((int)Main.player[closestPlayer].Center.X - 300, (int)Main.player[closestPlayer].Center.Y - 300, bossType);
+								}
+								else
+								{
+									NPC.SpawnOnPlayer(closestPlayer, bossType);
+								}
 							}
-                            else
+
+							deathBossSpawnCooldown = 86400; // 24 minutes (1 full Terraria day)
+							if (Main.netMode == NetmodeID.Server)
 							{
-                                NPC.SpawnOnPlayer(closestPlayer, bossType);
+								var netMessage = mod.GetPacket();
+								netMessage.Write((byte)CalamityModMessageType.DeathBossSpawnCountdownSync);
+								netMessage.Write(deathBossSpawnCooldown);
+								netMessage.Send();
 							}
-							deathBossSpawnCooldown = 86400; //24 minutes (1 full Terraria day)
-                        }
+						}
+
                         bossType = 0;
                         if (Main.netMode == NetmodeID.Server)
                         {
@@ -1574,10 +1591,21 @@ namespace CalamityMod.World
                             netMessage.Send();
                         }
                     }
-                }
+
+					// IMPORTANT! Decrement this cooldown AFTER everything else to avoid infinite possibilities
+					if (deathBossSpawnCooldown > 0)
+					{
+						deathBossSpawnCooldown--;
+						if (Main.netMode == NetmodeID.Server)
+						{
+							var netMessage = mod.GetPacket();
+							netMessage.Write((byte)CalamityModMessageType.DeathBossSpawnCountdownSync);
+							netMessage.Write(deathBossSpawnCooldown);
+							netMessage.Send();
+						}
+					}
+				}
             }
-			if (deathBossSpawnCooldown > 0)
-				deathBossSpawnCooldown--;
 
             if (!downedDesertScourge && Main.netMode != NetmodeID.MultiplayerClient)
                 CalamityUtils.StopSandstorm();

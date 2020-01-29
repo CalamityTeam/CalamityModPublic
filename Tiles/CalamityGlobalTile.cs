@@ -490,76 +490,68 @@ namespace CalamityMod.Tiles
 
 		public override void NearbyEffects(int i, int j, int type, bool closer)
 		{
-			if (Main.gamePaused)
+			if (i > 20 && i < Main.maxTilesX - 20 && j > Main.maxTilesY - 160 && j < Main.maxTilesY - 40)
 			{
-				return;
-			}
-			if (CalamityWorld.death && !CalamityPlayer.areThereAnyDamnBosses)
-			{
-				bool underworldTile = type == TileID.Ash || type == TileID.Hellstone;
-				bool cragTile = type == ModContent.TileType<BrimstoneSlag>() || type == ModContent.TileType<CharredOre>();
-				if ((underworldTile || cragTile) && closer)
+				if (type == TileID.Ash || type == TileID.Hellstone || type == ModContent.TileType<BrimstoneSlag>() || type == ModContent.TileType<CharredOre>())
 				{
-					if (j > Main.maxTilesY - 180 && j < Main.maxTilesY - 50)
-					{
-						if (Main.tile[i, j - 1] == null)
-							Main.tile[i, j - 1] = new Tile();
+					if (Main.gamePaused || !CalamityWorld.death || CalamityPlayer.areThereAnyDamnBosses || !closer || Main.tile[i, j] == null || Main.tile[i, j - 1] == null)
+						return;
 
-						Tile tileAbove = Main.tile[i, j - 1];
-						if (tileAbove.liquidType() == 1 && !tileAbove.active())
+					Tile tileAbove = Main.tile[i, j - 1];
+					if (tileAbove.liquidType() == 1 && !tileAbove.active())
+					{
+						bool shootFlames = Main.rand.NextBool(500);
+						if (shootFlames)
 						{
-							// Only shoot flames if tiles underneath are lava and if tiles above and below aren't active
-							bool shootFlames = Main.netMode != NetmodeID.MultiplayerClient && Main.rand.NextBool(500);
+							int lavaTilesAbove = 0;
+							int lavaTopY = 0;
+							for (int k = j - 1; k > Main.maxTilesY - 180; k--)
+							{
+								if (Main.tile[i, k] == null)
+								{
+									shootFlames = false;
+									break;
+								}
+
+								if (!Main.tile[i, k].active() && Main.tile[i, k].liquidType() == 1)
+								{
+									if (lavaTilesAbove < 5)
+										lavaTilesAbove++;
+								}
+								else
+								{
+									if (lavaTilesAbove == 5)
+										lavaTopY = k - 1;
+									else
+										shootFlames = false;
+
+									break;
+								}
+							}
 							if (shootFlames)
 							{
-								int lavaTilesAbove = 0;
-								int lavaTopY = 0;
-								Tile lavaTop = new Tile();
-								for (int k = j - 1; k > Main.maxTilesY - 180; k--)
+								for (int l = lavaTopY; l > lavaTopY - 5; l--)
 								{
-									if (Main.tile[i, k] == null)
-										Main.tile[i, k] = new Tile();
-
-									if (!Main.tile[i, k].active() && Main.tile[i, k].liquidType() == 1)
+									if (Main.tile[i, l] == null)
 									{
-										if (lavaTilesAbove < 5)
-											lavaTilesAbove++;
+										shootFlames = false;
+										break;
 									}
-									else
+									if (Main.tile[i, l].active())
 									{
-										if (lavaTilesAbove == 5)
-										{
-											lavaTopY = k;
-											lavaTop = Main.tile[i, k];
-										}
-										else
-											shootFlames = false;
-
+										shootFlames = false;
 										break;
 									}
 								}
-								if (shootFlames)
-								{
-									for (int l = lavaTopY - 1; l > lavaTopY - 10; l--)
-									{
-										if (Main.tile[i, l] == null)
-											Main.tile[i, l] = new Tile();
-
-										if (Main.tile[i, l].active())
-										{
-											shootFlames = false;
-											break;
-										}
-									}
-								}
 							}
-							if (shootFlames)
-							{
-								int projectileType = underworldTile ? ProjectileID.GeyserTrap : ModContent.ProjectileType<BrimstoneFire>();
-								float randomVelocity = Main.rand.NextFloat() + 0.5f;
-								int proj = Projectile.NewProjectile((float)(i * 16), (float)(j * 16), 0f, -8f * randomVelocity, projectileType, 20, 2f, Main.myPlayer, 0f, 0f);
-								Main.projectile[proj].friendly = false;
-							}
+						}
+						if (shootFlames && Main.netMode != NetmodeID.MultiplayerClient)
+						{
+							int projectileType = (type != ModContent.TileType<BrimstoneSlag>() && type != ModContent.TileType<CharredOre>()) ? ProjectileID.GeyserTrap : ModContent.ProjectileType<BrimstoneFire>();
+							float randomVelocity = Main.rand.NextFloat() + 0.5f;
+							int proj = Projectile.NewProjectile((float)(i * 16), (float)(j * 16), 0f, -8f * randomVelocity, projectileType, 20, 2f, Main.myPlayer, 0f, 0f);
+							Main.projectile[proj].friendly = false;
+							Main.projectile[proj].netUpdate = true;
 						}
 					}
 				}
