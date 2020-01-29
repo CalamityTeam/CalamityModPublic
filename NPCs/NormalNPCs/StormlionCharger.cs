@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -61,10 +62,9 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-            if (Main.rand.NextBool(2))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<StormlionMandible>());
-            }
+			//100% chance if DS isn't dead yet, otherwise 50%
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<StormlionMandible>(), !CalamityWorld.downedDesertScourge, 1f, 1, 1);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<StormlionMandible>(), CalamityWorld.downedDesertScourge, 0.5f, 1, 1);
         }
     }
 }

@@ -40,7 +40,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.playerSafe || spawnInfo.player.Calamity().ZoneSunkenSea)
+            if (spawnInfo.playerSafe || spawnInfo.player.Calamity().ZoneSunkenSea || NPC.AnyNPCs(ModContent.NPCType<Cnidrion>()))
             {
                 return 0f;
             }

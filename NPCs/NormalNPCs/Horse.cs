@@ -66,7 +66,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             if (spawnInfo.playerSafe || !Main.hardMode || spawnInfo.player.Calamity().ZoneAbyss ||
-                spawnInfo.player.Calamity().ZoneSunkenSea)
+                spawnInfo.player.Calamity().ZoneSunkenSea || NPC.AnyNPCs(ModContent.NPCType<Horse>()))
             {
                 return 0f;
             }
