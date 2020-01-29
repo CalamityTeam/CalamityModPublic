@@ -1997,10 +1997,14 @@ namespace CalamityMod.NPCs
                         break;
 
                     case NPCID.Wizard:
-                        switch (Main.rand.Next(24)) // 23 wizard names
+                        switch (Main.rand.Next(25)) // 23 wizard names
                         {
                             case 0:
                                 npc.GivenName = "Mage One-Trick";
+                                break;
+
+                            case 1:
+                                npc.GivenName = "Inorim, son of Ivukey";
                                 break;
 
                             default:
