@@ -108,6 +108,7 @@ Fires night wyverns and stars from the sky that stick to enemies and tiles and e
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 6);
             recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 5);
             recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 10);
             recipe.AddIngredient(ModContent.ItemType<WyvernsCall>());

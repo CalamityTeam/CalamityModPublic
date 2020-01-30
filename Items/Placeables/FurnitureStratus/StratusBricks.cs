@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables.Ores;
 using CalamityMod.Items.Placeables.Walls;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -8,6 +9,7 @@ namespace CalamityMod.Items.Placeables.FurnitureStratus
     {
         public override void SetStaticDefaults()
         {
+			DisplayName.SetDefault("Stratus Brick");
         }
 
         public override void SetDefaults()
@@ -27,10 +29,11 @@ namespace CalamityMod.Items.Placeables.FurnitureStratus
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.StoneBlock, 40);
+            recipe.AddIngredient(ItemID.StoneBlock, 50);
             recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 3);
             recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 1);
-            recipe.SetResult(this, 40);
+            recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 1);
+            recipe.SetResult(this, 50);
             recipe.AddTile(412);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
