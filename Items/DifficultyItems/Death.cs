@@ -15,8 +15,9 @@ namespace CalamityMod.Items.DifficultyItems
             DisplayName.SetDefault("Death");
             Tooltip.SetDefault("Makes bosses even more EXTREME.\n" +
                 "Allows certain bosses to spawn naturally.\n" +
+				"Certain biomes and events have additional weather effects.\n" +
                 "Increases enemy damage by 15%.\n" +
-                "Greatly boosts the spawn rate during blood moons.\n" +
+                "Greatly boosts enemy spawn rates during the blood moon.\n" +
                 "Nerfs the effectiveness of life steal.\n" +
                 "Makes the abyss more treachorous to navigate.\n" +
                 "Nurse no longer heals while a boss is alive.\n" +

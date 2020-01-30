@@ -467,7 +467,8 @@ namespace CalamityMod.CalPlayer
 									Vector2 ai0 = fireTo - spawnPoint;
 									float ai = (float)Main.rand.Next(100);
 									Vector2 velocity = Vector2.Normalize(ai0.RotatedByRandom(0.78539818525314331)) * 7f;
-									Projectile.NewProjectile(spawnPoint.X, spawnPoint.Y, velocity.X, velocity.Y, ProjectileID.CultistBossLightningOrbArc, 50, 0f, player.whoAmI, ai0.ToRotation(), ai);
+									int proj = Projectile.NewProjectile(spawnPoint.X, spawnPoint.Y, velocity.X, velocity.Y, ProjectileID.CultistBossLightningOrbArc, 50, 0f, player.whoAmI, ai0.ToRotation(), ai);
+									Main.projectile[proj].extraUpdates += 6;
 								}
 							}
 						}

@@ -325,7 +325,7 @@ namespace CalamityMod.NPCs.Leviathan
 						}
                     }
 
-                    if (num1060 > 600f || !Collision.CanHit(new Vector2(vector119.X, vector119.Y - 30f), 1, 1, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
+                    if (num1060 > 1200f || !Collision.CanHit(new Vector2(vector119.X, vector119.Y - 30f), 1, 1, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
                     {
                         float num1063 = sirenAlive ? 7f : 8f;
                         float num1064 = sirenAlive ? 0.05f : 0.065f;
@@ -437,6 +437,10 @@ namespace CalamityMod.NPCs.Leviathan
                             {
                                 num1044 *= 1.25f;
                             }
+							if (sirenAlive)
+							{
+								num1044 *= 0.75f;
+							}
 
                             Vector2 vector117 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
                             float num1045 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector117.X;
