@@ -562,6 +562,7 @@ namespace CalamityMod.CalPlayer
         public bool xRage = false;
         public bool xWrath = false;
         public bool graxDefense = false;
+        public bool encased = false;
         public bool sMeleeBoost = false;
         public bool tFury = false;
         public bool cadence = false;
@@ -1334,6 +1335,7 @@ namespace CalamityMod.CalPlayer
             xRage = false;
             xWrath = false;
             graxDefense = false;
+            encased = false;
             sMeleeBoost = false;
             tFury = false;
             cadence = false;
@@ -1600,6 +1602,7 @@ namespace CalamityMod.CalPlayer
             xRage = false;
             xWrath = false;
             graxDefense = false;
+            encased = false;
             sMeleeBoost = false;
             tFury = false;
             cadence = false;
@@ -3187,7 +3190,7 @@ namespace CalamityMod.CalPlayer
             if (permafrostsConcoction && player.FindBuffIndex(ModContent.BuffType<ConcoctionCooldown>()) == -1)
             {
                 player.AddBuff(ModContent.BuffType<ConcoctionCooldown>(), 10800);
-                player.AddBuff(ModContent.BuffType<Encased>(), 300);
+                player.AddBuff(ModContent.BuffType<Encased>(), 180);
                 player.statLife = player.statLifeMax2 * 3 / 10;
                 Main.PlaySound(SoundID.Item92, player.position);
                 for (int i = 0; i < 60; i++)
@@ -5845,6 +5848,10 @@ namespace CalamityMod.CalPlayer
             if (sirenIce)
             {
                 damage = (int)((double)damage * 0.85);
+            }
+            if (encased)
+            {
+                damage = (int)((double)damage * 0.7);
             }
             if (CalamityWorld.revenge)
             {

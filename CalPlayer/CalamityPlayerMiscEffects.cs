@@ -1016,6 +1016,28 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.blazingCore)
 				player.endurance += 0.1f;
 
+			//Permafrost's Concoction bonuses/debuffs
+			if (modPlayer.permafrostsConcoction)
+			{
+				player.statManaMax2 += 50;
+				player.manaCost *= 0.85f;
+			}
+			if (modPlayer.encased)
+			{
+				player.statDefense += 30;
+				player.frozen = true;
+				player.velocity.X = 0f;
+				player.velocity.Y = -0.4f; //should negate gravity
+
+				int d = Dust.NewDust(player.position, player.width, player.height, 88);
+				Main.dust[d].noGravity = true;
+				Main.dust[d].velocity *= 2f;
+
+				player.buffImmune[BuffID.Frozen] = true;
+				player.buffImmune[BuffID.Chilled] = true;
+				player.buffImmune[ModContent.BuffType<GlacialState>()] = true;
+			}
+
 			// Cosmic Discharge Cosmic Freeze buff, gives surrounding enemies the Glacial State debuff
 			if (modPlayer.cFreeze)
 			{
