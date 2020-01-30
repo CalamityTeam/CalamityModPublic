@@ -15019,3803 +15019,3472 @@ namespace CalamityMod.NPCs
 			}
 			return false;
 		}
-		#endregion
+        #endregion
 
-		#region Fighter AI
-		public static bool BuffedFighterAI(NPC npc, Mod mod)
+        #region Fighter AI
+
+        // Methods for AIs that are always terminated via a return in the Fighter AI code. More specialized and general
+        // functions are given summaries of their specifics
+        public static bool BuffedPsychoAI(NPC npc)
         {
-			if (npc.type == NPCID.Psycho)
-			{
-				int num = 200;
-				if (npc.ai[2] == 0f)
-				{
-					npc.alpha = num;
-					npc.TargetClosest(true);
-					if (!Main.player[npc.target].dead && (Main.player[npc.target].Center - npc.Center).Length() < 170f)
-					{
-						npc.ai[2] = -16f;
-					}
-					if (npc.velocity.X != 0f || npc.velocity.Y < 0f || npc.velocity.Y > 2f || npc.justHit)
-					{
-						npc.ai[2] = -16f;
-					}
-					return false;
-				}
-				if (npc.ai[2] < 0f)
-				{
-					if (npc.alpha > 0)
-					{
-						npc.alpha -= num / 16;
-						if (npc.alpha < 0)
-						{
-							npc.alpha = 0;
-						}
-					}
-					npc.ai[2] += 1f;
-					if (npc.ai[2] == 0f)
-					{
-						npc.ai[2] = 1f;
-						npc.velocity.X = (float)(npc.direction * 2);
-					}
-					return false;
-				}
-				npc.alpha = 0;
-			}
-			if (npc.type == NPCID.SwampThing)
-			{
-				if (Main.netMode != 1 && Main.rand.Next(240) == 0)
-				{
-					npc.ai[2] = (float)Main.rand.Next(-480, -60);
-					npc.netUpdate = true;
-				}
-				if (npc.ai[2] < 0f)
-				{
-					npc.TargetClosest(true);
-					if (npc.justHit)
-					{
-						npc.ai[2] = 0f;
-					}
-					if (Collision.CanHit(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1))
-					{
-						npc.ai[2] = 0f;
-					}
-				}
-				if (npc.ai[2] < 0f)
-				{
-					npc.velocity.X = npc.velocity.X * 0.9f;
-					if ((double)npc.velocity.X > -0.1 && (double)npc.velocity.X < 0.1)
-					{
-						npc.velocity.X = 0f;
-					}
-					npc.ai[2] += 1f;
-					if (npc.ai[2] == 0f)
-					{
-						npc.velocity.X = (float)npc.direction * 0.1f;
-					}
-					return false;
-				}
-			}
-			if (npc.type == NPCID.CreatureFromTheDeep)
-			{
-				if (npc.wet)
-				{
-					npc.knockBackResist = 0f;
-					npc.ai[3] = -0.10101f;
-					npc.noGravity = true;
-					Vector2 center = npc.Center;
-					npc.width = 34;
-					npc.height = 24;
-					npc.position.X = center.X - (float)(npc.width / 2);
-					npc.position.Y = center.Y - (float)(npc.height / 2);
-					npc.TargetClosest(true);
-					if (npc.collideX)
-					{
-						npc.velocity.X = -npc.oldVelocity.X;
-					}
-					if (npc.velocity.X < 0f)
-					{
-						npc.direction = -1;
-					}
-					if (npc.velocity.X > 0f)
-					{
-						npc.direction = 1;
-					}
-					if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].Center, 1, 1))
-					{
-						Vector2 value = Main.player[npc.target].Center - npc.Center;
-						value.Normalize();
-						value *= 10f;
-						npc.velocity = (npc.velocity * 19f + value) / 20f;
-						return false;
-					}
-					float num2 = 10f;
-					if (npc.velocity.Y > 0f)
-					{
-						num2 = 6f;
-					}
-					if (npc.velocity.Y < 0f)
-					{
-						num2 = 16f;
-					}
-					Vector2 value2 = new Vector2((float)npc.direction, -1f);
-					value2.Normalize();
-					value2 *= num2;
-					if (num2 < 5f)
-					{
-						npc.velocity = (npc.velocity * 24f + value2) / 25f;
-						return false;
-					}
-					npc.velocity = (npc.velocity * 9f + value2) / 10f;
-					return false;
-				}
-				else
-				{
-					npc.knockBackResist = 0.2f * Main.knockBackMultiplier;
-					npc.noGravity = false;
-					Vector2 center2 = npc.Center;
-					npc.width = 18;
-					npc.height = 40;
-					npc.position.X = center2.X - (float)(npc.width / 2);
-					npc.position.Y = center2.Y - (float)(npc.height / 2);
-					if (npc.ai[3] == -0.10101f)
-					{
-						npc.ai[3] = 0f;
-						float num3 = npc.velocity.Length();
-						num3 *= 2f;
-						if (num3 > 12f)
-						{
-							num3 = 12f;
-						}
-						npc.velocity.Normalize();
-						npc.velocity *= num3;
-						if (npc.velocity.X < 0f)
-						{
-							npc.direction = -1;
-						}
-						if (npc.velocity.X > 0f)
-						{
-							npc.direction = 1;
-						}
-						npc.spriteDirection = npc.direction;
-					}
-				}
-			}
-			if (npc.type == NPCID.CultistArcherBlue || npc.type == NPCID.CultistArcherWhite)
-			{
-				if (npc.ai[3] < 0f)
-				{
-					npc.damage = 0;
-					npc.velocity.X = npc.velocity.X * 0.93f;
-					if ((double)npc.velocity.X > -0.1 && (double)npc.velocity.X < 0.1)
-					{
-						npc.velocity.X = 0f;
-					}
-					int num4 = (int)(-npc.ai[3] - 1f);
-					int num5 = Math.Sign(Main.npc[num4].Center.X - npc.Center.X);
-					if (num5 != npc.direction)
-					{
-						npc.velocity.X = 0f;
-						npc.direction = num5;
-						npc.netUpdate = true;
-					}
-					if (npc.justHit && Main.netMode != 1 && Main.npc[num4].localAI[0] == 0f)
-					{
-						Main.npc[num4].localAI[0] = 1f;
-					}
-					if (npc.ai[0] < 1000f)
-					{
-						npc.ai[0] = 1000f;
-					}
-					npc.ai[0] += 1f;
-					if (npc.ai[0] >= 1300f)
-					{
-						npc.ai[0] = 1000f;
-						npc.netUpdate = true;
-					}
-					return false;
-				}
-				if (npc.ai[0] >= 1000f)
-				{
-					npc.ai[0] = 0f;
-				}
-				npc.damage = npc.defDamage;
-			}
-			if (npc.type == NPCID.MartianOfficer && npc.ai[2] == 0f && npc.localAI[0] == 0f && Main.netMode != 1)
-			{
-				int num7 = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCID.ForceBubble, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
-				npc.ai[2] = (float)(num7 + 1);
-				npc.localAI[0] = -1f;
-				npc.netUpdate = true;
-				Main.npc[num7].ai[0] = (float)npc.whoAmI;
-				Main.npc[num7].netUpdate = true;
-			}
-			if (npc.type == NPCID.MartianOfficer)
-			{
-				int num8 = (int)npc.ai[2] - 1;
-				if (num8 != -1 && Main.npc[num8].active && Main.npc[num8].type == NPCID.ForceBubble)
-				{
-					npc.dontTakeDamage = true;
-				}
-				else
-				{
-					npc.dontTakeDamage = false;
-					npc.ai[2] = 0f;
-					if (npc.localAI[0] == -1f)
-					{
-						npc.localAI[0] = 120f;
-					}
-					if (npc.localAI[0] > 0f)
-					{
-						npc.localAI[0] -= 1f;
-					}
-				}
-			}
-			if (npc.type == NPCID.GraniteGolem)
-			{
-				int num9 = 300;
-				int num10 = 120;
-				npc.defense = npc.defDefense;
-				if (npc.ai[2] < 0f)
-				{
-					npc.defense = npc.defDefense + 15;
-					npc.ai[2] += 1f;
-					npc.velocity.X = npc.velocity.X * 0.9f;
-					if ((double)Math.Abs(npc.velocity.X) < 0.001)
-					{
-						npc.velocity.X = 0.001f * (float)npc.direction;
-					}
-					if (Math.Abs(npc.velocity.Y) > 1f)
-					{
-						npc.ai[2] += 10f;
-					}
-					if (npc.ai[2] >= 0f)
-					{
-						npc.netUpdate = true;
-						npc.velocity.X = npc.velocity.X + (float)npc.direction * 0.3f;
-					}
-					return false;
-				}
-				if (npc.ai[2] < (float)num9)
-				{
-					if (npc.justHit)
-					{
-						npc.ai[2] += 15f;
-					}
-					npc.ai[2] += 1f;
-				}
-				else if (npc.velocity.Y == 0f)
-				{
-					npc.ai[2] = (float)(-(float)num10);
-					npc.netUpdate = true;
-				}
-			}
-			if (npc.type == NPCID.Medusa)
-			{
-				int num11 = 90;
-				int num12 = 210;
-				int num13 = 270;
-				int num14 = 120;
-				int num15 = 20;
-				if (npc.ai[2] > 0f)
-				{
-					npc.ai[2] -= 1f;
-				}
-				else if (npc.ai[2] == 0f)
-				{
-					if (((Main.player[npc.target].Center.X < npc.Center.X && npc.direction < 0) || (Main.player[npc.target].Center.X > npc.Center.X && npc.direction > 0)) && npc.velocity.Y == 0f && npc.Distance(Main.player[npc.target].Center) < 900f && Collision.CanHit(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1))
-					{
-						npc.ai[2] = (float)(-(float)num13 - num15);
-						npc.netUpdate = true;
-					}
-				}
-				else
-				{
-					if (npc.ai[2] < 0f && npc.ai[2] < (float)(-(float)num13))
-					{
-						npc.velocity.X = npc.velocity.X * 0.9f;
-						if (npc.velocity.Y < -2f || npc.velocity.Y > 4f || npc.justHit)
-						{
-							npc.ai[2] = (float)num11;
-						}
-						else
-						{
-							npc.ai[2] += 1f;
-							if (npc.ai[2] == 0f)
-							{
-								npc.ai[2] = (float)num12;
-							}
-						}
-						float num16 = npc.ai[2] + (float)num13 + (float)num15;
-						if (num16 == 1f)
-						{
-							Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 17, 1f, 0f);
-						}
-						if (num16 < (float)num15)
-						{
-							Vector2 vector = npc.Top + new Vector2((float)(npc.spriteDirection * 6), 6f);
-							float scaleFactor = MathHelper.Lerp(20f, 30f, (num16 * 3f + 50f) / 182f);
-							Main.rand.NextFloat();
-							for (float num17 = 0f; num17 < 2f; num17 += 1f)
-							{
-								Vector2 vector2 = Vector2.UnitY.RotatedByRandom(6.2831854820251465) * (Main.rand.NextFloat() * 0.5f + 0.5f);
-								Dust dust = Main.dust[Dust.NewDust(vector, 0, 0, 228, 0f, 0f, 0, default(Color), 1f)];
-								dust.position = vector + vector2 * scaleFactor;
-								dust.noGravity = true;
-								dust.velocity = vector2 * 2f;
-								dust.scale = 0.5f + Main.rand.NextFloat() * 0.5f;
-							}
-						}
-						Lighting.AddLight(npc.Center, 0.9f, 0.75f, 0.1f);
-						return false;
-					}
-					if (npc.ai[2] < 0f && npc.ai[2] >= (float)(-(float)num13))
-					{
-						Lighting.AddLight(npc.Center, 0.9f, 0.75f, 0.1f);
-						npc.velocity.X = npc.velocity.X * 0.9f;
-						if (npc.velocity.Y < -2f || npc.velocity.Y > 4f || npc.justHit)
-						{
-							npc.ai[2] = (float)num11;
-						}
-						else
-						{
-							npc.ai[2] += 1f;
-							if (npc.ai[2] == 0f)
-							{
-								npc.ai[2] = (float)num12;
-							}
-						}
-						float num18 = npc.ai[2] + (float)num13;
-						if (num18 < 180f && (Main.rand.Next(3) == 0 || npc.ai[2] % 3f == 0f))
-						{
-							Vector2 vector3 = npc.Top + new Vector2((float)(npc.spriteDirection * 10), 10f);
-							float scaleFactor2 = MathHelper.Lerp(20f, 30f, (num18 * 3f + 50f) / 182f);
-							Main.rand.NextFloat();
-							for (float num19 = 0f; num19 < 1f; num19 += 1f)
-							{
-								Vector2 vector4 = Vector2.UnitY.RotatedByRandom(6.2831854820251465) * (Main.rand.NextFloat() * 0.5f + 0.5f);
-								Dust dust = Main.dust[Dust.NewDust(vector3, 0, 0, 228, 0f, 0f, 0, default(Color), 1f)];
-								dust.position = vector3 + vector4 * scaleFactor2;
-								dust.noGravity = true;
-								dust.velocity = vector4 * 4f;
-								dust.scale = 0.5f + Main.rand.NextFloat();
-							}
-						}
-						if (Main.netMode != 2)
-						{
-							Player player = Main.player[Main.myPlayer];
-							int arg_FD9_0 = Main.myPlayer;
-							if (!player.dead && player.active && player.FindBuffIndex(156) == -1)
-							{
-								Vector2 vector5 = player.Center - npc.Center;
-								if (vector5.Length() < 1000f)
-								{
-									bool flag = vector5.Length() < 30f;
-									if (!flag)
-									{
-										float x = 0.7853982f.ToRotationVector2().X;
-										Vector2 vector6 = Vector2.Normalize(vector5);
-										if (vector6.X > x || vector6.X < -x)
-										{
-											flag = true;
-										}
-									}
-									if (((player.Center.X < npc.Center.X && npc.direction < 0 && player.direction > 0) || (player.Center.X > npc.Center.X && npc.direction > 0 && player.direction < 0)) && flag && (Collision.CanHitLine(npc.Center, 1, 1, player.Center, 1, 1) || Collision.CanHitLine(npc.Center - Vector2.UnitY * 16f, 1, 1, player.Center, 1, 1) || Collision.CanHitLine(npc.Center + Vector2.UnitY * 8f, 1, 1, player.Center, 1, 1)))
-									{
-										player.AddBuff(156, num14 + (int)npc.ai[2] * -1, true);
-									}
-								}
-							}
-						}
-						return false;
-					}
-				}
-			}
-			if (npc.type == NPCID.GoblinSummoner)
-			{
-				if (npc.ai[3] < 0f)
-				{
-					npc.knockBackResist = 0f;
-					npc.defense = (int)((double)npc.defDefense * 1.3);
-					npc.noGravity = true;
-					npc.noTileCollide = true;
-					if (npc.velocity.X < 0f)
-					{
-						npc.direction = -1;
-					}
-					else if (npc.velocity.X > 0f)
-					{
-						npc.direction = 1;
-					}
-					npc.rotation = npc.velocity.X * 0.1f;
-					if (Main.netMode != 1)
-					{
-						npc.localAI[3] += 1f;
-						if (npc.localAI[3] > (float)Main.rand.Next(20, 120))
-						{
-							npc.localAI[3] = 0f;
-							Vector2 vector7 = npc.Center;
-							vector7 += npc.velocity;
-							NPC.NewNPC((int)vector7.X, (int)vector7.Y, NPCID.ChaosBall, 0, 0f, 0f, 0f, 0f, 255);
-						}
-					}
-				}
-				else
-				{
-					npc.localAI[3] = 0f;
-					npc.knockBackResist = 0.2f * Main.knockBackMultiplier;
-					npc.rotation *= 0.9f;
-					npc.defense = npc.defDefense;
-					npc.noGravity = false;
-					npc.noTileCollide = false;
-				}
-				if (npc.ai[3] == 1f)
-				{
-					npc.knockBackResist = 0f;
-					npc.defense += 10;
-				}
-				if (npc.ai[3] == -1f)
-				{
-					npc.TargetClosest(true);
-					float num20 = 10f;
-					float num21 = 40f;
-					Vector2 value3 = Main.player[npc.target].Center - npc.Center;
-					float num22 = value3.Length();
-					num20 += num22 / 200f;
-					value3.Normalize();
-					value3 *= num20;
-					npc.velocity = (npc.velocity * (num21 - 1f) + value3) / num21;
-					if (num22 < 500f && !Collision.SolidCollision(npc.position, npc.width, npc.height))
-					{
-						npc.ai[3] = 0f;
-						npc.ai[2] = 0f;
-					}
-					return false;
-				}
-				if (npc.ai[3] == -2f)
-				{
-					npc.velocity.Y = npc.velocity.Y - 0.2f;
-					if (npc.velocity.Y < -12f)
-					{
-						npc.velocity.Y = -12f;
-					}
-					if (Main.player[npc.target].Center.Y - npc.Center.Y > 200f)
-					{
-						npc.TargetClosest(true);
-						npc.ai[3] = -3f;
-						if (Main.player[npc.target].Center.X > npc.Center.X)
-						{
-							npc.ai[2] = 1f;
-						}
-						else
-						{
-							npc.ai[2] = -1f;
-						}
-					}
-					npc.velocity.X = npc.velocity.X * 0.99f;
-					return false;
-				}
-				if (npc.ai[3] == -3f)
-				{
-					if (npc.direction == 0)
-					{
-						npc.TargetClosest(true);
-					}
-					if (npc.ai[2] == 0f)
-					{
-						npc.ai[2] = (float)npc.direction;
-					}
-					npc.velocity.Y = npc.velocity.Y * 0.9f;
-					npc.velocity.X = npc.velocity.X + npc.ai[2] * 0.3f;
-					if (npc.velocity.X > 10f)
-					{
-						npc.velocity.X = 10f;
-					}
-					if (npc.velocity.X < -10f)
-					{
-						npc.velocity.X = -10f;
-					}
-					float num23 = Main.player[npc.target].Center.X - npc.Center.X;
-					if ((npc.ai[2] < 0f && num23 > 300f) || (npc.ai[2] > 0f && num23 < -300f))
-					{
-						npc.ai[3] = -4f;
-						npc.ai[2] = 0f;
-						return false;
-					}
-					if (Math.Abs(num23) > 800f)
-					{
-						npc.ai[3] = -1f;
-						npc.ai[2] = 0f;
-					}
-					return false;
-				}
-				else
-				{
-					if (npc.ai[3] == -4f)
-					{
-						npc.ai[2] += 1f;
-						npc.velocity.Y = npc.velocity.Y + 0.1f;
-						if (npc.velocity.Length() > 4f)
-						{
-							npc.velocity *= 0.9f;
-						}
-						int num24 = (int)npc.Center.X / 16;
-						int num25 = (int)(npc.position.Y + (float)npc.height + 12f) / 16;
-						bool flag2 = false;
-						for (int i = num24 - 1; i <= num24 + 1; i++)
-						{
-							if (Main.tile[i, num25] == null)
-							{
-								Main.tile[num24, num25] = new Tile();
-							}
-							if (Main.tile[i, num25].active() && Main.tileSolid[(int)Main.tile[i, num25].type])
-							{
-								flag2 = true;
-							}
-						}
-						if (flag2 && !Collision.SolidCollision(npc.position, npc.width, npc.height))
-						{
-							npc.ai[3] = 0f;
-							npc.ai[2] = 0f;
-						}
-						else if (npc.ai[2] > 300f || npc.Center.Y > Main.player[npc.target].Center.Y + 200f)
-						{
-							npc.ai[3] = -1f;
-							npc.ai[2] = 0f;
-						}
-					}
-					else
-					{
-						if (npc.ai[3] == 1f)
-						{
-							Vector2 center3 = npc.Center;
-							center3.Y -= 70f;
-							npc.velocity.X = npc.velocity.X * 0.8f;
-							npc.ai[2] += 1f;
-							if (npc.ai[2] == 30f)
-							{
-								if (Main.netMode != 1)
-								{
-									NPC.NewNPC((int)center3.X, (int)center3.Y + 18, NPCID.ShadowFlameApparition, 0, 0f, 0f, 0f, 0f, 255);
-								}
-							}
-							else if (npc.ai[2] >= 90f)
-							{
-								npc.ai[3] = -2f;
-								npc.ai[2] = 0f;
-							}
-							for (int j = 0; j < 2; j++)
-							{
-								Vector2 arg_18C0_0 = center3;
-								Vector2 value4 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-								value4.Normalize();
-								value4 *= (float)Main.rand.Next(0, 100) * 0.1f;
-								Vector2 arg_1908_0 = arg_18C0_0 + value4;
-								value4.Normalize();
-								value4 *= (float)Main.rand.Next(50, 90) * 0.1f;
-								int num26 = Dust.NewDust(arg_1908_0, 1, 1, 27, 0f, 0f, 0, default(Color), 1f);
-								Main.dust[num26].velocity = -value4 * 0.3f;
-								Main.dust[num26].alpha = 100;
-								if (Main.rand.Next(2) == 0)
-								{
-									Main.dust[num26].noGravity = true;
-									Main.dust[num26].scale += 0.3f;
-								}
-							}
-							return false;
-						}
-						npc.ai[2] += 1f;
-						int num27 = 10;
-						if (npc.velocity.Y == 0f && NPC.CountNPCS(NPCID.ShadowFlameApparition) < num27)
-						{
-							if (npc.ai[2] >= 180f)
-							{
-								npc.ai[2] = 0f;
-								npc.ai[3] = 1f;
-							}
-						}
-						else
-						{
-							if (NPC.CountNPCS(NPCID.ShadowFlameApparition) >= num27)
-							{
-								npc.ai[2] += 1f;
-							}
-							if (npc.ai[2] >= 360f)
-							{
-								npc.ai[2] = 0f;
-								npc.ai[3] = -2f;
-								npc.velocity.Y = npc.velocity.Y - 3f;
-							}
-						}
-						if (npc.target >= 0 && !Main.player[npc.target].dead && (Main.player[npc.target].Center - npc.Center).Length() > 800f)
-						{
-							npc.ai[3] = -1f;
-							npc.ai[2] = 0f;
-						}
-					}
-					if (Main.player[npc.target].dead)
-					{
-						npc.TargetClosest(true);
-						if (Main.player[npc.target].dead && npc.timeLeft > 1)
-						{
-							npc.timeLeft = 1;
-						}
-					}
-				}
-			}
-			if (npc.type == NPCID.SolarSolenian)
-			{
-				npc.reflectingProjectiles = false;
-				npc.takenDamageMultiplier = 1f;
-				int num28 = 6;
-				int num29 = 10;
-				float scaleFactor3 = 20f;
-				if (npc.ai[2] > 0f)
-				{
-					npc.ai[2] -= 1f;
-				}
-				if (npc.ai[2] == 0f)
-				{
-					if (((Main.player[npc.target].Center.X < npc.Center.X && npc.direction < 0) || (Main.player[npc.target].Center.X > npc.Center.X && npc.direction > 0)) && Collision.CanHit(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1))
-					{
-						npc.ai[2] = -1f;
-						npc.netUpdate = true;
-						npc.TargetClosest(true);
-					}
-				}
-				else
-				{
-					if (npc.ai[2] < 0f && npc.ai[2] > (float)(-(float)num28))
-					{
-						npc.ai[2] -= 1f;
-						npc.velocity.X = npc.velocity.X * 0.9f;
-						return false;
-					}
-					if (npc.ai[2] == (float)(-(float)num28))
-					{
-						npc.ai[2] -= 1f;
-						npc.TargetClosest(true);
-						Vector2 vec = npc.DirectionTo(Main.player[npc.target].Top + new Vector2(0f, -30f));
-						if (vec.HasNaNs())
-						{
-							vec = Vector2.Normalize(new Vector2((float)npc.spriteDirection, -1f));
-						}
-						npc.velocity = vec * scaleFactor3;
-						npc.netUpdate = true;
-						return false;
-					}
-					if (npc.ai[2] < (float)(-(float)num28))
-					{
-						npc.ai[2] -= 1f;
-						if (npc.velocity.Y == 0f)
-						{
-							npc.ai[2] = 60f;
-						}
-						else if (npc.ai[2] < (float)(-(float)num28 - num29))
-						{
-							npc.velocity.Y = npc.velocity.Y + 0.15f;
-							if (npc.velocity.Y > 24f)
-							{
-								npc.velocity.Y = 24f;
-							}
-						}
-						npc.reflectingProjectiles = true;
-						npc.takenDamageMultiplier = 3f;
-						if (npc.justHit)
-						{
-							npc.ai[2] = 60f;
-							npc.netUpdate = true;
-						}
-						return false;
-					}
-				}
-			}
-			if (npc.type == NPCID.SolarDrakomire)
-			{
-				int num30 = 42;
-				int num31 = 18;
-				if (npc.justHit)
-				{
-					npc.ai[2] = 60f;
-					npc.netUpdate = true;
-				}
-				if (npc.ai[2] > 0f)
-				{
-					npc.ai[2] -= 1f;
-				}
-				if (npc.ai[2] == 0f)
-				{
-					int num32 = 0;
-					for (int k = 0; k < 200; k++)
-					{
-						if (Main.npc[k].active && Main.npc[k].type == NPCID.SolarFlare)
-						{
-							num32++;
-						}
-					}
-					if (num32 > 6)
-					{
-						npc.ai[2] = 60f;
-					}
-					else if (((Main.player[npc.target].Center.X < npc.Center.X && npc.direction < 0) || (Main.player[npc.target].Center.X > npc.Center.X && npc.direction > 0)) && Collision.CanHit(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1))
-					{
-						npc.ai[2] = -1f;
-						npc.netUpdate = true;
-						npc.TargetClosest(true);
-					}
-				}
-				else if (npc.ai[2] < 0f && npc.ai[2] > (float)(-(float)num30))
-				{
-					npc.ai[2] -= 1f;
-					if (npc.ai[2] == (float)(-(float)num30))
-					{
-						npc.ai[2] = (float)(180 + 10 * Main.rand.Next(10));
-					}
-					npc.velocity.X = npc.velocity.X * 0.8f;
-					if (npc.ai[2] == (float)(-(float)num31) || npc.ai[2] == (float)(-(float)num31 - 8) || npc.ai[2] == (float)(-(float)num31 - 16))
-					{
-						for (int l = 0; l < 20; l++)
-						{
-							Vector2 vector8 = npc.Center + Vector2.UnitX * (float)npc.spriteDirection * 40f;
-							Dust arg_2002_0 = Main.dust[Dust.NewDust(vector8, 0, 0, 259, 0f, 0f, 0, default(Color), 1f)];
-							Vector2 vector9 = Vector2.UnitY.RotatedByRandom(6.2831854820251465);
-							arg_2002_0.position = vector8 + vector9 * 4f;
-							arg_2002_0.velocity = vector9 * 2f + Vector2.UnitX * Main.rand.NextFloat() * (float)npc.spriteDirection * 3f;
-							arg_2002_0.scale = 0.3f + vector9.X * (float)(-(float)npc.spriteDirection);
-							arg_2002_0.fadeIn = 0.7f;
-							arg_2002_0.noGravity = true;
-						}
-						if (npc.velocity.X > -0.5f && npc.velocity.X < 0.5f)
-						{
-							npc.velocity.X = 0f;
-						}
-						if (Main.netMode != 1)
-						{
-							NPC.NewNPC((int)npc.Center.X + npc.spriteDirection * 45, (int)npc.Center.Y + 8, NPCID.SolarFlare, 0, 0f, 0f, 0f, 0f, npc.target);
-						}
-					}
-					return false;
-				}
-			}
-			if (npc.type == NPCID.VortexLarva)
-			{
-				npc.localAI[0] += 1f;
-				if (npc.localAI[0] >= 150f)
-				{
-					int arg_2177_0 = (int)npc.Center.X / 16 - 1;
-					int num33 = (int)npc.Center.Y / 16 - 1;
-					if (!Collision.SolidTiles(arg_2177_0, arg_2177_0 + 2, num33, num33 + 1) && Main.netMode != 1)
-					{
-						npc.Transform(NPCID.VortexHornet);
-						npc.life = npc.lifeMax;
-						npc.localAI[0] = 0f;
-						return false;
-					}
-				}
-				int maxValue;
-				if (npc.localAI[0] < 30f)
-				{
-					maxValue = 16;
-				}
-				else if (npc.localAI[0] < 60f)
-				{
-					maxValue = 8;
-				}
-				else if (npc.localAI[0] < 90f)
-				{
-					maxValue = 4;
-				}
-				else if (npc.localAI[0] < 120f)
-				{
-					maxValue = 2;
-				}
-				else if (npc.localAI[0] < 150f)
-				{
-					maxValue = 1;
-				}
-				else
-				{
-					maxValue = 1;
-				}
-				if (Main.rand.Next(maxValue) == 0)
-				{
-					Dust dust = Main.dust[Dust.NewDust(npc.position, npc.width, npc.height, 229, 0f, 0f, 0, default(Color), 1f)];
-					dust.noGravity = true;
-					dust.scale = 1f;
-					dust.noLight = true;
-					dust.velocity = npc.DirectionFrom(dust.position) * dust.velocity.Length();
-					dust.position -= dust.velocity * 5f;
-					dust.position.X += (float)(npc.direction * 6);
-					dust.position.Y += 4f;
-				}
-			}
-			if (npc.type == NPCID.VortexHornet)
-			{
-				npc.localAI[0] += 1f;
-				npc.localAI[0] += Math.Abs(npc.velocity.X) / 2f;
-				if (npc.localAI[0] >= 600f && Main.netMode != 1)
-				{
-					int arg_2386_0 = (int)npc.Center.X / 16 - 2;
-					int num34 = (int)npc.Center.Y / 16 - 3;
-					if (!Collision.SolidTiles(arg_2386_0, arg_2386_0 + 4, num34, num34 + 4))
-					{
-						npc.Transform(NPCID.VortexHornetQueen);
-						npc.life = npc.lifeMax;
-						npc.localAI[0] = 0f;
-						return false;
-					}
-				}
-				int maxValue2;
-				if (npc.localAI[0] < 120f)
-				{
-					maxValue2 = 32;
-				}
-				else if (npc.localAI[0] < 240f)
-				{
-					maxValue2 = 16;
-				}
-				else if (npc.localAI[0] < 360f)
-				{
-					maxValue2 = 6;
-				}
-				else if (npc.localAI[0] < 480f)
-				{
-					maxValue2 = 2;
-				}
-				else if (npc.localAI[0] < 600f)
-				{
-					maxValue2 = 1;
-				}
-				else
-				{
-					maxValue2 = 1;
-				}
-				if (Main.rand.Next(maxValue2) == 0)
-				{
-					Dust dust = Main.dust[Dust.NewDust(npc.position, npc.width, npc.height, 229, 0f, 0f, 0, default(Color), 1f)];
-					dust.noGravity = true;
-					dust.scale = 1f;
-					dust.noLight = true;
-				}
-			}
-			bool flag3 = false;
-			if (npc.velocity.X == 0f)
-			{
-				flag3 = true;
-			}
-			if (npc.justHit)
-			{
-				flag3 = false;
-			}
-			if (Main.netMode != 1 && npc.type == NPCID.Lihzahrd && (double)npc.life <= (double)npc.lifeMax * 0.9)
-			{
-				npc.Transform(NPCID.LihzahrdCrawler);
-			}
-			if (Main.netMode != 1 && npc.type == NPCID.Nutcracker && (double)npc.life <= (double)npc.lifeMax * 0.9)
-			{
-				npc.Transform(NPCID.NutcrackerSpinning);
-			}
-			int num35 = 60;
-			if (npc.type == NPCID.ChaosElemental)
-			{
-				num35 = 180;
-				if (npc.ai[3] == -30f)
-				{
-					npc.velocity *= 0f;
-					npc.ai[3] = 0f;
-					Main.PlaySound(SoundID.Item8, npc.position);
-					Vector2 vector10 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-					float num36 = npc.oldPos[2].X + (float)npc.width * 0.5f - vector10.X;
-					float num37 = npc.oldPos[2].Y + (float)npc.height * 0.5f - vector10.Y;
-					float num38 = (float)Math.Sqrt((double)(num36 * num36 + num37 * num37));
-					num38 = 2f / num38;
-					num36 *= num38;
-					num37 *= num38;
-					for (int m = 0; m < 20; m++)
-					{
-						int num39 = Dust.NewDust(npc.position, npc.width, npc.height, 71, num36, num37, 200, default(Color), 2f);
-						Dust dust = Main.dust[num39];
-						dust.noGravity = true;
-						dust.velocity.X *= 2f;
-					}
-					for (int n = 0; n < 20; n++)
-					{
-						int num40 = Dust.NewDust(npc.oldPos[2], npc.width, npc.height, 71, -num36, -num37, 200, default(Color), 2f);
-						Dust dust = Main.dust[num40];
-						dust.noGravity = true;
-						dust.velocity.X *= 2f;
-					}
-				}
-			}
-			bool flag4 = false;
-			bool flag5 = true;
-			if (npc.type == 343 || npc.type == 47 || npc.type == 67 || npc.type == 109 || npc.type == 110 || npc.type == 111 || npc.type == 120
-				|| npc.type == 163 || npc.type == 164 || npc.type == 239 || npc.type == 168 || npc.type == 199 || npc.type == 206 || npc.type == 214
-				|| npc.type == 215 || npc.type == 216 || npc.type == 217 || npc.type == 218 || npc.type == 219 || npc.type == 220 || npc.type == 226
-				|| npc.type == 243 || npc.type == 251 || npc.type == 257 || npc.type == 258 || npc.type == 290 || npc.type == 291 || npc.type == 292
-				|| npc.type == 293 || npc.type == 305 || npc.type == 306 || npc.type == 307 || npc.type == 308 || npc.type == 309 || npc.type == 348
-				|| npc.type == 349 || npc.type == 350 || npc.type == 351 || npc.type == 379 || (npc.type >= 430 && npc.type <= 436)
-				|| (npc.type == 380 || npc.type == 381 || npc.type == 382 || npc.type == 383 || npc.type == 386 || npc.type == 391
-				|| (npc.type >= 449 && npc.type <= 452)) || (npc.type == 466 || npc.type == 464 || npc.type == 166 || npc.type == 469 || npc.type == 468
-				|| npc.type == 471 || npc.type == 470 || npc.type == 480 || npc.type == 481 || npc.type == 482 || npc.type == 411 || npc.type == 424
-				|| npc.type == 409 || (npc.type >= 494 && npc.type <= 506)) || (npc.type == 425 || npc.type == 427 || npc.type == 426 || npc.type == 428
-				|| npc.type == 508 || npc.type == 415 || npc.type == 419 || npc.type == 520 || (npc.type >= 524 && npc.type <= 527)) || npc.type == 528
-				|| npc.type == 529 || npc.type == 530 || npc.type == 532 || npc.type == ModContent.NPCType<StormlionCharger>())
-			{
-				flag5 = false;
-			}
-			bool flag6 = false;
-			int num41 = npc.type;
-			if (num41 == 425 || num41 == 471)
-			{
-				flag6 = true;
-			}
-			bool flag7 = true;
-			num41 = npc.type;
-			if (num41 <= 382)
-			{
-				if (num41 <= 216)
-				{
-					if (num41 - 110 > 1 && num41 != 206 && num41 - 214 > 2)
-					{
-						goto IL_2CAD;
-					}
-				}
-				else if (num41 - 291 > 2 && num41 != 350 && num41 - 379 > 3)
-				{
-					goto IL_2CAD;
-				}
-			}
-			else if (num41 <= 424)
-			{
-				if (num41 != 409 && num41 != 411 && num41 != 424)
-				{
-					goto IL_2CAD;
-				}
-			}
-			else if (num41 <= 466)
-			{
-				if (num41 != 426 && num41 != 466)
-				{
-					goto IL_2CAD;
-				}
-			}
-			else if (num41 - 498 > 8 && num41 != 520)
-			{
-				goto IL_2CAD;
-			}
-			if (npc.ai[2] > 0f)
-			{
-				flag7 = false;
-			}
-		IL_2CAD:
-			if (!flag6 & flag7)
-			{
-				if (npc.velocity.Y == 0f && ((npc.velocity.X > 0f && npc.direction < 0) || (npc.velocity.X < 0f && npc.direction > 0)))
-				{
-					flag4 = true;
-				}
-				if ((npc.position.X == npc.oldPosition.X || npc.ai[3] >= (float)num35) | flag4)
-				{
-					npc.ai[3] += 1f;
-				}
-				else if ((double)Math.Abs(npc.velocity.X) > 0.9 && npc.ai[3] > 0f)
-				{
-					npc.ai[3] -= 1f;
-				}
-				if (npc.ai[3] > (float)(num35 * 10))
-				{
-					npc.ai[3] = 0f;
-				}
-				if (npc.justHit)
-				{
-					npc.ai[3] = 0f;
-				}
-				if (npc.ai[3] == (float)num35)
-				{
-					npc.netUpdate = true;
-				}
-			}
-			if (npc.type == NPCID.Nailhead && Main.netMode != 1)
-			{
-				if (npc.localAI[3] > 0f)
-				{
-					npc.localAI[3] -= 1f;
-				}
-				if (npc.justHit && npc.localAI[3] <= 0f && Main.rand.Next(2) == 0)
-				{
-					npc.localAI[3] = 30f;
-					int num42 = Main.rand.Next(3, 6);
-					int[] array = new int[num42];
-					int num43 = 0;
-					for (int num44 = 0; num44 < 255; num44++)
-					{
-						if (Main.player[num44].active && !Main.player[num44].dead && Collision.CanHitLine(npc.position, npc.width, npc.height, Main.player[num44].position, Main.player[num44].width, Main.player[num44].height))
-						{
-							array[num43] = num44;
-							num43++;
-							if (num43 == num42)
-							{
-								break;
-							}
-						}
-					}
-					if (num43 > 1)
-					{
-						for (int num45 = 0; num45 < 100; num45++)
-						{
-							int num46 = Main.rand.Next(num43);
-							int num47;
-							for (num47 = num46; num47 == num46; num47 = Main.rand.Next(num43))
-							{
-							}
-							int num48 = array[num46];
-							array[num46] = array[num47];
-							array[num47] = num48;
-						}
-					}
-					Vector2 vector11 = new Vector2(-1f, -1f);
-					for (int num49 = 0; num49 < num43; num49++)
-					{
-						Vector2 value5 = Main.npc[array[num49]].Center - npc.Center;
-						value5.Normalize();
-						vector11 += value5;
-					}
-					vector11.Normalize();
-					for (int num50 = 0; num50 < num42; num50++)
-					{
-						float scaleFactor4 = (float)Main.rand.Next(8, 13);
-						Vector2 vector12 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-						vector12.Normalize();
-						if (num43 > 0)
-						{
-							vector12 += vector11;
-							vector12.Normalize();
-						}
-						vector12 *= scaleFactor4;
-						if (num43 > 0)
-						{
-							num43--;
-							vector12 = Main.player[array[num43]].Center - npc.Center;
-							vector12.Normalize();
-							vector12 *= scaleFactor4;
-						}
-						Projectile.NewProjectile(npc.Center.X, npc.position.Y + (float)(npc.width / 4), vector12.X, vector12.Y, 498, (int)((double)npc.damage * 0.15), 1f, 255, 0f, 0f);
-					}
-				}
-			}
-			if (npc.type == NPCID.Butcher)
-			{
-				if (npc.velocity.Y < -0.3f || npc.velocity.Y > 0.3f)
-				{
-					npc.knockBackResist = 0f;
-				}
-				else
-				{
-					npc.knockBackResist = 0.1f * Main.knockBackMultiplier;
-				}
-			}
-			if (npc.type == NPCID.ThePossessed)
-			{
-				npc.knockBackResist = 0.25f * Main.knockBackMultiplier;
-				if (npc.ai[2] == 1f)
-				{
-					npc.knockBackResist = 0f;
-				}
-				bool flag8 = false;
-				int num51 = (int)npc.Center.X / 16;
-				int num52 = (int)npc.Center.Y / 16;
-				for (int num53 = num51 - 1; num53 <= num51 + 1; num53++)
-				{
-					for (int num54 = num52 - 1; num54 <= num52 + 1; num54++)
-					{
-						if (Main.tile[num53, num54] != null && Main.tile[num53, num54].wall > 0)
-						{
-							flag8 = true;
-							break;
-						}
-					}
-					if (flag8)
-					{
-						break;
-					}
-				}
-				if (npc.ai[2] == 0f & flag8)
-				{
-					if (npc.velocity.Y == 0f)
-					{
-						npc.velocity.Y = -4.6f;
-						npc.velocity.X = npc.velocity.X * 1.5f;
-					}
-					else if (npc.velocity.Y > 0f)
-					{
-						npc.ai[2] = 1f;
-					}
-				}
-				if (flag8 && npc.ai[2] == 1f && Collision.CanHit(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1))
-				{
-					Vector2 value6 = Main.player[npc.target].Center - npc.Center;
-					float num55 = value6.Length();
-					value6.Normalize();
-					value6 *= 6f + num55 / 300f;
-					npc.velocity = (npc.velocity * 29f + value6) / 30f;
-					npc.noGravity = true;
-					npc.ai[2] = 1f;
-					return false;
-				}
-				npc.noGravity = false;
-				npc.ai[2] = 0f;
-			}
-			if (npc.type == NPCID.Fritz && npc.velocity.Y == 0f && (Main.player[npc.target].Center - npc.Center).Length() < 150f && Math.Abs(npc.velocity.X) > 3f && ((npc.velocity.X < 0f && npc.Center.X > Main.player[npc.target].Center.X) || (npc.velocity.X > 0f && npc.Center.X < Main.player[npc.target].Center.X)))
-			{
-				npc.velocity.X = npc.velocity.X * 2f;
-				npc.velocity.Y = npc.velocity.Y - 4.5f;
-				if (npc.Center.Y - Main.player[npc.target].Center.Y > 20f)
-				{
-					npc.velocity.Y = npc.velocity.Y - 0.5f;
-				}
-				if (npc.Center.Y - Main.player[npc.target].Center.Y > 40f)
-				{
-					npc.velocity.Y = npc.velocity.Y - 1f;
-				}
-				if (npc.Center.Y - Main.player[npc.target].Center.Y > 80f)
-				{
-					npc.velocity.Y = npc.velocity.Y - 1.5f;
-				}
-				if (npc.Center.Y - Main.player[npc.target].Center.Y > 100f)
-				{
-					npc.velocity.Y = npc.velocity.Y - 1.5f;
-				}
-				if (Math.Abs(npc.velocity.X) > 9f)
-				{
-					if (npc.velocity.X < 0f)
-					{
-						npc.velocity.X = -9f;
-					}
-					else
-					{
-						npc.velocity.X = 9f;
-					}
-				}
-			}
-			if (npc.ai[3] < (float)num35 && (Main.eclipse || !Main.dayTime || (double)npc.position.Y > Main.worldSurface * 16.0 || (Main.invasionType == 1 && (npc.type == 343 || npc.type == 350)) || (Main.invasionType == 1 && (npc.type == 26 || npc.type == 27 || npc.type == 28 || npc.type == 111 || npc.type == 471)) || (npc.type == 73 || (Main.invasionType == 3 && npc.type >= 212 && npc.type <= 216)) || (Main.invasionType == 4 && (npc.type == 381 || npc.type == 382 || npc.type == 383 || npc.type == 385 || npc.type == 386 || npc.type == 389 || npc.type == 391 || npc.type == 520)) || (npc.type == 31 || npc.type == 294 || npc.type == 295 || npc.type == 296 || npc.type == 47 || npc.type == 67 || npc.type == 77 || npc.type == 78 || npc.type == 79 || npc.type == 80 || npc.type == 110 || npc.type == 120 || npc.type == 168 || npc.type == 181 || npc.type == 185 || npc.type == 198 || npc.type == 199 || npc.type == 206 || npc.type == 217 || npc.type == 218 || npc.type == 219 || npc.type == 220 || npc.type == 239 || npc.type == 243 || npc.type == 254 || npc.type == 255 || npc.type == 257 || npc.type == 258 || npc.type == 291 || npc.type == 292 || npc.type == 293 || npc.type == 379 || npc.type == 380 || npc.type == 464 || npc.type == 470 || npc.type == 424 || (npc.type == 411 && (npc.ai[1] >= 180f || npc.ai[1] < 90f))) || (npc.type == 409 || npc.type == 425 || npc.type == 429 || npc.type == 427 || npc.type == 428 || npc.type == 508 || npc.type == ModContent.NPCType<StormlionCharger>() || npc.type == 415 || npc.type == 419 || (npc.type >= 524 && npc.type <= 527)) || npc.type == 528 || npc.type == 529 || npc.type == 530 || npc.type == 532))
-			{
-				if ((npc.type == 3 || npc.type == 331 || npc.type == 332 || npc.type == 21 || (npc.type >= 449 && npc.type <= 452) || npc.type == 31 || npc.type == 294 || npc.type == 295 || npc.type == 296 || npc.type == 77 || npc.type == 110 || npc.type == 132 || npc.type == 167 || npc.type == 161 || npc.type == 162 || npc.type == 186 || npc.type == 187 || npc.type == 188 || npc.type == 189 || npc.type == 197 || npc.type == 200 || npc.type == 201 || npc.type == 202 || npc.type == 203 || npc.type == 223 || npc.type == 291 || npc.type == 292 || npc.type == 293 || npc.type == 320 || npc.type == 321 || npc.type == 319 || npc.type == 481) && Main.rand.Next(1000) == 0)
-				{
-					Main.PlaySound(14, (int)npc.position.X, (int)npc.position.Y, 1, 1f, 0f);
-				}
-				if (npc.type == 489 && Main.rand.Next(800) == 0)
-				{
-					Main.PlaySound(14, (int)npc.position.X, (int)npc.position.Y, npc.type, 1f, 0f);
-				}
-				if ((npc.type == 78 || npc.type == 79 || npc.type == 80) && Main.rand.Next(500) == 0)
-				{
-					Main.PlaySound(26, (int)npc.position.X, (int)npc.position.Y, 1, 1f, 0f);
-				}
-				if (npc.type == 159 && Main.rand.Next(500) == 0)
-				{
-					Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 7, 1f, 0f);
-				}
-				if (npc.type == 162 && Main.rand.Next(500) == 0)
-				{
-					Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 6, 1f, 0f);
-				}
-				if (npc.type == 181 && Main.rand.Next(500) == 0)
-				{
-					Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 8, 1f, 0f);
-				}
-				if (npc.type >= 269 && npc.type <= 280 && Main.rand.Next(1000) == 0)
-				{
-					Main.PlaySound(14, (int)npc.position.X, (int)npc.position.Y, 1, 1f, 0f);
-				}
-				npc.TargetClosest(true);
-			}
-			else if (npc.ai[2] <= 0f || (npc.type != 110 && npc.type != 111 && npc.type != 206 && npc.type != 216 && npc.type != 214 && npc.type != 215 && npc.type != 291 && npc.type != 292 && npc.type != 293 && npc.type != 350 && npc.type != 381 && npc.type != 382 && npc.type != 383 && npc.type != 385 && npc.type != 386 && npc.type != 389 && npc.type != 391 && npc.type != 469 && npc.type != 166 && npc.type != 466 && npc.type != 471 && npc.type != 411 && npc.type != 409 && npc.type != 424 && npc.type != 425 && npc.type != 426 && npc.type != 415 && npc.type != 419 && npc.type != 520))
-			{
-				if (Main.dayTime && (double)(npc.position.Y / 16f) < Main.worldSurface && npc.timeLeft > 10)
-				{
-					npc.timeLeft = 10;
-				}
-				if (npc.velocity.X == 0f)
-				{
-					if (npc.velocity.Y == 0f)
-					{
-						npc.ai[0] += 1f;
-						if (npc.ai[0] >= 2f)
-						{
-							npc.direction *= -1;
-							npc.spriteDirection = npc.direction;
-							npc.ai[0] = 0f;
-						}
-					}
-				}
-				else
-				{
-					npc.ai[0] = 0f;
-				}
-				if (npc.direction == 0)
-				{
-					npc.direction = 1;
-				}
-			}
-			if (npc.type == NPCID.Vampire || npc.type == NPCID.NutcrackerSpinning)
-			{
-				if (npc.type == NPCID.Vampire && ((npc.velocity.X > 0f && npc.direction < 0) || (npc.velocity.X < 0f && npc.direction > 0)))
-				{
-					npc.velocity.X = npc.velocity.X * 0.95f;
-				}
-				if (npc.velocity.X < -8f || npc.velocity.X > 8f)
-				{
-					if (npc.velocity.Y == 0f)
-					{
-						npc.velocity *= 0.8f;
-					}
-				}
-				else if (npc.velocity.X < 8f && npc.direction == 1)
-				{
-					if (npc.velocity.Y == 0f && npc.velocity.X < 0f)
-					{
-						npc.velocity.X = npc.velocity.X * 0.99f;
-					}
-					npc.velocity.X = npc.velocity.X + 0.09f;
-					if (npc.velocity.X > 8f)
-					{
-						npc.velocity.X = 8f;
-					}
-				}
-				else if (npc.velocity.X > -8f && npc.direction == -1)
-				{
-					if (npc.velocity.Y == 0f && npc.velocity.X > 0f)
-					{
-						npc.velocity.X = npc.velocity.X * 0.99f;
-					}
-					npc.velocity.X = npc.velocity.X - 0.09f;
-					if (npc.velocity.X < -8f)
-					{
-						npc.velocity.X = -8f;
-					}
-				}
-			}
-			else if (npc.type == NPCID.LihzahrdCrawler)
-			{
-				if (npc.velocity.X < -6f || npc.velocity.X > 6f)
-				{
-					if (npc.velocity.Y == 0f)
-					{
-						npc.velocity *= 0.8f;
-					}
-				}
-				else if (npc.velocity.X < 6f && npc.direction == 1)
-				{
-					if (npc.velocity.Y == 0f && npc.velocity.X < 0f)
-					{
-						npc.velocity.X = npc.velocity.X * 0.8f;
-					}
-					npc.velocity.X = npc.velocity.X + 0.12f;
-					if (npc.velocity.X > 6f)
-					{
-						npc.velocity.X = 6f;
-					}
-				}
-				else if (npc.velocity.X > -6f && npc.direction == -1)
-				{
-					if (npc.velocity.Y == 0f && npc.velocity.X > 0f)
-					{
-						npc.velocity.X = npc.velocity.X * 0.8f;
-					}
-					npc.velocity.X = npc.velocity.X - 0.12f;
-					if (npc.velocity.X < -6f)
-					{
-						npc.velocity.X = -6f;
-					}
-				}
-			}
-			else if (npc.type == 120 || npc.type == 166 || npc.type == 213 || npc.type == 258 || npc.type == 528 || npc.type == 529)
-			{
-				if (npc.velocity.X < -4f || npc.velocity.X > 4f)
-				{
-					if (npc.velocity.Y == 0f)
-					{
-						npc.velocity *= 0.8f;
-					}
-				}
-				else if (npc.velocity.X < 4f && npc.direction == 1)
-				{
-					if (npc.velocity.Y == 0f && npc.velocity.X < 0f)
-					{
-						npc.velocity.X = npc.velocity.X * 0.99f;
-					}
-					npc.velocity.X = npc.velocity.X + 0.09f;
-					if (npc.velocity.X > 4f)
-					{
-						npc.velocity.X = 4f;
-					}
-				}
-				else if (npc.velocity.X > -4f && npc.direction == -1)
-				{
-					if (npc.velocity.Y == 0f && npc.velocity.X > 0f)
-					{
-						npc.velocity.X = npc.velocity.X * 0.99f;
-					}
-					npc.velocity.X = npc.velocity.X - 0.09f;
-					if (npc.velocity.X < -4f)
-					{
-						npc.velocity.X = -4f;
-					}
-				}
-			}
-			else if (npc.type == 461 || npc.type == 27 || npc.type == 77 || npc.type == 104 || npc.type == 163 || npc.type == 162 || npc.type == 196 || npc.type == 197 || npc.type == 212 || npc.type == 257 || npc.type == 326 || npc.type == 343 || npc.type == 348 || npc.type == 351 || (npc.type >= 524 && npc.type <= 527) || npc.type == 530)
-			{
-				if (npc.velocity.X < -3f || npc.velocity.X > 3f)
-				{
-					if (npc.velocity.Y == 0f)
-					{
-						npc.velocity *= 0.8f;
-					}
-				}
-				else if (npc.velocity.X < 3f && npc.direction == 1)
-				{
-					npc.velocity.X = npc.velocity.X + 0.09f;
-					if (npc.velocity.X > 3f)
-					{
-						npc.velocity.X = 3f;
-					}
-				}
-				else if (npc.velocity.X > -3f && npc.direction == -1)
-				{
-					npc.velocity.X = npc.velocity.X - 0.09f;
-					if (npc.velocity.X < -3f)
-					{
-						npc.velocity.X = -3f;
-					}
-				}
-			}
-			else if (npc.type == NPCID.Clown)
-			{
-				if (npc.velocity.X < -4f || npc.velocity.X > 4f)
-				{
-					if (npc.velocity.Y == 0f)
-					{
-						npc.velocity *= 0.8f;
-					}
-				}
-				else if (npc.velocity.X < 4f && npc.direction == 1)
-				{
-					npc.velocity.X = npc.velocity.X + 0.06f;
-					if (npc.velocity.X > 4f)
-					{
-						npc.velocity.X = 4f;
-					}
-				}
-				else if (npc.velocity.X > -4f && npc.direction == -1)
-				{
-					npc.velocity.X = npc.velocity.X - 0.06f;
-					if (npc.velocity.X < -4f)
-					{
-						npc.velocity.X = -4f;
-					}
-				}
-			}
-			else if (npc.type == 21 || npc.type == 26 || npc.type == 31 || npc.type == 294 || npc.type == 295 || npc.type == 296 || npc.type == 47 || npc.type == 73 || npc.type == 140 || npc.type == 164 || npc.type == 239 || npc.type == 167 || npc.type == 168 || npc.type == 185 || npc.type == 198 || npc.type == 201 || npc.type == 202 || npc.type == 203 || npc.type == 217 || npc.type == 218 || npc.type == 219 || npc.type == 226 || npc.type == 181 || npc.type == 254 || npc.type == 338 || npc.type == 339 || npc.type == 340 || npc.type == 342 || npc.type == 385 || npc.type == 389 || npc.type == 462 || npc.type == 463 || npc.type == 466 || npc.type == 464 || npc.type == 469 || npc.type == 470 || npc.type == 480 || npc.type == 482 || npc.type == 425 || npc.type == 429)
-			{
-				float num56 = 1.5f;
-				if (npc.type == 294)
-				{
-					num56 = 2f;
-				}
-				else if (npc.type == 295)
-				{
-					num56 = 1.75f;
-				}
-				else if (npc.type == 296)
-				{
-					num56 = 1.25f;
-				}
-				else if (npc.type == 201)
-				{
-					num56 = 1.1f;
-				}
-				else if (npc.type == 202)
-				{
-					num56 = 0.9f;
-				}
-				else if (npc.type == 203)
-				{
-					num56 = 1.2f;
-				}
-				else if (npc.type == 338)
-				{
-					num56 = 1.75f;
-				}
-				else if (npc.type == 339)
-				{
-					num56 = 1.25f;
-				}
-				else if (npc.type == 340)
-				{
-					num56 = 2f;
-				}
-				else if (npc.type == 385)
-				{
-					num56 = 1.8f;
-				}
-				else if (npc.type == 389)
-				{
-					num56 = 2.25f;
-				}
-				else if (npc.type == 462)
-				{
-					num56 = 4f;
-				}
-				else if (npc.type == 463)
-				{
-					num56 = 0.75f;
-				}
-				else if (npc.type == 466)
-				{
-					num56 = 3.75f;
-				}
-				else if (npc.type == 469)
-				{
-					num56 = 3.25f;
-				}
-				else if (npc.type == 480)
-				{
-					num56 = 1.5f + (1f - (float)npc.life / (float)npc.lifeMax) * 2f;
-				}
-				else if (npc.type == 425)
-				{
-					num56 = 6f;
-				}
-				else if (npc.type == 429)
-				{
-					num56 = 4f;
-				}
-				if (npc.type == 21 || npc.type == 201 || npc.type == 202 || npc.type == 203 || npc.type == 342)
-				{
-					num56 *= 1f + (1f - npc.scale);
-				}
-				num56 *= 1.5f;
-				if (npc.velocity.X < -num56 || npc.velocity.X > num56)
-				{
-					if (npc.velocity.Y == 0f)
-					{
-						npc.velocity *= 0.8f;
-					}
-				}
-				else if (npc.velocity.X < num56 && npc.direction == 1)
-				{
-					if (npc.type == 466 && npc.velocity.X < -2f)
-					{
-						npc.velocity.X = npc.velocity.X * 0.9f;
-					}
-					npc.velocity.X = npc.velocity.X + 0.09f;
-					if (npc.velocity.X > num56)
-					{
-						npc.velocity.X = num56;
-					}
-				}
-				else if (npc.velocity.X > -num56 && npc.direction == -1)
-				{
-					if (npc.type == 466 && npc.velocity.X > 2f)
-					{
-						npc.velocity.X = npc.velocity.X * 0.9f;
-					}
-					npc.velocity.X = npc.velocity.X - 0.09f;
-					if (npc.velocity.X < -num56)
-					{
-						npc.velocity.X = -num56;
-					}
-				}
-				if (npc.velocity.Y == 0f && npc.type == 462 && ((npc.direction > 0 && npc.velocity.X < 0f) || (npc.direction < 0 && npc.velocity.X > 0f)))
-				{
-					npc.velocity.X = npc.velocity.X * 0.9f;
-				}
-			}
-			else if (npc.type >= 269 && npc.type <= 280)
-			{
-				float num57 = 1.5f;
-				if (npc.type == 269)
-				{
-					num57 = 2f;
-				}
-				if (npc.type == 270)
-				{
-					num57 = 1f;
-				}
-				if (npc.type == 271)
-				{
-					num57 = 1.5f;
-				}
-				if (npc.type == 272)
-				{
-					num57 = 3f;
-				}
-				if (npc.type == 273)
-				{
-					num57 = 1.25f;
-				}
-				if (npc.type == 274)
-				{
-					num57 = 3f;
-				}
-				if (npc.type == 275)
-				{
-					num57 = 3.25f;
-				}
-				if (npc.type == 276)
-				{
-					num57 = 2f;
-				}
-				if (npc.type == 277)
-				{
-					num57 = 2.75f;
-				}
-				if (npc.type == 278)
-				{
-					num57 = 1.8f;
-				}
-				if (npc.type == 279)
-				{
-					num57 = 1.3f;
-				}
-				if (npc.type == 280)
-				{
-					num57 = 2.5f;
-				}
-				num57 *= 1f + (1f - npc.scale);
-				num57 *= 1.5f;
-				if (npc.velocity.X < -num57 || npc.velocity.X > num57)
-				{
-					if (npc.velocity.Y == 0f)
-					{
-						npc.velocity *= 0.8f;
-					}
-				}
-				else if (npc.velocity.X < num57 && npc.direction == 1)
-				{
-					npc.velocity.X = npc.velocity.X + 0.09f;
-					if (npc.velocity.X > num57)
-					{
-						npc.velocity.X = num57;
-					}
-				}
-				else if (npc.velocity.X > -num57 && npc.direction == -1)
-				{
-					npc.velocity.X = npc.velocity.X - 0.09f;
-					if (npc.velocity.X < -num57)
-					{
-						npc.velocity.X = -num57;
-					}
-				}
-			}
-			else if (npc.type >= 305 && npc.type <= 314)
-			{
-				float num58 = 1.5f;
-				if (npc.type == 305 || npc.type == 310)
-				{
-					num58 = 2f;
-				}
-				if (npc.type == 306 || npc.type == 311)
-				{
-					num58 = 1.25f;
-				}
-				if (npc.type == 307 || npc.type == 312)
-				{
-					num58 = 2.25f;
-				}
-				if (npc.type == 308 || npc.type == 313)
-				{
-					num58 = 1.5f;
-				}
-				if (npc.type == 309 || npc.type == 314)
-				{
-					num58 = 1f;
-				}
-				num58 *= 1.5f;
-				if (npc.type < 310)
-				{
-					if (npc.velocity.Y == 0f)
-					{
-						npc.velocity.X = npc.velocity.X * 0.85f;
-						if ((double)npc.velocity.X > -0.3 && (double)npc.velocity.X < 0.3)
-						{
-							npc.velocity.Y = -9f;
-							npc.velocity.X = num58 * (float)npc.direction;
-						}
-					}
-					else if (npc.spriteDirection == npc.direction)
-					{
-						npc.velocity.X = (npc.velocity.X * 10f + num58 * (float)npc.direction) / 11f;
-					}
-				}
-				else if (npc.velocity.X < -num58 || npc.velocity.X > num58)
-				{
-					if (npc.velocity.Y == 0f)
-					{
-						npc.velocity *= 0.8f;
-					}
-				}
-				else if (npc.velocity.X < num58 && npc.direction == 1)
-				{
-					npc.velocity.X = npc.velocity.X + 0.09f;
-					if (npc.velocity.X > num58)
-					{
-						npc.velocity.X = num58;
-					}
-				}
-				else if (npc.velocity.X > -num58 && npc.direction == -1)
-				{
-					npc.velocity.X = npc.velocity.X - 0.09f;
-					if (npc.velocity.X < -num58)
-					{
-						npc.velocity.X = -num58;
-					}
-				}
-			}
-			else if (npc.type == 67 || npc.type == 220 || npc.type == 428)
-			{
-				if (npc.velocity.X < -1f || npc.velocity.X > 1f)
-				{
-					if (npc.velocity.Y == 0f)
-					{
-						npc.velocity *= 0.7f;
-					}
-				}
-				else if (npc.velocity.X < 1f && npc.direction == 1)
-				{
-					npc.velocity.X = npc.velocity.X + 0.06f;
-					if (npc.velocity.X > 1f)
-					{
-						npc.velocity.X = 1f;
-					}
-				}
-				else if (npc.velocity.X > -1f && npc.direction == -1)
-				{
-					npc.velocity.X = npc.velocity.X - 0.06f;
-					if (npc.velocity.X < -1f)
-					{
-						npc.velocity.X = -1f;
-					}
-				}
-			}
-			else if (npc.type == 78 || npc.type == 79 || npc.type == 80)
-			{
-				float num59 = 3f;
-				float num60 = 0.15f;
-				if (npc.type == 79)
-				{
-					num59 *= 1.5f;
-				}
-				if (npc.velocity.X < -num59 || npc.velocity.X > num59)
-				{
-					if (npc.velocity.Y == 0f)
-					{
-						npc.velocity *= 0.7f;
-					}
-				}
-				else if (npc.velocity.X < num59 && npc.direction == 1)
-				{
-					npc.velocity.X = npc.velocity.X + num60;
-					if (npc.velocity.X > num59)
-					{
-						npc.velocity.X = num59;
-					}
-				}
-				else if (npc.velocity.X > -num59 && npc.direction == -1)
-				{
-					npc.velocity.X = npc.velocity.X - num60;
-					if (npc.velocity.X < -num59)
-					{
-						npc.velocity.X = -num59;
-					}
-				}
-			}
-			else if (npc.type == NPCID.BoneLee)
-			{
-				float num61 = 7f;
-				float num62 = 0.3f;
-				if (npc.velocity.X < -num61 || npc.velocity.X > num61)
-				{
-					if (npc.velocity.Y == 0f)
-					{
-						npc.velocity *= 0.7f;
-					}
-				}
-				else if (npc.velocity.X < num61 && npc.direction == 1)
-				{
-					npc.velocity.X = npc.velocity.X + num62;
-					if (npc.velocity.X > num61)
-					{
-						npc.velocity.X = num61;
-					}
-				}
-				else if (npc.velocity.X > -num61 && npc.direction == -1)
-				{
-					npc.velocity.X = npc.velocity.X - num62;
-					if (npc.velocity.X < -num61)
-					{
-						npc.velocity.X = -num61;
-					}
-				}
-			}
-			else if (npc.type == NPCID.IceGolem)
-			{
-				float num63 = 3f;
-				float num64 = 0.3f;
-				if (npc.velocity.X < -num63 || npc.velocity.X > num63)
-				{
-					if (npc.velocity.Y == 0f)
-					{
-						npc.velocity *= 0.7f;
-					}
-				}
-				else if (npc.velocity.X < num63 && npc.direction == 1)
-				{
-					npc.velocity.X = npc.velocity.X + num64;
-					if (npc.velocity.X > num63)
-					{
-						npc.velocity.X = num63;
-					}
-				}
-				else if (npc.velocity.X > -num63 && npc.direction == -1)
-				{
-					npc.velocity.X = npc.velocity.X - num64;
-					if (npc.velocity.X < -num63)
-					{
-						npc.velocity.X = -num63;
-					}
-				}
-			}
-			else if (npc.type == NPCID.Eyezor)
-			{
-				float num65 = 3.5f;
-				float num66 = 0.3f;
-				if (npc.velocity.X < -num65 || npc.velocity.X > num65)
-				{
-					if (npc.velocity.Y == 0f)
-					{
-						npc.velocity *= 0.7f;
-					}
-				}
-				else if (npc.velocity.X < num65 && npc.direction == 1)
-				{
-					npc.velocity.X = npc.velocity.X + num66;
-					if (npc.velocity.X > num65)
-					{
-						npc.velocity.X = num65;
-					}
-				}
-				else if (npc.velocity.X > -num65 && npc.direction == -1)
-				{
-					npc.velocity.X = npc.velocity.X - num66;
-					if (npc.velocity.X < -num65)
-					{
-						npc.velocity.X = -num65;
-					}
-				}
-			}
-			else if (npc.type == NPCID.MartianEngineer)
-			{
-				if (npc.ai[2] > 0f)
-				{
-					if (npc.velocity.Y == 0f)
-					{
-						npc.velocity.X = npc.velocity.X * 0.8f;
-					}
-				}
-				else
-				{
-					float num67 = 0.2f;
-					float num68 = 3f;
-					if (npc.velocity.X < -num68 || npc.velocity.X > num68)
-					{
-						if (npc.velocity.Y == 0f)
-						{
-							npc.velocity *= 0.7f;
-						}
-					}
-					else if (npc.velocity.X < num68 && npc.direction == 1)
-					{
-						npc.velocity.X = npc.velocity.X + num67;
-						if (npc.velocity.X > num68)
-						{
-							npc.velocity.X = num68;
-						}
-					}
-					else if (npc.velocity.X > -num68 && npc.direction == -1)
-					{
-						npc.velocity.X = npc.velocity.X - num67;
-						if (npc.velocity.X < -num68)
-						{
-							npc.velocity.X = -num68;
-						}
-					}
-				}
-			}
-			else if (npc.type == NPCID.Butcher)
-			{
-				float num69 = 7f;
-				float num70 = 0.2f;
-				if (Math.Abs(npc.velocity.X) > 2f)
-				{
-					num70 *= 0.8f;
-				}
-				if ((double)Math.Abs(npc.velocity.X) > 2.5)
-				{
-					num70 *= 0.8f;
-				}
-				if (Math.Abs(npc.velocity.X) > 3f)
-				{
-					num70 *= 0.8f;
-				}
-				if ((double)Math.Abs(npc.velocity.X) > 3.5)
-				{
-					num70 *= 0.8f;
-				}
-				if (Math.Abs(npc.velocity.X) > 4f)
-				{
-					num70 *= 0.8f;
-				}
-				if ((double)Math.Abs(npc.velocity.X) > 4.5)
-				{
-					num70 *= 0.8f;
-				}
-				if (Math.Abs(npc.velocity.X) > 5f)
-				{
-					num70 *= 0.8f;
-				}
-				if ((double)Math.Abs(npc.velocity.X) > 5.5)
-				{
-					num70 *= 0.8f;
-				}
-				if (npc.velocity.X < -num69 || npc.velocity.X > num69)
-				{
-					if (npc.velocity.Y == 0f)
-					{
-						npc.velocity *= 0.7f;
-					}
-				}
-				else if (npc.velocity.X < num69 && npc.direction == 1)
-				{
-					if (npc.velocity.X < 0f)
-					{
-						npc.velocity.X = npc.velocity.X * 0.93f;
-					}
-					npc.velocity.X = npc.velocity.X + num70;
-					if (npc.velocity.X > num69)
-					{
-						npc.velocity.X = num69;
-					}
-				}
-				else if (npc.velocity.X > -num69 && npc.direction == -1)
-				{
-					if (npc.velocity.X > 0f)
-					{
-						npc.velocity.X = npc.velocity.X * 0.93f;
-					}
-					npc.velocity.X = npc.velocity.X - num70;
-					if (npc.velocity.X < -num69)
-					{
-						npc.velocity.X = -num69;
-					}
-				}
-			}
-			else if (npc.type == NPCID.WalkingAntlion || npc.type == ModContent.NPCType<StormlionCharger>())
-			{
-				float num71 = 2.5f;
-				float num72 = 60f;
-				float num73 = Math.Abs(npc.velocity.X);
-				if (num73 > 2.75f)
-				{
-					num71 = 7f;
-					num72 += 100f;
-				}
-				else if ((double)num73 > 2.25)
-				{
-					num71 = 5f;
-					num72 += 80f;
-				}
-				if ((double)Math.Abs(npc.velocity.Y) < 0.5)
-				{
-					if (npc.velocity.X > 0f && npc.direction < 0)
-					{
-						npc.velocity *= 0.9f;
-					}
-					if (npc.velocity.X < 0f && npc.direction > 0)
-					{
-						npc.velocity *= 0.9f;
-					}
-				}
-				if (Math.Abs(npc.velocity.Y) > 0.3f)
-				{
-					num72 *= 3f;
-				}
-				if (npc.velocity.X <= 0f && npc.direction < 0)
-				{
-					npc.velocity.X = (npc.velocity.X * num72 - num71) / (num72 + 1f);
-				}
-				else if (npc.velocity.X >= 0f && npc.direction > 0)
-				{
-					npc.velocity.X = (npc.velocity.X * num72 + num71) / (num72 + 1f);
-				}
-				else if (Math.Abs(npc.Center.X - Main.player[npc.target].Center.X) > 20f && Math.Abs(npc.velocity.Y) <= 0.3f)
-				{
-					npc.velocity.X = npc.velocity.X * 0.99f;
-					npc.velocity.X = npc.velocity.X + (float)npc.direction * 0.025f;
-				}
-			}
-			else if (npc.type == 391 || npc.type == 427 || npc.type == 415 || npc.type == 419 || npc.type == 518 || npc.type == 532)
-			{
-				float num74 = 5f;
-				float num75 = 0.25f;
-				float scaleFactor5 = 0.7f;
-				if (npc.type == 427)
-				{
-					num74 = 6f;
-					num75 = 0.2f;
-					scaleFactor5 = 0.8f;
-				}
-				else if (npc.type == 415)
-				{
-					num74 = 4f;
-					num75 = 0.1f;
-					scaleFactor5 = 0.95f;
-				}
-				else if (npc.type == 419)
-				{
-					num74 = 6f;
-					num75 = 0.15f;
-					scaleFactor5 = 0.85f;
-				}
-				else if (npc.type == 518)
-				{
-					num74 = 5f;
-					num75 = 0.1f;
-					scaleFactor5 = 0.95f;
-				}
-				else if (npc.type == 532)
-				{
-					num74 = 5f;
-					num75 = 0.15f;
-					scaleFactor5 = 0.98f;
-				}
-				num74 *= 1.5f;
-				num75 *= 1.5f;
-				if (npc.velocity.X < -num74 || npc.velocity.X > num74)
-				{
-					if (npc.velocity.Y == 0f)
-					{
-						npc.velocity *= scaleFactor5;
-					}
-				}
-				else if (npc.velocity.X < num74 && npc.direction == 1)
-				{
-					npc.velocity.X = npc.velocity.X + num75;
-					if (npc.velocity.X > num74)
-					{
-						npc.velocity.X = num74;
-					}
-				}
-				else if (npc.velocity.X > -num74 && npc.direction == -1)
-				{
-					npc.velocity.X = npc.velocity.X - num75;
-					if (npc.velocity.X < -num74)
-					{
-						npc.velocity.X = -num74;
-					}
-				}
-			}
-			else if ((npc.type >= 430 && npc.type <= 436) || npc.type == 494 || npc.type == 495)
-			{
-				if (npc.ai[2] == 0f)
-				{
-					npc.damage = npc.defDamage;
-					float num76 = 1.5f;
-					num76 *= 1f + (1f - npc.scale);
-					if (npc.velocity.X < -num76 || npc.velocity.X > num76)
-					{
-						if (npc.velocity.Y == 0f)
-						{
-							npc.velocity *= 0.8f;
-						}
-					}
-					else if (npc.velocity.X < num76 && npc.direction == 1)
-					{
-						npc.velocity.X = npc.velocity.X + 0.09f;
-						if (npc.velocity.X > num76)
-						{
-							npc.velocity.X = num76;
-						}
-					}
-					else if (npc.velocity.X > -num76 && npc.direction == -1)
-					{
-						npc.velocity.X = npc.velocity.X - 0.09f;
-						if (npc.velocity.X < -num76)
-						{
-							npc.velocity.X = -num76;
-						}
-					}
-					if (npc.velocity.Y == 0f && (!Main.dayTime || (double)npc.position.Y > Main.worldSurface * 16.0) && !Main.player[npc.target].dead)
-					{
-						Vector2 vector13 = npc.Center - Main.player[npc.target].Center;
-						int num77 = 50;
-						if (npc.type >= 494 && npc.type <= 495)
-						{
-							num77 = 42;
-						}
-						if (vector13.Length() < (float)num77 && Collision.CanHit(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1))
-						{
-							npc.velocity.X = npc.velocity.X * 0.7f;
-							npc.ai[2] = 1f;
-						}
-					}
-				}
-				else
-				{
-					npc.damage = npc.defDamage * 2;
-					npc.ai[3] = 1f;
-					npc.velocity.X = npc.velocity.X * 0.9f;
-					if ((double)Math.Abs(npc.velocity.X) < 0.1)
-					{
-						npc.velocity.X = 0f;
-					}
-					npc.ai[2] += 1f;
-					if (npc.ai[2] >= 20f || npc.velocity.Y != 0f || (Main.dayTime && (double)npc.position.Y < Main.worldSurface * 16.0))
-					{
-						npc.ai[2] = 0f;
-					}
-				}
-			}
-			else if (npc.type != 110 && npc.type != 111 && npc.type != 206 && npc.type != 214 && npc.type != 215 && npc.type != 216 && npc.type != 290 && npc.type != 291 && npc.type != 292 && npc.type != 293 && npc.type != 350 && npc.type != 379 && npc.type != 380 && npc.type != 381 && npc.type != 382 && (npc.type < 449 || npc.type > 452) && npc.type != 468 && npc.type != 481 && npc.type != 411 && npc.type != 409 && (npc.type < 498 || npc.type > 506) && npc.type != 424 && npc.type != 426 && npc.type != 520)
-			{
-				float num78 = 1f;
-				if (npc.type == 186)
-				{
-					num78 = 1.1f;
-				}
-				if (npc.type == 187)
-				{
-					num78 = 0.9f;
-				}
-				if (npc.type == 188)
-				{
-					num78 = 1.2f;
-				}
-				if (npc.type == 189)
-				{
-					num78 = 0.8f;
-				}
-				if (npc.type == 132)
-				{
-					num78 = 0.95f;
-				}
-				if (npc.type == 200)
-				{
-					num78 = 0.87f;
-				}
-				if (npc.type == 223)
-				{
-					num78 = 1.05f;
-				}
-				if (npc.type == 489)
-				{
-					float num79 = (Main.player[npc.target].Center - npc.Center).Length();
-					num79 *= 0.0025f;
-					if ((double)num79 > 1.5)
-					{
-						num79 = 1.5f;
-					}
-					num78 = (3f - num79) * 0.8f;
-				}
-				if (npc.type == 489 || npc.type == 3 || npc.type == 132 || npc.type == 186 || npc.type == 187 || npc.type == 188 || npc.type == 189 || npc.type == 200 || npc.type == 223 || npc.type == 331 || npc.type == 332)
-				{
-					num78 *= 1f + (1f - npc.scale);
-				}
-				num78 *= 1.5f;
-				if (npc.velocity.X < -num78 || npc.velocity.X > num78)
-				{
-					if (npc.velocity.Y == 0f)
-					{
-						npc.velocity *= 0.8f;
-					}
-				}
-				else if (npc.velocity.X < num78 && npc.direction == 1)
-				{
-					npc.velocity.X = npc.velocity.X + 0.09f;
-					if (npc.velocity.X > num78)
-					{
-						npc.velocity.X = num78;
-					}
-				}
-				else if (npc.velocity.X > -num78 && npc.direction == -1)
-				{
-					npc.velocity.X = npc.velocity.X - 0.09f;
-					if (npc.velocity.X < -num78)
-					{
-						npc.velocity.X = -num78;
-					}
-				}
-			}
-			if (npc.type >= 277 && npc.type <= 280)
-			{
-				Lighting.AddLight((int)npc.Center.X / 16, (int)npc.Center.Y / 16, 0.2f, 0.1f, 0f);
-			}
-			else if (npc.type == 520)
-			{
-				Lighting.AddLight(npc.Top + new Vector2(0f, 20f), 0.3f, 0.3f, 0.7f);
-			}
-			else if (npc.type == 525)
-			{
-				Vector3 rgb = new Vector3(0.7f, 1f, 0.2f) * 0.5f;
-				Lighting.AddLight(npc.Top + new Vector2(0f, 15f), rgb);
-			}
-			else if (npc.type == 526)
-			{
-				Vector3 rgb2 = new Vector3(1f, 1f, 0.5f) * 0.4f;
-				Lighting.AddLight(npc.Top + new Vector2(0f, 15f), rgb2);
-			}
-			else if (npc.type == 527)
-			{
-				Vector3 rgb3 = new Vector3(0.6f, 0.3f, 1f) * 0.4f;
-				Lighting.AddLight(npc.Top + new Vector2(0f, 15f), rgb3);
-			}
-			else if (npc.type == 415)
-			{
-				npc.hide = false;
-				for (int num80 = 0; num80 < 200; num80++)
-				{
-					if (Main.npc[num80].active && Main.npc[num80].type == 416 && Main.npc[num80].ai[0] == (float)npc.whoAmI)
-					{
-						npc.hide = true;
-						break;
-					}
-				}
-			}
-			else if (npc.type == NPCID.MushiLadybug)
-			{
-				if (npc.velocity.Y != 0f)
-				{
-					npc.TargetClosest(true);
-					npc.spriteDirection = npc.direction;
-					if (Main.player[npc.target].Center.X < npc.position.X && npc.velocity.X > 0f)
-					{
-						npc.velocity.X = npc.velocity.X * 0.95f;
-					}
-					else if (Main.player[npc.target].Center.X > npc.position.X + (float)npc.width && npc.velocity.X < 0f)
-					{
-						npc.velocity.X = npc.velocity.X * 0.95f;
-					}
-					if (Main.player[npc.target].Center.X < npc.position.X && npc.velocity.X > -5f)
-					{
-						npc.velocity.X = npc.velocity.X - 0.1f;
-					}
-					else if (Main.player[npc.target].Center.X > npc.position.X + (float)npc.width && npc.velocity.X < 5f)
-					{
-						npc.velocity.X = npc.velocity.X + 0.1f;
-					}
-				}
-				else if (Main.player[npc.target].Center.Y + 50f < npc.position.Y && Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
-				{
-					npc.velocity.Y = -9f;
-				}
-			}
-			else if (npc.type == NPCID.VortexRifleman)
-			{
-				if (npc.velocity.Y == 0f)
-				{
-					npc.ai[2] = 0f;
-				}
-				if (npc.velocity.Y != 0f && npc.ai[2] == 1f)
-				{
-					npc.TargetClosest(true);
-					npc.spriteDirection = -npc.direction;
-					if (Collision.CanHit(npc.Center, 0, 0, Main.player[npc.target].Center, 0, 0))
-					{
-						float num81 = Main.player[npc.target].Center.X - (float)(npc.direction * 600) - npc.Center.X;
-						float num82 = Main.player[npc.target].Bottom.Y - npc.Bottom.Y;
-						if (num81 < 0f && npc.velocity.X > 0f)
-						{
-							npc.velocity.X = npc.velocity.X * 0.9f;
-						}
-						else if (num81 > 0f && npc.velocity.X < 0f)
-						{
-							npc.velocity.X = npc.velocity.X * 0.9f;
-						}
-						if (num81 < 0f && npc.velocity.X > -7f)
-						{
-							npc.velocity.X = npc.velocity.X - 0.12f;
-						}
-						else if (num81 > 0f && npc.velocity.X < 7f)
-						{
-							npc.velocity.X = npc.velocity.X + 0.12f;
-						}
-						if (npc.velocity.X > 8f)
-						{
-							npc.velocity.X = 8f;
-						}
-						if (npc.velocity.X < -8f)
-						{
-							npc.velocity.X = -8f;
-						}
-						if (num82 < -20f && npc.velocity.Y > 0f)
-						{
-							npc.velocity.Y = npc.velocity.Y * 0.8f;
-						}
-						else if (num82 > 20f && npc.velocity.Y < 0f)
-						{
-							npc.velocity.Y = npc.velocity.Y * 0.8f;
-						}
-						if (num82 < -20f && npc.velocity.Y > -7f)
-						{
-							npc.velocity.Y = npc.velocity.Y - 0.35f;
-						}
-						else if (num82 > 20f && npc.velocity.Y < 7f)
-						{
-							npc.velocity.Y = npc.velocity.Y + 0.35f;
-						}
-					}
-					if (Main.rand.Next(3) == 0)
-					{
-						Vector2 position = npc.Center + new Vector2((float)(npc.direction * -14), -8f) - Vector2.One * 4f;
-						Vector2 vector14 = new Vector2((float)(npc.direction * -6), 12f) * 0.2f + Utils.RandomVector2(Main.rand, -1f, 1f) * 0.1f;
-						Dust dust = Main.dust[Dust.NewDust(position, 8, 8, 229, vector14.X, vector14.Y, 100, Color.Transparent, 1f + Main.rand.NextFloat() * 0.5f)];
-						dust.noGravity = true;
-						dust.velocity = vector14;
-						dust.customData = npc;
-					}
-					for (int num83 = 0; num83 < 200; num83++)
-					{
-						if (num83 != npc.whoAmI && Main.npc[num83].active && Main.npc[num83].type == npc.type && Math.Abs(npc.position.X - Main.npc[num83].position.X) + Math.Abs(npc.position.Y - Main.npc[num83].position.Y) < (float)npc.width)
-						{
-							if (npc.position.X < Main.npc[num83].position.X)
-							{
-								npc.velocity.X = npc.velocity.X - 0.05f;
-							}
-							else
-							{
-								npc.velocity.X = npc.velocity.X + 0.05f;
-							}
-							if (npc.position.Y < Main.npc[num83].position.Y)
-							{
-								npc.velocity.Y = npc.velocity.Y - 0.05f;
-							}
-							else
-							{
-								npc.velocity.Y = npc.velocity.Y + 0.05f;
-							}
-						}
-					}
-				}
-				else if (Main.player[npc.target].Center.Y + 100f < npc.position.Y && Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
-				{
-					npc.velocity.Y = -7f;
-					npc.ai[2] = 1f;
-				}
-				if (Main.netMode != 1)
-				{
-					npc.localAI[2] += 1f;
-					if (npc.localAI[2] >= (float)(240 + Main.rand.Next(240)) && npc.Distance(Main.player[npc.target].Center) < 600f && Math.Abs(npc.DirectionTo(Main.player[npc.target].Center).Y) < 0.5f && Collision.CanHitLine(npc.Center, 0, 0, Main.player[npc.target].Center, 0, 0))
-					{
-						npc.localAI[2] = 0f;
-						Vector2 vector15 = npc.Center + new Vector2((float)(npc.direction * 30), 2f);
-						Vector2 vector16 = npc.DirectionTo(Main.player[npc.target].Center) * 9f;
-						if (vector16.HasNaNs())
-						{
-							vector16 = new Vector2((float)(npc.direction * 10), 0f);
-						}
-						int num84 = 50;
-						for (int num85 = 0; num85 < 4; num85++)
-						{
-							Vector2 vector17 = vector16 + Utils.RandomVector2(Main.rand, -0.8f, 0.8f);
-							Projectile.NewProjectile(vector15.X, vector15.Y, vector17.X, vector17.Y, 577, num84, 1f, Main.myPlayer, 0f, 0f);
-						}
-					}
-				}
-			}
-			else if (npc.type == NPCID.VortexHornet)
-			{
-				if (npc.velocity.Y == 0f)
-				{
-					npc.ai[2] = 0f;
-					npc.rotation = 0f;
-				}
-				else
-				{
-					npc.rotation = npc.velocity.X * 0.1f;
-				}
-				if (npc.velocity.Y != 0f && npc.ai[2] == 1f)
-				{
-					npc.TargetClosest(true);
-					npc.spriteDirection = -npc.direction;
-					if (Collision.CanHit(npc.Center, 0, 0, Main.player[npc.target].Center, 0, 0))
-					{
-						float num86 = Main.player[npc.target].Center.X - npc.Center.X;
-						float num87 = Main.player[npc.target].Center.Y - npc.Center.Y;
-						if (num86 < 0f && npc.velocity.X > 0f)
-						{
-							npc.velocity.X = npc.velocity.X * 0.98f;
-						}
-						else if (num86 > 0f && npc.velocity.X < 0f)
-						{
-							npc.velocity.X = npc.velocity.X * 0.98f;
-						}
-						if (num86 < -20f && npc.velocity.X > -8f)
-						{
-							npc.velocity.X = npc.velocity.X - 0.025f;
-						}
-						else if (num86 > 20f && npc.velocity.X < 8f)
-						{
-							npc.velocity.X = npc.velocity.X + 0.025f;
-						}
-						if (npc.velocity.X > 8f)
-						{
-							npc.velocity.X = 8f;
-						}
-						if (npc.velocity.X < -8f)
-						{
-							npc.velocity.X = -8f;
-						}
-						if (num87 < -20f && npc.velocity.Y > 0f)
-						{
-							npc.velocity.Y = npc.velocity.Y * 0.98f;
-						}
-						else if (num87 > 20f && npc.velocity.Y < 0f)
-						{
-							npc.velocity.Y = npc.velocity.Y * 0.98f;
-						}
-						if (num87 < -20f && npc.velocity.Y > -8f)
-						{
-							npc.velocity.Y = npc.velocity.Y - 0.25f;
-						}
-						else if (num87 > 20f && npc.velocity.Y < 8f)
-						{
-							npc.velocity.Y = npc.velocity.Y + 0.25f;
-						}
-					}
-					for (int num88 = 0; num88 < 200; num88++)
-					{
-						if (num88 != npc.whoAmI && Main.npc[num88].active && Main.npc[num88].type == npc.type && Math.Abs(npc.position.X - Main.npc[num88].position.X) + Math.Abs(npc.position.Y - Main.npc[num88].position.Y) < (float)npc.width)
-						{
-							if (npc.position.X < Main.npc[num88].position.X)
-							{
-								npc.velocity.X = npc.velocity.X - 0.05f;
-							}
-							else
-							{
-								npc.velocity.X = npc.velocity.X + 0.05f;
-							}
-							if (npc.position.Y < Main.npc[num88].position.Y)
-							{
-								npc.velocity.Y = npc.velocity.Y - 0.05f;
-							}
-							else
-							{
-								npc.velocity.Y = npc.velocity.Y + 0.05f;
-							}
-						}
-					}
-				}
-				else if (Main.player[npc.target].Center.Y + 100f < npc.position.Y && Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
-				{
-					npc.velocity.Y = -7f;
-					npc.ai[2] = 1f;
-				}
-			}
-			else if (npc.type == NPCID.VortexHornetQueen)
-			{
-				if (npc.ai[1] > 0f && npc.velocity.Y > 0f)
-				{
-					npc.velocity.Y = npc.velocity.Y * 0.85f;
-					if (npc.velocity.Y == 0f)
-					{
-						npc.velocity.Y = -0.4f;
-					}
-				}
-				if (npc.velocity.Y != 0f)
-				{
-					npc.TargetClosest(true);
-					npc.spriteDirection = npc.direction;
-					if (Collision.CanHit(npc.Center, 0, 0, Main.player[npc.target].Center, 0, 0))
-					{
-						float num89 = Main.player[npc.target].Center.X - (float)(npc.direction * 450) - npc.Center.X;
-						if (num89 < 40f && npc.velocity.X > 0f)
-						{
-							npc.velocity.X = npc.velocity.X * 0.98f;
-						}
-						else if (num89 > 40f && npc.velocity.X < 0f)
-						{
-							npc.velocity.X = npc.velocity.X * 0.98f;
-						}
-						if (num89 < 40f && npc.velocity.X > -7f)
-						{
-							npc.velocity.X = npc.velocity.X - 0.25f;
-						}
-						else if (num89 > 40f && npc.velocity.X < 7f)
-						{
-							npc.velocity.X = npc.velocity.X + 0.25f;
-						}
-						if (npc.velocity.X > 8f)
-						{
-							npc.velocity.X = 8f;
-						}
-						if (npc.velocity.X < -8f)
-						{
-							npc.velocity.X = -8f;
-						}
-					}
-				}
-				else if (Main.player[npc.target].Center.Y + 100f < npc.position.Y && Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
-				{
-					npc.velocity.Y = -8f;
-				}
-				for (int num90 = 0; num90 < 200; num90++)
-				{
-					if (num90 != npc.whoAmI && Main.npc[num90].active && Main.npc[num90].type == npc.type && Math.Abs(npc.position.X - Main.npc[num90].position.X) + Math.Abs(npc.position.Y - Main.npc[num90].position.Y) < (float)npc.width)
-					{
-						if (npc.position.X < Main.npc[num90].position.X)
-						{
-							npc.velocity.X = npc.velocity.X - 0.1f;
-						}
-						else
-						{
-							npc.velocity.X = npc.velocity.X + 0.1f;
-						}
-						if (npc.position.Y < Main.npc[num90].position.Y)
-						{
-							npc.velocity.Y = npc.velocity.Y - 0.1f;
-						}
-						else
-						{
-							npc.velocity.Y = npc.velocity.Y + 0.1f;
-						}
-					}
-				}
-				if (Main.rand.Next(6) == 0 && npc.ai[1] <= 20f)
-				{
-					Dust dust = Main.dust[Dust.NewDust(npc.Center + new Vector2((float)((npc.spriteDirection == 1) ? 8 : -20), -20f), 8, 8, 229, npc.velocity.X, npc.velocity.Y, 100, default(Color), 1f)];
-					dust.velocity = dust.velocity / 4f + npc.velocity / 2f;
-					dust.scale = 0.6f;
-					dust.noLight = true;
-				}
-				if (npc.ai[1] >= 57f)
-				{
-					int num91 = Utils.SelectRandom<int>(Main.rand, new int[]
-					{
-						161,
-						229
-					});
-					Dust dust = Main.dust[Dust.NewDust(npc.Center + new Vector2((float)((npc.spriteDirection == 1) ? 8 : -20), -20f), 8, 8, num91, npc.velocity.X, npc.velocity.Y, 100, default(Color), 1f)];
-					dust.velocity = dust.velocity / 4f + npc.DirectionTo(Main.player[npc.target].Top);
-					dust.scale = 1.2f;
-					dust.noLight = true;
-				}
-				if (Main.rand.Next(6) == 0)
-				{
-					Dust dust2 = Main.dust[Dust.NewDust(npc.Center, 2, 2, 229, 0f, 0f, 0, default(Color), 1f)];
-					dust2.position = npc.Center + new Vector2((float)((npc.spriteDirection == 1) ? 26 : -26), 24f);
-					dust2.velocity.X = 0f;
-					if (dust2.velocity.Y < 0f)
-					{
-						dust2.velocity.Y = 0f;
-					}
-					dust2.noGravity = true;
-					dust2.scale = 1f;
-					dust2.noLight = true;
-				}
-			}
-			else if (npc.type == NPCID.SnowFlinx)
-			{
-				if (npc.velocity.Y == 0f)
-				{
-					npc.rotation = 0f;
-					npc.localAI[0] = 0f;
-				}
-				else if (npc.localAI[0] == 1f)
-				{
-					npc.rotation += npc.velocity.X * 0.05f;
-				}
-			}
-			else if (npc.type == NPCID.VortexLarva)
-			{
-				if (npc.velocity.Y == 0f)
-				{
-					npc.rotation = 0f;
-				}
-				else
-				{
-					npc.rotation += npc.velocity.X * 0.08f;
-				}
-			}
-			if (npc.type == NPCID.Vampire && Main.netMode != 1)
-			{
-				Vector2 vector18 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-				float arg_803C_0 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector18.X;
-				float num92 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector18.Y;
-				if ((float)Math.Sqrt((double)(arg_803C_0 * arg_803C_0 + num92 * num92)) > 300f)
-				{
-					npc.Transform(NPCID.VampireBat);
-				}
-			}
-			if (npc.type == NPCID.WallCreeper && Main.netMode != 1 && npc.velocity.Y == 0f)
-			{
-				int num93 = (int)npc.Center.X / 16;
-				int num94 = (int)npc.Center.Y / 16;
-				bool flag9 = false;
-				for (int num95 = num93 - 1; num95 <= num93 + 1; num95++)
-				{
-					for (int num96 = num94 - 1; num96 <= num94 + 1; num96++)
-					{
-						if (Main.tile[num95, num96].wall > 0)
-						{
-							flag9 = true;
-						}
-					}
-				}
-				if (flag9)
-				{
-					npc.Transform(NPCID.WallCreeperWall);
-				}
-			}
-			if (npc.type == NPCID.BloodCrawler && Main.netMode != 1 && npc.velocity.Y == 0f)
-			{
-				int num97 = (int)npc.Center.X / 16;
-				int num98 = (int)npc.Center.Y / 16;
-				bool flag10 = false;
-				for (int num99 = num97 - 1; num99 <= num97 + 1; num99++)
-				{
-					for (int num100 = num98 - 1; num100 <= num98 + 1; num100++)
-					{
-						if (Main.tile[num99, num100].wall > 0)
-						{
-							flag10 = true;
-						}
-					}
-				}
-				if (flag10)
-				{
-					npc.Transform(NPCID.BloodCrawlerWall);
-				}
-			}
-			if (npc.type == NPCID.DesertScorpionWalk && Main.netMode != 1 && npc.velocity.Y == 0f)
-			{
-				int num101 = (int)npc.Center.X / 16;
-				int num102 = (int)npc.Center.Y / 16;
-				bool flag11 = false;
-				for (int num103 = num101 - 1; num103 <= num101 + 1; num103++)
-				{
-					for (int num104 = num102 - 1; num104 <= num102 + 1; num104++)
-					{
-						if (Main.tile[num103, num104].wall > 0)
-						{
-							flag11 = true;
-						}
-					}
-				}
-				if (flag11)
-				{
-					npc.Transform(NPCID.DesertScorpionWall);
-				}
-			}
-			if (Main.netMode != 1 && npc.target >= 0 && (npc.type == 163 || npc.type == 238) && Collision.CanHit(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1))
-			{
-				npc.localAI[0] += 1f;
-				if (npc.justHit)
-				{
-					npc.localAI[0] -= (float)Main.rand.Next(5, 20);
-					if (npc.localAI[0] < 0f)
-					{
-						npc.localAI[0] = 0f;
-					}
-				}
-				if (npc.localAI[0] > (float)Main.rand.Next(120, 240))
-				{
-					npc.localAI[0] = 0f;
-					Vector2 vector19 = Main.player[npc.target].Center - npc.Center;
-					vector19.Normalize();
-					vector19 *= 10f;
-					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, vector19.X, vector19.Y, 472, 18, 0f, Main.myPlayer, 0f, 0f);
-				}
-			}
-			if (npc.type == NPCID.BlackRecluse && Main.netMode != 1 && npc.velocity.Y == 0f)
-			{
-				int num105 = (int)npc.Center.X / 16;
-				int num106 = (int)npc.Center.Y / 16;
-				bool flag12 = false;
-				for (int num107 = num105 - 1; num107 <= num105 + 1; num107++)
-				{
-					for (int num108 = num106 - 1; num108 <= num106 + 1; num108++)
-					{
-						if (Main.tile[num107, num108].wall > 0)
-						{
-							flag12 = true;
-						}
-					}
-				}
-				if (flag12)
-				{
-					npc.Transform(NPCID.BlackRecluseWall);
-				}
-			}
-			if (npc.type == NPCID.JungleCreeper && Main.netMode != 1 && npc.velocity.Y == 0f)
-			{
-				int num109 = (int)npc.Center.X / 16;
-				int num110 = (int)npc.Center.Y / 16;
-				bool flag13 = false;
-				for (int num111 = num109 - 1; num111 <= num109 + 1; num111++)
-				{
-					for (int num112 = num110 - 1; num112 <= num110 + 1; num112++)
-					{
-						if (Main.tile[num111, num112].wall > 0)
-						{
-							flag13 = true;
-						}
-					}
-				}
-				if (flag13)
-				{
-					npc.Transform(NPCID.JungleCreeperWall);
-				}
-			}
-			if (npc.type == NPCID.IceGolem)
-			{
-				if (npc.justHit && Main.rand.Next(3) == 0)
-				{
-					npc.ai[2] -= (float)Main.rand.Next(20);
-				}
-				if (npc.ai[2] < 0f)
-				{
-					npc.ai[2] = 0f;
-				}
-				if (npc.confused)
-				{
-					npc.ai[2] = 0f;
-				}
-				npc.ai[2] += 1f;
-				if (Main.netMode != 1 && npc.ai[2] >= 90f && npc.velocity.Y == 0f && !Main.player[npc.target].dead && !Main.player[npc.target].frozen && ((npc.direction > 0 && npc.Center.X < Main.player[npc.target].Center.X) || (npc.direction < 0 && npc.Center.X > Main.player[npc.target].Center.X)) && Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
-				{
-					float arg_87C1_0 = 15f;
-					Vector2 vector20 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + 20f);
-					vector20.X += (float)(10 * npc.direction);
-					float num114 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector20.X;
-					float num115 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector20.Y;
-					float num116 = (float)Math.Sqrt((double)(num114 * num114 + num115 * num115));
-					npc.netUpdate = true;
-					num116 = arg_87C1_0 / num116;
-					num114 *= num116;
-					num115 *= num116;
-					int num117 = 32;
-					int num118 = 257;
-					vector20.X += num114 * 3f;
-					vector20.Y += num115 * 3f;
-					Projectile.NewProjectile(vector20.X, vector20.Y, num114, num115, num118, num117, 0f, Main.myPlayer, 0f, 0f);
-					npc.ai[2] = 0f;
-				}
-			}
-			if (npc.type == NPCID.Eyezor)
-			{
-				if (npc.justHit)
-				{
-					npc.ai[2] -= (float)Main.rand.Next(20);
-				}
-				if (npc.ai[2] < 0f)
-				{
-					npc.ai[2] = 0f;
-				}
-				if (npc.confused)
-				{
-					npc.ai[2] = 0f;
-				}
-				npc.ai[2] += 1f;
-				if (Main.netMode != 1 && npc.ai[2] >= 60f && npc.velocity.Y == 0f && !Main.player[npc.target].dead && !Main.player[npc.target].frozen && ((npc.direction > 0 && npc.Center.X < Main.player[npc.target].Center.X) || (npc.direction < 0 && npc.Center.X > Main.player[npc.target].Center.X)) && Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
-				{
-					float arg_8AF5_0 = 15f;
-					Vector2 vector21 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + 12f);
-					vector21.X += (float)(6 * npc.direction);
-					float num120 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector21.X;
-					float num121 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector21.Y;
-					float num122 = (float)Math.Sqrt((double)(num120 * num120 + num121 * num121));
-					npc.netUpdate = true;
-					num122 = arg_8AF5_0 / num122;
-					num120 *= num122;
-					num121 *= num122;
-					int num123 = 30;
-					int num124 = 83;
-					vector21.X += num120 * 3f;
-					vector21.Y += num121 * 3f;
-					Projectile.NewProjectile(vector21.X, vector21.Y, num120, num121, num124, num123, 0f, Main.myPlayer, 0f, 0f);
-					npc.ai[2] = 0f;
-				}
-			}
-			if (npc.type == NPCID.MartianEngineer)
-			{
-				if (npc.confused)
-				{
-					npc.ai[2] = -40f;
-				}
-				else
-				{
-					if (npc.ai[2] < 40f)
-					{
-						npc.ai[2] += 1f;
-					}
-					if (npc.ai[2] > 0f && NPC.CountNPCS(NPCID.MartianTurret) >= 4 * NPC.CountNPCS(NPCID.MartianEngineer))
-					{
-						npc.ai[2] = 0f;
-					}
-					if (npc.justHit)
-					{
-						npc.ai[2] = -20f;
-					}
-					if (npc.ai[2] == 20f)
-					{
-						int num125 = (int)npc.position.X / 16;
-						int num126 = (int)npc.position.Y / 16;
-						int num127 = (int)npc.position.X / 16;
-						int num128 = (int)npc.position.Y / 16;
-						int num129 = 5;
-						int num130 = 0;
-						bool flag14 = false;
-						int num131 = 2;
-						int num132 = 0;
-						while (!flag14 && num130 < 100)
-						{
-							num130++;
-							int num133 = Main.rand.Next(num125 - num129, num125 + num129);
-							for (int num134 = Main.rand.Next(num126 - num129, num126 + num129); num134 < num126 + num129; num134++)
-							{
-								if ((num134 < num126 - num131 || num134 > num126 + num131 || num133 < num125 - num131 || num133 > num125 + num131) && (num134 < num128 - num132 || num134 > num128 + num132 || num133 < num127 - num132 || num133 > num127 + num132) && Main.tile[num133, num134].nactive())
-								{
-									bool flag15 = true;
-									if (Main.tile[num133, num134 - 1].lava())
-									{
-										flag15 = false;
-									}
-									if (flag15 && Main.tileSolid[(int)Main.tile[num133, num134].type] && !Collision.SolidTiles(num133 - 1, num133 + 1, num134 - 4, num134 - 1))
-									{
-										int num135 = NPC.NewNPC(num133 * 16 - npc.width / 2, num134 * 16, NPCID.MartianTurret, 0, 0f, 0f, 0f, 0f, 255);
-										Main.npc[num135].position.Y = (float)(num134 * 16 - Main.npc[num135].height);
-										flag14 = true;
-										npc.netUpdate = true;
-										break;
-									}
-								}
-							}
-						}
-					}
-					if (npc.ai[2] == 40f)
-					{
-						npc.ai[2] = -90f;
-					}
-				}
-			}
-			if (npc.type == NPCID.GigaZapper)
-			{
-				if (npc.confused)
-				{
-					npc.ai[2] = -40f;
-				}
-				else
-				{
-					if (npc.ai[2] < 20f)
-					{
-						npc.ai[2] += 1f;
-					}
-					if (npc.justHit)
-					{
-						npc.ai[2] = -20f;
-					}
-					if (npc.ai[2] == 20f && Main.netMode != 1)
-					{
-						npc.ai[2] = (float)(-10 + Main.rand.Next(3) * -10);
-						Projectile.NewProjectile(npc.Center.X, npc.Center.Y + 8f, (float)(npc.direction * 8), 0f, 437, 25, 1f, Main.myPlayer, 0f, 0f);
-					}
-				}
-			}
-			if (npc.type == 110 || npc.type == 111 || npc.type == 206 || npc.type == 214 || npc.type == 215 || npc.type == 216 || npc.type == 290 || npc.type == 291 || npc.type == 292 || npc.type == 293 || npc.type == 350 || npc.type == 379 || npc.type == 380 || npc.type == 381 || npc.type == 382 || (npc.type >= 449 && npc.type <= 452) || (npc.type == 468 || npc.type == 481 || npc.type == 411 || npc.type == 409 || (npc.type >= 498 && npc.type <= 506)) || npc.type == 424 || npc.type == 426 || npc.type == 520)
-			{
-				bool flag16 = npc.type == 381 || npc.type == 382 || npc.type == 520;
-				bool flag17 = npc.type == 426;
-				bool flag18 = true;
-				int num136 = -1;
-				int num137 = -1;
-				if (npc.type == 411)
-				{
-					flag16 = true;
-					num136 = 90;
-					num137 = 90;
-					if (npc.ai[1] <= 150f)
-					{
-						flag18 = false;
-					}
-				}
-				if (npc.confused)
-				{
-					npc.ai[2] = 0f;
-				}
-				else
-				{
-					if (npc.ai[1] > 0f)
-					{
-						npc.ai[1] -= 1f;
-					}
-					if (npc.justHit)
-					{
-						npc.ai[1] = 30f;
-						npc.ai[2] = 0f;
-					}
-					int num138 = 70;
-					if (npc.type == 379 || npc.type == 380)
-					{
-						num138 = 80;
-					}
-					if (npc.type == 381 || npc.type == 382)
-					{
-						num138 = 80;
-					}
-					if (npc.type == 520)
-					{
-						num138 = 15;
-					}
-					if (npc.type == 350)
-					{
-						num138 = 110;
-					}
-					if (npc.type == 291)
-					{
-						num138 = 200;
-					}
-					if (npc.type == 292)
-					{
-						num138 = 120;
-					}
-					if (npc.type == 293)
-					{
-						num138 = 90;
-					}
-					if (npc.type == 111)
-					{
-						num138 = 180;
-					}
-					if (npc.type == 206)
-					{
-						num138 = 50;
-					}
-					if (npc.type == 481)
-					{
-						num138 = 100;
-					}
-					if (npc.type == 214)
-					{
-						num138 = 40;
-					}
-					if (npc.type == 215)
-					{
-						num138 = 80;
-					}
-					if (npc.type == 290)
-					{
-						num138 = 30;
-					}
-					if (npc.type == 411)
-					{
-						num138 = 300;
-					}
-					if (npc.type == 409)
-					{
-						num138 = 60;
-					}
-					if (npc.type == 424)
-					{
-						num138 = 180;
-					}
-					if (npc.type == 426)
-					{
-						num138 = 60;
-					}
-					bool flag19 = false;
-					if (npc.type == 216)
-					{
-						if (npc.localAI[2] >= 20f)
-						{
-							flag19 = true;
-						}
-						if (flag19)
-						{
-							num138 = 60;
-						}
-						else
-						{
-							num138 = 8;
-						}
-					}
-					num138 = (int)(num138 * 0.75);
-					int num139 = num138 / 2;
-					if (npc.type == 424)
-					{
-						num139 = num138 - 1;
-					}
-					if (npc.type == 426)
-					{
-						num139 = num138 - 1;
-					}
-					if (npc.ai[2] > 0f)
-					{
-						if (flag18)
-						{
-							npc.TargetClosest(true);
-						}
-						if (npc.ai[1] == (float)num139)
-						{
-							if (npc.type == 216)
-							{
-								npc.localAI[2] += 1f;
-							}
-							float num140 = 11f;
-							if (npc.type == 111)
-							{
-								num140 = 9f;
-							}
-							if (npc.type == 206)
-							{
-								num140 = 7f;
-							}
-							if (npc.type == 290)
-							{
-								num140 = 9f;
-							}
-							if (npc.type == 293)
-							{
-								num140 = 4f;
-							}
-							if (npc.type == 214)
-							{
-								num140 = 14f;
-							}
-							if (npc.type == 215)
-							{
-								num140 = 16f;
-							}
-							if (npc.type == 382)
-							{
-								num140 = 7f;
-							}
-							if (npc.type == 520)
-							{
-								num140 = 8f;
-							}
-							if (npc.type == 409)
-							{
-								num140 = 4f;
-							}
-							if (npc.type >= 449 && npc.type <= 452)
-							{
-								num140 = 7f;
-							}
-							if (npc.type == 481)
-							{
-								num140 = 8f;
-							}
-							if (npc.type == 468)
-							{
-								num140 = 7.5f;
-							}
-							if (npc.type == 411)
-							{
-								num140 = 1f;
-							}
-							if (npc.type >= 498 && npc.type <= 506)
-							{
-								num140 = 7f;
-							}
-							num140 *= 1.25f;
-							Vector2 vector22 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-							if (npc.type == 481)
-							{
-								vector22.Y -= 14f;
-							}
-							if (npc.type == 206)
-							{
-								vector22.Y -= 10f;
-							}
-							if (npc.type == 290)
-							{
-								vector22.Y -= 10f;
-							}
-							if (npc.type == 381 || npc.type == 382)
-							{
-								vector22.Y += 6f;
-							}
-							if (npc.type == 520)
-							{
-								vector22.Y = npc.position.Y + 20f;
-							}
-							if (npc.type >= 498 && npc.type <= 506)
-							{
-								vector22.Y -= 8f;
-							}
-							if (npc.type == 426)
-							{
-								vector22 += new Vector2((float)(npc.spriteDirection * 2), -12f);
-							}
-							float num141 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector22.X;
-							float num142 = Math.Abs(num141) * 0.1f;
-							if (npc.type == 291 || npc.type == 292)
-							{
-								num142 = 0f;
-							}
-							if (npc.type == 215)
-							{
-								num142 = Math.Abs(num141) * 0.08f;
-							}
-							if (npc.type == 214 || (npc.type == 216 && !flag19))
-							{
-								num142 = 0f;
-							}
-							if (npc.type == 381 || npc.type == 382 || npc.type == 520)
-							{
-								num142 = 0f;
-							}
-							if (npc.type >= 449 && npc.type <= 452)
-							{
-								num142 = Math.Abs(num141) * (float)Main.rand.Next(10, 50) * 0.01f;
-							}
-							if (npc.type == 468)
-							{
-								num142 = Math.Abs(num141) * (float)Main.rand.Next(10, 50) * 0.01f;
-							}
-							if (npc.type == 481)
-							{
-								num142 = Math.Abs(num141) * (float)Main.rand.Next(-10, 11) * 0.0035f;
-							}
-							if (npc.type >= 498 && npc.type <= 506)
-							{
-								num142 = Math.Abs(num141) * (float)Main.rand.Next(1, 11) * 0.0025f;
-							}
-							float num143 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector22.Y - num142;
-							float num144 = (float)Math.Sqrt((double)(num141 * num141 + num143 * num143));
-							npc.netUpdate = true;
-							num144 = num140 / num144;
-							num141 *= num144;
-							num143 *= num144;
-							int num145 = 35;
-							int num146 = 82;
-							if (npc.type == 111)
-							{
-								num145 = 11;
-							}
-							if (npc.type == 206)
-							{
-								num145 = 37;
-							}
-							if (npc.type == 379 || npc.type == 380)
-							{
-								num145 = 40;
-							}
-							if (npc.type == 350)
-							{
-								num145 = 45;
-							}
-							if (npc.type == 468)
-							{
-								num145 = 50;
-							}
-							if (npc.type == 111)
-							{
-								num146 = 81;
-							}
-							if (npc.type == 379 || npc.type == 380)
-							{
-								num146 = 81;
-							}
-							if (npc.type == 381)
-							{
-								num146 = 436;
-								num145 = 24;
-							}
-							if (npc.type == 382)
-							{
-								num146 = 438;
-								num145 = 30;
-							}
-							if (npc.type == 520)
-							{
-								num146 = 592;
-								num145 = 35;
-							}
-							if (npc.type >= 449 && npc.type <= 452)
-							{
-								num146 = 471;
-								num145 = 20;
-							}
-							if (npc.type >= 498 && npc.type <= 506)
-							{
-								num146 = 572;
-								num145 = 14;
-							}
-							if (npc.type == 481)
-							{
-								num146 = 508;
-								num145 = 18;
-							}
-							if (npc.type == 206)
-							{
-								num146 = 177;
-							}
-							if (npc.type == 468)
-							{
-								num146 = 501;
-							}
-							if (npc.type == 411)
-							{
-								num146 = 537;
-								num145 = 45;
-							}
-							if (npc.type == 424)
-							{
-								num146 = 573;
-								num145 = 45;
-							}
-							if (npc.type == 426)
-							{
-								num146 = 581;
-								num145 = 45;
-							}
-							if (npc.type == 291)
-							{
-								num146 = 302;
-								num145 = 100;
-							}
-							if (npc.type == 290)
-							{
-								num146 = 300;
-								num145 = 60;
-							}
-							if (npc.type == 293)
-							{
-								num146 = 303;
-								num145 = 60;
-							}
-							if (npc.type == 214)
-							{
-								num146 = 180;
-								num145 = 25;
-							}
-							if (npc.type == 215)
-							{
-								num146 = 82;
-								num145 = 40;
-							}
-							if (npc.type == 292)
-							{
-								num145 = 50;
-								num146 = 180;
-							}
-							if (npc.type == 216)
-							{
-								num146 = 180;
-								num145 = 30;
-								if (flag19)
-								{
-									num145 = 100;
-									num146 = 240;
-									npc.localAI[2] = 0f;
-								}
-							}
-							vector22.X += num141;
-							vector22.Y += num143;
-							if (npc.type == 290)
-							{
-								num145 = (int)((double)num145 * 0.75);
-							}
-							if (npc.type >= 381 && npc.type <= 392)
-							{
-								num145 = (int)((double)num145 * 0.8);
-							}
-							if (Main.netMode != 1)
-							{
-								if (npc.type == 292)
-								{
-									for (int num147 = 0; num147 < 4; num147++)
-									{
-										num141 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector22.X;
-										num143 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector22.Y;
-										num144 = (float)Math.Sqrt((double)(num141 * num141 + num143 * num143));
-										num144 = 12f / num144;
-										num141 += (float)Main.rand.Next(-40, 41);
-										num143 += (float)Main.rand.Next(-40, 41);
-										num141 *= num144;
-										num143 *= num144;
-										Projectile.NewProjectile(vector22.X, vector22.Y, num141, num143, num146, num145, 0f, Main.myPlayer, 0f, 0f);
-									}
-								}
-								else if (npc.type == 411)
-								{
-									Projectile.NewProjectile(vector22.X, vector22.Y, num141, num143, num146, num145, 0f, Main.myPlayer, 0f, (float)npc.whoAmI);
-								}
-								else if (npc.type == 424)
-								{
-									for (int num148 = 0; num148 < 4; num148++)
-									{
-										Projectile.NewProjectile(npc.Center.X - (float)(npc.spriteDirection * 4), npc.Center.Y + 6f, (float)(-3 + 2 * num148) * 0.15f, (float)(-(float)Main.rand.Next(0, 3)) * 0.2f - 0.1f, num146, num145, 0f, Main.myPlayer, 0f, (float)npc.whoAmI);
-									}
-								}
-								else if (npc.type == 409)
-								{
-									int num149 = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, 410, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
-									Main.npc[num149].velocity = new Vector2(num141, -6f + num143);
-								}
-								else
-								{
-									Projectile.NewProjectile(vector22.X, vector22.Y, num141, num143, num146, num145, 0f, Main.myPlayer, 0f, 0f);
-								}
-							}
-							if (Math.Abs(num143) > Math.Abs(num141) * 2f)
-							{
-								if (num143 > 0f)
-								{
-									npc.ai[2] = 1f;
-								}
-								else
-								{
-									npc.ai[2] = 5f;
-								}
-							}
-							else if (Math.Abs(num141) > Math.Abs(num143) * 2f)
-							{
-								npc.ai[2] = 3f;
-							}
-							else if (num143 > 0f)
-							{
-								npc.ai[2] = 2f;
-							}
-							else
-							{
-								npc.ai[2] = 4f;
-							}
-						}
-						if ((npc.velocity.Y != 0f && !flag17) || npc.ai[1] <= 0f)
-						{
-							npc.ai[2] = 0f;
-							npc.ai[1] = 0f;
-						}
-						else if (!flag16 || (num136 != -1 && npc.ai[1] >= (float)num136 && npc.ai[1] < (float)(num136 + num137) && (!flag17 || npc.velocity.Y == 0f)))
-						{
-							npc.velocity.X = npc.velocity.X * 0.9f;
-							npc.spriteDirection = npc.direction;
-						}
-					}
-					if (npc.type == 468 && !Main.eclipse)
-					{
-						flag16 = true;
-					}
-					else if ((npc.ai[2] <= 0f | flag16) && (npc.velocity.Y == 0f | flag17) && npc.ai[1] <= 0f && !Main.player[npc.target].dead)
-					{
-						bool flag20 = Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height);
-						if (npc.type == 520)
-						{
-							flag20 = Collision.CanHitLine(npc.Top + new Vector2(0f, 20f), 0, 0, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height);
-						}
-						if (Main.player[npc.target].stealth == 0f && Main.player[npc.target].itemAnimation == 0)
-						{
-							flag20 = false;
-						}
-						if (flag20)
-						{
-							float num150 = 10f;
-							Vector2 vector23 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-							float num151 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector23.X;
-							float num152 = Math.Abs(num151) * 0.1f;
-							float num153 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector23.Y - num152;
-							num151 += (float)Main.rand.Next(-40, 41);
-							num153 += (float)Main.rand.Next(-40, 41);
-							float num154 = (float)Math.Sqrt((double)(num151 * num151 + num153 * num153));
-							float num155 = 700f;
-							if (npc.type == 214)
-							{
-								num155 = 550f;
-							}
-							if (npc.type == 215)
-							{
-								num155 = 800f;
-							}
-							if (npc.type >= 498 && npc.type <= 506)
-							{
-								num155 = 190f;
-							}
-							if (npc.type >= 449 && npc.type <= 452)
-							{
-								num155 = 200f;
-							}
-							if (npc.type == 481)
-							{
-								num155 = 400f;
-							}
-							if (npc.type == 468)
-							{
-								num155 = 400f;
-							}
-							if (num154 < num155)
-							{
-								npc.netUpdate = true;
-								npc.velocity.X = npc.velocity.X * 0.5f;
-								num154 = num150 / num154;
-								num151 *= num154;
-								num153 *= num154;
-								npc.ai[2] = 3f;
-								npc.ai[1] = (float)num138;
-								if (Math.Abs(num153) > Math.Abs(num151) * 2f)
-								{
-									if (num153 > 0f)
-									{
-										npc.ai[2] = 1f;
-									}
-									else
-									{
-										npc.ai[2] = 5f;
-									}
-								}
-								else if (Math.Abs(num151) > Math.Abs(num153) * 2f)
-								{
-									npc.ai[2] = 3f;
-								}
-								else if (num153 > 0f)
-								{
-									npc.ai[2] = 2f;
-								}
-								else
-								{
-									npc.ai[2] = 4f;
-								}
-							}
-						}
-					}
-					if (npc.ai[2] <= 0f || (flag16 && (num136 == -1 || npc.ai[1] < (float)num136 || npc.ai[1] >= (float)(num136 + num137))))
-					{
-						float num156 = 1f;
-						float num157 = 0.07f;
-						float scaleFactor6 = 0.8f;
-						if (npc.type == 214)
-						{
-							num156 = 2f;
-							num157 = 0.09f;
-						}
-						else if (npc.type == 215)
-						{
-							num156 = 1.5f;
-							num157 = 0.08f;
-						}
-						else if (npc.type == 381 || npc.type == 382)
-						{
-							num156 = 2f;
-							num157 = 0.5f;
-						}
-						else if (npc.type == 520)
-						{
-							num156 = 4f;
-							num157 = 1f;
-							scaleFactor6 = 0.7f;
-						}
-						else if (npc.type == 411)
-						{
-							num156 = 2f;
-							num157 = 0.5f;
-						}
-						else if (npc.type == 409)
-						{
-							num156 = 2f;
-							num157 = 0.5f;
-						}
-						num156 *= 1.5f;
-						num157 *= 1.5f;
-						bool flag21 = false;
-						if ((npc.type == 381 || npc.type == 382) && Vector2.Distance(npc.Center, Main.player[npc.target].Center) < 300f && Collision.CanHitLine(npc.Center, 0, 0, Main.player[npc.target].Center, 0, 0))
-						{
-							flag21 = true;
-							npc.ai[3] = 0f;
-						}
-						if (npc.type == 520 && Vector2.Distance(npc.Center, Main.player[npc.target].Center) < 400f && Collision.CanHitLine(npc.Center, 0, 0, Main.player[npc.target].Center, 0, 0))
-						{
-							flag21 = true;
-							npc.ai[3] = 0f;
-						}
-						if ((npc.velocity.X < -num156 || npc.velocity.X > num156) | flag21)
-						{
-							if (npc.velocity.Y == 0f)
-							{
-								npc.velocity *= scaleFactor6;
-							}
-						}
-						else if (npc.velocity.X < num156 && npc.direction == 1)
-						{
-							npc.velocity.X = npc.velocity.X + num157;
-							if (npc.velocity.X > num156)
-							{
-								npc.velocity.X = num156;
-							}
-						}
-						else if (npc.velocity.X > -num156 && npc.direction == -1)
-						{
-							npc.velocity.X = npc.velocity.X - num157;
-							if (npc.velocity.X < -num156)
-							{
-								npc.velocity.X = -num156;
-							}
-						}
-					}
-					if (npc.type == 520)
-					{
-						npc.localAI[2] += 1f;
-						if (npc.localAI[2] >= 6f)
-						{
-							npc.localAI[2] = 0f;
-							npc.localAI[3] = Main.player[npc.target].DirectionFrom(npc.Top + new Vector2(0f, 20f)).ToRotation();
-						}
-					}
-				}
-			}
-			if (npc.type == 109 && Main.netMode != 1 && !Main.player[npc.target].dead)
-			{
-				npc.ai[2] += 1f;
-				if (npc.ai[2] > 180f)
-				{
-					Vector2 vector24 = new Vector2(npc.position.X + (float)npc.width * 0.5f - (float)(npc.direction * 24), npc.position.Y + 4f);
-					int num158 = 3 * npc.direction;
-					int num159 = -5;
-					int num160 = Projectile.NewProjectile(vector24.X, vector24.Y, (float)num158, (float)num159, 75, 0, 0f, Main.myPlayer, 0f, 0f);
-					Main.projectile[num160].timeLeft = 300;
-					npc.ai[2] = 0f;
-				}
-			}
-			bool flag22 = false;
-			if (npc.velocity.Y == 0f)
-			{
-				int num161 = (int)(npc.position.Y + (float)npc.height + 7f) / 16;
-				int arg_A8FB_0 = (int)npc.position.X / 16;
-				int num162 = (int)(npc.position.X + (float)npc.width) / 16;
-				for (int num163 = arg_A8FB_0; num163 <= num162; num163++)
-				{
-					if (Main.tile[num163, num161] == null)
-					{
-						return false;
-					}
-					if (Main.tile[num163, num161].nactive() && Main.tileSolid[(int)Main.tile[num163, num161].type])
-					{
-						flag22 = true;
-						break;
-					}
-				}
-			}
-			if (npc.type == 428)
-			{
-				flag22 = false;
-			}
-			if (npc.velocity.Y >= 0f)
-			{
-				int num164 = 0;
-				if (npc.velocity.X < 0f)
-				{
-					num164 = -1;
-				}
-				if (npc.velocity.X > 0f)
-				{
-					num164 = 1;
-				}
-				Vector2 position2 = npc.position;
-				position2.X += npc.velocity.X;
-				int num165 = (int)((position2.X + (float)(npc.width / 2) + (float)((npc.width / 2 + 1) * num164)) / 16f);
-				int num166 = (int)((position2.Y + (float)npc.height - 1f) / 16f);
-				if (Main.tile[num165, num166] == null)
-				{
-					Main.tile[num165, num166] = new Tile();
-				}
-				if (Main.tile[num165, num166 - 1] == null)
-				{
-					Main.tile[num165, num166 - 1] = new Tile();
-				}
-				if (Main.tile[num165, num166 - 2] == null)
-				{
-					Main.tile[num165, num166 - 2] = new Tile();
-				}
-				if (Main.tile[num165, num166 - 3] == null)
-				{
-					Main.tile[num165, num166 - 3] = new Tile();
-				}
-				if (Main.tile[num165, num166 + 1] == null)
-				{
-					Main.tile[num165, num166 + 1] = new Tile();
-				}
-				if (Main.tile[num165 - num164, num166 - 3] == null)
-				{
-					Main.tile[num165 - num164, num166 - 3] = new Tile();
-				}
-				if ((float)(num165 * 16) < position2.X + (float)npc.width && (float)(num165 * 16 + 16) > position2.X && ((Main.tile[num165, num166].nactive() && !Main.tile[num165, num166].topSlope() && !Main.tile[num165, num166 - 1].topSlope() && Main.tileSolid[(int)Main.tile[num165, num166].type] && !Main.tileSolidTop[(int)Main.tile[num165, num166].type]) || (Main.tile[num165, num166 - 1].halfBrick() && Main.tile[num165, num166 - 1].nactive())) && (!Main.tile[num165, num166 - 1].nactive() || !Main.tileSolid[(int)Main.tile[num165, num166 - 1].type] || Main.tileSolidTop[(int)Main.tile[num165, num166 - 1].type] || (Main.tile[num165, num166 - 1].halfBrick() && (!Main.tile[num165, num166 - 4].nactive() || !Main.tileSolid[(int)Main.tile[num165, num166 - 4].type] || Main.tileSolidTop[(int)Main.tile[num165, num166 - 4].type]))) && (!Main.tile[num165, num166 - 2].nactive() || !Main.tileSolid[(int)Main.tile[num165, num166 - 2].type] || Main.tileSolidTop[(int)Main.tile[num165, num166 - 2].type]) && (!Main.tile[num165, num166 - 3].nactive() || !Main.tileSolid[(int)Main.tile[num165, num166 - 3].type] || Main.tileSolidTop[(int)Main.tile[num165, num166 - 3].type]) && (!Main.tile[num165 - num164, num166 - 3].nactive() || !Main.tileSolid[(int)Main.tile[num165 - num164, num166 - 3].type]))
-				{
-					float num167 = (float)(num166 * 16);
-					if (Main.tile[num165, num166].halfBrick())
-					{
-						num167 += 8f;
-					}
-					if (Main.tile[num165, num166 - 1].halfBrick())
-					{
-						num167 -= 8f;
-					}
-					if (num167 < position2.Y + (float)npc.height)
-					{
-						float num168 = position2.Y + (float)npc.height - num167;
-						float num169 = 16.1f;
-						if (npc.type == 163 || npc.type == 164 || npc.type == 236 || npc.type == 239 || npc.type == 530)
-						{
-							num169 += 8f;
-						}
-						if (num168 <= num169)
-						{
-							npc.gfxOffY += npc.position.Y + (float)npc.height - num167;
-							npc.position.Y = num167 - (float)npc.height;
-							if (num168 < 9f)
-							{
-								npc.stepSpeed = 1f;
-							}
-							else
-							{
-								npc.stepSpeed = 2f;
-							}
-						}
-					}
-				}
-			}
-			if (flag22)
-			{
-				int num170 = (int)((npc.position.X + (float)(npc.width / 2) + (float)(15 * npc.direction)) / 16f);
-				int num171 = (int)((npc.position.Y + (float)npc.height - 15f) / 16f);
-				if (npc.type == 109 || npc.type == 163 || npc.type == 164 || npc.type == 199 || npc.type == 236 || npc.type == 239 || npc.type == 257 || npc.type == 258 || npc.type == 290 || npc.type == 391 || npc.type == 425 || npc.type == 427 || npc.type == 426 || npc.type == 508 || npc.type == ModContent.NPCType<StormlionCharger>() || npc.type == 415 || npc.type == 530 || npc.type == 532)
-				{
-					num170 = (int)((npc.position.X + (float)(npc.width / 2) + (float)((npc.width / 2 + 16) * npc.direction)) / 16f);
-				}
-				if (Main.tile[num170, num171] == null)
-				{
-					Main.tile[num170, num171] = new Tile();
-				}
-				if (Main.tile[num170, num171 - 1] == null)
-				{
-					Main.tile[num170, num171 - 1] = new Tile();
-				}
-				if (Main.tile[num170, num171 - 2] == null)
-				{
-					Main.tile[num170, num171 - 2] = new Tile();
-				}
-				if (Main.tile[num170, num171 - 3] == null)
-				{
-					Main.tile[num170, num171 - 3] = new Tile();
-				}
-				if (Main.tile[num170, num171 + 1] == null)
-				{
-					Main.tile[num170, num171 + 1] = new Tile();
-				}
-				if (Main.tile[num170 + npc.direction, num171 - 1] == null)
-				{
-					Main.tile[num170 + npc.direction, num171 - 1] = new Tile();
-				}
-				if (Main.tile[num170 + npc.direction, num171 + 1] == null)
-				{
-					Main.tile[num170 + npc.direction, num171 + 1] = new Tile();
-				}
-				if (Main.tile[num170 - npc.direction, num171 + 1] == null)
-				{
-					Main.tile[num170 - npc.direction, num171 + 1] = new Tile();
-				}
-				Main.tile[num170, num171 + 1].halfBrick();
-				if ((Main.tile[num170, num171 - 1].nactive() && (Main.tile[num170, num171 - 1].type == 10 || Main.tile[num170, num171 - 1].type == 388)) & flag5)
-				{
-					npc.ai[2] += 1f;
-					npc.ai[3] = 0f;
-					if (npc.ai[2] >= 60f)
-					{
-						npc.velocity.X = 0.5f * (float)(-(float)npc.direction);
-						int num172 = 5;
-						if (Main.tile[num170, num171 - 1].type == 388)
-						{
-							num172 = 2;
-						}
-						npc.ai[1] += (float)num172;
-						if (npc.type == 27)
-						{
-							npc.ai[1] += 1f;
-						}
-						if (npc.type == 31 || npc.type == 294 || npc.type == 295 || npc.type == 296)
-						{
-							npc.ai[1] += 6f;
-						}
-						npc.ai[2] = 0f;
-						bool flag23 = false;
-						if (npc.ai[1] >= 10f)
-						{
-							flag23 = true;
-							npc.ai[1] = 10f;
-						}
-						if (npc.type == 460)
-						{
-							flag23 = true;
-						}
-						WorldGen.KillTile(num170, num171 - 1, true, false, false);
-						if ((Main.netMode != 1 || !flag23) && flag23 && Main.netMode != 1)
-						{
-							if (npc.type == 26)
-							{
-								WorldGen.KillTile(num170, num171 - 1, false, false, false);
-								if (Main.netMode == 2)
-								{
-									NetMessage.SendData(17, -1, -1, null, 0, (float)num170, (float)(num171 - 1), 0f, 0, 0, 0);
-								}
-							}
-							else
-							{
-								if (Main.tile[num170, num171 - 1].type == 10)
-								{
-									bool flag24 = WorldGen.OpenDoor(num170, num171 - 1, npc.direction);
-									if (!flag24)
-									{
-										npc.ai[3] = (float)num35;
-										npc.netUpdate = true;
-									}
-									if (Main.netMode == 2 & flag24)
-									{
-										NetMessage.SendData(19, -1, -1, null, 0, (float)num170, (float)(num171 - 1), (float)npc.direction, 0, 0, 0);
-									}
-								}
-								if (Main.tile[num170, num171 - 1].type == 388)
-								{
-									bool flag25 = WorldGen.ShiftTallGate(num170, num171 - 1, false);
-									if (!flag25)
-									{
-										npc.ai[3] = (float)num35;
-										npc.netUpdate = true;
-									}
-									if (Main.netMode == 2 & flag25)
-									{
-										NetMessage.SendData(19, -1, -1, null, 4, (float)num170, (float)(num171 - 1), 0f, 0, 0, 0);
-									}
-								}
-							}
-						}
-					}
-				}
-				else
-				{
-					int num173 = npc.spriteDirection;
-					if (npc.type == 425)
-					{
-						num173 *= -1;
-					}
-					if ((npc.velocity.X < 0f && num173 == -1) || (npc.velocity.X > 0f && num173 == 1))
-					{
-						if (npc.height >= 32 && Main.tile[num170, num171 - 2].nactive() && Main.tileSolid[(int)Main.tile[num170, num171 - 2].type])
-						{
-							if (Main.tile[num170, num171 - 3].nactive() && Main.tileSolid[(int)Main.tile[num170, num171 - 3].type])
-							{
-								npc.velocity.Y = -9f;
-								npc.netUpdate = true;
-							}
-							else
-							{
-								npc.velocity.Y = -8f;
-								npc.netUpdate = true;
-							}
-						}
-						else if (Main.tile[num170, num171 - 1].nactive() && Main.tileSolid[(int)Main.tile[num170, num171 - 1].type])
-						{
-							npc.velocity.Y = -7f;
-							npc.netUpdate = true;
-						}
-						else if (npc.position.Y + (float)npc.height - (float)(num171 * 16) > 20f && Main.tile[num170, num171].nactive() && !Main.tile[num170, num171].topSlope() && Main.tileSolid[(int)Main.tile[num170, num171].type])
-						{
-							npc.velocity.Y = -6f;
-							npc.netUpdate = true;
-						}
-						else if (npc.directionY < 0 && npc.type != 67 && (!Main.tile[num170, num171 + 1].nactive() || !Main.tileSolid[(int)Main.tile[num170, num171 + 1].type]) && (!Main.tile[num170 + npc.direction, num171 + 1].nactive() || !Main.tileSolid[(int)Main.tile[num170 + npc.direction, num171 + 1].type]))
-						{
-							npc.velocity.Y = -9f;
-							npc.velocity.X = npc.velocity.X * 2f;
-							npc.netUpdate = true;
-						}
-						else if (flag5)
-						{
-							npc.ai[1] = 0f;
-							npc.ai[2] = 0f;
-						}
-						if ((npc.velocity.Y == 0f & flag3) && npc.ai[3] == 1f)
-						{
-							npc.velocity.Y = -6f;
-						}
-					}
-					if ((npc.type == 31 || npc.type == 294 || npc.type == 295 || npc.type == 296 || npc.type == 47 || npc.type == 77 || npc.type == 104 || npc.type == 168 || npc.type == 196 || npc.type == 385 || npc.type == 389 || npc.type == 464 || npc.type == 470 || (npc.type >= 524 && npc.type <= 527)) && npc.velocity.Y == 0f && Math.Abs(npc.position.X + (float)(npc.width / 2) - (Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2))) < 100f && Math.Abs(npc.position.Y + (float)(npc.height / 2) - (Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2))) < 50f && ((npc.direction > 0 && npc.velocity.X >= 1f) || (npc.direction < 0 && npc.velocity.X <= -1f)))
-					{
-						npc.velocity.X = npc.velocity.X * 3f;
-						if (npc.velocity.X > 4f)
-						{
-							npc.velocity.X = 4f;
-						}
-						if (npc.velocity.X < -4f)
-						{
-							npc.velocity.X = -4f;
-						}
-						npc.velocity.Y = -5f;
-						npc.netUpdate = true;
-					}
-					if (npc.type == 120 && npc.velocity.Y < 0f)
-					{
-						npc.velocity.Y = npc.velocity.Y * 1.1f;
-					}
-					if (npc.type == 287 && npc.velocity.Y == 0f && Math.Abs(npc.position.X + (float)(npc.width / 2) - (Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2))) < 150f && Math.Abs(npc.position.Y + (float)(npc.height / 2) - (Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2))) < 50f && ((npc.direction > 0 && npc.velocity.X >= 1f) || (npc.direction < 0 && npc.velocity.X <= -1f)))
-					{
-						npc.velocity.X = (float)(9 * npc.direction);
-						npc.velocity.Y = -5f;
-						npc.netUpdate = true;
-					}
-					if (npc.type == 287 && npc.velocity.Y < 0f)
-					{
-						npc.velocity.X = npc.velocity.X * 1.25f;
-						npc.velocity.Y = npc.velocity.Y * 1.15f;
-					}
-					if (npc.type == 460 && npc.velocity.Y < 0f)
-					{
-						npc.velocity.X = npc.velocity.X * 1.35f;
-						npc.velocity.Y = npc.velocity.Y * 1.15f;
-					}
-				}
-			}
-			else if (flag5)
-			{
-				npc.ai[1] = 0f;
-				npc.ai[2] = 0f;
-			}
-			if (Main.netMode != 1 && npc.type == NPCID.ChaosElemental && npc.ai[3] >= (float)num35)
-			{
-				int num174 = (int)Main.player[npc.target].position.X / 16;
-				int num175 = (int)Main.player[npc.target].position.Y / 16;
-				int num176 = (int)npc.position.X / 16;
-				int num177 = (int)npc.position.Y / 16;
-				int num178 = 20;
-				int num179 = 0;
-				bool flag26 = false;
-				if (Math.Abs(npc.position.X - Main.player[npc.target].position.X) + Math.Abs(npc.position.Y - Main.player[npc.target].position.Y) > 2000f)
-				{
-					num179 = 100;
-					flag26 = true;
-				}
-				while (!flag26 && num179 < 100)
-				{
-					num179++;
-					int num180 = Main.rand.Next(num174 - num178, num174 + num178);
-					for (int num181 = Main.rand.Next(num175 - num178, num175 + num178); num181 < num175 + num178; num181++)
-					{
-						if ((num181 < num175 - 4 || num181 > num175 + 4 || num180 < num174 - 4 || num180 > num174 + 4) && (num181 < num177 - 1 || num181 > num177 + 1 || num180 < num176 - 1 || num180 > num176 + 1) && Main.tile[num180, num181].nactive())
-						{
-							bool flag27 = true;
-							if (npc.type == 32 && Main.tile[num180, num181 - 1].wall == 0)
-							{
-								flag27 = false;
-							}
-							else if (Main.tile[num180, num181 - 1].lava())
-							{
-								flag27 = false;
-							}
-							if (flag27 && Main.tileSolid[(int)Main.tile[num180, num181].type] && !Collision.SolidTiles(num180 - 1, num180 + 1, num181 - 4, num181 - 1))
-							{
-								npc.position.X = (float)(num180 * 16 - npc.width / 2);
-								npc.position.Y = (float)(num181 * 16 - npc.height);
-								npc.netUpdate = true;
-								npc.ai[3] = -30f;
-							}
-						}
-					}
-				}
-			}
-			return false;
-		}
-		#endregion
+            int psychoAlphaMax = 200;
+            // Standing still
+            if (npc.ai[2] == 0f)
+            {
+                npc.alpha = psychoAlphaMax;
+                npc.TargetClosest(true);
+                if (!Main.player[npc.target].dead && (Main.player[npc.target].Center - npc.Center).Length() < 170f)
+                {
+                    npc.ai[2] = -16f;
+                }
+                if (npc.velocity.X != 0f || npc.velocity.Y < 0f || npc.velocity.Y > 2f || npc.justHit)
+                {
+                    npc.ai[2] = -16f;
+                }
+            }
+            // Active
+            if (npc.ai[2] < 0f)
+            {
+                if (npc.alpha > 0)
+                {
+                    npc.alpha -= psychoAlphaMax / 16;
+                    if (npc.alpha < 0)
+                    {
+                        npc.alpha = 0;
+                    }
+                }
+                npc.ai[2] += 1f;
+                if (npc.ai[2] == 0f)
+                {
+                    npc.ai[2] = 1f;
+                    npc.velocity.X = (float)(npc.direction * 2);
+                }
+            }
+            return false;
+        }
+        public static bool BuffedSwampThingAI(NPC npc)
+        {
+            if (Main.netMode != NetmodeID.MultiplayerClient && Main.rand.Next(240) == 0)
+            {
+                npc.ai[2] = (float)Main.rand.Next(-480, -60);
+                npc.netUpdate = true;
+            }
+            if (npc.ai[2] < 0f)
+            {
+                npc.TargetClosest(true);
+                if (npc.justHit)
+                {
+                    npc.ai[2] = 0f;
+                }
+                if (Collision.CanHit(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1))
+                {
+                    npc.ai[2] = 0f;
+                }
+            }
+            if (npc.ai[2] < 0f)
+            {
+                npc.velocity.X *= 0.9f;
+                if ((double)npc.velocity.X > -0.1 && (double)npc.velocity.X < 0.1)
+                {
+                    npc.velocity.X = 0f;
+                }
+                npc.ai[2] += 1f;
+                if (npc.ai[2] == 0f)
+                {
+                    npc.velocity.X = (float)npc.direction * 0.1f;
+                }
+            }
+            return false;
+        }
+        // Misc effects used more than once in the Fighter AI
+        public static void MedusaHeadDustEffect(NPC npc, float time)
+        {
+            Vector2 headPosition = npc.Top + new Vector2((float)(npc.spriteDirection * 6), 6f);
+            float rotationVectorMult = MathHelper.Lerp(20f, 30f, (time * 3f + 50f) / 182f);
+            Main.rand.NextFloat();
+            for (float num17 = 0f; num17 < 2f; num17 += 1f)
+            {
+                Vector2 rotationVector = Vector2.UnitY.RotatedByRandom(Math.PI * 2.0) * (Main.rand.NextFloat() * 0.5f + 0.5f);
+                Dust dust = Dust.NewDustDirect(headPosition, 0, 0, 228, 0f, 0f, 0, default, 1f);
+                dust.position = headPosition + rotationVector * rotationVectorMult;
+                dust.noGravity = true;
+                dust.velocity = rotationVector * 2f;
+                dust.scale = 0.5f + Main.rand.NextFloat() * 0.5f;
+            }
+        }
 
-		#region Flying AI
-		public static bool BuffedFlyingAI(NPC npc, Mod mod)
+        /// <summary>
+        /// Causes an NPC to run on the X axis until it hits the maximum speed and decclerates as needed. 
+        /// Works best with fighter AI based NPCs.
+        /// </summary>
+        /// <param name="npc">The NPC to manipulate</param>
+        /// <param name="velocityMax">The max speed to run at.</param>
+        /// <param name="acceleration">The rate at which the X velocity changes with time.</param>
+        /// <param name="turnDeceleration">The X velocity deceleration multiplier when the NPC will turn to another direction.</param>
+        /// <param name="extraDeceleration">Causes the NPC to slow down faster when not jumping for direction turning if true.</param>
+        /// <param name="turnDeceleration">The X velocity deceleration multiplier when the NPC will turn to another direction.</param>
+        /// <param name="extraDecelerationFactor">The X velocity deceleration multiplier used by <paramref name="turnDeceleration"/>.</param>
+        public static void FighterRunningAI(NPC npc, float velocityMax, float acceleration, float turnDeceleration,
+            bool extraDeceleration = false, float extraDecelerationFactor = 0.99f)
+        {
+            if (npc.velocity.X < -velocityMax || npc.velocity.X > velocityMax)
+            {
+                if (npc.velocity.Y == 0f)
+                {
+                    npc.velocity *= turnDeceleration;
+                }
+            }
+            else if (npc.velocity.X < velocityMax && npc.direction == 1)
+            {
+                npc.velocity.X += acceleration;
+
+                if (extraDeceleration && npc.velocity.Y == 0f && npc.velocity.X < 0f)
+                    npc.velocity.X *= extraDecelerationFactor;
+
+                if (npc.velocity.X > 3f)
+                {
+                    npc.velocity.X = 3f;
+                }
+            }
+            else if (npc.velocity.X > -velocityMax && npc.direction == -1)
+            {
+                if (extraDeceleration && npc.velocity.Y == 0f && npc.velocity.X > 0f)
+                    npc.velocity.X *= extraDecelerationFactor;
+                npc.velocity.X -= acceleration;
+                if (npc.velocity.X < -velocityMax)
+                {
+                    npc.velocity.X = -velocityMax;
+                }
+            }
+        }
+
+        public static void TryConvertToWallClimber(NPC npc)
+        {
+            // Note: The Possessed rely on an AI shift rather than a transformation NPC
+            // As a result, they are not included in this method
+
+            List<int> spiders = new List<int>()
+            {
+                NPCID.BlackRecluse,
+                NPCID.BloodCrawler,
+                NPCID.DesertScorpionWalk,
+                NPCID.JungleCreeper,
+                NPCID.WallCreeper,
+            };
+            // These checks are not required if the npc is not a real spider
+            if (!spiders.Contains(npc.type))
+                return;
+            int tileCoordsX = (int)npc.Center.X / 16;
+            int tileCoordsY = (int)npc.Center.Y / 16;
+            bool climbWalls = false;
+            for (int x = tileCoordsX - 1; x <= tileCoordsX + 1; x++)
+            {
+                for (int y = tileCoordsY - 1; y <= tileCoordsY + 1; y++)
+                {
+                    if (Main.tile[x, y].wall > 0)
+                    {
+                        climbWalls = true;
+                    }
+                }
+            }
+            int transformType = -1;
+            if (climbWalls)
+            {
+                switch (npc.type)
+                {
+                    case NPCID.BlackRecluse:
+                        transformType = NPCID.BlackRecluseWall;
+                        break;
+                    case NPCID.BloodCrawler:
+                        transformType = NPCID.BloodCrawlerWall;
+                        break;
+                    case NPCID.DesertScorpionWalk:
+                        transformType = NPCID.DesertScorpionWall;
+                        break;
+                    case NPCID.JungleCreeper:
+                        transformType = NPCID.JungleCreeperWall;
+                        break;
+                    case NPCID.WallCreeper:
+                        transformType = NPCID.WallCreeperWall;
+                        break;
+                }
+                if (transformType != -1)
+                {
+                    npc.Transform(transformType);
+                }
+            }
+        }
+
+        public static bool BuffedFighterAI(NPC npc, Mod mod)
+        {
+            if (npc.type == NPCID.Psycho)
+            {
+                return BuffedPsychoAI(npc);
+            }
+            if (npc.type == NPCID.SwampThing)
+            {
+                return BuffedSwampThingAI(npc);
+            }
+            if (npc.type == NPCID.CreatureFromTheDeep)
+            {
+                // Swimming
+                if (npc.wet)
+                {
+                    npc.knockBackResist = 0f;
+                    npc.ai[3] = -0.10101f;
+                    npc.noGravity = true;
+                    npc.width = 34;
+                    npc.height = 24;
+                    npc.position = npc.Center - npc.Size / 2f;
+                    npc.TargetClosest(true);
+                    if (npc.collideX)
+                    {
+                        npc.velocity.X = -npc.oldVelocity.X;
+                    }
+                    if (npc.velocity.X < 0f)
+                    {
+                        npc.direction = -1;
+                    }
+                    if (npc.velocity.X > 0f)
+                    {
+                        npc.direction = 1;
+                    }
+                    // If there's nothing in the way of the player, swim towards them
+                    if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].Center, 1, 1))
+                    {
+                        npc.velocity = (npc.velocity * 19f + npc.DirectionTo(Main.player[npc.target].Center) * 10f) / 20f;
+                        return false;
+                    }
+                    float velocityMultiplier = 10f;
+                    if (npc.velocity.Y > 0f)
+                    {
+                        velocityMultiplier = 6f;
+                    }
+                    if (npc.velocity.Y < 0f)
+                    {
+                        velocityMultiplier = 16f;
+                    }
+                    Vector2 directionVectorNormalized = new Vector2((float)npc.direction, -1f);
+                    directionVectorNormalized.Normalize();
+                    directionVectorNormalized *= velocityMultiplier;
+                    // If the speed is low, make the turn speed higher
+                    if (velocityMultiplier < 5f)
+                    {
+                        npc.velocity = (npc.velocity * 24f + directionVectorNormalized) / 25f;
+                        return false;
+                    }
+                    npc.velocity = (npc.velocity * 9f + directionVectorNormalized) / 10f;
+                    return false;
+                }
+                else
+                {
+                    npc.knockBackResist = 0.2f * Main.knockBackMultiplier;
+                    npc.noGravity = false;
+                    npc.width = 18;
+                    npc.height = 40;
+                    npc.position = npc.Center - npc.Size / 2f;
+                    // If was just swimming, set values to return to land
+                    if (npc.ai[3] == -0.10101f)
+                    {
+                        npc.ai[3] = 0f;
+                        // Adjust velocity from the one the NPC had when swimming
+                        float velocityMagnitude = npc.velocity.Length();
+                        velocityMagnitude *= 2f;
+                        if (velocityMagnitude > 12f)
+                        {
+                            velocityMagnitude = 12f;
+                        }
+                        npc.velocity.Normalize();
+                        npc.velocity *= velocityMagnitude;
+                        npc.direction = npc.spriteDirection = (npc.velocity.X > 0).ToDirectionInt();
+                    }
+                }
+            }
+            if (npc.type == NPCID.CultistArcherBlue || npc.type == NPCID.CultistArcherWhite)
+            {
+                // Pissed off 
+                if (npc.ai[3] < 0f)
+                {
+                    npc.damage = 0;
+                    npc.velocity.X *= 0.93f;
+                    if (npc.velocity.X > -0.1 && (double)npc.velocity.X < 0.1)
+                    {
+                        npc.velocity.X = 0f;
+                    }
+                    int targetNPC = (int)(-npc.ai[3] - 1f);
+                    int directionToTarget = Math.Sign(Main.npc[targetNPC].Center.X - npc.Center.X);
+                    if (directionToTarget != npc.direction)
+                    {
+                        npc.velocity.X = 0f;
+                        npc.direction = directionToTarget;
+                        npc.netUpdate = true;
+                    }
+                    if (npc.justHit && Main.netMode != NetmodeID.MultiplayerClient && Main.npc[targetNPC].localAI[0] == 0f)
+                    {
+                        Main.npc[targetNPC].localAI[0] = 1f;
+                    }
+                    if (npc.ai[0] < 1000f)
+                    {
+                        npc.ai[0] = 1000f;
+                    }
+                    npc.ai[0] += 1f;
+                    if (npc.ai[0] >= 1300f)
+                    {
+                        npc.ai[0] = 1000f;
+                        npc.netUpdate = true;
+                    }
+                    return false;
+                }
+                // Not pissed off
+                if (npc.ai[0] >= 1000f)
+                {
+                    npc.ai[0] = 0f;
+                }
+                npc.damage = npc.defDamage;
+            }
+            if (npc.type == NPCID.MartianOfficer && npc.ai[2] == 0f && npc.localAI[0] == 0f && Main.netMode != NetmodeID.MultiplayerClient)
+            {
+                // If Martian Officer is ready to generate sheild, generate it.
+                int shield = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCID.ForceBubble, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+                npc.ai[2] = (float)(shield + 1);
+                npc.localAI[0] = -1f;
+                npc.netUpdate = true;
+                Main.npc[shield].ai[0] = (float)npc.whoAmI;
+                Main.npc[shield].netUpdate = true;
+            }
+            if (npc.type == NPCID.MartianOfficer)
+            {
+                int shield = (int)npc.ai[2] - 1;
+                if (shield != -1 && Main.npc[shield].active && Main.npc[shield].type == NPCID.ForceBubble)
+                {
+                    npc.dontTakeDamage = true;
+                }
+                else
+                {
+                    npc.dontTakeDamage = false;
+                    npc.ai[2] = 0f;
+                    if (npc.localAI[0] == -1f)
+                    {
+                        npc.localAI[0] = 120f;
+                    }
+                    if (npc.localAI[0] > 0f)
+                    {
+                        npc.localAI[0] -= 1f;
+                    }
+                }
+            }
+            if (npc.type == NPCID.GraniteGolem)
+            {
+                int activeTime = 300;
+                int defendTime = 120;
+                npc.defense = npc.defDefense;
+                if (npc.ai[2] < 0f)
+                {
+                    npc.defense = npc.defDefense + 15;
+                    npc.ai[2] += 1f;
+                    npc.velocity.X *= 0.9f;
+                    if (Math.Abs(npc.velocity.X) < 0.001)
+                    {
+                        npc.velocity.X = 0.001f * (float)npc.direction;
+                    }
+                    if (Math.Abs(npc.velocity.Y) > 1f)
+                    {
+                        npc.ai[2] += 10f;
+                    }
+                    if (npc.ai[2] >= 0f)
+                    {
+                        npc.netUpdate = true;
+                        npc.velocity.X += (float)npc.direction * 0.3f;
+                    }
+                    return false;
+                }
+                if (npc.ai[2] < activeTime)
+                {
+                    if (npc.justHit)
+                    {
+                        npc.ai[2] += 15f;
+                    }
+                    npc.ai[2] += 1f;
+                }
+                else if (npc.velocity.Y == 0f)
+                {
+                    npc.ai[2] = defendTime * -1f;
+                    npc.netUpdate = true;
+                }
+            }
+            if (npc.type == NPCID.Medusa)
+            {
+                int afterHitTime = 90;
+                int afterWaitTime = 210;
+                int maxTime = 270;
+                int debuffTime = 2 * 60; // 2 seconds
+                int turnToStoneTime = 20;
+                float mesudaActiveDistance = 900f;
+                float medusaEffectDistance = 1000f;
+                if (npc.ai[2] > 0f)
+                {
+                    npc.ai[2] -= 1f;
+                }
+                else if (npc.ai[2] == 0f)
+                {
+                    if (((Main.player[npc.target].Center.X < npc.Center.X && npc.direction < 0) || (Main.player[npc.target].Center.X > npc.Center.X && npc.direction > 0)) && npc.velocity.Y == 0f && npc.Distance(Main.player[npc.target].Center) < mesudaActiveDistance && Collision.CanHit(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1))
+                    {
+                        npc.ai[2] = (float)(maxTime * -1f - turnToStoneTime);
+                        npc.netUpdate = true;
+                    }
+                }
+                else
+                {
+                    if (npc.ai[2] < 0f && npc.ai[2] < maxTime * -1f)
+                    {
+                        npc.velocity.X *= 0.9f;
+                        if (npc.velocity.Y < -2f || npc.velocity.Y > 4f || npc.justHit)
+                        {
+                            npc.ai[2] = afterHitTime;
+                        }
+                        else
+                        {
+                            npc.ai[2] += 1f;
+                            if (npc.ai[2] == 0f)
+                            {
+                                npc.ai[2] = afterWaitTime;
+                            }
+                        }
+                        float time = npc.ai[2] + maxTime + turnToStoneTime;
+                        if (time == 1f)
+                        {
+                            Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 17, 1f, 0f);
+                        }
+                        if (time < turnToStoneTime)
+                        {
+                            MedusaHeadDustEffect(npc, time);
+                        }
+                        Lighting.AddLight(npc.Center, 0.9f, 0.75f, 0.1f);
+                        return false;
+                    }
+                    if (npc.ai[2] < 0f && npc.ai[2] >= maxTime * -1f)
+                    {
+                        Lighting.AddLight(npc.Center, 0.9f, 0.75f, 0.1f);
+                        npc.velocity.X *= 0.9f;
+                        if (npc.velocity.Y < -2f || npc.velocity.Y > 4f || npc.justHit)
+                        {
+                            npc.ai[2] = afterHitTime;
+                        }
+                        else
+                        {
+                            npc.ai[2] += 1f;
+                            if (npc.ai[2] == 0f)
+                            {
+                                npc.ai[2] = afterWaitTime;
+                            }
+                        }
+                        float time = npc.ai[2] + maxTime;
+                        if (time < 180f && (Main.rand.Next(3) == 0 || npc.ai[2] % 3f == 0f))
+                        {
+                            MedusaHeadDustEffect(npc, time);
+                        }
+                        if (Main.netMode != NetmodeID.Server)
+                        {
+                            Player player = Main.player[Main.myPlayer];
+                            if (!player.dead && player.active && player.FindBuffIndex(156) == -1)
+                            {
+                                if (npc.Distance(player.Center) < medusaEffectDistance)
+                                {
+                                    bool canTurnPlayerToStone = npc.Distance(player.Center) < 30f;
+                                    if (!canTurnPlayerToStone)
+                                    {
+                                        // Used to be "float x = 0.7853982f.ToRotationVector2().X;"
+                                        // cos(pi/4) should do the job too, though. If you want/need to revert this to the
+                                        // code above, do so.
+                                        float x = (float)Math.Cos(MathHelper.PiOver4);
+                                        Vector2 vector6 = Vector2.Normalize(player.Center - npc.Center);
+                                        if (vector6.X > x || vector6.X < -x)
+                                        {
+                                            canTurnPlayerToStone = true;
+                                        }
+                                    }
+                                    if (((player.Center.X < npc.Center.X && npc.direction < 0 && player.direction > 0) || (player.Center.X > npc.Center.X && npc.direction > 0 && player.direction < 0)) && canTurnPlayerToStone && (Collision.CanHitLine(npc.Center, 1, 1, player.Center, 1, 1) || Collision.CanHitLine(npc.Center - Vector2.UnitY * 16f, 1, 1, player.Center, 1, 1) || Collision.CanHitLine(npc.Center + Vector2.UnitY * 8f, 1, 1, player.Center, 1, 1)))
+                                    {
+                                        player.AddBuff(156, debuffTime + (int)npc.ai[2] * -1, true);
+                                    }
+                                }
+                            }
+                        }
+                        return false;
+                    }
+                }
+            }
+            if (npc.type == NPCID.GoblinSummoner)
+            {
+                // Shit out minion things
+                if (npc.ai[3] < 0f)
+                {
+                    npc.knockBackResist = 0f;
+                    npc.defense = (int)(npc.defDefense * 1.3);
+                    npc.noGravity = true;
+                    npc.noTileCollide = true;
+                    npc.direction = (npc.velocity.X > 0).ToDirectionInt();
+                    npc.rotation = npc.velocity.X * 0.1f;
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                    {
+                        npc.localAI[3] += 1f;
+                        if (npc.localAI[3] > (float)Main.rand.Next(20, 120))
+                        {
+                            npc.localAI[3] = 0f;
+                            Vector2 spawnPosition = npc.Center;
+                            spawnPosition += npc.velocity;
+                            NPC.NewNPC((int)spawnPosition.X, (int)spawnPosition.Y, NPCID.ChaosBall, 0, 0f, 0f, 0f, 0f, 255);
+                        }
+                    }
+                }
+                else
+                {
+                    npc.localAI[3] = 0f;
+                    npc.knockBackResist = 0.2f * Main.knockBackMultiplier;
+                    npc.rotation *= 0.9f;
+                    npc.defense = npc.defDefense;
+                    npc.noGravity = false;
+                    npc.noTileCollide = false;
+                }
+                if (npc.ai[3] == 1f)
+                {
+                    npc.knockBackResist = 0f;
+                    npc.defense += 10;
+                }
+                if (npc.ai[3] == -1f)
+                {
+                    npc.TargetClosest(true);
+                    float velocityMultiplier = 10f;
+                    float turnValue = 40f;
+                    Vector2 value3 = Main.player[npc.target].Center - npc.Center;
+                    float playerDistance = value3.Length();
+                    velocityMultiplier += playerDistance / 200f;
+                    value3.Normalize();
+                    value3 *= velocityMultiplier;
+                    npc.velocity = (npc.velocity * (turnValue - 1f) + value3) / turnValue;
+                    if (playerDistance < 500f && !Collision.SolidCollision(npc.position, npc.width, npc.height))
+                    {
+                        // Go back to normal AI
+                        npc.ai[3] = 0f;
+                        npc.ai[2] = 0f;
+                    }
+                    return false;
+                }
+                // Go up on the Y axis and slow down on the X axis
+                if (npc.ai[3] == -2f)
+                {
+                    npc.velocity.Y -= 0.2f;
+                    if (npc.velocity.Y < -12f)
+                    {
+                        npc.velocity.Y = -12f;
+                    }
+                    if (Main.player[npc.target].Center.Y - npc.Center.Y > 200f)
+                    {
+                        npc.TargetClosest(true);
+                        npc.ai[3] = -3f;
+                        if (Main.player[npc.target].Center.X > npc.Center.X)
+                        {
+                            npc.ai[2] = 1f;
+                        }
+                        else
+                        {
+                            npc.ai[2] = -1f;
+                        }
+                    }
+                    npc.velocity.X *= 0.99f;
+                    return false;
+                }
+                // Similar to above, but more quick
+                if (npc.ai[3] == -3f)
+                {
+                    if (npc.direction == 0)
+                    {
+                        npc.TargetClosest(true);
+                    }
+                    if (npc.ai[2] == 0f)
+                    {
+                        npc.ai[2] = (float)npc.direction;
+                    }
+                    npc.velocity.Y *= 0.9f;
+                    npc.velocity.X += npc.ai[2] * 0.3f;
+                    if (npc.velocity.X > 10f)
+                    {
+                        npc.velocity.X = 10f;
+                    }
+                    if (npc.velocity.X < -10f)
+                    {
+                        npc.velocity.X = -10f;
+                    }
+                    float playerDistance = Main.player[npc.target].Center.X - npc.Center.X;
+                    if ((npc.ai[2] < 0f && playerDistance > 300f) || (npc.ai[2] > 0f && playerDistance < -300f))
+                    {
+                        npc.ai[3] = -4f;
+                        npc.ai[2] = 0f;
+                        return false;
+                    }
+                    if (Math.Abs(Main.player[npc.target].Center.X - npc.Center.X) > 800f)
+                    {
+                        npc.ai[3] = -1f;
+                        npc.ai[2] = 0f;
+                    }
+                    return false;
+                }
+                else
+                {
+                    if (npc.ai[3] == -4f)
+                    {
+                        npc.ai[2] += 1f;
+                        npc.velocity.Y += 0.1f;
+                        // Don't go very fast
+                        if (npc.velocity.Length() > 4f)
+                        {
+                            npc.velocity *= 0.9f;
+                        }
+                        int tileAtCenterX = (int)npc.Center.X / 16;
+                        int tileAtBottom = (int)(npc.position.Y + (float)npc.height + 12f) / 16;
+                        bool ableToRestart = false;
+                        for (int i = tileAtCenterX - 1; i <= tileAtCenterX + 1; i++)
+                        {
+                            if (Main.tile[i, tileAtBottom] == null)
+                            {
+                                Main.tile[tileAtCenterX, tileAtBottom] = new Tile();
+                            }
+                            if (Main.tile[i, tileAtBottom].active() && Main.tileSolid[(int)Main.tile[i, tileAtBottom].type])
+                            {
+                                ableToRestart = true;
+                            }
+                        }
+                        if (ableToRestart && !Collision.SolidCollision(npc.position, npc.width, npc.height))
+                        {
+                            npc.ai[3] = 0f;
+                            npc.ai[2] = 0f;
+                        }
+                        else if (npc.ai[2] > 300f || npc.Center.Y > Main.player[npc.target].Center.Y + 200f)
+                        {
+                            npc.ai[3] = -1f;
+                            npc.ai[2] = 0f;
+                        }
+                    }
+                    // Barf out the shadowflame skull things
+                    else
+                    {
+                        if (npc.ai[3] == 1f)
+                        {
+                            Vector2 spawnPosiion = npc.Center;
+                            spawnPosiion.Y -= 70f;
+                            npc.velocity.X *= 0.8f;
+                            npc.ai[2] += 1f;
+                            if (npc.ai[2] == 30f)
+                            {
+                                if (Main.netMode != NetmodeID.MultiplayerClient)
+                                {
+                                    NPC.NewNPC((int)spawnPosiion.X, (int)spawnPosiion.Y + 18, NPCID.ShadowFlameApparition, 0, 0f, 0f, 0f, 0f, 255);
+                                }
+                            }
+                            else if (npc.ai[2] >= 90f)
+                            {
+                                npc.ai[3] = -2f;
+                                npc.ai[2] = 0f;
+                            }
+                            for (int j = 0; j < 2; j++)
+                            {
+                                // Randomize and normalize. You know the drill
+                                Vector2 dustVelocity = Vector2.One.RotatedByRandom(MathHelper.TwoPi);
+                                dustVelocity *= (float)Main.rand.Next(0, 100) * 0.1f;
+                                dustVelocity.Normalize();
+                                dustVelocity *= (float)Main.rand.Next(50, 90) * 0.1f;
+                                int dustIdx = Dust.NewDust(spawnPosiion, 1, 1, 27, 0f, 0f, 0, default, 1f);
+                                Main.dust[dustIdx].velocity = -dustVelocity * 0.3f;
+                                Main.dust[dustIdx].alpha = 100;
+                                if (Main.rand.Next(2) == 0)
+                                {
+                                    Main.dust[dustIdx].noGravity = true;
+                                    Main.dust[dustIdx].scale += 0.3f;
+                                }
+                            }
+                            return false;
+                        }
+                        npc.ai[2] += 1f;
+                        int maxSkullCount = 10;
+                        if (npc.velocity.Y == 0f && NPC.CountNPCS(NPCID.ShadowFlameApparition) < maxSkullCount)
+                        {
+                            if (npc.ai[2] >= 180f)
+                            {
+                                npc.ai[2] = 0f;
+                                npc.ai[3] = 1f;
+                            }
+                        }
+                        else
+                        {
+                            if (NPC.CountNPCS(NPCID.ShadowFlameApparition) >= maxSkullCount)
+                            {
+                                npc.ai[2] += 1f;
+                            }
+                            if (npc.ai[2] >= 360f)
+                            {
+                                npc.ai[2] = 0f;
+                                npc.ai[3] = -2f;
+                                npc.velocity.Y -= 3f;
+                            }
+                        }
+                        if (npc.target >= 0 && !Main.player[npc.target].dead && (Main.player[npc.target].Center - npc.Center).Length() > 800f)
+                        {
+                            npc.ai[3] = -1f;
+                            npc.ai[2] = 0f;
+                        }
+                    }
+                    if (Main.player[npc.target].dead)
+                    {
+                        npc.TargetClosest(true);
+                        if (Main.player[npc.target].dead && npc.timeLeft > 1)
+                        {
+                            npc.timeLeft = 1;
+                        }
+                    }
+                }
+            }
+            if (npc.type == NPCID.SolarSolenian)
+            {
+                npc.reflectingProjectiles = false;
+                npc.takenDamageMultiplier = 1f;
+                int chargeTime = 6;
+                int yFlyTime = 10;
+                float velocityMultiplier = 20f;
+                if (npc.ai[2] > 0f)
+                {
+                    npc.ai[2] -= 1f;
+                }
+                if (npc.ai[2] == 0f)
+                {
+                    if (((Main.player[npc.target].Center.X < npc.Center.X && npc.direction < 0) || (Main.player[npc.target].Center.X > npc.Center.X && npc.direction > 0)) && Collision.CanHit(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1))
+                    {
+                        npc.ai[2] = -1f;
+                        npc.netUpdate = true;
+                        npc.TargetClosest(true);
+                    }
+                }
+                else
+                {
+                    if (npc.ai[2] < 0f && npc.ai[2] > chargeTime * -1f)
+                    {
+                        npc.ai[2] -= 1f;
+                        npc.velocity.X *= 0.9f;
+                        return false;
+                    }
+                    if (npc.ai[2] == chargeTime * -1f)
+                    {
+                        npc.ai[2] -= 1f;
+                        npc.TargetClosest(true);
+                        Vector2 vectorToPlayer = npc.DirectionTo(Main.player[npc.target].Top + new Vector2(0f, -30f));
+                        if (vectorToPlayer.HasNaNs())
+                        {
+                            vectorToPlayer = Vector2.Normalize(new Vector2((float)npc.spriteDirection, -1f));
+                        }
+                        npc.velocity = vectorToPlayer * velocityMultiplier;
+                        npc.netUpdate = true;
+                        return false;
+                    }
+                    if (npc.ai[2] < chargeTime * -1f)
+                    {
+                        npc.ai[2] -= 1f;
+                        if (npc.velocity.Y == 0f)
+                        {
+                            npc.ai[2] = 60f;
+                        }
+                        else if (npc.ai[2] < (float)(chargeTime * -1f - yFlyTime))
+                        {
+                            npc.velocity.Y += 0.15f;
+                            if (npc.velocity.Y > 24f)
+                            {
+                                npc.velocity.Y = 24f;
+                            }
+                        }
+                        npc.reflectingProjectiles = true;
+                        npc.takenDamageMultiplier = 3f;
+                        if (npc.justHit)
+                        {
+                            npc.ai[2] = 60f;
+                            npc.netUpdate = true;
+                        }
+                        return false;
+                    }
+                }
+            }
+            if (npc.type == NPCID.SolarDrakomire)
+            {
+                int timeToReset = 42;
+                int timeToBreathFire = 18;
+                if (npc.justHit)
+                {
+                    npc.ai[2] = 60f;
+                    npc.netUpdate = true;
+                }
+                if (npc.ai[2] > 0f)
+                {
+                    npc.ai[2] -= 1f;
+                }
+                if (npc.ai[2] == 0f)
+                {
+                    int solarFlareCount = 0;
+                    int maxFlareCount = 6;
+                    for (int k = 0; k < 200; k++)
+                    {
+                        if (Main.npc[k].active && Main.npc[k].type == NPCID.SolarFlare)
+                        {
+                            solarFlareCount++;
+                        }
+                    }
+                    if (solarFlareCount > maxFlareCount)
+                    {
+                        npc.ai[2] = 60f;
+                    }
+                    else if (((Main.player[npc.target].Center.X < npc.Center.X && npc.direction < 0) || (Main.player[npc.target].Center.X > npc.Center.X && npc.direction > 0)) && Collision.CanHit(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1))
+                    {
+                        npc.ai[2] = -1f;
+                        npc.netUpdate = true;
+                        npc.TargetClosest(true);
+                    }
+                }
+                else if (npc.ai[2] < 0f && npc.ai[2] > (float)(-(float)timeToReset))
+                {
+                    npc.ai[2] -= 1f;
+                    if (npc.ai[2] == (float)(-(float)timeToReset))
+                    {
+                        npc.ai[2] = (float)(180 + 10 * Main.rand.Next(10));
+                    }
+                    npc.velocity.X *= 0.8f;
+                    if (npc.ai[2] == (float)(-(float)timeToBreathFire) || npc.ai[2] == (float)(-(float)timeToBreathFire - 8) || npc.ai[2] == (float)(-(float)timeToBreathFire - 16))
+                    {
+                        for (int l = 0; l < 20; l++)
+                        {
+                            Vector2 spawnPosition = npc.Center + Vector2.UnitX * (float)npc.spriteDirection * 40f;
+                            Dust dust = Main.dust[Dust.NewDust(spawnPosition, 0, 0, 259, 0f, 0f, 0, default, 1f)];
+                            Vector2 velocity = Vector2.UnitY.RotatedByRandom(Math.PI * 2.0);
+                            dust.position = spawnPosition + velocity * 4f;
+                            dust.velocity = velocity * 2f + Vector2.UnitX * Main.rand.NextFloat() * (float)npc.spriteDirection * 3f;
+                            dust.scale = 0.3f + velocity.X * (float)(-(float)npc.spriteDirection);
+                            dust.fadeIn = 0.7f;
+                            dust.noGravity = true;
+                        }
+                        if (npc.velocity.X > -0.5f && npc.velocity.X < 0.5f)
+                        {
+                            npc.velocity.X = 0f;
+                        }
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        {
+                            NPC.NewNPC((int)npc.Center.X + npc.spriteDirection * 45, (int)npc.Center.Y + 8, NPCID.SolarFlare, 0, 0f, 0f, 0f, 0f, npc.target);
+                        }
+                    }
+                    return false;
+                }
+            }
+            if (npc.type == NPCID.VortexLarva)
+            {
+                npc.localAI[0] += 1f;
+                if (npc.localAI[0] >= 150f)
+                {
+                    int centerTileX = (int)npc.Center.X / 16 - 1;
+                    int centerTileY = (int)npc.Center.Y / 16 - 1;
+                    if (!Collision.SolidTiles(centerTileX, centerTileX + 2, centerTileY, centerTileY + 1) && Main.netMode != NetmodeID.MultiplayerClient)
+                    {
+                        npc.Transform(NPCID.VortexHornet);
+                        npc.life = npc.lifeMax;
+                        npc.localAI[0] = 0f;
+                        return false;
+                    }
+                }
+                int maxValue;
+                if (npc.localAI[0] < 30f)
+                {
+                    maxValue = 16;
+                }
+                else if (npc.localAI[0] < 60f)
+                {
+                    maxValue = 8;
+                }
+                else if (npc.localAI[0] < 90f)
+                {
+                    maxValue = 4;
+                }
+                else if (npc.localAI[0] < 120f)
+                {
+                    maxValue = 2;
+                }
+                else if (npc.localAI[0] < 150f)
+                {
+                    maxValue = 1;
+                }
+                else
+                {
+                    maxValue = 1;
+                }
+                if (Main.rand.Next(maxValue) == 0)
+                {
+                    Dust dust = Main.dust[Dust.NewDust(npc.position, npc.width, npc.height, 229, 0f, 0f, 0, default, 1f)];
+                    dust.noGravity = true;
+                    dust.scale = 1f;
+                    dust.noLight = true;
+                    dust.velocity = npc.DirectionFrom(dust.position) * dust.velocity.Length();
+                    dust.position -= dust.velocity * 5f;
+                    dust.position.X += (float)(npc.direction * 6);
+                    dust.position.Y += 4f;
+                }
+            }
+            if (npc.type == NPCID.VortexHornet)
+            {
+                npc.localAI[0] += 1f;
+                npc.localAI[0] += Math.Abs(npc.velocity.X) / 2f;
+                if (npc.localAI[0] >= 600f && Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    int centerTileX = (int)npc.Center.X / 16 - 2;
+                    int centerTileY = (int)npc.Center.Y / 16 - 3;
+                    if (!Collision.SolidTiles(centerTileX, centerTileX + 4, centerTileY, centerTileY + 4))
+                    {
+                        npc.Transform(NPCID.VortexHornetQueen);
+                        npc.life = npc.lifeMax;
+                        npc.localAI[0] = 0f;
+                        return false;
+                    }
+                }
+                int maxValue2;
+                if (npc.localAI[0] < 120f)
+                {
+                    maxValue2 = 32;
+                }
+                else if (npc.localAI[0] < 240f)
+                {
+                    maxValue2 = 16;
+                }
+                else if (npc.localAI[0] < 360f)
+                {
+                    maxValue2 = 6;
+                }
+                else if (npc.localAI[0] < 480f)
+                {
+                    maxValue2 = 2;
+                }
+                else if (npc.localAI[0] < 600f)
+                {
+                    maxValue2 = 1;
+                }
+                else
+                {
+                    maxValue2 = 1;
+                }
+                if (Main.rand.Next(maxValue2) == 0)
+                {
+                    Dust dust = Main.dust[Dust.NewDust(npc.position, npc.width, npc.height, 229, 0f, 0f, 0, default, 1f)];
+                    dust.noGravity = true;
+                    dust.scale = 1f;
+                    dust.noLight = true;
+                }
+            }
+            bool jump = false;
+            if (npc.velocity.X == 0f)
+            {
+                jump = true;
+            }
+            if (npc.justHit)
+            {
+                jump = false;
+            }
+            if (Main.netMode != NetmodeID.MultiplayerClient && npc.type == NPCID.Lihzahrd && (double)npc.life <= (double)npc.lifeMax * 0.9)
+            {
+                npc.Transform(NPCID.LihzahrdCrawler);
+            }
+            if (Main.netMode != NetmodeID.MultiplayerClient && npc.type == NPCID.Nutcracker && (double)npc.life <= (double)npc.lifeMax * 0.9)
+            {
+                npc.Transform(NPCID.NutcrackerSpinning);
+            }
+            // This variable seems to have a lot of purposes.
+            // I wasn't sure what I could name it that isn't very vague
+            int aiGateValue = 60;
+            if (npc.type == NPCID.ChaosElemental)
+            {
+                aiGateValue = 180;
+                if (npc.ai[3] == -30f)
+                {
+                    npc.velocity *= 0f;
+                    npc.ai[3] = 0f;
+                    Main.PlaySound(SoundID.Item8, npc.position);
+                    float distX = npc.oldPos[2].X + (float)npc.width * 0.5f - npc.Center.X;
+                    float distY = npc.oldPos[2].Y + (float)npc.height * 0.5f - npc.Center.Y;
+                    float num38 = (float)Math.Sqrt((distX * distX + distY * distY));
+                    num38 = 2f / num38;
+                    distX *= num38;
+                    distY *= num38;
+                    for (int m = 0; m < 20; m++)
+                    {
+                        int dustIdx = Dust.NewDust(npc.position, npc.width, npc.height, 71, distX, distY, 200, default, 2f);
+                        Main.dust[dustIdx].noGravity = true;
+                        Dust dust = Main.dust[dustIdx];
+                        dust.velocity.X *= 2f;
+                    }
+                    for (int n = 0; n < 20; n++)
+                    {
+                        int dustIdx = Dust.NewDust(npc.oldPos[2], npc.width, npc.height, 71, -distX, -distY, 200, default, 2f);
+                        Main.dust[dustIdx].noGravity = true;
+                        Dust dust = Main.dust[dustIdx];
+                        dust.velocity.X *= 2f;
+                    }
+                }
+            }
+            bool canIncrementAI3 = false;
+            bool reset = true;
+            if (npc.type == NPCID.Yeti || npc.type == NPCID.CorruptBunny || npc.type == NPCID.Crab || npc.type == NPCID.Clown || npc.type == NPCID.SkeletonArcher || npc.type == NPCID.GoblinArcher || npc.type == NPCID.ChaosElemental
+                || npc.type == NPCID.BlackRecluse || npc.type == NPCID.WallCreeper || npc.type == NPCID.BloodCrawler || npc.type == NPCID.CorruptPenguin || npc.type == NPCID.LihzahrdCrawler || npc.type == NPCID.IcyMerman || npc.type == NPCID.PirateDeadeye
+                || npc.type == NPCID.PirateCrossbower || npc.type == NPCID.PirateCaptain || npc.type == NPCID.CochinealBeetle || npc.type == NPCID.CyanBeetle || npc.type == NPCID.LacBeetle || npc.type == NPCID.SeaSnail || npc.type == NPCID.FlyingSnake
+                || npc.type == NPCID.IceGolem || npc.type == NPCID.Eyezor || npc.type == NPCID.AnomuraFungus || npc.type == NPCID.MushiLadybug || npc.type == NPCID.Paladin || npc.type == NPCID.SkeletonSniper || npc.type == NPCID.TacticalSkeleton
+                || npc.type == NPCID.SkeletonCommando || npc.type == NPCID.Scarecrow1 || npc.type == NPCID.Scarecrow2 || npc.type == NPCID.Scarecrow3 || npc.type == NPCID.Scarecrow4 || npc.type == NPCID.Scarecrow5 || npc.type == NPCID.Nutcracker
+                || npc.type == NPCID.NutcrackerSpinning || npc.type == NPCID.ElfArcher || npc.type == NPCID.Krampus || npc.type == NPCID.CultistArcherBlue || (npc.type >= 430 && npc.type <= 436)
+                || (npc.type == NPCID.CultistArcherWhite || npc.type == NPCID.BrainScrambler || npc.type == NPCID.RayGunner || npc.type == NPCID.MartianOfficer || npc.type == NPCID.MartianEngineer || npc.type == NPCID.Scutlix
+                || (npc.type >= NPCID.BoneThrowingSkeleton && npc.type <= NPCID.BoneThrowingSkeleton4)) || (npc.type == NPCID.Psycho || npc.type == NPCID.CrimsonBunny || npc.type == NPCID.SwampThing || npc.type == NPCID.ThePossessed || npc.type == NPCID.DrManFly
+                || npc.type == NPCID.GoblinSummoner || npc.type == NPCID.CrimsonPenguin || npc.type == NPCID.Medusa || npc.type == NPCID.GreekSkeleton || npc.type == NPCID.GraniteGolem || npc.type == NPCID.StardustSoldier || npc.type == NPCID.NebulaSoldier
+                || npc.type == NPCID.StardustSpiderBig || (npc.type >= 494 && npc.type <= 506)) || (npc.type == NPCID.VortexRifleman || npc.type == NPCID.VortexHornet || npc.type == NPCID.VortexHornetQueen || npc.type == NPCID.VortexLarva
+                || npc.type == NPCID.WalkingAntlion || npc.type == NPCID.SolarDrakomire || npc.type == NPCID.SolarSolenian || npc.type == NPCID.MartianWalker || (npc.type >= 524 && npc.type <= 527)) || npc.type == NPCID.DesertLamiaLight
+                || npc.type == NPCID.DesertLamiaDark || npc.type == NPCID.DesertScorpionWalk || npc.type == NPCID.DesertBeast)
+            {
+                reset = false;
+            }
+            bool ableToAlterAI3 = false;
+            if (npc.type == NPCID.VortexRifleman || npc.type == NPCID.GoblinSummoner)
+            {
+                ableToAlterAI3 = true;
+            }
+            // This variable means so many fucking things for different NPCs
+            // Such as npc spawn timer, projectile timer, ect
+            // From what I can gather, the ai2 value's max for spawning things also varies
+            // As a result, I'll just leave this as flag7. If anyone has 
+            // Ideas for a better variable name, please change it
+            bool flag7 = npc.ai[2] <= 0f;
+            if (npc.type <= NPCID.RayGunner)
+            {
+                if (npc.type <= NPCID.PirateCaptain)
+                {
+                    if (npc.type - 110 > 1 && npc.type != NPCID.IcyMerman && npc.type - NPCID.PirateDeadeye > 2)
+                    {
+                        goto PrepareToShoot;
+                    }
+                }
+                else if (npc.type - NPCID.SkeletonSniper > 2 && npc.type != NPCID.ElfArcher && npc.type - NPCID.CultistArcherBlue > 3)
+                {
+                    goto PrepareToShoot;
+                }
+            }
+            else if (npc.type <= NPCID.NebulaSoldier)
+            {
+                if (npc.type != NPCID.StardustSpiderSmall && npc.type != NPCID.StardustSoldier && npc.type != NPCID.NebulaSoldier)
+                {
+                    goto PrepareToShoot;
+                }
+            }
+            else if (npc.type <= NPCID.Psycho)
+            {
+                if (npc.type != NPCID.VortexHornetQueen && npc.type != NPCID.Psycho)
+                {
+                    goto PrepareToShoot;
+                }
+            }
+            else if (npc.type - 498 > 8 && npc.type != 520)
+            {
+                goto PrepareToShoot;
+            }
+            // If anyone can give me an explanation of the real noticable differences between 
+            //& and && (same with | and ||) with booleans,
+            // I'd greatly appreciate it
+        PrepareToShoot:
+            if (!ableToAlterAI3 & flag7)
+            {
+                if (npc.velocity.Y == 0f && ((npc.velocity.X > 0f && npc.direction < 0) || (npc.velocity.X < 0f && npc.direction > 0)))
+                {
+                    canIncrementAI3 = true;
+                }
+                if ((npc.position.X == npc.oldPosition.X || npc.ai[3] >= (float)aiGateValue) | canIncrementAI3)
+                {
+                    npc.ai[3] += 1f;
+                }
+                else if (Math.Abs(npc.velocity.X) > 0.9 && npc.ai[3] > 0f)
+                {
+                    npc.ai[3] -= 1f;
+                }
+                if (npc.ai[3] > (float)(aiGateValue * 10))
+                {
+                    npc.ai[3] = 0f;
+                }
+                if (npc.justHit)
+                {
+                    npc.ai[3] = 0f;
+                }
+                if (npc.ai[3] == (float)aiGateValue)
+                {
+                    npc.netUpdate = true;
+                }
+            }
+            if (npc.type == NPCID.Nailhead && Main.netMode != NetmodeID.MultiplayerClient)
+            {
+                if (npc.localAI[3] > 0f)
+                {
+                    npc.localAI[3] -= 1f;
+                }
+                if (npc.justHit && npc.localAI[3] <= 0f && Main.rand.Next(2) == 0)
+                {
+                    npc.localAI[3] = 30f;
+                    int nailCount = Main.rand.Next(3, 6);
+                    int[] players = new int[nailCount];
+                    int i = 0;
+                    for (int j = 0; j < Main.player.Length; j++)
+                    {
+                        if (Main.player[j].active && !Main.player[j].dead && Collision.CanHitLine(npc.position, npc.width, npc.height, Main.player[j].position, Main.player[j].width, Main.player[j].height))
+                        {
+                            players[i] = j;
+                            i++;
+                            if (i == nailCount)
+                            {
+                                break;
+                            }
+                        }
+                    }
+                    if (i > 1)
+                    {
+                        for (int j = 0; j < 100; j++)
+                        {
+                            int rand = Main.rand.Next(i);
+                            int rand2;
+                            for (rand2 = rand; rand2 == rand; rand2 = Main.rand.Next(i))
+                            {
+                            }
+                            Utils.Swap(ref players[rand], ref players[rand2]);
+                        }
+                    }
+                    Vector2 velocityDelta = -Vector2.One;
+                    for (int j = 0; j < i; j++)
+                    {
+                        velocityDelta += npc.DirectionTo(Main.npc[players[j]].Center);
+                    }
+                    velocityDelta.Normalize();
+                    for (int j = 0; j < nailCount; j++)
+                    {
+                        float velocityMultiplier = (float)Main.rand.Next(8, 13);
+                        Vector2 nailVelocity = Vector2.One.RotatedByRandom(Math.PI * 2.0);
+                        if (i > 0)
+                        {
+                            nailVelocity += velocityDelta;
+                            nailVelocity.Normalize();
+                        }
+                        nailVelocity *= velocityMultiplier;
+                        if (i > 0)
+                        {
+                            i--;
+                            nailVelocity = npc.DirectionTo(Main.npc[players[i]].Center) * velocityMultiplier;
+                        }
+                        Projectile.NewProjectile(npc.Center + Vector2.UnitY * (float)(npc.width / 4), nailVelocity, ProjectileID.Nail, (int)(npc.damage * 0.15), 1f, 255, 0f, 0f);
+                    }
+                }
+            }
+            if (npc.type == NPCID.Butcher)
+            {
+                if (npc.velocity.Y < -0.3f || npc.velocity.Y > 0.3f)
+                {
+                    npc.knockBackResist = 0f;
+                }
+                else
+                {
+                    npc.knockBackResist = 0.1f * Main.knockBackMultiplier;
+                }
+            }
+            if (npc.type == NPCID.ThePossessed)
+            {
+                npc.knockBackResist = 0.25f * Main.knockBackMultiplier;
+                if (npc.ai[2] == 1f)
+                {
+                    npc.knockBackResist = 0f;
+                }
+                bool spiderAI = false;
+                int centerTileX = (int)npc.Center.X / 16;
+                int centerTileY = (int)npc.Center.Y / 16;
+                for (int x = centerTileX - 1; x <= centerTileX + 1; x++)
+                {
+                    for (int y = centerTileY - 1; y <= centerTileY + 1; y++)
+                    {
+                        if (Main.tile[x, y] != null && Main.tile[x, y].wall > 0)
+                        {
+                            spiderAI = true;
+                            break;
+                        }
+                    }
+                    if (spiderAI)
+                    {
+                        break;
+                    }
+                }
+                if (npc.ai[2] == 0f & spiderAI)
+                {
+                    if (npc.velocity.Y == 0f)
+                    {
+                        npc.velocity.Y = -4.6f;
+                        npc.velocity.X *= 1.5f;
+                    }
+                    else if (npc.velocity.Y > 0f)
+                    {
+                        npc.ai[2] = 1f;
+                    }
+                }
+                if (spiderAI && npc.ai[2] == 1f && Collision.CanHit(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1))
+                {
+                    Vector2 distanceVector = Main.player[npc.target].Center - npc.Center;
+                    float distanceMagnitude = distanceVector.Length();
+                    distanceVector.Normalize();
+                    distanceVector *= 6f + distanceMagnitude / 300f;
+                    npc.velocity = (npc.velocity * 29f + distanceVector) / 30f;
+                    npc.noGravity = true;
+                    npc.ai[2] = 1f;
+                    return false;
+                }
+                npc.noGravity = false;
+                npc.ai[2] = 0f;
+            }
+            if (npc.type == NPCID.Fritz && npc.velocity.Y == 0f && (Main.player[npc.target].Center - npc.Center).Length() < 150f && Math.Abs(npc.velocity.X) > 3f && ((npc.velocity.X < 0f && npc.Center.X > Main.player[npc.target].Center.X) || (npc.velocity.X > 0f && npc.Center.X < Main.player[npc.target].Center.X)))
+            {
+                npc.velocity.X *= 2f;
+                npc.velocity.Y -= 4.5f;
+                if (npc.Center.Y - Main.player[npc.target].Center.Y > 20f)
+                {
+                    npc.velocity.Y -= 0.5f;
+                }
+                if (npc.Center.Y - Main.player[npc.target].Center.Y > 40f)
+                {
+                    npc.velocity.Y -= 1f;
+                }
+                if (npc.Center.Y - Main.player[npc.target].Center.Y > 80f)
+                {
+                    npc.velocity.Y -= 1.5f;
+                }
+                if (npc.Center.Y - Main.player[npc.target].Center.Y > 100f)
+                {
+                    npc.velocity.Y -= 1.5f;
+                }
+                if (Math.Abs(npc.velocity.X) > 9f)
+                {
+                    if (npc.velocity.X < 0f)
+                    {
+                        npc.velocity.X = -9f;
+                    }
+                    else
+                    {
+                        npc.velocity.X = 9f;
+                    }
+                }
+            }
+            if (npc.ai[3] < (float)aiGateValue && (Main.eclipse || !Main.dayTime || (double)npc.position.Y > Main.worldSurface * 16.0 || (Main.invasionType == 1 && (npc.type == NPCID.Yeti || npc.type == NPCID.ElfArcher)) || (Main.invasionType == 1 && (npc.type == NPCID.GoblinPeon || npc.type == NPCID.GoblinThief || npc.type == NPCID.GoblinWarrior || npc.type == NPCID.GoblinArcher || npc.type == NPCID.GoblinSummoner)) || (npc.type == NPCID.GoblinScout || (Main.invasionType == 3 && npc.type >= 212 && npc.type <= 216)) || (Main.invasionType == 4 && (npc.type == NPCID.BrainScrambler || npc.type == NPCID.RayGunner || npc.type == NPCID.MartianOfficer || npc.type == NPCID.GrayGrunt || npc.type == NPCID.MartianEngineer || npc.type == NPCID.GigaZapper || npc.type == NPCID.Scutlix || npc.type == NPCID.MartianWalker)) || (npc.type == NPCID.AngryBones || npc.type == NPCID.AngryBonesBig || npc.type == NPCID.AngryBonesBigMuscle || npc.type == NPCID.AngryBonesBigHelmet || npc.type == NPCID.CorruptBunny || npc.type == NPCID.Crab || npc.type == NPCID.ArmoredSkeleton || npc.type == NPCID.Mummy || npc.type == NPCID.DarkMummy || npc.type == NPCID.LightMummy || npc.type == NPCID.SkeletonArcher || npc.type == NPCID.ChaosElemental || npc.type == NPCID.CorruptPenguin || npc.type == NPCID.FaceMonster || npc.type == NPCID.SnowFlinx || npc.type == NPCID.Lihzahrd || npc.type == NPCID.LihzahrdCrawler || npc.type == NPCID.IcyMerman || npc.type == NPCID.CochinealBeetle || npc.type == NPCID.CyanBeetle || npc.type == NPCID.LacBeetle || npc.type == NPCID.SeaSnail || npc.type == NPCID.BloodCrawler || npc.type == NPCID.IceGolem || npc.type == NPCID.ZombieMushroom || npc.type == NPCID.ZombieMushroomHat || npc.type == NPCID.AnomuraFungus || npc.type == NPCID.MushiLadybug || npc.type == NPCID.SkeletonSniper || npc.type == NPCID.TacticalSkeleton || npc.type == NPCID.SkeletonCommando || npc.type == NPCID.CultistArcherBlue || npc.type == NPCID.CultistArcherWhite || npc.type == NPCID.CrimsonBunny || npc.type == NPCID.CrimsonPenguin || npc.type == NPCID.NebulaSoldier || (npc.type == NPCID.StardustSoldier && (npc.ai[1] >= 180f || npc.ai[1] < 90f))) || (npc.type == NPCID.StardustSpiderBig || npc.type == NPCID.VortexRifleman || npc.type == NPCID.VortexSoldier || npc.type == NPCID.VortexHornet || npc.type == NPCID.VortexLarva || npc.type == NPCID.WalkingAntlion || npc.type == NPCID.SolarDrakomire || npc.type == NPCID.SolarSolenian || (npc.type >= 524 && npc.type <= 527)) || npc.type == NPCID.DesertLamiaLight || npc.type == NPCID.DesertLamiaDark || npc.type == NPCID.DesertScorpionWalk || npc.type == NPCID.DesertBeast))
+            {
+                if ((npc.type == NPCID.Zombie || npc.type == NPCID.ZombieXmas || npc.type == NPCID.ZombieSweater || npc.type == NPCID.Skeleton || (npc.type >= NPCID.BoneThrowingSkeleton && npc.type <= NPCID.BoneThrowingSkeleton4) || npc.type == NPCID.AngryBones || npc.type == NPCID.AngryBonesBig || npc.type == NPCID.AngryBonesBigHelmet || npc.type == NPCID.AngryBonesBigMuscle || npc.type == NPCID.ArmoredSkeleton || npc.type == NPCID.SkeletonArcher || npc.type == NPCID.BaldZombie || npc.type == NPCID.UndeadViking || npc.type == NPCID.ZombieEskimo || npc.type == NPCID.Frankenstein || npc.type == NPCID.PincushionZombie || npc.type == NPCID.SlimedZombie || npc.type == NPCID.SwampZombie || npc.type == NPCID.TwiggyZombie || npc.type == NPCID.ArmoredViking || npc.type == NPCID.FemaleZombie || npc.type == NPCID.HeadacheSkeleton || npc.type == NPCID.MisassembledSkeleton || npc.type == NPCID.PantlessSkeleton || npc.type == NPCID.ZombieRaincoat || npc.type == NPCID.SkeletonSniper || npc.type == NPCID.TacticalSkeleton || npc.type == NPCID.SkeletonCommando || npc.type == NPCID.ZombieSuperman || npc.type == NPCID.ZombiePixie || npc.type == NPCID.ZombieDoctor || npc.type == NPCID.GreekSkeleton) && Main.rand.Next(1000) == 0)
+                {
+                    Main.PlaySound(14, (int)npc.position.X, (int)npc.position.Y, 1, 1f, 0f);
+                }
+                if (npc.type == NPCID.BloodZombie && Main.rand.Next(800) == 0)
+                {
+                    Main.PlaySound(14, (int)npc.position.X, (int)npc.position.Y, npc.type, 1f, 0f);
+                }
+                if ((npc.type == NPCID.Mummy || npc.type == NPCID.DarkMummy || npc.type == NPCID.LightMummy) && Main.rand.Next(500) == 0)
+                {
+                    Main.PlaySound(26, (int)npc.position.X, (int)npc.position.Y, 1, 1f, 0f);
+                }
+                if (npc.type == NPCID.Vampire && Main.rand.Next(500) == 0)
+                {
+                    Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 7, 1f, 0f);
+                }
+                if (npc.type == NPCID.Frankenstein && Main.rand.Next(500) == 0)
+                {
+                    Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 6, 1f, 0f);
+                }
+                if (npc.type == NPCID.FaceMonster && Main.rand.Next(500) == 0)
+                {
+                    Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 8, 1f, 0f);
+                }
+                if (npc.type >= 269 && npc.type <= 280 && Main.rand.Next(1000) == 0)
+                {
+                    Main.PlaySound(14, (int)npc.position.X, (int)npc.position.Y, 1, 1f, 0f);
+                }
+                npc.TargetClosest(true);
+            }
+            else if (npc.ai[2] <= 0f ||
+                (npc.type != NPCID.SkeletonArcher &&
+                npc.type != NPCID.GoblinArcher && 
+                npc.type != NPCID.IcyMerman &&
+                npc.type != NPCID.PirateDeadeye &&
+                npc.type != NPCID.PirateCrossbower &&
+                npc.type != NPCID.PirateCaptain &&
+                npc.type != NPCID.SkeletonSniper &&
+                npc.type != NPCID.TacticalSkeleton &&
+                npc.type != NPCID.SkeletonCommando &&
+                npc.type != NPCID.ElfArcher &&
+                npc.type != NPCID.BrainScrambler &&
+                npc.type != NPCID.RayGunner &&
+                npc.type != NPCID.MartianOfficer &&
+                npc.type != NPCID.GrayGrunt &&
+                npc.type != NPCID.MartianEngineer &&
+                npc.type != NPCID.GigaZapper && 
+                npc.type != NPCID.Scutlix &&
+                npc.type != NPCID.ThePossessed && 
+                npc.type != NPCID.SwampThing && 
+                npc.type != NPCID.Psycho &&
+                npc.type != NPCID.GoblinSummoner &&
+                npc.type != NPCID.StardustSoldier &&
+                npc.type != NPCID.StardustSpiderSmall &&
+                npc.type != NPCID.NebulaSoldier &&
+                npc.type != NPCID.VortexRifleman &&
+                npc.type != NPCID.VortexHornetQueen &&
+                npc.type != NPCID.SolarDrakomire &&
+                npc.type != NPCID.SolarSolenian && 
+                npc.type != NPCID.MartianWalker))
+            {
+                if (Main.dayTime && (double)(npc.position.Y / 16f) < Main.worldSurface && npc.timeLeft > 10)
+                {
+                    npc.timeLeft = 10;
+                }
+                if (npc.velocity.X == 0f)
+                {
+                    if (npc.velocity.Y == 0f)
+                    {
+                        npc.ai[0] += 1f;
+                        if (npc.ai[0] >= 2f)
+                        {
+                            npc.direction *= -1;
+                            npc.spriteDirection = npc.direction;
+                            npc.ai[0] = 0f;
+                        }
+                    }
+                }
+                else
+                {
+                    npc.ai[0] = 0f;
+                }
+                if (npc.direction == 0)
+                {
+                    npc.direction = 1;
+                }
+            }
+            if (npc.type == NPCID.Vampire || npc.type == NPCID.NutcrackerSpinning)
+            {
+                if (npc.type == NPCID.Vampire && ((npc.velocity.X > 0f && npc.direction < 0) || (npc.velocity.X < 0f && npc.direction > 0)))
+                {
+                    npc.velocity.X *= 0.95f;
+                }
+                if (npc.velocity.X < -8f || npc.velocity.X > 8f)
+                {
+                    if (npc.velocity.Y == 0f)
+                    {
+                        npc.velocity *= 0.8f;
+                    }
+                }
+                else if (npc.velocity.X < 8f && npc.direction == 1)
+                {
+                    if (npc.velocity.Y == 0f && npc.velocity.X < 0f)
+                    {
+                        npc.velocity.X *= 0.99f;
+                    }
+                    npc.velocity.X += 0.09f;
+                    if (npc.velocity.X > 8f)
+                    {
+                        npc.velocity.X = 8f;
+                    }
+                }
+                else if (npc.velocity.X > -8f && npc.direction == -1)
+                {
+                    if (npc.velocity.Y == 0f && npc.velocity.X > 0f)
+                    {
+                        npc.velocity.X *= 0.99f;
+                    }
+                    npc.velocity.X -= 0.09f;
+                    if (npc.velocity.X < -8f)
+                    {
+                        npc.velocity.X = -8f;
+                    }
+                }
+            }
+            else if (npc.type == NPCID.LihzahrdCrawler)
+            {
+                FighterRunningAI(npc, 6f, 0.12f, 0.8f, true, 0.8f);
+            }
+            else if (npc.type == NPCID.ChaosElemental || npc.type == NPCID.SwampThing || npc.type == NPCID.PirateCorsair || npc.type == NPCID.MushiLadybug || npc.type == NPCID.DesertLamiaLight || npc.type == NPCID.DesertLamiaDark)
+            {
+                FighterRunningAI(npc, 4f, 0.09f, 0.8f, true, 0.8f);
+            }
+            else if (npc.type == NPCID.CreatureFromTheDeep || npc.type == NPCID.GoblinThief || npc.type == NPCID.ArmoredSkeleton || npc.type == NPCID.Werewolf || npc.type == NPCID.BlackRecluse || npc.type == NPCID.Frankenstein || npc.type == NPCID.Nymph || npc.type == NPCID.ArmoredViking || npc.type == NPCID.PirateDeckhand || npc.type == NPCID.AnomuraFungus || npc.type == NPCID.Splinterling || npc.type == NPCID.Yeti || npc.type == NPCID.Nutcracker || npc.type == NPCID.Krampus || (npc.type >= 524 && npc.type <= 527) || npc.type == NPCID.DesertScorpionWalk)
+            {
+                FighterRunningAI(npc, 3f, 0.09f, 0.8f);
+            }
+            else if (npc.type == NPCID.Clown)
+            {
+                FighterRunningAI(npc, 4f, 0.06f, 0.8f);
+            }
+            else if (npc.type == NPCID.Skeleton || npc.type == NPCID.GoblinPeon || npc.type == NPCID.AngryBones || npc.type == NPCID.AngryBonesBig || npc.type == NPCID.AngryBonesBigMuscle || npc.type == NPCID.AngryBonesBigHelmet || npc.type == NPCID.CorruptBunny || npc.type == NPCID.GoblinScout || npc.type == NPCID.PossessedArmor || npc.type == NPCID.WallCreeper || npc.type == NPCID.BloodCrawler || npc.type == NPCID.UndeadViking || npc.type == NPCID.CorruptPenguin || npc.type == NPCID.SnowFlinx || npc.type == NPCID.Lihzahrd || npc.type == NPCID.HeadacheSkeleton || npc.type == NPCID.MisassembledSkeleton || npc.type == NPCID.PantlessSkeleton || npc.type == NPCID.CochinealBeetle || npc.type == NPCID.CyanBeetle || npc.type == NPCID.LacBeetle || npc.type == NPCID.FlyingSnake || npc.type == NPCID.FaceMonster || npc.type == NPCID.ZombieMushroom || npc.type == NPCID.ZombieElf || npc.type == NPCID.ZombieElfBeard || npc.type == NPCID.ZombieElfGirl || npc.type == NPCID.GingerbreadMan || npc.type == NPCID.GrayGrunt || npc.type == NPCID.GigaZapper || npc.type == NPCID.Fritz || npc.type == NPCID.Nailhead || npc.type == NPCID.Psycho || npc.type == NPCID.CrimsonBunny || npc.type == NPCID.ThePossessed || npc.type == NPCID.CrimsonPenguin || npc.type == NPCID.Medusa || npc.type == NPCID.GraniteGolem || npc.type == NPCID.VortexRifleman || npc.type == NPCID.VortexSoldier)
+            {
+                float maxVelocity = 1.5f;
+                if (npc.type == NPCID.AngryBonesBig)
+                {
+                    maxVelocity = 2f;
+                }
+                else if (npc.type == NPCID.AngryBonesBigMuscle)
+                {
+                    maxVelocity = 1.75f;
+                }
+                else if (npc.type == NPCID.AngryBonesBigHelmet)
+                {
+                    maxVelocity = 1.25f;
+                }
+                else if (npc.type == NPCID.HeadacheSkeleton)
+                {
+                    maxVelocity = 1.1f;
+                }
+                else if (npc.type == NPCID.MisassembledSkeleton)
+                {
+                    maxVelocity = 0.9f;
+                }
+                else if (npc.type == NPCID.PantlessSkeleton)
+                {
+                    maxVelocity = 1.2f;
+                }
+                else if (npc.type == NPCID.ZombieElf)
+                {
+                    maxVelocity = 1.75f;
+                }
+                else if (npc.type == NPCID.ZombieElfBeard)
+                {
+                    maxVelocity = 1.25f;
+                }
+                else if (npc.type == NPCID.ZombieElfGirl)
+                {
+                    maxVelocity = 2f;
+                }
+                else if (npc.type == NPCID.GrayGrunt)
+                {
+                    maxVelocity = 1.8f;
+                }
+                else if (npc.type == NPCID.GigaZapper)
+                {
+                    maxVelocity = 2.25f;
+                }
+                else if (npc.type == NPCID.Fritz)
+                {
+                    maxVelocity = 4f;
+                }
+                else if (npc.type == NPCID.Nailhead)
+                {
+                    maxVelocity = 0.75f;
+                }
+                else if (npc.type == NPCID.Psycho)
+                {
+                    maxVelocity = 3.75f;
+                }
+                else if (npc.type == NPCID.ThePossessed)
+                {
+                    maxVelocity = 3.25f;
+                }
+                else if (npc.type == NPCID.Medusa)
+                {
+                    maxVelocity = 1.5f + (1f - (float)npc.life / (float)npc.lifeMax) * 2f;
+                }
+                else if (npc.type == NPCID.VortexRifleman)
+                {
+                    maxVelocity = 6f;
+                }
+                else if (npc.type == NPCID.VortexSoldier)
+                {
+                    maxVelocity = 4f;
+                }
+                if (npc.type == NPCID.Skeleton || npc.type == NPCID.HeadacheSkeleton || npc.type == NPCID.MisassembledSkeleton || npc.type == NPCID.PantlessSkeleton || npc.type == NPCID.GingerbreadMan)
+                {
+                    maxVelocity *= 1f + (1f - npc.scale);
+                }
+                maxVelocity *= 1.5f;
+                bool extraSlowdown = npc.velocity.Y == 0f && npc.type == NPCID.Fritz && ((npc.direction > 0 && npc.velocity.X < 0f) || (npc.direction < 0 && npc.velocity.X > 0f));
+                FighterRunningAI(npc, maxVelocity, 0.09f, 0.9f, extraSlowdown, 0.9f);
+            }
+            else if (npc.type >= NPCID.RustyArmoredBonesAxe && npc.type <= NPCID.HellArmoredBonesSword)
+            {
+                float maxVelocity = 1.5f;
+                if (npc.type == NPCID.RustyArmoredBonesAxe)
+                {
+                    maxVelocity = 2f;
+                }
+                if (npc.type == NPCID.RustyArmoredBonesFlail)
+                {
+                    maxVelocity = 1f;
+                }
+                if (npc.type == NPCID.RustyArmoredBonesSword)
+                {
+                    maxVelocity = 1.5f;
+                }
+                if (npc.type == NPCID.RustyArmoredBonesSwordNoArmor)
+                {
+                    maxVelocity = 3f;
+                }
+                if (npc.type == NPCID.BlueArmoredBones)
+                {
+                    maxVelocity = 1.25f;
+                }
+                if (npc.type == NPCID.BlueArmoredBonesMace)
+                {
+                    maxVelocity = 3f;
+                }
+                if (npc.type == NPCID.BlueArmoredBonesNoPants)
+                {
+                    maxVelocity = 3.25f;
+                }
+                if (npc.type == NPCID.BlueArmoredBonesSword)
+                {
+                    maxVelocity = 2f;
+                }
+                if (npc.type == NPCID.HellArmoredBones)
+                {
+                    maxVelocity = 2.75f;
+                }
+                if (npc.type == NPCID.HellArmoredBonesSpikeShield)
+                {
+                    maxVelocity = 1.8f;
+                }
+                if (npc.type == NPCID.HellArmoredBonesMace)
+                {
+                    maxVelocity = 1.3f;
+                }
+                if (npc.type == NPCID.HellArmoredBonesSword)
+                {
+                    maxVelocity = 2.5f;
+                }
+                maxVelocity *= 1f + (1f - npc.scale);
+                maxVelocity *= 1.5f;
+                FighterRunningAI(npc, maxVelocity, 0.09f, 0.8f, false);
+            }
+            else if (npc.type >= 305 && npc.type <= 314)
+            {
+                float maxVelocity = 1.5f;
+                if (npc.type == NPCID.Scarecrow1 || npc.type == NPCID.Scarecrow6)
+                {
+                    maxVelocity = 2f;
+                }
+                if (npc.type == NPCID.Scarecrow2 || npc.type == NPCID.Scarecrow7)
+                {
+                    maxVelocity = 1.25f;
+                }
+                if (npc.type == NPCID.Scarecrow3 || npc.type == NPCID.Scarecrow8)
+                {
+                    maxVelocity = 2.25f;
+                }
+                if (npc.type == NPCID.Scarecrow4 || npc.type == NPCID.Scarecrow9)
+                {
+                    maxVelocity = 1.5f;
+                }
+                if (npc.type == NPCID.Scarecrow5 || npc.type == NPCID.Scarecrow10)
+                {
+                    maxVelocity = 1f;
+                }
+                maxVelocity *= 1.5f;
+                if (npc.type < 310)
+                {
+                    if (npc.velocity.Y == 0f)
+                    {
+                        npc.velocity.X *= 0.85f;
+                        if (npc.velocity.X > -0.3 && (double)npc.velocity.X < 0.3)
+                        {
+                            npc.velocity.Y = -9f;
+                            npc.velocity.X = maxVelocity * (float)npc.direction;
+                        }
+                    }
+                    else if (npc.spriteDirection == npc.direction)
+                    {
+                        npc.velocity.X = (npc.velocity.X * 10f + maxVelocity * npc.direction) / 11f;
+                    }
+                }
+                else
+                {
+                    FighterRunningAI(npc, maxVelocity, 0.09f, 0.8f, false);
+                }
+            }
+            else if (npc.type == NPCID.Crab || npc.type == NPCID.SeaSnail || npc.type == NPCID.VortexLarva)
+            {
+                FighterRunningAI(npc, 1f, 0.06f, 0.7f);
+            }
+            else if (npc.type == NPCID.Mummy || npc.type == NPCID.DarkMummy || npc.type == NPCID.LightMummy)
+            {
+                float maxVelocity = 3f;
+                float acceleration = 0.15f;
+                if (npc.type == NPCID.DarkMummy)
+                {
+                    maxVelocity *= 1.5f;
+                }
+                FighterRunningAI(npc, maxVelocity, acceleration, 0.7f);
+            }
+            else if (npc.type == NPCID.BoneLee)
+            {
+                FighterRunningAI(npc, 7f, 0.3f, 0.7f);
+            }
+            else if (npc.type == NPCID.IceGolem)
+            {
+                FighterRunningAI(npc, 3f, 0.3f, 0.7f);
+            }
+            else if (npc.type == NPCID.Eyezor)
+            {
+                FighterRunningAI(npc, 3.5f, 0.3f, 0.8f);
+            }
+            else if (npc.type == NPCID.MartianEngineer)
+            {
+                if (npc.ai[2] > 0f)
+                {
+                    if (npc.velocity.Y == 0f)
+                    {
+                        npc.velocity.X *= 0.8f;
+                    }
+                }
+                else
+                {
+                    FighterRunningAI(npc, 3.5f, 0.2f, 0.8f);
+                }
+            }
+            else if (npc.type == NPCID.Butcher)
+            {
+                float acceleration = 0.2f;
+                if (Math.Abs(npc.velocity.X) > 2f)
+                {
+                    acceleration *= 0.8f;
+                }
+                if (Math.Abs(npc.velocity.X) > 2.5)
+                {
+                    acceleration *= 0.8f;
+                }
+                if (Math.Abs(npc.velocity.X) > 3f)
+                {
+                    acceleration *= 0.8f;
+                }
+                if (Math.Abs(npc.velocity.X) > 3.5)
+                {
+                    acceleration *= 0.8f;
+                }
+                if (Math.Abs(npc.velocity.X) > 4f)
+                {
+                    acceleration *= 0.8f;
+                }
+                if (Math.Abs(npc.velocity.X) > 4.5f)
+                {
+                    acceleration *= 0.8f;
+                }
+                if (Math.Abs(npc.velocity.X) > 5f)
+                {
+                    acceleration *= 0.8f;
+                }
+                if (Math.Abs(npc.velocity.X) > 5.5)
+                {
+                    acceleration *= 0.8f;
+                }
+                FighterRunningAI(npc, 7f, acceleration, 0.8f);
+            }
+            else if (npc.type == NPCID.WalkingAntlion)
+            {
+                float xAdditive = 3.5f;
+                float turnValue = 90f;
+                float absoluteVelocityX = Math.Abs(npc.velocity.X);
+                if (absoluteVelocityX > 2.75f)
+                {
+                    xAdditive = 7f;
+                    turnValue += 100f;
+                }
+                else if (absoluteVelocityX > 2.25)
+                {
+                    xAdditive = 5f;
+                    turnValue += 80f;
+                }
+                if (Math.Abs(npc.velocity.Y) < 0.5)
+                {
+                    if (npc.velocity.X > 0f && npc.direction < 0)
+                    {
+                        npc.velocity *= 0.9f;
+                    }
+                    if (npc.velocity.X < 0f && npc.direction > 0)
+                    {
+                        npc.velocity *= 0.9f;
+                    }
+                }
+                if (Math.Abs(npc.velocity.Y) > 0.3f)
+                {
+                    turnValue *= 3f;
+                }
+                if (npc.velocity.X <= 0f && npc.direction < 0)
+                {
+                    npc.velocity.X = (npc.velocity.X * turnValue - xAdditive) / (turnValue + 1f);
+                }
+                else if (npc.velocity.X >= 0f && npc.direction > 0)
+                {
+                    npc.velocity.X = (npc.velocity.X * turnValue + xAdditive) / (turnValue + 1f);
+                }
+                else if (Math.Abs(npc.Center.X - Main.player[npc.target].Center.X) > 20f && Math.Abs(npc.velocity.Y) <= 0.3f)
+                {
+                    npc.velocity.X *= 0.99f;
+                    npc.velocity.X += npc.direction * 0.025f;
+                }
+            }
+            else if (npc.type == NPCID.Scutlix || npc.type == NPCID.VortexHornet || npc.type == NPCID.SolarDrakomire || npc.type == NPCID.SolarSolenian || npc.type == NPCID.SolarSpearman || npc.type == NPCID.DesertBeast)
+            {
+                float maxVelocity = 5f;
+                float acceleration = 0.25f;
+                float turnMultiplier = 0.7f;
+                if (npc.type == NPCID.VortexHornet)
+                {
+                    maxVelocity = 6f;
+                    acceleration = 0.2f;
+                    turnMultiplier = 0.8f;
+                }
+                else if (npc.type == NPCID.SolarDrakomire)
+                {
+                    maxVelocity = 4f;
+                    acceleration = 0.1f;
+                    turnMultiplier = 0.95f;
+                }
+                else if (npc.type == NPCID.SolarSolenian)
+                {
+                    maxVelocity = 6f;
+                    acceleration = 0.15f;
+                    turnMultiplier = 0.85f;
+                }
+                else if (npc.type == NPCID.SolarSpearman)
+                {
+                    maxVelocity = 5f;
+                    acceleration = 0.1f;
+                    turnMultiplier = 0.95f;
+                }
+                else if (npc.type == NPCID.DesertBeast)
+                {
+                    maxVelocity = 5f;
+                    acceleration = 0.15f;
+                    turnMultiplier = 0.98f;
+                }
+                maxVelocity *= 1.5f;
+                acceleration *= 1.5f;
+                FighterRunningAI(npc, maxVelocity, acceleration, turnMultiplier);
+            }
+            else if ((npc.type >= NPCID.ArmedZombie && npc.type <= NPCID.ArmedZombieCenx) || npc.type == NPCID.Crawdad || npc.type == NPCID.Crawdad2)
+            {
+                if (npc.ai[2] == 0f)
+                {
+                    npc.damage = npc.defDamage;
+                    float maxVelocity = 1.5f;
+                    maxVelocity *= 1f + (1f - npc.scale);
+                    FighterRunningAI(npc, maxVelocity, 0.09f, 0.8f, true, 0.8f);
+                    if (npc.velocity.Y == 0f && (!Main.dayTime || (double)npc.position.Y > Main.worldSurface * 16.0) && !Main.player[npc.target].dead)
+                    {
+                        Vector2 playerDistance = npc.Center - Main.player[npc.target].Center;
+                        int slowdownDistance = 50;
+                        if (npc.type >= NPCID.Crawdad && npc.type <= NPCID.Crawdad2)
+                        {
+                            slowdownDistance = 42;
+                        }
+                        if (playerDistance.Length() < slowdownDistance && Collision.CanHit(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1))
+                        {
+                            npc.velocity.X *= 0.7f;
+                            npc.ai[2] = 1f;
+                        }
+                    }
+                }
+                else
+                {
+                    npc.damage = npc.defDamage * 2;
+                    npc.ai[3] = 1f;
+                    npc.velocity.X *= 0.9f;
+                    if (Math.Abs(npc.velocity.X) < 0.1f)
+                    {
+                        npc.velocity.X = 0f;
+                    }
+                    npc.ai[2] += 1f;
+                    if (npc.ai[2] >= 20f || npc.velocity.Y != 0f || (Main.dayTime && (double)npc.position.Y < Main.worldSurface * 16.0))
+                    {
+                        npc.ai[2] = 0f;
+                    }
+                }
+            }
+            else if (npc.type != NPCID.SkeletonArcher &&
+                npc.type != NPCID.GoblinArcher && 
+                npc.type != NPCID.IcyMerman && 
+                npc.type != NPCID.PirateDeadeye &&
+                npc.type != NPCID.PirateCrossbower && 
+                npc.type != NPCID.PirateCaptain &&
+                npc.type != NPCID.Paladin &&
+                npc.type != NPCID.SkeletonSniper && 
+                npc.type != NPCID.TacticalSkeleton &&
+                npc.type != NPCID.SkeletonCommando &&
+                npc.type != NPCID.ElfArcher &&
+                npc.type != NPCID.CultistArcherBlue &&
+                npc.type != NPCID.CultistArcherWhite &&
+                npc.type != NPCID.BrainScrambler &&
+                npc.type != NPCID.RayGunner &&
+                (npc.type < NPCID.BoneThrowingSkeleton || npc.type > NPCID.BoneThrowingSkeleton4) &&
+                npc.type != NPCID.DrManFly &&
+                npc.type != NPCID.GreekSkeleton && 
+                npc.type != NPCID.StardustSoldier && 
+                npc.type != NPCID.StardustSpiderSmall &&
+                (npc.type < NPCID.Salamander || npc.type > NPCID.Salamander9) &&
+                npc.type != NPCID.NebulaSoldier &&
+                npc.type != NPCID.VortexSoldier && 
+                npc.type != NPCID.MartianWalker)
+            {
+                float velocityMax = 1f;
+                if (npc.type == NPCID.PincushionZombie)
+                {
+                    velocityMax = 1.1f;
+                }
+                if (npc.type == NPCID.SlimedZombie)
+                {
+                    velocityMax = 0.9f;
+                }
+                if (npc.type == NPCID.SwampZombie)
+                {
+                    velocityMax = 1.2f;
+                }
+                if (npc.type == NPCID.TwiggyZombie)
+                {
+                    velocityMax = 0.8f;
+                }
+                if (npc.type == NPCID.BaldZombie)
+                {
+                    velocityMax = 0.95f;
+                }
+                if (npc.type == NPCID.FemaleZombie)
+                {
+                    velocityMax = 0.87f;
+                }
+                if (npc.type == NPCID.ZombieRaincoat)
+                {
+                    velocityMax = 1.05f;
+                }
+                if (npc.type == NPCID.BloodZombie)
+                {
+                    float playerDistance = (Main.player[npc.target].Center - npc.Center).Length();
+                    playerDistance *= 0.0025f;
+                    if (playerDistance > 1.5)
+                    {
+                        playerDistance = 1.5f;
+                    }
+                    if (Main.expertMode)
+                    {
+                        velocityMax = 3f - playerDistance;
+                    }
+                    else
+                    {
+                        velocityMax = 2.5f - playerDistance;
+                    }
+                    velocityMax *= 0.8f;
+                }
+                if (npc.type == NPCID.BloodZombie || npc.type == NPCID.Zombie || npc.type == NPCID.BaldZombie || npc.type == NPCID.PincushionZombie || npc.type == NPCID.SlimedZombie || npc.type == NPCID.SwampZombie || npc.type == NPCID.TwiggyZombie || npc.type == NPCID.FemaleZombie || npc.type == NPCID.ZombieRaincoat || npc.type == NPCID.ZombieXmas || npc.type == NPCID.ZombieSweater)
+                {
+                    velocityMax *= 1f + (1f - npc.scale);
+                }
+                velocityMax *= 1.5f;
+                FighterRunningAI(npc, velocityMax, 0.09f, 0.8f, true, 0.8f);
+            }
+            if (npc.type >= 277 && npc.type <= 280)
+            {
+                Lighting.AddLight((int)npc.Center.X / 16, (int)npc.Center.Y / 16, 0.2f, 0.1f, 0f);
+            }
+            else if (npc.type == NPCID.MartianWalker)
+            {
+                Lighting.AddLight(npc.Top + new Vector2(0f, 20f), 0.3f, 0.3f, 0.7f);
+            }
+            else if (npc.type == NPCID.DesertGhoulCorruption)
+            {
+                Vector3 rgb = new Vector3(0.7f, 1f, 0.2f) * 0.5f;
+                Lighting.AddLight(npc.Top + new Vector2(0f, 15f), rgb);
+            }
+            else if (npc.type == NPCID.DesertGhoulCrimson)
+            {
+                Vector3 rgb2 = new Vector3(1f, 1f, 0.5f) * 0.4f;
+                Lighting.AddLight(npc.Top + new Vector2(0f, 15f), rgb2);
+            }
+            else if (npc.type == NPCID.DesertGhoulHallow)
+            {
+                Vector3 rgb3 = new Vector3(0.6f, 0.3f, 1f) * 0.4f;
+                Lighting.AddLight(npc.Top + new Vector2(0f, 15f), rgb3);
+            }
+            else if (npc.type == NPCID.SolarDrakomire)
+            {
+                npc.hide = false;
+                // I'd assume the Drakomire is drawn by the rider if it's present
+                for (int i = 0; i < Main.npc.Length; i++)
+                {
+                    if (Main.npc[i].active && Main.npc[i].type == NPCID.SolarDrakomireRider && Main.npc[i].ai[0] == (float)npc.whoAmI)
+                    {
+                        npc.hide = true;
+                        break;
+                    }
+                }
+            }
+            else if (npc.type == NPCID.MushiLadybug)
+            {
+                if (npc.velocity.Y != 0f)
+                {
+                    npc.TargetClosest(true);
+                    npc.spriteDirection = npc.direction;
+                    if (Main.player[npc.target].Center.X < npc.position.X && npc.velocity.X > 0f)
+                    {
+                        npc.velocity.X *= 0.95f;
+                    }
+                    else if (Main.player[npc.target].Center.X > npc.position.X + (float)npc.width && npc.velocity.X < 0f)
+                    {
+                        npc.velocity.X *= 0.95f;
+                    }
+                    if (Main.player[npc.target].Center.X < npc.position.X && npc.velocity.X > -5f)
+                    {
+                        npc.velocity.X -= 0.1f;
+                    }
+                    else if (Main.player[npc.target].Center.X > npc.position.X + (float)npc.width && npc.velocity.X < 5f)
+                    {
+                        npc.velocity.X += 0.1f;
+                    }
+                }
+                else if (Main.player[npc.target].Center.Y + 50f < npc.position.Y && Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
+                {
+                    npc.velocity.Y = -9f;
+                }
+            }
+            else if (npc.type == NPCID.VortexRifleman)
+            {
+                if (npc.velocity.Y == 0f)
+                {
+                    npc.ai[2] = 0f;
+                }
+                if (npc.velocity.Y != 0f && npc.ai[2] == 1f)
+                {
+                    npc.TargetClosest(true);
+                    npc.spriteDirection = -npc.direction;
+                    if (Collision.CanHit(npc.Center, 0, 0, Main.player[npc.target].Center, 0, 0))
+                    {
+                        float idealLocationX = Main.player[npc.target].Center.X - (float)(npc.direction * 600) - npc.Center.X;
+                        float idealLocationY = Main.player[npc.target].Bottom.Y - npc.Bottom.Y;
+                        if (idealLocationX < 0f && npc.velocity.X > 0f)
+                        {
+                            npc.velocity.X *= 0.9f;
+                        }
+                        else if (idealLocationX > 0f && npc.velocity.X < 0f)
+                        {
+                            npc.velocity.X *= 0.9f;
+                        }
+                        if (idealLocationX < 0f && npc.velocity.X > -7f)
+                        {
+                            npc.velocity.X -= 0.12f;
+                        }
+                        else if (idealLocationX > 0f && npc.velocity.X < 7f)
+                        {
+                            npc.velocity.X += 0.12f;
+                        }
+                        if (npc.velocity.X > 8f)
+                        {
+                            npc.velocity.X = 8f;
+                        }
+                        if (npc.velocity.X < -8f)
+                        {
+                            npc.velocity.X = -8f;
+                        }
+                        if (idealLocationY < -20f && npc.velocity.Y > 0f)
+                        {
+                            npc.velocity.Y *= 0.8f;
+                        }
+                        else if (idealLocationY > 20f && npc.velocity.Y < 0f)
+                        {
+                            npc.velocity.Y *= 0.8f;
+                        }
+                        if (idealLocationY < -20f && npc.velocity.Y > -7f)
+                        {
+                            npc.velocity.Y -= 0.35f;
+                        }
+                        else if (idealLocationY > 20f && npc.velocity.Y < 7f)
+                        {
+                            npc.velocity.Y += 0.35f;
+                        }
+                    }
+                    if (Main.rand.Next(3) == 0)
+                    {
+                        Vector2 position = npc.Center + new Vector2((float)(npc.direction * -14), -8f) - Vector2.One * 4f;
+                        Vector2 velocity = new Vector2((float)(npc.direction * -6), 12f) * 0.2f + Utils.RandomVector2(Main.rand, -1f, 1f) * 0.1f;
+                        Dust dust = Main.dust[Dust.NewDust(position, 8, 8, 229, velocity.X, velocity.Y, 100, Color.Transparent, 1f + Main.rand.NextFloat() * 0.5f)];
+                        dust.noGravity = true;
+                        dust.velocity = velocity;
+                        dust.customData = npc;
+                    }
+                    // Adjust velocity based on the other storm drivers who want to pump your face full of bullets
+                    for (int i = 0; i < Main.npc.Length; i++)
+                    {
+                        if (i != npc.whoAmI && Main.npc[i].active && Main.npc[i].type == npc.type && Math.Abs(npc.position.X - Main.npc[i].position.X) + Math.Abs(npc.position.Y - Main.npc[i].position.Y) < (float)npc.width)
+                        {
+                            if (npc.position.X < Main.npc[i].position.X)
+                            {
+                                npc.velocity.X -= 0.05f;
+                            }
+                            else
+                            {
+                                npc.velocity.X += 0.05f;
+                            }
+                            if (npc.position.Y < Main.npc[i].position.Y)
+                            {
+                                npc.velocity.Y -= 0.05f;
+                            }
+                            else
+                            {
+                                npc.velocity.Y += 0.05f;
+                            }
+                        }
+                    }
+                }
+                else if (Main.player[npc.target].Center.Y + 100f < npc.position.Y && Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
+                {
+                    npc.velocity.Y = -7f;
+                    npc.ai[2] = 1f;
+                }
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    npc.localAI[2] += 1f;
+                    if (npc.localAI[2] >= (float)(240 + Main.rand.Next(240)) && npc.Distance(Main.player[npc.target].Center) < 600f && Math.Abs(npc.DirectionTo(Main.player[npc.target].Center).Y) < 0.5f && Collision.CanHitLine(npc.Center, 0, 0, Main.player[npc.target].Center, 0, 0))
+                    {
+                        npc.localAI[2] = 0f;
+                        Vector2 spawnPos = npc.Center + new Vector2((float)(npc.direction * 30), 2f);
+                        Vector2 velocity = npc.DirectionTo(Main.player[npc.target].Center) * 9f;
+                        if (velocity.HasNaNs())
+                        {
+                            velocity = new Vector2((float)(npc.direction * 10), 0f);
+                        }
+                        int damage = Main.expertMode ? 50 : 75;
+                        for (int i = 0; i < 4; i++)
+                        {
+                            Vector2 vector17 = velocity + Utils.RandomVector2(Main.rand, -0.8f, 0.8f);
+                            Projectile.NewProjectile(spawnPos, vector17, ProjectileID.VortexLaser, damage, 1f, Main.myPlayer, 0f, 0f);
+                        }
+                    }
+                }
+            }
+            else if (npc.type == NPCID.VortexHornet)
+            {
+                if (npc.velocity.Y == 0f)
+                {
+                    npc.ai[2] = 0f;
+                    npc.rotation = 0f;
+                }
+                else
+                {
+                    npc.rotation = npc.velocity.X * 0.1f;
+                }
+                if (npc.velocity.Y != 0f && npc.ai[2] == 1f)
+                {
+                    npc.TargetClosest(true);
+                    npc.spriteDirection = -npc.direction;
+                    if (Collision.CanHit(npc.Center, 0, 0, Main.player[npc.target].Center, 0, 0))
+                    {
+                        float playerDistX = Main.player[npc.target].Center.X - npc.Center.X;
+                        float playerDistY = Main.player[npc.target].Center.Y - npc.Center.Y;
+                        if (playerDistX < 0f && npc.velocity.X > 0f)
+                        {
+                            npc.velocity.X *= 0.98f;
+                        }
+                        else if (playerDistX > 0f && npc.velocity.X < 0f)
+                        {
+                            npc.velocity.X *= 0.98f;
+                        }
+                        if (playerDistX < -20f && npc.velocity.X > -8f)
+                        {
+                            npc.velocity.X -= 0.025f;
+                        }
+                        else if (playerDistX > 20f && npc.velocity.X < 8f)
+                        {
+                            npc.velocity.X += 0.025f;
+                        }
+                        if (npc.velocity.X > 8f)
+                        {
+                            npc.velocity.X = 8f;
+                        }
+                        if (npc.velocity.X < -8f)
+                        {
+                            npc.velocity.X = -8f;
+                        }
+                        if (playerDistY < -20f && npc.velocity.Y > 0f)
+                        {
+                            npc.velocity.Y *= 0.98f;
+                        }
+                        else if (playerDistY > 20f && npc.velocity.Y < 0f)
+                        {
+                            npc.velocity.Y *= 0.98f;
+                        }
+                        if (playerDistY < -20f && npc.velocity.Y > -8f)
+                        {
+                            npc.velocity.Y -= 0.25f;
+                        }
+                        else if (playerDistY > 20f && npc.velocity.Y < 8f)
+                        {
+                            npc.velocity.Y += 0.25f;
+                        }
+                    }
+                    for (int i = 0; i < Main.npc.Length; i++)
+                    {
+                        if (i != npc.whoAmI && Main.npc[i].active && Main.npc[i].type == npc.type && Math.Abs(npc.position.X - Main.npc[i].position.X) + Math.Abs(npc.position.Y - Main.npc[i].position.Y) < (float)npc.width)
+                        {
+                            if (npc.position.X < Main.npc[i].position.X)
+                            {
+                                npc.velocity.X -= 0.05f;
+                            }
+                            else
+                            {
+                                npc.velocity.X += 0.05f;
+                            }
+                            if (npc.position.Y < Main.npc[i].position.Y)
+                            {
+                                npc.velocity.Y -= 0.05f;
+                            }
+                            else
+                            {
+                                npc.velocity.Y += 0.05f;
+                            }
+                        }
+                    }
+                }
+                else if (Main.player[npc.target].Center.Y + 100f < npc.position.Y && Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
+                {
+                    npc.velocity.Y = -7f;
+                    npc.ai[2] = 1f;
+                }
+            }
+            else if (npc.type == NPCID.VortexHornetQueen)
+            {
+                if (npc.ai[1] > 0f && npc.velocity.Y > 0f)
+                {
+                    npc.velocity.Y *= 0.85f;
+                    if (npc.velocity.Y == 0f)
+                    {
+                        npc.velocity.Y = -0.4f;
+                    }
+                }
+                if (npc.velocity.Y != 0f)
+                {
+                    npc.TargetClosest(true);
+                    npc.spriteDirection = npc.direction;
+                    if (Collision.CanHit(npc.Center, 0, 0, Main.player[npc.target].Center, 0, 0))
+                    {
+                        float distanceToLocationX = Main.player[npc.target].Center.X - (float)(npc.direction * 450) - npc.Center.X;
+                        if (distanceToLocationX < 40f && npc.velocity.X > 0f)
+                        {
+                            npc.velocity.X *= 0.98f;
+                        }
+                        else if (distanceToLocationX > 40f && npc.velocity.X < 0f)
+                        {
+                            npc.velocity.X *= 0.98f;
+                        }
+                        if (distanceToLocationX < 40f && npc.velocity.X > -7f)
+                        {
+                            npc.velocity.X -= 0.25f;
+                        }
+                        else if (distanceToLocationX > 40f && npc.velocity.X < 7f)
+                        {
+                            npc.velocity.X += 0.25f;
+                        }
+                        if (npc.velocity.X > 8f)
+                        {
+                            npc.velocity.X = 8f;
+                        }
+                        if (npc.velocity.X < -8f)
+                        {
+                            npc.velocity.X = -8f;
+                        }
+                    }
+                }
+                else if (Main.player[npc.target].Center.Y + 100f < npc.position.Y && Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
+                {
+                    npc.velocity.Y = -8f;
+                }
+                for (int i = 0; i < Main.npc.Length; i++)
+                {
+                    if (i != npc.whoAmI && Main.npc[i].active && Main.npc[i].type == npc.type && Math.Abs(npc.position.X - Main.npc[i].position.X) + Math.Abs(npc.position.Y - Main.npc[i].position.Y) < (float)npc.width)
+                    {
+                        if (npc.position.X < Main.npc[i].position.X)
+                        {
+                            npc.velocity.X -= 0.1f;
+                        }
+                        else
+                        {
+                            npc.velocity.X += 0.1f;
+                        }
+                        if (npc.position.Y < Main.npc[i].position.Y)
+                        {
+                            npc.velocity.Y -= 0.1f;
+                        }
+                        else
+                        {
+                            npc.velocity.Y += 0.1f;
+                        }
+                    }
+                }
+                if (Main.rand.Next(6) == 0 && npc.ai[1] <= 20f)
+                {
+                    Dust dust = Main.dust[Dust.NewDust(npc.Center + new Vector2((float)((npc.spriteDirection == 1) ? 8 : -20), -20f), 8, 8, 229, npc.velocity.X, npc.velocity.Y, 100, default, 1f)];
+                    dust.velocity = dust.velocity / 4f + npc.velocity / 2f;
+                    dust.scale = 0.6f;
+                    dust.noLight = true;
+                }
+                if (npc.ai[1] >= 57f)
+                {
+                    int dustType = Utils.SelectRandom<int>(Main.rand, new int[]
+                    {
+                        161,
+                        229
+                    });
+                    Dust dust = Main.dust[Dust.NewDust(npc.Center + new Vector2((float)((npc.spriteDirection == 1) ? 8 : -20), -20f), 8, 8, dustType, npc.velocity.X, npc.velocity.Y, 100, default, 1f)];
+                    dust.velocity = dust.velocity / 4f + npc.DirectionTo(Main.player[npc.target].Top);
+                    dust.scale = 1.2f;
+                    dust.noLight = true;
+                }
+                if (Main.rand.Next(6) == 0)
+                {
+                    Dust dust = Main.dust[Dust.NewDust(npc.Center, 2, 2, 229, 0f, 0f, 0, default, 1f)];
+                    dust.position = npc.Center + new Vector2((float)((npc.spriteDirection == 1) ? 26 : -26), 24f);
+                    dust.velocity.X = 0f;
+                    if (dust.velocity.Y < 0f)
+                    {
+                        dust.velocity.Y = 0f;
+                    }
+                    dust.noGravity = true;
+                    dust.scale = 1f;
+                    dust.noLight = true;
+                }
+            }
+            else if (npc.type == NPCID.SnowFlinx)
+            {
+                if (npc.velocity.Y == 0f)
+                {
+                    npc.rotation = 0f;
+                    npc.localAI[0] = 0f;
+                }
+                else if (npc.localAI[0] == 1f)
+                {
+                    npc.rotation += npc.velocity.X * 0.05f;
+                }
+            }
+            else if (npc.type == NPCID.VortexLarva)
+            {
+                if (npc.velocity.Y == 0f)
+                {
+                    npc.rotation = 0f;
+                }
+                else
+                {
+                    npc.rotation += npc.velocity.X * 0.08f;
+                }
+            }
+            // Turn into a bat
+            if (npc.type == NPCID.Vampire && Main.netMode != NetmodeID.MultiplayerClient)
+            {
+                if (npc.Distance(Main.player[npc.target].Center) > 300f)
+                {
+                    npc.Transform(NPCID.VampireBat);
+                }
+            }
+            if (Main.netMode != 1 && npc.velocity.Y == 0f)
+                TryConvertToWallClimber(npc);
+
+            if (Main.netMode != NetmodeID.MultiplayerClient && Main.expertMode && npc.target >= 0 && (npc.type == NPCID.BlackRecluse || npc.type == NPCID.BlackRecluseWall) && Collision.CanHit(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1))
+            {
+                npc.localAI[0] += 1f;
+                if (npc.justHit)
+                {
+                    npc.localAI[0] -= (float)Main.rand.Next(5, 20);
+                    if (npc.localAI[0] < 0f)
+                    {
+                        npc.localAI[0] = 0f;
+                    }
+                }
+                if (npc.localAI[0] > (float)Main.rand.Next(120, 240))
+                {
+                    npc.localAI[0] = 0f;
+                    Projectile.NewProjectile(npc.Center, npc.DirectionTo(Main.player[npc.target].Center) * 10f, ProjectileID.WebSpit, 18, 0f, Main.myPlayer, 0f, 0f);
+                }
+            }
+            if (npc.type == NPCID.IceGolem)
+            {
+                if (npc.justHit && Main.rand.Next(3) == 0)
+                {
+                    npc.ai[2] -= (float)Main.rand.Next(20);
+                }
+                if (npc.ai[2] < 0f)
+                {
+                    npc.ai[2] = 0f;
+                }
+                if (npc.confused)
+                {
+                    npc.ai[2] = 0f;
+                }
+                npc.ai[2] += 1f;
+                if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] >= 90f && npc.velocity.Y == 0f && !Main.player[npc.target].dead && !Main.player[npc.target].frozen && ((npc.direction > 0 && npc.Center.X < Main.player[npc.target].Center.X) || (npc.direction < 0 && npc.Center.X > Main.player[npc.target].Center.X)) && Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
+                {
+                    npc.netUpdate = true;
+                    Vector2 velocity = npc.DirectionTo(Main.player[npc.target].Center) * 15;
+                    Projectile.NewProjectile(npc.Center - Vector2.UnitY * 28 + velocity * 2f, velocity, ProjectileID.FrostBeam, 32, 0f, Main.myPlayer, 0f, 0f);
+                    npc.ai[2] = 0f;
+                }
+            }
+            if (npc.type == NPCID.Eyezor)
+            {
+                if (npc.justHit)
+                {
+                    npc.ai[2] -= (float)Main.rand.Next(20);
+                }
+                if (npc.ai[2] < 0f)
+                {
+                    npc.ai[2] = 0f;
+                }
+                if (npc.confused)
+                {
+                    npc.ai[2] = 0f;
+                }
+                npc.ai[2] += 1f;
+                if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] >= 60f && npc.velocity.Y == 0f && !Main.player[npc.target].dead && !Main.player[npc.target].frozen && ((npc.direction > 0 && npc.Center.X < Main.player[npc.target].Center.X) || (npc.direction < 0 && npc.Center.X > Main.player[npc.target].Center.X)) && Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
+                {
+                    float speed = 15f;
+                    Vector2 spawnPosition = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + 12f);
+                    Vector2 velocity = Vector2.Normalize(Main.player[npc.target].Center - spawnPosition) * speed;
+                    Projectile.NewProjectile(spawnPosition, velocity, ProjectileID.EyeLaser, 40, 0f, Main.myPlayer, 0f, 0f);
+                    npc.ai[2] = 0f;
+                }
+            }
+            if (npc.type == NPCID.MartianEngineer)
+            {
+                if (npc.confused)
+                {
+                    npc.ai[2] = -40f;
+                }
+                else
+                {
+                    if (npc.ai[2] < 40f)
+                    {
+                        npc.ai[2] += 1f;
+                    }
+                    if (npc.ai[2] > 0f && NPC.CountNPCS(NPCID.MartianTurret) >= 4 * NPC.CountNPCS(NPCID.MartianEngineer))
+                    {
+                        npc.ai[2] = 0f;
+                    }
+                    if (npc.justHit)
+                    {
+                        npc.ai[2] = -20f;
+                    }
+                    if (npc.ai[2] == 20f)
+                    {
+                        int centerTileX = (int)npc.position.X / 16;
+                        int centerTileY = (int)npc.position.Y / 16;
+                        int centerTileX2 = (int)npc.position.X / 16;
+                        int centerTileY2 = (int)npc.position.Y / 16;
+                        int maxTurretDistX = 5;
+                        int maxTurretDistanceY = 2;
+                        int tryCounter = 0;
+                        bool createdTurret = false;
+                        while (!createdTurret && tryCounter < 100)
+                        {
+                            tryCounter++;
+                            int turretSpawnX = Main.rand.Next(centerTileX - maxTurretDistX, centerTileX + maxTurretDistX);
+                            for (int y = Main.rand.Next(centerTileY - maxTurretDistX, centerTileY + maxTurretDistX); y < centerTileY + maxTurretDistX; y++)
+                            {
+                                if ((y < centerTileY - maxTurretDistanceY || y > centerTileY + maxTurretDistanceY || turretSpawnX < centerTileX - maxTurretDistanceY || turretSpawnX > centerTileX + maxTurretDistanceY) && (y < centerTileY2 || y > centerTileY2 || turretSpawnX < centerTileX2 || turretSpawnX > centerTileX2) && Main.tile[turretSpawnX, y].nactive())
+                                {
+                                    bool notLava = true;
+                                    if (Main.tile[turretSpawnX, y - 1].lava())
+                                    {
+                                        notLava = false;
+                                    }
+                                    if (notLava && Main.tileSolid[(int)Main.tile[turretSpawnX, y].type] && !Collision.SolidTiles(turretSpawnX - 1, turretSpawnX + 1, y - 4, y - 1))
+                                    {
+                                        int turretIdx = NPC.NewNPC(turretSpawnX * 16 - npc.width / 2, y * 16, NPCID.MartianTurret, 0, 0f, 0f, 0f, 0f, 255);
+                                        Main.npc[turretIdx].position.Y = (float)(y * 16 - Main.npc[turretIdx].height);
+                                        createdTurret = true;
+                                        npc.netUpdate = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if (npc.ai[2] == 40f)
+                    {
+                        npc.ai[2] = -90f;
+                    }
+                }
+            }
+            if (npc.type == NPCID.GigaZapper)
+            {
+                if (npc.confused)
+                {
+                    npc.ai[2] = -40f;
+                }
+                else
+                {
+                    if (npc.ai[2] < 20f)
+                    {
+                        npc.ai[2] += 1f;
+                    }
+                    if (npc.justHit)
+                    {
+                        npc.ai[2] = -20f;
+                    }
+                    if (npc.ai[2] == 20f && Main.netMode != NetmodeID.MultiplayerClient)
+                    {
+                        npc.ai[2] = (float)(-10 + Main.rand.Next(3) * -10);
+                        Projectile.NewProjectile(npc.Center.X, npc.Center.Y + 8f, (float)(npc.direction * 8), 0f, ProjectileID.GigaZapperSpear, 25, 1f, Main.myPlayer, 0f, 0f);
+                    }
+                }
+            }
+            if (npc.type == NPCID.SkeletonArcher ||
+                npc.type == NPCID.GoblinArcher || 
+                npc.type == NPCID.IcyMerman || 
+                npc.type == NPCID.PirateDeadeye || 
+                npc.type == NPCID.PirateCrossbower ||
+                npc.type == NPCID.PirateCaptain || 
+                npc.type == NPCID.Paladin || 
+                npc.type == NPCID.SkeletonSniper ||
+                npc.type == NPCID.TacticalSkeleton ||
+                npc.type == NPCID.SkeletonCommando || 
+                npc.type == NPCID.ElfArcher || 
+                npc.type == NPCID.CultistArcherBlue ||
+                npc.type == NPCID.CultistArcherWhite || 
+                npc.type == NPCID.BrainScrambler ||
+                npc.type == NPCID.RayGunner ||
+                (npc.type >= NPCID.BoneThrowingSkeleton && npc.type <= NPCID.BoneThrowingSkeleton4) || 
+                (npc.type == NPCID.DrManFly || 
+                npc.type == NPCID.GreekSkeleton ||
+                npc.type == NPCID.StardustSoldier || 
+                npc.type == NPCID.StardustSpiderBig || 
+                (npc.type >= NPCID.Salamander && npc.type <= NPCID.Salamander9)) ||
+                npc.type == NPCID.NebulaSoldier || 
+                npc.type == NPCID.VortexHornetQueen || 
+                npc.type == NPCID.MartianWalker)
+            {
+                bool npcAllowedToShoot = npc.type == NPCID.BrainScrambler || npc.type == NPCID.RayGunner || npc.type == NPCID.MartianWalker;
+                bool isAlienQueen = npc.type == NPCID.VortexHornetQueen;
+                bool flag18 = true;
+                int num136 = -1;
+                int num137 = -1;
+                if (npc.type == NPCID.StardustSoldier)
+                {
+                    npcAllowedToShoot = true;
+                    num136 = 90;
+                    num137 = 90;
+                    if (npc.ai[1] <= 150f)
+                    {
+                        flag18 = false;
+                    }
+                }
+                if (npc.confused)
+                {
+                    npc.ai[2] = 0f;
+                }
+                else
+                {
+                    if (npc.ai[1] > 0f)
+                    {
+                        npc.ai[1] -= 1f;
+                    }
+                    if (npc.justHit)
+                    {
+                        npc.ai[1] = 30f;
+                        npc.ai[2] = 0f;
+                    }
+                    int attackTimeMax = 70;
+                    if (npc.type == NPCID.CultistArcherBlue || npc.type == NPCID.CultistArcherWhite)
+                    {
+                        attackTimeMax = 80;
+                    }
+                    if (npc.type == NPCID.BrainScrambler || npc.type == NPCID.RayGunner)
+                    {
+                        attackTimeMax = 80;
+                    }
+                    if (npc.type == NPCID.MartianWalker)
+                    {
+                        attackTimeMax = 15;
+                    }
+                    if (npc.type == NPCID.ElfArcher)
+                    {
+                        attackTimeMax = 110;
+                    }
+                    if (npc.type == NPCID.SkeletonSniper)
+                    {
+                        attackTimeMax = 200;
+                    }
+                    if (npc.type == NPCID.TacticalSkeleton)
+                    {
+                        attackTimeMax = 120;
+                    }
+                    if (npc.type == NPCID.SkeletonCommando)
+                    {
+                        attackTimeMax = 90;
+                    }
+                    if (npc.type == NPCID.GoblinArcher)
+                    {
+                        attackTimeMax = 180;
+                    }
+                    if (npc.type == NPCID.IcyMerman)
+                    {
+                        attackTimeMax = 50;
+                    }
+                    if (npc.type == NPCID.GreekSkeleton)
+                    {
+                        attackTimeMax = 100;
+                    }
+                    if (npc.type == NPCID.PirateDeadeye)
+                    {
+                        attackTimeMax = 40;
+                    }
+                    if (npc.type == NPCID.PirateCrossbower)
+                    {
+                        attackTimeMax = 80;
+                    }
+                    if (npc.type == NPCID.Paladin)
+                    {
+                        attackTimeMax = 30;
+                    }
+                    if (npc.type == NPCID.StardustSoldier)
+                    {
+                        attackTimeMax = 300;
+                    }
+                    if (npc.type == NPCID.StardustSpiderBig)
+                    {
+                        attackTimeMax = 60;
+                    }
+                    if (npc.type == NPCID.NebulaSoldier)
+                    {
+                        attackTimeMax = 180;
+                    }
+                    if (npc.type == NPCID.VortexHornetQueen)
+                    {
+                        attackTimeMax = 60;
+                    }
+                    bool priateCaptainBoost = false;
+                    if (npc.type == NPCID.PirateCaptain)
+                    {
+                        if (npc.localAI[2] >= 20f)
+                        {
+                            priateCaptainBoost = true;
+                        }
+                        if (priateCaptainBoost)
+                        {
+                            attackTimeMax = 60;
+                        }
+                        else
+                        {
+                            attackTimeMax = 8;
+                        }
+                    }
+                    attackTimeMax = (int)(attackTimeMax * 0.75);
+                    int num139 = attackTimeMax / 2;
+                    if (npc.type == NPCID.NebulaSoldier)
+                    {
+                        num139 = attackTimeMax - 1;
+                    }
+                    if (npc.type == NPCID.VortexHornetQueen)
+                    {
+                        num139 = attackTimeMax - 1;
+                    }
+                    if (npc.ai[2] > 0f)
+                    {
+                        if (flag18)
+                        {
+                            npc.TargetClosest(true);
+                        }
+                        if (npc.ai[1] == (float)num139)
+                        {
+                            if (npc.type == NPCID.PirateCaptain)
+                            {
+                                npc.localAI[2] += 1f;
+                            }
+                            float num140 = 11f;
+                            if (npc.type == NPCID.GoblinArcher)
+                            {
+                                num140 = 9f;
+                            }
+                            if (npc.type == NPCID.IcyMerman)
+                            {
+                                num140 = 7f;
+                            }
+                            if (npc.type == NPCID.Paladin)
+                            {
+                                num140 = 9f;
+                            }
+                            if (npc.type == NPCID.SkeletonCommando)
+                            {
+                                num140 = 4f;
+                            }
+                            if (npc.type == NPCID.PirateDeadeye)
+                            {
+                                num140 = 14f;
+                            }
+                            if (npc.type == NPCID.PirateCrossbower)
+                            {
+                                num140 = 16f;
+                            }
+                            if (npc.type == NPCID.RayGunner)
+                            {
+                                num140 = 7f;
+                            }
+                            if (npc.type == NPCID.MartianWalker)
+                            {
+                                num140 = 8f;
+                            }
+                            if (npc.type == NPCID.StardustSpiderBig)
+                            {
+                                num140 = 4f;
+                            }
+                            if (npc.type >= 449 && npc.type <= 452)
+                            {
+                                num140 = 7f;
+                            }
+                            if (npc.type == NPCID.GreekSkeleton)
+                            {
+                                num140 = 8f;
+                            }
+                            if (npc.type == NPCID.DrManFly)
+                            {
+                                num140 = 7.5f;
+                            }
+                            if (npc.type == NPCID.StardustSoldier)
+                            {
+                                num140 = 1f;
+                            }
+                            if (npc.type >= 498 && npc.type <= 506)
+                            {
+                                num140 = 7f;
+                            }
+                            num140 *= 1.25f;
+                            Vector2 spawnPosition = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
+                            if (npc.type == NPCID.GreekSkeleton)
+                            {
+                                spawnPosition.Y -= 14f;
+                            }
+                            if (npc.type == NPCID.IcyMerman)
+                            {
+                                spawnPosition.Y -= 10f;
+                            }
+                            if (npc.type == NPCID.Paladin)
+                            {
+                                spawnPosition.Y -= 10f;
+                            }
+                            if (npc.type == NPCID.BrainScrambler || npc.type == NPCID.RayGunner)
+                            {
+                                spawnPosition.Y += 6f;
+                            }
+                            if (npc.type == NPCID.MartianWalker)
+                            {
+                                spawnPosition.Y = npc.position.Y + 20f;
+                            }
+                            if (npc.type >= 498 && npc.type <= 506)
+                            {
+                                spawnPosition.Y -= 8f;
+                            }
+                            if (npc.type == NPCID.VortexHornetQueen)
+                            {
+                                spawnPosition += new Vector2((float)(npc.spriteDirection * 2), -12f);
+                            }
+                            float distX = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - spawnPosition.X;
+                            float num142 = Math.Abs(distX) * 0.1f;
+                            if (npc.type == NPCID.SkeletonSniper || npc.type == NPCID.TacticalSkeleton)
+                            {
+                                num142 = 0f;
+                            }
+                            if (npc.type == NPCID.PirateCrossbower)
+                            {
+                                num142 = Math.Abs(distX) * 0.08f;
+                            }
+                            if (npc.type == NPCID.PirateDeadeye || (npc.type == NPCID.PirateCaptain && !priateCaptainBoost))
+                            {
+                                num142 = 0f;
+                            }
+                            if (npc.type == NPCID.BrainScrambler || npc.type == NPCID.RayGunner || npc.type == NPCID.MartianWalker)
+                            {
+                                num142 = 0f;
+                            }
+                            if (npc.type >= 449 && npc.type <= 452)
+                            {
+                                num142 = Math.Abs(distX) * (float)Main.rand.Next(10, 50) * 0.01f;
+                            }
+                            if (npc.type == NPCID.DrManFly)
+                            {
+                                num142 = Math.Abs(distX) * (float)Main.rand.Next(10, 50) * 0.01f;
+                            }
+                            if (npc.type == NPCID.GreekSkeleton)
+                            {
+                                num142 = Math.Abs(distX) * (float)Main.rand.Next(-10, 11) * 0.0035f;
+                            }
+                            if (npc.type >= 498 && npc.type <= 506)
+                            {
+                                num142 = Math.Abs(distX) * (float)Main.rand.Next(1, 11) * 0.0025f;
+                            }
+                            float distY = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - spawnPosition.Y - num142;
+                            float magnitude = (float)Math.Sqrt((distX * distX + distY * distY));
+                            npc.netUpdate = true;
+                            magnitude = num140 / magnitude;
+                            distX *= magnitude;
+                            distY *= magnitude;
+                            int damage = 35;
+                            int projectileType = 82;
+                            if (npc.type == NPCID.GoblinArcher)
+                            {
+                                damage = 11;
+                            }
+                            if (npc.type == NPCID.IcyMerman)
+                            {
+                                damage = 37;
+                            }
+                            if (npc.type == NPCID.CultistArcherBlue || npc.type == NPCID.CultistArcherWhite)
+                            {
+                                damage = 40;
+                            }
+                            if (npc.type == NPCID.ElfArcher)
+                            {
+                                damage = 45;
+                            }
+                            if (npc.type == NPCID.DrManFly)
+                            {
+                                damage = 50;
+                            }
+                            if (npc.type == NPCID.GoblinArcher)
+                            {
+                                projectileType = ProjectileID.WoodenArrowHostile;
+                            }
+                            if (npc.type == NPCID.CultistArcherBlue || npc.type == NPCID.CultistArcherWhite)
+                            {
+                                projectileType = ProjectileID.WoodenArrowHostile;
+                            }
+                            if (npc.type == NPCID.BrainScrambler)
+                            {
+                                projectileType = ProjectileID.BrainScramblerBolt;
+                                damage = 24;
+                            }
+                            if (npc.type == NPCID.RayGunner)
+                            {
+                                projectileType = ProjectileID.RayGunnerLaser;
+                                damage = 30;
+                            }
+                            if (npc.type == NPCID.MartianWalker)
+                            {
+                                projectileType = ProjectileID.MartianWalkerLaser;
+                                damage = 35;
+                            }
+                            if (npc.type >= NPCID.BoneThrowingSkeleton && npc.type <= NPCID.BoneThrowingSkeleton4)
+                            {
+                                projectileType = ProjectileID.SkeletonBone;
+                                damage = 20;
+                            }
+                            if (npc.type >= NPCID.Salamander && npc.type <= NPCID.Salamander9)
+                            {
+                                projectileType = ProjectileID.SalamanderSpit;
+                                damage = 14;
+                            }
+                            if (npc.type == NPCID.GreekSkeleton)
+                            {
+                                projectileType = ProjectileID.JavelinHostile;
+                                damage = 18;
+                            }
+                            if (npc.type == NPCID.IcyMerman)
+                            {
+                                projectileType = ProjectileID.IcewaterSpit;
+                            }
+                            if (npc.type == NPCID.DrManFly)
+                            {
+                                projectileType = ProjectileID.DrManFlyFlask;
+                            }
+                            if (npc.type == NPCID.StardustSoldier)
+                            {
+                                projectileType = ProjectileID.StardustSoldierLaser;
+                                damage = (Main.expertMode ? 45 : 60);
+                            }
+                            if (npc.type == NPCID.NebulaSoldier)
+                            {
+                                projectileType = ProjectileID.NebulaBolt;
+                                damage = (Main.expertMode ? 45 : 60);
+                            }
+                            if (npc.type == NPCID.VortexHornetQueen)
+                            {
+                                projectileType = ProjectileID.VortexAcid;
+                                damage = (Main.expertMode ? 45 : 60);
+                            }
+                            if (npc.type == NPCID.SkeletonSniper)
+                            {
+                                projectileType = ProjectileID.SniperBullet;
+                                damage = 100;
+                            }
+                            if (npc.type == NPCID.Paladin)
+                            {
+                                projectileType = ProjectileID.PaladinsHammerHostile;
+                                damage = 60;
+                            }
+                            if (npc.type == NPCID.SkeletonCommando)
+                            {
+                                projectileType = ProjectileID.RocketSkeleton;
+                                damage = 60;
+                            }
+                            if (npc.type == NPCID.PirateDeadeye)
+                            {
+                                projectileType = ProjectileID.BulletDeadeye;
+                                damage = 25;
+                            }
+                            if (npc.type == NPCID.PirateCrossbower)
+                            {
+                                projectileType = ProjectileID.FlamingArrow;
+                                damage = 40;
+                            }
+                            if (npc.type == NPCID.TacticalSkeleton)
+                            {
+                                damage = 50;
+                                projectileType = ProjectileID.BulletDeadeye;
+                            }
+                            if (npc.type == NPCID.PirateCaptain)
+                            {
+                                projectileType = ProjectileID.BulletDeadeye;
+                                damage = 30;
+                                if (priateCaptainBoost)
+                                {
+                                    damage = 100;
+                                    projectileType = ProjectileID.CannonballHostile;
+                                    npc.localAI[2] = 0f;
+                                }
+                            }
+                            spawnPosition.X += distX;
+                            spawnPosition.Y += distY;
+                            if (Main.expertMode && npc.type == NPCID.Paladin)
+                            {
+                                damage = (int)(damage * 0.75);
+                            }
+                            if (Main.expertMode && npc.type >= 381 && npc.type <= 392)
+                            {
+                                damage = (int)(damage * 0.8);
+                            }
+                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                            {
+                                if (npc.type == NPCID.TacticalSkeleton)
+                                {
+                                    for (int num147 = 0; num147 < 4; num147++)
+                                    {
+                                        distX = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - spawnPosition.X;
+                                        distY = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - spawnPosition.Y;
+                                        magnitude = (float)Math.Sqrt((distX * distX + distY * distY));
+                                        magnitude = 12f / magnitude;
+                                        distX += (float)Main.rand.Next(-40, 41);
+                                        distY += (float)Main.rand.Next(-40, 41);
+                                        distX *= magnitude;
+                                        distY *= magnitude;
+                                        Projectile.NewProjectile(npc.Center.X, npc.Center.Y, distX, distY, projectileType, damage, 0f, Main.myPlayer, 0f, 0f);
+                                    }
+                                }
+                                else if (npc.type == NPCID.StardustSoldier)
+                                {
+                                    Projectile.NewProjectile(spawnPosition.X, spawnPosition.Y, distX, distY, projectileType, damage, 0f, Main.myPlayer, 0f, (float)npc.whoAmI);
+                                }
+                                else if (npc.type == NPCID.NebulaSoldier)
+                                {
+                                    for (int i = 0; i < 4; i++)
+                                    {
+                                        Projectile.NewProjectile(npc.Center.X - (float)(npc.spriteDirection * 4), npc.Center.Y + 6f, (float)(-3 + 2 * i) * 0.15f, (float)(-(float)Main.rand.Next(0, 3)) * 0.2f - 0.1f, projectileType, damage, 0f, Main.myPlayer, 0f, (float)npc.whoAmI);
+                                    }
+                                }
+                                else if (npc.type == NPCID.StardustSpiderBig)
+                                {
+                                    int idx = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, 410, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+                                    Main.npc[idx].velocity = new Vector2(distX, -6f + distY);
+                                }
+                                else
+                                {
+                                    Projectile.NewProjectile(spawnPosition.X, spawnPosition.Y, distX, distY, projectileType, damage, 0f, Main.myPlayer, 0f, 0f);
+                                }
+                            }
+                            if (Math.Abs(distY) > Math.Abs(distX) * 2f)
+                            {
+                                if (distY > 0f)
+                                {
+                                    npc.ai[2] = 1f;
+                                }
+                                else
+                                {
+                                    npc.ai[2] = 5f;
+                                }
+                            }
+                            else if (Math.Abs(distX) > Math.Abs(distY) * 2f)
+                            {
+                                npc.ai[2] = 3f;
+                            }
+                            else if (distY > 0f)
+                            {
+                                npc.ai[2] = 2f;
+                            }
+                            else
+                            {
+                                npc.ai[2] = 4f;
+                            }
+                        }
+                        if ((npc.velocity.Y != 0f && !isAlienQueen) || npc.ai[1] <= 0f)
+                        {
+                            npc.ai[2] = 0f;
+                            npc.ai[1] = 0f;
+                        }
+                        else if (!npcAllowedToShoot || (num136 != -1 && npc.ai[1] >= (float)num136 && npc.ai[1] < (float)(num136 + num137) && (!isAlienQueen || npc.velocity.Y == 0f)))
+                        {
+                            npc.velocity.X *= 0.9f;
+                            npc.spriteDirection = npc.direction;
+                        }
+                    }
+                    if (npc.type == NPCID.DrManFly && !Main.eclipse)
+                    {
+                        npcAllowedToShoot = true;
+                    }
+                    else if ((npc.ai[2] <= 0f | npcAllowedToShoot) && (npc.velocity.Y == 0f | isAlienQueen) && npc.ai[1] <= 0f && !Main.player[npc.target].dead)
+                    {
+                        bool canAttack = Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height);
+                        if (npc.type == NPCID.MartianWalker)
+                        {
+                            canAttack = Collision.CanHitLine(npc.Top + new Vector2(0f, 20f), 0, 0, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height);
+                        }
+                        if (Main.player[npc.target].stealth == 0f && Main.player[npc.target].itemAnimation == 0)
+                        {
+                            canAttack = false;
+                        }
+                        if (canAttack)
+                        {
+                            Vector2 vector23 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
+                            float distX = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector23.X;
+                            float distXAbsolute = Math.Abs(distX) * 0.1f;
+                            float distY = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector23.Y - distXAbsolute;
+                            distX += (float)Main.rand.Next(-40, 41);
+                            distY += (float)Main.rand.Next(-40, 41);
+                            float playerDistance = (float)Math.Sqrt(distX * distX + distY * distY);
+                            float maxAttackDistance = 700f;
+                            if (npc.type == NPCID.PirateDeadeye)
+                            {
+                                maxAttackDistance = 550f;
+                            }
+                            if (npc.type == NPCID.PirateCrossbower)
+                            {
+                                maxAttackDistance = 800f;
+                            }
+                            if (npc.type >= NPCID.Salamander && npc.type <= NPCID.Salamander9)
+                            {
+                                maxAttackDistance = 190f;
+                            }
+                            if (npc.type >= NPCID.BoneThrowingSkeleton && npc.type <= NPCID.BoneThrowingSkeleton4)
+                            {
+                                maxAttackDistance = 200f;
+                            }
+                            if (npc.type == NPCID.GreekSkeleton)
+                            {
+                                maxAttackDistance = 400f;
+                            }
+                            if (npc.type == NPCID.DrManFly)
+                            {
+                                maxAttackDistance = 400f;
+                            }
+                            if (playerDistance < maxAttackDistance)
+                            {
+                                npc.netUpdate = true;
+                                npc.velocity.X *= 0.5f;
+                                playerDistance = 10f / playerDistance;
+                                distX *= playerDistance;
+                                distY *= playerDistance;
+                                npc.ai[2] = 3f;
+                                npc.ai[1] = (float)attackTimeMax;
+                                if (Math.Abs(distY) > Math.Abs(distX) * 2f)
+                                {
+                                    if (distY > 0f)
+                                    {
+                                        npc.ai[2] = 1f;
+                                    }
+                                    else
+                                    {
+                                        npc.ai[2] = 5f;
+                                    }
+                                }
+                                else if (Math.Abs(distX) > Math.Abs(distY) * 2f)
+                                {
+                                    npc.ai[2] = 3f;
+                                }
+                                else if (distY > 0f)
+                                {
+                                    npc.ai[2] = 2f;
+                                }
+                                else
+                                {
+                                    npc.ai[2] = 4f;
+                                }
+                            }
+                        }
+                    }
+                    if (npc.ai[2] <= 0f || (npcAllowedToShoot && (num136 == -1 || npc.ai[1] < (float)num136 || npc.ai[1] >= (float)(num136 + num137))))
+                    {
+                        float maxVelocity = 1f;
+                        float acceleration = 0.07f;
+                        float decelerationFactor = 0.8f;
+                        if (npc.type == NPCID.PirateDeadeye)
+                        {
+                            maxVelocity = 2f;
+                            acceleration = 0.09f;
+                        }
+                        else if (npc.type == NPCID.PirateCrossbower)
+                        {
+                            maxVelocity = 1.5f;
+                            acceleration = 0.08f;
+                        }
+                        else if (npc.type == NPCID.BrainScrambler || npc.type == NPCID.RayGunner)
+                        {
+                            maxVelocity = 2f;
+                            acceleration = 0.5f;
+                        }
+                        else if (npc.type == NPCID.MartianWalker)
+                        {
+                            maxVelocity = 4f;
+                            acceleration = 1f;
+                            decelerationFactor = 0.7f;
+                        }
+                        else if (npc.type == NPCID.StardustSoldier)
+                        {
+                            maxVelocity = 2f;
+                            acceleration = 0.5f;
+                        }
+                        else if (npc.type == NPCID.StardustSpiderBig)
+                        {
+                            maxVelocity = 2f;
+                            acceleration = 0.5f;
+                        }
+                        maxVelocity *= 1.5f;
+                        acceleration *= 1.5f;
+                        bool forceDeceleration = false;
+                        if ((npc.type == NPCID.BrainScrambler || npc.type == NPCID.RayGunner) && Vector2.Distance(npc.Center, Main.player[npc.target].Center) < 300f && Collision.CanHitLine(npc.Center, 0, 0, Main.player[npc.target].Center, 0, 0))
+                        {
+                            forceDeceleration = true;
+                            npc.ai[3] = 0f;
+                        }
+                        if (npc.type == NPCID.MartianWalker && Vector2.Distance(npc.Center, Main.player[npc.target].Center) < 400f && Collision.CanHitLine(npc.Center, 0, 0, Main.player[npc.target].Center, 0, 0))
+                        {
+                            forceDeceleration = true;
+                            npc.ai[3] = 0f;
+                        }
+                        // The extra OR conditional is the reason the special method I created above isn't used.
+                        // It has enough parameters. Another one for 1 specific purpose isn't worth it anymore
+                        if ((npc.velocity.X < -maxVelocity || npc.velocity.X > maxVelocity) | forceDeceleration)
+                        {
+                            if (npc.velocity.Y == 0f)
+                            {
+                                npc.velocity *= decelerationFactor;
+                            }
+                        }
+                        else if (npc.velocity.X < maxVelocity && npc.direction == 1)
+                        {
+                            npc.velocity.X += acceleration;
+                            if (npc.velocity.X > maxVelocity)
+                            {
+                                npc.velocity.X = maxVelocity;
+                            }
+                        }
+                        else if (npc.velocity.X > -maxVelocity && npc.direction == -1)
+                        {
+                            npc.velocity.X -= acceleration;
+                            if (npc.velocity.X < -maxVelocity)
+                            {
+                                npc.velocity.X = -maxVelocity;
+                            }
+                        }
+                    }
+                    if (npc.type == NPCID.MartianWalker)
+                    {
+                        npc.localAI[2] += 1f;
+                        if (npc.localAI[2] >= 6f)
+                        {
+                            npc.localAI[2] = 0f;
+                            npc.localAI[3] = Main.player[npc.target].DirectionFrom(npc.Top + new Vector2(0f, 20f)).ToRotation();
+                        }
+                    }
+                }
+            }
+            if (npc.type == NPCID.Clown && Main.netMode != NetmodeID.MultiplayerClient && !Main.player[npc.target].dead)
+            {
+                npc.ai[2] += 1f;
+                if (npc.ai[2] > 180f)
+                {
+                    Vector2 spawnPosition = new Vector2(npc.position.X + (float)npc.width * 0.5f - (float)(npc.direction * 24), npc.position.Y + 4f);
+                    int velocityX = 3 * npc.direction;
+                    int velocityY = -5;
+                    int num160 = Projectile.NewProjectile(spawnPosition.X, spawnPosition.Y, velocityX, velocityY, 75, 0, 0f, Main.myPlayer, 0f, 0f);
+                    Main.projectile[num160].timeLeft = 300;
+                    npc.ai[2] = 0f;
+                }
+            }
+            bool canOpenDoors = false;
+            if (npc.velocity.Y == 0f)
+            {
+                int num161 = (int)(npc.position.Y + (float)npc.height + 7f) / 16;
+                int arg_A8FB_0 = (int)npc.position.X / 16;
+                int num162 = (int)(npc.position.X + (float)npc.width) / 16;
+                for (int num163 = arg_A8FB_0; num163 <= num162; num163++)
+                {
+                    if (Main.tile[num163, num161] == null)
+                    {
+                        return false;
+                    }
+                    if (Main.tile[num163, num161].nactive() && Main.tileSolid[(int)Main.tile[num163, num161].type])
+                    {
+                        canOpenDoors = true;
+                        break;
+                    }
+                }
+            }
+            if (npc.type == NPCID.VortexLarva)
+            {
+                canOpenDoors = false;
+            }
+            if (npc.velocity.Y >= 0f)
+            {
+                int velocitySign = 0;
+                if (npc.velocity.X < 0f)
+                {
+                    velocitySign = -1;
+                }
+                if (npc.velocity.X > 0f)
+                {
+                    velocitySign = 1;
+                }
+                Vector2 positionDelta = npc.position;
+                positionDelta.X += npc.velocity.X;
+                int x = (int)((positionDelta.X + (float)(npc.width / 2) + (float)((npc.width / 2 + 1) * velocitySign)) / 16f);
+                int y = (int)((positionDelta.Y + (float)npc.height - 1f) / 16f);
+                if (Main.tile[x, y] == null)
+                {
+                    Main.tile[x, y] = new Tile();
+                }
+                if (Main.tile[x, y - 1] == null)
+                {
+                    Main.tile[x, y - 1] = new Tile();
+                }
+                if (Main.tile[x, y - 2] == null)
+                {
+                    Main.tile[x, y - 2] = new Tile();
+                }
+                if (Main.tile[x, y - 3] == null)
+                {
+                    Main.tile[x, y - 3] = new Tile();
+                }
+                if (Main.tile[x, y + 1] == null)
+                {
+                    Main.tile[x, y + 1] = new Tile();
+                }
+                if (Main.tile[x - velocitySign, y - 3] == null)
+                {
+                    Main.tile[x - velocitySign, y - 3] = new Tile();
+                }
+                if (x * 16 < positionDelta.X + (float)npc.width && 
+                    (x + 1) * 16 > positionDelta.X && ((Main.tile[x, y].nactive() && 
+                    !Main.tile[x, y].topSlope() && !Main.tile[x, y - 1].topSlope() &&
+                    Main.tileSolid[(int)Main.tile[x, y].type] && 
+                    !Main.tileSolidTop[(int)Main.tile[x, y].type]) || 
+                    (Main.tile[x, y - 1].halfBrick() && Main.tile[x, y - 1].nactive())) && 
+                    (!Main.tile[x, y - 1].nactive() || 
+                    !Main.tileSolid[(int)Main.tile[x, y - 1].type] ||
+                    Main.tileSolidTop[(int)Main.tile[x, y - 1].type] ||
+                    (Main.tile[x, y - 1].halfBrick() && 
+                    (!Main.tile[x, y - 4].nactive() ||
+                    !Main.tileSolid[(int)Main.tile[x, y - 4].type] ||
+                    Main.tileSolidTop[(int)Main.tile[x, y - 4].type]))) && 
+                    (!Main.tile[x, y - 2].nactive() ||
+                    !Main.tileSolid[(int)Main.tile[x, y - 2].type] || 
+                    Main.tileSolidTop[(int)Main.tile[x, y - 2].type]) && 
+                    (!Main.tile[x, y - 3].nactive() || 
+                    !Main.tileSolid[(int)Main.tile[x, y - 3].type] || 
+                    Main.tileSolidTop[(int)Main.tile[x, y - 3].type]) && 
+                    (!Main.tile[x - velocitySign, y - 3].nactive() ||
+                    !Main.tileSolid[(int)Main.tile[x - velocitySign, y - 3].type]))
+                {
+                    float yAdjust = y * 16f;
+                    if (Main.tile[x, y].halfBrick())
+                    {
+                        yAdjust += 8f;
+                    }
+                    if (Main.tile[x, y - 1].halfBrick())
+                    {
+                        yAdjust -= 8f;
+                    }
+                    if (yAdjust < positionDelta.Y + (float)npc.height)
+                    {
+                        float gfxOffRelativeToDelta = positionDelta.Y + (float)npc.height - yAdjust;
+                        float yOffsetFloor = 16.1f;
+                        if (npc.type == NPCID.BlackRecluse || npc.type == NPCID.WallCreeper || npc.type == NPCID.JungleCreeper || npc.type == NPCID.BloodCrawler || npc.type == NPCID.DesertScorpionWalk)
+                        {
+                            yOffsetFloor += 8f;
+                        }
+                        if (gfxOffRelativeToDelta <= yOffsetFloor)
+                        {
+                            npc.gfxOffY += npc.position.Y + (float)npc.height - yAdjust;
+                            npc.position.Y = yAdjust - (float)npc.height;
+                            if (gfxOffRelativeToDelta < 9f)
+                            {
+                                npc.stepSpeed = 1f;
+                            }
+                            else
+                            {
+                                npc.stepSpeed = 2f;
+                            }
+                        }
+                    }
+                }
+            }
+            if (canOpenDoors)
+            {
+                int x = (int)((npc.position.X + (float)(npc.width / 2) + (float)(15 * npc.direction)) / 16f);
+                int y = (int)((npc.position.Y + (float)npc.height - 15f) / 16f);
+                if (npc.type == NPCID.Clown || npc.type == NPCID.BlackRecluse || npc.type == NPCID.WallCreeper || npc.type == NPCID.LihzahrdCrawler || npc.type == NPCID.JungleCreeper || npc.type == NPCID.BloodCrawler || npc.type == NPCID.AnomuraFungus || npc.type == NPCID.MushiLadybug || npc.type == NPCID.Paladin || npc.type == NPCID.Scutlix || npc.type == NPCID.VortexRifleman || npc.type == NPCID.VortexHornet || npc.type == NPCID.VortexHornetQueen || npc.type == NPCID.WalkingAntlion || npc.type == NPCID.SolarDrakomire || npc.type == NPCID.DesertScorpionWalk || npc.type == NPCID.DesertBeast)
+                {
+                    x = (int)((npc.position.X + (float)(npc.width / 2) + (float)((npc.width / 2 + 16) * npc.direction)) / 16f);
+                }
+                if (Main.tile[x, y] == null)
+                {
+                    Main.tile[x, y] = new Tile();
+                }
+                if (Main.tile[x, y - 1] == null)
+                {
+                    Main.tile[x, y - 1] = new Tile();
+                }
+                if (Main.tile[x, y - 2] == null)
+                {
+                    Main.tile[x, y - 2] = new Tile();
+                }
+                if (Main.tile[x, y - 3] == null)
+                {
+                    Main.tile[x, y - 3] = new Tile();
+                }
+                if (Main.tile[x, y + 1] == null)
+                {
+                    Main.tile[x, y + 1] = new Tile();
+                }
+                if (Main.tile[x + npc.direction, y - 1] == null)
+                {
+                    Main.tile[x + npc.direction, y - 1] = new Tile();
+                }
+                if (Main.tile[x + npc.direction, y + 1] == null)
+                {
+                    Main.tile[x + npc.direction, y + 1] = new Tile();
+                }
+                if (Main.tile[x - npc.direction, y + 1] == null)
+                {
+                    Main.tile[x - npc.direction, y + 1] = new Tile();
+                }
+                Main.tile[x, y + 1].halfBrick();
+                if ((Main.tile[x, y - 1].nactive() && 
+                    (Main.tile[x, y - 1].type == TileID.ClosedDoor ||
+                    Main.tile[x, y - 1].type == TileID.TallGateClosed)) & reset)
+                {
+                    npc.ai[2] += 1f;
+                    npc.ai[3] = 0f;
+                    if (npc.ai[2] >= 60f)
+                    {
+                        npc.velocity.X = -0.5f * npc.direction;
+                        int timerIncrement = 5;
+                        if (Main.tile[x, y - 1].type == TileID.TallGateClosed)
+                        {
+                            timerIncrement = 2;
+                        }
+                        npc.ai[1] += timerIncrement;
+                        // Special increments
+                        if (npc.type == NPCID.GoblinThief)
+                        {
+                            npc.ai[1] += 1f;
+                        }
+                        if (npc.type == NPCID.AngryBones || npc.type == NPCID.AngryBonesBig || npc.type == NPCID.AngryBonesBigMuscle || npc.type == NPCID.AngryBonesBigHelmet)
+                        {
+                            npc.ai[1] += 6f;
+                        }
+                        npc.ai[2] = 0f;
+                        bool readyToOpenDoor = false;
+                        if (npc.ai[1] >= 10f)
+                        {
+                            readyToOpenDoor = true;
+                            npc.ai[1] = 10f;
+                        }
+                        if (npc.type == NPCID.Butcher)
+                        {
+                            readyToOpenDoor = true;
+                        }
+                        WorldGen.KillTile(x, y - 1, true, false, false);
+                        if ((Main.netMode != NetmodeID.MultiplayerClient || !readyToOpenDoor) && readyToOpenDoor && Main.netMode != NetmodeID.MultiplayerClient)
+                        {
+                            if (npc.type == NPCID.GoblinPeon)
+                            {
+                                WorldGen.KillTile(x, y - 1, false, false, false);
+                                if (Main.netMode == 2)
+                                {
+                                    NetMessage.SendData(MessageID.TileChange, -1, -1, null, 0, (float)x, (float)(y - 1), 0f, 0, 0, 0);
+                                }
+                            }
+                            else
+                            {
+                                if (Main.tile[x, y - 1].type == TileID.ClosedDoor)
+                                {
+                                    bool flag24 = WorldGen.OpenDoor(x, y - 1, npc.direction);
+                                    if (!flag24)
+                                    {
+                                        npc.ai[3] = (float)aiGateValue;
+                                        npc.netUpdate = true;
+                                    }
+                                    if (Main.netMode == 2 & flag24)
+                                    {
+                                        NetMessage.SendData(MessageID.ChangeDoor, -1, -1, null, 0, (float)x, (float)(y - 1), (float)npc.direction, 0, 0, 0);
+                                    }
+                                }
+                                if (Main.tile[x, y - 1].type == 388)
+                                {
+                                    bool flag25 = WorldGen.ShiftTallGate(x, y - 1, false);
+                                    if (!flag25)
+                                    {
+                                        npc.ai[3] = (float)aiGateValue;
+                                        npc.netUpdate = true;
+                                    }
+                                    if (Main.netMode == 2 & flag25)
+                                    {
+                                        NetMessage.SendData(MessageID.ChangeDoor, -1, -1, null, 4, (float)x, (float)(y - 1), 0f, 0, 0, 0);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    int alteredDirection = npc.spriteDirection;
+                    if (npc.type == NPCID.VortexRifleman)
+                    {
+                        alteredDirection *= -1;
+                    }
+                    if ((npc.velocity.X < 0f && alteredDirection == -1) || (npc.velocity.X > 0f && alteredDirection == 1))
+                    {
+                        if (npc.height >= 32 && Main.tile[x, y - 2].nactive() && Main.tileSolid[(int)Main.tile[x, y - 2].type])
+                        {
+                            if (Main.tile[x, y - 3].nactive() && Main.tileSolid[(int)Main.tile[x, y - 3].type])
+                            {
+                                npc.velocity.Y = -9f;
+                                npc.netUpdate = true;
+                            }
+                            else
+                            {
+                                npc.velocity.Y = -8f;
+                                npc.netUpdate = true;
+                            }
+                        }
+                        else if (Main.tile[x, y - 1].nactive() && Main.tileSolid[(int)Main.tile[x, y - 1].type])
+                        {
+                            npc.velocity.Y = -7f;
+                            npc.netUpdate = true;
+                        }
+                        else if (npc.position.Y + (float)npc.height - (float)(y * 16) > 20f && Main.tile[x, y].nactive() && !Main.tile[x, y].topSlope() && Main.tileSolid[(int)Main.tile[x, y].type])
+                        {
+                            npc.velocity.Y = -6f;
+                            npc.netUpdate = true;
+                        }
+                        else if (npc.directionY < 0 && npc.type != 67 && (!Main.tile[x, y + 1].nactive() || !Main.tileSolid[(int)Main.tile[x, y + 1].type]) && (!Main.tile[x + npc.direction, y + 1].nactive() || !Main.tileSolid[(int)Main.tile[x + npc.direction, y + 1].type]))
+                        {
+                            npc.velocity.Y = -9f;
+                            npc.velocity.X *= 2f;
+                            npc.netUpdate = true;
+                        }
+                        else if (reset)
+                        {
+                            npc.ai[1] = 0f;
+                            npc.ai[2] = 0f;
+                        }
+                        if ((npc.velocity.Y == 0f & jump) && npc.ai[3] == 1f)
+                        {
+                            npc.velocity.Y = -6f;
+                        }
+                    }
+                    if ((npc.type == NPCID.AngryBones || npc.type == NPCID.AngryBonesBig || npc.type == NPCID.AngryBonesBigMuscle || npc.type == NPCID.AngryBonesBigHelmet || npc.type == NPCID.CorruptBunny || npc.type == NPCID.ArmoredSkeleton || npc.type == NPCID.Werewolf || npc.type == NPCID.CorruptPenguin || npc.type == NPCID.Nymph || npc.type == NPCID.GrayGrunt || npc.type == NPCID.GigaZapper || npc.type == NPCID.CrimsonBunny || npc.type == NPCID.CrimsonPenguin || (npc.type >= 524 && npc.type <= 527)) && npc.velocity.Y == 0f && Math.Abs(npc.position.X + (float)(npc.width / 2) - (Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2))) < 100f && Math.Abs(npc.position.Y + (float)(npc.height / 2) - (Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2))) < 50f && ((npc.direction > 0 && npc.velocity.X >= 1f) || (npc.direction < 0 && npc.velocity.X <= -1f)))
+                    {
+                        npc.velocity.X *= 3f;
+                        if (npc.velocity.X > 4f)
+                        {
+                            npc.velocity.X = 4f;
+                        }
+                        if (npc.velocity.X < -4f)
+                        {
+                            npc.velocity.X = -4f;
+                        }
+                        npc.velocity.Y = -5f;
+                        npc.netUpdate = true;
+                    }
+                    if (npc.type == NPCID.ChaosElemental && npc.velocity.Y < 0f)
+                    {
+                        npc.velocity.Y *= 1.1f;
+                    }
+                    if (npc.type == NPCID.BoneLee && npc.velocity.Y == 0f && Math.Abs(npc.position.X + (float)(npc.width / 2) - (Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2))) < 150f && Math.Abs(npc.position.Y + (float)(npc.height / 2) - (Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2))) < 50f && ((npc.direction > 0 && npc.velocity.X >= 1f) || (npc.direction < 0 && npc.velocity.X <= -1f)))
+                    {
+                        npc.velocity.X = (float)(9 * npc.direction);
+                        npc.velocity.Y = -5f;
+                        npc.netUpdate = true;
+                    }
+                    if (npc.type == NPCID.BoneLee && npc.velocity.Y < 0f)
+                    {
+                        npc.velocity.X *= 1.25f;
+                        npc.velocity.Y *= 1.15f;
+                    }
+                    if (npc.type == NPCID.Butcher && npc.velocity.Y < 0f)
+                    {
+                        npc.velocity.X *= 1.35f;
+                        npc.velocity.Y *= 1.15f;
+                    }
+                }
+            }
+            else if (reset)
+            {
+                npc.ai[1] = 0f;
+                npc.ai[2] = 0f;
+            }
+            // Teleport (Chaos elementals)
+            if (Main.netMode != NetmodeID.MultiplayerClient && npc.type == NPCID.ChaosElemental && npc.ai[3] >= (float)aiGateValue)
+            {
+                int tileCoordsX = (int)Main.player[npc.target].position.X / 16;
+                int tileCoordsY = (int)Main.player[npc.target].position.Y / 16;
+                int tileCoordsX2 = (int)npc.position.X / 16;
+                int tileCoordsY2 = (int)npc.position.Y / 16;
+                int maxDistanceX = 20;
+                int tryCount = 0;
+                bool tooFarFromPlayer = false;
+                if (Math.Abs(npc.position.X - Main.player[npc.target].position.X) + Math.Abs(npc.position.Y - Main.player[npc.target].position.Y) > 2000f)
+                {
+                    tryCount = 100;
+                    tooFarFromPlayer = true;
+                }
+                while (!tooFarFromPlayer && tryCount < 100)
+                {
+                    tryCount++;
+                    int randX = Main.rand.Next(tileCoordsX - maxDistanceX, tileCoordsX + maxDistanceX);
+                    for (int num181 = Main.rand.Next(tileCoordsY - maxDistanceX, tileCoordsY + maxDistanceX); num181 < tileCoordsY + maxDistanceX; num181++)
+                    {
+                        if ((num181 < tileCoordsY - 4 || num181 > tileCoordsY + 4 || randX < tileCoordsX - 4 || randX > tileCoordsX + 4) && (num181 < tileCoordsY2 - 1 || num181 > tileCoordsY2 + 1 || randX < tileCoordsX2 - 1 || randX > tileCoordsX2 + 1) && Main.tile[randX, num181].nactive())
+                        {
+                            bool foundGoodTeleport = true;
+                            // I don't understand why the hell this exists if it's only for Chaos Elementals, but I suppose I'll
+                            // Leave it here
+                            if (npc.type == NPCID.DarkCaster && Main.tile[randX, num181 - 1].wall == 0)
+                            {
+                                foundGoodTeleport = false;
+                            }
+                            else if (Main.tile[randX, num181 - 1].lava())
+                            {
+                                foundGoodTeleport = false;
+                            }
+                            if (foundGoodTeleport && Main.tileSolid[(int)Main.tile[randX, num181].type] && !Collision.SolidTiles(randX - 1, randX + 1, num181 - 4, num181 - 1))
+                            {
+                                npc.position.X = (float)(randX * 16 - npc.width / 2);
+                                npc.position.Y = (float)(num181 * 16 - npc.height);
+                                npc.netUpdate = true;
+                                npc.ai[3] = -30f;
+                            }
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+        #endregion
+
+        #region Flying AI
+        public static bool BuffedFlyingAI(NPC npc, Mod mod)
 		{
 			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
 			{
@@ -21446,8 +21115,8 @@ namespace CalamityMod.NPCs
 				}
 				Vector2 value46 = Main.player[npc.target].Center - npc.Center;
 				value46.Y -= (float)(Main.player[npc.target].height / 4);
-				float num1381 = value46.Length();
-				if (num1381 > 800f)
+				float attackTimeMax1 = value46.Length();
+				if (attackTimeMax1 > 800f)
 				{
 					npc.ai[0] = 2f;
 					return false;
@@ -21493,13 +21162,13 @@ namespace CalamityMod.NPCs
 			else if (npc.ai[0] == 1f)
 			{
 				Vector2 value47 = Main.player[npc.target].Center - npc.Center;
-				float num1382 = value47.Length();
-				float num1383 = 2f;
-				num1383 += num1382 / 100f;
-				int num1384 = 50;
+				float attackTimeMax2 = value47.Length();
+				float attackTimeMax3 = 2f;
+				attackTimeMax3 += attackTimeMax2 / 100f;
+				int attackTimeMax4 = 50;
 				value47.Normalize();
-				value47 *= num1383;
-				npc.velocity = (npc.velocity * (float)(num1384 - 1) + value47) / (float)num1384;
+				value47 *= attackTimeMax3;
+				npc.velocity = (npc.velocity * (float)(attackTimeMax4 - 1) + value47) / (float)attackTimeMax4;
 				if (!Collision.CanHit(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1))
 				{
 					npc.ai[0] = 0f;
@@ -21510,13 +21179,13 @@ namespace CalamityMod.NPCs
 			{
 				npc.noTileCollide = true;
 				Vector2 value48 = Main.player[npc.target].Center - npc.Center;
-				float num1385 = value48.Length();
+				float attackTimeMax5 = value48.Length();
 				float scaleFactor23 = 4f;
-				int num1386 = 4;
+				int attackTimeMax6 = 4;
 				value48.Normalize();
 				value48 *= scaleFactor23;
-				npc.velocity = (npc.velocity * (float)(num1386 - 1) + value48) / (float)num1386;
-				if (num1385 < 600f && !Collision.SolidCollision(npc.position, npc.width, npc.height))
+				npc.velocity = (npc.velocity * (float)(attackTimeMax6 - 1) + value48) / (float)attackTimeMax6;
+				if (attackTimeMax5 < 600f && !Collision.SolidCollision(npc.position, npc.width, npc.height))
 				{
 					npc.ai[0] = 0f;
 				}
@@ -21525,18 +21194,18 @@ namespace CalamityMod.NPCs
 			{
 				Vector2 value49 = new Vector2(npc.ai[1], npc.ai[2]);
 				Vector2 value50 = value49 - npc.Center;
-				float num1387 = value50.Length();
-				float num1388 = 2f;
-				float num1389 = 3f;
+				float attackTimeMax7 = value50.Length();
+				float attackTimeMax8 = 2f;
+				float attackTimeMax9 = 3f;
 				value50.Normalize();
-				value50 *= num1388;
-				npc.velocity = (npc.velocity * (num1389 - 1f) + value50) / num1389;
+				value50 *= attackTimeMax8;
+				npc.velocity = (npc.velocity * (attackTimeMax9 - 1f) + value50) / attackTimeMax9;
 				if (npc.collideX || npc.collideY)
 				{
 					npc.ai[0] = 4f;
 					npc.ai[1] = 0f;
 				}
-				if (num1387 < num1388 || num1387 > 800f || Collision.CanHit(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1))
+				if (attackTimeMax7 < attackTimeMax8 || attackTimeMax7 > 800f || Collision.CanHit(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1))
 				{
 					npc.ai[0] = 0f;
 				}
