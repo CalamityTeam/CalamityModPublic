@@ -125,6 +125,11 @@ namespace CalamityMod
 		[Tooltip("Enables the small text below the health bar\nThis displays the exact health amount or remaining boss parts")]
 		public bool DrawSmallText { get; set; }
 
+		[DefaultValue(true)]
+		[Label("Selling Vanilla Boss Summons")]
+		[Tooltip("Enables certain town NPCs to sell boss summoning items after the defeat of their respective boss\nThis does not affect Calamity's boss summoning items, which are always sold")]
+		public bool SellBossSummons { get; set; }
+
 		[DefaultValue(false)]
 		[Label("Mining Speed Boost")]
 		[Tooltip("Boosts the player's mining speed by 75%")]
