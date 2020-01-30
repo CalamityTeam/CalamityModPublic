@@ -62,7 +62,7 @@ namespace CalamityMod.NPCs.Astral
             }
             else
             {
-                CalamityGlobalNPC.DoFlyingAI(npc, 3f, 0.05f, 200f);
+                CalamityGlobalNPC.DoFlyingAI(npc, (CalamityWorld.death ? 4.5f : 3f), (CalamityWorld.death ? 0.075f : 0.05f), 200f);
             }
         }
 

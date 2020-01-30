@@ -58,7 +58,7 @@ namespace CalamityMod.NPCs.Astral
 
         public override void AI()
         {
-            CalamityGlobalNPC.DoSpiderWallAI(npc, ModContent.NPCType<AstralachneaGround>(), 2.4f, 0.1f);
+            CalamityGlobalNPC.DoSpiderWallAI(npc, ModContent.NPCType<AstralachneaGround>(), (CalamityWorld.death ? 3.6f : 2.4f), (CalamityWorld.death ? 0.15f : 0.1f));
         }
 
         public override void FindFrame(int frameHeight)

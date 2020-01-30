@@ -18,8 +18,8 @@ namespace CalamityMod.NPCs.Astral
     {
         private static Texture2D glowmask;
 
-        private const float travelAcceleration = 0.2f;
-        private const float targetTime = 120f;
+        private float travelAcceleration = 0.2f;
+        private float targetTime = 120f;
         private const float waitBeforeTravel = 20f;
         private const float maxTravelTime = 300f;
         private const float slowdown = 0.84f;
@@ -55,6 +55,11 @@ namespace CalamityMod.NPCs.Astral
                 npc.knockBackResist = 0.4f;
                 npc.lifeMax = 350;
             }
+			if (CalamityWorld.death)
+			{
+				travelAcceleration = 0.3f;
+				targetTime = 60f;
+			}
         }
 
         public override void FindFrame(int frameHeight)
@@ -98,7 +103,7 @@ namespace CalamityMod.NPCs.Astral
             Player target = Main.player[npc.target];
             if (npc.ai[3] >= 0)
             {
-                CalamityGlobalNPC.DoFlyingAI(npc, 5.5f, 0.035f, 400f, 150, false);
+                CalamityGlobalNPC.DoFlyingAI(npc, (CalamityWorld.death ? 8.25f : 5.5f), (CalamityWorld.death ? 0.0525f : 0.035f), 400f, 150, false);
 
                 if (Collision.CanHit(npc.position, npc.width, npc.height, target.position, target.width, target.height))
                 {
@@ -111,8 +116,9 @@ namespace CalamityMod.NPCs.Astral
 
                 Vector2 between = target.Center - npc.Center;
 
-                //after locking target for x amount of time and being far enough away
-                if (between.Length() > 150 && npc.ai[3] >= targetTime && Main.rand.NextBool(180))
+				//after locking target for x amount of time and being far enough away
+				int random = CalamityWorld.death ? 90 : 180;
+				if (between.Length() > 150 && npc.ai[3] >= targetTime && Main.rand.NextBool(random))
                 {
                     //set ai mode to target and travel
                     npc.ai[3] = -1f;

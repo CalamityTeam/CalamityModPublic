@@ -194,6 +194,7 @@ namespace CalamityMod
 
 		internal static Configs CalamityConfig;
 		internal static CalamityMod instance;
+
         #region Load
         public override void Load()
         {

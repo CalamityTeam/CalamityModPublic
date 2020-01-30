@@ -89,13 +89,13 @@ namespace CalamityMod.NPCs.Astral
                 vector.Normalize();
                 Vector2 spawnPoint = npc.Center + vector * 42f;
 
-                if (npc.ai[1] >= 160f)
+                if (npc.ai[1] >= (CalamityWorld.death ? 120f : 160f))
                 {
                     npc.ai[1] = 0f;
 
                     int n = NPC.NewNPC((int)spawnPoint.X, (int)spawnPoint.Y, ModContent.NPCType<AstralSeekerSpit>());
                     Main.npc[n].Center = spawnPoint;
-                    Main.npc[n].velocity = vector * 10f;
+                    Main.npc[n].velocity = vector * (CalamityWorld.death ? 12f : 10f);
                 }
                 else if (npc.ai[1] >= 140f) //oozin dust at the "mouth"
                 {

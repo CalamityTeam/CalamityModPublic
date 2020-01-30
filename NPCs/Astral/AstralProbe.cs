@@ -49,8 +49,8 @@ namespace CalamityMod.NPCs.Astral
             {
                 npc.TargetClosest(true);
             }
-            float num = 5f;
-            float num2 = 0.05f;
+            float num = CalamityWorld.death ? 7.5f : 5f;
+            float num2 = CalamityWorld.death ? 0.075f : 0.05f;
             Vector2 vector = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
             float num4 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2);
             float num5 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2);
@@ -124,7 +124,7 @@ namespace CalamityMod.NPCs.Astral
                 npc.velocity.Y = npc.velocity.Y - num2;
             }
             npc.localAI[0] += 1f;
-            if (npc.justHit)
+            if (npc.justHit && !CalamityWorld.death)
             {
                 npc.localAI[0] = 0f;
             }

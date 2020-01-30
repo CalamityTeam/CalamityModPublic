@@ -18,6 +18,7 @@ using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.NPCs.Abyss;
 using CalamityMod.NPCs.AcidRain;
 using CalamityMod.NPCs.AquaticScourge;
+using CalamityMod.NPCs.Astral;
 using CalamityMod.NPCs.AstrumAureus;
 using CalamityMod.NPCs.AstrumDeus;
 using CalamityMod.NPCs.BrimstoneElemental;
@@ -1559,7 +1560,8 @@ namespace CalamityMod.NPCs
 						if (npc.type == ModContent.NPCType<BloomSlime>() || npc.type == ModContent.NPCType<CharredSlime>() ||
 							npc.type == ModContent.NPCType<CrimulanBlightSlime>() || npc.type == ModContent.NPCType<CryoSlime>() ||
 							npc.type == ModContent.NPCType<EbonianBlightSlime>() || npc.type == ModContent.NPCType<PerennialSlime>() ||
-							npc.type == ModContent.NPCType<WulfrumSlime>() || npc.type == ModContent.NPCType<IrradiatedSlime>())
+							npc.type == ModContent.NPCType<WulfrumSlime>() || npc.type == ModContent.NPCType<IrradiatedSlime>() ||
+							npc.type == ModContent.NPCType<AstralSlime>())
 						{
 							return CalamityGlobalAI.BuffedSlimeAI(npc, mod);
 						}
@@ -1619,7 +1621,8 @@ namespace CalamityMod.NPCs
 						}
 						break;
 					case 3:
-						if (npc.type == ModContent.NPCType<StormlionCharger>() || npc.type == ModContent.NPCType<WulfrumDrone>())
+						if (npc.type == ModContent.NPCType<StormlionCharger>() || npc.type == ModContent.NPCType<WulfrumDrone>() ||
+							npc.type == ModContent.NPCType<AstralachneaGround>())
 						{
 							return CalamityGlobalAI.BuffedFighterAI(npc, mod);
 						}
@@ -1844,24 +1847,31 @@ namespace CalamityMod.NPCs
 						}
 						break;
 					case 14:
-						switch (npc.type)
+						if (npc.type == ModContent.NPCType<StellarCulex>())
 						{
-							case NPCID.Harpy:
-							case NPCID.CaveBat:
-							case NPCID.JungleBat:
-							case NPCID.Hellbat:
-							case NPCID.Demon:
-							case NPCID.VoodooDemon:
-							case NPCID.GiantBat:
-							case NPCID.Slimer:
-							case NPCID.IlluminantBat:
-							case NPCID.IceBat:
-							case NPCID.Lavabat:
-							case NPCID.GiantFlyingFox:
-							case NPCID.RedDevil:
-							case NPCID.FlyingSnake:
-							case NPCID.VampireBat:
-								return CalamityGlobalAI.BuffedBatAI(npc, mod);
+							return CalamityGlobalAI.BuffedBatAI(npc, mod);
+						}
+						else
+						{
+							switch (npc.type)
+							{
+								case NPCID.Harpy:
+								case NPCID.CaveBat:
+								case NPCID.JungleBat:
+								case NPCID.Hellbat:
+								case NPCID.Demon:
+								case NPCID.VoodooDemon:
+								case NPCID.GiantBat:
+								case NPCID.Slimer:
+								case NPCID.IlluminantBat:
+								case NPCID.IceBat:
+								case NPCID.Lavabat:
+								case NPCID.GiantFlyingFox:
+								case NPCID.RedDevil:
+								case NPCID.FlyingSnake:
+								case NPCID.VampireBat:
+									return CalamityGlobalAI.BuffedBatAI(npc, mod);
+							}
 						}
 						break;
 					case 16:

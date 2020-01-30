@@ -25,8 +25,8 @@ namespace CalamityMod.NPCs.Astral
         private const int startWalkFrameY = 710;
         private const float idle_walkMaxSpeed = 0.8f;
         private const float idle_walkAcceleration = 0.1f;
-        private const float target_walkMaxSpeed = 1.6f;
-        private const float target_walkAcceleration = 0.12f;
+        private float target_walkMaxSpeed = 1.6f;
+        private float target_walkAcceleration = 0.12f;
         private const float swing_minXDistance = 96f;
         private const float swing_minYDistance = 48f;
         private const int swing_minCounterHit = 16;
@@ -128,6 +128,11 @@ namespace CalamityMod.NPCs.Astral
                 npc.knockBackResist = 0f;
                 npc.lifeMax = 2400;
             }
+			if (CalamityWorld.death)
+			{
+				target_walkAcceleration = 0.18f;
+				target_walkMaxSpeed = 3.2f;
+			}
         }
 
         public override void SendExtraAI(BinaryWriter writer)

@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.World;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -13,7 +14,7 @@ namespace CalamityMod.Skies
         public override void Apply()
         {
             Vector3 vec = Main.bgColor.ToVector3();
-            vec *= 0.4f;
+            vec *= (CalamityWorld.death ? 0.8f : 0.4f);
             base.UseOpacity(Math.Max(vec.X, Math.Max(vec.Y, vec.Z)));
             base.Apply();
         }

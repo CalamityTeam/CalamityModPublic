@@ -385,6 +385,12 @@ namespace CalamityMod.CalPlayer
 							break;
 					}
 
+					// Astral effects
+					if (modPlayer.ZoneAstral)
+					{
+						player.gravity *= 0.75f;
+					}
+
 					// Space effects
 					if (Space(player))
 					{
@@ -408,7 +414,7 @@ namespace CalamityMod.CalPlayer
 					}
 
 					// Ice shards, lightning and sharknadoes
-					if (player.ZoneOverworldHeight && !CalamityPlayer.areThereAnyDamnBosses)
+					if (player.ZoneOverworldHeight && !CalamityPlayer.areThereAnyDamnBosses && !Space(player))
 					{
 						Vector2 sharknadoSpawnPoint = new Vector2(player.Center.X - (float)Main.rand.Next(300, 701), player.Center.Y - (float)Main.rand.Next(700, 801));
 						if (point.X > Main.maxTilesX / 2)

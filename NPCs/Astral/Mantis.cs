@@ -56,8 +56,8 @@ namespace CalamityMod.NPCs.Astral
 
             if (npc.ai[0] == 0f)
             {
-                float acceleration = 0.045f;
-                float maxSpeed = 6.8f;
+                float acceleration = CalamityWorld.death ? 0.07f : 0.045f;
+                float maxSpeed = CalamityWorld.death ? 10.5f : 6.8f;
                 if (npc.Center.X > target.Center.X)
                 {
                     npc.velocity.X -= acceleration;
@@ -84,17 +84,17 @@ namespace CalamityMod.NPCs.Astral
                 }
 
                 //if need to jump
-                if (npc.velocity.Y == 0 && (HoleBelow() || (npc.collideX && npc.position.X == npc.oldPosition.X)))
+                if (npc.velocity.Y == 0f && (HoleBelow() || (npc.collideX && npc.position.X == npc.oldPosition.X)))
                 {
-                    npc.velocity.Y = -5f;
+                    npc.velocity.Y = (CalamityWorld.death ? -7f : -5f);
                 }
 
                 //check if we can shoot at target.
                 Vector2 vector = npc.Center - target.Center;
-                if (Math.Abs(vector.Y) < 64 && Math.Abs(vector.X) < 540 && Collision.CanHit(npc.position, npc.width, npc.height, target.position, target.width, target.height))
+                if (Math.Abs(vector.Y) < 64f && Math.Abs(vector.X) < 540f && Collision.CanHit(npc.position, npc.width, npc.height, target.position, target.width, target.height))
                 {
                     npc.ai[1]++;
-                    if (npc.ai[1] > 120)
+                    if (npc.ai[1] > (CalamityWorld.death ? 60f : 120f))
                     {
                         //fire projectile
                         npc.ai[0] = 1f;
@@ -114,7 +114,7 @@ namespace CalamityMod.NPCs.Astral
                 }
 
 
-                if (npc.ai[1] < 0)
+                if (npc.ai[1] < 0f)
                     npc.ai[1] = 0f;
             }
             else
