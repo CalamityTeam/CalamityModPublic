@@ -51,10 +51,10 @@ namespace CalamityMod.Items.Weapons.Rogue
             return true;
         }
 
-        /*
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 7);
             recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 4);
             recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 12);
             recipe.AddIngredient(ItemID.DayBreak);
@@ -62,6 +62,5 @@ namespace CalamityMod.Items.Weapons.Rogue
             recipe.SetResult(this, 1);
             recipe.AddRecipe();
         }
-        */
     }
 }

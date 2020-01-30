@@ -4501,14 +4501,15 @@ namespace CalamityMod.NPCs
                 SetShopItem(ref shop, ref nextSlot, ItemID.Flare, Main.LocalPlayer.HasItem(ModContent.ItemType<FirestormCannon>()) || Main.LocalPlayer.HasItem(ModContent.ItemType<SpectralstormCannon>()));
                 SetShopItem(ref shop, ref nextSlot, ItemID.ApprenticeBait, NPC.downedBoss1);
                 SetShopItem(ref shop, ref nextSlot, ItemID.JourneymanBait, NPC.downedBoss2);
-                SetShopItem(ref shop, ref nextSlot, WorldGen.crimson ? ItemID.Vilethorn : ItemID.TheRottedFork, NPC.downedBoss2);
+                SetShopItem(ref shop, ref nextSlot, WorldGen.crimson ? ItemID.Vilethorn : ItemID.CrimsonRod, WorldGen.shadowOrbSmashed || NPC.downedBoss2);
+                SetShopItem(ref shop, ref nextSlot, WorldGen.crimson ? ItemID.BallOHurt : ItemID.TheRottedFork, WorldGen.shadowOrbSmashed || NPC.downedBoss2);
                 SetShopItem(ref shop, ref nextSlot, ItemID.MasterBait, NPC.downedBoss3);
             }
 
             if (type == NPCID.ArmsDealer)
             {
                 SetShopItem(ref shop, ref nextSlot, ItemID.Stake, Main.LocalPlayer.HasItem(ModContent.ItemType<Impaler>()));
-                SetShopItem(ref shop, ref nextSlot, WorldGen.crimson ? ItemID.Musket : ItemID.TheUndertaker, NPC.downedBoss2);
+                SetShopItem(ref shop, ref nextSlot, WorldGen.crimson ? ItemID.Musket : ItemID.TheUndertaker, WorldGen.shadowOrbSmashed || NPC.downedBoss2);
                 SetShopItem(ref shop, ref nextSlot, ItemID.Boomstick, NPC.downedQueenBee, price: Item.buyPrice(0, 20, 0, 0));
                 SetShopItem(ref shop, ref nextSlot, ItemID.TacticalShotgun, NPC.downedGolemBoss, Item.buyPrice(0, 25));
                 SetShopItem(ref shop, ref nextSlot, ItemID.SniperRifle, NPC.downedGolemBoss, Item.buyPrice(0, 25));
@@ -4528,12 +4529,12 @@ namespace CalamityMod.NPCs
             {
                 SetShopItem(ref shop, ref nextSlot, ItemID.JungleRose, price: Item.buyPrice(0, 2));
                 SetShopItem(ref shop, ref nextSlot, ItemID.NaturesGift, price: Item.buyPrice(0, 10));
-                SetShopItem(ref shop, ref nextSlot, ItemID.SlimeCrown, NPC.downedSlimeKing, Item.buyPrice(0, 2));
-                SetShopItem(ref shop, ref nextSlot, ItemID.SuspiciousLookingEye, NPC.downedBoss1, Item.buyPrice(0, 3));
+                SetShopItem(ref shop, ref nextSlot, ItemID.SlimeCrown, NPC.downedSlimeKing && CalamityMod.CalamityConfig.SellBossSummons, Item.buyPrice(0, 2));
+                SetShopItem(ref shop, ref nextSlot, ItemID.SuspiciousLookingEye, NPC.downedBoss1 && CalamityMod.CalamityConfig.SellBossSummons, Item.buyPrice(0, 3));
                 SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<DecapoditaSprout>(), CalamityWorld.downedCrabulon, Item.buyPrice(0, 4));
-                SetShopItem(ref shop, ref nextSlot, ItemID.BloodySpine, NPC.downedBoss2, Item.buyPrice(0, 6));
-                SetShopItem(ref shop, ref nextSlot, ItemID.WormFood, NPC.downedBoss2, Item.buyPrice(0, 6));
-                SetShopItem(ref shop, ref nextSlot, WorldGen.crimson ? ItemID.BandofStarpower : ItemID.PanicNecklace, NPC.downedBoss2);
+                SetShopItem(ref shop, ref nextSlot, ItemID.BloodySpine, NPC.downedBoss2 && CalamityMod.CalamityConfig.SellBossSummons, Item.buyPrice(0, 6));
+                SetShopItem(ref shop, ref nextSlot, ItemID.WormFood, NPC.downedBoss2 && CalamityMod.CalamityConfig.SellBossSummons, Item.buyPrice(0, 6));
+                SetShopItem(ref shop, ref nextSlot, WorldGen.crimson ? ItemID.BandofStarpower : ItemID.PanicNecklace, WorldGen.shadowOrbSmashed || NPC.downedBoss2);
                 SetShopItem(ref shop, ref nextSlot, WorldGen.crimson ? ItemID.WormScarf : ItemID.BrainOfConfusion, Main.expertMode && NPC.downedBoss2);
                 SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<BloodyWormFood>(), CalamityWorld.downedPerforator, Item.buyPrice(0, 10));
                 SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<RottenBrain>(), CalamityWorld.downedPerforator && Main.expertMode);
@@ -4577,9 +4578,9 @@ namespace CalamityMod.NPCs
 
             if (type == NPCID.Steampunker)
             {
-                SetShopItem(ref shop, ref nextSlot, ItemID.MechanicalWorm, NPC.downedMechBoss1, Item.buyPrice(0, 20));
-                SetShopItem(ref shop, ref nextSlot, ItemID.MechanicalEye, NPC.downedMechBoss2, Item.buyPrice(0, 20));
-                SetShopItem(ref shop, ref nextSlot, ItemID.MechanicalSkull, NPC.downedMechBoss3, Item.buyPrice(0, 20));
+                SetShopItem(ref shop, ref nextSlot, ItemID.MechanicalWorm, NPC.downedMechBoss1 && CalamityMod.CalamityConfig.SellBossSummons, Item.buyPrice(0, 20));
+                SetShopItem(ref shop, ref nextSlot, ItemID.MechanicalEye, NPC.downedMechBoss2 && CalamityMod.CalamityConfig.SellBossSummons, Item.buyPrice(0, 20));
+                SetShopItem(ref shop, ref nextSlot, ItemID.MechanicalSkull, NPC.downedMechBoss3 && CalamityMod.CalamityConfig.SellBossSummons, Item.buyPrice(0, 20));
                 SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<AstralSolution>(), Main.hardMode, Item.buyPrice(0, 0, 5));
             }
 
@@ -4591,16 +4592,16 @@ namespace CalamityMod.NPCs
                 SetShopItem(ref shop, ref nextSlot, ItemID.SpectreStaff, NPC.downedGolemBoss, Item.buyPrice(0, 25));
                 SetShopItem(ref shop, ref nextSlot, ItemID.InfernoFork, NPC.downedGolemBoss, Item.buyPrice(0, 25));
                 SetShopItem(ref shop, ref nextSlot, ItemID.ShadowbeamStaff, NPC.downedGolemBoss, Item.buyPrice(0, 25));
-                SetShopItem(ref shop, ref nextSlot, ItemID.CelestialSigil, NPC.downedMoonlord, Item.buyPrice(3));
-                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<ProfanedShard>(), CalamityWorld.downedGuardians, Item.buyPrice(10));
+                SetShopItem(ref shop, ref nextSlot, ItemID.CelestialSigil, NPC.downedMoonlord && CalamityMod.CalamityConfig.SellBossSummons, Item.buyPrice(3));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<ProfanedShard>(), CalamityWorld.downedGuardians, Item.buyPrice(5));
             }
 
             if (type == NPCID.WitchDoctor)
             {
-                SetShopItem(ref shop, ref nextSlot, ItemID.Abeemination, price: Item.buyPrice(0, 8));
-                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<BulbofDoom>(), NPC.downedPlantBoss, Item.buyPrice(0, 20));
+                SetShopItem(ref shop, ref nextSlot, ItemID.Abeemination, CalamityMod.CalamityConfig.SellBossSummons, price: Item.buyPrice(0, 8));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<BulbofDoom>(), NPC.downedPlantBoss && CalamityMod.CalamityConfig.SellBossSummons, Item.buyPrice(0, 20));
                 SetShopItem(ref shop, ref nextSlot, ItemID.SolarTablet, NPC.downedGolemBoss, Item.buyPrice(0, 25));
-                SetShopItem(ref shop, ref nextSlot, ItemID.LihzahrdPowerCell, NPC.downedGolemBoss, Item.buyPrice(0, 30));
+                SetShopItem(ref shop, ref nextSlot, ItemID.LihzahrdPowerCell, NPC.downedGolemBoss && CalamityMod.CalamityConfig.SellBossSummons, Item.buyPrice(0, 30));
                 SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<GypsyPowder>(), NPC.downedGolemBoss, Item.buyPrice(0, 10));
                 SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<AncientMedallion>(), CalamityWorld.downedScavenger, Item.buyPrice(0, 50));
                 SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<Abomination>(), CalamityWorld.downedPlaguebringer, Item.buyPrice(0, 50));

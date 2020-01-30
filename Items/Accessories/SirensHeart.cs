@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Accessories
                 "Siren sight reveals enemy locations (blue-only)\n" +
                 "Increases life regen (gives more life regen in hardmode and post-ML)\n" +
                 "Going underwater gives you a buff\n" +
-                "Greatly reduces breath loss in the abyss\n" +
+                "Greatly reduces breath loss and provides a small amount of light in the abyss\n" +
                 "Enemies become frozen when they touch you\n" +
                 "You have a layer of ice around you that absorbs 15% damage but breaks after one hit\n" +
                 "After 30 seconds the ice shield will regenerate\n" +

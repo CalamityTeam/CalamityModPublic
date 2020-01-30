@@ -407,6 +407,7 @@ namespace CalamityMod.NPCs.SunkenSea
         public override void NPCLoot()
         {
             // Spawn Amidias if he isn't in the world
+			//This doesn't check for Desert Scourge because Giant Clam only spawns post-Desert Scourge
             int amidiasNPC = NPC.FindFirstNPC(ModContent.NPCType<SEAHOE>());
             if (amidiasNPC == -1 && Main.netMode != NetmodeID.MultiplayerClient)
             {
@@ -427,7 +428,7 @@ namespace CalamityMod.NPCs.SunkenSea
 
             // Equipment
             DropHelper.DropItemCondition(npc, ModContent.ItemType<GiantPearl>(), CalamityWorld.downedDesertScourge, 3, 1, 1);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<AmidiasPendant>(), CalamityWorld.revenge && CalamityWorld.downedDesertScourge, 0.5f);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<AmidiasPendant>(), CalamityWorld.downedDesertScourge, 3, 1, 1);
 
             // Mark Giant Clam as dead
             CalamityWorld.downedCLAM = true;

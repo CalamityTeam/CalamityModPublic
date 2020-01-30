@@ -14,9 +14,9 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Neptune's Bounty");
-            Tooltip.SetDefault("Hitting enemies will cause the crush depth debuff\n" +
-                "The lower the enemies' defense the more damage they take from this debuff\n" +
-                "Fires a trident that rains additional tridents as it travels");
+            Tooltip.SetDefault("Fires a trident that rains additional tridents as it travels/n" +
+                "Hitting enemies will inflict the crush depth debuff\n" +
+                "The lower the enemies' defense the more damage they take from this debuff");
         }
 
         public override void SetDefaults()

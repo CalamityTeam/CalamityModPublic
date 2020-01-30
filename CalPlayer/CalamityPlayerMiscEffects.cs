@@ -1022,6 +1022,28 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.blazingCore)
 				player.endurance += 0.1f;
 
+			//Permafrost's Concoction bonuses/debuffs
+			if (modPlayer.permafrostsConcoction)
+			{
+				player.statManaMax2 += 50;
+				player.manaCost *= 0.85f;
+			}
+			if (modPlayer.encased)
+			{
+				player.statDefense += 30;
+				player.frozen = true;
+				player.velocity.X = 0f;
+				player.velocity.Y = -0.4f; //should negate gravity
+
+				int d = Dust.NewDust(player.position, player.width, player.height, 88);
+				Main.dust[d].noGravity = true;
+				Main.dust[d].velocity *= 2f;
+
+				player.buffImmune[BuffID.Frozen] = true;
+				player.buffImmune[BuffID.Chilled] = true;
+				player.buffImmune[ModContent.BuffType<GlacialState>()] = true;
+			}
+
 			// Cosmic Discharge Cosmic Freeze buff, gives surrounding enemies the Glacial State debuff
 			if (modPlayer.cFreeze)
 			{
@@ -3212,15 +3234,19 @@ namespace CalamityMod.CalPlayer
 		#region Misc
 		private static int LightStrength(Player player, CalamityPlayer modPlayer)
 		{
+			bool underwater = Collision.DrownCollision(player.position, player.width, player.height, player.gravDir);
 			int lightStrength = 0 +
 				(((player.HasBuff(BuffID.Campfire) || Main.campfire) && !modPlayer.ZoneAbyss) ? 1 : 0) +
+				(modPlayer.giantPearl ? 1 : 0) +
+				(modPlayer.aAmpoule ? 1 : 0) +
+				((modPlayer.sirenBoobs || modPlayer.sirenBoobsAlt) ? 1 : 0) +
 				((player.lightOrb || player.crimsonHeart || player.magicLantern || modPlayer.radiator) ? 1 : 0) + // 1
-				(modPlayer.aquaticEmblem ? 1 : 0) + // 2
-				(player.arcticDivingGear ? 1 : 0) + // 3
-				(modPlayer.jellyfishNecklace ? 1 : 0) + // 4
+				((modPlayer.aquaticEmblem && underwater) ? 1 : 0) + // 2
+				((player.arcticDivingGear && underwater) ? 1 : 0) + // 3
+				((modPlayer.jellyfishNecklace && underwater) ? 1 : 0) + // 4
 				((player.blueFairy || player.greenFairy || player.redFairy || player.petFlagDD2Ghost || modPlayer.babyGhostBell) ? 2 : 0) + // 6
 				((modPlayer.shine) ? 2 : 0) + // 8
-				((modPlayer.lumenousAmulet) ? 2 : 0) + // 10
+				((modPlayer.lumenousAmulet && underwater) ? 2 : 0) + // 10
 				((player.wisp || player.suspiciouslookingTentacle || modPlayer.sirenPet) ? 3 : 0); // 13
 
 			return lightStrength;

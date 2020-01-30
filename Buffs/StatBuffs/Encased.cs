@@ -18,16 +18,7 @@ namespace CalamityMod.Buffs.StatBuffs
 
         public override void Update(Player player, ref int buffIndex)
         {
-            player.statDefense += 30;
-            player.endurance += 0.3f;
-            player.frozen = true;
-            player.velocity.X = 0f;
-            player.velocity.Y = -0.4f; //should negate gravity
-
-            int d = Dust.NewDust(player.position, player.width, player.height, 88);
-            Main.dust[d].noGravity = true;
-            Main.dust[d].velocity *= 2f;
-
+            player.Calamity().encased = true;
             if (player.buffTime[buffIndex] == 2)
             {
                 Main.PlaySound(SoundID.Item27, player.position);

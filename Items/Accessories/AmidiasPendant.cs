@@ -14,8 +14,7 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Amidias' Pendant");
-            Tooltip.SetDefault("Periodically rains down prism shards\n" +
-			"Revengeance drop");
+            Tooltip.SetDefault("Periodically rains down prism shards");
         }
 
         public override void SetDefaults()
