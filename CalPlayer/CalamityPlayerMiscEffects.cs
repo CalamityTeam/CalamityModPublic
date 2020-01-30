@@ -3208,6 +3208,7 @@ namespace CalamityMod.CalPlayer
 		{
 			int lightStrength = 0 +
 				(((player.HasBuff(BuffID.Campfire) || Main.campfire) && !modPlayer.ZoneAbyss) ? 1 : 0) +
+				(modPlayer.giantPearl ? 1 : 0) +
 				((player.lightOrb || player.crimsonHeart || player.magicLantern || modPlayer.radiator) ? 1 : 0) + // 1
 				(modPlayer.aquaticEmblem ? 1 : 0) + // 2
 				(player.arcticDivingGear ? 1 : 0) + // 3

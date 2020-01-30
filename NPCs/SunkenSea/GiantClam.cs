@@ -407,6 +407,7 @@ namespace CalamityMod.NPCs.SunkenSea
         public override void NPCLoot()
         {
             // Spawn Amidias if he isn't in the world
+			//This doesn't check for Desert Scourge because Giant Clam only spawns post-Desert Scourge
             int amidiasNPC = NPC.FindFirstNPC(ModContent.NPCType<SEAHOE>());
             if (amidiasNPC == -1 && Main.netMode != NetmodeID.MultiplayerClient)
             {
