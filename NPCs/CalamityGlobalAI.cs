@@ -15344,7 +15344,7 @@ namespace CalamityMod.NPCs
             }
             if (npc.type == NPCID.MartianOfficer && npc.ai[2] == 0f && npc.localAI[0] == 0f && Main.netMode != NetmodeID.MultiplayerClient)
             {
-                // If Martian Officer is ready to generate sheild, generate it.
+                // If Martian Officer is ready to generate shield, generate it.
                 int shield = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCID.ForceBubble, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
                 npc.ai[2] = (float)(shield + 1);
                 npc.localAI[0] = -1f;
