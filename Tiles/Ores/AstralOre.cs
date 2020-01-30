@@ -23,7 +23,7 @@ namespace CalamityMod.Tiles.Ores
             CalamityUtils.MergeWithGeneral(Type);
             CalamityUtils.MergeAstralTiles(Type);
 
-            minPick = 200;
+            minPick = 210;
             dustType = 173;
             drop = ModContent.ItemType<Items.Placeables.Ores.AstralOre>();
             ModTranslation name = CreateMapEntryName();
