@@ -127,7 +127,7 @@ namespace CalamityMod
 
 		[DefaultValue(true)]
 		[Label("Selling Vanilla Boss Summons")]
-		[Tooltip("Enables certain town NPCs to sell boss summoning items after the defeat of their respective boss\nThis does not affect Calamity's boss summoning items, which are always sold")]
+		[Tooltip("Enables certain town NPCs to sell boss summoning items after the defeat of their respective boss\nThis does not affect Calamity's boss summoning items, which are always sold\nThe shop will need to be refreshed if the config is adjusted while the shop is open")]
 		public bool SellBossSummons { get; set; }
 
 		[DefaultValue(false)]
