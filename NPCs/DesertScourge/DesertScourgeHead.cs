@@ -485,10 +485,10 @@ namespace CalamityMod.NPCs.DesertScourge
                 DropHelper.DropItemChance(npc, ModContent.ItemType<DesertScourgeMask>(), 7);
 
                 // Fishing
+                DropHelper.DropItemChance(npc, ItemID.AnglerTackleBag, 20);
                 DropHelper.DropItemChance(npc, ItemID.HighTestFishingLine, 15);
-                DropHelper.DropItemChance(npc, ItemID.AnglerTackleBag, 15);
                 DropHelper.DropItemChance(npc, ItemID.TackleBox, 15);
-                DropHelper.DropItemChance(npc, ItemID.AnglerEarring, 10);
+                DropHelper.DropItemChance(npc, ItemID.AnglerEarring, 15);
                 DropHelper.DropItemChance(npc, ItemID.FishermansGuide, 10);
                 DropHelper.DropItemChance(npc, ItemID.WeatherRadio, 10);
                 DropHelper.DropItemChance(npc, ItemID.Sextant, 10);

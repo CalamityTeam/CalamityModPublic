@@ -3088,7 +3088,8 @@ namespace CalamityMod.CalPlayer
 				player.meleeSpeed = 0.5f;
 
 			// 10% is converted to 9%, 25% is converted to 20%, 50% is converted to 33%, 75% is converted to 43%, 100% is converted to 50%
-			player.endurance = 1f - (1f / (1f + player.endurance));
+			if (player.endurance > 0f)
+				player.endurance = 1f - (1f / (1f + player.endurance));
 
 			if (modPlayer.yharonLore && !CalamityWorld.defiled)
 			{

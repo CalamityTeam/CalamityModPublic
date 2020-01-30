@@ -2112,6 +2112,19 @@ namespace CalamityMod.NPCs
 
                         break;
 
+                    case NPCID.Dryad:
+                        switch (Main.rand.Next(22)) // 21 Dryad names
+                        {
+                            case 0:
+                                npc.GivenName = "Rythmi";
+                                break;
+
+                            default:
+                                break;
+                        }
+
+                        break;
+
                     default:
                         break;
                 }
