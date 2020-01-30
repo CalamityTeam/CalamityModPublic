@@ -3206,16 +3206,17 @@ namespace CalamityMod.CalPlayer
 		#region Misc
 		private static int LightStrength(Player player, CalamityPlayer modPlayer)
 		{
+			bool underwater = Collision.DrownCollision(player.position, player.width, player.height, player.gravDir);
 			int lightStrength = 0 +
 				(((player.HasBuff(BuffID.Campfire) || Main.campfire) && !modPlayer.ZoneAbyss) ? 1 : 0) +
 				(modPlayer.giantPearl ? 1 : 0) +
 				((player.lightOrb || player.crimsonHeart || player.magicLantern || modPlayer.radiator) ? 1 : 0) + // 1
-				(modPlayer.aquaticEmblem ? 1 : 0) + // 2
-				(player.arcticDivingGear ? 1 : 0) + // 3
-				(modPlayer.jellyfishNecklace ? 1 : 0) + // 4
+				((modPlayer.aquaticEmblem && underwater) ? 1 : 0) + // 2
+				((player.arcticDivingGear && underwater) ? 1 : 0) + // 3
+				((modPlayer.jellyfishNecklace && underwater) ? 1 : 0) + // 4
 				((player.blueFairy || player.greenFairy || player.redFairy || player.petFlagDD2Ghost || modPlayer.babyGhostBell) ? 2 : 0) + // 6
 				((modPlayer.shine) ? 2 : 0) + // 8
-				((modPlayer.lumenousAmulet) ? 2 : 0) + // 10
+				((modPlayer.lumenousAmulet && underwater) ? 2 : 0) + // 10
 				((player.wisp || player.suspiciouslookingTentacle || modPlayer.sirenPet) ? 3 : 0); // 13
 
 			return lightStrength;
