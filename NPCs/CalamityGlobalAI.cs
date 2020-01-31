@@ -1,4 +1,5 @@
 using CalamityMod.NPCs.AcidRain;
+using CalamityMod.NPCs.Astral;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Items.LoreItems;
@@ -15170,6 +15171,7 @@ namespace CalamityMod.NPCs
                 NPCID.DesertScorpionWalk,
                 NPCID.JungleCreeper,
                 NPCID.WallCreeper,
+				ModContent.NPCType<AstralachneaGround>()
             };
             // These checks are not required if the npc is not a real spider
             if (!spiders.Contains(npc.type))
@@ -15190,24 +15192,31 @@ namespace CalamityMod.NPCs
             int transformType = -1;
             if (climbWalls)
             {
-                switch (npc.type)
-                {
-                    case NPCID.BlackRecluse:
-                        transformType = NPCID.BlackRecluseWall;
-                        break;
-                    case NPCID.BloodCrawler:
-                        transformType = NPCID.BloodCrawlerWall;
-                        break;
-                    case NPCID.DesertScorpionWalk:
-                        transformType = NPCID.DesertScorpionWall;
-                        break;
-                    case NPCID.JungleCreeper:
-                        transformType = NPCID.JungleCreeperWall;
-                        break;
-                    case NPCID.WallCreeper:
-                        transformType = NPCID.WallCreeperWall;
-                        break;
-                }
+				if (npc.type == ModContent.NPCType<AstralachneaGround>())
+				{
+					transformType = ModContent.NPCType<AstralachneaWall>();
+				}
+				else
+				{
+					switch (npc.type)
+					{
+						case NPCID.BlackRecluse:
+							transformType = NPCID.BlackRecluseWall;
+							break;
+						case NPCID.BloodCrawler:
+							transformType = NPCID.BloodCrawlerWall;
+							break;
+						case NPCID.DesertScorpionWalk:
+							transformType = NPCID.DesertScorpionWall;
+							break;
+						case NPCID.JungleCreeper:
+							transformType = NPCID.JungleCreeperWall;
+							break;
+						case NPCID.WallCreeper:
+							transformType = NPCID.WallCreeperWall;
+							break;
+					}
+				}
                 if (transformType != -1)
                 {
                     npc.Transform(transformType);
