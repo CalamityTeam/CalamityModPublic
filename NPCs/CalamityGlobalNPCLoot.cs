@@ -1683,6 +1683,10 @@ namespace CalamityMod.NPCs
                     DropHelper.DropItemChance(npc, ModContent.ItemType<ShockGrenade>(), Main.expertMode ? 4 : 5, 1, 4);
                     break;
 
+                case NPCID.Gastropod:
+                    DropHelper.DropItem(npc, ItemID.PinkGel, 5, 10);
+                    break;
+
                 default:
                     break;
             }

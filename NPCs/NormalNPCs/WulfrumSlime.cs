@@ -60,11 +60,8 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<WulfrumShard>());
-            if (Main.expertMode && Main.rand.NextBool(2))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<WulfrumShard>());
-            }
+            DropHelper.DropItem(npc, ModContent.ItemType<WulfrumShard>(), 1, 1);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<WulfrumShard>(), Main.expertMode, 0.5f, 1, 1);
         }
     }
 }
