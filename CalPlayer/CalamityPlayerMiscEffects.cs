@@ -1505,7 +1505,7 @@ namespace CalamityMod.CalPlayer
 					cloudVelocity.Normalize();
 					cloudVelocity *= Main.rand.NextFloat(0f, 1f);
 					int projectile = Projectile.NewProjectile(player.Center, cloudVelocity, ModContent.ProjectileType<PlaguedFuelPackCloud>(), 20, 0, player.whoAmI, 0, 0);
-					Main.projectile[projectile].timeLeft = Main.rand.Next(75, 125);
+					Main.projectile[projectile].timeLeft = Main.rand.Next(180, 240);
 				}
 
 				for (int i = 0; i < 3; i++)
