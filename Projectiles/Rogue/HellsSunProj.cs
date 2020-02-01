@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Rogue
 				projectile.localAI[1]++;
 				if (projectile.Calamity().stealthStrike == true)
 				{
-					if ((double) projectile.localAI[1] >= 30.0)
+					if (projectile.localAI[1] >= 30f)
 					{
 						Vector2 velocity = projectile.velocity;
 						Vector2 vector2_1 = new Vector2((float) Main.rand.Next(-100, 101), (float) Main.rand.Next(-100, 101));
@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles.Rogue
 				}
 				else
 				{
-					if ((double) projectile.localAI[1] >= 60.0)
+					if (projectile.localAI[1] >= 60f)
 					{
 						Vector2 velocity = projectile.velocity;
 						Vector2 vector2_1 = new Vector2((float) Main.rand.Next(-100, 101), (float) Main.rand.Next(-100, 101));
