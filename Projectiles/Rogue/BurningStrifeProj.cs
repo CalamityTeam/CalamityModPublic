@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Rogue
             //Rotation code
             projectile.rotation += projectile.velocity.X * 0.05f * projectile.direction;
             //Gravity
-            projectile.velocity.Y += 0.1f;
+            projectile.velocity.Y += 0.05f;
             if (projectile.velocity.Y > 16f)
                 projectile.velocity.Y = 16f;
             //Dust
