@@ -10,8 +10,8 @@ namespace CalamityMod.NPCs.SunkenSea
     public class SeaSerpent1 : ModNPC
     {
         public const int maxLength = 9;
-        public float speed = 6f;
-        public float turnSpeed = 0.125f;
+        public float speed = 3f;
+        public float turnSpeed = 0.0625f;
         bool TailSpawned = false;
 
         public override void SetStaticDefaults()

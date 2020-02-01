@@ -66,15 +66,14 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item27, projectile.position);
-            int num3;
-            for (int num373 = 0; num373 < 3; num373 = num3 + 1)
+			Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 27, 0.25f);
+			//Main.PlaySound(SoundID.Item27, projectile.position);
+            for (int num373 = 0; num373 < 3; num373++)
             {
                 int num374 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 76, 0f, 0f, 0, default, 1f);
                 Main.dust[num374].noGravity = true;
                 Main.dust[num374].noLight = true;
                 Main.dust[num374].scale = 0.7f;
-                num3 = num373;
             }
         }
 

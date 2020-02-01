@@ -422,12 +422,12 @@ namespace CalamityMod.CalPlayer
 						if (Main.raining)
 						{
 							float frequencyMult = 1f - Main.cloudAlpha; // 1 to 0.11
-							Vector2 spawnPoint = new Vector2(player.Center.X + (float)Main.rand.Next(-800, 801), player.Center.Y - (float)Main.rand.Next(700, 801));
+							Vector2 spawnPoint = new Vector2(player.Center.X + (float)Main.rand.Next(-1000, 1001), player.Center.Y - (float)Main.rand.Next(700, 801));
 							if (player.ZoneSnow)
 							{
 								int divisor = (int)((Main.hardMode ? 50f : 60f) * frequencyMult);
 								float windVelocity = (float)Math.Sqrt((double)Math.Abs(Main.windSpeed)) * (float)Math.Sign(Main.windSpeed) * (Main.cloudAlpha + 0.5f) * 25f + Main.rand.NextFloat() * 0.2f - 0.1f;
-								Vector2 velocity = new Vector2(windVelocity, 3f * Main.rand.NextFloat());
+								Vector2 velocity = new Vector2(windVelocity * 0.2f, 3f * Main.rand.NextFloat());
 								if (player.miscCounter % divisor == 0 && Main.rand.NextBool(3))
 									Projectile.NewProjectile(spawnPoint.X, spawnPoint.Y, velocity.X, velocity.Y, ModContent.ProjectileType<IceRain>(), 20, 0f, player.whoAmI, 1f, 0f);
 							}
@@ -466,8 +466,10 @@ namespace CalamityMod.CalPlayer
 										Main.projectile[num336].netUpdate = true;
 									}
 								}
-								if (player.miscCounter == (int)(240f * frequencyMult) && Main.rand.NextBool(3))
+								int randomFrequency2 = (int)(20f * frequencyMult);
+								if (player.miscCounter % (Main.hardMode ? 90 : 120) == 0 && Main.rand.NextBool(randomFrequency2))
 								{
+									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/LightningStrike"), (int)spawnPoint.X, (int)spawnPoint.Y);
 									float randomVelocity = Main.rand.NextFloat() - 0.5f;
 									Vector2 fireTo = new Vector2(spawnPoint.X + 100f * randomVelocity, spawnPoint.Y + 900);
 									Vector2 ai0 = fireTo - spawnPoint;
@@ -475,6 +477,7 @@ namespace CalamityMod.CalPlayer
 									Vector2 velocity = Vector2.Normalize(ai0.RotatedByRandom(0.78539818525314331)) * 7f;
 									int proj = Projectile.NewProjectile(spawnPoint.X, spawnPoint.Y, velocity.X, velocity.Y, ProjectileID.CultistBossLightningOrbArc, 50, 0f, player.whoAmI, ai0.ToRotation(), ai);
 									Main.projectile[proj].extraUpdates += 6;
+									Main.projectile[proj].friendly = true;
 								}
 							}
 						}

@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Tools.ClimateChange
 
         public override bool CanUseItem(Player player)
         {
-            return !Main.slimeRain && (Main.rainTime > 3600 || !CalamityWorld.death);
+            return !Main.slimeRain && (Main.rainTime > 3600 || !CalamityWorld.death || !Main.raining);
         }
 
         public override bool UseItem(Player player)
@@ -108,7 +108,7 @@ namespace CalamityMod.Items.Tools.ClimateChange
 				Main.cloudBGActive = 1f;
 				Main.numCloudsTemp = Main.cloudLimit;
 				Main.numClouds = Main.numCloudsTemp;
-				Main.windSpeedTemp = 0.5f;
+				Main.windSpeedTemp = (float)Main.rand.Next(50, 75) * 0.01f;
 				Main.windSpeedSet = Main.windSpeedTemp;
 				Main.weatherCounter = Main.rand.Next(3600, 18000);
 				Main.maxRaining = 0.89f;
