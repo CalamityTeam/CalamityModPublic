@@ -38,6 +38,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.PaladinsHammer);
+            recipe.AddIngredient(ModContent.ItemType<PwnagehammerMelee>());
             recipe.AddIngredient(ModContent.ItemType<CalamityDust>(), 5);
             recipe.AddIngredient(ModContent.ItemType<CoreofChaos>(), 5);
             recipe.AddIngredient(ModContent.ItemType<CruptixBar>(), 5);

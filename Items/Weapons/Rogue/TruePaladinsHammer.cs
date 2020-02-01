@@ -38,6 +38,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.PaladinsHammer);
+            recipe.AddIngredient(ModContent.ItemType<Pwnagehammer>());
             recipe.AddIngredient(ModContent.ItemType<CalamityDust>(), 5);
             recipe.AddIngredient(ModContent.ItemType<CoreofChaos>(), 5);
             recipe.AddIngredient(ModContent.ItemType<CruptixBar>(), 5);
