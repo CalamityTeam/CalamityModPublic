@@ -198,18 +198,16 @@ namespace CalamityMod.NPCs.TownNPCs
                 dialogue.Add("If I was a magical horse in this reality I'd be out in space swirling cocktails as I watch space worms battle for my enjoyment.");
             }
 
-            int donorAmt = CalamityMod.donatorList.Count;
-            string firstDonor = CalamityMod.donatorList[Main.rand.Next(donorAmt)];
+			IList<string> donorList = new List<string>(CalamityMod.donatorList);
+			string[] donors = new string[12];
+			for (int i = 0; i < 12; i++)
+			{
+				donors[i] = donorList[Main.rand.Next(donorList.Count)];
+				donorList.Remove(donors[i]);
+			}
 
-            string secondDonor = CalamityMod.donatorList[Main.rand.Next(donorAmt)];
-            while (secondDonor == firstDonor)
-                secondDonor = CalamityMod.donatorList[Main.rand.Next(donorAmt)];
-
-            string thirdDonor = CalamityMod.donatorList[Main.rand.Next(donorAmt)];
-            while (thirdDonor == firstDonor || thirdDonor == secondDonor)
-                thirdDonor = CalamityMod.donatorList[Main.rand.Next(donorAmt)];
-
-            dialogue.Add("Hey " + firstDonor + ", " + secondDonor + ", and " + thirdDonor + "! You're all pretty good! ...wait, who are you?");
+			dialogue.Add("Hey " + donors[0] + ", " + donors[1] + ", " + donors[2] + ", " + donors[3] + ", " + donors[4] + ", " + donors[5] + ", " + donors[6] +
+				", " + donors[7] + ", " + donors[8] + ", " + donors[9] + ", " + donors[10] + " and " + donors[11] + "! You're all pretty good! ...wait, who are you again?");
 
             return dialogue[Main.rand.Next(dialogue.Count)];
         }

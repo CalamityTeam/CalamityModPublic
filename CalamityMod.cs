@@ -519,8 +519,39 @@ namespace CalamityMod
                 "The Goliath",
                 "DaPyRo",
                 "Apotheosis",
-                "Termi"
-            };
+                "Termi",
+				"Circuit-Jay",
+				"Commmander Frostbite",
+				"cytokat",
+				"Cameron Fowlks",
+				"Orudeon",
+				"BumbleDoge",
+				"John Ballard",
+				"Naglfar",
+				"Helixas",
+				"Vetus Dea",
+				"High Charity",
+				"Devonte Plati",
+				"Cerberus",
+				"Brendan Kendall",
+				"Victor Pittman",
+				"KAT-G307",
+				"Tombarry Expresserino",
+				"Drip Veezy",
+				"Glaid",
+				"Apotheosis",
+				"Bladesaber",
+				"Devon Leigh",
+				"Ruthoranium",
+				"cocodezi_",
+				"Mendzey",
+				"GameRDheAsianSandwich",
+				"Tobias",
+				"Streakist .",
+				"Eisaya A Cook",
+				"Xenocrona",
+				"RKMoon"
+			};
 
             rangedProjectileExceptionList = new List<int>()
             {
