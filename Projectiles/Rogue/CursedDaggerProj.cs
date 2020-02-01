@@ -25,6 +25,22 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.Calamity().rogue = true;
         }
 
+        public override void AI()
+        {
+            if (Main.rand.NextBool(4))
+            {
+                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 75, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+            }
+        }
+
+        public override void Kill(int timeLeft)
+        {
+            for (int i = 0; i <= 10; i++)
+            {
+                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 75, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
+            }
+        }
+
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             projectile.penetrate--;
