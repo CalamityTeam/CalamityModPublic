@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Typeless
         }
         public override void AI()
         {
-            Player player = Main.player[Main.myPlayer];
+            Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
             if (!modPlayer.momentumCapacitor)
                 projectile.Kill();

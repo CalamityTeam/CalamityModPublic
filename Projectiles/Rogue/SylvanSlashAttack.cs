@@ -99,7 +99,7 @@ namespace CalamityMod.Projectiles.Rogue
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			Player player = Main.player[Main.myPlayer];
+			Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
 			if (projectile.owner == Main.myPlayer)
 			{
