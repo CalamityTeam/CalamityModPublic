@@ -3479,6 +3479,10 @@ namespace CalamityMod
                     bool armaActive = reader.ReadBoolean();
                     CalamityWorld.armageddon = armaActive;
                     break;
+                case CalamityModMessageType.DemonTrophyBoolSync:
+                    bool demonModeBoost = reader.ReadBoolean();
+                    CalamityWorld.demonMode = demonModeBoost;
+                    break;
                 case CalamityModMessageType.NPCRegenerationSync:
                     byte npcIndex = reader.ReadByte();
                     Main.npc[npcIndex].lifeRegen = reader.ReadInt32();
