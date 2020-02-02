@@ -1003,6 +1003,7 @@ namespace CalamityMod.NPCs
 			// Laser beam attack
 			else if (npc.ai[0] == 5f)
 			{
+				npc.defense = npc.defDefense * 3;
 				float num742 = 6f;
 				Vector2 vector93 = new Vector2(vectorCenter.X + (npc.spriteDirection > 0 ? 34f : -34f), vectorCenter.Y - 74f);
 				float num743 = player.position.X + (float)player.width * 0.5f - vector93.X;
