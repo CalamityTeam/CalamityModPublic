@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Magic
         }
         public override void SetDefaults()
         {
-            item.damage = 30;
+            item.damage = 28;
             item.magic = true;
             item.mana = 7;
             item.width = 28;
@@ -38,17 +38,16 @@ namespace CalamityMod.Items.Weapons.Magic
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            if (Main.rand.Next(3) != 0)
+            if (Main.rand.Next(4) != 0)
             {
                 Vector2 speed = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(Main.rand.Next(-15, 16)));
                 speed.Normalize();
                 speed *= 15f;
                 speed.Y -= Math.Abs(speed.X) * 0.2f;
                 int p = Projectile.NewProjectile(position, speed, ModContent.ProjectileType<FrostShardFriendly>(), damage, knockBack, player.whoAmI);
-                Main.projectile[p].minion = false;
-                Main.projectile[p].magic = true;
+                Main.projectile[p].Calamity().forceMagic = true;
             }
-            if (Main.rand.NextBool(3))
+            if (Main.rand.NextBool(4))
             {
                 Main.PlaySound(SoundID.Item1, position);
                 Projectile.NewProjectile(position.X, position.Y, speedX * 1.2f, speedY * 1.2f, ModContent.ProjectileType<Snowball>(), damage, knockBack * 2f, player.whoAmI);

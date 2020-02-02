@@ -641,6 +641,7 @@ namespace CalamityMod.CalPlayer
         public bool glSword = false;
         public bool mWorm = false;
         public bool iClasper = false;
+        public bool magicHat = false;
         public bool herring = false;
         public bool blackhawk = false;
         public bool calamari = false;
@@ -1414,6 +1415,7 @@ namespace CalamityMod.CalPlayer
             glSword = false;
             mWorm = false;
             iClasper = false;
+            magicHat = false;
             herring = false;
             blackhawk = false;
             calamari = false;
