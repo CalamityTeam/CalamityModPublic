@@ -2274,7 +2274,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 player.moveSpeed += 0.1f;
                 player.jumpSpeedBoost += 1.0f;
                 player.noFallDmg = true;
-                if (!Main.dayTime)
+                if (!Main.dayTime || Main.eclipse)
                 {
                     player.statDefense += 20;
                     player.allDamage += 0.15f;

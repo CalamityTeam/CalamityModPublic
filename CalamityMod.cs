@@ -518,7 +518,6 @@ namespace CalamityMod
                 "Vroomy Has -3,000 IQ",
                 "The Goliath",
                 "DaPyRo",
-                "Apotheosis",
                 "Termi",
 				"Circuit-Jay",
 				"Commmander Frostbite",
