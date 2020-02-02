@@ -287,9 +287,9 @@ namespace CalamityMod.Projectiles.Summon
 
         public override bool? CanHitNPC(NPC target)
         {
-            if (HitCooldown == 0 && !target.townNPC && target.type != NPCID.DD2EterniaCrystal && !target.immortal && !target.dontTakeDamage)
+            if (HitCooldown == 0)
             {
-                return true;
+                return null;
             }
             return false;
         }
