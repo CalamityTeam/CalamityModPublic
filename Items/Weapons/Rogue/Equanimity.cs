@@ -51,13 +51,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.EnchantedBoomerang);
-            recipe.AddIngredient(ItemID.LightShard);
-            recipe.AddIngredient(ItemID.DarkShard);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.Flamarang);
             recipe.AddIngredient(ItemID.IceBoomerang);
             recipe.AddIngredient(ItemID.LightShard);
             recipe.AddIngredient(ItemID.DarkShard);

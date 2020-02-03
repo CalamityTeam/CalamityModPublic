@@ -51,6 +51,8 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.ChlorophytePartisan);
+            recipe.AddIngredient(ItemID.DarkLance);
+            recipe.AddIngredient(ItemID.Gungnir);
             recipe.AddIngredient(ModContent.ItemType<LivingShard>(), 7);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

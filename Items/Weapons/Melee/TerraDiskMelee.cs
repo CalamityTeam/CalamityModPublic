@@ -1,4 +1,5 @@
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -66,6 +67,8 @@ A max of three disks can be active at a time");
             ModRecipe recipe = new ModRecipe(mod);
             recipe.SetResult(this);
             recipe.AddIngredient(ModContent.ItemType<SeashellBoomerangMelee>());
+            recipe.AddIngredient(ModContent.ItemType<Equanimity>());
+            recipe.AddIngredient(ItemID.ThornChakram);
             recipe.AddIngredient(ModContent.ItemType<LivingShard>(), 8);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.AddRecipe();
