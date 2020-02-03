@@ -693,14 +693,14 @@ namespace CalamityMod.World
 			int JungleTempleIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Jungle Temple"));
 			tasks[JungleTempleIndex] = new PassLegacy("Jungle Temple", delegate (GenerationProgress progress)
 			{
-				progress.Message = "Building a Tyrant's temple";
+				progress.Message = "Building the jungle temple (Calamity)";
 				WorldGenerationMethods.NewJungleTemple();
 			});
 
 			int JungleTempleIndex2 = tasks.FindIndex(genpass => genpass.Name.Equals("Temple"));
 			tasks[JungleTempleIndex2] = new PassLegacy("Temple", delegate (GenerationProgress progress)
 			{
-				progress.Message = "Building a Tyrant's temple";
+				progress.Message = "Building the jungle temple (Calamity)";
 				Main.tileSolid[162] = false;
 				Main.tileSolid[226] = true;
 				WorldGenerationMethods.NewJungleTemplePart2();
@@ -710,7 +710,7 @@ namespace CalamityMod.World
 			int LihzahrdAltarIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Lihzahrd Altars"));
 			tasks[LihzahrdAltarIndex] = new PassLegacy("Lihzahrd Altars", delegate (GenerationProgress progress)
 			{
-				progress.Message = "Placing a Lihzahrd altar very carefully";
+				progress.Message = "Placing a Lihzahrd altar (Calamity)";
 				WorldGenerationMethods.NewJungleTempleLihzahrdAltar();
 			});
 

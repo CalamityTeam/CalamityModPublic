@@ -305,6 +305,15 @@ namespace CalamityMod
             r.AddTile(TileID.Anvils);
             r.SetResult(ItemID.BugNet);
             r.AddRecipe();
+
+            // Umbrella
+            r = GetNewRecipe();
+            r.AddIngredient(ItemID.Silk, 5);
+            r.AddIngredient(ItemID.IronBar, 2);
+            r.anyIronBar = true;
+            r.AddTile(TileID.Loom);
+            r.SetResult(ItemID.Umbrella);
+            r.AddRecipe();
         }
         #endregion
 
@@ -428,6 +437,15 @@ namespace CalamityMod
             r.AddIngredient(ItemID.PinkGel, 10);
             r.AddTile(TileID.Anvils);
             r.SetResult(ItemID.SlimeStaff);
+            r.AddRecipe();
+
+            //Ice Boomerang
+            r = GetNewRecipe();
+            r.AddIngredient(ItemID.IceBlock, 20);
+            r.AddIngredient(ItemID.SnowBlock, 10);
+            r.AddIngredient(ItemID.Shiverthorn);
+            r.AddTile(TileID.IceMachine);
+            r.SetResult(ItemID.IceBoomerang);
             r.AddRecipe();
         }
         #endregion
