@@ -113,7 +113,9 @@ namespace CalamityMod.NPCs.NormalNPCs
 
                     float num509 = CalamityWorld.bossRushActive ? 18f : 9f;
                     int num510 = 11;
-                    int num511 = ProjectileID.RubyBolt;
+					if (CalamityWorld.death)
+						num510 += 1;
+					int num511 = ProjectileID.RubyBolt;
 
                     num508 = num509 / num508;
                     num506 *= num508;

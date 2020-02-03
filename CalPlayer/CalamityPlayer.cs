@@ -5404,8 +5404,32 @@ namespace CalamityMod.CalPlayer
             }
             if (CalamityWorld.revenge)
             {
-                if (CalamityMod.revengeanceProjectileBuffList.Contains(proj.type))
-                    damage = (int)((double)damage * 1.25);
+				double damageMultiplier = 1D;
+				if (CalamityMod.revengeanceProjectileBuffList25Percent.Contains(proj.type))
+				{
+					damageMultiplier += 0.25;
+				}
+				else if (CalamityMod.revengeanceProjectileBuffList20Percent.Contains(proj.type))
+				{
+					damageMultiplier += 0.2;
+				}
+				else if (CalamityMod.revengeanceProjectileBuffList15Percent.Contains(proj.type))
+				{
+					damageMultiplier += 0.15;
+				}
+				else if (CalamityMod.revengeanceProjectileBuffList10Percent.Contains(proj.type))
+				{
+					damageMultiplier += 0.1;
+				}
+				else if (CalamityMod.revengeanceProjectileBuffList5Percent.Contains(proj.type))
+				{
+					damageMultiplier += 0.05;
+				}
+
+				if (CalamityWorld.death)
+					damageMultiplier += (damageMultiplier - 1D) * 0.6;
+
+				damage = (int)(damage * damageMultiplier);
             }
 
 			// Reduce damage from vanilla traps
