@@ -158,8 +158,12 @@ namespace CalamityMod
         public static List<int> frostMoonBuffList;
         public static List<int> eclipseBuffList;
         public static List<int> eventProjectileBuffList;
-        public static List<int> revengeanceEnemyBuffList;
-        public static List<int> revengeanceProjectileBuffList;
+        public static List<int> revengeanceEnemyBuffList25Percent;
+		public static List<int> revengeanceEnemyBuffList20Percent;
+		public static List<int> revengeanceEnemyBuffList15Percent;
+		public static List<int> revengeanceEnemyBuffList10Percent;
+		public static List<int> revengeanceEnemyBuffList5Percent;
+		public static List<int> revengeanceProjectileBuffList;
         public static List<int> revengeanceLifeStealExceptionList;
         public static List<int> movementImpairImmuneList;
         public static List<int> trapProjectileList;
@@ -343,8 +347,12 @@ namespace CalamityMod
             frostMoonBuffList = null;
             eclipseBuffList = null;
             eventProjectileBuffList = null;
-            revengeanceEnemyBuffList = null;
-            revengeanceProjectileBuffList = null;
+			revengeanceEnemyBuffList25Percent = null;
+			revengeanceEnemyBuffList20Percent = null;
+			revengeanceEnemyBuffList15Percent = null;
+			revengeanceEnemyBuffList10Percent = null;
+			revengeanceEnemyBuffList5Percent = null;
+			revengeanceProjectileBuffList = null;
             revengeanceLifeStealExceptionList = null;
             movementImpairImmuneList = null;
             trapProjectileList = null;
@@ -1313,254 +1321,232 @@ namespace CalamityMod
                 ProjectileID.DrManFlyFlask
             };
 
-            revengeanceEnemyBuffList = new List<int>()
+			// Enemies that inflict an average of 1 to 50 damage in Expert Mode
+			revengeanceEnemyBuffList25Percent = new List<int>()
             {
-                NPCID.KingSlime,
-
                 NPCID.ServantofCthulhu,
                 NPCID.EyeofCthulhu,
-
                 NPCID.EaterofWorldsHead,
                 NPCID.EaterofWorldsBody,
                 NPCID.EaterofWorldsTail,
-
-                NPCID.BrainofCthulhu,
                 NPCID.Creeper,
-
-                NPCID.QueenBee,
                 NPCID.Bee,
                 NPCID.BeeSmall,
-
-                NPCID.SkeletronHead,
                 NPCID.SkeletronHand,
-
-                NPCID.WallofFlesh,
-                NPCID.TheHungryII,
-                NPCID.LeechHead,
-
-                NPCID.Spazmatism,
-                NPCID.Retinazer,
-
-                NPCID.SkeletronPrime,
-                NPCID.PrimeSaw,
-                NPCID.PrimeVice,
-                NPCID.PrimeLaser,
-                NPCID.PrimeCannon,
-
-                NPCID.TheDestroyer,
-                NPCID.TheDestroyerBody,
-                NPCID.TheDestroyerTail,
-                NPCID.Probe,
-
-                NPCID.Plantera,
-                NPCID.PlanterasTentacle,
-                NPCID.Spore,
-
-                NPCID.Golem,
-                NPCID.GolemHead,
-                NPCID.GolemHeadFree,
-                NPCID.GolemFistLeft,
-                NPCID.GolemFistRight,
-
-                NPCID.DukeFishron,
-                NPCID.DetonatingBubble,
-                NPCID.Sharkron,
-                NPCID.Sharkron2,
-
-                NPCID.DD2Betsy,
-
-                NPCID.CultistDragonHead,
-                NPCID.AncientCultistSquidhead,
-                NPCID.AncientLight,
-
-                NPCID.MoonLordHand,
-
-                NPCID.DevourerHead,
-                NPCID.GiantWormHead,
-                NPCID.MeteorHead,
-                NPCID.BoneSerpentHead,
-                NPCID.ManEater,
-                NPCID.Snatcher,
-                NPCID.Piranha,
-                NPCID.Shark,
-                NPCID.SpikeBall,
-                NPCID.BlazingWheel,
-                NPCID.Mimic,
-                NPCID.WyvernHead,
-                NPCID.DiggerHead,
-                NPCID.SeekerHead,
-                NPCID.AnglerFish,
-                NPCID.Werewolf,
-                NPCID.Wraith,
-                NPCID.Arapaima,
-                NPCID.BlackRecluse,
-                NPCID.WallCreeper,
-                NPCID.WallCreeperWall,
-                NPCID.BlackRecluseWall,
-                NPCID.AngryTrapper,
-                NPCID.Lihzahrd,
-                NPCID.LihzahrdCrawler,
-                NPCID.PirateCaptain,
-                NPCID.FlyingSnake,
-                NPCID.Reaper,
-                NPCID.Paladin,
-                NPCID.BoneLee,
-                NPCID.MourningWood,
-                NPCID.Pumpking,
-                NPCID.PumpkingBlade,
-                NPCID.PresentMimic,
-                NPCID.Everscream,
-                NPCID.IceQueen,
-                NPCID.SantaNK1,
-                NPCID.StardustWormHead,
-                NPCID.SolarCrawltipedeHead,
-                NPCID.Butcher,
-                NPCID.Psycho,
-                NPCID.DeadlySphere,
-                NPCID.BigMimicCorruption,
-                NPCID.BigMimicCrimson,
-                NPCID.BigMimicHallow,
-                NPCID.Mothron,
-                NPCID.DuneSplicerHead,
-                NPCID.SlimeSpiked,
-                NPCID.SandShark,
-                NPCID.SandsharkCorrupt,
-                NPCID.SandsharkCrimson,
-                NPCID.SandsharkHallow,
-
-                ModContent.NPCType<DesertScourgeHead>(),
-                ModContent.NPCType<DesertScourgeHeadSmall>(),
-                ModContent.NPCType<DriedSeekerHead>(),
-
-                ModContent.NPCType<CrabulonIdle>(),
+				NPCID.GiantWormHead,
+				NPCID.BlazingWheel,
+				ModContent.NPCType<DesertScourgeBody>(),
+				ModContent.NPCType<DesertScourgeTail>(),
+				ModContent.NPCType<DesertScourgeHeadSmall>(),
+				ModContent.NPCType<DesertScourgeBodySmall>(),
+				ModContent.NPCType<DesertScourgeTailSmall>(),
+				ModContent.NPCType<DriedSeekerHead>(),
                 ModContent.NPCType<CrabShroom>(),
-
                 ModContent.NPCType<HiveMind>(),
-                ModContent.NPCType<HiveMindP2>(),
                 ModContent.NPCType<DankCreeper>(),
-
-                ModContent.NPCType<PerforatorHeadLarge>(),
-                ModContent.NPCType<PerforatorHeadMedium>(),
-                ModContent.NPCType<PerforatorHeadSmall>(),
                 ModContent.NPCType<PerforatorHive>(),
+				ModContent.NPCType<AquaticSeekerHead>(),
+				ModContent.NPCType<Cnidrion>(),
+                ModContent.NPCType<PrismTurtle>(),
+                ModContent.NPCType<GhostBell>()
+            };
 
-                ModContent.NPCType<SlimeGod>(),
-                ModContent.NPCType<SlimeGodRun>(),
-                ModContent.NPCType<SlimeGodCore>(),
-                ModContent.NPCType<SlimeGodSplit>(),
-                ModContent.NPCType<SlimeGodRunSplit>(),
-                ModContent.NPCType<SlimeSpawnCorrupt>(),
-                ModContent.NPCType<SlimeSpawnCrimson2>(),
+			// Enemies that inflict an average of 51 to 100 damage in Expert Mode
+			revengeanceEnemyBuffList20Percent = new List<int>()
+			{
+				NPCID.KingSlime,
+				NPCID.BrainofCthulhu,
+				NPCID.QueenBee,
+				NPCID.SkeletronHead,
+				NPCID.TheHungryII,
+				NPCID.LeechHead,
+				NPCID.TheDestroyerBody,
+				NPCID.TheDestroyerTail,
+				NPCID.Probe,
+				NPCID.PrimeSaw,
+				NPCID.PrimeVice,
+				NPCID.PrimeLaser,
+				NPCID.PrimeCannon,
+				NPCID.DevourerHead,
+				NPCID.MeteorHead,
+				NPCID.BoneSerpentHead,
+				NPCID.ManEater,
+				NPCID.Snatcher,
+				NPCID.Piranha,
+				NPCID.Shark,
+				NPCID.SpikeBall,
+				NPCID.DiggerHead,
+				NPCID.WallCreeper,
+				NPCID.WallCreeperWall,
+				NPCID.Lihzahrd,
+				NPCID.Pumpking,
+				NPCID.SlimeSpiked,
+				ModContent.NPCType<DesertScourgeHead>(),
+				ModContent.NPCType<CrabulonIdle>(),
+				ModContent.NPCType<HiveMindP2>(),
+				ModContent.NPCType<PerforatorHeadLarge>(),
+				ModContent.NPCType<PerforatorHeadMedium>(),
+				ModContent.NPCType<PerforatorHeadSmall>(),
+				ModContent.NPCType<SlimeGod>(),
+				ModContent.NPCType<SlimeGodRun>(),
+				ModContent.NPCType<SlimeGodCore>(),
+				ModContent.NPCType<SlimeGodSplit>(),
+				ModContent.NPCType<SlimeGodRunSplit>(),
+				ModContent.NPCType<SlimeSpawnCorrupt>(),
+				ModContent.NPCType<SlimeSpawnCrimson2>(),
+				ModContent.NPCType<Cryocore>(),
+				ModContent.NPCType<Cryocore2>(),
+				ModContent.NPCType<IceMass>(),
+				ModContent.NPCType<AquaticScourgeTail>(),
+				ModContent.NPCType<BrimstoneElemental>(),
+				ModContent.NPCType<LifeSeeker>(),
+				ModContent.NPCType<SoulSeeker>(),
+				ModContent.NPCType<EutrophicRay>(),
+				ModContent.NPCType<Clam>(),
+				ModContent.NPCType<SeaSerpent1>(),
+				ModContent.NPCType<GiantClam>()
+			};
 
-                ModContent.NPCType<Cryogen>(),
-                ModContent.NPCType<CryogenIce>(),
-                ModContent.NPCType<Cryocore>(),
-                ModContent.NPCType<Cryocore2>(),
-                ModContent.NPCType<IceMass>(),
+			// Enemies that inflict an average of 101 to 200 damage in Expert Mode
+			revengeanceEnemyBuffList15Percent = new List<int>()
+			{
+				NPCID.WallofFlesh,
+				NPCID.Spazmatism,
+				NPCID.Retinazer,
+				NPCID.SkeletronPrime,
+				NPCID.Plantera,
+				NPCID.PlanterasTentacle,
+				NPCID.Spore,
+				NPCID.DetonatingBubble,
+				NPCID.Golem,
+				NPCID.GolemHead,
+				NPCID.GolemHeadFree,
+				NPCID.GolemFistLeft,
+				NPCID.GolemFistRight,
+				NPCID.DukeFishron,
+				NPCID.Sharkron,
+				NPCID.Sharkron2,
+				NPCID.CultistDragonHead,
+				NPCID.AncientCultistSquidhead,
+				NPCID.AncientLight,
+				NPCID.DD2Betsy,
+				NPCID.Mimic,
+				NPCID.WyvernHead,
+				NPCID.SeekerHead,
+				NPCID.AnglerFish,
+				NPCID.Werewolf,
+				NPCID.Wraith,
+				NPCID.Arapaima,
+				NPCID.BlackRecluse,
+				NPCID.BlackRecluseWall,
+				NPCID.AngryTrapper,
+				NPCID.LihzahrdCrawler,
+				NPCID.PirateCaptain,
+				NPCID.FlyingSnake,
+				NPCID.Reaper,
+				NPCID.Paladin,
+				NPCID.BoneLee,
+				NPCID.MourningWood,
+				NPCID.PumpkingBlade,
+				NPCID.PresentMimic,
+				NPCID.Everscream,
+				NPCID.IceQueen,
+				NPCID.SantaNK1,
+				NPCID.StardustWormHead,
+				NPCID.Butcher,
+				NPCID.Psycho,
+				NPCID.DeadlySphere,
+				NPCID.BigMimicCorruption,
+				NPCID.BigMimicCrimson,
+				NPCID.BigMimicHallow,
+				NPCID.Mothron,
+				NPCID.DuneSplicerHead,
+				NPCID.SandShark,
+				NPCID.SandsharkCorrupt,
+				NPCID.SandsharkCrimson,
+				NPCID.SandsharkHallow,
+				ModContent.NPCType<Cryogen>(),
+				ModContent.NPCType<CryogenIce>(),
+				ModContent.NPCType<AquaticScourgeHead>(),
+				ModContent.NPCType<AquaticScourgeBody>(),
+				ModContent.NPCType<AquaticScourgeBodyAlt>(),
+				ModContent.NPCType<Calamitas>(),
+				ModContent.NPCType<CalamitasRun3>(),
+				ModContent.NPCType<CalamitasRun>(),
+				ModContent.NPCType<CalamitasRun2>(),
+				ModContent.NPCType<Parasea>(),
+				ModContent.NPCType<AquaticAberration>(),
+				ModContent.NPCType<Leviathan>(),
+				ModContent.NPCType<SirenIce>(),
+				ModContent.NPCType<Siren>(),
+				ModContent.NPCType<AstrumAureus>(),
+				ModContent.NPCType<PlaguebringerGoliath>(),
+				ModContent.NPCType<PlaguebringerShade>(),
+				ModContent.NPCType<PlagueHomingMissile>(),
+				ModContent.NPCType<PlagueBeeG>(),
+				ModContent.NPCType<PlagueBeeLargeG>(),
+				ModContent.NPCType<RavagerBody>(),
+				ModContent.NPCType<RavagerClawRight>(),
+				ModContent.NPCType<RavagerClawLeft>(),
+				ModContent.NPCType<ProfanedGuardianBoss2>(),
+				ModContent.NPCType<ProfanedGuardianBoss3>(),
+				ModContent.NPCType<Atlas>(),
+				ModContent.NPCType<ArmoredDiggerHead>(),
+				ModContent.NPCType<GreatSandShark>(),
+				ModContent.NPCType<Horse>(),
+				ModContent.NPCType<ScornEater>(),
+				ModContent.NPCType<BlindedAngler>()
+			};
 
-                ModContent.NPCType<AquaticScourgeHead>(),
-                ModContent.NPCType<AquaticScourgeBody>(),
-                ModContent.NPCType<AquaticScourgeBodyAlt>(),
-                ModContent.NPCType<AquaticScourgeTail>(),
+			// Enemies that inflict an average of 201 to 400 damage in Expert Mode
+			revengeanceEnemyBuffList10Percent = new List<int>()
+			{
+				NPCID.TheDestroyer,
+				NPCID.SolarCrawltipedeHead,
+				ModContent.NPCType<AstrumDeusHead>(),
+				ModContent.NPCType<AstrumDeusHeadSpectral>(),
+				ModContent.NPCType<ProfanedGuardianBoss>(),
+				ModContent.NPCType<Bumblefuck>(),
+				ModContent.NPCType<Bumblefuck2>(),
 
-                ModContent.NPCType<BrimstoneElemental>(),
-
-                ModContent.NPCType<Calamitas>(),
-                ModContent.NPCType<CalamitasRun3>(),
-                ModContent.NPCType<CalamitasRun>(),
-                ModContent.NPCType<CalamitasRun2>(),
-                ModContent.NPCType<LifeSeeker>(),
-                ModContent.NPCType<SoulSeeker>(),
-
-                ModContent.NPCType<Parasea>(),
-                ModContent.NPCType<AquaticAberration>(),
-                ModContent.NPCType<Leviathan>(),
-                ModContent.NPCType<SirenIce>(),
-                ModContent.NPCType<Siren>(),
-
-                ModContent.NPCType<AstrumAureus>(),
-
-                ModContent.NPCType<PlaguebringerGoliath>(),
-                ModContent.NPCType<PlaguebringerShade>(),
-                ModContent.NPCType<PlagueHomingMissile>(),
-                ModContent.NPCType<PlagueBeeG>(),
-                ModContent.NPCType<PlagueBeeLargeG>(),
-
-                ModContent.NPCType<FlamePillar>(),
-                ModContent.NPCType<RockPillar>(),
-                ModContent.NPCType<RavagerHead2>(),
-                ModContent.NPCType<RavagerBody>(),
-                ModContent.NPCType<RavagerClawRight>(),
-                ModContent.NPCType<RavagerClawLeft>(),
-
-                ModContent.NPCType<AstrumDeusHead>(),
-                ModContent.NPCType<AstrumDeusHeadSpectral>(),
-
-                ModContent.NPCType<ProfanedGuardianBoss>(),
-                ModContent.NPCType<ProfanedGuardianBoss2>(),
-                ModContent.NPCType<ProfanedGuardianBoss3>(),
-
-                ModContent.NPCType<Bumblefuck>(),
-                ModContent.NPCType<Bumblefuck2>(),
-
-                // TODO -- Old Duke isn't added yet.
+				// TODO -- Old Duke isn't added yet.
                 // ModContent.NPCType<OldDuke>(),
                 // ModContent.NPCType<DukeUrchin>(),
 
-                ModContent.NPCType<ProvSpawnDefense>(),
-                ModContent.NPCType<ProvSpawnOffense>(),
+				ModContent.NPCType<ProvSpawnDefense>(),
+				ModContent.NPCType<ProvSpawnOffense>(),
+				ModContent.NPCType<CeaselessVoid>(),
+				ModContent.NPCType<StormWeaverHead>(),
+				ModContent.NPCType<StormWeaverHeadNaked>(),
+				ModContent.NPCType<Signus>(),
+				ModContent.NPCType<CosmicLantern>(),
+				ModContent.NPCType<Polterghast>(),
+				ModContent.NPCType<PolterPhantom>(),
+				ModContent.NPCType<DevourerofGodsBody>(),
+				ModContent.NPCType<DevourerofGodsTail>(),
+				ModContent.NPCType<DevourerofGodsBodyS>(),
+				ModContent.NPCType<DevourerofGodsTailS>(),
+				ModContent.NPCType<DevourerofGodsHead2>(),
+				ModContent.NPCType<DetonatingFlare>(),
+				ModContent.NPCType<BobbitWormHead>(),
+				ModContent.NPCType<ColossalSquid>(),
+				ModContent.NPCType<EidolonWyrmHead>(),
+				ModContent.NPCType<GulperEelHead>(),
+				ModContent.NPCType<Mauler>(),
+				ModContent.NPCType<Reaper>()
+			};
 
-                ModContent.NPCType<CeaselessVoid>(),
+			// Enemies that inflict an average of 401+ damage in Expert Mode
+			revengeanceEnemyBuffList5Percent = new List<int>()
+			{
+				ModContent.NPCType<DevourerofGodsHead>(),
+				ModContent.NPCType<DevourerofGodsHeadS>(),
+				ModContent.NPCType<Yharon>(),
+				ModContent.NPCType<DetonatingFlare2>(),
+				ModContent.NPCType<SupremeCalamitas>()
+			};
 
-                ModContent.NPCType<StormWeaverHead>(),
-                ModContent.NPCType<StormWeaverHeadNaked>(),
-
-                ModContent.NPCType<Signus>(),
-                ModContent.NPCType<CosmicLantern>(),
-
-                ModContent.NPCType<Polterghast>(),
-                ModContent.NPCType<PolterPhantom>(),
-
-                ModContent.NPCType<DevourerofGodsHead>(),
-                ModContent.NPCType<DevourerofGodsBody>(),
-                ModContent.NPCType<DevourerofGodsTail>(),
-                ModContent.NPCType<DevourerofGodsHead2>(),
-                ModContent.NPCType<DevourerofGodsHeadS>(),
-                ModContent.NPCType<DevourerofGodsBodyS>(),
-                ModContent.NPCType<DevourerofGodsTailS>(),
-
-                ModContent.NPCType<Yharon>(),
-                ModContent.NPCType<DetonatingFlare>(),
-                ModContent.NPCType<DetonatingFlare2>(),
-
-                ModContent.NPCType<SupremeCalamitas>(),
-
-                ModContent.NPCType<BobbitWormHead>(),
-                ModContent.NPCType<AquaticSeekerHead>(),
-                ModContent.NPCType<ColossalSquid>(),
-                ModContent.NPCType<EidolonWyrmHead>(),
-                ModContent.NPCType<EidolonWyrmHeadHuge>(),
-                ModContent.NPCType<GulperEelHead>(),
-                ModContent.NPCType<Mauler>(),
-                ModContent.NPCType<Reaper>(),
-
-                ModContent.NPCType<Atlas>(),
-                ModContent.NPCType<ArmoredDiggerHead>(),
-                ModContent.NPCType<Cnidrion>(),
-                ModContent.NPCType<GreatSandShark>(),
-                ModContent.NPCType<Horse>(),
-                ModContent.NPCType<ScornEater>(),
-
-                ModContent.NPCType<PrismTurtle>(),
-                ModContent.NPCType<GhostBell>(),
-                ModContent.NPCType<EutrophicRay>(),
-                ModContent.NPCType<Clam>(),
-                ModContent.NPCType<SeaSerpent1>(),
-                ModContent.NPCType<BlindedAngler>(),
-                ModContent.NPCType<GiantClam>()
-            };
-
-            revengeanceProjectileBuffList = new List<int>()
+			revengeanceProjectileBuffList = new List<int>()
             {
                 ProjectileID.Sharknado,
                 ProjectileID.Cthulunado,
@@ -2535,26 +2521,26 @@ namespace CalamityMod
                 enemyImmunityList.Add(thorium.NPCType("Aquaius"));
                 enemyImmunityList.Add(thorium.NPCType("Aquaius2"));
 
-                revengeanceEnemyBuffList.Add(thorium.NPCType("TheGrandThunderBirdv2"));
-                revengeanceEnemyBuffList.Add(thorium.NPCType("QueenJelly"));
-                revengeanceEnemyBuffList.Add(thorium.NPCType("Viscount"));
-                revengeanceEnemyBuffList.Add(thorium.NPCType("GraniteEnergyStorm"));
-                revengeanceEnemyBuffList.Add(thorium.NPCType("TheBuriedWarrior"));
-                revengeanceEnemyBuffList.Add(thorium.NPCType("ThePrimeScouter"));
-                revengeanceEnemyBuffList.Add(thorium.NPCType("BoreanStrider"));
-                revengeanceEnemyBuffList.Add(thorium.NPCType("BoreanStriderPopped"));
-                revengeanceEnemyBuffList.Add(thorium.NPCType("FallenDeathBeholder"));
-                revengeanceEnemyBuffList.Add(thorium.NPCType("FallenDeathBeholder2"));
-                revengeanceEnemyBuffList.Add(thorium.NPCType("Lich"));
-                revengeanceEnemyBuffList.Add(thorium.NPCType("LichHeadless"));
-                revengeanceEnemyBuffList.Add(thorium.NPCType("Abyssion"));
-                revengeanceEnemyBuffList.Add(thorium.NPCType("AbyssionCracked"));
-                revengeanceEnemyBuffList.Add(thorium.NPCType("AbyssionReleased"));
-                revengeanceEnemyBuffList.Add(thorium.NPCType("SlagFury"));
-                revengeanceEnemyBuffList.Add(thorium.NPCType("Omnicide"));
-                revengeanceEnemyBuffList.Add(thorium.NPCType("RealityBreaker"));
-                revengeanceEnemyBuffList.Add(thorium.NPCType("Aquaius"));
-                revengeanceEnemyBuffList.Add(thorium.NPCType("Aquaius2"));
+                revengeanceEnemyBuffList25Percent.Add(thorium.NPCType("TheGrandThunderBirdv2"));
+				revengeanceEnemyBuffList25Percent.Add(thorium.NPCType("QueenJelly"));
+				revengeanceEnemyBuffList20Percent.Add(thorium.NPCType("Viscount"));
+				revengeanceEnemyBuffList20Percent.Add(thorium.NPCType("GraniteEnergyStorm"));
+				revengeanceEnemyBuffList20Percent.Add(thorium.NPCType("TheBuriedWarrior"));
+				revengeanceEnemyBuffList20Percent.Add(thorium.NPCType("ThePrimeScouter"));
+				revengeanceEnemyBuffList20Percent.Add(thorium.NPCType("BoreanStrider"));
+				revengeanceEnemyBuffList20Percent.Add(thorium.NPCType("BoreanStriderPopped"));
+				revengeanceEnemyBuffList15Percent.Add(thorium.NPCType("FallenDeathBeholder"));
+				revengeanceEnemyBuffList15Percent.Add(thorium.NPCType("FallenDeathBeholder2"));
+				revengeanceEnemyBuffList15Percent.Add(thorium.NPCType("Lich"));
+				revengeanceEnemyBuffList15Percent.Add(thorium.NPCType("LichHeadless"));
+				revengeanceEnemyBuffList15Percent.Add(thorium.NPCType("Abyssion"));
+				revengeanceEnemyBuffList15Percent.Add(thorium.NPCType("AbyssionCracked"));
+				revengeanceEnemyBuffList15Percent.Add(thorium.NPCType("AbyssionReleased"));
+				revengeanceEnemyBuffList15Percent.Add(thorium.NPCType("SlagFury"));
+				revengeanceEnemyBuffList15Percent.Add(thorium.NPCType("Omnicide"));
+				revengeanceEnemyBuffList15Percent.Add(thorium.NPCType("RealityBreaker"));
+				revengeanceEnemyBuffList15Percent.Add(thorium.NPCType("Aquaius"));
+				revengeanceEnemyBuffList15Percent.Add(thorium.NPCType("Aquaius2"));
 
                 revengeanceProjectileBuffList.Add(thorium.ProjectileType("GrandThunderBirdZap"));
                 revengeanceProjectileBuffList.Add(thorium.ProjectileType("ThunderGust"));

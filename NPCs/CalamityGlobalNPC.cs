@@ -929,7 +929,7 @@ namespace CalamityMod.NPCs
 
             if (npc.type == NPCID.CultistBoss)
             {
-                npc.lifeMax = (int)(npc.lifeMax * (CalamityWorld.revenge ? 1.7 : 1.2));
+                npc.lifeMax = (int)(npc.lifeMax * (CalamityWorld.revenge ? 2 : 1.2));
                 npc.npcSlots = 20f;
             }
 
@@ -985,12 +985,34 @@ namespace CalamityMod.NPCs
 
             if (CalamityWorld.revenge)
             {
-                if (CalamityMod.revengeanceEnemyBuffList.Contains(npc.type))
+				double damageMultiplier = 1D;
+                if (CalamityMod.revengeanceEnemyBuffList25Percent.Contains(npc.type))
                 {
-                    npc.damage = (int)(npc.damage * 1.25);
-                    npc.defDamage = npc.damage;
+					damageMultiplier += 0.25;
                 }
-            }
+				else if (CalamityMod.revengeanceEnemyBuffList20Percent.Contains(npc.type))
+				{
+					damageMultiplier += 0.2;
+				}
+				else if (CalamityMod.revengeanceEnemyBuffList15Percent.Contains(npc.type))
+				{
+					damageMultiplier += 0.15;
+				}
+				else if (CalamityMod.revengeanceEnemyBuffList10Percent.Contains(npc.type))
+				{
+					damageMultiplier += 0.1;
+				}
+				else if (CalamityMod.revengeanceEnemyBuffList5Percent.Contains(npc.type))
+				{
+					damageMultiplier += 0.05;
+				}
+
+				if (CalamityWorld.death)
+					damageMultiplier += (damageMultiplier - 1D) * 0.6;
+
+				npc.damage = (int)(npc.damage * damageMultiplier);
+				npc.defDamage = npc.damage;
+			}
 
             if ((npc.boss && npc.type != NPCID.MartianSaucerCore && npc.type < NPCID.Count) || CalamityMod.bossHPScaleList.Contains(npc.type))
             {

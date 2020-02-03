@@ -5803,8 +5803,6 @@ namespace CalamityMod.CalPlayer
             {
                 if (player.chaosState)
                     damageMult += 0.25;
-                if (CalamityWorld.death)
-                    damageMult += 0.15;
                 if (player.ichor)
                     damageMult += 0.25;
                 else if (player.onFire2)
