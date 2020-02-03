@@ -2032,7 +2032,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                         DropHelper.DropItemChance(player, ModContent.ItemType<BlastBarrel>(), 3);
                         DropHelper.DropItemChance(player, ModContent.ItemType<RogueEmblem>(), 4);
                         DropHelper.DropItemFromSetChance(player, 5, ItemID.CorruptionKey, ItemID.CrimsonKey);
-                        DropHelper.DropItem(player, ModContent.ItemType<MLGRune>()); // Demon Trophy
+                        DropHelper.DropItemCondition(player, ModContent.ItemType<MLGRune>(), !CalamityWorld.demonMode); // Demon Trophy
                         break;
 
                     // Destroyer

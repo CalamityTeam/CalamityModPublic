@@ -183,6 +183,11 @@ namespace CalamityMod.UI
                 NPCID.MoonLordHead,
                 NPCID.MoonLordHand,
                 NPCID.MoonLordCore,
+                NPCID.WyvernLegs,
+                NPCID.WyvernBody,
+                NPCID.WyvernBody2,
+                NPCID.WyvernBody3,
+                NPCID.WyvernTail,
                 ModContent.NPCType<AquaticScourgeBody>(),
                 ModContent.NPCType<AquaticScourgeBodyAlt>(),
                 ModContent.NPCType<AquaticScourgeTail>(),
@@ -218,6 +223,7 @@ namespace CalamityMod.UI
 
                 //Hardmode
                 NPCID.GoblinSummoner, //2000 HP
+				NPCID.WyvernHead,
                 NPCID.Paladin,
                 NPCID.IceGolem,
                 NPCID.SandElemental,

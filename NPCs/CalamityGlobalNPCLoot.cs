@@ -119,7 +119,7 @@ namespace CalamityMod.NPCs
             }
             else if (npc.type == NPCID.WallofFlesh)
             {
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<MLGRune>(), !Main.expertMode); // Demon Trophy
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<MLGRune>(), !Main.expertMode && !CalamityWorld.demonMode); // Demon Trophy
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<Meowthrower>(), !Main.expertMode, 5, 1, 1);
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<BlackHawkRemote>(), !Main.expertMode, 5, 1, 1);
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<BlastBarrel>(), !Main.expertMode, 5, 1, 1);

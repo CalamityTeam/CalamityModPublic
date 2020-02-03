@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Typeless
 			//Spawns the shockwave
 			Projectile.NewProjectile(projectile.position.X + 25, projectile.position.Y + 25, 0f, 0f, ModContent.ProjectileType<SabatonBoom>(), 300, 12, projectile.owner);
 			Main.PlaySound(2, projectile.position, 14);
-            Player player = Main.player[Main.myPlayer];
+            Player player = Main.player[projectile.owner];
             player.Calamity().gSabatonFall = 0;
 			projectile.Kill();
 			//Pretty things

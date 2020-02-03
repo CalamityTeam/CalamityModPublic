@@ -300,11 +300,8 @@ namespace CalamityMod.NPCs.TownNPCs
                 nextSlot++;
             }
             //:BearWatchingYou:
-            if (npcName == "Laura")
-            {
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<BearEye>());
-                nextSlot++;
-            }
+			shop.item[nextSlot].SetDefaults(ModContent.ItemType<BearEye>());
+			nextSlot++;
         }
 
         public override void HitEffect(int hitDirection, double damage)

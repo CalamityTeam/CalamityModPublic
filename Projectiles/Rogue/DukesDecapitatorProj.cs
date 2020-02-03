@@ -23,8 +23,8 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 60;
-            projectile.height = 64;
+            projectile.width = 30;
+            projectile.height = 30;
             projectile.friendly = true;
             projectile.penetrate = -1;
             projectile.timeLeft = 600;
@@ -37,7 +37,8 @@ namespace CalamityMod.Projectiles.Rogue
 		public override void AI()
         {
             CalamityPlayer modPlayer = Main.player[projectile.owner].Calamity();
-			if(projectile.velocity.X != 0 || projectile.velocity.Y != 0){
+			if(projectile.velocity.X != 0 || projectile.velocity.Y != 0)
+			{
 				projectile.velocity.X *= 0.99f;
 				projectile.velocity.Y *= 0.99f;
 			}

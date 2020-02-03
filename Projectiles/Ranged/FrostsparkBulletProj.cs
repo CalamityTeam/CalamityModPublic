@@ -67,9 +67,9 @@ namespace CalamityMod.Projectiles.Ranged
         {
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 27);
 
-            projectile.damage /= 2;
+            projectile.damage /= 3;
             projectile.position = projectile.Center;
-            projectile.width = projectile.height = 32;
+            projectile.width = projectile.height = 24;
             projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
             projectile.maxPenetrate = -1;
