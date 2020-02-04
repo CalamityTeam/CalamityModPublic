@@ -4395,12 +4395,28 @@ namespace CalamityMod.NPCs
                             if (CalamityWorld.bossRushActive)
                                 projectileSpeed *= 1.25f;
 
+							// Count homing lasers
+							int homingLaserLimit = death ? 3 : 2;
+							int homingLasersActive = 0;
+							bool shouldFireHomingLaser = true;
+							for (int i = 0; i < Main.maxProjectiles; i++)
+							{
+								if (Main.projectile[i].type == ModContent.ProjectileType<DestroyerHomingLaser>())
+									homingLasersActive++;
+
+								if (homingLasersActive >= homingLaserLimit)
+								{
+									shouldFireHomingLaser = false;
+									break;
+								}
+							}
+
                             // Set projectile damage and type, set projectile to saucer scrap if probe has been launched
                             int damage = 23;
                             int projectileType = ProjectileID.DeathLaser;
                             if (npc.ai[2] == 0f || Main.rand.NextBool(2))
                             {
-                                if (phase3 || calamityGlobalNPC.newAI[2] > 0f)
+                                if ((phase3 && shouldFireHomingLaser) || calamityGlobalNPC.newAI[2] > 0f)
                                 {
                                     damage += 4;
                                     projectileType = ModContent.ProjectileType<DestroyerHomingLaser>();
