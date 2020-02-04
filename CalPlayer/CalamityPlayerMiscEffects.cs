@@ -8,6 +8,7 @@ using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Buffs.Summon;
 using CalamityMod.Dusts;
+using CalamityMod.Items.Armor;
 using CalamityMod.Items.Fishing.AstralCatches;
 using CalamityMod.Items.Fishing.FishingRods;
 using CalamityMod.NPCs;
@@ -722,6 +723,8 @@ namespace CalamityMod.CalPlayer
 				modPlayer.plaguedFuelPackCooldown--;
 			if (modPlayer.plaguedFuelPackDash > 0)
 				modPlayer.plaguedFuelPackDash--;
+			if (modPlayer.theBeeCooldown > 0)
+				modPlayer.theBeeCooldown--;
 			if (modPlayer.jellyDmg > 0f)
 				modPlayer.jellyDmg -= 1f;
 			if (modPlayer.ataxiaDmg > 0f)
@@ -2757,9 +2760,9 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.frostFlare)
 			{
 				player.resistCold = true;
-				player.buffImmune[44] = true;
-				player.buffImmune[46] = true;
-				player.buffImmune[47] = true;
+				player.buffImmune[BuffID.Frostburn] = true;
+				player.buffImmune[BuffID.Chilled] = true;
+				player.buffImmune[BuffID.Frozen] = true;
 
 				if (player.statLife > (int)(player.statLifeMax2 * 0.75))
 					player.allDamage += 0.1f;
@@ -3100,6 +3103,27 @@ namespace CalamityMod.CalPlayer
 							break;
 						}
 					}
+				}
+			}
+
+			if (modPlayer.theBee)
+			{
+				if (player.statLife >= player.statLifeMax2)
+				{
+					float beeBoost = player.endurance / 2f;
+					player.allDamage += beeBoost;
+				}
+			}
+
+			if (modPlayer.badgeOfBravery)
+			{
+				if ((player.armor[0].type == ModContent.ItemType<TarragonHelmet>() || player.armor[0].type == ModContent.ItemType<TarragonHelm>() ||
+					player.armor[0].type == ModContent.ItemType<TarragonHornedHelm>() || player.armor[0].type == ModContent.ItemType<TarragonMask>() ||
+					player.armor[0].type == ModContent.ItemType<TarragonVisage>()) &&
+					player.armor[1].type == ModContent.ItemType<TarragonBreastplate>() && player.armor[2].type == ModContent.ItemType<TarragonLeggings>())
+				{
+					player.meleeDamage += 0.1f;
+					player.meleeCrit += 5;
 				}
 			}
 

@@ -10,9 +10,9 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("The Bee");
             Tooltip.SetDefault("Causes stars to fall and releases bees when injured\n" +
-                                "All projectiles gain bonus damage if you are at full HP\n" +
-                                "The amount of bonus damage is based on your weapon's damage and fire rate\n" +
-                                "Does not work with summons or sentries");
+							   "When at full HP, your damage is increased based on your damage reduction\n" +
+                               "Damage taken at full HP is halved\n" +
+							   "This has a 10 second cooldown");
         }
 
         public override void SetDefaults()
@@ -27,8 +27,6 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.starCloak = true;
-            player.bee = true;
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.theBee = true;
         }
