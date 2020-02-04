@@ -15,7 +15,8 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("Ranged projectiles have a chance to split\n" +
                 "Ranged weapons have a chance to instantly kill normal enemies\n" +
                 "10% increased ranged damage and 5% increased ranged critical strike chance\n" +
-                "20% reduced ammo usage and increased life regen, minion knockback, defense, and pick speed");
+                "20% reduced ammo usage and increased life regen, minion knockback, defense, and pick speed\n" +
+				"Greatly increases arrow speed and grants a 20% chance to not consume arrows");
         }
 
         public override void SetDefaults()
