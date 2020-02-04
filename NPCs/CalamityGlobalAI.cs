@@ -3125,14 +3125,23 @@ namespace CalamityMod.NPCs
 
                     int num155 = NPC.NewNPC((int)(npc.position.X + (float)(npc.width / 2)), (int)npc.position.Y + npc.height / 2, NPCID.SkeletronHand, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
                     Main.npc[num155].ai[0] = -1f;
+
+					if (death)
+						Main.npc[num155].Calamity().newAI[0] = -1f;
+
                     Main.npc[num155].ai[1] = (float)npc.whoAmI;
+					Main.npc[num155].ai[3] = (death ? -75f : 0f);
                     Main.npc[num155].target = npc.target;
                     Main.npc[num155].netUpdate = true;
 
                     num155 = NPC.NewNPC((int)(npc.position.X + (float)(npc.width / 2)), (int)npc.position.Y + npc.height / 2, NPCID.SkeletronHand, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
                     Main.npc[num155].ai[0] = 1f;
-                    Main.npc[num155].ai[1] = (float)npc.whoAmI;
-                    Main.npc[num155].ai[3] = 150f;
+
+					if (death)
+						Main.npc[num155].Calamity().newAI[0] = -1f;
+
+					Main.npc[num155].ai[1] = (float)npc.whoAmI;
+                    Main.npc[num155].ai[3] = (death ? 75f : 150f);
                     Main.npc[num155].target = npc.target;
                     Main.npc[num155].netUpdate = true;
                 }
@@ -3523,7 +3532,13 @@ namespace CalamityMod.NPCs
 
         public static bool BuffedSkeletronHandAI(NPC npc, bool enraged, Mod mod)
         {
-            npc.spriteDirection = -(int)npc.ai[0];
+			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
+
+			float yMultiplier = 1f;
+			if (calamityGlobalNPC.newAI[0] != 0f)
+				yMultiplier = calamityGlobalNPC.newAI[0];
+
+			npc.spriteDirection = -(int)npc.ai[0];
             if (!Main.npc[(int)npc.ai[1]].active || Main.npc[(int)npc.ai[1]].aiStyle != 11)
             {
                 npc.ai[2] += 10f;
@@ -3543,7 +3558,7 @@ namespace CalamityMod.NPCs
                 {
                     float maxX = CalamityWorld.bossRushActive ? 6f : 7f;
                     float maxY = CalamityWorld.bossRushActive ? 4.5f : 5f;
-                    if (npc.position.Y > Main.npc[(int)npc.ai[1]].position.Y - 100f)
+                    if (npc.position.Y > Main.npc[(int)npc.ai[1]].position.Y - 100f * yMultiplier)
                     {
                         if (npc.velocity.Y > 0f)
                             npc.velocity.Y *= 0.96f;
@@ -3551,7 +3566,7 @@ namespace CalamityMod.NPCs
                         if (npc.velocity.Y > maxY)
                             npc.velocity.Y = maxY;
                     }
-                    else if (npc.position.Y < Main.npc[(int)npc.ai[1]].position.Y - 100f)
+                    else if (npc.position.Y < Main.npc[(int)npc.ai[1]].position.Y - 100f * yMultiplier)
                     {
                         if (npc.velocity.Y < 0f)
                             npc.velocity.Y *= 0.96f;
@@ -3591,7 +3606,7 @@ namespace CalamityMod.NPCs
                     float maxX = CalamityWorld.bossRushActive ? 6f : 7f;
                     float maxY = CalamityWorld.bossRushActive ? 2f : 2.5f;
 
-                    if (npc.position.Y > Main.npc[(int)npc.ai[1]].position.Y + 230f)
+                    if (npc.position.Y > Main.npc[(int)npc.ai[1]].position.Y + 230f * yMultiplier)
                     {
                         if (npc.velocity.Y > 0f)
                             npc.velocity.Y *= 0.92f;
@@ -3599,7 +3614,7 @@ namespace CalamityMod.NPCs
                         if (npc.velocity.Y > maxY)
                             npc.velocity.Y = maxY;
                     }
-                    else if (npc.position.Y < Main.npc[(int)npc.ai[1]].position.Y + 230f)
+                    else if (npc.position.Y < Main.npc[(int)npc.ai[1]].position.Y + 230f * yMultiplier)
                     {
                         if (npc.velocity.Y < 0f)
                             npc.velocity.Y *= 0.92f;
