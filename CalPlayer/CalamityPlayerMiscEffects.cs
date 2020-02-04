@@ -2154,6 +2154,11 @@ namespace CalamityMod.CalPlayer
 				player.lavaMax += 240;
 			}
 
+			if (modPlayer.eQuiver)
+			{
+				player.magicQuiver = true;
+			}
+
 			if (modPlayer.fabsolVodka)
 			{
 				player.allDamage += 0.08f;
