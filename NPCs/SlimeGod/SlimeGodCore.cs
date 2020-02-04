@@ -16,6 +16,7 @@ using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -64,7 +65,17 @@ namespace CalamityMod.NPCs.SlimeGod
             bossBag = ModContent.ItemType<SlimeGodBag>();
         }
 
-        public override void AI()
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(npc.dontTakeDamage);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			npc.dontTakeDamage = reader.ReadBoolean();
+		}
+
+		public override void AI()
         {
             CalamityGlobalNPC.slimeGod = npc.whoAmI;
             bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
@@ -84,23 +95,27 @@ namespace CalamityMod.NPCs.SlimeGod
             Main.dust[num658].noGravity = true;
             Main.dust[num658].velocity *= 0.5f;
             bool flag100 = false;
-            if (!death)
-            {
-                if (CalamityGlobalNPC.slimeGodRed != -1)
-                {
-                    if (Main.npc[CalamityGlobalNPC.slimeGodRed].active)
-                    {
-                        flag100 = true;
-                    }
-                }
-                if (CalamityGlobalNPC.slimeGodPurple != -1)
-                {
-                    if (Main.npc[CalamityGlobalNPC.slimeGodPurple].active)
-                    {
-                        flag100 = true;
-                    }
-                }
-            }
+			npc.dontTakeDamage = false;
+			if (CalamityGlobalNPC.slimeGodRed != -1)
+			{
+				if (Main.npc[CalamityGlobalNPC.slimeGodRed].active)
+				{
+					if (!death)
+						flag100 = true;
+					else
+						npc.dontTakeDamage = true;
+				}
+			}
+			if (CalamityGlobalNPC.slimeGodPurple != -1)
+			{
+				if (Main.npc[CalamityGlobalNPC.slimeGodPurple].active)
+				{
+					if (!death)
+						flag100 = true;
+					else
+						npc.dontTakeDamage = true;
+				}
+			}
             if (!player.active || player.dead)
             {
                 npc.TargetClosest(false);

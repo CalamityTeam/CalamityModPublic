@@ -488,7 +488,7 @@ namespace CalamityMod.NPCs.Signus
                 npc.spriteDirection = Math.Sign(npc.velocity.X);
                 if (chargeSwitch == 0) //line up the charge
                 {
-                    float scaleFactor6 = 16f;
+                    float scaleFactor6 = death ? 16f : 14f;
                     Vector2 center5 = player.Center;
                     Vector2 vector126 = center5 - vectorCenter;
                     Vector2 vector127 = vector126 - Vector2.UnitY * 300f;

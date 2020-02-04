@@ -136,17 +136,17 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 float num786 = (float)Math.Sqrt((double)(num784 * num784 + num785 * num785));
                 if (num786 > 90f)
                 {
-                    num786 = 24f / num786; //8f
+                    num786 = 21f / num786; //8f
                     num784 *= num786;
                     num785 *= num786;
                     npc.velocity.X = (npc.velocity.X * 15f + num784) / 16f;
                     npc.velocity.Y = (npc.velocity.Y * 15f + num785) / 16f;
                     return;
                 }
-                if (Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y) < 24f) //8f
+                if (Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y) < 21f) //8f
                 {
-                    npc.velocity.Y = npc.velocity.Y * 1.15f; //1.05f
-                    npc.velocity.X = npc.velocity.X * 1.15f; //1.05f
+                    npc.velocity.Y = npc.velocity.Y * 1.12f; //1.05f
+                    npc.velocity.X = npc.velocity.X * 1.12f; //1.05f
                 }
                 if (Main.netMode != NetmodeID.MultiplayerClient && ((expertMode && Main.rand.NextBool(50)) || Main.rand.NextBool(100)))
                 {
@@ -155,19 +155,18 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     num784 = player.Center.X - vector96.X;
                     num785 = player.Center.Y - vector96.Y;
                     num786 = (float)Math.Sqrt((double)(num784 * num784 + num785 * num785));
-                    num786 = 24f / num786; //8f
+                    num786 = 21f / num786; //8f
                     npc.velocity.X = num784 * num786;
                     npc.velocity.Y = num785 * num786;
                     npc.ai[0] = 1f;
                     npc.netUpdate = true;
-                    return;
                 }
             }
             else
             {
                 Vector2 value4 = player.Center - npc.Center;
                 value4.Normalize();
-                value4 *= 27f; //9f
+                value4 *= 22f; //9f
                 npc.velocity = (npc.velocity * 99f + value4) / 100f;
                 Vector2 vector97 = new Vector2(npc.Center.X, npc.Center.Y);
                 float num787 = Main.npc[CalamityGlobalNPC.doughnutBoss].Center.X - vector97.X;
@@ -176,7 +175,6 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 if (num789 > 700f)
                 {
                     npc.ai[0] = 0f;
-                    return;
                 }
             }
             if (Main.netMode != NetmodeID.MultiplayerClient)

@@ -66,7 +66,7 @@ namespace CalamityMod.NPCs.SlimeGod
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
 			Vector2 vector = npc.Center;
             bool flag100 = false;
-            bool hyperMode = false;
+            bool hyperMode = death;
             if (CalamityGlobalNPC.slimeGodRed != -1)
             {
                 if (Main.npc[CalamityGlobalNPC.slimeGodRed].active)
@@ -84,72 +84,66 @@ namespace CalamityMod.NPCs.SlimeGod
                 npc.localAI[0] += flag100 ? 1f : 2f;
                 if (expertMode && Main.rand.NextBool(2))
                 {
-                    if (npc.localAI[0] >= 600f)
-                    {
-                        npc.localAI[0] = 0f;
-                        npc.TargetClosest(true);
-                        if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
-                        {
-                            float num179 = CalamityWorld.bossRushActive ? 12f : 8f;
-                            Vector2 value9 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-                            float num180 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - value9.X;
-                            float num181 = Math.Abs(num180) * 0.1f;
-                            float num182 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - value9.Y - num181;
-                            float num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
-                            npc.netUpdate = true;
-                            num183 = num179 / num183;
-                            num180 *= num183;
-                            num182 *= num183;
-                            int num184 = 24;
-                            int num185 = ModContent.ProjectileType<AbyssMine>();
-                            value9.X += num180;
-                            value9.Y += num182;
-                            num180 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - value9.X;
-                            num182 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - value9.Y;
-                            num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
-                            num183 = num179 / num183;
-                            num180 += (float)Main.rand.Next(-30, 31);
-                            num182 += (float)Main.rand.Next(-30, 31);
-                            num180 *= num183;
-                            num182 *= num183;
-                            Projectile.NewProjectile(value9.X, value9.Y, num180, num182, num185, num184, 0f, Main.myPlayer, 0f, 0f);
-                        }
-                    }
+					if (npc.localAI[0] >= 600f)
+					{
+						npc.localAI[0] = 0f;
+						npc.TargetClosest(true);
+						float num179 = CalamityWorld.bossRushActive ? 12f : 8f;
+						Vector2 value9 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
+						float num180 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - value9.X;
+						float num181 = Math.Abs(num180) * 0.1f;
+						float num182 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - value9.Y - num181;
+						float num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
+						npc.netUpdate = true;
+						num183 = num179 / num183;
+						num180 *= num183;
+						num182 *= num183;
+						int num184 = 24;
+						int num185 = ModContent.ProjectileType<AbyssMine>();
+						value9.X += num180;
+						value9.Y += num182;
+						num180 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - value9.X;
+						num182 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - value9.Y;
+						num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
+						num183 = num179 / num183;
+						num180 += (float)Main.rand.Next(-30, 31);
+						num182 += (float)Main.rand.Next(-30, 31);
+						num180 *= num183;
+						num182 *= num183;
+						Projectile.NewProjectile(value9.X, value9.Y, num180, num182, num185, num184, 0f, Main.myPlayer, 0f, 0f);
+					}
                 }
-                if (npc.localAI[0] >= 600f)
-                {
-                    npc.localAI[0] = 0f;
-                    npc.TargetClosest(true);
-                    if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
-                    {
-                        float num179 = CalamityWorld.bossRushActive ? 12f : 8f;
-                        Vector2 value9 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-                        float num180 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - value9.X;
-                        float num181 = Math.Abs(num180) * 0.1f;
-                        float num182 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - value9.Y - num181;
-                        float num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
-                        npc.netUpdate = true;
-                        num183 = num179 / num183;
-                        num180 *= num183;
-                        num182 *= num183;
-                        int num184 = expertMode ? 17 : 21;
-                        int num185 = ModContent.ProjectileType<AbyssBallVolley>();
-                        value9.X += num180;
-                        value9.Y += num182;
-                        for (int num186 = 0; num186 < 2; num186++)
-                        {
-                            num180 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - value9.X;
-                            num182 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - value9.Y;
-                            num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
-                            num183 = num179 / num183;
-                            num180 += (float)Main.rand.Next(-20, 21);
-                            num182 += (float)Main.rand.Next(-20, 21);
-                            num180 *= num183;
-                            num182 *= num183;
-                            Projectile.NewProjectile(value9.X, value9.Y, num180, num182, num185, num184, 0f, Main.myPlayer, 0f, 0f);
-                        }
-                    }
-                }
+				if (npc.localAI[0] >= 600f)
+				{
+					npc.localAI[0] = 0f;
+					npc.TargetClosest(true);
+					float num179 = CalamityWorld.bossRushActive ? 12f : 8f;
+					Vector2 value9 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
+					float num180 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - value9.X;
+					float num181 = Math.Abs(num180) * 0.1f;
+					float num182 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - value9.Y - num181;
+					float num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
+					npc.netUpdate = true;
+					num183 = num179 / num183;
+					num180 *= num183;
+					num182 *= num183;
+					int num184 = expertMode ? 17 : 21;
+					int num185 = ModContent.ProjectileType<AbyssBallVolley>();
+					value9.X += num180;
+					value9.Y += num182;
+					for (int num186 = 0; num186 < 2; num186++)
+					{
+						num180 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - value9.X;
+						num182 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - value9.Y;
+						num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
+						num183 = num179 / num183;
+						num180 += (float)Main.rand.Next(-20, 21);
+						num182 += (float)Main.rand.Next(-20, 21);
+						num180 *= num183;
+						num182 *= num183;
+						Projectile.NewProjectile(value9.X, value9.Y, num180, num182, num185, num184, 0f, Main.myPlayer, 0f, 0f);
+					}
+				}
             }
             npc.aiAction = 0;
             npc.noTileCollide = false;

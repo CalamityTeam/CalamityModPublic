@@ -3952,7 +3952,7 @@ namespace CalamityMod.NPCs
                 speedMult += 0.7f;
 
 			// NOTE: Max velocity is 8 in expert mode
-			float velocityBoost = death ? 4f : 4f * (1f - lifeRatio);
+			float velocityBoost = death ? 3.5f : 4f * (1f - lifeRatio);
             float velocityX = 2f + velocityBoost;
             velocityX *= speedMult;
             if (CalamityWorld.bossRushActive)
@@ -4184,7 +4184,7 @@ namespace CalamityMod.NPCs
                 // Percent life remaining
                 float lifeRatio = (float)Main.npc[Main.wof].life / (float)Main.npc[Main.wof].lifeMax;
 
-				float shootBoost = death ? 4f : 4f * (1f - lifeRatio);
+				float shootBoost = death ? 3f : 4f * (1f - lifeRatio);
 				npc.localAI[1] += 1f + shootBoost;
 
                 if (npc.localAI[2] == 0f)
@@ -4752,7 +4752,7 @@ namespace CalamityMod.NPCs
             if (CalamityGlobalNPC.fireEye != -1)
                 spazAlive = Main.npc[CalamityGlobalNPC.fireEye].active;
 
-            bool enrage = (double)npc.life < (double)npc.lifeMax * 0.25 || death;
+            bool enrage = (double)npc.life < (double)npc.lifeMax * (death ? 0.5 : 0.25);
 
             // I'm not commenting this entire fucking thing, already did spaz, I'm not doing ret
             if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -5441,7 +5441,7 @@ namespace CalamityMod.NPCs
             if (CalamityGlobalNPC.laserEye != -1)
                 retAlive = Main.npc[CalamityGlobalNPC.laserEye].active;
 
-            bool enrage = (double)npc.life < (double)npc.lifeMax * 0.25 || death;
+            bool enrage = (double)npc.life < (double)npc.lifeMax * (death ? 0.5 : 0.25);
 
             // Get a target
             if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -7897,7 +7897,7 @@ namespace CalamityMod.NPCs
 
             // Phases based on HP
             bool phase2 = lifeRatio <= 0.5f;
-            bool phase3 = lifeRatio < 0.25f || death;
+            bool phase3 = lifeRatio < 0.25f || (death && phase2);
 
             // Variables and target
             bool enrage = false;
@@ -9309,7 +9309,7 @@ namespace CalamityMod.NPCs
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
             bool phase2 = lifeRatio < 0.7f || golemLifeRatio < 0.85f || death;
             bool phase3 = lifeRatio < 0.4f || golemLifeRatio < 0.7f || death;
-            bool phase4 = lifeRatio < 0.1f || golemLifeRatio < 0.55f || death;
+            bool phase4 = lifeRatio < 0.1f || golemLifeRatio < 0.55f;
 
 			// Float through tiles or not
 			bool flag44 = false;
@@ -9485,6 +9485,18 @@ namespace CalamityMod.NPCs
                 }
             }
 
+			if (death && calamityGlobalNPC.newAI[2] < 120f)
+			{
+				calamityGlobalNPC.newAI[2] += 1f;
+
+				NetMessage.SendData(23, -1, -1, null, npc.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+
+				if (ModLoader.GetMod("FargowiltasSouls") != null)
+					ModLoader.GetMod("FargowiltasSouls").Call("FargoSoulsAI", npc.whoAmI);
+
+				return false;
+			}
+
 			// Fireballs
 			float shootBoost = death ? 4f : 2f * (2f - (lifeRatio + golemLifeRatio));
             npc.ai[1] += 1f + shootBoost;
@@ -9637,6 +9649,14 @@ namespace CalamityMod.NPCs
                 chargeVelocity = 21f;
             }
 
+			if (death)
+			{
+				num2 = 28;
+				num3 *= 1.05f;
+				scaleFactor *= 1.08f;
+				chargeTime -= 1;
+				chargeVelocity *= 1.13f;
+			}
             if (CalamityWorld.bossRushActive)
             {
                 num2 = 25;
@@ -12384,7 +12404,9 @@ namespace CalamityMod.NPCs
                     else if (num1207 < num1208 - 15f)
                     {
                         float rotation = CalamityWorld.bossRushActive ? 480f : 510f;
-						if (calamityGlobalNPC.newAI[0] == 1f || death)
+						if (calamityGlobalNPC.newAI[0] == 1f)
+							rotation -= 90f;
+						if (death)
 							rotation -= 60f;
 
 						int damage = 95;
@@ -20624,6 +20646,7 @@ namespace CalamityMod.NPCs
 		#region Flying Weapon AI
 		public static bool BuffedFlyingWeaponAI(NPC npc, Mod mod)
 		{
+			npc.knockBackResist = 0f;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
 			if (npc.type == 83)

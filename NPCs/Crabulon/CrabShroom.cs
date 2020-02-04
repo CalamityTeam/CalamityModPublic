@@ -47,7 +47,7 @@ namespace CalamityMod.NPCs.Crabulon
             bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
             float speed = revenge ? 1.5f : 1f;
             Player player = Main.player[npc.target];
-            npc.velocity.Y = npc.velocity.Y + 0.02f;
+            npc.velocity.Y += 0.02f;
             if (npc.velocity.Y > speed)
             {
                 npc.velocity.Y = speed;
@@ -57,21 +57,21 @@ namespace CalamityMod.NPCs.Crabulon
             {
                 if (npc.velocity.X < 0f)
                 {
-                    npc.velocity.X = npc.velocity.X * 0.98f;
+                    npc.velocity.X *= 0.98f;
                 }
-                npc.velocity.X = npc.velocity.X + (CalamityWorld.bossRushActive ? 0.2f : 0.1f);
+                npc.velocity.X += (CalamityWorld.bossRushActive ? 0.2f : 0.1f);
             }
             else if (npc.position.X > player.position.X + (float)player.width)
             {
                 if (npc.velocity.X > 0f)
                 {
-                    npc.velocity.X = npc.velocity.X * 0.98f;
+                    npc.velocity.X *= 0.98f;
                 }
-                npc.velocity.X = npc.velocity.X - (CalamityWorld.bossRushActive ? 0.2f : 0.1f);
+                npc.velocity.X -= (CalamityWorld.bossRushActive ? 0.2f : 0.1f);
             }
             if (npc.velocity.X > (CalamityWorld.bossRushActive ? 15f : 5f) || npc.velocity.X < (CalamityWorld.bossRushActive ? -15f : -5f))
             {
-                npc.velocity.X = npc.velocity.X * 0.97f;
+                npc.velocity.X *= 0.97f;
             }
             npc.rotation = npc.velocity.X * 0.1f;
         }

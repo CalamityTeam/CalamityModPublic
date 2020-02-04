@@ -109,7 +109,8 @@ namespace CalamityMod.NPCs
 					if (calamityGlobalNPC.newAI[3] >= ai3 + 180f)
 					{
 						calamityGlobalNPC.newAI[3] = 0f;
-						npc.velocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * 12f;
+						float chargeVelocity = death ? 16f : 12f;
+						npc.velocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * chargeVelocity;
 					}
 				}
 				else
@@ -123,7 +124,7 @@ namespace CalamityMod.NPCs
 					// Spawn segments
 					if (calamityGlobalNPC.newAI[2] == 0f && npc.ai[0] == 0f)
 					{
-						int maxLength = 31;
+						int maxLength = death ? 41 : 31;
 						int Previous = npc.whoAmI;
 						for (int num36 = 0; num36 < maxLength; num36++)
 						{
@@ -186,6 +187,8 @@ namespace CalamityMod.NPCs
 									int iBoom;
 									int damageBoom = Main.expertMode ? 23 : 28;
 									float velocity = revenge ? 7.5f : 6.5f;
+									if (death)
+										velocity += 2f;
 									if (CalamityWorld.bossRushActive)
 										velocity = 11f;
 
@@ -209,6 +212,8 @@ namespace CalamityMod.NPCs
 										Vector2 vector15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
 										vector15.Normalize();
 										vector15 *= (float)Main.rand.Next(50, 401) * (CalamityWorld.bossRushActive ? 0.02f : 0.01f);
+										if (death)
+											vector15 *= 1.1f;
 										Projectile.NewProjectile(npc.Center.X, npc.Center.Y, vector15.X, vector15.Y, ModContent.ProjectileType<SandPoisonCloud>(), damageBoom, 0f, Main.myPlayer, 0f, (float)Main.rand.Next(-45, 1));
 										num3 = num321;
 									}
@@ -410,6 +415,11 @@ namespace CalamityMod.NPCs
 					{
 						num188 = 22f;
 						num189 = 0.24f;
+					}
+					if (death)
+					{
+						num188 += 1f;
+						num189 += 0.02f;
 					}
 				}
 
@@ -1296,6 +1306,11 @@ namespace CalamityMod.NPCs
 					num823 = expertMode ? 10f : 8.5f;
 					num824 = expertMode ? 0.18f : 0.155f;
 				}
+				if (death)
+				{
+					num823 += 1f;
+					num824 += 0.02f;
+				}
 				if (provy)
 				{
 					num823 *= 1.25f;
@@ -1429,6 +1444,11 @@ namespace CalamityMod.NPCs
 					num832 = expertMode ? 10f : 8.5f;
 					num833 = expertMode ? 0.255f : 0.205f;
 				}
+				if (death)
+				{
+					num832 += 1f;
+					num833 += 0.02f;
+				}
 				if (provy)
 				{
 					num832 *= 1.25f;
@@ -1554,6 +1574,7 @@ namespace CalamityMod.NPCs
 
 			CalamityGlobalNPC.cataclysm = npc.whoAmI;
 
+			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
 			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
 			bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
 			bool dayTime = Main.dayTime && !CalamityWorld.bossRushActive;
@@ -1740,9 +1761,11 @@ namespace CalamityMod.NPCs
 
 					float num870 = 14f;
 					if (expertMode)
-						num870 += 2.5f;
+						num870 += 2f;
 					if (revenge)
-						num870 += 2.5f;
+						num870 += 2f;
+					if (death)
+						num870 += 2f;
 					if (calamityGlobalNPC.enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
 						num870 += 4f;
 					if (provy)
@@ -1765,9 +1788,9 @@ namespace CalamityMod.NPCs
 				{
 					npc.ai[2] += 1f;
 					if (expertMode)
-						npc.ai[2] += 0.5f;
+						npc.ai[2] += 0.25f;
 					if (revenge)
-						npc.ai[2] += 0.5f;
+						npc.ai[2] += 0.25f;
 					if (CalamityWorld.bossRushActive)
 						npc.ai[2] += 0.25f;
 
@@ -1808,6 +1831,7 @@ namespace CalamityMod.NPCs
 
 			CalamityGlobalNPC.catastrophe = npc.whoAmI;
 
+			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
 			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
 			bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
 			bool dayTime = Main.dayTime && !CalamityWorld.bossRushActive;
@@ -1994,9 +2018,11 @@ namespace CalamityMod.NPCs
 
 					float num870 = 16f;
 					if (expertMode)
-						num870 += 2.5f;
+						num870 += 2f;
 					if (revenge)
-						num870 += 2.5f;
+						num870 += 2f;
+					if (death)
+						num870 += 2f;
 					if (calamityGlobalNPC.enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
 						num870 += 4f;
 					if (provy)
@@ -2019,9 +2045,9 @@ namespace CalamityMod.NPCs
 				{
 					npc.ai[2] += 1f;
 					if (expertMode)
-						npc.ai[2] += 0.5f;
+						npc.ai[2] += 0.25f;
 					if (revenge)
-						npc.ai[2] += 0.5f;
+						npc.ai[2] += 0.25f;
 					if (CalamityWorld.bossRushActive)
 						npc.ai[2] += 0.25f;
 
@@ -3656,6 +3682,8 @@ namespace CalamityMod.NPCs
 							npc.ai[0] = 4f;
 							Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 102);
 							int featherAmt = phase2 ? 3 : 6;
+							if (death)
+								featherAmt *= 2;
 							for (int num186 = 0; num186 < featherAmt; num186++)
 							{
 								Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)Main.rand.Next(-4, 5), -3f, ModContent.ProjectileType<RedLightningFeather>(), damage, 0f, Main.myPlayer, 0f, 0f);
