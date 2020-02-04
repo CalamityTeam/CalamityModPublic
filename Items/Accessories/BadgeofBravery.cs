@@ -11,7 +11,8 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Badge of Bravery");
-            Tooltip.SetDefault("15% increased melee speed");
+            Tooltip.SetDefault("15% increased melee speed\n" +
+							   "Wearing Uelibloom armor increases melee damage, crit, and armor penetration");
         }
 
         public override void SetDefaults()
@@ -37,14 +38,6 @@ namespace CalamityMod.Items.Accessories
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
-        }
-
-        public override void OnCraft(Recipe recipe)
-        {
-            if (Main.rand.NextBool(40))
-                recipe.createItem.type = ModContent.ItemType<SamuraiBadge>();
-            else
-                recipe.createItem.type = item.type;
         }
     }
 }

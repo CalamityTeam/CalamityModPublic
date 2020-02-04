@@ -4564,6 +4564,21 @@ namespace CalamityMod.CalPlayer
                 damage = (int)(damage * diceMult);
             }
             #endregion
+			
+			#Additive Boosts
+            if (item.melee && badgeOfBravery)
+            {
+				if ((player.armor[0].type == ModContent.ItemType<TarragonHelmet>() || player.armor[0].type == ModContent.ItemType<TarragonHelm>() ||
+					player.armor[0].type == ModContent.ItemType<TarragonHornedHelm>() || player.armor[0].type == ModContent.ItemType<TarragonMask>() ||
+					player.armor[0].type == ModContent.ItemType<TarragonVisage>()) &&
+					player.armor[1].type == ModContent.ItemType<TarragonBreastplate>() && player.armor[2].type == ModContent.ItemType<TarragonLeggings>())
+				{
+					int penetratableDefense = Math.Max(target.defense - player.armorPenetration, 0);
+					int penetratedDefense = Math.Min(penetratableDefense, 10);
+					damage += (int)(0.5f * penetratedDefense);
+				}
+            }
+			#endregion
 
             if (yharonLore)
                 damage = (int)((double)damage * 0.75);
@@ -4922,6 +4937,18 @@ namespace CalamityMod.CalPlayer
 				{
 					int penetratableDefense = Math.Max(target.defense - player.armorPenetration, 0);
 					int penetratedDefense = Math.Min(penetratableDefense, 6);
+					damage += (int)(0.5f * penetratedDefense);
+				}
+            }
+            if (proj.melee && badgeOfBravery)
+            {
+				if ((player.armor[0].type == ModContent.ItemType<TarragonHelmet>() || player.armor[0].type == ModContent.ItemType<TarragonHelm>() ||
+					player.armor[0].type == ModContent.ItemType<TarragonHornedHelm>() || player.armor[0].type == ModContent.ItemType<TarragonMask>() ||
+					player.armor[0].type == ModContent.ItemType<TarragonVisage>()) &&
+					player.armor[1].type == ModContent.ItemType<TarragonBreastplate>() && player.armor[2].type == ModContent.ItemType<TarragonLeggings>())
+				{
+					int penetratableDefense = Math.Max(target.defense - player.armorPenetration, 0);
+					int penetratedDefense = Math.Min(penetratableDefense, 10);
 					damage += (int)(0.5f * penetratedDefense);
 				}
             }
