@@ -4565,7 +4565,7 @@ namespace CalamityMod.CalPlayer
             }
             #endregion
 			
-			#Additive Boosts
+			#region AdditiveBoosts
             if (item.melee && badgeOfBravery)
             {
 				if ((player.armor[0].type == ModContent.ItemType<TarragonHelmet>() || player.armor[0].type == ModContent.ItemType<TarragonHelm>() ||
