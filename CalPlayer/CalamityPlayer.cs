@@ -2967,7 +2967,20 @@ namespace CalamityMod.CalPlayer
                 ((deepDiver && Collision.DrownCollision(player.position, player.width, player.height, player.gravDir)) ? 0.15f : 0f) +
                 (rogueStealthMax > 0f ? (rogueStealth >= rogueStealthMax ? rogueStealth * 0.05f : rogueStealth * 0.025f) : 0f);
 
-            if (abyssalDivingSuit && !Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
+			if (destroyerLore)
+			{
+				runAccMult *= 0.95f;
+			}
+			if (twinsLore)
+			{
+				if (player.statLife < (int)(player.statLifeMax2 * 0.5))
+					runAccMult *= 0.95f;
+			}
+			if (skeletronPrimeLore)
+			{
+				runAccMult *= 0.95f;
+			}
+			if (abyssalDivingSuit && !Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
             {
                 runAccMult *= 0.4f;
                 runSpeedMult *= 0.4f;
@@ -4753,7 +4766,7 @@ namespace CalamityMod.CalPlayer
             if (auricSet)
             {
                 if (silvaThrowing && proj.Calamity().rogue &&
-                    crit && player.statLife > (int)((double)player.statLifeMax2 * 0.5))
+                    crit && player.statLife > (int)(player.statLifeMax2 * 0.5))
                 {
                     damageMult += 0.25;
                 }
@@ -4860,7 +4873,7 @@ namespace CalamityMod.CalPlayer
 						damageMult += 0.5;
 				}
             }
-            damage = (int)((double)damage * damageMult);
+            damage = (int)(damage * damageMult);
 
             if (oldDie)
             {
@@ -4877,7 +4890,7 @@ namespace CalamityMod.CalPlayer
             #region AdditiveBoosts
             if (proj.type == ModContent.ProjectileType<AcidBulletProj>())
             {
-                int defenseAdd = (int)((double)target.defense * 0.05 * ((double)proj.damage / 50.0) * acidRoundMultiplier); //100 defense * 0.05 = 5
+                int defenseAdd = (int)((double)target.defense * 0.05 * ((double)proj.damage / 50D) * acidRoundMultiplier); //100 defense * 0.05 = 5
                 damage += defenseAdd;
             }
             if (uberBees && (proj.type == ProjectileID.GiantBee || proj.type == ProjectileID.Bee || proj.type == ProjectileID.Wasp || proj.type == ModContent.ProjectileType<PlaguenadeBee>()))
@@ -4925,7 +4938,7 @@ namespace CalamityMod.CalPlayer
 						(heldItem.melee || heldItem.ranged || heldItem.magic || heldItem.Calamity().rogue) &&
 						heldItem.hammer == 0 && heldItem.pick == 0 && heldItem.axe == 0 && heldItem.useStyle != 0)
                     {
-                        damage = (int)((double)damage * 0.75);
+                        damage = (int)(damage * 0.75);
                     }
                 }
             }
@@ -4934,22 +4947,24 @@ namespace CalamityMod.CalPlayer
                 switch (proj.type)
                 {
                     case ProjectileID.CrystalShard:
-                        damage = (int)((double)damage * 0.6);
+                        damage = (int)(damage * 0.6);
                         break;
                     case ProjectileID.ChlorophyteBullet:
-                        damage = (int)((double)damage * 0.8);
+                        damage = (int)(damage * 0.8);
                         break;
                     case ProjectileID.HallowStar:
-                        damage = (int)((double)damage * 0.7);
+                        damage = (int)(damage * 0.7);
                         break;
                 }
                 if (proj.type == ModContent.ProjectileType<VeriumBulletProj>())
-                    damage = (int)((double)damage * 0.8);
-            }
+                    damage = (int)(damage * 0.8);
+				else if (proj.type == ModContent.ProjectileType<AcidBulletProj>() && heldItem.type == ModContent.ItemType<P90>())
+					damage = (int)(damage * 0.5);
+			}
             if (proj.type == ProjectileID.SpectreWrath && player.ghostHurt)
-                damage = (int)((double)damage * 0.7);
+                damage = (int)(damage * 0.7);
             if (yharonLore)
-                damage = (int)((double)damage * 0.75);
+                damage = (int)(damage * 0.75);
             #endregion
 
             if (tarraMage && crit && proj.magic)
@@ -5084,7 +5099,7 @@ namespace CalamityMod.CalPlayer
                         value15.Normalize();
                         value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
                         int fire = Projectile.NewProjectile(target.position.X + (float)(target.width / 2), target.position.Y + (float)(target.height / 2),
-                            value15.X, value15.Y, 15, (int)((double)damage * 0.5), 0f, player.whoAmI, 0f, 0f);
+                            value15.X, value15.Y, 15, (int)(damage * 0.5), 0f, player.whoAmI, 0f, 0f);
                         Main.projectile[fire].magic = false;
                         Main.projectile[fire].netUpdate = true;
                     }
@@ -5226,7 +5241,7 @@ namespace CalamityMod.CalPlayer
                 {
                     if (isTrueMelee)
                     {
-                        int stressGain = (int)((double)damage * 0.1);
+                        int stressGain = (int)(damage * 0.1);
                         int stressMaxGain = 10;
                         if (stressGain < 1)
                         {
@@ -5372,8 +5387,32 @@ namespace CalamityMod.CalPlayer
             }
             if (CalamityWorld.revenge)
             {
-                if (CalamityMod.revengeanceProjectileBuffList.Contains(proj.type))
-                    damage = (int)((double)damage * 1.25);
+				double damageMultiplier = 1D;
+				if (CalamityMod.revengeanceProjectileBuffList25Percent.Contains(proj.type))
+				{
+					damageMultiplier += 0.25;
+				}
+				else if (CalamityMod.revengeanceProjectileBuffList20Percent.Contains(proj.type))
+				{
+					damageMultiplier += 0.2;
+				}
+				else if (CalamityMod.revengeanceProjectileBuffList15Percent.Contains(proj.type))
+				{
+					damageMultiplier += 0.15;
+				}
+				else if (CalamityMod.revengeanceProjectileBuffList10Percent.Contains(proj.type))
+				{
+					damageMultiplier += 0.1;
+				}
+				else if (CalamityMod.revengeanceProjectileBuffList5Percent.Contains(proj.type))
+				{
+					damageMultiplier += 0.05;
+				}
+
+				if (CalamityWorld.death)
+					damageMultiplier += (damageMultiplier - 1D) * 0.6;
+
+				damage = (int)(damage * damageMultiplier);
             }
 
 			// Reduce damage from vanilla traps

@@ -1215,7 +1215,6 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.destroyerLore)
 			{
 				player.pickSpeed -= 0.05f;
-				player.moveSpeed -= 0.025f;
 			}
 			if (modPlayer.aquaticScourgeLore)
 			{
@@ -1241,7 +1240,6 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.skeletronPrimeLore)
 			{
 				player.armorPenetration += 5;
-				player.moveSpeed -= 0.025f;
 			}
 			if (modPlayer.leviathanAndSirenLore)
 			{
@@ -2658,7 +2656,7 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.manaOverloader)
 			{
 				player.magicDamage += 0.06f;
-				if (player.statMana < (int)((double)player.statManaMax2 * 0.1))
+				if (player.statMana < (int)(player.statManaMax2 * 0.1))
 					player.ghostHeal = true;
 			}
 
@@ -2671,23 +2669,21 @@ namespace CalamityMod.CalPlayer
 					modPlayer.throwingDamage += 0.05f;
 				}
 
-				if (player.statLife < (int)((double)player.statLifeMax2 * 0.5))
-					player.moveSpeed -= 0.025f;
-				else
+				if (player.statLife >= (int)(player.statLifeMax2 * 0.5))
 					player.statDefense -= 10;
 			}
 
 			if (modPlayer.rBrain)
 			{
-				if (player.statLife <= (int)((double)player.statLifeMax2 * 0.75))
+				if (player.statLife <= (int)(player.statLifeMax2 * 0.75))
 					player.allDamage += 0.1f;
-				if (player.statLife <= (int)((double)player.statLifeMax2 * 0.5))
+				if (player.statLife <= (int)(player.statLifeMax2 * 0.5))
 					player.moveSpeed -= 0.05f;
 			}
 
 			if (modPlayer.bloodyWormTooth)
 			{
-				if (player.statLife < (int)((double)player.statLifeMax2 * 0.5))
+				if (player.statLife < (int)(player.statLifeMax2 * 0.5))
 				{
 					player.meleeDamage += 0.1f;
 					player.meleeSpeed += 0.1f;
@@ -2712,7 +2708,7 @@ namespace CalamityMod.CalPlayer
 			{
 				player.armorPenetration += 10;
 				player.noKnockback = true;
-				if (player.statLife > (int)((double)player.statLifeMax2 * 0.25))
+				if (player.statLife > (int)(player.statLifeMax2 * 0.25))
 				{
 					player.hasPaladinShield = true;
 					if (player.whoAmI != Main.myPlayer && player.miscCounter % 10 == 0)
@@ -2729,15 +2725,15 @@ namespace CalamityMod.CalPlayer
 					}
 				}
 
-				if (player.statLife <= (int)((double)player.statLifeMax2 * 0.5))
+				if (player.statLife <= (int)(player.statLifeMax2 * 0.5))
 					player.AddBuff(62, 5, true);
-				if (player.statLife <= (int)((double)player.statLifeMax2 * 0.15))
+				if (player.statLife <= (int)(player.statLifeMax2 * 0.15))
 					player.endurance += 0.05f;
 			}
 			else if (modPlayer.fBulwark)
 			{
 				player.noKnockback = true;
-				if (player.statLife > (int)((double)player.statLifeMax2 * 0.25))
+				if (player.statLife > (int)(player.statLifeMax2 * 0.25))
 				{
 					player.hasPaladinShield = true;
 					if (player.whoAmI != Main.myPlayer && player.miscCounter % 10 == 0)
@@ -2754,9 +2750,9 @@ namespace CalamityMod.CalPlayer
 					}
 				}
 
-				if (player.statLife <= (int)((double)player.statLifeMax2 * 0.5))
+				if (player.statLife <= (int)(player.statLifeMax2 * 0.5))
 					player.AddBuff(62, 5, true);
-				if (player.statLife <= (int)((double)player.statLifeMax2 * 0.15))
+				if (player.statLife <= (int)(player.statLifeMax2 * 0.15))
 					player.endurance += 0.05f;
 			}
 
@@ -2767,27 +2763,27 @@ namespace CalamityMod.CalPlayer
 				player.buffImmune[46] = true;
 				player.buffImmune[47] = true;
 
-				if (player.statLife > (int)((double)player.statLifeMax2 * 0.75))
+				if (player.statLife > (int)(player.statLifeMax2 * 0.75))
 					player.allDamage += 0.1f;
-				if (player.statLife < (int)((double)player.statLifeMax2 * 0.25))
+				if (player.statLife < (int)(player.statLifeMax2 * 0.25))
 					player.statDefense += 10;
 			}
 
 			if (modPlayer.vexation)
 			{
-				if (player.statLife < (int)((double)player.statLifeMax2 * 0.5))
+				if (player.statLife < (int)(player.statLifeMax2 * 0.5))
 					player.allDamage += 0.2f;
 			}
 
 			if (modPlayer.ataxiaBlaze)
 			{
-				if (player.statLife <= (int)((double)player.statLifeMax2 * 0.5))
+				if (player.statLife <= (int)(player.statLifeMax2 * 0.5))
 					player.AddBuff(BuffID.Inferno, 2);
 			}
 
 			if (modPlayer.bloodflareThrowing)
 			{
-				if (player.statLife > (int)((double)player.statLifeMax2 * 0.8))
+				if (player.statLife > (int)(player.statLifeMax2 * 0.8))
 				{
 					modPlayer.throwingCrit += 5;
 					player.statDefense += 30;
@@ -2798,9 +2794,9 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.bloodflareSummon)
 			{
-				if (player.statLife >= (int)((double)player.statLifeMax2 * 0.9))
+				if (player.statLife >= (int)(player.statLifeMax2 * 0.9))
 					player.minionDamage += 0.1f;
-				else if (player.statLife <= (int)((double)player.statLifeMax2 * 0.5))
+				else if (player.statLife <= (int)(player.statLifeMax2 * 0.5))
 					player.statDefense += 20;
 
 				if (modPlayer.bloodflareSummonTimer > 0)
@@ -2824,7 +2820,7 @@ namespace CalamityMod.CalPlayer
 				player.kbGlove = true;
 				player.meleeDamage += 0.05f;
 				player.lavaMax += 240;
-				if (player.statLife <= (int)((double)player.statLifeMax2 * 0.5))
+				if (player.statLife <= (int)(player.statLifeMax2 * 0.5))
 					player.allDamage += 0.1f;
 			}
 
@@ -2837,7 +2833,7 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.deepDiver)
 			{
 				player.allDamage += 0.15f;
-				player.statDefense += (int)((double)player.statDefense * 0.15);
+				player.statDefense += (int)(player.statDefense * 0.15);
 				player.moveSpeed += 0.15f;
 			}
 
@@ -2853,12 +2849,12 @@ namespace CalamityMod.CalPlayer
 				if (player.statDefense < 100)
 					player.allDamage += 0.15f;
 
-				if (player.statLife <= (int)((double)player.statLifeMax2 * 0.15))
+				if (player.statLife <= (int)(player.statLifeMax2 * 0.15))
 				{
 					player.endurance += 0.1f;
 					player.allDamage += 0.2f;
 				}
-				else if (player.statLife <= (int)((double)player.statLifeMax2 * 0.5))
+				else if (player.statLife <= (int)(player.statLifeMax2 * 0.5))
 				{
 					player.endurance += 0.05f;
 					player.allDamage += 0.1f;

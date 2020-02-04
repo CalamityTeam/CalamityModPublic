@@ -163,8 +163,12 @@ namespace CalamityMod
 		public static List<int> revengeanceEnemyBuffList15Percent;
 		public static List<int> revengeanceEnemyBuffList10Percent;
 		public static List<int> revengeanceEnemyBuffList5Percent;
-		public static List<int> revengeanceProjectileBuffList;
-        public static List<int> revengeanceLifeStealExceptionList;
+		public static List<int> revengeanceProjectileBuffList25Percent;
+		public static List<int> revengeanceProjectileBuffList20Percent;
+		public static List<int> revengeanceProjectileBuffList15Percent;
+		public static List<int> revengeanceProjectileBuffList10Percent;
+		public static List<int> revengeanceProjectileBuffList5Percent;
+		public static List<int> revengeanceLifeStealExceptionList;
         public static List<int> movementImpairImmuneList;
         public static List<int> trapProjectileList;
         public static List<int> scopedWeaponList;
@@ -352,8 +356,12 @@ namespace CalamityMod
 			revengeanceEnemyBuffList15Percent = null;
 			revengeanceEnemyBuffList10Percent = null;
 			revengeanceEnemyBuffList5Percent = null;
-			revengeanceProjectileBuffList = null;
-            revengeanceLifeStealExceptionList = null;
+			revengeanceProjectileBuffList25Percent = null;
+			revengeanceProjectileBuffList20Percent = null;
+			revengeanceProjectileBuffList15Percent = null;
+			revengeanceProjectileBuffList10Percent = null;
+			revengeanceProjectileBuffList5Percent = null;
+			revengeanceLifeStealExceptionList = null;
             movementImpairImmuneList = null;
             trapProjectileList = null;
             scopedWeaponList = null;
@@ -1546,152 +1554,143 @@ namespace CalamityMod
 				ModContent.NPCType<SupremeCalamitas>()
 			};
 
-			revengeanceProjectileBuffList = new List<int>()
+			revengeanceProjectileBuffList25Percent = new List<int>()
             {
-                ProjectileID.Sharknado,
-                ProjectileID.Cthulunado,
-                ProjectileID.DD2BetsyFireball,
-                ProjectileID.DD2BetsyFlameBreath,
-
                 ProjectileID.SandBallFalling,
                 ProjectileID.AshBallFalling,
-                ProjectileID.DemonSickle,
                 ProjectileID.EbonsandBallFalling,
                 ProjectileID.PearlSandBallFalling,
-                ProjectileID.Boulder,
-                ProjectileID.PoisonDartTrap,
-                ProjectileID.SpikyBallTrap,
-                ProjectileID.SpearTrap,
-                ProjectileID.FlamethrowerTrap,
-                ProjectileID.FlamesTrap,
                 ProjectileID.CrimsandBallFalling,
-                ProjectileID.Fireball,
-                ProjectileID.PaladinsHammerHostile,
-                ProjectileID.FlamingWood,
-                ProjectileID.FlamingScythe,
-                ProjectileID.FrostWave,
-                ProjectileID.Present,
-                ProjectileID.Spike,
-                ProjectileID.SaucerDeathray,
-                ProjectileID.NebulaBolt,
-                ProjectileID.NebulaSphere,
-                ProjectileID.NebulaLaser,
-                ProjectileID.StardustSoldierLaser,
-                ProjectileID.VortexLaser,
-                ProjectileID.VortexVortexLightning,
-                ProjectileID.VortexLightning,
-                ProjectileID.VortexAcid,
                 ProjectileID.GeyserTrap,
-                ProjectileID.SandnadoHostile,
-
                 ModContent.ProjectileType<SandBlast>(),
-
                 ModContent.ProjectileType<MushBomb>(),
                 ModContent.ProjectileType<MushBombFall>(),
-                ModContent.ProjectileType<Mushmash>(),
-
-                ModContent.ProjectileType<ShaderainHostile>(),
-
-                ModContent.ProjectileType<BloodGeyser>(),
-                ModContent.ProjectileType<IchorShot>(),
-
-                ModContent.ProjectileType<AbyssMine>(),
-                ModContent.ProjectileType<AbyssMine2>(),
-                ModContent.ProjectileType<AbyssBallVolley>(),
-                ModContent.ProjectileType<AbyssBallVolley2>(),
-
-                ModContent.ProjectileType<IceBlast>(),
-                ModContent.ProjectileType<IceBomb>(),
-                ModContent.ProjectileType<IceRain>(),
-
-                ModContent.ProjectileType<SandPoisonCloud>(),
-                ModContent.ProjectileType<SandTooth>(),
-
-                ModContent.ProjectileType<BrimstoneHellfireball>(),
-                ModContent.ProjectileType<HellfireExplosion>(),
-                ModContent.ProjectileType<BrimstoneBarrage>(),
-                ModContent.ProjectileType<BrimstoneHellblast>(),
-				ModContent.ProjectileType<BrimstoneRay>(),
-
-				ModContent.ProjectileType<BrimstoneLaser>(),
-                ModContent.ProjectileType<BrimstoneLaserSplit>(),
-                ModContent.ProjectileType<BrimstoneBall>(),
-                ModContent.ProjectileType<BrimstoneFire>(),
-
-                ModContent.ProjectileType<LeviathanBomb>(),
-                ModContent.ProjectileType<WaterSpear>(),
-                ModContent.ProjectileType<FrostMist>(),
-                ModContent.ProjectileType<SirenSong>(),
-
-                ModContent.ProjectileType<AstralFlame>(),
-                ModContent.ProjectileType<AstralLaser>(),
-
-                ModContent.ProjectileType<PlagueExplosion>(),
-                ModContent.ProjectileType<PlagueStingerGoliath>(),
-                ModContent.ProjectileType<PlagueStingerGoliathV2>(),
-                ModContent.ProjectileType<HiveBombGoliath>(),
-
-                ModContent.ProjectileType<ScavengerNuke>(),
-
-                ModContent.ProjectileType<AstralShot2>(),
-                ModContent.ProjectileType<DeusMine>(),
-
-                ModContent.ProjectileType<ProfanedSpear>(),
-                ModContent.ProjectileType<FlareDust>(),
-
-                ModContent.ProjectileType<RedLightningFeather>(),
-
-                ModContent.ProjectileType<HolyBlast>(),
-                ModContent.ProjectileType<HolyBomb>(),
-                ModContent.ProjectileType<HolyFire>(),
-                ModContent.ProjectileType<HolyFire2>(),
-                ModContent.ProjectileType<HolyFlare>(),
-                ModContent.ProjectileType<HolyShot>(),
-                ModContent.ProjectileType<HolySpear>(),
-                ModContent.ProjectileType<MoltenBlast>(),
-                ModContent.ProjectileType<MoltenBlob>(),
-                ModContent.ProjectileType<ProvidenceCrystalShard>(),
-                ModContent.ProjectileType<ProvidenceHolyRay>(),
-
-                ModContent.ProjectileType<DarkEnergyBall>(),
-                ModContent.ProjectileType<DoGBeam>(),
-
-                ModContent.ProjectileType<CosmicFlameBurst>(),
-                ModContent.ProjectileType<SignusScythe>(),
-                ModContent.ProjectileType<EssenceDust>(),
-
-                ModContent.ProjectileType<PhantomBlast>(),
-                ModContent.ProjectileType<PhantomBlast2>(),
-                ModContent.ProjectileType<PhantomGhostShot>(),
-                ModContent.ProjectileType<PhantomHookShot>(),
-                ModContent.ProjectileType<PhantomMine>(),
-                ModContent.ProjectileType<PhantomShot>(),
-                ModContent.ProjectileType<PhantomShot2>(),
-
-                ModContent.ProjectileType<DoGDeath>(),
-                ModContent.ProjectileType<DoGFire>(),
-                ModContent.ProjectileType<DoGNebulaShot>(),
-
-                ModContent.ProjectileType<FlareBomb>(),
-                ModContent.ProjectileType<FlareDust2>(),
-                ModContent.ProjectileType<Flarenado>(),
-                ModContent.ProjectileType<Infernado>(),
-                ModContent.ProjectileType<Infernado2>(),
-                ModContent.ProjectileType<YharonFireball>(),
-                ModContent.ProjectileType<YharonFireball2>(),
-
-                ModContent.ProjectileType<BrimstoneFireblast>(),
-                ModContent.ProjectileType<BrimstoneGigaBlast>(),
-                ModContent.ProjectileType<BrimstoneHellblast2>(),
-                ModContent.ProjectileType<BrimstoneMonster>(),
-                ModContent.ProjectileType<BrimstoneWave>(),
-
-                ModContent.ProjectileType<GreatSandBlast>(),
-                ModContent.ProjectileType<PearlBurst>(),
-                ModContent.ProjectileType<PearlRain>()
+				ModContent.ProjectileType<BloodGeyser>(),
+                ModContent.ProjectileType<IchorShot>()
             };
 
-            revengeanceLifeStealExceptionList = new List<int>()
+			revengeanceProjectileBuffList20Percent = new List<int>()
+			{
+				ProjectileID.PoisonDartTrap,
+				ProjectileID.DemonSickle,
+				ProjectileID.SandnadoHostile,
+				ProjectileID.DD2BetsyFireball,
+				ProjectileID.DD2BetsyFlameBreath,
+				ModContent.ProjectileType<Mushmash>(),
+				ModContent.ProjectileType<ShaderainHostile>(),
+				ModContent.ProjectileType<AbyssMine>(),
+				ModContent.ProjectileType<AbyssMine2>(),
+				ModContent.ProjectileType<AbyssBallVolley>(),
+				ModContent.ProjectileType<AbyssBallVolley2>(),
+				ModContent.ProjectileType<IceBlast>(),
+				ModContent.ProjectileType<IceBomb>(),
+				ModContent.ProjectileType<IceRain>(),
+				ModContent.ProjectileType<SandTooth>()
+			};
+
+			revengeanceProjectileBuffList15Percent = new List<int>()
+			{
+				ProjectileID.SpikyBallTrap,
+				ProjectileID.SpearTrap,
+				ProjectileID.FlamethrowerTrap,
+				ProjectileID.FlamesTrap,
+				ProjectileID.Fireball,
+				ProjectileID.PaladinsHammerHostile,
+				ProjectileID.FlamingWood,
+				ProjectileID.FlamingScythe,
+				ProjectileID.FrostWave,
+				ProjectileID.Present,
+				ProjectileID.Spike,
+				ProjectileID.SaucerDeathray,
+				ProjectileID.NebulaBolt,
+				ProjectileID.NebulaSphere,
+				ProjectileID.NebulaLaser,
+				ProjectileID.StardustSoldierLaser,
+				ProjectileID.VortexLaser,
+				ProjectileID.VortexVortexLightning,
+				ProjectileID.VortexLightning,
+				ProjectileID.VortexAcid,
+				ProjectileID.Sharknado,
+				ProjectileID.Cthulunado,
+				ModContent.ProjectileType<SandPoisonCloud>(),
+				ModContent.ProjectileType<BrimstoneHellfireball>(),
+				ModContent.ProjectileType<HellfireExplosion>(),
+				ModContent.ProjectileType<BrimstoneRay>(),
+				ModContent.ProjectileType<BrimstoneLaser>(),
+				ModContent.ProjectileType<BrimstoneLaserSplit>(),
+				ModContent.ProjectileType<BrimstoneBall>(),
+				ModContent.ProjectileType<BrimstoneFire>(),
+				ModContent.ProjectileType<LeviathanBomb>(),
+				ModContent.ProjectileType<WaterSpear>(),
+				ModContent.ProjectileType<FrostMist>(),
+				ModContent.ProjectileType<SirenSong>(),
+				ModContent.ProjectileType<AstralFlame>(),
+				ModContent.ProjectileType<AstralLaser>(),
+				ModContent.ProjectileType<PlagueExplosion>(),
+				ModContent.ProjectileType<PlagueStingerGoliath>(),
+				ModContent.ProjectileType<PlagueStingerGoliathV2>(),
+				ModContent.ProjectileType<HiveBombGoliath>(),
+				ModContent.ProjectileType<ScavengerNuke>(),
+				ModContent.ProjectileType<AstralShot2>(),
+				ModContent.ProjectileType<DeusMine>(),
+				ModContent.ProjectileType<HolyBomb>(),
+				ModContent.ProjectileType<HolyFire>(),
+				ModContent.ProjectileType<HolyFire2>(),
+				ModContent.ProjectileType<HolyFlare>(),
+				ModContent.ProjectileType<MoltenBlast>(),
+				ModContent.ProjectileType<MoltenBlob>(),
+				ModContent.ProjectileType<DarkEnergyBall>(),
+				ModContent.ProjectileType<DoGBeam>(),
+				ModContent.ProjectileType<GreatSandBlast>(),
+				ModContent.ProjectileType<PearlBurst>(),
+				ModContent.ProjectileType<PearlRain>()
+			};
+
+			revengeanceProjectileBuffList10Percent = new List<int>()
+			{
+				ProjectileID.Boulder,
+				ModContent.ProjectileType<ProfanedSpear>(),
+				ModContent.ProjectileType<FlareDust>(),
+				ModContent.ProjectileType<RedLightningFeather>(),
+				ModContent.ProjectileType<HolyBlast>(),
+				ModContent.ProjectileType<HolyShot>(),
+				ModContent.ProjectileType<HolySpear>(),
+				ModContent.ProjectileType<ProvidenceCrystalShard>(),
+				ModContent.ProjectileType<ProvidenceHolyRay>(),
+				ModContent.ProjectileType<CosmicFlameBurst>(),
+				ModContent.ProjectileType<SignusScythe>(),
+				ModContent.ProjectileType<EssenceDust>(),
+				ModContent.ProjectileType<PhantomBlast>(),
+				ModContent.ProjectileType<PhantomBlast2>(),
+				ModContent.ProjectileType<PhantomGhostShot>(),
+				ModContent.ProjectileType<PhantomHookShot>(),
+				ModContent.ProjectileType<PhantomMine>(),
+				ModContent.ProjectileType<PhantomShot>(),
+				ModContent.ProjectileType<PhantomShot2>(),
+				ModContent.ProjectileType<DoGDeath>(),
+				ModContent.ProjectileType<DoGFire>(),
+				ModContent.ProjectileType<DoGNebulaShot>(),
+				ModContent.ProjectileType<FlareBomb>(),
+				ModContent.ProjectileType<FlareDust2>(),
+				ModContent.ProjectileType<Flarenado>()
+			};
+
+			revengeanceProjectileBuffList5Percent = new List<int>()
+			{
+				ModContent.ProjectileType<Infernado>(),
+				ModContent.ProjectileType<Infernado2>(),
+				ModContent.ProjectileType<YharonFireball>(),
+				ModContent.ProjectileType<YharonFireball2>(),
+				ModContent.ProjectileType<BrimstoneBarrage>(),
+				ModContent.ProjectileType<BrimstoneHellblast>(),
+				ModContent.ProjectileType<BrimstoneFireblast>(),
+				ModContent.ProjectileType<BrimstoneGigaBlast>(),
+				ModContent.ProjectileType<BrimstoneHellblast2>(),
+				ModContent.ProjectileType<BrimstoneMonster>(),
+				ModContent.ProjectileType<BrimstoneWave>()
+			};
+
+			revengeanceLifeStealExceptionList = new List<int>()
             {
                 NPCID.Probe,
                 NPCID.MoonLordFreeEye,
@@ -2542,78 +2541,78 @@ namespace CalamityMod
 				revengeanceEnemyBuffList15Percent.Add(thorium.NPCType("Aquaius"));
 				revengeanceEnemyBuffList15Percent.Add(thorium.NPCType("Aquaius2"));
 
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("GrandThunderBirdZap"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("ThunderGust"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("BubbleBomb"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("QueenJellyArm"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("QueenTorrent"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("ViscountRipple"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("ViscountRipple2"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("ViscountBlood"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("ViscountStomp"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("ViscountStomp2"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("ViscountRockFall"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("GraniteCharge"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("BuriedShock"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("BuriedDagger"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("BuriedArrow"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("BuriedArrow2"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("BuriedArrowF"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("BuriedArrowP"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("BuriedArrowC"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("BuriedMagic"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("BuriedMagicPop"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("MainBeamOuter"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("MainBeam"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("MainBeamCheese"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("VaporizeBlast"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("GravitonSurge"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("Vaporize"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("GravitonCharge"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("GravitySpark"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("DoomBeholderBeam"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("VoidLaserPro"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("BeholderBeam"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("BlizzardBarrage"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("FrostSurge"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("FrostSurgeR"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("BlizzardCascade"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("BlizzardBoom"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("BlizzardFang"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("FrostMytePro"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("IceAnomaly"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("LichGaze"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("LichGazeB"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("LichFlareSpawn"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("LichFlare"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("LichPulse"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("LichMatter"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("SoulRenderLich"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("LichFlareDeathD"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("LichFlareDeathU"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("Whirlpool"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("AbyssionSpit"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("AbyssionSpit2"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("AquaRipple"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("AbyssalStrike2"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("OldGodSpit"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("OldGodSpit2"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("WaterPulse"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("TyphoonBlastHostile"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("TyphoonBlastHostileSmaller"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("AquaBarrage"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("DeathRaySpawnR"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("DeathRaySpawnL"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("DeathRaySpawn"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("OmniDeath"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("OmniSphereOrb"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("FlameLash"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("FlamePulse"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("FlamePulseTorn"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("FlameNova"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("MoltenFury"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("RealityFury"));
-                revengeanceProjectileBuffList.Add(thorium.ProjectileType("UFOBlast"));
+				revengeanceProjectileBuffList25Percent.Add(thorium.ProjectileType("GrandThunderBirdZap"));
+				revengeanceProjectileBuffList25Percent.Add(thorium.ProjectileType("ThunderGust"));
+				revengeanceProjectileBuffList25Percent.Add(thorium.ProjectileType("BubbleBomb"));
+				revengeanceProjectileBuffList25Percent.Add(thorium.ProjectileType("QueenJellyArm"));
+				revengeanceProjectileBuffList25Percent.Add(thorium.ProjectileType("QueenTorrent"));
+				revengeanceProjectileBuffList20Percent.Add(thorium.ProjectileType("ViscountRipple"));
+				revengeanceProjectileBuffList20Percent.Add(thorium.ProjectileType("ViscountRipple2"));
+				revengeanceProjectileBuffList20Percent.Add(thorium.ProjectileType("ViscountBlood"));
+				revengeanceProjectileBuffList20Percent.Add(thorium.ProjectileType("ViscountStomp"));
+				revengeanceProjectileBuffList20Percent.Add(thorium.ProjectileType("ViscountStomp2"));
+				revengeanceProjectileBuffList20Percent.Add(thorium.ProjectileType("ViscountRockFall"));
+				revengeanceProjectileBuffList20Percent.Add(thorium.ProjectileType("GraniteCharge"));
+				revengeanceProjectileBuffList20Percent.Add(thorium.ProjectileType("BuriedShock"));
+				revengeanceProjectileBuffList20Percent.Add(thorium.ProjectileType("BuriedDagger"));
+				revengeanceProjectileBuffList20Percent.Add(thorium.ProjectileType("BuriedArrow"));
+				revengeanceProjectileBuffList20Percent.Add(thorium.ProjectileType("BuriedArrow2"));
+				revengeanceProjectileBuffList20Percent.Add(thorium.ProjectileType("BuriedArrowF"));
+				revengeanceProjectileBuffList20Percent.Add(thorium.ProjectileType("BuriedArrowP"));
+				revengeanceProjectileBuffList20Percent.Add(thorium.ProjectileType("BuriedArrowC"));
+				revengeanceProjectileBuffList20Percent.Add(thorium.ProjectileType("BuriedMagic"));
+				revengeanceProjectileBuffList20Percent.Add(thorium.ProjectileType("BuriedMagicPop"));
+				revengeanceProjectileBuffList20Percent.Add(thorium.ProjectileType("MainBeamOuter"));
+				revengeanceProjectileBuffList20Percent.Add(thorium.ProjectileType("MainBeam"));
+				revengeanceProjectileBuffList20Percent.Add(thorium.ProjectileType("MainBeamCheese"));
+				revengeanceProjectileBuffList20Percent.Add(thorium.ProjectileType("VaporizeBlast"));
+				revengeanceProjectileBuffList20Percent.Add(thorium.ProjectileType("GravitonSurge"));
+				revengeanceProjectileBuffList20Percent.Add(thorium.ProjectileType("Vaporize"));
+				revengeanceProjectileBuffList20Percent.Add(thorium.ProjectileType("GravitonCharge"));
+				revengeanceProjectileBuffList20Percent.Add(thorium.ProjectileType("GravitySpark"));
+				revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("DoomBeholderBeam"));
+				revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("VoidLaserPro"));
+				revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("BeholderBeam"));
+				revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("BlizzardBarrage"));
+				revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("FrostSurge"));
+				revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("FrostSurgeR"));
+				revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("BlizzardCascade"));
+				revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("BlizzardBoom"));
+				revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("BlizzardFang"));
+				revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("FrostMytePro"));
+				revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("IceAnomaly"));
+				revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("LichGaze"));
+				revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("LichGazeB"));
+				revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("LichFlareSpawn"));
+				revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("LichFlare"));
+				revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("LichPulse"));
+				revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("LichMatter"));
+				revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("SoulRenderLich"));
+				revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("LichFlareDeathD"));
+				revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("LichFlareDeathU"));
+				revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("Whirlpool"));
+				revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("AbyssionSpit"));
+				revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("AbyssionSpit2"));
+				revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("AquaRipple"));
+				revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("AbyssalStrike2"));
+				revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("OldGodSpit"));
+				revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("OldGodSpit2"));
+				revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("WaterPulse"));
+				revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("TyphoonBlastHostile"));
+				revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("TyphoonBlastHostileSmaller"));
+				revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("AquaBarrage"));
+				revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("DeathRaySpawnR"));
+				revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("DeathRaySpawnL"));
+				revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("DeathRaySpawn"));
+				revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("OmniDeath"));
+				revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("OmniSphereOrb"));
+				revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("FlameLash"));
+				revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("FlamePulse"));
+				revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("FlamePulseTorn"));
+				revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("FlameNova"));
+				revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("MoltenFury"));
+				revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("RealityFury"));
+				revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("UFOBlast"));
             }
         }
         #endregion

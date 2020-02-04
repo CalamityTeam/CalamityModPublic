@@ -12,7 +12,7 @@ namespace CalamityMod.Items.LoreItems
             Tooltip.SetDefault("What a silly and pointless contraption for something created with the essence of pure terror.\n" +
                 "Draedon obviously took several liberties with its design...I am not impressed.\n" +
                 "Place in your inventory to gain a boost to your armor penetration.\n" +
-				"However, your movement speed is decreased due to you feeling heavier.");
+				"However, your max acceleration is decreased due to you feeling heavier.");
         }
 
         public override void SetDefaults()

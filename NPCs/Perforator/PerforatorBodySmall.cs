@@ -70,14 +70,12 @@ namespace CalamityMod.NPCs.Perforator
                     {
                         float num941 = revenge ? 9f : 8f;
                         Vector2 vector104 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)(npc.height / 2));
-                        float num942 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector104.X + (float)Main.rand.Next(-20, 21);
-                        float num943 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector104.Y + (float)Main.rand.Next(-20, 21);
+                        float num942 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector104.X;
+                        float num943 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector104.Y;
                         float num944 = (float)Math.Sqrt((double)(num942 * num942 + num943 * num943));
                         num944 = num941 / num944;
                         num942 *= num944;
                         num943 *= num944;
-                        num942 += (float)Main.rand.Next(-50, 51) * 0.05f;
-                        num943 += (float)Main.rand.Next(-50, 51) * 0.05f;
                         int num945 = expertMode ? 12 : 15;
                         int num946 = ModContent.ProjectileType<BloodClot>();
                         vector104.X += num942 * 5f;

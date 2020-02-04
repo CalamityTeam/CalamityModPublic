@@ -143,22 +143,19 @@ namespace CalamityMod.NPCs.Crabulon
                             npc.ai[3] = 0f;
                         }
                         float num353 = 10f;
-                        int num354 = expertMode ? 11 : 14;
+                        int num354 = expertMode ? 12 : 16;
                         int num355 = ModContent.ProjectileType<MushBomb>();
                         Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 42);
                         if (CalamityWorld.bossRushActive)
                         {
-                            num354 += 3;
                             num353 += 3f;
                         }
                         if ((double)npc.life < (double)npc.lifeMax * 0.5 || death)
                         {
-                            num354++;
                             num353 += 1f;
                         }
                         if ((double)npc.life < (double)npc.lifeMax * 0.1 || death)
                         {
-                            num354++;
                             num353 += 1f;
                         }
                         vector34 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
@@ -388,7 +385,7 @@ namespace CalamityMod.NPCs.Crabulon
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                         Projectile.NewProjectile((int)npc.Center.X, (int)npc.Center.Y + 20, 0f, 0f, ModContent.ProjectileType<Mushmash>(), 20, 0f, Main.myPlayer, 0f, 0f);
 
-					int num354 = expertMode ? 11 : 14;
+					int num354 = expertMode ? 12 : 16;
 					if (npc.ai[2] % 2f == 0f && (double)npc.life < (double)npc.lifeMax * 0.5 && revenge)
 					{
 						if (Main.netMode != NetmodeID.MultiplayerClient)
