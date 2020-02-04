@@ -18,6 +18,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
             projectile.penetrate = -1;
+			projectile.timeLeft = 60;
             cooldownSlot = 1;
         }
 

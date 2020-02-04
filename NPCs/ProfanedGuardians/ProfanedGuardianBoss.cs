@@ -100,23 +100,17 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             // Percent life remaining
             float lifeRatio = (float)npc.life / (float)npc.lifeMax;
 
-            Player player = Main.player[npc.target];
-            Vector2 vector = npc.Center;
-            if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[1] == 0f)
+			Vector2 vectorCenter = npc.Center;
+			if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[1] == 0f)
             {
                 npc.localAI[1] = 1f;
-                NPC.NewNPC((int)vector.X, (int)vector.Y, ModContent.NPCType<ProfanedGuardianBoss2>(), 0, 0f, 0f, 0f, 0f, 255);
-                NPC.NewNPC((int)vector.X, (int)vector.Y, ModContent.NPCType<ProfanedGuardianBoss3>(), 0, 0f, 0f, 0f, 0f, 255);
+                NPC.NewNPC((int)vectorCenter.X, (int)vectorCenter.Y, ModContent.NPCType<ProfanedGuardianBoss2>(), 0, 0f, 0f, 0f, 0f, 255);
+                NPC.NewNPC((int)vectorCenter.X, (int)vectorCenter.Y, ModContent.NPCType<ProfanedGuardianBoss3>(), 0, 0f, 0f, 0f, 0f, 255);
             }
-            bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
-            bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
-			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
-			bool isHoly = player.ZoneHoly;
-            bool isHell = player.ZoneUnderworldHeight;
-            npc.defense = (isHoly || isHell || CalamityWorld.bossRushActive) ? 50 : 99999;
-            Vector2 vectorCenter = npc.Center;
+            
             npc.TargetClosest(false);
-            if (!Main.dayTime || !player.active || player.dead)
+			Player player = Main.player[npc.target];
+			if (!Main.dayTime || !player.active || player.dead)
             {
                 npc.TargetClosest(false);
                 player = Main.player[npc.target];
@@ -134,7 +128,15 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             {
                 npc.timeLeft = 1800;
             }
-            bool flag100 = false;
+
+			bool isHoly = player.ZoneHoly;
+			bool isHell = player.ZoneUnderworldHeight;
+			bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
+			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
+			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
+			npc.defense = (isHoly || isHell || CalamityWorld.bossRushActive) ? 50 : 99999;
+
+			bool flag100 = false;
             for (int num569 = 0; num569 < 200; num569++)
             {
                 if ((Main.npc[num569].active && Main.npc[num569].type == ModContent.NPCType<ProfanedGuardianBoss2>()) || (Main.npc[num569].active && Main.npc[num569].type == ModContent.NPCType<ProfanedGuardianBoss3>()))
@@ -155,35 +157,19 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 npc.spriteDirection = -Math.Sign(npc.velocity.X);
             }
             npc.spriteDirection = Math.Sign(npc.velocity.X);
-            float num998 = 8f;
-            float scaleFactor3 = 300f;
-            float num999 = 800f;
             float num1000 = (lifeRatio < 0.75f || death) ? 14f : 16f;
             if (revenge)
             {
                 num1000 *= 1.15f;
             }
-            float num1001 = 5f;
-            float scaleFactor4 = 0.8f;
-            int num1002 = 0;
-            float scaleFactor5 = 10f;
-            float num1003 = 30f;
-            float num1004 = 150f;
-            float num1005 = (lifeRatio < 0.75f || death) ? 14f : 16f;
-            if (revenge)
-            {
-                num1005 *= 1.15f;
-            }
-            float num1006 = 0.333333343f;
-            float num1007 = 8f;
-            num1006 *= num1005;
+            float num1006 = 0.111111117f * num1000;
             int num1009 = (npc.ai[0] == 2f) ? 2 : 1;
             int num1010 = (npc.ai[0] == 2f) ? 80 : 60;
             for (int num1011 = 0; num1011 < 2; num1011++)
             {
                 if (Main.rand.Next(3) < num1009)
                 {
-                    int num1012 = Dust.NewDust(npc.Center - new Vector2((float)num1010), num1010 * 2, num1010 * 2, 244, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f, 90, default, 1.5f);
+                    int num1012 = Dust.NewDust(vectorCenter - new Vector2((float)num1010), num1010 * 2, num1010 * 2, 244, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f, 90, default, 1.5f);
                     Main.dust[num1012].noGravity = true;
                     Main.dust[num1012].velocity *= 0.2f;
                     Main.dust[num1012].fadeIn = 1f;
@@ -258,22 +244,21 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             }
             if (npc.ai[0] == 0f)
             {
-                float scaleFactor6 = num998;
-                Vector2 center4 = npc.Center;
-                Vector2 center5 = Main.player[npc.target].Center;
-                Vector2 vector126 = center5 - center4;
-                Vector2 vector127 = vector126 - Vector2.UnitY * scaleFactor3;
+                float scaleFactor6 = 14f;
+                Vector2 center5 = player.Center;
+                Vector2 vector126 = center5 - vectorCenter;
+                Vector2 vector127 = vector126 - Vector2.UnitY * 300f;
                 float num1013 = vector126.Length();
                 vector126 = Vector2.Normalize(vector126) * scaleFactor6;
                 vector127 = Vector2.Normalize(vector127) * scaleFactor6;
-                bool flag64 = Collision.CanHit(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1);
+                bool flag64 = Collision.CanHit(vectorCenter, 1, 1, player.Center, 1, 1);
                 if (npc.ai[3] >= 120f)
                 {
                     flag64 = true;
                 }
                 float num1014 = 8f;
                 flag64 = flag64 && vector126.ToRotation() > 3.14159274f / num1014 && vector126.ToRotation() < 3.14159274f - 3.14159274f / num1014;
-                if (num1013 > num999 || !flag64)
+                if (num1013 > 1200f || !flag64)
                 {
                     npc.velocity.X = (npc.velocity.X * (num1000 - 1f) + vector127.X) / num1000;
                     npc.velocity.Y = (npc.velocity.Y * (num1000 - 1f) + vector127.Y) / num1000;
@@ -300,16 +285,16 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             }
             else if (npc.ai[0] == 1f)
             {
-                npc.velocity *= scaleFactor4;
+                npc.velocity *= 0.8f;
                 npc.ai[1] += 1f;
-                if (npc.ai[1] >= num1001)
+                if (npc.ai[1] >= 5f)
                 {
                     npc.ai[0] = 2f;
                     npc.ai[1] = 0f;
                     npc.netUpdate = true;
-                    Vector2 velocity = new Vector2(npc.ai[2], npc.ai[3]) + new Vector2((float)Main.rand.Next(-num1002, num1002 + 1), (float)Main.rand.Next(-num1002, num1002 + 1)) * 0.04f;
+                    Vector2 velocity = new Vector2(npc.ai[2], npc.ai[3]);
                     velocity.Normalize();
-                    velocity *= scaleFactor5;
+                    velocity *= 10f;
                     npc.velocity = velocity;
                 }
             }
@@ -330,31 +315,27 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                         dustTimer = 3;
                     }
                 }
-                float num1016 = num1003;
                 npc.ai[1] += 1f;
-                bool flag65 = Vector2.Distance(npc.Center, Main.player[npc.target].Center) > num1004 && npc.Center.Y > Main.player[npc.target].Center.Y;
-                if ((npc.ai[1] >= num1016 && flag65) || npc.velocity.Length() < num1007)
+                bool flag65 = vectorCenter.Y + 50f > player.Center.Y;
+                if ((npc.ai[1] >= 90f && flag65) || npc.velocity.Length() < 8f)
                 {
-                    npc.ai[0] = 0f;
-                    npc.ai[1] = 0f;
+                    npc.ai[0] = 3f;
+                    npc.ai[1] = 45f;
                     npc.ai[2] = 0f;
                     npc.ai[3] = 0f;
                     npc.velocity /= 2f;
                     npc.netUpdate = true;
-                    npc.ai[1] = 45f;
-                    npc.ai[0] = 3f;
                 }
                 else
                 {
-                    Vector2 center6 = npc.Center;
-                    Vector2 center7 = Main.player[npc.target].Center;
-                    Vector2 vec2 = center7 - center6;
+                    Vector2 center7 = player.Center;
+                    Vector2 vec2 = center7 - vectorCenter;
                     vec2.Normalize();
                     if (vec2.HasNaNs())
                     {
                         vec2 = new Vector2((float)npc.direction, 0f);
                     }
-                    npc.velocity = (npc.velocity * (num1005 - 1f) + vec2 * (npc.velocity.Length() + num1006)) / num1005;
+                    npc.velocity = (npc.velocity * (num1000 - 1f) + vec2 * (npc.velocity.Length() + num1006)) / num1000;
                 }
             }
             else if (npc.ai[0] == 3f)

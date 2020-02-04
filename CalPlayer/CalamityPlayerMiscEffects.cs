@@ -1337,7 +1337,7 @@ namespace CalamityMod.CalPlayer
 					player.moveSpeed += 0.15f;
 				}
 				else
-					player.confused = true;
+					player.slowFall = true;
 			}
 
 			// Calcium Potion buff
