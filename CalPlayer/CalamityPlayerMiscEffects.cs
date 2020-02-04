@@ -8,6 +8,7 @@ using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Buffs.Summon;
 using CalamityMod.Dusts;
+using CalamityMod.Items.Armor;
 using CalamityMod.Items.Fishing.AstralCatches;
 using CalamityMod.Items.Fishing.FishingRods;
 using CalamityMod.NPCs;
