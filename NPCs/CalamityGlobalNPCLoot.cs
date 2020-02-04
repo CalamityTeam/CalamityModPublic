@@ -979,7 +979,7 @@ namespace CalamityMod.NPCs
             }
 
             // Every type of Skeleton counts for the Bone Sword
-            if (CalamityMod.skeletonList.Contains(npc.type))
+            if (CalamityMod.skeletonList.Contains(npc.type) && npc.type != NPCID.ArmoredSkeleton && npc.type != NPCID.SkeletonArcher && npc.type != NPCID.GreekSkeleton)
             {
                 DropHelper.DropItemChance(npc, ItemID.BoneSword, DropHelper.DefiledDropRateInt);
             }
