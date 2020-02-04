@@ -2759,9 +2759,9 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.frostFlare)
 			{
 				player.resistCold = true;
-				player.buffImmune[44] = true;
-				player.buffImmune[46] = true;
-				player.buffImmune[47] = true;
+				player.buffImmune[BuffID.Frostburn] = true;
+				player.buffImmune[BuffID.Chilled] = true;
+				player.buffImmune[BuffID.Frozen] = true;
 
 				if (player.statLife > (int)(player.statLifeMax2 * 0.75))
 					player.allDamage += 0.1f;
