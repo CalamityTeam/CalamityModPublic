@@ -268,7 +268,7 @@ namespace CalamityMod.CalPlayer
         public bool unstablePrism = false;
         public bool regenator = false;
         public bool theBee = false;
-        public int theBeeDamage = 0;
+        public int theBeeCooldown = 0;
 		public bool alluringBait = false;
 		public bool enchantedPearl = false;
 		public bool fishingStation = false;
@@ -1511,7 +1511,6 @@ namespace CalamityMod.CalPlayer
             tarraMageHealCooldown = 0;
             bossRushImmunityFrameCurseTimer = 0;
             aBulwarkRareMeleeBoostTimer = 0;
-            theBeeDamage = 0;
             acidRoundMultiplier = 1D;
             reforges = 0;
             polarisBoostCounter = 0;
@@ -1519,6 +1518,7 @@ namespace CalamityMod.CalPlayer
             plaguedFuelPackCooldown = 0;
             plaguedFuelPackDash = 0;
             plaguedFuelPackDirection = 0;
+            theBeeCooldown = 0;
 			killSpikyBalls = false;
             moonCrownCooldown = 0;
             featherCrownCooldown = 0;
@@ -3389,33 +3389,6 @@ namespace CalamityMod.CalPlayer
 				add += 0.05f;
 			}
 
-            if (theBee && player.statLife >= player.statLifeMax2)
-            {
-                if (item.melee || item.ranged || item.magic || item.Calamity().rogue)
-                {
-                    double useTimeBeeMultiplier = (double)(item.useTime * item.useAnimation) / 3600D; //28 * 28 = 784 is average so that equals 784 / 3600 = 0.217777 = 21.7% boost
-                    if (item.type == ModContent.ItemType<ScarletDevil>())
-                    {
-                        if (useTimeBeeMultiplier > 0.1)
-                            useTimeBeeMultiplier = 0.1;
-                    }
-                    else
-                    {
-                        if (useTimeBeeMultiplier > 0.35)
-                            useTimeBeeMultiplier = 0.35;
-                    }
-                    theBeeDamage = (int)((double)item.damage * useTimeBeeMultiplier);
-                }
-            }
-            else
-            {
-                theBeeDamage = 0;
-            }
-            if (!theBee)
-            {
-                theBeeDamage = 0;
-            }
-
 			if (item.ranged)
 			{
 				acidRoundMultiplier = (double)(item.useTime) / 20D;
@@ -4902,11 +4875,6 @@ namespace CalamityMod.CalPlayer
             #endregion
 
             #region AdditiveBoosts
-            if (theBee && !isSummon)
-            {
-                if (hasClassType)
-                    damage += theBeeDamage;
-            }
             if (proj.type == ModContent.ProjectileType<AcidBulletProj>())
             {
                 int defenseAdd = (int)((double)target.defense * 0.05 * ((double)proj.damage / 50.0) * acidRoundMultiplier); //100 defense * 0.05 = 5
@@ -4995,7 +4963,7 @@ namespace CalamityMod.CalPlayer
 
             if ((target.damage > 5 || target.boss) && player.whoAmI == Main.myPlayer && !target.SpawnedFromStatue)
             {
-                if (theBeeDamage > 0 && (proj.melee || proj.ranged || proj.magic || proj.Calamity().rogue))
+                if (theBee && player.statLife >= player.statLifeMax2)
                 {
                     Main.PlaySound(2, (int)proj.position.X, (int)proj.position.Y, 110);
                 }
@@ -5853,6 +5821,11 @@ namespace CalamityMod.CalPlayer
             {
                 damage = (int)((double)damage * 0.7);
             }
+            if (theBee && player.statLife >= player.statLifeMax2 && theBeeCooldown <= 0)
+            {
+                damage = (int)((double)damage * 0.5);
+				theBeeCooldown = 600;
+            }
             if (CalamityWorld.revenge)
             {
                 if (!CalamityWorld.downedBossAny)
@@ -6215,6 +6188,40 @@ namespace CalamityMod.CalPlayer
                         Main.projectile[num17].ranged = false;
                     }
                 }
+				if (theBee)
+				{
+                    for (int n = 0; n < 3; n++)
+                    {
+                        float x = player.position.X + (float)Main.rand.Next(-400, 400);
+                        float y = player.position.Y - (float)Main.rand.Next(500, 800);
+                        Vector2 vector = new Vector2(x, y);
+                        float num13 = player.position.X + (float)(player.width / 2) - vector.X;
+                        float num14 = player.position.Y + (float)(player.height / 2) - vector.Y;
+                        num13 += (float)Main.rand.Next(-100, 101);
+                        int num15 = 29;
+                        float num16 = (float)Math.Sqrt((double)(num13 * num13 + num14 * num14));
+                        num16 = (float)num15 / num16;
+                        num13 *= num16;
+                        num14 *= num16;
+                        int star = Projectile.NewProjectile(x, y, num13, num14, 92, 130, 4f, player.whoAmI, 0f, 0f);
+                        Main.projectile[star].usesLocalNPCImmunity = true;
+                        Main.projectile[star].localNPCHitCooldown = 5;
+                        Main.projectile[star].ranged = false;
+                    }
+					int num = 1;
+					if (Main.rand.NextBool(3))
+						++num;
+					if (Main.rand.NextBool(3))
+						++num;
+					if (player.strongBees && Main.rand.NextBool(3))
+						++num;
+					for (int index = 0; index < num; ++index)
+					{
+						int bee = Projectile.NewProjectile(player.position.X, player.position.Y, (float) Main.rand.Next(-35, 36) * 0.02f, (float) Main.rand.Next(-35, 36) * 0.02f, (Main.rand.NextBool(4) ? ModContent.ProjectileType<PlaguenadeBee>() : player.beeType()), player.beeDamage(7), player.beeKB(0.0f), Main.myPlayer, 0.0f, 0.0f);
+                        Main.projectile[bee].usesLocalNPCImmunity = true;
+                        Main.projectile[bee].localNPCHitCooldown = 5;
+					}
+				}
             }
             if (fCarapace)
             {

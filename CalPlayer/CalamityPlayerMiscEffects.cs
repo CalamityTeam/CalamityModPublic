@@ -722,6 +722,8 @@ namespace CalamityMod.CalPlayer
 				modPlayer.plaguedFuelPackCooldown--;
 			if (modPlayer.plaguedFuelPackDash > 0)
 				modPlayer.plaguedFuelPackDash--;
+			if (modPlayer.theBeeCooldown > 0)
+				modPlayer.theBeeCooldown--;
 			if (modPlayer.jellyDmg > 0f)
 				modPlayer.jellyDmg -= 1f;
 			if (modPlayer.ataxiaDmg > 0f)
@@ -3104,6 +3106,15 @@ namespace CalamityMod.CalPlayer
 							break;
 						}
 					}
+				}
+			}
+
+			if (modPlayer.theBee)
+			{
+				if (player.statLife >= player.statLifeMax2)
+				{
+					float beeBoost = player.endurance / 2f;
+					player.allDamage += beeBoost;
 				}
 			}
 
