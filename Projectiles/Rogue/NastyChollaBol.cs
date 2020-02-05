@@ -37,10 +37,7 @@ namespace CalamityMod.Projectiles.Rogue
                 int num988 = 15;
                 bool flag54 = false;
                 bool flag55 = false;
-                float[] var_2_2CB4E_cp_0 = projectile.localAI;
-                int var_2_2CB4E_cp_1 = 0;
-                float num73 = var_2_2CB4E_cp_0[var_2_2CB4E_cp_1];
-                var_2_2CB4E_cp_0[var_2_2CB4E_cp_1] = num73 + 1f;
+                projectile.localAI[0] += 1f;
                 if (projectile.localAI[0] % 30f == 0f)
                 {
                     flag55 = true;
@@ -216,7 +213,14 @@ namespace CalamityMod.Projectiles.Rogue
         }
 
 		//So you can stick a bol up the Guide's ass
-        public override bool? CanHitNPC(NPC target) => target.type != NPCID.DD2EterniaCrystal && !target.immortal && !target.dontTakeDamage;
+        public override bool? CanHitNPC(NPC target)
+		{
+			if (target.townNPC)
+			{
+				return true;
+			}
+			return null;
+		}
 
         public override void Kill(int timeLeft)
         {

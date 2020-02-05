@@ -6255,11 +6255,25 @@ namespace CalamityMod.CalPlayer
                         num16 = (float)num15 / num16;
                         num13 *= num16;
                         num14 *= num16;
-                        int num17 = Projectile.NewProjectile(x, y, num13, num14, 92, 130, 4f, player.whoAmI, 0f, 0f);
-                        Main.projectile[num17].usesLocalNPCImmunity = true;
-                        Main.projectile[num17].localNPCHitCooldown = 5;
-                        Main.projectile[num17].ranged = false;
+                        int star = Projectile.NewProjectile(x, y, num13, num14, 92, 130, 4f, player.whoAmI, 0f, 0f);
+                        Main.projectile[star].usesLocalNPCImmunity = true;
+                        Main.projectile[star].localNPCHitCooldown = 5;
+                        Main.projectile[star].ranged = false;
                     }
+
+					/*int num = 1;
+					if (Main.rand.NextBool(3))
+						++num;
+					if (Main.rand.NextBool(3))
+						++num;
+					if (player.strongBees && Main.rand.NextBool(3))
+						++num;
+					for (int index = 0; index < num; ++index)
+					{
+						int bee = Projectile.NewProjectile(player.position.X, player.position.Y, (float) Main.rand.Next(-35, 36) * 0.02f, (float) Main.rand.Next(-35, 36) * 0.02f, player.beeType(), player.beeDamage(7), player.beeKB(0f), Main.myPlayer, 0f, 0f);
+                        Main.projectile[bee].usesLocalNPCImmunity = true;
+                        Main.projectile[bee].localNPCHitCooldown = 5;
+					}*/
                 }
 				if (theBee)
 				{
@@ -6290,7 +6304,7 @@ namespace CalamityMod.CalPlayer
 						++num;
 					for (int index = 0; index < num; ++index)
 					{
-						int bee = Projectile.NewProjectile(player.position.X, player.position.Y, (float) Main.rand.Next(-35, 36) * 0.02f, (float) Main.rand.Next(-35, 36) * 0.02f, (Main.rand.NextBool(4) ? ModContent.ProjectileType<PlaguenadeBee>() : player.beeType()), player.beeDamage(7), player.beeKB(0.0f), Main.myPlayer, 0.0f, 0.0f);
+						int bee = Projectile.NewProjectile(player.position.X, player.position.Y, (float) Main.rand.Next(-35, 36) * 0.02f, (float) Main.rand.Next(-35, 36) * 0.02f, (Main.rand.NextBool(4) ? ModContent.ProjectileType<PlaguenadeBee>() : player.beeType()), player.beeDamage(7), player.beeKB(0f), Main.myPlayer, 0f, 0f);
                         Main.projectile[bee].usesLocalNPCImmunity = true;
                         Main.projectile[bee].localNPCHitCooldown = 5;
 					}

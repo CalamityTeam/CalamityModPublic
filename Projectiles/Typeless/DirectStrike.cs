@@ -21,12 +21,13 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.timeLeft = 2;
         }
 
-        // Can only strike the given NPC slot (assuming it's a valid identifier)
+        // If the AI parameter isn't a valid NPC slot, it can hit anything. Otherwise it can only hit one NPC.
+		// TODO -- this might actually not work in multiplayer if the DirectStrike gets synced...
         public override bool? CanHitNPC(NPC target)
         {
-            if (projectile.ai[0] < 0f || projectile.ai[0] > 199f)
+			if (projectile.ai[0] < 0f || projectile.ai[0] > 199f || projectile.ai[0] == target.whoAmI)
                 return null;
-            return projectile.ai[0] == target.whoAmI;
+            return (bool?)false;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Accessories.Wings;
+using CalamityMod.Items.Critters;
 using CalamityMod.Items.Fishing.AstralCatches;
 using CalamityMod.Items.Fishing.BrimstoneCragCatches;
 using CalamityMod.Items.Fishing.SunkenSeaCatches;
@@ -231,6 +232,12 @@ namespace CalamityMod
             r.AddIngredient(ModContent.ItemType<ProcyonidPrawn>());
             r.AddTile(TileID.CookingPots);
             r.SetResult(ItemID.CookedShrimp);
+            r.AddRecipe();
+
+            r = GetNewRecipe();
+            r.AddIngredient(ModContent.ItemType<PiggyItem>());
+            r.AddTile(TileID.CookingPots);
+            r.SetResult(ItemID.Bacon);
             r.AddRecipe();
         }
         #endregion
