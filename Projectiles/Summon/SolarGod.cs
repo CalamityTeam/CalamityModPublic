@@ -133,7 +133,7 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 if (flag11)
                 {
-                    float num403 = 35f;
+                    float num403 = 15f;
                     Vector2 vector29 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
                     float num404 = num396 - vector29.X;
                     float num405 = num397 - vector29.Y;
