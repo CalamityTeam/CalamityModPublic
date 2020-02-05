@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Weapons.Melee
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cosmic Shiv");
-			Tooltip.SetDefault("Definintely don't underestimate the power of shivs\n" +
+			Tooltip.SetDefault("Definitely don't underestimate the power of shivs\n" +
 							   "Fires a cosmic beam that home in on enemies\n" +
                                "Upon hitting an enemy, a barrage of offscreen objects home in on the enemy as well as raining stars");
 		}
