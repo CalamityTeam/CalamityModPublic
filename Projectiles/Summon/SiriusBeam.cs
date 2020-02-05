@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.friendly = true;
             projectile.minion = true;
             projectile.minionSlots = 0f;
-            projectile.extraUpdates = 100;
+            projectile.extraUpdates = 220;
             projectile.timeLeft = 1000;
 			projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = 10;

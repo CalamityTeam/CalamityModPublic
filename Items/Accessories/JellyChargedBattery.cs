@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Accessories
             item.height = 22;
             item.value = Item.buyPrice(0, 2, 0, 0);
             item.accessory = true;
-            item.rare = 2;
+            item.rare = 3;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Accessories
 			player.Calamity().voltaicJelly = true;
 			player.Calamity().jellyChargedBattery = true;
             player.maxMinions ++;
-            player.minionDamage += 0.07f;
+            player.minionDamage += 0.1f;
         }
 
         public override void AddRecipes()

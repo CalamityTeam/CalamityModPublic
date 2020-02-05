@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.minion = true;
             projectile.minionSlots = 0f;
             projectile.penetrate = 1;
-            projectile.extraUpdates = 100;
+            projectile.extraUpdates = 220;
             projectile.timeLeft = 200;
         }
 

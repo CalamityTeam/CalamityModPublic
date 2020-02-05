@@ -10,7 +10,7 @@ namespace CalamityMod.Buffs.Summon
         public override void SetDefaults()
         {
             DisplayName.SetDefault("The Profaned Soul");
-            Description.SetDefault("The healer will heal your wounds");
+            Description.SetDefault("The healer will heal your wounds!");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
         }

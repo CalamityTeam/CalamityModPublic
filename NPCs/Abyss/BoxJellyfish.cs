@@ -213,7 +213,7 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void NPCLoot()
         {
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<AbyssShocker>(), NPC.downedBoss3, Main.expertMode ? 40 : 50, 1, 1);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<AbyssShocker>(), NPC.downedBoss3, CalamityWorld.defiled ? 20 : Main.expertMode ? 40 : 50, 1, 1);
 		}
     }
 }
