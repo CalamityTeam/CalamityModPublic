@@ -64,24 +64,21 @@ namespace CalamityMod.Projectiles.Melee
                     int num297 = 89;
                     //Dust
                     int num299 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num297, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default, 1f);
+                    Dust dust = Main.dust[num299];
                     if (Main.rand.NextBool(3))
                     {
-                        Main.dust[num299].noGravity = true;
-                        Main.dust[num299].scale *= 1.8f;
-                        Dust expr_DBEF_cp_0 = Main.dust[num299];
-                        expr_DBEF_cp_0.velocity.X *= 2f;
-                        Dust expr_DC0F_cp_0 = Main.dust[num299];
-                        expr_DC0F_cp_0.velocity.Y *= 2f;
+                        dust.noGravity = true;
+                        dust.scale *= 1.8f;
+                        dust.velocity.X *= 2f;
+                        dust.velocity.Y *= 2f;
                     }
                     else
                     {
-                        Main.dust[num299].scale *= 1.3f;
+                        dust.scale *= 1.3f;
                     }
-                    Dust expr_DC74_cp_0 = Main.dust[num299];
-                    expr_DC74_cp_0.velocity.X *= 1.2f;
-                    Dust expr_DC94_cp_0 = Main.dust[num299];
-                    expr_DC94_cp_0.velocity.Y *= 1.2f;
-                    Main.dust[num299].scale *= num296;
+                    dust.velocity.X *= 1.2f;
+                    dust.velocity.Y *= 1.2f;
+                    dust.scale *= num296;
 
                 }
                 else
