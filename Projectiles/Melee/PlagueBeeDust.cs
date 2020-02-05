@@ -60,6 +60,7 @@ namespace CalamityMod.Projectiles.Melee
                             projectile.velocity.X, projectile.velocity.Y, Main.player[projectile.owner].beeType(),
                             Main.player[projectile.owner].beeDamage(projectile.damage / 3), Main.player[projectile.owner].beeKB(0f), projectile.owner, 0f, 0f);
                         Main.projectile[bee].penetrate = 1;
+						Main.projectile[bee].Calamity().forceMelee = true;
                     }
                     int num297 = 89;
                     //Dust
