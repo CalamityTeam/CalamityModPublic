@@ -606,7 +606,7 @@ namespace CalamityMod.Projectiles
 				}
 			}
 
-            if (!projectile.npcProj && projectile.friendly && projectile.damage > 0)
+            if (!projectile.npcProj && !projectile.trap && projectile.friendly && projectile.damage > 0)
 			{
 				if (modPlayer.eQuiver && projectile.ranged && CalamityMod.rangedProjectileExceptionList.TrueForAll(x => projectile.type != x))
 				{
@@ -685,7 +685,7 @@ namespace CalamityMod.Projectiles
 					}
 				}
 
-				if (modPlayer.daedalusSplit && rogue && !projectile.npcProj)
+				if (modPlayer.daedalusSplit && rogue)
 				{
 					counter2++;
 					if (counter2 >= 30)
@@ -735,6 +735,109 @@ namespace CalamityMod.Projectiles
 					}
 				}
 
+				if (rogue && (int) player.meleeEnchant > 0 && !projectile.noEnchantments)
+				{
+					if ((int) player.meleeEnchant == 1 && Main.rand.Next(3) == 0)
+					{
+						int index = Dust.NewDust(projectile.position, projectile.width, projectile.height, 171, 0.0f, 0.0f, 100, new Color(), 1f);
+						Main.dust[index].noGravity = true;
+						Main.dust[index].fadeIn = 1.5f;
+						Main.dust[index].velocity *= 0.25f;
+					}
+					if ((int) player.meleeEnchant == 1)
+					{
+						if (Main.rand.Next(3) == 0)
+						{
+							int index = Dust.NewDust(projectile.position, projectile.width, projectile.height, 171, 0.0f, 0.0f, 100, new Color(), 1f);
+							Main.dust[index].noGravity = true;
+							Main.dust[index].fadeIn = 1.5f;
+							Main.dust[index].velocity *= 0.25f;
+						}
+					}
+					else if ((int) player.meleeEnchant == 2)
+					{
+						if (Main.rand.Next(2) == 0)
+						{
+							int index = Dust.NewDust(projectile.position, projectile.width, projectile.height, 75, projectile.velocity.X * 0.2f + (float) (projectile.direction * 3), projectile.velocity.Y * 0.2f, 100, new Color(), 2.5f);
+							Main.dust[index].noGravity = true;
+							Main.dust[index].velocity *= 0.7f;
+							Main.dust[index].velocity.Y -= 0.5f;
+						}
+					}
+					else if ((int) player.meleeEnchant == 3)
+					{
+						if (Main.rand.Next(2) == 0)
+						{
+							int index = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6, projectile.velocity.X * 0.2f + (float) (projectile.direction * 3), projectile.velocity.Y * 0.2f, 100, new Color(), 2.5f);
+							Main.dust[index].noGravity = true;
+							Main.dust[index].velocity *= 0.7f;
+							Main.dust[index].velocity.Y -= 0.5f;
+						}
+					}
+					else if ((int) player.meleeEnchant == 4)
+					{
+						if (Main.rand.Next(2) == 0)
+						{
+							int index = Dust.NewDust(projectile.position, projectile.width, projectile.height, 57, projectile.velocity.X * 0.2f + (float) (projectile.direction * 3), projectile.velocity.Y * 0.2f, 100, new Color(), 1.1f);
+							Main.dust[index].noGravity = true;
+							Main.dust[index].velocity.X /= 2f;
+							Main.dust[index].velocity.Y /= 2f;
+						}
+					}
+					else if ((int) player.meleeEnchant == 5)
+					{
+						if (Main.rand.Next(2) == 0)
+						{
+							int index = Dust.NewDust(projectile.position, projectile.width, projectile.height, 169, 0.0f, 0.0f, 100, new Color(), 1f);
+							Main.dust[index].velocity.X += (float) projectile.direction;
+							Main.dust[index].velocity.Y += 0.2f;
+							Main.dust[index].noGravity = true;
+						}
+					}
+					else if ((int) player.meleeEnchant == 6)
+					{
+						if (Main.rand.Next(2) == 0)
+						{
+							int index = Dust.NewDust(projectile.position, projectile.width, projectile.height, 135, 0.0f, 0.0f, 100, new Color(), 1f);
+							Main.dust[index].velocity.X += (float) projectile.direction;
+							Main.dust[index].velocity.Y += 0.2f;
+							Main.dust[index].noGravity = true;
+						}
+					}
+					else if ((int) player.meleeEnchant == 7)
+					{
+						Vector2 velocity = projectile.velocity;
+						if ((double) velocity.Length() > 4.0)
+							velocity *= 4f / velocity.Length();
+						if (Main.rand.NextBool(20))
+						{
+							int index = Dust.NewDust(projectile.position, projectile.width, projectile.height, Main.rand.Next(139, 143), velocity.X, velocity.Y, 0, new Color(), 1.2f);
+							Main.dust[index].velocity.X *= (float) (1.0 + (double) Main.rand.Next(-50, 51) * 0.01);
+							Main.dust[index].velocity.Y *= (float) (1.0 + (double) Main.rand.Next(-50, 51) * 0.01);
+							Main.dust[index].velocity.X += (float) Main.rand.Next(-50, 51) * 0.05f;
+							Main.dust[index].velocity.Y += (float) Main.rand.Next(-50, 51) * 0.05f;
+							Main.dust[index].scale *= (float) (1.0 + (double) Main.rand.Next(-30, 31) * 0.01);
+						}
+						if (Main.rand.NextBool(40))
+						{
+							int Type = Main.rand.Next(276, 283);
+							int index = Gore.NewGore(projectile.position, velocity, Type, 1f);
+							Main.gore[index].velocity.X *= (float) (1.0 + (double) Main.rand.Next(-50, 51) * 0.01);
+							Main.gore[index].velocity.Y *= (float) (1.0 + (double) Main.rand.Next(-50, 51) * 0.01);
+							Main.gore[index].scale *= (float) (1.0 + (double) Main.rand.Next(-20, 21) * 0.01);
+							Main.gore[index].velocity.X += (float) Main.rand.Next(-50, 51) * 0.05f;
+							Main.gore[index].velocity.Y += (float) Main.rand.Next(-50, 51) * 0.05f;
+						}
+					}
+					else if ((int) player.meleeEnchant == 8 && Main.rand.Next(4) == 0)
+					{
+						int index = Dust.NewDust(projectile.position, projectile.width, projectile.height, 46, 0.0f, 0.0f, 100, new Color(), 1f);
+						Main.dust[index].noGravity = true;
+						Main.dust[index].fadeIn = 1.5f;
+						Main.dust[index].velocity *= 0.25f;
+					}
+				}
+
 				if (rogue)
 				{
 					// Moon Crown gets overridden by Nanotech
@@ -781,6 +884,20 @@ namespace CalamityMod.Projectiles
         }
         #endregion
 
+		#region ModifyHitNPC
+		public override void ModifyHitNPC(Projectile projectile, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+		{
+			Player player = Main.player[projectile.owner];
+			CalamityPlayer modPlayer = player.Calamity();
+
+            if (projectile.owner == Main.myPlayer && !projectile.npcProj && !projectile.trap)
+            {
+				if (rogue && stealthStrike && modPlayer.stealthStrikeAlwaysCrits)
+					crit = true;
+			}
+		}
+		#endregion
+
         // TODO -- there are a LOT of returns here which should be breaks or gotos out of if statements
         #region OnHitNPC
         public override void OnHitNPC(Projectile projectile, NPC target, int damage, float knockback, bool crit)
@@ -788,10 +905,10 @@ namespace CalamityMod.Projectiles
 			Player player = Main.player[projectile.owner];
 			CalamityPlayer modPlayer = player.Calamity();
 
-            if (projectile.owner == Main.myPlayer)
+            if (projectile.owner == Main.myPlayer && !projectile.npcProj && !projectile.trap)
             {
-				if (rogue && stealthStrike && modPlayer.stealthStrikeAlwaysCrits)
-					crit = true;
+                if (rogue && (int) player.meleeEnchant == 7)
+					Projectile.NewProjectile(target.Center.X, target.Center.Y, target.velocity.X, target.velocity.Y, 289, 0, 0f, projectile.owner, 0f, 0f);
 
                 if (rogue && stealthStrike && modPlayer.dragonScales && CalamityUtils.CountProjectiles(ModContent.ProjectileType<InfernadoFriendly>()) < 2)
                 {
@@ -1826,7 +1943,7 @@ namespace CalamityMod.Projectiles
         public override void Kill(Projectile projectile, int timeLeft)
         {
 			CalamityPlayer modPlayer = Main.player[projectile.owner].Calamity();
-            if (projectile.owner == Main.myPlayer)
+            if (projectile.owner == Main.myPlayer && !projectile.npcProj && !projectile.trap)
             {
                 if (modPlayer.providenceLore && projectile.friendly && projectile.damage > 0 && (projectile.melee || projectile.ranged || projectile.magic || rogue))
                 {
