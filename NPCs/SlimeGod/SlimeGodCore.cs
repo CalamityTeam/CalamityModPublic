@@ -100,9 +100,8 @@ namespace CalamityMod.NPCs.SlimeGod
 			{
 				if (Main.npc[CalamityGlobalNPC.slimeGodRed].active)
 				{
-					if (!death)
-						flag100 = true;
-					else
+					flag100 = true;
+					if (death)
 						npc.dontTakeDamage = true;
 				}
 			}
@@ -110,9 +109,8 @@ namespace CalamityMod.NPCs.SlimeGod
 			{
 				if (Main.npc[CalamityGlobalNPC.slimeGodPurple].active)
 				{
-					if (!death)
-						flag100 = true;
-					else
+					flag100 = true;
+					if (death)
 						npc.dontTakeDamage = true;
 				}
 			}
@@ -243,7 +241,7 @@ namespace CalamityMod.NPCs.SlimeGod
             }
             npc.TargetClosest(true);
             float num1372 = 6f;
-            if (!flag100)
+            if (!flag100 || death)
             {
                 num1372 = 14f;
             }
