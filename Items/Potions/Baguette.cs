@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Potions
 
         public override void OnConsumeItem(Player player)
         {
-            player.AddBuff(BuffID.WellFed, 72000);
+            player.AddBuff(BuffID.WellFed, 288000);
         }
 
         public override void AddRecipes()
