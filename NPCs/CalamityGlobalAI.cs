@@ -4367,7 +4367,7 @@ namespace CalamityMod.NPCs
                         shootTime += 1;
 
                     calamityGlobalNPC.newAI[0] += (float)Main.rand.Next(shootTime);
-                    int randomCount = Main.rand.Next(1330, 24700);
+                    int randomCount = death ? Main.rand.Next(1470, 27300) : Main.rand.Next(1330, 24700);
 
                     if (calamityGlobalNPC.newAI[0] >= (float)randomCount)
                     {

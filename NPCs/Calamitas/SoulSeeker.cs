@@ -69,7 +69,7 @@ namespace CalamityMod.NPCs.Calamitas
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient && Main.rand.NextBool(10))
                 {
-                    if (NPC.CountNPCS(ModContent.NPCType<LifeSeeker>()) < 10)
+                    if (NPC.CountNPCS(ModContent.NPCType<LifeSeeker>()) < 3)
                     {
                         int x = (int)(npc.position.X + (float)Main.rand.Next(npc.width - 25));
                         int y = (int)(npc.position.Y + (float)Main.rand.Next(npc.height - 25));
