@@ -54,7 +54,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.DayBreak, 1);
+            recipe.AddIngredient(ModContent.ItemType<NightsGaze>(), 1);
             recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 15);
             recipe.AddIngredient(ModContent.ItemType<CoreofCinder>(), 6);
             recipe.AddTile(TileID.LunarCraftingStation);
