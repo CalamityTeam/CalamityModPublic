@@ -48,13 +48,14 @@ namespace CalamityMod.Items.Weapons.Rogue
             return true;
         }
 
-        /*public override void AddRecipes()
+        public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<MeldiateBar>(), 16);
+            recipe.AddIngredient(ModContent.ItemType<MeldiateBar>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<Stardust>(), 30);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
-        }*/
+        }
     }
 }
