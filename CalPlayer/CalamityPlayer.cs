@@ -4993,7 +4993,7 @@ namespace CalamityMod.CalPlayer
                 if (proj.type == ModContent.ProjectileType<VeriumBulletProj>())
                     damage = (int)(damage * 0.8);
 				else if (proj.type == ModContent.ProjectileType<AcidBulletProj>() && heldItem.type == ModContent.ItemType<P90>())
-					damage = (int)(damage * 0.5);
+					damage = (int)(damage * 0.75);
 			}
             if (proj.type == ProjectileID.SpectreWrath && player.ghostHurt)
                 damage = (int)(damage * 0.7);
