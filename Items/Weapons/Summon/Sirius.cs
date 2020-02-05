@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.Calamity().postMoonLordRarity = 13;
         }
 
-        public override void UpdateInventory(Player player)
+		public override void HoldItem(Player player)
         {
 			double minionCount = 0;
 			for (int j = 0; j < Main.projectile.Length; j++)
