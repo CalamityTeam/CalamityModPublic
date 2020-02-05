@@ -8164,7 +8164,7 @@ namespace CalamityMod.NPCs
                 // Fire projectiles
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-					float shootBoost = death ? 8f : 8f * (1f - lifeRatio);
+					float shootBoost = death ? 4f : 8f * (1f - lifeRatio);
                     npc.localAI[1] += 1f + shootBoost;
 
                     if (enrage)
