@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Typeless
         {
             if (projectile.ai[0] < 0f || projectile.ai[0] > 199f)
                 return null;
-            return projectile.ai[0] == target.whoAmI;
+            return (projectile.ai[0] == target.whoAmI) ? null : false;
         }
     }
 }
