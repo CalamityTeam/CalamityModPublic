@@ -49,7 +49,7 @@ namespace CalamityMod.NPCs.StormWeaver
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.canGhostHeal = false;
-            npc.HitSound = SoundID.NPCHit4;
+            npc.HitSound = SoundID.NPCHit53;
             npc.DeathSound = SoundID.NPCDeath14;
             npc.netAlways = true;
             for (int k = 0; k < npc.buffImmune.Length; k++)
