@@ -777,10 +777,10 @@ E - 140
 R - 161
 D - 173
 Aquatic Aberration
-N - 60
-E - 120
-R - 138
-D - 148
+N - 55
+E - 110
+R - 126
+D - 136
 Parasea
 N - 50
 E - 100
