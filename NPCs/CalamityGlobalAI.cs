@@ -16525,7 +16525,12 @@ namespace CalamityMod.NPCs
                         if (npc.ai[0] >= 2f)
                         {
                             npc.direction *= -1;
-                            npc.spriteDirection = npc.direction;
+
+							if (npc.type == ModContent.NPCType<WulfrumDrone>())
+								npc.spriteDirection = (npc.direction > 0) ? 1 : -1;
+							else
+								npc.spriteDirection = npc.direction;
+
                             npc.ai[0] = 0f;
                         }
                     }
@@ -18523,7 +18528,7 @@ namespace CalamityMod.NPCs
                 else
                 {
                     int alteredDirection = npc.spriteDirection;
-                    if (npc.type == NPCID.VortexRifleman)
+                    if (npc.type == NPCID.VortexRifleman || npc.type == ModContent.NPCType<WulfrumDrone>())
                     {
                         alteredDirection *= -1;
                     }

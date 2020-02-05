@@ -333,21 +333,21 @@ namespace CalamityMod.CalPlayer
 			// Death Mode effects
 			if (CalamityWorld.death)
 			{
-				// Darkness while underground
-				Point point = player.Center.ToTileCoordinates();
-				if ((double)point.Y > Main.worldSurface && !modPlayer.ZoneAbyss && !player.ZoneUnderworldHeight)
-				{
-					double maxDistanceBelow = (double)(Main.maxTilesY - 200 - (int)Main.worldSurface);
-					double distanceBelow = (double)point.Y - Main.worldSurface;
-					double distanceBelowRatio = distanceBelow / maxDistanceBelow;
-					int lightStrength = LightStrength(player, modPlayer);
-					Main.BlackFadeIn = (int)(distanceBelowRatio * 200D) - lightStrength * 25;
-					if (Main.BlackFadeIn < 0)
-						Main.BlackFadeIn = 0;
-				}
-
 				if (player.whoAmI == Main.myPlayer)
 				{
+					// Darkness while underground
+					Point point = player.Center.ToTileCoordinates();
+					if ((double)point.Y > Main.worldSurface && !modPlayer.ZoneAbyss && !player.ZoneUnderworldHeight)
+					{
+						double maxDistanceBelow = (double)(Main.maxTilesY - 200 - (int)Main.worldSurface);
+						double distanceBelow = (double)point.Y - Main.worldSurface;
+						double distanceBelowRatio = distanceBelow / maxDistanceBelow;
+						int lightStrength = LightStrength(player, modPlayer);
+						Main.BlackFadeIn = (int)(distanceBelowRatio * 200D) - lightStrength * 25;
+						if (Main.BlackFadeIn < 0)
+							Main.BlackFadeIn = 0;
+					}
+
 					// Immunity bools
 					bool hasMoltenSet = player.head == 9 && player.body == 9 && player.legs == 9;
 					bool hasEskimoSet = (player.head == 58 || player.head == 77) && (player.body == 38 || player.head == 50) && (player.legs == 36 || player.head == 46); //this is normal and pink eskimo armor (you can mix and match)
