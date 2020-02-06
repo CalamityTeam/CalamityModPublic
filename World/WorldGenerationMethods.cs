@@ -4333,14 +4333,20 @@ namespace CalamityMod.World
             int LCPlanetoidCount = Main.maxTilesX / 800;
             int MudPlanetoidCount = Main.maxTilesX / 1100;
 
-            while (true)
+            const int MainPlanetoidAttempts = 3000;
+            int i = 0;
+            while (i < MainPlanetoidAttempts)
             {
                 if (Biomes<MainPlanet>.Place(new Point(WorldGen.genRand.Next(Main.maxTilesX / 2 - 300, Main.maxTilesX / 2 + 300), WorldGen.genRand.Next(128, 134)), WorldGen.structures))
                 {
                     break;
                 }
+                i++;
             }
-            while (LCPlanetoidCount > 0)
+
+            const int CrystalHeartPlanetoidAttempts = 15000;
+            i = 0;
+            while (LCPlanetoidCount > 0 && i < CrystalHeartPlanetoidAttempts)
             {
                 int x = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.2), (int)(Main.maxTilesX * 0.8));
                 int y = WorldGen.genRand.Next(70, 101);
@@ -4349,8 +4355,12 @@ namespace CalamityMod.World
 
                 if (placed)
                     LCPlanetoidCount--;
+                i++;
             }
-            while (GrassPlanetoidCount > 0)
+
+            const int GrassPlanetoidAttempts = 12000;
+            i = 0;
+            while (GrassPlanetoidCount > 0 && i < GrassPlanetoidAttempts)
             {
                 int x = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.333), (int)(Main.maxTilesX * 0.666));
                 int y = WorldGen.genRand.Next(100, 131);
@@ -4360,8 +4370,12 @@ namespace CalamityMod.World
 
                 if (placed)
                     GrassPlanetoidCount--;
+                i++;
             }
-            while (MudPlanetoidCount > 0)
+
+            const int MudPlanetoidAttempts = 12000;
+            i = 0;
+            while (MudPlanetoidCount > 0 && i < MudPlanetoidAttempts)
             {
                 int x = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.3f), (int)(Main.maxTilesX * 0.7f));
                 int y = WorldGen.genRand.Next(100, 131);
@@ -4370,6 +4384,7 @@ namespace CalamityMod.World
 
                 if (placed)
                     MudPlanetoidCount--;
+                i++;
             }
         }
         #endregion
