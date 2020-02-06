@@ -243,7 +243,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void FindFrame(int frameHeight)
         {
-            npc.frameCounter += hasBeenHit ? 0.15f : 0.075f;
+            npc.frameCounter += hasBeenHit ? 0.2f : 0.1f;
             npc.frameCounter %= Main.npcFrameCount[npc.type];
             int frame = (int)npc.frameCounter;
             npc.frame.Y = frame * frameHeight;
