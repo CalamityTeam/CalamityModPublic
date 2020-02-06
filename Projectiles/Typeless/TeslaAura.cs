@@ -80,6 +80,7 @@ namespace CalamityMod.Projectiles.Typeless
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             target.AddBuff(BuffID.Electrified, 300);
+            target.AddBuff(ModContent.BuffType<TeslaFreeze>(), 120);
 		}
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
