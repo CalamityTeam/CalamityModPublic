@@ -678,7 +678,7 @@ namespace CalamityMod.NPCs
 				npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
 				npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
 				npc.buffImmune[ModContent.BuffType<TimeSlow>()] = true;
-				npc.buffImmune[ModContent.BuffType<TeslaBuff>()] = true;
+				npc.buffImmune[ModContent.BuffType<TeslaFreeze>()] = true;
 				npc.buffImmune[ModContent.BuffType<Eutrophication>()] = true;
 				npc.buffImmune[BuffID.Webbed] = true;
 				npc.buffImmune[BuffID.Slow] = true;

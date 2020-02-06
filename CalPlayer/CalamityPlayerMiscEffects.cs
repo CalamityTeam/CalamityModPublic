@@ -2587,7 +2587,7 @@ namespace CalamityMod.CalPlayer
 				player.velocity.X = 0f;
 			}
 
-			if (modPlayer.vaporfied)
+			if (modPlayer.vaporfied || modPlayer.teslaFreeze)
 			{
 				player.velocity.Y *= 0.98f;
 				player.velocity.X *= 0.98f;
