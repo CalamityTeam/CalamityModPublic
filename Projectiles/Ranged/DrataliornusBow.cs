@@ -85,8 +85,6 @@ namespace CalamityMod.Projectiles.Ranged
                     Main.PlaySound(SoundID.Item5, projectile.position);
             }
 
-            player.phantasmTime = 2;
-
             if (timeToFire && Main.myPlayer == projectile.owner)
             {
                 if (canFire) //fire an angery flame
