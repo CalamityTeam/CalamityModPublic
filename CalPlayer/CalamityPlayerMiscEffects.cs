@@ -520,7 +520,7 @@ namespace CalamityMod.CalPlayer
 					}
 
 					// Cold timer
-					if (!player.behindBackWall && Main.raining && player.ZoneSnow && !immunityToCold)
+					if (!player.behindBackWall && Main.raining && player.ZoneSnow && !immunityToCold && player.ZoneOverworldHeight)
 					{
 						bool affectedByColdWater = player.wet && !player.lavaWet && !player.honeyWet && !player.arcticDivingGear;
 
