@@ -15,7 +15,10 @@ namespace CalamityMod.World.Planets
     {
         public override bool Place(Point origin, StructureMap structures)
         {
+            // 1 on Small, 1.52 on Medium, 2 on Large
             float scale = (float)Main.maxTilesX / 4200f;
+            // Clamp scale to prevent problems on extra large worlds
+            scale = MathHelper.Clamp(scale, 1f, 2f);
             int radius = (int)((float)_random.Next(30, 36) * scale); //50 to 65
 
             if (!CheckIfPlaceable(origin, radius, structures))

@@ -4333,12 +4333,15 @@ namespace CalamityMod.World
             int LCPlanetoidCount = Main.maxTilesX / 800;
             int MudPlanetoidCount = Main.maxTilesX / 1100;
 
-            while (true)
+            const int mainPlanetoidAttempts = 15000;
+            int i = 0;
+            while (i < mainPlanetoidAttempts)
             {
                 if (Biomes<MainPlanet>.Place(new Point(WorldGen.genRand.Next(Main.maxTilesX / 2 - 300, Main.maxTilesX / 2 + 300), WorldGen.genRand.Next(128, 134)), WorldGen.structures))
                 {
                     break;
                 }
+                i++;
             }
             while (LCPlanetoidCount > 0)
             {
