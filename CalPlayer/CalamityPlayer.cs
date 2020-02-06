@@ -1497,7 +1497,9 @@ namespace CalamityMod.CalPlayer
         #region UpdateDead
         public override void UpdateDead()
         {
-            #region Debuffs
+			#region Debuffs
+			deathModeBlizzardTime = 0;
+			deathModeUnderworldTime = 0;
             gaelRageCooldown = 0;
             gaelSwipes = 0;
             gaelSwitchTimer = (GaelSwitchPhase)0;
