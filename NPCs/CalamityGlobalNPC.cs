@@ -2158,6 +2158,19 @@ namespace CalamityMod.NPCs
 
                         break;
 
+                    case NPCID.Nurse:
+                        switch (Main.rand.Next(25)) // 24 Nurse names
+                        {
+                            case 0:
+                                npc.GivenName = "Farsni";
+                                break;
+
+                            default:
+                                break;
+                        }
+
+                        break;
+
                     default:
                         break;
                 }
