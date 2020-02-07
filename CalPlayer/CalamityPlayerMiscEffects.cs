@@ -2880,69 +2880,84 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.tarraSummon)
 			{
 				int lifeCounter = 0;
-				float num2 = 300f;
+				float range = 300f;
 				bool flag = lifeCounter % 60 == 0;
-				int num3 = 200;
+				int dmg = 200;
 
 				if (player.whoAmI == Main.myPlayer)
 				{
-					for (int l = 0; l < 200; l++)
+					for (int l = 0; l < Main.npc.Length; l++)
 					{
 						NPC nPC = Main.npc[l];
-						if (nPC.active && !nPC.friendly && nPC.damage > 0 && !nPC.dontTakeDamage && Vector2.Distance(player.Center, nPC.Center) <= num2)
+						if (nPC.active && !nPC.friendly && nPC.damage > 0 && !nPC.dontTakeDamage && Vector2.Distance(player.Center, nPC.Center) <= range)
 						{
 							if (flag)
 							{
-								nPC.StrikeNPC(num3, 0f, 0, false, false, false);
-								if (Main.netMode != NetmodeID.SinglePlayer)
-									NetMessage.SendData(28, -1, -1, null, l, (float)num3, 0f, 0f, 0, 0, 0);
+                                if (player.whoAmI == Main.myPlayer)
+                                {
+									nPC.StrikeNPC(dmg, 0f, 0, false, false, false);
+									if (Main.netMode != NetmodeID.SinglePlayer)
+										NetMessage.SendData(28, -1, -1, null, l, (float)dmg, 0f, 0f, 0, 0, 0);
+									/*Projectile p = Projectile.NewProjectileDirect(nPC.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), dmg, 0f, player.whoAmI, l);*/
+								}
 							}
 						}
 					}
 				}
-
-				if (lifeCounter >= 180)
-					lifeCounter = 0;
 				lifeCounter++;
+				if (lifeCounter >= 180)
+				{
+					lifeCounter = 0;
+				}
 			}
 
 			if (player.inventory[player.selectedItem].type == ModContent.ItemType<NavyFishingRod>() && player.ownedProjectileCounts[ModContent.ProjectileType<NavyBobber>()] != 0)
 			{
 				int auraCounter = 0;
-				float num2 = 200f;
+				float range = 200f;
 				bool flag = auraCounter % 120 == 0;
-				int num3 = 10;
+				int dmg = 10;
 
 				if (player.whoAmI == Main.myPlayer)
 				{
-					for (int l = 0; l < 200; l++)
+					for (int l = 0; l < Main.npc.Length; l++)
 					{
 						NPC nPC = Main.npc[l];
-						if (nPC.active && !nPC.friendly && nPC.damage > 0 && !nPC.dontTakeDamage && Vector2.Distance(player.Center, nPC.Center) <= num2)
+						if (nPC.active && !nPC.friendly && nPC.damage > 0 && !nPC.dontTakeDamage && Vector2.Distance(player.Center, nPC.Center) <= range)
 						{
 							if (flag)
 							{
-								nPC.StrikeNPC(num3, 0f, 0, false, false, false);
-								if (Main.netMode != NetmodeID.SinglePlayer)
-									NetMessage.SendData(28, -1, -1, null, l, (float)num3, 0f, 0f, 0, 0, 0);
+								if (player.whoAmI == Main.myPlayer)
+								{
+									nPC.StrikeNPC(dmg, 0f, 0, false, false, false);
+									if (Main.netMode != NetmodeID.SinglePlayer)
+										NetMessage.SendData(28, -1, -1, null, l, (float)dmg, 0f, 0f, 0, 0, 0);
+									/*Projectile p = Projectile.NewProjectileDirect(nPC.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), dmg, 0f, player.whoAmI, l);*/
 
-								Vector2 value15 = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
-								while (value15.X == 0f && value15.Y == 0f)
-									value15 = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
+									if (Main.rand.NextBool(10))
+									{
+										Vector2 value15 = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
+										while (value15.X == 0f && value15.Y == 0f)
+											value15 = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
 
-								value15.Normalize();
-								value15 *= (float)Main.rand.Next(30, 61) * 0.1f;
-								int num17 = Projectile.NewProjectile(nPC.Center.X, nPC.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<EutrophicSpark>(), 5, 0f, player.whoAmI, 0f, 0f);
-								Main.projectile[num17].melee = false;
-								Main.projectile[num17].localNPCHitCooldown = -1;
+										value15.Normalize();
+										value15 *= (float)Main.rand.Next(30, 61) * 0.1f;
+										int spark = Projectile.NewProjectile(nPC.Center.X, nPC.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<EutrophicSpark>(), dmg / 2, 0f, player.whoAmI, 0f, 0f);
+										Main.projectile[spark].melee = false;
+										Main.projectile[spark].localNPCHitCooldown = -2;
+										Main.projectile[spark].penetrate = 5;
+									}
+								}
+
 							}
 						}
 					}
 				}
-
-				if (auraCounter >= 360)
-					auraCounter = 0;
 				auraCounter++;
+				if (auraCounter >= 360)
+				{
+					auraCounter = 0;
+				}
 			}
 
 			if (modPlayer.brimstoneElementalLore && player.inferno)
