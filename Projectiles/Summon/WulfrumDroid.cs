@@ -108,16 +108,19 @@ namespace CalamityMod.Projectiles.Summon
 			float num7 = 400f;
 			bool flag = false;
 			int num8 = -1;
-			NPC minionAttackTargetNpc = projectile.OwnerMinionAttackTargetNPC;
-			if (minionAttackTargetNpc != null && minionAttackTargetNpc.CanBeChasedBy((object) this, false))
-			{
-				float num1 = Vector2.Distance(minionAttackTargetNpc.Center, projectile.Center);
-				if (((double) Vector2.Distance(projectile.Center, vector2_3) > (double) num1 && (double) num1 < (double) num7 || !flag) && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, minionAttackTargetNpc.position, minionAttackTargetNpc.width, minionAttackTargetNpc.height))
+			if (player.HasMinionAttackTargetNPC)
+            {
+                NPC npc = Main.npc[player.MinionAttackTargetNPC];
+				if (npc.CanBeChasedBy((object) this, false))
 				{
-					num7 = num1;
-					vector2_3 = minionAttackTargetNpc.Center;
-					flag = true;
-					num8 = minionAttackTargetNpc.whoAmI;
+					float num1 = Vector2.Distance(npc.Center, projectile.Center);
+					if (((double) Vector2.Distance(projectile.Center, vector2_3) > (double) num1 && (double) num1 < (double) num7 || !flag) && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
+					{
+						num7 = num1;
+						vector2_3 = npc.Center;
+						flag = true;
+						num8 = npc.whoAmI;
+					}
 				}
 			}
 			if (!flag)
