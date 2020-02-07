@@ -509,12 +509,15 @@ namespace CalamityMod.NPCs.Abyss
             }
             if (CalamityWorld.downedCalamitas)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Ectoplasm, Main.rand.Next(8, 13));
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Lumenite>(), Main.rand.Next(6, 9));
                 if (Main.expertMode && Main.rand.NextBool(2))
                 {
                     Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Lumenite>(), Main.rand.Next(2, 4));
                 }
+            }
+            if (NPC.downedPlantBoss)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Ectoplasm, Main.rand.Next(8, 13));
             }
         }
 
