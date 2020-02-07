@@ -11,7 +11,8 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class WulfrumDroid : ModProjectile
     {
-        public float dust = 0f;
+        private bool onSpawn = true;
+		private float attackCounter = 0f;
 
         public override void SetStaticDefaults()
         {
@@ -41,7 +42,9 @@ namespace CalamityMod.Projectiles.Summon
         {
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            if (dust == 0f)
+
+			//on spawn effects and flexible dmg
+            if (onSpawn)
             {
                 projectile.Calamity().spawnedPlayerMinionDamageValue = (player.allDamage + player.minionDamage - 1f);
                 projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
@@ -56,7 +59,7 @@ namespace CalamityMod.Projectiles.Summon
                     Main.dust[num228].noLight = true;
                     Main.dust[num228].velocity = vector7;
                 }
-                dust += 1f;
+                onSpawn = false;
             }
             if ((player.allDamage + player.minionDamage - 1f) != projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
@@ -65,6 +68,8 @@ namespace CalamityMod.Projectiles.Summon
                     (player.allDamage + player.minionDamage - 1f));
                 projectile.damage = damage2;
             }
+
+			//framing
             projectile.frameCounter++;
             if (projectile.frameCounter > 8)
             {
@@ -75,6 +80,14 @@ namespace CalamityMod.Projectiles.Summon
             {
                 projectile.frame = 0;
             }
+			//rotation and sprite direction
+			projectile.rotation = projectile.velocity.X * 0.05f;
+			if (projectile.velocity.X > 0f)
+				projectile.spriteDirection = projectile.direction = 1;
+			else if (projectile.velocity.X < 0f)
+				projectile.spriteDirection = projectile.direction = -1;
+
+			//CalPlayer bools and buff
             bool flag64 = projectile.type == ModContent.ProjectileType<WulfrumDroid>();
             player.AddBuff(ModContent.BuffType<WulfrumDroidBuff>(), 3600);
             if (flag64)
@@ -88,111 +101,134 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.timeLeft = 2;
                 }
             }
+
+			//anti sticking movement
 			float num6 = 0.05f;
 			float width = (float) projectile.width;
-			for (int index = 0; index < 1000; ++index)
+			for (int index = 0; index < Main.projectile.Length; ++index)
 			{
-				if (index != projectile.whoAmI && Main.projectile[index].active && (Main.projectile[index].owner == projectile.owner && Main.projectile[index].type == projectile.type) && (double) Math.Abs(projectile.position.X - Main.projectile[index].position.X) + (double) Math.Abs(projectile.position.Y - Main.projectile[index].position.Y) < (double) width)
+				Projectile proj = Main.projectile[index];
+                bool typeCheck = proj.type == ModContent.ProjectileType<WulfrumDroid>();
+				if (index != projectile.whoAmI && proj.active && (proj.owner == projectile.owner && typeCheck) && (double) Math.Abs(projectile.position.X - proj.position.X) + (double) Math.Abs(projectile.position.Y - proj.position.Y) < (double) width)
 				{
-					if ((double) projectile.position.X < (double) Main.projectile[index].position.X)
+					if (projectile.position.X < proj.position.X)
 						projectile.velocity.X -= num6;
 					else
 						projectile.velocity.X += num6;
-					if ((double) projectile.position.Y < (double) Main.projectile[index].position.Y)
+					if (projectile.position.Y < proj.position.Y)
 						projectile.velocity.Y -= num6;
 					else
 						projectile.velocity.Y += num6;
 				}
 			}
-			Vector2 vector2_3 = projectile.position;
-			float num7 = 400f;
-			bool flag = false;
-			int num8 = -1;
-			NPC minionAttackTargetNpc = projectile.OwnerMinionAttackTargetNPC;
-			if (minionAttackTargetNpc != null && minionAttackTargetNpc.CanBeChasedBy((object) this, false))
-			{
-				float num1 = Vector2.Distance(minionAttackTargetNpc.Center, projectile.Center);
-				if (((double) Vector2.Distance(projectile.Center, vector2_3) > (double) num1 && (double) num1 < (double) num7 || !flag) && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, minionAttackTargetNpc.position, minionAttackTargetNpc.width, minionAttackTargetNpc.height))
-				{
-					num7 = num1;
-					vector2_3 = minionAttackTargetNpc.Center;
-					flag = true;
-					num8 = minionAttackTargetNpc.whoAmI;
-				}
-			}
-			if (!flag)
+
+			//find nearby enemies
+			Vector2 targetLocation = projectile.position;
+			float range = 400f;
+			bool foundEnemy = false;
+            if (player.HasMinionAttackTargetNPC)
+            {
+                NPC npc = Main.npc[player.MinionAttackTargetNPC];
+				bool lineOfSight = Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height);
+                if (npc.CanBeChasedBy(projectile, false))
+                {
+                    float enemyDist = Vector2.Distance(npc.Center, projectile.Center);
+                    if ((Vector2.Distance(projectile.Center, targetLocation) > enemyDist && enemyDist < range) && lineOfSight)
+                    {
+						range = enemyDist;
+                        targetLocation = npc.Center;
+                        foundEnemy = true;
+                    }
+                }
+            }
+			if (!foundEnemy)
 			{
 				for (int index2 = 0; index2 < Main.npc.Length; ++index2)
 				{
 					NPC npc = Main.npc[index2];
-					if (npc.CanBeChasedBy((object) this, false))
+					bool lineOfSight = Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height);
+					if (npc.CanBeChasedBy(projectile, false))
 					{
-						float num1 = Vector2.Distance(npc.Center, projectile.Center);
-						if (((double) Vector2.Distance(projectile.Center, vector2_3) > (double) num1 && (double) num1 < (double) num7 || !flag) && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
+						float enemyDist = Vector2.Distance(npc.Center, projectile.Center);
+						if ((Vector2.Distance(projectile.Center, targetLocation) > enemyDist && enemyDist < range) && lineOfSight)
 						{
-							num7 = num1;
-							vector2_3 = npc.Center;
-							flag = true;
-							num8 = index2;
+							range = enemyDist;
+							targetLocation = npc.Center;
+							foundEnemy = true;
 						}
 					}
 				}
 			}
-			int num9 = 500;
-			if (flag)
-				num9 = 1000;
-			if ((double) Vector2.Distance(player.Center, projectile.Center) > (double) num9)
+
+			//bigger range if an enemy is found
+			int distBeforeReturningtoPlayer = 500;
+			if (foundEnemy)
+				distBeforeReturningtoPlayer = 1000;
+			//return to player if too far
+			if (Vector2.Distance(player.Center, projectile.Center) > distBeforeReturningtoPlayer)
 			{
 				projectile.ai[0] = 1f;
 				projectile.netUpdate = true;
 			}
-			if ((double) projectile.ai[0] == 1.0)
+
+			//if returning to player, ignore tiles
+			if (projectile.ai[0] == 1f)
 				projectile.tileCollide = false;
-			if (flag && (double) projectile.ai[0] == 0.0)
+
+			//go to enemy if enemy found and not returning to player
+			if (foundEnemy && projectile.ai[0] == 0f)
 			{
-				Vector2 vector2_1 = vector2_3 - projectile.Center;
-				float num1 = vector2_1.Length();
-				vector2_1.Normalize();
-				if ((double) num1 > 200.0)
+				Vector2 howFarIsTarget = targetLocation - projectile.Center;
+				float targetDist = howFarIsTarget.Length();
+				howFarIsTarget.Normalize();
+				if (targetDist > 200f)
 				{
-					float num2 = 6f;
-					Vector2 vector2_2 = vector2_1 * num2;
-					projectile.velocity.X = (float) (((double) projectile.velocity.X * 40.0 + (double) vector2_2.X) / 41.0);
-					projectile.velocity.Y = (float) (((double) projectile.velocity.Y * 40.0 + (double) vector2_2.Y) / 41.0);
+					float velocityMult = 6f;
+					Vector2 vector2_2 = howFarIsTarget * velocityMult;
+					projectile.velocity.X = ((projectile.velocity.X * 40f + vector2_2.X) / 41f);
+					projectile.velocity.Y = ((projectile.velocity.Y * 40f + vector2_2.Y) / 41f);
 				}
-				else if ((double) projectile.velocity.Y > -1.0)
+				else if (projectile.velocity.Y > -1f)
 					projectile.velocity.Y -= 0.1f;
 			}
+			//ai when not tracking an enemy
 			else
 			{
-				if (!Collision.CanHitLine(projectile.Center, 1, 1, Main.player[projectile.owner].Center, 1, 1))
+				//return to player if not in line of sight
+				if (!Collision.CanHitLine(projectile.Center, 1, 1, player.Center, 1, 1))
 					projectile.ai[0] = 1f;
-				float num1 = 6f;
-				if ((double) projectile.ai[0] == 1.0)
-					num1 = 15f;
+
+				float velocityMult = 6f;
+				//if returning to player, move faster
+				if (projectile.ai[0] == 1f)
+					velocityMult = 15f;
 				Vector2 center = projectile.Center;
-				Vector2 vector2_1 = player.Center - center + new Vector2(0.0f, -60f);
-				float num3 = vector2_1.Length();
-				if ((double) num3 > 200.0 && (double) num1 < 9.0)
-					num1 = 9f;
-				if ((double) num3 < 100.0 && (double) projectile.ai[0] == 1.0 && !Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
+				Vector2 howFarIsPlayer = player.Center - center + new Vector2(0.0f, -60f);
+				float playerDist = howFarIsPlayer.Length();
+				if (playerDist > 200f && velocityMult < 9f)
+					velocityMult = 9f;
+				//if returning to player, nearby, and has line of sight, return to normal
+				if (playerDist < 100f && projectile.ai[0] == 1f && !Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
 				{
-					projectile.ai[0] = 0.0f;
+					projectile.ai[0] = 0f;
 					projectile.netUpdate = true;
 				}
-				if ((double) num3 > 2000.0)
+				//teleport to player if too far
+				if (playerDist > 2000f)
 				{
-					projectile.position.X = Main.player[projectile.owner].Center.X - (float) (projectile.width / 2);
-					projectile.position.Y = Main.player[projectile.owner].Center.Y - (float) (projectile.width / 2);
+					projectile.position.X = player.Center.X - (float) (projectile.width / 2);
+					projectile.position.Y = player.Center.Y - (float) (projectile.width / 2);
 				}
-				else if ((double) num3 > 70.0)
+				//fly back to the player if reasonably far
+				else if (playerDist > 70f)
 				{
-					vector2_1.Normalize();
-					projectile.velocity = (projectile.velocity * 20f + vector2_1 * num1) / 21f;
+					howFarIsPlayer.Normalize();
+					projectile.velocity = (projectile.velocity * 20f + howFarIsPlayer * velocityMult) / 21f;
 				}
+				//normal, idle movement
 				else
 				{
-					if ((double) projectile.velocity.X == 0.0 && (double) projectile.velocity.Y == 0.0)
+					if (projectile.velocity.X == 0f && projectile.velocity.Y == 0f)
 					{
 						projectile.velocity.X = -0.15f;
 						projectile.velocity.Y = -0.05f;
@@ -200,34 +236,32 @@ namespace CalamityMod.Projectiles.Summon
 					projectile.velocity = projectile.velocity * 1.01f;
 				}
 			}
-			projectile.rotation = projectile.velocity.X * 0.05f;
-			if ((double) projectile.velocity.X > 0.0)
-				projectile.spriteDirection = projectile.direction = 1;
-			else if ((double) projectile.velocity.X < 0.0)
-				projectile.spriteDirection = projectile.direction = -1;
-			if ((double) projectile.ai[1] > 0.0)
-				projectile.ai[1] += (float) Main.rand.Next(1, 4);
-			if ((double) projectile.ai[1] > 90.0)
+
+			//increment attack counter
+			if (attackCounter > 0f)
+				attackCounter += (float) Main.rand.Next(1, 4);
+			if (attackCounter > 90f)
 			{
-				projectile.ai[1] = 0.0f;
+				attackCounter = 0f;
 				projectile.netUpdate = true;
 			}
-			if ((double) projectile.ai[1] != 0.0)
-				return;
-			++projectile.ai[1];
-			if (Main.myPlayer != projectile.owner)
-				return;
-			if (!flag)
-				return;
-			Vector2 vec = vector2_3 - projectile.Center;
-			vec.Normalize();
-			Vector2 vec2 = vec * 10f;
-			int bolt = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vec2.X, vec2.Y, ModContent.ProjectileType<WulfrumBolt>(), projectile.damage, 0.0f, Main.myPlayer, 0.0f, 0.0f);
-			Main.projectile[bolt].Calamity().forceMinion = true;
-			Main.projectile[bolt].netUpdate = true;
-			Main.projectile[bolt].penetrate = 1;
-			Main.projectile[bolt].extraUpdates = 1;
-			projectile.netUpdate = true;
+
+
+			//shoot at target
+			if (foundEnemy && Main.myPlayer == projectile.owner && attackCounter == 0f)
+			{
+				Vector2 targetSite = targetLocation - projectile.Center;
+				targetSite.Normalize();
+				Vector2 boltVelocity = targetSite * 10f;
+				int bolt = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, boltVelocity.X, boltVelocity.Y, ModContent.ProjectileType<WulfrumBolt>(), projectile.damage, 0f, Main.myPlayer, 0f, 0f);
+				Main.projectile[bolt].Calamity().forceMinion = true;
+				Main.projectile[bolt].netUpdate = true;
+				Main.projectile[bolt].penetrate = 1;
+				Main.projectile[bolt].extraUpdates = 1;
+				projectile.netUpdate = true;
+
+				++attackCounter;
+			}
         }
 
         public override bool CanDamage()
