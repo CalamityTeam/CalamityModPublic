@@ -1,10 +1,12 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-namespace CalamityMod.NPCs.NormalNPCs
+namespace CalamityMod.NPCs.Crags
 {
     public class CalamityEye : ModNPC
     {
@@ -29,6 +31,13 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.value = Item.buyPrice(0, 0, 5, 0);
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
+            if (CalamityWorld.downedProvidence)
+            {
+                npc.damage = 227;
+                npc.defense = 101;
+                npc.lifeMax = 5000;
+                npc.value = Item.buyPrice(0, 0, 50, 0);
+            }
             banner = npc.type;
             bannerItem = ModContent.ItemType<CalamityEyeBanner>();
         }
@@ -50,29 +59,25 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.playerSafe || !NPC.downedPlantBoss || spawnInfo.player.Calamity().ZoneSulphur)
-            {
-                return 0f;
-            }
-            return SpawnCondition.OverworldNightMonster.Chance * 0.045f;
+            return spawnInfo.player.Calamity().ZoneCalamity ? 0.25f : 0f;
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             player.AddBuff(BuffID.Weak, 120, true);
             player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120, true);
+            if (CalamityWorld.revenge)
+            {
+                player.AddBuff(ModContent.BuffType<Horror>(), 180, true);
+            }
         }
 
         public override void NPCLoot()
         {
-            if (Main.rand.NextBool(2))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<BlightedLens>());
-            }
-            if (Main.rand.NextBool(2))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Lens);
-            }
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 2, 1, 1);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<EssenceofChaos>(), Main.hardMode, 3, 1, 1);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<BlightedLens>(), 2);
+            DropHelper.DropItemChance(npc, ItemID.Lens, 2);
         }
     }
 }

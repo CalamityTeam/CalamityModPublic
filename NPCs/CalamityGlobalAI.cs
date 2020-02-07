@@ -1,5 +1,6 @@
 using CalamityMod.NPCs.AcidRain;
 using CalamityMod.NPCs.Astral;
+using CalamityMod.NPCs.Crags;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Items.LoreItems;
