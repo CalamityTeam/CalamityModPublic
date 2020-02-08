@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, 0f, (255 - projectile.alpha) * 0.1f / 255f, 0f;
+            Lighting.AddLight(projectile.Center, 0f, (255 - projectile.alpha) * 0.1f / 255f, 0f);
             for (int num151 = 0; num151 < 3; num151++)
             {
                 int num154 = 14;
