@@ -94,6 +94,14 @@ namespace CalamityMod.Projectiles.Rogue
                     projectile.velocity = velocityNew * speed;
                 }
             }
+            if (projectile.soundDelay == 0)
+            {
+                projectile.soundDelay = 20 + Main.rand.Next(40);
+                if (Main.rand.NextBool(5))
+                {
+                    Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 9);
+                }
+            }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

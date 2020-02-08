@@ -2031,7 +2031,11 @@ namespace CalamityMod
                 ModContent.ItemType<Penumbra>(),
                 ModContent.ItemType<LatcherMine>(),
                 ModContent.ItemType<Supernova>(),
-                ModContent.ItemType<ShockGrenade>()
+                ModContent.ItemType<ShockGrenade>(),
+                ModContent.ItemType<Exorcism>(),
+                ModContent.ItemType<MeteorFist>(),
+                ModContent.ItemType<StarofDestruction>(),
+                ModContent.ItemType<CraniumSmasher>()
             };
 
             flaskBombProjList = new List<int>()
@@ -2049,7 +2053,13 @@ namespace CalamityMod
                 ModContent.ProjectileType<PenumbraBomb>(),
                 ModContent.ProjectileType<LatcherMineProjectile>(),
                 ModContent.ProjectileType<SupernovaBomb>(),
-                ModContent.ProjectileType<ShockGrenadeProjectile>()
+                ModContent.ProjectileType<ShockGrenadeProjectile>(),
+                ModContent.ProjectileType<ExorcismProj>(),
+                ModContent.ProjectileType<MeteorFistProj>(),
+                ModContent.ProjectileType<CraniumSmasherProj>(),
+                ModContent.ProjectileType<CraniumSmasherExplosive>(),
+                ModContent.ProjectileType<DestructionStar>(),
+                ModContent.ProjectileType<DestructionBolt>()
             };
 
             spikyBallList = new List<int>()
