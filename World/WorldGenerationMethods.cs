@@ -17,6 +17,7 @@ using CalamityMod.Tiles.Astral;
 using CalamityMod.Tiles.AstralDesert;
 using CalamityMod.Tiles.AstralSnow;
 using CalamityMod.Tiles.Crags;
+using CalamityMod.Tiles.FurnitureAncient;
 using CalamityMod.Tiles.Ores;
 using CalamityMod.Tiles.SunkenSea;
 using CalamityMod.Walls;
@@ -3040,7 +3041,7 @@ namespace CalamityMod.World
         public static void UnderworldIslandHouse(int i, int j, int item)
         {
             ushort type = (ushort)ModContent.TileType<BrimstoneSlag>(); //tile
-            byte wall = (byte)14; //wall
+            byte wall = (byte)ModContent.WallType<BrimstoneSlagWallUnsafe>(); //wall
             Vector2 vector = new Vector2((float)i, (float)j);
             int num = 1;
             if (WorldGen.genRand.Next(2) == 0)
@@ -3133,7 +3134,7 @@ namespace CalamityMod.World
                 Main.tile[num11, num10 - 1].active(false);
                 Main.tile[num11, num10 - 2].active(false);
             }
-            WorldGen.PlaceTile(num9, num10, 10, true, false, -1, 19); //door
+            WorldGen.PlaceTile(num9, num10, ModContent.TileType<AncientDoorClosed>(), true, false, -1); //door
             num9 = i + (num2 + 1) * -num - num;
             for (int num12 = num6; num12 <= num7 + 1; num12++)
             {
@@ -3146,13 +3147,13 @@ namespace CalamityMod.World
             }
             WorldGen.AddBuriedChest(i, num10 - 3, item, false, 4); //chest
             int num22 = i + (num2 / 2 + 1) * -num;
-            WorldGen.PlaceTile(num22, num7 - 1, 14, true, false, -1, 13); //table
-            WorldGen.PlaceTile(num22 - 2, num7 - 1, 15, true, false, 0, 16); //chair
+            WorldGen.PlaceTile(num22, num7 - 1, ModContent.TileType<AncientTable>(), true, false, -1); //table
+            WorldGen.PlaceTile(num22 - 2, num7 - 1, ModContent.TileType<AncientChair>(), true, false, 0); //chair
             Tile tile = Main.tile[num22 - 2, num7 - 1];
             tile.frameX += 18;
             Tile tile2 = Main.tile[num22 - 2, num7 - 2];
             tile2.frameX += 18;
-            WorldGen.PlaceTile(num22 + 2, num7 - 1, 15, true, false, 0, 16); //chair
+            WorldGen.PlaceTile(num22 + 2, num7 - 1, ModContent.TileType<AncientChair>(), true, false, 0); //chair
         }
         #endregion
 
