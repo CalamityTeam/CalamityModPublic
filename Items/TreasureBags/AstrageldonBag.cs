@@ -60,7 +60,7 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItemChance(player, ModContent.ItemType<AureusMask>(), 7);
 
             // Other
-            DropHelper.DropItemCondition(player, ModContent.ItemType<StarlightFuelCell>(), CalamityWorld.revenge);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<StarlightFuelCell>(), CalamityWorld.revenge && !player.Calamity().adrenalineBoostTwo);
             DropHelper.DropItemChance(player, ItemID.HallowedKey, 5);
         }
     }

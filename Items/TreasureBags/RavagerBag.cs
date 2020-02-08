@@ -71,7 +71,7 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItemChance(player, ModContent.ItemType<BloodPact>(), 0.5f);
             DropHelper.DropItemChance(player, ModContent.ItemType<FleshTotem>(), 0.5f);
             DropHelper.DropItemCondition(player, ModContent.ItemType<BloodflareCore>(), CalamityWorld.downedProvidence);
-            DropHelper.DropItemCondition(player, ModContent.ItemType<InfernalBlood>(), CalamityWorld.revenge);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<InfernalBlood>(), CalamityWorld.revenge && !player.Calamity().rageBoostTwo);
 
             // Vanity
             DropHelper.DropItemChance(player, ModContent.ItemType<RavagerMask>(), 7);

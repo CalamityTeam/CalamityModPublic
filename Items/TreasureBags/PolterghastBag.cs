@@ -66,7 +66,7 @@ namespace CalamityMod.Items.TreasureBags
 
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<Affliction>());
-            DropHelper.DropItemCondition(player, ModContent.ItemType<Ectoheart>(), CalamityWorld.revenge);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<Ectoheart>(), CalamityWorld.revenge && !player.Calamity().adrenalineBoostThree);
 
             // Vanity
             DropHelper.DropItemChance(player, ModContent.ItemType<PolterghastMask>(), 7);

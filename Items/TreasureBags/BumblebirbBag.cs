@@ -50,7 +50,7 @@ namespace CalamityMod.Items.TreasureBags
 
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<DynamoStemCells>());
-            DropHelper.DropItemCondition(player, ModContent.ItemType<RedLightningContainer>(), CalamityWorld.revenge);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<RedLightningContainer>(), CalamityWorld.revenge && !player.Calamity().rageBoostThree);
 
             // Vanity
             DropHelper.DropItemChance(player, ModContent.ItemType<BumblefuckMask>(), 7);
