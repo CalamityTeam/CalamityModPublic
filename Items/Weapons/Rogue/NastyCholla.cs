@@ -59,7 +59,7 @@ Stealth strikes throw five at once");
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Cactus, 2);
+            recipe.AddIngredient(ItemID.Cactus, 3);
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this, 15);
             recipe.AddRecipe();
