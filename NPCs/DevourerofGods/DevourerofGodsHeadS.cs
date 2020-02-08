@@ -989,14 +989,13 @@ namespace CalamityMod.NPCs.DevourerofGods
 
                 // Weapons
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Excelsus>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<EradicatorMelee>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<TheObliterator>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Deathwind>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Skullmasher>(), DropHelper.RareVariantDropRateInt);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Norfleet>(), DropHelper.RareVariantDropRateInt);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<DeathhailStaff>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<StaffoftheMechworm>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Eradicator>(), 4);
+				DropHelper.DropItemFromSetChance(npc, 0.25f, ModContent.ItemType<EradicatorMelee>(), ModContent.ItemType<Eradicator>());
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<DevourerofGodsMask>(), 7);
