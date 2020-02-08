@@ -2521,7 +2521,10 @@ namespace CalamityMod.CalPlayer
 				player.statDefense -= AbyssalFlames.DefenseReduction;
 
 			if (modPlayer.gsInferno)
+			{
+				player.blackout = true;
 				player.statDefense -= GodSlayerInferno.DefenseReduction;
+			}
 
 			if (modPlayer.astralInfection)
 				player.statDefense -= AstralInfectionDebuff.DefenseReduction;
