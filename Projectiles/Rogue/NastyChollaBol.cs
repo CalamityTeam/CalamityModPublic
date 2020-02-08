@@ -223,6 +223,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
+			Player player = Main.player[projectile.owner];
 			int num251 = Main.rand.Next(2, 4);
 			if (projectile.owner == Main.myPlayer)
 			{
