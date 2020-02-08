@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Aureus Bomber");
-            Main.projFrames[projectile.type] = 4;
+            Main.projFrames[projectile.type] = 3;
             ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 1;
@@ -33,7 +33,6 @@ namespace CalamityMod.Projectiles.Summon
             projectile.penetrate = 1;
             projectile.minion = true;
             projectile.tileCollide = false;
-			projectile.scale = 0.5f;
         }
 
         public override void AI()
@@ -111,10 +110,10 @@ namespace CalamityMod.Projectiles.Summon
 			//dust effects
 			if (Main.rand.Next(10) == 0)
 			{
-			  int index = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dustType, 0.0f, 0.0f, 100, Color.Transparent, 2f);
-			  Main.dust[index].velocity *= 0.3f;
-			  Main.dust[index].noGravity = true;
-			  Main.dust[index].noLight = true;
+				int index = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dustType, 0.0f, 0.0f, 100, Color.Transparent, 2f);
+				Main.dust[index].velocity *= 0.3f;
+				Main.dust[index].noGravity = true;
+				Main.dust[index].noLight = true;
 			}
 
 			//frames
@@ -124,7 +123,7 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.frame++;
                 projectile.frameCounter = 0;
             }
-            if (projectile.frame >= 4)
+            if (projectile.frame >= 3)
             {
                 projectile.frame = 0;
             }
