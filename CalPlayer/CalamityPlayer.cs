@@ -4761,8 +4761,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (heldItem.type > 0)
                 {
-                    if ((heldItem.summon && !heldItem.melee && !heldItem.ranged && !heldItem.magic && !heldItem.Calamity().rogue) ||
-						heldItem.hammer > 0 || heldItem.pick > 0 || heldItem.axe > 0)
+                    if (heldItem.summon && !heldItem.melee && !heldItem.ranged && !heldItem.magic && !heldItem.Calamity().rogue)
                     {
                         damageMult += 0.1;
                     }
