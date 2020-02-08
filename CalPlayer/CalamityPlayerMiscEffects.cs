@@ -14,6 +14,7 @@ using CalamityMod.Items.Fishing.FishingRods;
 using CalamityMod.NPCs;
 using CalamityMod.NPCs.AcidRain;
 using CalamityMod.NPCs.Astral;
+using CalamityMod.NPCs.Crags;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.Projectiles.Boss;

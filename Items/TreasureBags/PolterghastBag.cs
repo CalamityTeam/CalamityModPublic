@@ -52,7 +52,7 @@ namespace CalamityMod.Items.TreasureBags
             player.TryGettingDevArmor();
 
             // Materials
-            DropHelper.DropItem(player, ModContent.ItemType<RuinousSoul>(), 6, 10);
+            DropHelper.DropItem(player, ModContent.ItemType<RuinousSoul>(), 10, 20);
             DropHelper.DropItem(player, ModContent.ItemType<Phantoplasm>(), 20, 30);
 
             // Weapons

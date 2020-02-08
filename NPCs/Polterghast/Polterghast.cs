@@ -736,7 +736,7 @@ namespace CalamityMod.NPCs.Polterghast
             if (!Main.expertMode)
             {
                 // Materials
-                DropHelper.DropItem(npc, ModContent.ItemType<RuinousSoul>(), 5, 8);
+                DropHelper.DropItem(npc, ModContent.ItemType<RuinousSoul>(), 7, 15);
                 DropHelper.DropItem(npc, ModContent.ItemType<Phantoplasm>(), 10, 20);
 
                 // Vanity
