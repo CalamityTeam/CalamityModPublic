@@ -14759,7 +14759,7 @@ namespace CalamityMod.NPCs
 					}
 				}
 			}
-			if (Main.dayTime && (double)npc.position.Y <= Main.worldSurface * 16.0 && (npc.type == 2 || npc.type == 133 || npc.type == 190 || npc.type == 191 || npc.type == ModContent.NPCType<CalamityEye>() || npc.type == ModContent.NPCType<BlightedEye>() || npc.type == 192 || npc.type == 193 || npc.type == 194 || npc.type == 317 || npc.type == 318))
+			if (Main.dayTime && (double)npc.position.Y <= Main.worldSurface * 16.0 && (npc.type == 2 || npc.type == 133 || npc.type == 190 || npc.type == 191 || npc.type == ModContent.NPCType<BlightedEye>() || npc.type == 192 || npc.type == 193 || npc.type == 194 || npc.type == 317 || npc.type == 318))
 			{
 				if (npc.timeLeft > 10)
 				{
@@ -14950,10 +14950,9 @@ namespace CalamityMod.NPCs
 				if (Main.rand.Next(40) == 0)
 				{
 					int num = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + (float)npc.height * 0.25f), npc.width, (int)((float)npc.height * 0.5f), 5, npc.velocity.X, 2f, 0, default(Color), 1f);
-					Dust expr_B48_cp_0_cp_0 = Main.dust[num];
-					expr_B48_cp_0_cp_0.velocity.X = expr_B48_cp_0_cp_0.velocity.X * 0.5f;
-					Dust expr_B62_cp_0_cp_0 = Main.dust[num];
-					expr_B62_cp_0_cp_0.velocity.Y = expr_B62_cp_0_cp_0.velocity.Y * 0.1f;
+					Dust dust = Main.dust[num];
+					dust.velocity.X *= 0.5f;
+					dust.velocity.Y *= 0.1f;
 				}
 			}
 			else if (npc.type == 133)
@@ -15167,10 +15166,9 @@ namespace CalamityMod.NPCs
 			if ((npc.type == 2 || npc.type == 133 || npc.type == ModContent.NPCType<CalamityEye>() || npc.type == ModContent.NPCType<BlightedEye>() || npc.type == 190 || npc.type == 191 || npc.type == 192 || npc.type == 193 || npc.type == 194) && Main.rand.Next(40) == 0)
 			{
 				int num4 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + (float)npc.height * 0.25f), npc.width, (int)((float)npc.height * 0.5f), 5, npc.velocity.X, 2f, 0, default(Color), 1f);
-				Dust expr_1490_cp_0_cp_0 = Main.dust[num4];
-				expr_1490_cp_0_cp_0.velocity.X = expr_1490_cp_0_cp_0.velocity.X * 0.5f;
-				Dust expr_14AB_cp_0_cp_0 = Main.dust[num4];
-				expr_14AB_cp_0_cp_0.velocity.Y = expr_14AB_cp_0_cp_0.velocity.Y * 0.1f;
+					Dust dust = Main.dust[num4];
+					dust.velocity.X *= 0.5f;
+					dust.velocity.Y *= 0.1f;
 			}
 			if (npc.wet && npc.type != 170 && npc.type != 171 && npc.type != 172)
 			{
@@ -18910,11 +18908,10 @@ namespace CalamityMod.NPCs
 				if (npc.type == 23)
 				{
 					int num12 = Dust.NewDust(new Vector2(npc.position.X - npc.velocity.X, npc.position.Y - npc.velocity.Y), npc.width, npc.height, 6, npc.velocity.X * 0.2f, npc.velocity.Y * 0.2f, 100, default(Color), 2f);
-					Main.dust[num12].noGravity = true;
-					Dust expr_EC5_cp_0_cp_0 = Main.dust[num12];
-					expr_EC5_cp_0_cp_0.velocity.X = expr_EC5_cp_0_cp_0.velocity.X * 0.3f;
-					Dust expr_EE0_cp_0_cp_0 = Main.dust[num12];
-					expr_EE0_cp_0_cp_0.velocity.Y = expr_EE0_cp_0_cp_0.velocity.Y * 0.3f;
+					Dust dust = Main.dust[num12];
+					dust.noGravity = true;
+					dust.velocity.X *= 0.3f;
+					dust.velocity.Y *= 0.3f;
 				}
 				else if (npc.type != 139 && npc.type != 205 && npc.type != 252 && Main.rand.Next(20) == 0)
 				{
@@ -18924,19 +18921,17 @@ namespace CalamityMod.NPCs
 						num13 = 5;
 					}
 					int num14 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + (float)npc.height * 0.25f), npc.width, (int)((float)npc.height * 0.5f), num13, npc.velocity.X, 2f, 75, npc.color, npc.scale);
-					Dust expr_1013_cp_0_cp_0 = Main.dust[num14];
-					expr_1013_cp_0_cp_0.velocity.X = expr_1013_cp_0_cp_0.velocity.X * 0.5f;
-					Dust expr_102E_cp_0_cp_0 = Main.dust[num14];
-					expr_102E_cp_0_cp_0.velocity.Y = expr_102E_cp_0_cp_0.velocity.Y * 0.1f;
+					Dust dust = Main.dust[num14];
+					dust.velocity.X *= 0.5f;
+					dust.velocity.Y *= 0.1f;
 				}
 			}
 			else if (npc.type != 252 && Main.rand.Next(40) == 0)
 			{
 				int num15 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + (float)npc.height * 0.25f), npc.width, (int)((float)npc.height * 0.5f), 5, npc.velocity.X, 2f, 0, default(Color), 1f);
-				Dust expr_10D4_cp_0_cp_0 = Main.dust[num15];
-				expr_10D4_cp_0_cp_0.velocity.X = expr_10D4_cp_0_cp_0.velocity.X * 0.5f;
-				Dust expr_10EF_cp_0_cp_0 = Main.dust[num15];
-				expr_10EF_cp_0_cp_0.velocity.Y = expr_10EF_cp_0_cp_0.velocity.Y * 0.1f;
+				Dust dust = Main.dust[num15];
+				dust.velocity.X *= 0.5f;
+				dust.velocity.Y *= 0.1f;
 			}
 			if ((npc.type == 6 || npc.type == 94 || npc.type == 173) && npc.wet)
 			{

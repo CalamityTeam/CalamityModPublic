@@ -3,6 +3,8 @@ using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.World;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -20,7 +22,6 @@ namespace CalamityMod.NPCs.Crags
         {
             npc.lavaImmune = true;
             npc.aiStyle = 2;
-			aiType = 133;
             npc.damage = 40;
             npc.width = 30;
             npc.height = 30;
@@ -40,6 +41,59 @@ namespace CalamityMod.NPCs.Crags
             }
             banner = npc.type;
             bannerItem = ModContent.ItemType<CalamityEyeBanner>();
+        }
+
+        public override void AI()
+        {
+			if ((double) npc.life < (double) npc.lifeMax * 0.5)
+			{
+				if (npc.direction == -1 && (double) npc.velocity.X > -6.0)
+				{
+					npc.velocity.X -= 0.1f;
+					if ((double) npc.velocity.X > 6.0)
+						npc.velocity.X -= 0.1f;
+					else if ((double) npc.velocity.X > 0.0)
+						npc.velocity.X += 0.05f;
+					if ((double) npc.velocity.X < -6.0)
+						npc.velocity.X = -6f;
+				}
+				else if (npc.direction == 1 && (double) npc.velocity.X < 6.0)
+				{
+					npc.velocity.X += 0.1f;
+					if ((double) npc.velocity.X < -6.0)
+						npc.velocity.X += 0.1f;
+					else if ((double) npc.velocity.X < 0.0)
+						npc.velocity.X -= 0.05f;
+					if ((double) npc.velocity.X > 6.0)
+						npc.velocity.X = 6f;
+				}
+				if (npc.directionY == -1 && (double) npc.velocity.Y > -4.0)
+				{
+					npc.velocity.Y -= 0.1f;
+					if ((double) npc.velocity.Y > 4.0)
+						npc.velocity.Y -= 0.1f;
+					else if ((double) npc.velocity.Y > 0.0)
+						npc.velocity.Y += 0.05f;
+					if ((double) npc.velocity.Y < -4.0)
+						npc.velocity.Y = -4f;
+				}
+				else if (npc.directionY == 1 && (double) npc.velocity.Y < 4.0)
+				{
+					npc.velocity.Y += 0.1f;
+					if ((double) npc.velocity.Y < -4.0)
+						npc.velocity.Y += 0.1f;
+					else if ((double) npc.velocity.Y < 0.0)
+						npc.velocity.Y -= 0.05f;
+					if ((double) npc.velocity.Y > 4.0)
+						npc.velocity.Y = 4f;
+				}
+			}
+			if (Main.rand.NextBool(40))
+			{
+				int index = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + (float) npc.height * 0.25f), npc.width, (int) ((double) npc.height * 0.5), 5, npc.velocity.X, 2f, 0, new Color(), 1f);
+				Main.dust[index].velocity.X *= 0.5f;
+				Main.dust[index].velocity.Y *= 0.1f;
+			}
         }
 
         public override void HitEffect(int hitDirection, double damage)
@@ -76,7 +130,7 @@ namespace CalamityMod.NPCs.Crags
         {
             DropHelper.DropItemCondition(npc, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 2, 1, 1);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<EssenceofChaos>(), Main.hardMode, 3, 1, 1);
-            DropHelper.DropItemChance(npc, ModContent.ItemType<BlightedLens>(), 2);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<BlightedLens>(), Main.hardMode, 2, 1, 1);
             DropHelper.DropItemChance(npc, ItemID.Lens, 2);
         }
     }
