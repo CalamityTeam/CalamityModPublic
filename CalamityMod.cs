@@ -1412,7 +1412,8 @@ namespace CalamityMod
 				ModContent.NPCType<EutrophicRay>(),
 				ModContent.NPCType<Clam>(),
 				ModContent.NPCType<SeaSerpent1>(),
-				ModContent.NPCType<GiantClam>()
+				ModContent.NPCType<GiantClam>(),
+				ModContent.NPCType<FearlessGoldfishWarrior>()
 			};
 
 			// Enemies that inflict an average of 101 to 200 damage in Expert Mode
