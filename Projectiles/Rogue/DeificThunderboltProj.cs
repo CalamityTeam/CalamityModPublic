@@ -25,8 +25,6 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.height = 26;
             projectile.friendly = true;
             projectile.penetrate = 1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
             projectile.extraUpdates = 1;
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
@@ -78,7 +76,10 @@ namespace CalamityMod.Projectiles.Rogue
 
 			if (Main.myPlayer == projectile.owner)
 			{
-				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/LightningStrike"), (int)projectile.position.X, (int)projectile.position.Y);
+				if (projectile.Calamity().stealthStrike)
+				{
+					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/LightningStrike"), (int)projectile.position.X, (int)projectile.position.Y);
+				}
 				int amt = (projectile.Calamity().stealthStrike ? Main.rand.Next(6, 9) : 1);
 				for (int n = 0; n < amt; n++)
 				{

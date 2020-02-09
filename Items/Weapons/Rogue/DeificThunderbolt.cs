@@ -33,7 +33,6 @@ Stealth strikes summon more lightning and travel faster");
             item.value = Item.buyPrice(1, 40, 0, 0);
             item.useTime = 21;
             item.useAnimation = 21;
-            item.UseSound = SoundID.Item1;
             item.rare = 10;
             item.Calamity().postMoonLordRarity = 13;
             item.Calamity().rogue = true;
@@ -56,7 +55,6 @@ Stealth strikes summon more lightning and travel faster");
 			if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
 			{
 				Main.projectile[thunder].Calamity().stealthStrike = true;
-				Main.projectile[thunder].penetrate = 1;
 			}
             return false;
         }
