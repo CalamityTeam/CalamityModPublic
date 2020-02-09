@@ -1117,7 +1117,7 @@ namespace CalamityMod.CalPlayer
 			{
 				player.moveSpeed += 0.05f;
 				player.jumpSpeedBoost += player.autoJump ? 0f : 0.1f;
-				player.statDefense -= 5;
+				player.statDefense -= 3;
 			}
 			if (modPlayer.desertScourgeLore)
 			{
