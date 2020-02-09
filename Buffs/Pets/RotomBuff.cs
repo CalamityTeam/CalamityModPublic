@@ -21,10 +21,7 @@ namespace CalamityMod.Buffs.Pets
             bool PetProjectileNotSpawned = player.ownedProjectileCounts[ModContent.ProjectileType<RotomPet>()] <= 0;
             if (PetProjectileNotSpawned && player.whoAmI == Main.myPlayer)
             {
-				float baseDamage = 10f +
-					(Main.hardMode ? 10f : 0f) +
-					(NPC.downedMoonlord ? 30f : 0f);
-                Projectile.NewProjectile(player.position.X + (player.width / 2), player.position.Y + (player.height / 2), 0f, 0f, ModContent.ProjectileType<RotomPet>(), (int)(baseDamage * (player.allDamage + player.minionDamage - 1f)), 0f, player.whoAmI, 50f, 0f);
+                Projectile.NewProjectile(player.position.X + (player.width / 2), player.position.Y + (player.height / 2), 0f, 0f, ModContent.ProjectileType<RotomPet>(), 0, 0f, player.whoAmI, 50f, 0f);
             }
         }
     }

@@ -190,6 +190,7 @@ namespace CalamityMod.CalPlayer
         public bool astrophage = false;
         public bool babyGhostBell = false;
         public bool radiator = false;
+        public bool scalPet = false;
 
         // Rage
         public int stressMax = 10000;
@@ -1012,6 +1013,7 @@ namespace CalamityMod.CalPlayer
             astrophage = false;
             babyGhostBell = false;
             radiator = false;
+            scalPet = false;
             onyxExcavator = false;
             angryDog = false;
             fab = false;

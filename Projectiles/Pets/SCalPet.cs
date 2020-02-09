@@ -1,16 +1,16 @@
-﻿using CalamityMod.CalPlayer;
+using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Pets
 {
-    public class LeviPet : ModProjectile
+    public class SCalPet : ModProjectile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Levi");
-            Main.projFrames[projectile.type] = 5;
+            DisplayName.SetDefault("Supreme Calamitas");
+            Main.projFrames[projectile.type] = 4;
             Main.projPet[projectile.type] = true;
         }
 
@@ -35,9 +35,9 @@ namespace CalamityMod.Projectiles.Pets
             }
             if (player.dead)
             {
-                modPlayer.leviPet = false;
+                modPlayer.scalPet = false;
             }
-            if (modPlayer.leviPet)
+            if (modPlayer.scalPet)
             {
                 projectile.timeLeft = 2;
             }
@@ -139,7 +139,7 @@ namespace CalamityMod.Projectiles.Pets
                 projectile.frame++;
                 projectile.frameCounter = 0;
             }
-            if (projectile.frame > 4)
+            if (projectile.frame >= 4)
             {
                 projectile.frame = 0;
             }
