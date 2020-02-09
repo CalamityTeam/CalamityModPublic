@@ -32,20 +32,47 @@ namespace CalamityMod.CalPlayer
 			bool honey = liquidType == 2;
 
 			Point point = player.Center.ToTileCoordinates();
-			bool abyssPosX = false;
+			bool canSulphurFish = false;
 			if (CalamityWorld.abyssSide)
 			{
 				if (point.X < 380)
-					abyssPosX = true;
+					canSulphurFish = true;
 			}
 			else
 			{
 				if (point.X > Main.maxTilesX - 380)
-					abyssPosX = true;
+					canSulphurFish = true;
 			}
 
 			if (modPlayer.ZoneAbyss || modPlayer.ZoneSulphur)
-				abyssPosX = true;
+				canSulphurFish = true;
+
+			// Quest Fish
+			if (modPlayer.ZoneSunkenSea && questFish == ModContent.ItemType<EutrophicSandfish>() && Main.rand.NextBool(10))
+			{
+				caughtType = ModContent.ItemType<EutrophicSandfish>();
+				return;
+			}
+			if (modPlayer.ZoneSunkenSea && questFish == ModContent.ItemType<SurfClam>() && Main.rand.NextBool(10))
+			{
+				caughtType = ModContent.ItemType<SurfClam>();
+				return;
+			}
+			if (modPlayer.ZoneSunkenSea && questFish == ModContent.ItemType<Serpentuna>() && Main.rand.NextBool(10))
+			{
+				caughtType = ModContent.ItemType<Serpentuna>();
+				return;
+			}
+			if (modPlayer.ZoneCalamity && questFish == ModContent.ItemType<Brimlish>() && Main.rand.NextBool(10))
+			{
+				caughtType = ModContent.ItemType<Brimlish>();
+				return;
+			}
+			if (modPlayer.ZoneCalamity && questFish == ModContent.ItemType<Slurpfish>() && Main.rand.NextBool(10))
+			{
+				caughtType = ModContent.ItemType<Slurpfish>();
+				return;
+			}
 
 			if (modPlayer.alluringBait)
 			{
@@ -183,7 +210,7 @@ namespace CalamityMod.CalPlayer
 						{
 							List<int> rareItemList = new List<int>();
 
-							if (abyssPosX)
+							if (canSulphurFish)
 							{
 								switch (Main.rand.Next(2))
 								{
@@ -314,6 +341,10 @@ namespace CalamityMod.CalPlayer
 
 			if (water)
 			{
+				if (caughtType == ItemID.WoodenCrate || caughtType == ItemID.IronCrate || caughtType == ItemID.GoldenCrate || caughtType == ItemID.FrogLeg || caughtType == ItemID.BalloonPufferfish || caughtType == ItemID.ZephyrFish)
+				{
+					return;
+				}
 				if ((player.ZoneCrimson || player.ZoneCorrupt) && player.ZoneRockLayerHeight && Main.hardMode)
 				{
 					if (Main.rand.NextBool(15))
@@ -385,31 +416,7 @@ namespace CalamityMod.CalPlayer
 				if (modPlayer.ZoneAstral) // Astral Infection, fishing in water
 				{
 					int astralFish = Main.rand.Next(100);
-					if (caughtType == ItemID.WoodenCrate)
-					{
-						caughtType = ItemID.WoodenCrate;
-					}
-					else if (caughtType == ItemID.IronCrate)
-					{
-						caughtType = ItemID.IronCrate;
-					}
-					else if (caughtType == ItemID.GoldenCrate)
-					{
-						caughtType = ItemID.GoldenCrate;
-					}
-					else if (caughtType == ItemID.FrogLeg)
-					{
-						caughtType = ItemID.FrogLeg;
-					}
-					else if (caughtType == ItemID.BalloonPufferfish)
-					{
-						caughtType = ItemID.BalloonPufferfish;
-					}
-					else if (caughtType == ItemID.ZephyrFish)
-					{
-						caughtType = ItemID.ZephyrFish;
-					}
-					else if (astralFish >= 85) // 15%
+					if (astralFish >= 85) // 15%
 					{
 						caughtType = ModContent.ItemType<ProcyonidPrawn>();
 					}
@@ -444,37 +451,14 @@ namespace CalamityMod.CalPlayer
 					else // 31% w/o crate pot, 21% w/ crate pot
 					{
 						caughtType = ModContent.ItemType<TwinklingPollox>();
+						return;
 					}
 				}
 
 				if (modPlayer.ZoneSunkenSea) // Sunken Sea, fishing in water
 				{
 					int sunkenFish = Main.rand.Next(100);
-					if (caughtType == ItemID.WoodenCrate)
-					{
-						caughtType = ItemID.WoodenCrate;
-					}
-					else if (caughtType == ItemID.IronCrate)
-					{
-						caughtType = ItemID.IronCrate;
-					}
-					else if (caughtType == ItemID.GoldenCrate)
-					{
-						caughtType = ItemID.GoldenCrate;
-					}
-					else if (caughtType == ItemID.FrogLeg)
-					{
-						caughtType = ItemID.FrogLeg;
-					}
-					else if (caughtType == ItemID.BalloonPufferfish)
-					{
-						caughtType = ItemID.BalloonPufferfish;
-					}
-					else if (caughtType == ItemID.ZephyrFish)
-					{
-						caughtType = ItemID.ZephyrFish;
-					}
-					else if (sunkenFish >= 85 && Main.hardMode) // 15%
+					if (sunkenFish >= 85 && Main.hardMode) // 15%
 					{
 						caughtType = ModContent.ItemType<ScarredAngelfish>();
 					}
@@ -513,6 +497,7 @@ namespace CalamityMod.CalPlayer
 					else // 33% w/o crate pot, 23% w/ crate pot + 18% if prehardmode
 					{
 						caughtType = ModContent.ItemType<PrismaticGuppy>();
+						return;
 					}
 				}
 
@@ -523,14 +508,14 @@ namespace CalamityMod.CalPlayer
 
 				if (junk)
 				{
-					if (abyssPosX && power < 40)
+					if (canSulphurFish && power < 40)
 					{
 						caughtType = ModContent.ItemType<PlantyMush>();
 					}
 					return;
 				}
 
-				/*if (abyssPosX && (bait.type == ItemID.GoldWorm || bait.type == ItemID.GoldGrasshopper || bait.type == ItemID.GoldButterfly) && power > 150)
+				/*if (canSulphurFish && (bait.type == ItemID.GoldWorm || bait.type == ItemID.GoldGrasshopper || bait.type == ItemID.GoldButterfly) && power > 150)
 				{
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
@@ -550,33 +535,9 @@ namespace CalamityMod.CalPlayer
 					return;
 				}*/
 
-				if (abyssPosX)
+				if (canSulphurFish)
 				{
-					if (caughtType == ItemID.WoodenCrate)
-					{
-						caughtType = ItemID.WoodenCrate;
-					}
-					else if (caughtType == ItemID.IronCrate)
-					{
-						caughtType = ItemID.IronCrate;
-					}
-					else if (caughtType == ItemID.GoldenCrate)
-					{
-						caughtType = ItemID.GoldenCrate;
-					}
-					else if (caughtType == ItemID.FrogLeg)
-					{
-						caughtType = ItemID.FrogLeg;
-					}
-					else if (caughtType == ItemID.BalloonPufferfish)
-					{
-						caughtType = ItemID.BalloonPufferfish;
-					}
-					else if (caughtType == ItemID.ZephyrFish)
-					{
-						caughtType = ItemID.ZephyrFish;
-					}
-					else if (power >= 40)
+					if (power >= 40)
 					{
 						if (Main.rand.NextBool(15) && power < 80)
 						{
@@ -659,28 +620,6 @@ namespace CalamityMod.CalPlayer
 						caughtType = ModContent.ItemType<CragBullhead>();
 					}
 				}
-			}
-
-			// Quest Fish
-			if (modPlayer.ZoneSunkenSea && questFish == ModContent.ItemType<EutrophicSandfish>() && Main.rand.NextBool(10))
-			{
-				caughtType = ModContent.ItemType<EutrophicSandfish>();
-			}
-			if (modPlayer.ZoneSunkenSea && questFish == ModContent.ItemType<SurfClam>() && Main.rand.NextBool(10))
-			{
-				caughtType = ModContent.ItemType<SurfClam>();
-			}
-			if (modPlayer.ZoneSunkenSea && questFish == ModContent.ItemType<Serpentuna>() && Main.rand.NextBool(10))
-			{
-				caughtType = ModContent.ItemType<Serpentuna>();
-			}
-			if (modPlayer.ZoneCalamity && questFish == ModContent.ItemType<Brimlish>() && Main.rand.NextBool(10))
-			{
-				caughtType = ModContent.ItemType<Brimlish>();
-			}
-			if (modPlayer.ZoneCalamity && questFish == ModContent.ItemType<Slurpfish>() && Main.rand.NextBool(10))
-			{
-				caughtType = ModContent.ItemType<Slurpfish>();
 			}
 		}
         #endregion
