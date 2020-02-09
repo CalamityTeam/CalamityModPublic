@@ -26,16 +26,7 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.moveSpeed -= 0.1f;
-            player.thorns = 0.25f;
-        }
-
-        // This item cannot be crafted, but it can be crafted into a normal Turtle Shell.
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(this);
-            recipe.SetResult(ItemID.TurtleShell);
-            recipe.AddRecipe();
+            player.thorns += 0.25f;
         }
     }
 }

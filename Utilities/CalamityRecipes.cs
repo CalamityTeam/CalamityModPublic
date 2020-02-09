@@ -779,6 +779,12 @@ namespace CalamityMod
             r.AddTile(TileID.MythrilAnvil);
             r.SetResult(ItemID.TerraBlade);
             r.AddRecipe();
+
+			// Turtle Shell with Giant Tortoise Shell
+            r = GetNewRecipe();
+            r.AddIngredient(ModContent.ItemType<GiantTortoiseShell>());
+            r.SetResult(ItemID.TurtleShell);
+            r.AddRecipe();
         }
         #endregion
 

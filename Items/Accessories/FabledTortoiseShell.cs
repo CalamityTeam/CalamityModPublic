@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Accessories
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.fabledTortoise = true;
             player.moveSpeed -= 0.5f;
-            player.thorns = 0.25f;
+            player.thorns += 0.25f;
         }
     }
 }

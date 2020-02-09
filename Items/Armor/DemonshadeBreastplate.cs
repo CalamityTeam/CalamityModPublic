@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Armor
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.shadeRegen = true;
-            player.thorns = 100f;
+            player.thorns += 100f;
             player.statLifeMax2 += 200;
             player.statManaMax2 += 200;
             player.allDamage += 0.15f;
