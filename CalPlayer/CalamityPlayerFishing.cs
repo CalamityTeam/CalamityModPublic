@@ -289,7 +289,7 @@ namespace CalamityMod.CalPlayer
 							{
 								biomeCrateList.Add(ModContent.ItemType<SunkenCrate>());
 							}
-							if (abyssPosX)
+							if (canSulphurFish)
 							{
 								biomeCrateList.Add(ModContent.ItemType<AbyssalCrate>());
 							}
@@ -549,7 +549,7 @@ namespace CalamityMod.CalPlayer
 						}
 						if (power >= 110)
 						{
-							if (abyssPosX && Main.rand.NextBool(25) && power < 240)
+							if (Main.rand.NextBool(25) && power < 240)
 							{
 								caughtType = ModContent.ItemType<AbyssalAmulet>();
 							}
