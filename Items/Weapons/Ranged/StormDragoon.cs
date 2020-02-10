@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shoot = 10;
             item.shootSpeed = 18f;
             item.useAmmo = 97;
-            item.Calamity().postMoonLordRarity = 13;
+            item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
         public override Vector2? HoldoutOffset()

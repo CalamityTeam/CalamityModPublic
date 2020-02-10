@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.shoot = ModContent.ProjectileType<MoltenAmputatorProj>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;
-            item.Calamity().postMoonLordRarity = 12;
+            item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

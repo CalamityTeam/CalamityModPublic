@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.shoot = ModContent.ProjectileType<QuasarKnife>();
             item.shootSpeed = 20f;
             item.Calamity().rogue = true;
-            item.Calamity().postMoonLordRarity = 22;
+            item.Calamity().customRarity = CalamityRarity.RareVariant;
         }
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

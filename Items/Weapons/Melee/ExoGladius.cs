@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.rare = 10;
             item.shoot = ModContent.ProjectileType<ExoGladProj>();
             item.shootSpeed = 19f;
-            item.Calamity().postMoonLordRarity = 15;
+            item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

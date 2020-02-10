@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.height = 60;
             item.value = Item.buyPrice(0, 4, 0, 0);
             item.rare = 3;
-            item.Calamity().postMoonLordRarity = 22;
+            item.Calamity().customRarity = CalamityRarity.RareVariant;
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

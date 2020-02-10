@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shoot = ModContent.ProjectileType<TerraFireGreen2>();
             item.shootSpeed = 10f;
             item.useAmmo = 23;
-            item.Calamity().postMoonLordRarity = 12;
+            item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override Vector2? HoldoutOffset()

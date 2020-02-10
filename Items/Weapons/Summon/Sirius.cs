@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
             item.value = Item.buyPrice(1, 40, 0, 0);
             item.rare = 10;
-            item.Calamity().postMoonLordRarity = 13;
+            item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
 		public override void HoldItem(Player player)

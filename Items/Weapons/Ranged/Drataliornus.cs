@@ -45,7 +45,7 @@ Right click to fire two devastating barrages of five empowered fireballs.
             item.useTurn = false;
             item.useAmmo = AmmoID.Arrow;
             item.autoReuse = true;
-            item.Calamity().postMoonLordRarity = 16;
+            item.Calamity().customRarity = CalamityRarity.Developer;
         }
 
         public override bool AltFunctionUse(Player player)

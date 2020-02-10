@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.shoot = ModContent.ProjectileType<MalachiteProj>();
             item.shootSpeed = 10f;
             item.Calamity().rogue = true;
-            item.Calamity().postMoonLordRarity = 17;
+            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
         }
 
         public override bool AltFunctionUse(Player player)

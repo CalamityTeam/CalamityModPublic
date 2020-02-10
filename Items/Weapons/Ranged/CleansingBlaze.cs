@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shoot = ModContent.ProjectileType<EssenceFire>();
             item.shootSpeed = 14f;
             item.useAmmo = 23;
-            item.Calamity().postMoonLordRarity = 14;
+            item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)

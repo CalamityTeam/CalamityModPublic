@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Materials
             item.maxStack = 999;
             item.value = Item.buyPrice(0, 7, 0, 0);
             item.rare = 10;
-            item.Calamity().postMoonLordRarity = 13;
+            item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
     }
 }

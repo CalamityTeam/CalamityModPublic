@@ -33,7 +33,7 @@ Stealth strikes summon ghost clones instead of lost souls");
             item.useAnimation = 25;
             item.UseSound = SoundID.Item1;
             item.rare = 10;
-            item.Calamity().postMoonLordRarity = 13;
+            item.Calamity().customRarity = CalamityRarity.PureGreen;
             item.Calamity().rogue = true;
 
             item.autoReuse = true;

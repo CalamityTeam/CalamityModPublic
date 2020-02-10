@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.value = Item.buyPrice(0, 4, 0, 0);
             item.rare = 3;
             item.autoReuse = true;
-            item.Calamity().postMoonLordRarity = 21;
+            item.Calamity().customRarity = CalamityRarity.Dedicated;
             item.shoot = ModContent.ProjectileType<LightningArc>();
             item.shootSpeed = 14f;
 		}

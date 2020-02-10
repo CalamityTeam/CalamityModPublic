@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.rare = 10;
             item.shoot = ModContent.ProjectileType<BurningMeteor>();
             item.shootSpeed = 35f;
-            item.Calamity().postMoonLordRarity = 14;
+            item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

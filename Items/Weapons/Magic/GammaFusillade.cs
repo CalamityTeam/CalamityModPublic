@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<GammaLaser>();
             item.shootSpeed = 20f;
-            item.Calamity().postMoonLordRarity = 12;
+            item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override void AddRecipes()

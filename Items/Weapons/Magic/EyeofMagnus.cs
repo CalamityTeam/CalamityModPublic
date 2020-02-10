@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.shoot = ModContent.ProjectileType<MagnusBeam>();
             item.shootSpeed = 12f;
-            item.Calamity().postMoonLordRarity = 22;
+            item.Calamity().customRarity = CalamityRarity.RareVariant;
         }
 
         public override Vector2? HoldoutOffset()

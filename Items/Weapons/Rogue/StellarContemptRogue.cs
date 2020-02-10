@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.UseSound = SoundID.Item1;
 
             item.rare = 10;
-            item.Calamity().postMoonLordRarity = 12;
+            item.Calamity().customRarity = CalamityRarity.Turquoise;
             item.value = Item.buyPrice(1, 20, 0, 0);
 
             item.Calamity().rogue = true;

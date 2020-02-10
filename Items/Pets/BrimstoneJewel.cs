@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Pets
             item.shoot = ModContent.ProjectileType<SCalPet>();
             item.buffType = ModContent.BuffType<SCalPetBuff>();
             item.rare = 10;
-            item.Calamity().postMoonLordRarity = 21;
+            item.Calamity().customRarity = CalamityRarity.Dedicated;
         }
 
         public override void UseStyle(Player player)

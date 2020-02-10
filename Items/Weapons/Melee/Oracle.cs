@@ -43,7 +43,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.shootSpeed = 16f;
 
             item.rare = 10;
-            item.Calamity().postMoonLordRarity = 21;
+            item.Calamity().customRarity = CalamityRarity.Dedicated;
             item.value = Item.buyPrice(platinum: 2, gold: 50);
         }
 

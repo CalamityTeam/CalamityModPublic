@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.shoot = ModContent.ProjectileType<ValedictionBoomerang>();
             item.shootSpeed = 20f;
             item.Calamity().rogue = true;
-            item.Calamity().postMoonLordRarity = 13;
+            item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
     }
 }

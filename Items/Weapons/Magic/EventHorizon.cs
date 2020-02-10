@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.autoReuse = true;
 
             item.rare = 10;
-            item.Calamity().postMoonLordRarity = 14;
+            item.Calamity().customRarity = CalamityRarity.DarkBlue;
             item.value = Item.buyPrice(1, 80, 0, 0);
 
             item.UseSound = SoundID.Item84;

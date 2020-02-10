@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.height = 64;
             item.value = Item.buyPrice(1, 40, 0, 0);
             item.rare = 10;
-            item.Calamity().postMoonLordRarity = 13;
+            item.Calamity().customRarity = CalamityRarity.PureGreen;
             item.shoot = ModContent.ProjectileType<BloodsoakedCrashax>();
             item.shootSpeed = 15f;
             item.Calamity().rogue = true;

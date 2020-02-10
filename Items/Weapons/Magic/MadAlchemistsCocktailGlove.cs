@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<MadAlchemistsCocktailRed>();
             item.shootSpeed = 12f;
-            item.Calamity().postMoonLordRarity = 21;
+            item.Calamity().customRarity = CalamityRarity.Dedicated;
         }
 
         public override bool AltFunctionUse(Player player)

@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Potions
             item.value = Item.buyPrice(0, 0, 50, 0);
             item.buffType = ModContent.BuffType<BaguetteBuff>();
             item.buffTime = 18000;
-            item.Calamity().postMoonLordRarity = 21;
+            item.Calamity().customRarity = CalamityRarity.Dedicated;
         }
 
         public override void OnConsumeItem(Player player)

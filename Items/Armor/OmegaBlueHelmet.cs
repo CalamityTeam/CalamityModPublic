@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Armor
             item.value = Item.sellPrice(0, 35, 0, 0);
             item.rare = 10;
             item.defense = 19;
-            item.Calamity().postMoonLordRarity = 13;
+            item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
         public override void UpdateEquip(Player player)

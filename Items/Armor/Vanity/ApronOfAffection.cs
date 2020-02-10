@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Armor.Vanity
             item.width = 18;
             item.height = 18;
             item.rare = 5;
-            item.Calamity().postMoonLordRarity = 21;
+            item.Calamity().customRarity = CalamityRarity.Dedicated;
             item.value = Item.buyPrice(0, 15, 0, 0);
             item.vanity = true;
         }

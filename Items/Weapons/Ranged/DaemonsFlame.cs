@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shoot = ModContent.ProjectileType<DaemonsFlameBow>();
             item.shootSpeed = 20f;
             item.useAmmo = 40;
-            item.Calamity().postMoonLordRarity = 13;
+            item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
         public override bool CanUseItem(Player player)

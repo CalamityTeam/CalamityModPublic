@@ -37,6 +37,16 @@ namespace CalamityMod
 {
     public static class CalamityUtils
     {
+        public static readonly CalamityRarity[] postMLRarities =
+        {
+            CalamityRarity.Turquoise,
+            CalamityRarity.PureGreen,
+            CalamityRarity.DarkBlue,
+            CalamityRarity.Violet,
+            CalamityRarity.Developer,
+            CalamityRarity.Rainbow
+        };
+        
         #region Object Extensions
         public static CalamityPlayer Calamity(this Player player) => player.GetModPlayer<CalamityPlayer>();
         public static CalamityGlobalNPC Calamity(this NPC npc) => npc.GetGlobalNPC<CalamityGlobalNPC>();
@@ -172,6 +182,19 @@ namespace CalamityMod
         #endregion
 
         #region Item Utilities
+        public static bool IsPostML(this CalamityRarity calrare)
+        {
+            return calrare != CalamityRarity.NoEffect;
+            // TODO -- separate out whether an item is post-ML from its custom rarity.
+            // This is necessary because there are pre-ML rare variants, legendary weapons and dedicated items.
+            /*
+            for(int i = 0; i < postMLRarities.Length; ++i)
+                if (postMLRarities[i] == calrare)
+                    return true;
+            return false;
+            */
+        }
+
         public static Rectangle FixSwingHitbox(float hitboxWidth, float hitboxHeight)
         {
             Player player = Main.player[Main.myPlayer];

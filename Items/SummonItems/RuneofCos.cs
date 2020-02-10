@@ -31,7 +31,7 @@ namespace CalamityMod.Items.SummonItems
             item.rare = 9;
             item.UseSound = SoundID.Item44;
             item.consumable = false;
-            item.Calamity().postMoonLordRarity = 13;
+            item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
         public override bool CanUseItem(Player player)

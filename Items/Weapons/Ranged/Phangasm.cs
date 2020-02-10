@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shoot = ModContent.ProjectileType<PhangasmBow>();
             item.shootSpeed = 20f;
             item.useAmmo = 40;
-            item.Calamity().postMoonLordRarity = 14;
+            item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
         public override bool CanUseItem(Player player)

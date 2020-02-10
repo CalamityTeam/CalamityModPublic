@@ -43,7 +43,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.rare = 10;
             item.shoot = ModContent.ProjectileType<ElementalExcaliburBeam>();
             item.shootSpeed = 12f;
-            item.Calamity().postMoonLordRarity = 20;
+            item.Calamity().customRarity = CalamityRarity.Rainbow;
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)

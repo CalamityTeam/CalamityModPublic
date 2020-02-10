@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.rare = 10;
             item.shoot = ModContent.ProjectileType<NeptuneOrb>();
             item.shootSpeed = 12f;
-            item.Calamity().postMoonLordRarity = 13;
+            item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
         public override void AddRecipes()

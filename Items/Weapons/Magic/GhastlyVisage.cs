@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.rare = 10;
             item.shootSpeed = 9f;
             item.shoot = ModContent.ProjectileType<GhastlyVisageProj>();
-            item.Calamity().postMoonLordRarity = 13;
+            item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
         public override bool CanUseItem(Player player)

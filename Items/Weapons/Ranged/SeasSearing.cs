@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.knockBack = 5f;
             item.rare = 5;
             item.value = Item.buyPrice(0, 36, 0, 0);
-            item.Calamity().postMoonLordRarity = 17;
+            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
             item.UseSound = SoundID.Item11;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<SeasSearingBubble>();

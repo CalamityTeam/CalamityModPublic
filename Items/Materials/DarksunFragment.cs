@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Materials
             item.maxStack = 999;
             item.rare = 10;
             item.value = Item.sellPrice(gold: 12);
-            item.Calamity().postMoonLordRarity = 15;
+            item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
         public override void Update(ref float gravity, ref float maxFallSpeed)

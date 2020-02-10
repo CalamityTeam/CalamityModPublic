@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.rare = 10;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<LanternSoul>();
-            item.Calamity().postMoonLordRarity = 22;
+            item.Calamity().customRarity = CalamityRarity.RareVariant;
             item.UseSound = SoundID.Item44;
         }
 

@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.knockBack = 1f;
             item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;
-            item.Calamity().postMoonLordRarity = 21;
+            item.Calamity().customRarity = CalamityRarity.Dedicated;
             item.UseSound = SoundID.Item44;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<PinkButterfly>();

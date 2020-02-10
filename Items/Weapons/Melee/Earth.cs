@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.height = 104;
             item.value = Item.buyPrice(5, 0, 0, 0);
             item.rare = 10;
-            item.Calamity().postMoonLordRarity = 16;
+            item.Calamity().customRarity = CalamityRarity.Developer;
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)

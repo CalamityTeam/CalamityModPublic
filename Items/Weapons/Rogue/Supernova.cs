@@ -36,7 +36,7 @@ Stealth strikes release energy as they fly");
             item.shoot = ModContent.ProjectileType<SupernovaBomb>();
             item.shootSpeed = 16f;
             item.Calamity().rogue = true;
-            item.Calamity().postMoonLordRarity = 15;
+            item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

@@ -43,7 +43,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.rare = 10;
             item.shoot = ModContent.ProjectileType<Exobeam>();
             item.shootSpeed = 19f;
-            item.Calamity().postMoonLordRarity = 15;
+            item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
         // Gains 100% of missing health as base damage.

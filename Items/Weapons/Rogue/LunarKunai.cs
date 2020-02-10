@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.rare = 10;
             item.shoot = ModContent.ProjectileType<LunarKunaiProj>();
             item.shootSpeed = 22f;
-            item.Calamity().postMoonLordRarity = 12;
+            item.Calamity().customRarity = CalamityRarity.Turquoise;
             item.Calamity().rogue = true;
 		}
 

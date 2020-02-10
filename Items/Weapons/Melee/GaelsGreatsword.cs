@@ -64,7 +64,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.rare = 10;
             item.shoot = ModContent.ProjectileType<GaelSkull>();
             item.shootSpeed = 15f;
-            item.Calamity().postMoonLordRarity = 16;
+            item.Calamity().customRarity = CalamityRarity.Developer;
             item.useStyle = ItemUseStyleID.SwingThrow;
         }
         public override void HoldItem(Player player)

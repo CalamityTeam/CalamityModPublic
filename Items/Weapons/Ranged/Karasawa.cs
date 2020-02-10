@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
             item.value = Item.buyPrice(1, 80, 0, 0);
             item.rare = 10;
-            item.Calamity().postMoonLordRarity = 21;
+            item.Calamity().customRarity = CalamityRarity.Dedicated;
 
             item.shoot = ModContent.ProjectileType<KarasawaShot>();
             item.shootSpeed = 1f;

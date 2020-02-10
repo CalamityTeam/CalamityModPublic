@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Accessories
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.defense = 9;
             item.accessory = true;
-            item.Calamity().postMoonLordRarity = 20;
+            item.Calamity().customRarity = CalamityRarity.Rainbow;
         }
 
         public override bool CanEquipAccessory(Player player, int slot)

@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Armor
             item.height = 18;
             item.value = Item.buyPrice(gold: 75);
             item.defense = 38; // 132 total
-            item.Calamity().postMoonLordRarity = 14;
+            item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
         public override void UpdateEquip(Player player)

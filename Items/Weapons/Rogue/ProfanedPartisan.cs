@@ -33,7 +33,7 @@ Stealth strikes spawn smaller spears to fly along side it");
             item.useAnimation = 15;
             item.UseSound = SoundID.Item1;
             item.rare = 10;
-            item.Calamity().postMoonLordRarity = 12;
+            item.Calamity().customRarity = CalamityRarity.Turquoise;
             item.Calamity().rogue = true;
 
             item.autoReuse = true;

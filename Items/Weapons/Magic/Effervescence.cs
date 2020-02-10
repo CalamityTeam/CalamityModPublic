@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.autoReuse = true;
             item.shootSpeed = 13f;
             item.shoot = ModContent.ProjectileType<UberBubble>();
-            item.Calamity().postMoonLordRarity = 12;
+            item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

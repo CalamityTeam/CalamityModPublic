@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useTurn = false;
             item.useAmmo = 75;
             item.autoReuse = true;
-            item.Calamity().postMoonLordRarity = 22;
+            item.Calamity().customRarity = CalamityRarity.RareVariant;
         }
 
         public override bool CanUseItem(Player player)

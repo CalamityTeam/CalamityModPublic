@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<SHPB>();
             item.shootSpeed = 20f;
-            item.Calamity().postMoonLordRarity = 17;
+            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
         }
 
         public override Vector2? HoldoutOffset()

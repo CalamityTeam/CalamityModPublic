@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.shoot = ModContent.ProjectileType<ShatteredSunKnife>();
             item.shootSpeed = 25f;
             item.Calamity().rogue = true;
-            item.Calamity().postMoonLordRarity = 12;
+            item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override void AddRecipes()

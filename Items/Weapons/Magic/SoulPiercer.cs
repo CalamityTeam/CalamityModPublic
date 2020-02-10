@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<SoulPiercerBeam>();
             item.shootSpeed = 6f;
-            item.Calamity().postMoonLordRarity = 14;
+            item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
         /*public override Vector2? HoldoutOrigin()

@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
             item.value = Item.buyPrice(1, 40, 0, 0);
             item.rare = 10;
-            item.Calamity().postMoonLordRarity = 21;
+            item.Calamity().customRarity = CalamityRarity.Dedicated;
 
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LargeWeaponFire");
 

@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.rare = 10;
             item.shoot = ModContent.ProjectileType<JawsProjectile>();
             item.shootSpeed = 25f;
-            item.Calamity().postMoonLordRarity = 13;
+            item.Calamity().customRarity = CalamityRarity.PureGreen;
             item.Calamity().rogue = true;
         }
 

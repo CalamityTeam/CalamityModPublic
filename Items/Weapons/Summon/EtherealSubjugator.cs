@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.shoot = ModContent.ProjectileType<PhantomGuy>();
             item.shootSpeed = 10f;
             item.summon = true;
-            item.Calamity().postMoonLordRarity = 13;
+            item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)

@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.noMelee = true;
             item.knockBack = 5f;
             item.rare = 10;
-            item.Calamity().postMoonLordRarity = 21;
+            item.Calamity().customRarity = CalamityRarity.Dedicated;
             item.value = Item.buyPrice(1, 80, 0, 0);
             item.shoot = ModContent.ProjectileType<MelterNote1>();
             item.UseSound = SoundID.Item47;

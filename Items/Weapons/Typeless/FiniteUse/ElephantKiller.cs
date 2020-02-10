@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
             item.shootSpeed = 12f;
             item.shoot = ModContent.ProjectileType<MagnumRound>();
             item.useAmmo = ModContent.ItemType<MagnumRounds>();
-            item.Calamity().postMoonLordRarity = 12;
+            item.Calamity().customRarity = CalamityRarity.Turquoise;
             if (CalamityPlayer.areThereAnyDamnBosses)
             {
                 item.Calamity().timesUsed = 3;

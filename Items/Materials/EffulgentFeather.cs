@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Materials
             item.maxStack = 999;
             item.value = Item.buyPrice(0, 6, 50, 0);
             item.rare = 10;
-            item.Calamity().postMoonLordRarity = 12;
+            item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
     }
 }

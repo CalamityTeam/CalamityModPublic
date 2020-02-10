@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Tools
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.tileBoost += 4;
-            item.Calamity().postMoonLordRarity = 12;
+            item.Calamity().customRarity = CalamityRarity.Turquoise;
 			item.useTurn = true;
         }
 

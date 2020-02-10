@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.shoot = ModContent.ProjectileType<AlphaVirusProjectile>();
             item.shootSpeed = 4f;
             item.rare = 10;
-            item.Calamity().postMoonLordRarity = 13;
+            item.Calamity().customRarity = CalamityRarity.PureGreen;
             item.Calamity().rogue = true;
         }
 

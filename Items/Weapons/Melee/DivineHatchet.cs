@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.rare = 8;
             item.shoot = ModContent.ProjectileType<DivineHatchetBoomerang>();
             item.shootSpeed = 14f;
-            item.Calamity().postMoonLordRarity = 12;
+            item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override void AddRecipes()
