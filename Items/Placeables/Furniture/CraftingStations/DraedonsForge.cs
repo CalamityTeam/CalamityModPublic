@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
             item.value = 5000000;
             item.rare = 10;
             item.createTile = ModContent.TileType<Tiles.Furniture.CraftingStations.DraedonsForge>();
-            item.Calamity().customRarity = CalamityRarity.Rainbow;
+            item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
         public override void AddRecipes()

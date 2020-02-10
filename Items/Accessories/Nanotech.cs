@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Accessories
             item.height = 32;
             item.value = Item.buyPrice(0, 90, 0, 0);
             item.accessory = true;
-            item.Calamity().customRarity = CalamityRarity.Rainbow;
+            item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)

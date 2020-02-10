@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.rare = 10;
             item.shoot = ModContent.ProjectileType<ScourgeoftheCosmosProj>();
             item.shootSpeed = 15f;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
         public override void AddRecipes()

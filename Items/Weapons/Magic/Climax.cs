@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<ClimaxProj>();
             item.shootSpeed = 12f;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
         public override Vector2? HoldoutOrigin()

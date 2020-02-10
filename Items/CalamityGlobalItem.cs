@@ -135,11 +135,15 @@ namespace CalamityMod.Items
 			if (CalamityMod.lavaFishList.Contains(item.type))
 				ItemID.Sets.CanFishInLava[item.type] = true;
 
-			if (item.type == ItemID.GravityGlobe)
+			// not expert because ML drops it in normal so that it can be used with the lore item
+            if (item.type == ItemID.GravityGlobe)
 			{
 				item.expert = false;
 				item.rare = 10;
 			}
+            
+            if(item.type == ItemID.SuspiciousLookingTentacle)
+                item.expert = true;
         }
         #endregion
 
