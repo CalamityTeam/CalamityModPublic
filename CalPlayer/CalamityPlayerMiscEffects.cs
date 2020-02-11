@@ -1243,8 +1243,8 @@ namespace CalamityMod.CalPlayer
 			{
 				if (!Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
 				{
-					player.statDefense -= 20;
-					player.endurance -= 0.1f;
+					player.statDefense -= 8;
+					player.endurance -= 0.05f;
 				}
 				if (modPlayer.sirenPet)
 				{
