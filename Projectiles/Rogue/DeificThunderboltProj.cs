@@ -80,7 +80,7 @@ namespace CalamityMod.Projectiles.Rogue
 				{
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/LightningStrike"), (int)projectile.position.X, (int)projectile.position.Y);
 				}
-				int amt = (projectile.Calamity().stealthStrike ? Main.rand.Next(6, 9) : 1);
+				int amt = (projectile.Calamity().stealthStrike ? Main.rand.Next(3, 6) : 1);
 				for (int n = 0; n < amt; n++)
 				{
 					Vector2 spawnPoint = new Vector2(projectile.Center.X + (float)Main.rand.Next(-100, 101), projectile.Center.Y - (float)Main.rand.Next(700, 801));
@@ -96,7 +96,7 @@ namespace CalamityMod.Projectiles.Rogue
 					Main.projectile[proj].hostile = false;
 					Main.projectile[proj].penetrate = -1;
 					Main.projectile[proj].usesLocalNPCImmunity = true;
-					Main.projectile[proj].localNPCHitCooldown = 1200;
+					Main.projectile[proj].localNPCHitCooldown = 2400;
 				}
 			}
         }
