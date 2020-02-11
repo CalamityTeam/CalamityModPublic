@@ -1,10 +1,8 @@
+using CalamityMod.Items.Fishing.FishingRods;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items.Fishing.FishingRods;
 namespace CalamityMod.Projectiles.Typeless
 {
     public class NavyBobber : ModProjectile
@@ -16,7 +14,6 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void SetDefaults()
         {
-			//projectile.CloneDefaults(360); //Wooden Bobber
 			projectile.width = 14;
 			projectile.height = 14;
 			projectile.aiStyle = 61;
