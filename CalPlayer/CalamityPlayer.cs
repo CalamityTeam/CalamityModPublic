@@ -650,6 +650,7 @@ namespace CalamityMod.CalPlayer
         public bool cEyes = false;
         public bool cSlime = false;
         public bool cSlime2 = false;
+        public bool aSlime = false;
         public bool bStar = false;
         public bool aStar = false;
         public bool SP = false;
@@ -1426,6 +1427,7 @@ namespace CalamityMod.CalPlayer
             cEyes = false;
             cSlime = false;
             cSlime2 = false;
+            aSlime = false;
             bStar = false;
             aStar = false;
             SP = false;
