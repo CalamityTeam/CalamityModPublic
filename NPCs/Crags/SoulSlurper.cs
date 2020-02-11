@@ -228,7 +228,7 @@ namespace CalamityMod.NPCs.Crags
         {
             DropHelper.DropItemCondition(npc, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 2, 1, 1);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<EssenceofChaos>(), Main.hardMode, 3, 1, 1);
-            DropHelper.DropItemChance(npc, ModContent.ItemType<SlurperPole>(), 10);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<SlurperPole>(), (Main.hardMode ? 30 : 10));
         }
 
         public override void HitEffect(int hitDirection, double damage)

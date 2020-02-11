@@ -49,8 +49,8 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItem(player, ItemID.FallenStar, 30, 50);
 
             // Weapons
-            DropHelper.DropItemChance(player, ModContent.ItemType<Nebulash>(), 4);
-            DropHelper.DropItemChance(player, ModContent.ItemType<BorealisBomber>(), 4);
+            DropHelper.DropItemChance(player, ModContent.ItemType<Nebulash>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<BorealisBomber>(), 3);
 
             // Equipment
             DropHelper.DropItemCondition(player, ModContent.ItemType<SquishyBeanMount>(), CalamityWorld.revenge && NPC.downedMoonlord);
@@ -60,7 +60,7 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItemChance(player, ModContent.ItemType<AureusMask>(), 7);
 
             // Other
-            DropHelper.DropItemCondition(player, ModContent.ItemType<StarlightFuelCell>(), CalamityWorld.revenge);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<StarlightFuelCell>(), CalamityWorld.revenge && !player.Calamity().adrenalineBoostTwo);
             DropHelper.DropItemChance(player, ItemID.HallowedKey, 5);
         }
     }

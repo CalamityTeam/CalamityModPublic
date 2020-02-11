@@ -16,9 +16,9 @@ namespace CalamityMod.Items.Tools
         public override void SetDefaults()
         {
             item.width = 60;
-            item.damage = 450;
+            item.damage = 500;
             item.melee = true;
-            item.useAnimation = 20;
+            item.useAnimation = 16;
             item.useStyle = 1;
             item.useTime = 4;
             item.useTurn = true;
@@ -31,14 +31,15 @@ namespace CalamityMod.Items.Tools
             item.tileBoost += 5;
             item.value = Item.buyPrice(1, 20, 0, 0);
             item.rare = 10;
-            item.Calamity().postMoonLordRarity = 12;
+            item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<FellerofEvergreens>());
+            recipe.AddIngredient(ModContent.ItemType<InfernaCutter>());
             recipe.AddIngredient(ModContent.ItemType<DraedonBar>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 5);
             recipe.AddRecipeGroup("LunarHamaxe");
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);

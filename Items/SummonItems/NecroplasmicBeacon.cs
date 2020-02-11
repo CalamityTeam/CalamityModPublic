@@ -27,7 +27,7 @@ namespace CalamityMod.Items.SummonItems
             item.useTime = 45;
             item.useStyle = 4;
             item.consumable = false;
-            item.Calamity().postMoonLordRarity = 13;
+            item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)

@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
             item.rare = 10;
             item.autoReuse = true;
-            item.Calamity().postMoonLordRarity = 16;
+            item.Calamity().customRarity = CalamityRarity.Developer;
             item.value = Item.buyPrice(platinum: 5);
         }
 

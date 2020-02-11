@@ -1,4 +1,3 @@
-using CalamityMod;
 using CalamityMod.Buffs;
 using CalamityMod.Buffs.Cooldowns;
 using CalamityMod.Buffs.DamageOverTime;
@@ -6,9 +5,9 @@ using CalamityMod.Buffs.Potions;
 using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
-using CalamityMod.Items.Armor;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Accessories.Vanity;
+using CalamityMod.Items.Armor;
 using CalamityMod.Items.DifficultyItems;
 using CalamityMod.Items.Fishing.BrimstoneCragCatches;
 using CalamityMod.Items.Mounts;
@@ -16,7 +15,6 @@ using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
-using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs;
 using CalamityMod.NPCs.Calamitas;
@@ -47,7 +45,6 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
-using Terraria.ModLoader.Config;
 
 namespace CalamityMod.CalPlayer
 {
@@ -112,6 +109,9 @@ namespace CalamityMod.CalPlayer
         public int pissWaterBoost = 0;
         public int gaelRageCooldown = 0;
         public int packetTimer = 0;
+        public int navyRodAuraTimer = 0;
+        public int brimLoreInfernoTimer = 0;
+        public int tarraLifeAuraTimer = 0;
         public int bloodflareHeartTimer = 180;
         public int bloodflareManaTimer = 180;
         public int moneyStolenByBandit = 0;
@@ -190,6 +190,7 @@ namespace CalamityMod.CalPlayer
         public bool astrophage = false;
         public bool babyGhostBell = false;
         public bool radiator = false;
+        public bool scalPet = false;
 
         // Rage
         public int stressMax = 10000;
@@ -600,6 +601,7 @@ namespace CalamityMod.CalPlayer
         public bool draconicSurge = false;
         public bool draconicSurgeCooldown = false;
         public bool tesla = false;
+        public bool teslaFreeze = false;
         public bool baguette = false;
         public bool vodka = false;
         public bool redWine = false;
@@ -648,6 +650,7 @@ namespace CalamityMod.CalPlayer
         public bool cEyes = false;
         public bool cSlime = false;
         public bool cSlime2 = false;
+        public bool aSlime = false;
         public bool bStar = false;
         public bool aStar = false;
         public bool SP = false;
@@ -1004,6 +1007,7 @@ namespace CalamityMod.CalPlayer
             astrophage = false;
             babyGhostBell = false;
             radiator = false;
+            scalPet = false;
             onyxExcavator = false;
             angryDog = false;
             fab = false;
@@ -1354,6 +1358,7 @@ namespace CalamityMod.CalPlayer
             draconicSurge = false;
             draconicSurgeCooldown = false;
             tesla = false;
+            teslaFreeze = false;
             baguette = false;
             trippy = false;
             amidiasBlessing = false;
@@ -1415,6 +1420,7 @@ namespace CalamityMod.CalPlayer
             cEyes = false;
             cSlime = false;
             cSlime2 = false;
+            aSlime = false;
             bStar = false;
             aStar = false;
             SP = false;
@@ -1622,6 +1628,7 @@ namespace CalamityMod.CalPlayer
             holyWrath = false;
             profanedRage = false;
             tesla = false;
+            teslaFreeze = false;
             baguette = false;
             draconicSurge = false;
             draconicSurgeCooldown = false;
@@ -4751,8 +4758,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (heldItem.type > 0)
                 {
-                    if ((heldItem.summon && !heldItem.melee && !heldItem.ranged && !heldItem.magic && !heldItem.Calamity().rogue) ||
-						heldItem.hammer > 0 || heldItem.pick > 0 || heldItem.axe > 0)
+                    if (heldItem.summon && !heldItem.melee && !heldItem.ranged && !heldItem.magic && !heldItem.Calamity().rogue)
                     {
                         damageMult += 0.1;
                     }

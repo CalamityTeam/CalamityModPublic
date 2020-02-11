@@ -1,0 +1,137 @@
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.World;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+namespace CalamityMod.NPCs.Crags
+{
+    public class CalamityEye : ModNPC
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Calamity Eye");
+            Main.npcFrameCount[npc.type] = 4;
+        }
+
+        public override void SetDefaults()
+        {
+            npc.lavaImmune = true;
+            npc.aiStyle = 2;
+            npc.damage = 40;
+            npc.width = 30;
+            npc.height = 30;
+            npc.defense = 12;
+            npc.lifeMax = 140;
+            npc.knockBackResist = 0f;
+            animationType = 2;
+            npc.value = Item.buyPrice(0, 0, 5, 0);
+            npc.HitSound = SoundID.NPCHit1;
+            npc.DeathSound = SoundID.NPCDeath1;
+            if (CalamityWorld.downedProvidence)
+            {
+                npc.damage = 227;
+                npc.defense = 101;
+                npc.lifeMax = 5000;
+                npc.value = Item.buyPrice(0, 0, 50, 0);
+            }
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<CalamityEyeBanner>();
+        }
+
+        public override void AI()
+        {
+			if ((double) npc.life < (double) npc.lifeMax * 0.5)
+			{
+				if (npc.direction == -1 && (double) npc.velocity.X > -6.0)
+				{
+					npc.velocity.X -= 0.1f;
+					if ((double) npc.velocity.X > 6.0)
+						npc.velocity.X -= 0.1f;
+					else if ((double) npc.velocity.X > 0.0)
+						npc.velocity.X += 0.05f;
+					if ((double) npc.velocity.X < -6.0)
+						npc.velocity.X = -6f;
+				}
+				else if (npc.direction == 1 && (double) npc.velocity.X < 6.0)
+				{
+					npc.velocity.X += 0.1f;
+					if ((double) npc.velocity.X < -6.0)
+						npc.velocity.X += 0.1f;
+					else if ((double) npc.velocity.X < 0.0)
+						npc.velocity.X -= 0.05f;
+					if ((double) npc.velocity.X > 6.0)
+						npc.velocity.X = 6f;
+				}
+				if (npc.directionY == -1 && (double) npc.velocity.Y > -4.0)
+				{
+					npc.velocity.Y -= 0.1f;
+					if ((double) npc.velocity.Y > 4.0)
+						npc.velocity.Y -= 0.1f;
+					else if ((double) npc.velocity.Y > 0.0)
+						npc.velocity.Y += 0.05f;
+					if ((double) npc.velocity.Y < -4.0)
+						npc.velocity.Y = -4f;
+				}
+				else if (npc.directionY == 1 && (double) npc.velocity.Y < 4.0)
+				{
+					npc.velocity.Y += 0.1f;
+					if ((double) npc.velocity.Y < -4.0)
+						npc.velocity.Y += 0.1f;
+					else if ((double) npc.velocity.Y < 0.0)
+						npc.velocity.Y -= 0.05f;
+					if ((double) npc.velocity.Y > 4.0)
+						npc.velocity.Y = 4f;
+				}
+			}
+			if (Main.rand.NextBool(40))
+			{
+				int index = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + (float) npc.height * 0.25f), npc.width, (int) ((double) npc.height * 0.5), 5, npc.velocity.X, 2f, 0, new Color(), 1f);
+				Main.dust[index].velocity.X *= 0.5f;
+				Main.dust[index].velocity.Y *= 0.1f;
+			}
+        }
+
+        public override void HitEffect(int hitDirection, double damage)
+        {
+            for (int k = 0; k < 5; k++)
+            {
+                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+            }
+            if (npc.life <= 0)
+            {
+                for (int k = 0; k < 20; k++)
+                {
+                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                }
+            }
+        }
+
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            return spawnInfo.player.Calamity().ZoneCalamity ? 0.25f : 0f;
+        }
+
+        public override void OnHitPlayer(Player player, int damage, bool crit)
+        {
+            player.AddBuff(BuffID.Weak, 120, true);
+            player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120, true);
+            if (CalamityWorld.revenge)
+            {
+                player.AddBuff(ModContent.BuffType<Horror>(), 180, true);
+            }
+        }
+
+        public override void NPCLoot()
+        {
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 2, 1, 1);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<EssenceofChaos>(), Main.hardMode, 3, 1, 1);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<BlightedLens>(), Main.hardMode, 2, 1, 1);
+            DropHelper.DropItemChance(npc, ItemID.Lens, 2);
+        }
+    }
+}

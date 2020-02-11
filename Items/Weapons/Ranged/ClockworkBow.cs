@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shoot = 10;
             item.shootSpeed = 30f;
             item.useAmmo = 40;
-            item.Calamity().postMoonLordRarity = 12;
+            item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override void AddRecipes()

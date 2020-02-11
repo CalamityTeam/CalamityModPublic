@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Tools
             item.rare = 10;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.Calamity().postMoonLordRarity = 16;
+            item.Calamity().customRarity = CalamityRarity.Developer;
         }
 
         public override bool AltFunctionUse(Player player)

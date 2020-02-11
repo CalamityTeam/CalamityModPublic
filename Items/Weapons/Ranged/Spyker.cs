@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shootSpeed = 9f;
             item.shoot = ModContent.ProjectileType<SpykerProj>();
             item.useAmmo = 97;
-            item.Calamity().postMoonLordRarity = 12;
+            item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override Vector2? HoldoutOffset()

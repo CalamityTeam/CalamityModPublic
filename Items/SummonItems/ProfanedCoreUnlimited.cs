@@ -27,7 +27,7 @@ namespace CalamityMod.Items.SummonItems
             item.useStyle = 4;
             item.consumable = false;
             item.rare = 10;
-            item.Calamity().postMoonLordRarity = 12;
+            item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override bool CanUseItem(Player player)

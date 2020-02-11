@@ -167,14 +167,14 @@ namespace CalamityMod.NPCs.TownNPCs
             }
             else if (CalamityWorld.downedDoG)
             {
-                dialogue.Add("The Devourer of God’s cosmic armor is unique in that it is capable of not only protecting his body from tearing itself apart when ripping through the fabric of space and time, but also allows him to control his powers.");
+                dialogue.Add("The Devourer of God's cosmic armor is unique in that it is capable of not only protecting his body from tearing itself apart when ripping through the fabric of space and time, but also allows him to control his powers.");
                 dialogue.Add("With the cosmic steel you can fashion many of your weapons into much more powerful forms.");
                 dialogue.Add("The Devourer of Gods is extremely powerful. However, he is young, foolhardy, and very lazy. Perhaps if he had been given time to develop he would have turned into quite the threat.");
                 dialogue.Add("Ah, the dragon Yharon is fickle. You may find that he will refuse to use his full power unless you are strong enough to unleash the power of the Dark Sun.");
             }
             else if (CalamityWorld.downedProvidence)
             {
-                dialogue.Add("The Rune of Kos holds a significant portion of Providence’s brand of magic, easily distinguishable from all others. Activating it in certain places would have some...risky consequences.");
+                dialogue.Add("The Rune of Kos holds a significant portion of Providence's brand of magic, easily distinguishable from all others. Activating it in certain places would have some...risky consequences.");
                 dialogue.Add("Ironic, is it not, that Statis was defeated by the very Sentinel his people fashioned their art of stealth from. Fate so often weaves cruel tales.");
                 dialogue.Add("The Dungeon seems to be more active now. You may hear the faint whisperings of angry spirits who have not left to the Void...I would recommend searching there before taking on the Sentinels.");
             }
@@ -202,9 +202,9 @@ namespace CalamityMod.NPCs.TownNPCs
                 dialogue.Add("If you take an idol down to the Brimstone Crags you might be able to see just what is lurking in the shadows.");
                 dialogue.Add("The Brimstone Crags...Yharim despised that place, and did everything he could to raze it to the ground. It might explain a few things about him.");
                 dialogue.Add("The witch just might offer you an opportunity for a challenge if you are willing to fight during the night.");
-                dialogue.Add("If you’ve gathered the souls used to power those automatons head once more to the jungle. You will find a powerful enemy to fight, which will unleash the full fervor of the jungle once defeated. Do not underestimate it!");
+                dialogue.Add("If you've gathered the souls used to power those automatons head once more to the jungle. You will find a powerful enemy to fight, which will unleash the full fervor of the jungle once defeated. Do not underestimate it!");
                 dialogue.Add("Be careful when defeating Plantera and the Golem. You might accidentally unleash a new threat in the jungle that needs to be quelled.");
-                dialogue.Add("When exploring the jungle temple be careful. You may not wish to disturb the Lihzard’s idol, the Golem. It’s quite the destructive force.");
+                dialogue.Add("When exploring the jungle temple be careful. You may not wish to disturb the Lihzard's idol, the Golem. It's quite the destructive force.");
             }
             else if (Main.hardMode)
             {
@@ -216,10 +216,10 @@ namespace CalamityMod.NPCs.TownNPCs
                 dialogue.Add("Have you heard of the Brimstone Crags? It was once a grand kingdom, not too different from my own. However, it also met a similar fate. I would not advise going down there, unless you seek a painful death.");
                 dialogue.Add("Ah yes, the Abyss. That trench is full of powerful creatures that could devour you in a heartbeat. I would explore the dungeon first.");
                 dialogue.Add("The Sulphurous Seas are dangerous. The toxic waters will burn your skin, but if you can brave them you will be able to reach the Abyss, where there are powerful weapons and dangers aplenty.");
-                dialogue.Add("The Sulphurous Seas were created long ago, when Yharim’s dungeon could no longer hold as many corpses as it needed to. Many of the bodies were dumped into the ocean. This, along with severe pollution from the heydays of Draedon's experiments have turned a paradise into a wasteland.");
+                dialogue.Add("The Sulphurous Seas were created long ago, when Yharim's dungeon could no longer hold as many corpses as it needed to. Many of the bodies were dumped into the ocean. This, along with severe pollution from the heydays of Draedon's experiments have turned a paradise into a wasteland.");
                 dialogue.Add("Be careful what you attack in the " + worldEvil + ". You might just unveil a greater threat than what was there before.");
                 dialogue.Add("Scattered across the lands are shrines dedicated to the gods. You can take whatever is in them, but a few items you may not be able to use until much later.");
-                dialogue.Add("I’m assuming you’ve heard the legends that speak of the ninja, Statis? There are some who say that if you were able to defeat the gods which his clan once worshipped you would be able to harness some of his powers.");
+                dialogue.Add("I'm assuming you've heard the legends that speak of the ninja, Statis? There are some who say that if you were able to defeat the gods which his clan once worshipped you would be able to harness some of his powers.");
                 dialogue.Add("The dungeon is a dark place. None of us know of its true purpose, however, the ancient Eidolist cultists used it for worship before Lord Yharim took it over.");
                 dialogue.Add("The " + worldEvil + " used to be easily manageable and controlled by nature. However, the recent wars and pollution have tipped the balance out of favor.");
             }

@@ -150,7 +150,6 @@ namespace CalamityMod.NPCs.DevourerofGods
         {
             player.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 90, true);
             player.AddBuff(BuffID.Frostburn, 90, true);
-            player.AddBuff(BuffID.Darkness, 90, true);
         }
     }
 }

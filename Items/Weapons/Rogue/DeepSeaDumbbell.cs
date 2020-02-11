@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.shoot = ModContent.ProjectileType<DeepSeaDumbbell1>();
             item.shootSpeed = 20f;
             item.Calamity().rogue = true;
-            item.Calamity().postMoonLordRarity = 21;
+            item.Calamity().customRarity = CalamityRarity.Dedicated;
         }
 
         public override bool AltFunctionUse(Player player)

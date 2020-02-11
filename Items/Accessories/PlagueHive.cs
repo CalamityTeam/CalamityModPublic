@@ -77,8 +77,6 @@ namespace CalamityMod.Items.Accessories
                                 if (player.whoAmI == Main.myPlayer)
                                 {
                                     Projectile p = Projectile.NewProjectileDirect(nPC.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), num3, 0f, player.whoAmI, l);
-                                    p.minion = true;
-                                    p.Calamity().forceMinion = true;
                                 }
                             }
                         }

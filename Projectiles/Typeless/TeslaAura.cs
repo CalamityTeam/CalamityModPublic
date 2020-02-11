@@ -1,6 +1,6 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.NPCs;
-using CalamityMod.Buffs.Potions;
+using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -74,12 +74,13 @@ namespace CalamityMod.Projectiles.Typeless
             }
 
             target.AddBuff(BuffID.Electrified, 300);
-            target.AddBuff(ModContent.BuffType<TeslaBuff>(), 120);
+            target.AddBuff(ModContent.BuffType<TeslaFreeze>(), 120);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             target.AddBuff(BuffID.Electrified, 300);
+            target.AddBuff(ModContent.BuffType<TeslaFreeze>(), 120);
 		}
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

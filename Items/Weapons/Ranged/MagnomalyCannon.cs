@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shoot = ModContent.ProjectileType<MagnomalyRocket>();
             item.shootSpeed = 15f;
             item.useAmmo = 771;
-            item.Calamity().postMoonLordRarity = 15;
+            item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
         public override Vector2? HoldoutOffset()

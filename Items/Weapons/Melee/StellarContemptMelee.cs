@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.UseSound = SoundID.Item1;
 
             item.rare = 10;
-            item.Calamity().postMoonLordRarity = 12;
+            item.Calamity().customRarity = CalamityRarity.Turquoise;
             item.value = Item.buyPrice(1, 20, 0, 0);
 
             item.shoot = ModContent.ProjectileType<StellarContemptHammer>();

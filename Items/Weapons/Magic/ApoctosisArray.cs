@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.rare = 10;
             item.shoot = ModContent.ProjectileType<IonBlast>();
             item.shootSpeed = 8f;
-            item.Calamity().postMoonLordRarity = 12;
+            item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override Vector2? HoldoutOffset()

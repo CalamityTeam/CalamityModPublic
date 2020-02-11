@@ -22,8 +22,6 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.timeLeft = 200;
             projectile.tileCollide = false;
             projectile.Calamity().rogue = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
         }
 
         public override void AI()
@@ -169,6 +167,7 @@ namespace CalamityMod.Projectiles.Rogue
                                 projectile.ai[1] = (float)i;
                                 projectile.velocity = (Main.npc[i].Center - projectile.Center) * 0.75f;
                                 projectile.netUpdate = true;
+								projectile.damage = 0;
                                 projectile.StatusNPC(i);
                                 int num28 = 20;
                                 Point[] array2 = new Point[num28];
@@ -224,6 +223,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
+			Player player = Main.player[projectile.owner];
 			int num251 = Main.rand.Next(2, 4);
 			if (projectile.owner == Main.myPlayer)
 			{
@@ -236,7 +236,7 @@ namespace CalamityMod.Projectiles.Rogue
 					}
 					value15.Normalize();
 					value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-					int shard = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<NastyChollaNeedle>(), projectile.damage / 5, 0f, projectile.owner, 0f, 0f);
+					int shard = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<NastyChollaNeedle>(), (int)(4f * (player.allDamage + player.meleeDamage - 1f)), 0f, projectile.owner, 0f, 0f);
 				}
 			}
 		}

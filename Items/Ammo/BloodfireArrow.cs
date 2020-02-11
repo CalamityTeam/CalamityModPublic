@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Ammo
             item.shoot = ModContent.ProjectileType<BloodfireArrowProj>();
             item.shootSpeed = 10f;
             item.ammo = 40;
-            item.Calamity().postMoonLordRarity = 13;
+            item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
         public override void AddRecipes()

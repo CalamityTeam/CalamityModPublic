@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.shoot = ModContent.ProjectileType<TriactisOPHammer>();
             item.shootSpeed = 25f;
             item.Calamity().rogue = true;
-            item.Calamity().postMoonLordRarity = 16;
+            item.Calamity().customRarity = CalamityRarity.Developer;
         }
 
         public override void AddRecipes()

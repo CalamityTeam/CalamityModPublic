@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.shoot = ModContent.ProjectileType<InfernalSpearProjectile>();
             item.shootSpeed = 28f;
             item.Calamity().rogue = true;
-            item.Calamity().postMoonLordRarity = 14;
+            item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
     }
 }

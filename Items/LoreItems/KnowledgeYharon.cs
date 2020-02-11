@@ -20,7 +20,7 @@ namespace CalamityMod.Items.LoreItems
             item.height = 20;
             item.rare = 10;
             item.consumable = false;
-            item.Calamity().postMoonLordRarity = 14;
+            item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
         public override bool CanUseItem(Player player)

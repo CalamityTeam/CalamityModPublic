@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Typeless
         public override bool PreDrawExtras(SpriteBatch spriteBatch)
         {
             Lighting.AddLight(projectile.Center, 0.35f, 0f, 0.25f);
-            CalamityUtils.DrawFishingLine(projectile, ModContent.ItemType<TheDevourerofCods>(), projectile.Calamity().lineColor ? new Color(252, 109, 202, 100) : new Color(39, 151, 171, 100));
+            CalamityUtils.DrawFishingLine(projectile, ModContent.ItemType<TheDevourerofCods>(), projectile.Calamity().lineColor == 1 ? new Color(252, 109, 202, 100) : new Color(39, 151, 171, 100));
             return false;
 		}
     }

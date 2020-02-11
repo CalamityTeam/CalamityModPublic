@@ -1,8 +1,5 @@
-﻿using CalamityMod;
-using CalamityMod.Buffs.Alcohol;
-using CalamityMod.Buffs.Cooldowns;
+﻿using CalamityMod.Buffs.Cooldowns;
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.Pets;
 using CalamityMod.Buffs.Potions;
 using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
@@ -14,6 +11,7 @@ using CalamityMod.Items.Fishing.FishingRods;
 using CalamityMod.NPCs;
 using CalamityMod.NPCs.AcidRain;
 using CalamityMod.NPCs.Astral;
+using CalamityMod.NPCs.Crags;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.Projectiles.Boss;
@@ -30,11 +28,10 @@ using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
 
 namespace CalamityMod.CalPlayer
 {
-    public class CalamityPlayerMiscEffects
+	public class CalamityPlayerMiscEffects
     {
         #region Post Update Misc Effects
         public static void CalamityPostUpdateMiscEffects(Player player, Mod mod)
@@ -1138,7 +1135,7 @@ namespace CalamityMod.CalPlayer
 			{
 				player.moveSpeed += 0.05f;
 				player.jumpSpeedBoost += player.autoJump ? 0f : 0.1f;
-				player.statDefense -= 5;
+				player.statDefense -= 3;
 			}
 			if (modPlayer.desertScourgeLore)
 			{
@@ -2543,7 +2540,10 @@ namespace CalamityMod.CalPlayer
 				player.statDefense -= AbyssalFlames.DefenseReduction;
 
 			if (modPlayer.gsInferno)
+			{
+				player.blackout = true;
 				player.statDefense -= GodSlayerInferno.DefenseReduction;
+			}
 
 			if (modPlayer.astralInfection)
 				player.statDefense -= AstralInfectionDebuff.DefenseReduction;
@@ -2609,7 +2609,7 @@ namespace CalamityMod.CalPlayer
 				player.velocity.X = 0f;
 			}
 
-			if (modPlayer.vaporfied)
+			if (modPlayer.vaporfied || modPlayer.teslaFreeze)
 			{
 				player.velocity.Y *= 0.98f;
 				player.velocity.X *= 0.98f;
@@ -2899,96 +2899,108 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
+			#region Damage Auras
+			// Tarragon Summon set bonus life aura
 			if (modPlayer.tarraSummon)
 			{
-				int lifeCounter = 0;
-				float num2 = 300f;
-				bool flag = lifeCounter % 60 == 0;
-				int num3 = 200;
+				const int FramesPerHit = 60;
 
-				if (player.whoAmI == Main.myPlayer)
+				// Constantly increment the timer every frame.
+				modPlayer.tarraLifeAuraTimer = (modPlayer.tarraLifeAuraTimer + 1) % FramesPerHit;
+
+				// If the timer rolls over, it's time to deal damage. Only run this code for the client which is wearing the armor.
+				if (modPlayer.tarraLifeAuraTimer == 0 && player.whoAmI == Main.myPlayer)
 				{
-					for (int l = 0; l < 200; l++)
+					const int BaseDamage = 200;
+					int damage = (int)(BaseDamage * (player.allDamage + player.minionDamage - 1f));
+					float range = 300f;
+
+					for (int i = 0; i < Main.maxNPCs; ++i)
 					{
-						NPC nPC = Main.npc[l];
-						if (nPC.active && !nPC.friendly && nPC.damage > 0 && !nPC.dontTakeDamage && Vector2.Distance(player.Center, nPC.Center) <= num2)
-						{
-							if (flag)
-							{
-								nPC.StrikeNPC(num3, 0f, 0, false, false, false);
-								if (Main.netMode != NetmodeID.SinglePlayer)
-									NetMessage.SendData(28, -1, -1, null, l, (float)num3, 0f, 0f, 0, 0, 0);
-							}
-						}
+						NPC nPC = Main.npc[i];
+						if (!nPC.active || nPC.friendly || nPC.damage <= 0 || nPC.dontTakeDamage)
+							continue;
+
+						if (Vector2.Distance(player.Center, nPC.Center) <= range)
+							Projectile.NewProjectileDirect(nPC.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), damage, 0f, player.whoAmI, i);
 					}
 				}
-
-				if (lifeCounter >= 180)
-					lifeCounter = 0;
-				lifeCounter++;
 			}
 
+			// Navy Fishing Rod's electric aura when in-use
 			if (player.inventory[player.selectedItem].type == ModContent.ItemType<NavyFishingRod>() && player.ownedProjectileCounts[ModContent.ProjectileType<NavyBobber>()] != 0)
 			{
-				int auraCounter = 0;
-				float num2 = 200f;
-				bool flag = auraCounter % 120 == 0;
-				int num3 = 10;
+				const int FramesPerHit = 120;
 
-				if (player.whoAmI == Main.myPlayer)
+				// Constantly increment the timer every frame.
+				modPlayer.navyRodAuraTimer = (modPlayer.navyRodAuraTimer + 1) % FramesPerHit;
+
+				// If the timer rolls over, it's time to deal damage. Only run this code for the client which is holding the fishing rod,
+				if (modPlayer.navyRodAuraTimer == 0 && player.whoAmI == Main.myPlayer)
 				{
-					for (int l = 0; l < 200; l++)
+					const int BaseDamage = 10;
+					int damage = (int)(BaseDamage * player.allDamage);
+					float range = 200f;
+
+					for (int i = 0; i < Main.maxNPCs; ++i)
 					{
-						NPC nPC = Main.npc[l];
-						if (nPC.active && !nPC.friendly && nPC.damage > 0 && !nPC.dontTakeDamage && Vector2.Distance(player.Center, nPC.Center) <= num2)
+						NPC nPC = Main.npc[i];
+						if (!nPC.active || nPC.friendly || nPC.damage <= 0 || nPC.dontTakeDamage)
+							continue;
+
+						if (Vector2.Distance(player.Center, nPC.Center) <= range)
+							Projectile.NewProjectileDirect(nPC.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), damage, 0f, player.whoAmI, i);
+
+						// Occasionally spawn cute sparks so it looks like an electrical aura
+						if (Main.rand.NextBool(10))
 						{
-							if (flag)
-							{
-								nPC.StrikeNPC(num3, 0f, 0, false, false, false);
-								if (Main.netMode != NetmodeID.SinglePlayer)
-									NetMessage.SendData(28, -1, -1, null, l, (float)num3, 0f, 0f, 0, 0, 0);
+							Vector2 value15 = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
+							while (value15.X == 0f && value15.Y == 0f)
+								value15 = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
 
-								Vector2 value15 = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
-								while (value15.X == 0f && value15.Y == 0f)
-									value15 = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
-
-								value15.Normalize();
-								value15 *= (float)Main.rand.Next(30, 61) * 0.1f;
-								int num17 = Projectile.NewProjectile(nPC.Center.X, nPC.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<EutrophicSpark>(), 5, 0f, player.whoAmI, 0f, 0f);
-								Main.projectile[num17].melee = false;
-								Main.projectile[num17].localNPCHitCooldown = -1;
-							}
+							value15.Normalize();
+							value15 *= (float)Main.rand.Next(30, 61) * 0.1f;
+							int spark = Projectile.NewProjectile(nPC.Center.X, nPC.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<EutrophicSpark>(), damage / 2, 0f, player.whoAmI, 0f, 0f);
+							Main.projectile[spark].melee = false;
+							Main.projectile[spark].localNPCHitCooldown = -2;
+							Main.projectile[spark].penetrate = 5;
 						}
 					}
 				}
-
-				if (auraCounter >= 360)
-					auraCounter = 0;
-				auraCounter++;
 			}
 
+			// Brimstone Elemental lore inferno potion boost
 			if (modPlayer.brimstoneElementalLore && player.inferno)
 			{
-				int num = ModContent.BuffType<BrimstoneFlames>();
-				float num2 = 300f;
-				bool flag = player.infernoCounter % 30 == 0;
-				int damage = 50;
+				const int FramesPerHit = 30;
 
+				// Constantly increment the timer every frame.
+				modPlayer.brimLoreInfernoTimer = (modPlayer.brimLoreInfernoTimer + 1) % FramesPerHit;
+
+				// Only run this code for the client which is wearing the armor.
+				// Brimstone flames is applied every single frame, but direct damage is only dealt twice per second.
 				if (player.whoAmI == Main.myPlayer)
 				{
-					for (int l = 0; l < 200; l++)
+					const int BaseDamage = 50;
+					int damage = (int)(BaseDamage * player.allDamage);
+					float range = 300f;
+
+					for (int i = 0; i < Main.maxNPCs; ++i)
 					{
-						NPC nPC = Main.npc[l];
-						if (nPC.active && !nPC.friendly && nPC.damage > 0 && !nPC.dontTakeDamage && Vector2.Distance(player.Center, nPC.Center) <= num2)
+						NPC nPC = Main.npc[i];
+						if (!nPC.active || nPC.friendly || nPC.damage <= 0 || nPC.dontTakeDamage)
+							continue;
+
+						if (Vector2.Distance(player.Center, nPC.Center) <= range)
 						{
-							if (nPC.FindBuffIndex(num) == -1 && !nPC.buffImmune[num])
-								nPC.AddBuff(num, 120, false);
-							if (flag)
-								player.ApplyDamageToNPC(nPC, damage, 0f, 0, false);
+							nPC.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
+							if (modPlayer.brimLoreInfernoTimer == 0)
+								Projectile.NewProjectileDirect(nPC.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), damage, 0f, player.whoAmI, i);
 						}
 					}
 				}
 			}
+			#endregion
 
 			if (modPlayer.royalGel)
 			{

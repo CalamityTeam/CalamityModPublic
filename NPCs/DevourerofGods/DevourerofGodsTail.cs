@@ -226,7 +226,6 @@ namespace CalamityMod.NPCs.DevourerofGods
             player.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 180, true);
             player.AddBuff(ModContent.BuffType<WhisperingDeath>(), 240, true);
             player.AddBuff(BuffID.Frostburn, 180, true);
-            player.AddBuff(BuffID.Darkness, 180, true);
 
             // TODO: don't talk if the player has iframes
             if (player.immuneTime > 0 || player.immune)

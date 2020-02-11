@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.rare = 10;
             item.shoot = ModContent.ProjectileType<NightsGazeProjectile>();
             item.shootSpeed = 30f;
-            item.Calamity().postMoonLordRarity = 13;
+            item.Calamity().customRarity = CalamityRarity.PureGreen;
             item.Calamity().rogue = true;
         }
 

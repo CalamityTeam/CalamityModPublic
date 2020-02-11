@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<ElementalAxeMinion>();
             item.shootSpeed = 10f;
-            item.Calamity().postMoonLordRarity = 12;
+            item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -55,7 +55,7 @@ namespace CalamityMod.Items.Weapons.Summon
             recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 5);
             recipe.AddIngredient(ItemID.LunarBar, 5);
             recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<InfernaCutter>());
+            recipe.AddIngredient(ModContent.ItemType<PlantationStaff>());
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

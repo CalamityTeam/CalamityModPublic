@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.knockBack = knockBack;
             item.value = Item.buyPrice(0, 12, 0, 0);
             item.rare = 10;
-            item.Calamity().postMoonLordRarity = 12;;
+            item.Calamity().customRarity = CalamityRarity.Turquoise;;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.maxStack = 10;

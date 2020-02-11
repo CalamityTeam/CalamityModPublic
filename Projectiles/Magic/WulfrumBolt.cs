@@ -23,12 +23,13 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0.15f / 255f, (255 - projectile.alpha) * 0.25f / 255f);
+            Lighting.AddLight(projectile.Center, 0f, (255 - projectile.alpha) * 0.1f / 255f, 0f);
             for (int num151 = 0; num151 < 3; num151++)
             {
                 int num154 = 14;
                 int num155 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width - num154 * 2, projectile.height - num154 * 2, 61, 0f, 0f, 100, default, 3f);
                 Main.dust[num155].noGravity = true;
+                Main.dust[num155].noLight = true;
                 Main.dust[num155].velocity *= 0.1f;
                 Main.dust[num155].velocity += projectile.velocity * 0.5f;
             }
@@ -37,6 +38,7 @@ namespace CalamityMod.Projectiles.Magic
                 int num156 = 16;
                 int num157 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width - num156 * 2, projectile.height - num156 * 2, 61, 0f, 0f, 100, default, 2.25f);
                 Main.dust[num157].velocity *= 0.25f;
+                Main.dust[num157].noLight = true;
                 Main.dust[num157].velocity += projectile.velocity * 0.5f;
                 return;
             }

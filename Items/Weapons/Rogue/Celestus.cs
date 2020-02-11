@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SafeSetDefaults()
         {
             item.width = 20;
-            item.damage = 850;
+            item.damage = 940;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.autoReuse = true;
@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.shoot = ModContent.ProjectileType<CelestusBoomerang>();
             item.shootSpeed = 25f;
             item.Calamity().rogue = true;
-            item.Calamity().postMoonLordRarity = 15;
+            item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

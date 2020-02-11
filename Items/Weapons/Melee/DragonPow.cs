@@ -1,5 +1,4 @@
 ﻿using CalamityMod.Items.Materials;
-using CalamityMod.Items.Placeables.Ores;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
@@ -10,7 +9,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class DragonPow : ModItem
     {
-        public static int BaseDamage = 3900;
         public static float Speed = 13f;
         public static float ReturnSpeed = 20f;
         public static float SparkSpeed = 0.6f;
@@ -31,7 +29,7 @@ Summons a barrage of petals and waterfalls on enemy hits");
             item.width = 76;
             item.height = 82;
             item.melee = true;
-            item.damage = BaseDamage;
+            item.damage = 4900;
             item.knockBack = 9f;
             item.useAnimation = 20;
             item.useTime = 20;
@@ -44,7 +42,7 @@ Summons a barrage of petals and waterfalls on enemy hits");
             item.channel = true;
 
             item.rare = 10;
-            item.Calamity().postMoonLordRarity = 21;
+            item.Calamity().customRarity = CalamityRarity.Dedicated;
             item.value = Item.buyPrice(2, 50, 0, 0);
 
             item.shoot = ModContent.ProjectileType<DragonPowFlail>();

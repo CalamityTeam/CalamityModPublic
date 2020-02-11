@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Accessories.Wings
             item.width = 22;
             item.height = 20;
             item.value = Item.buyPrice(1, 0, 0, 0);
-            item.Calamity().postMoonLordRarity = 14;
+            item.Calamity().customRarity = CalamityRarity.DarkBlue;
             item.accessory = true;
         }
 

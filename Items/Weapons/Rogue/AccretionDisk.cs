@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.shoot = ModContent.ProjectileType<AccretionDiskProj>();
             item.shootSpeed = 13f;
             item.Calamity().rogue = true;
-            item.Calamity().postMoonLordRarity = 12;
+            item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override void AddRecipes()

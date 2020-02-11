@@ -55,12 +55,12 @@ namespace CalamityMod.Items
 
         public int timesUsed = 0;
 
-        public int postMoonLordRarity = 0;
+        public CalamityRarity customRarity = 0;
 
         #region SetDefaults
         public override void SetDefaults(Item item)
         {
-            if (postMoonLordRarity != 0 && item.rare != 10)
+            if (customRarity.IsPostML() && item.rare != 10)
                 item.rare = 10;
 
             if (item.maxStack == 99 || item.type == ItemID.Dynamite || item.type == ItemID.StickyDynamite ||
@@ -135,11 +135,15 @@ namespace CalamityMod.Items
 			if (CalamityMod.lavaFishList.Contains(item.type))
 				ItemID.Sets.CanFishInLava[item.type] = true;
 
-			if (item.type == ItemID.GravityGlobe)
+			// not expert because ML drops it in normal so that it can be used with the lore item
+            if (item.type == ItemID.GravityGlobe)
 			{
 				item.expert = false;
 				item.rare = 10;
 			}
+            
+            if(item.type == ItemID.SuspiciousLookingTentacle)
+                item.expert = true;
         }
         #endregion
 
@@ -341,7 +345,7 @@ namespace CalamityMod.Items
                     "timesUsed", timesUsed
                 },
                 {
-                    "rarity", postMoonLordRarity
+                    "rarity", (int)customRarity
                 }
             };
         }
@@ -350,13 +354,13 @@ namespace CalamityMod.Items
         {
             rogue = tag.GetBool("rogue");
             timesUsed = tag.GetInt("timesUsed");
-            postMoonLordRarity = tag.GetInt("rarity");
+            customRarity = (CalamityRarity)tag.GetInt("rarity");
         }
 
         public override void LoadLegacy(Item item, BinaryReader reader)
         {
             int loadVersion = reader.ReadInt32();
-            postMoonLordRarity = reader.ReadInt32();
+            customRarity = (CalamityRarity)reader.ReadInt32();
             timesUsed = reader.ReadInt32();
 
             if (loadVersion == 0)
@@ -376,7 +380,7 @@ namespace CalamityMod.Items
             flags[0] = rogue;
 
             writer.Write(flags);
-            writer.Write(postMoonLordRarity);
+            writer.Write((int)customRarity);
             writer.Write(timesUsed);
         }
 
@@ -385,7 +389,7 @@ namespace CalamityMod.Items
             BitsByte flags = reader.ReadByte();
             rogue = flags[0];
 
-            postMoonLordRarity = reader.ReadInt32();
+            customRarity = (CalamityRarity)reader.ReadInt32();
             timesUsed = reader.ReadInt32();
         }
         #endregion
@@ -503,57 +507,62 @@ namespace CalamityMod.Items
             TooltipLine tt2 = tooltips.FirstOrDefault(x => x.Name == "ItemName" && x.mod == "Terraria");
             if (tt2 != null)
             {
-                switch (postMoonLordRarity)
+                switch (customRarity)
                 {
-                    case 12:
+                    default:
+                        break;
+                    case CalamityRarity.Turquoise:
                         tt2.overrideColor = new Color(0, 255, 200);
                         break;
-                    case 13:
+                    case CalamityRarity.PureGreen:
                         tt2.overrideColor = new Color(0, 255, 0);
                         break;
-                    case 14:
+                    case CalamityRarity.DarkBlue:
                         tt2.overrideColor = new Color(43, 96, 222);
                         break;
-                    case 15:
+                    case CalamityRarity.Violet:
                         tt2.overrideColor = new Color(108, 45, 199);
                         break;
-                    case 16:
+                    case CalamityRarity.Developer:
                         tt2.overrideColor = new Color(255, 0, 255);
                         break;
-                    case 17: //Legendary Weapons
-                        if (item.type == ModContent.ItemType<Malachite>())
-                            tt2.overrideColor = new Color(Main.DiscoR, 203, 103);
+
+                    case CalamityRarity.Rainbow:
+                        tt2.overrideColor = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB);
+                        break;
+                    case CalamityRarity.RareVariant:
+                        tt2.overrideColor = new Color(255, 140, 0);
+                        break;
+                    case CalamityRarity.Dedicated:
+                        tt2.overrideColor = new Color(139, 0, 0);
+                        break;
+
+                    case CalamityRarity.ItemSpecific:
+                        // Uniquely colored developer weapons
+                        if(item.type == ModContent.ItemType<Fabstaff>())
+                            tt2.overrideColor = new Color(Main.DiscoR, 100, 255);
+                        if(item.type == ModContent.ItemType<BlushieStaff>())
+                            tt2.overrideColor = new Color(0, 0, 255);
+                        if (item.type == ModContent.ItemType<NanoblackReaperMelee>() || item.type == ModContent.ItemType<NanoblackReaperRogue>())
+                            tt2.overrideColor = new Color(0.34f, 0.34f + 0.66f * Main.DiscoG / 255f, 0.34f + 0.5f * Main.DiscoG / 255f);
+
+                        // Uniquely colored legendary weapons
                         if (item.type == ModContent.ItemType<AegisBlade>() || item.type == ModContent.ItemType<YharimsCrystal>())
                             tt2.overrideColor = new Color(255, Main.DiscoG, 53);
+                        if (item.type == ModContent.ItemType<BlossomFlux>())
+                            tt2.overrideColor = new Color(Main.DiscoR, 203, 103);
                         if (item.type == ModContent.ItemType<BrinyBaron>())
                             tt2.overrideColor = new Color(53, Main.DiscoG, 255);
                         if (item.type == ModContent.ItemType<CosmicDischarge>())
                             tt2.overrideColor = new Color(150, Main.DiscoG, 255);
-                        if (item.type == ModContent.ItemType<BlossomFlux>())
+                        if (item.type == ModContent.ItemType<Malachite>())
                             tt2.overrideColor = new Color(Main.DiscoR, 203, 103);
+                        if (item.type == ModContent.ItemType<SeasSearing>())
+                            tt2.overrideColor = new Color(60, Main.DiscoG, 190);
                         if (item.type == ModContent.ItemType<SHPC>())
                             tt2.overrideColor = new Color(255, Main.DiscoG, 155);
                         if (item.type == ModContent.ItemType<Vesuvius>())
                             tt2.overrideColor = new Color(255, Main.DiscoG, 0);
-                        if (item.type == ModContent.ItemType<SeasSearing>())
-                            tt2.overrideColor = new Color(60, Main.DiscoG, 190);
-                        break;
-                    case 18: //Fabstaff
-                        tt2.overrideColor = new Color(Main.DiscoR, 100, 255);
-                        break;
-                    case 19: //Blushie Staff
-                        tt2.overrideColor = new Color(0, 0, 255);
-                        break;
-                    case 20: //Non-Expert Rainbow
-                        tt2.overrideColor = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB);
-                        break;
-                    case 21: //Patreon
-                        tt2.overrideColor = new Color(139, 0, 0);
-                        break;
-                    case 22: //Rare Variants
-                        tt2.overrideColor = new Color(255, 140, 0);
-                        break;
-                    default:
                         break;
                 }
             }

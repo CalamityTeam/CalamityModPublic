@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.rare = 10;
             item.shoot = ModContent.ProjectileType<YharimsCrystalPrism>();
             item.shootSpeed = 30f;
-            item.Calamity().postMoonLordRarity = 17;
+            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
         }
 
         public override bool CanUseItem(Player player)

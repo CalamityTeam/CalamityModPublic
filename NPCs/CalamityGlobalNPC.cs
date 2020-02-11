@@ -26,6 +26,7 @@ using CalamityMod.NPCs.Bumblebirb;
 using CalamityMod.NPCs.Calamitas;
 using CalamityMod.NPCs.CeaselessVoid;
 using CalamityMod.NPCs.Crabulon;
+using CalamityMod.NPCs.Crags;
 using CalamityMod.NPCs.Cryogen;
 using CalamityMod.NPCs.DesertScourge;
 using CalamityMod.NPCs.DevourerofGods;
@@ -678,7 +679,7 @@ namespace CalamityMod.NPCs
 				npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
 				npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
 				npc.buffImmune[ModContent.BuffType<TimeSlow>()] = true;
-				npc.buffImmune[ModContent.BuffType<TeslaBuff>()] = true;
+				npc.buffImmune[ModContent.BuffType<TeslaFreeze>()] = true;
 				npc.buffImmune[ModContent.BuffType<Eutrophication>()] = true;
 				npc.buffImmune[BuffID.Webbed] = true;
 				npc.buffImmune[BuffID.Slow] = true;
@@ -2149,6 +2150,19 @@ namespace CalamityMod.NPCs
                         {
                             case 0:
                                 npc.GivenName = "Rythmi";
+                                break;
+
+                            default:
+                                break;
+                        }
+
+                        break;
+
+                    case NPCID.Nurse:
+                        switch (Main.rand.Next(25)) // 24 Nurse names
+                        {
+                            case 0:
+                                npc.GivenName = "Farsni";
                                 break;
 
                             default:

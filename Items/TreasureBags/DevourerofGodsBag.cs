@@ -59,7 +59,6 @@ namespace CalamityMod.Items.TreasureBags
 
             // Weapons
             DropHelper.DropItemChance(player, ModContent.ItemType<Excelsus>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<EradicatorMelee>(), 3);
             float dischargeChance = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : DropHelper.LegendaryDropRateFloat;
             DropHelper.DropItemCondition(player, ModContent.ItemType<CosmicDischarge>(), CalamityWorld.revenge, dischargeChance);
             DropHelper.DropItemChance(player, ModContent.ItemType<TheObliterator>(), 3);
@@ -68,7 +67,10 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItemChance(player, ModContent.ItemType<Norfleet>(), DropHelper.RareVariantDropRateInt);
             DropHelper.DropItemChance(player, ModContent.ItemType<DeathhailStaff>(), 3);
             DropHelper.DropItemChance(player, ModContent.ItemType<StaffoftheMechworm>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<Eradicator>(), 3);
+			if (Main.rand.NextBool(3))
+			{
+				DropHelper.DropItemFromSetChance(player, 1f, ModContent.ItemType<EradicatorMelee>(), ModContent.ItemType<Eradicator>());
+			}
 
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<NebulousCore>());

@@ -81,11 +81,11 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                     num440 = num437 / num440;
                     num438 *= num440;
                     num439 *= num440;
-                    if (Main.rand.NextBool(2))
+                    if (Main.rand.NextBool(3))
                     {
                         if (projectile.owner == Main.myPlayer)
                         {
-                            int proj = Projectile.NewProjectile(value10.X, value10.Y, num438, num439, 227, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                            int proj = Projectile.NewProjectile(value10.X, value10.Y, num438, num439, 227, (int)(projectile.damage * 0.6), projectile.knockBack, projectile.owner, 0f, 0f);
                             Main.projectile[proj].Calamity().forceMelee = true;
                         }
                     }

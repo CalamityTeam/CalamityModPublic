@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.UseSound = SoundID.Item1;
 
             item.rare = 2;
-            item.Calamity().postMoonLordRarity = 21;
+            item.Calamity().customRarity = CalamityRarity.Dedicated;
             item.value = Item.buyPrice(0, 2, 0, 0);
 
             item.shoot = ModContent.ProjectileType<YateveoBloomProj>();

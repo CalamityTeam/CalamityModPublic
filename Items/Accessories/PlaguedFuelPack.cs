@@ -1,4 +1,5 @@
 ﻿using CalamityMod.CalPlayer;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -30,6 +31,20 @@ namespace CalamityMod.Items.Accessories
             player.Calamity().throwingDamage += 0.08f;
             player.Calamity().throwingVelocity += 0.15f;
             player.Calamity().plaguedFuelPack = true;
+        }
+
+        public override void ModifyTooltips(List<TooltipLine> tooltips)
+        {
+            if (CalamityMod.PlaguePackHotKey.GetAssignedKeys().Count > 0)
+            {
+                foreach (TooltipLine line in tooltips)
+                {
+                    if (line.mod == "Terraria" && line.Name == "Tooltip2")
+                    {
+                        line.text = "Press " + CalamityMod.PlaguePackHotKey.GetAssignedKeys()[0] + " to consume 25% of your maximum stealth to perform a swift upwards/diagonal dash which leaves a trail of plagued clouds";
+                    }
+                }
+            }
         }
     }
 }

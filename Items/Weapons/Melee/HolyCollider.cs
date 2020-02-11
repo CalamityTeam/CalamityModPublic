@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.value = Item.buyPrice(1, 20, 0, 0);
             item.rare = 10;
             item.shootSpeed = 10f;
-            item.Calamity().postMoonLordRarity = 12;
+            item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)

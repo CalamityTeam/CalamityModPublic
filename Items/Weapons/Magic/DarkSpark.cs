@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.rare = 10;
             item.shoot = ModContent.ProjectileType<DarkSparkPrism>();
             item.shootSpeed = 30f;
-            item.Calamity().postMoonLordRarity = 21;
+            item.Calamity().customRarity = CalamityRarity.Dedicated;
         }
 
         public override bool CanUseItem(Player player)

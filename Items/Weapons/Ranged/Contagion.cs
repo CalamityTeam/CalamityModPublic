@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shoot = ModContent.ProjectileType<ContagionBow>();
             item.shootSpeed = 20f;
             item.useAmmo = 40;
-            item.Calamity().postMoonLordRarity = 16;
+            item.Calamity().customRarity = CalamityRarity.Developer;
         }
 
         public override bool CanUseItem(Player player)

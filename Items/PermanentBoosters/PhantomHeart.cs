@@ -24,7 +24,7 @@ namespace CalamityMod.Items.PermanentBoosters
             item.UseSound = SoundID.Item29;
             item.consumable = true;
             item.rare = 10;
-            item.Calamity().postMoonLordRarity = 13;
+            item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
         public override bool CanUseItem(Player player)

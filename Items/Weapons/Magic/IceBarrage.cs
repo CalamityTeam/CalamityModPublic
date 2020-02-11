@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             item.width = 60;
             item.height = 60;
-            item.Calamity().postMoonLordRarity = 21;
+            item.Calamity().customRarity = CalamityRarity.Dedicated;
             item.value = Item.buyPrice(1, 80, 0, 0);
             item.useStyle = ItemUseStyleID.HoldingUp;
             item.magic = true;

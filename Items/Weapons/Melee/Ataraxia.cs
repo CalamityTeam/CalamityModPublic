@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.UseSound = SoundID.Item1;
 
             item.rare = 10;
-            item.Calamity().postMoonLordRarity = 21;
+            item.Calamity().customRarity = CalamityRarity.Dedicated;
             item.value = Item.buyPrice(2, 50, 0, 0);
 
             item.shoot = ModContent.ProjectileType<AtaraxiaMain>();

@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.shoot = ModContent.ProjectileType<BlushieStaffProj>();
             item.mana = 200;
             item.shootSpeed = 0f;
-            item.Calamity().postMoonLordRarity = 19;
+            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
         }
 
         public override void AddRecipes()

@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.shoot = ModContent.ProjectileType<HypothermiaShard>();
             item.shootSpeed = 8f;
 
-            item.Calamity().postMoonLordRarity = 14;
+            item.Calamity().customRarity = CalamityRarity.DarkBlue;
             item.Calamity().rogue = true;
         }
 

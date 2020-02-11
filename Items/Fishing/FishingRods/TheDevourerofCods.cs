@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Fishing.FishingRods
 			item.shoot = ModContent.ProjectileType<DevourerofCodsBobber>();
             item.value = Item.buyPrice(1, 80, 0, 0);
             item.rare = 10;
-            item.Calamity().postMoonLordRarity = 14;
+            item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -43,7 +43,7 @@ namespace CalamityMod.Items.Fishing.FishingRods
                 int linecolor = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, 0, 0f, player.whoAmI, 0.0f, 0.0f);
 				if (Main.rand.NextBool(2)) //randomizing line color
 				{
-					Main.projectile[linecolor].Calamity().lineColor = true;
+					Main.projectile[linecolor].Calamity().lineColor = 1;
 				}
             }
             return false;

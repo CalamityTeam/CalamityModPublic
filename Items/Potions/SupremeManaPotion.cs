@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Potions
             item.consumable = true;
             item.rare = 10;
             item.value = Item.buyPrice(0, 6, 50, 0);
-            item.Calamity().postMoonLordRarity = 12;
+            item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override void AddRecipes()

@@ -261,18 +261,9 @@ namespace CalamityMod.NPCs.Crags
 
         public override void NPCLoot()
         {
-            if (CalamityWorld.downedProvidence && Main.rand.NextBool(2))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Bloodstone>());
-            }
-            if (Main.hardMode && Main.rand.NextBool(3))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EssenceofChaos>());
-            }
-            if (CalamityWorld.downedYharon)
-            {
-                DropHelper.DropItemChance(npc, ModContent.ItemType<GaelsGreatsword>(), CalamityWorld.defiled ? 0.05f : 0.02f);
-            }
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 2, 1, 1);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<EssenceofChaos>(), Main.hardMode, 3, 1, 1);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<GaelsGreatsword>(), CalamityWorld.downedYharon, CalamityWorld.defiled ? 0.05f : 0.02f);
         }
 
         public override void HitEffect(int hitDirection, double damage)

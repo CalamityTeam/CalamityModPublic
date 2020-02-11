@@ -20,10 +20,11 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         private const float MaxAuraRadius = 100f;
         private const float MinDischargeRate = 0.05f;
         private const float MaxDischargeRate = 0.53f;
-        private const float ChargePerHit = 4f;
+        private const float DischargeRateScaleFactor = 0.003f;
+        private const float ChargePerHit = 3f;
 
-        private const int AuraBaseDamage = 300;
-        private const float AuraChargeDamageMultiplier = 2f;
+        private const int AuraBaseDamage = 150;
+        private const float AuraChargeDamageMultiplier = 1.6f;
         private const int HitsPerOrbVolley = 3;
 
         // Ensures that the main AI only runs once per frame, despite the projectile's multiple updates
@@ -78,7 +79,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             Lighting.AddLight(projectile.Center, 0.6f, 0.42f, 0.1f);
 
             // The aura discharges over time based on its current charge.
-            float discharge = MinDischargeRate + 0.003f * projectile.localAI[1];
+            float discharge = MinDischargeRate + DischargeRateScaleFactor * projectile.localAI[1];
             if (discharge > MaxDischargeRate)
                 discharge = MaxDischargeRate;
             projectile.localAI[1] -= discharge;

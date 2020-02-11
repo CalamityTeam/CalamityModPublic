@@ -101,6 +101,8 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
+			//Crystal smash sound
+			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 27);
             // Light burst
             int p = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<ExorcismShockwave>(), (int)(projectile.damage * 0.8f), 0, projectile.owner, projectile.ai[0] - 1f, 0);
             Main.projectile[p].rotation = projectile.rotation;

@@ -38,7 +38,7 @@ namespace CalamityMod.NPCs.SlimeGod
             animationType = 50;
             npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
             npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
-            npc.buffImmune[ModContent.BuffType<TeslaBuff>()] = true;
+            npc.buffImmune[ModContent.BuffType<TeslaFreeze>()] = true;
             npc.buffImmune[ModContent.BuffType<Eutrophication>()] = true;
 			npc.buffImmune[BuffID.Slow] = true;
 			npc.buffImmune[BuffID.Webbed] = true;

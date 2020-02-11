@@ -2169,6 +2169,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             DropHelper.DropItemCondition(npc, ModContent.ItemType<Vehemenc>(), CalamityWorld.revenge);
 
             // Vanity
+            DropHelper.DropItem(npc, ModContent.ItemType<BrimstoneJewel>());
             DropHelper.DropItemCondition(npc, ModContent.ItemType<Levi>(), CalamityWorld.death);
 
             // Other

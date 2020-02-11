@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Summon
         {
 			Player player = Main.player[projectile.owner];
             projectile.frameCounter++;
-            if (projectile.frameCounter > 6)
+            if (projectile.frameCounter > 5)
             {
                 projectile.frame++;
                 projectile.frameCounter = 0;

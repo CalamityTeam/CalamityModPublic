@@ -6,7 +6,6 @@ using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -30,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useTime = 12;
             item.width = 56;
             item.height = 56;
-            item.damage = 3001;
+            item.damage = 2700;
             item.melee = true;
             item.knockBack = 9.9f;
             item.UseSound = SoundID.Item1;
@@ -40,7 +39,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.rare = 10;
             item.shoot = ModContent.ProjectileType<ExoGladProj>();
             item.shootSpeed = 19f;
-            item.Calamity().postMoonLordRarity = 15;
+            item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

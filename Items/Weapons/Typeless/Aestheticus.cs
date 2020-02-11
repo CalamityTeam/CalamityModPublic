@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Typeless
             item.value = Item.buyPrice(0, 4, 0, 0);
             item.shoot = ModContent.ProjectileType<CursorProj>();
             item.shootSpeed = 5f;
-            item.Calamity().postMoonLordRarity = 21;
+            item.Calamity().customRarity = CalamityRarity.Dedicated;
         }
 
         public override Vector2? HoldoutOrigin()

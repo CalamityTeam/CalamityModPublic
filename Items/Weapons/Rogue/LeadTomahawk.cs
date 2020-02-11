@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.useTime = 15;
             item.knockBack = 1f;
             item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
+            item.autoReuse = false;
             item.height = 36;
             item.maxStack = 999;
             item.value = 1000;

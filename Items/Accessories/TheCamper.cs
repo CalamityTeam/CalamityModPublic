@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("The Camper");
             Tooltip.SetDefault("You deal no damage unless stationary\n" +
-                "Standing still grants buff(s) dependant on what weapon you're holding\n" +
+                "Standing still grants buff(s) dependent on what weapon you're holding\n" +
                 "Standing still provides a damaging aura around you\n" +
                 "While moving, you regenerate health as if standing still\n" +
                 "In rest may we find victory.");

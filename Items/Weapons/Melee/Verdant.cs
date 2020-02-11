@@ -11,7 +11,8 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Verdant");
-            Tooltip.SetDefault("Fires crystal leaves when enemies are near\nAn exceptionally agile yoyo");
+            Tooltip.SetDefault("Fires crystal leaves when enemies are near\n" +
+			"A very agile yoyo");
             ItemID.Sets.Yoyo[item.type] = true;
             ItemID.Sets.GamepadExtraRange[item.type] = 15;
             ItemID.Sets.GamepadSmartQuickReach[item.type] = true;
@@ -22,7 +23,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.width = 30;
             item.height = 30;
             item.melee = true;
-            item.damage = 218;
+            item.damage = 128;
             item.knockBack = 6f;
             item.useTime = 22;
             item.useAnimation = 22;
@@ -39,7 +40,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
             item.rare = 10;
             item.autoReuse = true;
-            item.Calamity().postMoonLordRarity = 12;
+            item.Calamity().customRarity = CalamityRarity.Turquoise;
             item.value = Item.buyPrice(platinum: 1, gold: 20);
         }
 

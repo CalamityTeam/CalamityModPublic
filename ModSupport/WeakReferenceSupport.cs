@@ -448,7 +448,7 @@ namespace CalamityMod
 				calamity, 
 				"Supreme Calamitas", 
 				(Func<bool>)(() => CalamityWorld.downedSCal), ModContent.ItemType<EyeofExtinction>(), 
-				new List<int>() {ModContent.ItemType<KnowledgeCalamitas>(), ModContent.ItemType<Levi>()}, 
+				new List<int>() {ModContent.ItemType<KnowledgeCalamitas>(), ModContent.ItemType<BrimstoneJewel>(), ModContent.ItemType<Levi>()}, 
 				new List<int>() {ModContent.ItemType<CalamitousEssence>(), ModContent.ItemType<Animus>(), ModContent.ItemType<Azathoth>(), ModContent.ItemType<Contagion>(), ModContent.ItemType<CrystylCrusher>(), ModContent.ItemType<DraconicDestruction>(), ModContent.ItemType<Earth>(), ModContent.ItemType<Fabstaff>(), ModContent.ItemType<RoyalKnivesMelee>(), ModContent.ItemType<RoyalKnives>(), ModContent.ItemType<NanoblackReaperMelee>(), ModContent.ItemType<NanoblackReaperRogue>(), ModContent.ItemType<RedSun>(), ModContent.ItemType<ScarletDevil>(), ModContent.ItemType<SomaPrime>(), ModContent.ItemType<BlushieStaff>(), ModContent.ItemType<Svantechnical>(), ModContent.ItemType<Judgement>(), ModContent.ItemType<TriactisTruePaladinianMageHammerofMightMelee>(), ModContent.ItemType<TriactisTruePaladinianMageHammerofMight>(), ModContent.ItemType<Megafleet>(), ModContent.ItemType<Endogenesis>(), ModContent.ItemType<Vehemenc>(), ModContent.ItemType<OmegaHealingPotion>()}, 
 				"Use an [i:" + ModContent.ItemType<EyeofExtinction>() + "]", 
 				"[c/FFA500:Please don't waste my time.]");

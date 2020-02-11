@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shoot = ModContent.ProjectileType<LeafArrow>();
             item.shootSpeed = 10f;
             item.useAmmo = 40;
-            item.Calamity().postMoonLordRarity = 17;
+            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
         }
 
         public override bool AltFunctionUse(Player player)

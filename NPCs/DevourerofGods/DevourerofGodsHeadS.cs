@@ -989,14 +989,13 @@ namespace CalamityMod.NPCs.DevourerofGods
 
                 // Weapons
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Excelsus>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<EradicatorMelee>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<TheObliterator>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Deathwind>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Skullmasher>(), DropHelper.RareVariantDropRateInt);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Norfleet>(), DropHelper.RareVariantDropRateInt);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<DeathhailStaff>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<StaffoftheMechworm>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Eradicator>(), 4);
+				DropHelper.DropItemFromSetChance(npc, 0.25f, ModContent.ItemType<EradicatorMelee>(), ModContent.ItemType<Eradicator>());
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<DevourerofGodsMask>(), 7);
@@ -1123,6 +1122,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             {
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/DoGS"), 1f);
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/DoGS2"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/DoGS5"), 1f);
                 npc.position.X = npc.position.X + (float)(npc.width / 2);
                 npc.position.Y = npc.position.Y + (float)(npc.height / 2);
                 npc.width = 50;
@@ -1160,7 +1160,6 @@ namespace CalamityMod.NPCs.DevourerofGods
             player.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300, true);
             player.AddBuff(ModContent.BuffType<WhisperingDeath>(), 420, true);
             player.AddBuff(BuffID.Frostburn, 300, true);
-            player.AddBuff(BuffID.Darkness, 300, true);
             if ((CalamityWorld.death || CalamityWorld.bossRushActive) && npc.alpha <= 0)
             {
                 player.KillMe(PlayerDeathReason.ByCustomReason(player.name + "'s essence was consumed by the devourer."), 1000.0, 0, false);

@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Armor
             item.height = 18;
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.defense = 16; //85
-            item.Calamity().postMoonLordRarity = 13;
+            item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

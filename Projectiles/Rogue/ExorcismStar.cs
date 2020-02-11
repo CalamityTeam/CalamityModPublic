@@ -30,6 +30,14 @@ namespace CalamityMod.Projectiles.Rogue
         public override void AI()
         {
             projectile.rotation += projectile.ai[0];
+            if (projectile.soundDelay == 0)
+            {
+                projectile.soundDelay = 20 + Main.rand.Next(40);
+                if (Main.rand.NextBool(5))
+                {
+                    Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 9);
+                }
+            }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

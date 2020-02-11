@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Accessories
             item.height = 38;
             item.value = Item.buyPrice(0, 30, 0, 0);
             item.accessory = true;
-            item.Calamity().postMoonLordRarity = 12;
+            item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

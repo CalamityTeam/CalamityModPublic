@@ -13,8 +13,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class DraedonsExoblade : ModItem
     {
-        private static int BaseDamage = 6700;
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Exoblade");
@@ -29,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 80;
-            item.damage = BaseDamage;
+            item.damage = 5000;
             item.useAnimation = 14;
             item.useStyle = 1;
             item.useTime = 14;
@@ -43,7 +41,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.rare = 10;
             item.shoot = ModContent.ProjectileType<Exobeam>();
             item.shootSpeed = 19f;
-            item.Calamity().postMoonLordRarity = 15;
+            item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
         // Gains 100% of missing health as base damage.

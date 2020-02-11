@@ -73,7 +73,12 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                     num438 *= num440;
                     num439 *= num440;
                     if (projectile.owner == Main.myPlayer)
-                        Projectile.NewProjectile(value10.X, value10.Y, num438, num439, ModContent.ProjectileType<PlagueSeeker>(), (int)(projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
+					{
+						if (Main.rand.NextBool(2))
+						{
+							Projectile.NewProjectile(value10.X, value10.Y, num438, num439, ModContent.ProjectileType<PlagueSeeker>(), (int)(projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
+						}
+					}
                 }
             }
         }

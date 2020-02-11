@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             projectile.MaxUpdates = 2;
 
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 5;
+            projectile.localNPCHitCooldown = 8;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

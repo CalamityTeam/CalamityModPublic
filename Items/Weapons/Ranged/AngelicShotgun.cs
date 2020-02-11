@@ -38,7 +38,7 @@ Fighting 'til the war's won");
 
             item.rare = 10;
             item.value = Item.buyPrice(1, 20, 0, 0);
-            item.Calamity().postMoonLordRarity = 21;
+            item.Calamity().customRarity = CalamityRarity.Dedicated;
 
             item.shootSpeed = BulletSpeed;
             item.shoot = ModContent.ProjectileType<IlluminatedBullet>();

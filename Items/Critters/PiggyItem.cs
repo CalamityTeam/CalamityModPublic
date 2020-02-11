@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Critters
             item.height = 24;
             item.makeNPC = (short)ModContent.NPCType<Piggy>();
             item.rare = 1;
-            item.Calamity().postMoonLordRarity = 21;
+            item.Calamity().customRarity = CalamityRarity.Dedicated;
         }
     }
 }

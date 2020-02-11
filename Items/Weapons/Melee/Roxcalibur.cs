@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.rare = 5;
-            item.Calamity().postMoonLordRarity = 21;
+            item.Calamity().customRarity = CalamityRarity.Dedicated;
         }
 
         public override void AddRecipes()

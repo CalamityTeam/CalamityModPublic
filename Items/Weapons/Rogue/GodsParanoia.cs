@@ -38,7 +38,7 @@ Right click to delete all existing spiky balls");
             item.knockBack = knockBack;
             item.value = Item.buyPrice(0, 18, 0, 0);
             item.rare = 10;
-            item.Calamity().postMoonLordRarity = 14;
+            item.Calamity().customRarity = CalamityRarity.DarkBlue;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.maxStack = 10;

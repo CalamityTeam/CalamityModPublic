@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.rare = 8;
             item.shootSpeed = 20f;
             item.shoot = ModContent.ProjectileType<AsteroidMolten>();
-            item.Calamity().postMoonLordRarity = 17;
+            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
         }
 
         /*public override Vector2? HoldoutOrigin()

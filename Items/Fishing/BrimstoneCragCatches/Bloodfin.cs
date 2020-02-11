@@ -24,7 +24,7 @@ Angiogenesis");
             item.useTurn = true;
             item.value = Item.sellPrice(gold: 5);
             item.rare = 10;
-            item.Calamity().postMoonLordRarity = 13;
+            item.Calamity().customRarity = CalamityRarity.PureGreen;
             item.useAnimation = 17;
             item.useTime = 17;
             item.useStyle = 2;

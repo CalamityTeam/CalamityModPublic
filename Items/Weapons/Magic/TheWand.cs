@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.rare = 10;
             item.shoot = ModContent.ProjectileType<SparkInfernal>();
             item.shootSpeed = 24f;
-            item.Calamity().postMoonLordRarity = 15;
+            item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
         public override void AddRecipes()

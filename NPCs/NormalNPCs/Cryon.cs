@@ -13,7 +13,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cryon");
-            Main.npcFrameCount[npc.type] = 8;
+            Main.npcFrameCount[npc.type] = 6;
         }
 
         public override void SetDefaults()
@@ -318,7 +318,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             if (npc.velocity.Y > 0f || npc.velocity.Y < 0f)
             {
                 npc.spriteDirection = npc.direction;
-                npc.frame.Y = frameHeight * 7;
+                npc.frame.Y = frameHeight * 5;
                 npc.frameCounter = 0.0;
             }
             else
@@ -330,7 +330,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                     npc.frame.Y = npc.frame.Y + frameHeight;
                     npc.frameCounter = 0.0;
                 }
-                if (npc.frame.Y >= frameHeight * 6)
+                if (npc.frame.Y >= frameHeight * 4)
                 {
                     npc.frame.Y = 0;
                 }
