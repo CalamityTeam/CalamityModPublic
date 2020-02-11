@@ -1,6 +1,5 @@
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
-using CalamityMod.Items.Placeables.Ores;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Tiles.Furniture.CraftingStations;
@@ -25,7 +24,7 @@ Right click to fire two devastating barrages of five empowered fireballs.
 
         public override void SetDefaults()
         {
-            item.damage = 640;
+            item.damage = 700;
             item.knockBack = 1f;
             item.shootSpeed = 18f;
             item.useStyle = 5;
