@@ -58,7 +58,7 @@ namespace CalamityMod.NPCs.Polterghast
             Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.3f, 1f, 1f);
 
             // Bools
-            bool speedBoost1 = false;
+            bool speedBoost = false;
             bool despawnBoost = false;
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
 			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
@@ -72,19 +72,27 @@ namespace CalamityMod.NPCs.Polterghast
                 return;
             }
 
-            // Percent life remaining, Polter
-            float lifeRatio = (float)Main.npc[CalamityGlobalNPC.ghostBoss].life / (float)Main.npc[CalamityGlobalNPC.ghostBoss].lifeMax;
+			Player player = Main.player[Main.npc[CalamityGlobalNPC.ghostBoss].target];
+
+			if (!player.active || player.dead)
+			{
+				speedBoost = true;
+				despawnBoost = true;
+			}
+
+			// Percent life remaining, Polter
+			float lifeRatio = (float)Main.npc[CalamityGlobalNPC.ghostBoss].life / (float)Main.npc[CalamityGlobalNPC.ghostBoss].lifeMax;
 
             // Despawn
-            if (CalamityGlobalNPC.ghostBoss != -1 && !Main.player[Main.npc[CalamityGlobalNPC.ghostBoss].target].ZoneDungeon &&
-                (double)Main.player[Main.npc[CalamityGlobalNPC.ghostBoss].target].position.Y < Main.worldSurface * 16.0 && !CalamityWorld.bossRushActive)
+            if (CalamityGlobalNPC.ghostBoss != -1 && !player.ZoneDungeon &&
+                (double)player.position.Y < Main.worldSurface * 16.0 && !CalamityWorld.bossRushActive)
             {
                 despawnTimer--;
                 if (despawnTimer <= 0)
                     despawnBoost = true;
 
                 npc.localAI[0] -= 6f;
-                speedBoost1 = true;
+                speedBoost = true;
             }
             else
                 despawnTimer++;
@@ -96,7 +104,7 @@ namespace CalamityMod.NPCs.Polterghast
 
                 npc.TargetClosest(true);
 
-                Movement(phase2, expertMode, revenge, death, speedBoost1, despawnBoost, lifeRatio);
+                Movement(phase2, expertMode, revenge, death, speedBoost, despawnBoost, lifeRatio, player);
 
                 // Fire projectiles
                 Vector2 vector17 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
@@ -146,10 +154,10 @@ namespace CalamityMod.NPCs.Polterghast
 
             // Phase 1 or 3
             phase2 = false;
-            Movement(phase2, expertMode, revenge, death, speedBoost1, despawnBoost, lifeRatio);
+            Movement(phase2, expertMode, revenge, death, speedBoost, despawnBoost, lifeRatio, player);
         }
 
-        private void Movement(bool phase2, bool expertMode, bool revenge, bool death, bool speedBoost1, bool despawnBoost, float lifeRatio)
+        private void Movement(bool phase2, bool expertMode, bool revenge, bool death, bool speedBoost, bool despawnBoost, float lifeRatio, Player player)
         {
             if (phase2)
             {
@@ -174,7 +182,7 @@ namespace CalamityMod.NPCs.Polterghast
 
 				float shootBoost = death ? 2f : 2f * (1f - lifeRatio);
                 npc.localAI[0] -= 1f + shootBoost;
-                if (speedBoost1)
+                if (speedBoost)
                     npc.localAI[0] -= 6f;
 
                 if (!despawnBoost && npc.localAI[0] <= 0f && npc.ai[0] != 0f)
@@ -194,12 +202,12 @@ namespace CalamityMod.NPCs.Polterghast
                     while (!flag50 && num764 <= 1000)
                     {
                         num764++;
-                        int num765 = (int)(Main.player[Main.npc[CalamityGlobalNPC.ghostBoss].target].Center.X / 16f);
-                        int num766 = (int)(Main.player[Main.npc[CalamityGlobalNPC.ghostBoss].target].Center.Y / 16f);
+                        int num765 = (int)(player.Center.X / 16f);
+                        int num766 = (int)(player.Center.Y / 16f);
                         if (npc.ai[0] == 0f)
                         {
-                            num765 = (int)((Main.player[Main.npc[CalamityGlobalNPC.ghostBoss].target].Center.X + Main.npc[CalamityGlobalNPC.ghostBoss].Center.X) / 32f);
-                            num766 = (int)((Main.player[Main.npc[CalamityGlobalNPC.ghostBoss].target].Center.Y + Main.npc[CalamityGlobalNPC.ghostBoss].Center.Y) / 32f);
+                            num765 = (int)((player.Center.X + Main.npc[CalamityGlobalNPC.ghostBoss].Center.X) / 32f);
+                            num766 = (int)((player.Center.Y + Main.npc[CalamityGlobalNPC.ghostBoss].Center.Y) / 32f);
                         }
                         if (despawnBoost)
                         {
@@ -234,7 +242,7 @@ namespace CalamityMod.NPCs.Polterghast
                     velocity += 1f;
                 if (revenge)
                     velocity += 1f;
-                if (speedBoost1)
+                if (speedBoost)
                     velocity *= 2f;
                 if (despawnBoost)
                     velocity *= 2f;

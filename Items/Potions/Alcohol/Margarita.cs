@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Potions.Alcohol
         {
             DisplayName.SetDefault("Margarita");
             Tooltip.SetDefault(@"Restores 200 mana
-Makes you immune to most debuffs
+Reduces the duration of most debuffs
 Reduces defense by 6 and life regen by 1
 One of the best drinks ever created, enjoy it while it lasts");
         }

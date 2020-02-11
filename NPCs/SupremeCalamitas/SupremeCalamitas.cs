@@ -230,6 +230,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
             bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
+			Vector2 vectorCenter = npc.Center;
+
+			// Get a target
+			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest(true);
 
 			Player player = Main.player[npc.target];
 
@@ -396,27 +401,32 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 if (startFifthAttack)
                     global.DR *= 1.2f;
             }
-            #endregion
-            #region Despawn
+			#endregion
+			#region Despawn
             if (!player.active || player.dead)
             {
                 npc.TargetClosest(false);
                 player = Main.player[npc.target];
                 if (!player.active || player.dead)
                 {
-                    npc.velocity = new Vector2(0f, -50f);
-                    canDespawn = true;
-                    if (npc.timeLeft > 150)
-                    {
-                        npc.timeLeft = 150;
-                    }
-                    return;
+					canDespawn = true;
+
+					float num740 = player.Center.X - vectorCenter.X;
+					float num741 = player.Center.Y - vectorCenter.Y;
+					npc.rotation = (float)Math.Atan2((double)num741, (double)num740) - 1.57f;
+
+					if (npc.velocity.Y > 3f)
+						npc.velocity.Y = 3f;
+					npc.velocity.Y -= 0.2f;
+					if (npc.velocity.Y < -12f)
+						npc.velocity.Y = -12f;
+
+					if (npc.timeLeft > 60)
+						npc.timeLeft = 60;
                 }
             }
             else
-            {
                 canDespawn = false;
-            }
             #endregion
             #region FirstAttack
             if (bulletHellCounter2 < 900)
@@ -426,12 +436,14 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 npc.damage = 0;
                 npc.chaseable = false;
                 npc.dontTakeDamage = true;
-                npc.TargetClosest(true);
-                npc.velocity *= 0.95f;
-                Vector2 vector92 = new Vector2(npc.Center.X, npc.Center.Y);
-                float num740 = player.Center.X - vector92.X;
-                float num741 = player.Center.Y - vector92.Y;
+
+				if (!canDespawn)
+					npc.velocity *= 0.95f;
+
+                float num740 = player.Center.X - vectorCenter.X;
+                float num741 = player.Center.Y - vectorCenter.Y;
                 npc.rotation = (float)Math.Atan2((double)num741, (double)num740) - 1.57f;
+
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     bulletHellCounter += 1;
@@ -454,7 +466,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             Projectile.NewProjectile(player.position.X + 1000f, player.position.Y + (float)Main.rand.Next(-1000, 1000), -3f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), damage, 0f, Main.myPlayer, 0f, 0f);
                             Projectile.NewProjectile(player.position.X + 1000f, player.position.Y + (float)Main.rand.Next(-1000, 1000), 3f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), damage, 0f, Main.myPlayer, 0f, 0f);
                         }
-                        return;
                     }
                 }
                 return;
@@ -502,12 +513,14 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 npc.damage = 0;
                 npc.chaseable = false;
                 npc.dontTakeDamage = true;
-                npc.TargetClosest(true);
-                npc.velocity *= 0.95f;
-                Vector2 vector92 = new Vector2(npc.Center.X, npc.Center.Y);
-                float num740 = player.Center.X - vector92.X;
-                float num741 = player.Center.Y - vector92.Y;
+
+				if (!canDespawn)
+					npc.velocity *= 0.95f;
+
+                float num740 = player.Center.X - vectorCenter.X;
+                float num741 = player.Center.Y - vectorCenter.Y;
                 npc.rotation = (float)Math.Atan2((double)num741, (double)num740) - 1.57f;
+
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     int damage = expertMode ? 150 : 200; //600 400
@@ -549,7 +562,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             Projectile.NewProjectile(player.position.X - 1000f, player.position.Y + (float)Main.rand.Next(-1000, 1000), 3f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), damage, 0f, Main.myPlayer, 0f, 0f);
                             Projectile.NewProjectile(player.position.X + 1000f, player.position.Y + (float)Main.rand.Next(-1000, 1000), -3f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), damage, 0f, Main.myPlayer, 0f, 0f);
                         }
-                        return;
                     }
                 }
                 return;
@@ -578,12 +590,14 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 npc.damage = 0;
                 npc.chaseable = false;
                 npc.dontTakeDamage = true;
-                npc.TargetClosest(true);
-                npc.velocity *= 0.95f;
-                Vector2 vector92 = new Vector2(npc.Center.X, npc.Center.Y);
-                float num740 = player.Center.X - vector92.X;
-                float num741 = player.Center.Y - vector92.Y;
+
+				if (!canDespawn)
+					npc.velocity *= 0.95f;
+
+                float num740 = player.Center.X - vectorCenter.X;
+                float num741 = player.Center.Y - vectorCenter.Y;
                 npc.rotation = (float)Math.Atan2((double)num741, (double)num740) - 1.57f;
+
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     int damage = expertMode ? 150 : 200;
@@ -612,7 +626,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             Projectile.NewProjectile(player.position.X + 1000f, player.position.Y + (float)Main.rand.Next(-1000, 1000), -3.5f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), damage, 0f, Main.myPlayer, 0f, 0f);
                             Projectile.NewProjectile(player.position.X - 1000f, player.position.Y + (float)Main.rand.Next(-1000, 1000), 3.5f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), damage, 0f, Main.myPlayer, 0f, 0f);
                         }
-                        return;
                     }
                 }
                 return;
@@ -646,12 +659,14 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 npc.damage = 0;
                 npc.chaseable = false;
                 npc.dontTakeDamage = true;
-                npc.TargetClosest(true);
-                npc.velocity *= 0.95f;
-                Vector2 vector92 = new Vector2(npc.Center.X, npc.Center.Y);
-                float num740 = player.Center.X - vector92.X;
-                float num741 = player.Center.Y - vector92.Y;
+
+				if (!canDespawn)
+					npc.velocity *= 0.95f;
+
+                float num740 = player.Center.X - vectorCenter.X;
+                float num741 = player.Center.Y - vectorCenter.Y;
                 npc.rotation = (float)Math.Atan2((double)num741, (double)num740) - 1.57f;
+
                 if (Main.netMode != NetmodeID.MultiplayerClient) //more clustered attack
                 {
                     int damage = expertMode ? 150 : 200;
@@ -685,7 +700,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             Projectile.NewProjectile(player.position.X + 1000f, player.position.Y + (float)Main.rand.Next(-1000, 1000), -3.5f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), damage, 0f, Main.myPlayer, 0f, 0f);
                             Projectile.NewProjectile(player.position.X - 1000f, player.position.Y + (float)Main.rand.Next(-1000, 1000), 3.5f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), damage, 0f, Main.myPlayer, 0f, 0f);
                         }
-                        return;
                     }
                 }
                 return;
@@ -719,12 +733,14 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 npc.damage = 0;
                 npc.chaseable = false;
                 npc.dontTakeDamage = true;
-                npc.TargetClosest(true);
-                npc.velocity *= 0.95f;
-                Vector2 vector92 = new Vector2(npc.Center.X, npc.Center.Y);
-                float num740 = player.Center.X - vector92.X;
-                float num741 = player.Center.Y - vector92.Y;
+
+				if (!canDespawn)
+					npc.velocity *= 0.95f;
+
+                float num740 = player.Center.X - vectorCenter.X;
+                float num741 = player.Center.Y - vectorCenter.Y;
                 npc.rotation = (float)Math.Atan2((double)num741, (double)num740) - 1.57f;
+
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     int damage = expertMode ? 150 : 200;
@@ -764,7 +780,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             Projectile.NewProjectile(player.position.X + 1000f, player.position.Y + (float)Main.rand.Next(-1000, 1000), -3f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), damage, 0f, Main.myPlayer, 0f, 0f);
                             Projectile.NewProjectile(player.position.X + 1000f, player.position.Y + (float)Main.rand.Next(-1000, 1000), 3f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), damage, 0f, Main.myPlayer, 0f, 0f);
                         }
-                        return;
                     }
                 }
                 return;
@@ -798,11 +813,14 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     npc.noGravity = false;
                     npc.noTileCollide = false;
                     npc.damage = 0;
-                    npc.velocity.X *= 0.98f;
-                    Vector2 vector2 = new Vector2(npc.Center.X, npc.Center.Y);
-                    float num = player.Center.X - vector2.X;
-                    float num1 = player.Center.Y - vector2.Y;
+
+					if (!canDespawn)
+						npc.velocity.X *= 0.98f;
+
+                    float num = player.Center.X - vectorCenter.X;
+                    float num1 = player.Center.Y - vectorCenter.Y;
                     npc.rotation = (float)Math.Atan2((double)num1, (double)num) - 1.57f;
+
                     if (CalamityWorld.downedSCal) //after first time you kill her
                     {
                         if (giveUpCounter == 900)
@@ -819,8 +837,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             }
                         }
                         giveUpCounter--;
-                        npc.chaseable = (giveUpCounter < 900) ? true : false;
-                        npc.dontTakeDamage = (giveUpCounter < 900) ? false : true;
+						bool canBeHit = giveUpCounter < 900;
+                        npc.chaseable = canBeHit;
+                        npc.dontTakeDamage = !canBeHit;
                         return;
                     }
                     if (giveUpCounter == 600)
@@ -996,6 +1015,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 }
                 halfLife = true;
             }
+
             if ((double)npc.life <= (double)npc.lifeMax * 0.2)
             {
                 if (secondStage == false)
@@ -1015,7 +1035,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 74);
                         for (int I = 0; I < 20; I++)
                         {
-                            int FireEye = NPC.NewNPC((int)(npc.Center.X + (Math.Sin(I * 18) * 300)), (int)(npc.Center.Y + (Math.Cos(I * 18) * 300)), ModContent.NPCType<SoulSeekerSupreme>(), npc.whoAmI, 0, 0, 0, -1);
+                            int FireEye = NPC.NewNPC((int)(vectorCenter.X + (Math.Sin(I * 18) * 300)), (int)(vectorCenter.Y + (Math.Cos(I * 18) * 300)), ModContent.NPCType<SoulSeekerSupreme>(), npc.whoAmI, 0, 0, 0, -1);
                             NPC Eye = Main.npc[FireEye];
                             Eye.ai[0] = I * 18;
                             Eye.ai[3] = I * 18;
@@ -1024,6 +1044,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     secondStage = true;
                 }
             }
+
             if (bossLife == 0f && npc.life > 0)
             {
                 bossLife = (float)npc.lifeMax;
@@ -1048,66 +1069,47 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         {
                             NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
                         }
-                        return;
                     }
                 }
             }
+
             #endregion
             #region TargetandRotation
-            if (npc.target < 0 || npc.target == 255 || player.dead || !player.active)
-            {
-                npc.TargetClosest(true);
-            }
             float num801 = npc.position.X + (float)(npc.width / 2) - player.position.X - (float)(player.width / 2);
             float num802 = npc.position.Y + (float)npc.height - 59f - player.position.Y - (float)(player.height / 2);
             float num803 = (float)Math.Atan2((double)num802, (double)num801) + 1.57f;
+
             if (num803 < 0f)
-            {
                 num803 += 6.283f;
-            }
             else if ((double)num803 > 6.283)
-            {
                 num803 -= 6.283f;
-            }
+
             float num804 = 0.1f;
-            if (npc.rotation < num803)
-            {
-                if ((double)(num803 - npc.rotation) > 3.1415)
-                {
-                    npc.rotation -= num804;
-                }
-                else
-                {
-                    npc.rotation += num804;
-                }
-            }
-            else if (npc.rotation > num803)
-            {
-                if ((double)(npc.rotation - num803) > 3.1415)
-                {
-                    npc.rotation += num804;
-                }
-                else
-                {
-                    npc.rotation -= num804;
-                }
-            }
+			if (npc.rotation < num803)
+			{
+				if ((double)(num803 - npc.rotation) > 3.1415)
+					npc.rotation -= num804;
+				else
+					npc.rotation += num804;
+			}
+			else if (npc.rotation > num803)
+			{
+				if ((double)(npc.rotation - num803) > 3.1415)
+					npc.rotation += num804;
+				else
+					npc.rotation -= num804;
+			}
+
             if (npc.rotation > num803 - num804 && npc.rotation < num803 + num804)
-            {
                 npc.rotation = num803;
-            }
+
             if (npc.rotation < 0f)
-            {
                 npc.rotation += 6.283f;
-            }
             else if ((double)npc.rotation > 6.283)
-            {
                 npc.rotation -= 6.283f;
-            }
+
             if (npc.rotation > num803 - num804 && npc.rotation < num803 + num804)
-            {
                 npc.rotation = num803;
-            }
             #endregion
             #region FirstStage
             if (npc.ai[0] == 0f)
@@ -1125,11 +1127,12 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         npc.dontTakeDamage = true;
                         npc.chaseable = false;
                         npc.damage = 0;
-                        npc.TargetClosest(true);
-                        npc.velocity *= 0.95f;
-                        Vector2 vector92 = new Vector2(npc.Center.X, npc.Center.Y);
-                        float num740 = player.Center.X - vector92.X;
-                        float num741 = player.Center.Y - vector92.Y;
+
+						if (!canDespawn)
+							npc.velocity *= 0.95f;
+
+                        float num740 = player.Center.X - vectorCenter.X;
+                        float num741 = player.Center.Y - vectorCenter.Y;
                         npc.rotation = (float)Math.Atan2((double)num741, (double)num740) - 1.57f;
                         return;
                     }
@@ -1139,451 +1142,446 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         npc.chaseable = true;
                     }
                 }
-                if (npc.ai[1] == 0f)
-                {
-                    float num823 = 12f;
-                    float num824 = 0.12f;
-                    Vector2 vector82 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-                    float num825 = player.position.X + (float)(player.width / 2) - vector82.X;
-                    float num826 = player.position.Y + (float)(player.height / 2) - 550f - vector82.Y;
-                    float num827 = (float)Math.Sqrt((double)(num825 * num825 + num826 * num826));
-                    num827 = num823 / num827;
-                    num825 *= num827;
-                    num826 *= num827;
-                    if (npc.velocity.X < num825)
-                    {
-                        npc.velocity.X = npc.velocity.X + num824;
-                        if (npc.velocity.X < 0f && num825 > 0f)
-                        {
-                            npc.velocity.X = npc.velocity.X + num824;
-                        }
-                    }
-                    else if (npc.velocity.X > num825)
-                    {
-                        npc.velocity.X = npc.velocity.X - num824;
-                        if (npc.velocity.X > 0f && num825 < 0f)
-                        {
-                            npc.velocity.X = npc.velocity.X - num824;
-                        }
-                    }
-                    if (npc.velocity.Y < num826)
-                    {
-                        npc.velocity.Y = npc.velocity.Y + num824;
-                        if (npc.velocity.Y < 0f && num826 > 0f)
-                        {
-                            npc.velocity.Y = npc.velocity.Y + num824;
-                        }
-                    }
-                    else if (npc.velocity.Y > num826)
-                    {
-                        npc.velocity.Y = npc.velocity.Y - num824;
-                        if (npc.velocity.Y > 0f && num826 < 0f)
-                        {
-                            npc.velocity.Y = npc.velocity.Y - num824;
-                        }
-                    }
-                    npc.ai[2] += 1f;
-                    if (npc.ai[2] >= 300f)
-                    {
-                        npc.ai[1] = -1f;
-                        npc.TargetClosest(true);
-                        npc.netUpdate = true;
-                    }
-                    vector82 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-                    num825 = player.position.X + (float)(player.width / 2) - vector82.X;
-                    num826 = player.position.Y + (float)(player.height / 2) - vector82.Y;
-                    npc.rotation = (float)Math.Atan2((double)num826, (double)num825) - 1.57f;
-                    if (Main.netMode != NetmodeID.MultiplayerClient)
-                    {
-                        npc.localAI[1] += wormAlive ? 0.5f : 1f;
-                        if (npc.localAI[1] > 90f)
-                        {
-                            npc.localAI[1] = 0f;
-                            float num828 = 10f * uDieLul;
-                            int num829 = expertMode ? 150 : 200; //600 400
-                            Vector2 value9 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-                            float num180 = player.position.X + (float)player.width * 0.5f - value9.X;
-                            float num181 = Math.Abs(num180) * 0.1f;
-                            float num182 = player.position.Y + (float)player.height * 0.5f - value9.Y - num181;
-                            float num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
-                            num183 = num828 / num183;
-                            num180 *= num183;
-                            num182 *= num183;
-                            value9.X += num180;
-                            value9.Y += num182;
-                            int randomShot = Main.rand.Next(6); //0 to 5
-                            if (randomShot == 0 && canFireSplitingFireball)
-                            {
-                                canFireSplitingFireball = false;
-                                randomShot = ModContent.ProjectileType<BrimstoneFireblast>();
-                                num827 = (float)Math.Sqrt((double)(num825 * num825 + num826 * num826));
-                                num827 = num828 / num827;
-                                num825 *= num827;
-                                num826 *= num827;
-                                vector82.X += num825 * 15f;
-                                vector82.Y += num826 * 15f;
-                                Projectile.NewProjectile(vector82.X, vector82.Y, num825, num826, randomShot, num829, 0f, Main.myPlayer, 0f, 0f);
-                            }
-                            else if (randomShot == 1 && canFireSplitingFireball)
-                            {
-                                canFireSplitingFireball = false;
-                                randomShot = ModContent.ProjectileType<BrimstoneGigaBlast>();
-                                num827 = (float)Math.Sqrt((double)(num825 * num825 + num826 * num826));
-                                num827 = num828 / num827;
-                                num825 *= num827;
-                                num826 *= num827;
-                                vector82.X += num825 * 15f;
-                                vector82.Y += num826 * 15f;
-                                Projectile.NewProjectile(vector82.X, vector82.Y, num825, num826, randomShot, num829, 0f, Main.myPlayer, 0f, 0f);
-                            }
-                            else
-                            {
-                                canFireSplitingFireball = true;
-                                randomShot = ModContent.ProjectileType<BrimstoneBarrage>();
-                                for (int num186 = 1; num186 <= 8; num186++)
-                                {
-                                    num180 = player.position.X + (float)player.width * 0.5f - value9.X;
-                                    num182 = player.position.Y + (float)player.height * 0.5f - value9.Y;
-                                    num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
-                                    float speedBoost = (float)(num186 > 4 ? -(num186 - 4) : num186);
-                                    num183 = (8f + speedBoost) / num183;
-                                    num180 *= num183;
-                                    num182 *= num183;
-                                    Projectile.NewProjectile(value9.X, value9.Y, num180 + speedBoost, num182 + speedBoost, randomShot, num829, 0f, Main.myPlayer, 0f, 0f);
-                                }
-                            }
-                            return;
-                        }
-                    }
-                }
-                else if (npc.ai[1] == 1f)
-                {
-                    npc.rotation = num803; //change
-                    float num383 = wormAlive ? 26f : 30f;
-                    if ((double)npc.life < (double)npc.lifeMax * 0.95)
-                    {
-                        num383 += 1f;
-                    }
-                    if ((double)npc.life < (double)npc.lifeMax * 0.85)
-                    {
-                        num383 += 1f;
-                    }
-                    if ((double)npc.life < (double)npc.lifeMax * 0.7)
-                    {
-                        num383 += 1f;
-                    }
-                    if ((double)npc.life < (double)npc.lifeMax * 0.6)
-                    {
-                        num383 += 1f;
-                    }
-                    if ((double)npc.life < (double)npc.lifeMax * 0.5)
-                    {
-                        num383 += 1f;
-                    }
-                    Vector2 vector37 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-                    float num384 = player.position.X + (float)(player.width / 2) - vector37.X;
-                    float num385 = player.position.Y + (float)(player.height / 2) - vector37.Y;
-                    float num386 = (float)Math.Sqrt((double)(num384 * num384 + num385 * num385));
-                    num386 = num383 / num386;
-                    npc.velocity.X = num384 * num386;
-                    npc.velocity.Y = num385 * num386;
-                    npc.ai[1] = 2f;
-                }
-                else if (npc.ai[1] == 2f)
-                {
-                    npc.ai[2] += 1f;
-                    if (npc.ai[2] >= 25f)
-                    {
-                        npc.velocity.X = npc.velocity.X * 0.96f;
-                        npc.velocity.Y = npc.velocity.Y * 0.96f;
-                        if ((double)npc.velocity.X > -0.1 && (double)npc.velocity.X < 0.1)
-                        {
-                            npc.velocity.X = 0f;
-                        }
-                        if ((double)npc.velocity.Y > -0.1 && (double)npc.velocity.Y < 0.1)
-                        {
-                            npc.velocity.Y = 0f;
-                        }
-                    }
-                    else
-                    {
-                        npc.rotation = (float)Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X) - 1.57f;
-                    }
-                    if (npc.ai[2] >= 70f)
-                    {
-                        npc.ai[3] += 1f;
-                        npc.ai[2] = 0f;
-                        npc.target = 255;
-                        npc.rotation = num803;
-                        if (npc.ai[3] >= 2f)
-                        {
-                            npc.ai[1] = -1f;
-                        }
-                        else
-                        {
-                            npc.ai[1] = 1f;
-                        }
-                    }
-                }
-                else if (npc.ai[1] == 3f)
-                {
-                    npc.TargetClosest(true);
-                    float num412 = 32f;
-                    float num413 = 1.2f;
-                    int num414 = 1;
-                    if (npc.position.X + (float)(npc.width / 2) < player.position.X + (float)player.width)
-                    {
-                        num414 = -1;
-                    }
-                    Vector2 vector40 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-                    float num415 = player.position.X + (float)(player.width / 2) + (float)(num414 * 600) - vector40.X;
-                    float num416 = player.position.Y + (float)(player.height / 2) - vector40.Y;
-                    float num417 = (float)Math.Sqrt((double)(num415 * num415 + num416 * num416));
-                    num417 = num412 / num417;
-                    num415 *= num417;
-                    num416 *= num417;
-                    if (npc.velocity.X < num415)
-                    {
-                        npc.velocity.X = npc.velocity.X + num413;
-                        if (npc.velocity.X < 0f && num415 > 0f)
-                        {
-                            npc.velocity.X = npc.velocity.X + num413;
-                        }
-                    }
-                    else if (npc.velocity.X > num415)
-                    {
-                        npc.velocity.X = npc.velocity.X - num413;
-                        if (npc.velocity.X > 0f && num415 < 0f)
-                        {
-                            npc.velocity.X = npc.velocity.X - num413;
-                        }
-                    }
-                    if (npc.velocity.Y < num416)
-                    {
-                        npc.velocity.Y = npc.velocity.Y + num413;
-                        if (npc.velocity.Y < 0f && num416 > 0f)
-                        {
-                            npc.velocity.Y = npc.velocity.Y + num413;
-                        }
-                    }
-                    else if (npc.velocity.Y > num416)
-                    {
-                        npc.velocity.Y = npc.velocity.Y - num413;
-                        if (npc.velocity.Y > 0f && num416 < 0f)
-                        {
-                            npc.velocity.Y = npc.velocity.Y - num413;
-                        }
-                    }
-                    npc.ai[2] += 1f;
-                    if (npc.ai[2] >= 480f)
-                    {
-                        npc.ai[1] = -1f;
-                        npc.target = 255;
-                        npc.netUpdate = true;
-                    }
-                    else
-                    {
-                        if (!player.dead)
-                        {
-                            npc.ai[3] += wormAlive ? 0.5f : 1f;
-                        }
-                        if (npc.ai[3] >= 20f)
-                        {
-                            npc.ai[3] = 0f;
-                            vector40 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-                            num415 = player.position.X + (float)(player.width / 2) - vector40.X;
-                            num416 = player.position.Y + (float)(player.height / 2) - vector40.Y;
-                            if (Main.netMode != NetmodeID.MultiplayerClient)
-                            {
-                                float num418 = 10f * uDieLul;
-                                int num419 = expertMode ? 150 : 200; //600 500
-                                int num420 = ModContent.ProjectileType<BrimstoneHellblast>();
-                                num417 = (float)Math.Sqrt((double)(num415 * num415 + num416 * num416));
-                                num417 = num418 / num417;
-                                num415 *= num417;
-                                num416 *= num417;
-                                vector40.X += num415 * 4f;
-                                vector40.Y += num416 * 4f;
-                                Projectile.NewProjectile(vector40.X, vector40.Y, num415, num416, num420, num419, 0f, Main.myPlayer, 0f, 0f);
-                            }
-                        }
-                    }
-                }
-                else if (npc.ai[1] == 4f)
-                {
-                    int num831 = 1;
-                    if (npc.position.X + (float)(npc.width / 2) < player.position.X + (float)player.width)
-                    {
-                        num831 = -1;
-                    }
-                    float num832 = 32f;
-                    float num833 = 1.2f;
-                    Vector2 vector83 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-                    float num834 = player.position.X + (float)(player.width / 2) + (float)(num831 * 750) - vector83.X; //600
-                    float num835 = player.position.Y + (float)(player.height / 2) - vector83.Y;
-                    float num836 = (float)Math.Sqrt((double)(num834 * num834 + num835 * num835));
-                    num836 = num832 / num836;
-                    num834 *= num836;
-                    num835 *= num836;
-                    if (npc.velocity.X < num834)
-                    {
-                        npc.velocity.X = npc.velocity.X + num833;
-                        if (npc.velocity.X < 0f && num834 > 0f)
-                        {
-                            npc.velocity.X = npc.velocity.X + num833;
-                        }
-                    }
-                    else if (npc.velocity.X > num834)
-                    {
-                        npc.velocity.X = npc.velocity.X - num833;
-                        if (npc.velocity.X > 0f && num834 < 0f)
-                        {
-                            npc.velocity.X = npc.velocity.X - num833;
-                        }
-                    }
-                    if (npc.velocity.Y < num835)
-                    {
-                        npc.velocity.Y = npc.velocity.Y + num833;
-                        if (npc.velocity.Y < 0f && num835 > 0f)
-                        {
-                            npc.velocity.Y = npc.velocity.Y + num833;
-                        }
-                    }
-                    else if (npc.velocity.Y > num835)
-                    {
-                        npc.velocity.Y = npc.velocity.Y - num833;
-                        if (npc.velocity.Y > 0f && num835 < 0f)
-                        {
-                            npc.velocity.Y = npc.velocity.Y - num833;
-                        }
-                    }
-                    vector83 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-                    num834 = player.position.X + (float)(player.width / 2) - vector83.X;
-                    num835 = player.position.Y + (float)(player.height / 2) - vector83.Y;
-                    npc.rotation = (float)Math.Atan2((double)num835, (double)num834) - 1.57f;
-                    if (Main.netMode != NetmodeID.MultiplayerClient)
-                    {
-                        npc.localAI[1] += wormAlive ? 0.5f : 1f;
-                        if (npc.localAI[1] > 140f)
-                        {
-                            npc.localAI[1] = 0f;
-                            float num837 = 5f * uDieLul;
-                            int num838 = expertMode ? 150 : 200; //600 500
-                            int num839 = ModContent.ProjectileType<BrimstoneFireblast>();
-                            num836 = (float)Math.Sqrt((double)(num834 * num834 + num835 * num835));
-                            num836 = num837 / num836;
-                            num834 *= num836;
-                            num835 *= num836;
-                            vector83.X += num834 * 15f;
-                            vector83.Y += num835 * 15f;
-                            Projectile.NewProjectile(vector83.X, vector83.Y, num834, num835, num839, num838, 0f, Main.myPlayer, 0f, 0f);
-                        }
-                    }
-                    npc.ai[2] += 1f;
-                    if (npc.ai[2] >= 300f)
-                    {
-                        npc.ai[1] = -1f;
-                        npc.TargetClosest(true);
-                        npc.netUpdate = true;
-                        return;
-                    }
-                }
-                if (npc.ai[1] == -1f)
-                {
-                    phaseChange++;
-                    if (phaseChange > 23)
-                    {
-                        phaseChange = 0;
-                    }
-                    int phase = 0; //0 = shots above 1 = charge 2 = nothing 3 = hellblasts 4 = fireblasts
-                    switch (phaseChange)
-                    {
-                        case 0:
-                            phase = 0;
-                            willCharge = false;
-                            break; //0341
-                        case 1:
-                            phase = 3;
-                            break;
-                        case 2:
-                            phase = 4;
-                            willCharge = true;
-                            break;
-                        case 3:
-                            phase = 1;
-                            break;
-                        case 4:
-                            phase = 1;
-                            break; //1430
-                        case 5:
-                            phase = 4;
-                            willCharge = false;
-                            break;
-                        case 6:
-                            phase = 3;
-                            break;
-                        case 7:
-                            phase = 0;
-                            willCharge = true;
-                            break;
-                        case 8:
-                            phase = 1;
-                            break; //1034
-                        case 9:
-                            phase = 0;
-                            willCharge = false;
-                            break;
-                        case 10:
-                            phase = 3;
-                            break;
-                        case 11:
-                            phase = 4;
-                            break;
-                        case 12:
-                            phase = 4;
-                            break; //4310
-                        case 13:
-                            phase = 3;
-                            willCharge = true;
-                            break;
-                        case 14:
-                            phase = 1;
-                            break;
-                        case 15:
-                            phase = 0;
-                            willCharge = false;
-                            break;
-                        case 16:
-                            phase = 4;
-                            break; //4411
-                        case 17:
-                            phase = 4;
-                            willCharge = true;
-                            break;
-                        case 18:
-                            phase = 1;
-                            break;
-                        case 19:
-                            phase = 1;
-                            break;
-                        case 20:
-                            phase = 0;
-                            break; //0101
-                        case 21:
-                            phase = 1;
-                            break;
-                        case 22:
-                            phase = 0;
-                            break;
-                        case 23:
-                            phase = 1;
-                            break;
-                    }
-                    npc.ai[1] = (float)phase;
-                    npc.ai[2] = 0f;
-                    npc.ai[3] = 0f;
-                    return;
-                }
+
+				if (npc.ai[1] == -1f)
+				{
+					phaseChange++;
+					if (phaseChange > 23)
+						phaseChange = 0;
+
+					int phase = 0; //0 = shots above 1 = charge 2 = nothing 3 = hellblasts 4 = fireblasts
+					switch (phaseChange)
+					{
+						case 0:
+							phase = 0;
+							willCharge = false;
+							break; //0341
+						case 1:
+							phase = 3;
+							break;
+						case 2:
+							phase = 4;
+							willCharge = true;
+							break;
+						case 3:
+							phase = 1;
+							break;
+						case 4:
+							phase = 1;
+							break; //1430
+						case 5:
+							phase = 4;
+							willCharge = false;
+							break;
+						case 6:
+							phase = 3;
+							break;
+						case 7:
+							phase = 0;
+							willCharge = true;
+							break;
+						case 8:
+							phase = 1;
+							break; //1034
+						case 9:
+							phase = 0;
+							willCharge = false;
+							break;
+						case 10:
+							phase = 3;
+							break;
+						case 11:
+							phase = 4;
+							break;
+						case 12:
+							phase = 4;
+							break; //4310
+						case 13:
+							phase = 3;
+							willCharge = true;
+							break;
+						case 14:
+							phase = 1;
+							break;
+						case 15:
+							phase = 0;
+							willCharge = false;
+							break;
+						case 16:
+							phase = 4;
+							break; //4411
+						case 17:
+							phase = 4;
+							willCharge = true;
+							break;
+						case 18:
+							phase = 1;
+							break;
+						case 19:
+							phase = 1;
+							break;
+						case 20:
+							phase = 0;
+							break; //0101
+						case 21:
+							phase = 1;
+							break;
+						case 22:
+							phase = 0;
+							break;
+						case 23:
+							phase = 1;
+							break;
+					}
+
+					npc.ai[1] = (float)phase;
+					npc.ai[2] = 0f;
+					npc.ai[3] = 0f;
+				}
+				else
+				{
+					if (npc.ai[1] == 0f)
+					{
+						float num823 = 12f;
+						float num824 = 0.12f;
+
+						Vector2 vector82 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
+						float num825 = player.position.X + (float)(player.width / 2) - vector82.X;
+						float num826 = player.position.Y + (float)(player.height / 2) - 550f - vector82.Y;
+						float num827 = (float)Math.Sqrt((double)(num825 * num825 + num826 * num826));
+
+						num827 = num823 / num827;
+						num825 *= num827;
+						num826 *= num827;
+
+						if (!canDespawn)
+						{
+							if (npc.velocity.X < num825)
+							{
+								npc.velocity.X += num824;
+								if (npc.velocity.X < 0f && num825 > 0f)
+									npc.velocity.X += num824;
+							}
+							else if (npc.velocity.X > num825)
+							{
+								npc.velocity.X -= num824;
+								if (npc.velocity.X > 0f && num825 < 0f)
+									npc.velocity.X -= num824;
+							}
+							if (npc.velocity.Y < num826)
+							{
+								npc.velocity.Y += num824;
+								if (npc.velocity.Y < 0f && num826 > 0f)
+									npc.velocity.Y += num824;
+							}
+							else if (npc.velocity.Y > num826)
+							{
+								npc.velocity.Y -= num824;
+								if (npc.velocity.Y > 0f && num826 < 0f)
+									npc.velocity.Y -= num824;
+							}
+						}
+
+						npc.ai[2] += 1f;
+						if (npc.ai[2] >= 300f)
+						{
+							npc.ai[1] = -1f;
+							npc.TargetClosest(true);
+							npc.netUpdate = true;
+						}
+
+						vector82 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
+						num825 = player.position.X + (float)(player.width / 2) - vector82.X;
+						num826 = player.position.Y + (float)(player.height / 2) - vector82.Y;
+						npc.rotation = (float)Math.Atan2((double)num826, (double)num825) - 1.57f;
+
+						if (Main.netMode != NetmodeID.MultiplayerClient)
+						{
+							npc.localAI[1] += wormAlive ? 0.5f : 1f;
+							if (npc.localAI[1] > 90f)
+							{
+								npc.localAI[1] = 0f;
+								float num828 = 10f * uDieLul;
+								int num829 = expertMode ? 150 : 200; //600 400
+
+								Vector2 value9 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
+								float num180 = player.position.X + (float)player.width * 0.5f - value9.X;
+								float num181 = Math.Abs(num180) * 0.1f;
+								float num182 = player.position.Y + (float)player.height * 0.5f - value9.Y - num181;
+								float num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
+
+								num183 = num828 / num183;
+								num180 *= num183;
+								num182 *= num183;
+								value9.X += num180;
+								value9.Y += num182;
+
+								int randomShot = Main.rand.Next(6);
+								if (randomShot == 0 && canFireSplitingFireball)
+								{
+									canFireSplitingFireball = false;
+									randomShot = ModContent.ProjectileType<BrimstoneFireblast>();
+									num827 = (float)Math.Sqrt((double)(num825 * num825 + num826 * num826));
+									num827 = num828 / num827;
+									num825 *= num827;
+									num826 *= num827;
+									vector82.X += num825 * 15f;
+									vector82.Y += num826 * 15f;
+									Projectile.NewProjectile(vector82.X, vector82.Y, num825, num826, randomShot, num829, 0f, Main.myPlayer, 0f, 0f);
+								}
+								else if (randomShot == 1 && canFireSplitingFireball)
+								{
+									canFireSplitingFireball = false;
+									randomShot = ModContent.ProjectileType<BrimstoneGigaBlast>();
+									num827 = (float)Math.Sqrt((double)(num825 * num825 + num826 * num826));
+									num827 = num828 / num827;
+									num825 *= num827;
+									num826 *= num827;
+									vector82.X += num825 * 15f;
+									vector82.Y += num826 * 15f;
+									Projectile.NewProjectile(vector82.X, vector82.Y, num825, num826, randomShot, num829, 0f, Main.myPlayer, 0f, 0f);
+								}
+								else
+								{
+									canFireSplitingFireball = true;
+									randomShot = ModContent.ProjectileType<BrimstoneBarrage>();
+									for (int num186 = 0; num186 < 8; num186++)
+									{
+										num180 = player.position.X + (float)player.width * 0.5f - value9.X;
+										num182 = player.position.Y + (float)player.height * 0.5f - value9.Y;
+										num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
+										float speedBoost = (float)(num186 > 4 ? -(num186 - 4) : num186);
+										num183 = (8f + speedBoost) / num183;
+										num180 *= num183;
+										num182 *= num183;
+										Projectile.NewProjectile(value9.X, value9.Y, num180 + speedBoost, num182 + speedBoost, randomShot, num829, 0f, Main.myPlayer, 0f, 0f);
+									}
+								}
+							}
+						}
+					}
+					else if (npc.ai[1] == 1f)
+					{
+						npc.rotation = num803;
+						float num383 = wormAlive ? 26f : 30f;
+						if ((double)npc.life < (double)npc.lifeMax * 0.95)
+							num383 += 1f;
+						if ((double)npc.life < (double)npc.lifeMax * 0.85)
+							num383 += 1f;
+						if ((double)npc.life < (double)npc.lifeMax * 0.7)
+							num383 += 1f;
+						if ((double)npc.life < (double)npc.lifeMax * 0.6)
+							num383 += 1f;
+						if ((double)npc.life < (double)npc.lifeMax * 0.5)
+							num383 += 1f;
+
+						Vector2 vector37 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
+						float num384 = player.position.X + (float)(player.width / 2) - vector37.X;
+						float num385 = player.position.Y + (float)(player.height / 2) - vector37.Y;
+						float num386 = (float)Math.Sqrt((double)(num384 * num384 + num385 * num385));
+						num386 = num383 / num386;
+
+						if (!canDespawn)
+						{
+							npc.velocity.X = num384 * num386;
+							npc.velocity.Y = num385 * num386;
+						}
+
+						npc.ai[1] = 2f;
+					}
+					else if (npc.ai[1] == 2f)
+					{
+						npc.ai[2] += 1f;
+						if (npc.ai[2] >= 25f)
+						{
+							if (!canDespawn)
+							{
+								npc.velocity *= 0.96f;
+
+								if ((double)npc.velocity.X > -0.1 && (double)npc.velocity.X < 0.1)
+									npc.velocity.X = 0f;
+								if ((double)npc.velocity.Y > -0.1 && (double)npc.velocity.Y < 0.1)
+									npc.velocity.Y = 0f;
+							}
+						}
+						else
+							npc.rotation = (float)Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X) - 1.57f;
+
+						if (npc.ai[2] >= 70f)
+						{
+							npc.ai[3] += 1f;
+							npc.ai[2] = 0f;
+							npc.target = 255;
+							npc.rotation = num803;
+
+							if (npc.ai[3] >= 2f)
+								npc.ai[1] = -1f;
+							else
+								npc.ai[1] = 1f;
+						}
+					}
+					else if (npc.ai[1] == 3f)
+					{
+						float num412 = 32f;
+						float num413 = 1.2f;
+
+						int num414 = 1;
+						if (npc.position.X + (float)(npc.width / 2) < player.position.X + (float)player.width)
+							num414 = -1;
+
+						Vector2 vector40 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
+						float num415 = player.position.X + (float)(player.width / 2) + (float)(num414 * 600) - vector40.X;
+						float num416 = player.position.Y + (float)(player.height / 2) - vector40.Y;
+						float num417 = (float)Math.Sqrt((double)(num415 * num415 + num416 * num416));
+
+						num417 = num412 / num417;
+						num415 *= num417;
+						num416 *= num417;
+
+						if (!canDespawn)
+						{
+							if (npc.velocity.X < num415)
+							{
+								npc.velocity.X += num413;
+								if (npc.velocity.X < 0f && num415 > 0f)
+									npc.velocity.X += num413;
+							}
+							else if (npc.velocity.X > num415)
+							{
+								npc.velocity.X -= num413;
+								if (npc.velocity.X > 0f && num415 < 0f)
+									npc.velocity.X -= num413;
+							}
+							if (npc.velocity.Y < num416)
+							{
+								npc.velocity.Y += num413;
+								if (npc.velocity.Y < 0f && num416 > 0f)
+									npc.velocity.Y += num413;
+							}
+							else if (npc.velocity.Y > num416)
+							{
+								npc.velocity.Y -= num413;
+								if (npc.velocity.Y > 0f && num416 < 0f)
+									npc.velocity.Y -= num413;
+							}
+						}
+
+						npc.ai[2] += 1f;
+						if (npc.ai[2] >= 480f)
+						{
+							npc.TargetClosest(true);
+							npc.ai[1] = -1f;
+							npc.target = 255;
+							npc.netUpdate = true;
+						}
+						else
+						{
+							if (!player.dead)
+								npc.ai[3] += wormAlive ? 0.5f : 1f;
+
+							if (npc.ai[3] >= 20f)
+							{
+								npc.ai[3] = 0f;
+								vector40 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
+								num415 = player.position.X + (float)(player.width / 2) - vector40.X;
+								num416 = player.position.Y + (float)(player.height / 2) - vector40.Y;
+
+								if (Main.netMode != NetmodeID.MultiplayerClient)
+								{
+									float num418 = 10f * uDieLul;
+									int num419 = expertMode ? 150 : 200; //600 500
+									int num420 = ModContent.ProjectileType<BrimstoneHellblast>();
+									num417 = (float)Math.Sqrt((double)(num415 * num415 + num416 * num416));
+									num417 = num418 / num417;
+									num415 *= num417;
+									num416 *= num417;
+									vector40.X += num415 * 4f;
+									vector40.Y += num416 * 4f;
+									Projectile.NewProjectile(vector40.X, vector40.Y, num415, num416, num420, num419, 0f, Main.myPlayer, 0f, 0f);
+								}
+							}
+						}
+					}
+					else if (npc.ai[1] == 4f)
+					{
+						int num831 = 1;
+						if (npc.position.X + (float)(npc.width / 2) < player.position.X + (float)player.width)
+							num831 = -1;
+
+						float num832 = 32f;
+						float num833 = 1.2f;
+
+						Vector2 vector83 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
+						float num834 = player.position.X + (float)(player.width / 2) + (float)(num831 * 750) - vector83.X; //600
+						float num835 = player.position.Y + (float)(player.height / 2) - vector83.Y;
+						float num836 = (float)Math.Sqrt((double)(num834 * num834 + num835 * num835));
+
+						num836 = num832 / num836;
+						num834 *= num836;
+						num835 *= num836;
+
+						if (!canDespawn)
+						{
+							if (npc.velocity.X < num834)
+							{
+								npc.velocity.X += num833;
+								if (npc.velocity.X < 0f && num834 > 0f)
+									npc.velocity.X += num833;
+							}
+							else if (npc.velocity.X > num834)
+							{
+								npc.velocity.X -= num833;
+								if (npc.velocity.X > 0f && num834 < 0f)
+									npc.velocity.X -= num833;
+							}
+							if (npc.velocity.Y < num835)
+							{
+								npc.velocity.Y += num833;
+								if (npc.velocity.Y < 0f && num835 > 0f)
+									npc.velocity.Y += num833;
+							}
+							else if (npc.velocity.Y > num835)
+							{
+								npc.velocity.Y -= num833;
+								if (npc.velocity.Y > 0f && num835 < 0f)
+									npc.velocity.Y -= num833;
+							}
+						}
+
+						vector83 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
+						num834 = player.position.X + (float)(player.width / 2) - vector83.X;
+						num835 = player.position.Y + (float)(player.height / 2) - vector83.Y;
+						npc.rotation = (float)Math.Atan2((double)num835, (double)num834) - 1.57f;
+
+						if (Main.netMode != NetmodeID.MultiplayerClient)
+						{
+							npc.localAI[1] += wormAlive ? 0.5f : 1f;
+							if (npc.localAI[1] > 140f)
+							{
+								npc.localAI[1] = 0f;
+								float num837 = 5f * uDieLul;
+								int num838 = expertMode ? 150 : 200; //600 500
+								int num839 = ModContent.ProjectileType<BrimstoneFireblast>();
+								num836 = (float)Math.Sqrt((double)(num834 * num834 + num835 * num835));
+								num836 = num837 / num836;
+								num834 *= num836;
+								num835 *= num836;
+								vector83.X += num834 * 15f;
+								vector83.Y += num835 * 15f;
+								Projectile.NewProjectile(vector83.X, vector83.Y, num834, num835, num839, num838, 0f, Main.myPlayer, 0f, 0f);
+							}
+						}
+
+						npc.ai[2] += 1f;
+						if (npc.ai[2] >= 300f)
+						{
+							npc.ai[1] = -1f;
+							npc.TargetClosest(true);
+							npc.netUpdate = true;
+						}
+					}
+				}
+
                 if ((double)npc.life < (double)npc.lifeMax * 0.4)
                 {
                     npc.ai[0] = 1f;
@@ -1591,7 +1589,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     npc.ai[2] = 0f;
                     npc.ai[3] = 0f;
                     npc.netUpdate = true;
-                    return;
                 }
             }
             #endregion
@@ -1600,53 +1597,50 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             {
                 npc.dontTakeDamage = true;
                 npc.chaseable = false;
+
                 if (npc.ai[0] == 1f)
                 {
                     npc.ai[2] += 0.005f;
                     if ((double)npc.ai[2] > 0.5)
-                    {
                         npc.ai[2] = 0.5f;
-                    }
                 }
                 else
                 {
                     npc.ai[2] -= 0.005f;
                     if (npc.ai[2] < 0f)
-                    {
                         npc.ai[2] = 0f;
-                    }
                 }
+
                 npc.rotation += npc.ai[2];
+
                 npc.ai[1] += 1f;
                 if (npc.ai[1] == 100f)
                 {
                     npc.ai[0] += 1f;
                     npc.ai[1] = 0f;
+
                     if (npc.ai[0] == 3f)
-                    {
                         npc.ai[2] = 0f;
-                    }
                     else
                     {
                         for (int num388 = 0; num388 < 50; num388++)
-                        {
                             Dust.NewDust(npc.position, npc.width, npc.height, 235, (float)Main.rand.Next(-30, 31) * 0.2f, (float)Main.rand.Next(-30, 31) * 0.2f, 0, default, 1f);
-                        }
+
                         Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 0, 1f, 0f);
                     }
                 }
+
                 Dust.NewDust(npc.position, npc.width, npc.height, 235, (float)Main.rand.Next(-30, 31) * 0.2f, (float)Main.rand.Next(-30, 31) * 0.2f, 0, default, 1f);
-                npc.velocity.X = npc.velocity.X * 0.98f;
-                npc.velocity.Y = npc.velocity.Y * 0.98f;
-                if ((double)npc.velocity.X > -0.1 && (double)npc.velocity.X < 0.1)
-                {
-                    npc.velocity.X = 0f;
-                }
-                if ((double)npc.velocity.Y > -0.1 && (double)npc.velocity.Y < 0.1)
-                {
-                    npc.velocity.Y = 0f;
-                    return;
-                }
+
+				if (!canDespawn)
+				{
+					npc.velocity *= 0.98f;
+
+					if ((double)npc.velocity.X > -0.1 && (double)npc.velocity.X < 0.1)
+						npc.velocity.X = 0f;
+					if ((double)npc.velocity.Y > -0.1 && (double)npc.velocity.Y < 0.1)
+						npc.velocity.Y = 0f;
+				}
             }
             #endregion
             #region LastStage
@@ -1671,443 +1665,441 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         npc.chaseable = true;
                     }
                 }
-                if (npc.ai[1] == 0f)
-                {
-                    float num823 = 12f;
-                    float num824 = 0.12f;
-                    Vector2 vector82 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-                    float num825 = player.position.X + (float)(player.width / 2) - vector82.X;
-                    float num826 = player.position.Y + (float)(player.height / 2) - 550f - vector82.Y;
-                    float num827 = (float)Math.Sqrt((double)(num825 * num825 + num826 * num826));
-                    num827 = num823 / num827;
-                    num825 *= num827;
-                    num826 *= num827;
-                    if (npc.velocity.X < num825)
-                    {
-                        npc.velocity.X = npc.velocity.X + num824;
-                        if (npc.velocity.X < 0f && num825 > 0f)
-                        {
-                            npc.velocity.X = npc.velocity.X + num824;
-                        }
-                    }
-                    else if (npc.velocity.X > num825)
-                    {
-                        npc.velocity.X = npc.velocity.X - num824;
-                        if (npc.velocity.X > 0f && num825 < 0f)
-                        {
-                            npc.velocity.X = npc.velocity.X - num824;
-                        }
-                    }
-                    if (npc.velocity.Y < num826)
-                    {
-                        npc.velocity.Y = npc.velocity.Y + num824;
-                        if (npc.velocity.Y < 0f && num826 > 0f)
-                        {
-                            npc.velocity.Y = npc.velocity.Y + num824;
-                        }
-                    }
-                    else if (npc.velocity.Y > num826)
-                    {
-                        npc.velocity.Y = npc.velocity.Y - num824;
-                        if (npc.velocity.Y > 0f && num826 < 0f)
-                        {
-                            npc.velocity.Y = npc.velocity.Y - num824;
-                        }
-                    }
-                    npc.ai[2] += 1f;
-                    if (npc.ai[2] >= 240f)
-                    {
-                        npc.ai[1] = -1f;
-                        npc.TargetClosest(true);
-                        npc.netUpdate = true;
-                    }
-                    vector82 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-                    num825 = player.position.X + (float)(player.width / 2) - vector82.X;
-                    num826 = player.position.Y + (float)(player.height / 2) - vector82.Y;
-                    npc.rotation = (float)Math.Atan2((double)num826, (double)num825) - 1.57f;
-                    if (Main.netMode != NetmodeID.MultiplayerClient)
-                    {
-                        npc.localAI[1] += wormAlive ? 0.5f : 1f;
-                        if (npc.localAI[1] > 60f)
-                        {
-                            npc.localAI[1] = 0f;
-                            float num828 = 10f * uDieLul;
-                            int num829 = expertMode ? 150 : 200; //600 500
-                            Vector2 value9 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-                            float num180 = player.position.X + (float)player.width * 0.5f - value9.X;
-                            float num181 = Math.Abs(num180) * 0.1f;
-                            float num182 = player.position.Y + (float)player.height * 0.5f - value9.Y - num181;
-                            float num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
-                            num183 = num828 / num183;
-                            num180 *= num183;
-                            num182 *= num183;
-                            value9.X += num180;
-                            value9.Y += num182;
-                            int randomShot = Main.rand.Next(6);
-                            if (randomShot == 0 && canFireSplitingFireball)
-                            {
-                                canFireSplitingFireball = false;
-                                randomShot = ModContent.ProjectileType<BrimstoneFireblast>();
-                                num827 = (float)Math.Sqrt((double)(num825 * num825 + num826 * num826));
-                                num827 = num828 / num827;
-                                num825 *= num827;
-                                num826 *= num827;
-                                vector82.X += num825 * 15f;
-                                vector82.Y += num826 * 15f;
-                                Projectile.NewProjectile(vector82.X, vector82.Y, num825, num826, randomShot, num829, 0f, Main.myPlayer, 0f, 0f);
-                            }
-                            else if (randomShot == 1 && canFireSplitingFireball)
-                            {
-                                canFireSplitingFireball = false;
-                                randomShot = ModContent.ProjectileType<BrimstoneGigaBlast>();
-                                num827 = (float)Math.Sqrt((double)(num825 * num825 + num826 * num826));
-                                num827 = num828 / num827;
-                                num825 *= num827;
-                                num826 *= num827;
-                                vector82.X += num825 * 15f;
-                                vector82.Y += num826 * 15f;
-                                Projectile.NewProjectile(vector82.X, vector82.Y, num825, num826, randomShot, num829, 0f, Main.myPlayer, 0f, 0f);
-                            }
-                            else
-                            {
-                                canFireSplitingFireball = true;
-                                randomShot = ModContent.ProjectileType<BrimstoneBarrage>();
-                                for (int num186 = 1; num186 <= 8; num186++)
-                                {
-                                    num180 = player.position.X + (float)player.width * 0.5f - value9.X;
-                                    num182 = player.position.Y + (float)player.height * 0.5f - value9.Y;
-                                    num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
-                                    float speedBoost = (float)(num186 > 4 ? -(num186 - 4) : num186);
-                                    num183 = (8f + speedBoost) / num183;
-                                    num180 *= num183;
-                                    num182 *= num183;
-                                    Projectile.NewProjectile(value9.X, value9.Y, num180 + speedBoost, num182 + speedBoost, randomShot, num829, 0f, Main.myPlayer, 0f, 0f);
-                                }
-                            }
-                            return;
-                        }
-                    }
-                }
-                else if (npc.ai[1] == 1f)
-                {
-                    npc.rotation = num803; //change
-                    float num383 = wormAlive ? 31f : 35f;
-                    if ((double)npc.life < (double)npc.lifeMax * 0.3)
-                    {
-                        num383 += 1f;
-                    }
-                    if ((double)npc.life < (double)npc.lifeMax * 0.2)
-                    {
-                        num383 += 1f;
-                    }
-                    if ((double)npc.life < (double)npc.lifeMax * 0.1)
-                    {
-                        num383 += 1f;
-                    }
-                    Vector2 vector37 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-                    float num384 = player.position.X + (float)(player.width / 2) - vector37.X;
-                    float num385 = player.position.Y + (float)(player.height / 2) - vector37.Y;
-                    float num386 = (float)Math.Sqrt((double)(num384 * num384 + num385 * num385));
-                    num386 = num383 / num386;
-                    npc.velocity.X = num384 * num386;
-                    npc.velocity.Y = num385 * num386;
-                    npc.ai[1] = 2f;
-                }
-                else if (npc.ai[1] == 2f)
-                {
-                    npc.ai[2] += 1f;
-                    if (npc.ai[2] >= 25f)
-                    {
-                        npc.velocity.X = npc.velocity.X * 0.96f;
-                        npc.velocity.Y = npc.velocity.Y * 0.96f;
-                        if ((double)npc.velocity.X > -0.1 && (double)npc.velocity.X < 0.1)
-                        {
-                            npc.velocity.X = 0f;
-                        }
-                        if ((double)npc.velocity.Y > -0.1 && (double)npc.velocity.Y < 0.1)
-                        {
-                            npc.velocity.Y = 0f;
-                        }
-                    }
-                    else
-                    {
-                        npc.rotation = (float)Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X) - 1.57f;
-                    }
-                    if (npc.ai[2] >= 70f)
-                    {
-                        npc.ai[3] += 1f;
-                        npc.ai[2] = 0f;
-                        npc.target = 255;
-                        npc.rotation = num803; //change
-                        if (npc.ai[3] >= 1f)
-                        {
-                            npc.ai[1] = -1f;
-                        }
-                        else
-                        {
-                            npc.ai[1] = 1f;
-                        }
-                    }
-                }
-                else if (npc.ai[1] == 3f)
-                {
-                    npc.TargetClosest(true);
-                    float num412 = 32f;
-                    float num413 = 1.2f;
-                    int num414 = 1;
-                    if (npc.position.X + (float)(npc.width / 2) < player.position.X + (float)player.width)
-                    {
-                        num414 = -1;
-                    }
-                    Vector2 vector40 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-                    float num415 = player.position.X + (float)(player.width / 2) + (float)(num414 * 600) - vector40.X;
-                    float num416 = player.position.Y + (float)(player.height / 2) - vector40.Y;
-                    float num417 = (float)Math.Sqrt((double)(num415 * num415 + num416 * num416));
-                    num417 = num412 / num417;
-                    num415 *= num417;
-                    num416 *= num417;
-                    if (npc.velocity.X < num415)
-                    {
-                        npc.velocity.X = npc.velocity.X + num413;
-                        if (npc.velocity.X < 0f && num415 > 0f)
-                        {
-                            npc.velocity.X = npc.velocity.X + num413;
-                        }
-                    }
-                    else if (npc.velocity.X > num415)
-                    {
-                        npc.velocity.X = npc.velocity.X - num413;
-                        if (npc.velocity.X > 0f && num415 < 0f)
-                        {
-                            npc.velocity.X = npc.velocity.X - num413;
-                        }
-                    }
-                    if (npc.velocity.Y < num416)
-                    {
-                        npc.velocity.Y = npc.velocity.Y + num413;
-                        if (npc.velocity.Y < 0f && num416 > 0f)
-                        {
-                            npc.velocity.Y = npc.velocity.Y + num413;
-                        }
-                    }
-                    else if (npc.velocity.Y > num416)
-                    {
-                        npc.velocity.Y = npc.velocity.Y - num413;
-                        if (npc.velocity.Y > 0f && num416 < 0f)
-                        {
-                            npc.velocity.Y = npc.velocity.Y - num413;
-                        }
-                    }
-                    npc.ai[2] += 1f;
-                    if (npc.ai[2] >= 300f)
-                    {
-                        npc.ai[1] = -1f;
-                        npc.target = 255;
-                        npc.netUpdate = true;
-                    }
-                    else
-                    {
-                        if (!player.dead)
-                        {
-                            npc.ai[3] += wormAlive ? 0.5f : 1f;
-                        }
-                        if (npc.ai[3] >= 24f)
-                        {
-                            npc.ai[3] = 0f;
-                            vector40 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-                            num415 = player.position.X + (float)(player.width / 2) - vector40.X;
-                            num416 = player.position.Y + (float)(player.height / 2) - vector40.Y;
-                            if (Main.netMode != NetmodeID.MultiplayerClient)
-                            {
-                                float num418 = 10f * uDieLul;
-                                int num419 = expertMode ? 150 : 200; //600 500
-                                int num420 = ModContent.ProjectileType<BrimstoneHellblast>();
-                                num417 = (float)Math.Sqrt((double)(num415 * num415 + num416 * num416));
-                                num417 = num418 / num417;
-                                num415 *= num417;
-                                num416 *= num417;
-                                vector40.X += num415 * 4f;
-                                vector40.Y += num416 * 4f;
-                                Projectile.NewProjectile(vector40.X, vector40.Y, num415, num416, num420, num419, 0f, Main.myPlayer, 0f, 0f);
-                            }
-                        }
-                    }
-                }
-                else if (npc.ai[1] == 4f)
-                {
-                    int num831 = 1;
-                    if (npc.position.X + (float)(npc.width / 2) < player.position.X + (float)player.width)
-                    {
-                        num831 = -1;
-                    }
-                    float num832 = 32f;
-                    float num833 = 1.2f;
-                    Vector2 vector83 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-                    float num834 = player.position.X + (float)(player.width / 2) + (float)(num831 * 750) - vector83.X; //600
-                    float num835 = player.position.Y + (float)(player.height / 2) - vector83.Y;
-                    float num836 = (float)Math.Sqrt((double)(num834 * num834 + num835 * num835));
-                    num836 = num832 / num836;
-                    num834 *= num836;
-                    num835 *= num836;
-                    if (npc.velocity.X < num834)
-                    {
-                        npc.velocity.X = npc.velocity.X + num833;
-                        if (npc.velocity.X < 0f && num834 > 0f)
-                        {
-                            npc.velocity.X = npc.velocity.X + num833;
-                        }
-                    }
-                    else if (npc.velocity.X > num834)
-                    {
-                        npc.velocity.X = npc.velocity.X - num833;
-                        if (npc.velocity.X > 0f && num834 < 0f)
-                        {
-                            npc.velocity.X = npc.velocity.X - num833;
-                        }
-                    }
-                    if (npc.velocity.Y < num835)
-                    {
-                        npc.velocity.Y = npc.velocity.Y + num833;
-                        if (npc.velocity.Y < 0f && num835 > 0f)
-                        {
-                            npc.velocity.Y = npc.velocity.Y + num833;
-                        }
-                    }
-                    else if (npc.velocity.Y > num835)
-                    {
-                        npc.velocity.Y = npc.velocity.Y - num833;
-                        if (npc.velocity.Y > 0f && num835 < 0f)
-                        {
-                            npc.velocity.Y = npc.velocity.Y - num833;
-                        }
-                    }
-                    vector83 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-                    num834 = player.position.X + (float)(player.width / 2) - vector83.X;
-                    num835 = player.position.Y + (float)(player.height / 2) - vector83.Y;
-                    npc.rotation = (float)Math.Atan2((double)num835, (double)num834) - 1.57f;
-                    if (Main.netMode != NetmodeID.MultiplayerClient)
-                    {
-                        npc.localAI[1] += wormAlive ? 0.5f : 1f;
-                        if (npc.localAI[1] > 100f)
-                        {
-                            npc.localAI[1] = 0f;
-                            float num837 = 5f * uDieLul;
-                            int num838 = expertMode ? 150 : 200; //600 500
-                            int num839 = ModContent.ProjectileType<BrimstoneFireblast>();
-                            num836 = (float)Math.Sqrt((double)(num834 * num834 + num835 * num835));
-                            num836 = num837 / num836;
-                            num834 *= num836;
-                            num835 *= num836;
-                            vector83.X += num834 * 15f;
-                            vector83.Y += num835 * 15f;
-                            int shot = Projectile.NewProjectile(vector83.X, vector83.Y, num834, num835, num839, num838, 0f, Main.myPlayer, 0f, 0f);
-                        }
-                    }
-                    npc.ai[2] += 1f;
-                    if (npc.ai[2] >= 240f)
-                    {
-                        npc.ai[1] = -1f;
-                        npc.TargetClosest(true);
-                        npc.netUpdate = true;
-                        return;
-                    }
-                }
-                if (npc.ai[1] == -1f)
-                {
-                    phaseChange++;
-                    if (phaseChange > 23)
-                    {
-                        phaseChange = 0;
-                    }
-                    int phase = 0; //0 = shots above 1 = charge 2 = nothing 3 = hellblasts 4 = fireblasts
-                    switch (phaseChange)
-                    {
-                        case 0:
-                            phase = 0;
-                            willCharge = false;
-                            break; //0341
-                        case 1:
-                            phase = 3;
-                            break;
-                        case 2:
-                            phase = 4;
-                            willCharge = true;
-                            break;
-                        case 3:
-                            phase = 1;
-                            break;
-                        case 4:
-                            phase = 1;
-                            break; //1430
-                        case 5:
-                            phase = 4;
-                            willCharge = false;
-                            break;
-                        case 6:
-                            phase = 3;
-                            break;
-                        case 7:
-                            phase = 0;
-                            willCharge = true;
-                            break;
-                        case 8:
-                            phase = 1;
-                            break; //1034
-                        case 9:
-                            phase = 0;
-                            willCharge = false;
-                            break;
-                        case 10:
-                            phase = 3;
-                            break;
-                        case 11:
-                            phase = 4;
-                            break;
-                        case 12:
-                            phase = 4;
-                            break; //4310
-                        case 13:
-                            phase = 3;
-                            willCharge = true;
-                            break;
-                        case 14:
-                            phase = 1;
-                            break;
-                        case 15:
-                            phase = 0;
-                            willCharge = false;
-                            break;
-                        case 16:
-                            phase = 4;
-                            break; //4411
-                        case 17:
-                            phase = 4;
-                            willCharge = true;
-                            break;
-                        case 18:
-                            phase = 1;
-                            break;
-                        case 19:
-                            phase = 1;
-                            break;
-                        case 20:
-                            phase = 0;
-                            break; //0101
-                        case 21:
-                            phase = 1;
-                            break;
-                        case 22:
-                            phase = 0;
-                            break;
-                        case 23:
-                            phase = 1;
-                            break;
-                    }
-                    npc.ai[1] = (float)phase;
-                    npc.ai[2] = 0f;
-                    npc.ai[3] = 0f;
-                    return;
-                }
+
+				if (npc.ai[1] == -1f)
+				{
+					phaseChange++;
+					if (phaseChange > 23)
+						phaseChange = 0;
+
+					int phase = 0; //0 = shots above 1 = charge 2 = nothing 3 = hellblasts 4 = fireblasts
+					switch (phaseChange)
+					{
+						case 0:
+							phase = 0;
+							willCharge = false;
+							break; //0341
+						case 1:
+							phase = 3;
+							break;
+						case 2:
+							phase = 4;
+							willCharge = true;
+							break;
+						case 3:
+							phase = 1;
+							break;
+						case 4:
+							phase = 1;
+							break; //1430
+						case 5:
+							phase = 4;
+							willCharge = false;
+							break;
+						case 6:
+							phase = 3;
+							break;
+						case 7:
+							phase = 0;
+							willCharge = true;
+							break;
+						case 8:
+							phase = 1;
+							break; //1034
+						case 9:
+							phase = 0;
+							willCharge = false;
+							break;
+						case 10:
+							phase = 3;
+							break;
+						case 11:
+							phase = 4;
+							break;
+						case 12:
+							phase = 4;
+							break; //4310
+						case 13:
+							phase = 3;
+							willCharge = true;
+							break;
+						case 14:
+							phase = 1;
+							break;
+						case 15:
+							phase = 0;
+							willCharge = false;
+							break;
+						case 16:
+							phase = 4;
+							break; //4411
+						case 17:
+							phase = 4;
+							willCharge = true;
+							break;
+						case 18:
+							phase = 1;
+							break;
+						case 19:
+							phase = 1;
+							break;
+						case 20:
+							phase = 0;
+							break; //0101
+						case 21:
+							phase = 1;
+							break;
+						case 22:
+							phase = 0;
+							break;
+						case 23:
+							phase = 1;
+							break;
+					}
+
+					npc.ai[1] = (float)phase;
+					npc.ai[2] = 0f;
+					npc.ai[3] = 0f;
+				}
+				else
+				{
+					if (npc.ai[1] == 0f)
+					{
+						float num823 = 12f;
+						float num824 = 0.12f;
+
+						Vector2 vector82 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
+						float num825 = player.position.X + (float)(player.width / 2) - vector82.X;
+						float num826 = player.position.Y + (float)(player.height / 2) - 550f - vector82.Y;
+						float num827 = (float)Math.Sqrt((double)(num825 * num825 + num826 * num826));
+
+						num827 = num823 / num827;
+						num825 *= num827;
+						num826 *= num827;
+
+						if (!canDespawn)
+						{
+							if (npc.velocity.X < num825)
+							{
+								npc.velocity.X += num824;
+								if (npc.velocity.X < 0f && num825 > 0f)
+									npc.velocity.X += num824;
+							}
+							else if (npc.velocity.X > num825)
+							{
+								npc.velocity.X -= num824;
+								if (npc.velocity.X > 0f && num825 < 0f)
+									npc.velocity.X -= num824;
+							}
+
+							if (npc.velocity.Y < num826)
+							{
+								npc.velocity.Y += num824;
+								if (npc.velocity.Y < 0f && num826 > 0f)
+									npc.velocity.Y += num824;
+							}
+							else if (npc.velocity.Y > num826)
+							{
+								npc.velocity.Y -= num824;
+								if (npc.velocity.Y > 0f && num826 < 0f)
+									npc.velocity.Y -= num824;
+							}
+						}
+
+						npc.ai[2] += 1f;
+						if (npc.ai[2] >= 240f)
+						{
+							npc.ai[1] = -1f;
+							npc.TargetClosest(true);
+							npc.netUpdate = true;
+						}
+
+						vector82 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
+						num825 = player.position.X + (float)(player.width / 2) - vector82.X;
+						num826 = player.position.Y + (float)(player.height / 2) - vector82.Y;
+						npc.rotation = (float)Math.Atan2((double)num826, (double)num825) - 1.57f;
+
+						if (Main.netMode != NetmodeID.MultiplayerClient)
+						{
+							npc.localAI[1] += wormAlive ? 0.5f : 1f;
+							if (npc.localAI[1] > 60f)
+							{
+								npc.localAI[1] = 0f;
+								float num828 = 10f * uDieLul;
+								int num829 = expertMode ? 150 : 200; //600 500
+
+								Vector2 value9 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
+								float num180 = player.position.X + (float)player.width * 0.5f - value9.X;
+								float num181 = Math.Abs(num180) * 0.1f;
+								float num182 = player.position.Y + (float)player.height * 0.5f - value9.Y - num181;
+								float num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
+
+								num183 = num828 / num183;
+								num180 *= num183;
+								num182 *= num183;
+								value9.X += num180;
+								value9.Y += num182;
+
+								int randomShot = Main.rand.Next(6);
+								if (randomShot == 0 && canFireSplitingFireball)
+								{
+									canFireSplitingFireball = false;
+									randomShot = ModContent.ProjectileType<BrimstoneFireblast>();
+									num827 = (float)Math.Sqrt((double)(num825 * num825 + num826 * num826));
+									num827 = num828 / num827;
+									num825 *= num827;
+									num826 *= num827;
+									vector82.X += num825 * 15f;
+									vector82.Y += num826 * 15f;
+									Projectile.NewProjectile(vector82.X, vector82.Y, num825, num826, randomShot, num829, 0f, Main.myPlayer, 0f, 0f);
+								}
+								else if (randomShot == 1 && canFireSplitingFireball)
+								{
+									canFireSplitingFireball = false;
+									randomShot = ModContent.ProjectileType<BrimstoneGigaBlast>();
+									num827 = (float)Math.Sqrt((double)(num825 * num825 + num826 * num826));
+									num827 = num828 / num827;
+									num825 *= num827;
+									num826 *= num827;
+									vector82.X += num825 * 15f;
+									vector82.Y += num826 * 15f;
+									Projectile.NewProjectile(vector82.X, vector82.Y, num825, num826, randomShot, num829, 0f, Main.myPlayer, 0f, 0f);
+								}
+								else
+								{
+									canFireSplitingFireball = true;
+									randomShot = ModContent.ProjectileType<BrimstoneBarrage>();
+									for (int num186 = 0; num186 < 8; num186++)
+									{
+										num180 = player.position.X + (float)player.width * 0.5f - value9.X;
+										num182 = player.position.Y + (float)player.height * 0.5f - value9.Y;
+										num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
+										float speedBoost = (float)(num186 > 4 ? -(num186 - 4) : num186);
+										num183 = (8f + speedBoost) / num183;
+										num180 *= num183;
+										num182 *= num183;
+										Projectile.NewProjectile(value9.X, value9.Y, num180 + speedBoost, num182 + speedBoost, randomShot, num829, 0f, Main.myPlayer, 0f, 0f);
+									}
+								}
+							}
+						}
+					}
+					else if (npc.ai[1] == 1f)
+					{
+						npc.rotation = num803;
+						float num383 = wormAlive ? 31f : 35f;
+						if ((double)npc.life < (double)npc.lifeMax * 0.3)
+							num383 += 1f;
+						if ((double)npc.life < (double)npc.lifeMax * 0.2)
+							num383 += 1f;
+						if ((double)npc.life < (double)npc.lifeMax * 0.1)
+							num383 += 1f;
+
+						Vector2 vector37 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
+						float num384 = player.position.X + (float)(player.width / 2) - vector37.X;
+						float num385 = player.position.Y + (float)(player.height / 2) - vector37.Y;
+						float num386 = (float)Math.Sqrt((double)(num384 * num384 + num385 * num385));
+						num386 = num383 / num386;
+
+						if (!canDespawn)
+						{
+							npc.velocity.X = num384 * num386;
+							npc.velocity.Y = num385 * num386;
+						}
+
+						npc.ai[1] = 2f;
+					}
+					else if (npc.ai[1] == 2f)
+					{
+						npc.ai[2] += 1f;
+						if (npc.ai[2] >= 25f)
+						{
+							if (!canDespawn)
+							{
+								npc.velocity *= 0.96f;
+
+								if ((double)npc.velocity.X > -0.1 && (double)npc.velocity.X < 0.1)
+									npc.velocity.X = 0f;
+								if ((double)npc.velocity.Y > -0.1 && (double)npc.velocity.Y < 0.1)
+									npc.velocity.Y = 0f;
+							}
+						}
+						else
+							npc.rotation = (float)Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X) - 1.57f;
+
+						if (npc.ai[2] >= 70f)
+						{
+							npc.ai[3] += 1f;
+							npc.ai[2] = 0f;
+							npc.target = 255;
+							npc.rotation = num803;
+
+							if (npc.ai[3] >= 1f)
+								npc.ai[1] = -1f;
+							else
+								npc.ai[1] = 1f;
+						}
+					}
+					else if (npc.ai[1] == 3f)
+					{
+						float num412 = 32f;
+						float num413 = 1.2f;
+						int num414 = 1;
+						if (npc.position.X + (float)(npc.width / 2) < player.position.X + (float)player.width)
+							num414 = -1;
+
+						Vector2 vector40 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
+						float num415 = player.position.X + (float)(player.width / 2) + (float)(num414 * 600) - vector40.X;
+						float num416 = player.position.Y + (float)(player.height / 2) - vector40.Y;
+						float num417 = (float)Math.Sqrt((double)(num415 * num415 + num416 * num416));
+
+						num417 = num412 / num417;
+						num415 *= num417;
+						num416 *= num417;
+
+						if (!canDespawn)
+						{
+							if (npc.velocity.X < num415)
+							{
+								npc.velocity.X += num413;
+								if (npc.velocity.X < 0f && num415 > 0f)
+									npc.velocity.X += num413;
+							}
+							else if (npc.velocity.X > num415)
+							{
+								npc.velocity.X -= num413;
+								if (npc.velocity.X > 0f && num415 < 0f)
+									npc.velocity.X -= num413;
+							}
+							if (npc.velocity.Y < num416)
+							{
+								npc.velocity.Y += num413;
+								if (npc.velocity.Y < 0f && num416 > 0f)
+									npc.velocity.Y += num413;
+							}
+							else if (npc.velocity.Y > num416)
+							{
+								npc.velocity.Y -= num413;
+								if (npc.velocity.Y > 0f && num416 < 0f)
+									npc.velocity.Y -= num413;
+							}
+						}
+
+						npc.ai[2] += 1f;
+						if (npc.ai[2] >= 300f)
+						{
+							npc.TargetClosest(true);
+							npc.ai[1] = -1f;
+							npc.target = 255;
+							npc.netUpdate = true;
+						}
+						else
+						{
+							if (!player.dead)
+								npc.ai[3] += wormAlive ? 0.5f : 1f;
+
+							if (npc.ai[3] >= 24f)
+							{
+								npc.ai[3] = 0f;
+								vector40 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
+								num415 = player.position.X + (float)(player.width / 2) - vector40.X;
+								num416 = player.position.Y + (float)(player.height / 2) - vector40.Y;
+
+								if (Main.netMode != NetmodeID.MultiplayerClient)
+								{
+									float num418 = 10f * uDieLul;
+									int num419 = expertMode ? 150 : 200; //600 500
+									int num420 = ModContent.ProjectileType<BrimstoneHellblast>();
+									num417 = (float)Math.Sqrt((double)(num415 * num415 + num416 * num416));
+									num417 = num418 / num417;
+									num415 *= num417;
+									num416 *= num417;
+									vector40.X += num415 * 4f;
+									vector40.Y += num416 * 4f;
+									Projectile.NewProjectile(vector40.X, vector40.Y, num415, num416, num420, num419, 0f, Main.myPlayer, 0f, 0f);
+								}
+							}
+						}
+					}
+					else if (npc.ai[1] == 4f)
+					{
+						int num831 = 1;
+						if (npc.position.X + (float)(npc.width / 2) < player.position.X + (float)player.width)
+							num831 = -1;
+
+						float num832 = 32f;
+						float num833 = 1.2f;
+
+						Vector2 vector83 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
+						float num834 = player.position.X + (float)(player.width / 2) + (float)(num831 * 750) - vector83.X; //600
+						float num835 = player.position.Y + (float)(player.height / 2) - vector83.Y;
+						float num836 = (float)Math.Sqrt((double)(num834 * num834 + num835 * num835));
+
+						num836 = num832 / num836;
+						num834 *= num836;
+						num835 *= num836;
+
+						if (!canDespawn)
+						{
+							if (npc.velocity.X < num834)
+							{
+								npc.velocity.X += num833;
+								if (npc.velocity.X < 0f && num834 > 0f)
+									npc.velocity.X += num833;
+							}
+							else if (npc.velocity.X > num834)
+							{
+								npc.velocity.X -= num833;
+								if (npc.velocity.X > 0f && num834 < 0f)
+									npc.velocity.X -= num833;
+							}
+							if (npc.velocity.Y < num835)
+							{
+								npc.velocity.Y += num833;
+								if (npc.velocity.Y < 0f && num835 > 0f)
+									npc.velocity.Y += num833;
+							}
+							else if (npc.velocity.Y > num835)
+							{
+								npc.velocity.Y -= num833;
+								if (npc.velocity.Y > 0f && num835 < 0f)
+									npc.velocity.Y -= num833;
+							}
+						}
+
+						vector83 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
+						num834 = player.position.X + (float)(player.width / 2) - vector83.X;
+						num835 = player.position.Y + (float)(player.height / 2) - vector83.Y;
+						npc.rotation = (float)Math.Atan2((double)num835, (double)num834) - 1.57f;
+
+						if (Main.netMode != NetmodeID.MultiplayerClient)
+						{
+							npc.localAI[1] += wormAlive ? 0.5f : 1f;
+							if (npc.localAI[1] > 100f)
+							{
+								npc.localAI[1] = 0f;
+								float num837 = 5f * uDieLul;
+								int num838 = expertMode ? 150 : 200; //600 500
+								int num839 = ModContent.ProjectileType<BrimstoneFireblast>();
+								num836 = (float)Math.Sqrt((double)(num834 * num834 + num835 * num835));
+								num836 = num837 / num836;
+								num834 *= num836;
+								num835 *= num836;
+								vector83.X += num834 * 15f;
+								vector83.Y += num835 * 15f;
+								int shot = Projectile.NewProjectile(vector83.X, vector83.Y, num834, num835, num839, num838, 0f, Main.myPlayer, 0f, 0f);
+							}
+						}
+
+						npc.ai[2] += 1f;
+						if (npc.ai[2] >= 240f)
+						{
+							npc.ai[1] = -1f;
+							npc.TargetClosest(true);
+							npc.netUpdate = true;
+						}
+					}
+				}
             }
             #endregion
         }

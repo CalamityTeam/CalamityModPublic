@@ -47,8 +47,6 @@ namespace CalamityMod.Projectiles.Summon
                     (player.allDamage + player.minionDamage - 1f));
                 projectile.damage = damage2;
             }
-            Vector2 direction = Main.player[projectile.owner].Center - projectile.Center;
-            direction.Normalize();
             double deg = (double)projectile.ai[1];
             double rad = deg * (Math.PI / 180);
             double dist = 550;

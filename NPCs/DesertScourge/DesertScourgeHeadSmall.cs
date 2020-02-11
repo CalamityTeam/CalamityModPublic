@@ -50,16 +50,16 @@ namespace CalamityMod.NPCs.DesertScourge
 
         public override void AI()
         {
-            Player player = Main.player[npc.target];
             if (npc.ai[3] > 0f)
             {
                 npc.realLife = (int)npc.ai[3];
             }
-            if (npc.target < 0 || npc.target == 255 || player.dead)
-            {
-                npc.TargetClosest(true);
-            }
-            npc.velocity.Length();
+			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
+			{
+				npc.TargetClosest(true);
+			}
+			Player player = Main.player[npc.target];
+			npc.velocity.Length();
             npc.alpha -= 42;
             if (npc.alpha < 0)
             {

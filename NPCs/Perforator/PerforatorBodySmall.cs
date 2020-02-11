@@ -56,7 +56,13 @@ namespace CalamityMod.NPCs.Perforator
 
         public override void AI()
         {
-            bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
+			// Target
+			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest(true);
+
+			Player player = Main.player[npc.target];
+
+			bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
             bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
@@ -66,12 +72,12 @@ namespace CalamityMod.NPCs.Perforator
                 {
                     npc.localAI[0] = 0f;
                     npc.TargetClosest(true);
-                    if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
+                    if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
                     {
                         float num941 = revenge ? 9f : 8f;
                         Vector2 vector104 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)(npc.height / 2));
-                        float num942 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector104.X;
-                        float num943 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector104.Y;
+                        float num942 = player.position.X + (float)player.width * 0.5f - vector104.X;
+                        float num943 = player.position.Y + (float)player.height * 0.5f - vector104.Y;
                         float num944 = (float)Math.Sqrt((double)(num942 * num942 + num943 * num943));
                         num944 = num941 / num944;
                         num942 *= num944;
@@ -89,7 +95,11 @@ namespace CalamityMod.NPCs.Perforator
                     }
                 }
             }
-            if (!Main.npc[(int)npc.ai[1]].active)
+			if (player.dead)
+			{
+				npc.TargetClosest(false);
+			}
+			if (!Main.npc[(int)npc.ai[1]].active)
             {
                 npc.life = 0;
                 npc.HitEffect(0, 10.0);

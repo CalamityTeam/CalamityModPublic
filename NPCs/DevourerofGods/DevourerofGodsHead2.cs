@@ -59,7 +59,13 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         public override void AI()
         {
-            float playerRunAcceleration = Main.player[npc.target].velocity.Y == 0f ? Math.Abs(Main.player[npc.target].moveSpeed * 0.3f) : (Main.player[npc.target].runAcceleration * 0.8f);
+			// Target
+			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest(true);
+
+			Player player = Main.player[npc.target];
+
+			float playerRunAcceleration = player.velocity.Y == 0f ? Math.Abs(player.moveSpeed * 0.3f) : (player.runAcceleration * 0.8f);
             if (playerRunAcceleration <= 1f)
             {
                 playerRunAcceleration = 1f;
@@ -80,10 +86,6 @@ namespace CalamityMod.NPCs.DevourerofGods
             if (npc.ai[3] > 0f)
             {
                 npc.realLife = (int)npc.ai[3];
-            }
-            if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
-            {
-                npc.TargetClosest(true);
             }
             npc.velocity.Length();
             if (npc.alpha != 0)
@@ -137,7 +139,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                     }
                 }
             }
-            if (Main.player[npc.target].dead)
+            if (player.dead)
             {
                 npc.TargetClosest(false);
                 flies = true;
@@ -179,7 +181,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             }
             float speed = playerRunAcceleration * 16f;
             float turnSpeed = playerRunAcceleration * 0.23f;
-            if (Vector2.Distance(Main.player[npc.target].Center, vector) > 3000f) //RAGE
+            if (Vector2.Distance(player.Center, vector) > 3000f) //RAGE
             {
                 speed = playerRunAcceleration * 60f;
                 turnSpeed = playerRunAcceleration * 0.8f;
@@ -210,7 +212,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 Rectangle rectangle12 = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
                 int num954 = 1000;
                 bool flag95 = true;
-                if (npc.position.Y > Main.player[npc.target].position.Y)
+                if (npc.position.Y > player.position.Y)
                 {
                     for (int num955 = 0; num955 < 255; num955++)
                     {
@@ -233,8 +235,8 @@ namespace CalamityMod.NPCs.DevourerofGods
             float num188 = speed;
             float num189 = turnSpeed;
             Vector2 vector18 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-            float num191 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2);
-            float num192 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2);
+            float num191 = player.position.X + (float)(player.width / 2);
+            float num192 = player.position.Y + (float)(player.height / 2);
             num191 = (float)((int)(num191 / 16f) * 16);
             num192 = (float)((int)(num192 / 16f) * 16);
             vector18.X = (float)((int)(vector18.X / 16f) * 16);

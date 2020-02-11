@@ -70,11 +70,14 @@ namespace CalamityMod.NPCs.Perforator
             {
                 npc.realLife = (int)npc.ai[3];
             }
-            if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
-            {
-                npc.TargetClosest(true);
-            }
-            npc.velocity.Length();
+
+			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
+			{
+				npc.TargetClosest(true);
+			}
+			Player player = Main.player[npc.target];
+
+			npc.velocity.Length();
             npc.alpha -= 42;
             if (npc.alpha < 0)
             {
@@ -150,7 +153,7 @@ namespace CalamityMod.NPCs.Perforator
                 Rectangle rectangle12 = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
                 int num954 = 200;
                 bool flag95 = true;
-                if (npc.position.Y > Main.player[npc.target].position.Y)
+                if (npc.position.Y > player.position.Y)
                 {
                     for (int num955 = 0; num955 < 255; num955++)
                     {
@@ -174,9 +177,10 @@ namespace CalamityMod.NPCs.Perforator
             {
                 npc.localAI[1] = 0f;
             }
-            if (Main.player[npc.target].dead || CalamityGlobalNPC.perfHive < 0 || !Main.npc[CalamityGlobalNPC.perfHive].active)
+            if (player.dead || CalamityGlobalNPC.perfHive < 0 || !Main.npc[CalamityGlobalNPC.perfHive].active)
             {
-                flag94 = false;
+				npc.TargetClosest(false);
+				flag94 = false;
                 npc.velocity.Y = npc.velocity.Y + 0.05f;
                 if ((double)npc.position.Y > Main.worldSurface * 16.0)
                 {
@@ -196,8 +200,8 @@ namespace CalamityMod.NPCs.Perforator
             float num188 = speed;
             float num189 = turnSpeed;
             Vector2 vector18 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-            float num191 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2);
-            float num192 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2);
+            float num191 = player.position.X + (float)(player.width / 2);
+            float num192 = player.position.Y + (float)(player.height / 2);
             num191 = (float)((int)(num191 / 16f) * 16);
             num192 = (float)((int)(num192 / 16f) * 16);
             vector18.X = (float)((int)(vector18.X / 16f) * 16);

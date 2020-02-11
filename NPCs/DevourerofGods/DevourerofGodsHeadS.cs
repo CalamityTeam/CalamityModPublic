@@ -148,13 +148,15 @@ namespace CalamityMod.NPCs.DevourerofGods
 				npc.realLife = (int)npc.ai[3];
 
 			// Target
-			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
+			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
 				npc.TargetClosest(true);
+
+			Player player = Main.player[npc.target];
 
 			// Velocity
 			npc.velocity.Length();
 
-			float distanceFromTarget = Vector2.Distance(Main.player[npc.target].Center, vector);
+			float distanceFromTarget = Vector2.Distance(player.Center, vector);
 			bool tooFarAway = distanceFromTarget > 5600f;
 
 			// Immunity after teleport
@@ -195,7 +197,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 else if (laserWallPhase == 2) // Turn visible
                 {
 					if (distanceFromTarget > 500f && revenge)
-						Teleport();
+						Teleport(player);
 					else
 					{
 						npc.alpha -= 1;
@@ -278,8 +280,8 @@ namespace CalamityMod.NPCs.DevourerofGods
                     if (calamityGlobalNPC.newAI[0] >= 150f && calamityGlobalNPC.newAI[0] % (breathFireMore ? 60f : 120f) == 0f)
                     {
                         Vector2 vector44 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-                        float num427 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector44.X;
-                        float num428 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - vector44.Y;
+                        float num427 = player.position.X + (float)(player.width / 2) - vector44.X;
+                        float num428 = player.position.Y + (float)(player.height / 2) - vector44.Y;
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
                             float num430 = 16f;
@@ -311,15 +313,15 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 					if (laserShoot % divisor == 0)
 					{
-						Main.PlaySound(2, (int)Main.player[npc.target].position.X, (int)Main.player[npc.target].position.Y, 12);
+						Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 12);
 
-						float targetPosY = Main.player[npc.target].position.Y + (Main.rand.NextBool(2) ? 50f : 0f);
+						float targetPosY = player.position.Y + (Main.rand.NextBool(2) ? 50f : 0f);
 
 						// Side walls
 						for (int x = 0; x < totalShots; x++)
 						{
-							Projectile.NewProjectile(Main.player[npc.target].position.X + 1000f, targetPosY + (float)shotSpacing[0], -speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
-							Projectile.NewProjectile(Main.player[npc.target].position.X - 1000f, targetPosY + (float)shotSpacing[0], speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+							Projectile.NewProjectile(player.position.X + 1000f, targetPosY + (float)shotSpacing[0], -speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+							Projectile.NewProjectile(player.position.X - 1000f, targetPosY + (float)shotSpacing[0], speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
 							shotSpacing[0] -= spacingVar;
 						}
 
@@ -327,8 +329,8 @@ namespace CalamityMod.NPCs.DevourerofGods
 						{
 							for (int x = 0; x < 10; x++)
 							{
-								Projectile.NewProjectile(Main.player[npc.target].position.X + 1000f, targetPosY + (float)shotSpacing[3], -speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
-								Projectile.NewProjectile(Main.player[npc.target].position.X - 1000f, targetPosY + (float)shotSpacing[3], speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+								Projectile.NewProjectile(player.position.X + 1000f, targetPosY + (float)shotSpacing[3], -speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+								Projectile.NewProjectile(player.position.X - 1000f, targetPosY + (float)shotSpacing[3], speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
 								shotSpacing[3] -= Main.rand.NextBool(2) ? 180 : 200;
 							}
 							shotSpacing[3] = 1050;
@@ -338,7 +340,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 						// Lower wall
 						for (int x = 0; x < totalShots; x++)
 						{
-							Projectile.NewProjectile(Main.player[npc.target].position.X + (float)shotSpacing[1], Main.player[npc.target].position.Y + 1000f, 0f, -speed, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+							Projectile.NewProjectile(player.position.X + (float)shotSpacing[1], player.position.Y + 1000f, 0f, -speed, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
 							shotSpacing[1] -= spacingVar;
 						}
 						shotSpacing[1] = 1050;
@@ -346,7 +348,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 						// Upper wall
 						for (int x = 0; x < totalShots; x++)
 						{
-							Projectile.NewProjectile(Main.player[npc.target].position.X + (float)shotSpacing[2], Main.player[npc.target].position.Y - 1000f, 0f, speed, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+							Projectile.NewProjectile(player.position.X + (float)shotSpacing[2], player.position.Y - 1000f, 0f, speed, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
 							shotSpacing[2] -= spacingVar;
 						}
 						shotSpacing[2] = 1050;
@@ -359,9 +361,10 @@ namespace CalamityMod.NPCs.DevourerofGods
                 npc.active = false;
 
             float fallSpeed = 16f;
-            if (Main.player[npc.target].dead)
+            if (player.dead)
             {
-                flies = true;
+				npc.TargetClosest(false);
+				flies = true;
                 npc.velocity.Y = npc.velocity.Y - 3f;
                 if ((double)npc.position.Y < Main.topWorld + 16f)
                 {
@@ -399,9 +402,6 @@ namespace CalamityMod.NPCs.DevourerofGods
             else if (npc.velocity.X > 0f)
                 npc.spriteDirection = 1;
 
-            if (Main.player[npc.target].dead)
-                npc.TargetClosest(false);
-
             // Flight
             if (npc.ai[2] == 0f)
             {
@@ -425,8 +425,8 @@ namespace CalamityMod.NPCs.DevourerofGods
 				// Go to ground phase sooner
 				if (tooFarAway)
 				{
-					if (revenge && laserWallPhase == 0 && !Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
-						Teleport();
+					if (revenge && laserWallPhase == 0 && !player.dead && player.active)
+						Teleport(player);
 					else
 						phaseSwitch += 10;
 				}
@@ -434,11 +434,11 @@ namespace CalamityMod.NPCs.DevourerofGods
 				float num188 = speed;
                 float num189 = turnSpeed;
                 Vector2 vector18 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-                float num191 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2);
-                float num192 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2);
+                float num191 = player.position.X + (float)(player.width / 2);
+                float num192 = player.position.Y + (float)(player.height / 2);
                 int num42 = -1;
-                int num43 = (int)(Main.player[npc.target].Center.X / 16f);
-                int num44 = (int)(Main.player[npc.target].Center.Y / 16f);
+                int num43 = (int)(player.Center.X / 16f);
+                int num44 = (int)(player.Center.Y / 16f);
 
                 // Charge at target for 1.5 seconds
                 bool flyAtTarget = (!speedBoost || speedBoost2) && phaseSwitch > phaseLimit - 90 && revenge;
@@ -463,15 +463,15 @@ namespace CalamityMod.NPCs.DevourerofGods
                     {
                         num42 *= 16;
                         float num47 = (float)(num42 - 800);
-                        if (Main.player[npc.target].position.Y > num47)
+                        if (player.position.Y > num47)
                         {
                             num192 = num47;
-                            if (Math.Abs(npc.Center.X - Main.player[npc.target].Center.X) < 500f)
+                            if (Math.Abs(npc.Center.X - player.Center.X) < 500f)
                             {
                                 if (npc.velocity.X > 0f)
-                                    num191 = Main.player[npc.target].Center.X + 600f;
+                                    num191 = player.Center.X + 600f;
                                 else
-                                    num191 = Main.player[npc.target].Center.X - 600f;
+                                    num191 = player.Center.X - 600f;
                             }
                         }
                     }
@@ -645,8 +645,8 @@ namespace CalamityMod.NPCs.DevourerofGods
 				// Enrage
 				if (tooFarAway)
 				{
-					if (revenge && laserWallPhase == 0 && !Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
-						Teleport();
+					if (revenge && laserWallPhase == 0 && !player.dead && player.active)
+						Teleport(player);
 					else
 						turnSpeed *= 6f;
 				}
@@ -686,7 +686,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                     num954 -= death ? 150 : (int)(150f * (1f - lifeRatio));
 
                     bool flag95 = true;
-                    if (npc.position.Y > Main.player[npc.target].position.Y)
+                    if (npc.position.Y > player.position.Y)
                     {
                         for (int num955 = 0; num955 < 255; num955++)
                         {
@@ -709,8 +709,8 @@ namespace CalamityMod.NPCs.DevourerofGods
 
                 float num189 = turnSpeed;
                 Vector2 vector18 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-                float num191 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2);
-                float num192 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2);
+                float num191 = player.position.X + (float)(player.width / 2);
+                float num192 = player.position.Y + (float)(player.height / 2);
                 num191 = (float)((int)(num191 / 16f) * 16);
                 num192 = (float)((int)(num192 / 16f) * 16);
                 vector18.X = (float)((int)(vector18.X / 16f) * 16);
@@ -863,19 +863,19 @@ namespace CalamityMod.NPCs.DevourerofGods
             }
         }
 
-		private void Teleport()
+		private void Teleport(Player player)
 		{
 			postTeleportTimer = 255;
 			npc.alpha = postTeleportTimer;
 
-			int playerWidth = Main.player[npc.target].width / 2;
-			int playerHeight = Main.player[npc.target].height / 2;
+			int playerWidth = player.width / 2;
+			int playerHeight = player.height / 2;
 
-			float playerVelocityX = Main.player[npc.target].velocity.X;
-			float playerVelocityY = Main.player[npc.target].velocity.Y;
+			float playerVelocityX = player.velocity.X;
+			float playerVelocityY = player.velocity.Y;
 
-			int x = (int)Main.player[npc.target].position.X + playerWidth - 25;
-			int y = (int)Main.player[npc.target].position.Y + playerHeight - 25;
+			int x = (int)player.position.X + playerWidth - 25;
+			int y = (int)player.position.Y + playerHeight - 25;
 
 			float velocityThreshold = 0.05f;
 			int vectorAdjustment = 500;

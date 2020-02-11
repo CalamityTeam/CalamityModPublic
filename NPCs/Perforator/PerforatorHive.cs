@@ -89,29 +89,27 @@ namespace CalamityMod.NPCs.Perforator
 			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
 
-			if (Vector2.Distance(player.Center, npc.Center) > 5600f)
-			{
-				if (npc.timeLeft > 10)
-					npc.timeLeft = 10;
-			}
-			if (!player.active || player.dead)
+			if (!player.active || player.dead || Vector2.Distance(player.Center, npc.Center) > 5600f)
 			{
 				npc.TargetClosest(false);
 				player = Main.player[npc.target];
-				if (!player.active || player.dead)
+				if (!player.active || player.dead || Vector2.Distance(player.Center, npc.Center) > 5600f)
 				{
-					npc.velocity = new Vector2(0f, 10f);
-					if (npc.timeLeft > 150)
-					{
-						npc.timeLeft = 150;
-					}
+					npc.rotation = npc.velocity.X * 0.04f;
+
+					if (npc.velocity.Y < -3f)
+						npc.velocity.Y = -3f;
+					npc.velocity.Y += 0.1f;
+					if (npc.velocity.Y > 12f)
+						npc.velocity.Y = 12f;
+
+					if (npc.timeLeft > 60)
+						npc.timeLeft = 60;
 					return;
 				}
 			}
 			else if (npc.timeLeft < 1800)
-			{
 				npc.timeLeft = 1800;
-			}
 
 			int wormsAlive = 0;
 			bool largeWormAlive = false;

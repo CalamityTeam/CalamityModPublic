@@ -329,33 +329,38 @@ namespace CalamityMod.NPCs.Yharon
 
             // Center and target
             Vector2 vectorCenter = npc.Center;
-            Player player = Main.player[npc.target];
-            if (npc.target < 0 || npc.target == 255 || player.dead || !player.active)
+            if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
             {
                 npc.TargetClosest(true);
-                player = Main.player[npc.target];
                 npc.netUpdate = true;
             }
 
-            // Despawn
-            if (player.dead)
+			Player player = Main.player[npc.target];
+
+			// Despawn
+			if (player.dead || !player.active)
             {
-                npc.velocity.Y = npc.velocity.Y - 0.4f;
+				npc.TargetClosest(true);
+				player = Main.player[npc.target];
+				if (player.dead || !player.active)
+				{
+					npc.velocity.Y -= 0.4f;
 
-                if (npc.timeLeft > 150)
-                    npc.timeLeft = 150;
+					if (npc.timeLeft > 60)
+						npc.timeLeft = 60;
 
-                if (npc.ai[0] > 12f)
-                    npc.ai[0] = 13f;
-                else if (npc.ai[0] > 5f)
-                    npc.ai[0] = 6f;
-                else
-                    npc.ai[0] = 0f;
+					if (npc.ai[0] > 12f)
+						npc.ai[0] = 13f;
+					else if (npc.ai[0] > 5f)
+						npc.ai[0] = 6f;
+					else
+						npc.ai[0] = 0f;
 
-                npc.ai[2] = 0f;
+					npc.ai[2] = 0f;
+				}
             }
-            else if (npc.timeLeft < 3600)
-                npc.timeLeft = 3600;
+            else if (npc.timeLeft < 1800)
+                npc.timeLeft = 1800;
 
             // Create the arena, but not as a multiplayer client.
             // In single player, the arena gets created and never gets synced because it's single player.
@@ -381,7 +386,7 @@ namespace CalamityMod.NPCs.Yharon
             // Enrage code doesn't run on frame 1 so that Yharon won't be enraged for 1 frame in multiplayer
             else
             {
-                enraged = !Main.player[npc.target].Hitbox.Intersects(safeBox);
+                enraged = !player.Hitbox.Intersects(safeBox);
                 if (enraged)
                 {
                     aiChangeRate = 15;
@@ -1906,35 +1911,52 @@ namespace CalamityMod.NPCs.Yharon
                 npc.chaseable = npc.ai[0] < 8f;
             }
 
-            // Acquire target and determine enrage state
-            NPCUtils.TargetClosestBetsy(npc, false, null);
-            NPCAimedTarget targetData = npc.GetTargetData(true);
-            enraged = !targetData.Hitbox.Intersects(safeBox);
-            if (enraged)
-            {
-                protectionBoost = true;
-                npc.damage = npc.defDamage * 5;
-                if (npc.timeLeft > 150)
-                {
-                    npc.timeLeft = 150;
-                }
-            }
-            else
-            {
-                npc.damage = npc.defDamage;
-                if (phase4)
-                {
-                    npc.damage = (int)((float)npc.defDamage * 1.1f);
-                }
-                protectionBoost = false;
-                if (npc.timeLeft < 3600)
-                {
-                    npc.timeLeft = 3600;
-                }
-            }
+			// Acquire target and determine enrage state
+			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
+			{
+				npc.TargetClosest(true);
+				npc.netUpdate = true;
+			}
+			Player targetData = Main.player[npc.target];
 
-            // Set DR based on protection boost (aka enrage)
-            npc.Calamity().DR = protectionBoost ? EnragedDR : Phase2_DR;
+			// Despawn
+			bool targetDead = false;
+			if (targetData.dead || !targetData.active)
+			{
+				npc.TargetClosest(true);
+				targetData = Main.player[npc.target];
+				if (targetData.dead || !targetData.active)
+				{
+					targetDead = true;
+
+					npc.velocity.Y -= 0.4f;
+
+					if (npc.timeLeft > 60)
+						npc.timeLeft = 60;
+
+					npc.ai[0] = 1f;
+					npc.ai[1] = 0f;
+				}
+			}
+			else if (npc.timeLeft < 1800)
+				npc.timeLeft = 1800;
+
+			enraged = !targetData.Hitbox.Intersects(safeBox);
+			if (enraged)
+			{
+				protectionBoost = true;
+				npc.damage = npc.defDamage * 5;
+			}
+			else
+			{
+				protectionBoost = false;
+				npc.damage = npc.defDamage;
+				if (phase4)
+					npc.damage = (int)((float)npc.defDamage * 1.1f);
+			}
+
+			// Set DR based on protection boost (aka enrage)
+			npc.Calamity().DR = protectionBoost ? EnragedDR : Phase2_DR;
 
             int num = -1;
             float num2 = 1f;
@@ -2010,7 +2032,10 @@ namespace CalamityMod.NPCs.Yharon
                 }
                 Vector2 destination = targetData.Center + new Vector2(-npc.ai[2] * 300f, -200f);
                 Vector2 desiredVelocity = npc.DirectionTo(destination) * scaleFactor;
-                npc.SimpleFlyMovement(desiredVelocity, num6);
+
+				if (!targetDead)
+					npc.SimpleFlyMovement(desiredVelocity, num6);
+
                 int num27 = (npc.Center.X < targetData.Center.X) ? 1 : -1;
                 npc.direction = npc.spriteDirection = num27;
                 float[] expr_225_cp_0 = npc.ai;

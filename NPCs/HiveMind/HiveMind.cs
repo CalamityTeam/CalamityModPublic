@@ -68,27 +68,35 @@ namespace CalamityMod.NPCs.HiveMind
         {
             npc.TargetClosest(true);
             Player player = Main.player[npc.target];
-            if (!player.active || player.dead)
-            {
-                if (npc.timeLeft > 60)
-                    npc.timeLeft = 60;
-                if (npc.localAI[3] < 120f)
-                {
-                    float[] aiArray = npc.localAI;
-                    int number = 3;
-                    float num244 = aiArray[number];
-                    aiArray[number] = num244 + 1f;
-                }
-                if (npc.localAI[3] > 60f)
-                {
-                    npc.velocity.Y = npc.velocity.Y + (npc.localAI[3] - 60f) * 0.5f;
-                    npc.noGravity = true;
-                    npc.noTileCollide = true;
-                    if (burrowTimer > 30)
-                        burrowTimer = 30;
-                }
-                return;
-            }
+			if (!player.active || player.dead)
+			{
+				npc.TargetClosest(false);
+				player = Main.player[npc.target];
+				if (!player.active || player.dead)
+				{
+					if (npc.timeLeft > 60)
+						npc.timeLeft = 60;
+					if (npc.localAI[3] < 120f)
+					{
+						float[] aiArray = npc.localAI;
+						int number = 3;
+						float num244 = aiArray[number];
+						aiArray[number] = num244 + 1f;
+					}
+					if (npc.localAI[3] > 60f)
+					{
+						npc.velocity.Y = npc.velocity.Y + (npc.localAI[3] - 60f) * 0.5f;
+						npc.noGravity = true;
+						npc.noTileCollide = true;
+						if (burrowTimer > 30)
+							burrowTimer = 30;
+					}
+					return;
+				}
+			}
+			else if (npc.timeLeft < 1800)
+				npc.timeLeft = 1800;
+
             if (npc.localAI[3] > 0f)
             {
                 float[] aiArray = npc.localAI;
@@ -97,6 +105,7 @@ namespace CalamityMod.NPCs.HiveMind
                 aiArray[number] = num244 - 1f;
                 return;
             }
+
             npc.noGravity = false;
             npc.noTileCollide = false;
             bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;

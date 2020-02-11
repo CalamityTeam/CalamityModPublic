@@ -114,7 +114,7 @@ namespace CalamityMod.NPCs.Polterghast
 
             // Variables
             Vector2 vector = npc.Center;
-            bool speedBoost1 = false;
+            bool speedBoost = false;
             bool despawnBoost = false;
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
 			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
@@ -126,13 +126,25 @@ namespace CalamityMod.NPCs.Polterghast
 
             // Target
             npc.TargetClosest(true);
+			Player player = Main.player[npc.target];
+
+			if (!player.active || player.dead)
+			{
+				npc.TargetClosest(false);
+				player = Main.player[npc.target];
+				if (!player.active || player.dead)
+				{
+					speedBoost = true;
+					despawnBoost = true;
+				}
+			}
 
             // Stop rain
             CalamityMod.StopRain();
 
             // Set time left
-            if (npc.timeLeft < 1500)
-                npc.timeLeft = 1500;
+            if (npc.timeLeft < 1800)
+                npc.timeLeft = 1800;
 
             // Spawn hooks
             if (npc.localAI[0] == 0f && Main.netMode != NetmodeID.MultiplayerClient)
@@ -170,13 +182,13 @@ namespace CalamityMod.NPCs.Polterghast
 			bool reset = npc.ai[2] >= 600f;
 			float num734 = 2.5f;
             float num735 = 0.025f;
-            if (!Main.player[npc.target].ZoneDungeon && !CalamityWorld.bossRushActive && (double)Main.player[npc.target].position.Y < Main.worldSurface * 16.0)
+            if (!player.ZoneDungeon && !CalamityWorld.bossRushActive && (double)player.position.Y < Main.worldSurface * 16.0)
             {
                 despawnTimer--;
                 if (despawnTimer <= 0)
                     despawnBoost = true;
 
-                speedBoost1 = true;
+                speedBoost = true;
                 num734 += 2f;
                 num735 += 0.025f;
             }
@@ -184,10 +196,14 @@ namespace CalamityMod.NPCs.Polterghast
                 despawnTimer++;
 
             // Despawn
-            if (Vector2.Distance(Main.player[npc.target].Center, vector) > (despawnBoost ? 1500f : 6000f))
-                npc.active = false;
+            if (Vector2.Distance(player.Center, vector) > (despawnBoost ? 1500f : 6000f))
+			{
+				npc.active = false;
+				npc.netUpdate = true;
+				return;
+			}
 
-            if (phase2)
+			if (phase2)
             {
                 num734 += 1.5f;
                 num735 += 0.01f;
@@ -299,8 +315,8 @@ namespace CalamityMod.NPCs.Polterghast
             }
 
             Vector2 vector91 = new Vector2(num730, num731);
-            float num736 = Main.player[npc.target].Center.X - vector91.X;
-            float num737 = Main.player[npc.target].Center.Y - vector91.Y;
+            float num736 = player.Center.X - vector91.X;
+            float num737 = player.Center.Y - vector91.Y;
 
             if (despawnBoost)
             {
@@ -311,7 +327,7 @@ namespace CalamityMod.NPCs.Polterghast
 
             float num738 = (float)Math.Sqrt((double)(num736 * num736 + num737 * num737));
             int num739 = 500;
-            if (speedBoost1)
+            if (speedBoost)
                 num739 += 250;
             if (expertMode)
                 num739 += 150;
@@ -343,8 +359,8 @@ namespace CalamityMod.NPCs.Polterghast
             }
 
             Vector2 vector92 = new Vector2(vector.X, vector.Y);
-            float num740 = Main.player[npc.target].Center.X - vector92.X;
-            float num741 = Main.player[npc.target].Center.Y - vector92.Y;
+            float num740 = player.Center.X - vector92.X;
+            float num741 = player.Center.Y - vector92.Y;
             npc.rotation = (float)Math.Atan2((double)num741, (double)num740) + 1.57f;
 
             if (npc.velocity.X < num736)
@@ -377,7 +393,7 @@ namespace CalamityMod.NPCs.Polterghast
                 npc.damage = npc.defDamage;
                 npc.defense = npc.defDefense;
 
-                if (speedBoost1)
+                if (speedBoost)
                 {
                     npc.defense *= 2;
                     npc.damage *= 2;
@@ -386,14 +402,14 @@ namespace CalamityMod.NPCs.Polterghast
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     npc.localAI[1] += expertMode ? 1.5f : 1f;
-                    if (speedBoost1 || CalamityWorld.bossRushActive)
+                    if (speedBoost || CalamityWorld.bossRushActive)
                         npc.localAI[1] += 3f;
 
                     if (npc.localAI[1] >= 40f)
                     {
                         npc.localAI[1] = 0f;
 
-                        bool flag47 = Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height);
+                        bool flag47 = Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height);
                         if (npc.localAI[3] > 0f)
                         {
                             flag47 = true;
@@ -403,12 +419,12 @@ namespace CalamityMod.NPCs.Polterghast
                         if (flag47)
                         {
 							float num742 = CalamityWorld.bossRushActive ? 7f : 5f;
-							if (speedBoost1 || npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
+							if (speedBoost || npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
                                 num742 *= 2f;
 
                             Vector2 vector93 = new Vector2(vector.X, vector.Y);
-                            float num743 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector93.X;
-                            float num744 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector93.Y;
+                            float num743 = player.position.X + (float)player.width * 0.5f - vector93.X;
+                            float num744 = player.position.Y + (float)player.height * 0.5f - vector93.Y;
                             float num745 = (float)Math.Sqrt((double)(num743 * num743 + num744 * num744));
 
                             num745 = num742 / num745;
@@ -425,7 +441,7 @@ namespace CalamityMod.NPCs.Polterghast
                                 num747 = ModContent.ProjectileType<PhantomBlast>();
                             }
 
-                            if (speedBoost1 || npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                            if (speedBoost || npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
                                 num746 *= 2;
 
                             vector93.X += num743 * 3f;
@@ -437,12 +453,12 @@ namespace CalamityMod.NPCs.Polterghast
                         else
                         {
                             float num742 = CalamityWorld.bossRushActive ? 14f : 11f;
-                            if (speedBoost1 || npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                            if (speedBoost || npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
                                 num742 *= 2f;
 
                             Vector2 vector93 = new Vector2(vector.X, vector.Y);
-                            float num743 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector93.X;
-                            float num744 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector93.Y;
+                            float num743 = player.position.X + (float)player.width * 0.5f - vector93.X;
+                            float num744 = player.position.Y + (float)player.height * 0.5f - vector93.Y;
                             float num745 = (float)Math.Sqrt((double)(num743 * num743 + num744 * num744));
 
                             num745 = num742 / num745;
@@ -451,7 +467,7 @@ namespace CalamityMod.NPCs.Polterghast
 
                             int num746 = expertMode ? 60 : 70;
                             int num747 = ModContent.ProjectileType<PhantomBlast>();
-                            if (speedBoost1 || npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                            if (speedBoost || npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
                                 num746 *= 2;
 
                             vector93.X += num743 * 3f;
@@ -503,7 +519,7 @@ namespace CalamityMod.NPCs.Polterghast
                 npc.damage = (int)((float)npc.defDamage * 1.2f);
                 npc.defense = (int)((float)npc.defDefense * 0.8f);
 
-                if (speedBoost1 || npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                if (speedBoost || npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
                 {
                     npc.defense *= 2;
                     npc.damage *= 2;
@@ -512,14 +528,14 @@ namespace CalamityMod.NPCs.Polterghast
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     npc.localAI[1] += expertMode ? 1.5f : 1f;
-                    if (speedBoost1 || CalamityWorld.bossRushActive)
+                    if (speedBoost || CalamityWorld.bossRushActive)
                         npc.localAI[1] += 3f;
 
                     if (npc.localAI[1] >= 36f)
                     {
                         npc.localAI[1] = 0f;
 
-                        bool flag47 = Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height);
+                        bool flag47 = Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height);
                         if (npc.localAI[3] > 0f)
                         {
                             flag47 = true;
@@ -529,12 +545,12 @@ namespace CalamityMod.NPCs.Polterghast
                         if (flag47)
                         {
                             float num742 = CalamityWorld.bossRushActive ? 8f : 6f;
-                            if (speedBoost1 || npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                            if (speedBoost || npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
                                 num742 *= 2f;
 
                             Vector2 vector93 = new Vector2(vector.X, vector.Y);
-                            float num743 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector93.X;
-                            float num744 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector93.Y;
+                            float num743 = player.position.X + (float)player.width * 0.5f - vector93.X;
+                            float num744 = player.position.Y + (float)player.height * 0.5f - vector93.Y;
                             float num745 = (float)Math.Sqrt((double)(num743 * num743 + num744 * num744));
 
                             num745 = num742 / num745;
@@ -551,7 +567,7 @@ namespace CalamityMod.NPCs.Polterghast
                                 num747 = ModContent.ProjectileType<PhantomBlast2>();
                             }
 
-                            if (speedBoost1 || npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                            if (speedBoost || npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
                                 num746 *= 2;
 
                             vector93.X += num743 * 3f;
@@ -563,12 +579,12 @@ namespace CalamityMod.NPCs.Polterghast
                         else
                         {
                             float num742 = CalamityWorld.bossRushActive ? 14f : 11f;
-                            if (speedBoost1 || npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                            if (speedBoost || npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
                                 num742 *= 2f;
 
                             Vector2 vector93 = new Vector2(vector.X, vector.Y);
-                            float num743 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector93.X;
-                            float num744 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector93.Y;
+                            float num743 = player.position.X + (float)player.width * 0.5f - vector93.X;
+                            float num744 = player.position.Y + (float)player.height * 0.5f - vector93.Y;
                             float num745 = (float)Math.Sqrt((double)(num743 * num743 + num744 * num744));
 
                             num745 = num742 / num745;
@@ -578,7 +594,7 @@ namespace CalamityMod.NPCs.Polterghast
                             int num746 = expertMode ? 65 : 75;
                             int num747 = ModContent.ProjectileType<PhantomBlast2>();
 
-                            if (speedBoost1 || npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                            if (speedBoost || npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
                                 num746 *= 2;
 
                             vector93.X += num743 * 3f;
@@ -604,8 +620,8 @@ namespace CalamityMod.NPCs.Polterghast
 
                         for (int I = 0; I < 3; I++)
                         {
-                            int Phantom = NPC.NewNPC((int)(Main.player[npc.target].Center.X + (Math.Sin(I * 120) * 500)),
-                                (int)(Main.player[npc.target].Center.Y + (Math.Cos(I * 120) * 500)), ModContent.NPCType<PhantomFuckYou>(), 0, 0, 0, 0, -1);
+                            int Phantom = NPC.NewNPC((int)(player.Center.X + (Math.Sin(I * 120) * 500)),
+                                (int)(player.Center.Y + (Math.Cos(I * 120) * 500)), ModContent.NPCType<PhantomFuckYou>(), 0, 0, 0, 0, -1);
                             NPC Eye = Main.npc[Phantom];
                             Eye.ai[0] = I * 120;
                             Eye.ai[3] = I * 120;
@@ -646,20 +662,20 @@ namespace CalamityMod.NPCs.Polterghast
                 npc.damage = (int)((float)npc.defDamage * 1.4f);
                 npc.defense = (int)((float)npc.defDefense * 0.5f);
 
-                if (speedBoost1 || npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                if (speedBoost || npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
                 {
                     npc.defense *= 2;
                     npc.damage *= 2;
                 }
 
 				npc.ai[1] += 1f;
-				if (npc.ai[1] >= 420f && Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
+				if (npc.ai[1] >= 420f && Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
 				{
 					npc.ai[1] = 0f;
 					Vector2 vector93 = new Vector2(vector.X, vector.Y);
 					float num742 = CalamityWorld.bossRushActive ? 7f : 5f;
-					float num743 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector93.X;
-					float num744 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector93.Y;
+					float num743 = player.position.X + (float)player.width * 0.5f - vector93.X;
+					float num744 = player.position.Y + (float)player.height * 0.5f - vector93.Y;
 					float num745 = (float)Math.Sqrt((double)(num743 * num743 + num744 * num744));
 
 					num745 = num742 / num745;
@@ -695,9 +711,9 @@ namespace CalamityMod.NPCs.Polterghast
 
                         float num757 = 8f;
                         Vector2 vector94 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-                        float num758 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector94.X;
+                        float num758 = player.position.X + (float)player.width * 0.5f - vector94.X;
                         float num759 = Math.Abs(num758 * 0.2f);
-                        float num760 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector94.Y;
+                        float num760 = player.position.Y + (float)player.height * 0.5f - vector94.Y;
                         if (num760 > 0f)
                             num759 = 0f;
 

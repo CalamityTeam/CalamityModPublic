@@ -150,20 +150,6 @@ namespace CalamityMod.NPCs.Ravager
                     }
                 }
             }
-            if (npc.target <= 0 || npc.target == 255 || Main.player[npc.target].dead)
-            {
-                npc.TargetClosest(true);
-            }
-            int distanceFromTarget = 8000;
-            if (Math.Abs(npc.Center.X - Main.player[npc.target].Center.X) + Math.Abs(npc.Center.Y - Main.player[npc.target].Center.Y) > (float)distanceFromTarget)
-            {
-                npc.TargetClosest(true);
-                if (Math.Abs(npc.Center.X - Main.player[npc.target].Center.X) + Math.Abs(npc.Center.Y - Main.player[npc.target].Center.Y) > (float)distanceFromTarget)
-                {
-                    npc.active = false;
-                    npc.netUpdate = true;
-                }
-            }
         }
 
         public override void HitEffect(int hitDirection, double damage)

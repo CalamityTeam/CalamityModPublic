@@ -85,10 +85,9 @@ namespace CalamityMod.NPCs.DesertScourge
 
         public override void AI()
         {
-            Player player = Main.player[npc.target];
-            npc.dontTakeDamage = !player.ZoneDesert && !CalamityWorld.bossRushActive;
             bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
+
 			float speedMult = expertMode ? 1.5f : 1.45f;
             if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
                 speedMult = 2f;
@@ -98,15 +97,21 @@ namespace CalamityMod.NPCs.DesertScourge
 			float speedBoost = death ? speedMult : speedMult - ((float)npc.life / (float)npc.lifeMax);
 			speed = 13f * speedBoost;
             turnSpeed = 0.13f * speedBoost;
+
             if (npc.ai[3] > 0f)
             {
                 npc.realLife = (int)npc.ai[3];
             }
-            if (npc.target < 0 || npc.target == 255 || player.dead)
+
+            if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
             {
                 npc.TargetClosest(true);
             }
-            npc.velocity.Length();
+			Player player = Main.player[npc.target];
+
+			npc.dontTakeDamage = !player.ZoneDesert && !CalamityWorld.bossRushActive;
+
+			npc.velocity.Length();
             npc.alpha -= 42;
             if (npc.alpha < 0)
             {
@@ -214,7 +219,8 @@ namespace CalamityMod.NPCs.DesertScourge
             }
             if (player.dead)
             {
-                flag94 = false;
+				npc.TargetClosest(false);
+				flag94 = false;
                 npc.velocity.Y = npc.velocity.Y + 1f;
                 if ((double)npc.position.Y > Main.worldSurface * 16.0)
                 {

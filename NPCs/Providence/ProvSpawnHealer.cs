@@ -71,7 +71,7 @@ namespace CalamityMod.NPCs.Providence
             Vector2 vectorCenter = npc.Center;
             Player player = Main.player[npc.target];
             npc.TargetClosest(false);
-            if (!Main.npc[CalamityGlobalNPC.holyBoss].active)
+            if (CalamityGlobalNPC.holyBoss < 0 || !Main.npc[CalamityGlobalNPC.holyBoss].active)
             {
                 npc.active = false;
                 npc.netUpdate = true;

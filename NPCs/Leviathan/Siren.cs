@@ -105,8 +105,12 @@ namespace CalamityMod.NPCs.Leviathan
             // Light
             Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0f, 0.5f, 0.3f);
 
-            // Variables
-            Player player = Main.player[npc.target];
+			// Target
+			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest(true);
+
+			// Variables
+			Player player = Main.player[npc.target];
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
 			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
             bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
@@ -202,19 +206,56 @@ namespace CalamityMod.NPCs.Leviathan
                 Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 35);
 
             // Time left
-            if (npc.timeLeft < 3000)
-                npc.timeLeft = 3000;
+            if (npc.timeLeft < 1800)
+                npc.timeLeft = 1800;
 
-            // Rotation when charging
-            if (npc.ai[0] > 2f)
+			// Despawn
+			if (!player.active || player.dead || Vector2.Distance(player.Center, vector) > 5600f)
+			{
+				npc.TargetClosest(false);
+				player = Main.player[npc.target];
+				if (!player.active || player.dead || Vector2.Distance(player.Center, vector) > 5600f)
+				{
+					npc.rotation = npc.velocity.X * 0.02f;
+
+					if (npc.velocity.Y < -3f)
+						npc.velocity.Y = -3f;
+					npc.velocity.Y += 0.2f;
+					if (npc.velocity.Y > 16f)
+						npc.velocity.Y = 16f;
+
+					if ((double)npc.position.Y > Main.worldSurface * 16.0)
+					{
+						for (int x = 0; x < 200; x++)
+						{
+							if (Main.npc[x].type == ModContent.NPCType<Leviathan>())
+							{
+								Main.npc[x].active = false;
+								Main.npc[x].netUpdate = true;
+							}
+						}
+						npc.active = false;
+						npc.netUpdate = true;
+					}
+
+					if (npc.ai[0] != -1f)
+					{
+						npc.ai[0] = -1f;
+						npc.ai[1] = 0f;
+						npc.ai[2] = 0f;
+						npc.localAI[0] = 0f;
+						npc.netUpdate = true;
+					}
+					return;
+				}
+			}
+
+			// Rotation when charging
+			if (npc.ai[0] > 2f)
                 ChargeRotation(player, vector);
 
-            // Target
-            if (npc.target < 0 || npc.target == 255 || player.dead || !player.active)
-                npc.TargetClosest(true);
-
             // Phase switch
-            else if (npc.ai[0] == -1f)
+            if (npc.ai[0] == -1f)
             {
                 int random = phase2 ? 3 : 2;
                 int num871 = Main.rand.Next(random);
@@ -232,7 +273,7 @@ namespace CalamityMod.NPCs.Leviathan
                 {
                     forceChargeFrames = false;
                     float playerLocation = vector.X - player.Center.X;
-                    npc.direction = playerLocation < 0 ? 1 : -1;
+                    npc.direction = playerLocation < 0f ? 1 : -1;
                     npc.spriteDirection = npc.direction;
                 }
                 else
@@ -495,7 +536,7 @@ namespace CalamityMod.NPCs.Leviathan
                 }
 
                 float playerLocation = vector.X - player.Center.X;
-                npc.direction = playerLocation < 0 ? 1 : -1;
+                npc.direction = playerLocation < 0f ? 1 : -1;
                 npc.spriteDirection = npc.direction;
 
                 if (npc.ai[1] >= 300f)
@@ -567,36 +608,6 @@ namespace CalamityMod.NPCs.Leviathan
                     npc.netUpdate = true;
                 }
             }
-
-            // Despawn
-            if (player.dead || Vector2.Distance(player.Center, vector) > 5600f)
-            {
-                if (npc.localAI[3] < 120f)
-                    npc.localAI[3] += 1f;
-
-                if (npc.localAI[3] > 60f)
-                {
-                    npc.velocity.Y = npc.velocity.Y + (npc.localAI[3] - 60f) * 0.25f;
-
-                    if ((double)npc.position.Y > Main.rockLayer * 16.0)
-                    {
-                        for (int x = 0; x < 200; x++)
-                        {
-                            if (Main.npc[x].type == ModContent.NPCType<Leviathan>())
-                            {
-                                Main.npc[x].active = false;
-                                Main.npc[x].netUpdate = true;
-                            }
-                        }
-
-                        npc.active = false;
-                        npc.netUpdate = true;
-                    }
-                }
-                return;
-            }
-            if (npc.localAI[3] > 0f)
-                npc.localAI[3] -= 1f;
         }
 
         // Rotation when charging
