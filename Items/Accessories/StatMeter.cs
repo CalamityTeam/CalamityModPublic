@@ -55,8 +55,8 @@ namespace CalamityMod.Items.Accessories
 						line2.text = "Adrenaline Charge Time: " + adrenalineChargeTime + " seconds | Rage Damage Boost: " + rageDamage + "%\n\n" +
 							"Melee Damage: " + modPlayer.damageStats[0] + "% | Melee Crit Chance: " + modPlayer.critStats[0] + "%\n" +
 							"Melee Speed Boost: " + meleeSpeed + "%\n\n" +
-							"Ranged Damage: " + modPlayer.damageStats[1] + "% | Ranged Crit Chance: " + modPlayer.critStats[1] + "%\n\n" +
-							"Ammo Consumption Chance: " + modPlayer.ammoReductionRanged + "%\n" +
+							"Ranged Damage: " + modPlayer.damageStats[1] + "% | Ranged Crit Chance: " + modPlayer.critStats[1] + "%\n" +
+							"Ammo Consumption Chance: " + modPlayer.ammoReductionRanged + "%\n\n" +
 							"Magic Damage: " + modPlayer.damageStats[2] + "% | Magic Crit Chance: " + modPlayer.critStats[2] + "%\n" +
 							"Mana Usage: " + manaCost + "% | Mana Regen: " + manaRegen + "\n\n" +
 							"Minion Damage: " + modPlayer.damageStats[3] + "% | Minion Slots: " + minionSlots + "\n\n" +

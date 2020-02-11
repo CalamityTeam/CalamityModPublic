@@ -13,8 +13,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class DraedonsExoblade : ModItem
     {
-        private static int BaseDamage = 6700;
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Exoblade");
@@ -29,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 80;
-            item.damage = BaseDamage;
+            item.damage = 5000;
             item.useAnimation = 14;
             item.useStyle = 1;
             item.useTime = 14;
