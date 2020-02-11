@@ -262,9 +262,9 @@ namespace CalamityMod.NPCs.Perforator
 			{
 				if (npc.velocity.Y > 0f)
 				{
-					npc.velocity.Y = npc.velocity.Y * 0.98f;
+					npc.velocity.Y *= 0.98f;
 				}
-				npc.velocity.Y = npc.velocity.Y - acceleration;
+				npc.velocity.Y -= acceleration;
 				if (npc.velocity.Y > velocityY)
 				{
 					npc.velocity.Y = velocityY;
@@ -274,9 +274,9 @@ namespace CalamityMod.NPCs.Perforator
 			{
 				if (npc.velocity.Y < 0f)
 				{
-					npc.velocity.Y = npc.velocity.Y * 0.98f;
+					npc.velocity.Y *= 0.98f;
 				}
-				npc.velocity.Y = npc.velocity.Y + acceleration;
+				npc.velocity.Y += acceleration;
 				if (npc.velocity.Y < -velocityY)
 				{
 					npc.velocity.Y = -velocityY;
@@ -286,9 +286,9 @@ namespace CalamityMod.NPCs.Perforator
 			{
 				if (npc.velocity.X > 0f)
 				{
-					npc.velocity.X = npc.velocity.X * 0.98f;
+					npc.velocity.X *= 0.98f;
 				}
-				npc.velocity.X = npc.velocity.X - acceleration;
+				npc.velocity.X -= acceleration;
 				if (npc.velocity.X > velocityX)
 				{
 					npc.velocity.X = velocityX;
@@ -298,9 +298,9 @@ namespace CalamityMod.NPCs.Perforator
 			{
 				if (npc.velocity.X < 0f)
 				{
-					npc.velocity.X = npc.velocity.X * 0.98f;
+					npc.velocity.X *= 0.98f;
 				}
-				npc.velocity.X = npc.velocity.X + acceleration;
+				npc.velocity.X += acceleration;
 				if (npc.velocity.X < -velocityX)
 				{
 					npc.velocity.X = -velocityX;

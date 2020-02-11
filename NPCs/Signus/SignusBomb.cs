@@ -77,8 +77,7 @@ namespace CalamityMod.NPCs.Signus
             npc.dontTakeDamage = npc.ai[3] >= 240f ? false : true;
             if (npc.ai[3] >= 180f)
             {
-                npc.velocity.Y *= 0.985f;
-                npc.velocity.X *= 0.985f;
+                npc.velocity *= 0.985f;
                 return;
             }
             float num1372 = 14f;

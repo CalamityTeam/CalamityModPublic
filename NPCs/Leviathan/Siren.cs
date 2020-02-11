@@ -306,32 +306,32 @@ namespace CalamityMod.NPCs.Leviathan
                 if (npc.position.Y > player.position.Y - 350f)
                 {
                     if (npc.velocity.Y > 0f)
-                        npc.velocity.Y = npc.velocity.Y * 0.98f;
-                    npc.velocity.Y = npc.velocity.Y - (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
+                        npc.velocity.Y *= 0.98f;
+                    npc.velocity.Y -= (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
                     if (npc.velocity.Y > 4f)
                         npc.velocity.Y = 4f;
                 }
                 else if (npc.position.Y < player.position.Y - 450f)
                 {
                     if (npc.velocity.Y < 0f)
-                        npc.velocity.Y = npc.velocity.Y * 0.98f;
-                    npc.velocity.Y = npc.velocity.Y + (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
+                        npc.velocity.Y *= 0.98f;
+                    npc.velocity.Y += (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
                     if (npc.velocity.Y < -4f)
                         npc.velocity.Y = -4f;
                 }
                 if (npc.position.X + (float)(npc.width / 2) > player.position.X + (float)(player.width / 2) + 100f)
                 {
                     if (npc.velocity.X > 0f)
-                        npc.velocity.X = npc.velocity.X * 0.98f;
-                    npc.velocity.X = npc.velocity.X - (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
+                        npc.velocity.X *= 0.98f;
+                    npc.velocity.X -= (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
                     if (npc.velocity.X > 8f)
                         npc.velocity.X = 8f;
                 }
                 if (npc.position.X + (float)(npc.width / 2) < player.position.X + (float)(player.width / 2) - 100f)
                 {
                     if (npc.velocity.X < 0f)
-                        npc.velocity.X = npc.velocity.X * 0.98f;
-                    npc.velocity.X = npc.velocity.X + (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
+                        npc.velocity.X *= 0.98f;
+                    npc.velocity.X += (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
                     if (npc.velocity.X < -8f)
                         npc.velocity.X = -8f;
                 }
@@ -382,32 +382,32 @@ namespace CalamityMod.NPCs.Leviathan
                     if (npc.position.Y > player.position.Y - 350f)
                     {
                         if (npc.velocity.Y > 0f)
-                            npc.velocity.Y = npc.velocity.Y * 0.98f;
-                        npc.velocity.Y = npc.velocity.Y - (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
+                            npc.velocity.Y *= 0.98f;
+                        npc.velocity.Y -= (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
                         if (npc.velocity.Y > 4f)
                             npc.velocity.Y = 4f;
                     }
                     else if (npc.position.Y < player.position.Y - 450f)
                     {
                         if (npc.velocity.Y < 0f)
-                            npc.velocity.Y = npc.velocity.Y * 0.98f;
-                        npc.velocity.Y = npc.velocity.Y + (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
+                            npc.velocity.Y *= 0.98f;
+                        npc.velocity.Y += (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
                         if (npc.velocity.Y < -4f)
                             npc.velocity.Y = -4f;
                     }
                     if (npc.position.X + (float)(npc.width / 2) > player.position.X + (float)(player.width / 2) + 100f)
                     {
                         if (npc.velocity.X > 0f)
-                            npc.velocity.X = npc.velocity.X * 0.98f;
-                        npc.velocity.X = npc.velocity.X - (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
+                            npc.velocity.X *= 0.98f;
+                        npc.velocity.X -= (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
                         if (npc.velocity.X > 8f)
                             npc.velocity.X = 8f;
                     }
                     if (npc.position.X + (float)(npc.width / 2) < player.position.X + (float)(player.width / 2) - 100f)
                     {
                         if (npc.velocity.X < 0f)
-                            npc.velocity.X = npc.velocity.X * 0.98f;
-                        npc.velocity.X = npc.velocity.X + (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
+                            npc.velocity.X *= 0.98f;
+                        npc.velocity.X += (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
                         if (npc.velocity.X < -8f)
                             npc.velocity.X = -8f;
                     }
@@ -505,32 +505,32 @@ namespace CalamityMod.NPCs.Leviathan
                 if (npc.position.Y > player.position.Y - 300f)
                 {
                     if (npc.velocity.Y > 0f)
-                        npc.velocity.Y = npc.velocity.Y * 0.98f;
-                    npc.velocity.Y = npc.velocity.Y - (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
+                        npc.velocity.Y *= 0.98f;
+                    npc.velocity.Y -= (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
                     if (npc.velocity.Y > 4f)
                         npc.velocity.Y = 4f;
                 }
                 else if (npc.position.Y < player.position.Y - 500f)
                 {
                     if (npc.velocity.Y < 0f)
-                        npc.velocity.Y = npc.velocity.Y * 0.98f;
-                    npc.velocity.Y = npc.velocity.Y + (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
+                        npc.velocity.Y *= 0.98f;
+                    npc.velocity.Y += (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
                     if (npc.velocity.Y < -4f)
                         npc.velocity.Y = -4f;
                 }
                 if (npc.position.X + (float)(npc.width / 2) > player.position.X + (float)(player.width / 2) + 100f)
                 {
                     if (npc.velocity.X > 0f)
-                        npc.velocity.X = npc.velocity.X * 0.98f;
-                    npc.velocity.X = npc.velocity.X - (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
+                        npc.velocity.X *= 0.98f;
+                    npc.velocity.X -= (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
                     if (npc.velocity.X > 8f)
                         npc.velocity.X = 8f;
                 }
                 if (npc.position.X + (float)(npc.width / 2) < player.position.X + (float)(player.width / 2) - 100f)
                 {
                     if (npc.velocity.X < 0f)
-                        npc.velocity.X = npc.velocity.X * 0.98f;
-                    npc.velocity.X = npc.velocity.X + (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
+                        npc.velocity.X *= 0.98f;
+                    npc.velocity.X += (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
                     if (npc.velocity.X < -8f)
                         npc.velocity.X = -8f;
                 }
@@ -666,27 +666,27 @@ namespace CalamityMod.NPCs.Leviathan
 
             if (npc.velocity.X < vector3.X)
             {
-                npc.velocity.X = npc.velocity.X + acceleration;
+                npc.velocity.X += acceleration;
                 if (npc.velocity.X < 0f && vector3.X > 0f)
-                    npc.velocity.X = npc.velocity.X + acceleration;
+                    npc.velocity.X += acceleration;
             }
             else if (npc.velocity.X > vector3.X)
             {
-                npc.velocity.X = npc.velocity.X - acceleration;
+                npc.velocity.X -= acceleration;
                 if (npc.velocity.X > 0f && vector3.X < 0f)
-                    npc.velocity.X = npc.velocity.X - acceleration;
+                    npc.velocity.X -= acceleration;
             }
             if (npc.velocity.Y < vector3.Y)
             {
-                npc.velocity.Y = npc.velocity.Y + acceleration;
+                npc.velocity.Y += acceleration;
                 if (npc.velocity.Y < 0f && vector3.Y > 0f)
-                    npc.velocity.Y = npc.velocity.Y + acceleration;
+                    npc.velocity.Y += acceleration;
             }
             else if (npc.velocity.Y > vector3.Y)
             {
-                npc.velocity.Y = npc.velocity.Y - acceleration;
+                npc.velocity.Y -= acceleration;
                 if (npc.velocity.Y > 0f && vector3.Y < 0f)
-                    npc.velocity.Y = npc.velocity.Y - acceleration;
+                    npc.velocity.Y -= acceleration;
             }
 
             // Rotation

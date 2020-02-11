@@ -430,9 +430,9 @@ namespace CalamityMod.NPCs.Signus
                 {
                     if (npc.velocity.Y > 0f)
                     {
-                        npc.velocity.Y = npc.velocity.Y * 0.975f;
+                        npc.velocity.Y *= 0.975f;
                     }
-                    npc.velocity.Y = npc.velocity.Y - (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
+                    npc.velocity.Y -= (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
                     if (npc.velocity.Y > 3f)
                     {
                         npc.velocity.Y = 3f;
@@ -442,9 +442,9 @@ namespace CalamityMod.NPCs.Signus
                 {
                     if (npc.velocity.Y < 0f)
                     {
-                        npc.velocity.Y = npc.velocity.Y * 0.975f;
+                        npc.velocity.Y *= 0.975f;
                     }
-                    npc.velocity.Y = npc.velocity.Y + (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
+                    npc.velocity.Y += (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
                     if (npc.velocity.Y < -3f)
                     {
                         npc.velocity.Y = -3f;
@@ -454,9 +454,9 @@ namespace CalamityMod.NPCs.Signus
                 {
                     if (npc.velocity.X > 0f)
                     {
-                        npc.velocity.X = npc.velocity.X * 0.98f;
+                        npc.velocity.X *= 0.98f;
                     }
-                    npc.velocity.X = npc.velocity.X - (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
+                    npc.velocity.X -= (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
                     if (npc.velocity.X > 8f)
                     {
                         npc.velocity.X = 8f;
@@ -466,9 +466,9 @@ namespace CalamityMod.NPCs.Signus
                 {
                     if (npc.velocity.X < 0f)
                     {
-                        npc.velocity.X = npc.velocity.X * 0.98f;
+                        npc.velocity.X *= 0.98f;
                     }
-                    npc.velocity.X = npc.velocity.X + (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
+                    npc.velocity.X += (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
                     if (npc.velocity.X < -8f)
                     {
                         npc.velocity.X = -8f;

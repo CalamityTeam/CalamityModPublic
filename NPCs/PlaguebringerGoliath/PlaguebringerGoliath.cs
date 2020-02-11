@@ -343,9 +343,9 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     }
 
                     if (npc.position.Y + (float)(npc.height / 2) < (player.position.Y + (float)(player.height / 2) - (float)chargeDistance))
-                        npc.velocity.Y = npc.velocity.Y + num1049;
+                        npc.velocity.Y += num1049;
                     else
-                        npc.velocity.Y = npc.velocity.Y - num1049;
+                        npc.velocity.Y -= num1049;
 
                     if (npc.velocity.Y < -num1048)
                         npc.velocity.Y = -num1048;
@@ -353,11 +353,11 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         npc.velocity.Y = num1048;
 
                     if (Math.Abs(npc.position.X + (float)(npc.width / 2) - (player.position.X + (float)(player.width / 2))) > 600f)
-                        npc.velocity.X = npc.velocity.X + 0.15f * (float)npc.direction;
+                        npc.velocity.X += 0.15f * (float)npc.direction;
                     else if (Math.Abs(npc.position.X + (float)(npc.width / 2) - (player.position.X + (float)(player.width / 2))) < 300f)
-                        npc.velocity.X = npc.velocity.X - 0.15f * (float)npc.direction;
+                        npc.velocity.X -= 0.15f * (float)npc.direction;
                     else
-                        npc.velocity.X = npc.velocity.X * 0.8f;
+                        npc.velocity.X *= 0.8f;
 
                     if (npc.velocity.X < -20f)
                         npc.velocity.X = -20f;
@@ -790,9 +790,9 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     }
 
                     if (npc.position.Y + (float)(npc.height / 2) < (player.position.Y + (float)(player.height / 2) - 500f))
-                        npc.velocity.Y = npc.velocity.Y + num1049;
+                        npc.velocity.Y += num1049;
                     else
-                        npc.velocity.Y = npc.velocity.Y - num1049;
+                        npc.velocity.Y -= num1049;
 
                     if (npc.velocity.Y < -num1048)
                         npc.velocity.Y = -num1048;
@@ -800,11 +800,11 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         npc.velocity.Y = num1048;
 
                     if (Math.Abs(npc.position.X + (float)(npc.width / 2) - (player.position.X + (float)(player.width / 2))) > 600f)
-                        npc.velocity.X = npc.velocity.X + 0.15f * (float)npc.direction;
+                        npc.velocity.X += 0.15f * (float)npc.direction;
                     else if (Math.Abs(npc.position.X + (float)(npc.width / 2) - (player.position.X + (float)(player.width / 2))) < 300f)
-                        npc.velocity.X = npc.velocity.X - 0.15f * (float)npc.direction;
+                        npc.velocity.X -= 0.15f * (float)npc.direction;
                     else
-                        npc.velocity.X = npc.velocity.X * 0.8f;
+                        npc.velocity.X *= 0.8f;
 
                     if (npc.velocity.X < -20f)
                         npc.velocity.X = -20f;
@@ -892,32 +892,32 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             if (npc.position.Y > player.position.Y - yPos)
             {
                 if (npc.velocity.Y > 0f)
-                    npc.velocity.Y = npc.velocity.Y * 0.98f;
-                npc.velocity.Y = npc.velocity.Y - (CalamityWorld.bossRushActive ? 0.2f : 0.15f);
+                    npc.velocity.Y *= 0.98f;
+                npc.velocity.Y -= (CalamityWorld.bossRushActive ? 0.2f : 0.15f);
                 if (npc.velocity.Y > 5f)
                     npc.velocity.Y = 5f;
             }
             else if (npc.position.Y < player.position.Y - yPos2)
             {
                 if (npc.velocity.Y < 0f)
-                    npc.velocity.Y = npc.velocity.Y * 0.98f;
-                npc.velocity.Y = npc.velocity.Y + (CalamityWorld.bossRushActive ? 0.2f : 0.15f);
+                    npc.velocity.Y *= 0.98f;
+                npc.velocity.Y += (CalamityWorld.bossRushActive ? 0.2f : 0.15f);
                 if (npc.velocity.Y < -5f)
                     npc.velocity.Y = -5f;
             }
             if (npc.position.X + (float)(npc.width / 2) > player.position.X + (float)(player.width / 2) + xPos)
             {
                 if (npc.velocity.X > 0f)
-                    npc.velocity.X = npc.velocity.X * 0.98f;
-                npc.velocity.X = npc.velocity.X - (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
+                    npc.velocity.X *= 0.98f;
+                npc.velocity.X -= (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
                 if (npc.velocity.X > 8f)
                     npc.velocity.X = 8f;
             }
             if (npc.position.X + (float)(npc.width / 2) < player.position.X + (float)(player.width / 2) - xPos)
             {
                 if (npc.velocity.X < 0f)
-                    npc.velocity.X = npc.velocity.X * 0.98f;
-                npc.velocity.X = npc.velocity.X + (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
+                    npc.velocity.X *= 0.98f;
+                npc.velocity.X += (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
                 if (npc.velocity.X < -8f)
                     npc.velocity.X = -8f;
             }

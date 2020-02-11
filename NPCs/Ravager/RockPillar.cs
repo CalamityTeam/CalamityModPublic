@@ -87,7 +87,7 @@ namespace CalamityMod.NPCs.Ravager
                 npc.noTileCollide = false;
                 if (npc.velocity.Y == 0f)
                 {
-                    npc.velocity.X = npc.velocity.X * 0.8f;
+                    npc.velocity.X *= 0.8f;
                     npc.ai[1] += 1f;
                     if (npc.ai[1] > 0f)
                     {
@@ -124,18 +124,18 @@ namespace CalamityMod.NPCs.Ravager
                     npc.TargetClosest(true);
                     if (npc.position.X < Main.player[npc.target].position.X && npc.position.X + (float)npc.width > Main.player[npc.target].position.X + (float)Main.player[npc.target].width)
                     {
-                        npc.velocity.X = npc.velocity.X * 0.9f;
-                        npc.velocity.Y = npc.velocity.Y + 0.2f;
+                        npc.velocity.X *= 0.9f;
+                        npc.velocity.Y += 0.2f;
                     }
                     else
                     {
                         if (npc.direction < 0)
                         {
-                            npc.velocity.X = npc.velocity.X - 0.2f;
+                            npc.velocity.X -= 0.2f;
                         }
                         else if (npc.direction > 0)
                         {
-                            npc.velocity.X = npc.velocity.X + 0.2f;
+                            npc.velocity.X += 0.2f;
                         }
                         float random = (float)Main.rand.Next(7);
                         float velocityX = 6f + random;

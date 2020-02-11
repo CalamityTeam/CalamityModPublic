@@ -211,8 +211,7 @@ namespace CalamityMod.NPCs.Crabulon
             }
             else if (npc.ai[0] == 1f)
             {
-                npc.velocity.X *= 0.98f;
-                npc.velocity.Y *= 0.98f;
+                npc.velocity *= 0.98f;
                 npc.ai[1] += 1f;
                 if (npc.ai[1] >= (revenge ? 30f : 60f))
                 {
@@ -243,7 +242,7 @@ namespace CalamityMod.NPCs.Crabulon
                 }
                 if (flag51)
                 {
-                    npc.velocity.X = npc.velocity.X * 0.9f;
+                    npc.velocity.X *= 0.9f;
                     if ((double)npc.velocity.X > -0.1 && (double)npc.velocity.X < 0.1)
                     {
                         npc.velocity.X = 0f;
@@ -269,7 +268,7 @@ namespace CalamityMod.NPCs.Crabulon
                 }
                 if (flag52)
                 {
-                    npc.velocity.Y = npc.velocity.Y + 0.5f;
+                    npc.velocity.Y += 0.5f;
                 }
                 else if (Collision.SolidCollision(position2, num854, num855))
                 {
@@ -279,11 +278,11 @@ namespace CalamityMod.NPCs.Crabulon
                     }
                     if ((double)npc.velocity.Y > -0.2)
                     {
-                        npc.velocity.Y = npc.velocity.Y - 0.025f;
+                        npc.velocity.Y -= 0.025f;
                     }
                     else
                     {
-                        npc.velocity.Y = npc.velocity.Y - 0.2f;
+                        npc.velocity.Y -= 0.2f;
                     }
                     if (npc.velocity.Y < -4f)
                     {
@@ -298,11 +297,11 @@ namespace CalamityMod.NPCs.Crabulon
                     }
                     if ((double)npc.velocity.Y < 0.1)
                     {
-                        npc.velocity.Y = npc.velocity.Y + 0.025f;
+                        npc.velocity.Y += 0.025f;
                     }
                     else
                     {
-                        npc.velocity.Y = npc.velocity.Y + 0.5f;
+                        npc.velocity.Y += 0.5f;
                     }
                 }
                 npc.ai[1] += 1f;
@@ -325,7 +324,7 @@ namespace CalamityMod.NPCs.Crabulon
                 npc.noTileCollide = false;
                 if (npc.velocity.Y == 0f)
                 {
-                    npc.velocity.X = npc.velocity.X * 0.8f;
+                    npc.velocity.X *= 0.8f;
                     npc.ai[1] += 1f;
                     if (npc.ai[1] > 0f)
                     {
@@ -457,8 +456,8 @@ namespace CalamityMod.NPCs.Crabulon
                 {
                     if (npc.position.X < player.position.X && npc.position.X + (float)npc.width > player.position.X + (float)player.width)
                     {
-                        npc.velocity.X = npc.velocity.X * 0.9f;
-                        npc.velocity.Y = npc.velocity.Y + (CalamityWorld.bossRushActive ? 0.3f : 0.15f);
+                        npc.velocity.X *= 0.9f;
+                        npc.velocity.Y += (CalamityWorld.bossRushActive ? 0.3f : 0.15f);
                     }
                     else
                     {
@@ -467,9 +466,9 @@ namespace CalamityMod.NPCs.Crabulon
 							(revenge ? 0.02f : 0f);
 
                         if (npc.direction < 0)
-                            npc.velocity.X = npc.velocity.X - velocityX;
+                            npc.velocity.X -= velocityX;
                         else if (npc.direction > 0)
-                            npc.velocity.X = npc.velocity.X + velocityX;
+                            npc.velocity.X += velocityX;
 
                         float num626 = CalamityWorld.bossRushActive ? 5f : 2.5f;
                         if (revenge)

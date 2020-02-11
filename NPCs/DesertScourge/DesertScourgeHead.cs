@@ -221,10 +221,10 @@ namespace CalamityMod.NPCs.DesertScourge
             {
 				npc.TargetClosest(false);
 				flag94 = false;
-                npc.velocity.Y = npc.velocity.Y + 1f;
+                npc.velocity.Y += 1f;
                 if ((double)npc.position.Y > Main.worldSurface * 16.0)
                 {
-                    npc.velocity.Y = npc.velocity.Y + 1f;
+                    npc.velocity.Y += 1f;
                 }
                 if ((double)npc.position.Y > Main.rockLayer * 16.0)
                 {
@@ -252,7 +252,7 @@ namespace CalamityMod.NPCs.DesertScourge
             if (!flag94)
             {
                 npc.TargetClosest(true);
-                npc.velocity.Y = npc.velocity.Y + (turnSpeed * 0.75f);
+                npc.velocity.Y += turnSpeed * 0.75f;
                 if (npc.velocity.Y > num188)
                 {
                     npc.velocity.Y = num188;
@@ -261,33 +261,33 @@ namespace CalamityMod.NPCs.DesertScourge
                 {
                     if (npc.velocity.X < 0f)
                     {
-                        npc.velocity.X = npc.velocity.X - num189 * 1.1f;
+                        npc.velocity.X -= num189 * 1.1f;
                     }
                     else
                     {
-                        npc.velocity.X = npc.velocity.X + num189 * 1.1f;
+                        npc.velocity.X += num189 * 1.1f;
                     }
                 }
                 else if (npc.velocity.Y == num188)
                 {
                     if (npc.velocity.X < num191)
                     {
-                        npc.velocity.X = npc.velocity.X + num189;
+                        npc.velocity.X += num189;
                     }
                     else if (npc.velocity.X > num191)
                     {
-                        npc.velocity.X = npc.velocity.X - num189;
+                        npc.velocity.X -= num189;
                     }
                 }
                 else if (npc.velocity.Y > 4f)
                 {
                     if (npc.velocity.X < 0f)
                     {
-                        npc.velocity.X = npc.velocity.X + num189 * 0.9f;
+                        npc.velocity.X += num189 * 0.9f;
                     }
                     else
                     {
-                        npc.velocity.X = npc.velocity.X - num189 * 0.9f;
+                        npc.velocity.X -= num189 * 0.9f;
                     }
                 }
             }
@@ -320,46 +320,46 @@ namespace CalamityMod.NPCs.DesertScourge
                     {
                         if (npc.velocity.X < num191)
                         {
-                            npc.velocity.X = npc.velocity.X + num189;
+                            npc.velocity.X += num189;
                         }
                         else
                         {
                             if (npc.velocity.X > num191)
                             {
-                                npc.velocity.X = npc.velocity.X - num189;
+                                npc.velocity.X -= num189;
                             }
                         }
                         if (npc.velocity.Y < num192)
                         {
-                            npc.velocity.Y = npc.velocity.Y + num189;
+                            npc.velocity.Y += num189;
                         }
                         else
                         {
                             if (npc.velocity.Y > num192)
                             {
-                                npc.velocity.Y = npc.velocity.Y - num189;
+                                npc.velocity.Y -= num189;
                             }
                         }
                         if ((double)System.Math.Abs(num192) < (double)num188 * 0.2 && ((npc.velocity.X > 0f && num191 < 0f) || (npc.velocity.X < 0f && num191 > 0f)))
                         {
                             if (npc.velocity.Y > 0f)
                             {
-                                npc.velocity.Y = npc.velocity.Y + num189 * 2f;
+                                npc.velocity.Y += num189 * 2f;
                             }
                             else
                             {
-                                npc.velocity.Y = npc.velocity.Y - num189 * 2f;
+                                npc.velocity.Y -= num189 * 2f;
                             }
                         }
                         if ((double)System.Math.Abs(num191) < (double)num188 * 0.2 && ((npc.velocity.Y > 0f && num192 < 0f) || (npc.velocity.Y < 0f && num192 > 0f)))
                         {
                             if (npc.velocity.X > 0f)
                             {
-                                npc.velocity.X = npc.velocity.X + num189 * 2f;
+                                npc.velocity.X += num189 * 2f;
                             }
                             else
                             {
-                                npc.velocity.X = npc.velocity.X - num189 * 2f;
+                                npc.velocity.X -= num189 * 2f;
                             }
                         }
                     }
@@ -369,21 +369,21 @@ namespace CalamityMod.NPCs.DesertScourge
                         {
                             if (npc.velocity.X < num191)
                             {
-                                npc.velocity.X = npc.velocity.X + num189 * 1.1f;
+                                npc.velocity.X += num189 * 1.1f;
                             }
                             else if (npc.velocity.X > num191)
                             {
-                                npc.velocity.X = npc.velocity.X - num189 * 1.1f;
+                                npc.velocity.X -= num189 * 1.1f;
                             }
                             if ((double)(System.Math.Abs(npc.velocity.X) + System.Math.Abs(npc.velocity.Y)) < (double)num188 * 0.5)
                             {
                                 if (npc.velocity.Y > 0f)
                                 {
-                                    npc.velocity.Y = npc.velocity.Y + num189;
+                                    npc.velocity.Y += num189;
                                 }
                                 else
                                 {
-                                    npc.velocity.Y = npc.velocity.Y - num189;
+                                    npc.velocity.Y -= num189;
                                 }
                             }
                         }
@@ -391,21 +391,21 @@ namespace CalamityMod.NPCs.DesertScourge
                         {
                             if (npc.velocity.Y < num192)
                             {
-                                npc.velocity.Y = npc.velocity.Y + num189 * 1.1f;
+                                npc.velocity.Y += num189 * 1.1f;
                             }
                             else if (npc.velocity.Y > num192)
                             {
-                                npc.velocity.Y = npc.velocity.Y - num189 * 1.1f;
+                                npc.velocity.Y -= num189 * 1.1f;
                             }
                             if ((double)(System.Math.Abs(npc.velocity.X) + System.Math.Abs(npc.velocity.Y)) < (double)num188 * 0.5)
                             {
                                 if (npc.velocity.X > 0f)
                                 {
-                                    npc.velocity.X = npc.velocity.X + num189;
+                                    npc.velocity.X += num189;
                                 }
                                 else
                                 {
-                                    npc.velocity.X = npc.velocity.X - num189;
+                                    npc.velocity.X -= num189;
                                 }
                             }
                         }

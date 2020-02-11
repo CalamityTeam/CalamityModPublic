@@ -122,8 +122,7 @@ namespace CalamityMod.NPCs.Providence
                 }
                 if (Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y) < 8f) //8f
                 {
-                    npc.velocity.Y = npc.velocity.Y * 1.05f; //1.05f
-                    npc.velocity.X = npc.velocity.X * 1.05f; //1.05f
+                    npc.velocity *= 1.05f; //1.05f
                 }
                 if (Main.netMode != NetmodeID.MultiplayerClient && ((expertMode && Main.rand.NextBool(2000)) || Main.rand.NextBool(1000)))
                 {

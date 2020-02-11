@@ -408,7 +408,7 @@ namespace CalamityMod.NPCs.Providence
 
 				if (!targetDead)
 				{
-					npc.velocity.X = npc.velocity.X + (float)flightPath * acceleration;
+					npc.velocity.X += (float)flightPath * acceleration;
 					if (npc.velocity.X > velocity)
 						npc.velocity.X = velocity;
 					if (npc.velocity.X < -velocity)
@@ -416,9 +416,9 @@ namespace CalamityMod.NPCs.Providence
 
 					float num855 = player.position.Y - (npc.position.Y + (float)npc.height);
 					if (num855 < (firingLaser ? 150f : 200f)) // 150
-						npc.velocity.Y = npc.velocity.Y - 0.2f;
+						npc.velocity.Y -= 0.2f;
 					if (num855 > (firingLaser ? 200f : 250f)) // 200
-						npc.velocity.Y = npc.velocity.Y + 0.2f;
+						npc.velocity.Y += 0.2f;
 
 					float speedVariance = normalAttackRate ? 2f : 1f;
 					if (npc.velocity.Y > (firingLaser ? speedVariance : 6f))

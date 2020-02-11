@@ -131,8 +131,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 }
                 if (Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y) < 21f) //8f
                 {
-                    npc.velocity.Y = npc.velocity.Y * 1.12f; //1.05f
-                    npc.velocity.X = npc.velocity.X * 1.12f; //1.05f
+                    npc.velocity *= 1.12f; //1.05f
                 }
                 if (Main.netMode != NetmodeID.MultiplayerClient && ((expertMode && Main.rand.NextBool(50)) || Main.rand.NextBool(100)))
                 {

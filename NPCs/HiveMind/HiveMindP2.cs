@@ -382,7 +382,7 @@ namespace CalamityMod.NPCs.HiveMind
 							}
 							if (npc.localAI[3] > 60f)
 							{
-								npc.velocity.Y = npc.velocity.Y + (npc.localAI[3] - 60f) * 0.5f;
+								npc.velocity.Y += (npc.localAI[3] - 60f) * 0.5f;
 							}
 							return;
 						}

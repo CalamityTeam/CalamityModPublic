@@ -204,34 +204,34 @@ namespace CalamityMod.NPCs.Leviathan
 
                     if (npc.velocity.X < num415)
                     {
-                        npc.velocity.X = npc.velocity.X + num413;
+                        npc.velocity.X += num413;
                         if (npc.velocity.X < 0f && num415 > 0f)
                         {
-                            npc.velocity.X = npc.velocity.X + num413;
+                            npc.velocity.X += num413;
                         }
                     }
                     else if (npc.velocity.X > num415)
                     {
-                        npc.velocity.X = npc.velocity.X - num413;
+                        npc.velocity.X -= num413;
                         if (npc.velocity.X > 0f && num415 < 0f)
                         {
-                            npc.velocity.X = npc.velocity.X - num413;
+                            npc.velocity.X -= num413;
                         }
                     }
                     if (npc.velocity.Y < num416)
                     {
-                        npc.velocity.Y = npc.velocity.Y + num413;
+                        npc.velocity.Y += num413;
                         if (npc.velocity.Y < 0f && num416 > 0f)
                         {
-                            npc.velocity.Y = npc.velocity.Y + num413;
+                            npc.velocity.Y += num413;
                         }
                     }
                     else if (npc.velocity.Y > num416)
                     {
-                        npc.velocity.Y = npc.velocity.Y - num413;
+                        npc.velocity.Y -= num413;
                         if (npc.velocity.Y > 0f && num416 < 0f)
                         {
-                            npc.velocity.Y = npc.velocity.Y - num413;
+                            npc.velocity.Y -= num413;
                         }
                     }
 
@@ -351,34 +351,34 @@ namespace CalamityMod.NPCs.Leviathan
 
                         if (npc.velocity.X < num1058)
                         {
-                            npc.velocity.X = npc.velocity.X + num1064;
+                            npc.velocity.X += num1064;
                             if (npc.velocity.X < 0f && num1058 > 0f)
                             {
-                                npc.velocity.X = npc.velocity.X + num1064;
+                                npc.velocity.X += num1064;
                             }
                         }
                         else if (npc.velocity.X > num1058)
                         {
-                            npc.velocity.X = npc.velocity.X - num1064;
+                            npc.velocity.X -= num1064;
                             if (npc.velocity.X > 0f && num1058 < 0f)
                             {
-                                npc.velocity.X = npc.velocity.X - num1064;
+                                npc.velocity.X -= num1064;
                             }
                         }
                         if (npc.velocity.Y < num1059)
                         {
-                            npc.velocity.Y = npc.velocity.Y + num1064;
+                            npc.velocity.Y += num1064;
                             if (npc.velocity.Y < 0f && num1059 > 0f)
                             {
-                                npc.velocity.Y = npc.velocity.Y + num1064;
+                                npc.velocity.Y += num1064;
                             }
                         }
                         else if (npc.velocity.Y > num1059)
                         {
-                            npc.velocity.Y = npc.velocity.Y - num1064;
+                            npc.velocity.Y -= num1064;
                             if (npc.velocity.Y > 0f && num1059 < 0f)
                             {
-                                npc.velocity.Y = npc.velocity.Y - num1064;
+                                npc.velocity.Y -= num1064;
                             }
                         }
                     }
@@ -487,11 +487,11 @@ namespace CalamityMod.NPCs.Leviathan
 
                         if (npc.position.Y + (float)(npc.height / 2) < (player.position.Y + (float)(player.height / 2)))
                         {
-                            npc.velocity.Y = npc.velocity.Y + num1049;
+                            npc.velocity.Y += num1049;
                         }
                         else
                         {
-                            npc.velocity.Y = npc.velocity.Y - num1049;
+                            npc.velocity.Y -= num1049;
                         }
                         if (npc.velocity.Y < -12f)
                         {
@@ -503,15 +503,15 @@ namespace CalamityMod.NPCs.Leviathan
                         }
                         if (Math.Abs(npc.position.X + (float)(npc.width / 2) - (player.position.X + (float)(player.width / 2))) > 600f)
                         {
-                            npc.velocity.X = npc.velocity.X + 0.15f * (float)npc.direction;
+                            npc.velocity.X += 0.15f * (float)npc.direction;
                         }
                         else if (Math.Abs(npc.position.X + (float)(npc.width / 2) - (player.position.X + (float)(player.width / 2))) < 300f)
                         {
-                            npc.velocity.X = npc.velocity.X - 0.15f * (float)npc.direction;
+                            npc.velocity.X -= 0.15f * (float)npc.direction;
                         }
                         else
                         {
-                            npc.velocity.X = npc.velocity.X * 0.8f;
+                            npc.velocity.X *= 0.8f;
                         }
                         if (npc.velocity.X < -16f)
                         {

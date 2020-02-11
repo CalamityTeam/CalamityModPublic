@@ -222,7 +222,7 @@ namespace CalamityMod.NPCs.SlimeGod
                 if (npc.velocity.Y == 0f)
                 {
                     npc.TargetClosest(true);
-                    npc.velocity.X = npc.velocity.X * 0.8f;
+                    npc.velocity.X *= 0.8f;
                     npc.ai[1] += 1f;
                     float num1879 = 35f;
                     float num1880 = CalamityWorld.bossRushActive ? 21f : 7f;
@@ -243,13 +243,13 @@ namespace CalamityMod.NPCs.SlimeGod
                         num1881 *= 0.75f;
                         num1880 *= 1.5f;
                         npc.ai[1] = 0f;
-                        npc.velocity.Y = npc.velocity.Y - num1881;
+                        npc.velocity.Y -= num1881;
                         npc.velocity.X = num1880 * (float)npc.direction;
                     }
                 }
                 else
                 {
-                    npc.velocity.X = npc.velocity.X * 0.99f;
+                    npc.velocity.X *= 0.99f;
                     if (npc.direction < 0 && npc.velocity.X > -1f)
                     {
                         npc.velocity.X = -1f;
@@ -289,7 +289,7 @@ namespace CalamityMod.NPCs.SlimeGod
             }
             else if (npc.ai[0] == 2f)
             {
-                npc.velocity.X = npc.velocity.X * 0.85f;
+                npc.velocity.X *= 0.85f;
                 npc.ai[1] += 1f;
                 if (npc.ai[1] >= 30f)
                 {
@@ -368,7 +368,7 @@ namespace CalamityMod.NPCs.SlimeGod
                     npc.noTileCollide = true;
                     npc.noGravity = true;
                 }
-                npc.velocity.Y = npc.velocity.Y + 0.2f;
+                npc.velocity.Y += 0.2f;
                 if (npc.velocity.Y > 16f)
                 {
                     npc.velocity.Y = 16f;
@@ -411,39 +411,39 @@ namespace CalamityMod.NPCs.SlimeGod
                     if (npc.velocity.Y == 0f)
                     {
                         npc.TargetClosest(true);
-                        npc.velocity.X = npc.velocity.X * 0.8f;
+                        npc.velocity.X *= 0.8f;
                         npc.ai[1] += 1f;
                         if (npc.ai[1] > 5f)
                         {
                             npc.ai[1] = 0f;
-                            npc.velocity.Y = npc.velocity.Y - 4f;
+                            npc.velocity.Y -= 4f;
                             if (player.position.Y + (float)player.height < vector.Y)
                             {
-                                npc.velocity.Y = npc.velocity.Y - 1.25f;
+                                npc.velocity.Y -= 1.25f;
                             }
                             if (player.position.Y + (float)player.height < vector.Y - 40f)
                             {
-                                npc.velocity.Y = npc.velocity.Y - 1.5f;
+                                npc.velocity.Y -= 1.5f;
                             }
                             if (player.position.Y + (float)player.height < vector.Y - 80f)
                             {
-                                npc.velocity.Y = npc.velocity.Y - 1.75f;
+                                npc.velocity.Y -= 1.75f;
                             }
                             if (player.position.Y + (float)player.height < vector.Y - 120f)
                             {
-                                npc.velocity.Y = npc.velocity.Y - 2f;
+                                npc.velocity.Y -= 2f;
                             }
                             if (player.position.Y + (float)player.height < vector.Y - 160f)
                             {
-                                npc.velocity.Y = npc.velocity.Y - 2.25f;
+                                npc.velocity.Y -= 2.25f;
                             }
                             if (player.position.Y + (float)player.height < vector.Y - 200f)
                             {
-                                npc.velocity.Y = npc.velocity.Y - 2.5f;
+                                npc.velocity.Y -= 2.5f;
                             }
                             if (!Collision.CanHit(vector, 1, 1, player.Center, 1, 1))
                             {
-                                npc.velocity.Y = npc.velocity.Y - 2f;
+                                npc.velocity.Y -= 2f;
                             }
                             npc.velocity.X = (float)((CalamityWorld.bossRushActive ? 24 : 16) * npc.direction);
                             npc.ai[2] += 1f;
@@ -451,7 +451,7 @@ namespace CalamityMod.NPCs.SlimeGod
                     }
                     else
                     {
-                        npc.velocity.X = npc.velocity.X * 0.98f;
+                        npc.velocity.X *= 0.98f;
                         if (npc.direction < 0 && npc.velocity.X > -8f)
                         {
                             npc.velocity.X = -8f;
@@ -483,7 +483,7 @@ namespace CalamityMod.NPCs.SlimeGod
                     {
                         npc.alpha = 255;
                     }
-                    npc.velocity.X = npc.velocity.X * 0.98f;
+                    npc.velocity.X *= 0.98f;
                 }
             }
             int num658 = Dust.NewDust(npc.position, npc.width, npc.height, 260, npc.velocity.X, npc.velocity.Y, 255, new Color(0, 80, 255, 80), npc.scale * 1.5f);

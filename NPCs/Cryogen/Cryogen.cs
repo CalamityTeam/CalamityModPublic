@@ -315,9 +315,9 @@ namespace CalamityMod.NPCs.Cryogen
 				if (npc.position.Y > player.position.Y - 375f)
 				{
 					if (npc.velocity.Y > 0f)
-						npc.velocity.Y = npc.velocity.Y * 0.98f;
+						npc.velocity.Y *= 0.98f;
 
-					npc.velocity.Y = npc.velocity.Y - acceleration;
+					npc.velocity.Y -= acceleration;
 
 					if (npc.velocity.Y > velocity)
 						npc.velocity.Y = velocity;
@@ -325,9 +325,9 @@ namespace CalamityMod.NPCs.Cryogen
 				else if (npc.position.Y < player.position.Y - 425f)
 				{
 					if (npc.velocity.Y < 0f)
-						npc.velocity.Y = npc.velocity.Y * 0.98f;
+						npc.velocity.Y *= 0.98f;
 
-					npc.velocity.Y = npc.velocity.Y + acceleration;
+					npc.velocity.Y += acceleration;
 
 					if (npc.velocity.Y < -velocity)
 						npc.velocity.Y = -velocity;
@@ -336,9 +336,9 @@ namespace CalamityMod.NPCs.Cryogen
 				if (npc.position.X + (float)(npc.width / 2) > player.position.X + (float)(player.width / 2) + 300f)
 				{
 					if (npc.velocity.X > 0f)
-						npc.velocity.X = npc.velocity.X * 0.98f;
+						npc.velocity.X *= 0.98f;
 
-					npc.velocity.X = npc.velocity.X - acceleration;
+					npc.velocity.X -= acceleration;
 
 					if (npc.velocity.X > velocity)
 						npc.velocity.X = velocity;
@@ -346,9 +346,9 @@ namespace CalamityMod.NPCs.Cryogen
 				if (npc.position.X + (float)(npc.width / 2) < player.position.X + (float)(player.width / 2) - 300f)
 				{
 					if (npc.velocity.X < 0f)
-						npc.velocity.X = npc.velocity.X * 0.98f;
+						npc.velocity.X *= 0.98f;
 
-					npc.velocity.X = npc.velocity.X + acceleration;
+					npc.velocity.X += acceleration;
 
 					if (npc.velocity.X < -velocity)
 						npc.velocity.X = -velocity;
@@ -511,9 +511,9 @@ namespace CalamityMod.NPCs.Cryogen
 				if (npc.position.Y > player.position.Y - 375f)
 				{
 					if (npc.velocity.Y > 0f)
-						npc.velocity.Y = npc.velocity.Y * 0.98f;
+						npc.velocity.Y *= 0.98f;
 
-					npc.velocity.Y = npc.velocity.Y - acceleration;
+					npc.velocity.Y -= acceleration;
 
 					if (npc.velocity.Y > velocity)
 						npc.velocity.Y = velocity;
@@ -521,9 +521,9 @@ namespace CalamityMod.NPCs.Cryogen
 				else if (npc.position.Y < player.position.Y - 425f)
 				{
 					if (npc.velocity.Y < 0f)
-						npc.velocity.Y = npc.velocity.Y * 0.98f;
+						npc.velocity.Y *= 0.98f;
 
-					npc.velocity.Y = npc.velocity.Y + acceleration;
+					npc.velocity.Y += acceleration;
 
 					if (npc.velocity.Y < -velocity)
 						npc.velocity.Y = -velocity;
@@ -532,9 +532,9 @@ namespace CalamityMod.NPCs.Cryogen
 				if (npc.position.X + (float)(npc.width / 2) > player.position.X + (float)(player.width / 2) + 300f)
 				{
 					if (npc.velocity.X > 0f)
-						npc.velocity.X = npc.velocity.X * 0.98f;
+						npc.velocity.X *= 0.98f;
 
-					npc.velocity.X = npc.velocity.X - acceleration;
+					npc.velocity.X -= acceleration;
 
 					if (npc.velocity.X > velocity)
 						npc.velocity.X = velocity;
@@ -542,9 +542,9 @@ namespace CalamityMod.NPCs.Cryogen
 				if (npc.position.X + (float)(npc.width / 2) < player.position.X + (float)(player.width / 2) - 300f)
 				{
 					if (npc.velocity.X < 0f)
-						npc.velocity.X = npc.velocity.X * 0.98f;
+						npc.velocity.X *= 0.98f;
 
-					npc.velocity.X = npc.velocity.X + acceleration;
+					npc.velocity.X += acceleration;
 
 					if (npc.velocity.X < -velocity)
 						npc.velocity.X = -velocity;
@@ -889,9 +889,9 @@ namespace CalamityMod.NPCs.Cryogen
 				if (npc.position.Y > player.position.Y - 375f)
 				{
 					if (npc.velocity.Y > 0f)
-						npc.velocity.Y = npc.velocity.Y * 0.98f;
+						npc.velocity.Y *= 0.98f;
 
-					npc.velocity.Y = npc.velocity.Y - acceleration;
+					npc.velocity.Y -= acceleration;
 
 					if (npc.velocity.Y > velocity)
 						npc.velocity.Y = velocity;
@@ -899,9 +899,9 @@ namespace CalamityMod.NPCs.Cryogen
 				else if (npc.position.Y < player.position.Y - 400f)
 				{
 					if (npc.velocity.Y < 0f)
-						npc.velocity.Y = npc.velocity.Y * 0.98f;
+						npc.velocity.Y *= 0.98f;
 
-					npc.velocity.Y = npc.velocity.Y + acceleration;
+					npc.velocity.Y += acceleration;
 
 					if (npc.velocity.Y < -velocity)
 						npc.velocity.Y = -velocity;
@@ -910,9 +910,9 @@ namespace CalamityMod.NPCs.Cryogen
 				if (npc.position.X + (float)(npc.width / 2) > player.position.X + (float)(player.width / 2) + 350f)
 				{
 					if (npc.velocity.X > 0f)
-						npc.velocity.X = npc.velocity.X * 0.98f;
+						npc.velocity.X *= 0.98f;
 
-					npc.velocity.X = npc.velocity.X - acceleration;
+					npc.velocity.X -= acceleration;
 
 					if (npc.velocity.X > velocity)
 						npc.velocity.X = velocity;
@@ -920,9 +920,9 @@ namespace CalamityMod.NPCs.Cryogen
 				if (npc.position.X + (float)(npc.width / 2) < player.position.X + (float)(player.width / 2) - 350f)
 				{
 					if (npc.velocity.X < 0f)
-						npc.velocity.X = npc.velocity.X * 0.98f;
+						npc.velocity.X *= 0.98f;
 
-					npc.velocity.X = npc.velocity.X + acceleration;
+					npc.velocity.X += acceleration;
 
 					if (npc.velocity.X < -velocity)
 						npc.velocity.X = -velocity;

@@ -179,7 +179,7 @@ namespace CalamityMod.NPCs.Yharon
                     npc.dontTakeDamage = true;
                     npc.chaseable = false;
 
-                    npc.velocity.Y = npc.velocity.Y - 0.4f;
+                    npc.velocity.Y -= 0.4f;
 
                     if (npc.alpha < 255)
                     {
@@ -562,34 +562,34 @@ namespace CalamityMod.NPCs.Yharon
                 Vector2 vector170 = Vector2.Normalize(value17 - npc.velocity) * scaleFactor;
                 if (npc.velocity.X < vector170.X)
                 {
-                    npc.velocity.X = npc.velocity.X + npcVelocity;
+                    npc.velocity.X += npcVelocity;
                     if (npc.velocity.X < 0f && vector170.X > 0f)
                     {
-                        npc.velocity.X = npc.velocity.X + npcVelocity;
+                        npc.velocity.X += npcVelocity;
                     }
                 }
                 else if (npc.velocity.X > vector170.X)
                 {
-                    npc.velocity.X = npc.velocity.X - npcVelocity;
+                    npc.velocity.X -= npcVelocity;
                     if (npc.velocity.X > 0f && vector170.X < 0f)
                     {
-                        npc.velocity.X = npc.velocity.X - npcVelocity;
+                        npc.velocity.X -= npcVelocity;
                     }
                 }
                 if (npc.velocity.Y < vector170.Y)
                 {
-                    npc.velocity.Y = npc.velocity.Y + npcVelocity;
+                    npc.velocity.Y += npcVelocity;
                     if (npc.velocity.Y < 0f && vector170.Y > 0f)
                     {
-                        npc.velocity.Y = npc.velocity.Y + npcVelocity;
+                        npc.velocity.Y += npcVelocity;
                     }
                 }
                 else if (npc.velocity.Y > vector170.Y)
                 {
-                    npc.velocity.Y = npc.velocity.Y - npcVelocity;
+                    npc.velocity.Y -= npcVelocity;
                     if (npc.velocity.Y > 0f && vector170.Y < 0f)
                     {
-                        npc.velocity.Y = npc.velocity.Y - npcVelocity;
+                        npc.velocity.Y -= npcVelocity;
                     }
                 }
                 int num1471 = Math.Sign(player.Center.X - vectorCenter.X);
@@ -724,34 +724,34 @@ namespace CalamityMod.NPCs.Yharon
                 Vector2 vector172 = Vector2.Normalize(value19 - npc.velocity) * scaleFactor11;
                 if (npc.velocity.X < vector172.X)
                 {
-                    npc.velocity.X = npc.velocity.X + num1456;
+                    npc.velocity.X += num1456;
                     if (npc.velocity.X < 0f && vector172.X > 0f)
                     {
-                        npc.velocity.X = npc.velocity.X + num1456;
+                        npc.velocity.X += num1456;
                     }
                 }
                 else if (npc.velocity.X > vector172.X)
                 {
-                    npc.velocity.X = npc.velocity.X - num1456;
+                    npc.velocity.X -= num1456;
                     if (npc.velocity.X > 0f && vector172.X < 0f)
                     {
-                        npc.velocity.X = npc.velocity.X - num1456;
+                        npc.velocity.X -= num1456;
                     }
                 }
                 if (npc.velocity.Y < vector172.Y)
                 {
-                    npc.velocity.Y = npc.velocity.Y + num1456;
+                    npc.velocity.Y += num1456;
                     if (npc.velocity.Y < 0f && vector172.Y > 0f)
                     {
-                        npc.velocity.Y = npc.velocity.Y + num1456;
+                        npc.velocity.Y += num1456;
                     }
                 }
                 else if (npc.velocity.Y > vector172.Y)
                 {
-                    npc.velocity.Y = npc.velocity.Y - num1456;
+                    npc.velocity.Y -= num1456;
                     if (npc.velocity.Y > 0f && vector172.Y < 0f)
                     {
-                        npc.velocity.Y = npc.velocity.Y - num1456;
+                        npc.velocity.Y -= num1456;
                     }
                 }
                 if (npc.ai[2] == 0f)
@@ -872,34 +872,34 @@ namespace CalamityMod.NPCs.Yharon
                 Vector2 vector175 = Vector2.Normalize(value20 - npc.velocity) * scaleFactor;
                 if (npc.velocity.X < vector175.X)
                 {
-                    npc.velocity.X = npc.velocity.X + npcVelocity;
+                    npc.velocity.X += npcVelocity;
                     if (npc.velocity.X < 0f && vector175.X > 0f)
                     {
-                        npc.velocity.X = npc.velocity.X + npcVelocity;
+                        npc.velocity.X += npcVelocity;
                     }
                 }
                 else if (npc.velocity.X > vector175.X)
                 {
-                    npc.velocity.X = npc.velocity.X - npcVelocity;
+                    npc.velocity.X -= npcVelocity;
                     if (npc.velocity.X > 0f && vector175.X < 0f)
                     {
-                        npc.velocity.X = npc.velocity.X - npcVelocity;
+                        npc.velocity.X -= npcVelocity;
                     }
                 }
                 if (npc.velocity.Y < vector175.Y)
                 {
-                    npc.velocity.Y = npc.velocity.Y + npcVelocity;
+                    npc.velocity.Y += npcVelocity;
                     if (npc.velocity.Y < 0f && vector175.Y > 0f)
                     {
-                        npc.velocity.Y = npc.velocity.Y + npcVelocity;
+                        npc.velocity.Y += npcVelocity;
                     }
                 }
                 else if (npc.velocity.Y > vector175.Y)
                 {
-                    npc.velocity.Y = npc.velocity.Y - npcVelocity;
+                    npc.velocity.Y -= npcVelocity;
                     if (npc.velocity.Y > 0f && vector175.Y < 0f)
                     {
-                        npc.velocity.Y = npc.velocity.Y - npcVelocity;
+                        npc.velocity.Y -= npcVelocity;
                     }
                 }
                 int num1477 = Math.Sign(player.Center.X - vectorCenter.X);
@@ -1202,34 +1202,34 @@ namespace CalamityMod.NPCs.Yharon
                 Vector2 vector175 = Vector2.Normalize(value20 - npc.velocity) * scaleFactor;
                 if (npc.velocity.X < vector175.X)
                 {
-                    npc.velocity.X = npc.velocity.X + npcVelocity;
+                    npc.velocity.X += npcVelocity;
                     if (npc.velocity.X < 0f && vector175.X > 0f)
                     {
-                        npc.velocity.X = npc.velocity.X + npcVelocity;
+                        npc.velocity.X += npcVelocity;
                     }
                 }
                 else if (npc.velocity.X > vector175.X)
                 {
-                    npc.velocity.X = npc.velocity.X - npcVelocity;
+                    npc.velocity.X -= npcVelocity;
                     if (npc.velocity.X > 0f && vector175.X < 0f)
                     {
-                        npc.velocity.X = npc.velocity.X - npcVelocity;
+                        npc.velocity.X -= npcVelocity;
                     }
                 }
                 if (npc.velocity.Y < vector175.Y)
                 {
-                    npc.velocity.Y = npc.velocity.Y + npcVelocity;
+                    npc.velocity.Y += npcVelocity;
                     if (npc.velocity.Y < 0f && vector175.Y > 0f)
                     {
-                        npc.velocity.Y = npc.velocity.Y + npcVelocity;
+                        npc.velocity.Y += npcVelocity;
                     }
                 }
                 else if (npc.velocity.Y > vector175.Y)
                 {
-                    npc.velocity.Y = npc.velocity.Y - npcVelocity;
+                    npc.velocity.Y -= npcVelocity;
                     if (npc.velocity.Y > 0f && vector175.Y < 0f)
                     {
-                        npc.velocity.Y = npc.velocity.Y - npcVelocity;
+                        npc.velocity.Y -= npcVelocity;
                     }
                 }
                 int num1477 = Math.Sign(player.Center.X - vectorCenter.X);
@@ -2365,7 +2365,7 @@ namespace CalamityMod.NPCs.Yharon
                     num2 = 1.5f;
                     if (Math.Abs(targetData.Center.X - npc.Center.X) > 550f && Math.Abs(npc.velocity.X) < 20f)
                     {
-                        npc.velocity.X = npc.velocity.X + (float)Math.Sign(npc.velocity.X) * 0.5f;
+                        npc.velocity.X += (float)Math.Sign(npc.velocity.X) * 0.5f;
                     }
                 }
                 if (npc.ai[1] >= num13)
@@ -2424,7 +2424,7 @@ namespace CalamityMod.NPCs.Yharon
                 }
                 if (npc.ai[1] > num19 - num18)
                 {
-                    npc.velocity.Y = npc.velocity.Y - 0.1f;
+                    npc.velocity.Y -= 0.1f;
                 }
                 npc.ai[1] += 1f;
                 if (npc.ai[1] >= num19)
@@ -2518,9 +2518,9 @@ namespace CalamityMod.NPCs.Yharon
                     {
                         if (npc.velocity.Y > 0f)
                         {
-                            npc.velocity.Y = npc.velocity.Y / 3f;
+                            npc.velocity.Y /= 3f;
                         }
-                        npc.velocity.Y = npc.velocity.Y - 3f;
+                        npc.velocity.Y -= 3f;
                     }
                     num2 *= 0.85f;
                     bool flag3 = npc.ai[1] == 20f || npc.ai[1] == 45f || npc.ai[1] == 70f;

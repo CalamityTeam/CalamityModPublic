@@ -390,7 +390,7 @@ namespace CalamityMod.NPCs.Ravager
 
                 if (npc.velocity.Y == 0f)
                 {
-                    npc.velocity.X = npc.velocity.X * 0.8f;
+                    npc.velocity.X *= 0.8f;
 
                     npc.ai[1] += 1f;
                     if (npc.ai[1] > 0f)
@@ -501,21 +501,21 @@ namespace CalamityMod.NPCs.Ravager
 
                     if (npc.position.X < player.position.X && npc.position.X + (float)npc.width > player.position.X + (float)player.width)
                     {
-                        npc.velocity.X = npc.velocity.X * 0.9f;
+                        npc.velocity.X *= 0.9f;
 
                         if (player.position.Y > npc.position.Y + (float)npc.height)
                         {
 							float fallSpeedBoost = death ? 0.6f : 0.6f * (1f - lifeRatio);
                             float fallSpeed = 0.6f + fallSpeedBoost;
-                            npc.velocity.Y = npc.velocity.Y + fallSpeed;
+                            npc.velocity.Y += fallSpeed;
                         }
                     }
                     else
                     {
                         if (npc.direction < 0)
-                            npc.velocity.X = npc.velocity.X - 0.2f;
+                            npc.velocity.X -= 0.2f;
                         else if (npc.direction > 0)
-                            npc.velocity.X = npc.velocity.X + 0.2f;
+                            npc.velocity.X += 0.2f;
 
 						float velocityXBoost = death ? 4f : 4f * (1f - lifeRatio);
                         float velocityX = 3f + velocityXBoost;
