@@ -264,6 +264,14 @@ namespace CalamityMod.CalPlayer
 			if (CalamityMod.CalamityConfig.ProficiencyEnabled)
 				modPlayer.GetExactLevelUp();
 
+			// Max mana bonuses
+			player.statManaMax2 +=
+				(modPlayer.permafrostsConcoction ? 50 : 0) +
+				(modPlayer.pHeart ? 50 : 0) +
+				(modPlayer.eCore ? 50 : 0) +
+				(modPlayer.cShard ? 50 : 0) +
+				(modPlayer.starBeamRye ? 50 : 0);
+
 			// Nebula Armor nerf
 			if (player.nebulaLevelMana > 0 && player.statMana < player.statManaMax2)
 			{
@@ -284,8 +292,24 @@ namespace CalamityMod.CalPlayer
 			if (Main.myPlayer == player.whoAmI)
 				BossHealthBarManager.SHOULD_DRAW_SMALLTEXT_HEALTH = modPlayer.shouldDrawSmallText;
 
+			// Margarita halved debuff duration
+			if (modPlayer.margarita)
+			{
+				if (Main.myPlayer == player.whoAmI)
+				{
+					for (int l = 0; l < Player.MaxBuffs; l++)
+					{
+						int hasBuff = player.buffType[l];
+						if (player.buffTime[l] > 2 && CalamityMod.debuffList.Contains(hasBuff))
+						{
+							player.buffTime[l]--;
+						}
+					}
+				}
+			}
+
 			// Immunity to most debuffs
-			if (modPlayer.silvaSet || modPlayer.invincible || modPlayer.margarita)
+			if (modPlayer.silvaSet || modPlayer.invincible)
 			{
 				foreach (int debuff in CalamityMod.debuffList)
 					player.buffImmune[debuff] = true;
@@ -1027,10 +1051,8 @@ namespace CalamityMod.CalPlayer
 
 			//Permafrost's Concoction bonuses/debuffs
 			if (modPlayer.permafrostsConcoction)
-			{
-				player.statManaMax2 += 50;
 				player.manaCost *= 0.85f;
-			}
+
 			if (modPlayer.encased)
 			{
 				player.statDefense += 30;

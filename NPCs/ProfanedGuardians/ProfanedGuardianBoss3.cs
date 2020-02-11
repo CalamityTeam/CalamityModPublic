@@ -71,32 +71,18 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
         public override void AI()
         {
-            bool expertMode = Main.expertMode;
-            bool isHoly = Main.player[npc.target].ZoneHoly;
-            bool isHell = Main.player[npc.target].ZoneUnderworldHeight;
-            npc.defense = (isHoly || isHell || CalamityWorld.bossRushActive) ? 25 : 99999;
-            Vector2 vectorCenter = npc.Center;
-            Player player = Main.player[npc.target];
-            npc.TargetClosest(false);
-            if (!player.active || player.dead)
-            {
-                npc.TargetClosest(false);
-                player = Main.player[npc.target];
-                if (!player.active || player.dead)
-                {
-                    npc.velocity = new Vector2(0f, -10f);
-                    if (npc.timeLeft > 150)
-                    {
-                        npc.timeLeft = 150;
-                    }
-                    return;
-                }
-            }
-            else if (npc.timeLeft < 1800)
-            {
-                npc.timeLeft = 1800;
-            }
-            if (Math.Sign(npc.velocity.X) != 0)
+			npc.TargetClosest(false);
+			Player player = Main.player[npc.target];
+			if (npc.timeLeft < 1800)
+				npc.timeLeft = 1800;
+
+			bool expertMode = Main.expertMode;
+			bool isHoly = player.ZoneHoly;
+			bool isHell = player.ZoneUnderworldHeight;
+			npc.defense = (isHoly || isHell || CalamityWorld.bossRushActive) ? 40 : 99999;
+			Vector2 vectorCenter = npc.Center;
+
+			if (Math.Sign(npc.velocity.X) != 0)
             {
                 npc.spriteDirection = -Math.Sign(npc.velocity.X);
             }
@@ -122,7 +108,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     Main.dust[num1012].fadeIn = 1f;
                 }
             }
-            if (!Main.npc[CalamityGlobalNPC.doughnutBoss].active)
+            if (CalamityGlobalNPC.doughnutBoss < 0 || !Main.npc[CalamityGlobalNPC.doughnutBoss].active)
             {
                 npc.active = false;
                 npc.netUpdate = true;
@@ -145,8 +131,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 }
                 if (Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y) < 21f) //8f
                 {
-                    npc.velocity.Y = npc.velocity.Y * 1.12f; //1.05f
-                    npc.velocity.X = npc.velocity.X * 1.12f; //1.05f
+                    npc.velocity *= 1.12f; //1.05f
                 }
                 if (Main.netMode != NetmodeID.MultiplayerClient && ((expertMode && Main.rand.NextBool(50)) || Main.rand.NextBool(100)))
                 {

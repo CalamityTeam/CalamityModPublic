@@ -192,27 +192,27 @@ namespace CalamityMod.NPCs.Polterghast
 
             if (npc.velocity.X < num736)
             {
-                npc.velocity.X = npc.velocity.X + num735;
+                npc.velocity.X += num735;
                 if (npc.velocity.X < 0f && num736 > 0f)
-                    npc.velocity.X = npc.velocity.X + num735 * 2f;
+                    npc.velocity.X += num735 * 2f;
             }
             else if (npc.velocity.X > num736)
             {
-                npc.velocity.X = npc.velocity.X - num735;
+                npc.velocity.X -= num735;
                 if (npc.velocity.X > 0f && num736 < 0f)
-                    npc.velocity.X = npc.velocity.X - num735 * 2f;
+                    npc.velocity.X -= num735 * 2f;
             }
             if (npc.velocity.Y < num737)
             {
-                npc.velocity.Y = npc.velocity.Y + num735;
+                npc.velocity.Y += num735;
                 if (npc.velocity.Y < 0f && num737 > 0f)
-                    npc.velocity.Y = npc.velocity.Y + num735 * 2f;
+                    npc.velocity.Y += num735 * 2f;
             }
             else if (npc.velocity.Y > num737)
             {
-                npc.velocity.Y = npc.velocity.Y - num735;
+                npc.velocity.Y -= num735;
                 if (npc.velocity.Y > 0f && num737 < 0f)
-                    npc.velocity.Y = npc.velocity.Y - num735 * 2f;
+                    npc.velocity.Y -= num735 * 2f;
             }
 
             Vector2 vector92 = new Vector2(vector.X, vector.Y);

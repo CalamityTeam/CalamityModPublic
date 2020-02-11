@@ -47,7 +47,6 @@ namespace CalamityMod.NPCs.DesertScourge
 
         public override void AI()
         {
-            Player player = Main.player[npc.target];
             if (!Main.npc[(int)npc.ai[1]].active)
             {
                 npc.life = 0;

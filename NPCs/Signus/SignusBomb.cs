@@ -63,25 +63,9 @@ namespace CalamityMod.NPCs.Signus
                     npc.ai[1] = 0f;
                 }
             }
-            Player player = Main.player[npc.target];
-            if (!player.active || player.dead)
-            {
-                npc.TargetClosest(false);
-                player = Main.player[npc.target];
-                if (!player.active || player.dead)
-                {
-                    if (npc.timeLeft > 10)
-                    {
-                        npc.timeLeft = 10;
-                    }
-                    return;
-                }
-            }
-            else if (npc.timeLeft > 600)
-            {
-                npc.timeLeft = 600;
-            }
-            Vector2 vector = Main.player[npc.target].Center - npc.Center;
+			npc.TargetClosest(true);
+			Player player = Main.player[npc.target];
+            Vector2 vector = player.Center - npc.Center;
             if (vector.Length() < 90f || npc.ai[3] >= 300f)
             {
                 npc.dontTakeDamage = false;
@@ -93,11 +77,9 @@ namespace CalamityMod.NPCs.Signus
             npc.dontTakeDamage = npc.ai[3] >= 240f ? false : true;
             if (npc.ai[3] >= 180f)
             {
-                npc.velocity.Y *= 0.985f;
-                npc.velocity.X *= 0.985f;
+                npc.velocity *= 0.985f;
                 return;
             }
-            npc.TargetClosest(true);
             float num1372 = 14f;
             Vector2 vector167 = new Vector2(npc.Center.X + (float)(npc.direction * 20), npc.Center.Y + 6f);
             float num1373 = player.position.X + (float)player.width * 0.5f - vector167.X;

@@ -141,6 +141,8 @@ namespace CalamityMod.NPCs.Ravager
                     npc.noTileCollide = true;
             }
 
+			Player player = Main.player[npc.target];
+
             if (npc.alpha > 0)
             {
                 npc.alpha -= 10;
@@ -171,7 +173,7 @@ namespace CalamityMod.NPCs.Ravager
             }
 
             bool enrage = false;
-            if (Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) > npc.position.Y + (float)(npc.height / 2) + 10f)
+            if (player.position.Y + (float)(player.height / 2) > npc.position.Y + (float)(npc.height / 2) + 10f)
                 enrage = true;
 
             if (headActive || rightClawActive || leftClawActive || rightLegActive || leftLegActive)
@@ -215,7 +217,7 @@ namespace CalamityMod.NPCs.Ravager
                     {
                         npc.localAI[1] = 0f;
                         npc.TargetClosest(true);
-                        if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
+                        if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
                         {
                             Vector2 shootFromVector = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
                             float spread = 45f * 0.0174f;
@@ -388,7 +390,7 @@ namespace CalamityMod.NPCs.Ravager
 
                 if (npc.velocity.Y == 0f)
                 {
-                    npc.velocity.X = npc.velocity.X * 0.8f;
+                    npc.velocity.X *= 0.8f;
 
                     npc.ai[1] += 1f;
                     if (npc.ai[1] > 0f)
@@ -415,7 +417,7 @@ namespace CalamityMod.NPCs.Ravager
                     {
                         npc.TargetClosest(true);
 
-						bool shouldFall = (Main.player[npc.target].position.Y >= npc.position.Y + (float)npc.height);
+						bool shouldFall = (player.position.Y >= npc.position.Y + (float)npc.height);
 						float velocityXBoost = death ? 4f : 4f * (1f - lifeRatio);
 						float velocityX = ((enrage || npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 8f : 4f) + velocityXBoost;
 						float velocityY = -16f;
@@ -466,8 +468,8 @@ namespace CalamityMod.NPCs.Ravager
 
                         if (NPC.CountNPCS(ModContent.NPCType<FlamePillar>()) < 2)
                         {
-                            NPC.NewNPC((int)Main.player[npc.target].Center.X - 180, (int)Main.player[npc.target].Center.Y - 10, ModContent.NPCType<FlamePillar>(), 0, 0f, 0f, 0f, 0f, 255);
-                            NPC.NewNPC((int)Main.player[npc.target].Center.X + 180, (int)Main.player[npc.target].Center.Y - 10, ModContent.NPCType<FlamePillar>(), 0, 0f, 0f, 0f, 0f, 255);
+                            NPC.NewNPC((int)player.Center.X - 180, (int)player.Center.Y - 10, ModContent.NPCType<FlamePillar>(), 0, 0f, 0f, 0f, 0f, 255);
+                            NPC.NewNPC((int)player.Center.X + 180, (int)player.Center.Y - 10, ModContent.NPCType<FlamePillar>(), 0, 0f, 0f, 0f, 0f, 255);
                         }
                     }
 
@@ -492,28 +494,28 @@ namespace CalamityMod.NPCs.Ravager
 
                     // Fall through
                     if (npc.target >= 0 && revenge &&
-                        ((Main.player[npc.target].position.Y > npc.position.Y + (float)npc.height && npc.velocity.Y > 0f) || (Main.player[npc.target].position.Y < npc.position.Y + (float)npc.height && npc.velocity.Y < 0f)))
+                        ((player.position.Y > npc.position.Y + (float)npc.height && npc.velocity.Y > 0f) || (player.position.Y < npc.position.Y + (float)npc.height && npc.velocity.Y < 0f)))
                         npc.noTileCollide = true;
-                    else if (!Main.player[npc.target].dead)
+                    else if (!player.dead)
                         npc.noTileCollide = false;
 
-                    if (npc.position.X < Main.player[npc.target].position.X && npc.position.X + (float)npc.width > Main.player[npc.target].position.X + (float)Main.player[npc.target].width)
+                    if (npc.position.X < player.position.X && npc.position.X + (float)npc.width > player.position.X + (float)player.width)
                     {
-                        npc.velocity.X = npc.velocity.X * 0.9f;
+                        npc.velocity.X *= 0.9f;
 
-                        if (Main.player[npc.target].position.Y > npc.position.Y + (float)npc.height)
+                        if (player.position.Y > npc.position.Y + (float)npc.height)
                         {
 							float fallSpeedBoost = death ? 0.6f : 0.6f * (1f - lifeRatio);
                             float fallSpeed = 0.6f + fallSpeedBoost;
-                            npc.velocity.Y = npc.velocity.Y + fallSpeed;
+                            npc.velocity.Y += fallSpeed;
                         }
                     }
                     else
                     {
                         if (npc.direction < 0)
-                            npc.velocity.X = npc.velocity.X - 0.2f;
+                            npc.velocity.X -= 0.2f;
                         else if (npc.direction > 0)
-                            npc.velocity.X = npc.velocity.X + 0.2f;
+                            npc.velocity.X += 0.2f;
 
 						float velocityXBoost = death ? 4f : 4f * (1f - lifeRatio);
                         float velocityX = 3f + velocityXBoost;
@@ -538,18 +540,22 @@ namespace CalamityMod.NPCs.Ravager
                 }
             }
 
-            if (npc.target <= 0 || npc.target == 255 || Main.player[npc.target].dead)
-                npc.TargetClosest(true);
+			player = Main.player[npc.target];
+			if (npc.target <= 0 || npc.target == 255 || player.dead || !player.active)
+			{
+				npc.TargetClosest(true);
+				player = Main.player[npc.target];
+			}
 
             int distanceFromTarget = 3000;
-            if (Math.Abs(npc.Center.X - Main.player[npc.target].Center.X) + Math.Abs(npc.Center.Y - Main.player[npc.target].Center.Y) > (float)distanceFromTarget)
+            if (Math.Abs(npc.Center.X - player.Center.X) + Math.Abs(npc.Center.Y - player.Center.Y) > (float)distanceFromTarget)
             {
                 npc.TargetClosest(true);
-                if (Math.Abs(npc.Center.X - Main.player[npc.target].Center.X) + Math.Abs(npc.Center.Y - Main.player[npc.target].Center.Y) > (float)distanceFromTarget)
+				player = Main.player[npc.target];
+				if (Math.Abs(npc.Center.X - player.Center.X) + Math.Abs(npc.Center.Y - player.Center.Y) > (float)distanceFromTarget)
                 {
                     npc.active = false;
                     npc.netUpdate = true;
-                    return;
                 }
             }
         }

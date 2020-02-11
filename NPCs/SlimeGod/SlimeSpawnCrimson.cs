@@ -27,7 +27,7 @@ namespace CalamityMod.NPCs.SlimeGod
             }
             npc.knockBackResist = 0f;
             animationType = 81;
-            npc.alpha = 60;
+            npc.alpha = 55;
             npc.lavaImmune = false;
             npc.noGravity = false;
             npc.noTileCollide = false;

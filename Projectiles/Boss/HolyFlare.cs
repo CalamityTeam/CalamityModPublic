@@ -29,6 +29,7 @@ namespace CalamityMod.Projectiles.Boss
         public override void AI()
         {
             Player player = Main.player[projectile.owner];
+
             projectile.frameCounter++;
             if (projectile.frameCounter > 8)
             {
@@ -36,35 +37,29 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.frameCounter = 0;
             }
             if (projectile.frame > 3)
-            {
                 projectile.frame = 0;
-            }
-            projectile.velocity.Y = projectile.velocity.Y + 0.02f;
+
+            projectile.velocity.Y += 0.02f;
             if (projectile.velocity.Y > 1f)
-            {
                 projectile.velocity.Y = 1f;
-            }
+
             if (projectile.position.X + (float)projectile.width < player.position.X)
             {
                 if (projectile.velocity.X < 0f)
-                {
-                    projectile.velocity.X = projectile.velocity.X * 0.98f;
-                }
-                projectile.velocity.X = projectile.velocity.X + 0.025f;
+                    projectile.velocity.X *= 0.98f;
+                projectile.velocity.X += 0.1f;
             }
             else if (projectile.position.X > player.position.X + (float)player.width)
             {
                 if (projectile.velocity.X > 0f)
-                {
-                    projectile.velocity.X = projectile.velocity.X * 0.98f;
-                }
-                projectile.velocity.X = projectile.velocity.X - 0.025f;
+                    projectile.velocity.X *= 0.98f;
+                projectile.velocity.X -= 0.1f;
             }
-            if (projectile.velocity.X > 5f || projectile.velocity.X < -5f)
-            {
-                projectile.velocity.X = projectile.velocity.X * 0.97f;
-            }
-            projectile.rotation = projectile.velocity.X * 0.05f;
+
+            if (projectile.velocity.X > 10f || projectile.velocity.X < -10f)
+                projectile.velocity.X *= 0.97f;
+
+            projectile.rotation = projectile.velocity.X * 0.025f;
         }
 
         public override Color? GetAlpha(Color lightColor)

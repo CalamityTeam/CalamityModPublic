@@ -86,14 +86,14 @@ namespace CalamityMod.NPCs.AstrumAureus
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(stomping);
+			writer.Write(stomping);
             writer.Write(npc.dontTakeDamage);
             writer.Write(npc.chaseable);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            stomping = reader.ReadBoolean();
+			stomping = reader.ReadBoolean();
             npc.dontTakeDamage = reader.ReadBoolean();
             npc.chaseable = reader.ReadBoolean();
         }

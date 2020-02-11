@@ -45,7 +45,7 @@ namespace CalamityMod.NPCs.Crabulon
         {
             Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0f, 0.2f, 0.4f);
             bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
-            float speed = revenge ? 1.5f : 1f;
+            float speed = revenge ? 1.25f : 1f;
             Player player = Main.player[npc.target];
             npc.velocity.Y += 0.02f;
             if (npc.velocity.Y > speed)

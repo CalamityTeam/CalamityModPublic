@@ -74,7 +74,7 @@ namespace CalamityMod.NPCs.Calamitas
             music = MusicID.Boss2;
         }
 
-        public override void FindFrame(int frameHeight)
+		public override void FindFrame(int frameHeight)
         {
             npc.frameCounter += 0.15f;
             npc.frameCounter %= Main.npcFrameCount[npc.type];

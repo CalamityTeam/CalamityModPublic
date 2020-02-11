@@ -147,7 +147,7 @@ namespace CalamityMod.NPCs.GreatSandShark
                 }
                 if (player.dead || Vector2.Distance(player.Center, vector) > 5600f)
                 {
-                    npc.velocity.Y = npc.velocity.Y + 0.4f;
+                    npc.velocity.Y += 0.4f;
                     if (npc.timeLeft > 10)
                     {
                         npc.timeLeft = 10;
@@ -220,34 +220,34 @@ namespace CalamityMod.NPCs.GreatSandShark
                     Vector2 vector3 = Vector2.Normalize(player.Center + new Vector2(npc.ai[1], -200f) - vector - npc.velocity) * scaleFactor;
                     if (npc.velocity.X < vector3.X)
                     {
-                        npc.velocity.X = npc.velocity.X + num3;
+                        npc.velocity.X += num3;
                         if (npc.velocity.X < 0f && vector3.X > 0f)
                         {
-                            npc.velocity.X = npc.velocity.X + num3;
+                            npc.velocity.X += num3;
                         }
                     }
                     else if (npc.velocity.X > vector3.X)
                     {
-                        npc.velocity.X = npc.velocity.X - num3;
+                        npc.velocity.X -= num3;
                         if (npc.velocity.X > 0f && vector3.X < 0f)
                         {
-                            npc.velocity.X = npc.velocity.X - num3;
+                            npc.velocity.X -= num3;
                         }
                     }
                     if (npc.velocity.Y < vector3.Y)
                     {
-                        npc.velocity.Y = npc.velocity.Y + num3;
+                        npc.velocity.Y += num3;
                         if (npc.velocity.Y < 0f && vector3.Y > 0f)
                         {
-                            npc.velocity.Y = npc.velocity.Y + num3;
+                            npc.velocity.Y += num3;
                         }
                     }
                     else if (npc.velocity.Y > vector3.Y)
                     {
-                        npc.velocity.Y = npc.velocity.Y - num3;
+                        npc.velocity.Y -= num3;
                         if (npc.velocity.Y > 0f && vector3.Y < 0f)
                         {
-                            npc.velocity.Y = npc.velocity.Y - num3;
+                            npc.velocity.Y -= num3;
                         }
                     }
                     int num22 = Math.Sign(player.Center.X - vector.X);
@@ -386,8 +386,8 @@ namespace CalamityMod.NPCs.GreatSandShark
                     if (flag122)
                     {
                         npc.TargetClosest(true);
-                        npc.velocity.X = npc.velocity.X + (float)npc.direction * 0.15f;
-                        npc.velocity.Y = npc.velocity.Y + (float)npc.directionY * 0.15f;
+                        npc.velocity.X += (float)npc.direction * 0.15f;
+                        npc.velocity.Y += (float)npc.directionY * 0.15f;
                         float velocityX = 8f;
                         float velocityY = 6f;
                         switch ((int)npc.ai[3])
@@ -468,16 +468,16 @@ namespace CalamityMod.NPCs.GreatSandShark
                             }
                             npc.ai[2] = -30f;
                             Vector2 vector261 = npc.DirectionTo(vector260 + new Vector2(0f, -80f));
-                            npc.velocity = vector261 * 18f; //12
+                            npc.velocity = vector261 * 18f;
                         }
                     }
                     else
                     {
                         float num1535 = 6f;
-                        npc.velocity.X = npc.velocity.X + (float)npc.direction * 0.1f;
+                        npc.velocity.X += (float)npc.direction * 0.1f;
                         if (npc.velocity.X < -num1535 || npc.velocity.X > num1535)
                         {
-                            npc.velocity.X = npc.velocity.X * 0.95f; //.95
+                            npc.velocity.X *= 0.95f;
                         }
                         if (flag123)
                         {
@@ -491,7 +491,7 @@ namespace CalamityMod.NPCs.GreatSandShark
                         float num1537 = 0.01f;
                         if (npc.ai[0] == -1f)
                         {
-                            npc.velocity.Y = npc.velocity.Y - num1537;
+                            npc.velocity.Y -= num1537;
                             if (npc.velocity.Y < -num1536)
                             {
                                 npc.ai[0] = 1f;
@@ -499,7 +499,7 @@ namespace CalamityMod.NPCs.GreatSandShark
                         }
                         else
                         {
-                            npc.velocity.Y = npc.velocity.Y + num1537;
+                            npc.velocity.Y += num1537;
                             if (npc.velocity.Y > num1536)
                             {
                                 npc.ai[0] = -1f;
@@ -507,7 +507,7 @@ namespace CalamityMod.NPCs.GreatSandShark
                         }
                         if (npc.velocity.Y > 0.4f || npc.velocity.Y < -0.4f)
                         {
-                            npc.velocity.Y = npc.velocity.Y * 0.95f;
+                            npc.velocity.Y *= 0.95f;
                         }
                     }
                 }
@@ -520,10 +520,10 @@ namespace CalamityMod.NPCs.GreatSandShark
                             npc.TargetClosest(true);
                         }
                         float num1538 = 1f;
-                        npc.velocity.X = npc.velocity.X + (float)npc.direction * 0.1f;
+                        npc.velocity.X += (float)npc.direction * 0.1f;
                         if (npc.velocity.X < -num1538 || npc.velocity.X > num1538)
                         {
-                            npc.velocity.X = npc.velocity.X * 0.95f; //.95
+                            npc.velocity.X *= 0.95f;
                         }
                     }
                     if (npc.localAI[2] == 0f)
@@ -560,7 +560,7 @@ namespace CalamityMod.NPCs.GreatSandShark
                         npc.velocity.X = velocityX * (float)npc.direction;
                         npc.netUpdate = true;
                     }
-                    npc.velocity.Y = npc.velocity.Y + 0.4f; //0.3
+                    npc.velocity.Y += 0.4f;
                     if (npc.velocity.Y > 10f)
                     {
                         npc.velocity.Y = 10f;

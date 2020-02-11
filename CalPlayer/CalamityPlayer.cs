@@ -964,13 +964,6 @@ namespace CalamityMod.CalPlayer
 			if (providenceLore)
 				player.statLifeMax2 = (int)((double)player.statLifeMax2 * 0.8);
 
-			// Max mana bonuses
-			player.statManaMax2 +=
-				(pHeart ? 50 : 0) +
-				(eCore ? 50 : 0) +
-				(cShard ? 50 : 0) +
-				(starBeamRye ? 50 : 0);
-
 			// Extra accessory slots
 			if (extraAccessoryML)
 				player.extraAccessorySlots = 1;
