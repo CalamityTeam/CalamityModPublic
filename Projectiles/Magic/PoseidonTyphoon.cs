@@ -26,27 +26,33 @@ namespace CalamityMod.Projectiles.Magic
         public override void AI()
         {
             projectile.rotation += projectile.velocity.X * 0.05f;
-            float centerX = projectile.Center.X;
-            float centerY = projectile.Center.Y;
-            float num474 = 600f;
-            bool homeIn = false;
-            for (int i = 0; i < 200; i++)
-            {
-                if (Main.npc[i].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1))
-                {
-                    float num476 = Main.npc[i].position.X + (float)(Main.npc[i].width / 2);
-                    float num477 = Main.npc[i].position.Y + (float)(Main.npc[i].height / 2);
-                    float num478 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num476) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num477);
-                    if (num478 < num474)
-                    {
-                        num474 = num478;
-                        centerX = num476;
-                        centerY = num477;
-                        homeIn = true;
-                    }
-                }
-            }
-            if (homeIn)
+
+			float centerX = projectile.Center.X;
+			float centerY = projectile.Center.Y;
+			float distance = 600f;
+			bool homeIn = false;
+			for (int num475 = 0; num475 < 200; num475++)
+			{
+				if (Main.npc[num475].CanBeChasedBy(projectile, false))
+				{
+					float extraDistance = (float)(Main.npc[num475].width / 2) + (float)(Main.npc[num475].height / 2);
+
+					bool useCollisionDetection = extraDistance < distance;
+					bool canHit = true;
+					if (useCollisionDetection)
+						canHit = Collision.CanHit(projectile.Center, 1, 1, Main.npc[num475].Center, 1, 1);
+
+					if (Vector2.Distance(Main.npc[num475].Center, projectile.Center) < (distance + extraDistance) && canHit)
+					{
+						distance = Vector2.Distance(Main.npc[num475].Center, projectile.Center);
+						centerX = Main.npc[num475].Center.X;
+						centerY = Main.npc[num475].Center.Y;
+						homeIn = true;
+					}
+				}
+			}
+
+			if (homeIn)
             {
                 float num483 = 6f;
                 Vector2 vector35 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);

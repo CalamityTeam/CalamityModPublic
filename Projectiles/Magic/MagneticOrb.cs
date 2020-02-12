@@ -51,41 +51,41 @@ namespace CalamityMod.Projectiles.Magic
             {
                 projectile.velocity *= 0.98f;
             }
-            int num3;
-            for (int num433 = 0; num433 < 1000; num433 = num3 + 1)
-            {
-                num3 = num433;
-            }
-            int[] array = new int[20];
-            int num434 = 0;
-            float num435 = 400f;
-            bool flag14 = false;
-            for (int num436 = 0; num436 < 200; num436 = num3 + 1)
-            {
-                if (Main.npc[num436].CanBeChasedBy(projectile, false))
-                {
-                    float num437 = Main.npc[num436].position.X + (float)(Main.npc[num436].width / 2);
-                    float num438 = Main.npc[num436].position.Y + (float)(Main.npc[num436].height / 2);
-                    float num439 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num437) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num438);
-                    if (num439 < num435 && Collision.CanHit(projectile.Center, 1, 1, Main.npc[num436].Center, 1, 1))
-                    {
-                        if (num434 < 20)
-                        {
-                            array[num434] = num436;
-                            num434++;
-                        }
-                        flag14 = true;
-                    }
-                }
-                num3 = num436;
-            }
-            if (projectile.timeLeft < 30)
+
+			int[] array = new int[20];
+			int num428 = 0;
+			float distance = 300f;
+			bool flag14 = false;
+			for (int num430 = 0; num430 < 200; num430++)
+			{
+				if (Main.npc[num430].CanBeChasedBy(projectile, false))
+				{
+					float extraDistance = (float)(Main.npc[num430].width / 2) + (float)(Main.npc[num430].height / 2);
+
+					bool useCollisionDetection = extraDistance < distance;
+					bool canHit = true;
+					if (useCollisionDetection)
+						canHit = Collision.CanHit(projectile.Center, 1, 1, Main.npc[num430].Center, 1, 1);
+
+					if (Vector2.Distance(Main.npc[num430].Center, projectile.Center) < (distance + extraDistance) && canHit)
+					{
+						if (num428 < 20)
+						{
+							array[num428] = num430;
+							num428++;
+						}
+						flag14 = true;
+					}
+				}
+			}
+
+			if (projectile.timeLeft < 30)
             {
                 flag14 = false;
             }
             if (flag14)
             {
-                int num440 = Main.rand.Next(num434);
+                int num440 = Main.rand.Next(num428);
                 num440 = array[num440];
                 float num441 = Main.npc[num440].position.X + (float)(Main.npc[num440].width / 2);
                 float num442 = Main.npc[num440].position.Y + (float)(Main.npc[num440].height / 2);
@@ -103,7 +103,6 @@ namespace CalamityMod.Projectiles.Magic
                     num444 *= num446;
                     num445 *= num446;
                     Projectile.NewProjectile(vector33.X, vector33.Y, num444, num445, ModContent.ProjectileType<MagneticBeam>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-                    return;
                 }
             }
         }
