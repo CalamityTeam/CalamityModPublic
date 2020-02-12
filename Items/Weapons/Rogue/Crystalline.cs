@@ -53,6 +53,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             {
                 int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<CrystallineProj>(), damage, knockBack, player.whoAmI, 0f, 0f);
                 Main.projectile[proj].Calamity().stealthStrike = true;
+                return false;
             }
             return true;
         }
