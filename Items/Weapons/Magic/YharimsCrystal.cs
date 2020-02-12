@@ -17,9 +17,9 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 240;
+            item.damage = 220;
             item.magic = true;
-            item.mana = 100;
+            item.mana = 12;
             item.width = 16;
             item.height = 16;
             item.useTime = 10;
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.noUseGraphic = true;
             item.channel = true;
             item.knockBack = 0f;
-            item.value = Item.buyPrice(1, 80, 0, 0);
+            item.value = Item.buyPrice(platinum: 1, gold: 80);
             item.rare = 10;
             item.shoot = ModContent.ProjectileType<YharimsCrystalPrism>();
             item.shootSpeed = 30f;
@@ -40,7 +40,9 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override bool CanUseItem(Player player)
         {
-            for (int i = 0; i < Main.projectile.Length; i++)
+            return player.ownedProjectileCounts[ModContent.ProjectileType<YharimsCrystalPrism>()] == 0;
+            /*
+            for (int i = 0; i < Main.maxProjectiles; i++)
             {
                 Projectile p = Main.projectile[i];
                 if (p.active && p.type == ModContent.ProjectileType<YharimsCrystalPrism>() && p.owner == player.whoAmI)
@@ -49,39 +51,21 @@ namespace CalamityMod.Items.Weapons.Magic
                 }
             }
             return true;
+            */
         }
 
+        // developer or yharon restriction has been removed
+        /*
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            bool playerName =
-                player.name == "Fabsol" ||
-                player.name == "Ziggums" ||
-                player.name == "Poly" ||
-                player.name == "Zach" ||
-                player.name == "Grox the Great" ||
-                player.name == "Jenosis" ||
-                player.name == "DM DOKURO" ||
-                player.name == "Uncle Danny" ||
-                player.name == "Phoenix" ||
-                player.name == "MineCat" ||
-                player.name == "Khaelis" ||
-                player.name == "Purple Necromancer" ||
-                player.name == "gamagamer64" ||
-                player.name == "Svante" ||
-                player.name == "Puff" ||
-                player.name == "Leviathan" ||
-                player.name == "Testdude";
-            bool yharon = CalamityWorld.downedYharon;
-            if (playerName || yharon)
-            {
+            if (CalamityWorld.downedYharon || CalamityMod.developerList.Contains(player.name))
                 Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
-                return false;
-            }
+
+            // otherwise, zero damage dynamite
             else
-            {
-                Projectile.NewProjectile(position.X, position.Y, 0f, 0f, 29, 0, 0f, player.whoAmI, 0f, 0f);
-                return false;
-            }
+                Projectile.NewProjectile(position.X, position.Y, 0f, 0f, ProjectileID.Dynamite, 0, 0f, player.whoAmI, 0f, 0f);
+            return false;
         }
+        */
     }
 }
