@@ -55,6 +55,14 @@ namespace CalamityMod
         #endregion
 
         #region Player Utilities
+        // These functions factor in TML 0.11 allDamage to get the player's total damage boost which affects the specified class.
+        public static float MeleeDamage(this Player player) => player.allDamage + player.meleeDamage - 1f;
+        public static float RangedDamage(this Player player) => player.allDamage + player.rangedDamage - 1f;
+        public static float MagicDamage(this Player player) => player.allDamage + player.magicDamage - 1f;
+        public static float MinionDamage(this Player player) => player.allDamage + player.minionDamage - 1f;
+        public static float ThrownDamage(this Player player) => player.allDamage + player.thrownDamage - 1f;
+        public static float RogueDamage(this Player player) => player.allDamage + player.thrownDamage + player.Calamity().throwingDamage - 2f;
+
         public static bool InCalamity(this Player player) => player.Calamity().ZoneCalamity;
         public static bool InAstral(this Player player) => player.Calamity().ZoneAstral;
         public static bool InSunkenSea(this Player player) => player.Calamity().ZoneSunkenSea;
