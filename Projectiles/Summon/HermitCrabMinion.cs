@@ -333,11 +333,11 @@ namespace CalamityMod.Projectiles.Summon
                     }
                 }
             }
-            if ((double)projectile.velocity.X > 0.25)
+            if (projectile.velocity.X > 0.25f)
             {
                 projectile.spriteDirection = 1;
             }
-            else if ((double)projectile.velocity.X < -0.25)
+            else if (projectile.velocity.X < -0.25f)
             {
                 projectile.spriteDirection = -1;
             }
