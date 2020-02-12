@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class AstralScytheProjectile : ModProjectile
     {
+		private tileCounter = 5;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Astral Ring");
@@ -28,10 +30,16 @@ namespace CalamityMod.Projectiles.Melee
             projectile.penetrate = 8;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 5;
+			projectile.tileCollide = false;
         }
 
         public override void AI()
         {
+			if (tileCounter > 0)
+				tileCounter--;
+			if (tileCounter <= 0)
+				projectile.tileCollide = true;
+
             projectile.velocity *= 1.03f;
 
             projectile.frameCounter++;
