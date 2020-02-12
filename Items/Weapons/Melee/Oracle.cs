@@ -10,7 +10,11 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class Oracle : ModItem
     {
-        public override void SetStaticDefaults()
+        public const int YoyoBaseDamage = 420;
+		public const int AuraBaseDamage = 150;
+		public const int AuraMaxDamage = 450;
+		
+		public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Oracle");
             Tooltip.SetDefault("Emits an aura of red lightning which charges up when hitting enemies\n" +
@@ -27,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.width = 54;
             item.height = 42;
             item.melee = true;
-            item.damage = 420;
+            item.damage = YoyoBaseDamage;
             item.knockBack = 4f;
             item.useTime = 20;
             item.useAnimation = 20;

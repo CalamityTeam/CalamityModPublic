@@ -61,7 +61,6 @@ Stealth strikes summon more lightning and travel faster");
 
         public override void AddRecipes()
         {
-
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<StormfrontRazor>());
             recipe.AddIngredient(ModContent.ItemType<ArmoredShell>(), 8);

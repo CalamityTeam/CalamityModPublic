@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 1401;
+            item.damage = 1600;
             item.ranged = true;
             item.width = 84;
             item.height = 30;
@@ -61,6 +61,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<ThePack>());
             recipe.AddIngredient(ModContent.ItemType<BlissfulBombardier>());
             recipe.AddIngredient(ModContent.ItemType<AethersWhisper>());
             recipe.AddIngredient(ItemID.ElectrosphereLauncher);

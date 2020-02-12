@@ -7920,13 +7920,11 @@ namespace CalamityMod.CalPlayer
 					float num25 = -4f;
 					float num24 = -8f;
 					DrawData howDoIDrawThings = new DrawData(thingToDraw,
-						new Vector2((int)(drawPlayer.position.X - Main.screenPosition.X + (drawPlayer.width / 2) - (9 * drawPlayer.direction)) + num25 * drawPlayer.direction,
-						(int)(drawPlayer.position.Y - Main.screenPosition.Y + (drawPlayer.height / 2) + 2f * drawPlayer.gravDir + num24 * drawPlayer.gravDir)),
+						new Vector2((int)(drawPlayer.position.X - Main.screenPosition.X + (drawPlayer.width / 2) - (9 * drawPlayer.direction)) + num25 * drawPlayer.direction, (int)(drawPlayer.position.Y - Main.screenPosition.Y + (drawPlayer.height / 2) + 2f * drawPlayer.gravDir + num24 * drawPlayer.gravDir)),
 						new Rectangle(0, 0, thingToDraw.Width, thingToDraw.Height),
 						color89,
 						drawPlayer.bodyRotation,
-						new Vector2(thingToDraw.Width / 2,
-						thingToDraw.Height / 2),
+						new Vector2(thingToDraw.Width / 2, thingToDraw.Height / 2),
 						1f,
 						spriteEffects,
 						0);

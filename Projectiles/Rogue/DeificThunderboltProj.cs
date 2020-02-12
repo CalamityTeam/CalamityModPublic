@@ -76,11 +76,13 @@ namespace CalamityMod.Projectiles.Rogue
 
 			if (Main.myPlayer == projectile.owner)
 			{
-				if (projectile.Calamity().stealthStrike)
+				bool stealthStrike = projectile.Calamity().stealthStrike;
+				if (stealthStrike)
 				{
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/LightningStrike"), (int)projectile.position.X, (int)projectile.position.Y);
 				}
-				int amt = (projectile.Calamity().stealthStrike ? Main.rand.Next(3, 6) : 1);
+				int amt = stealthStrike ? Main.rand.Next(3, 6) : 1;
+				float damageMult = stealthStrike ? 0.5f : 1f;
 				for (int n = 0; n < amt; n++)
 				{
 					Vector2 spawnPoint = new Vector2(projectile.Center.X + (float)Main.rand.Next(-100, 101), projectile.Center.Y - (float)Main.rand.Next(700, 801));
@@ -89,7 +91,7 @@ namespace CalamityMod.Projectiles.Rogue
 					Vector2 ai0 = fireTo - spawnPoint;
 					float ai = (float)Main.rand.Next(100);
 					Vector2 velocity = Vector2.Normalize(ai0.RotatedByRandom(0.78539818525314331)) * 7f;
-					int proj = Projectile.NewProjectile(spawnPoint.X, spawnPoint.Y, velocity.X, velocity.Y, ProjectileID.CultistBossLightningOrbArc, projectile.damage, projectile.knockBack, projectile.owner, ai0.ToRotation(), ai);
+					int proj = Projectile.NewProjectile(spawnPoint.X, spawnPoint.Y, velocity.X, velocity.Y, ProjectileID.CultistBossLightningOrbArc, (int)(projectile.damage * damageMult), projectile.knockBack, projectile.owner, ai0.ToRotation(), ai);
 					Main.projectile[proj].extraUpdates += 6;
 					//Does not force to Rogue because lightning is extremely abusable with Moonstone Crown
 					Main.projectile[proj].friendly = true;
