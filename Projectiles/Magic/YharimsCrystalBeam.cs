@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Magic
         private const float PiOver6 = MathHelper.Pi / 6f;
         private const float BeamPosOffset = 16f;
         private const float MaxBeamScale = 1.8f;
-        private const float FullDamageMultiplier = 2.7f;
+        private const float FullDamageMultiplier = 3f;
         private const int NumSamplePoints = 2;
         private const float BeamTileCollisionWidth = 0f;
         private const float MaxBeamLength = 2400f;
@@ -79,30 +79,30 @@ namespace CalamityMod.Projectiles.Magic
                     case "Poly":
                         return 0.83f;
                     case "Zach":
-                        return 1.5f + (float)Math.Cos(Main.time / 180.0 * 6.2831854820251465) * 0.1f;
+                        return 1.5f + (float)Math.Cos(Main.time / 180.0 * Math.PI * 2.0) * 0.1f;
                     case "Grox the Great":
                         return 1.27f;
                     case "Jenosis":
-                        return 0.65f + (float)Math.Cos(Main.time / 180.0 * 6.2831854820251465) * 0.1f;
+                        return 0.65f + (float)Math.Cos(Main.time / 180.0 * Math.PI * 2.0) * 0.1f;
                     case "DM DOKURO":
                         return 0f;
                     case "Uncle Danny":
                     case "Phoenix":
-                        return 1.7f + (float)Math.Cos(Main.time / 180.0 * 6.2831854820251465) * 0.07f;
+                        return 1.7f + (float)Math.Cos(Main.time / 180.0 * Math.PI * 2.0) * 0.07f;
                     case "Minecat":
-                        return 0.15f + (float)Math.Cos(Main.time / 180.0 * 6.2831854820251465) * 0.07f;
+                        return 0.15f + (float)Math.Cos(Main.time / 180.0 * Math.PI * 2.0) * 0.07f;
                     case "Khaelis":
-                        return 1.15f + (float)Math.Cos(Main.time / 180.0 * 6.2831854820251465) * 0.18f;
+                        return 1.15f + (float)Math.Cos(Main.time / 180.0 * Math.PI * 2.0) * 0.18f;
                     case "Purple Necromancer":
-                        return 1.7f + (float)Math.Cos(Main.time / 120.0 * 6.2831854820251465) * 0.05f;
+                        return 1.7f + (float)Math.Cos(Main.time / 120.0 * Math.PI * 2.0) * 0.05f;
                     case "gamagamer64":
-                        return 0.83f + (float)Math.Cos(Main.time / 120.0 * 6.2831854820251465) * 0.03f;
+                        return 0.83f + (float)Math.Cos(Main.time / 120.0 * Math.PI * 2.0) * 0.03f;
                     case "Svante":
-                        return 1.4f + (float)Math.Cos(Main.time / 180.0 * 6.2831854820251465) * 0.06f;
+                        return 1.4f + (float)Math.Cos(Main.time / 180.0 * Math.PI * 2.0) * 0.06f;
                     case "Puff":
-                        return 0.31f + (float)Math.Cos(Main.time / 120.0 * 6.2831854820251465) * 0.13f;
+                        return 0.31f + (float)Math.Cos(Main.time / 120.0 * Math.PI * 2.0) * 0.13f;
                     case "Leviathan":
-                        return 1.9f + (float)Math.Cos(Main.time / 180.0 * 6.2831854820251465) * 0.1f;
+                        return 1.9f + (float)Math.Cos(Main.time / 180.0 * Math.PI * 2.0) * 0.1f;
                     case "Testdude":
                         return Main.rand.NextFloat();
                 }
@@ -131,9 +131,9 @@ namespace CalamityMod.Projectiles.Magic
 
             Vector2 hostCrystalDir = Vector2.Normalize(hostCrystal.velocity);
             float projScale;
-            float y;
-            float twentyDownScale;
-            float negativeTwentyTwoUpScale;
+            float spinRate;
+            float beamStartSidewaysOffset;
+            float beamStartForwardsOffset;
 
             // At any point before 180 frames, these variables scale smoothly.
             if (hostCrystal.ai[0] < 180f)
@@ -142,57 +142,54 @@ namespace CalamityMod.Projectiles.Magic
                 projScale = MaxBeamScale * hostCrystal.ai[0] / 180f;
 
                 // From 0 to 180 frames, this variable scales down from 20 to 6.
-                y = 20f - hostCrystal.ai[0] / 180f * 14f;
+                beamStartSidewaysOffset = 20f - hostCrystal.ai[0] / 180f * 14f;
 
                 // From 0 to 180 frames, this variable scales up from -22 to -2.
-                negativeTwentyTwoUpScale = -22f + hostCrystal.ai[0] / 180f * 20f;
+                beamStartForwardsOffset = -22f + hostCrystal.ai[0] / 180f * 20f;
 
                 // From 0 to 120 frames, the opacity scales up from 0% to 40%.
                 // Unknown variable scales down from 20 to 16.
                 if (hostCrystal.ai[0] < 120f)
                 {
-                    twentyDownScale = 20f - 4f * (hostCrystal.ai[0] / 120f);
                     projectile.Opacity = hostCrystal.ai[0] / 120f * 0.4f;
+                    spinRate = 20f - 4f * (hostCrystal.ai[0] / 120f);
                 }
 
                 // Between 120 and 180 frames, the opacity scales up from 40% to 100%.
-                // Unknown variable scales down from 16 to 6.
                 else
                 {
-                    twentyDownScale = 16f - 10f * ((hostCrystal.ai[0] - 120f) / 60f);
                     projectile.Opacity = 0.4f + (hostCrystal.ai[0] - 120f) / 60f * 0.6f;
+                    spinRate = 16f - 10f * ((hostCrystal.ai[0] - 120f) / 60f);
                 }
             }
-
             // Past 180 frames, these variables are fixed in place.
-            // UnknownScaleDown suddenly jumps from 6 to 1.75 for some reason, the others are just at the end of their smooth transition.
             else
             {
                 projScale = MaxBeamScale;
-                y = 6f;
-                twentyDownScale = 1.75f;
                 projectile.Opacity = 1f;
-                negativeTwentyTwoUpScale = -2f;
+                spinRate = 6f;
+                beamStartSidewaysOffset = 6f;
+                beamStartForwardsOffset = -2f;
             }
 
             // The amount to which the angle changes reduces over time so that the beams look like they are focusing.
             // ((0 to infinity) plus (-2.5 to 2.5) * (20 to 6 but sticks at 16)) / ((120 to 36 but sticks at 96) * TwoPi)
-            float beamAngle = (hostCrystal.ai[0] + beamIdOffset * twentyDownScale) / (twentyDownScale * 6f) * MathHelper.TwoPi;
+            float beamAngle = (hostCrystal.ai[0] + beamIdOffset * spinRate) / (spinRate * 6f) * MathHelper.TwoPi;
 
             Vector2 unitRot = Vector2.UnitY.RotatedBy(beamAngle);
-            float sinusoidYOffset = unitRot.Y * PiOver6 * projScale;
+            float sinusoidYOffset = unitRot.Y * PiOver6 * (MaxBeamScale - projScale);
 
             float hostCrystalAngle = hostCrystal.velocity.ToRotation();
-            Vector2 yVec = new Vector2(4f, y);
+            Vector2 yVec = new Vector2(4f, beamStartSidewaysOffset);
             Vector2 beamSpanVector = (unitRot * yVec).RotatedBy(hostCrystalAngle);
 
             // Calculate the beam's emanating position. Start with the crystal center (offset because we're setting projectile position, not center)
-            // TODO -- projectile.Center = hostCrystal.Center; (test and make sure it is safe)
-            projectile.position = hostCrystal.Center - projectile.Size / 2f;
+            projectile.Center = hostCrystal.Center;
+            // projectile.position = hostCrystal.Center - projectile.Size / 2f;
             // Not sure what this step does.
             projectile.position += hostCrystalDir * BeamPosOffset + new Vector2(0f, -hostCrystal.gfxOffY);
             // Not sure what this step does.
-            projectile.position += hostCrystal.velocity.ToRotation().ToRotationVector2() * negativeTwentyTwoUpScale;
+            projectile.position += hostCrystal.velocity.ToRotation().ToRotationVector2() * beamStartForwardsOffset;
             // Not sure what this step does.
             projectile.position += beamSpanVector;
             // Not sure what this step does.

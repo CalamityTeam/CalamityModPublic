@@ -1,5 +1,4 @@
 using CalamityMod.Projectiles.Magic;
-using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,8 +10,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Yharim's Crystal");
-            Tooltip.SetDefault("Fires a beam of complete destruction\n" +
-                "Only those that are worthy can use this item before Yharon is defeated");
+            Tooltip.SetDefault("Fires draconic beams of total annihilation");
         }
 
         public override void SetDefaults()
@@ -38,34 +36,6 @@ namespace CalamityMod.Items.Weapons.Magic
             item.Calamity().customRarity = CalamityRarity.ItemSpecific;
         }
 
-        public override bool CanUseItem(Player player)
-        {
-            return player.ownedProjectileCounts[ModContent.ProjectileType<YharimsCrystalPrism>()] == 0;
-            /*
-            for (int i = 0; i < Main.maxProjectiles; i++)
-            {
-                Projectile p = Main.projectile[i];
-                if (p.active && p.type == ModContent.ProjectileType<YharimsCrystalPrism>() && p.owner == player.whoAmI)
-                {
-                    return false;
-                }
-            }
-            return true;
-            */
-        }
-
-        // developer or yharon restriction has been removed
-        /*
-        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-        {
-            if (CalamityWorld.downedYharon || CalamityMod.developerList.Contains(player.name))
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
-
-            // otherwise, zero damage dynamite
-            else
-                Projectile.NewProjectile(position.X, position.Y, 0f, 0f, ProjectileID.Dynamite, 0, 0f, player.whoAmI, 0f, 0f);
-            return false;
-        }
-        */
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[ModContent.ProjectileType<YharimsCrystalPrism>()] == 0;
     }
 }

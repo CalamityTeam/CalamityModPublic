@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Magic
                 manaConsumptionFrameInterval = 5f;
 
             // Update beam damage based on curent magic damage stat (so Mana Sickness affects it)
-            // TODO -- does this scale with allDamage or not? (test with emblems and wrath pot)
+            // DEFECT -- Doesn't scale with allDamage.
             projectile.damage = (int)((player.HeldItem?.damage ?? 0) * player.magicDamage);
 
             // ai[0] is the overall frame counter.
@@ -78,7 +78,7 @@ namespace CalamityMod.Projectiles.Magic
 
             // Animate the crystal as it is used
             projectile.frameCounter++;
-            int framesPerAnimationUpdate = projectile.ai[0] >= 120f ? 1 : 3;
+            int framesPerAnimationUpdate = projectile.ai[0] >= 180f ? 2 : projectile.ai[0] >= 120f ? 3 : 4;
             if (projectile.frameCounter >= framesPerAnimationUpdate)
             {
                 projectile.frameCounter = 0;
@@ -95,14 +95,14 @@ namespace CalamityMod.Projectiles.Magic
                     Main.PlaySound(SoundID.Item15, projectile.position);
             }
 
-            // Attempt to project the beams again if the beams need an update. If the user doesn't have sufficient mana, the crystal despawns instead.
+            // Update the crystal's existence: project beams if no beams exist yet, and despawn if out of mana.
             if (shouldCastBeams && Main.myPlayer == projectile.owner)
             {
                 // CheckMana returns true if the mana cost can be paid. If mana isn't consumed this frame, the CheckMana short-circuits out of being evaluated.
                 bool allowContinuedUse = !consumeManaThisFrame || player.CheckMana(player.inventory[player.selectedItem].mana, true, false);
                 bool crystalStillInUse = player.channel && allowContinuedUse && !player.noItems && !player.CCed;
 
-                // It's unclear here whether the beams actually get recasted, or whether this code only runs once.
+                // The beams are only projected once (on frame 1).
                 if (crystalStillInUse && projectile.ai[0] == 1f)
                 {
                     Vector2 beamVelocity = Vector2.Normalize(projectile.velocity);
@@ -117,7 +117,7 @@ namespace CalamityMod.Projectiles.Magic
                         Projectile.NewProjectile(projectile.Center, beamVelocity, ModContent.ProjectileType<YharimsCrystalBeam>(), damage, kb, projectile.owner, b, projectile.whoAmI);
                     projectile.netUpdate = true;
                 }
-                else
+                else if (!crystalStillInUse)
                     projectile.Kill();
             }
 
@@ -128,11 +128,12 @@ namespace CalamityMod.Projectiles.Magic
             projectile.spriteDirection = projectile.direction;
             // Ensures the crystal will disappear immediately if the left mouse button is not held anymore
             projectile.timeLeft = 2;
+            // This is a holdout projectile, so change the player's variables to reflect that
             player.ChangeDir(projectile.direction);
             player.heldProj = projectile.whoAmI;
             player.itemTime = 2;
             player.itemAnimation = 2;
-            player.itemRotation = (float)Math.Atan2((double)(projectile.velocity.Y * (float)projectile.direction), (double)(projectile.velocity.X * (float)projectile.direction));
+            player.itemRotation = (float)Math.Atan2(projectile.velocity.Y * projectile.direction, projectile.velocity.X * projectile.direction);
         }
 
         // Completely custom drawcode
@@ -157,55 +158,11 @@ namespace CalamityMod.Projectiles.Magic
 
             Vector2 sheetInsertVec = (projectile.Center + Vector2.UnitY * projectile.gfxOffY - Main.screenPosition).Floor();
 
-            // This code is completely unnecessary because the item can't ever be ranged. It's Yharim's Crystal.
-            /*
-            if (Main.player[projectile.owner].shroomiteStealth && Main.player[projectile.owner].inventory[Main.player[projectile.owner].selectedItem].ranged)
-            {
-                float num216 = Main.player[projectile.owner].stealth;
-                if ((double)num216 < 0.03)
-                {
-                    num216 = 0.03f;
-                }
-                float arg_97B3_0 = (1f + num216 * 10f) / 11f;
-                localLight *= num216;
-            }
-            if (Main.player[projectile.owner].setVortex && Main.player[projectile.owner].inventory[Main.player[projectile.owner].selectedItem].ranged)
-            {
-                float num217 = Main.player[projectile.owner].stealth;
-                if ((double)num217 < 0.03)
-                {
-                    num217 = 0.03f;
-                }
-                float arg_9854_0 = (1f + num217 * 10f) / 11f;
-                localLight = localLight.MultiplyRGBA(new Color(Vector4.Lerp(Vector4.One, new Vector4(0.16f, 0.12f, 0f, 0f), 1f - num217)));
-            }
-            */
-
             // Draw the crystal itself
             Main.spriteBatch.Draw(tex, sheetInsertVec, new Rectangle?(new Rectangle(0, texYOffset, tex.Width, frameHeight)), projectile.GetAlpha(localLight), projectile.rotation, new Vector2(tex.Width / 2f, frameHeight / 2f), projectile.scale, eff, 0f);
-
-            // Draw four additional overlapping copies of the crystal that are rotated somehow?
-            {
-                // Scale varies back and forth from 0 to 4 as it charges up and becomes 4 when it is fully charged.
-                float scaleMult = (float)Math.Cos(MathHelper.TwoPi * (projectile.ai[0] / 30f)) * 2f + 2f;
-                if (projectile.ai[0] > 120f)
-                    scaleMult = 4f;
-
-                for (float i = 0; i < 4; ++i)
-                {
-                    Vector2 shitVec = sheetInsertVec + Vector2.UnitY.RotatedBy(i * MathHelper.PiOver2, Vector2.Zero) * scaleMult;
-                    Rectangle? rect = new Rectangle?(new Rectangle(0, texYOffset, tex.Width, frameHeight));
-                    Color overlayColor = projectile.GetAlpha(localLight).MultiplyRGBA(new Color(255, 255, 255, 0)) * 0.03f;
-                    Main.spriteBatch.Draw(tex, shitVec, rect, overlayColor, projectile.rotation, new Vector2(tex.Width / 2f, frameHeight / 2f), projectile.scale, eff, 0f);
-                }
-            }
             return false;
         }
 
-        // TODO -- what is the point of the crystal being blue if it is just disco colored all the time?
-        public override Color? GetAlpha(Color lightColor)
-        {
-            return new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, 200);
-        }
+        // public override Color? GetAlpha(Color lightColor) => Color.White;
     }
 }
