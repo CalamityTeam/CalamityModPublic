@@ -75,8 +75,8 @@ namespace CalamityMod.Items.Weapons.Summon
                     projectile2.Kill();
                 }
             }
-			float damageMult = ((float)Math.Log(slimeSlots, MathHelper.E)) + 1f;
-			float size = (0.25f * (slimeSlots - 1f)) + 1f;
+			float damageMult = ((float)Math.Log(slimeSlots, 5f)) + 1f;
+			float size = ((float)Math.Log(slimeSlots, 10f)) + 1f;
             position = Main.MouseWorld;
             speedX = 0;
             speedY = 0;

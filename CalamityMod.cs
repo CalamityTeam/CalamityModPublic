@@ -1967,7 +1967,8 @@ namespace CalamityMod
                 ModContent.ItemType<UtensilPoker>(),
                 ModContent.ItemType<ShinobiBlade>(),
                 ModContent.ItemType<JawsOfOblivion>(),
-                ModContent.ItemType<LeviathanTeeth>()
+                ModContent.ItemType<LeviathanTeeth>(),
+                ModContent.ItemType<DeificThunderbolt>()
             };
 
             daggerProjList = new List<int>()
@@ -2014,7 +2015,8 @@ namespace CalamityMod
                 ModContent.ProjectileType<JawsProjectile>(),
                 ModContent.ProjectileType<LeviathanTooth>(),
                 ModContent.ProjectileType<LeviathanTooth2>(),
-                ModContent.ProjectileType<LeviathanTooth3>()
+                ModContent.ProjectileType<LeviathanTooth3>(),
+                ModContent.ProjectileType<DeificThunderboltProj>()
             };
 
             flaskBombList = new List<int>()
