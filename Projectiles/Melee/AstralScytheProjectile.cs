@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class AstralScytheProjectile : ModProjectile
     {
-		private tileCounter = 5;
+		private int tileCounter = 5;
 
         public override void SetStaticDefaults()
         {
