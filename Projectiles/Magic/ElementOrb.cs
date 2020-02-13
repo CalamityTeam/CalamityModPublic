@@ -35,29 +35,35 @@ namespace CalamityMod.Projectiles.Magic
             {
                 projectile.velocity *= 0.98f;
             }
-            int[] array = new int[20];
-            int num428 = 0;
-            float num429 = 300f;
-            bool flag14 = false;
-            for (int num430 = 0; num430 < 200; num430++)
-            {
-                if (Main.npc[num430].CanBeChasedBy(projectile, false))
-                {
-                    float num431 = Main.npc[num430].position.X + (float)(Main.npc[num430].width / 2);
-                    float num432 = Main.npc[num430].position.Y + (float)(Main.npc[num430].height / 2);
-                    float num433 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num431) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num432);
-                    if (num433 < num429 && Collision.CanHit(projectile.Center, 1, 1, Main.npc[num430].Center, 1, 1))
-                    {
-                        if (num428 < 20)
-                        {
-                            array[num428] = num430;
-                            num428++;
-                        }
-                        flag14 = true;
-                    }
-                }
-            }
-            if (flag14)
+
+			int[] array = new int[20];
+			int num428 = 0;
+			float distance = 300f;
+			bool flag14 = false;
+			for (int num430 = 0; num430 < 200; num430++)
+			{
+				if (Main.npc[num430].CanBeChasedBy(projectile, false))
+				{
+					float extraDistance = (float)(Main.npc[num430].width / 2) + (float)(Main.npc[num430].height / 2);
+
+					bool useCollisionDetection = extraDistance < distance;
+					bool canHit = true;
+					if (useCollisionDetection)
+						canHit = Collision.CanHit(projectile.Center, 1, 1, Main.npc[num430].Center, 1, 1);
+
+					if (Vector2.Distance(Main.npc[num430].Center, projectile.Center) < (distance + extraDistance) && canHit)
+					{
+						if (num428 < 20)
+						{
+							array[num428] = num430;
+							num428++;
+						}
+						flag14 = true;
+					}
+				}
+			}
+
+			if (flag14)
             {
                 int num434 = Main.rand.Next(num428);
                 num434 = array[num434];

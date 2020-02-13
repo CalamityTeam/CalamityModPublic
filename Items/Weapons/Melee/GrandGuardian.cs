@@ -56,7 +56,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 float randomSpeedY = (float)Main.rand.Next(6, 15);
                 Projectile.NewProjectile(player.Center.X, player.Center.Y, -randomSpeedX, -randomSpeedY, ModContent.ProjectileType<RainBolt>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f) * 0.75f), knockback, player.whoAmI);
                 Projectile.NewProjectile(player.Center.X, player.Center.Y, randomSpeedX, -randomSpeedY, ModContent.ProjectileType<RainBolt>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f) * 0.75f), knockback, player.whoAmI);
-                Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -randomSpeedY, ModContent.ProjectileType<RainBolt>(), (int)((float)item.damage * player.meleeDamage * 0.75f), knockback, player.whoAmI);
+                Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -randomSpeedY, ModContent.ProjectileType<RainBolt>(), (int)((float)item.damage * (player.allDamage + player.meleeDamage - 1f) * 0.75f), knockback, player.whoAmI);
             }
             if (target.life <= 0)
             {
@@ -77,7 +77,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 float randomSpeedY = (float)Main.rand.Next(6, 15);
                 Projectile.NewProjectile(player.Center.X, player.Center.Y, -randomSpeedX, -randomSpeedY, ModContent.ProjectileType<RainBolt>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f) * 0.75f), item.knockBack, player.whoAmI);
                 Projectile.NewProjectile(player.Center.X, player.Center.Y, randomSpeedX, -randomSpeedY, ModContent.ProjectileType<RainBolt>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f) * 0.75f), item.knockBack, player.whoAmI);
-                Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -randomSpeedY, ModContent.ProjectileType<RainBolt>(), (int)((float)item.damage * player.meleeDamage * 0.75f), item.knockBack, player.whoAmI);
+                Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -randomSpeedY, ModContent.ProjectileType<RainBolt>(), (int)((float)item.damage * (player.allDamage + player.meleeDamage - 1f) * 0.75f), item.knockBack, player.whoAmI);
             }
             if (target.statLife <= 0)
             {

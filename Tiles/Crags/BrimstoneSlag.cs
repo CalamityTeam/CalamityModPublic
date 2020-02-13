@@ -49,7 +49,7 @@ namespace CalamityMod.Tiles.Crags
             return TileFraming.BrimstoneFraming(i, j, resetFrame);
         }
 
-        public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
+        /*public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
             Tile tile = Main.tile[i, j];
             Texture2D sprite = ModContent.GetTexture("CalamityMod/Tiles/Crags/BrimstoneSlagGlow");
@@ -93,7 +93,7 @@ namespace CalamityMod.Tiles.Crags
                     Main.spriteBatch.Draw(sprite, new Vector2((float)(i * 16 - (int)Main.screenPosition.X) + (float)num10, (float)(j * 16 - (int)Main.screenPosition.Y + index4 * 2)) + zero, drawRectangle, drawColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                 }
             }
-        }
+        }*/
 
         private Color GetDrawColour(int i, int j, Color colour)
         {

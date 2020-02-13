@@ -57,10 +57,9 @@ namespace CalamityMod.Projectiles.Magic
             if (projectile.ai[0] > 30f)
             {
                 projectile.ai[0] = 30f;
-                int num4;
-                for (int num376 = 0; num376 < 200; num376 = num4 + 1)
+                for (int num376 = 0; num376 < 200; num376++)
                 {
-                    if (Main.npc[num376].CanBeChasedBy(projectile, false) && (!Main.npc[num376].wet || projectile.type == 307))
+                    if (Main.npc[num376].CanBeChasedBy(projectile, false) && !Main.npc[num376].wet)
                     {
                         float num377 = Main.npc[num376].position.X + (float)(Main.npc[num376].width / 2);
                         float num378 = Main.npc[num376].position.Y + (float)(Main.npc[num376].height / 2);
@@ -73,7 +72,6 @@ namespace CalamityMod.Projectiles.Magic
                             flag10 = true;
                         }
                     }
-                    num4 = num376;
                 }
             }
             if (!flag10)
@@ -112,7 +110,6 @@ namespace CalamityMod.Projectiles.Magic
                 if (projectile.velocity.Y < 0f && num383 > 0f)
                 {
                     projectile.velocity.Y = projectile.velocity.Y + num381 * 2f;
-                    return;
                 }
             }
             else if (projectile.velocity.Y > num383)
@@ -121,7 +118,6 @@ namespace CalamityMod.Projectiles.Magic
                 if (projectile.velocity.Y > 0f && num383 < 0f)
                 {
                     projectile.velocity.Y = projectile.velocity.Y - num381 * 2f;
-                    return;
                 }
             }
         }
