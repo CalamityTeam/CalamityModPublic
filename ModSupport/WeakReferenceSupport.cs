@@ -751,6 +751,7 @@ namespace CalamityMod
 			Mod SummonersAssociation = ModLoader.GetMod("SummonersAssociation");
 			if(SummonersAssociation != null)
 			{
+				SummonersAssociation.Call("AddMinionInfo", ModContent.ItemType<SquirrelSquireStaff>(), ModContent.BuffType<SquirrelSquireBuff>(), ModContent.ProjectileType<SquirrelSquireMinion>());
 				SummonersAssociation.Call("AddMinionInfo", ModContent.ItemType<WulfrumController>(), ModContent.BuffType<WulfrumDroidBuff>(), ModContent.ProjectileType<WulfrumDroid>());
 				SummonersAssociation.Call("AddMinionInfo", ModContent.ItemType<SunSpiritStaff>(), ModContent.BuffType<SolarSpirit>(), ModContent.ProjectileType<SolarPixie>());
 				SummonersAssociation.Call("AddMinionInfo", ModContent.ItemType<SeaboundStaff>(), ModContent.BuffType<BrittleStar>(), ModContent.ProjectileType<BrittleStarMinion>());
