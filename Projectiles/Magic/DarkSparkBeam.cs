@@ -142,7 +142,6 @@ namespace CalamityMod.Projectiles.Magic
             {
                 vector71 = new Vector2?(Main.player[projectile.owner].Center);
             }
-            projectile.friendly = projectile2.ai[0] > 120f;
             if (projectile.velocity.HasNaNs() || projectile.velocity == Vector2.Zero)
             {
                 projectile.velocity = -Vector2.UnitY;
