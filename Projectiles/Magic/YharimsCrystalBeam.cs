@@ -14,18 +14,26 @@ namespace CalamityMod.Projectiles.Magic
     public class YharimsCrystalBeam : ModProjectile
     {
         private const float PiOver6 = MathHelper.Pi / 6f;
+
+        private const float FullDamageMultiplier = 3f;
+
         private const float BeamPosOffset = 16f;
         private const float MaxBeamScale = 1.8f;
-        private const float FullDamageMultiplier = 3f;
-        private const int NumSamplePoints = 2;
-        private const float BeamTileCollisionWidth = 0f;
+
         private const float MaxBeamLength = 2400f;
+        private const float BeamTileCollisionWidth = 0f;
+        private const float BeamHitboxCollisionWidth = 22f;
+        private const int NumSamplePoints = 2;
         private const float LaserLerpRatio = 0.75f;
+
+        private const float OuterBeamOpacityMultiplier = 0.75f;
+        private const float InnerBeamOpacityMultiplier = 0.1f;
+        private const float BeamLightBrightness = 0.75f;
+
         private const float MainDustBeamEndOffset = 14.5f;
         private const float SidewaysDustBeamEndOffset = 4f;
         private const float BeamRenderTileOffset = 10.5f;
-        private const float RenderColorMultiplier = 0.75f;
-        private const float BeamHitboxCollisionWidth = 22f;
+        private const float BeamLengthReductionFactor = 14.5f;
 
         public override void SetStaticDefaults()
         {
@@ -57,11 +65,10 @@ namespace CalamityMod.Projectiles.Magic
 
         private Color GetBeamColor()
         {
-            // TODO -- why is the saturation the custom variable instead of the hue
-            // this is probably one of the reasons why yharim's crystal is considered to be so ugly
             float customHue = GetHue(projectile.ai[0]);
-            Color c = Main.hslToRgb(2.55f, customHue, 0.53f);
-            c.A = 0;
+            float sat = 0.66f;
+            Color c = Main.hslToRgb(customHue, sat, 0.53f);
+            c.A = 64; // 127
             return c;
         }
 
@@ -107,7 +114,7 @@ namespace CalamityMod.Projectiles.Magic
                         return Main.rand.NextFloat();
                 }
             }
-            return (int)indexing / 6f;
+            return (indexing / 6f) % 0.12f;
         }
 
         // projectile.ai[0] = 0, 1, 2, 3, 4 or 5, chosen at spawn = Which beam ID this is (they all have different rotations and colors)
@@ -126,29 +133,25 @@ namespace CalamityMod.Projectiles.Magic
                 return;
             }
 
+            Vector2 hostCrystalDir = Vector2.Normalize(hostCrystal.velocity);
+
             // -2.5, -1.5, 0.5, 1.5, or 2.5 based on the beam ID. Used to make the beams orient differently.
             float beamIdOffset = (int)projectile.ai[0] - 2.5f;
-
-            Vector2 hostCrystalDir = Vector2.Normalize(hostCrystal.velocity);
             float projScale;
+            float beamSpread;
             float spinRate;
             float beamStartSidewaysOffset;
             float beamStartForwardsOffset;
-
-            // At any point before 180 frames, these variables scale smoothly.
             if (hostCrystal.ai[0] < 180f)
             {
-                // From 0 to 180 frames, this variable scales up from 0 to MaxBeamScale.
-                projScale = MaxBeamScale * hostCrystal.ai[0] / 180f;
-
-                // From 0 to 180 frames, this variable scales down from 20 to 6.
-                beamStartSidewaysOffset = 20f - hostCrystal.ai[0] / 180f * 14f;
-
-                // From 0 to 180 frames, this variable scales up from -22 to -2.
-                beamStartForwardsOffset = -22f + hostCrystal.ai[0] / 180f * 20f;
+                float chargeRatio = hostCrystal.ai[0] / 180f;
+                projScale = MathHelper.Lerp(0f, MaxBeamScale, chargeRatio);
+                beamSpread = MathHelper.Lerp(1.22f, 0f, chargeRatio);
+                beamStartSidewaysOffset = MathHelper.Lerp(20f, 6f, chargeRatio);
+                beamStartForwardsOffset = MathHelper.Lerp(-17f, -13f, chargeRatio);
 
                 // From 0 to 120 frames, the opacity scales up from 0% to 40%.
-                // Unknown variable scales down from 20 to 16.
+                // Spin rate increases slowly for the first 120 frames.
                 if (hostCrystal.ai[0] < 120f)
                 {
                     projectile.Opacity = hostCrystal.ai[0] / 120f * 0.4f;
@@ -156,6 +159,7 @@ namespace CalamityMod.Projectiles.Magic
                 }
 
                 // Between 120 and 180 frames, the opacity scales up from 40% to 100%.
+                // Spin rate increases dramatically during these frames.
                 else
                 {
                     projectile.Opacity = 0.4f + (hostCrystal.ai[0] - 120f) / 60f * 0.6f;
@@ -167,17 +171,16 @@ namespace CalamityMod.Projectiles.Magic
             {
                 projScale = MaxBeamScale;
                 projectile.Opacity = 1f;
+                beamSpread = 0f;
                 spinRate = 6f;
                 beamStartSidewaysOffset = 6f;
-                beamStartForwardsOffset = -2f;
+                beamStartForwardsOffset = -13f;
             }
 
             // The amount to which the angle changes reduces over time so that the beams look like they are focusing.
-            // ((0 to infinity) plus (-2.5 to 2.5) * (20 to 6 but sticks at 16)) / ((120 to 36 but sticks at 96) * TwoPi)
             float beamAngle = (hostCrystal.ai[0] + beamIdOffset * spinRate) / (spinRate * 6f) * MathHelper.TwoPi;
-
             Vector2 unitRot = Vector2.UnitY.RotatedBy(beamAngle);
-            float sinusoidYOffset = unitRot.Y * PiOver6 * (MaxBeamScale - projScale);
+            float sinusoidYOffset = unitRot.Y * PiOver6 * beamSpread;
 
             float hostCrystalAngle = hostCrystal.velocity.ToRotation();
             Vector2 yVec = new Vector2(4f, beamStartSidewaysOffset);
@@ -241,10 +244,7 @@ namespace CalamityMod.Projectiles.Magic
             // Not sure what this check is, but if it fails the beam doesn't even attempt to draw.
             if (Math.Abs(projectile.localAI[1] - sum) < 100f && projectile.scale > 0.15f)
             {
-                Color customBeamColor = GetBeamColor();
-
-                // Convert Terraria's current disco color into a single hue variable.
-                float discoHue = Main.rgbToHsl(new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB)).X;
+                Color beamColor = GetBeamColor();
 
                 // Create a few dust per frame a small distance from where the beam ends.
                 Vector2 laserEndPos = projectile.Center + projectile.velocity * (projectile.localAI[1] - MainDustBeamEndOffset * projectile.scale);
@@ -253,12 +253,9 @@ namespace CalamityMod.Projectiles.Magic
                     // 50% chance for the dust to come off on either side of the beam.
                     float dustAngle = velAngle + (Main.rand.NextBool() ? 1f : -1f) * MathHelper.PiOver2;
                     float dustStartDist = Main.rand.NextFloat(1f, 1.8f);
-
-                    // TODO -- confirm that this replacement is OK
-                    // Vector2 dustVel = dustAngle.ToRotationVector2() * dustStartDist;
-                    Vector2 dustVel = new Vector2((float)Math.Cos(dustAngle) * dustStartDist, (float)Math.Sin(dustAngle) * dustStartDist);
+                    Vector2 dustVel = dustAngle.ToRotationVector2() * dustStartDist;
                     int d = Dust.NewDust(laserEndPos, 0, 0, 244, dustVel.X, dustVel.Y, 0, new Color(255, Main.DiscoG, 53), 3.3f);
-                    Main.dust[d].color = customBeamColor;
+                    Main.dust[d].color = beamColor;
                     Main.dust[d].noGravity = true;
                     Main.dust[d].scale = 1.2f;
 
@@ -269,20 +266,12 @@ namespace CalamityMod.Projectiles.Magic
                         Main.dust[d].scale *= projectile.scale;
                     }
 
-                    // TODO -- this looks like an unintentional change where yharim's crystal scales to 1.8 instead of 1.4
-                    // If the projectile isn't exactly 1.4 scale (probably changed from vanilla last prism which only scales to 1.4...)
-                    // then make an additional dust that's orange and smaller
-                    if (projectile.scale != 1.4f)
+                    // If the beam isn't at max scale, then make additional smaller dust.
+                    if (projectile.scale != MaxBeamScale)
                     {
-                        Dust dust9 = Dust.CloneDust(d);
-                        dust9.color = Color.Orange;
-                        dust9.scale /= 2f;
+                        Dust smallDust = Dust.CloneDust(d);
+                        smallDust.scale /= 2f;
                     }
-
-                    // Color was previously just set to customBeamColor but now it's being lerped between its original color and a random disco offset
-                    float hue = (discoHue + Main.rand.NextFloat() * 0.4f) % 1f;
-                    // TODO -- again, scaling based on 1.4 instead of 1.8.
-                    Main.dust[d].color = Color.Lerp(customBeamColor, Main.hslToRgb(2.55f, hue, 0.53f), projectile.scale / 1.4f);
                 }
 
                 // Low chance every frame to spawn a large "directly sideways" dust which doesn't move.
@@ -292,9 +281,7 @@ namespace CalamityMod.Projectiles.Magic
                     Vector2 dustOffset = projectile.velocity.RotatedBy(MathHelper.PiOver2) * (Main.rand.NextFloat() - 0.5f) * projectile.width;
                     Vector2 dustPos = laserEndPos + dustOffset - Vector2.One * SidewaysDustBeamEndOffset;
                     int dustID = 244;
-                    // This dust's color is entirely unaffected by the beam.
-                    Color dustColor = new Color(255, Main.DiscoG, 53);
-                    int d = Dust.NewDust(dustPos, 8, 8, dustID, 0f, 0f, 100, dustColor, 5f);
+                    int d = Dust.NewDust(dustPos, 8, 8, dustID, 0f, 0f, 100, beamColor, 5f);
                     Main.dust[d].velocity *= 0.5f;
                     // Force the dust to always move downwards, never upwards.
                     Main.dust[d].velocity.Y = -Math.Abs(Main.dust[d].velocity.Y);
@@ -317,7 +304,7 @@ namespace CalamityMod.Projectiles.Magic
 
                 // Make the beam cast light along its length.
                 // v3_1 is an unnamed decompiled variable which is the color of the light cast by DelegateMethods.CastLight
-                DelegateMethods.v3_1 = customBeamColor.ToVector3() * 0.3f;
+                DelegateMethods.v3_1 = beamColor.ToVector3() * BeamLightBrightness;
                 Utils.PlotTileLine(projectile.Center, projectile.Center + projectile.velocity * projectile.localAI[1], beamDims.Y, new Utils.PerLinePoint(DelegateMethods.CastLight));
             }
         }
@@ -330,25 +317,24 @@ namespace CalamityMod.Projectiles.Magic
 
             Texture2D tex = Main.projectileTexture[projectile.type];
             float beamLength = projectile.localAI[1];
-            Color customBeamColor = GetBeamColor();
             Vector2 projCenterTile = projectile.Center.Floor() + projectile.velocity * projectile.scale * BeamRenderTileOffset;
             Vector2 scaleVec = new Vector2(projectile.scale);
 
-            // TODO -- why does this square projectile.scale?
-            beamLength -= 14.5f * projectile.scale * projectile.scale;
+            // Reduce the beam length proportional to its square area to reduce block penetration.
+            beamLength -= BeamLengthReductionFactor * projectile.scale * projectile.scale;
 
+            // Draw the outer beam
             // f_1 is an unnamed decompiled variable which is probably the opacity of the beam
             DelegateMethods.f_1 = 1f;
+            Color outerBeamColor = GetBeamColor();
             // c_1 is an unnamed decompiled variable which is the render color of the beam drawn by DelegateMethods.RainbowLaserDraw
-            DelegateMethods.c_1 = customBeamColor * RenderColorMultiplier * projectile.Opacity;
-            // Vector2 sheetInsertVec = projectile.Size / 2f + Vector2.UnitY * projectile.gfxOffY - Main.screenPosition;
-
-            // Draw the main beam with a rainbow framing/outline.
+            DelegateMethods.c_1 = outerBeamColor * OuterBeamOpacityMultiplier * projectile.Opacity;
             Utils.LaserLineFraming llf = new Utils.LaserLineFraming(DelegateMethods.RainbowLaserDraw);
             Utils.DrawLaser(Main.spriteBatch, tex, projCenterTile - Main.screenPosition, projCenterTile + projectile.velocity * beamLength - Main.screenPosition, scaleVec, llf);
 
-            // Draw another beam at half the size with a different color, again with a rainbow framing/outline.
-            DelegateMethods.c_1 = new Color(255, Main.DiscoG, 53, 127) * 0.75f * projectile.Opacity;
+            // Draw the inner beam (half size)
+            Color innerBeamColor = Color.White;
+            DelegateMethods.c_1 = innerBeamColor * InnerBeamOpacityMultiplier * projectile.Opacity;
             llf = new Utils.LaserLineFraming(DelegateMethods.RainbowLaserDraw);
             Utils.DrawLaser(Main.spriteBatch, tex, projCenterTile - Main.screenPosition, projCenterTile + projectile.velocity * beamLength - Main.screenPosition, scaleVec / 2f, llf);
             return false;

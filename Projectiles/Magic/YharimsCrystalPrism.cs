@@ -42,8 +42,7 @@ namespace CalamityMod.Projectiles.Magic
                 manaConsumptionFrameInterval = 5f;
 
             // Update beam damage based on curent magic damage stat (so Mana Sickness affects it)
-            // DEFECT -- Doesn't scale with allDamage.
-            projectile.damage = (int)((player.HeldItem?.damage ?? 0) * player.magicDamage);
+            projectile.damage = (int)((player.HeldItem?.damage ?? 0) * player.MagicDamage());
 
             // ai[0] is the overall frame counter.
             projectile.ai[0] += 1f;
@@ -95,6 +94,23 @@ namespace CalamityMod.Projectiles.Magic
                     Main.PlaySound(SoundID.Item15, projectile.position);
             }
 
+            // Produce dust beyond a certain charge level, with more dust as the crystal continues charging
+            if(projectile.ai[0] >= 60f && Main.rand.NextFloat(180f) <= projectile.ai[0])
+            {
+                Vector2 projDir = Vector2.Normalize(projectile.velocity);
+                int dustType = 90;
+                float dustAngle = MathHelper.Pi * 0.76f * (Main.rand.NextBool() ? 1f : -1f);
+                float scale = Main.rand.NextFloat(0.9f, 1.2f);
+                float speed = MathHelper.Clamp(projectile.ai[0] / 10f, 0f, 18f);
+                Vector2 dustVel = projDir.RotatedBy(dustAngle) * speed;
+                float dustForwardOffset = 11f;
+                Vector2 dustOrigin = projectile.Center + dustForwardOffset * projDir;
+                Dust d = Dust.NewDustDirect(dustOrigin, 1, 1, dustType, dustVel.X, dustVel.Y);
+                d.position += Main.rand.NextVector2Circular(2f, 2f);
+                d.noGravity = true;
+                d.scale = scale;
+            }
+
             // Update the crystal's existence: project beams if no beams exist yet, and despawn if out of mana.
             if (shouldCastBeams && Main.myPlayer == projectile.owner)
             {
@@ -111,8 +127,6 @@ namespace CalamityMod.Projectiles.Magic
 
                     int damage = projectile.damage;
                     float kb = projectile.knockBack; // should always be 0
-
-                    // CHANGED: Yharim's Crystal used to fire 7 lasers, it now fires 6
                     for (int b = 0; b < 6; b++)
                         Projectile.NewProjectile(projectile.Center, beamVelocity, ModContent.ProjectileType<YharimsCrystalBeam>(), damage, kb, projectile.owner, b, projectile.whoAmI);
                     projectile.netUpdate = true;
@@ -140,17 +154,6 @@ namespace CalamityMod.Projectiles.Magic
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Point enclosingTile = projectile.Center.ToTileCoordinates();
-            Color localLight = Lighting.GetColor(enclosingTile.X, enclosingTile.Y);
-
-            Vector2 mountedCenter = Main.player[projectile.owner].MountedCenter;
-
-            // If the projectile is totally hidden, use the lighting on the player's center. Not sure why this is needed.
-            if (projectile.hide && !ProjectileID.Sets.DontAttachHideToAlpha[projectile.type])
-            {
-                Point playerMountCenterTile = mountedCenter.ToTileCoordinates();
-                localLight = Lighting.GetColor(playerMountCenterTile.X, playerMountCenterTile.Y);
-            }
-
             SpriteEffects eff = projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
             Texture2D tex = Main.projectileTexture[projectile.type];
             int frameHeight = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
@@ -159,10 +162,10 @@ namespace CalamityMod.Projectiles.Magic
             Vector2 sheetInsertVec = (projectile.Center + Vector2.UnitY * projectile.gfxOffY - Main.screenPosition).Floor();
 
             // Draw the crystal itself
-            Main.spriteBatch.Draw(tex, sheetInsertVec, new Rectangle?(new Rectangle(0, texYOffset, tex.Width, frameHeight)), projectile.GetAlpha(localLight), projectile.rotation, new Vector2(tex.Width / 2f, frameHeight / 2f), projectile.scale, eff, 0f);
+            Main.spriteBatch.Draw(tex, sheetInsertVec, new Rectangle?(new Rectangle(0, texYOffset, tex.Width, frameHeight)), Color.White, projectile.rotation, new Vector2(tex.Width / 2f, frameHeight / 2f), projectile.scale, eff, 0f);
             return false;
         }
 
-        // public override Color? GetAlpha(Color lightColor) => Color.White;
+        public override Color? GetAlpha(Color lightColor) => base.GetAlpha(lightColor);
     }
 }
