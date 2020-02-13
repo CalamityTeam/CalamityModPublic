@@ -1173,6 +1173,16 @@ namespace CalamityMod
         }
         #endregion
 
+        #region Other Player Stats
+        public static int GetLightStrength(Player p) => p?.Calamity()?.GetTotalLightStrength() ?? 0;
+
+        public static void AddAbyssLightStrength(Player p, int add)
+        {
+            if (p != null)
+                p.Calamity().lightStrength += add;
+        }
+        #endregion
+
         #region Set Damage Reduction
         public static float SetDamageReduction(int npcID, float dr)
         {
@@ -1266,6 +1276,35 @@ namespace CalamityMod
                     if (!(args[1] is string))
                         return new ArgumentException("ERROR: The first argument to \"SetDifficulty\" must be a string.");
                     return SetDifficultyActive(args[1].ToString(), enabled);
+
+                case "GetLight":
+                case "GetLightLevel":
+                case "GetLightStrength":
+                case "GetAbyssLight":
+                case "GetAbyssLightLevel":
+                case "GetAbyssLightStrength":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify a Player object (or int index of a Player).");
+                    if(!isValidPlayerArg(args[1]))
+                        return new ArgumentException("ERROR: The argument to \"GetLightStrength\" must be a Player or an int.");
+                    return GetLightStrength(castPlayer(args[1]));
+
+                case "AddLight":
+                case "AddLightLevel":
+                case "AddLightStrength":
+                case "AddAbyssLight":
+                case "AddAbyssLightLevel":
+                case "AddAbyssLightStrength":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify both a Player object (or int index of a Player) and light strength change as an int.");
+                    if (args.Length < 3)
+                        return new ArgumentNullException("ERROR: Must specify light strength change as an int.");
+                    if (!(args[2] is int light))
+                        return new ArgumentException("ERROR: The second argument to \"AddLightStrength\" must be an int.");
+                    if (!isValidPlayerArg(args[1]))
+                        return new ArgumentException("ERROR: The first argument to \"AddLightStrength\" must be a Player or an int.");
+                    AddAbyssLightStrength(castPlayer(args[1]), light);
+                    return null;
 
                 case "GetRogueDamage":
                 case "GetRogueDmg":

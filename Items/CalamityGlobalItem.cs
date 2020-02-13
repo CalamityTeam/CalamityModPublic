@@ -2445,6 +2445,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 player.noFallDmg = true;
             }
 
+            // Arctic Diving Gear counts as a Jellyfish Necklace in code, but overrides its abyss light level because it's an upgrade.
             if (item.type == ItemID.JellyfishNecklace || item.type == ItemID.JellyfishDivingGear || item.type == ItemID.ArcticDivingGear)
                 modPlayer.jellyfishNecklace = true;
 
