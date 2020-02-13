@@ -3384,110 +3384,123 @@ namespace CalamityMod
         #region Packets
         public override void HandlePacket(BinaryReader reader, int whoAmI)
         {
-            CalamityModMessageType msgType = (CalamityModMessageType)reader.ReadByte();
-            switch (msgType)
+            try
             {
-                case CalamityModMessageType.MeleeLevelSync:
-                    Main.player[reader.ReadInt32()].Calamity().HandleLevels(reader, 0);
-                    break;
-                case CalamityModMessageType.RangedLevelSync:
-                    Main.player[reader.ReadInt32()].Calamity().HandleLevels(reader, 1);
-                    break;
-                case CalamityModMessageType.MagicLevelSync:
-                    Main.player[reader.ReadInt32()].Calamity().HandleLevels(reader, 2);
-                    break;
-                case CalamityModMessageType.SummonLevelSync:
-                    Main.player[reader.ReadInt32()].Calamity().HandleLevels(reader, 3);
-                    break;
-                case CalamityModMessageType.RogueLevelSync:
-                    Main.player[reader.ReadInt32()].Calamity().HandleLevels(reader, 4);
-                    break;
-                case CalamityModMessageType.ExactMeleeLevelSync:
-                    Main.player[reader.ReadInt32()].Calamity().HandleExactLevels(reader, 0);
-                    break;
-                case CalamityModMessageType.ExactRangedLevelSync:
-                    Main.player[reader.ReadInt32()].Calamity().HandleExactLevels(reader, 1);
-                    break;
-                case CalamityModMessageType.ExactMagicLevelSync:
-                    Main.player[reader.ReadInt32()].Calamity().HandleExactLevels(reader, 2);
-                    break;
-                case CalamityModMessageType.ExactSummonLevelSync:
-                    Main.player[reader.ReadInt32()].Calamity().HandleExactLevels(reader, 3);
-                    break;
-                case CalamityModMessageType.ExactRogueLevelSync:
-                    Main.player[reader.ReadInt32()].Calamity().HandleExactLevels(reader, 4);
-                    break;
-                case CalamityModMessageType.StressSync:
-                    Main.player[reader.ReadInt32()].Calamity().HandleStress(reader);
-                    break;
-                case CalamityModMessageType.BossRushStage:
-                    int stage = reader.ReadInt32();
-                    CalamityWorld.bossRushStage = stage;
-                    break;
-                case CalamityModMessageType.AdrenalineSync:
-                    Main.player[reader.ReadInt32()].Calamity().HandleAdrenaline(reader);
-                    break;
-                case CalamityModMessageType.TeleportPlayer:
-                    Main.player[reader.ReadInt32()].Calamity().HandleTeleport(reader.ReadInt32(), true, whoAmI);
-                    break;
-                case CalamityModMessageType.DoGCountdownSync:
-                    int countdown = reader.ReadInt32();
-                    CalamityWorld.DoGSecondStageCountdown = countdown;
-                    break;
-                case CalamityModMessageType.BossSpawnCountdownSync:
-                    int countdown2 = reader.ReadInt32();
-                    CalamityWorld.bossSpawnCountdown = countdown2;
-                    break;
-				case CalamityModMessageType.DeathBossSpawnCountdownSync:
-					int countdown3 = reader.ReadInt32();
-					CalamityWorld.deathBossSpawnCooldown = countdown3;
-					break;
-				case CalamityModMessageType.BossTypeSync:
-                    int type = reader.ReadInt32();
-                    CalamityWorld.bossType = type;
-                    break;
-                case CalamityModMessageType.DeathCountSync:
-                    Main.player[reader.ReadInt32()].Calamity().HandleDeathCount(reader);
-                    break;
-				case CalamityModMessageType.DeathModeUnderworldTimeSync:
-					Main.player[reader.ReadInt32()].Calamity().HandleDeathModeUnderworldTime(reader);
-					break;
-				case CalamityModMessageType.DeathModeBlizzardTimeSync:
-					Main.player[reader.ReadInt32()].Calamity().HandleDeathModeBlizzardTime(reader);
-					break;
-				case CalamityModMessageType.RevengeanceBoolSync:
-                    bool revActive = reader.ReadBoolean();
-                    CalamityWorld.revenge = revActive;
-                    break;
-                case CalamityModMessageType.DeathBoolSync:
-                    bool revActive2 = reader.ReadBoolean();
-                    CalamityWorld.revenge = revActive2;
-                    bool deathActive = reader.ReadBoolean();
-                    CalamityWorld.death = deathActive;
-                    break;
-                case CalamityModMessageType.DefiledBoolSync:
-                    bool defiledActive = reader.ReadBoolean();
-                    CalamityWorld.defiled = defiledActive;
-                    break;
-                case CalamityModMessageType.IronHeartBoolSync:
-                    bool ironHeartActive = reader.ReadBoolean();
-                    CalamityWorld.ironHeart = ironHeartActive;
-                    break;
-                case CalamityModMessageType.ArmageddonBoolSync:
-                    bool armaActive = reader.ReadBoolean();
-                    CalamityWorld.armageddon = armaActive;
-                    break;
-                case CalamityModMessageType.DemonTrophyBoolSync:
-                    bool demonModeBoost = reader.ReadBoolean();
-                    CalamityWorld.demonMode = demonModeBoost;
-                    break;
-                case CalamityModMessageType.NPCRegenerationSync:
-                    byte npcIndex = reader.ReadByte();
-                    Main.npc[npcIndex].lifeRegen = reader.ReadInt32();
-                    break;
-                default:
-                    Logger.Warn("Unknown Message type: " + msgType);
-                    break;
+                CalamityModMessageType msgType = (CalamityModMessageType)reader.ReadByte();
+                switch (msgType)
+                {
+                    case CalamityModMessageType.MeleeLevelSync:
+                        Main.player[reader.ReadInt32()].Calamity().HandleLevels(reader, 0);
+                        break;
+                    case CalamityModMessageType.RangedLevelSync:
+                        Main.player[reader.ReadInt32()].Calamity().HandleLevels(reader, 1);
+                        break;
+                    case CalamityModMessageType.MagicLevelSync:
+                        Main.player[reader.ReadInt32()].Calamity().HandleLevels(reader, 2);
+                        break;
+                    case CalamityModMessageType.SummonLevelSync:
+                        Main.player[reader.ReadInt32()].Calamity().HandleLevels(reader, 3);
+                        break;
+                    case CalamityModMessageType.RogueLevelSync:
+                        Main.player[reader.ReadInt32()].Calamity().HandleLevels(reader, 4);
+                        break;
+                    case CalamityModMessageType.ExactMeleeLevelSync:
+                        Main.player[reader.ReadInt32()].Calamity().HandleExactLevels(reader, 0);
+                        break;
+                    case CalamityModMessageType.ExactRangedLevelSync:
+                        Main.player[reader.ReadInt32()].Calamity().HandleExactLevels(reader, 1);
+                        break;
+                    case CalamityModMessageType.ExactMagicLevelSync:
+                        Main.player[reader.ReadInt32()].Calamity().HandleExactLevels(reader, 2);
+                        break;
+                    case CalamityModMessageType.ExactSummonLevelSync:
+                        Main.player[reader.ReadInt32()].Calamity().HandleExactLevels(reader, 3);
+                        break;
+                    case CalamityModMessageType.ExactRogueLevelSync:
+                        Main.player[reader.ReadInt32()].Calamity().HandleExactLevels(reader, 4);
+                        break;
+                    case CalamityModMessageType.StressSync:
+                        Main.player[reader.ReadInt32()].Calamity().HandleStress(reader);
+                        break;
+                    case CalamityModMessageType.BossRushStage:
+                        int stage = reader.ReadInt32();
+                        CalamityWorld.bossRushStage = stage;
+                        break;
+                    case CalamityModMessageType.AdrenalineSync:
+                        Main.player[reader.ReadInt32()].Calamity().HandleAdrenaline(reader);
+                        break;
+                    case CalamityModMessageType.TeleportPlayer:
+                        Main.player[reader.ReadInt32()].Calamity().HandleTeleport(reader.ReadInt32(), true, whoAmI);
+                        break;
+                    case CalamityModMessageType.DoGCountdownSync:
+                        int countdown = reader.ReadInt32();
+                        CalamityWorld.DoGSecondStageCountdown = countdown;
+                        break;
+                    case CalamityModMessageType.BossSpawnCountdownSync:
+                        int countdown2 = reader.ReadInt32();
+                        CalamityWorld.bossSpawnCountdown = countdown2;
+                        break;
+                    case CalamityModMessageType.DeathBossSpawnCountdownSync:
+                        int countdown3 = reader.ReadInt32();
+                        CalamityWorld.deathBossSpawnCooldown = countdown3;
+                        break;
+                    case CalamityModMessageType.BossTypeSync:
+                        int type = reader.ReadInt32();
+                        CalamityWorld.bossType = type;
+                        break;
+                    case CalamityModMessageType.DeathCountSync:
+                        Main.player[reader.ReadInt32()].Calamity().HandleDeathCount(reader);
+                        break;
+                    case CalamityModMessageType.DeathModeUnderworldTimeSync:
+                        Main.player[reader.ReadInt32()].Calamity().HandleDeathModeUnderworldTime(reader);
+                        break;
+                    case CalamityModMessageType.DeathModeBlizzardTimeSync:
+                        Main.player[reader.ReadInt32()].Calamity().HandleDeathModeBlizzardTime(reader);
+                        break;
+                    case CalamityModMessageType.RevengeanceBoolSync:
+                        bool revActive = reader.ReadBoolean();
+                        CalamityWorld.revenge = revActive;
+                        break;
+                    case CalamityModMessageType.DeathBoolSync:
+                        bool revActive2 = reader.ReadBoolean();
+                        CalamityWorld.revenge = revActive2;
+                        bool deathActive = reader.ReadBoolean();
+                        CalamityWorld.death = deathActive;
+                        break;
+                    case CalamityModMessageType.DefiledBoolSync:
+                        bool defiledActive = reader.ReadBoolean();
+                        CalamityWorld.defiled = defiledActive;
+                        break;
+                    case CalamityModMessageType.IronHeartBoolSync:
+                        bool ironHeartActive = reader.ReadBoolean();
+                        CalamityWorld.ironHeart = ironHeartActive;
+                        break;
+                    case CalamityModMessageType.ArmageddonBoolSync:
+                        bool armaActive = reader.ReadBoolean();
+                        CalamityWorld.armageddon = armaActive;
+                        break;
+                    case CalamityModMessageType.DemonTrophyBoolSync:
+                        bool demonModeBoost = reader.ReadBoolean();
+                        CalamityWorld.demonMode = demonModeBoost;
+                        break;
+                    case CalamityModMessageType.NPCRegenerationSync:
+                        byte npcIndex = reader.ReadByte();
+                        Main.npc[npcIndex].lifeRegen = reader.ReadInt32();
+                        break;
+                    default:
+                        Logger.Error("Unknown Message type: " + msgType);
+                        break;
+                }
+            } catch(Exception e)
+            {
+                if (e is EndOfStreamException eose)
+                    Logger.Error("Failed to parse Calamity packet: Packet was too short, missing data, or otherwise corrupt.", eose);
+                else if (e is ObjectDisposedException ode)
+                    Logger.Error("Failed to parse Calamity packet: Packet reader disposed or destroyed.", ode);
+                else if (e is IOException ioe)
+                    Logger.Error("Failed to parse Calamity packet: An unknown I/O error occurred.", ioe);
+                else
+                    throw e; // this either will crash the game or be caught by TML's packet policing
             }
         }
         #endregion
