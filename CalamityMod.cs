@@ -3488,7 +3488,7 @@ namespace CalamityMod
                         Main.npc[npcIndex].lifeRegen = reader.ReadInt32();
                         break;
                     default:
-                        Logger.Error("Unknown Message type: " + msgType);
+                        Logger.Error($"Failed to parse Calamity packet: No Calamity packet exists with ID {msgType}.");
                         break;
                 }
             } catch(Exception e)
