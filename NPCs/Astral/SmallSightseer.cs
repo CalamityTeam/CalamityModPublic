@@ -114,9 +114,13 @@ namespace CalamityMod.NPCs.Astral
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             Tile tile = Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY];
-            if (spawnInfo.player.Calamity().ZoneAstral && (spawnInfo.player.ZoneOverworldHeight || spawnInfo.player.ZoneDirtLayerHeight))
+            if (spawnInfo.player.ZoneTowerStardust || spawnInfo.player.ZoneTowerSolar || spawnInfo.player.ZoneTowerVortex || spawnInfo.player.ZoneTowerNebula)
             {
-                return spawnInfo.player.ZoneDesert ? 0.16f : (spawnInfo.player.ZoneRockLayerHeight ? 0.08f : 0.2f);
+                return 0f;
+            }
+            else if (spawnInfo.player.Calamity().ZoneAstral && (spawnInfo.player.ZoneOverworldHeight || spawnInfo.player.ZoneSkyHeight))
+            {
+                return spawnInfo.player.ZoneDesert ? 0.16f : 0.2f;
             }
             return 0f;
         }
