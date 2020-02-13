@@ -685,6 +685,7 @@ namespace CalamityMod.CalPlayer
         public bool rDevil = false;
         public bool aValkyrie = false;
         public bool apexShark = false;
+        public bool squirrel = false;
         public bool sGod = false;
         public bool vUrchin = false;
         public bool cSpirit = false;
@@ -1429,6 +1430,7 @@ namespace CalamityMod.CalPlayer
             eAxe = false;
             endoCooper = false;
             apexShark = false;
+            squirrel = false;
             SPG = false;
             sirius = false;
             aChicken = false;

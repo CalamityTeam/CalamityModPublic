@@ -37,7 +37,7 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItem(player, ItemID.WoodenArrow, 100);
             DropHelper.DropItem(player, ItemID.AmethystStaff);
             DropHelper.DropItem(player, ItemID.ManaCrystal);
-            DropHelper.DropItem(player, ModContent.ItemType<WulfrumController>());
+            DropHelper.DropItem(player, ModContent.ItemType<SquirrelSquireStaff>());
             DropHelper.DropItem(player, ModContent.ItemType<ThrowingBrick>(), 150);
 
             // Tools / Utility
