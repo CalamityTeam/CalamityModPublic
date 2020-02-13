@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Magic
 
 			int[] array = new int[20];
 			int num428 = 0;
-			float distance = 300f;
+			float distance = 400f;
 			bool flag14 = false;
 			for (int num430 = 0; num430 < 200; num430++)
 			{

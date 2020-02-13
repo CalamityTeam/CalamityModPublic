@@ -1350,7 +1350,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 										num180 = player.position.X + (float)player.width * 0.5f - value9.X;
 										num182 = player.position.Y + (float)player.height * 0.5f - value9.Y;
 										num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
-										float speedBoost = (float)(num186 > 4 ? -(num186 - 4) : num186);
+										float speedBoost = (float)(num186 > 3 ? -(num186 - 3) : num186);
 										num183 = (8f + speedBoost) / num183;
 										num180 *= num183;
 										num182 *= num183;
@@ -1874,7 +1874,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 										num180 = player.position.X + (float)player.width * 0.5f - value9.X;
 										num182 = player.position.Y + (float)player.height * 0.5f - value9.Y;
 										num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
-										float speedBoost = (float)(num186 > 4 ? -(num186 - 4) : num186);
+										float speedBoost = (float)(num186 > 3 ? -(num186 - 3) : num186);
 										num183 = (8f + speedBoost) / num183;
 										num180 *= num183;
 										num182 *= num183;
