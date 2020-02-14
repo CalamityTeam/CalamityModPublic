@@ -21,14 +21,14 @@ namespace CalamityMod.NPCs.SlimeGod
             npc.width = 40;
             npc.height = 30;
             npc.defense = 6;
-            npc.lifeMax = 160;
+            npc.lifeMax = 180;
             if (CalamityWorld.bossRushActive)
             {
                 npc.lifeMax = 100000;
             }
             npc.knockBackResist = 0f;
             animationType = 121;
-            npc.alpha = 60;
+            npc.alpha = 55;
             npc.lavaImmune = false;
             npc.noGravity = false;
             npc.noTileCollide = false;
@@ -36,13 +36,6 @@ namespace CalamityMod.NPCs.SlimeGod
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
             npc.buffImmune[24] = true;
-        }
-
-        public override void AI()
-        {
-            float speedMult = 1.002f;
-            npc.velocity.X *= speedMult;
-            npc.velocity.Y *= speedMult;
         }
 
         public override bool PreNPCLoot()

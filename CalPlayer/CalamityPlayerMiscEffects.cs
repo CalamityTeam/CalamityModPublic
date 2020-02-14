@@ -1,8 +1,5 @@
-﻿using CalamityMod;
-using CalamityMod.Buffs.Alcohol;
-using CalamityMod.Buffs.Cooldowns;
+﻿using CalamityMod.Buffs.Cooldowns;
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.Pets;
 using CalamityMod.Buffs.Potions;
 using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
@@ -31,11 +28,10 @@ using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
 
 namespace CalamityMod.CalPlayer
 {
-    public class CalamityPlayerMiscEffects
+	public class CalamityPlayerMiscEffects
     {
         #region Post Update Misc Effects
         public static void CalamityPostUpdateMiscEffects(Player player, Mod mod)
@@ -268,6 +264,14 @@ namespace CalamityMod.CalPlayer
 			if (CalamityMod.CalamityConfig.ProficiencyEnabled)
 				modPlayer.GetExactLevelUp();
 
+			// Max mana bonuses
+			player.statManaMax2 +=
+				(modPlayer.permafrostsConcoction ? 50 : 0) +
+				(modPlayer.pHeart ? 50 : 0) +
+				(modPlayer.eCore ? 50 : 0) +
+				(modPlayer.cShard ? 50 : 0) +
+				(modPlayer.starBeamRye ? 50 : 0);
+
 			// Nebula Armor nerf
 			if (player.nebulaLevelMana > 0 && player.statMana < player.statManaMax2)
 			{
@@ -288,8 +292,24 @@ namespace CalamityMod.CalPlayer
 			if (Main.myPlayer == player.whoAmI)
 				BossHealthBarManager.SHOULD_DRAW_SMALLTEXT_HEALTH = modPlayer.shouldDrawSmallText;
 
+			// Margarita halved debuff duration
+			if (modPlayer.margarita)
+			{
+				if (Main.myPlayer == player.whoAmI)
+				{
+					for (int l = 0; l < Player.MaxBuffs; l++)
+					{
+						int hasBuff = player.buffType[l];
+						if (player.buffTime[l] > 2 && CalamityMod.debuffList.Contains(hasBuff))
+						{
+							player.buffTime[l]--;
+						}
+					}
+				}
+			}
+
 			// Immunity to most debuffs
-			if (modPlayer.silvaSet || modPlayer.invincible || modPlayer.margarita)
+			if (modPlayer.silvaSet || modPlayer.invincible)
 			{
 				foreach (int debuff in CalamityMod.debuffList)
 					player.buffImmune[debuff] = true;
@@ -343,23 +363,26 @@ namespace CalamityMod.CalPlayer
 						double maxDistanceBelow = (double)(Main.maxTilesY - 200 - (int)Main.worldSurface);
 						double distanceBelow = (double)point.Y - Main.worldSurface;
 						double distanceBelowRatio = distanceBelow / maxDistanceBelow;
-						int lightStrength = LightStrength(player, modPlayer);
+						int lightStrength = modPlayer.GetTotalLightStrength();
 						Main.BlackFadeIn = (int)(distanceBelowRatio * 200D) - lightStrength * 25;
 						if (Main.BlackFadeIn < 0)
 							Main.BlackFadeIn = 0;
 					}
 
 					// Immunity bools
-					bool hasMoltenSet = player.head == 9 && player.body == 9 && player.legs == 9;
-					bool hasEskimoSet = (player.head == 58 || player.head == 77) && (player.body == 38 || player.head == 50) && (player.legs == 36 || player.head == 46); //this is normal and pink eskimo armor (you can mix and match)
+					bool hasMoltenSet = player.head == ArmorIDs.Head.MoltenHelmet && player.body == ArmorIDs.Body.MoltenBreastplate && player.legs == ArmorIDs.Legs.MoltenGreaves;
+					// Normal and Pink Eskimo set can be mixed and matched
+					bool hasEskimoSet = (player.head == ArmorIDs.Head.EskimoHood || player.head == ArmorIDs.Head.PinkEskimoHood)
+						&& (player.body == ArmorIDs.Body.EskimoCoat || player.body == ArmorIDs.Body.PinkEskimoCoat)
+						&& (player.legs == ArmorIDs.Legs.EskimoPants || player.legs == ArmorIDs.Legs.PinkEskimoPants);
 
 					bool immunityToHotAndCold = hasMoltenSet || player.magmaStone || player.frostArmor || modPlayer.fBulwark || modPlayer.fBarrier ||
 						modPlayer.frostFlare || modPlayer.rampartOfDeities || modPlayer.cryogenSoul || modPlayer.snowman;
 
 					bool immunityToCold = player.HasBuff(BuffID.Campfire) || Main.campfire || player.resistCold || hasEskimoSet || player.buffImmune[BuffID.Frozen] ||
-						player.HasBuff(BuffID.Inferno) || immunityToHotAndCold;
+						player.HasBuff(BuffID.Inferno) || immunityToHotAndCold || modPlayer.externalColdImmunity;
 
-					bool immunityToHot = player.lavaImmune || player.lavaRose || player.lavaMax != 0 || immunityToHotAndCold;
+					bool immunityToHot = player.lavaImmune || player.lavaRose || player.lavaMax != 0 || immunityToHotAndCold || modPlayer.externalHeatImmunity;
 
 					// Thorn and spike effects
 					// 10 = crimson/corruption thorns, 17 = jungle thorns, 40 = dungeon spikes, 60 = temple spikes
@@ -394,7 +417,7 @@ namespace CalamityMod.CalPlayer
 					}
 
 					// Space effects
-					if (Space(player))
+					if (player.InSpace())
 					{
 						if (Main.dayTime)
 						{
@@ -416,7 +439,7 @@ namespace CalamityMod.CalPlayer
 					}
 
 					// Ice shards, lightning and sharknadoes
-					if (player.ZoneOverworldHeight && !CalamityPlayer.areThereAnyDamnBosses && !Space(player))
+					if (player.ZoneOverworldHeight && !CalamityPlayer.areThereAnyDamnBosses && !player.InSpace())
 					{
 						Vector2 sharknadoSpawnPoint = new Vector2(player.Center.X - (float)Main.rand.Next(300, 701), player.Center.Y - (float)Main.rand.Next(700, 801));
 						if (point.X > Main.maxTilesX / 2)
@@ -1031,10 +1054,8 @@ namespace CalamityMod.CalPlayer
 
 			//Permafrost's Concoction bonuses/debuffs
 			if (modPlayer.permafrostsConcoction)
-			{
-				player.statManaMax2 += 50;
 				player.manaCost *= 0.85f;
-			}
+
 			if (modPlayer.encased)
 			{
 				player.statDefense += 30;
@@ -1247,8 +1268,8 @@ namespace CalamityMod.CalPlayer
 			{
 				if (!Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
 				{
-					player.statDefense -= 20;
-					player.endurance -= 0.1f;
+					player.statDefense -= 8;
+					player.endurance -= 0.05f;
 				}
 				if (modPlayer.sirenPet)
 				{
@@ -1550,7 +1571,7 @@ namespace CalamityMod.CalPlayer
 		#region Abyss Effects
 		private static void AbyssEffects(Player player, CalamityPlayer modPlayer)
 		{
-			int lightStrength = LightStrength(player, modPlayer);
+			int lightStrength = modPlayer.GetTotalLightStrength();
 
 			double breathLossMult = 1.0 -
 				(player.gills ? 0.2 : 0.0) - // 0.8
@@ -2021,7 +2042,7 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.gravityNormalizer)
 			{
 				player.buffImmune[BuffID.VortexDebuff] = true;
-				if (Space(player))
+				if (player.InSpace())
 				{
 					player.gravity = Player.defaultGravity;
 					if (player.wet)
@@ -2881,111 +2902,108 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
+			#region Damage Auras
+			// Tarragon Summon set bonus life aura
 			if (modPlayer.tarraSummon)
 			{
-				int lifeCounter = 0;
-				float range = 300f;
-				bool flag = lifeCounter % 60 == 0;
-				int dmg = 200;
+				const int FramesPerHit = 60;
 
-				if (player.whoAmI == Main.myPlayer)
+				// Constantly increment the timer every frame.
+				modPlayer.tarraLifeAuraTimer = (modPlayer.tarraLifeAuraTimer + 1) % FramesPerHit;
+
+				// If the timer rolls over, it's time to deal damage. Only run this code for the client which is wearing the armor.
+				if (modPlayer.tarraLifeAuraTimer == 0 && player.whoAmI == Main.myPlayer)
 				{
-					for (int l = 0; l < Main.npc.Length; l++)
+					const int BaseDamage = 200;
+					int damage = (int)(BaseDamage * (player.allDamage + player.minionDamage - 1f));
+					float range = 300f;
+
+					for (int i = 0; i < Main.maxNPCs; ++i)
 					{
-						NPC nPC = Main.npc[l];
-						if (nPC.active && !nPC.friendly && nPC.damage > 0 && !nPC.dontTakeDamage && Vector2.Distance(player.Center, nPC.Center) <= range)
-						{
-							if (flag)
-							{
-                                if (player.whoAmI == Main.myPlayer)
-                                {
-									nPC.StrikeNPC(dmg, 0f, 0, false, false, false);
-									if (Main.netMode != NetmodeID.SinglePlayer)
-										NetMessage.SendData(28, -1, -1, null, l, (float)dmg, 0f, 0f, 0, 0, 0);
-									/*Projectile p = Projectile.NewProjectileDirect(nPC.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), dmg, 0f, player.whoAmI, l);*/
-								}
-							}
-						}
+						NPC nPC = Main.npc[i];
+						if (!nPC.active || nPC.friendly || nPC.damage <= 0 || nPC.dontTakeDamage)
+							continue;
+
+						if (Vector2.Distance(player.Center, nPC.Center) <= range)
+							Projectile.NewProjectileDirect(nPC.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), damage, 0f, player.whoAmI, i);
 					}
-				}
-				lifeCounter++;
-				if (lifeCounter >= 180)
-				{
-					lifeCounter = 0;
 				}
 			}
 
+			// Navy Fishing Rod's electric aura when in-use
 			if (player.inventory[player.selectedItem].type == ModContent.ItemType<NavyFishingRod>() && player.ownedProjectileCounts[ModContent.ProjectileType<NavyBobber>()] != 0)
 			{
-				int auraCounter = 0;
-				float range = 200f;
-				bool flag = auraCounter % 120 == 0;
-				int dmg = 10;
+				const int FramesPerHit = 120;
 
-				if (player.whoAmI == Main.myPlayer)
+				// Constantly increment the timer every frame.
+				modPlayer.navyRodAuraTimer = (modPlayer.navyRodAuraTimer + 1) % FramesPerHit;
+
+				// If the timer rolls over, it's time to deal damage. Only run this code for the client which is holding the fishing rod,
+				if (modPlayer.navyRodAuraTimer == 0 && player.whoAmI == Main.myPlayer)
 				{
-					for (int l = 0; l < Main.npc.Length; l++)
+					const int BaseDamage = 10;
+					int damage = (int)(BaseDamage * player.allDamage);
+					float range = 200f;
+
+					for (int i = 0; i < Main.maxNPCs; ++i)
 					{
-						NPC nPC = Main.npc[l];
-						if (nPC.active && !nPC.friendly && nPC.damage > 0 && !nPC.dontTakeDamage && Vector2.Distance(player.Center, nPC.Center) <= range)
+						NPC nPC = Main.npc[i];
+						if (!nPC.active || nPC.friendly || nPC.damage <= 0 || nPC.dontTakeDamage)
+							continue;
+
+						if (Vector2.Distance(player.Center, nPC.Center) <= range)
+							Projectile.NewProjectileDirect(nPC.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), damage, 0f, player.whoAmI, i);
+
+						// Occasionally spawn cute sparks so it looks like an electrical aura
+						if (Main.rand.NextBool(10))
 						{
-							if (flag)
-							{
-								if (player.whoAmI == Main.myPlayer)
-								{
-									nPC.StrikeNPC(dmg, 0f, 0, false, false, false);
-									if (Main.netMode != NetmodeID.SinglePlayer)
-										NetMessage.SendData(28, -1, -1, null, l, (float)dmg, 0f, 0f, 0, 0, 0);
-									/*Projectile p = Projectile.NewProjectileDirect(nPC.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), dmg, 0f, player.whoAmI, l);*/
+							Vector2 value15 = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
+							while (value15.X == 0f && value15.Y == 0f)
+								value15 = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
 
-									if (Main.rand.NextBool(10))
-									{
-										Vector2 value15 = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
-										while (value15.X == 0f && value15.Y == 0f)
-											value15 = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
-
-										value15.Normalize();
-										value15 *= (float)Main.rand.Next(30, 61) * 0.1f;
-										int spark = Projectile.NewProjectile(nPC.Center.X, nPC.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<EutrophicSpark>(), dmg / 2, 0f, player.whoAmI, 0f, 0f);
-										Main.projectile[spark].melee = false;
-										Main.projectile[spark].localNPCHitCooldown = -2;
-										Main.projectile[spark].penetrate = 5;
-									}
-								}
-
-							}
+							value15.Normalize();
+							value15 *= (float)Main.rand.Next(30, 61) * 0.1f;
+							int spark = Projectile.NewProjectile(nPC.Center.X, nPC.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<EutrophicSpark>(), damage / 2, 0f, player.whoAmI, 0f, 0f);
+							Main.projectile[spark].melee = false;
+							Main.projectile[spark].localNPCHitCooldown = -2;
+							Main.projectile[spark].penetrate = 5;
 						}
 					}
 				}
-				auraCounter++;
-				if (auraCounter >= 360)
-				{
-					auraCounter = 0;
-				}
 			}
 
+			// Brimstone Elemental lore inferno potion boost
 			if (modPlayer.brimstoneElementalLore && player.inferno)
 			{
-				int num = ModContent.BuffType<BrimstoneFlames>();
-				float num2 = 300f;
-				bool flag = player.infernoCounter % 30 == 0;
-				int damage = 50;
+				const int FramesPerHit = 30;
 
+				// Constantly increment the timer every frame.
+				modPlayer.brimLoreInfernoTimer = (modPlayer.brimLoreInfernoTimer + 1) % FramesPerHit;
+
+				// Only run this code for the client which is wearing the armor.
+				// Brimstone flames is applied every single frame, but direct damage is only dealt twice per second.
 				if (player.whoAmI == Main.myPlayer)
 				{
-					for (int l = 0; l < 200; l++)
+					const int BaseDamage = 50;
+					int damage = (int)(BaseDamage * player.allDamage);
+					float range = 300f;
+
+					for (int i = 0; i < Main.maxNPCs; ++i)
 					{
-						NPC nPC = Main.npc[l];
-						if (nPC.active && !nPC.friendly && nPC.damage > 0 && !nPC.dontTakeDamage && Vector2.Distance(player.Center, nPC.Center) <= num2)
+						NPC nPC = Main.npc[i];
+						if (!nPC.active || nPC.friendly || nPC.damage <= 0 || nPC.dontTakeDamage)
+							continue;
+
+						if (Vector2.Distance(player.Center, nPC.Center) <= range)
 						{
-							if (nPC.FindBuffIndex(num) == -1 && !nPC.buffImmune[num])
-								nPC.AddBuff(num, 120, false);
-							if (flag)
-								player.ApplyDamageToNPC(nPC, damage, 0f, 0, false);
+							nPC.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
+							if (modPlayer.brimLoreInfernoTimer == 0)
+								Projectile.NewProjectileDirect(nPC.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), damage, 0f, player.whoAmI, i);
 						}
 					}
 				}
 			}
+			#endregion
 
 			if (modPlayer.royalGel)
 			{
@@ -3071,7 +3089,7 @@ namespace CalamityMod.CalPlayer
 						(CalamityWorld.downedDoG ? 100f : 0f) +
 						(CalamityWorld.downedYharon ? 100f : 0f);
 
-					if (player.maxMinions >= 10)
+					if (player.Calamity().minionSlotStat >= 10)
 					{
 						player.Calamity().gDefense = true;
 
@@ -3275,36 +3293,6 @@ namespace CalamityMod.CalPlayer
 					}
 				}
 			}
-		}
-		#endregion
-
-		#region Misc
-		private static int LightStrength(Player player, CalamityPlayer modPlayer)
-		{
-			bool underwater = Collision.DrownCollision(player.position, player.width, player.height, player.gravDir);
-			int lightStrength = 0 +
-				(((player.HasBuff(BuffID.Campfire) || Main.campfire) && !modPlayer.ZoneAbyss) ? 1 : 0) +
-				(modPlayer.giantPearl ? 1 : 0) +
-				(modPlayer.aAmpoule ? 1 : 0) +
-				((modPlayer.sirenBoobs || modPlayer.sirenBoobsAlt) ? 1 : 0) +
-				((player.lightOrb || player.crimsonHeart || player.magicLantern || modPlayer.radiator) ? 1 : 0) + // 1
-				((modPlayer.aquaticEmblem && underwater) ? 1 : 0) + // 2
-				((player.arcticDivingGear && underwater) ? 1 : 0) + // 3
-				((modPlayer.jellyfishNecklace && underwater) ? 1 : 0) + // 4
-				((player.blueFairy || player.greenFairy || player.redFairy || player.petFlagDD2Ghost || modPlayer.babyGhostBell) ? 2 : 0) + // 6
-				((modPlayer.shine) ? 2 : 0) + // 8
-				((modPlayer.lumenousAmulet && underwater) ? 2 : 0) + // 10
-				((player.wisp || player.suspiciouslookingTentacle || modPlayer.sirenPet) ? 3 : 0); // 13
-
-			return lightStrength;
-		}
-
-		private static bool Space(Player player)
-		{
-			float x = (float)(Main.maxTilesX / 4200);
-			x *= x;
-			float spaceGravityMult = (float)((double)(player.position.Y / 16f - (60f + 10f * x)) / (Main.worldSurface / 6.0));
-			return spaceGravityMult < 1f;
 		}
 		#endregion
 	}

@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Accessories
                                "10% damage reduction \n" +
                                "Being hit creates a miniature sun that lingers, dealing damage to nearby enemies\n" +
                                "The sun will slowly drag enemies into it\n" +
-                               "Only one sun can be active at once");
+                               "Only one sun can be active at once\n" +
+							   "Provides a moderate amount of light in the Abyss");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 6));
         }
 

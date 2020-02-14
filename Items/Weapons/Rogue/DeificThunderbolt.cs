@@ -20,9 +20,9 @@ Stealth strikes summon more lightning and travel faster");
 
         public override void SafeSetDefaults()
         {
-            item.damage = 999;
+            item.damage = 567;
             item.knockBack = 10f;
-            item.crit += 8;
+            item.crit += 12;
 
             item.width = 56;
             item.height = 56;
@@ -34,7 +34,7 @@ Stealth strikes summon more lightning and travel faster");
             item.useTime = 21;
             item.useAnimation = 21;
             item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.PureGreen;
+            item.Calamity().customRarity = CalamityRarity.PureGreen; //13
             item.Calamity().rogue = true;
 
             item.autoReuse = true;
@@ -61,8 +61,8 @@ Stealth strikes summon more lightning and travel faster");
 
         public override void AddRecipes()
         {
-
             ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<StormfrontRazor>());
             recipe.AddIngredient(ModContent.ItemType<ArmoredShell>(), 8);
             recipe.AddIngredient(ModContent.ItemType<UnholyEssence>(), 15);
             recipe.AddIngredient(ModContent.ItemType<CoreofCinder>(), 5);

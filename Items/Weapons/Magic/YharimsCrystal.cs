@@ -1,5 +1,4 @@
 using CalamityMod.Projectiles.Magic;
-using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,15 +10,14 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Yharim's Crystal");
-            Tooltip.SetDefault("Fires a beam of complete destruction\n" +
-                "Only those that are worthy can use this item before Yharon is defeated");
+            Tooltip.SetDefault("Fires draconic beams of total annihilation");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 240;
+            item.damage = 220;
             item.magic = true;
-            item.mana = 100;
+            item.mana = 15;
             item.width = 16;
             item.height = 16;
             item.useTime = 10;
@@ -31,57 +29,13 @@ namespace CalamityMod.Items.Weapons.Magic
             item.noUseGraphic = true;
             item.channel = true;
             item.knockBack = 0f;
-            item.value = Item.buyPrice(1, 80, 0, 0);
+            item.value = Item.buyPrice(platinum: 1, gold: 80);
             item.rare = 10;
             item.shoot = ModContent.ProjectileType<YharimsCrystalPrism>();
             item.shootSpeed = 30f;
             item.Calamity().customRarity = CalamityRarity.ItemSpecific;
         }
 
-        public override bool CanUseItem(Player player)
-        {
-            for (int i = 0; i < Main.projectile.Length; i++)
-            {
-                Projectile p = Main.projectile[i];
-                if (p.active && p.type == ModContent.ProjectileType<YharimsCrystalPrism>() && p.owner == player.whoAmI)
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-        {
-            bool playerName =
-                player.name == "Fabsol" ||
-                player.name == "Ziggums" ||
-                player.name == "Poly" ||
-                player.name == "Zach" ||
-                player.name == "Grox the Great" ||
-                player.name == "Jenosis" ||
-                player.name == "DM DOKURO" ||
-                player.name == "Uncle Danny" ||
-                player.name == "Phoenix" ||
-                player.name == "MineCat" ||
-                player.name == "Khaelis" ||
-                player.name == "Purple Necromancer" ||
-                player.name == "gamagamer64" ||
-                player.name == "Svante" ||
-                player.name == "Puff" ||
-                player.name == "Leviathan" ||
-                player.name == "Testdude";
-            bool yharon = CalamityWorld.downedYharon;
-            if (playerName || yharon)
-            {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
-                return false;
-            }
-            else
-            {
-                Projectile.NewProjectile(position.X, position.Y, 0f, 0f, 29, 0, 0f, player.whoAmI, 0f, 0f);
-                return false;
-            }
-        }
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[ModContent.ProjectileType<YharimsCrystalPrism>()] == 0;
     }
 }

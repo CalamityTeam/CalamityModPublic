@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -37,16 +38,6 @@ namespace CalamityMod.Tiles.FurnitureAncient
             b = 0.5f;
         }
 
-        public override void AnimateTile(ref int frame, ref int frameCounter)
-        {
-            frameCounter++;
-            if (frameCounter >= 6)
-            {
-                frame = (frame + 1) % 6;
-                frameCounter = 0;
-            }
-        }
-
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
             Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<Items.Placeables.FurnitureAncient.AncientLamp>());
@@ -55,6 +46,20 @@ namespace CalamityMod.Tiles.FurnitureAncient
         public override void HitWire(int i, int j)
         {
             CalamityUtils.LightHitWire(Type, i, j, 1, 3);
+        }
+
+        public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
+        {
+            CalamityUtils.DrawFlameEffect(ModContent.GetTexture("CalamityMod/Tiles/FurnitureAncient/AncientLampFlame"), i, j);
+        }
+
+        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
+        {
+            Tile tile = Main.tile[i, j];
+            if (tile.frameY == 18)
+            {
+                CalamityUtils.DrawFlameSparks(60, 5, i, j);
+            }
         }
     }
 }

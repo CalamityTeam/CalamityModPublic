@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using Terraria;
 using Terraria.Enums;
@@ -14,283 +13,348 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class YharimsCrystalBeam : ModProjectile
     {
+        private const float PiBeamDivisor = MathHelper.Pi / YharimsCrystalPrism.NumBeams;
+
+        private const float MaxDamageMultiplier = 3f;
+
+        private const float BeamPosOffset = 16f;
+        private const float MaxBeamScale = 1.8f;
+
+        private const float MaxBeamLength = 2400f;
+        private const float BeamTileCollisionWidth = 1f;
+        private const float BeamHitboxCollisionWidth = 22f;
+        private const int NumSamplePoints = 3;
+        private const float BeamLengthChangeFactor = 0.75f;
+
+        private const float VisualEffectThreshold = 0.1f;
+
+        private const float OuterBeamOpacityMultiplier = 0.75f;
+        private const float InnerBeamOpacityMultiplier = 0.1f;
+        private const float BeamLightBrightness = 0.75f;
+
+        private const float MainDustBeamEndOffset = 14.5f;
+        private const float SidewaysDustBeamEndOffset = 4f;
+        private const float BeamRenderTileOffset = 10.5f;
+        private const float BeamLengthReductionFactor = 14.5f;
+
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Beam");
+            DisplayName.SetDefault("Yharim's Beam");
         }
 
         public override void SetDefaults()
         {
             projectile.width = 18;
             projectile.height = 18;
-            projectile.friendly = true;
             projectile.magic = true;
             projectile.penetrate = -1;
             projectile.alpha = 255;
+            // The beam itself still stops on tiles, but its invisible "source" projectile ignores them.
             projectile.tileCollide = false;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 2;
+            projectile.localNPCHitCooldown = 5;
         }
 
-        public override void SendExtraAI(BinaryWriter writer)
-        {
-            writer.Write(projectile.localAI[1]);
-        }
+        public override void SendExtraAI(BinaryWriter writer) => writer.Write(projectile.localAI[1]);
+        public override void ReceiveExtraAI(BinaryReader reader) => projectile.localAI[1] = reader.ReadSingle();
 
-        public override void ReceiveExtraAI(BinaryReader reader)
-        {
-            projectile.localAI[1] = reader.ReadSingle();
-        }
-
-        public float GetHue(float indexing)
-        {
-            string playerName;
-            if (Main.player[projectile.owner].active && (playerName = Main.player[projectile.owner].name) != null)
-            {
-                Dictionary<string, int> LaserHue = new Dictionary<string, int>(17)
-                {
-                    {"Fabsol", 0},
-                    {"Ziggums", 1},
-                    {"Poly", 2},
-                    {"Zach", 3},
-                    {"Grox the Great", 4},
-                    {"Jenosis", 5},
-                    {"DM DOKURO", 6},
-                    {"Uncle Danny", 7},
-                    {"Phoenix", 8},
-                    {"MineCat", 9},
-                    {"Khaelis", 10},
-                    {"Purple Necromancer", 11},
-                    {"gamagamer64", 12},
-                    {"Svante", 13},
-                    {"Puff", 14},
-                    {"Leviathan", 15},
-                    {"Testdude", 16}
-                };
-                if (LaserHue.TryGetValue(playerName, out int someNumber))
-                {
-                    switch (someNumber)
-                    {
-                        case 0:
-                        case 1:
-                            return 2f;
-                        case 2:
-                            return 0.83f;
-                        case 3:
-                            return 1.5f + (float)Math.Cos(Main.time / 180.0 * 6.2831854820251465) * 0.1f;
-                        case 4:
-                            return 1.27f;
-                        case 5:
-                            return 0.65f + (float)Math.Cos(Main.time / 180.0 * 6.2831854820251465) * 0.1f;
-                        case 6:
-                            return 0f;
-                        case 7:
-                        case 8:
-                            return 1.7f + (float)Math.Cos(Main.time / 180.0 * 6.2831854820251465) * 0.07f;
-                        case 9:
-                            return 0.15f + (float)Math.Cos(Main.time / 180.0 * 6.2831854820251465) * 0.07f;
-                        case 10:
-                            return 1.15f + (float)Math.Cos(Main.time / 180.0 * 6.2831854820251465) * 0.18f;
-                        case 11:
-                            return 1.7f + (float)Math.Cos(Main.time / 120.0 * 6.2831854820251465) * 0.05f;
-                        case 12:
-                            return 0.83f + (float)Math.Cos(Main.time / 120.0 * 6.2831854820251465) * 0.03f;
-                        case 13:
-                            return 1.4f + (float)Math.Cos(Main.time / 180.0 * 6.2831854820251465) * 0.06f;
-                        case 14:
-                            return 0.31f + (float)Math.Cos(Main.time / 120.0 * 6.2831854820251465) * 0.13f;
-                        case 15:
-                            return 1.9f + (float)Math.Cos(Main.time / 180.0 * 6.2831854820251465) * 0.1f;
-                        case 16:
-                            return Main.rand.NextFloat();
-                    }
-                }
-            }
-            return (float)(int)indexing / 6f;
-        }
-
+        // projectile.ai[0] = 0 through N-1, chosen at spawn = Which beam ID this is (they all have different rotations and colors)
+        // projectile.ai[1] = Index of the crystal projectile "hosting" this beam
+        // projectile.localAI[1] = Length of the beam (dynamically calculated every frame)
+        // The beam projectile also makes heavy use of its host crystal's charge level.
         public override void AI()
         {
-            Vector2? vector71 = null;
-            if (projectile.velocity.HasNaNs() || projectile.velocity == Vector2.Zero)
-            {
-                projectile.velocity = -Vector2.UnitY;
-            }
-            if (projectile.type != ModContent.ProjectileType<YharimsCrystalBeam>() || !Main.projectile[(int)projectile.ai[1]].active || Main.projectile[(int)projectile.ai[1]].type != ModContent.ProjectileType<YharimsCrystalPrism>())
+            // If something has gone wrong with either the beam or the host crystal, destroy the beam.
+            Projectile hostCrystal = Main.projectile[(int)projectile.ai[1]];
+            if (projectile.type != ModContent.ProjectileType<YharimsCrystalBeam>() || !hostCrystal.active || hostCrystal.type != ModContent.ProjectileType<YharimsCrystalPrism>())
             {
                 projectile.Kill();
                 return;
             }
-            float num810 = (float)(int)projectile.ai[0] - 2.5f;
-            Vector2 value36 = Vector2.Normalize(Main.projectile[(int)projectile.ai[1]].velocity);
-            Projectile projectile2 = Main.projectile[(int)projectile.ai[1]];
-            float num811 = num810 * 0.5235988f;
-            Vector2 value37 = Vector2.Zero;
-            float num812;
-            float y;
-            float num813;
-            float scaleFactor6;
-            if (projectile2.ai[0] < 180f)
+            Vector2 hostCrystalDir = Vector2.Normalize(hostCrystal.velocity);
+            float chargeRatio = MathHelper.Clamp(hostCrystal.ai[0] / YharimsCrystalPrism.MaxCharge, 0f, 1f);
+
+            // Update the beam's damage based on the host crystal's current damage value, which accounts for Mana Sickness.
+            // Yharim's Crystal smoothly scales up its damage instead of suddenly jumping to a higher damage output.
+            projectile.damage = (int)(hostCrystal.damage * GetDamageMultiplier(chargeRatio));
+
+            // The beam cannot strike enemies until at a certain charge level.
+            projectile.friendly = hostCrystal.ai[0] > YharimsCrystalPrism.DamageStart;
+
+            // This offset is used to make the beams orient differently.
+            float beamIdOffset = (int)projectile.ai[0] - YharimsCrystalPrism.NumBeams / 2f + 0.5f;
+            float beamSpread;
+            float spinRate;
+            float beamStartSidewaysOffset;
+            float beamStartForwardsOffset;
+
+            // Variables scale smoothly while the crystal is charging up, but are fixed once it is at max charge.
+            if (chargeRatio < 1f)
             {
-                num812 = 1f - projectile2.ai[0] / 180f;
-                y = 20f - projectile2.ai[0] / 180f * 14f;
-                if (projectile2.ai[0] < 120f)
+                projectile.scale = MathHelper.Lerp(0f, MaxBeamScale, chargeRatio);
+                beamSpread = MathHelper.Lerp(1.22f, 0f, chargeRatio);
+                beamStartSidewaysOffset = MathHelper.Lerp(20f, 6f, chargeRatio);
+                beamStartForwardsOffset = MathHelper.Lerp(-17f, -13f, chargeRatio);
+
+                // For the first 2/3 of charge time, the opacity scales up from 0% to 40%.
+                // Spin rate increases slowly during this time.
+                if (chargeRatio <= 0.66f)
                 {
-                    num813 = 20f - 4f * (projectile2.ai[0] / 120f);
-                    projectile.Opacity = projectile2.ai[0] / 120f * 0.4f;
+                    float phaseRatio = chargeRatio * 1.5f;
+                    projectile.Opacity = MathHelper.Lerp(0f, 0.4f, phaseRatio);
+                    spinRate = MathHelper.Lerp(20f, 16f, phaseRatio);
                 }
+
+                // For the last 1/3 of charge time, the opacity scales up from 40% to 100%.
+                // Spin rate increases dramatically during this time.
                 else
                 {
-                    num813 = 16f - 10f * ((projectile2.ai[0] - 120f) / 60f);
-                    projectile.Opacity = 0.4f + (projectile2.ai[0] - 120f) / 60f * 0.6f;
+                    float phaseRatio = (chargeRatio - 0.66f) * 3f;
+                    projectile.Opacity = MathHelper.Lerp(0.4f, 1f, phaseRatio);
+                    spinRate = MathHelper.Lerp(16f, 6f, phaseRatio);
                 }
-                scaleFactor6 = -22f + projectile2.ai[0] / 180f * 20f;
             }
             else
             {
-                num812 = 0f;
-                num813 = 1.75f;
-                y = 6f;
+                projectile.scale = MaxBeamScale;
                 projectile.Opacity = 1f;
-                scaleFactor6 = -2f;
+                beamSpread = 0f;
+                spinRate = 6f;
+                beamStartSidewaysOffset = 6f;
+                beamStartForwardsOffset = -13f;
             }
-            float num814 = (projectile2.ai[0] + num810 * num813) / (num813 * 6f) * 6.28318548f;
-            num811 = Vector2.UnitY.RotatedBy((double)num814, default).Y * 0.5235988f * num812;
-            value37 = (Vector2.UnitY.RotatedBy((double)num814, default) * new Vector2(4f, y)).RotatedBy((double)projectile2.velocity.ToRotation(), default);
-            projectile.position = projectile2.Center + value36 * 16f - projectile.Size / 2f + new Vector2(0f, -Main.projectile[(int)projectile.ai[1]].gfxOffY);
-            projectile.position += projectile2.velocity.ToRotation().ToRotationVector2() * scaleFactor6;
-            projectile.position += value37;
-            projectile.velocity = Vector2.Normalize(projectile2.velocity).RotatedBy((double)num811, default);
-            projectile.scale = 1.8f * (1f - num812);
-            projectile.damage = projectile2.damage;
-            if (projectile2.ai[0] >= 180f)
-            {
-                projectile.damage = (int)((double)projectile.damage * 2.7);
-                vector71 = new Vector2?(projectile2.Center);
-            }
-            if (!Collision.CanHitLine(Main.player[projectile.owner].Center, 0, 0, projectile2.Center, 0, 0))
-            {
-                vector71 = new Vector2?(Main.player[projectile.owner].Center);
-            }
-            projectile.friendly = projectile2.ai[0] > 30f;
+
+            // The amount to which the angle changes reduces over time so that the beams look like they are focusing.
+            float deviationAngle = (hostCrystal.ai[0] + beamIdOffset * spinRate) / (spinRate * YharimsCrystalPrism.NumBeams) * MathHelper.TwoPi;
+            Vector2 unitRot = Vector2.UnitY.RotatedBy(deviationAngle);
+            float sinusoidYOffset = unitRot.Y * PiBeamDivisor * beamSpread;
+            float hostCrystalAngle = hostCrystal.velocity.ToRotation();
+            Vector2 yVec = new Vector2(4f, beamStartSidewaysOffset);
+            Vector2 beamSpanVector = (unitRot * yVec).RotatedBy(hostCrystalAngle);
+
+            // Calculate the beam's emanating position. Start with the crystal center.
+            projectile.Center = hostCrystal.Center;
+            // Add a fixed offset to align with the crystal's spritesheet (?)
+            projectile.position += hostCrystalDir * BeamPosOffset + new Vector2(0f, -hostCrystal.gfxOffY);
+            // Add the forwards offset, measured in pixels.
+            projectile.position += hostCrystalDir * beamStartForwardsOffset;
+            // Add the sideways offset vector, which is calculated for the current angle of the beam and scales with the beam's sideways offset.
+            projectile.position += beamSpanVector;
+
+            // Set the beam's velocity to point towards its current spread direction and sanity check it. It should have magnitude 1.
+            projectile.velocity = hostCrystalDir.RotatedBy(sinusoidYOffset);
             if (projectile.velocity.HasNaNs() || projectile.velocity == Vector2.Zero)
-            {
                 projectile.velocity = -Vector2.UnitY;
-            }
-            float num818 = projectile.velocity.ToRotation();
-            projectile.rotation = num818 - 1.57079637f;
-            projectile.velocity = num818.ToRotationVector2();
-            float num819 = 2f;
-            float num820 = 0f;
+            projectile.rotation = projectile.velocity.ToRotation();
+
+            // By default, the interpolation starts at the projectile's center.
+            // If the host crystal is fully charged, the interpolation starts at the host crystal's center instead.
+            // Overriding that, if the player shoves the crystal into or through a wall, the interpolation starts at the player's center.
             Vector2 samplingPoint = projectile.Center;
-            if (vector71.HasValue)
+            if(hostCrystal.ai[0] >= YharimsCrystalPrism.MaxCharge)
+                samplingPoint = hostCrystal.Center;
+            if (!Collision.CanHitLine(Main.player[projectile.owner].Center, 0, 0, hostCrystal.Center, 0, 0))
+                samplingPoint = Main.player[projectile.owner].Center;
+
+            // Perform a laser scan to calculate the correct length of the beam.
+            // Alternatively, if the beam ignores tiles, just set it to be the max beam length with the following line.
+            // projectile.localAI[1] = MaxBeamLength;
+            float[] laserScanResults = new float[NumSamplePoints];
+            Collision.LaserScan(samplingPoint, projectile.velocity, BeamTileCollisionWidth * projectile.scale, MaxBeamLength, laserScanResults);
+            float avg = 0f;
+            for (int i = 0; i < laserScanResults.Length; ++i)
+                avg += laserScanResults[i];
+            avg /= NumSamplePoints;
+            projectile.localAI[1] = MathHelper.Lerp(projectile.localAI[1], avg, BeamLengthChangeFactor);
+
+            // X = beam length. Y = beam width.
+            Vector2 beamDims = new Vector2(projectile.velocity.Length() * projectile.localAI[1], projectile.width * projectile.scale);
+
+            // Only produce dust and cause water ripples if the beam is above a certain charge level.
+            Color beamColor = GetBeamColor();
+            if (chargeRatio >= VisualEffectThreshold)
             {
-                samplingPoint = vector71.Value;
-            }
-            float[] array3 = new float[(int)num819];
-            Collision.LaserScan(samplingPoint, projectile.velocity, num820 * projectile.scale, 2400f, array3);
-            float num821 = 0f;
-            for (int num822 = 0; num822 < array3.Length; num822++)
-            {
-                num821 += array3[num822];
-            }
-            num821 /= num819;
-            float amount = 0.75f;
-            projectile.localAI[1] = MathHelper.Lerp(projectile.localAI[1], num821, amount);
-            if (Math.Abs(projectile.localAI[1] - num821) < 100f && projectile.scale > 0.15f)
-            {
-                float prismHue = GetHue(projectile.ai[0]);
-                Color color = Main.hslToRgb(2.55f, prismHue, 0.53f);
-                color.A = 0;
-                Vector2 vector80 = projectile.Center + projectile.velocity * (projectile.localAI[1] - 14.5f * projectile.scale);
-                float x = Main.rgbToHsl(new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB)).X;
-                for (int num843 = 0; num843 < 2; num843++)
-                {
-                    float num844 = projectile.velocity.ToRotation() + ((Main.rand.Next(2) == 1) ? -1f : 1f) * 1.57079637f;
-                    float num845 = (float)Main.rand.NextDouble() * 0.8f + 1f;
-                    Vector2 vector81 = new Vector2((float)Math.Cos((double)num844) * num845, (float)Math.Sin((double)num844) * num845);
-                    int num846 = Dust.NewDust(vector80, 0, 0, 244, vector81.X, vector81.Y, 0, new Color(255, Main.DiscoG, 53), 3.3f); //267
-                    Main.dust[num846].color = color;
-                    Main.dust[num846].scale = 1.2f;
-                    if (projectile.scale > 1f)
-                    {
-                        Main.dust[num846].velocity *= projectile.scale;
-                        Main.dust[num846].scale *= projectile.scale;
-                    }
-                    Main.dust[num846].noGravity = true;
-                    if (projectile.scale != 1.4f)
-                    {
-                        Dust dust9 = Dust.CloneDust(num846);
-                        dust9.color = Color.Orange;
-                        dust9.scale /= 2f;
-                    }
-                    float hue = (x + Main.rand.NextFloat() * 0.4f) % 1f;
-                    Main.dust[num846].color = Color.Lerp(color, Main.hslToRgb(2.55f, hue, 0.53f), projectile.scale / 1.4f);
-                }
-                if (Main.rand.NextBool(5))
-                {
-                    Vector2 value42 = projectile.velocity.RotatedBy(1.5707963705062866, default) * ((float)Main.rand.NextDouble() - 0.5f) * (float)projectile.width;
-                    int num847 = Dust.NewDust(vector80 + value42 - Vector2.One * 4f, 8, 8, 244, 0f, 0f, 100, new Color(255, Main.DiscoG, 53), 5f);
-                    Main.dust[num847].velocity *= 0.5f;
-                    Main.dust[num847].velocity.Y = -Math.Abs(Main.dust[num847].velocity.Y);
-                }
-                DelegateMethods.v3_1 = color.ToVector3() * 0.3f;
-                float value43 = 0.1f * (float)Math.Sin((double)(Main.GlobalTime * 20f));
-                Vector2 size = new Vector2(projectile.velocity.Length() * projectile.localAI[1], (float)projectile.width * projectile.scale);
-                float num848 = projectile.velocity.ToRotation();
+                ProduceBeamDust(beamColor);
+
+                // If the game is rendering (i.e. isn't a dedicated server), make the beam disturb water.
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    ((WaterShaderData)Filters.Scene["WaterDistortion"].GetShader()).QueueRipple(projectile.position + new Vector2(size.X * 0.5f, 0f).RotatedBy((double)num848, default), new Color(0.5f, 0.1f * (float)Math.Sign(value43) + 0.5f, 0f, 1f) * Math.Abs(value43), size, RippleShape.Square, num848);
+                    WaterShaderData wsd = (WaterShaderData)Filters.Scene["WaterDistortion"].GetShader();
+                    // A universal time-based sinusoid which updates extremely rapidly. GlobalTime is 0 to 3600, measured in seconds.
+                    float waveSine = 0.1f * (float)Math.Sin(Main.GlobalTime * 20f);
+                    Vector2 ripplePos = projectile.position + new Vector2(beamDims.X * 0.5f, 0f).RotatedBy(projectile.rotation);
+                    // WaveData is encoded as a Color. Not sure why, considering Vector3 exists.
+                    Color waveData = new Color(0.5f, 0.1f * Math.Sign(waveSine) + 0.5f, 0f, 1f) * Math.Abs(waveSine);
+                    wsd.QueueRipple(ripplePos, waveData, beamDims, RippleShape.Square, projectile.rotation);
                 }
-                Utils.PlotTileLine(projectile.Center, projectile.Center + projectile.velocity * projectile.localAI[1], (float)projectile.width * projectile.scale, new Utils.PerLinePoint(DelegateMethods.CastLight));
-                return;
             }
+
+            // Make the beam cast light along its length. The brightness of the light scales with the charge.
+            // v3_1 is an unnamed decompiled variable which is the color of the light cast by DelegateMethods.CastLight
+            DelegateMethods.v3_1 = beamColor.ToVector3() * BeamLightBrightness * chargeRatio;
+            Utils.PlotTileLine(projectile.Center, projectile.Center + projectile.velocity * projectile.localAI[1], beamDims.Y, new Utils.PerLinePoint(DelegateMethods.CastLight));
+        }
+
+        // Uses a simple polynomial (x^3) to get sudden but smooth damage increase near the end of the charge-up period.
+        private float GetDamageMultiplier(float chargeRatio)
+        {
+            float f = chargeRatio * chargeRatio * chargeRatio;
+            return MathHelper.Lerp(1f, MaxDamageMultiplier, f);
+        }
+
+        // Determines whether the specified target hitbox is intersecting with the beam.
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+        {
+            // If the target is touching the beam's hitbox (which is a small rectangle vaguely overlapping the host crystal), that's good enough.
+            if (projHitbox.Intersects(targetHitbox))
+                return true;
+            // Otherwise, perform an AABB line collision check to check the whole beam.
+            float _ = float.NaN;
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center, projectile.Center + projectile.velocity * projectile.localAI[1], BeamHitboxCollisionWidth * projectile.scale, ref _);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
+            // If the beam doesn't have a defined direction, don't draw anything.
             if (projectile.velocity == Vector2.Zero)
-            {
                 return false;
-            }
+
             Texture2D tex = Main.projectileTexture[projectile.type];
-            float num228 = projectile.localAI[1];
-            float prismHue = GetHue(projectile.ai[0]);
-            Color value25 = Main.hslToRgb(2.55f, prismHue, 0.53f);
-            value25.A = 0;
-            Vector2 value26 = projectile.Center.Floor();
-            value26 += projectile.velocity * projectile.scale * 10.5f;
-            num228 -= projectile.scale * 14.5f * projectile.scale;
-            Vector2 vector29 = new Vector2(projectile.scale);
-            DelegateMethods.f_1 = 1f;
-            DelegateMethods.c_1 = value25 * 0.75f * projectile.Opacity;
-            Vector2 projPos = projectile.oldPos[0];
-            projPos = new Vector2((float)projectile.width, (float)projectile.height) / 2f + Vector2.UnitY * projectile.gfxOffY - Main.screenPosition;
-            Utils.DrawLaser(Main.spriteBatch, tex, value26 - Main.screenPosition, value26 + projectile.velocity * num228 - Main.screenPosition, vector29, new Utils.LaserLineFraming(DelegateMethods.RainbowLaserDraw));
-            DelegateMethods.c_1 = new Color(255, Main.DiscoG, 53, 127) * 0.75f * projectile.Opacity;
-            Utils.DrawLaser(Main.spriteBatch, tex, value26 - Main.screenPosition, value26 + projectile.velocity * num228 - Main.screenPosition, vector29 / 2f, new Utils.LaserLineFraming(DelegateMethods.RainbowLaserDraw));
+            float beamLength = projectile.localAI[1];
+            Vector2 centerFloored = projectile.Center.Floor() + projectile.velocity * projectile.scale * BeamRenderTileOffset;
+            Vector2 scaleVec = new Vector2(projectile.scale);
+
+            // Reduce the beam length proportional to its square area to reduce block penetration.
+            beamLength -= BeamLengthReductionFactor * projectile.scale * projectile.scale;
+
+            DelegateMethods.f_1 = 1f; // f_1 is an unnamed decompiled variable whose function is unknown. Leave it at 1.
+            Vector2 beamStartPos = centerFloored - Main.screenPosition;
+            Vector2 beamEndPos = beamStartPos + projectile.velocity * beamLength;
+            Utils.LaserLineFraming llf = new Utils.LaserLineFraming(DelegateMethods.RainbowLaserDraw);
+
+            // Draw the outer beam
+            // c_1 is an unnamed decompiled variable which is the render color of the beam drawn by DelegateMethods.RainbowLaserDraw
+            Color outerBeamColor = GetBeamColor();
+            DelegateMethods.c_1 = outerBeamColor * OuterBeamOpacityMultiplier * projectile.Opacity;
+            Utils.DrawLaser(Main.spriteBatch, tex, beamStartPos, beamEndPos, scaleVec, llf);
+
+            // Draw the inner beam (reduced size)
+            scaleVec *= 0.5f;
+            Color innerBeamColor = Color.White;
+            DelegateMethods.c_1 = innerBeamColor * InnerBeamOpacityMultiplier * projectile.Opacity;
+            Utils.DrawLaser(Main.spriteBatch, tex, beamStartPos, beamEndPos, scaleVec, llf);
             return false;
         }
 
+        private void ProduceBeamDust(Color beamColor)
+        {
+            // Create a few dust per frame a small distance from where the beam ends.
+            Vector2 laserEndPos = projectile.Center + projectile.velocity * (projectile.localAI[1] - MainDustBeamEndOffset * projectile.scale);
+            for (int i = 0; i < 2; ++i)
+            {
+                // 50% chance for the dust to come off on either side of the beam.
+                float dustAngle = projectile.rotation + (Main.rand.NextBool() ? 1f : -1f) * MathHelper.PiOver2;
+                float dustStartDist = Main.rand.NextFloat(1f, 1.8f);
+                Vector2 dustVel = dustAngle.ToRotationVector2() * dustStartDist;
+                int d = Dust.NewDust(laserEndPos, 0, 0, 244, dustVel.X, dustVel.Y, 0, beamColor, 3.3f);
+                Main.dust[d].color = beamColor;
+                Main.dust[d].noGravity = true;
+                Main.dust[d].scale = 1.2f;
+
+                // Scale up dust with the projectile if it's large.
+                if (projectile.scale > 1f)
+                {
+                    Main.dust[d].velocity *= projectile.scale;
+                    Main.dust[d].scale *= projectile.scale;
+                }
+
+                // If the beam isn't at max scale, then make additional smaller dust.
+                if (projectile.scale != MaxBeamScale)
+                {
+                    Dust smallDust = Dust.CloneDust(d);
+                    smallDust.scale /= 2f;
+                }
+            }
+
+            // Low chance every frame to spawn a large "directly sideways" dust which doesn't move.
+            if (Main.rand.NextBool(5))
+            {
+                // Velocity, flipped sideways, times -50% to 50% of beam width.
+                Vector2 dustOffset = projectile.velocity.RotatedBy(MathHelper.PiOver2) * (Main.rand.NextFloat() - 0.5f) * projectile.width;
+                Vector2 dustPos = laserEndPos + dustOffset - Vector2.One * SidewaysDustBeamEndOffset;
+                int dustID = 244;
+                int d = Dust.NewDust(dustPos, 8, 8, dustID, 0f, 0f, 100, beamColor, 5f);
+                Main.dust[d].velocity *= 0.5f;
+
+                // Force the dust to always move downwards, never upwards.
+                Main.dust[d].velocity.Y = -Math.Abs(Main.dust[d].velocity.Y);
+            }
+        }
+
+        private Color GetBeamColor()
+        {
+            float customHue = GetHue(projectile.ai[0]);
+            float sat = 0.66f;
+            Color c = Main.hslToRgb(customHue, sat, 0.53f);
+            c.A = 64;
+            return c;
+        }
+
+        // indexing = 0 through N-1 (it's beam ID, stored in projectile.ai[0])
+        private float GetHue(float indexing)
+        {
+            string name = Main.player[projectile.owner].name ?? "";
+            if (Main.player[projectile.owner].active)
+            {
+                switch (name)
+                {
+                    case "Fabsol":
+                    case "Ziggums":
+                        return 2f;
+                    case "Poly":
+                        return 0.83f;
+                    case "Zach":
+                        return 1.5f + (float)Math.Cos(Main.time / 180.0 * Math.PI * 2.0) * 0.1f;
+                    case "Grox the Great":
+                        return 1.27f;
+                    case "Jenosis":
+                        return 0.65f + (float)Math.Cos(Main.time / 180.0 * Math.PI * 2.0) * 0.1f;
+                    case "DM DOKURO":
+                        return 0f;
+                    case "Uncle Danny":
+                    case "Phoenix":
+                        return 1.7f + (float)Math.Cos(Main.time / 180.0 * Math.PI * 2.0) * 0.07f;
+                    case "Minecat":
+                        return 0.15f + (float)Math.Cos(Main.time / 180.0 * Math.PI * 2.0) * 0.07f;
+                    case "Khaelis":
+                        return 1.15f + (float)Math.Cos(Main.time / 180.0 * Math.PI * 2.0) * 0.18f;
+                    case "Purple Necromancer":
+                        return 1.7f + (float)Math.Cos(Main.time / 120.0 * Math.PI * 2.0) * 0.05f;
+                    case "gamagamer64":
+                        return 0.83f + (float)Math.Cos(Main.time / 120.0 * Math.PI * 2.0) * 0.03f;
+                    case "Svante":
+                        return 1.4f + (float)Math.Cos(Main.time / 180.0 * Math.PI * 2.0) * 0.06f;
+                    case "Puff":
+                        return 0.31f + (float)Math.Cos(Main.time / 120.0 * Math.PI * 2.0) * 0.13f;
+                    case "Leviathan":
+                        return 1.9f + (float)Math.Cos(Main.time / 180.0 * Math.PI * 2.0) * 0.1f;
+                    case "Testdude":
+                        return Main.rand.NextFloat();
+                }
+            }
+            // Something in the range of red to yellow
+            return (indexing / YharimsCrystalPrism.NumBeams) % 0.12f;
+        }
+
+        // Automatically iterates through every tile the laser is overlapping to cut grass at all those locations.
         public override void CutTiles()
         {
+            // tilecut_0 is an unnamed decompiled variable which tells CutTiles how the tiles are being cut (in this case, via a projectile).
             DelegateMethods.tilecut_0 = TileCuttingContext.AttackProjectile;
-            Vector2 unit = projectile.velocity;
-            Utils.PlotTileLine(projectile.Center, projectile.Center + unit * projectile.localAI[1], (float)projectile.width * projectile.scale, new Utils.PerLinePoint(DelegateMethods.CutTiles));
-        }
-
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
-        {
-            if (projHitbox.Intersects(targetHitbox))
-            {
-                return true;
-            }
-            float num6 = 0f;
-            if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center, projectile.Center + projectile.velocity * projectile.localAI[1], 22f * projectile.scale, ref num6))
-            {
-                return true;
-            }
-            return false;
+            Utils.PerLinePoint cut = new Utils.PerLinePoint(DelegateMethods.CutTiles);
+            Vector2 beamStartPos = projectile.Center;
+            Vector2 beamEndPos = beamStartPos + projectile.velocity * projectile.localAI[1];
+            Utils.PlotTileLine(beamStartPos, beamEndPos, projectile.width * projectile.scale, cut);
         }
     }
 }

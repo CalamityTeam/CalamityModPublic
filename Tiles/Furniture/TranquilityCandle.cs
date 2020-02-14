@@ -1,5 +1,6 @@
 using CalamityMod.Buffs.Placeables;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,27 +12,12 @@ namespace CalamityMod.Tiles.Furniture
     {
         public override void SetDefaults()
         {
-            Main.tileLighted[Type] = true;
-            Main.tileFrameImportant[Type] = true;
-            Main.tileLavaDeath[Type] = true;
-            TileObjectData.newTile.CopyFrom(TileObjectData.StyleOnTable1x1);
-            TileObjectData.addTile(Type);
+            this.SetUpCandle();
             drop = ModContent.ItemType<Items.Placeables.Furniture.TranquilityCandle>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Tranquility Candle");
-            AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
             AddMapEntry(new Color(238, 145, 105), name);
-            animationFrameHeight = 20;
-        }
-
-        public override void AnimateTile(ref int frame, ref int frameCounter)
-        {
-            frameCounter++;
-            if (frameCounter >= 4)
-            {
-                frame = (frame + 1) % 10;
-                frameCounter = 0;
-            }
+            adjTiles = new int[] { TileID.Torches };
         }
 
         public override void MouseOver(int i, int j)
@@ -53,29 +39,39 @@ namespace CalamityMod.Tiles.Furniture
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-            r = 0.55f;
-            g = 0.055f;
-            b = 0.55f;
+            if (Main.tile[i, j].frameX < 18)
+            {
+                r = 1f;
+                g = 0.55f;
+                b = 1f;
+            }
+            else
+            {
+                r = 0f;
+                g = 0f;
+                b = 0f;
+            }
         }
 
-		//this doesn't work
-		/*public virtual bool NewRightClick(int i, int j)
+        public override void HitWire(int i, int j)
+        {
+            CalamityUtils.LightHitWire(Type, i, j, 1, 1);
+        }
+
+        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
+        {
+            CalamityUtils.DrawFlameSparks(62, 5, i, j);
+        }
+
+        public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
+        {
+            CalamityUtils.DrawFlameEffect(ModContent.GetTexture("CalamityMod/Tiles/Furniture/TranquilityCandleFlame"), i, j);
+        }
+
+        public override bool NewRightClick(int i, int j)
 		{
-            Item.NewItem(i * 16, j * 16, 8, 8, ModContent.ItemType<Items.Placeables.Furniture.TranquilityCandle>());
-			if (Main.tile[i, j] != null && Main.tile[i, j].active())
-			{
-				WorldGen.KillTile(i, j, false, false, false);
-				if (!Main.tile[i, j].active() && Main.netMode != NetmodeID.SinglePlayer)
-				{
-					NetMessage.SendData(17, -1, -1, null, 0, (float)i, (float)j, 0f, 0, 0, 0);
-				}
-			}
+            CalamityUtils.RightClickBreak(i, j);
 			return true;
 		}
-
-		public override bool HasSmartInteract()
-		{
-			return true;
-		}*/
     }
 }

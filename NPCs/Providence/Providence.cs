@@ -138,8 +138,12 @@ namespace CalamityMod.NPCs.Providence
             // Rotation
             npc.rotation = npc.velocity.X * 0.004f;
 
-            // Target variable and boss center
-            Player player = Main.player[npc.target];
+			// Target
+			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest(true);
+
+			// Target variable and boss center
+			Player player = Main.player[npc.target];
             Vector2 vector = npc.Center;
 
 			// Difficulty bools
@@ -285,21 +289,32 @@ namespace CalamityMod.NPCs.Providence
                 }
             }
 
-            // Despawn
-            if ((!Main.dayTime && npc.ai[0] != 2f && npc.ai[0] != 5f && npc.ai[0] != 7f) || player.dead)
+			// Despawn
+			bool targetDead = false;
+            if ((!Main.dayTime && npc.ai[0] != 2f && npc.ai[0] != 5f && npc.ai[0] != 7f) || !player.active || player.dead)
             {
-                if (npc.timeLeft > 10)
-                    npc.timeLeft = 10;
+				if (!player.active || player.dead)
+				{
+					npc.TargetClosest(false);
+					player = Main.player[npc.target];
+				}
+				if ((!Main.dayTime && npc.ai[0] != 2f && npc.ai[0] != 5f && npc.ai[0] != 7f) || !player.active || player.dead)
+				{
+					targetDead = true;
 
-                if (npc.velocity.X > 0f)
-                    npc.velocity.X = npc.velocity.X + 0.25f;
-                else
-                    npc.velocity.X = npc.velocity.X - 0.25f;
+					if (npc.timeLeft > 60)
+						npc.timeLeft = 60;
 
-                npc.velocity.Y = npc.velocity.Y - 0.25f;
+					if (npc.velocity.X > 0f)
+						npc.velocity.X += 0.2f;
+					else
+						npc.velocity.X -= 0.2f;
+
+					npc.velocity.Y -= 0.2f;
+				}
             }
-            else if (npc.timeLeft < 3600)
-                npc.timeLeft = 3600;
+            else if (npc.timeLeft < 1800)
+                npc.timeLeft = 1800;
 
             // Guardian spawn
             if (bossLife == 0f && npc.life > 0)
@@ -391,632 +406,661 @@ namespace CalamityMod.NPCs.Providence
                         velocity = 30f;
                 }
 
-                npc.velocity.X = npc.velocity.X + (float)flightPath * acceleration;
-                if (npc.velocity.X > velocity)
-                    npc.velocity.X = velocity;
-                if (npc.velocity.X < -velocity)
-                    npc.velocity.X = -velocity;
+				if (!targetDead)
+				{
+					npc.velocity.X += (float)flightPath * acceleration;
+					if (npc.velocity.X > velocity)
+						npc.velocity.X = velocity;
+					if (npc.velocity.X < -velocity)
+						npc.velocity.X = -velocity;
 
-                float num855 = player.position.Y - (npc.position.Y + (float)npc.height);
-                if (num855 < (firingLaser ? 150f : 200f)) // 150
-                    npc.velocity.Y = npc.velocity.Y - 0.2f;
-                if (num855 > (firingLaser ? 200f : 250f)) // 200
-                    npc.velocity.Y = npc.velocity.Y + 0.2f;
+					float num855 = player.position.Y - (npc.position.Y + (float)npc.height);
+					if (num855 < (firingLaser ? 150f : 200f)) // 150
+						npc.velocity.Y -= 0.2f;
+					if (num855 > (firingLaser ? 200f : 250f)) // 200
+						npc.velocity.Y += 0.2f;
 
-                float speedVariance = normalAttackRate ? 2f : 1f;
-                if (npc.velocity.Y > (firingLaser ? speedVariance : 6f))
-                    npc.velocity.Y = firingLaser ? speedVariance : 6f;
-                if (npc.velocity.Y < (firingLaser ? -speedVariance : -6f))
-                    npc.velocity.Y = firingLaser ? -speedVariance : -6f;
+					float speedVariance = normalAttackRate ? 2f : 1f;
+					if (npc.velocity.Y > (firingLaser ? speedVariance : 6f))
+						npc.velocity.Y = firingLaser ? speedVariance : 6f;
+					if (npc.velocity.Y < (firingLaser ? -speedVariance : -6f))
+						npc.velocity.Y = firingLaser ? -speedVariance : -6f;
+				}
             }
 
-            // Phase switch
-            if (npc.ai[0] == -1f)
-            {
-                npc.noGravity = true;
-                npc.noTileCollide = true;
+			// Phase switch
+			if (npc.ai[0] == -1f)
+			{
+				npc.noGravity = true;
+				npc.noTileCollide = true;
 
-                phaseChange++;
-                if (phaseChange > 14)
-                    phaseChange = 0;
+				phaseChange++;
+				if (phaseChange > 14)
+					phaseChange = 0;
 
-                int phase = 0; // 0 = blasts 1 = holy fire 2 = shell heal 3 = molten blobs 4 = holy bombs 5 = shell spears 6 = crystal 7 = laser
+				int phase = 0;
+				/* 0 = blasts
+				 * 1 = holy fire
+				 * 2 = shell heal
+				 * 3 = molten blobs
+				 * 4 = holy bombs
+				 * 5 = shell spears
+				 * 6 = crystal
+				 * 7 = laser */
 
-                // Holy ray in hallow, Crystal in hell
-                bool useLaser = (phase2 && biomeType == 1) || CalamityWorld.bossRushActive;
-                bool useCrystal = (phase2 && biomeType == 2) || CalamityWorld.bossRushActive;
+				// Holy ray in hallow, Crystal in hell
+				bool useLaser = (phase2 && biomeType == 1) || CalamityWorld.bossRushActive;
+				bool useCrystal = (phase2 && biomeType == 2) || CalamityWorld.bossRushActive;
 
-                // Unique pattern for Death Mode and Boss Rush
-                if (death)
-                {
-                    switch (phaseChange)
-                    {
-                        case 0:
-                            phase = 4;
-                            break; // 1575 or 1500
-                        case 1:
-                            phase = 5;
-                            break; // 1875 or 1800
-                        case 2:
-                            phase = 0;
-                            break; // 2175 or 2100
-                        case 3:
-                            phase = useCrystal ? 6 : 1;
-                            break;
-                        case 4:
-                            phase = 2;
-                            break; // 600
-                        case 5:
-                            phase = 4;
-                            break; // 900
-                        case 6:
-                            phase = 1;
-                            break; // 1200
-                        case 7:
-                            phase = 5;
-                            break; // 1500
-                        case 8:
-                            phase = useLaser ? 7 : 3; // 1875 or 1800
-                            if (useLaser)
-                            {
-                                npc.TargetClosest(false);
-                                Vector2 v3 = player.Center - vector - new Vector2(0f, -22f);
-                                float num1219 = v3.Length() / 500f;
-                                if (num1219 > 1f)
-                                    num1219 = 1f;
-                                num1219 = 1f - num1219;
-                                num1219 *= 2f;
-                                if (num1219 > 1f)
-                                    num1219 = 1f;
+				// Unique pattern for Death Mode and Boss Rush
+				if (death)
+				{
+					switch (phaseChange)
+					{
+						case 0:
+							phase = 3;
+							break; // 1575 or 1500
+						case 1:
+							phase = 5;
+							break; // 1875 or 1800
+						case 2:
+							phase = 0;
+							break; // 2175 or 2100
+						case 3:
+							phase = useCrystal ? 6 : 3;
+							break;
+						case 4:
+							phase = useCrystal ? 3 : 2;
+							break; // 600
+						case 5:
+							phase = useCrystal ? 2 : 1;
+							break; // 900
+						case 6:
+							phase = useLaser ? 7 : 4; // 1875 or 1800
+							if (useLaser)
+							{
+								npc.TargetClosest(false);
+								Vector2 v3 = player.Center - vector - new Vector2(0f, -22f);
+								float num1219 = v3.Length() / 500f;
+								if (num1219 > 1f)
+									num1219 = 1f;
+								num1219 = 1f - num1219;
+								num1219 *= 2f;
+								if (num1219 > 1f)
+									num1219 = 1f;
 
-                                npc.localAI[0] = v3.ToRotation();
-                                npc.localAI[1] = num1219;
-                            }
-                            break;
-                        case 9:
-                            phase = 3;
-                            break; // 2175 or 2100
-                        case 10:
-                            phase = useCrystal ? 6 : 2;
-                            break;
-                        case 11:
-                            phase = 4;
-                            break; // 300
-                        case 12:
-                            phase = useLaser ? 7 : 4; // 675 or 600
-                            if (useLaser)
-                            {
-                                npc.TargetClosest(false);
-                                Vector2 v3 = player.Center - vector - new Vector2(0f, -22f);
-                                float num1219 = v3.Length() / 500f;
-                                if (num1219 > 1f)
-                                    num1219 = 1f;
-                                num1219 = 1f - num1219;
-                                num1219 *= 2f;
-                                if (num1219 > 1f)
-                                    num1219 = 1f;
+								npc.localAI[0] = v3.ToRotation();
+								npc.localAI[1] = num1219;
+							}
+							break; // 1200
+						case 7:
+							phase = useLaser ? 4 : 3;
+							break; // 1500
+						case 8:
+							phase = useLaser ? 3 : 5;
+							break;
+						case 9:
+							phase = 0;
+							break; // 2175 or 2100
+						case 10:
+							phase = useCrystal ? 6 : 2;
+							break;
+						case 11:
+							phase = 3;
+							break; // 300
+						case 12:
+							phase = useLaser ? 7 : 4; // 675 or 600
+							if (useLaser)
+							{
+								npc.TargetClosest(false);
+								Vector2 v3 = player.Center - vector - new Vector2(0f, -22f);
+								float num1219 = v3.Length() / 500f;
+								if (num1219 > 1f)
+									num1219 = 1f;
+								num1219 = 1f - num1219;
+								num1219 *= 2f;
+								if (num1219 > 1f)
+									num1219 = 1f;
 
-                                npc.localAI[0] = v3.ToRotation();
-                                npc.localAI[1] = num1219;
-                            }
-                            break;
-                        case 13:
-                            phase = 5;
-                            break; // 975 or 900
-                        case 14:
-                            phase = 0;
-                            break; // 1275 or 1200
-                        default:
-                            break;
-                    }
-                }
-                else
-                {
-                    switch (phaseChange)
-                    {
-                        case 0:
-                            phase = 0;
-                            break; // 3375 or 3300
-                        case 1:
-                            phase = useLaser ? 7 : 1; // 3750 or 3600
-                            if (useLaser)
-                            {
-                                npc.TargetClosest(false);
-                                Vector2 v3 = player.Center - vector - new Vector2(0f, -22f);
-                                float num1219 = v3.Length() / 500f;
-                                if (num1219 > 1f)
-                                    num1219 = 1f;
-                                num1219 = 1f - num1219;
-                                num1219 *= 2f;
-                                if (num1219 > 1f)
-                                    num1219 = 1f;
+								npc.localAI[0] = v3.ToRotation();
+								npc.localAI[1] = num1219;
+							}
+							break;
+						case 13:
+							phase = 5;
+							break; // 975 or 900
+						case 14:
+							phase = useLaser ? 4 : 0;
+							break; // 1275 or 1200
+						default:
+							break;
+					}
+				}
+				else
+				{
+					switch (phaseChange)
+					{
+						case 0:
+							phase = 0;
+							break; // 3375 or 3300
+						case 1:
+							phase = useLaser ? 7 : 1; // 3750 or 3600
+							if (useLaser)
+							{
+								npc.TargetClosest(false);
+								Vector2 v3 = player.Center - vector - new Vector2(0f, -22f);
+								float num1219 = v3.Length() / 500f;
+								if (num1219 > 1f)
+									num1219 = 1f;
+								num1219 = 1f - num1219;
+								num1219 *= 2f;
+								if (num1219 > 1f)
+									num1219 = 1f;
 
-                                npc.localAI[0] = v3.ToRotation();
-                                npc.localAI[1] = num1219;
-                            }
-                            break;
-                        case 2:
-                            phase = 3;
-                            break; // 4050 or 3900
-                        case 3:
-                            phase = 4;
-                            break; // 4350 or 4200
-                        case 4:
-                            phase = 5;
-                            break; // 4650 or 4500
-                        case 5:
-                            phase = useCrystal ? 6 : 4;
-                            break;
-                        case 6:
-                            phase = 3;
-                            break; // 300
-                        case 7:
-                            phase = 1;
-                            break; // 600
-                        case 8:
-                            phase = 0;
-                            break; // 900
-                        case 9:
-                            phase = 2;
-                            break; // 1500
-                        case 10:
-                            phase = 4;
-                            break; // 1800
-                        case 11:
-                            phase = useLaser ? 7 : 0; //2175 or 2100
-                            if (useLaser)
-                            {
-                                npc.TargetClosest(false);
-                                Vector2 v3 = player.Center - vector - new Vector2(0f, -22f);
-                                float num1219 = v3.Length() / 500f;
-                                if (num1219 > 1f)
-                                    num1219 = 1f;
-                                num1219 = 1f - num1219;
-                                num1219 *= 2f;
-                                if (num1219 > 1f)
-                                    num1219 = 1f;
+								npc.localAI[0] = v3.ToRotation();
+								npc.localAI[1] = num1219;
+							}
+							break;
+						case 2:
+							phase = 4;
+							break; // 4050 or 3900
+						case 3:
+							phase = 3;
+							break; // 4350 or 4200
+						case 4:
+							phase = 5;
+							break; // 4650 or 4500
+						case 5:
+							phase = useCrystal ? 6 : 4;
+							break;
+						case 6:
+							phase = 1;
+							break; // 300
+						case 7:
+							phase = 0;
+							break; // 600
+						case 8:
+							phase = 3;
+							break; // 900
+						case 9:
+							phase = 2;
+							break; // 1500
+						case 10:
+							phase = 4;
+							break; // 1800
+						case 11:
+							phase = useLaser ? 7 : 0; //2175 or 2100
+							if (useLaser)
+							{
+								npc.TargetClosest(false);
+								Vector2 v3 = player.Center - vector - new Vector2(0f, -22f);
+								float num1219 = v3.Length() / 500f;
+								if (num1219 > 1f)
+									num1219 = 1f;
+								num1219 = 1f - num1219;
+								num1219 *= 2f;
+								if (num1219 > 1f)
+									num1219 = 1f;
 
-                                npc.localAI[0] = v3.ToRotation();
-                                npc.localAI[1] = num1219;
-                            }
-                            break;
-                        case 12:
-                            phase = 3;
-                            break; // 2475 or 2400
-                        case 13:
-                            phase = 1;
-                            break; // 2775 or 2700
-                        case 14:
-                            phase = 5;
-                            break; // 3075 or 3000
-                        default:
-                            break;
-                    }
-                }
+								npc.localAI[0] = v3.ToRotation();
+								npc.localAI[1] = num1219;
+							}
+							break;
+						case 12:
+							phase = 1;
+							break; // 2475 or 2400
+						case 13:
+							phase = 3;
+							break; // 2775 or 2700
+						case 14:
+							phase = 5;
+							break; // 3075 or 3000
+						default:
+							break;
+					}
+				}
 
-                // Pick a target
-                npc.TargetClosest(true);
+				// Pick a target
+				npc.TargetClosest(true);
 
-                // If too far from target, set phase to 0
-                if (Math.Abs(vector.X - player.Center.X) > 5600f)
-                    phase = 0;
+				// If too far from target, set phase to 0
+				if (Math.Abs(vector.X - player.Center.X) > 5600f)
+					phase = 0;
 
-                // Reset arrays
-                npc.ai[0] = (float)phase;
-                npc.ai[1] = 0f;
-                npc.ai[2] = 0f;
-                npc.ai[3] = 0f;
-            }
+				// Reset arrays
+				npc.ai[0] = (float)phase;
+				npc.ai[1] = 0f;
+				npc.ai[2] = 0f;
+				npc.ai[3] = 0f;
+			}
 
-            // Holy blasts
-            else if (npc.ai[0] == 0f)
-            {
-                npc.noGravity = true;
-                npc.noTileCollide = true;
+			// Holy blasts
+			else if (npc.ai[0] == 0f)
+			{
+				npc.noGravity = true;
+				npc.noTileCollide = true;
 
-                float num852 = Math.Abs(vector.X - player.Center.X);
-                if (num852 > distanceNeededToShoot && npc.position.Y < player.position.Y)
-                {
-                    npc.ai[3] += 1f;
+				float num852 = Math.Abs(vector.X - player.Center.X);
+				if (num852 > distanceNeededToShoot && npc.position.Y < player.position.Y)
+				{
+					npc.ai[3] += 1f;
 
 					int shootBoost = death ? 3 : (int)(4f * (1f - lifeRatio));
-                    int num856 = (expertMode ? 24 : 26) - shootBoost;
-                    if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
-                        num856 = 19;
+					int num856 = (expertMode ? 24 : 26) - shootBoost;
+					if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
+						num856 = 20;
 
-                    num856 = (int)((double)num856 * attackRateMult);
+					num856 = (int)((double)num856 * attackRateMult);
 
-                    if (npc.ai[3] >= (float)num856)
-                        npc.ai[3] = (float)-(float)num856;
+					if (npc.ai[3] >= (float)num856)
+						npc.ai[3] = (float)-(float)num856;
 
-                    if (npc.ai[3] == 0f && Main.netMode != NetmodeID.MultiplayerClient)
-                    {
-                        vector.X += npc.velocity.X * 7f;
-                        float num857 = player.position.X + (float)player.width * 0.5f - vector.X;
-                        float num858 = player.Center.Y - vector.Y;
-                        float num859 = (float)Math.Sqrt((double)(num857 * num857 + num858 * num858));
+					if (npc.ai[3] == 0f && Main.netMode != NetmodeID.MultiplayerClient)
+					{
+						vector.X += npc.velocity.X * 7f;
+						float num857 = player.position.X + (float)player.width * 0.5f - vector.X;
+						float num858 = player.Center.Y - vector.Y;
+						float num859 = (float)Math.Sqrt((double)(num857 * num857 + num858 * num858));
 
 						float velocityBoost = death ? 2.5f : 2.5f * (1f - lifeRatio);
-                        float num860 = (expertMode ? 10.25f : 9f) + velocityBoost;
-                        if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
-                            num860 = 12.75f;
+						float num860 = (expertMode ? 10.25f : 9f) + velocityBoost;
+						if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
+							num860 = 12.75f;
 
-                        if (revenge)
-                            num860 *= 1.15f;
+						if (revenge)
+							num860 *= 1.15f;
 
-                        num859 = num860 / num859;
-                        num857 *= num859;
-                        num858 *= num859;
+						num859 = num860 / num859;
+						num857 *= num859;
+						num858 *= num859;
 
-                        int holyDamage = expertMode ? 52 : 65;
-                        Projectile.NewProjectile(vector.X, vector.Y, num857, num858, ModContent.ProjectileType<HolyBlast>(), holyDamage, 0f, Main.myPlayer, 0f, 0f);
-                    }
-                }
-                else if (npc.ai[3] < 0f)
-                    npc.ai[3] += 1f;
+						int holyDamage = expertMode ? 52 : 65;
+						Projectile.NewProjectile(vector.X, vector.Y, num857, num858, ModContent.ProjectileType<HolyBlast>(), holyDamage, 0f, Main.myPlayer, 0f, 0f);
+					}
+				}
+				else if (npc.ai[3] < 0f)
+					npc.ai[3] += 1f;
 
-                if (Main.netMode != NetmodeID.MultiplayerClient)
-                {
-                    npc.ai[1] += 1f;
-                    if (npc.ai[1] >= 300f)
-                        npc.ai[0] = -1f;
-                }
-            }
+				npc.ai[1] += 1f;
+				if (npc.ai[1] >= 300f)
+					npc.ai[0] = -1f;
+			}
 
-            // Holy fire
-            else if (npc.ai[0] == 1f)
-            {
-                npc.noGravity = true;
-                npc.noTileCollide = true;
+			// Holy fire
+			else if (npc.ai[0] == 1f)
+			{
+				npc.noGravity = true;
+				npc.noTileCollide = true;
 
-                if (Main.netMode != NetmodeID.MultiplayerClient)
-                {
-                    npc.ai[3] += 1f;
+				if (Main.netMode != NetmodeID.MultiplayerClient)
+				{
+					npc.ai[3] += 1f;
 
-					int shootBoost = death ? 7 : (int)(8f * (1f - lifeRatio));
+					int shootBoost = death ? 4 : (int)(5f * (1f - lifeRatio));
 					int num864 = (expertMode ? 36 : 39) - shootBoost;
-                    if (CalamityWorld.bossRushActive)
-                        num864 = 29;
+					if (CalamityWorld.bossRushActive)
+						num864 = 31;
 
-                    num864 = (int)((double)num864 * attackRateMult);
+					num864 = (int)((double)num864 * attackRateMult);
 
-                    if (npc.ai[3] >= (float)num864)
-                    {
-                        npc.ai[3] = 0f;
+					if (npc.ai[3] >= (float)num864)
+					{
+						npc.ai[3] = 0f;
 
-                        Vector2 vector113 = new Vector2(vector.X, npc.position.Y + (float)npc.height - 14f);
+						Vector2 vector113 = new Vector2(vector.X, npc.position.Y + (float)npc.height - 14f);
 
-                        float num865 = npc.velocity.Y;
-                        if (num865 < 0f)
-                            num865 = 0f;
+						float num865 = npc.velocity.Y;
+						if (num865 < 0f)
+							num865 = 0f;
 
-                        num865 += expertMode ? 4f : 3f;
+						num865 += expertMode ? 4f : 3f;
 
-                        int fireDamage = expertMode ? 48 : 60;
-                        Projectile.NewProjectile(vector113.X, vector113.Y, npc.velocity.X * 0.25f, num865, ModContent.ProjectileType<HolyFire>(), fireDamage, 0f, Main.myPlayer, 0f, 0f);
-                    }
-                }
+						int fireDamage = expertMode ? 48 : 60;
+						Projectile.NewProjectile(vector113.X, vector113.Y, npc.velocity.X * 0.25f, num865, ModContent.ProjectileType<HolyFire>(), fireDamage, 0f, Main.myPlayer, 0f, 0f);
+					}
+				}
 
-                if (Main.netMode != NetmodeID.MultiplayerClient)
-                {
-                    npc.ai[1] += 1f;
-                    if (npc.ai[1] >= 300f)
-                        npc.ai[0] = -1f;
-                }
-            }
+				npc.ai[1] += 1f;
+				if (npc.ai[1] >= 300f)
+					npc.ai[0] = -1f;
+			}
 
-            // Cocoon flames
-            else if (npc.ai[0] == 2f)
-            {
-                npc.noGravity = true;
-                npc.noTileCollide = true;
+			// Cocoon flames
+			else if (npc.ai[0] == 2f)
+			{
+				npc.noGravity = true;
+				npc.noTileCollide = true;
 
-                npc.TargetClosest(true);
+				npc.TargetClosest(true);
 
-                Vector2 vector114 = new Vector2(vector.X, vector.Y + 20f);
-                float num866 = (float)Main.rand.Next(-1000, 1001);
-                float num867 = (float)Main.rand.Next(-1000, 1001);
-                float num868 = (float)Math.Sqrt((double)(num866 * num866 + num867 * num867));
-                float num869 = 3f;
+				Vector2 vector114 = new Vector2(vector.X, vector.Y + 20f);
+				float num866 = (float)Main.rand.Next(-1000, 1001);
+				float num867 = (float)Main.rand.Next(-1000, 1001);
+				float num868 = (float)Math.Sqrt((double)(num866 * num866 + num867 * num867));
+				float num869 = 3f;
 
-                npc.velocity *= 0.95f;
+				if (!targetDead)
+					npc.velocity *= 0.95f;
 
-                num868 = num869 / num868;
-                num866 *= num868;
-                num867 *= num868;
-                vector114.X += num866 * 32f;
-                vector114.Y += num867 * 32f;
+				num868 = num869 / num868;
+				num866 *= num868;
+				num867 *= num868;
+				vector114.X += num866 * 32f;
+				vector114.Y += num867 * 32f;
 
-                npc.ai[3] += 1f;
+				npc.ai[3] += 1f;
 
 				int shootBoost = death ? 3 : (int)(4f * (1f - lifeRatio));
 				int num870 = (expertMode ? 3 : 4) - shootBoost;
-                num870 = (int)((double)num870 * attackRateMult);
+				num870 = (int)((double)num870 * attackRateMult);
 
-                if (CalamityWorld.bossRushActive)
-                    num870 /= 2;
+				if (CalamityWorld.bossRushActive)
+					num870 /= 2;
 
-                if (npc.ai[3] >= (float)num870)
-                {
-                    npc.ai[3] = 0f;
+				if (npc.ai[3] >= (float)num870)
+				{
+					npc.ai[3] = 0f;
 
-                    if (Main.netMode != NetmodeID.MultiplayerClient)
-                    {
-                        if (Main.rand.NextBool(4) && !death)
-                            Projectile.NewProjectile(vector114.X, vector114.Y, num866, num867, ModContent.ProjectileType<HolyLight>(), 0, 0f, Main.myPlayer, 0f, 0f);
-                        else
-                            Projectile.NewProjectile(vector114.X, vector114.Y, num866, num867, ModContent.ProjectileType<HolyBurnOrb>(), 0, 0f, Main.myPlayer, 0f, 0f);
-                    }
-                }
+					if (Main.netMode != NetmodeID.MultiplayerClient)
+					{
+						if (Main.rand.NextBool(4) && !death)
+							Projectile.NewProjectile(vector114.X, vector114.Y, num866, num867, ModContent.ProjectileType<HolyLight>(), 0, 0f, Main.myPlayer, 0f, 0f);
+						else
+							Projectile.NewProjectile(vector114.X, vector114.Y, num866, num867, ModContent.ProjectileType<HolyBurnOrb>(), 0, 0f, Main.myPlayer, 0f, 0f);
+					}
+				}
 
-                // Air is burning text
-                npc.ai[1] += 1f;
-                if (npc.ai[1] >= 450f && !text)
-                {
-                    text = true;
-                    string key = "Mods.CalamityMod.ProfanedBossText";
-                    Color messageColor = Color.Orange;
+				if (npc.ai[1] == 0f)
+				{
+					for (int x = 0; x < Main.maxProjectiles; x++)
+					{
+						Projectile projectile = Main.projectile[x];
+						if (projectile.active)
+						{
+							if (projectile.type == ModContent.ProjectileType<HolyFire2>() || projectile.type == ModContent.ProjectileType<HolyFlare>())
+							{
+								projectile.Kill();
+							}
+						}
+					}
+				}
 
-                    if (Main.netMode == NetmodeID.SinglePlayer)
-                        Main.NewText(Language.GetTextValue(key), messageColor);
-                    else if (Main.netMode == NetmodeID.Server)
-                        NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                }
+				// Air is burning text
+				npc.ai[1] += 1f;
+				if (npc.ai[1] >= 450f && !text)
+				{
+					text = true;
+					string key = "Mods.CalamityMod.ProfanedBossText";
+					Color messageColor = Color.Orange;
 
-                // Inflict Icarus Folly
-                if (npc.ai[1] >= 600f)
-                {
-                    if (Main.netMode != NetmodeID.Server)
-                    {
-                        Player player2 = Main.player[Main.myPlayer];
-                        bool inLiquid = (player2.wet || player2.honeyWet) && !player2.lavaWet;
+					if (Main.netMode == NetmodeID.SinglePlayer)
+						Main.NewText(Language.GetTextValue(key), messageColor);
+					else if (Main.netMode == NetmodeID.Server)
+						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+				}
 
-                        if (!player2.dead && player2.active && Vector2.Distance(player2.Center, vector) < 2800f && !inLiquid)
-                        {
-                            Main.PlaySound(SoundID.Item20, player2.position);
-                            player2.AddBuff(ModContent.BuffType<ExtremeGravity>(), 3000, true);
+				// Inflict Icarus Folly
+				if (npc.ai[1] >= 600f)
+				{
+					if (Main.netMode != NetmodeID.Server)
+					{
+						Player player2 = Main.player[Main.myPlayer];
+						bool inLiquid = (player2.wet || player2.honeyWet) && !player2.lavaWet;
 
-                            for (int num621 = 0; num621 < 40; num621++)
-                            {
-                                int num622 = Dust.NewDust(new Vector2(player2.position.X, player2.position.Y),
-                                    player2.width, player2.height, 244, 0f, 0f, 100, default, 2f);
-                                Main.dust[num622].velocity *= 3f;
-                                if (Main.rand.NextBool(2))
-                                {
-                                    Main.dust[num622].scale = 0.5f;
-                                    Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
-                                }
-                            }
+						if (!player2.dead && player2.active && Vector2.Distance(player2.Center, vector) < 2800f && !inLiquid)
+						{
+							Main.PlaySound(SoundID.Item20, player2.position);
+							player2.AddBuff(ModContent.BuffType<ExtremeGravity>(), 3000, true);
 
-                            for (int num623 = 0; num623 < 60; num623++)
-                            {
-                                int num624 = Dust.NewDust(new Vector2(player2.position.X, player2.position.Y),
-                                    player2.width, player2.height, 244, 0f, 0f, 100, default, 3f);
-                                Main.dust[num624].noGravity = true;
-                                Main.dust[num624].velocity *= 5f;
-                                num624 = Dust.NewDust(new Vector2(player2.position.X, player2.position.Y),
-                                    player2.width, player2.height, 244, 0f, 0f, 100, default, 2f);
-                                Main.dust[num624].velocity *= 2f;
-                            }
-                        }
-                    }
+							for (int num621 = 0; num621 < 40; num621++)
+							{
+								int num622 = Dust.NewDust(new Vector2(player2.position.X, player2.position.Y),
+									player2.width, player2.height, 244, 0f, 0f, 100, default, 2f);
+								Main.dust[num622].velocity *= 3f;
+								if (Main.rand.NextBool(2))
+								{
+									Main.dust[num622].scale = 0.5f;
+									Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+								}
+							}
 
-                    text = false;
-                    npc.ai[0] = -1f;
-                }
-            }
+							for (int num623 = 0; num623 < 60; num623++)
+							{
+								int num624 = Dust.NewDust(new Vector2(player2.position.X, player2.position.Y),
+									player2.width, player2.height, 244, 0f, 0f, 100, default, 3f);
+								Main.dust[num624].noGravity = true;
+								Main.dust[num624].velocity *= 5f;
+								num624 = Dust.NewDust(new Vector2(player2.position.X, player2.position.Y),
+									player2.width, player2.height, 244, 0f, 0f, 100, default, 2f);
+								Main.dust[num624].velocity *= 2f;
+							}
+						}
+					}
 
-            // Molten blasts
-            else if (npc.ai[0] == 3f)
-            {
-                npc.noGravity = true;
-                npc.noTileCollide = true;
+					text = false;
+					npc.ai[0] = -1f;
+				}
+			}
 
-                float num852 = Math.Abs(vector.X - player.Center.X);
-                if (num852 > distanceNeededToShoot && npc.position.Y < player.position.Y)
-                {
-                    npc.ai[3] += 1f;
+			// Molten blasts
+			else if (npc.ai[0] == 3f)
+			{
+				npc.noGravity = true;
+				npc.noTileCollide = true;
 
-					int shootBoost = death ? 2 : (int)(3f * (1f - lifeRatio));
-					int num856 = (expertMode ? 16 : 18) - shootBoost;
-                    if (CalamityWorld.bossRushActive)
-                        num856 = 14;
+				float num852 = Math.Abs(vector.X - player.Center.X);
+				if (num852 > distanceNeededToShoot && npc.position.Y < player.position.Y)
+				{
+					npc.ai[3] += 1f;
 
-                    num856 = (int)((double)num856 * attackRateMult);
+					int shootBoost = death ? 3 : (int)(4f * (1f - lifeRatio));
+					int num856 = (expertMode ? 24 : 26) - shootBoost;
+					if (CalamityWorld.bossRushActive)
+						num856 = 20;
 
-                    if (npc.ai[3] >= (float)num856)
-                        npc.ai[3] = (float)-(float)num856;
+					num856 = (int)((double)num856 * attackRateMult);
 
-                    if (npc.ai[3] == 0f && Main.netMode != NetmodeID.MultiplayerClient)
-                    {
-                        vector.X += npc.velocity.X * 7f;
-                        float num857 = player.position.X + (float)player.width * 0.5f - vector.X;
-                        float num858 = player.Center.Y - vector.Y;
-                        float num859 = (float)Math.Sqrt((double)(num857 * num857 + num858 * num858));
+					if (npc.ai[3] >= (float)num856)
+						npc.ai[3] = (float)-(float)num856;
+
+					if (npc.ai[3] == 0f && Main.netMode != NetmodeID.MultiplayerClient)
+					{
+						vector.X += npc.velocity.X * 7f;
+						float num857 = player.position.X + (float)player.width * 0.5f - vector.X;
+						float num858 = player.Center.Y - vector.Y;
+						float num859 = (float)Math.Sqrt((double)(num857 * num857 + num858 * num858));
 
 						float shootBoost2 = death ? 2.5f : 2.5f * (1f - lifeRatio);
 						float num860 = (expertMode ? 10.25f : 9f) + shootBoost2;
-                        if (CalamityWorld.bossRushActive)
-                            num860 = 12.75f;
+						if (CalamityWorld.bossRushActive)
+							num860 = 12.75f;
 
-                        if (revenge)
-                            num860 *= 1.15f;
+						if (revenge)
+							num860 *= 1.15f;
 
-                        num859 = num860 / num859;
-                        num857 *= num859;
-                        num858 *= num859;
+						num859 = num860 / num859;
+						num857 *= num859;
+						num858 *= num859;
 
-                        int holyDamage = expertMode ? 42 : 55;
-                        Projectile.NewProjectile(vector.X, vector.Y, num857 * 0.1f, num858, ModContent.ProjectileType<MoltenBlast>(), holyDamage, 0f, Main.myPlayer, 0f, 0f);
-                    }
-                }
-                else if (npc.ai[3] < 0f)
-                    npc.ai[3] += 1f;
+						int holyDamage = expertMode ? 42 : 55;
+						Projectile.NewProjectile(vector.X, vector.Y, num857 * 0.1f, num858, ModContent.ProjectileType<MoltenBlast>(), holyDamage, 0f, Main.myPlayer, 0f, 0f);
+					}
+				}
+				else if (npc.ai[3] < 0f)
+					npc.ai[3] += 1f;
 
-                if (Main.netMode != NetmodeID.MultiplayerClient)
-                {
-                    npc.ai[1] += 1f;
-                    if (npc.ai[1] >= 300f)
-                        npc.ai[0] = -1f;
-                }
-            }
+				npc.ai[1] += 1f;
+				if (npc.ai[1] >= 300f)
+					npc.ai[0] = -1f;
+			}
 
-            // Holy bombs
-            else if (npc.ai[0] == 4f)
-            {
-                npc.noGravity = true;
-                npc.noTileCollide = true;
+			// Holy bombs
+			else if (npc.ai[0] == 4f)
+			{
+				npc.noGravity = true;
+				npc.noTileCollide = true;
 
-                if (Main.netMode != NetmodeID.MultiplayerClient)
-                {
-                    npc.ai[3] += 1f;
+				if (Main.netMode != NetmodeID.MultiplayerClient)
+				{
+					npc.ai[3] += 1f;
 
-					int shootBoost = death ? 14 : (int)(15f * (1f - lifeRatio));
-                    int num864 = (expertMode ? 73 : 77) - shootBoost;
-                    if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
-                        num864 = 59;
+					int shootBoost = death ? 9 : (int)(10f * (1f - lifeRatio));
+					int num864 = (expertMode ? 73 : 77) - shootBoost;
+					if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
+						num864 = 63;
 
-                    num864 = (int)((double)num864 * attackRateMult);
+					num864 = (int)((double)num864 * attackRateMult);
 
-                    if (npc.ai[3] >= (float)num864)
-                    {
-                        npc.ai[3] = 0f;
+					if (npc.ai[3] >= (float)num864)
+					{
+						npc.ai[3] = 0f;
 
-                        Vector2 vector113 = new Vector2(vector.X, npc.position.Y + (float)npc.height - 14f);
+						Vector2 vector113 = new Vector2(vector.X, npc.position.Y + (float)npc.height - 14f);
 
-                        float num865 = npc.velocity.Y;
-                        if (num865 < 0f)
-                            num865 = 0f;
+						float num865 = npc.velocity.Y;
+						if (num865 < 0f)
+							num865 = 0f;
 
-                        num865 += expertMode ? 4f : 3f;
+						num865 += expertMode ? 4f : 3f;
 
-                        int fireDamage = expertMode ? 48 : 60;
-                        Projectile.NewProjectile(vector113.X, vector113.Y, npc.velocity.X * 0.25f, num865, ModContent.ProjectileType<HolyBomb>(), fireDamage, 0f, Main.myPlayer, 0f, 0f);
-                    }
-                }
+						int fireDamage = expertMode ? 48 : 60;
+						Projectile.NewProjectile(vector113.X, vector113.Y, npc.velocity.X * 0.25f, num865, ModContent.ProjectileType<HolyBomb>(), fireDamage, 0f, Main.myPlayer, 0f, 0f);
+					}
+				}
 
-                if (Main.netMode != NetmodeID.MultiplayerClient)
-                {
-                    npc.ai[1] += 1f;
-                    if (npc.ai[1] >= 300f)
-                        npc.ai[0] = -1f;
-                }
-            }
+				npc.ai[1] += 1f;
+				if (npc.ai[1] >= 300f)
+					npc.ai[0] = -1f;
+			}
 
-            // Cocoon spears
-            else if (npc.ai[0] == 5f)
-            {
-                npc.noGravity = true;
-                npc.noTileCollide = true;
+			// Cocoon spears
+			else if (npc.ai[0] == 5f)
+			{
+				npc.noGravity = true;
+				npc.noTileCollide = true;
 
-                npc.TargetClosest(true);
+				npc.TargetClosest(true);
 
-                npc.velocity *= 0.95f;
+				if (!targetDead)
+					npc.velocity *= 0.95f;
 
-                if (Main.netMode != NetmodeID.MultiplayerClient)
-                {
-					float shootBoost = death ? 2f : 2f * (1f - lifeRatio);
-                    npc.ai[2] += ((npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 2f : 1f) + shootBoost;
+				if (npc.ai[1] == 0f)
+				{
+					for (int x = 0; x < Main.maxProjectiles; x++)
+					{
+						Projectile projectile = Main.projectile[x];
+						if (projectile.active)
+						{
+							if (projectile.type == ModContent.ProjectileType<HolyFire2>() || projectile.type == ModContent.ProjectileType<HolyFlare>())
+							{
+								projectile.Kill();
+							}
+						}
+					}
+				}
 
-                    if (CalamityWorld.bossRushActive)
-                        npc.ai[2] += 1f;
+				if (Main.netMode != NetmodeID.MultiplayerClient)
+				{
+					float shootBoost = death ? 1f : 1f * (1f - lifeRatio);
+					npc.ai[2] += ((npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 1.5f : 1f) + shootBoost;
 
-                    double count = 24D * attackRateMult;
-                    if (npc.ai[2] >= (float)count)
-                    {
-                        npc.ai[2] = 0f;
+					if (CalamityWorld.bossRushActive)
+						npc.ai[2] += 0.25f;
 
-                        Vector2 vector93 = new Vector2(vector.X, vector.Y);
-                        float num742 = expertMode ? 12f : 10f;
-                        float num743 = player.position.X + (float)player.width * 0.5f - vector93.X;
-                        float num744 = player.position.Y + (float)player.height * 0.5f - vector93.Y;
-                        float num745 = (float)Math.Sqrt((double)(num743 * num743 + num744 * num744));
+					double count = 18D * attackRateMult;
+					if (npc.ai[2] >= (float)count)
+					{
+						npc.ai[2] = 0f;
 
-                        num745 = num742 / num745;
-                        num743 *= num745;
-                        num744 *= num745;
-                        vector93.X += num743 * 3f;
-                        vector93.Y += num744 * 3f;
+						Vector2 vector93 = new Vector2(vector.X, vector.Y);
+						float num742 = expertMode ? 12f : 10f;
+						float num743 = player.position.X + (float)player.width * 0.5f - vector93.X;
+						float num744 = player.position.Y + (float)player.height * 0.5f - vector93.Y;
+						float num745 = (float)Math.Sqrt((double)(num743 * num743 + num744 * num744));
 
-                        int seeProjFilesforDmg = 0;
-                        int num747 = ModContent.ProjectileType<HolyShot>();
-                        Projectile.NewProjectile(vector93.X, vector93.Y, num743, num744, num747, seeProjFilesforDmg, 0f, Main.myPlayer, 0f, 0f);
-                        Projectile.NewProjectile(player.position.X + (float)Main.rand.Next(-1000, 1000), player.position.Y + (float)Main.rand.Next(-100, 100), 0f, 0f, ModContent.ProjectileType<HolySpear>(), seeProjFilesforDmg, 0f, Main.myPlayer, (float)Main.rand.Next(2), 0f);
-                    }
-                }
+						num745 = num742 / num745;
+						num743 *= num745;
+						num744 *= num745;
+						vector93.X += num743 * 3f;
+						vector93.Y += num744 * 3f;
 
-                if (Main.netMode != NetmodeID.MultiplayerClient)
-                {
-                    npc.ai[1] += 1f;
-                    if (npc.ai[1] >= 300f)
-                        npc.ai[0] = -1f;
-                }
-            }
+						int seeProjFilesforDmg = 0;
+						int num747 = ModContent.ProjectileType<HolyShot>();
+						Projectile.NewProjectile(vector93.X, vector93.Y, num743, num744, num747, seeProjFilesforDmg, 0f, Main.myPlayer, 0f, 0f);
+						Projectile.NewProjectile(player.position.X + (float)Main.rand.Next(-1000, 1000), player.position.Y + (float)Main.rand.Next(-100, 100), 0f, 0f, ModContent.ProjectileType<HolySpear>(), seeProjFilesforDmg, 0f, Main.myPlayer, (float)Main.rand.Next(2), 0f);
+					}
+				}
 
-            // Crystal
-            else if (npc.ai[0] == 6f)
-            {
-                npc.noGravity = true;
-                npc.noTileCollide = true;
+				npc.ai[1] += 1f;
+				if (npc.ai[1] >= 300f)
+					npc.ai[0] = -1f;
+			}
 
-                npc.TargetClosest(true);
+			// Crystal
+			else if (npc.ai[0] == 6f)
+			{
+				npc.noGravity = true;
+				npc.noTileCollide = true;
 
-                npc.velocity *= 0.95f;
+				npc.TargetClosest(true);
 
-                if (Main.netMode != NetmodeID.MultiplayerClient)
-                {
-                    npc.ai[1] += 1f;
-                    if (npc.ai[1] >= 60f)
-                    {
-                        int damage = expertMode ? 57 : 70;
-                        Projectile.NewProjectile(player.Center.X, player.Center.Y - 360f, 0f, 0f, ModContent.ProjectileType<ProvidenceCrystal>(), damage, 0f, player.whoAmI, 0f, 0f);
-                        npc.ai[0] = -1f;
-                    }
-                }
-            }
+				if (!targetDead)
+					npc.velocity *= 0.95f;
 
-            // Holy ray
-            else if (npc.ai[0] == 7f)
-            {
-                npc.noGravity = true;
-                npc.noTileCollide = true;
+				if (Main.netMode != NetmodeID.MultiplayerClient)
+				{
+					npc.ai[1] += 1f;
+					if (npc.ai[1] >= 120f)
+					{
+						int damage = expertMode ? 57 : 70;
+						Projectile.NewProjectile(player.Center.X, player.Center.Y - 360f, 0f, 0f, ModContent.ProjectileType<ProvidenceCrystal>(), damage, 0f, player.whoAmI, 0f, 0f);
+						npc.ai[0] = -1f;
+					}
+				}
+			}
 
-                Vector2 value19 = new Vector2(27f, 59f);
+			// Holy ray
+			else if (npc.ai[0] == 7f)
+			{
+				npc.noGravity = true;
+				npc.noTileCollide = true;
 
-                float rotation = 450f + (float)(guardianAmt * 18);
+				Vector2 value19 = new Vector2(27f, 59f);
 
-                npc.ai[2] += 1f;
-                if (npc.ai[2] < 120f)
-                {
-                    npc.localAI[1] -= 0.07f;
-                    if (npc.localAI[1] < 0f)
-                        npc.localAI[1] = 0f;
+				float rotation = 450f + (float)(guardianAmt * 18);
 
-                    if (npc.ai[2] >= 40f)
-                    {
-                        int num1220 = 0;
-                        if (npc.ai[2] >= 80f)
-                            num1220 = 1;
+				npc.ai[2] += 1f;
+				if (npc.ai[2] < 120f)
+				{
+					npc.localAI[1] -= 0.07f;
+					if (npc.localAI[1] < 0f)
+						npc.localAI[1] = 0f;
 
-                        for (int num1221 = 0; num1221 < 1 + num1220; num1221++)
-                        {
-                            int num1222 = 244;
-                            float num1223 = 1.2f;
-                            if (num1221 % 2 == 1)
-                                num1223 = 2.8f;
+					if (npc.ai[2] >= 40f)
+					{
+						int num1220 = 0;
+						if (npc.ai[2] >= 80f)
+							num1220 = 1;
 
-                            Vector2 vector199 = vector + ((float)Main.rand.NextDouble() * 6.28318548f).ToRotationVector2() * value19 / 2f;
-                            int num1224 = Dust.NewDust(vector199 - Vector2.One * 8f, 16, 16, num1222, npc.velocity.X / 2f, npc.velocity.Y / 2f, 0, default, 1f);
-                            Main.dust[num1224].velocity = Vector2.Normalize(vector - vector199) * 3.5f * (10f - (float)num1220 * 2f) / 10f;
-                            Main.dust[num1224].noGravity = true;
-                            Main.dust[num1224].scale = num1223;
-                        }
-                    }
-                }
-                else if (npc.ai[2] < (revenge ? 220f : 300f))
-                {
-                    if (npc.ai[2] == 120f)
-                    {
+						for (int num1221 = 0; num1221 < 1 + num1220; num1221++)
+						{
+							int num1222 = 244;
+							float num1223 = 1.2f;
+							if (num1221 % 2 == 1)
+								num1223 = 2.8f;
+
+							Vector2 vector199 = vector + ((float)Main.rand.NextDouble() * 6.28318548f).ToRotationVector2() * value19 / 2f;
+							int num1224 = Dust.NewDust(vector199 - Vector2.One * 8f, 16, 16, num1222, npc.velocity.X / 2f, npc.velocity.Y / 2f, 0, default, 1f);
+							Main.dust[num1224].velocity = Vector2.Normalize(vector - vector199) * 3.5f * (10f - (float)num1220 * 2f) / 10f;
+							Main.dust[num1224].noGravity = true;
+							Main.dust[num1224].scale = num1223;
+						}
+					}
+				}
+				else if (npc.ai[2] < (revenge ? 220f : 300f))
+				{
+					if (npc.ai[2] == 120f)
+					{
 						if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, vector) < 2800f)
 						{
 							Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ProvidenceHolyRay"),
@@ -1024,54 +1068,51 @@ namespace CalamityMod.NPCs.Providence
 						}
 
 						if (Main.netMode != NetmodeID.MultiplayerClient)
-                        {
-                            npc.TargetClosest(false);
+						{
+							npc.TargetClosest(false);
 
-                            Vector2 vector200 = player.Center - vector;
-                            vector200.Normalize();
+							Vector2 vector200 = player.Center - vector;
+							vector200.Normalize();
 
-                            float num1225 = -1f;
-                            if (vector200.X < 0f)
-                                num1225 = 1f;
+							float num1225 = -1f;
+							if (vector200.X < 0f)
+								num1225 = 1f;
 
-                            vector200 = vector200.RotatedBy((double)(-(double)num1225 * 6.28318548f / 6f), default);
-                            Projectile.NewProjectile(vector.X, vector.Y - 32f, vector200.X, vector200.Y, ModContent.ProjectileType<ProvidenceHolyRay>(), 100, 0f, Main.myPlayer, num1225 * 6.28318548f / rotation, (float)npc.whoAmI);
+							vector200 = vector200.RotatedBy((double)(-(double)num1225 * 6.28318548f / 6f), default);
+							Projectile.NewProjectile(vector.X, vector.Y - 32f, vector200.X, vector200.Y, ModContent.ProjectileType<ProvidenceHolyRay>(), 100, 0f, Main.myPlayer, num1225 * 6.28318548f / rotation, (float)npc.whoAmI);
 
-                            if (revenge)
-                                Projectile.NewProjectile(vector.X, vector.Y - 32f, -vector200.X, -vector200.Y, ModContent.ProjectileType<ProvidenceHolyRay>(), 100, 0f, Main.myPlayer, -num1225 * 6.28318548f / rotation, (float)npc.whoAmI);
+							if (revenge)
+								Projectile.NewProjectile(vector.X, vector.Y - 32f, -vector200.X, -vector200.Y, ModContent.ProjectileType<ProvidenceHolyRay>(), 100, 0f, Main.myPlayer, -num1225 * 6.28318548f / rotation, (float)npc.whoAmI);
 
-                            npc.ai[3] = (vector200.ToRotation() + 9.424778f) * num1225;
-                            npc.netUpdate = true;
-                        }
-                    }
+							npc.ai[3] = (vector200.ToRotation() + 9.424778f) * num1225;
+							npc.netUpdate = true;
+						}
+					}
 
-                    npc.localAI[1] += 0.05f;
-                    if (npc.localAI[1] > 1f)
-                        npc.localAI[1] = 1f;
+					npc.localAI[1] += 0.05f;
+					if (npc.localAI[1] > 1f)
+						npc.localAI[1] = 1f;
 
-                    float num1226 = (float)(npc.ai[3] >= 0f).ToDirectionInt();
-                    float num1227 = npc.ai[3];
-                    if (num1227 < 0f)
-                        num1227 *= -1f;
-                    num1227 += -9.424778f;
-                    num1227 += num1226 * 6.28318548f / rotation;
+					float num1226 = (float)(npc.ai[3] >= 0f).ToDirectionInt();
+					float num1227 = npc.ai[3];
+					if (num1227 < 0f)
+						num1227 *= -1f;
+					num1227 += -9.424778f;
+					num1227 += num1226 * 6.28318548f / rotation;
 
-                    npc.localAI[0] = num1227;
-                }
-                else
-                {
-                    npc.localAI[1] -= 0.07f;
-                    if (npc.localAI[1] < 0f)
-                        npc.localAI[1] = 0f;
-                }
+					npc.localAI[0] = num1227;
+				}
+				else
+				{
+					npc.localAI[1] -= 0.07f;
+					if (npc.localAI[1] < 0f)
+						npc.localAI[1] = 0f;
+				}
 
-                if (Main.netMode != NetmodeID.MultiplayerClient)
-                {
-                    npc.ai[1] += 1f;
-                    if (npc.ai[1] >= (revenge ? 235f : 315f))
-                        npc.ai[0] = -1f;
-                }
-            }
+				npc.ai[1] += 1f;
+				if (npc.ai[1] >= (revenge ? 235f : 315f))
+					npc.ai[0] = -1f;
+			}
         }
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)

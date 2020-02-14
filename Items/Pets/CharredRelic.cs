@@ -16,6 +16,7 @@ namespace CalamityMod.Items.Pets
 
         public override void SetDefaults()
         {
+            item.CloneDefaults(ItemID.ZephyrFish);
             item.shoot = ModContent.ProjectileType<BrimlingPet>();
             item.buffType = ModContent.BuffType<BrimlingBuff>();
             item.rare = 4;

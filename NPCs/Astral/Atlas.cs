@@ -609,11 +609,15 @@ namespace CalamityMod.NPCs.Astral
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.player.Calamity().ZoneAstral && spawnInfo.player.ZoneOverworldHeight && NPC.downedAncientCultist && !CalamityWorld.downedStarGod)
+            if (spawnInfo.player.ZoneTowerStardust || spawnInfo.player.ZoneTowerSolar || spawnInfo.player.ZoneTowerVortex || spawnInfo.player.ZoneTowerNebula)
+            {
+                return 0f;
+            }
+            else if (spawnInfo.player.Calamity().ZoneAstral && (spawnInfo.player.ZoneOverworldHeight || spawnInfo.player.ZoneSkyHeight) && NPC.downedAncientCultist && !CalamityWorld.downedStarGod)
             {
                 return 0.18f;
             }
-            else if (spawnInfo.player.Calamity().ZoneAstral && spawnInfo.player.ZoneOverworldHeight)
+            else if (spawnInfo.player.Calamity().ZoneAstral && (spawnInfo.player.ZoneOverworldHeight || spawnInfo.player.ZoneSkyHeight))
             {
                 return 0.06f;
             }
@@ -630,7 +634,8 @@ namespace CalamityMod.NPCs.Astral
             int minStardust = Main.expertMode ? 7 : 6;
             int maxStardust = Main.expertMode ? 9 : 8;
             DropHelper.DropItem(npc, ModContent.ItemType<Stardust>(), minStardust, maxStardust);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<TitanArm>(), CalamityWorld.downedAstrageldon);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<TitanArm>(), CalamityWorld.downedAstrageldon, 7, 1, 1);
+			//not guarantee to prevent inventory spam
         }
     }
 }

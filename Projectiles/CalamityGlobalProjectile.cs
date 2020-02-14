@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles
         private int counter = 0;
         private int counter2 = 0;
 
-        public bool lineColor = false; //holy mother of god, Eater of Shoals was a pain in the ass
+        public int lineColor = 0; //holy mother of god, Eater of Shoals was a pain in the ass
         public bool extorterBoost = false;
 
         #region SetDefaults

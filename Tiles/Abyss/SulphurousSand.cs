@@ -129,7 +129,7 @@ namespace CalamityMod.Tiles.Abyss
                     }
                     if (i < 250 || i > Main.maxTilesX - 250)
                     {
-                        if (Main.rand.Next(400) == 0)
+                        if (Main.rand.NextBool(400))
                         {
                             if (Main.tile[i, tileLocationY].liquid == 255)
                             {

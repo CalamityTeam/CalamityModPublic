@@ -87,7 +87,6 @@ namespace CalamityMod.Projectiles.Magic
                     Main.dust[num898].scale += projectile.scale * 0.75f;
                     num897++;
                 }
-                return;
             }
         }
 

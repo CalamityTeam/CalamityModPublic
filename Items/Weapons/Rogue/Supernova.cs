@@ -21,7 +21,7 @@ Stealth strikes release energy as they fly");
         public override void SafeSetDefaults()
         {
             item.width = 34;
-            item.damage = 1349;
+            item.damage = 1800;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useAnimation = 24;
@@ -57,6 +57,8 @@ Stealth strikes release energy as they fly");
             recipe.AddIngredient(ModContent.ItemType<TotalityBreakers>());
             recipe.AddIngredient(ModContent.ItemType<BallisticPoisonBomb>());
             recipe.AddIngredient(ModContent.ItemType<ShockGrenade>(), 200);
+            recipe.AddIngredient(ModContent.ItemType<Penumbra>());
+            recipe.AddIngredient(ModContent.ItemType<StarofDestruction>());
             recipe.AddIngredient(ModContent.ItemType<DuststormInABottle>());
 
 			//replaces Duststorm in a Bottle when added

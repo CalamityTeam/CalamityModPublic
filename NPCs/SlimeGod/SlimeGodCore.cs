@@ -27,6 +27,8 @@ namespace CalamityMod.NPCs.SlimeGod
     [AutoloadBossHead]
     public class SlimeGodCore : ModNPC
     {
+		int buffedSlime = 0;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Slime God");
@@ -39,7 +41,7 @@ namespace CalamityMod.NPCs.SlimeGod
             npc.width = 44;
             npc.height = 44;
             npc.defense = 6;
-            npc.LifeMaxNERB(3000, 3750, 2500000);
+            npc.LifeMaxNERB(5000, 6250, 2500000);
             double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             NPCID.Sets.TrailCacheLength[npc.type] = 8;
@@ -50,8 +52,7 @@ namespace CalamityMod.NPCs.SlimeGod
             npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
             npc.knockBackResist = 0f;
             npc.value = Item.buyPrice(0, 8, 0, 0);
-            npc.alpha = 80;
-            animationType = 10;
+            npc.alpha = 55;
             npc.boss = true;
             npc.noGravity = true;
             npc.noTileCollide = true;
@@ -68,60 +69,104 @@ namespace CalamityMod.NPCs.SlimeGod
 		public override void SendExtraAI(BinaryWriter writer)
 		{
 			writer.Write(npc.dontTakeDamage);
+			writer.Write(npc.localAI[0]);
+			writer.Write(npc.localAI[1]);
+			writer.Write(npc.localAI[2]);
+			writer.Write(npc.localAI[3]);
+			writer.Write(buffedSlime);
 		}
 
 		public override void ReceiveExtraAI(BinaryReader reader)
 		{
 			npc.dontTakeDamage = reader.ReadBoolean();
+			npc.localAI[0] = reader.ReadSingle();
+			npc.localAI[1] = reader.ReadSingle();
+			npc.localAI[2] = reader.ReadSingle();
+			npc.localAI[3] = reader.ReadSingle();
+			buffedSlime = reader.ReadInt32();
 		}
 
 		public override void AI()
         {
             CalamityGlobalNPC.slimeGod = npc.whoAmI;
+
             bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
             bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
+
+			// Percent life remaining
+			float lifeRatio = (float)npc.life / (float)npc.lifeMax;
+
+			npc.TargetClosest(true);
 			Player player = Main.player[npc.target];
-            int randomDust = Main.rand.Next(2);
-            if (randomDust == 0)
-            {
-                randomDust = 173;
-            }
-            else
-            {
-                randomDust = 260;
-            }
+
+			// Emit dust
+            int randomDust = Main.rand.NextBool(2) ? 173 : 260;
             int num658 = Dust.NewDust(npc.position, npc.width, npc.height, randomDust, npc.velocity.X, npc.velocity.Y, 255, new Color(0, 80, 255, 80), npc.scale * 1.5f);
             Main.dust[num658].noGravity = true;
             Main.dust[num658].velocity *= 0.5f;
-            bool flag100 = false;
+
 			npc.dontTakeDamage = false;
-			if (CalamityGlobalNPC.slimeGodRed != -1)
-			{
-				if (Main.npc[CalamityGlobalNPC.slimeGodRed].active)
-				{
-					flag100 = true;
-					if (death)
-						npc.dontTakeDamage = true;
-				}
-			}
+
+			// Set damage
+			npc.damage = npc.defDamage;
+
+			// Enrage based on large slimes
+			bool flag100 = false;
+			bool hyperMode = true;
+			bool purpleSlimeAlive = false;
 			if (CalamityGlobalNPC.slimeGodPurple != -1)
 			{
 				if (Main.npc[CalamityGlobalNPC.slimeGodPurple].active)
 				{
-					flag100 = true;
+					if (buffedSlime == 1)
+						Main.npc[CalamityGlobalNPC.slimeGodPurple].localAI[1] = 1f;
+					else
+						Main.npc[CalamityGlobalNPC.slimeGodPurple].localAI[1] = 0f;
+
+					npc.Calamity().newAI[0] = Main.npc[CalamityGlobalNPC.slimeGodPurple].Center.X;
+					npc.Calamity().newAI[1] = Main.npc[CalamityGlobalNPC.slimeGodPurple].Center.Y;
+
+					purpleSlimeAlive = true;
+					flag100 = lifeRatio >= 0.5f;
+					hyperMode = false;
 					if (death)
 						npc.dontTakeDamage = true;
 				}
 			}
+			if (CalamityGlobalNPC.slimeGodRed != -1)
+			{
+				if (Main.npc[CalamityGlobalNPC.slimeGodRed].active)
+				{
+					if (buffedSlime == 2)
+						Main.npc[CalamityGlobalNPC.slimeGodRed].localAI[1] = 1f;
+					else
+						Main.npc[CalamityGlobalNPC.slimeGodRed].localAI[1] = 0f;
+
+					npc.localAI[2] = Main.npc[CalamityGlobalNPC.slimeGodRed].Center.X;
+					npc.localAI[3] = Main.npc[CalamityGlobalNPC.slimeGodRed].Center.Y;
+
+					flag100 = lifeRatio >= 0.5f;
+					hyperMode = false;
+					if (death)
+						npc.dontTakeDamage = true;
+				}
+			}
+
+			// Despawn
             if (!player.active || player.dead)
             {
                 npc.TargetClosest(false);
                 player = Main.player[npc.target];
                 if (!player.active || player.dead)
                 {
-                    npc.velocity = new Vector2(0f, 30f);
-                    if ((double)npc.position.Y > Main.rockLayer * 16.0)
+					if (npc.velocity.Y < -3f)
+						npc.velocity.Y = -3f;
+					npc.velocity.Y += 0.2f;
+					if (npc.velocity.Y > 16f)
+						npc.velocity.Y = 16f;
+
+					if ((double)npc.position.Y > Main.worldSurface * 16.0)
                     {
                         for (int x = 0; x < 200; x++)
                         {
@@ -135,111 +180,337 @@ namespace CalamityMod.NPCs.SlimeGod
                         npc.active = false;
                         npc.netUpdate = true;
                     }
-                    return;
+
+					if (npc.ai[0] != 0f || npc.ai[1] != 0f)
+					{
+						npc.ai[0] = 0f;
+						npc.ai[1] = 0f;
+						npc.ai[2] = 0f;
+						npc.ai[3] = 0f;
+						npc.localAI[0] = 0f;
+						npc.localAI[1] = 0f;
+						npc.netUpdate = true;
+					}
+					return;
                 }
             }
-            else if (npc.timeLeft < 2400)
-            {
-                npc.timeLeft = 2400;
-            }
+            else if (npc.timeLeft < 1800)
+                npc.timeLeft = 1800;
+
+			float ai1 = hyperMode ? 210f : 300f;
+
+			// Hide inside large slime
+			if (!hyperMode && npc.ai[1] < ai1)
+			{
+				if (npc.Calamity().newAI[2] == 0f && npc.life > 0)
+				{
+					npc.Calamity().newAI[2] = (float)npc.lifeMax;
+				}
+				if (npc.life > 0)
+				{
+					int num660 = (int)((double)npc.lifeMax * 0.05);
+					if ((float)(npc.life + num660) < npc.Calamity().newAI[2])
+					{
+						npc.Calamity().newAI[2] = (float)npc.life;
+						npc.Calamity().newAI[3] = 1f;
+					}
+				}
+
+				if (npc.Calamity().newAI[3] == 1f)
+				{
+					npc.dontTakeDamage = true;
+
+					npc.rotation = npc.velocity.X * 0.1f;
+
+					// Velocity and acceleration
+					float num700 = 12f;
+					buffedSlime = 2;
+					float goToPositionX = npc.localAI[2] - npc.Center.X;
+					float goToPositionY = npc.localAI[3] - npc.Center.Y;
+					if (purpleSlimeAlive)
+					{
+						buffedSlime = 1;
+						goToPositionX = npc.Calamity().newAI[0] - npc.Center.X;
+						goToPositionY = npc.Calamity().newAI[1] - npc.Center.Y;
+					}
+					float num703 = npc.localAI[3] - npc.Center.Y;
+					float num704 = (float)Math.Sqrt((double)(goToPositionX * goToPositionX + goToPositionY * goToPositionY));
+
+					if (num704 < num700)
+					{
+						npc.velocity.X = goToPositionX;
+						npc.velocity.Y = goToPositionY;
+					}
+					else
+					{
+						num704 = num700 / num704;
+						npc.velocity.X = goToPositionX * num704;
+						npc.velocity.Y = goToPositionY * num704;
+					}
+
+					npc.ai[2] += 1f;
+					if (npc.ai[2] >= 600f)
+					{
+						npc.ai[2] = 0f;
+						npc.Calamity().newAI[3] = 0f;
+					}
+
+					return;
+				}
+
+				buffedSlime = 0;
+			}
+
+			// Spin and shoot orbs
             if (!flag100)
             {
-                if (Main.netMode != NetmodeID.MultiplayerClient)
-                {
-                    npc.localAI[1] += (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 2f : 1f;
-                    if (expertMode && Main.rand.NextBool(2))
-                    {
-                        if (npc.localAI[0] >= 75f)
-                        {
-                            npc.localAI[0] = 0f;
-                            npc.TargetClosest(true);
-                            if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
-                            {
-                                float num179 = revenge ? 2f : 3f;
-                                if (CalamityWorld.bossRushActive)
-                                    num179 = 12f;
+				npc.ai[1] += 1f;
+				if (revenge)
+				{
+					if (npc.ai[1] >= ai1)
+					{
+						if (npc.localAI[1] == 0f)
+						{
+							// Slow down, rotation
+							npc.rotation = npc.velocity.X * 0.1f;
 
-                                Vector2 value9 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-                                float num180 = player.position.X + (float)player.width * 0.5f - value9.X;
-                                float num181 = Math.Abs(num180) * 0.1f;
-                                float num182 = player.position.Y + (float)player.height * 0.5f - value9.Y - num181;
-                                float num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
-                                npc.netUpdate = true;
-                                num183 = num179 / num183;
-                                num180 *= num183;
-                                num182 *= num183;
-                                int num184 = 24;
-                                int num185 = Main.rand.Next(2);
-                                if (num185 == 0)
-                                {
-                                    num185 = ModContent.ProjectileType<AbyssMine>();
-                                }
-                                else
-                                {
-                                    num185 = ModContent.ProjectileType<AbyssMine2>();
-                                    num184 = 22;
-                                }
-                                value9.X += num180;
-                                value9.Y += num182;
-                                num180 = player.position.X + (float)player.width * 0.5f - value9.X;
-                                num182 = player.position.Y + (float)player.height * 0.5f - value9.Y;
-                                num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
-                                num183 = num179 / num183;
-                                num180 *= num183;
-                                num182 *= num183;
-                                Projectile.NewProjectile(value9.X, value9.Y, num180, num182, num185, num184, 0f, Main.myPlayer, 0f, 0f);
-                            }
-                        }
-                    }
-                    else if (npc.localAI[1] >= 75f)
-                    {
-                        npc.localAI[1] = 0f;
-                        npc.TargetClosest(true);
-                        if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
-                        {
-                            float num179 = revenge ? 6f : 5f;
-                            if (CalamityWorld.bossRushActive)
-                                num179 = 12f;
+							// Set teleport location, turn invisible, spin direction
+							npc.alpha += 20;
+							if (npc.alpha >= 255)
+							{
+								npc.alpha = 255;
+								npc.velocity.Normalize();
 
-                            Vector2 value9 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-                            float num180 = player.position.X + (float)player.width * 0.5f - value9.X;
-                            float num181 = Math.Abs(num180) * 0.1f;
-                            float num182 = player.position.Y + (float)player.height * 0.5f - value9.Y - num181;
-                            float num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
-                            npc.netUpdate = true;
-                            num183 = num179 / num183;
-                            num180 *= num183;
-                            num182 *= num183;
-                            int num184 = expertMode ? 17 : 21;
-                            int num185 = Main.rand.Next(2);
-                            if (num185 == 0)
-                            {
-                                num185 = ModContent.ProjectileType<AbyssBallVolley>();
-                            }
-                            else
-                            {
-                                num185 = ModContent.ProjectileType<AbyssBallVolley2>();
-                                num184 = expertMode ? 16 : 19;
-                            }
-                            value9.X += num180;
-                            value9.Y += num182;
-                            for (int num186 = 0; num186 < 2; num186++)
-                            {
-                                num180 = player.position.X + (float)player.width * 0.5f - value9.X;
-                                num182 = player.position.Y + (float)player.height * 0.5f - value9.Y;
-                                num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
-                                num183 = num179 / num183;
-                                num180 += (float)Main.rand.Next(-30, 31);
-                                num182 += (float)Main.rand.Next(-30, 31);
-                                num180 *= num183;
-                                num182 *= num183;
-                                Projectile.NewProjectile(value9.X, value9.Y, num180, num182, num185, num184, 0f, Main.myPlayer, 0f, 0f);
-                            }
-                        }
-                    }
-                }
+								int teleportX = player.velocity.X < 0f ? -20 : 20;
+								int teleportY = player.velocity.Y < 0f ? -10 : 10;
+								int playerPosX = (int)player.Center.X / 16 + teleportX;
+								int playerPosY = (int)player.Center.Y / 16 - teleportY;
+
+								npc.ai[2] = (float)playerPosX;
+								npc.ai[3] = (float)playerPosY;
+								npc.localAI[1] = 1f;
+								npc.netUpdate = true;
+							}
+						}
+						else if (npc.localAI[1] == 1f)
+						{
+							// Rotation
+							npc.rotation = npc.velocity.X * 0.1f;
+
+							// Teleport to location
+							if (npc.alpha == 255)
+							{
+								Vector2 position = new Vector2(npc.ai[2] * 16f - (float)(npc.width / 2), npc.ai[3] * 16f - (float)(npc.height / 2));
+								npc.position = position;
+							}
+
+							// Turn visible
+							npc.alpha -= 20;
+							if (npc.alpha < 55)
+							{
+								npc.alpha = 55;
+								npc.localAI[0] = (npc.Center.X - player.Center.X < 0 ? 1f : -1f);
+								npc.localAI[1] = 2f;
+							}
+							npc.netUpdate = true;
+						}
+						else
+						{
+							// No damage while spinning
+							npc.damage = 0;
+
+							// Rotation
+							npc.rotation += (float)npc.direction * 0.3f;
+
+							// Velocity boost
+							if (npc.localAI[1] == 2f)
+							{
+								npc.localAI[1] = 3f;
+								npc.velocity *= 12f;
+							}
+
+							// Spin velocity
+							float velocity = (float)(Math.PI * 2D) / (360f - (npc.ai[1] - ai1));
+							npc.velocity = npc.velocity.RotatedBy((double)(-(double)velocity * npc.localAI[0]));
+
+							// Reset and charge at target
+							if (npc.ai[1] >= ai1 + 200f)
+							{
+								npc.ai[1] = 0f;
+								npc.ai[2] = 0f;
+								npc.ai[3] = 0f;
+								npc.localAI[0] = 0f;
+								npc.localAI[1] = 0f;
+								float chargeVelocity = death ? 12f : 8f;
+								npc.velocity = Vector2.Normalize(player.Center - npc.Center) * chargeVelocity;
+								return;
+							}
+
+							if (Main.netMode != NetmodeID.MultiplayerClient)
+							{
+								if (npc.ai[1] % 20f == 0f && Vector2.Distance(player.Center, npc.Center) > 160f)
+								{
+									if (expertMode && Main.rand.NextBool(2))
+									{
+										float num179 = revenge ? 2f : 3f;
+										if (CalamityWorld.bossRushActive)
+											num179 = 12f;
+										Vector2 value9 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
+										float num180 = player.position.X + (float)player.width * 0.5f - value9.X;
+										float num181 = Math.Abs(num180) * 0.1f;
+										float num182 = player.position.Y + (float)player.height * 0.5f - value9.Y - num181;
+										float num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
+										npc.netUpdate = true;
+										num183 = num179 / num183;
+										num180 *= num183;
+										num182 *= num183;
+										int num184 = 24;
+										int num185 = Main.rand.Next(2);
+										if (num185 == 0)
+										{
+											num185 = ModContent.ProjectileType<AbyssMine>();
+										}
+										else
+										{
+											num185 = ModContent.ProjectileType<AbyssMine2>();
+											num184 = 22;
+										}
+										value9.X += num180;
+										value9.Y += num182;
+										num180 = player.position.X + (float)player.width * 0.5f - value9.X;
+										num182 = player.position.Y + (float)player.height * 0.5f - value9.Y;
+										num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
+										num183 = num179 / num183;
+										num180 *= num183;
+										num182 *= num183;
+										Projectile.NewProjectile(value9.X, value9.Y, num180, num182, num185, num184, 0f, Main.myPlayer, 0f, 0f);
+									}
+									else
+									{
+										float num179 = revenge ? 6f : 5f;
+										if (CalamityWorld.bossRushActive)
+											num179 = 12f;
+										Vector2 value9 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
+										float num180 = player.position.X + (float)player.width * 0.5f - value9.X;
+										float num181 = Math.Abs(num180) * 0.1f;
+										float num182 = player.position.Y + (float)player.height * 0.5f - value9.Y - num181;
+										float num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
+										npc.netUpdate = true;
+										num183 = num179 / num183;
+										num180 *= num183;
+										num182 *= num183;
+										int num184 = expertMode ? 17 : 21;
+										int num185 = Main.rand.Next(2);
+										if (num185 == 0)
+										{
+											num185 = ModContent.ProjectileType<AbyssBallVolley>();
+										}
+										else
+										{
+											num185 = ModContent.ProjectileType<AbyssBallVolley2>();
+											num184 = expertMode ? 16 : 19;
+										}
+										value9.X += num180;
+										value9.Y += num182;
+										num180 = player.position.X + (float)player.width * 0.5f - value9.X;
+										num182 = player.position.Y + (float)player.height * 0.5f - value9.Y;
+										num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
+										num183 = num179 / num183;
+										num180 *= num183;
+										num182 *= num183;
+										Projectile.NewProjectile(value9.X, value9.Y, num180, num182, num185, num184, 0f, Main.myPlayer, 0f, 0f);
+									}
+								}
+							}
+						}
+						return;
+					}
+				}
+				else
+				{
+					if (Main.netMode != NetmodeID.MultiplayerClient && Vector2.Distance(player.Center, npc.Center) > 160f)
+					{
+						if (npc.ai[1] % 20f == 0f)
+						{
+							if (expertMode && Main.rand.NextBool(2))
+							{
+								float num179 = revenge ? 2f : 3f;
+								if (CalamityWorld.bossRushActive)
+									num179 = 12f;
+								Vector2 value9 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
+								float num180 = player.position.X + (float)player.width * 0.5f - value9.X;
+								float num181 = Math.Abs(num180) * 0.1f;
+								float num182 = player.position.Y + (float)player.height * 0.5f - value9.Y - num181;
+								float num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
+								npc.netUpdate = true;
+								num183 = num179 / num183;
+								num180 *= num183;
+								num182 *= num183;
+								int num184 = 24;
+								int num185 = Main.rand.Next(2);
+								if (num185 == 0)
+								{
+									num185 = ModContent.ProjectileType<AbyssMine>();
+								}
+								else
+								{
+									num185 = ModContent.ProjectileType<AbyssMine2>();
+									num184 = 22;
+								}
+								value9.X += num180;
+								value9.Y += num182;
+								num180 = player.position.X + (float)player.width * 0.5f - value9.X;
+								num182 = player.position.Y + (float)player.height * 0.5f - value9.Y;
+								num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
+								num183 = num179 / num183;
+								num180 *= num183;
+								num182 *= num183;
+								Projectile.NewProjectile(value9.X, value9.Y, num180, num182, num185, num184, 0f, Main.myPlayer, 0f, 0f);
+							}
+							else
+							{
+								float num179 = revenge ? 6f : 5f;
+								if (CalamityWorld.bossRushActive)
+									num179 = 12f;
+								Vector2 value9 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
+								float num180 = player.position.X + (float)player.width * 0.5f - value9.X;
+								float num181 = Math.Abs(num180) * 0.1f;
+								float num182 = player.position.Y + (float)player.height * 0.5f - value9.Y - num181;
+								float num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
+								npc.netUpdate = true;
+								num183 = num179 / num183;
+								num180 *= num183;
+								num182 *= num183;
+								int num184 = expertMode ? 17 : 21;
+								int num185 = Main.rand.Next(2);
+								if (num185 == 0)
+								{
+									num185 = ModContent.ProjectileType<AbyssBallVolley>();
+								}
+								else
+								{
+									num185 = ModContent.ProjectileType<AbyssBallVolley2>();
+									num184 = expertMode ? 16 : 19;
+								}
+								value9.X += num180;
+								value9.Y += num182;
+								for (int num186 = 0; num186 < 2; num186++)
+								{
+									num180 = player.position.X + (float)player.width * 0.5f - value9.X;
+									num182 = player.position.Y + (float)player.height * 0.5f - value9.Y;
+									num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
+									num183 = num179 / num183;
+									num180 += (float)Main.rand.Next(-30, 31);
+									num182 += (float)Main.rand.Next(-30, 31);
+									num180 *= num183;
+									num182 *= num183;
+									Projectile.NewProjectile(value9.X, value9.Y, num180, num182, num185, num184, 0f, Main.myPlayer, 0f, 0f);
+								}
+							}
+						}
+					}
+				}
             }
-            npc.TargetClosest(true);
             float num1372 = 6f;
             if (!flag100 || death)
             {
@@ -279,7 +550,8 @@ namespace CalamityMod.NPCs.SlimeGod
                 {
                     npc.direction = 1;
                 }
-                return;
+				npc.rotation += (float)npc.direction * 0.3f;
+				return;
             }
             npc.velocity.X = (npc.velocity.X * 50f + num1373) / 51f;
             npc.velocity.Y = (npc.velocity.Y * 50f + num1374) / 51f;
@@ -293,7 +565,8 @@ namespace CalamityMod.NPCs.SlimeGod
                 npc.velocity.X = (npc.velocity.X * 7f + num1373) / 8f;
                 npc.velocity.Y = (npc.velocity.Y * 7f + num1374) / 8f;
             }
-        }
+			npc.rotation = npc.velocity.X * 0.1f;
+		}
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {

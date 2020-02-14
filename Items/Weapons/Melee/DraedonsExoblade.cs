@@ -13,15 +13,13 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class DraedonsExoblade : ModItem
     {
-        private static int BaseDamage = 6700;
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Exoblade");
             Tooltip.SetDefault("Ancient blade of Yharim's weapons and armors expert, Draedon\n" +
                                "Fires an exo beam that homes in on the player and explodes\n" +
                                "Striking an enemy with the blade causes several comets to fire\n" +
-                               "All attacks freeze any enemy in place for several seconds at a 10% chance\n" +
+                               "All attacks briefly freeze enemies hit\n" +
                                "Enemies hit at very low HP explode into frost energy and freeze nearby enemies\n" +
                                "The lower your HP the more damage this blade does and heals the player on enemy hits");
         }
@@ -29,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 80;
-            item.damage = BaseDamage;
+            item.damage = 5000;
             item.useAnimation = 14;
             item.useStyle = 1;
             item.useTime = 14;

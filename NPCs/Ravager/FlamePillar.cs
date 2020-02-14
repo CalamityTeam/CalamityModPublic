@@ -89,20 +89,17 @@ namespace CalamityMod.NPCs.Ravager
                 {
                     npc.ai[1] -= 1f;
                     npc.localAI[0] += 1f;
-                    float SpeedX = (float)Main.rand.Next(-6, 7);
-                    float SpeedY = (float)Main.rand.Next(-12, -8);
+                    float SpeedY = 10f;
                     if (CalamityWorld.bossRushActive)
                     {
-                        SpeedX *= 1.5f;
                         SpeedY *= 1.5f;
                     }
-                    if (npc.localAI[0] >= 60f)
+                    if (npc.localAI[0] % 45f == 0f)
                     {
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            Vector2 shootFromVector = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
                             int damage = 45;
-                            Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, SpeedX, SpeedY, ModContent.ProjectileType<RavagerFlame>(), damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, SpeedY, ModContent.ProjectileType<RavagerFlame>(), damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
                         }
                         npc.localAI[0] = 0f;
                         npc.netUpdate = true;
@@ -113,21 +110,6 @@ namespace CalamityMod.NPCs.Ravager
                     npc.dontTakeDamage = false;
                     npc.life = 0;
                     HitEffect(npc.direction, 9999);
-                    npc.netUpdate = true;
-                    return;
-                }
-            }
-            if (npc.target <= 0 || npc.target == 255 || Main.player[npc.target].dead)
-            {
-                npc.TargetClosest(true);
-            }
-            int distanceFromTarget = 8000;
-            if (Math.Abs(npc.Center.X - Main.player[npc.target].Center.X) + Math.Abs(npc.Center.Y - Main.player[npc.target].Center.Y) > (float)distanceFromTarget)
-            {
-                npc.TargetClosest(true);
-                if (Math.Abs(npc.Center.X - Main.player[npc.target].Center.X) + Math.Abs(npc.Center.Y - Main.player[npc.target].Center.Y) > (float)distanceFromTarget)
-                {
-                    npc.active = false;
                     npc.netUpdate = true;
                 }
             }

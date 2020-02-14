@@ -116,18 +116,28 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 player = Main.player[npc.target];
                 if (!Main.dayTime || !player.active || player.dead)
                 {
-                    npc.velocity = new Vector2(0f, -10f);
-                    if (npc.timeLeft > 150)
-                    {
-                        npc.timeLeft = 150;
-                    }
-                    return;
+					if (npc.velocity.Y > 3f)
+						npc.velocity.Y = 3f;
+					npc.velocity.Y -= 0.1f;
+					if (npc.velocity.Y < -12f)
+						npc.velocity.Y = -12f;
+
+					if (npc.timeLeft > 60)
+                        npc.timeLeft = 60;
+
+					if (npc.ai[0] != 0f)
+					{
+						npc.ai[0] = 0f;
+						npc.ai[1] = 0f;
+						npc.ai[2] = 0f;
+						npc.ai[3] = 0f;
+						npc.netUpdate = true;
+					}
+					return;
                 }
             }
-            if (npc.timeLeft < 1800)
-            {
+            else if (npc.timeLeft < 1800)
                 npc.timeLeft = 1800;
-            }
 
 			bool isHoly = player.ZoneHoly;
 			bool isHell = player.ZoneUnderworldHeight;
@@ -182,7 +192,6 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 if (npc.localAI[0] >= (CalamityWorld.bossRushActive ? 210f : 240f))
                 {
                     npc.localAI[0] = 0f;
-                    npc.TargetClosest(true);
 
                     Main.PlaySound(SoundID.Item20, npc.position);
 

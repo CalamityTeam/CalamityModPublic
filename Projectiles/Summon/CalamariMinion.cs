@@ -38,6 +38,11 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
+            if (projectile.owner < 0 || projectile.owner >= Main.maxPlayers)
+            {
+                projectile.Kill();
+                return;
+            }
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
             if (projectile.localAI[1] == 0f)

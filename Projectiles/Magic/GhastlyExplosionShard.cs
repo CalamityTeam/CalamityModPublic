@@ -59,7 +59,6 @@ namespace CalamityMod.Projectiles.Magic
                 dust.scale *= num333;
                 num3 = num336;
             }
-            return;
         }
 
         public override void Kill(int timeLeft)

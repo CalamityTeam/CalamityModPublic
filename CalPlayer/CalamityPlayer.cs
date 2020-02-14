@@ -1,4 +1,3 @@
-using CalamityMod;
 using CalamityMod.Buffs;
 using CalamityMod.Buffs.Cooldowns;
 using CalamityMod.Buffs.DamageOverTime;
@@ -6,9 +5,9 @@ using CalamityMod.Buffs.Potions;
 using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
-using CalamityMod.Items.Armor;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Accessories.Vanity;
+using CalamityMod.Items.Armor;
 using CalamityMod.Items.DifficultyItems;
 using CalamityMod.Items.Fishing.BrimstoneCragCatches;
 using CalamityMod.Items.Mounts;
@@ -16,7 +15,6 @@ using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
-using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs;
 using CalamityMod.NPCs.Calamitas;
@@ -47,7 +45,6 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
-using Terraria.ModLoader.Config;
 
 namespace CalamityMod.CalPlayer
 {
@@ -77,6 +74,10 @@ namespace CalamityMod.CalPlayer
 		public bool killSpikyBalls = false;
 		public Projectile lastProjectileHit;
         public double acidRoundMultiplier = 1D;
+        // These variables are ONLY set by Mod.Call. Calamity itself does not touch them.
+        public int externalAbyssLight = 0;
+        public bool externalColdImmunity = false;
+        public bool externalHeatImmunity = false;
 
 		// Stat Meter
 		public int[] damageStats = new int[5];
@@ -112,6 +113,9 @@ namespace CalamityMod.CalPlayer
         public int pissWaterBoost = 0;
         public int gaelRageCooldown = 0;
         public int packetTimer = 0;
+        public int navyRodAuraTimer = 0;
+        public int brimLoreInfernoTimer = 0;
+        public int tarraLifeAuraTimer = 0;
         public int bloodflareHeartTimer = 180;
         public int bloodflareManaTimer = 180;
         public int moneyStolenByBandit = 0;
@@ -314,6 +318,7 @@ namespace CalamityMod.CalPlayer
         public bool seaShell = false;
         public bool absorber = false;
         public bool aAmpoule = false;
+        public bool rOoze = false;
         public bool pAmulet = false;
         public bool fBarrier = false;
         public bool aBrain = false;
@@ -650,6 +655,7 @@ namespace CalamityMod.CalPlayer
         public bool cEyes = false;
         public bool cSlime = false;
         public bool cSlime2 = false;
+        public bool aSlime = false;
         public bool bStar = false;
         public bool aStar = false;
         public bool SP = false;
@@ -684,6 +690,7 @@ namespace CalamityMod.CalPlayer
         public bool rDevil = false;
         public bool aValkyrie = false;
         public bool apexShark = false;
+        public bool squirrel = false;
         public bool sGod = false;
         public bool vUrchin = false;
         public bool cSpirit = false;
@@ -963,13 +970,6 @@ namespace CalamityMod.CalPlayer
 			if (providenceLore)
 				player.statLifeMax2 = (int)((double)player.statLifeMax2 * 0.8);
 
-			// Max mana bonuses
-			player.statManaMax2 +=
-				(pHeart ? 50 : 0) +
-				(eCore ? 50 : 0) +
-				(cShard ? 50 : 0) +
-				(starBeamRye ? 50 : 0);
-
 			// Extra accessory slots
 			if (extraAccessoryML)
 				player.extraAccessorySlots = 1;
@@ -993,6 +993,8 @@ namespace CalamityMod.CalPlayer
             throwingAmmoCost50 = false;
 
             dashMod = 0;
+            externalAbyssLight = 0;
+            externalColdImmunity = externalHeatImmunity = false;
             alcoholPoisonLevel = 0;
 
             thirdSage = false;
@@ -1145,6 +1147,7 @@ namespace CalamityMod.CalPlayer
             seaShell = false;
             absorber = false;
             aAmpoule = false;
+            rOoze = false;
             pAmulet = false;
             fBarrier = false;
             aBrain = false;
@@ -1426,6 +1429,7 @@ namespace CalamityMod.CalPlayer
             cEyes = false;
             cSlime = false;
             cSlime2 = false;
+            aSlime = false;
             bStar = false;
             aStar = false;
             SP = false;
@@ -1434,6 +1438,7 @@ namespace CalamityMod.CalPlayer
             eAxe = false;
             endoCooper = false;
             apexShark = false;
+            squirrel = false;
             SPG = false;
             sirius = false;
             aChicken = false;
@@ -1518,6 +1523,8 @@ namespace CalamityMod.CalPlayer
             bossRushImmunityFrameCurseTimer = 0;
             aBulwarkRareMeleeBoostTimer = 0;
             acidRoundMultiplier = 1D;
+            externalAbyssLight = 0;
+            externalColdImmunity = externalHeatImmunity = false;
             reforges = 0;
             polarisBoostCounter = 0;
             spectralVeilImmunity = 0;
@@ -5622,7 +5629,6 @@ namespace CalamityMod.CalPlayer
         {
             if (camper && ((double)Math.Abs(player.velocity.X) > 0.05 || (double)Math.Abs(player.velocity.Y) > 0.05))
             {
-
                 return false;
             }
             return null;
@@ -5632,7 +5638,6 @@ namespace CalamityMod.CalPlayer
         {
             if (camper && ((double)Math.Abs(player.velocity.X) > 0.05 || (double)Math.Abs(player.velocity.Y) > 0.05))
             {
-
                 return false;
             }
             return null;
@@ -7925,13 +7930,11 @@ namespace CalamityMod.CalPlayer
 					float num25 = -4f;
 					float num24 = -8f;
 					DrawData howDoIDrawThings = new DrawData(thingToDraw,
-						new Vector2((int)(drawPlayer.position.X - Main.screenPosition.X + (drawPlayer.width / 2) - (9 * drawPlayer.direction)) + num25 * drawPlayer.direction,
-						(int)(drawPlayer.position.Y - Main.screenPosition.Y + (drawPlayer.height / 2) + 2f * drawPlayer.gravDir + num24 * drawPlayer.gravDir)),
+						new Vector2((int)(drawPlayer.position.X - Main.screenPosition.X + (drawPlayer.width / 2) - (9 * drawPlayer.direction)) + num25 * drawPlayer.direction, (int)(drawPlayer.position.Y - Main.screenPosition.Y + (drawPlayer.height / 2) + 2f * drawPlayer.gravDir + num24 * drawPlayer.gravDir)),
 						new Rectangle(0, 0, thingToDraw.Width, thingToDraw.Height),
 						color89,
 						drawPlayer.bodyRotation,
-						new Vector2(thingToDraw.Width / 2,
-						thingToDraw.Height / 2),
+						new Vector2(thingToDraw.Width / 2, thingToDraw.Height / 2),
 						1f,
 						spriteEffects,
 						0);
@@ -9818,6 +9821,70 @@ namespace CalamityMod.CalPlayer
             return range;
         }
 
+        /// <summary>
+        /// Calculates and returns the player's total light strength. This is used for Abyss darkness, among other things.<br/>
+        /// The Stat Meter also reports this stat.
+        /// </summary>
+        /// <returns>The player's total light strength.</returns>
+        public int GetTotalLightStrength()
+        {
+            int light = externalAbyssLight;
+            bool underwater = player.IsUnderwater();
+			bool miningHelmet = player.head == ArmorIDs.Head.MiningHelmet;
+
+            // The campfire bonus does not apply while in the Abyss.
+            if (!ZoneAbyss && (player.HasBuff(BuffID.Campfire) || Main.campfire))
+                light += 1;
+            if (camper) //inherits Campfire
+                light += 1;
+            if (miningHelmet)
+                light += 1;
+            if (player.lightOrb)
+                light += 1;
+            if (player.crimsonHeart)
+                light += 1;
+            if (player.magicLantern)
+                light += 1;
+            if (giantPearl)
+                light += 1;
+            if (radiator)
+                light += 1;
+            if (sirenBoobs || sirenBoobsAlt)
+                light += 1;
+            if (aAmpoule) // sponge inherits this and doesn't stack with ampoule
+                light += 1;
+            else if (rOoze && !Main.dayTime) // radiant ooze and ampoule/higher don't stack
+                light += 1;
+            if (aquaticEmblem && underwater)
+                light += 1;
+            if (player.arcticDivingGear && underwater)
+                light += 1;
+            if (jellyfishNecklace && underwater)
+                light += 1;
+            if (lumenousAmulet && underwater)
+                light += 2;
+            if (shine)
+                light += 2;
+            if (blazingCore)
+                light += 2;
+            if (player.redFairy || player.greenFairy || player.blueFairy)
+                light += 2;
+            if (babyGhostBell)
+                light += 2;
+            else if (babyGhostBell && !underwater) //for Death caverns
+                light += 1;
+            if (player.petFlagDD2Ghost)
+                light += 2;
+            if (sirenPet && underwater)
+                light += 3;
+            else if (sirenPet && !underwater) //for Death caverns
+                light += 1;
+            if (player.wisp)
+                light += 3;
+            if (player.suspiciouslookingTentacle)
+                light += 3;
+            return light;
+        }
         #endregion
     }
 }

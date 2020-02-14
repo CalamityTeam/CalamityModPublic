@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SafeSetDefaults()
         {
             item.width = 20;
-            item.damage = 850;
+            item.damage = 940;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.autoReuse = true;
@@ -63,10 +63,10 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<AccretionDisk>());
-            recipe.AddIngredient(ModContent.ItemType<ShatteredSun>());
+            recipe.AddIngredient(ModContent.ItemType<AlphaVirus>());
             recipe.AddIngredient(ModContent.ItemType<ExecutionersBlade>());
             recipe.AddIngredient(ModContent.ItemType<FrostcrushValari>());
-            recipe.AddIngredient(ModContent.ItemType<PhantasmalRuin>());
+            recipe.AddIngredient(ModContent.ItemType<EnchantedAxe>());
 			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
 			recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);

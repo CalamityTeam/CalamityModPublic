@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,7 +14,6 @@ namespace CalamityMod.Tiles.FurnitureAshen
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Ashen Lamp");
             AddMapEntry(new Color(191, 142, 111), name);
-            animationFrameHeight = 54;
 
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Torches };
@@ -29,16 +29,6 @@ namespace CalamityMod.Tiles.FurnitureAshen
         public override void NumDust(int i, int j, bool fail, ref int num)
         {
             num = fail ? 1 : 3;
-        }
-
-        public override void AnimateTile(ref int frame, ref int frameCounter)
-        {
-            frameCounter++;
-            if (frameCounter >= 6)
-            {
-                frame = (frame + 1) % 11;
-                frameCounter = 0;
-            }
         }
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
@@ -65,6 +55,20 @@ namespace CalamityMod.Tiles.FurnitureAshen
         public override void HitWire(int i, int j)
         {
             CalamityUtils.LightHitWire(Type, i, j, 1, 3);
+        }
+
+        public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
+        {
+            CalamityUtils.DrawFlameEffect(ModContent.GetTexture("CalamityMod/Tiles/FurnitureAshen/AshenLampFlame"), i, j);
+        }
+
+        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
+        {
+            Tile tile = Main.tile[i, j];
+            if (tile.frameY == 0)
+            {
+                CalamityUtils.DrawFlameSparks(60, 5, i, j);
+            }
         }
     }
 }

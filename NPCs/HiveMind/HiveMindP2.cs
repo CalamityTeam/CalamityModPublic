@@ -285,9 +285,16 @@ namespace CalamityMod.NPCs.HiveMind
 
         public override void AI()
         {
-            Player player = Main.player[npc.target];
+			// Target
+			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest(true);
+
+			Player player = Main.player[npc.target];
+
             npc.defense = (player.ZoneCorrupt || CalamityWorld.bossRushActive) ? 5 : 9999;
+
             CalamityGlobalNPC.hiveMind = npc.whoAmI;
+
             if (npc.alpha != 0)
             {
                 if (npc.damage != 0)
@@ -306,8 +313,8 @@ namespace CalamityMod.NPCs.HiveMind
                         npc.alpha -= 3;
                     if (nextState == 0)
                     {
-                        npc.TargetClosest(true);
-                        if ((CalamityWorld.revenge && (double)npc.life < (double)npc.lifeMax * 0.66) || CalamityWorld.death || CalamityWorld.bossRushActive)
+						npc.TargetClosest(true);
+						if ((CalamityWorld.revenge && (double)npc.life < (double)npc.lifeMax * 0.66) || CalamityWorld.death || CalamityWorld.bossRushActive)
                         {
 							if (CalamityWorld.death || CalamityWorld.bossRushActive)
 							{
@@ -357,25 +364,33 @@ namespace CalamityMod.NPCs.HiveMind
                             rotation = MathHelper.ToRadians(Main.rand.Next(360));
                         npc.netUpdate = true;
                     }
+
                     if (!player.active || player.dead || Vector2.Distance(npc.Center, player.Center) > 5000f)
                     {
-                        npc.TargetClosest(true);
-                        if (npc.timeLeft > 60)
-                            npc.timeLeft = 60;
-                        if (npc.localAI[3] < 120f)
-                        {
-                            float[] aiArray = npc.localAI;
-                            int number = 3;
-                            float num244 = aiArray[number];
-                            aiArray[number] = num244 + 1f;
-                        }
-                        if (npc.localAI[3] > 60f)
-                        {
-                            npc.velocity.Y = npc.velocity.Y + (npc.localAI[3] - 60f) * 0.5f;
-                        }
-                        return;
+                        npc.TargetClosest(false);
+						player = Main.player[npc.target];
+						if (!player.active || player.dead || Vector2.Distance(npc.Center, player.Center) > 5000f)
+						{
+							if (npc.timeLeft > 60)
+								npc.timeLeft = 60;
+							if (npc.localAI[3] < 120f)
+							{
+								float[] aiArray = npc.localAI;
+								int number = 3;
+								float num244 = aiArray[number];
+								aiArray[number] = num244 + 1f;
+							}
+							if (npc.localAI[3] > 60f)
+							{
+								npc.velocity.Y += (npc.localAI[3] - 60f) * 0.5f;
+							}
+							return;
+						}
                     }
-                    if (npc.localAI[3] > 0f)
+					else if (npc.timeLeft < 1800)
+						npc.timeLeft = 1800;
+
+					if (npc.localAI[3] > 0f)
                     {
                         float[] aiArray = npc.localAI;
                         int number = 3;
@@ -383,6 +398,7 @@ namespace CalamityMod.NPCs.HiveMind
                         aiArray[number] = num244 - 1f;
                         return;
                     }
+
                     npc.velocity = player.Center - npc.Center;
                     phase2timer--;
                     if (phase2timer <= -180) //no stalling drift mode forever

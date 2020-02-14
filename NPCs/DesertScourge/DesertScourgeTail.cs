@@ -72,7 +72,12 @@ namespace CalamityMod.NPCs.DesertScourge
 
         public override void AI()
         {
-            Player player = Main.player[npc.target];
+			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
+			{
+				npc.TargetClosest(true);
+			}
+
+			Player player = Main.player[npc.target];
             npc.dontTakeDamage = !player.ZoneDesert && !CalamityWorld.bossRushActive;
             if (!Main.npc[(int)npc.ai[1]].active)
             {

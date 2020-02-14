@@ -74,8 +74,13 @@ namespace CalamityMod.NPCs.DesertScourge
 
         public override void AI()
         {
-            Player player = Main.player[npc.target];
-            npc.dontTakeDamage = !player.ZoneDesert && !CalamityWorld.bossRushActive;
+			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
+			{
+				npc.TargetClosest(true);
+			}
+
+			Player player = Main.player[npc.target];
+			npc.dontTakeDamage = !player.ZoneDesert && !CalamityWorld.bossRushActive;
 			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
             if (!Main.npc[(int)npc.ai[1]].active)
             {
@@ -101,12 +106,11 @@ namespace CalamityMod.NPCs.DesertScourge
                 if (npc.localAI[0] >= (float)Main.rand.Next(1400, 26000))
                 {
                     npc.localAI[0] = 0f;
-                    npc.TargetClosest(true);
-                    if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
+                    if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
                     {
                         Vector2 vector104 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)(npc.height / 2));
-                        float num942 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector104.X + (float)Main.rand.Next(-20, 21);
-                        float num943 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector104.Y + (float)Main.rand.Next(-20, 21);
+                        float num942 = player.position.X + (float)player.width * 0.5f - vector104.X;
+                        float num943 = player.position.Y + (float)player.height * 0.5f - vector104.Y;
                         float num944 = (float)Math.Sqrt((double)(num942 * num942 + num943 * num943));
                         int projectileType = ModContent.ProjectileType<SandBlast>();
                         int damage = 12;

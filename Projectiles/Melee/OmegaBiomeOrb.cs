@@ -137,24 +137,29 @@ namespace CalamityMod.Projectiles.Melee
 
 			float num472 = projectile.Center.X;
 			float num473 = projectile.Center.Y;
-			float num474 = 400f;
+			float distance = 400f;
 			bool flag17 = false;
 			for (int num475 = 0; num475 < 200; num475++)
 			{
-				if (Main.npc[num475].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[num475].Center, 1, 1))
+				if (Main.npc[num475].CanBeChasedBy(projectile, false))
 				{
-					float num476 = Main.npc[num475].position.X + (float)(Main.npc[num475].width / 2);
-					float num477 = Main.npc[num475].position.Y + (float)(Main.npc[num475].height / 2);
-					float num478 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num476) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num477);
-					if (num478 < num474)
+					float extraDistance = (float)(Main.npc[num475].width / 2) + (float)(Main.npc[num475].height / 2);
+
+					bool useCollisionDetection = extraDistance < distance;
+					bool canHit = true;
+					if (useCollisionDetection)
+						canHit = Collision.CanHit(projectile.Center, 1, 1, Main.npc[num475].Center, 1, 1);
+
+					if (Vector2.Distance(Main.npc[num475].Center, projectile.Center) < (distance + extraDistance) && canHit)
 					{
-						num474 = num478;
-						num472 = num476;
-						num473 = num477;
+						distance = Vector2.Distance(Main.npc[num475].Center, projectile.Center);
+						num472 = Main.npc[num475].Center.X;
+						num473 = Main.npc[num475].Center.Y;
 						flag17 = true;
 					}
 				}
 			}
+
 			if (flag17)
 			{
 				float num483 = 15f;

@@ -89,19 +89,19 @@ namespace CalamityMod.NPCs.Ravager
                 npc.ai[0] += 1f;
                 if (npc.ai[0] > 0f)
                 {
-                    npc.velocity.Y = npc.velocity.Y + 0.023f;
+                    npc.velocity.Y += 0.023f;
                 }
                 else
                 {
-                    npc.velocity.Y = npc.velocity.Y - 0.023f;
+                    npc.velocity.Y -= 0.023f;
                 }
                 if (npc.ai[0] < -100f || npc.ai[0] > 100f)
                 {
-                    npc.velocity.X = npc.velocity.X + 0.023f;
+                    npc.velocity.X += 0.023f;
                 }
                 else
                 {
-                    npc.velocity.X = npc.velocity.X - 0.023f;
+                    npc.velocity.X -= 0.023f;
                 }
                 if (npc.ai[0] > 200f)
                 {
@@ -115,19 +115,19 @@ namespace CalamityMod.NPCs.Ravager
             }
             if (npc.velocity.X < num4)
             {
-                npc.velocity.X = npc.velocity.X + num2;
+                npc.velocity.X += num2;
             }
             else if (npc.velocity.X > num4)
             {
-                npc.velocity.X = npc.velocity.X - num2;
+                npc.velocity.X -= num2;
             }
             if (npc.velocity.Y < num5)
             {
-                npc.velocity.Y = npc.velocity.Y + num2;
+                npc.velocity.Y += num2;
             }
             else if (npc.velocity.Y > num5)
             {
-                npc.velocity.Y = npc.velocity.Y - num2;
+                npc.velocity.Y -= num2;
             }
             npc.ai[1] += 1f;
             int nukeTimer = 720;
@@ -240,12 +240,12 @@ namespace CalamityMod.NPCs.Ravager
                 {
                     if (Math.Abs(npc.velocity.X) < 12f)
                     {
-                        npc.velocity.X = npc.velocity.X * 1.05f;
+                        npc.velocity.X *= 1.05f;
                     }
                 }
                 else
                 {
-                    npc.velocity.X = npc.velocity.X * 0.9f;
+                    npc.velocity.X *= 0.9f;
                 }
             }
             if (((npc.velocity.X > 0f && npc.oldVelocity.X < 0f) || (npc.velocity.X < 0f && npc.oldVelocity.X > 0f) || (npc.velocity.Y > 0f && npc.oldVelocity.Y < 0f) || (npc.velocity.Y < 0f && npc.oldVelocity.Y > 0f)) && !npc.justHit)

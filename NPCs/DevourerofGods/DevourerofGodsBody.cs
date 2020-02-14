@@ -93,11 +93,14 @@ namespace CalamityMod.NPCs.DevourerofGods
             {
                 npc.realLife = (int)npc.ai[3];
             }
-            if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
-            {
-                npc.TargetClosest(true);
-            }
-            npc.velocity.Length();
+
+			// Target
+			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest(true);
+
+			Player player = Main.player[npc.target];
+
+			npc.velocity.Length();
             if (npc.velocity.X < 0f)
             {
                 npc.spriteDirection = -1;
@@ -149,8 +152,8 @@ namespace CalamityMod.NPCs.DevourerofGods
                     npc.localAI[0] = 0f;
                     npc.TargetClosest(true);
                     Vector2 vector104 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)(npc.height / 2));
-                    float num942 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector104.X;
-                    float num943 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector104.Y;
+                    float num942 = player.position.X + (float)player.width * 0.5f - vector104.X;
+                    float num943 = player.position.Y + (float)player.height * 0.5f - vector104.Y;
                     float num944 = (float)Math.Sqrt((double)(num942 * num942 + num943 * num943));
                     num944 = num941 / num944;
                     num942 *= num944;
@@ -161,13 +164,13 @@ namespace CalamityMod.NPCs.DevourerofGods
                     npc.netUpdate = true;
                 }
             }
-            if (Main.player[npc.target].dead)
+            if (player.dead)
             {
                 npc.TargetClosest(false);
             }
             Vector2 vector18 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-            float num191 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2);
-            float num192 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2);
+            float num191 = player.position.X + (float)(player.width / 2);
+            float num192 = player.position.Y + (float)(player.height / 2);
             num191 = (float)((int)(num191 / 16f) * 16);
             num192 = (float)((int)(num192 / 16f) * 16);
             vector18.X = (float)((int)(vector18.X / 16f) * 16);

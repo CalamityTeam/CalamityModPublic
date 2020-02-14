@@ -103,12 +103,14 @@ namespace CalamityMod.NPCs.DevourerofGods
             if (npc.ai[3] > 0f)
                 npc.realLife = (int)npc.ai[3];
 
-            // Target
-            if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
-                npc.TargetClosest(true);
+			// Target
+			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
+				npc.TargetClosest(true);
 
-            // Spawn Guardians
-            if (lifeRatio < 0.2f)
+			Player player = Main.player[npc.target];
+
+			// Spawn Guardians
+			if (lifeRatio < 0.2f)
             {
                 if (!halfLife)
                 {
@@ -196,13 +198,14 @@ namespace CalamityMod.NPCs.DevourerofGods
             }
 
             // Despawn
-            if (Main.player[npc.target].dead)
+            if (player.dead)
             {
-                flies = true;
+				npc.TargetClosest(false);
+				flies = true;
 
-                npc.velocity.Y = npc.velocity.Y - 3f;
+                npc.velocity.Y -= 3f;
                 if ((double)npc.position.Y < Main.topWorld + 16f)
-                    npc.velocity.Y = npc.velocity.Y - 3f;
+                    npc.velocity.Y -= 3f;
 
                 if ((double)npc.position.Y < Main.topWorld + 16f)
                 {
@@ -234,9 +237,6 @@ namespace CalamityMod.NPCs.DevourerofGods
             else if (npc.velocity.X > 0f)
                 npc.spriteDirection = 1;
 
-            if (Main.player[npc.target].dead)
-                npc.TargetClosest(false);
-
             // Flight
             if (npc.ai[2] == 0f)
             {
@@ -256,17 +256,17 @@ namespace CalamityMod.NPCs.DevourerofGods
                 float homingTurnSpeed = death ? 0.5f : 0.33f + (0.15f * (1f - lifeRatio));
 
                 // Go to ground phase sooner
-                if (Vector2.Distance(Main.player[npc.target].Center, vector) > 5600f)
+                if (Vector2.Distance(player.Center, vector) > 5600f)
                     phaseSwitch += 10;
 
                 float num188 = speed;
                 float num189 = turnSpeed;
                 Vector2 vector18 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-                float num191 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2);
-                float num192 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2);
+                float num191 = player.position.X + (float)(player.width / 2);
+                float num192 = player.position.Y + (float)(player.height / 2);
                 int num42 = -1;
-                int num43 = (int)(Main.player[npc.target].Center.X / 16f);
-                int num44 = (int)(Main.player[npc.target].Center.Y / 16f);
+                int num43 = (int)(player.Center.X / 16f);
+                int num44 = (int)(player.Center.Y / 16f);
 
                 for (int num45 = num43 - 2; num45 <= num43 + 2; num45++)
                 {
@@ -286,15 +286,15 @@ namespace CalamityMod.NPCs.DevourerofGods
                 {
                     num42 *= 16;
                     float num47 = (float)(num42 - 800);
-                    if (Main.player[npc.target].position.Y > num47)
+                    if (player.position.Y > num47)
                     {
                         num192 = num47;
-                        if (Math.Abs(npc.Center.X - Main.player[npc.target].Center.X) < 500f)
+                        if (Math.Abs(npc.Center.X - player.Center.X) < 500f)
                         {
                             if (npc.velocity.X > 0f)
-                                num191 = Main.player[npc.target].Center.X + 600f;
+                                num191 = player.Center.X + 600f;
                             else
-                                num191 = Main.player[npc.target].Center.X - 600f;
+                                num191 = player.Center.X - 600f;
                         }
                     }
                 }
@@ -372,35 +372,35 @@ namespace CalamityMod.NPCs.DevourerofGods
                 if ((npc.velocity.X > 0f && num191 > 0f) || (npc.velocity.X < 0f && num191 < 0f) || (npc.velocity.Y > 0f && num192 > 0f) || (npc.velocity.Y < 0f && num192 < 0f))
                 {
                     if (npc.velocity.X < num191)
-                        npc.velocity.X = npc.velocity.X + num189;
+                        npc.velocity.X += num189;
                     else
                     {
                         if (npc.velocity.X > num191)
-                            npc.velocity.X = npc.velocity.X - num189;
+                            npc.velocity.X -= num189;
                     }
 
                     if (npc.velocity.Y < num192)
-                        npc.velocity.Y = npc.velocity.Y + num189;
+                        npc.velocity.Y += num189;
                     else
                     {
                         if (npc.velocity.Y > num192)
-                            npc.velocity.Y = npc.velocity.Y - num189;
+                            npc.velocity.Y -= num189;
                     }
 
                     if ((double)System.Math.Abs(num192) < (double)num188 * 0.2 && ((npc.velocity.X > 0f && num191 < 0f) || (npc.velocity.X < 0f && num191 > 0f)))
                     {
                         if (npc.velocity.Y > 0f)
-                            npc.velocity.Y = npc.velocity.Y + num189 * 2f;
+                            npc.velocity.Y += num189 * 2f;
                         else
-                            npc.velocity.Y = npc.velocity.Y - num189 * 2f;
+                            npc.velocity.Y -= num189 * 2f;
                     }
 
                     if ((double)System.Math.Abs(num191) < (double)num188 * 0.2 && ((npc.velocity.Y > 0f && num192 < 0f) || (npc.velocity.Y < 0f && num192 > 0f)))
                     {
                         if (npc.velocity.X > 0f)
-                            npc.velocity.X = npc.velocity.X + num189 * 2f;
+                            npc.velocity.X += num189 * 2f;
                         else
-                            npc.velocity.X = npc.velocity.X - num189 * 2f;
+                            npc.velocity.X -= num189 * 2f;
                     }
                 }
                 else
@@ -408,31 +408,31 @@ namespace CalamityMod.NPCs.DevourerofGods
                     if (num196 > num197)
                     {
                         if (npc.velocity.X < num191)
-                            npc.velocity.X = npc.velocity.X + num189 * 1.1f;
+                            npc.velocity.X += num189 * 1.1f;
                         else if (npc.velocity.X > num191)
-                            npc.velocity.X = npc.velocity.X - num189 * 1.1f;
+                            npc.velocity.X -= num189 * 1.1f;
 
                         if ((double)(System.Math.Abs(npc.velocity.X) + System.Math.Abs(npc.velocity.Y)) < (double)num188 * 0.5)
                         {
                             if (npc.velocity.Y > 0f)
-                                npc.velocity.Y = npc.velocity.Y + num189;
+                                npc.velocity.Y += num189;
                             else
-                                npc.velocity.Y = npc.velocity.Y - num189;
+                                npc.velocity.Y -= num189;
                         }
                     }
                     else
                     {
                         if (npc.velocity.Y < num192)
-                            npc.velocity.Y = npc.velocity.Y + num189 * 1.1f;
+                            npc.velocity.Y += num189 * 1.1f;
                         else if (npc.velocity.Y > num192)
-                            npc.velocity.Y = npc.velocity.Y - num189 * 1.1f;
+                            npc.velocity.Y -= num189 * 1.1f;
 
                         if ((double)(System.Math.Abs(npc.velocity.X) + System.Math.Abs(npc.velocity.Y)) < (double)num188 * 0.5)
                         {
                             if (npc.velocity.X > 0f)
-                                npc.velocity.X = npc.velocity.X + num189;
+                                npc.velocity.X += num189;
                             else
-                                npc.velocity.X = npc.velocity.X - num189;
+                                npc.velocity.X -= num189;
                         }
                     }
                 }
@@ -461,10 +461,10 @@ namespace CalamityMod.NPCs.DevourerofGods
                 float fallSpeed = 16f + (death ? 3.7f : 3.5f * (1f - lifeRatio));
                 float speed = death ? 0.28f : 0.18f + (0.08f * (1f - lifeRatio));
                 float turnSpeed = death ? 0.26f : 0.12f + (0.12f * (1f - lifeRatio));
-                bool increaseSpeed = Vector2.Distance(Main.player[npc.target].Center, vector) > 3200f;
+                bool increaseSpeed = Vector2.Distance(player.Center, vector) > 3200f;
 
                 // Enrage
-                if (Vector2.Distance(Main.player[npc.target].Center, vector) > 5600f)
+                if (Vector2.Distance(player.Center, vector) > 5600f)
                 {
                     speed *= 4f;
                     turnSpeed *= 6f;
@@ -502,7 +502,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                     Rectangle rectangle12 = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
                     int num954 = 1000 - (int)(500f * (1f - lifeRatio));
                     bool flag95 = true;
-                    if (npc.position.Y > Main.player[npc.target].position.Y)
+                    if (npc.position.Y > player.position.Y)
                     {
                         for (int num955 = 0; num955 < 255; num955++)
                         {
@@ -524,8 +524,8 @@ namespace CalamityMod.NPCs.DevourerofGods
                     npc.localAI[1] = 0f;
 
                 Vector2 vector3 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-                float num20 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2);
-                float num21 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2);
+                float num20 = player.position.X + (float)(player.width / 2);
+                float num21 = player.position.Y + (float)(player.height / 2);
                 num20 = (float)((int)(num20 / 16f) * 16);
                 num21 = (float)((int)(num21 / 16f) * 16);
                 vector3.X = (float)((int)(vector3.X / 16f) * 16);
@@ -538,30 +538,30 @@ namespace CalamityMod.NPCs.DevourerofGods
                 {
                     npc.TargetClosest(true);
 
-                    npc.velocity.Y = npc.velocity.Y + turnSpeed;
+                    npc.velocity.Y += turnSpeed;
                     if (npc.velocity.Y > fallSpeed)
                         npc.velocity.Y = fallSpeed;
 
                     if ((double)(Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y)) < (double)fallSpeed * 1.8)
                     {
                         if (npc.velocity.X < 0f)
-                            npc.velocity.X = npc.velocity.X - speed * 1.1f;
+                            npc.velocity.X -= speed * 1.1f;
                         else
-                            npc.velocity.X = npc.velocity.X + speed * 1.1f;
+                            npc.velocity.X += speed * 1.1f;
                     }
                     else if (npc.velocity.Y == fallSpeed)
                     {
                         if (npc.velocity.X < num20)
-                            npc.velocity.X = npc.velocity.X + speed;
+                            npc.velocity.X += speed;
                         else if (npc.velocity.X > num20)
-                            npc.velocity.X = npc.velocity.X - speed;
+                            npc.velocity.X -= speed;
                     }
                     else if (npc.velocity.Y > 4f)
                     {
                         if (npc.velocity.X < 0f)
-                            npc.velocity.X = npc.velocity.X + speed * 0.9f;
+                            npc.velocity.X += speed * 0.9f;
                         else
-                            npc.velocity.X = npc.velocity.X - speed * 0.9f;
+                            npc.velocity.X -= speed * 0.9f;
                     }
                 }
                 else
@@ -579,70 +579,70 @@ namespace CalamityMod.NPCs.DevourerofGods
                     if (((npc.velocity.X > 0f && num20 > 0f) || (npc.velocity.X < 0f && num20 < 0f)) && ((npc.velocity.Y > 0f && num21 > 0f) || (npc.velocity.Y < 0f && num21 < 0f)))
                     {
                         if (npc.velocity.X < num20)
-                            npc.velocity.X = npc.velocity.X + turnSpeed * 1.3f;
+                            npc.velocity.X += turnSpeed * 1.3f;
                         else if (npc.velocity.X > num20)
-                            npc.velocity.X = npc.velocity.X - turnSpeed * 1.3f;
+                            npc.velocity.X -= turnSpeed * 1.3f;
 
                         if (npc.velocity.Y < num21)
-                            npc.velocity.Y = npc.velocity.Y + turnSpeed * 1.3f;
+                            npc.velocity.Y += turnSpeed * 1.3f;
                         else if (npc.velocity.Y > num21)
-                            npc.velocity.Y = npc.velocity.Y - turnSpeed * 1.3f;
+                            npc.velocity.Y -= turnSpeed * 1.3f;
                     }
 
                     if ((npc.velocity.X > 0f && num20 > 0f) || (npc.velocity.X < 0f && num20 < 0f) || (npc.velocity.Y > 0f && num21 > 0f) || (npc.velocity.Y < 0f && num21 < 0f))
                     {
                         if (npc.velocity.X < num20)
-                            npc.velocity.X = npc.velocity.X + speed;
+                            npc.velocity.X += speed;
                         else if (npc.velocity.X > num20)
-                            npc.velocity.X = npc.velocity.X - speed;
+                            npc.velocity.X -= speed;
                         if (npc.velocity.Y < num21)
-                            npc.velocity.Y = npc.velocity.Y + speed;
+                            npc.velocity.Y += speed;
                         else if (npc.velocity.Y > num21)
-                            npc.velocity.Y = npc.velocity.Y - speed;
+                            npc.velocity.Y -= speed;
 
                         if ((double)Math.Abs(num21) < (double)fallSpeed * maximumSpeed1 && ((npc.velocity.X > 0f && num20 < 0f) || (npc.velocity.X < 0f && num20 > 0f)))
                         {
                             if (npc.velocity.Y > 0f)
-                                npc.velocity.Y = npc.velocity.Y + speed * 2f;
+                                npc.velocity.Y += speed * 2f;
                             else
-                                npc.velocity.Y = npc.velocity.Y - speed * 2f;
+                                npc.velocity.Y -= speed * 2f;
                         }
                         if ((double)Math.Abs(num20) < (double)fallSpeed * maximumSpeed1 && ((npc.velocity.Y > 0f && num21 < 0f) || (npc.velocity.Y < 0f && num21 > 0f)))
                         {
                             if (npc.velocity.X > 0f)
-                                npc.velocity.X = npc.velocity.X + speed * 2f;
+                                npc.velocity.X += speed * 2f;
                             else
-                                npc.velocity.X = npc.velocity.X - speed * 2f;
+                                npc.velocity.X -= speed * 2f;
                         }
                     }
                     else if (num25 > num26)
                     {
                         if (npc.velocity.X < num20)
-                            npc.velocity.X = npc.velocity.X + speed * 1.1f;
+                            npc.velocity.X += speed * 1.1f;
                         else if (npc.velocity.X > num20)
-                            npc.velocity.X = npc.velocity.X - speed * 1.1f;
+                            npc.velocity.X -= speed * 1.1f;
 
                         if ((double)(Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y)) < (double)fallSpeed * maximumSpeed2)
                         {
                             if (npc.velocity.Y > 0f)
-                                npc.velocity.Y = npc.velocity.Y + speed;
+                                npc.velocity.Y += speed;
                             else
-                                npc.velocity.Y = npc.velocity.Y - speed;
+                                npc.velocity.Y -= speed;
                         }
                     }
                     else
                     {
                         if (npc.velocity.Y < num21)
-                            npc.velocity.Y = npc.velocity.Y + speed * 1.1f;
+                            npc.velocity.Y += speed * 1.1f;
                         else if (npc.velocity.Y > num21)
-                            npc.velocity.Y = npc.velocity.Y - speed * 1.1f;
+                            npc.velocity.Y -= speed * 1.1f;
 
                         if ((double)(Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y)) < (double)fallSpeed * maximumSpeed2)
                         {
                             if (npc.velocity.X > 0f)
-                                npc.velocity.X = npc.velocity.X + speed;
+                                npc.velocity.X += speed;
                             else
-                                npc.velocity.X = npc.velocity.X - speed;
+                                npc.velocity.X -= speed;
                         }
                     }
                 }

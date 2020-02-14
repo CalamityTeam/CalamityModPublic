@@ -230,34 +230,34 @@ namespace CalamityMod.NPCs.Ravager
                 num674 *= num675;
                 if (npc.velocity.X < num673)
                 {
-                    npc.velocity.X = npc.velocity.X + num672;
+                    npc.velocity.X += num672;
                     if (npc.velocity.X < 0f && num673 > 0f)
                     {
-                        npc.velocity.X = npc.velocity.X + num672 * 2f;
+                        npc.velocity.X += num672 * 2f;
                     }
                 }
                 else if (npc.velocity.X > num673)
                 {
-                    npc.velocity.X = npc.velocity.X - num672;
+                    npc.velocity.X -= num672;
                     if (npc.velocity.X > 0f && num673 < 0f)
                     {
-                        npc.velocity.X = npc.velocity.X - num672 * 2f;
+                        npc.velocity.X -= num672 * 2f;
                     }
                 }
                 if (npc.velocity.Y < num674)
                 {
-                    npc.velocity.Y = npc.velocity.Y + num672;
+                    npc.velocity.Y += num672;
                     if (npc.velocity.Y < 0f && num674 > 0f)
                     {
-                        npc.velocity.Y = npc.velocity.Y + num672 * 2f;
+                        npc.velocity.Y += num672 * 2f;
                     }
                 }
                 else if (npc.velocity.Y > num674)
                 {
-                    npc.velocity.Y = npc.velocity.Y - num672;
+                    npc.velocity.Y -= num672;
                     if (npc.velocity.Y > 0f && num674 < 0f)
                     {
-                        npc.velocity.Y = npc.velocity.Y - num672 * 2f;
+                        npc.velocity.Y -= num672 * 2f;
                     }
                 }
                 npc.rotation = (float)Math.Atan2((double)-(double)npc.velocity.Y, (double)-(double)npc.velocity.X);

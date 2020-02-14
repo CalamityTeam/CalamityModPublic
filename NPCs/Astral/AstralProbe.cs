@@ -263,29 +263,22 @@ namespace CalamityMod.NPCs.Astral
                         scaleFactor10 = 1f;
                     }
                     int num626 = Gore.NewGore(new Vector2(npc.position.X + (float)(npc.width / 2) - 24f, npc.position.Y + (float)(npc.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-                    Main.gore[num626].velocity *= scaleFactor10;
-                    Gore expr_13AB6_cp_0 = Main.gore[num626];
-                    expr_13AB6_cp_0.velocity.X += 1f;
-                    Gore expr_13AD6_cp_0 = Main.gore[num626];
-                    expr_13AD6_cp_0.velocity.Y += 1f;
+                    Gore gore = Main.gore[num626];
+                    gore.velocity *= scaleFactor10;
+                    gore.velocity.X += 1f;
+                    gore.velocity.Y += 1f;
                     num626 = Gore.NewGore(new Vector2(npc.position.X + (float)(npc.width / 2) - 24f, npc.position.Y + (float)(npc.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-                    Main.gore[num626].velocity *= scaleFactor10;
-                    Gore expr_13B79_cp_0 = Main.gore[num626];
-                    expr_13B79_cp_0.velocity.X -= 1f;
-                    Gore expr_13B99_cp_0 = Main.gore[num626];
-                    expr_13B99_cp_0.velocity.Y += 1f;
+                    gore.velocity *= scaleFactor10;
+                    gore.velocity.X -= 1f;
+                    gore.velocity.Y += 1f;
                     num626 = Gore.NewGore(new Vector2(npc.position.X + (float)(npc.width / 2) - 24f, npc.position.Y + (float)(npc.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-                    Main.gore[num626].velocity *= scaleFactor10;
-                    Gore expr_13C3C_cp_0 = Main.gore[num626];
-                    expr_13C3C_cp_0.velocity.X += 1f;
-                    Gore expr_13C5C_cp_0 = Main.gore[num626];
-                    expr_13C5C_cp_0.velocity.Y -= 1f;
+                    gore.velocity *= scaleFactor10;
+                    gore.velocity.X += 1f;
+                    gore.velocity.Y -= 1f;
                     num626 = Gore.NewGore(new Vector2(npc.position.X + (float)(npc.width / 2) - 24f, npc.position.Y + (float)(npc.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-                    Main.gore[num626].velocity *= scaleFactor10;
-                    Gore expr_13CFF_cp_0 = Main.gore[num626];
-                    expr_13CFF_cp_0.velocity.X -= 1f;
-                    Gore expr_13D1F_cp_0 = Main.gore[num626];
-                    expr_13D1F_cp_0.velocity.Y -= 1f;
+                    gore.velocity *= scaleFactor10;
+                    gore.velocity.X -= 1f;
+                    gore.velocity.Y -= 1f;
                 }
             }
         }
@@ -304,7 +297,15 @@ namespace CalamityMod.NPCs.Astral
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return (spawnInfo.player.Calamity().ZoneAstral && !spawnInfo.player.ZoneTowerStardust && !spawnInfo.player.ZoneTowerSolar && !spawnInfo.player.ZoneTowerVortex && !spawnInfo.player.ZoneTowerNebula) ? 0.1f : 0f;
+            if (spawnInfo.player.ZoneTowerStardust || spawnInfo.player.ZoneTowerSolar || spawnInfo.player.ZoneTowerVortex || spawnInfo.player.ZoneTowerNebula)
+            {
+                return 0f;
+            }
+            else if (spawnInfo.player.Calamity().ZoneAstral)
+            {
+                return 0.1f;
+            }
+            return 0f;
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

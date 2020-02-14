@@ -1096,6 +1096,17 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                     }
                 }
             }
+            if (item.type == ItemID.MiningHelmet)
+            {
+                foreach (TooltipLine line2 in tooltips)
+                {
+                    if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
+                    {
+                        line2.text = "Provides light when worn\n" +
+							"Provides a small amount of light in the Abyss";
+                    }
+                }
+            }
             if (item.type == ItemID.AngelWings)
             {
                 foreach (TooltipLine line2 in tooltips)
@@ -2445,6 +2456,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 player.noFallDmg = true;
             }
 
+            // Arctic Diving Gear counts as a Jellyfish Necklace in code, but overrides its abyss light level because it's an upgrade.
             if (item.type == ItemID.JellyfishNecklace || item.type == ItemID.JellyfishDivingGear || item.type == ItemID.ArcticDivingGear)
                 modPlayer.jellyfishNecklace = true;
 

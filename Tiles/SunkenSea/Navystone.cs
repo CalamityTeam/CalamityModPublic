@@ -45,7 +45,7 @@ namespace CalamityMod.Tiles.SunkenSea
 
         public override void RandomUpdate(int i, int j)
         {
-            if (Main.rand.Next(100) == 0)
+            if (Main.rand.NextBool(100))
             {
                 int random = WorldGen.genRand.Next(4);
                 if (random == 0)
@@ -102,7 +102,6 @@ namespace CalamityMod.Tiles.SunkenSea
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            // CustomTileFraming.CustomMergeFrame(i, j, Type, ModContent.TileType<EutrophicSand>(), false, false, false, false, resetFrame);
             TileFraming.CustomMergeFrame(i, j, Type, ModContent.TileType<EutrophicSand>());
             return false;
         }
