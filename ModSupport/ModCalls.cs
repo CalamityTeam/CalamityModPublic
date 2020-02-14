@@ -1181,6 +1181,9 @@ namespace CalamityMod
             if (p != null)
                 p.Calamity().lightStrength += add;
         }
+
+        public static bool MakeColdImmune(Player p) => p is null ? false : (p.Calamity().externalColdImmunity = true);
+        public static bool MakeHeatImmune(Player p) => p is null ? false : (p.Calamity().externalHeatImmunity = true);
         #endregion
 
         #region Set Damage Reduction
@@ -1305,6 +1308,28 @@ namespace CalamityMod
                         return new ArgumentException("ERROR: The first argument to \"AddLightStrength\" must be a Player or an int.");
                     AddAbyssLightStrength(castPlayer(args[1]), light);
                     return null;
+
+                case "ColdImmune":
+                case "ColdImmunity":
+                case "GiveColdImmunity":
+                case "MakeColdImmune":
+                case "DeathModeCold":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify a Player object (or int index of a Player).");
+                    if (!isValidPlayerArg(args[1]))
+                        return new ArgumentException("ERROR: The argument to \"DeathModeCold\" must be a Player or an int.");
+                    return MakeColdImmune(castPlayer(args[1]));
+
+                case "HeatImmune":
+                case "HeatImmunity":
+                case "GiveHeatImmunity":
+                case "MakeHeatImmune":
+                case "DeathModeHeat":
+                    if (args.Length < 2)
+                        return new ArgumentNullException("ERROR: Must specify a Player object (or int index of a Player).");
+                    if (!isValidPlayerArg(args[1]))
+                        return new ArgumentException("ERROR: The argument to \"DeathModeHeat\" must be a Player or an int.");
+                    return MakeHeatImmune(castPlayer(args[1]));
 
                 case "GetRogueDamage":
                 case "GetRogueDmg":

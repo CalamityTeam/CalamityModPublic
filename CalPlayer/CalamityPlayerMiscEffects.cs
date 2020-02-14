@@ -370,16 +370,19 @@ namespace CalamityMod.CalPlayer
 					}
 
 					// Immunity bools
-					bool hasMoltenSet = player.head == 9 && player.body == 9 && player.legs == 9;
-					bool hasEskimoSet = (player.head == 58 || player.head == 77) && (player.body == 38 || player.head == 50) && (player.legs == 36 || player.head == 46); //this is normal and pink eskimo armor (you can mix and match)
+					bool hasMoltenSet = player.head == ArmorIDs.Head.MoltenHelmet && player.body == ArmorIDs.Body.MoltenBreastplate && player.legs == ArmorIDs.Legs.MoltenGreaves;
+					// Normal and Pink Eskimo set can be mixed and matched
+					bool hasEskimoSet = (player.head == ArmorIDs.Head.EskimoHood || player.head == ArmorIDs.Head.PinkEskimoHood)
+						&& (player.body == ArmorIDs.Body.EskimoCoat || player.body == ArmorIDs.Body.PinkEskimoCoat)
+						&& (player.legs == ArmorIDs.Legs.EskimoPants || player.legs == ArmorIDs.Legs.PinkEskimoPants);
 
 					bool immunityToHotAndCold = hasMoltenSet || player.magmaStone || player.frostArmor || modPlayer.fBulwark || modPlayer.fBarrier ||
 						modPlayer.frostFlare || modPlayer.rampartOfDeities || modPlayer.cryogenSoul || modPlayer.snowman;
 
 					bool immunityToCold = player.HasBuff(BuffID.Campfire) || Main.campfire || player.resistCold || hasEskimoSet || player.buffImmune[BuffID.Frozen] ||
-						player.HasBuff(BuffID.Inferno) || immunityToHotAndCold;
+						player.HasBuff(BuffID.Inferno) || immunityToHotAndCold || modPlayer.externalColdImmunity;
 
-					bool immunityToHot = player.lavaImmune || player.lavaRose || player.lavaMax != 0 || immunityToHotAndCold;
+					bool immunityToHot = player.lavaImmune || player.lavaRose || player.lavaMax != 0 || immunityToHotAndCold || modPlayer.externalHeatImmunity;
 
 					// Thorn and spike effects
 					// 10 = crimson/corruption thorns, 17 = jungle thorns, 40 = dungeon spikes, 60 = temple spikes

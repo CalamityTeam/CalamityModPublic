@@ -74,7 +74,12 @@ namespace CalamityMod.CalPlayer
 		public bool killSpikyBalls = false;
 		public Projectile lastProjectileHit;
         public double acidRoundMultiplier = 1D;
+        // Cumulative light strength from all Calamity accessory and buff effects.
+        // Vanilla accessories, buffs, etc. are NOT counted in this and are calculated on-demand by GetTotalLightStrength.
         public int lightStrength = 0;
+        // These variables are ONLY set by Mod.Call, and exist to allow other mods to provide resistance to Death Mode environmental effects.
+        public bool externalColdImmunity = false;
+        public bool externalHeatImmunity = false;
 
 		// Stat Meter
 		public int[] damageStats = new int[5];
@@ -990,6 +995,7 @@ namespace CalamityMod.CalPlayer
 
             dashMod = 0;
             lightStrength = 0;
+            externalColdImmunity = externalHeatImmunity = false;
             alcoholPoisonLevel = 0;
 
             thirdSage = false;
@@ -1518,6 +1524,7 @@ namespace CalamityMod.CalPlayer
             aBulwarkRareMeleeBoostTimer = 0;
             acidRoundMultiplier = 1D;
             lightStrength = 0;
+            externalColdImmunity = externalHeatImmunity = false;
             reforges = 0;
             polarisBoostCounter = 0;
             spectralVeilImmunity = 0;
