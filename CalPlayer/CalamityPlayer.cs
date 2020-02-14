@@ -74,10 +74,8 @@ namespace CalamityMod.CalPlayer
 		public bool killSpikyBalls = false;
 		public Projectile lastProjectileHit;
         public double acidRoundMultiplier = 1D;
-        // Cumulative light strength from all Calamity accessory and buff effects.
-        // Vanilla accessories, buffs, etc. are NOT counted in this and are calculated on-demand by GetTotalLightStrength.
-        public int lightStrength = 0;
-        // These variables are ONLY set by Mod.Call, and exist to allow other mods to provide resistance to Death Mode environmental effects.
+        // These variables are ONLY set by Mod.Call. Calamity itself does not touch them.
+        public int externalAbyssLight = 0;
         public bool externalColdImmunity = false;
         public bool externalHeatImmunity = false;
 
@@ -320,6 +318,7 @@ namespace CalamityMod.CalPlayer
         public bool seaShell = false;
         public bool absorber = false;
         public bool aAmpoule = false;
+        public bool rOoze = false;
         public bool pAmulet = false;
         public bool fBarrier = false;
         public bool aBrain = false;
@@ -994,7 +993,7 @@ namespace CalamityMod.CalPlayer
             throwingAmmoCost50 = false;
 
             dashMod = 0;
-            lightStrength = 0;
+            externalAbyssLight = 0;
             externalColdImmunity = externalHeatImmunity = false;
             alcoholPoisonLevel = 0;
 
@@ -1148,6 +1147,7 @@ namespace CalamityMod.CalPlayer
             seaShell = false;
             absorber = false;
             aAmpoule = false;
+            rOoze = false;
             pAmulet = false;
             fBarrier = false;
             aBrain = false;
@@ -1523,7 +1523,7 @@ namespace CalamityMod.CalPlayer
             bossRushImmunityFrameCurseTimer = 0;
             aBulwarkRareMeleeBoostTimer = 0;
             acidRoundMultiplier = 1D;
-            lightStrength = 0;
+            externalAbyssLight = 0;
             externalColdImmunity = externalHeatImmunity = false;
             reforges = 0;
             polarisBoostCounter = 0;
@@ -9823,53 +9823,58 @@ namespace CalamityMod.CalPlayer
             return range;
         }
 
-        private const int LightBonus_ArcticDivingGear = 2;
-        private const int LightBonus_Campfire = 1;
-        private const int LightBonus_CrimsonHeart = 1;
-        private const int LightBonus_Fairy = 2;
-        private const int LightBonus_Flickerwick = 2;
-        private const int LightBonus_JellyfishNecklace = 1;
-        private const int LightBonus_MagicLantern = 1;
-        private const int LightBonus_ShadowOrb = 1;
-        private const int LightBonus_ShinePotion = 2;
-        private const int LightBonus_SusTentacle = 3;
-        private const int LightBonus_WispInABottle = 3;
-
         /// <summary>
         /// Calculates and returns the player's total light strength. This is used for Abyss darkness, among other things.<br/>
         /// The Stat Meter also reports this stat.
         /// </summary>
-        /// <returns>The player's total light strength. This is guaranteed to be at least modPlayer.lightStrength.</returns>
+        /// <returns>The player's total light strength.</returns>
         public int GetTotalLightStrength()
         {
-            // This existing value accounts for all Calamity accessories, pets, and other effects automatically.
-            int light = lightStrength;
+            int light = externalAbyssLight;
             bool underwater = player.IsUnderwater();
 
             // The campfire bonus does not apply while in the Abyss.
             if (!ZoneAbyss && (player.HasBuff(BuffID.Campfire) || Main.campfire))
-                light += LightBonus_Campfire;
+                light += 1;
             if (player.lightOrb)
-                light += LightBonus_ShadowOrb;
+                light += 1;
             if (player.crimsonHeart)
-                light += LightBonus_CrimsonHeart;
+                light += 1;
             if (player.magicLantern)
-                light += LightBonus_MagicLantern;
+                light += 1;
+            if (giantPearl)
+                light += 1;
+            if (radiator)
+                light += 1;
+            if (sirenBoobs || sirenBoobsAlt)
+                light += 1;
+            if (aAmpoule) // sponge inherits this and doesn't stack with ampoule
+                light += 1;
+            else if (rOoze && !Main.dayTime) // radiant ooze and ampoule/higher don't stack
+                light += 1;
+            if (aquaticEmblem && underwater)
+                light += 1;
             // arctic diving gear overrides the jellyfish necklace if both are worn
             if (player.arcticDivingGear && underwater)
-                light += LightBonus_ArcticDivingGear;
+                light += 2;
             else if (jellyfishNecklace && underwater)
-                light += LightBonus_JellyfishNecklace;
+                light += 1;
+            if (lumenousAmulet && underwater)
+                light += 2;
             if (shine)
-                light += LightBonus_ShinePotion;
+                light += 2;
             if (player.redFairy || player.greenFairy || player.blueFairy)
-                light += LightBonus_Fairy;
+                light += 2;
+            if (babyGhostBell)
+                light += 2;
             if (player.petFlagDD2Ghost)
-                light += LightBonus_Flickerwick;
+                light += 2;
+            if (sirenPet && underwater)
+                light += 3;
             if (player.wisp)
-                light += LightBonus_WispInABottle;
+                light += 3;
             if (player.suspiciouslookingTentacle)
-                light += LightBonus_SusTentacle;
+                light += 3;
             return light;
         }
         #endregion

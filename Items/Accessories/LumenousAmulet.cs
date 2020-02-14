@@ -31,8 +31,6 @@ namespace CalamityMod.Items.Accessories
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.abyssalAmulet = true;
             modPlayer.lumenousAmulet = true;
-            if (player.IsUnderwater())
-                modPlayer.lightStrength += 2;
         }
 
         public override void AddRecipes()

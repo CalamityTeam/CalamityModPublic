@@ -18,7 +18,6 @@ namespace CalamityMod.Buffs.Pets
         {
             player.buffTime[buffIndex] = 18000;
             player.Calamity().babyGhostBell = true;
-            player.Calamity().lightStrength += 2;
             bool petProjectileNotSpawned = player.ownedProjectileCounts[ModContent.ProjectileType<BabyGhostBell>()] <= 0;
             if (petProjectileNotSpawned && player.whoAmI == Main.myPlayer)
             {

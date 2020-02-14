@@ -1179,7 +1179,7 @@ namespace CalamityMod
         public static void AddAbyssLightStrength(Player p, int add)
         {
             if (p != null)
-                p.Calamity().lightStrength += add;
+                p.Calamity().externalAbyssLight += add;
         }
 
         public static bool MakeColdImmune(Player p) => p is null ? false : (p.Calamity().externalColdImmunity = true);
