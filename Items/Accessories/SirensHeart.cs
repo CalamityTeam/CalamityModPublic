@@ -38,9 +38,7 @@ namespace CalamityMod.Items.Accessories
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.sirenBoobs = true;
             if (hideVisual)
-            {
                 modPlayer.sirenBoobsHide = true;
-            }
         }
     }
 

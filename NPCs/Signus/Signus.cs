@@ -130,7 +130,7 @@ namespace CalamityMod.NPCs.Signus
 
 			Player player = Main.player[npc.target];
 
-			int targetLightStrength = player.Calamity().abyssLightLevelStat * 15;
+			int targetLightStrength = player.Calamity().GetTotalLightStrength() * 15;
 			if (revenge)
 			{
 				int fadeIn = (int)((double)lifeToAlpha * 1.5) - targetLightStrength;
