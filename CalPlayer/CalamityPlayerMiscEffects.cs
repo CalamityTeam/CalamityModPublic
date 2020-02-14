@@ -3089,7 +3089,7 @@ namespace CalamityMod.CalPlayer
 						(CalamityWorld.downedDoG ? 100f : 0f) +
 						(CalamityWorld.downedYharon ? 100f : 0f);
 
-					if (player.maxMinions >= 10)
+					if (player.Calamity().minionSlotStat >= 10)
 					{
 						player.Calamity().gDefense = true;
 
