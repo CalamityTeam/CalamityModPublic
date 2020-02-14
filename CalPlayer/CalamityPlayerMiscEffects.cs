@@ -363,7 +363,7 @@ namespace CalamityMod.CalPlayer
 						double maxDistanceBelow = (double)(Main.maxTilesY - 200 - (int)Main.worldSurface);
 						double distanceBelow = (double)point.Y - Main.worldSurface;
 						double distanceBelowRatio = distanceBelow / maxDistanceBelow;
-						int lightStrength = LightStrength(player, modPlayer);
+						int lightStrength = modPlayer.GetTotalLightStrength();
 						Main.BlackFadeIn = (int)(distanceBelowRatio * 200D) - lightStrength * 25;
 						if (Main.BlackFadeIn < 0)
 							Main.BlackFadeIn = 0;
@@ -414,7 +414,7 @@ namespace CalamityMod.CalPlayer
 					}
 
 					// Space effects
-					if (Space(player))
+					if (player.InSpace())
 					{
 						if (Main.dayTime)
 						{
@@ -436,7 +436,7 @@ namespace CalamityMod.CalPlayer
 					}
 
 					// Ice shards, lightning and sharknadoes
-					if (player.ZoneOverworldHeight && !CalamityPlayer.areThereAnyDamnBosses && !Space(player))
+					if (player.ZoneOverworldHeight && !CalamityPlayer.areThereAnyDamnBosses && !player.InSpace())
 					{
 						Vector2 sharknadoSpawnPoint = new Vector2(player.Center.X - (float)Main.rand.Next(300, 701), player.Center.Y - (float)Main.rand.Next(700, 801));
 						if (point.X > Main.maxTilesX / 2)
@@ -1568,7 +1568,7 @@ namespace CalamityMod.CalPlayer
 		#region Abyss Effects
 		private static void AbyssEffects(Player player, CalamityPlayer modPlayer)
 		{
-			int lightStrength = LightStrength(player, modPlayer);
+			int lightStrength = modPlayer.GetTotalLightStrength();
 
 			double breathLossMult = 1.0 -
 				(player.gills ? 0.2 : 0.0) - // 0.8
@@ -2039,7 +2039,7 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.gravityNormalizer)
 			{
 				player.buffImmune[BuffID.VortexDebuff] = true;
-				if (Space(player))
+				if (player.InSpace())
 				{
 					player.gravity = Player.defaultGravity;
 					if (player.wet)
@@ -3290,36 +3290,6 @@ namespace CalamityMod.CalPlayer
 					}
 				}
 			}
-		}
-		#endregion
-
-		#region Misc
-		private static int LightStrength(Player player, CalamityPlayer modPlayer)
-		{
-			bool underwater = Collision.DrownCollision(player.position, player.width, player.height, player.gravDir);
-			int lightStrength = 0 +
-				(((player.HasBuff(BuffID.Campfire) || Main.campfire) && !modPlayer.ZoneAbyss) ? 1 : 0) +
-				(modPlayer.giantPearl ? 1 : 0) +
-				(modPlayer.aAmpoule ? 1 : 0) +
-				((modPlayer.sirenBoobs || modPlayer.sirenBoobsAlt) ? 1 : 0) +
-				((player.lightOrb || player.crimsonHeart || player.magicLantern || modPlayer.radiator) ? 1 : 0) + // 1
-				((modPlayer.aquaticEmblem && underwater) ? 1 : 0) + // 2
-				((player.arcticDivingGear && underwater) ? 1 : 0) + // 3
-				((modPlayer.jellyfishNecklace && underwater) ? 1 : 0) + // 4
-				((player.blueFairy || player.greenFairy || player.redFairy || player.petFlagDD2Ghost || modPlayer.babyGhostBell) ? 2 : 0) + // 6
-				((modPlayer.shine) ? 2 : 0) + // 8
-				((modPlayer.lumenousAmulet && underwater) ? 2 : 0) + // 10
-				((player.wisp || player.suspiciouslookingTentacle || modPlayer.sirenPet) ? 3 : 0); // 13
-
-			return lightStrength;
-		}
-
-		private static bool Space(Player player)
-		{
-			float x = (float)(Main.maxTilesX / 4200);
-			x *= x;
-			float spaceGravityMult = (float)((double)(player.position.Y / 16f - (60f + 10f * x)) / (Main.worldSurface / 6.0));
-			return spaceGravityMult < 1f;
 		}
 		#endregion
 	}

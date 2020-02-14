@@ -74,6 +74,7 @@ namespace CalamityMod.CalPlayer
 		public bool killSpikyBalls = false;
 		public Projectile lastProjectileHit;
         public double acidRoundMultiplier = 1D;
+        public int lightStrength = 0;
 
 		// Stat Meter
 		public int[] damageStats = new int[5];
@@ -988,6 +989,7 @@ namespace CalamityMod.CalPlayer
             throwingAmmoCost50 = false;
 
             dashMod = 0;
+            lightStrength = 0;
             alcoholPoisonLevel = 0;
 
             thirdSage = false;
@@ -1515,6 +1517,7 @@ namespace CalamityMod.CalPlayer
             bossRushImmunityFrameCurseTimer = 0;
             aBulwarkRareMeleeBoostTimer = 0;
             acidRoundMultiplier = 1D;
+            lightStrength = 0;
             reforges = 0;
             polarisBoostCounter = 0;
             spectralVeilImmunity = 0;
@@ -9813,6 +9816,55 @@ namespace CalamityMod.CalPlayer
             return range;
         }
 
+        private const int LightBonus_ArcticDivingGear = 2;
+        private const int LightBonus_Campfire = 1;
+        private const int LightBonus_CrimsonHeart = 1;
+        private const int LightBonus_Fairy = 2;
+        private const int LightBonus_Flickerwick = 2;
+        private const int LightBonus_JellyfishNecklace = 1;
+        private const int LightBonus_MagicLantern = 1;
+        private const int LightBonus_ShadowOrb = 1;
+        private const int LightBonus_ShinePotion = 2;
+        private const int LightBonus_SusTentacle = 3;
+        private const int LightBonus_WispInABottle = 3;
+
+        /// <summary>
+        /// Calculates and returns the player's total light strength. This is used for Abyss darkness, among other things.<br/>
+        /// The Stat Meter also reports this stat.
+        /// </summary>
+        /// <returns>The player's total light strength. This is guaranteed to be at least modPlayer.lightStrength.</returns>
+        public int GetTotalLightStrength()
+        {
+            // This existing value accounts for all Calamity accessories, pets, and other effects automatically.
+            int light = lightStrength;
+            bool underwater = player.IsUnderwater();
+
+            // The campfire bonus does not apply while in the Abyss.
+            if (!ZoneAbyss && (player.HasBuff(BuffID.Campfire) || Main.campfire))
+                light += LightBonus_Campfire;
+            if (player.lightOrb)
+                light += LightBonus_ShadowOrb;
+            if (player.crimsonHeart)
+                light += LightBonus_CrimsonHeart;
+            if (player.magicLantern)
+                light += LightBonus_MagicLantern;
+            // arctic diving gear overrides the jellyfish necklace if both are worn
+            if (player.arcticDivingGear && underwater)
+                light += LightBonus_ArcticDivingGear;
+            else if (jellyfishNecklace && underwater)
+                light += LightBonus_JellyfishNecklace;
+            if (shine)
+                light += LightBonus_ShinePotion;
+            if (player.redFairy || player.greenFairy || player.blueFairy)
+                light += LightBonus_Fairy;
+            if (player.petFlagDD2Ghost)
+                light += LightBonus_Flickerwick;
+            if (player.wisp)
+                light += LightBonus_WispInABottle;
+            if (player.suspiciouslookingTentacle)
+                light += LightBonus_SusTentacle;
+            return light;
+        }
         #endregion
     }
 }

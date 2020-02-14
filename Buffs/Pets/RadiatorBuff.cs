@@ -18,6 +18,7 @@ namespace CalamityMod.Buffs.Pets
         {
             player.buffTime[buffIndex] = 18000;
             player.Calamity().radiator = true;
+            player.Calamity().lightStrength++;
             bool petProjectileNotSpawned = player.ownedProjectileCounts[ModContent.ProjectileType<RadiatorPet>()] <= 0;
             if (petProjectileNotSpawned && player.whoAmI == Main.myPlayer)
             {

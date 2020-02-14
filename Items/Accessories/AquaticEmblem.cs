@@ -31,6 +31,8 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.aquaticEmblem = true;
+            if (player.IsUnderwater())
+                modPlayer.lightStrength++;
             player.npcTypeNoAggro[65] = true;
             player.npcTypeNoAggro[220] = true;
             player.npcTypeNoAggro[64] = true;

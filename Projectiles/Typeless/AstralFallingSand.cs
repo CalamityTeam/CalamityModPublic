@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Tiles.AstralDesert;
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -22,20 +23,21 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void Kill(int timeLeft)
         {
-            int tileX = (int)(projectile.Center.X / 16f);
-            int tileY = (int)(projectile.Center.Y / 16f);
-            //Move the set tile upwards based on certain conditions
-            if (Main.tile[tileX, tileY].halfBrick() && projectile.velocity.Y > 0f && Math.Abs(projectile.velocity.Y) > Math.Abs(projectile.velocity.X))
-            {
-                tileY--;
-            }
-            if (!Main.tile[tileX, tileY].active())
-            {
-                if (Main.tile[tileX, tileY].type == TileID.MinecartTrack)
-                    return;
+            Point p = projectile.Center.ToTileCoordinates();
+            // If the sand is dying outside the world border, cancel placing sand.
+            if (p.X < 0 || p.X >= Main.maxTilesX || p.Y < 0 || p.Y >= Main.maxTilesY)
+                return;
+            Tile t = Main.tile[p.X, p.Y];
 
-                WorldGen.PlaceTile(tileX, tileY, ModContent.TileType<AstralSand>(), false, true);
-                WorldGen.SquareTileFrame(tileX, tileY);
+            // If the sand hit a half brick, but was mostly going downwards (at a lower than 45 degree angle), then stack atop the half brick.
+            if (t.halfBrick() && projectile.velocity.Y > 0f && Math.Abs(projectile.velocity.Y) > Math.Abs(projectile.velocity.X))
+                t = Main.tile[p.X, --p.Y];
+
+            // Under no circumstances can falling sand destroy minecart tracks.
+            if (!t.active() && t.type != TileID.MinecartTrack)
+            {
+                WorldGen.PlaceTile(p.X, p.Y, ModContent.TileType<AstralSand>(), false, true);
+                WorldGen.SquareTileFrame(p.X, p.Y);
             }
         }
 

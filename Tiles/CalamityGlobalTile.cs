@@ -117,12 +117,14 @@ namespace CalamityMod.Tiles
             // Helper function to shatter crystals attached to neighboring solid tiles.
             void CheckShatterCrystal(int xPos, int yPos)
             {
+                if (xPos < 0 || xPos >= Main.maxTilesX || yPos < 0 || yPos >= Main.maxTilesY)
+                    return;
                 Tile t = Main.tile[xPos, yPos];
                 if (t != null && t.active() && (t.type == ModContent.TileType<LumenylCrystals>() || (t.type == ModContent.TileType<SeaPrismCrystals>() && CalamityWorld.downedDesertScourge)))
                 {
                     WorldGen.KillTile(xPos, yPos, false, false, false);
                     if (!Main.tile[xPos, yPos].active() && Main.netMode != NetmodeID.SinglePlayer)
-                        NetMessage.SendData(17, -1, -1, null, 0, (float)xPos, (float)yPos, 0f, 0, 0, 0);
+                        NetMessage.SendData(17, -1, -1, null, 0, xPos, yPos, 0f, 0, 0, 0);
                 }
             }
 			
