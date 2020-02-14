@@ -5629,7 +5629,6 @@ namespace CalamityMod.CalPlayer
         {
             if (camper && ((double)Math.Abs(player.velocity.X) > 0.05 || (double)Math.Abs(player.velocity.Y) > 0.05))
             {
-
                 return false;
             }
             return null;
@@ -5639,7 +5638,6 @@ namespace CalamityMod.CalPlayer
         {
             if (camper && ((double)Math.Abs(player.velocity.X) > 0.05 || (double)Math.Abs(player.velocity.Y) > 0.05))
             {
-
                 return false;
             }
             return null;
@@ -9832,9 +9830,14 @@ namespace CalamityMod.CalPlayer
         {
             int light = externalAbyssLight;
             bool underwater = player.IsUnderwater();
+			bool miningHelmet = player.head == ArmorIDs.Head.MiningHelmet;
 
             // The campfire bonus does not apply while in the Abyss.
             if (!ZoneAbyss && (player.HasBuff(BuffID.Campfire) || Main.campfire))
+                light += 1;
+            if (camper) //inherits Campfire
+                light += 1;
+            if (miningHelmet)
                 light += 1;
             if (player.lightOrb)
                 light += 1;
@@ -9854,23 +9857,28 @@ namespace CalamityMod.CalPlayer
                 light += 1;
             if (aquaticEmblem && underwater)
                 light += 1;
-            // arctic diving gear overrides the jellyfish necklace if both are worn
             if (player.arcticDivingGear && underwater)
-                light += 2;
-            else if (jellyfishNecklace && underwater)
+                light += 1;
+            if (jellyfishNecklace && underwater)
                 light += 1;
             if (lumenousAmulet && underwater)
                 light += 2;
             if (shine)
                 light += 2;
+            if (blazingCore)
+                light += 2;
             if (player.redFairy || player.greenFairy || player.blueFairy)
                 light += 2;
             if (babyGhostBell)
                 light += 2;
+            else if (babyGhostBell && !underwater) //for Death caverns
+                light += 1;
             if (player.petFlagDD2Ghost)
                 light += 2;
             if (sirenPet && underwater)
                 light += 3;
+            else if (sirenPet && !underwater) //for Death caverns
+                light += 1;
             if (player.wisp)
                 light += 3;
             if (player.suspiciouslookingTentacle)
