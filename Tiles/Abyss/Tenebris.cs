@@ -52,40 +52,43 @@ namespace CalamityMod.Tiles.Abyss
 
         public override void RandomUpdate(int i, int j)
         {
-            if (NPC.downedPlantBoss || CalamityWorld.downedCalamitas)
-            {
-                int random = WorldGen.genRand.Next(4);
-                if (random == 0)
-                {
-                    i++;
-                }
-                if (random == 1)
-                {
-                    i--;
-                }
-                if (random == 2)
-                {
-                    j++;
-                }
-                if (random == 3)
-                {
-                    j--;
-                }
-                if (Main.tile[i, j] != null)
-                {
-                    if (Main.tile[i, j].active())
-                    {
-                        if (Main.tile[i, j].type == ModContent.TileType<PlantyMush>() && WorldGen.genRand.Next(5) == 0 && !Main.tile[i, j].lava())
-                        {
-                            Main.tile[i, j].type = (ushort)ModContent.TileType<Tenebris>();
-                            WorldGen.SquareTileFrame(i, j, true);
-                            if (Main.netMode == 2)
-                            {
-                                NetMessage.SendTileSquare(-1, i, j, 1, TileChangeType.None);
-                            }
-                        }
-                    }
-                }
+            if (Main.rand.NextBool(5))
+			{
+				if (NPC.downedPlantBoss || CalamityWorld.downedCalamitas)
+				{
+					int random = WorldGen.genRand.Next(4);
+					if (random == 0)
+					{
+						i++;
+					}
+					if (random == 1)
+					{
+						i--;
+					}
+					if (random == 2)
+					{
+						j++;
+					}
+					if (random == 3)
+					{
+						j--;
+					}
+					if (Main.tile[i, j] != null)
+					{
+						if (Main.tile[i, j].active())
+						{
+							if (Main.tile[i, j].type == ModContent.TileType<PlantyMush>() && !Main.tile[i, j].lava())
+							{
+								Main.tile[i, j].type = (ushort)ModContent.TileType<Tenebris>();
+								WorldGen.SquareTileFrame(i, j, true);
+								if (Main.netMode == 2)
+								{
+									NetMessage.SendTileSquare(-1, i, j, 1, TileChangeType.None);
+								}
+							}
+						}
+					}
+				}
             }
         }
 
