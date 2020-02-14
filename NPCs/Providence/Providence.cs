@@ -438,7 +438,15 @@ namespace CalamityMod.NPCs.Providence
 				if (phaseChange > 14)
 					phaseChange = 0;
 
-				int phase = 0; // 0 = blasts 1 = holy fire 2 = shell heal 3 = molten blobs 4 = holy bombs 5 = shell spears 6 = crystal 7 = laser
+				int phase = 0;
+				/* 0 = blasts
+				 * 1 = holy fire
+				 * 2 = shell heal
+				 * 3 = molten blobs
+				 * 4 = holy bombs
+				 * 5 = shell spears
+				 * 6 = crystal
+				 * 7 = laser */
 
 				// Holy ray in hallow, Crystal in hell
 				bool useLaser = (phase2 && biomeType == 1) || CalamityWorld.bossRushActive;
@@ -450,7 +458,7 @@ namespace CalamityMod.NPCs.Providence
 					switch (phaseChange)
 					{
 						case 0:
-							phase = 4;
+							phase = 3;
 							break; // 1575 or 1500
 						case 1:
 							phase = 5;
@@ -459,22 +467,16 @@ namespace CalamityMod.NPCs.Providence
 							phase = 0;
 							break; // 2175 or 2100
 						case 3:
-							phase = useCrystal ? 6 : 1;
+							phase = useCrystal ? 6 : 3;
 							break;
 						case 4:
-							phase = 2;
+							phase = useCrystal ? 3 : 2;
 							break; // 600
 						case 5:
-							phase = 4;
+							phase = useCrystal ? 2 : 1;
 							break; // 900
 						case 6:
-							phase = 1;
-							break; // 1200
-						case 7:
-							phase = 5;
-							break; // 1500
-						case 8:
-							phase = useLaser ? 7 : 3; // 1875 or 1800
+							phase = useLaser ? 7 : 4; // 1875 or 1800
 							if (useLaser)
 							{
 								npc.TargetClosest(false);
@@ -490,15 +492,21 @@ namespace CalamityMod.NPCs.Providence
 								npc.localAI[0] = v3.ToRotation();
 								npc.localAI[1] = num1219;
 							}
+							break; // 1200
+						case 7:
+							phase = useLaser ? 4 : 3;
+							break; // 1500
+						case 8:
+							phase = useLaser ? 3 : 5;
 							break;
 						case 9:
-							phase = 3;
+							phase = 0;
 							break; // 2175 or 2100
 						case 10:
 							phase = useCrystal ? 6 : 2;
 							break;
 						case 11:
-							phase = 4;
+							phase = 3;
 							break; // 300
 						case 12:
 							phase = useLaser ? 7 : 4; // 675 or 600
@@ -522,7 +530,7 @@ namespace CalamityMod.NPCs.Providence
 							phase = 5;
 							break; // 975 or 900
 						case 14:
-							phase = 0;
+							phase = useLaser ? 4 : 0;
 							break; // 1275 or 1200
 						default:
 							break;
@@ -554,10 +562,10 @@ namespace CalamityMod.NPCs.Providence
 							}
 							break;
 						case 2:
-							phase = 3;
+							phase = 4;
 							break; // 4050 or 3900
 						case 3:
-							phase = 4;
+							phase = 3;
 							break; // 4350 or 4200
 						case 4:
 							phase = 5;
@@ -566,13 +574,13 @@ namespace CalamityMod.NPCs.Providence
 							phase = useCrystal ? 6 : 4;
 							break;
 						case 6:
-							phase = 3;
+							phase = 1;
 							break; // 300
 						case 7:
-							phase = 1;
+							phase = 0;
 							break; // 600
 						case 8:
-							phase = 0;
+							phase = 3;
 							break; // 900
 						case 9:
 							phase = 2;
@@ -599,10 +607,10 @@ namespace CalamityMod.NPCs.Providence
 							}
 							break;
 						case 12:
-							phase = 3;
+							phase = 1;
 							break; // 2475 or 2400
 						case 13:
-							phase = 1;
+							phase = 3;
 							break; // 2775 or 2700
 						case 14:
 							phase = 5;

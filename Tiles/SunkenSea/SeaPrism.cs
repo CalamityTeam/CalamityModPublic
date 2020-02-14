@@ -46,7 +46,7 @@ namespace CalamityMod.Tiles.SunkenSea
 
         public override void RandomUpdate(int i, int j)
         {
-            if (Main.rand.Next(25) == 0)
+            if (Main.rand.NextBool(25))
             {
                 int random = WorldGen.genRand.Next(4);
                 if (random == 0)
