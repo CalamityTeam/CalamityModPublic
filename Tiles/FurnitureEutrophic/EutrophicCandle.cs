@@ -49,5 +49,19 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
         {
             CalamityUtils.LightHitWire(Type, i, j, 1, 1);
         }
+
+        public override void MouseOver(int i, int j)
+        {
+            Player player = Main.LocalPlayer;
+            player.noThrow = 2;
+            player.showItemIcon = true;
+            player.showItemIcon2 = ModContent.ItemType<Items.Placeables.FurnitureEutrophic.EutrophicCandle>();
+        }
+
+        public override bool NewRightClick(int i, int j)
+        {
+            CalamityUtils.RightClickBreak(i, j);
+            return true;
+        }
     }
 }

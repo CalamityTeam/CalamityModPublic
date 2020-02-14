@@ -65,21 +65,17 @@ namespace CalamityMod.Tiles.FurnitureAbyss
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            long coordCombo = (long)i << 32 | (long)j;
-            ulong randSeed = Main.TileFrameSeed ^ (ulong)coordCombo;
-            Color color = new Color(100, 100, 100, 0);
-            int frameX = Main.tile[i, j].frameX;
-            int frameY = Main.tile[i, j].frameY;
-            Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
-            if (Main.drawToScreen)
-            {
-                zero = Vector2.Zero;
-            }
-            for (int k = 0; k < 7; k++)
-            {
-                float x = (float)Utils.RandomInt(ref randSeed, -10, 11) * 0.15f;
-                float y = (float)Utils.RandomInt(ref randSeed, -10, 1) * 0.35f;
-            }
+            CalamityUtils.DrawFlameEffect(ModContent.GetTexture("CalamityMod/Tiles/FurnitureAbyss/AbyssTorchFlame"), i, j);
+        }
+        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
+        {
+            CalamityUtils.DrawFlameSparks(187, 5, i, j);
+        }
+
+        public override bool NewRightClick(int i, int j)
+        {
+            CalamityUtils.RightClickBreak(i, j);
+            return true;
         }
     }
 }

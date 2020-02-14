@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.FurnitureAncient
@@ -28,6 +29,20 @@ namespace CalamityMod.Tiles.FurnitureAncient
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
             Item.NewItem(i * 16, j * 16, 48, 48, ModContent.ItemType<Items.Placeables.FurnitureAncient.AncientChandelier>());
+        }
+
+        public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
+        {
+            CalamityUtils.DrawFlameEffect(ModContent.GetTexture("CalamityMod/Tiles/FurnitureAncient/AncientChandelierFlame"), i, j);
+        }
+
+        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
+        {
+            Tile tile = Main.tile[i, j];
+            if (tile.frameX == 18 && tile.frameY == 36)
+            {
+                CalamityUtils.DrawFlameSparks(60, 5, i, j);
+            }
         }
     }
 }

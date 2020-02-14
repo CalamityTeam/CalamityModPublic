@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -8,6 +9,7 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
 {
     class AshenAltar : ModTile
     {
+        int animationFrame = 0;
         public override void SetDefaults()
         {
             Main.tileLighted[Type] = true;
@@ -42,6 +44,7 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
             if (frameCounter >= 6)
             {
                 frame = (frame + 1) % 6;
+                animationFrame = frame;
                 frameCounter = 0;
             }
         }
@@ -56,6 +59,20 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
             Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<Items.Placeables.Furniture.CraftingStations.AshenAltar>());
+        }
+
+        public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
+        {
+            CalamityUtils.DrawStaticFlameEffect(ModContent.GetTexture("CalamityMod/Tiles/Furniture/CraftingStations/AshenAltarFlame"), i, j, offsetY: animationFrame * animationFrameHeight);
+        }
+
+        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
+        {
+            Tile tile = Main.tile[i, j];
+            if (tile.frameX == 18 && tile.frameY == 18)
+            {
+                CalamityUtils.DrawFlameSparks(60, 5, i, j);
+            }
         }
     }
 }

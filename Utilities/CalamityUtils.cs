@@ -539,6 +539,73 @@ namespace CalamityMod
             }
         }
 
+        public static void DrawFlameEffect(Texture2D flameTexture, int i, int j, int offsetX = 0, int offsetY = 0)
+        {
+            Tile tile = Main.tile[i, j];
+            Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
+
+            int width = 16;
+            int height = 16;
+            int yOffset = TileObjectData.GetTileData(tile).DrawYOffset;
+
+            ulong num190 = Main.TileFrameSeed ^ (ulong)((long)j << 32 | (long)(uint)i);
+
+            for (int c = 0; c < 7; c++)
+            {
+                float shakeX = Utils.RandomInt(ref num190, -10, 11) * 0.15f;
+                float shakeY = Utils.RandomInt(ref num190, -10, 1) * 0.35f;
+                Main.spriteBatch.Draw(flameTexture, new Vector2(i * 16 - (int)Main.screenPosition.X - (width - 16f) / 2f + shakeX, j * 16 - (int)Main.screenPosition.Y + shakeY + yOffset) + zero, new Rectangle(tile.frameX + offsetX, tile.frameY + offsetY, width, height), new Color(100, 100, 100, 0), 0f, default(Vector2), 1f, SpriteEffects.None, 0f);
+            }
+        }
+
+        public static void DrawStaticFlameEffect(Texture2D flameTexture, int i, int j, int offsetX = 0, int offsetY = 0)
+        {
+            int xPos = Main.tile[i, j].frameX;
+            int yPos = Main.tile[i, j].frameY;
+            Color drawColour = new Color(100, 100, 100, 0);
+            Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
+            Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
+            for (int x = -1; x < 2; x++)
+            {
+                for (int y = -1; y < 2; y++)
+                {
+                    Vector2 flameOffset = new Vector2(x, y).SafeNormalize(Vector2.Zero);
+                    flameOffset *= 1.5f;
+                    Main.spriteBatch.Draw(flameTexture, drawOffset + flameOffset, new Rectangle?(new Rectangle(xPos + offsetX, yPos + offsetY, 18, 18)), drawColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                }
+            }
+        }
+
+        public static void DrawFlameSparks(int dustType, int rarity, int i, int j)
+        {
+            Tile tile = Main.tile[i, j];
+            if (!Main.gamePaused && Main.instance.IsActive && (!Lighting.UpdateEveryFrame || Main.rand.NextBool(4)))
+            {
+                if (Main.rand.NextBool(rarity))
+                {
+                    int dust = Dust.NewDust(new Vector2(i * 16 + 4, j * 16 + 2), 4, 4, dustType, 0f, 0f, 100, default(Color), 1f);
+                    if (Main.rand.Next(3) != 0)
+                    {
+                        Main.dust[dust].noGravity = true;
+                    }
+                    Main.dust[dust].velocity *= 0.3f;
+                    Main.dust[dust].velocity.Y = Main.dust[dust].velocity.Y - 1.5f;
+                }
+            }
+        }
+
+        public static void DrawItemFlame(Texture2D flameTexture, Item item)
+        {
+            int width = flameTexture.Width;
+            int height = flameTexture.Height;
+            for (int c = 0; c < 7; c++)
+            {
+                float shakeX = Main.rand.Next(-10, 11) * 0.15f;
+                float shakeY = Main.rand.Next(-10, 1) * 0.35f;
+                Main.spriteBatch.Draw(flameTexture, new Vector2(item.position.X - Main.screenPosition.X + item.width * 0.5f + shakeX, item.position.Y - Main.screenPosition.Y + item.height - flameTexture.Height * 0.5f + 2f + shakeY), new Rectangle(0, 0, width, height), new Color(100, 100, 100, 0), 0f, default(Vector2), 1f, SpriteEffects.None, 0f);
+            }
+        }
+
         #region Tile Merge Utilities
         /// <summary>
         /// Sets the mergeability state of two tiles. By default, enables tile merging.
@@ -764,6 +831,18 @@ namespace CalamityMod
         #endregion
 
         #region Furniture Interaction
+        public static void RightClickBreak(int i, int j)
+        {
+            if (Main.tile[i, j] != null && Main.tile[i, j].active())
+            {
+                WorldGen.KillTile(i, j, false, false, false);
+                if (!Main.tile[i, j].active() && Main.netMode != NetmodeID.SinglePlayer)
+                {
+                    NetMessage.SendData(17, -1, -1, null, 0, (float)i, (float)j, 0f, 0, 0, 0);
+                }
+            }
+        }
+
         public static bool BedRightClick(int i, int j)
         {
             Player player = Main.LocalPlayer;
@@ -1395,6 +1474,7 @@ namespace CalamityMod
             TileObjectData.newTile.CopyFrom(TileObjectData.StyleOnTable1x1);
             TileObjectData.newTile.CoordinateHeights = new int[] { 20 };
             TileObjectData.newTile.LavaDeath = !lavaImmune;
+            TileObjectData.newTile.DrawYOffset = -4;
             TileObjectData.addTile(mt.Type);
 
             // All candles count as light sources.

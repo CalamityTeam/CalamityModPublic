@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -53,6 +54,11 @@ namespace CalamityMod.Tiles.FurnitureStatigel
         public override void HitWire(int i, int j)
         {
             CalamityUtils.LightHitWire(Type, i, j, 1, 3);
+        }
+
+        public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
+        {
+            CalamityUtils.DrawFlameEffect(ModContent.GetTexture("CalamityMod/Tiles/FurnitureStatigel/StatigelLampFlame"), i, j);
         }
     }
 }
