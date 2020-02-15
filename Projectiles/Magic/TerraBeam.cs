@@ -40,7 +40,8 @@ namespace CalamityMod.Projectiles.Magic
                     int num448 = Dust.NewDust(vector33, 1, 1, 107, 0f, 0f, 0, default, 1.25f);
                     Main.dust[num448].position = vector33;
                     Main.dust[num448].scale = (float)Main.rand.Next(70, 110) * 0.013f;
-                }
+					Main.dust[num448].velocity *= 0.1f;
+				}
             }
         }
 

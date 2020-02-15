@@ -59,7 +59,8 @@ namespace CalamityMod.Projectiles.Magic
                     Main.dust[num448].noGravity = true;
                     Main.dust[num448].position = vector33;
                     Main.dust[num448].scale = (float)Main.rand.Next(70, 110) * 0.013f;
-                }
+					Main.dust[num448].velocity *= 0.1f;
+				}
             }
 
             if (counter)

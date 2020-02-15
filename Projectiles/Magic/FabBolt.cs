@@ -22,9 +22,13 @@ namespace CalamityMod.Projectiles.Magic
 
 		public override void AI()
 		{
-			int num448 = Dust.NewDust(projectile.position, 1, 1, 234, 0f, 0f, 0, default, 1.25f);
+			Vector2 vector33 = projectile.position;
+			vector33 -= projectile.velocity * 0.25f;
+			int num448 = Dust.NewDust(vector33, 1, 1, 234, 0f, 0f, 0, default, 1.25f);
+			Main.dust[num448].position = vector33;
 			Main.dust[num448].noGravity = true;
 			Main.dust[num448].scale = (float)Main.rand.Next(70, 110) * 0.013f;
+			Main.dust[num448].velocity *= 0.1f;
 		}
     }
 }
