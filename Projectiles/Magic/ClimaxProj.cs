@@ -27,8 +27,8 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-            projectile.velocity.X *= 0.98f;
-            projectile.velocity.Y *= 0.98f;
+            projectile.velocity *= 0.96f;
+
             if (projectile.velocity.X > 0f)
             {
                 projectile.rotation += (Math.Abs(projectile.velocity.Y) + Math.Abs(projectile.velocity.X)) * 0.001f;
@@ -37,6 +37,7 @@ namespace CalamityMod.Projectiles.Magic
             {
                 projectile.rotation -= (Math.Abs(projectile.velocity.Y) + Math.Abs(projectile.velocity.X)) * 0.001f;
             }
+
             projectile.frameCounter++;
             if (projectile.frameCounter > 6)
             {
@@ -47,64 +48,8 @@ namespace CalamityMod.Projectiles.Magic
                     projectile.frame = 0;
                 }
             }
-            if (Math.Sqrt((double)(projectile.velocity.X * projectile.velocity.X + projectile.velocity.Y * projectile.velocity.Y)) > 2.0)
-            {
-                projectile.velocity *= 0.98f;
-            }
 
-			int[] array = new int[20];
-			int num428 = 0;
-			float distance = 400f;
-			bool flag14 = false;
-			for (int num430 = 0; num430 < 200; num430++)
-			{
-				if (Main.npc[num430].CanBeChasedBy(projectile, false))
-				{
-					float extraDistance = (float)(Main.npc[num430].width / 2) + (float)(Main.npc[num430].height / 2);
-
-					bool useCollisionDetection = extraDistance < distance;
-					bool canHit = true;
-					if (useCollisionDetection)
-						canHit = Collision.CanHit(projectile.Center, 1, 1, Main.npc[num430].Center, 1, 1);
-
-					if (Vector2.Distance(Main.npc[num430].Center, projectile.Center) < (distance + extraDistance) && canHit)
-					{
-						if (num428 < 20)
-						{
-							array[num428] = num430;
-							num428++;
-						}
-						flag14 = true;
-					}
-				}
-			}
-
-			if (projectile.timeLeft < 30)
-            {
-                flag14 = false;
-            }
-            if (flag14)
-            {
-                int num440 = Main.rand.Next(num428);
-                num440 = array[num440];
-                float num441 = Main.npc[num440].position.X + (float)(Main.npc[num440].width / 2);
-                float num442 = Main.npc[num440].position.Y + (float)(Main.npc[num440].height / 2);
-                projectile.localAI[0] += 1f;
-                if (projectile.localAI[0] > 4f)
-                {
-                    projectile.localAI[0] = 0f;
-                    float num443 = 8f;
-                    Vector2 vector33 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
-                    vector33 += projectile.velocity * 4f;
-                    float num444 = num441 - vector33.X;
-                    float num445 = num442 - vector33.Y;
-                    float num446 = (float)Math.Sqrt((double)(num444 * num444 + num445 * num445));
-                    num446 = num443 / num446;
-                    num444 *= num446;
-                    num445 *= num446;
-                    Projectile.NewProjectile(vector33.X, vector33.Y, num444, num445, ModContent.ProjectileType<ClimaxBeam>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-                }
-            }
+			CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 400f, 8f, 4f, 5, ModContent.ProjectileType<ClimaxBeam>());
         }
 
         public override Color? GetAlpha(Color lightColor)

@@ -79,6 +79,7 @@ namespace CalamityMod.Projectiles.Magic
                 num373 = projectile.position.X + (float)(projectile.width / 2) + projectile.velocity.X * 100f;
                 num374 = projectile.position.Y + (float)(projectile.height / 2) + projectile.velocity.Y * 100f;
             }
+
             float num380 = 6f;
             float num381 = 0.1f;
             Vector2 vector30 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);

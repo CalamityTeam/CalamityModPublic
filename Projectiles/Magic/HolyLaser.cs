@@ -29,9 +29,6 @@ namespace CalamityMod.Projectiles.Magic
             projectile.localAI[0] += 1f;
             if (projectile.localAI[0] > 9f)
             {
-                Vector2 vector33 = projectile.position;
-                vector33 -= projectile.velocity * 0.25f;
-                projectile.alpha = 255;
                 int num249 = Main.rand.Next(2);
                 if (num249 == 0)
                 {
@@ -41,10 +38,8 @@ namespace CalamityMod.Projectiles.Magic
                 {
                     num249 = 246;
                 }
-                int num448 = Dust.NewDust(vector33, 1, 1, num249, 0f, 0f, 0, default, 0.25f);
-                Main.dust[num448].position = vector33;
+                int num448 = Dust.NewDust(projectile.position, 1, 1, num249, 0f, 0f, 0, default, 0.25f);
                 Main.dust[num448].scale = (float)Main.rand.Next(70, 110) * 0.013f;
-                Main.dust[num448].velocity *= 0.2f;
             }
         }
 
