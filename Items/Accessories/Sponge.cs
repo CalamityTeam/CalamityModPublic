@@ -47,7 +47,6 @@ namespace CalamityMod.Items.Accessories
             modPlayer.absorber = true;
             modPlayer.aAmpoule = true;
             player.statManaMax2 += 20;
-            modPlayer.lightStrength++;
         }
 
         public override void AddRecipes()

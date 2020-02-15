@@ -1,5 +1,6 @@
 using CalamityMod.Dusts.Furniture;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -50,6 +51,30 @@ namespace CalamityMod.Tiles.FurnitureProfaned
         public override void HitWire(int i, int j)
         {
             CalamityUtils.LightHitWire(Type, i, j, 1, 1);
+        }
+
+        public override void MouseOver(int i, int j)
+        {
+            Player player = Main.LocalPlayer;
+            player.noThrow = 2;
+            player.showItemIcon = true;
+            player.showItemIcon2 = ModContent.ItemType<Items.Placeables.FurnitureProfaned.ProfanedCandle>();
+        }
+
+        public override bool NewRightClick(int i, int j)
+        {
+            CalamityUtils.RightClickBreak(i, j);
+            return true;
+        }
+
+        public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
+        {
+            CalamityUtils.DrawFlameEffect(ModContent.GetTexture("CalamityMod/Tiles/FurnitureProfaned/ProfanedCandleFlame"), i, j);
+        }
+
+        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
+        {
+            CalamityUtils.DrawFlameSparks(246, 5, i, j);
         }
     }
 }
