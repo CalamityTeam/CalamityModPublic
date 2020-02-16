@@ -233,7 +233,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 if (Roxcooldown >= 600)
                 {
                     Roxcooldown = 0;
-                    //"Why yes i did refresh the cooldown whatcha gonna do about it?" -cpntinues on OnHitNPC
+                    //"Why yes i did refresh the cooldown whatcha gonna do about it?" -continues on OnHitNPC
                     Didrefresh = true;
                 }
                 return false;
@@ -257,18 +257,21 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             if (item.useStyle == 4)
             {
-                //"Well you did refresh the cooldown but like i dont want it to be wasted on an enemy hit so imma ask you for a refund"
-                if (Didrefresh)
-                {
-                    Roxcooldown = 600;
-                    Didrefresh = false;
-                }
-                //End the alt attack
-                player.itemAnimation = 0;
-                player.itemTime = 0;
-                RoxAlt = false;
-                RoxCanUse = 0;
-                player.velocity.Y = -16f;
+				if (player.whoAmI == Main.myPlayer)
+				{
+					//"Well you did refresh the cooldown but like i dont want it to be wasted on a player hit so imma ask you for a refund"
+					if (Didrefresh)
+					{
+						Roxcooldown = 600;
+						Didrefresh = false;
+					}
+					//End the alt attack
+					player.itemAnimation = 0;
+					player.itemTime = 0;
+					RoxAlt = false;
+					RoxCanUse = 0;
+					player.velocity.Y = -16f;
+				}
             }
         }
 
@@ -276,18 +279,21 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             if (item.useStyle == 4)
             {
-                //"Well you did refresh the cooldown but like i dont want it to be wasted on a player hit so imma ask you for a refund"
-                if (Didrefresh)
-                {
-                    Roxcooldown = 600;
-                    Didrefresh = false;
-                }
-                //End the alt attack
-                player.itemAnimation = 0;
-                player.itemTime = 0;
-                RoxAlt = false;
-                RoxCanUse = 0;
-                player.velocity.Y = -16f;
+				if (player.whoAmI == Main.myPlayer)
+				{
+					//"Well you did refresh the cooldown but like i dont want it to be wasted on a player hit so imma ask you for a refund"
+					if (Didrefresh)
+					{
+						Roxcooldown = 600;
+						Didrefresh = false;
+					}
+					//End the alt attack
+					player.itemAnimation = 0;
+					player.itemTime = 0;
+					RoxAlt = false;
+					RoxCanUse = 0;
+					player.velocity.Y = -16f;
+				}
             }
         }
     }

@@ -25,10 +25,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.meleeCrit += 3;
-            player.magicCrit += 3;
-            player.rangedCrit += 3;
-            player.Calamity().throwingCrit += 3;
+            player.Calamity().AllCritBoost(3);
         }
 
         public override void AddRecipes()
