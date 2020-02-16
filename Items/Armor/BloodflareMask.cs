@@ -13,7 +13,8 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Bloodflare Mask");
             Tooltip.SetDefault("You can move freely through liquids and have temporary immunity to lava\n" +
-                "10% increased melee damage and critical strike chance");
+                "10% increased melee damage and critical strike chance\n" +
+				"Provides heat protection in Death Mode");
         }
 
         public override void SetDefaults()

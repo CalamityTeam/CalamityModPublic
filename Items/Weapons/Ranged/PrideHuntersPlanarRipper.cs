@@ -45,7 +45,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override Vector2? HoldoutOffset()
         {
-            return new Vector2(-10, -5);
+            return new Vector2(-12, -6);
         }
 
         public override bool ConsumeAmmo(Player player)

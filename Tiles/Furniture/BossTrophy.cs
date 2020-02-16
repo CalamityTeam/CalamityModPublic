@@ -1,6 +1,7 @@
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -21,6 +22,7 @@ namespace CalamityMod.Tiles.Furniture
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Trophy");
             AddMapEntry(new Color(120, 85, 60), name);
+			TileID.Sets.FramesOnKillWall[Type] = true;
         }
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)

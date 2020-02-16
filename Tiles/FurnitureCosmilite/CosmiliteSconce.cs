@@ -31,6 +31,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
             animationFrameHeight = 54;
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Torches };
+			TileID.Sets.FramesOnKillWall[Type] = true;
         }
 
         public override bool CreateDust(int i, int j, ref int type)

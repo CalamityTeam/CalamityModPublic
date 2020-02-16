@@ -17,7 +17,8 @@ namespace CalamityMod.Items.Accessories
                 "Increased invincibility after taking damage\n" +
                 "Temporary immunity to lava\n" +
                 "Increased melee knockback\n" +
-                "Melee attacks have a chance to instantly kill normal enemies");
+                "Melee attacks have a chance to instantly kill normal enemies\n" +
+				"Provides heat and cold protection in Death Mode");
         }
 
         public override void SetDefaults()

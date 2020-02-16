@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 2.355f;
             if (projectile.spriteDirection == -1)
             {
-                projectile.rotation -= 1.57f;
+                projectile.rotation -= MathHelper.PiOver2;
             }
             if (projectile.ai[0] == 1f)
             {
@@ -41,30 +41,31 @@ namespace CalamityMod.Projectiles.Rogue
                 float num473 = projectile.Center.Y;
                 float num474 = projectile.Calamity().stealthStrike ? 1800f : 600f;
                 float homingSpeed = 0.25f;
-                for (int num475 = 0; num475 < 200; num475++)
+                for (int num475 = 0; num475 < Main.npc.Length; num475++)
                 {
-                    if (Main.npc[num475].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[num475].Center, 1, 1) && !Main.npc[num475].boss)
+					NPC npc = Main.npc[num475];
+                    if (npc.CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, npc.Center, 1, 1) && !npc.boss)
                     {
-                        float num476 = Main.npc[num475].position.X + (float)(Main.npc[num475].width / 2);
-                        float num477 = Main.npc[num475].position.Y + (float)(Main.npc[num475].height / 2);
+                        float num476 = npc.position.X + (float)(npc.width / 2);
+                        float num477 = npc.position.Y + (float)(npc.height / 2);
                         float num478 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num476) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num477);
                         if (num478 < num474)
                         {
-                            if (Main.npc[num475].position.X < num472)
+                            if (npc.position.X < num472)
                             {
-                                Main.npc[num475].velocity.X += homingSpeed;
+                                npc.velocity.X += homingSpeed;
                             }
                             else
                             {
-                                Main.npc[num475].velocity.X -= homingSpeed;
+                                npc.velocity.X -= homingSpeed;
                             }
-                            if (Main.npc[num475].position.Y < num473)
+                            if (npc.position.Y < num473)
                             {
-                                Main.npc[num475].velocity.Y += homingSpeed;
+                                npc.velocity.Y += homingSpeed;
                             }
                             else
                             {
-                                Main.npc[num475].velocity.Y -= homingSpeed;
+                                npc.velocity.Y -= homingSpeed;
                             }
                         }
                     }
@@ -73,7 +74,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.ai[1] += 1f;
             if (projectile.ai[1] == 25f)
             {
-                int numProj = projectile.Calamity().stealthStrike ? 6 : 3;
+                int numProj = projectile.Calamity().stealthStrike ? 5 : 3;
                 float rotation = MathHelper.ToRadians(50);
                 if (projectile.owner == Main.myPlayer)
                 {
@@ -86,12 +87,12 @@ namespace CalamityMod.Projectiles.Rogue
                         }
                         speed.Normalize();
                         speed *= (float)Main.rand.Next(30, 61) * 0.1f * 2.5f;
-                        int stabber2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, speed.X, speed.Y, ModContent.ProjectileType<RadiantStar2>(), projectile.damage, projectile.knockBack, projectile.owner,
+                        int stabber2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, speed.X, speed.Y, ModContent.ProjectileType<RadiantStar2>(), (int)(projectile.damage * 0.75f), projectile.knockBack, projectile.owner,
                             projectile.ai[0] == 1f ? 1f : 0f, 0f);
                         Main.projectile[stabber2].Calamity().stealthStrike = projectile.Calamity().stealthStrike;
                     }
                     Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
-                    int boomer = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<RadiantExplosion>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                    int boomer = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<RadiantExplosion>(), (int)(projectile.damage * 0.8f), projectile.knockBack, projectile.owner, 0f, 0f);
                     Main.projectile[boomer].Calamity().stealthStrike = projectile.Calamity().stealthStrike;
                     projectile.active = false;
                 }

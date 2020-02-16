@@ -55,7 +55,7 @@ namespace CalamityMod.Items.Weapons.Summon
             recipe.anyWood = true;
             recipe.AddIngredient(ItemID.Acorn);
             recipe.AddTile(TileID.WorkBenches);
-            recipe.SetResult(this, 15);
+            recipe.SetResult(this);
             recipe.AddRecipe();
         }
     }

@@ -54,7 +54,8 @@ namespace CalamityMod.Items.Armor
                 "Rogue stealth builds while not attacking and not moving, up to a max of 125\n" +
                 "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
                 "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
-                "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
+                "The higher your rogue stealth the higher your rogue damage, crit, and movement speed\n" +
+				"Provides cold protection in Death Mode";
         }
 
         public override void UpdateEquip(Player player)
@@ -69,7 +70,7 @@ namespace CalamityMod.Items.Armor
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 5);
             recipe.AddIngredient(ModContent.ItemType<EffulgentFeather>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
+            recipe.AddRecipeGroup("AnyGoldBar", 5);
             recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 6);
             recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 14);
             recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 14);

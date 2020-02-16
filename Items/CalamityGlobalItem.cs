@@ -785,7 +785,8 @@ namespace CalamityMod.Items
                     if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
                     {
                         line2.text = "Reduces damage from cold sources\n" +
-                            "Makes you immune to the Chilled, Frozen, and Glacial State debuffs";
+                            "Makes you immune to the Chilled, Frozen, and Glacial State debuffs\n" +
+							"Provides cold protection in Death Mode";
                     }
                 }
             }
@@ -805,7 +806,8 @@ namespace CalamityMod.Items
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
                     {
-                        line2.text = "14% increased melee damage and speed";
+                        line2.text = "14% increased melee damage and speed\n" +
+							"Provides heat and cold protection in Death Mode";
                     }
                 }
             }
@@ -827,7 +829,8 @@ namespace CalamityMod.Items
                     {
                         line2.text = "Provides immunity to direct damage from touching lava\n" +
                             "Provides temporary immunity to lava burn damage\n" +
-                            "Reduces lava burn damage";
+                            "Reduces lava burn damage\n" +
+							"Provides heat protection in Death Mode";
                     }
                 }
             }
@@ -838,7 +841,41 @@ namespace CalamityMod.Items
                     if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
                     {
                         line2.text = "Reduced direct damage from touching lava\n" +
-                            "Greatly reduces lava burn damage";
+                            "Greatly reduces lava burn damage\n" +
+							"Provides heat protection in Death Mode";
+                    }
+                }
+            }
+            if (item.type == ItemID.MagmaStone)
+            {
+                foreach (TooltipLine line2 in tooltips)
+                {
+                    if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
+                    {
+                        line2.text = "Inflicts fire damage on attack\n" +
+							"Provides heat and cold protection in Death Mode";
+                    }
+                }
+            }
+            if (item.type == ItemID.LavaCharm)
+            {
+                foreach (TooltipLine line2 in tooltips)
+                {
+                    if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
+                    {
+                        line2.text = "Provides 7 seconds of immunity to lava\n" +
+							"Provides heat protection in Death Mode";
+                    }
+                }
+            }
+            if (item.type == ItemID.LavaWaders)
+            {
+                foreach (TooltipLine line2 in tooltips)
+                {
+                    if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
+                    {
+                        line2.text = "Grants immunity to fire blocks and 7 seconds of immunity to lava\n" +
+							"Provides heat protection in Death Mode";
                     }
                 }
             }
@@ -1016,7 +1053,7 @@ namespace CalamityMod.Items
                     if (line2.mod == "Terraria" && line2.Name == "Defense")
                     {
                         line2.text = "4 defense\n" +
-                            "5% increased rogue damage";
+                            "3% increased rogue damage";
                     }
                 }
             }
@@ -1027,7 +1064,7 @@ namespace CalamityMod.Items
                     if (line2.mod == "Terraria" && line2.Name == "Defense")
                     {
                         line2.text = "7 defense\n" +
-                            "5% increased rogue critical strike chance";
+                            "3% increased rogue critical strike chance";
                     }
                 }
             }
@@ -1038,7 +1075,7 @@ namespace CalamityMod.Items
                     if (line2.mod == "Terraria" && line2.Name == "Defense")
                     {
                         line2.text = "5 defense\n" +
-                            "5% increased rogue velocity";
+                            "3% increased rogue velocity";
                     }
                 }
             }
@@ -1049,7 +1086,7 @@ namespace CalamityMod.Items
                     if (line2.mod == "Terraria" && line2.Name == "Defense")
                     {
                         line2.text = "4 defense\n" +
-                            "5% increased rogue damage";
+                            "3% increased rogue damage";
                     }
                 }
             }
@@ -1060,7 +1097,7 @@ namespace CalamityMod.Items
                     if (line2.mod == "Terraria" && line2.Name == "Defense")
                     {
                         line2.text = "5 defense\n" +
-                            "5% increased rogue critical strike chance";
+                            "3% increased rogue critical strike chance";
                     }
                 }
             }
@@ -1071,7 +1108,7 @@ namespace CalamityMod.Items
                     if (line2.mod == "Terraria" && line2.Name == "Defense")
                     {
                         line2.text = "4 defense\n" +
-                            "5% increased rogue velocity";
+                            "3% increased rogue velocity";
                     }
                 }
             }
@@ -1082,7 +1119,19 @@ namespace CalamityMod.Items
                     if (line2.mod == "Terraria" && line2.Name == "SetBonus")
                     {
                         line2.text = @"Set Bonus: 17% extra melee damage
-Grants immunity to fire blocks, and temporary immunity to lava";
+Grants immunity to fire blocks, and temporary immunity to lava
+Provides heat and cold protection in Death Mode";
+                    }
+                }
+            }
+            if (item.type == ItemID.FrostHelmet || item.type == ItemID.FrostBreastplate || item.type == ItemID.FrostLeggings)
+            {
+                foreach (TooltipLine line2 in tooltips)
+                {
+                    if (line2.mod == "Terraria" && line2.Name == "SetBonus")
+                    {
+                        line2.text = @"Set Bonus: Melee and ranged attacks cause frostburn
+Provides heat and cold protection in Death Mode";
                     }
                 }
             }
@@ -2126,6 +2175,8 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 return "Obsidian";
             if (head.type == ItemID.MoltenHelmet && body.type == ItemID.MoltenBreastplate && legs.type == ItemID.MoltenGreaves)
                 return "Molten";
+            if (head.type == (ItemID.EskimoHood | ItemID.PinkEskimoHood) && body.type == (ItemID.EskimoCoat | ItemID.PinkEskimoCoat) && legs.type == (ItemID.EskimoPants | ItemID.PinkEskimoPants))
+                return "Eskimo";
             return "";
         }
 
@@ -2150,14 +2201,14 @@ Grants immunity to fire blocks, and temporary immunity to lava";
             else if (set == "Gladiator")
             {
                 CalamityPlayer modPlayer = player.Calamity();
-                modPlayer.rogueStealthMax += 1f;
+                modPlayer.rogueStealthMax += 0.7f;
                 modPlayer.wearingRogueArmor = true;
-                player.Calamity().throwingDamage += 0.1f;
+                player.Calamity().throwingDamage += 0.05f;
                 player.Calamity().throwingVelocity += 0.1f;
                 player.statDefense += 5;
                 player.setBonus = "+5 defense\n" +
-                            "10% increased rogue damage and velocity\n" +
-                            "Rogue stealth builds while not attacking and not moving, up to a max of 100\n" +
+                            "5% increased rogue damage and 10% increased velocity\n" +
+                            "Rogue stealth builds while not attacking and not moving, up to a max of 70\n" +
                             "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
                             "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
                             "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
@@ -2165,7 +2216,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
             else if (set == "Obsidian")
             {
                 CalamityPlayer modPlayer = player.Calamity();
-                modPlayer.rogueStealthMax += 1f;
+                modPlayer.rogueStealthMax += 0.8f;
                 modPlayer.wearingRogueArmor = true;
                 player.Calamity().throwingDamage += 0.05f;
                 player.Calamity().throwingCrit += 5;
@@ -2175,15 +2226,20 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 player.setBonus = "+2 defense\n" +
                             "5% increased rogue damage and critical strike chance\n" +
                             "Grants immunity to fire blocks and temporary immunity to lava\n" +
-                            "Rogue stealth builds while not attacking and not moving, up to a max of 100\n" +
+                            "Rogue stealth builds while not attacking and not moving, up to a max of 80\n" +
                             "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
                             "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
-                            "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
+                            "The higher your rogue stealth the higher your rogue damage, crit, and movement speed\n" +
+							"Provides heat protection in Death Mode";
             }
             else if (set == "Molten")
             {
                 player.fireWalk = true;
                 player.lavaMax += 300;
+            }
+            else if (set == "Eskimo" && CalamityWorld.death)
+            {
+                player.setBonus = "Provides cold immunity in Death Mode";
             }
         }
         #endregion
@@ -2201,12 +2257,12 @@ Grants immunity to fire blocks, and temporary immunity to lava";
             if (item.type == ItemID.SpectreHood)
                 player.magicDamage += 0.2f;
             else if (item.type == ItemID.GladiatorHelmet || item.type == ItemID.ObsidianHelm)
-                player.Calamity().throwingDamage += 0.05f;
+                player.Calamity().throwingDamage += 0.03f;
             #endregion
 
             #region Body
             if (item.type == ItemID.GladiatorBreastplate || item.type == ItemID.ObsidianShirt)
-                player.Calamity().throwingCrit += 5;
+                player.Calamity().throwingCrit += 3;
             else if (item.type == ItemID.PalladiumBreastplate)
                 player.Calamity().throwingCrit += 2;
             else if (item.type == ItemID.CobaltBreastplate)
@@ -2225,7 +2281,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
 
             #region Legs
             if (item.type == ItemID.GladiatorLeggings || item.type == ItemID.ObsidianPants)
-                player.Calamity().throwingVelocity += 0.05f;
+                player.Calamity().throwingVelocity += 0.03f;
             else if (item.type == ItemID.PalladiumLeggings)
                 player.Calamity().throwingCrit += 1;
             else if (item.type == ItemID.MythrilGreaves)

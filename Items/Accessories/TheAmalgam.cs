@@ -32,7 +32,8 @@ namespace CalamityMod.Items.Accessories
                                "Summons a fungal clump to fight for you\n" +
                                "You leave behind poisonous seawater as you move\n" +
                                "75% increased movement speed, 10% increase to all damage, and plus 40 defense while submerged in liquid\n" +
-                               "If you are damaged while submerged in liquid you will gain a damaging aura for a short time");
+                               "If you are damaged while submerged in liquid you will gain a damaging aura for a short time\n" +
+							   "Provides heat protection in Death Mode");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(9, 6));
         }
 

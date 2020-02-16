@@ -32,6 +32,7 @@ namespace CalamityMod.Projectiles.Magic
 			projectile.knockBack = 0;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
+			projectile.magic = true;
 		}
 
         public override Color? GetAlpha(Color lightColor)

@@ -49,7 +49,8 @@ namespace CalamityMod.Items.Armor
                 "Your max life will return to normal if you die\n" +
                 "True melee strikes have a 25% chance to do five times damage\n" +
                 "After the silva invincibility is over you will take 20% less contact damage\n" +
-                "Melee projectiles have a 25% chance to stun enemies for a very brief moment";
+                "Melee projectiles have a 25% chance to stun enemies for a very brief moment\n" +
+				"Provides cold protection in Death Mode";
         }
 
         public override void UpdateEquip(Player player)
@@ -63,7 +64,7 @@ namespace CalamityMod.Items.Armor
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 5);
             recipe.AddIngredient(ModContent.ItemType<EffulgentFeather>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
+            recipe.AddRecipeGroup("AnyGoldBar", 5);
             recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 6);
             recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 14);
             recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 14);

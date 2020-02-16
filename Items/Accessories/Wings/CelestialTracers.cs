@@ -24,7 +24,8 @@ namespace CalamityMod.Items.Accessories.Wings
                 "Greater mobility on ice\n" +
                 "Water and lava walking\n" +
                 "Temporary immunity to lava\n" +
-                "Being hit for over 200 damage will make you immune for an extended period of time");
+                "Being hit for over 200 damage will make you immune for an extended period of time\n" +
+				"Provides heat protection in Death Mode");
         }
 
         public override void SetDefaults()

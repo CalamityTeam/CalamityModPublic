@@ -34,6 +34,7 @@ namespace CalamityMod.NPCs.Astral
             npc.DeathSound = SoundID.NPCDeath14;
             banner = npc.type;
             bannerItem = ModContent.ItemType<AstralProbeBanner>();
+            npc.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = true;
             if (CalamityWorld.downedAstrageldon)
             {
                 npc.damage = 30;

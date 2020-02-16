@@ -16,6 +16,7 @@ namespace CalamityMod.Items.Armor
                 "Can move freely through liquids\n" +
                 "5% increased damage reduction\n" +
                 "10% increased melee damage and critical strike chance\n" +
+				"Provides heat protection in Death Mode\n" +
                 "Helm of the disciple of ancients");
         }
 

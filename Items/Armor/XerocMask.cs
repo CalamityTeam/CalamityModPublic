@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Armor
             DisplayName.SetDefault("Xeroc Mask");
             Tooltip.SetDefault("11% increased rogue damage and critical strike chance, 22% increased movement speed\n" +
                 "Temporary immunity to lava and immunity to cursed, fire, cursed inferno, and chilled\n" +
+				"Provides heat protection in Death Mode\n" +
                 "Wrath of the cosmos");
         }
 

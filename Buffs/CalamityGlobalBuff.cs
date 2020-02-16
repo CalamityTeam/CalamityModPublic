@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
@@ -107,9 +108,21 @@ namespace CalamityMod.Buffs
             else if (type == BuffID.CursedInferno && CalamityWorld.revenge)
                 tip += ". All damage taken increased by 20%";
             else if (type == BuffID.Warmth)
+			{
                 tip += ". Immunity to the Chilled, Frozen, and Glacial State debuffs";
+				if (CalamityWorld.death)
+					tip += ". Provides cold protection in Death Mode";
+			}
             else if (type == BuffID.Invisibility)
                 tip += ". Grants rogue bonuses while holding certain rogue weapons";
+			else if (type == BuffID.ObsidianSkin && CalamityWorld.death)
+				tip += ". Provides heat protection in Death Mode";
+			else if (type == BuffID.Inferno && CalamityWorld.death)
+				tip += ". Provides cold protection in Death Mode";
+			else if (type == BuffID.Campfire && CalamityWorld.death)
+				tip += ". Provides cold protection in Death Mode";
+			else if (type == ModContent.BuffType<Molten>() && CalamityWorld.death)
+				tip += ". Provides cold protection in Death Mode";
             else if (type == ModContent.BuffType<ProfanedBabs>())
             {
                 Player player = Main.player[Main.myPlayer];

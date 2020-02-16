@@ -35,6 +35,7 @@ namespace CalamityMod.NPCs.Astral
             animationType = NPCID.BlueSlime;
             banner = npc.type;
             bannerItem = ModContent.ItemType<AstralSlimeBanner>();
+            npc.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = true;
             if (CalamityWorld.downedAstrageldon)
             {
                 npc.damage = 65;

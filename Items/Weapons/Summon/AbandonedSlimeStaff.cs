@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
             item.summon = true;
             item.mana = 40;
-            item.damage = 61;
+            item.damage = 56;
             item.knockBack = 3f;
             item.autoReuse = true;
             item.useTime = 36;
@@ -75,7 +75,7 @@ namespace CalamityMod.Items.Weapons.Summon
                     projectile2.Kill();
                 }
             }
-			float damageMult = ((float)Math.Log(slimeSlots, 5f)) + 1f;
+			float damageMult = ((float)Math.Log(slimeSlots, 8f)) + 1f;
 			float size = ((float)Math.Log(slimeSlots, 10f)) + 1f;
             position = Main.MouseWorld;
             speedX = 0;

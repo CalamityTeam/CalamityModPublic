@@ -22,7 +22,8 @@ namespace CalamityMod.Items.Accessories
                 "Drops brimstone fireballs from the sky occasionally\n" +
                 "15% increase to all damage\n" +
                 "Brimstone fire rains down while invincibility is active\n" +
-                "Temporary immunity to lava, greatly reduces lava burn damage, and 25% increased damage while in lava");
+                "Temporary immunity to lava, greatly reduces lava burn damage, and 25% increased damage while in lava\n" +
+				"Provides heat protection in Death Mode");
         }
 
         public override void SetDefaults()

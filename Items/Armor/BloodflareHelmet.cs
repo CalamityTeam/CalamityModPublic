@@ -13,7 +13,8 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Bloodflare Helmet");
             Tooltip.SetDefault("You can move freely through liquids and have temporary immunity to lava\n" +
-                "+3 max minions");
+                "+3 max minions\n" +
+				"Provides heat protection in Death Mode");
         }
 
         public override void SetDefaults()

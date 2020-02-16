@@ -49,14 +49,6 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 projectile.localAI[1] = 0;
             }
-            
-            Player player = Main.player[Main.myPlayer];
-            Vector2 posDiff = player.Center - projectile.Center;
-            if (posDiff.Length() <= radius)
-            {
-                player.statDefense += 6;
-                player.lifeRegen += 2;
-            }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

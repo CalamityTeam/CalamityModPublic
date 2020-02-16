@@ -13,7 +13,8 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Bloodflare Helm");
             Tooltip.SetDefault("You can move freely through liquids and have temporary immunity to lava\n" +
-                "10% increased rogue damage and critical strike chance, 15% increased movement speed");
+                "10% increased rogue damage and critical strike chance, 15% increased movement speed\n" +
+				"Provides heat protection in Death Mode");
         }
 
         public override void SetDefaults()

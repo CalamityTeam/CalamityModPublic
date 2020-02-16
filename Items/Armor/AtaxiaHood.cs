@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Armor
             DisplayName.SetDefault("Ataxia Hood");
             Tooltip.SetDefault("12% increased rogue damage and 10% increased rogue critical strike chance\n" +
                 "50% chance to not consume rogue items and 15% increased movement speed\n" +
-                "Temporary immunity to lava and immunity to fire damage");
+                "Temporary immunity to lava and immunity to fire damage\n" +
+				"Provides heat protection in Death Mode");
         }
 
         public override void SetDefaults()

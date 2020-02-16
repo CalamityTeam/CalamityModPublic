@@ -114,6 +114,7 @@ namespace CalamityMod.NPCs.Astral
             npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AtlasDeath");
             banner = npc.type;
             bannerItem = ModContent.ItemType<AtlasBanner>();
+            npc.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = true;
             if (CalamityWorld.downedAstrageldon)
             {
                 npc.damage = 100;

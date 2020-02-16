@@ -10,7 +10,8 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Frost Barrier");
             Tooltip.SetDefault("You will freeze enemies near you when you are struck\n" +
-                               "You are immune to the chilled debuff");
+                               "You are immune to the chilled debuff\n" +
+							   "Provides heat and cold protection in Death Mode");
         }
 
         public override void SetDefaults()

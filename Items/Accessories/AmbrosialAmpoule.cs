@@ -16,7 +16,8 @@ namespace CalamityMod.Items.Accessories
                 "5% increased damage reduction and increased life regen\n" +
                 "Poison, Freeze, Chill, Frostburn, and Venom immunity\n" +
                 "Honey-like life regen with no speed penalty\n" +
-                "Most bee/hornet enemies and projectiles do 75% damage to you");
+                "Most bee/hornet enemies and projectiles do 75% damage to you\n" +
+				"Provides cold protection in Death Mode");
         }
 
         public override void SetDefaults()

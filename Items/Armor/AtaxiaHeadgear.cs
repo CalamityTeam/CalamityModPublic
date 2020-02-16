@@ -13,7 +13,8 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Ataxia Headgear");
             Tooltip.SetDefault("12% increased ranged damage and 10% increased ranged critical strike chance\n" +
-                "Reduces ammo usage by 25%, temporary immunity to lava, and immunity to fire damage");
+                "Reduces ammo usage by 25%, temporary immunity to lava, and immunity to fire damage\n" +
+				"Provides heat protection in Death Mode");
         }
 
         public override void SetDefaults()
