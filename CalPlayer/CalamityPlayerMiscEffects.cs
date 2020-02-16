@@ -912,8 +912,8 @@ namespace CalamityMod.CalPlayer
 			// Raider Talisman bonus
 			if (modPlayer.raiderTalisman)
 			{
-				float damageMult = modPlayer.nanotech ? 0.1f : 0.25f;
-				modPlayer.throwingDamage += (float)modPlayer.raiderStack / 250f * damageMult;
+				float damageMult = modPlayer.nanotech ? 0.1f : 0.15f;
+				modPlayer.throwingDamage += (float)modPlayer.raiderStack / 150f * damageMult;
 			}
 
 			// Silva minion bonus

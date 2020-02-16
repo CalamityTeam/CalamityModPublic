@@ -43,7 +43,7 @@ namespace CalamityMod.Items.Armor
                 "All projectiles spawn healing auric orbs on enemy hits\n" +
                 "Max run speed and acceleration boosted by 10%\n" +
                 "Rogue weapon critical strikes will do 1.25 times damage while you are above 50% HP\n" +
-                "Rogue stealth builds while not attacking and not moving, up to a max of 160\n" +
+                "Rogue stealth builds while not attacking and not moving, up to a max of 130\n" +
                 "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
                 "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
                 "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
@@ -57,7 +57,7 @@ namespace CalamityMod.Items.Armor
             modPlayer.silvaSet = true;
             modPlayer.silvaThrowing = true;
             modPlayer.auricSet = true;
-            modPlayer.rogueStealthMax += 1.6f;
+            modPlayer.rogueStealthMax += 1.3f;
             modPlayer.wearingRogueArmor = true;
             player.thorns += 3f;
             player.lavaMax += 240;

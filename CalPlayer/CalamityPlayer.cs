@@ -5283,7 +5283,7 @@ namespace CalamityMod.CalPlayer
                         }
                     }
                 }
-                if (raiderTalisman && raiderStack < 250 && proj.Calamity().rogue && crit && raiderCooldown <= 0)
+                if (raiderTalisman && raiderStack < 150 && proj.Calamity().rogue && crit && raiderCooldown <= 0)
                 {
                     raiderStack++;
 					raiderCooldown = 30;

@@ -31,8 +31,8 @@ namespace CalamityMod.Items.Accessories
                 if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
                 {
                     line2.text = "Whenever you crit an enemy with a rogue weapon your rogue damage increases\n" +
-                "This effect can stack up to 250 times\n" +
-                "Max rogue damage boost is 25%\n" +
+                "This effect can stack up to 150 times\n" +
+                "Max rogue damage boost is 15%\n" +
                 "Rogue Crit Level: " + critLevel;
                 }
             }

@@ -25,9 +25,9 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.gloveOfPrecision = true;
-            modPlayer.throwingDamage *= 1.12f;
+            modPlayer.throwingDamage += 0.12f;
             modPlayer.throwingCrit += 12;
-            modPlayer.throwingVelocity *= 1.2f;
+            modPlayer.throwingVelocity += 0.25f;
         }
     }
 }

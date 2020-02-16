@@ -42,14 +42,14 @@ namespace CalamityMod.Items.Armor
                 "Inferno effect when below 50% life\n" +
                 "Rogue weapons have a 10% chance to unleash a volley of chaos flames around the player that chase enemies when used\n" +
                 "You have a 20% chance to emit a blazing explosion when you are hit\n" +
-                "Rogue stealth builds while not attacking and not moving, up to a max of 120\n" +
+                "Rogue stealth builds while not attacking and not moving, up to a max of 110\n" +
                 "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
                 "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
                 "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.ataxiaBlaze = true;
             modPlayer.ataxiaVolley = true;
-            modPlayer.rogueStealthMax += 1.2f;
+            modPlayer.rogueStealthMax += 1.1f;
             player.Calamity().throwingDamage += 0.05f;
             player.Calamity().wearingRogueArmor = true;
         }

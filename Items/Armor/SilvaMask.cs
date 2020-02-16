@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Armor
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.silvaSet = true;
             modPlayer.silvaThrowing = true;
-            modPlayer.rogueStealthMax += 1.5f;
+            modPlayer.rogueStealthMax += 1.25f;
             modPlayer.wearingRogueArmor = true;
             player.setBonus = "You are immune to almost all debuffs\n" +
                 "All projectiles spawn healing leaf orbs on enemy hits\n" +
@@ -51,7 +51,7 @@ namespace CalamityMod.Items.Armor
                 "Your max life will return to normal if you die\n" +
                 "Rogue weapons have a faster throwing rate while you are above 50% life\n" +
                 "After the silva invulnerability time your rogue weapons will do 10% more damage\n" +
-                "Rogue stealth builds while not attacking and not moving, up to a max of 150\n" +
+                "Rogue stealth builds while not attacking and not moving, up to a max of 125\n" +
                 "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
                 "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
                 "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";

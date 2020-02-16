@@ -43,7 +43,7 @@ namespace CalamityMod.Items.Armor
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.tarraSet = true;
             modPlayer.tarraThrowing = true;
-            modPlayer.rogueStealthMax += 1.3f;
+            modPlayer.rogueStealthMax += 1.15f;
             modPlayer.wearingRogueArmor = true;
             player.setBonus = "Reduces enemy spawn rates\n" +
                 "Increased heart pickup range\n" +
@@ -51,7 +51,7 @@ namespace CalamityMod.Items.Armor
                 "After every 25 rogue critical hits you will gain 5 seconds of damage immunity\n" +
                 "This effect can only occur once every 30 seconds\n" +
                 "While under the effects of a debuff you gain 10% increased rogue damage\n" +
-                "Rogue stealth builds while not attacking and not moving, up to a max of 130\n" +
+                "Rogue stealth builds while not attacking and not moving, up to a max of 115\n" +
                 "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
                 "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
                 "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";

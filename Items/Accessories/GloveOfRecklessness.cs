@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.gloveOfRecklessness = true;
-            modPlayer.throwingDamage *= 0.9f;
+            modPlayer.throwingDamage -= 0.1f;
         }
     }
 }

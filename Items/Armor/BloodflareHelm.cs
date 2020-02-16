@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Armor
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.bloodflareSet = true;
             modPlayer.bloodflareThrowing = true;
-            modPlayer.rogueStealthMax += 1.35f;
+            modPlayer.rogueStealthMax += 1.2f;
             modPlayer.wearingRogueArmor = true;
             player.setBonus = "Greatly increases life regen\n" +
                 "Enemies below 50% life have a chance to drop hearts when struck\n" +
@@ -49,7 +49,7 @@ namespace CalamityMod.Items.Armor
                 "Being over 80% life boosts your defense by 30 and rogue crit by 5%\n" +
                 "Being below 80% life boosts your rogue damage by 10%\n" +
                 "Rogue critical strikes have a 50% chance to heal you\n" +
-                "Rogue stealth builds while not attacking and not moving, up to a max of 135\n" +
+                "Rogue stealth builds while not attacking and not moving, up to a max of 120\n" +
                 "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
                 "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
                 "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";

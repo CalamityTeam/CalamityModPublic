@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.Calamity().throwingDamage += 0.08f;
+            player.Calamity().throwingDamage += 0.05f;
             player.Calamity().throwingVelocity += 0.15f;
             player.Calamity().plaguedFuelPack = true;
         }

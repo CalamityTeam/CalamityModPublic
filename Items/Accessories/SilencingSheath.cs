@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Silencing Sheath");
-            Tooltip.SetDefault("+50 maximum stealth\n" +
+            Tooltip.SetDefault("+10 maximum stealth\n" +
                 "10% increased stealth regeneration while standing still");
         }
 
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.rogueStealthMax += 0.5f;
+            modPlayer.rogueStealthMax += 0.1f;
             modPlayer.stealthGenStandstill += 0.1f;
         }
 

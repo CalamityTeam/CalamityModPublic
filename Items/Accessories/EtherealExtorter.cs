@@ -12,7 +12,8 @@ namespace CalamityMod.Items.Accessories
             DisplayName.SetDefault("Ethereal Extorter");
             Tooltip.SetDefault(@"Infuses souls into your weapons and body generating different boosts that vary with the environment
 Rogue projectiles rarely explode into homing souls
-10% rogue damage but reduced life regen");
+10% increased rogue damage but reduced life regen
++10 maximum stealth during a new moon");
         }
 
         public override void SetDefaults()
