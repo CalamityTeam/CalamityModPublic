@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.autoReuse = true;
             item.height = 34;
             item.maxStack = 999;
-            item.value = 25000;
+            item.value = Item.sellPrice(silver: 3);
             item.shoot = ModContent.ProjectileType<TarragonThrowingDartProjectile>();
             item.shootSpeed = 24f;
             item.Calamity().rogue = true;
