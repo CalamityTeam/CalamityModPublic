@@ -1016,7 +1016,7 @@ namespace CalamityMod.Items
                     if (line2.mod == "Terraria" && line2.Name == "Defense")
                     {
                         line2.text = "4 defense\n" +
-                            "5% increased rogue damage";
+                            "3% increased rogue damage";
                     }
                 }
             }
@@ -1027,7 +1027,7 @@ namespace CalamityMod.Items
                     if (line2.mod == "Terraria" && line2.Name == "Defense")
                     {
                         line2.text = "7 defense\n" +
-                            "5% increased rogue critical strike chance";
+                            "3% increased rogue critical strike chance";
                     }
                 }
             }
@@ -1038,7 +1038,7 @@ namespace CalamityMod.Items
                     if (line2.mod == "Terraria" && line2.Name == "Defense")
                     {
                         line2.text = "5 defense\n" +
-                            "5% increased rogue velocity";
+                            "3% increased rogue velocity";
                     }
                 }
             }
@@ -1049,7 +1049,7 @@ namespace CalamityMod.Items
                     if (line2.mod == "Terraria" && line2.Name == "Defense")
                     {
                         line2.text = "4 defense\n" +
-                            "5% increased rogue damage";
+                            "3% increased rogue damage";
                     }
                 }
             }
@@ -1060,7 +1060,7 @@ namespace CalamityMod.Items
                     if (line2.mod == "Terraria" && line2.Name == "Defense")
                     {
                         line2.text = "5 defense\n" +
-                            "5% increased rogue critical strike chance";
+                            "3% increased rogue critical strike chance";
                     }
                 }
             }
@@ -1071,7 +1071,7 @@ namespace CalamityMod.Items
                     if (line2.mod == "Terraria" && line2.Name == "Defense")
                     {
                         line2.text = "4 defense\n" +
-                            "5% increased rogue velocity";
+                            "3% increased rogue velocity";
                     }
                 }
             }
@@ -2150,14 +2150,14 @@ Grants immunity to fire blocks, and temporary immunity to lava";
             else if (set == "Gladiator")
             {
                 CalamityPlayer modPlayer = player.Calamity();
-                modPlayer.rogueStealthMax += 1f;
+                modPlayer.rogueStealthMax += 0.7f;
                 modPlayer.wearingRogueArmor = true;
-                player.Calamity().throwingDamage += 0.1f;
+                player.Calamity().throwingDamage += 0.05f;
                 player.Calamity().throwingVelocity += 0.1f;
                 player.statDefense += 5;
                 player.setBonus = "+5 defense\n" +
-                            "10% increased rogue damage and velocity\n" +
-                            "Rogue stealth builds while not attacking and not moving, up to a max of 100\n" +
+                            "5% increased rogue damage and 10% increased velocity\n" +
+                            "Rogue stealth builds while not attacking and not moving, up to a max of 70\n" +
                             "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
                             "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
                             "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
@@ -2165,7 +2165,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
             else if (set == "Obsidian")
             {
                 CalamityPlayer modPlayer = player.Calamity();
-                modPlayer.rogueStealthMax += 1f;
+                modPlayer.rogueStealthMax += 0.8f;
                 modPlayer.wearingRogueArmor = true;
                 player.Calamity().throwingDamage += 0.05f;
                 player.Calamity().throwingCrit += 5;
@@ -2175,7 +2175,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 player.setBonus = "+2 defense\n" +
                             "5% increased rogue damage and critical strike chance\n" +
                             "Grants immunity to fire blocks and temporary immunity to lava\n" +
-                            "Rogue stealth builds while not attacking and not moving, up to a max of 100\n" +
+                            "Rogue stealth builds while not attacking and not moving, up to a max of 80\n" +
                             "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
                             "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
                             "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
@@ -2201,12 +2201,12 @@ Grants immunity to fire blocks, and temporary immunity to lava";
             if (item.type == ItemID.SpectreHood)
                 player.magicDamage += 0.2f;
             else if (item.type == ItemID.GladiatorHelmet || item.type == ItemID.ObsidianHelm)
-                player.Calamity().throwingDamage += 0.05f;
+                player.Calamity().throwingDamage += 0.03f;
             #endregion
 
             #region Body
             if (item.type == ItemID.GladiatorBreastplate || item.type == ItemID.ObsidianShirt)
-                player.Calamity().throwingCrit += 5;
+                player.Calamity().throwingCrit += 3;
             else if (item.type == ItemID.PalladiumBreastplate)
                 player.Calamity().throwingCrit += 2;
             else if (item.type == ItemID.CobaltBreastplate)
@@ -2225,7 +2225,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
 
             #region Legs
             if (item.type == ItemID.GladiatorLeggings || item.type == ItemID.ObsidianPants)
-                player.Calamity().throwingVelocity += 0.05f;
+                player.Calamity().throwingVelocity += 0.03f;
             else if (item.type == ItemID.PalladiumLeggings)
                 player.Calamity().throwingCrit += 1;
             else if (item.type == ItemID.MythrilGreaves)

@@ -9,6 +9,8 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class NastyCholla : RogueWeapon
     {
+        public static int BaseDamage = 9;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Nasty Cholla");
@@ -21,7 +23,7 @@ Stealth strikes throw five at once");
         public override void SafeSetDefaults()
         {
             item.width = 20;
-            item.damage = 20;
+            item.damage = BaseDamage;
             item.noMelee = true;
             item.noUseGraphic = true;
 			item.maxStack = 999;

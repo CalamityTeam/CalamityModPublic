@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         }
         public override void SafeSetDefaults()
         {
-            item.damage = 14;
+            item.damage = 7;
             item.shootSpeed = 12f;
             item.shoot = ModContent.ProjectileType<Brick>();
             item.width = 26;
@@ -49,9 +49,9 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.RedBrick);
+            recipe.AddIngredient(ItemID.RedBrick, 5);
             recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this, 25);
+            recipe.SetResult(this, 15);
             recipe.AddRecipe();
         }
     }
