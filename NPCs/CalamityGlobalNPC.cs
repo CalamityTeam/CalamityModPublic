@@ -3042,9 +3042,7 @@ namespace CalamityMod.NPCs
         public override void ModifyHitByProjectile(NPC npc, Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
 			if (npc.townNPC && projectile.hostile)
-			{
-				damage *= Main.expertMode ? 4 : 2;
-			}
+				damage *= 2;
 
 			if (AstrumDeusIDs.Contains(npc.type))
 			{
