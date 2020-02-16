@@ -3184,7 +3184,8 @@ namespace CalamityMod.NPCs
                 if (npc.ai[3] == -60f)
                 {
                     npc.ai[3] = 0f;
-                    Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 66, 1f, -0.25f);
+
+					Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 66, 1f, -0.25f);
                     Main.PlaySound(SoundID.Item66, npc.position);
 
                     Vector2 vector10 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
@@ -3309,9 +3310,9 @@ namespace CalamityMod.NPCs
                     npc.Center = new Vector2(calamityGlobalNPC.newAI[2], calamityGlobalNPC.newAI[3]);
                     npc.velocity = Vector2.Zero;
                     npc.ai[3] = -60f;
-                    calamityGlobalNPC.newAI[2] = 0f;
-                    calamityGlobalNPC.newAI[3] = 0f;
-                    npc.netUpdate = true;
+					calamityGlobalNPC.newAI[2] = 0f;
+					calamityGlobalNPC.newAI[3] = 0f;
+					npc.netUpdate = true;
                 }
             }
             else
@@ -3540,6 +3541,26 @@ namespace CalamityMod.NPCs
 				yMultiplier = calamityGlobalNPC.newAI[0];
 
 			npc.spriteDirection = -(int)npc.ai[0];
+
+			if (Main.npc[(int)npc.ai[1]].ai[3] == -60f)
+			{
+				if (Main.netMode != NetmodeID.MultiplayerClient)
+				{
+					// Teleport dust
+					for (int m = 0; m < 10; m++)
+					{
+						int num39 = Dust.NewDust(npc.position, npc.width, npc.height, 27, 0f, 0f, 200, default, 3f);
+						Main.dust[num39].noGravity = true;
+						Main.dust[num39].velocity.X = Main.dust[num39].velocity.X * 2f;
+					}
+
+					// New location
+					npc.Center = Main.npc[(int)npc.ai[1]].Center;
+					npc.velocity = Vector2.Zero;
+					npc.netUpdate = true;
+				}
+			}
+
             if (!Main.npc[(int)npc.ai[1]].active || Main.npc[(int)npc.ai[1]].aiStyle != 11)
             {
                 npc.ai[2] += 10f;
