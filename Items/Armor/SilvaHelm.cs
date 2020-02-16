@@ -49,7 +49,8 @@ namespace CalamityMod.Items.Armor
                 "Your max life will return to normal if you die\n" +
                 "True melee strikes have a 25% chance to do five times damage\n" +
                 "After the silva invincibility is over you will take 20% less contact damage\n" +
-                "Melee projectiles have a 25% chance to stun enemies for a very brief moment";
+                "Melee projectiles have a 25% chance to stun enemies for a very brief moment\n" +
+				"Provides cold protection in Death Mode";
         }
 
         public override void UpdateEquip(Player player)

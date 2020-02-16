@@ -15,7 +15,8 @@ namespace CalamityMod.Items.Armor
             Tooltip.SetDefault("Temporary immunity to lava and immunity to cursed inferno, fire, cursed, and chilled debuffs\n" +
                 "Can move freely through liquids and 12% increased movement speed\n" +
                 "10% increased rogue damage and critical strike chance\n" +
-                "5% increased damage reduction");
+                "5% increased damage reduction\n" +
+				"Provides heat protection in Death Mode");
         }
 
         public override void SetDefaults()

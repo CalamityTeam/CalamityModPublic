@@ -18,7 +18,8 @@ namespace CalamityMod.Items.Armor
                        "25% increased movement speed\n" +
                        "Attacks have a 2% chance to do no damage to you\n" +
                        "8% increased damage and 5% increased critical strike chance\n" +
-                       "You will freeze enemies near you when you are struck");
+                       "You will freeze enemies near you when you are struck\n" +
+					   "Provides heat and cold protection in Death Mode");
         }
 
         public override void SetDefaults()

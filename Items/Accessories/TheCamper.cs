@@ -22,6 +22,7 @@ namespace CalamityMod.Items.Accessories
                 "Standing still provides a damaging aura around you\n" +
                 "While moving, you regenerate health as if standing still\n" +
 				"Provides a small amount of light in the Abyss\n" +
+				"Provides cold protection in Death Mode\n" +
                 "In rest may we find victory.");
         }
 

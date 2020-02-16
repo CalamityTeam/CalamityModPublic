@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Armor
             DisplayName.SetDefault("Tarragon Horned Helm");
             Tooltip.SetDefault("Temporary immunity to lava and immunity to cursed inferno, fire, cursed, and chilled debuffs\n" +
                 "Can move freely through liquids\n" +
-                "5% increased damage reduction and +3 max minions");
+                "5% increased damage reduction and +3 max minions\n" +
+				"Provides heat protection in Death Mode");
         }
 
         public override void SetDefaults()

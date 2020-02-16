@@ -15,6 +15,7 @@ namespace CalamityMod.Items.Accessories
                 "Resistant to cold attacks and +1 life regen\n" +
                 "Being above 75% life grants the player 10% increased damage\n" +
                 "Being below 25% life grants the player 10 defense and 15% increased max movement speed and acceleration\n" +
+				"Provides heat and cold protection in Death Mode\n" +
                 "Revengeance drop");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 10));
         }

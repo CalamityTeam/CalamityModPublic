@@ -17,7 +17,8 @@ namespace CalamityMod.Items.Accessories
                 "Melee attacks and melee projectiles inflict holy fire\n" +
                 "Increased invincibility after taking damage\n" +
                 "Temporary immunity to lava\n" +
-                "Increased melee knockback");
+                "Increased melee knockback\n" +
+				"Provides heat protection in Death Mode");
         }
 
         public override void SetDefaults()

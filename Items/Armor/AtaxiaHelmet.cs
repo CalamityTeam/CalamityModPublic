@@ -16,7 +16,8 @@ namespace CalamityMod.Items.Armor
             DisplayName.SetDefault("Ataxia Helmet");
             Tooltip.SetDefault("5% increased minion damage and increased minion knockback\n" +
                 "+2 max minions\n" +
-                "Temporary immunity to lava and immunity to fire damage");
+                "Temporary immunity to lava and immunity to fire damage\n" +
+				"Provides heat protection in Death Mode");
         }
 
         public override void SetDefaults()

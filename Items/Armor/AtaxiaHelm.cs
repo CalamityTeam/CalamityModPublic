@@ -15,7 +15,8 @@ namespace CalamityMod.Items.Armor
             Tooltip.SetDefault("12% increased melee damage and 10% increased melee critical strike chance\n" +
                 "12% increased melee and movement speed\n" +
                 "Melee attacks and melee projectiles inflict on fire\n" +
-                "Temporary immunity to lava and immunity to fire damage");
+                "Temporary immunity to lava and immunity to fire damage\n" +
+				"Provides heat protection in Death Mode");
         }
 
         public override void SetDefaults()

@@ -15,7 +15,8 @@ namespace CalamityMod.Items.Accessories
                 "Only active above 25% life\n" +
                 "Grants immunity to knockback\n" +
                 "Puts a shell around the owner when below 50% life that reduces damage\n" +
-                "The shell becomes more powerful when below 15% life and reduces damage even further");
+                "The shell becomes more powerful when below 15% life and reduces damage even further\n" +
+				"Provides heat and cold protection in Death Mode");
         }
 
         public override void SetDefaults()

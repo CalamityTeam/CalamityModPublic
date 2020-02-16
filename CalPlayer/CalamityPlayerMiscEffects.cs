@@ -378,12 +378,12 @@ namespace CalamityMod.CalPlayer
 						&& (player.legs == ArmorIDs.Legs.EskimoPants || player.legs == ArmorIDs.Legs.PinkEskimoPants);
 
 					bool immunityToHotAndCold = hasMoltenSet || player.magmaStone || player.frostArmor || modPlayer.fBulwark || modPlayer.fBarrier ||
-						modPlayer.frostFlare || modPlayer.rampartOfDeities || modPlayer.cryogenSoul || modPlayer.snowman || modPlayer.blazingCore;
+						modPlayer.frostFlare || modPlayer.rampartOfDeities || modPlayer.cryogenSoul || modPlayer.snowman || modPlayer.blazingCore || modPlayer.permafrostsConcoction;
 
 					bool immunityToCold = player.HasBuff(BuffID.Campfire) || Main.campfire || player.resistCold || hasEskimoSet || player.buffImmune[BuffID.Frozen] ||
 						player.HasBuff(BuffID.Inferno) || immunityToHotAndCold || modPlayer.externalColdImmunity;
 
-					bool immunityToHot = player.lavaImmune || player.lavaRose || player.lavaMax != 0 || immunityToHotAndCold || modPlayer.externalHeatImmunity;
+					bool immunityToHot = player.lavaImmune || player.lavaRose || player.lavaMax > 0 || immunityToHotAndCold || modPlayer.externalHeatImmunity;
 
 					// Thorn and spike effects
 					// 10 = crimson/corruption thorns, 17 = jungle thorns, 40 = dungeon spikes, 60 = temple spikes

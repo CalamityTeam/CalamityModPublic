@@ -18,7 +18,8 @@ namespace CalamityMod.Items.Accessories.Wings
                 "Average vertical speed\n" +
                 "Flight time: 100\n" +
                 "5% increase to all damage and pick speed\n" +
-                "All melee attacks and projectiles inflict frostburn");
+                "All melee attacks and projectiles inflict frostburn\n" +
+				"Provides heat and cold protection in Death Mode");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(8, 4));
         }
 

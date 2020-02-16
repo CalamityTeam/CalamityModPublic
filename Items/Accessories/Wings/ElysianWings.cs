@@ -13,7 +13,9 @@ namespace CalamityMod.Items.Accessories.Wings
             Tooltip.SetDefault("Horizontal speed: 9.75\n" +
                 "Acceleration multiplier: 2.5\n" +
                 "Great vertical speed\n" +
-                "Flight time: 180");
+                "Flight time: 180\n" +
+				"Temporary immunity to lava\n" +
+				"Provides heat protection in Death Mode");
         }
 
         public override void SetDefaults()

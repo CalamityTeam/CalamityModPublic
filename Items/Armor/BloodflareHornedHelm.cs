@@ -13,7 +13,8 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Bloodflare Horned Helm");
             Tooltip.SetDefault("You can move freely through liquids and have temporary immunity to lava\n" +
-                "10% increased ranged damage and critical strike chance");
+                "10% increased ranged damage and critical strike chance\n" +
+				"Provides heat protection in Death Mode");
         }
 
         public override void SetDefaults()

@@ -12,7 +12,8 @@ namespace CalamityMod.Items.Accessories
 Increases life regen as life decreases
 Increases life regen when afflicted with Poison, On Fire, or Brimstone Flames
 You will survive fatal damage and revive with 30% life on a 3 minute cooldown
-You are encased in an ice barrier for 3 seconds when revived");
+You are encased in an ice barrier for 3 seconds when revived
+Provides heat and cold protection in Death Mode");
         }
 
         public override void SetDefaults()

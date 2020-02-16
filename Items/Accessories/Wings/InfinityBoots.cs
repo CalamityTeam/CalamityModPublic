@@ -22,7 +22,8 @@ namespace CalamityMod.Items.Accessories.Wings
                 "Ludicrous speed!\n" +
                 "Greater mobility on ice\n" +
                 "Water and lava walking\n" +
-                "Temporary immunity to lava");
+                "Temporary immunity to lava\n" +
+				"Provides heat protection in Death Mode");
         }
 
         public override void SetDefaults()
