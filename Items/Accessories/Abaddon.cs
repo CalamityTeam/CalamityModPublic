@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Accessories
 {
-    [AutoloadEquip(EquipType.Head)]
+    [AutoloadEquip(EquipType.Face)]
     public class Abaddon : ModItem
     {
         public override void SetStaticDefaults()
@@ -22,11 +22,6 @@ namespace CalamityMod.Items.Accessories
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
-        {
-            player.buffImmune[ModContent.BuffType<BrimstoneFlames>()] = true;
-        }
-
-        public override void UpdateEquip(Player player)
         {
             player.buffImmune[ModContent.BuffType<BrimstoneFlames>()] = true;
         }

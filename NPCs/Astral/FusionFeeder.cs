@@ -41,6 +41,7 @@ namespace CalamityMod.NPCs.Astral
             animationType = NPCID.SandShark;
             banner = npc.type;
             bannerItem = ModContent.ItemType<FusionFeederBanner>();
+            npc.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = true;
             if (CalamityWorld.downedAstrageldon)
             {
                 npc.damage = 65;

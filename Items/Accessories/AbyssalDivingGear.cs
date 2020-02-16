@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-    [AutoloadEquip(EquipType.Head)]
+    [AutoloadEquip(EquipType.Face)]
     public class AbyssalDivingGear : ModItem
     {
         public override void SetStaticDefaults()
@@ -30,21 +30,6 @@ namespace CalamityMod.Items.Accessories
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
-        {
-            CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.depthCharm = true;
-            modPlayer.jellyfishNecklace = true;
-            player.arcticDivingGear = true;
-            player.accFlipper = true;
-            player.accDivingHelm = true;
-            player.iceSkate = true;
-            if (player.wet)
-            {
-                Lighting.AddLight((int)player.Center.X / 16, (int)player.Center.Y / 16, 0.2f, 0.8f, 0.9f);
-            }
-        }
-
-        public override void UpdateEquip(Player player)
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.depthCharm = true;

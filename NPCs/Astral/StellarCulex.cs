@@ -41,6 +41,7 @@ namespace CalamityMod.NPCs.Astral
             animationType = NPCID.GiantFlyingFox;
             banner = npc.type;
             bannerItem = ModContent.ItemType<StellarCulexBanner>();
+            npc.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = true;
             if (CalamityWorld.downedAstrageldon)
             {
                 npc.damage = 90;

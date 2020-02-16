@@ -47,6 +47,7 @@ namespace CalamityMod.NPCs.Astral
             animationType = NPCID.WallCreeper;
             banner = npc.type;
             bannerItem = ModContent.ItemType<AstralachneaBanner>();
+            npc.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = true;
             if (CalamityWorld.downedAstrageldon)
             {
                 npc.damage = 90;

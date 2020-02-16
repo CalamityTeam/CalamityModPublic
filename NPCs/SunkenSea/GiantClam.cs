@@ -45,12 +45,13 @@ namespace CalamityMod.NPCs.SunkenSea
             npc.defense = 9999;
             npc.Calamity().RevPlusDR(0.3f);
             npc.lifeMax = Main.hardMode ? 7500 : 1250;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-            {
-                npc.buffImmune[k] = true;
-            }
-            npc.buffImmune[BuffID.Ichor] = false;
-            npc.buffImmune[BuffID.CursedInferno] = false;
+            npc.buffImmune[BuffID.Webbed] = true;
+            npc.buffImmune[BuffID.Slow] = true;
+            npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
+            npc.buffImmune[ModContent.BuffType<Eutrophication>()] = true;
+            npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
+            npc.buffImmune[ModContent.BuffType<TeslaFreeze>()] = true;
+            npc.buffImmune[ModContent.BuffType<PearlAura>()] = true;
             npc.aiStyle = -1;
             aiType = -1;
             npc.value = Main.hardMode ? Item.buyPrice(0, 10, 0, 0) : Item.buyPrice(0, 1, 0, 0);

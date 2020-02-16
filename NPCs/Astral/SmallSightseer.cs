@@ -39,6 +39,7 @@ namespace CalamityMod.NPCs.Astral
             npc.aiStyle = -1;
             banner = npc.type;
             bannerItem = ModContent.ItemType<SmallSightseerBanner>();
+            npc.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = true;
             if (CalamityWorld.downedAstrageldon)
             {
                 npc.damage = 58;
