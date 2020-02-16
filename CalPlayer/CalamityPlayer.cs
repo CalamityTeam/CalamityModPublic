@@ -4744,6 +4744,14 @@ namespace CalamityMod.CalPlayer
 
         public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
+            if (proj.Calamity().rogue)
+            {
+                crit = Main.rand.Next(1, 101) < player.Calamity().throwingCrit;
+            }
+
+			if (proj.npcProj || proj.trap)
+				return;
+
             bool isTrueMelee = proj.Calamity().trueMelee;
             bool isSummon = proj.minion || proj.sentry || CalamityMod.projectileMinionList.Contains(proj.type);
             bool hasClassType = proj.melee || proj.ranged || proj.magic || isSummon || proj.Calamity().rogue;
@@ -4762,11 +4770,6 @@ namespace CalamityMod.CalPlayer
 				if (player.wingTime > player.wingTimeMax)
 					player.wingTime = player.wingTimeMax;
 			}
-
-            if (proj.Calamity().rogue)
-            {
-                crit = Main.rand.Next(1, 101) < player.Calamity().throwingCrit;
-            }
 
             #region MultiplierBoosts
             double damageMult = 1.0;
