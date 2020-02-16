@@ -20674,6 +20674,7 @@ namespace CalamityMod.NPCs
 						Vector2 vector255 = new Vector2(0f, -5f).RotatedBy((double)(1.57079637f * (float)num1501), default);
 						int proj = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, vector255.X, vector255.Y, ProjectileID.FlamesTrap, 20, 0f, Main.myPlayer, 0f, 0f);
 						Main.projectile[proj].tileCollide = false;
+						Main.projectile[proj].friendly = false;
 					}
 				}
 			}

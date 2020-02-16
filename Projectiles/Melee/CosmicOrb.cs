@@ -28,8 +28,10 @@ namespace CalamityMod.Projectiles.Melee
         public override void AI()
         {
             Lighting.AddLight(projectile.Center, new Vector3(0.075f, 0.5f, 0.15f));
+
             projectile.velocity *= 0.985f;
             projectile.rotation += projectile.velocity.X * 0.2f;
+
             if (projectile.velocity.X > 0f)
             {
                 projectile.rotation += 0.08f;
@@ -38,6 +40,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 projectile.rotation -= 0.08f;
             }
+
             projectile.ai[1] += 1f;
             if (projectile.ai[1] > 30f)
             {
@@ -50,58 +53,7 @@ namespace CalamityMod.Projectiles.Melee
                 }
             }
 
-			int[] array = new int[20];
-			int num428 = 0;
-			float distance = 500f;
-			bool flag14 = false;
-			for (int num430 = 0; num430 < 200; num430++)
-			{
-				if (Main.npc[num430].CanBeChasedBy(projectile, false))
-				{
-					float extraDistance = (float)(Main.npc[num430].width / 2) + (float)(Main.npc[num430].height / 2);
-
-					bool useCollisionDetection = extraDistance < distance;
-					bool canHit = true;
-					if (useCollisionDetection)
-						canHit = Collision.CanHit(projectile.Center, 1, 1, Main.npc[num430].Center, 1, 1);
-
-					if (Vector2.Distance(Main.npc[num430].Center, projectile.Center) < (distance + extraDistance) && canHit)
-					{
-						if (num428 < 20)
-						{
-							array[num428] = num430;
-							num428++;
-						}
-						flag14 = true;
-					}
-				}
-			}
-
-			if (flag14)
-            {
-                int num434 = Main.rand.Next(num428);
-                num434 = array[num434];
-                float num435 = Main.npc[num434].position.X + (float)(Main.npc[num434].width / 2);
-                float num436 = Main.npc[num434].position.Y + (float)(Main.npc[num434].height / 2);
-                projectile.localAI[0] += 1f;
-                if (projectile.localAI[0] > 8f)
-                {
-                    projectile.localAI[0] = 0f;
-                    float num437 = 6f;
-                    Vector2 value10 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
-                    value10 += projectile.velocity * 4f;
-                    float num438 = num435 - value10.X;
-                    float num439 = num436 - value10.Y;
-                    float num440 = (float)Math.Sqrt((double)(num438 * num438 + num439 * num439));
-                    num440 = num437 / num440;
-                    num438 *= num440;
-                    num439 *= num440;
-                    if (projectile.owner == Main.myPlayer)
-                    {
-                        Projectile.NewProjectile(value10.X, value10.Y, num438, num439, ModContent.ProjectileType<CosmicBolt>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-                    }
-                }
-            }
+			CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 500f, 6f, 8f, 5, ModContent.ProjectileType<CosmicBolt>());
         }
 
         public override void Kill(int timeLeft)
