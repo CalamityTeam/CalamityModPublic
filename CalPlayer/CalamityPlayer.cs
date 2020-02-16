@@ -3611,6 +3611,11 @@ namespace CalamityMod.CalPlayer
 			{
 				if (eGauntlet)
 				{
+					target.AddBuff(BuffID.CursedInferno, 120, false);
+					target.AddBuff(BuffID.Frostburn, 120, false);
+					target.AddBuff(BuffID.Ichor, 120, false);
+					target.AddBuff(BuffID.Venom, 120, false);
+					target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 120, false);
 					target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 120, false);
 					target.AddBuff(ModContent.BuffType<HolyFlames>(), 120, false);
 					target.AddBuff(ModContent.BuffType<Plague>(), 120, false);
@@ -3619,27 +3624,20 @@ namespace CalamityMod.CalPlayer
 					{
 						target.AddBuff(ModContent.BuffType<GlacialState>(), 120, false);
 					}
-					target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 120, false);
-					target.AddBuff(BuffID.Poisoned, 120, false);
-					target.AddBuff(BuffID.OnFire, 120, false);
-					target.AddBuff(BuffID.CursedInferno, 120, false);
-					target.AddBuff(BuffID.Frostburn, 120, false);
-					target.AddBuff(BuffID.Ichor, 120, false);
-					target.AddBuff(BuffID.Venom, 120, false);
 				}
 				if (cryogenSoul || frostFlare)
 				{
 					if (Main.rand.NextBool(4))
 					{
-						target.AddBuff(44, 360, false);
+						target.AddBuff(BuffID.Frostburn, 360, false);
 					}
 					else if (Main.rand.NextBool(2))
 					{
-						target.AddBuff(44, 240, false);
+						target.AddBuff(BuffID.Frostburn, 240, false);
 					}
 					else
 					{
-						target.AddBuff(44, 120, false);
+						target.AddBuff(BuffID.Frostburn, 120, false);
 					}
 				}
 				if (yInsignia)
@@ -3904,6 +3902,11 @@ namespace CalamityMod.CalPlayer
 				{
 					if (eGauntlet)
 					{
+						target.AddBuff(BuffID.CursedInferno, 120, false);
+						target.AddBuff(BuffID.Frostburn, 120, false);
+						target.AddBuff(BuffID.Ichor, 120, false);
+						target.AddBuff(BuffID.Venom, 120, false);
+						target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 120, false);
 						target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 120, false);
 						target.AddBuff(ModContent.BuffType<HolyFlames>(), 120, false);
 						target.AddBuff(ModContent.BuffType<Plague>(), 120, false);
@@ -3912,13 +3915,6 @@ namespace CalamityMod.CalPlayer
 						{
 							target.AddBuff(ModContent.BuffType<GlacialState>(), 120, false);
 						}
-						target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 120, false);
-						target.AddBuff(BuffID.Poisoned, 120, false);
-						target.AddBuff(BuffID.OnFire, 120, false);
-						target.AddBuff(BuffID.CursedInferno, 120, false);
-						target.AddBuff(BuffID.Frostburn, 120, false);
-						target.AddBuff(BuffID.Ichor, 120, false);
-						target.AddBuff(BuffID.Venom, 120, false);
 					}
 					if (aWeapon)
 					{
@@ -3939,15 +3935,15 @@ namespace CalamityMod.CalPlayer
 					{
 						if (Main.rand.NextBool(4))
 						{
-							target.AddBuff(44, 360, false);
+							target.AddBuff(BuffID.Frostburn, 360, false);
 						}
 						else if (Main.rand.NextBool(2))
 						{
-							target.AddBuff(44, 240, false);
+							target.AddBuff(BuffID.Frostburn, 240, false);
 						}
 						else
 						{
-							target.AddBuff(44, 120, false);
+							target.AddBuff(BuffID.Frostburn, 120, false);
 						}
 					}
 					if (yInsignia)
@@ -4107,6 +4103,11 @@ namespace CalamityMod.CalPlayer
 			{
 				if (eGauntlet)
 				{
+					target.AddBuff(BuffID.CursedInferno, 120, false);
+					target.AddBuff(BuffID.Frostburn, 120, false);
+					target.AddBuff(BuffID.Ichor, 120, false);
+					target.AddBuff(BuffID.Venom, 120, false);
+					target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 120, false);
 					target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 120, false);
 					target.AddBuff(ModContent.BuffType<HolyFlames>(), 120, false);
 					target.AddBuff(ModContent.BuffType<Plague>(), 120, false);
@@ -4115,13 +4116,6 @@ namespace CalamityMod.CalPlayer
 					{
 						target.AddBuff(ModContent.BuffType<GlacialState>(), 120, false);
 					}
-					target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 120, false);
-					target.AddBuff(BuffID.Poisoned, 120, false);
-					target.AddBuff(BuffID.OnFire, 120, false);
-					target.AddBuff(BuffID.CursedInferno, 120, false);
-					target.AddBuff(BuffID.Frostburn, 120, false);
-					target.AddBuff(BuffID.Ichor, 120, false);
-					target.AddBuff(BuffID.Venom, 120, false);
 				}
 				if (aWeapon)
 				{
@@ -4157,15 +4151,15 @@ namespace CalamityMod.CalPlayer
 				{
 					if (Main.rand.NextBool(4))
 					{
-						target.AddBuff(44, 360, false);
+						target.AddBuff(BuffID.Frostburn, 360, false);
 					}
 					else if (Main.rand.NextBool(2))
 					{
-						target.AddBuff(44, 240, false);
+						target.AddBuff(BuffID.Frostburn, 240, false);
 					}
 					else
 					{
-						target.AddBuff(44, 120, false);
+						target.AddBuff(BuffID.Frostburn, 120, false);
 					}
 				}
 				if (yInsignia)
@@ -4351,6 +4345,11 @@ namespace CalamityMod.CalPlayer
 				{
 					if (eGauntlet)
 					{
+						target.AddBuff(BuffID.CursedInferno, 120, false);
+						target.AddBuff(BuffID.Frostburn, 120, false);
+						target.AddBuff(BuffID.Ichor, 120, false);
+						target.AddBuff(BuffID.Venom, 120, false);
+						target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 120, false);
 						target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 120, false);
 						target.AddBuff(ModContent.BuffType<HolyFlames>(), 120, false);
 						target.AddBuff(ModContent.BuffType<Plague>(), 120, false);
@@ -4359,13 +4358,6 @@ namespace CalamityMod.CalPlayer
 						{
 							target.AddBuff(ModContent.BuffType<GlacialState>(), 120, false);
 						}
-						target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 120, false);
-						target.AddBuff(BuffID.Poisoned, 120, false);
-						target.AddBuff(BuffID.OnFire, 120, false);
-						target.AddBuff(BuffID.CursedInferno, 120, false);
-						target.AddBuff(BuffID.Frostburn, 120, false);
-						target.AddBuff(BuffID.Ichor, 120, false);
-						target.AddBuff(BuffID.Venom, 120, false);
 					}
 					if (aWeapon)
 					{
@@ -4386,15 +4378,15 @@ namespace CalamityMod.CalPlayer
 					{
 						if (Main.rand.NextBool(4))
 						{
-							target.AddBuff(44, 360, false);
+							target.AddBuff(BuffID.Frostburn, 360, false);
 						}
 						else if (Main.rand.NextBool(2))
 						{
-							target.AddBuff(44, 240, false);
+							target.AddBuff(BuffID.Frostburn, 240, false);
 						}
 						else
 						{
-							target.AddBuff(44, 120, false);
+							target.AddBuff(BuffID.Frostburn, 120, false);
 						}
 					}
 					if (yInsignia)
