@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.penetrate = -1;
             projectile.tileCollide = false;
             projectile.extraUpdates = 1;
-            projectile.timeLeft = 600;
+            projectile.timeLeft = 840;
             cooldownSlot = 1;
         }
 
@@ -39,24 +39,26 @@ namespace CalamityMod.Projectiles.Boss
             if (projectile.frame > 3)
                 projectile.frame = 0;
 
-            projectile.velocity.Y += 0.02f;
-            if (projectile.velocity.Y > 1f)
-                projectile.velocity.Y = 1f;
+			float velocityY = projectile.position.Y + (float)projectile.height < player.position.Y ? 1f : 0.25f;
+
+			projectile.velocity.Y += 0.01f;
+            if (projectile.velocity.Y > velocityY)
+                projectile.velocity.Y = velocityY;
 
             if (projectile.position.X + (float)projectile.width < player.position.X)
             {
                 if (projectile.velocity.X < 0f)
-                    projectile.velocity.X *= 0.98f;
-                projectile.velocity.X += 0.1f;
+                    projectile.velocity.X *= 0.99f;
+                projectile.velocity.X += 0.02f;
             }
             else if (projectile.position.X > player.position.X + (float)player.width)
             {
                 if (projectile.velocity.X > 0f)
-                    projectile.velocity.X *= 0.98f;
-                projectile.velocity.X -= 0.1f;
+                    projectile.velocity.X *= 0.99f;
+                projectile.velocity.X -= 0.02f;
             }
 
-            if (projectile.velocity.X > 10f || projectile.velocity.X < -10f)
+            if (projectile.velocity.X > 8f || projectile.velocity.X < -8f)
                 projectile.velocity.X *= 0.97f;
 
             projectile.rotation = projectile.velocity.X * 0.025f;

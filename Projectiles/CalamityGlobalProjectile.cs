@@ -6,6 +6,7 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Projectiles.Healing;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Melee;
+using CalamityMod.Projectiles.Melee.Yoyos;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
@@ -2027,7 +2028,7 @@ namespace CalamityMod.Projectiles
 			}
 		}
 
-		public static void MagnetSphereHitscan(Projectile projectile, float distanceRequired, float homingVelocity, float projectileTimer, int maxTargets, int spawnedProjectile)
+		public static void MagnetSphereHitscan(Projectile projectile, float distanceRequired, float homingVelocity, float projectileTimer, int maxTargets, int spawnedProjectile, double damageMult = 1D)
 		{
 			float maxDistance = distanceRequired;
 			bool homeIn = false;
@@ -2070,8 +2071,20 @@ namespace CalamityMod.Projectiles
 					Vector2 value = projectile.Center + projectile.velocity * 4f;
 					Vector2 velocity = Vector2.Normalize(Main.npc[randomTarget].Center - value) * homingVelocity;
 
+					if (projectile.type == ModContent.ProjectileType<GodsGambitYoyo>())
+					{
+						velocity.Y += Main.rand.Next(-30, 31) * 0.05f;
+						velocity.X += Main.rand.Next(-30, 31) * 0.05f;
+					}
+
 					if (projectile.owner == Main.myPlayer)
-						Projectile.NewProjectile(value.X, value.Y, velocity.X, velocity.Y, spawnedProjectile, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+					{
+						int projectile2 = Projectile.NewProjectile(value.X, value.Y, velocity.X, velocity.Y, spawnedProjectile, (int)(projectile.damage * damageMult), projectile.knockBack, projectile.owner, 0f, 0f);
+
+						if (projectile.type == ModContent.ProjectileType<CnidarianYoyo>() || projectile.type == ModContent.ProjectileType<GodsGambitYoyo>() ||
+							projectile.type == ModContent.ProjectileType<ShimmersparkYoyo>() || projectile.type == ModContent.ProjectileType<VerdantYoyo>())
+							Main.projectile[projectile2].Calamity().forceMelee = true;
+					}
 				}
 			}
 		}
