@@ -378,7 +378,7 @@ namespace CalamityMod.CalPlayer
 						&& (player.legs == ArmorIDs.Legs.EskimoPants || player.legs == ArmorIDs.Legs.PinkEskimoPants);
 
 					bool immunityToHotAndCold = hasMoltenSet || player.magmaStone || player.frostArmor || modPlayer.fBulwark || modPlayer.fBarrier ||
-						modPlayer.frostFlare || modPlayer.rampartOfDeities || modPlayer.cryogenSoul || modPlayer.snowman;
+						modPlayer.frostFlare || modPlayer.rampartOfDeities || modPlayer.cryogenSoul || modPlayer.snowman || modPlayer.blazingCore;
 
 					bool immunityToCold = player.HasBuff(BuffID.Campfire) || Main.campfire || player.resistCold || hasEskimoSet || player.buffImmune[BuffID.Frozen] ||
 						player.HasBuff(BuffID.Inferno) || immunityToHotAndCold || modPlayer.externalColdImmunity;
