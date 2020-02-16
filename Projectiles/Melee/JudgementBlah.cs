@@ -33,11 +33,13 @@ namespace CalamityMod.Projectiles.Melee
         public override void AI()
         {
 			projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 0.785f;
+
 			if (projectile.ai[1] == 0f)
 			{
 				projectile.ai[1] = 1f;
 				Main.PlaySound(SoundID.Item60, projectile.position);
 			}
+
 			if (projectile.localAI[0] == 0f)
 			{
 				projectile.scale -= 0.02f;
@@ -58,7 +60,9 @@ namespace CalamityMod.Projectiles.Melee
 					projectile.localAI[0] = 0f;
 				}
 			}
+
 			Lighting.AddLight((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16, (float)Main.DiscoR / 200f, (float)Main.DiscoG / 200f, (float)Main.DiscoB / 200f);
+
             whiteLightTimer--;
             if (whiteLightTimer == 0)
             {
@@ -82,49 +86,13 @@ namespace CalamityMod.Projectiles.Melee
                 }
                 whiteLightTimer = 5;
             }
+
             int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 66, 0f, 0f, 100, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 0.6f);
             Main.dust[num458].noGravity = true;
             Main.dust[num458].velocity *= 0.5f;
             Main.dust[num458].velocity += projectile.velocity * 0.1f;
 
-			float num472 = projectile.Center.X;
-			float num473 = projectile.Center.Y;
-			float distance = 400f;
-			bool flag17 = false;
-			for (int num475 = 0; num475 < 200; num475++)
-			{
-				if (Main.npc[num475].CanBeChasedBy(projectile, false))
-				{
-					float extraDistance = (float)(Main.npc[num475].width / 2) + (float)(Main.npc[num475].height / 2);
-
-					bool useCollisionDetection = extraDistance < distance;
-					bool canHit = true;
-					if (useCollisionDetection)
-						canHit = Collision.CanHit(projectile.Center, 1, 1, Main.npc[num475].Center, 1, 1);
-
-					if (Vector2.Distance(Main.npc[num475].Center, projectile.Center) < (distance + extraDistance) && canHit)
-					{
-						distance = Vector2.Distance(Main.npc[num475].Center, projectile.Center);
-						num472 = Main.npc[num475].Center.X;
-						num473 = Main.npc[num475].Center.Y;
-						flag17 = true;
-					}
-				}
-			}
-
-			if (flag17)
-            {
-                float num483 = 10f;
-                Vector2 vector35 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
-                float num484 = num472 - vector35.X;
-                float num485 = num473 - vector35.Y;
-                float num486 = (float)Math.Sqrt((double)(num484 * num484 + num485 * num485));
-                num486 = num483 / num486;
-                num484 *= num486;
-                num485 *= num486;
-                projectile.velocity.X = (projectile.velocity.X * 20f + num484) / 21f;
-                projectile.velocity.Y = (projectile.velocity.Y * 20f + num485) / 21f;
-            }
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 400f, 10f, 20f);
         }
 
 		public override Color? GetAlpha(Color lightColor)

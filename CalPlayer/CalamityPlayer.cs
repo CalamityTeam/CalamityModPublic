@@ -127,6 +127,7 @@ namespace CalamityMod.CalPlayer
         public float shieldInvinc = 5f;
         public GaelSwitchPhase gaelSwitchTimer = 0;
         public int galileoCooldown = 0;
+		public int planarSpeedBoost = 0;
 
         // Sound
         public bool playRogueStealthSound = false;
@@ -1510,6 +1511,7 @@ namespace CalamityMod.CalPlayer
             gaelRageCooldown = 0;
             gaelSwipes = 0;
             gaelSwitchTimer = (GaelSwitchPhase)0;
+			planarSpeedBoost = 0;
 			galileoCooldown = 0;
             stress = 0;
             adrenaline = 0;
@@ -2963,6 +2965,7 @@ namespace CalamityMod.CalPlayer
                 (eTracers ? 0.05f : 0f) +
                 (blueCandle ? 0.05f : 0f) +
                 (etherealExtorter && player.ZoneBeach ? 0.05f : 0f) +
+                (planarSpeedBoost > 0 ? (0.01f * planarSpeedBoost) : 0f) +
                 ((deepDiver && Collision.DrownCollision(player.position, player.width, player.height, player.gravDir)) ? 0.15f : 0f) +
                 (rogueStealthMax > 0f ? (rogueStealth >= rogueStealthMax ? rogueStealth * 0.05f : rogueStealth * 0.025f) : 0f);
 
@@ -2978,6 +2981,7 @@ namespace CalamityMod.CalPlayer
                 (eTracers ? 0.05f : 0f) +
                 (etherealExtorter && player.ZoneBeach ? 0.05f : 0f) +
                 ((stressPills || laudanum || draedonsHeart) ? 0.05f : 0f) +
+                (planarSpeedBoost > 0 ? (0.01f * planarSpeedBoost) : 0f) +
                 ((deepDiver && Collision.DrownCollision(player.position, player.width, player.height, player.gravDir)) ? 0.15f : 0f) +
                 (rogueStealthMax > 0f ? (rogueStealth >= rogueStealthMax ? rogueStealth * 0.05f : rogueStealth * 0.025f) : 0f);
 
@@ -3607,6 +3611,11 @@ namespace CalamityMod.CalPlayer
 			{
 				if (eGauntlet)
 				{
+					target.AddBuff(BuffID.CursedInferno, 120, false);
+					target.AddBuff(BuffID.Frostburn, 120, false);
+					target.AddBuff(BuffID.Ichor, 120, false);
+					target.AddBuff(BuffID.Venom, 120, false);
+					target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 120, false);
 					target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 120, false);
 					target.AddBuff(ModContent.BuffType<HolyFlames>(), 120, false);
 					target.AddBuff(ModContent.BuffType<Plague>(), 120, false);
@@ -3615,27 +3624,20 @@ namespace CalamityMod.CalPlayer
 					{
 						target.AddBuff(ModContent.BuffType<GlacialState>(), 120, false);
 					}
-					target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 120, false);
-					target.AddBuff(BuffID.Poisoned, 120, false);
-					target.AddBuff(BuffID.OnFire, 120, false);
-					target.AddBuff(BuffID.CursedInferno, 120, false);
-					target.AddBuff(BuffID.Frostburn, 120, false);
-					target.AddBuff(BuffID.Ichor, 120, false);
-					target.AddBuff(BuffID.Venom, 120, false);
 				}
 				if (cryogenSoul || frostFlare)
 				{
 					if (Main.rand.NextBool(4))
 					{
-						target.AddBuff(44, 360, false);
+						target.AddBuff(BuffID.Frostburn, 360, false);
 					}
 					else if (Main.rand.NextBool(2))
 					{
-						target.AddBuff(44, 240, false);
+						target.AddBuff(BuffID.Frostburn, 240, false);
 					}
 					else
 					{
-						target.AddBuff(44, 120, false);
+						target.AddBuff(BuffID.Frostburn, 120, false);
 					}
 				}
 				if (yInsignia)
@@ -3900,6 +3902,11 @@ namespace CalamityMod.CalPlayer
 				{
 					if (eGauntlet)
 					{
+						target.AddBuff(BuffID.CursedInferno, 120, false);
+						target.AddBuff(BuffID.Frostburn, 120, false);
+						target.AddBuff(BuffID.Ichor, 120, false);
+						target.AddBuff(BuffID.Venom, 120, false);
+						target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 120, false);
 						target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 120, false);
 						target.AddBuff(ModContent.BuffType<HolyFlames>(), 120, false);
 						target.AddBuff(ModContent.BuffType<Plague>(), 120, false);
@@ -3908,13 +3915,6 @@ namespace CalamityMod.CalPlayer
 						{
 							target.AddBuff(ModContent.BuffType<GlacialState>(), 120, false);
 						}
-						target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 120, false);
-						target.AddBuff(BuffID.Poisoned, 120, false);
-						target.AddBuff(BuffID.OnFire, 120, false);
-						target.AddBuff(BuffID.CursedInferno, 120, false);
-						target.AddBuff(BuffID.Frostburn, 120, false);
-						target.AddBuff(BuffID.Ichor, 120, false);
-						target.AddBuff(BuffID.Venom, 120, false);
 					}
 					if (aWeapon)
 					{
@@ -3935,15 +3935,15 @@ namespace CalamityMod.CalPlayer
 					{
 						if (Main.rand.NextBool(4))
 						{
-							target.AddBuff(44, 360, false);
+							target.AddBuff(BuffID.Frostburn, 360, false);
 						}
 						else if (Main.rand.NextBool(2))
 						{
-							target.AddBuff(44, 240, false);
+							target.AddBuff(BuffID.Frostburn, 240, false);
 						}
 						else
 						{
-							target.AddBuff(44, 120, false);
+							target.AddBuff(BuffID.Frostburn, 120, false);
 						}
 					}
 					if (yInsignia)
@@ -4103,6 +4103,11 @@ namespace CalamityMod.CalPlayer
 			{
 				if (eGauntlet)
 				{
+					target.AddBuff(BuffID.CursedInferno, 120, false);
+					target.AddBuff(BuffID.Frostburn, 120, false);
+					target.AddBuff(BuffID.Ichor, 120, false);
+					target.AddBuff(BuffID.Venom, 120, false);
+					target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 120, false);
 					target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 120, false);
 					target.AddBuff(ModContent.BuffType<HolyFlames>(), 120, false);
 					target.AddBuff(ModContent.BuffType<Plague>(), 120, false);
@@ -4111,13 +4116,6 @@ namespace CalamityMod.CalPlayer
 					{
 						target.AddBuff(ModContent.BuffType<GlacialState>(), 120, false);
 					}
-					target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 120, false);
-					target.AddBuff(BuffID.Poisoned, 120, false);
-					target.AddBuff(BuffID.OnFire, 120, false);
-					target.AddBuff(BuffID.CursedInferno, 120, false);
-					target.AddBuff(BuffID.Frostburn, 120, false);
-					target.AddBuff(BuffID.Ichor, 120, false);
-					target.AddBuff(BuffID.Venom, 120, false);
 				}
 				if (aWeapon)
 				{
@@ -4153,15 +4151,15 @@ namespace CalamityMod.CalPlayer
 				{
 					if (Main.rand.NextBool(4))
 					{
-						target.AddBuff(44, 360, false);
+						target.AddBuff(BuffID.Frostburn, 360, false);
 					}
 					else if (Main.rand.NextBool(2))
 					{
-						target.AddBuff(44, 240, false);
+						target.AddBuff(BuffID.Frostburn, 240, false);
 					}
 					else
 					{
-						target.AddBuff(44, 120, false);
+						target.AddBuff(BuffID.Frostburn, 120, false);
 					}
 				}
 				if (yInsignia)
@@ -4347,6 +4345,11 @@ namespace CalamityMod.CalPlayer
 				{
 					if (eGauntlet)
 					{
+						target.AddBuff(BuffID.CursedInferno, 120, false);
+						target.AddBuff(BuffID.Frostburn, 120, false);
+						target.AddBuff(BuffID.Ichor, 120, false);
+						target.AddBuff(BuffID.Venom, 120, false);
+						target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 120, false);
 						target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 120, false);
 						target.AddBuff(ModContent.BuffType<HolyFlames>(), 120, false);
 						target.AddBuff(ModContent.BuffType<Plague>(), 120, false);
@@ -4355,13 +4358,6 @@ namespace CalamityMod.CalPlayer
 						{
 							target.AddBuff(ModContent.BuffType<GlacialState>(), 120, false);
 						}
-						target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 120, false);
-						target.AddBuff(BuffID.Poisoned, 120, false);
-						target.AddBuff(BuffID.OnFire, 120, false);
-						target.AddBuff(BuffID.CursedInferno, 120, false);
-						target.AddBuff(BuffID.Frostburn, 120, false);
-						target.AddBuff(BuffID.Ichor, 120, false);
-						target.AddBuff(BuffID.Venom, 120, false);
 					}
 					if (aWeapon)
 					{
@@ -4382,15 +4378,15 @@ namespace CalamityMod.CalPlayer
 					{
 						if (Main.rand.NextBool(4))
 						{
-							target.AddBuff(44, 360, false);
+							target.AddBuff(BuffID.Frostburn, 360, false);
 						}
 						else if (Main.rand.NextBool(2))
 						{
-							target.AddBuff(44, 240, false);
+							target.AddBuff(BuffID.Frostburn, 240, false);
 						}
 						else
 						{
-							target.AddBuff(44, 120, false);
+							target.AddBuff(BuffID.Frostburn, 120, false);
 						}
 					}
 					if (yInsignia)
@@ -4740,6 +4736,14 @@ namespace CalamityMod.CalPlayer
 
         public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
+            if (proj.Calamity().rogue)
+            {
+                crit = Main.rand.Next(1, 101) < player.Calamity().throwingCrit;
+            }
+
+			if (proj.npcProj || proj.trap)
+				return;
+
             bool isTrueMelee = proj.Calamity().trueMelee;
             bool isSummon = proj.minion || proj.sentry || CalamityMod.projectileMinionList.Contains(proj.type);
             bool hasClassType = proj.melee || proj.ranged || proj.magic || isSummon || proj.Calamity().rogue;
@@ -4758,11 +4762,6 @@ namespace CalamityMod.CalPlayer
 				if (player.wingTime > player.wingTimeMax)
 					player.wingTime = player.wingTimeMax;
 			}
-
-            if (proj.Calamity().rogue)
-            {
-                crit = Main.rand.Next(1, 101) < player.Calamity().throwingCrit;
-            }
 
             #region MultiplierBoosts
             double damageMult = 1.0;
@@ -5629,7 +5628,6 @@ namespace CalamityMod.CalPlayer
         {
             if (camper && ((double)Math.Abs(player.velocity.X) > 0.05 || (double)Math.Abs(player.velocity.Y) > 0.05))
             {
-
                 return false;
             }
             return null;
@@ -5639,7 +5637,6 @@ namespace CalamityMod.CalPlayer
         {
             if (camper && ((double)Math.Abs(player.velocity.X) > 0.05 || (double)Math.Abs(player.velocity.Y) > 0.05))
             {
-
                 return false;
             }
             return null;
@@ -9832,9 +9829,14 @@ namespace CalamityMod.CalPlayer
         {
             int light = externalAbyssLight;
             bool underwater = player.IsUnderwater();
+			bool miningHelmet = player.head == ArmorIDs.Head.MiningHelmet;
 
             // The campfire bonus does not apply while in the Abyss.
             if (!ZoneAbyss && (player.HasBuff(BuffID.Campfire) || Main.campfire))
+                light += 1;
+            if (camper) //inherits Campfire
+                light += 1;
+            if (miningHelmet)
                 light += 1;
             if (player.lightOrb)
                 light += 1;
@@ -9854,23 +9856,28 @@ namespace CalamityMod.CalPlayer
                 light += 1;
             if (aquaticEmblem && underwater)
                 light += 1;
-            // arctic diving gear overrides the jellyfish necklace if both are worn
             if (player.arcticDivingGear && underwater)
-                light += 2;
-            else if (jellyfishNecklace && underwater)
+                light += 1;
+            if (jellyfishNecklace && underwater)
                 light += 1;
             if (lumenousAmulet && underwater)
                 light += 2;
             if (shine)
                 light += 2;
+            if (blazingCore)
+                light += 2;
             if (player.redFairy || player.greenFairy || player.blueFairy)
                 light += 2;
             if (babyGhostBell)
                 light += 2;
+            else if (babyGhostBell && !underwater) //for Death caverns
+                light += 1;
             if (player.petFlagDD2Ghost)
                 light += 2;
             if (sirenPet && underwater)
                 light += 3;
+            else if (sirenPet && !underwater) //for Death caverns
+                light += 1;
             if (player.wisp)
                 light += 3;
             if (player.suspiciouslookingTentacle)

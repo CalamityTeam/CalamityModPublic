@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 220;
+            item.damage = 420;
             item.magic = true;
             item.mana = 15;
             item.width = 16;
@@ -36,6 +36,6 @@ namespace CalamityMod.Items.Weapons.Magic
             item.Calamity().customRarity = CalamityRarity.ItemSpecific;
         }
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[ModContent.ProjectileType<YharimsCrystalPrism>()] == 0;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[ModContent.ProjectileType<YharimsCrystalPrism>()] <= 0;
     }
 }

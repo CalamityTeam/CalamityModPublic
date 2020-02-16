@@ -12,7 +12,8 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Gleaming Dagger");
             Tooltip.SetDefault("Throws a shiny blade that ricochets towards another enemy on hit\n" +
-                "Stealth strikes cause the blade to home in after ricocheting, with each ricochet dealing 20% more damage");
+                "Stealth strikes cause the blade to home in after ricocheting, with each ricochet dealing 20% more damage\n" +
+				"Stealth strikes also have increased piercing");
         }
 
         public override void SafeSetDefaults()
@@ -42,6 +43,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             {
                 int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 1f);
                 Main.projectile[p].Calamity().stealthStrike = true;
+                Main.projectile[p].penetrate = 4;
                 return false;
             }
             return true;
@@ -50,7 +52,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.PlatinumBar, 2);
+            recipe.AddIngredient(ItemID.PlatinumBar, 12);
             recipe.AddIngredient(ItemID.ThrowingKnife, 250);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this, 1);

@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetDefaults()
         {
             projectile.width = 64;
-            projectile.height = 64;
+            projectile.height = 62;
             projectile.netImportant = true;
             projectile.friendly = true;
             projectile.minionSlots = 1;
@@ -63,7 +63,7 @@ namespace CalamityMod.Projectiles.Summon
 
 			//hitbox size scaling
 			projectile.width = (int)(64f * projectile.scale);
-			projectile.height = (int)(64f * projectile.scale);
+			projectile.height = (int)(62f * projectile.scale);
 
 			//on spawn effects and flexible minions
             if (!dust)
@@ -159,6 +159,33 @@ namespace CalamityMod.Projectiles.Summon
 					float scaleAddition = projectile.scale * 5f;
 					if (teleportCounter <= 0 && teleportRange >= 800f)
 					{
+						float num461 = 50f;
+						int num462 = 0;
+						while ((float)num462 < num461)
+						{
+							int dustType = Utils.SelectRandom(Main.rand, new int[]
+							{
+								ModContent.DustType<AstralBlue>(),
+								ModContent.DustType<AstralOrange>()
+							});
+							float num463 = (float)Main.rand.Next(-10, 11);
+							float num464 = (float)Main.rand.Next(-10, 11);
+							float num465 = (float)Main.rand.Next(3, 9);
+							float num466 = (float)Math.Sqrt((double)(num463 * num463 + num464 * num464));
+							num466 = num465 / num466;
+							num463 *= num466;
+							num464 *= num466;
+							int num467 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dustType, 0f, 0f, 100, default, 2f);
+							Dust dust = Main.dust[num467];
+							dust.noGravity = true;
+							dust.position.X = projectile.Center.X;
+							dust.position.Y = projectile.Center.Y;
+							dust.position.X += (float)Main.rand.Next(-10, 11);
+							dust.position.Y += (float)Main.rand.Next(-10, 11);
+							dust.velocity.X = num463;
+							dust.velocity.Y = num464;
+							num462++;
+						}
 						projectile.position.X = objectivepos.X - (float)(projectile.width / 2) + Main.rand.NextFloat(-100f, 100f);
 						projectile.position.Y = objectivepos.Y - (float)(projectile.height / 2) - Main.rand.NextFloat(0f + scaleAddition, 200f + scaleAddition);
 						projectile.netUpdate = true;

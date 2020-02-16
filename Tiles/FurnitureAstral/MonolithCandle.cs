@@ -38,11 +38,11 @@ namespace CalamityMod.Tiles.FurnitureAstral
             Texture2D glowmask = ModContent.GetTexture("CalamityMod/Tiles/FurnitureAstral/MonolithCandleGlow");
             Color drawColour = GetDrawColour(i, j, new Color(100, 100, 100, 100));
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
-            Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
-            Main.spriteBatch.Draw(glowmask, drawOffset, new Rectangle?(new Rectangle(xPos, yPos, 18, 18)), drawColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+            Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y - 4) + zero;
+            Main.spriteBatch.Draw(glowmask, drawOffset, new Rectangle?(new Rectangle(xPos, yPos, 18, 20)), drawColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
 
             Texture2D glowmaskBright = ModContent.GetTexture("CalamityMod/Tiles/FurnitureAstral/MonolithCandleFlame");
-            Main.spriteBatch.Draw(glowmaskBright, drawOffset, new Rectangle?(new Rectangle(xPos, yPos, 18, 18)), Color.White, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+            Main.spriteBatch.Draw(glowmaskBright, drawOffset, new Rectangle?(new Rectangle(xPos, yPos, 18, 20)), Color.White, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
         }
 
         private Color GetDrawColour(int i, int j, Color colour)
@@ -77,6 +77,20 @@ namespace CalamityMod.Tiles.FurnitureAstral
         public override void HitWire(int i, int j)
         {
             CalamityUtils.LightHitWire(Type, i, j, 1, 1);
+        }
+
+        public override void MouseOver(int i, int j)
+        {
+            Player player = Main.LocalPlayer;
+            player.noThrow = 2;
+            player.showItemIcon = true;
+            player.showItemIcon2 = ModContent.ItemType<Items.Placeables.FurnitureAstral.MonolithCandle>();
+        }
+
+        public override bool NewRightClick(int i, int j)
+        {
+            CalamityUtils.RightClickBreak(i, j);
+            return true;
         }
     }
 }

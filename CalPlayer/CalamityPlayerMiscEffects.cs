@@ -8,6 +8,7 @@ using CalamityMod.Dusts;
 using CalamityMod.Items.Armor;
 using CalamityMod.Items.Fishing.AstralCatches;
 using CalamityMod.Items.Fishing.FishingRods;
+using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.NPCs;
 using CalamityMod.NPCs.AcidRain;
 using CalamityMod.NPCs.Astral;
@@ -377,7 +378,7 @@ namespace CalamityMod.CalPlayer
 						&& (player.legs == ArmorIDs.Legs.EskimoPants || player.legs == ArmorIDs.Legs.PinkEskimoPants);
 
 					bool immunityToHotAndCold = hasMoltenSet || player.magmaStone || player.frostArmor || modPlayer.fBulwark || modPlayer.fBarrier ||
-						modPlayer.frostFlare || modPlayer.rampartOfDeities || modPlayer.cryogenSoul || modPlayer.snowman;
+						modPlayer.frostFlare || modPlayer.rampartOfDeities || modPlayer.cryogenSoul || modPlayer.snowman || modPlayer.blazingCore;
 
 					bool immunityToCold = player.HasBuff(BuffID.Campfire) || Main.campfire || player.resistCold || hasEskimoSet || player.buffImmune[BuffID.Frozen] ||
 						player.HasBuff(BuffID.Inferno) || immunityToHotAndCold || modPlayer.externalColdImmunity;
@@ -2330,6 +2331,12 @@ namespace CalamityMod.CalPlayer
 			if (CalamityMod.spikyBallList.Contains(player.inventory[player.selectedItem].type) && player.invis)
 				modPlayer.throwingCrit += 10;
 
+			if (modPlayer.planarSpeedBoost != 0)
+			{
+				if (player.inventory[player.selectedItem].type != ModContent.ItemType<PrideHuntersPlanarRipper>())
+					modPlayer.planarSpeedBoost = 0;
+			}
+
 			if (modPlayer.etherealExtorter)
 			{
 				bool ZoneForest = !modPlayer.ZoneAbyss && !modPlayer.ZoneSulphur && !modPlayer.ZoneAstral && !modPlayer.ZoneCalamity &&
@@ -3089,7 +3096,7 @@ namespace CalamityMod.CalPlayer
 						(CalamityWorld.downedDoG ? 100f : 0f) +
 						(CalamityWorld.downedYharon ? 100f : 0f);
 
-					if (player.maxMinions >= 10)
+					if (player.Calamity().minionSlotStat >= 10)
 					{
 						player.Calamity().gDefense = true;
 

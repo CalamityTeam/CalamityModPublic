@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,7 +14,6 @@ namespace CalamityMod.Tiles.FurnitureAshen
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Ashen Candle");
             AddMapEntry(new Color(191, 142, 111), name);
-            animationFrameHeight = 22;
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Torches };
             drop = ModContent.ItemType<Items.Placeables.FurnitureAshen.AshenCandle>();
@@ -29,16 +29,6 @@ namespace CalamityMod.Tiles.FurnitureAshen
         public override void NumDust(int i, int j, bool fail, ref int num)
         {
             num = fail ? 1 : 3;
-        }
-
-        public override void AnimateTile(ref int frame, ref int frameCounter)
-        {
-            frameCounter++;
-            if (frameCounter >= 6)
-            {
-                frame = (frame + 1) % 11;
-                frameCounter = 0;
-            }
         }
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
@@ -60,6 +50,30 @@ namespace CalamityMod.Tiles.FurnitureAshen
         public override void HitWire(int i, int j)
         {
             CalamityUtils.LightHitWire(Type, i, j, 1, 1);
+        }
+
+        public override void MouseOver(int i, int j)
+        {
+            Player player = Main.LocalPlayer;
+            player.noThrow = 2;
+            player.showItemIcon = true;
+            player.showItemIcon2 = ModContent.ItemType<Items.Placeables.FurnitureAshen.AshenCandle>();
+        }
+
+        public override bool NewRightClick(int i, int j)
+        {
+            CalamityUtils.RightClickBreak(i, j);
+            return true;
+        }
+
+        public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
+        {
+            CalamityUtils.DrawFlameEffect(ModContent.GetTexture("CalamityMod/Tiles/FurnitureAshen/AshenCandleFlame"), i, j);
+        }
+
+        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
+        {
+            CalamityUtils.DrawFlameSparks(60, 5, i, j);
         }
     }
 }

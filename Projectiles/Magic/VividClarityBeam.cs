@@ -48,12 +48,14 @@ namespace CalamityMod.Projectiles.Magic
                     Main.dust[num42].velocity = projectile.velocity;
                 }
             }
+
             projectile.localAI[1] += 1f;
             if (projectile.localAI[1] >= 29f && projectile.owner == Main.myPlayer)
             {
                 projectile.localAI[1] = 0f;
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0.35f, projectile.velocity.Y * 0.35f, ModContent.ProjectileType<VividOrb>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<VividOrb>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
             }
+
             projectile.localAI[0] += 1f;
             if (projectile.localAI[0] > 4f)
             {
@@ -61,13 +63,12 @@ namespace CalamityMod.Projectiles.Magic
                 {
                     Vector2 vector33 = projectile.position;
                     vector33 -= projectile.velocity * ((float)num447 * 0.25f);
-                    projectile.alpha = 255;
                     int num448 = Dust.NewDust(vector33, 1, 1, 66, 0f, 0f, 0, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1f);
                     Main.dust[num448].noGravity = true;
                     Main.dust[num448].position = vector33;
                     Main.dust[num448].scale = (float)Main.rand.Next(70, 110) * 0.013f;
-                    Main.dust[num448].velocity *= 0.2f;
-                }
+					Main.dust[num448].velocity *= 0.1f;
+				}
             }
         }
 

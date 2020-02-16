@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Typeless;
+using CalamityMod.Items.Weapons.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -236,7 +236,7 @@ namespace CalamityMod.Projectiles.Rogue
 					}
 					value15.Normalize();
 					value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-					int shard = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<NastyChollaNeedle>(), (int)(4f * (player.allDamage + player.meleeDamage - 1f)), 0f, projectile.owner, 0f, 0f);
+					int shard = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<NastyChollaNeedle>(), (int)((NastyCholla.BaseDamage/4) * (player.allDamage + player.meleeDamage - 1f)), 0f, projectile.owner, 0f, 0f);
 				}
 			}
 		}

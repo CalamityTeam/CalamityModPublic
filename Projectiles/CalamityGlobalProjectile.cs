@@ -6,6 +6,7 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Projectiles.Healing;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Melee;
+using CalamityMod.Projectiles.Melee.Yoyos;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
@@ -1989,6 +1990,104 @@ namespace CalamityMod.Projectiles
             }
             return true;
         }
-        #endregion
-    }
+		#endregion
+
+		#region Homing AI
+		public static void HomeInOnNPC(Projectile projectile, bool ignoreTiles, float distanceRequired, float homingVelocity, float N)
+		{
+			Vector2 center = projectile.Center;
+			float maxDistance = distanceRequired;
+			bool homeIn = false;
+
+			for (int i = 0; i < 200; i++)
+			{
+				if (Main.npc[i].CanBeChasedBy(projectile, false))
+				{
+					float extraDistance = (float)(Main.npc[i].width / 2) + (float)(Main.npc[i].height / 2);
+
+					bool canHit = true;
+					if (extraDistance < maxDistance && !ignoreTiles)
+						canHit = Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1);
+
+					if (Vector2.Distance(Main.npc[i].Center, projectile.Center) < (maxDistance + extraDistance) && canHit)
+					{
+						center = Main.npc[i].Center;
+						homeIn = true;
+						break;
+					}
+				}
+			}
+
+			if (homeIn)
+			{
+				Vector2 homeInVector = projectile.DirectionTo(center);
+				if (homeInVector.HasNaNs())
+					homeInVector = Vector2.UnitY;
+
+				projectile.velocity = (projectile.velocity * N + homeInVector * homingVelocity) / (N + 1f);
+			}
+		}
+
+		public static void MagnetSphereHitscan(Projectile projectile, float distanceRequired, float homingVelocity, float projectileTimer, int maxTargets, int spawnedProjectile, double damageMult = 1D)
+		{
+			float maxDistance = distanceRequired;
+			bool homeIn = false;
+			int[] targetArray = new int[maxTargets];
+			int targetArrayIndex = 0;
+
+			for (int i = 0; i < 200; i++)
+			{
+				if (Main.npc[i].CanBeChasedBy(projectile, false))
+				{
+					float extraDistance = (float)(Main.npc[i].width / 2) + (float)(Main.npc[i].height / 2);
+
+					bool canHit = true;
+					if (extraDistance < maxDistance)
+						canHit = Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1);
+
+					if (Vector2.Distance(Main.npc[i].Center, projectile.Center) < (maxDistance + extraDistance) && canHit)
+					{
+						if (targetArrayIndex < maxTargets)
+						{
+							targetArray[targetArrayIndex] = i;
+							targetArrayIndex++;
+							homeIn = true;
+						}
+						else
+							break;
+					}
+				}
+			}
+
+			if (homeIn)
+			{
+				int randomTarget = Main.rand.Next(targetArrayIndex);
+				randomTarget = targetArray[randomTarget];
+
+				projectile.localAI[0] += 1f;
+				if (projectile.localAI[0] > projectileTimer)
+				{
+					projectile.localAI[0] = 0f;
+					Vector2 value = projectile.Center + projectile.velocity * 4f;
+					Vector2 velocity = Vector2.Normalize(Main.npc[randomTarget].Center - value) * homingVelocity;
+
+					if (projectile.type == ModContent.ProjectileType<GodsGambitYoyo>())
+					{
+						velocity.Y += Main.rand.Next(-30, 31) * 0.05f;
+						velocity.X += Main.rand.Next(-30, 31) * 0.05f;
+					}
+
+					if (projectile.owner == Main.myPlayer)
+					{
+						int projectile2 = Projectile.NewProjectile(value.X, value.Y, velocity.X, velocity.Y, spawnedProjectile, (int)(projectile.damage * damageMult), projectile.knockBack, projectile.owner, 0f, 0f);
+
+						if (projectile.type == ModContent.ProjectileType<CnidarianYoyo>() || projectile.type == ModContent.ProjectileType<GodsGambitYoyo>() ||
+							projectile.type == ModContent.ProjectileType<ShimmersparkYoyo>() || projectile.type == ModContent.ProjectileType<VerdantYoyo>())
+							Main.projectile[projectile2].Calamity().forceMelee = true;
+					}
+				}
+			}
+		}
+		#endregion
+	}
 }

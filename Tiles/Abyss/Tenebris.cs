@@ -54,7 +54,7 @@ namespace CalamityMod.Tiles.Abyss
         {
             if (Main.rand.NextBool(5))
 			{
-				if (NPC.downedPlantBoss || CalamityWorld.downedCalamitas)
+				if (CalamityWorld.downedCalamitas)
 				{
 					int random = WorldGen.genRand.Next(4);
 					if (random == 0)

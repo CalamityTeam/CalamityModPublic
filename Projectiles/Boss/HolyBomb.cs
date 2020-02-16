@@ -61,8 +61,7 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.ai[1] = 1f;
                 Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 20);
             }
-            projectile.velocity.X *= 0.975f;
-            projectile.velocity.Y *= 0.975f;
+            projectile.velocity *= 0.975f;
             projectile.frameCounter++;
             if (projectile.frameCounter > 6)
             {

@@ -1,5 +1,6 @@
 using CalamityMod.Dusts.Furniture;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -54,6 +55,16 @@ namespace CalamityMod.Tiles.FurnitureProfaned
         public override void HitWire(int i, int j)
         {
             CalamityUtils.LightHitWire(Type, i, j, 2, 2);
+        }
+
+        public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
+        {
+            CalamityUtils.DrawFlameEffect(ModContent.GetTexture("CalamityMod/Tiles/FurnitureProfaned/ProfanedCandelabraFlame"), i, j);
+        }
+
+        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
+        {
+            CalamityUtils.DrawFlameSparks(246, 5, i, j);
         }
     }
 }
