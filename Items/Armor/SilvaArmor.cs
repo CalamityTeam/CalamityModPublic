@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Armor
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<DarksunFragment>(), 10);
             recipe.AddIngredient(ModContent.ItemType<EffulgentFeather>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
+            recipe.AddRecipeGroup("AnyGoldBar", 10);
             recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 12);
             recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 16);
             recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 16);
