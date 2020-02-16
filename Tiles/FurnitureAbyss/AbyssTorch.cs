@@ -18,6 +18,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
             drop = ModContent.ItemType<Items.Placeables.FurnitureAbyss.AbyssTorch>();
             adjTiles = new int[] { TileID.Torches };
             torch = true;
+			TileID.Sets.FramesOnKillWall[Type] = true;
         }
 
         public override bool CreateDust(int i, int j, ref int type)

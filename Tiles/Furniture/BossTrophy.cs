@@ -21,6 +21,7 @@ namespace CalamityMod.Tiles.Furniture
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Trophy");
             AddMapEntry(new Color(120, 85, 60), name);
+			TileID.Sets.FramesOnKillWall[Type] = true;
         }
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
