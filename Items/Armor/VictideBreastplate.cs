@@ -27,10 +27,7 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.endurance += 0.05f;
-            player.meleeCrit += 5;
-            player.rangedCrit += 5;
-            player.Calamity().throwingCrit += 5;
-            player.magicCrit += 5;
+            player.Calamity().AllCritBoost(5);
             if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
             {
                 player.statDefense += 5;

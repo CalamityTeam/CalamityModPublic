@@ -127,6 +127,7 @@ namespace CalamityMod.CalPlayer
         public float shieldInvinc = 5f;
         public GaelSwitchPhase gaelSwitchTimer = 0;
         public int galileoCooldown = 0;
+		public int planarSpeedBoost = 0;
 
         // Sound
         public bool playRogueStealthSound = false;
@@ -1510,6 +1511,7 @@ namespace CalamityMod.CalPlayer
             gaelRageCooldown = 0;
             gaelSwipes = 0;
             gaelSwitchTimer = (GaelSwitchPhase)0;
+			planarSpeedBoost = 0;
 			galileoCooldown = 0;
             stress = 0;
             adrenaline = 0;
@@ -2963,6 +2965,7 @@ namespace CalamityMod.CalPlayer
                 (eTracers ? 0.05f : 0f) +
                 (blueCandle ? 0.05f : 0f) +
                 (etherealExtorter && player.ZoneBeach ? 0.05f : 0f) +
+                (planarSpeedBoost > 0 ? (0.01f * planarSpeedBoost) : 0f) +
                 ((deepDiver && Collision.DrownCollision(player.position, player.width, player.height, player.gravDir)) ? 0.15f : 0f) +
                 (rogueStealthMax > 0f ? (rogueStealth >= rogueStealthMax ? rogueStealth * 0.05f : rogueStealth * 0.025f) : 0f);
 
@@ -2978,6 +2981,7 @@ namespace CalamityMod.CalPlayer
                 (eTracers ? 0.05f : 0f) +
                 (etherealExtorter && player.ZoneBeach ? 0.05f : 0f) +
                 ((stressPills || laudanum || draedonsHeart) ? 0.05f : 0f) +
+                (planarSpeedBoost > 0 ? (0.01f * planarSpeedBoost) : 0f) +
                 ((deepDiver && Collision.DrownCollision(player.position, player.width, player.height, player.gravDir)) ? 0.15f : 0f) +
                 (rogueStealthMax > 0f ? (rogueStealth >= rogueStealthMax ? rogueStealth * 0.05f : rogueStealth * 0.025f) : 0f);
 
