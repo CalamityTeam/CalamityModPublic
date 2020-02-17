@@ -36,9 +36,9 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.IceBlock, 20);
+            recipe.AddRecipeGroup("AnyIceBlock", 20);
             recipe.AddIngredient(ItemID.Shiverthorn, 2);
-            recipe.AddIngredient(ItemID.SnowBlock, 10);
+            recipe.AddRecipeGroup("AnySnowBlock", 10);
             recipe.AddIngredient(ItemID.WaterBucket);
             recipe.AddTile(TileID.Bookcases);
             recipe.SetResult(this);
