@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             DisplayName.SetDefault("Pride Hunter's Planar Ripper");
             Tooltip.SetDefault("Converts musket balls into lightning bolts\n" +
 			"Lightning bolts travel extremely fast and explode on enemy kills\n" +
-			"Every fourth lightning bolt fired will deal 50 percent more damage.\n" +
+			"Every fourth lightning bolt fired will deal 25 percent more damage.\n" +
 			"Additionally, lightning bolt crits grant a stacking speed boost to the player\n" +
 			"This stacks up to 20 percent bonus movement speed and acceleration\n" +
 			"The boost will reset if the player holds a different item");
@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 88;
+            item.damage = 77;
             item.ranged = true;
             item.width = 68;
             item.height = 32;
@@ -62,7 +62,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 				counter++;
 				float damageMult = 1f;
 				if (counter == 4)
-					damageMult = 1.5f;
+					damageMult = 1.25f;
 
                 Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<PlanarRipperBolt>(), (int)(damage * damageMult), knockBack, player.whoAmI);
 				if (counter >= 4)
