@@ -1,5 +1,7 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.CalPlayer;
+using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -36,6 +38,8 @@ namespace CalamityMod.Projectiles.Melee
 		public override void AI()
 		{
 			Player player = Main.player[projectile.owner];
+			CalamityPlayer modPlayer = player.Calamity();
+			bool astral = modPlayer.ZoneAstral;
 			bool jungle = player.ZoneJungle;
 			bool snow = player.ZoneSnow;
 			bool beach = player.ZoneBeach;
@@ -51,7 +55,12 @@ namespace CalamityMod.Projectiles.Melee
 			bool stardust = player.ZoneTowerStardust;
 			bool solar = player.ZoneTowerSolar;
 			bool vortex = player.ZoneTowerVortex;
-			if (jungle)
+			if (astral)
+			{
+				dustType = ModContent.DustType<AstralOrange>();
+				color = new Color(255, 127, 80, projectile.alpha);
+			}
+			else if (jungle)
 			{
 				dustType = 39;
 				color = new Color(128, 255, 128, projectile.alpha);
@@ -174,6 +183,8 @@ namespace CalamityMod.Projectiles.Melee
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             Player player = Main.player[projectile.owner];
+			CalamityPlayer modPlayer = player.Calamity();
+			bool astral = modPlayer.ZoneAstral;
             bool jungle = player.ZoneJungle;
             bool snow = player.ZoneSnow;
             bool beach = player.ZoneBeach;
@@ -197,7 +208,11 @@ namespace CalamityMod.Projectiles.Melee
             {
                 player.AddBuff(BuffID.WellFed, 600);
             }
-            if (jungle)
+            if (astral)
+			{
+                target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 600);
+			}
+			else if (jungle)
             {
                 target.AddBuff(ModContent.BuffType<Plague>(), 600);
             }
