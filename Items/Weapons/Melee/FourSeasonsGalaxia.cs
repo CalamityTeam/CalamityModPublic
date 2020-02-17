@@ -62,7 +62,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
 			CalamityPlayer modPlayer = player.Calamity();
-			bool astral = player.ZoneAstral;
+			bool astral = modPlayer.ZoneAstral;
             bool jungle = player.ZoneJungle;
             bool snow = player.ZoneSnow;
             bool beach = player.ZoneBeach;

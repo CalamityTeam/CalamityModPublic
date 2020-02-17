@@ -1,3 +1,4 @@
+using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Terraria;

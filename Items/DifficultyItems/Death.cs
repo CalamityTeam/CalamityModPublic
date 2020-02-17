@@ -50,13 +50,13 @@ namespace CalamityMod.Items.DifficultyItems
 
         public override bool UseItem(Player player)
         {
-            for (int doom = 0; doom < 200; doom++)
+            for (int doom = 0; doom < Main.npc.Length; doom++)
             {
                 if ((Main.npc[doom].active && (Main.npc[doom].boss || Main.npc[doom].type == NPCID.EaterofWorldsHead || Main.npc[doom].type == NPCID.EaterofWorldsTail || Main.npc[doom].type == ModContent.NPCType<SlimeGodRun>() ||
                     Main.npc[doom].type == ModContent.NPCType<SlimeGodRunSplit>() || Main.npc[doom].type == ModContent.NPCType<SlimeGod>() || Main.npc[doom].type == ModContent.NPCType<SlimeGodSplit>())) || CalamityWorld.DoGSecondStageCountdown > 0)
                 {
                     player.KillMe(PlayerDeathReason.ByCustomReason(player.name + " tried to change the rules."), 1000.0, 0, false);
-                    Main.npc[doom].active = false;
+                    Main.npc[doom].active = Main.npc[doom].friendly;
                     Main.npc[doom].netUpdate = true;
                 }
             }
@@ -88,6 +88,7 @@ namespace CalamityMod.Items.DifficultyItems
                     NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
                 }
             }
+            CalamityWorld.DoGSecondStageCountdown = 0;
 
             CalamityMod.UpdateServerBoolean();
 
@@ -96,6 +97,8 @@ namespace CalamityMod.Items.DifficultyItems
                 var netMessage = mod.GetPacket();
                 netMessage.Write((byte)CalamityModMessageType.DeathBoolSync);
                 netMessage.Write(CalamityWorld.death);
+                netMessage.Write((uint)CalamityModMessageType.DoGCountdownSync);
+                netMessage.Write(CalamityWorld.DoGSecondStageCountdown);
                 netMessage.Send();
             }
             return true;

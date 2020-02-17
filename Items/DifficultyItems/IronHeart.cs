@@ -46,7 +46,7 @@ namespace CalamityMod.Items.DifficultyItems
                     Main.npc[doom].type == ModContent.NPCType<SlimeGodRunSplit>() || Main.npc[doom].type == ModContent.NPCType<SlimeGod>() || Main.npc[doom].type == ModContent.NPCType<SlimeGodSplit>())) || CalamityWorld.DoGSecondStageCountdown > 0)
                 {
 					player.KillMeForGood();
-                    Main.npc[doom].active = false;
+                    Main.npc[doom].active = Main.npc[doom].friendly;
                     Main.npc[doom].netUpdate = true;
                 }
             }
@@ -78,6 +78,8 @@ namespace CalamityMod.Items.DifficultyItems
                     NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
                 }
             }
+            CalamityWorld.DoGSecondStageCountdown = 0;
+
             CalamityMod.UpdateServerBoolean();
 
             if (Main.netMode == NetmodeID.Server)
@@ -85,6 +87,8 @@ namespace CalamityMod.Items.DifficultyItems
                 var netMessage = mod.GetPacket();
                 netMessage.Write((byte)CalamityModMessageType.IronHeartBoolSync);
                 netMessage.Write(CalamityWorld.ironHeart);
+                netMessage.Write((uint)CalamityModMessageType.DoGCountdownSync);
+                netMessage.Write(CalamityWorld.DoGSecondStageCountdown);
                 netMessage.Send();
             }
             return true;
