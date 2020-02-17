@@ -329,10 +329,11 @@ namespace CalamityMod.NPCs
 
 				if ((double)npc.position.Y > Main.worldSurface * 16.0)
 				{
-					for (int a = 0; a < 200; a++)
+					for (int a = 0; a < Main.npc.Length; a++)
 					{
-						if (npc.type == ModContent.NPCType<AquaticScourgeHead>() || npc.type == ModContent.NPCType<AquaticScourgeBody>() ||
-							npc.type == ModContent.NPCType<AquaticScourgeBodyAlt>() || npc.type == ModContent.NPCType<AquaticScourgeTail>())
+						int type = Main.npc[a].type;
+						if (type == ModContent.NPCType<AquaticScourgeHead>() || type == ModContent.NPCType<AquaticScourgeBody>() ||
+							type == ModContent.NPCType<AquaticScourgeBodyAlt>() || type == ModContent.NPCType<AquaticScourgeTail>())
 						{
 							Main.npc[a].active = false;
 						}
