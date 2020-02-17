@@ -47,6 +47,7 @@ namespace CalamityMod.Items.Weapons.Melee
             recipe.AddIngredient(ItemID.Hellstone, 10);
             recipe.AddIngredient(ItemID.Coral, 5);
             recipe.AddIngredient(ItemID.PearlstoneBlock, 10);
+            recipe.AddIngredient(ModContent.ItemType<AstralMonolith>(), 10);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
