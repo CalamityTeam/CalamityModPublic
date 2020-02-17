@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Accessories
             DisplayName.SetDefault("Abyssal Mirror");
             Tooltip.SetDefault("Light does not reach the depths of the ocean\n" +
                 "Significantly reduces enemy aggression, even in the abyss\n" +
-                "15% increased stealth regeneration while moving\n" +
+                "Stealth generates 30% faster when standing still and 20% faster while moving\n" +
                 "Grants a slight chance to evade attacks, releasing a cloud of lumenyl fluid which damages and stuns nearby enemies\n" +
                 "Evading an attack grants a lot of stealth\n" +
                 "This evade has a 20s cooldown before it can occur again");
@@ -31,7 +31,8 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.stealthGenMoving += 0.15f;
+            modPlayer.stealthGenStandstill += 0.3f;
+            modPlayer.stealthGenMoving += 0.2f;
             modPlayer.abyssalMirror = true;
             player.aggro -= 450;
         }

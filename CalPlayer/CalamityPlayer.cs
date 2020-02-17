@@ -56,7 +56,6 @@ namespace CalamityMod.CalPlayer
 
     public class CalamityPlayer : ModPlayer
     {
-
         #region Variables
         // No Category
         public static bool areThereAnyDamnBosses = false;
@@ -74,7 +73,8 @@ namespace CalamityMod.CalPlayer
 		public bool killSpikyBalls = false;
 		public Projectile lastProjectileHit;
         public double acidRoundMultiplier = 1D;
-        // These variables are ONLY set by Mod.Call. Calamity itself does not touch them.
+
+        // "External" variables -- Only set by Mod.Call
         public int externalAbyssLight = 0;
         public bool externalColdImmunity = false;
         public bool externalHeatImmunity = false;
@@ -156,10 +156,10 @@ namespace CalamityMod.CalPlayer
         public float rogueStealth = 0f;
         public float rogueStealthMax = 0f;
         public float stealthGenStandstill = 1f;
-        public float stealthGenMoving = 0f;
-        public float stealthGenMultiplier = 1f;
-        private float stealthGenAcceleration = 1f;
-        private bool stealthStrikeThisFrame = false;
+        public float stealthGenMoving = 1f;
+        public const float StealthAccelerationCap = 1f;
+        public float stealthAcceleration = 0f;
+        public bool stealthStrikeThisFrame = false;
         public bool stealthStrikeHalfCost = false;
         public bool stealthStrikeAlwaysCrits = false;
         public bool wearingRogueArmor = false;
@@ -1591,6 +1591,7 @@ namespace CalamityMod.CalPlayer
             // Stealth
             rogueStealth = 0f;
             rogueStealthMax = 0f;
+            stealthAcceleration = 0f;
 
             throwingDamage = 1f;
             throwingVelocity = 1f;
@@ -8499,16 +8500,19 @@ namespace CalamityMod.CalPlayer
         #region Rogue Stealth
         private void ResetRogueStealth()
         {
-            // rogueStealth doesn't reset every frame because it's a continuously building resource
+            // rogueStealth doesn't reset every frame because it's a continuously building resource            
 
             // these other parameters are rebuilt every frame based on the items you have equipped
             rogueStealthMax = 0f;
             stealthGenStandstill = 1f;
-            stealthGenMoving = 0f;
-            stealthGenMultiplier = 1f;
+            stealthGenMoving = 1f;
             stealthStrikeThisFrame = false;
             stealthStrikeHalfCost = false;
             stealthStrikeAlwaysCrits = false;
+
+            // stealthAcceleration only resets if you don't have either of the accelerator accessories equipped
+            if (!darkGodSheath && !eclipseMirror)
+                stealthAcceleration = 0f;
         }
 
         public void UpdateRogueStealth()
@@ -8535,8 +8539,9 @@ namespace CalamityMod.CalPlayer
             // Calculate stealth generation and gain stealth accordingly
             if (wearingRogueArmor)
             {
+                // 1f is normal speed, anything higher is faster. Default stealth generation is 3 seconds while standing still.
                 float currentStealthGen = UpdateStealthGenStats();
-                rogueStealth += rogueStealthMax * 0.006f * currentStealthGen;
+                rogueStealth += rogueStealthMax * (currentStealthGen / 180f); // 180 frames = 3 seconds
                 if (rogueStealth > rogueStealthMax)
                     rogueStealth = rogueStealthMax;
             }
@@ -8545,7 +8550,6 @@ namespace CalamityMod.CalPlayer
 
             // If the player is using an item that deals damage and is on their first frame of doing so,
             // consume stealth if a stealth strike wasn't triggered manually by item code.
-
             // This doesn't trigger stealth strike effects (ConsumeStealthStrike instead of StealthStrike)
             // so non-rogue weapons can't call lasers down from the sky and such.
             // Using any item which deals no damage or is a tool doesn't consume stealth.
@@ -8556,31 +8560,29 @@ namespace CalamityMod.CalPlayer
 
         private void ProvideStealthStatBonuses()
         {
-            CalamityPlayer roguePlayer = player.Calamity();
-
-            // At full stealth, you get 100% of the max possible bonus. Partial stealth only gives you 75% of the partial bonus you have.
+            // At full stealth, you get a higher damage bonus than at any partial level of stealth.
             if (rogueStealth >= rogueStealthMax)
-                roguePlayer.throwingDamage += rogueStealth * 1.0f;
+                throwingDamage += rogueStealth * 0.6666666f;
             else
-                roguePlayer.throwingDamage += rogueStealth * 0.75f;
+                throwingDamage += rogueStealth * 0.5f;
 
-            // Crit increases massively based on your stealth value. With certain gear, it's locked at 100% for stealth strikes.
+            // Crit increases based on your stealth value. With certain gear, it's locked at 100% for stealth strikes.
             if (stealthStrikeAlwaysCrits && StealthStrikeAvailable())
-                roguePlayer.throwingCrit = 100;
+                throwingCrit = 100;
             else
-                roguePlayer.throwingCrit += (int)(rogueStealth * 30f);
+                throwingCrit += (int)(rogueStealth * 20f);
 
-            // Stealth increases movement speed and significantly decreases aggro.
+            // Stealth slightly increases movement speed and decreases aggro.
             if (wearingRogueArmor && rogueStealthMax > 0)
             {
                 player.moveSpeed += rogueStealth * 0.05f;
-                player.aggro -= (int)(rogueStealth / rogueStealthMax * 900f);
+                player.aggro -= (int)(rogueStealth * 400f);
             }
         }
 
         private float UpdateStealthGenStats()
         {
-            // If you are actively using an item, you cannot gain stealth even while moving.
+            // If you are actively using an item, you cannot gain stealth.
             if (player.itemAnimation > 0)
                 return 0f;
 
@@ -8600,46 +8602,43 @@ namespace CalamityMod.CalPlayer
 				stealthGenMoving += 0.2f;
 			}
 
-			if (etherealExtorter && Main.moonPhase == 3) //Waning Crescent
-			{
+			if (etherealExtorter && Main.moonPhase == 3) // 3 = Waning Crescent
 				stealthGenMoving += 0.1f;
-			}
-
-            bool standstill = Math.Abs(player.velocity.X) < 0.1f && Math.Abs(player.velocity.Y) < 0.1f && !player.mount.Active;
-
-            // Stealth gen acceleration
-            float stealthScaleCap = eclipseMirror ? 40f : 25f;
-            if (standstill && (eclipseMirror || darkGodSheath) && player.itemAnimation == 0)
-            {
-                if (eclipseMirror)
-                    stealthGenAcceleration = stealthGenAcceleration < stealthScaleCap ? stealthGenAcceleration * 1.2f : stealthScaleCap;
-                if (darkGodSheath)
-                    stealthGenAcceleration = stealthGenAcceleration < stealthScaleCap ? stealthGenAcceleration + 0.15f : stealthScaleCap;
-            }
-            else
-            {
-                stealthGenAcceleration = 1f;
-            }
 
             //
             // Other code which affects stealth generation goes here.
-            // Increase stealthGenStandstill (default 1.0) to increase basic "stand still" stealth generation.
-            // Incrase stealthGenMoving (default 0.0) to increase stealth generation while moving.
-            // Increase stealthGenMultiplier (default 1.0) to provide a global % boost to all stealth generation.
+            // Increase stealthGenStandstill (default 1.0) to give a % boost to stealth gen while standing still.
+            // Increase stealthGenMoving (default 1.0) to give a % boost to stealth gen while moving.
             //
 
+            // Update Dark God's Sheath and Eclipse Mirror's stealth acceleration
+            /*
+             * T = frame counter
+             * DGS  = (100% + 1% * T)
+             * EM   = (100% + 1% * T) * 1.0084^T
+             * BOTH = (100% + 1.5% * T) * 1.0084^T
+             * 
+             * DGS alone caps in 100 frames
+             * EM alone caps in 41 frames
+             * Both together caps in 32 frames
+             */
+            if (darkGodSheath && eclipseMirror)
+            {
+                stealthAcceleration *= 1.0084f;
+                stealthAcceleration += 0.015f;
+            }
+            else if (eclipseMirror)
+            {
+                stealthAcceleration *= 1.0084f;
+                stealthAcceleration += 0.01f;
+            }
+            else if (darkGodSheath)
+                stealthAcceleration += 0.01f;
+
             // You get 100% stealth regen while standing still and not on a mount. Otherwise, you get your stealth regeneration while moving.
-            if (standstill)
-            {
-                if (eclipseMirror || darkGodSheath)
-                    return stealthGenStandstill * stealthGenMultiplier * stealthGenAcceleration;
-                else
-                    return stealthGenStandstill * stealthGenMultiplier;
-            }
-            else
-            {
-                return stealthGenMoving * stealthGenMultiplier;
-            }
+            // Stealth only regenerates at 1/3 speed while moving.
+            bool standstill = Math.Abs(player.velocity.X) < 0.1f && Math.Abs(player.velocity.Y) < 0.1f && !player.mount.Active;
+            return standstill ? stealthGenStandstill : stealthGenMoving * 0.333333f * stealthAcceleration;
         }
 
         public bool StealthStrikeAvailable()
@@ -8649,18 +8648,12 @@ namespace CalamityMod.CalPlayer
             return rogueStealth >= rogueStealthMax * (stealthStrikeHalfCost ? 0.5f : 1f);
         }
 
-        public void StealthStrike()
-        {
-            //
-            // Stuff that happens on stealth strike goes here. Call this from item code.
-            //
-
-            ConsumeStealthByAttacking();
-        }
-
         private void ConsumeStealthByAttacking()
         {
             stealthStrikeThisFrame = true;
+
+            // Reset acceleration when you attack
+            stealthAcceleration = 1f;
 
             if (stealthStrikeHalfCost)
             {

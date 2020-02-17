@@ -44,7 +44,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
             if (player.Calamity().StealthStrikeAvailable() && player.ownedProjectileCounts[ModContent.ProjectileType<CosmicScythe>()] < 10)
             {
-                player.Calamity().StealthStrike();
                 Main.PlaySound(SoundID.Item73, player.position);
                 for (float i = 0; i < 5; i++)
                 {
