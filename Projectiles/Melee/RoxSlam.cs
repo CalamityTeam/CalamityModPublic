@@ -36,6 +36,8 @@ namespace CalamityMod.Projectiles.Melee
                 Player player = Main.player[Main.myPlayer];
                 //Bounce
                 player.velocity.Y = -18f;
+				//reset player fall damage
+				player.fallStart = (int)(player.position.Y / 16f);
                 //Spawns the shockwave
                 Projectile.NewProjectile(projectile.position.X + 25, projectile.position.Y + 25, 0f, 0f, ModContent.ProjectileType<RoxShockwave>(), 300, 12, projectile.owner);
                 Main.PlaySound(2, projectile.position, 14);
@@ -55,6 +57,8 @@ namespace CalamityMod.Projectiles.Melee
             {
                 Player player = Main.player[Main.myPlayer];
                 player.velocity.Y = -14f;
+				//reset player fall damage
+				player.fallStart = (int)(player.position.Y / 16f);
                 Main.PlaySound(21, projectile.position);
                 projectile.Kill();
 
