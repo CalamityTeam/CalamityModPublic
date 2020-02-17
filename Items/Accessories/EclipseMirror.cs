@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Accessories
                 "+20 maximum stealth\n" +
                 "6% increased rogue damage, and 6% increased rogue crit chance\n" +
                 "Vastly reduces enemy aggression, even in the abyss\n" +
-                "Stealth generates 20% faster when standing still" +
+                "Stealth generates 20% faster when standing still\n" +
                 "Mobile stealth generation exponentially accelerates while not attacking\n" +
                 "Stealth strikes have a 100% critical hit chance\n" +
                 "Stealth strikes only expend 50% of your max stealth\n" +
