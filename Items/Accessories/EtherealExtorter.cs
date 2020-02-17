@@ -1,6 +1,5 @@
 using CalamityMod.CalPlayer;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
@@ -29,11 +28,9 @@ Rogue projectiles rarely explode into homing souls
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.etherealExtorter = true;
             modPlayer.throwingDamage += 0.1f;
-			player.lifeRegen -= 1; //canceled out in mushroom biome btw
-			if (Main.moonPhase == 4) //new moon
-			{
+			player.lifeRegen -= 1;
+			if (Main.moonPhase == 4) // 4 = New Moon
 				modPlayer.rogueStealthMax += 0.1f;
-			}
         }
     }
 }

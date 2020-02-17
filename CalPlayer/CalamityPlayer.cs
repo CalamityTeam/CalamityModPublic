@@ -157,8 +157,8 @@ namespace CalamityMod.CalPlayer
         public float rogueStealthMax = 0f;
         public float stealthGenStandstill = 1f;
         public float stealthGenMoving = 1f;
-        public const float StealthAccelerationCap = 1f;
-        public float stealthAcceleration = 0f;
+        public const float StealthAccelerationCap = 2f;
+        public float stealthAcceleration = 1f;
         public bool stealthStrikeThisFrame = false;
         public bool stealthStrikeHalfCost = false;
         public bool stealthStrikeAlwaysCrits = false;
@@ -1591,7 +1591,7 @@ namespace CalamityMod.CalPlayer
             // Stealth
             rogueStealth = 0f;
             rogueStealthMax = 0f;
-            stealthAcceleration = 0f;
+            stealthAcceleration = 1f;
 
             throwingDamage = 1f;
             throwingVelocity = 1f;
@@ -8512,7 +8512,7 @@ namespace CalamityMod.CalPlayer
 
             // stealthAcceleration only resets if you don't have either of the accelerator accessories equipped
             if (!darkGodSheath && !eclipseMirror)
-                stealthAcceleration = 0f;
+                stealthAcceleration = 1f;
         }
 
         public void UpdateRogueStealth()
@@ -8586,24 +8586,31 @@ namespace CalamityMod.CalPlayer
             if (player.itemAnimation > 0)
                 return 0f;
 
-            // Penumbra Potion provides 10% stealth regen while moving, 20% at night and 30% during an eclipse
+            // Penumbra Potion provides various boosts to rogue stealth generation
             if (penumbra)
             {
                 if (Main.eclipse || umbraphileSet)
-                    stealthGenMoving += 0.3f;
-                else if (!Main.dayTime)
+                {
+                    stealthGenStandstill += 0.2f;
                     stealthGenMoving += 0.2f;
-                else
-                    stealthGenMoving += 0.1f;
+                }
+                else if (!Main.dayTime)
+                {
+                    stealthGenStandstill += 0.15f;
+                    stealthGenMoving += 0.15f;
+                }
+                else // daytime
+                    stealthGenMoving += 0.15f;
             }
 
-			if (CalamityMod.daggerList.Contains(player.inventory[player.selectedItem].type) && player.invis)
-			{
-				stealthGenMoving += 0.2f;
-			}
+            if (CalamityMod.daggerList.Contains(player.inventory[player.selectedItem].type) && player.invis)
+            {
+                stealthGenStandstill += 0.08f;
+                stealthGenMoving += 0.08f;
+            }
 
 			if (etherealExtorter && Main.moonPhase == 3) // 3 = Waning Crescent
-				stealthGenMoving += 0.1f;
+				stealthGenStandstill += 0.15f;
 
             //
             // Other code which affects stealth generation goes here.
@@ -8624,16 +8631,17 @@ namespace CalamityMod.CalPlayer
              */
             if (darkGodSheath && eclipseMirror)
             {
-                stealthAcceleration *= 1.0084f;
                 stealthAcceleration += 0.015f;
+                stealthAcceleration *= 1.0084f;
             }
             else if (eclipseMirror)
             {
-                stealthAcceleration *= 1.0084f;
                 stealthAcceleration += 0.01f;
+                stealthAcceleration *= 1.0084f;
             }
             else if (darkGodSheath)
                 stealthAcceleration += 0.01f;
+            MathHelper.Clamp(stealthAcceleration, 1f, StealthAccelerationCap);
 
             // You get 100% stealth regen while standing still and not on a mount. Otherwise, you get your stealth regeneration while moving.
             // Stealth only regenerates at 1/3 speed while moving.
@@ -8651,9 +8659,7 @@ namespace CalamityMod.CalPlayer
         private void ConsumeStealthByAttacking()
         {
             stealthStrikeThisFrame = true;
-
-            // Reset acceleration when you attack
-            stealthAcceleration = 1f;
+            stealthAcceleration = 1f; // Reset acceleration when you attack
 
             if (stealthStrikeHalfCost)
             {

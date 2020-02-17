@@ -11,7 +11,9 @@ namespace CalamityMod.Items.Potions
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Penumbra Potion");
-            Tooltip.SetDefault("Rogue stealth regenerates 10% faster, 20% faster at night and 30% faster during an eclipse");
+            Tooltip.SetDefault("Rogue stealth generates 15% faster while moving\n"
+                + "At night, stealth also generates 15% faster while standing still\n"
+                + "During an eclipse both boosts increase to 20%");
         }
 
         public override void SetDefaults()
