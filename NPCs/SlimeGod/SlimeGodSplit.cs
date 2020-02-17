@@ -37,12 +37,7 @@ namespace CalamityMod.NPCs.SlimeGod
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
-            npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
-            npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
-            npc.buffImmune[ModContent.BuffType<TeslaFreeze>()] = true;
-            npc.buffImmune[ModContent.BuffType<Eutrophication>()] = true;
-			npc.buffImmune[BuffID.Slow] = true;
-			npc.buffImmune[BuffID.Webbed] = true;
+            npc.buffImmune[ModContent.BuffType<TimeSlow>()] = false;
             animationType = 50;
             npc.value = Item.buyPrice(0, 1, 0, 0);
             npc.alpha = 55;

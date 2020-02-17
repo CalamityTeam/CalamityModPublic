@@ -618,12 +618,12 @@ namespace CalamityMod.NPCs
                 }
             }
 
+            DebuffImmunities(npc);
+
             if (CalamityWorld.bossRushActive)
             {
                 BossRushStatChanges(npc, mod);
             }
-
-            DebuffImmunities(npc);
 
             BossValueChanges(npc);
 
@@ -651,26 +651,6 @@ namespace CalamityMod.NPCs
         }
         #endregion
 
-        #region Boss Rush Stat Changes
-        private void BossRushStatChanges(NPC npc, Mod mod)
-        {
-            if (!npc.friendly)
-            {
-				npc.buffImmune[ModContent.BuffType<Enraged>()] = false;
-				npc.buffImmune[ModContent.BuffType<YellowDamageCandle>()] = false;
-            }
-
-            foreach (KeyValuePair<int, int> BossRushHPChange in BossRushHPChanges)
-            {
-                if (npc.type == BossRushHPChange.Key)
-                {
-                    npc.lifeMax = BossRushHPChange.Value;
-                    break;
-                }
-            }
-        }
-        #endregion
-
         #region Debuff Immunities
         private void DebuffImmunities(NPC npc)
         {
@@ -681,6 +661,7 @@ namespace CalamityMod.NPCs
 				npc.buffImmune[ModContent.BuffType<TimeSlow>()] = true;
 				npc.buffImmune[ModContent.BuffType<TeslaFreeze>()] = true;
 				npc.buffImmune[ModContent.BuffType<Eutrophication>()] = true;
+				npc.buffImmune[ModContent.BuffType<PearlAura>()] = true;
 				npc.buffImmune[BuffID.Webbed] = true;
 				npc.buffImmune[BuffID.Slow] = true;
 			}
@@ -707,6 +688,37 @@ namespace CalamityMod.NPCs
 			}
 
             npc.buffImmune[ModContent.BuffType<Enraged>()] = false;
+        }
+        #endregion
+
+        #region Boss Rush Stat Changes
+        private void BossRushStatChanges(NPC npc, Mod mod)
+        {
+            if (!npc.friendly)
+            {
+				npc.buffImmune[ModContent.BuffType<Enraged>()] = false;
+
+				npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
+				npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
+				npc.buffImmune[ModContent.BuffType<TimeSlow>()] = true;
+				npc.buffImmune[ModContent.BuffType<TeslaFreeze>()] = true;
+				npc.buffImmune[ModContent.BuffType<Eutrophication>()] = true;
+				npc.buffImmune[ModContent.BuffType<TimeSlow>()] = true;
+				npc.buffImmune[ModContent.BuffType<SilvaStun>()] = true;
+				npc.buffImmune[ModContent.BuffType<ExoFreeze>()] = true;
+				npc.buffImmune[ModContent.BuffType<PearlAura>()] = true;
+				npc.buffImmune[BuffID.Webbed] = true;
+				npc.buffImmune[BuffID.Slow] = true;
+            }
+
+            foreach (KeyValuePair<int, int> BossRushHPChange in BossRushHPChanges)
+            {
+                if (npc.type == BossRushHPChange.Key)
+                {
+                    npc.lifeMax = BossRushHPChange.Value;
+                    break;
+                }
+            }
         }
         #endregion
 

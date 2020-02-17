@@ -673,7 +673,26 @@ namespace CalamityMod
                 NPCID.DD2KoboldFlyerT3,
                 NPCID.DD2OgreT2,
                 NPCID.DD2OgreT3,
-                NPCID.DD2Betsy
+                NPCID.DD2Betsy,
+				ModContent.NPCType<DesertScourgeHeadSmall>(),
+				ModContent.NPCType<DesertScourgeBodySmall>(),
+				ModContent.NPCType<DesertScourgeTailSmall>(),
+				ModContent.NPCType<GiantClam>(),
+				ModContent.NPCType<PerforatorHeadLarge>(),
+				ModContent.NPCType<PerforatorHeadMedium>(),
+				ModContent.NPCType<PerforatorHeadSmall>(),
+				ModContent.NPCType<PerforatorBodyLarge>(),
+				ModContent.NPCType<PerforatorBodyMedium>(),
+				ModContent.NPCType<PerforatorBodySmall>(),
+				ModContent.NPCType<PerforatorTailLarge>(),
+				ModContent.NPCType<PerforatorTailMedium>(),
+				ModContent.NPCType<PerforatorTailSmall>(),
+				ModContent.NPCType<SlimeGod>(),
+				ModContent.NPCType<SlimeGodRun>(),
+				ModContent.NPCType<SlimeGodSplit>(),
+				ModContent.NPCType<SlimeGodRunSplit>(),
+                ModContent.NPCType<CalamitasRun>(),
+				ModContent.NPCType<CalamitasRun2>(), //brothers
             };
 
             dungeonEnemyBuffList = new List<int>()
