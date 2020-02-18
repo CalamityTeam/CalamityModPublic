@@ -271,6 +271,7 @@ namespace CalamityMod.Items.Weapons.Melee
 					RoxAlt = false;
 					RoxCanUse = 0;
 					player.velocity.Y = -16f;
+					player.fallStart = (int)(player.position.Y / 16f);
 				}
             }
         }
@@ -293,6 +294,7 @@ namespace CalamityMod.Items.Weapons.Melee
 					RoxAlt = false;
 					RoxCanUse = 0;
 					player.velocity.Y = -16f;
+					player.fallStart = (int)(player.position.Y / 16f);
 				}
             }
         }

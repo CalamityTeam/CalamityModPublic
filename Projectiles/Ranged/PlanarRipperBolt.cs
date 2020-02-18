@@ -105,6 +105,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
             projectile.maxPenetrate = -1;
             projectile.penetrate = -1;
+			projectile.damage = (int)(projectile.damage * 0.6f);
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
             projectile.Damage();

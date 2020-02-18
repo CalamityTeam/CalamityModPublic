@@ -18,7 +18,7 @@ Stealth strikes spawn smaller spears to fly along side it");
 
         public override void SafeSetDefaults()
         {
-            item.damage = 280;
+            item.damage = 201;
             item.knockBack = 8f;
             item.crit += 15;
 
@@ -29,11 +29,11 @@ Stealth strikes spawn smaller spears to fly along side it");
             item.noUseGraphic = true;
 
             item.value = Item.buyPrice(1, 20, 0, 0);
-            item.useTime = 15;
-            item.useAnimation = 15;
+            item.useTime = 18;
+            item.useAnimation = 18;
             item.UseSound = SoundID.Item1;
             item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            item.Calamity().customRarity = CalamityRarity.Turquoise; //12
             item.Calamity().rogue = true;
 
             item.autoReuse = true;

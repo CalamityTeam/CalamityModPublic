@@ -1,5 +1,8 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Buffs.Potions;
+using CalamityMod.CalPlayer;
+using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -98,6 +101,8 @@ namespace CalamityMod.Projectiles.Melee
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             Player player = Main.player[projectile.owner];
+			CalamityPlayer modPlayer = player.Calamity();
+			bool astral = modPlayer.ZoneAstral;
             bool jungle = player.ZoneJungle;
             bool snow = player.ZoneSnow;
             bool beach = player.ZoneBeach;
@@ -127,7 +132,14 @@ namespace CalamityMod.Projectiles.Melee
             {
                 player.AddBuff(BuffID.WellFed, 600);
             }
-            if (jungle)
+            if (astral)
+			{
+                target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 1200);
+                player.AddBuff(ModContent.BuffType<GravityNormalizerBuff>(), 600);
+                int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y, ModContent.ProjectileType<AstralStar>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                Main.projectile[proj].Calamity().forceMelee = true;
+			}
+			else if (jungle)
             {
                 target.AddBuff(ModContent.BuffType<Plague>(), 1200);
                 player.AddBuff(BuffID.Thorns, 600);

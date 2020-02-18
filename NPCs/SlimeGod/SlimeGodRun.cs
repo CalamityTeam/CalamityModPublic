@@ -36,12 +36,7 @@ namespace CalamityMod.NPCs.SlimeGod
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
             animationType = 50;
-            npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
-            npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
-            npc.buffImmune[ModContent.BuffType<TeslaFreeze>()] = true;
-            npc.buffImmune[ModContent.BuffType<Eutrophication>()] = true;
-			npc.buffImmune[BuffID.Slow] = true;
-			npc.buffImmune[BuffID.Webbed] = true;
+            npc.buffImmune[ModContent.BuffType<TimeSlow>()] = false;
             npc.value = 0f;
             npc.alpha = 55;
             npc.lavaImmune = false;

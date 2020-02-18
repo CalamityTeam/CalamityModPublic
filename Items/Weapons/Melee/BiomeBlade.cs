@@ -1,3 +1,4 @@
+using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -39,29 +40,15 @@ namespace CalamityMod.Items.Weapons.Melee
             recipe.AddIngredient(ItemID.WoodenSword);
             recipe.AddIngredient(ItemID.DirtBlock, 10);
             recipe.AddIngredient(ItemID.SandBlock, 10);
-            recipe.AddIngredient(ItemID.IceBlock, 10);
-            recipe.AddIngredient(ItemID.EbonstoneBlock, 10);
+            recipe.AddIngredient(ItemID.IceBlock, 10); //intentionally not any ice
+            recipe.AddRecipeGroup("AnyEvilBlock", 10);
             recipe.AddIngredient(ItemID.GlowingMushroom, 10);
             recipe.AddIngredient(ItemID.Marble, 10);
             recipe.AddIngredient(ItemID.Granite, 10);
             recipe.AddIngredient(ItemID.Hellstone, 10);
             recipe.AddIngredient(ItemID.Coral, 5);
             recipe.AddIngredient(ItemID.PearlstoneBlock, 10);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.WoodenSword);
-            recipe.AddIngredient(ItemID.DirtBlock, 10);
-            recipe.AddIngredient(ItemID.SandBlock, 10);
-            recipe.AddIngredient(ItemID.IceBlock, 10);
-            recipe.AddIngredient(ItemID.CrimstoneBlock, 10);
-            recipe.AddIngredient(ItemID.GlowingMushroom, 10);
-            recipe.AddIngredient(ItemID.Marble, 10);
-            recipe.AddIngredient(ItemID.Granite, 10);
-            recipe.AddIngredient(ItemID.Hellstone, 10);
-            recipe.AddIngredient(ItemID.Coral, 5);
-            recipe.AddIngredient(ItemID.PearlstoneBlock, 10);
+            recipe.AddIngredient(ModContent.ItemType<AstralMonolith>(), 10);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

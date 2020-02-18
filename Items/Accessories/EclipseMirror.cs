@@ -12,11 +12,11 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Eclipse Mirror");
             Tooltip.SetDefault("Its reflection shows naught but darkness\n" +
-                "+10 maximum stealth\n" +
-                "8% increased rogue damage, and 8% increased rogue crit chance\n" +
+                "+20 maximum stealth\n" +
+                "6% increased rogue damage, and 6% increased rogue crit chance\n" +
                 "Vastly reduces enemy aggression, even in the abyss\n" +
-                "20% increased stealth regeneration while moving\n" +
-                "Stealth regeneration rate exponentially increases while standing still\n" +
+                "Stealth generates 20% faster when standing still\n" +
+                "Mobile stealth generation exponentially accelerates while not attacking\n" +
                 "Stealth strikes have a 100% critical hit chance\n" +
                 "Stealth strikes only expend 50% of your max stealth\n" +
                 "Grants a small chance to evade attacks in a blast of darksun light, which inflicts extreme damage in a wide area\n" +
@@ -36,13 +36,13 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.stealthGenMoving += 0.2f;
-            modPlayer.rogueStealthMax += 0.1f;
+            modPlayer.stealthGenStandstill += 0.2f;
+            modPlayer.rogueStealthMax += 0.2f;
             modPlayer.eclipseMirror = true;
             modPlayer.stealthStrikeAlwaysCrits = true;
             modPlayer.stealthStrikeHalfCost = true;
-            modPlayer.throwingCrit += 8;
-            modPlayer.throwingDamage += 0.08f;
+            modPlayer.throwingCrit += 6;
+            modPlayer.throwingDamage += 0.06f;
             player.aggro -= 700;
         }
 

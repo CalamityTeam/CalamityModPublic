@@ -41,7 +41,7 @@ namespace CalamityMod.Items.SummonItems
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.IceBlock, 50);
+            recipe.AddRecipeGroup("AnyIceBlock", 50);
             recipe.AddIngredient(ItemID.SoulofNight, 3);
             recipe.AddIngredient(ItemID.SoulofLight, 3);
             recipe.AddIngredient(ModContent.ItemType<EssenceofEleum>(), 5);

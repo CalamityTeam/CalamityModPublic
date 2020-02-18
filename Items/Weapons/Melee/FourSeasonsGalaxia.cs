@@ -1,4 +1,6 @@
 using CalamityMod.Items.Materials;
+using CalamityMod.Buffs.Potions;
+using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
@@ -59,6 +61,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
+			CalamityPlayer modPlayer = player.Calamity();
+			bool astral = modPlayer.ZoneAstral;
             bool jungle = player.ZoneJungle;
             bool snow = player.ZoneSnow;
             bool beach = player.ZoneBeach;
@@ -88,7 +92,11 @@ namespace CalamityMod.Items.Weapons.Melee
             {
                 player.AddBuff(BuffID.WellFed, 600);
             }
-            if (jungle)
+            if (astral)
+            {
+                player.AddBuff(ModContent.BuffType<GravityNormalizerBuff>(), 600);
+            }
+            else if (jungle)
             {
                 player.AddBuff(BuffID.Thorns, 600);
             }

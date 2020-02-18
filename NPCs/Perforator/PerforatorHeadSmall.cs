@@ -39,12 +39,7 @@ namespace CalamityMod.NPCs.Perforator
             aiType = -1;
             npc.knockBackResist = 0f;
             npc.alpha = 255;
-            npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
-            npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
-            npc.buffImmune[ModContent.BuffType<TeslaFreeze>()] = true;
-            npc.buffImmune[ModContent.BuffType<Eutrophication>()] = true;
-			npc.buffImmune[BuffID.Slow] = true;
-			npc.buffImmune[BuffID.Webbed] = true;
+            npc.buffImmune[ModContent.BuffType<TimeSlow>()] = false;
             npc.behindTiles = true;
             npc.noGravity = true;
             npc.noTileCollide = true;

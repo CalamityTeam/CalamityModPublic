@@ -258,7 +258,7 @@ namespace CalamityMod
 
             // Ice Mirror
             r = GetNewRecipe();
-            r.AddIngredient(ItemID.IceBlock, 20);
+            r.AddRecipeGroup("AnyIceBlock", 20);
             r.AddIngredient(ItemID.Glass, 10);
             r.AddIngredient(ItemID.FallenStar, 10);
             r.AddIngredient(ItemID.IronBar, 5);
@@ -296,8 +296,8 @@ namespace CalamityMod
 
             // Ice Machine
             r = GetNewRecipe();
-            r.AddIngredient(ItemID.IceBlock, 25);
-            r.AddIngredient(ItemID.SnowBlock, 15);
+            r.AddRecipeGroup("AnyIceBlock", 25);
+            r.AddRecipeGroup("AnySnowBlock", 15);
             r.AddIngredient(ItemID.IronBar, 3);
             r.anyIronBar = true;
             r.AddTile(TileID.Anvils);
@@ -448,8 +448,8 @@ namespace CalamityMod
 
             //Ice Boomerang
             r = GetNewRecipe();
-            r.AddIngredient(ItemID.IceBlock, 20);
-            r.AddIngredient(ItemID.SnowBlock, 10);
+            r.AddRecipeGroup("AnyIceBlock", 20);
+            r.AddRecipeGroup("AnySnowBlock", 10);
             r.AddIngredient(ItemID.Shiverthorn);
             r.AddTile(TileID.IceMachine);
             r.SetResult(ItemID.IceBoomerang);
@@ -482,7 +482,7 @@ namespace CalamityMod
             r = GetNewRecipe();
             r.AddIngredient(ItemID.Feather, 4);
             r.AddIngredient(ItemID.Bottle);
-            r.AddIngredient(ItemID.SnowBlock, 50);
+            r.AddRecipeGroup("AnySnowBlock", 50);
             r.AddTile(TileID.Anvils);
             r.SetResult(ItemID.BlizzardinaBottle);
             r.AddRecipe();
@@ -540,7 +540,7 @@ namespace CalamityMod
 
             // Ice Skates
             r = GetNewRecipe();
-            r.AddIngredient(ItemID.IceBlock, 20);
+            r.AddRecipeGroup("AnyIceBlock", 20);
             r.AddIngredient(ItemID.Leather, 5);
             r.AddIngredient(ItemID.IronBar, 5);
             r.anyIronBar = true;
@@ -880,6 +880,23 @@ namespace CalamityMod
                 ItemID.BloodWater
             });
             RecipeGroup.RegisterGroup("AnyEvilWater", group);
+
+            group = new RecipeGroup(() => "Any Ice Block", new int[]
+            {
+                ItemID.IceBlock,
+                ItemID.PurpleIceBlock,
+                ItemID.RedIceBlock,
+                ItemID.PinkIceBlock,
+                ModContent.ItemType<AstralIce>()
+            });
+            RecipeGroup.RegisterGroup("AnyIceBlock", group);
+
+            group = new RecipeGroup(() => "Any Snow Block", new int[]
+            {
+                ItemID.SnowBlock,
+                ModContent.ItemType<AstralSnow>()
+            });
+            RecipeGroup.RegisterGroup("AnySnowBlock", group);
 
             group = new RecipeGroup(() => "Any Silt", new int[]
             {

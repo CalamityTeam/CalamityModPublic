@@ -48,7 +48,7 @@ namespace CalamityMod.NPCs.Cryogen
         public override void AI()
         {
             bool revenge = CalamityWorld.revenge;
-            Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.01f, 0.25f, 0.25f);
+            Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.02f, 0.5f, 0.5f);
             npc.TargetClosest(true);
             float num1372 = revenge ? 12f : 11f;
             if (CalamityWorld.bossRushActive)

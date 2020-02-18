@@ -618,12 +618,12 @@ namespace CalamityMod.NPCs
                 }
             }
 
+            DebuffImmunities(npc);
+
             if (CalamityWorld.bossRushActive)
             {
                 BossRushStatChanges(npc, mod);
             }
-
-            DebuffImmunities(npc);
 
             BossValueChanges(npc);
 
@@ -651,26 +651,6 @@ namespace CalamityMod.NPCs
         }
         #endregion
 
-        #region Boss Rush Stat Changes
-        private void BossRushStatChanges(NPC npc, Mod mod)
-        {
-            if (!npc.friendly)
-            {
-				npc.buffImmune[ModContent.BuffType<Enraged>()] = false;
-				npc.buffImmune[ModContent.BuffType<YellowDamageCandle>()] = false;
-            }
-
-            foreach (KeyValuePair<int, int> BossRushHPChange in BossRushHPChanges)
-            {
-                if (npc.type == BossRushHPChange.Key)
-                {
-                    npc.lifeMax = BossRushHPChange.Value;
-                    break;
-                }
-            }
-        }
-        #endregion
-
         #region Debuff Immunities
         private void DebuffImmunities(NPC npc)
         {
@@ -681,6 +661,7 @@ namespace CalamityMod.NPCs
 				npc.buffImmune[ModContent.BuffType<TimeSlow>()] = true;
 				npc.buffImmune[ModContent.BuffType<TeslaFreeze>()] = true;
 				npc.buffImmune[ModContent.BuffType<Eutrophication>()] = true;
+				npc.buffImmune[ModContent.BuffType<PearlAura>()] = true;
 				npc.buffImmune[BuffID.Webbed] = true;
 				npc.buffImmune[BuffID.Slow] = true;
 			}
@@ -707,6 +688,37 @@ namespace CalamityMod.NPCs
 			}
 
             npc.buffImmune[ModContent.BuffType<Enraged>()] = false;
+        }
+        #endregion
+
+        #region Boss Rush Stat Changes
+        private void BossRushStatChanges(NPC npc, Mod mod)
+        {
+            if (!npc.friendly)
+            {
+				npc.buffImmune[ModContent.BuffType<Enraged>()] = false;
+
+				npc.buffImmune[ModContent.BuffType<GlacialState>()] = true;
+				npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = true;
+				npc.buffImmune[ModContent.BuffType<TimeSlow>()] = true;
+				npc.buffImmune[ModContent.BuffType<TeslaFreeze>()] = true;
+				npc.buffImmune[ModContent.BuffType<Eutrophication>()] = true;
+				npc.buffImmune[ModContent.BuffType<TimeSlow>()] = true;
+				npc.buffImmune[ModContent.BuffType<SilvaStun>()] = true;
+				npc.buffImmune[ModContent.BuffType<ExoFreeze>()] = true;
+				npc.buffImmune[ModContent.BuffType<PearlAura>()] = true;
+				npc.buffImmune[BuffID.Webbed] = true;
+				npc.buffImmune[BuffID.Slow] = true;
+            }
+
+            foreach (KeyValuePair<int, int> BossRushHPChange in BossRushHPChanges)
+            {
+                if (npc.type == BossRushHPChange.Key)
+                {
+                    npc.lifeMax = BossRushHPChange.Value;
+                    break;
+                }
+            }
         }
         #endregion
 
@@ -3041,6 +3053,9 @@ namespace CalamityMod.NPCs
         #region Modify Hit By Projectile
         public override void ModifyHitByProjectile(NPC npc, Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
+			Player player = Main.player[projectile.owner];
+			CalamityPlayer modPlayer = player.Calamity();
+
 			if (npc.townNPC && projectile.hostile)
 				damage *= 2;
 
@@ -3050,12 +3065,12 @@ namespace CalamityMod.NPCs
 				{
 					damage = (int)(damage * 0.1);
 				}
-				else if (projectile.type == ModContent.ProjectileType<BigNuke>() || projectile.type == ModContent.ProjectileType<RainBolt>() ||
-					projectile.type == ModContent.ProjectileType<AtlantisSpear2>() || projectile.type == ModContent.ProjectileType<MalachiteBolt>())
+				else if (projectile.type == (ModContent.ProjectileType<BigNuke>() | ModContent.ProjectileType<RainBolt>() |
+					ModContent.ProjectileType<AtlantisSpear2>() | ModContent.ProjectileType<MalachiteBolt>()))
 				{
 					damage = (int)(damage * 0.2);
 				}
-				else if (projectile.type == ProjectileID.DD2BetsyArrow || projectile.type == ModContent.ProjectileType<PlaguenadeProj>())
+				else if (projectile.type == (ProjectileID.DD2BetsyArrow | ModContent.ProjectileType<PlaguenadeProj>()))
 				{
 					damage = (int)(damage * 0.3);
 				}
@@ -3082,7 +3097,7 @@ namespace CalamityMod.NPCs
 				{
                     damage = (int)((double)damage * 0.9);
 				}
-                else if (projectile.type == ModContent.ProjectileType<MoltenAmputatorProj>() || projectile.type == ModContent.ProjectileType<MoltenBlobThrown>())
+                else if (projectile.type == (ModContent.ProjectileType<MoltenAmputatorProj>() | ModContent.ProjectileType<MoltenBlobThrown>()))
                 {
                     if (projectile.penetrate == -1)
                         projectile.penetrate = projectile.Calamity().stealthStrike ? 6 : 9;
@@ -3108,7 +3123,7 @@ namespace CalamityMod.NPCs
                 {
                     damage = (int)(damage * 0.5);
                 }
-                else if (projectile.type == ModContent.ProjectileType<FossilShardThrown>() || projectile.type == ModContent.ProjectileType<FrostShardFriendly>() || projectile.type == ModContent.ProjectileType<DesecratedBubble>())
+                else if (projectile.type == (ModContent.ProjectileType<FossilShardThrown>() | ModContent.ProjectileType<FrostShardFriendly>() | ModContent.ProjectileType<DesecratedBubble>()))
                 {
                     damage = (int)(damage * 0.75);
                 }
@@ -3123,6 +3138,10 @@ namespace CalamityMod.NPCs
 				{
 					damage = (int)(damage * 0.5);
 				}
+                if (projectile.type == (ModContent.ProjectileType<FlameBeamTip>() | ModContent.ProjectileType<FlameBeamTip2>()))
+                {
+                    damage = (int)(damage * 0.5);
+                }
 			}
             else if (EaterofWorldsIDs.Contains(npc.type) || npc.type == NPCID.Creeper)
             {
@@ -3136,7 +3155,7 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (Main.player[projectile.owner].Calamity().eGauntlet)
+            if (modPlayer.eGauntlet)
             {
                 if (projectile.melee && ShouldAffectNPC(npc) && !projectile.npcProj && Main.rand.NextBool(15))
                 {
@@ -3147,7 +3166,7 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (Main.player[projectile.owner].Calamity().eTalisman)
+            if (modPlayer.eTalisman)
             {
                 if (projectile.magic && ShouldAffectNPC(npc) && !projectile.npcProj && Main.rand.NextBool(15))
                 {
@@ -3158,7 +3177,7 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (Main.player[projectile.owner].Calamity().nanotech)
+            if (modPlayer.nanotech)
             {
                 if (projectile.Calamity().rogue && ShouldAffectNPC(npc) && !projectile.npcProj && Main.rand.NextBool(15))
                 {
@@ -3169,7 +3188,7 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (Main.player[projectile.owner].Calamity().eQuiver)
+            if (modPlayer.eQuiver)
             {
                 if (projectile.ranged && ShouldAffectNPC(npc) && !projectile.npcProj && Main.rand.NextBool(15))
                 {
@@ -3180,7 +3199,7 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (Main.player[projectile.owner].Calamity().statisBeltOfCurses)
+            if (modPlayer.statisBeltOfCurses)
             {
                 if ((projectile.minion || CalamityMod.projectileMinionList.Contains(projectile.type)) && ShouldAffectNPC(npc) && !projectile.npcProj && Main.rand.NextBool(15))
                 {
@@ -3190,15 +3209,8 @@ namespace CalamityMod.NPCs
                     }
                 }
             }
-            if (projectile.type == ModContent.ProjectileType<GaelSkull>() ||
-                projectile.type == ModContent.ProjectileType<GaelSkull2>() && 
-                npc.type >= NPCID.SkeletronHead &&
-                npc.type <= NPCID.SkeletronHand)
-            {
-                damage = (int)(damage * 0.85);
-            }
 
-			if (projectile.ranged && Main.player[projectile.owner].Calamity().plagueReaper && pFlames > 0)
+			if (projectile.ranged && modPlayer.plagueReaper && pFlames > 0)
 			{
 				damage = (int)(damage * 1.1);
 			}
@@ -3229,24 +3241,27 @@ namespace CalamityMod.NPCs
         #region On Hit By Projectile
         public override void OnHitByProjectile(NPC npc, Projectile projectile, int damage, float knockback, bool crit)
         {
+			Player player = Main.player[projectile.owner];
+			CalamityPlayer modPlayer = player.Calamity();
+
             bool isSummon = projectile.minion || projectile.sentry || CalamityMod.projectileMinionList.Contains(projectile.type) || ProjectileID.Sets.MinionShot[projectile.type] || ProjectileID.Sets.SentryShot[projectile.type];
 
-            if (Main.player[projectile.owner].Calamity().sGenerator)
+            if (modPlayer.sGenerator)
             {
                 if (isSummon && npc.damage > 0)
                 {
                     switch (Main.rand.Next(3))
                     {
                         case 0:
-                            Main.player[projectile.owner].AddBuff(ModContent.BuffType<SpiritGeneratorAtkBuff>(), 120);
+                            player.AddBuff(ModContent.BuffType<SpiritGeneratorAtkBuff>(), 120);
                             break;
 
                         case 1:
-                            Main.player[projectile.owner].AddBuff(ModContent.BuffType<SpiritGeneratorRegenBuff>(), 120);
+                            player.AddBuff(ModContent.BuffType<SpiritGeneratorRegenBuff>(), 120);
                             break;
 
                         case 2:
-                            Main.player[projectile.owner].AddBuff(ModContent.BuffType<SpiritGeneratorDefBuff>(), 120);
+                            player.AddBuff(ModContent.BuffType<SpiritGeneratorDefBuff>(), 120);
                             break;
 
                         default:
@@ -3255,18 +3270,18 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (Main.player[projectile.owner].Calamity().bloodflareSet)
+            if (modPlayer.bloodflareSet)
             {
                 if (!npc.SpawnedFromStatue && npc.damage > 0 && (npc.life < npc.lifeMax * 0.5) &&
-                    Main.player[projectile.owner].Calamity().bloodflareHeartTimer <= 0)
+                    modPlayer.bloodflareHeartTimer <= 0)
                 {
-                    Main.player[projectile.owner].Calamity().bloodflareHeartTimer = 180;
+                    modPlayer.bloodflareHeartTimer = 180;
                     DropHelper.DropItem(npc, ItemID.Heart);
                 }
                 else if (!npc.SpawnedFromStatue && npc.damage > 0 && (npc.life > npc.lifeMax * 0.5) &&
-                    Main.player[projectile.owner].Calamity().bloodflareManaTimer <= 0)
+                    modPlayer.bloodflareManaTimer <= 0)
                 {
-                    Main.player[projectile.owner].Calamity().bloodflareManaTimer = 180;
+                    modPlayer.bloodflareManaTimer = 180;
                     DropHelper.DropItem(npc, ItemID.Star);
                 }
             }
