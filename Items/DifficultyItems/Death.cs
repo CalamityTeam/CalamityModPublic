@@ -16,6 +16,7 @@ namespace CalamityMod.Items.DifficultyItems
             Tooltip.SetDefault("Makes bosses even more EXTREME.\n" +
                 "Allows certain bosses to spawn naturally.\n" +
 				"Certain biomes and events have additional weather effects.\n" +
+				"Lethal lava effects are always enabled.\n" +
                 "Increases enemy damage by 15%.\n" +
                 "Greatly boosts enemy spawn rates during the blood moon.\n" +
                 "Nerfs the effectiveness of life steal.\n" +
