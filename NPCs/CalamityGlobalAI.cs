@@ -2688,23 +2688,23 @@ namespace CalamityMod.NPCs
                     else
                         npc.velocity.Y -= num603;
 
-                    if (npc.velocity.Y < -12f)
+                    if (npc.velocity.Y < -num602)
                         npc.velocity.Y = -num602;
-                    if (npc.velocity.Y > 12f)
+                    if (npc.velocity.Y > num602)
                         npc.velocity.Y = num602;
 
-                    if (Math.Abs(npc.position.X + (float)(npc.width / 2) - (Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2))) > 600f)
-                        npc.velocity.X += 0.15f * (float)npc.direction;
+                    if (Math.Abs(npc.position.X + (float)(npc.width / 2) - (Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2))) > 500f)
+                        npc.velocity.X += num603 * (float)npc.direction;
                     else if (Math.Abs(npc.position.X + (float)(npc.width / 2) - (Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2))) < 300f)
-                        npc.velocity.X -= 0.15f * (float)npc.direction;
+                        npc.velocity.X -= num603 * (float)npc.direction;
                     else
                         npc.velocity.X *= 0.8f;
 
                     // Limit velocity
-                    if (npc.velocity.X < -16f)
-                        npc.velocity.X = -16f;
-                    if (npc.velocity.X > 16f)
-                        npc.velocity.X = 16f;
+                    if (npc.velocity.X < -num602)
+                        npc.velocity.X = -num602;
+                    if (npc.velocity.X > num602)
+                        npc.velocity.X = num602;
 
                     // Face the correct direction
                     npc.spriteDirection = npc.direction;

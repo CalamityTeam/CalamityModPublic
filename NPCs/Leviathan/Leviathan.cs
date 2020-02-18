@@ -260,7 +260,7 @@ namespace CalamityMod.NPCs.Leviathan
                         if (npc.ai[2] >= 75f)
                         {
                             npc.ai[2] = 0f;
-                            vector40 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
+                            vector40 = new Vector2(npc.position.X + (float)npc.width * 0.5f, (npc.position.Y + (float)npc.height * 0.5f) + 160f);
                             num415 = player.position.X + (float)(player.width / 2) - vector40.X;
                             num416 = player.position.Y + (float)(player.height / 2) - vector40.Y;
 
@@ -412,7 +412,9 @@ namespace CalamityMod.NPCs.Leviathan
                         npc.netUpdate = true;
                         return;
                     }
-                    if (npc.ai[1] % 2f == 0f)
+
+					float chargeDistance = sirenAlive ? 1100f : 900f;
+					if (npc.ai[1] % 2f == 0f)
                     {
                         int num24 = 7;
                         for (int j = 0; j < num24; j++)
@@ -468,12 +470,12 @@ namespace CalamityMod.NPCs.Leviathan
 
                         float num1048 = revenge ? 7.5f : 6.5f;
                         float num1049 = revenge ? 0.12f : 0.11f;
-                        if ((double)npc.life < (double)npc.lifeMax * 0.25 || death)
+                        if ((double)npc.life < (double)npc.lifeMax * 0.66 || death)
                         {
                             num1048 += 2f;
                             num1049 += 0.05f;
                         }
-                        if ((double)npc.life < (double)npc.lifeMax * 0.1 || death)
+                        if ((double)npc.life < (double)npc.lifeMax * 0.33 || death)
                         {
                             num1048 += 2f;
                             num1049 += 0.1f;
@@ -490,74 +492,51 @@ namespace CalamityMod.NPCs.Leviathan
                         }
 
                         if (npc.position.Y + (float)(npc.height / 2) < (player.position.Y + (float)(player.height / 2)))
-                        {
                             npc.velocity.Y += num1049;
-                        }
                         else
-                        {
                             npc.velocity.Y -= num1049;
-                        }
-                        if (npc.velocity.Y < -12f)
-                        {
+
+                        if (npc.velocity.Y < -num1048)
                             npc.velocity.Y = -num1048;
-                        }
-                        if (npc.velocity.Y > 12f)
-                        {
+                        if (npc.velocity.Y > num1048)
                             npc.velocity.Y = num1048;
-                        }
-                        if (Math.Abs(npc.position.X + (float)(npc.width / 2) - (player.position.X + (float)(player.width / 2))) > 600f)
-                        {
-                            npc.velocity.X += 0.15f * (float)npc.direction;
-                        }
-                        else if (Math.Abs(npc.position.X + (float)(npc.width / 2) - (player.position.X + (float)(player.width / 2))) < 300f)
-                        {
-                            npc.velocity.X -= 0.15f * (float)npc.direction;
-                        }
+
+                        if (Math.Abs(npc.position.X + (float)(npc.width / 2) - (player.position.X + (float)(player.width / 2))) > chargeDistance + 200f)
+                            npc.velocity.X += num1049 * (float)npc.direction;
+                        else if (Math.Abs(npc.position.X + (float)(npc.width / 2) - (player.position.X + (float)(player.width / 2))) < chargeDistance)
+                            npc.velocity.X -= num1049 * (float)npc.direction;
                         else
-                        {
                             npc.velocity.X *= 0.8f;
-                        }
-                        if (npc.velocity.X < -16f)
-                        {
-                            npc.velocity.X = -16f;
-                        }
-                        if (npc.velocity.X > 16f)
-                        {
-                            npc.velocity.X = 16f;
-                        }
+
+                        if (npc.velocity.X < -num1048)
+                            npc.velocity.X = -num1048;
+                        if (npc.velocity.X > num1048)
+                            npc.velocity.X = num1048;
+
                         npc.spriteDirection = npc.direction;
                     }
                     else
                     {
                         if (npc.velocity.X < 0f)
-                        {
                             npc.direction = -1;
-                        }
                         else
-                        {
                             npc.direction = 1;
-                        }
 
                         npc.spriteDirection = npc.direction;
 
-                        int num1050 = sirenAlive ? 1100 : 900;
                         int num1051 = 1;
                         if (npc.position.X + (float)(npc.width / 2) < player.position.X + (float)(player.width / 2))
-                        {
                             num1051 = -1;
-                        }
-                        if (npc.direction == num1051 && Math.Abs(npc.position.X + (float)(npc.width / 2) - (player.position.X + (float)(player.width / 2))) > (float)num1050)
-                        {
+                        if (npc.direction == num1051 && Math.Abs(npc.position.X + (float)(npc.width / 2) - (player.position.X + (float)(player.width / 2))) > chargeDistance)
                             npc.ai[2] = 1f;
-                        }
+
                         if (npc.ai[2] != 1f)
-                        {
                             return;
-                        }
 
                         npc.TargetClosest(true);
 
                         npc.spriteDirection = npc.direction;
+
                         npc.velocity *= 0.9f;
                         float num1052 = revenge ? 0.11f : 0.1f;
                         if (npc.life < npc.lifeMax / 4 || death)

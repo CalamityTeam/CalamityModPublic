@@ -27,8 +27,8 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
     [AutoloadBossHead]
     public class PlaguebringerGoliath : ModNPC
     {
-        private const float MissileAngleSpread = 90;
-        private const int MissileProjectiles = 5;
+        private const float MissileAngleSpread = 60;
+        private const int MissileProjectiles = 8;
         private int MissileCountdown = 0;
         private int despawnTimer = 120;
         private int chargeDistance = 0;
@@ -275,7 +275,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
                     float playerLocation = npc.Center.X - player.Center.X;
 
-                    if (Math.Abs(npc.position.Y + (float)(npc.height / 2) - (player.position.Y + (float)(player.height / 2) - (float)chargeDistance)) < 40f)
+                    if (Math.Abs(npc.position.Y + (float)(npc.height / 2) - (player.position.Y + (float)(player.height / 2) - (float)chargeDistance)) < 20f)
                     {
 						if (diagonalDash)
 						{
@@ -354,17 +354,17 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     if (npc.velocity.Y > num1048)
                         npc.velocity.Y = num1048;
 
-                    if (Math.Abs(npc.position.X + (float)(npc.width / 2) - (player.position.X + (float)(player.width / 2))) > 600f)
-                        npc.velocity.X += 0.15f * (float)npc.direction;
-                    else if (Math.Abs(npc.position.X + (float)(npc.width / 2) - (player.position.X + (float)(player.width / 2))) < 300f)
-                        npc.velocity.X -= 0.15f * (float)npc.direction;
+                    if (Math.Abs(npc.position.X + (float)(npc.width / 2) - (player.position.X + (float)(player.width / 2))) > 650f)
+                        npc.velocity.X += num1049 * (float)npc.direction;
+                    else if (Math.Abs(npc.position.X + (float)(npc.width / 2) - (player.position.X + (float)(player.width / 2))) < 500f)
+                        npc.velocity.X -= num1049 * (float)npc.direction;
                     else
                         npc.velocity.X *= 0.8f;
 
-                    if (npc.velocity.X < -20f)
-                        npc.velocity.X = -20f;
-                    if (npc.velocity.X > 20f)
-                        npc.velocity.X = 20f;
+                    if (npc.velocity.X < -num1048)
+                        npc.velocity.X = -num1048;
+                    if (npc.velocity.X > num1048)
+                        npc.velocity.X = num1048;
 
                     npc.direction = playerLocation < 0 ? 1 : -1;
                     npc.spriteDirection = npc.direction;
@@ -726,7 +726,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
                     float playerLocation = npc.Center.X - player.Center.X;
 
-                    if (Math.Abs(npc.position.Y + (float)(npc.height / 2) - (player.position.Y + (float)(player.height / 2) - 500f)) < 40f)
+                    if (Math.Abs(npc.position.Y + (float)(npc.height / 2) - (player.position.Y + (float)(player.height / 2) - 500f)) < 20f)
                     {
                         if (MissileCountdown == 1)
                         {
@@ -735,24 +735,21 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
                                 int speed = revenge ? 6 : 5;
+								if (aboveGroundEnrage)
+									speed = 8;
                                 if (CalamityWorld.bossRushActive)
-                                    speed = 9;
-
-                                float spawnX = npc.Center.X;
-                                float spawnY = npc.Center.Y;
+                                    speed = 12;
                                 int damage = expertMode ? 48 : 60;
 
-                                Vector2 baseSpawn = new Vector2(spawnX, spawnY);
-                                Vector2 baseVelocity = player.Center - baseSpawn;
+                                Vector2 baseVelocity = player.Center - npc.Center;
                                 baseVelocity.Normalize();
                                 baseVelocity *= speed;
 
                                 for (int i = 0; i < MissileProjectiles; i++)
                                 {
-                                    Vector2 spawn = baseSpawn;
-                                    spawn.X = spawn.X + i * 30 - (MissileProjectiles * 15);
+                                    Vector2 spawn = npc.Center;
+                                    spawn.X += i * 27 - (MissileProjectiles * 12); // -96 to 93
                                     Vector2 velocity = baseVelocity.RotatedBy(MathHelper.ToRadians(-MissileAngleSpread / 2 + (MissileAngleSpread * i / (float)MissileProjectiles)));
-                                    velocity.X = velocity.X + 3 * Main.rand.NextFloat() - 1.5f;
                                     Projectile.NewProjectile(spawn.X, spawn.Y, velocity.X, velocity.Y, ModContent.ProjectileType<HiveBombGoliath>(), damage, 0f, Main.myPlayer, 0f, player.position.Y);
                                 }
                             }
