@@ -9833,7 +9833,7 @@ namespace CalamityMod.CalPlayer
             // The campfire bonus does not apply while in the Abyss.
             if (!ZoneAbyss && (player.HasBuff(BuffID.Campfire) || Main.campfire))
                 light += 1;
-            if (camper) //inherits Campfire
+            if (camper) //inherits Campfire so really +2
                 light += 1;
             if (miningHelmet)
                 light += 1;
@@ -9855,9 +9855,9 @@ namespace CalamityMod.CalPlayer
                 light += 1;
             if (aquaticEmblem && underwater)
                 light += 1;
-            if (player.arcticDivingGear && underwater)
+            if (player.arcticDivingGear && underwater) //inherited by abyssal diving gear/suit, also gives jellyfish necklace so really +2
                 light += 1;
-            if (jellyfishNecklace && underwater)
+            if (jellyfishNecklace && underwater) //inherited by deific amulet+, jellyfish diving gear+
                 light += 1;
             if (lumenousAmulet && underwater)
                 light += 2;
