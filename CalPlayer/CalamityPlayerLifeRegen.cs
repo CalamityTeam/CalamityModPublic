@@ -435,7 +435,7 @@ namespace CalamityMod.CalPlayer
                     player.lifeRegenCount = 0;
             }
 
-            if (CalamityMod.CalamityConfig.LethalLava)
+            if (CalamityMod.CalamityConfig.LethalLava || CalamityWorld.death) //always occurs in Death regardless of config
             {
                 if (Main.myPlayer == player.whoAmI)
                 {

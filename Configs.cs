@@ -112,7 +112,7 @@ namespace CalamityMod
 
 		[DefaultValue(true)]
 		[Label("Lethal Lava")]
-		[Tooltip("Increases the severity of lava with a new debuff to punish those who stay in lava for too long")]
+		[Tooltip("Increases the severity of lava with a new debuff to punish those who stay in lava for too long\nEnabled in Death Mode regardless of this configuration setting")]
 		public bool LethalLava { get; set; }
 
 		[DefaultValue(true)]
