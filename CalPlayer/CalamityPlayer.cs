@@ -98,9 +98,10 @@ namespace CalamityMod.CalPlayer
 		public int rageDamageStat = 0;
 		public int moveSpeedStat = 0;
 		public int abyssLightLevelStat = 0;
-		public int[] abyssBreathLossStats = new int[4];
+		public int abyssBreathLossStat = 0;
 		public int abyssBreathLossRateStat = 0;
-		public int[] abyssLifeLostAtZeroBreathStats = new int[4];
+		public int abyssLifeLostAtZeroBreathStat = 0;
+		public int abyssDefenseLossStat = 0;
 
         // Timer and Counter
         public int bossRushImmunityFrameCurseTimer = 0;

@@ -1596,57 +1596,7 @@ namespace CalamityMod.CalPlayer
 		private static void AbyssEffects(Player player, CalamityPlayer modPlayer)
 		{
 			int lightStrength = modPlayer.GetTotalLightStrength();
-
-			double breathLossMult = 1.0 -
-				(player.gills ? 0.2 : 0.0) - // 0.8
-				(player.accDivingHelm ? 0.25 : 0.0) - // 0.75
-				(player.arcticDivingGear ? 0.25 : 0.0) - // 0.75
-				(modPlayer.aquaticEmblem ? 0.25 : 0.0) - // 0.75
-				(player.accMerman ? 0.3 : 0.0) - // 0.7
-				(modPlayer.victideSet ? 0.2 : 0.0) - // 0.85
-				(((modPlayer.sirenBoobs || modPlayer.sirenBoobsAlt) && NPC.downedBoss3) ? 0.3 : 0.0) - // 0.7
-				(modPlayer.abyssalDivingSuit ? 0.3 : 0.0); // 0.7
-
-			if (breathLossMult < 0.05)
-				breathLossMult = 0.05;
-
-			double tickMult = 1.0 +
-				(player.gills ? 4.0 : 0.0) + // 5
-				(player.ignoreWater ? 5.0 : 0.0) + // 10
-				(player.accDivingHelm ? 10.0 : 0.0) + // 20
-				(player.arcticDivingGear ? 10.0 : 0.0) + // 30
-				(modPlayer.aquaticEmblem ? 10.0 : 0.0) + // 40
-				(player.accMerman ? 15.0 : 0.0) + // 55
-				(modPlayer.victideSet ? 5.0 : 0.0) + // 60
-				(((modPlayer.sirenBoobs || modPlayer.sirenBoobsAlt) && NPC.downedBoss3) ? 15.0 : 0.0) + // 75
-				(modPlayer.abyssalDivingSuit ? 15.0 : 0.0); // 90
-
-			if (tickMult > 50.0)
-				tickMult = 50.0;
-
-			int lifeLossAtZeroBreathResist = 0;
-			if (modPlayer.depthCharm)
-			{
-				lifeLossAtZeroBreathResist += 3;
-				if (modPlayer.abyssalDivingSuit)
-					lifeLossAtZeroBreathResist += 6;
-			}
-
 			modPlayer.abyssLightLevelStat = lightStrength;
-			modPlayer.abyssBreathLossStats[0] = (int)(2D * breathLossMult);
-			modPlayer.abyssBreathLossStats[1] = (int)(6D * breathLossMult);
-			modPlayer.abyssBreathLossStats[2] = (int)(18D * breathLossMult);
-			modPlayer.abyssBreathLossStats[3] = (int)(54D * breathLossMult);
-			modPlayer.abyssBreathLossRateStat = (int)(6D * tickMult);
-			modPlayer.abyssLifeLostAtZeroBreathStats[0] = 3 - lifeLossAtZeroBreathResist;
-			modPlayer.abyssLifeLostAtZeroBreathStats[1] = 6 - lifeLossAtZeroBreathResist;
-			modPlayer.abyssLifeLostAtZeroBreathStats[2] = 12 - lifeLossAtZeroBreathResist;
-			modPlayer.abyssLifeLostAtZeroBreathStats[3] = 24 - lifeLossAtZeroBreathResist;
-
-			if (modPlayer.abyssLifeLostAtZeroBreathStats[0] < 0)
-				modPlayer.abyssLifeLostAtZeroBreathStats[0] = 0;
-			if (modPlayer.abyssLifeLostAtZeroBreathStats[1] < 0)
-				modPlayer.abyssLifeLostAtZeroBreathStats[1] = 0;
 
 			if (modPlayer.ZoneAbyss)
 			{
@@ -1704,8 +1654,26 @@ namespace CalamityMod.CalPlayer
 					// Breath lost while at zero breath
 					int breathLoss = (int)(60 * depthRatio);
 
+					// Breath Loss Multiplier, depending on gear
+					double breathLossMult = 1D -
+						(player.gills ? 0.2 : 0D) - // 0.8
+						(player.accDivingHelm ? 0.25 : 0D) - // 0.75
+						(player.arcticDivingGear ? 0.25 : 0D) - // 0.75
+						(modPlayer.aquaticEmblem ? 0.25 : 0D) - // 0.75
+						(player.accMerman ? 0.3 : 0D) - // 0.7
+						(modPlayer.victideSet ? 0.2 : 0D) - // 0.85
+						(((modPlayer.sirenBoobs || modPlayer.sirenBoobsAlt) && NPC.downedBoss3) ? 0.3 : 0D) - // 0.7
+						(modPlayer.abyssalDivingSuit ? 0.3 : 0D); // 0.7
+
+					// Limit the multiplier to 5%
+					if (breathLossMult < 0.05)
+						breathLossMult = 0.05;
+
 					// Reduce breath lost while at zero breath, depending on gear
 					breathLoss = (int)(breathLoss * breathLossMult);
+
+					// Stat Meter stat
+					modPlayer.abyssBreathLossStat = breathLoss;
 
 					// Defense loss
 					int defenseLoss = (int)(120 * depthRatio);
@@ -1716,6 +1684,9 @@ namespace CalamityMod.CalPlayer
 
 					// Reduce defense
 					player.statDefense -= defenseLoss;
+
+					// Stat Meter stat
+					modPlayer.abyssDefenseLossStat = defenseLoss;
 
 					// Bleed effect based on abyss layer
 					if (modPlayer.ZoneAbyssLayer4)
@@ -1740,8 +1711,27 @@ namespace CalamityMod.CalPlayer
 					if (tick < 1)
 						tick = 1;
 
+					// Tick (frame) multiplier, depending on gear
+					double tickMult = 1D +
+						(player.gills ? 4D : 0D) + // 5
+						(player.ignoreWater ? 5D : 0D) + // 10
+						(player.accDivingHelm ? 10D : 0D) + // 20
+						(player.arcticDivingGear ? 10D : 0D) + // 30
+						(modPlayer.aquaticEmblem ? 10D : 0D) + // 40
+						(player.accMerman ? 15D : 0D) + // 55
+						(modPlayer.victideSet ? 5D : 0D) + // 60
+						(((modPlayer.sirenBoobs || modPlayer.sirenBoobsAlt) && NPC.downedBoss3) ? 15D : 0D) + // 75
+						(modPlayer.abyssalDivingSuit ? 15D : 0D); // 90
+
+					// Limit the multiplier to 50
+					if (tickMult > 50D)
+						tickMult = 50D;
+
 					// Increase ticks (frames) until breath is deducted, depending on gear
 					tick = (int)(tick * tickMult);
+
+					// Stat Meter stat
+					modPlayer.abyssBreathLossRateStat = tick;
 
 					// Reduce breath over ticks (frames)
 					modPlayer.abyssBreathCD++;
@@ -1764,6 +1754,22 @@ namespace CalamityMod.CalPlayer
 
 					// Life loss will at zero breath
 					int lifeLossAtZeroBreath = (int)(30 * depthRatio);
+
+					// Resistance to life loss at zero breath
+					int lifeLossAtZeroBreathResist = 0;
+					if (modPlayer.depthCharm)
+					{
+						lifeLossAtZeroBreathResist += 3;
+						if (modPlayer.abyssalDivingSuit)
+							lifeLossAtZeroBreathResist += 6;
+					}
+
+					// Stat Meter stat
+					modPlayer.abyssLifeLostAtZeroBreathStat = lifeLossAtZeroBreath - lifeLossAtZeroBreathResist;
+
+					// Can't be negative
+					if (modPlayer.abyssLifeLostAtZeroBreathStat < 0)
+						modPlayer.abyssLifeLostAtZeroBreathStat = 0;
 
 					// Check breath value
 					if (player.breath <= 0)

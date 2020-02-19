@@ -58,7 +58,10 @@ namespace CalamityMod.Items.Accessories
 			int wingFlightTime = modPlayer.wingFlightTimeStat;
 			int moveSpeed = modPlayer.moveSpeedStat;
 			int lightLevel = modPlayer.abyssLightLevelStat;
+			int breathLoss = modPlayer.abyssBreathLossStat;
 			int breathLossRate = modPlayer.abyssBreathLossRateStat;
+			int lifeLostAtZeroBreath = modPlayer.abyssLifeLostAtZeroBreathStat;
+			int defenseLoss = modPlayer.abyssDefenseLossStat;
 
 			// The notice about held item mattering is always displayed first.
 			StringBuilder sb = new StringBuilder("Offensive stats displayed vary with held item\n\n", 1024);
@@ -72,33 +75,33 @@ namespace CalamityMod.Items.Accessories
 			}
 
 			// Append item stats only if the held item isn't null, and base it off of the item's damage type.
-			if(heldItem != null)
+			if (heldItem != null)
 			{
-				if(heldItem.melee)
+				if (heldItem.melee)
 				{
 					sb.Append("Melee Damage: ").Append(modPlayer.damageStats[0])
 						.Append("% | Melee Crit Chance: ").Append(modPlayer.critStats[0])
 						.Append("%\nMeleeSpeed Boost: ").Append(meleeSpeed).Append("%\n\n");
 				}
-				else if(heldItem.ranged)
+				else if (heldItem.ranged)
 				{
 					sb.Append("Ranged Damage: ").Append(modPlayer.damageStats[1])
 						.Append("% | Ranged Crit Chance: ").Append(modPlayer.critStats[1])
 						.Append("%\nAmmo Consumption Chance: ").Append(ammoConsumption).Append("%\n\n");
 				}
-				else if(heldItem.magic)
+				else if (heldItem.magic)
 				{
 					sb.Append("Magic Damage: ").Append(modPlayer.damageStats[2])
 						.Append("% | Magic Crit Chance: ").Append(modPlayer.critStats[2])
 						.Append("%\nMana Usage: ").Append(manaCost)
 						.Append("% | Mana Regen").Append(manaRegen).Append("\n\n");
 				}
-				else if(heldItem.summon)
+				else if (heldItem.summon)
 				{
 					sb.Append("Minion Damage: ").Append(modPlayer.damageStats[3])
 						.Append("% | Minion Slots: ").Append(minionSlots).Append("\n\n");
 				}
-				else if(heldItem.Calamity().rogue)
+				else if (heldItem.Calamity().rogue)
 				{
 					sb.Append("Rogue Damage: ").Append(modPlayer.damageStats[4])
 						.Append("% | Rogue Crit Chance: ").Append(modPlayer.critStats[3])
@@ -114,18 +117,21 @@ namespace CalamityMod.Items.Accessories
 			sb.Append(" | Armor Penetration: ").Append(armorPenetration).Append("\n");
 			sb.Append("Wing Flight Time: ").Append(wingFlightTime);
 			sb.Append(" | Movement Speed Boost: ").Append(moveSpeed).Append("%\n\n");
+			sb.Append(CalamityWorld.death ? "Abyss/Cave Light Strength: " : "Abyss Light Strength: ").Append(lightLevel).Append("\n\n");
 
 			// Abyss stats always render.
-			sb.Append(CalamityWorld.death ? "Abyss/Cave Light Strength: " : "Abyss Light Strength: ").Append(lightLevel).Append("\n");
-			sb.Append("Breath Lost Per Tick:\nLayer 1: ").Append(modPlayer.abyssBreathLossStats[0]);
-			sb.Append(" | Layer 2: ").Append(modPlayer.abyssBreathLossStats[1]).Append("\n");
-			sb.Append("Layer 3: ").Append(modPlayer.abyssBreathLossStats[2]);
-			sb.Append(" | Layer 4: ").Append(modPlayer.abyssBreathLossStats[3]).Append("\n");
-			sb.Append("Breath Loss Rate: ").Append(breathLossRate).Append("\n");
-			sb.Append("Life Lost Per Tick at Zero Breath:\nLayer 1: ").Append(modPlayer.abyssLifeLostAtZeroBreathStats[0]);
-			sb.Append(" | Layer 2: ").Append(modPlayer.abyssLifeLostAtZeroBreathStats[1]).Append("\n");
-			sb.Append("Layer 3: ").Append(modPlayer.abyssLifeLostAtZeroBreathStats[2]);
-			sb.Append(" | Layer 4: ").Append(modPlayer.abyssLifeLostAtZeroBreathStats[3]);
+			sb.Append("Other Abyss Stats:").Append("\n");
+			if (modPlayer.ZoneAbyss)
+			{
+				sb.Append("Breath Lost Per Tick: ").Append(breathLoss);
+				sb.Append(" | Breath Loss Rate: ").Append(breathLossRate).Append("\n");
+				sb.Append("Life Lost Per Tick at Zero Breath: ").Append(lifeLostAtZeroBreath).Append("\n");
+				sb.Append("Defense Lost: ").Append(defenseLoss);
+			}
+			else
+			{
+				sb.Append("Only displayed while in the Abyss");
+			}
 
 			return sb.ToString();
 		}
