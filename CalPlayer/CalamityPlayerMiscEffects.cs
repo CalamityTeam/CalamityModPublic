@@ -363,7 +363,7 @@ namespace CalamityMod.CalPlayer
 					if (point.Y > Main.worldSurface && !modPlayer.ZoneAbyss && !player.ZoneUnderworldHeight)
 					{
 						// Darkness strength scales smoothly with how deep you are.
-						double totalUndergroundDepth = Main.maxTilesY - 200.0 - Main.worldSurface;
+						double totalUndergroundDepth = Main.maxTilesY - 200D - Main.worldSurface;
 						double playerUndergroundDepth = point.Y - Main.worldSurface;
 						double depthRatio = playerUndergroundDepth / totalUndergroundDepth;
 						int lightStrength = modPlayer.GetTotalLightStrength();
@@ -1650,114 +1650,139 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.ZoneAbyss)
 			{
-				if (Main.myPlayer == player.whoAmI) // 4200 total tiles small world
+				if (Main.myPlayer == player.whoAmI)
 				{
-					int breathLoss = 2;
-					int lifeLossAtZeroBreath = 3;
-					int tick = 6;
+					// Abyss depth variables
+					Point point = player.Center.ToTileCoordinates();
+					double abyssSurface = Main.rockLayer - (double)Main.maxTilesY * 0.05;
+					double totalAbyssDepth = Main.maxTilesY - 250D - abyssSurface;
+					double playerAbyssDepth = point.Y - abyssSurface;
+					double depthRatio = playerAbyssDepth / totalAbyssDepth;
 
-					bool lightLevelOne = lightStrength > 0; // 1+
-					bool lightLevelTwo = lightStrength > 2; // 3+
-					bool lightLevelThree = lightStrength > 4; // 5+
-					bool lightLevelFour = lightStrength > 6; // 7+
-					int deathModeDarknessLevel = 0;
+					// Darkness strength scales smoothly with how deep you are.
+					float darknessStrength = (float)depthRatio;
 
-					if (modPlayer.ZoneAbyssLayer4) // 3200 and below
+					// Reduce the power of abyss darkness based on your light level.
+					float multiplier = 1f;
+					switch (lightStrength)
 					{
-						if (CalamityWorld.death)
-							deathModeDarknessLevel = 200 - lightStrength * 25;
-
-						breathLoss = 54;
-						if (!lightLevelFour)
-							player.blind = true;
-						if (!lightLevelThree)
-							player.headcovered = true;
-						player.bleed = true;
-						lifeLossAtZeroBreath = 24;
-						player.statDefense -= modPlayer.anechoicPlating ? 40 : 120;
+						case 0:
+							break;
+						case 1:
+							multiplier = 0.85f;
+							break;
+						case 2:
+							multiplier = 0.7f;
+							break;
+						case 3:
+							multiplier = 0.55f;
+							break;
+						case 4:
+							multiplier = 0.4f;
+							break;
+						case 5:
+							multiplier = 0.25f;
+							break;
+						case 6:
+							multiplier = 0.15f;
+							break;
+						case 7:
+							multiplier = 0.1f;
+							break;
+						default:
+							multiplier = 0.05f;
+							break;
 					}
-					else if (modPlayer.ZoneAbyssLayer3) // 2700 to 3200
-					{
-						if (CalamityWorld.death)
-							deathModeDarknessLevel = 150 - lightStrength * 25;
 
-						breathLoss = 18;
-						if (!lightLevelThree)
-							player.blind = true;
-						if (!lightLevelTwo)
-							player.headcovered = true;
+					// Increased darkness in Death Mode
+					if (CalamityWorld.death)
+						multiplier += (1f - multiplier) * 0.1f;
+
+					// Modify darkness variable
+					modPlayer.caveDarkness = darknessStrength * multiplier;
+
+					// Breath lost while at zero breath
+					int breathLoss = (int)(60 * depthRatio);
+
+					// Reduce breath lost while at zero breath, depending on gear
+					breathLoss = (int)(breathLoss * breathLossMult);
+
+					// Defense loss
+					int defenseLoss = (int)(120 * depthRatio);
+
+					// Anechoic Plating reduces defense loss by 66%
+					if (modPlayer.anechoicPlating)
+						defenseLoss /= 3;
+
+					// Reduce defense
+					player.statDefense -= defenseLoss;
+
+					// Bleed effect based on abyss layer
+					if (modPlayer.ZoneAbyssLayer4)
+					{
+						player.bleed = true;
+					}
+					else if (modPlayer.ZoneAbyssLayer3)
+					{
 						if (!modPlayer.abyssalDivingSuit)
 							player.bleed = true;
-						lifeLossAtZeroBreath = 12;
-						player.statDefense -= modPlayer.anechoicPlating ? 20 : 60;
 					}
-					else if (modPlayer.ZoneAbyssLayer2) // 2100 to 2700
+					else if (modPlayer.ZoneAbyssLayer2)
 					{
-						if (CalamityWorld.death)
-							deathModeDarknessLevel = 100 - lightStrength * 25;
-
-						breathLoss = 6;
-						if (!lightLevelTwo)
-							player.blind = true;
 						if (!modPlayer.depthCharm)
 							player.bleed = true;
-						lifeLossAtZeroBreath = 6;
-						player.statDefense -= modPlayer.anechoicPlating ? 10 : 30;
-					}
-					else if (modPlayer.ZoneAbyssLayer1) // 1500 to 2100
-					{
-						if (CalamityWorld.death)
-							deathModeDarknessLevel = 50 - lightStrength * 25;
-
-						if (!lightLevelOne)
-							player.blind = true;
-						player.statDefense -= modPlayer.anechoicPlating ? 5 : 15;
 					}
 
-					if (CalamityWorld.death)
-					{
-						if (deathModeDarknessLevel < 0)
-							deathModeDarknessLevel = 0;
-						Main.BlackFadeIn = deathModeDarknessLevel;
-					}
+					// Ticks (frames) until breath is deducted from the breath meter
+					int tick = (int)(12D * (1D - depthRatio));
 
-					breathLoss = (int)((double)breathLoss * breathLossMult);
-					tick = (int)((double)tick * tickMult);
+					// Prevent awful shit from happening
+					if (tick < 1)
+						tick = 1;
 
-					if (player.gills || player.merman)
-					{
-						if (player.breath > 0)
-							player.breath -= 3;
-					}
+					// Increase ticks (frames) until breath is deducted, depending on gear
+					tick = (int)(tick * tickMult);
 
+					// Reduce breath over ticks (frames)
 					modPlayer.abyssBreathCD++;
 					if (modPlayer.abyssBreathCD >= tick)
 					{
+						// Reset modded breath variable
 						modPlayer.abyssBreathCD = 0;
 
+						// Reduce breath
 						if (player.breath > 0)
-							player.breath -= breathLoss;
+							player.breath -= (modPlayer.cDepth ? breathLoss + 1 : breathLoss);
+					}
 
-						if (modPlayer.cDepth)
+					// If breath is greater than 0 and player has gills or is merfolk, balance out the effects by reducing breath
+					if (player.breath > 0)
+					{
+						if (player.gills || player.merman)
+							player.breath -= 3;
+					}
+
+					// Life loss will at zero breath
+					int lifeLossAtZeroBreath = (int)(30 * depthRatio);
+
+					// Check breath value
+					if (player.breath <= 0)
+					{
+						// Reduce life loss, depending on gear
+						lifeLossAtZeroBreath -= lifeLossAtZeroBreathResist;
+
+						// Prevent awful shit again
+						if (lifeLossAtZeroBreath < 0)
+							lifeLossAtZeroBreath = 0;
+
+						// Reduce life
+						player.statLife -= lifeLossAtZeroBreath;
+
+						// Special kill code if the life loss kills the player
+						if (player.statLife <= 0)
 						{
-							if (player.breath > 0)
-								player.breath--;
-						}
-
-						if (player.breath <= 0)
-						{
-							lifeLossAtZeroBreath -= lifeLossAtZeroBreathResist;
-
-							if (lifeLossAtZeroBreath < 0)
-								lifeLossAtZeroBreath = 0;
-
-							player.statLife -= lifeLossAtZeroBreath;
-
-							if (player.statLife <= 0)
-							{
-								modPlayer.abyssDeath = true;
-								modPlayer.KillPlayer();
-							}
+							modPlayer.abyssDeath = true;
+							modPlayer.KillPlayer();
 						}
 					}
 				}

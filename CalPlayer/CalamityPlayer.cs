@@ -1896,25 +1896,25 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            ZoneAbyss = ((double)point.Y > (Main.rockLayer - (double)y * 0.05)) &&
+            ZoneAbyss = (double)point.Y > (Main.rockLayer - y * 0.05) &&
                 !player.lavaWet &&
                 !player.honeyWet &&
                 abyssPosY &&
                 abyssPosX;
 
             ZoneAbyssLayer1 = ZoneAbyss &&
-                (double)point.Y <= (Main.rockLayer + (double)y * 0.03);
+                (double)point.Y <= (Main.rockLayer + y * 0.03);
 
             ZoneAbyssLayer2 = ZoneAbyss &&
-                (double)point.Y > (Main.rockLayer + (double)y * 0.03) &&
-                (double)point.Y <= (Main.rockLayer + (double)y * 0.14);
+                (double)point.Y > (Main.rockLayer + y * 0.03) &&
+                (double)point.Y <= (Main.rockLayer + y * 0.14);
 
             ZoneAbyssLayer3 = ZoneAbyss &&
-                (double)point.Y > (Main.rockLayer + (double)y * 0.14) &&
-                (double)point.Y <= (Main.rockLayer + (double)y * 0.26);
+                (double)point.Y > (Main.rockLayer + y * 0.14) &&
+                (double)point.Y <= (Main.rockLayer + y * 0.26);
 
             ZoneAbyssLayer4 = ZoneAbyss &&
-                (double)point.Y > (Main.rockLayer + (double)y * 0.26);
+                (double)point.Y > (Main.rockLayer + y * 0.26);
 
             ZoneSulphur = (CalamityWorld.sulphurTiles > 30 || (player.ZoneOverworldHeight && sulphurPosX)) && !ZoneAbyss;
         }
