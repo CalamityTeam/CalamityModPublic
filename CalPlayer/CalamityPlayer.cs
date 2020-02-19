@@ -710,6 +710,7 @@ namespace CalamityMod.CalPlayer
         public bool ZoneAbyssLayer4 = false;
         public bool abyssDeath = false;
         public int abyssBreathCD;
+        public float caveDarkness = 0f;
 
         // Transformation
         public bool abyssalDivingSuitPrevious;
