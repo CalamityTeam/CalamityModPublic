@@ -70,7 +70,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 num823 = 2f;
             }
-            if ((double)npc.life < (double)npc.lifeMax * 0.1 || CalamityWorld.death)
+            if ((double)npc.life < (double)npc.lifeMax * 0.1)
             {
                 num823 = 4f;
             }
@@ -81,7 +81,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 {
                     npc.ai[1] += 1f;
                 }
-                if ((double)npc.life < (double)npc.lifeMax * 0.1 || CalamityWorld.death)
+                if ((double)npc.life < (double)npc.lifeMax * 0.1)
                 {
                     npc.ai[1] += 1f;
                 }
