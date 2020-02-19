@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Dusts;
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -78,7 +79,7 @@ namespace CalamityMod.Projectiles.Melee
             Lighting.AddLight(vector14, 3f, 0.2f, 0.2f);
             if (Main.rand.NextBool(3))
             {
-                int num30 = Dust.NewDust(vector14 - projectile.Size / 2f, projectile.width, projectile.height, 235, projectile.velocity.X, projectile.velocity.Y, 100, default, 2f);
+                int num30 = Dust.NewDust(vector14 - projectile.Size / 2f, projectile.width, projectile.height, (int)CalamityDusts.Brimstone, projectile.velocity.X, projectile.velocity.Y, 100, default, 2f);
                 Main.dust[num30].noGravity = true;
                 Main.dust[num30].position -= projectile.velocity;
             }

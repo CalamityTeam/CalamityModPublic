@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.value = Item.buyPrice(0, 12, 0, 0);
             item.rare = 4;
             item.shoot = ModContent.ProjectileType<SlickCaneProjectile>();
-            item.shootSpeed = 42f;
+            item.shootSpeed = 22f;
         }
 
         public override bool CanUseItem(Player player)

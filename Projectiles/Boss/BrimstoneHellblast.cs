@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -88,7 +89,7 @@ namespace CalamityMod.Projectiles.Boss
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 20);
             for (int dust = 0; dust <= 5; dust++)
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 235, 0f, 0f);
+                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f);
             }
         }
 

@@ -152,7 +152,10 @@ namespace CalamityMod.Localization
 
                 new [] { "ThirdSageBlessingText", "You have been blessed by the Third Sage!" },
 
-                new [] { "AprilFools", "The LORDE is approaching..." }
+                new [] { "AprilFools", "The LORDE is approaching..." },
+
+                new [] { "AcidRainStart", "A toxic downpour falls over the wasteland seas!" },
+                new [] { "AcidRainEnd", "The sulfuric skies begin to clear..." }
             };
         }
 
