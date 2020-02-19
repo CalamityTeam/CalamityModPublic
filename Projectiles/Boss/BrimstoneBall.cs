@@ -1,4 +1,5 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Dusts;
+using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -30,7 +31,7 @@ namespace CalamityMod.Projectiles.Boss
             for (int num468 = 0; num468 < 2; num468++)
             {
                 Vector2 dspeed = -projectile.velocity * 0.7f;
-                int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 235, 0f, 0f, 150, default, 1.1f);
+                int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 150, default, 1.1f);
                 Main.dust[num469].noGravity = true;
                 Main.dust[num469].velocity = dspeed;
             }

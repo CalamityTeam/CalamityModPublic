@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Dusts;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles.BaseProjectiles;
@@ -34,7 +35,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
         {
             if (Main.rand.NextBool(4))
             {
-                int idx = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 235, projectile.direction * 2, 0f, 150, default, 1f);
+                int idx = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, (int)CalamityDusts.Brimstone, projectile.direction * 2, 0f, 150, default, 1f);
                 Main.dust[idx].noGravity = true;
             }
         }

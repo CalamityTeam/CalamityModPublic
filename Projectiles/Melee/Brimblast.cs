@@ -1,4 +1,5 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Dusts;
+using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -51,7 +52,7 @@ namespace CalamityMod.Projectiles.Melee
                 projectile.velocity.Y = projectile.velocity.Y + 0.2f;
             }
             projectile.rotation += projectile.velocity.X * 0.1f;
-            int num199 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 235, 0f, 0f, 100, default, 1f);
+            int num199 = Dust.NewDust(projectile.position, projectile.width, projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 1f);
             Dust expr_8976_cp_0 = Main.dust[num199];
             expr_8976_cp_0.position.X -= 2f;
             Dust expr_8994_cp_0 = Main.dust[num199];
@@ -62,7 +63,7 @@ namespace CalamityMod.Projectiles.Melee
             expr_89E7_cp_0.velocity.Y -= 4f;
             if (Main.rand.NextBool(2))
             {
-                int num200 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 235, 0f, 0f, 100, default, 1f);
+                int num200 = Dust.NewDust(projectile.position, projectile.width, projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 1f);
                 Dust expr_8A4E_cp_0 = Main.dust[num200];
                 expr_8A4E_cp_0.position.X -= 2f;
                 Dust expr_8A6C_cp_0 = Main.dust[num200];

@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -38,7 +39,7 @@ namespace CalamityMod.Projectiles.Melee
 				projectile.Kill();
 			}
 			Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.5f / 255f, (255 - projectile.alpha) * 0.05f / 255f, (255 - projectile.alpha) * 0.05f / 255f);
-			int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 235, 0f, 0f, 100, default, 1f);
+			int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 1f);
 			Main.dust[num458].noGravity = true;
 			Main.dust[num458].velocity *= 0.5f;
 			Main.dust[num458].velocity += projectile.velocity * 0.1f;
@@ -66,11 +67,11 @@ namespace CalamityMod.Projectiles.Melee
 			{
 				float num796 = projectile.oldVelocity.X * (30f / (float)num795);
 				float num797 = projectile.oldVelocity.Y * (30f / (float)num795);
-				int num798 = Dust.NewDust(new Vector2(projectile.oldPosition.X - num796, projectile.oldPosition.Y - num797), 8, 8, 235, projectile.oldVelocity.X, projectile.oldVelocity.Y, 100, default, 1.8f);
+				int num798 = Dust.NewDust(new Vector2(projectile.oldPosition.X - num796, projectile.oldPosition.Y - num797), 8, 8, (int)CalamityDusts.Brimstone, projectile.oldVelocity.X, projectile.oldVelocity.Y, 100, default, 1.8f);
 				Main.dust[num798].noGravity = true;
 				Dust dust = Main.dust[num798];
 				dust.velocity *= 0.5f;
-				num798 = Dust.NewDust(new Vector2(projectile.oldPosition.X - num796, projectile.oldPosition.Y - num797), 8, 8, 235, projectile.oldVelocity.X, projectile.oldVelocity.Y, 100, default, 1.4f);
+				num798 = Dust.NewDust(new Vector2(projectile.oldPosition.X - num796, projectile.oldPosition.Y - num797), 8, 8, (int)CalamityDusts.Brimstone, projectile.oldVelocity.X, projectile.oldVelocity.Y, 100, default, 1.4f);
 				dust = Main.dust[num798];
 				dust.velocity *= 0.05f;
 				num3 = num795;

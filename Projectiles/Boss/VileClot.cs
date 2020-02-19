@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Dusts;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -31,7 +32,7 @@ namespace CalamityMod.Projectiles.Boss
 			}
 
 			int num104 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y),
-				projectile.width, projectile.height, 75, projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f, 100, default, 1.5f);
+				projectile.width, projectile.height, (int)CalamityDusts.SulfurousSeaAcid, projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f, 100, default, 1.5f);
 			Main.dust[num104].noGravity = true;
 
 			projectile.rotation += 0.3f * (float)projectile.direction;
@@ -47,11 +48,11 @@ namespace CalamityMod.Projectiles.Boss
 			Main.PlaySound(SoundID.Item10, projectile.position);
 			for (int num584 = 0; num584 < 6; num584++)
 			{
-				int num585 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 75, -projectile.velocity.X * 0.2f, -projectile.velocity.Y * 0.2f, 100, default, 2.5f);
+				int num585 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, (int)CalamityDusts.SulfurousSeaAcid, -projectile.velocity.X * 0.2f, -projectile.velocity.Y * 0.2f, 100, default, 2.5f);
 				Main.dust[num585].noGravity = true;
 				Dust dust = Main.dust[num585];
 				dust.velocity *= 2f;
-				num585 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 75, -projectile.velocity.X * 0.2f, -projectile.velocity.Y * 0.2f, 100, default, 1.2f);
+				num585 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, (int)CalamityDusts.SulfurousSeaAcid, -projectile.velocity.X * 0.2f, -projectile.velocity.Y * 0.2f, 100, default, 1.2f);
 				dust = Main.dust[num585];
 				dust.velocity *= 2f;
 			}
