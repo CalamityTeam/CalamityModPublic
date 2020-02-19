@@ -353,21 +353,44 @@ namespace CalamityMod.CalPlayer
 			}
 
 			// Death Mode effects
+			modPlayer.caveDarkness = 0f;
 			if (CalamityWorld.death)
 			{
 				if (player.whoAmI == Main.myPlayer)
 				{
-					// Darkness while underground
+					// Calculate underground darkness here. The effect is applied in CalamityMod.ModifyLightingBrightness.
 					Point point = player.Center.ToTileCoordinates();
-					if ((double)point.Y > Main.worldSurface && !modPlayer.ZoneAbyss && !player.ZoneUnderworldHeight)
+					if (point.Y > Main.worldSurface && !modPlayer.ZoneAbyss && !player.ZoneUnderworldHeight)
 					{
-						double maxDistanceBelow = (double)(Main.maxTilesY - 200 - (int)Main.worldSurface);
-						double distanceBelow = (double)point.Y - Main.worldSurface;
-						double distanceBelowRatio = distanceBelow / maxDistanceBelow;
+						// Darkness strength scales smoothly with how deep you are.
+						double totalUndergroundDepth = Main.maxTilesY - 200.0 - Main.worldSurface;
+						double playerUndergroundDepth = point.Y - Main.worldSurface;
+						double depthRatio = playerUndergroundDepth / totalUndergroundDepth;
 						int lightStrength = modPlayer.GetTotalLightStrength();
-						Main.BlackFadeIn = (int)(distanceBelowRatio * 200D) - lightStrength * 25;
-						if (Main.BlackFadeIn < 0)
-							Main.BlackFadeIn = 0;
+						float darknessStrength = (float)depthRatio;
+
+						// Reduce the power of cave darkness based on your light level. 5+ is enough to totally eliminate it.
+						switch (lightStrength)
+						{
+							case 0:
+								break;
+							case 1:
+								darknessStrength *= 0.75f;
+								break;
+							case 2:
+								darknessStrength *= 0.55f;
+								break;
+							case 3:
+								darknessStrength *= 0.35f;
+								break;
+							case 4:
+								darknessStrength *= 0.15f;
+								break;
+							default:
+								darknessStrength = 0f;
+								break;
+						}
+						modPlayer.caveDarkness = darknessStrength;
 					}
 
 					// Immunity bools

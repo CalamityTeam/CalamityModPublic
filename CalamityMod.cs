@@ -3400,6 +3400,21 @@ namespace CalamityMod
         }
         #endregion
 
+        #region Lighting
+        const float MaxCaveDarkness = -0.2f;
+        public override void ModifyLightingBrightness(ref float scale)
+        {
+            // Apply the calculated cave darkness value for the local player.
+            // It should always be zero outside of death mode, but just to be safe, make sure it doesn't apply.
+            if(CalamityWorld.death)
+            {
+                CalamityPlayer modPlayer = Main.LocalPlayer.Calamity();
+                float darkRatio = MathHelper.Clamp(modPlayer.caveDarkness, 0f, 1f);
+                scale += MaxCaveDarkness * darkRatio;
+            }
+        }
+        #endregion
+
         #region Packets
         public override void HandlePacket(BinaryReader reader, int whoAmI)
         {
