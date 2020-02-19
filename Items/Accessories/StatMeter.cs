@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
 using CalamityMod;
+using System.Text;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -28,8 +29,21 @@ namespace CalamityMod.Items.Accessories
 		public override void ModifyTooltips(List<TooltipLine> list)
 		{
 			Player player = Main.player[Main.myPlayer];
+			if (player is null)
+				return;
 			CalamityPlayer modPlayer = player.Calamity();
-			Item heldItem = player.inventory[player.selectedItem];
+
+			Item heldItem = null;
+			if (player.selectedItem >= 0 && player.selectedItem < player.inventory.Length)
+				heldItem = player.inventory[player.selectedItem];
+
+			foreach (TooltipLine line2 in list)
+				if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
+					line2.text = CreateStatMeterTooltip(player, modPlayer, heldItem);
+		}
+
+		private string CreateStatMeterTooltip(Player player, CalamityPlayer modPlayer, Item heldItem)
+		{
 			int defense = modPlayer.defenseStat;
 			int DR = modPlayer.DRStat;
 			int meleeSpeed = modPlayer.meleeSpeedStat;
@@ -45,103 +59,75 @@ namespace CalamityMod.Items.Accessories
 			int moveSpeed = modPlayer.moveSpeedStat;
 			int lightLevel = modPlayer.abyssLightLevelStat;
 			int breathLossRate = modPlayer.abyssBreathLossRateStat;
-			bool melee = heldItem.melee;
-			bool ranged = heldItem.ranged;
-			bool magic = heldItem.magic;
-			bool summon = heldItem.summon;
-			bool rogue = heldItem.Calamity().rogue;
-			if (player is null) return;
-			bool noItem = false;
-			if(player.selectedItem < 0 || player.selectedItem > player.inventory.Length)
-				noItem = true;
-			if(heldItem == null)
-				noItem = true;
 
-			string meleeString = "Melee Damage: " + modPlayer.damageStats[0] + "% | Melee Crit Chance: " + modPlayer.critStats[0] + "%\n" +
-								"Melee Speed Boost: " + meleeSpeed + "%\n\n";
-			string rangedString = "Ranged Damage: " + modPlayer.damageStats[1] + "% | Ranged Crit Chance: " + modPlayer.critStats[1] + "%\n" +
-								"Ammo Consumption Chance: " + ammoConsumption + "%\n\n";
-			string magicString = "Magic Damage: " + modPlayer.damageStats[2] + "% | Magic Crit Chance: " + modPlayer.critStats[2] + "%\n" +
-								"Mana Usage: " + manaCost + "% | Mana Regen: " + manaRegen + "\n\n";
-			string summonString = "Minion Damage: " + modPlayer.damageStats[3] + "% | Minion Slots: " + minionSlots + "\n\n";
-			string rogueString = "Rogue Damage: " + modPlayer.damageStats[4] + "% | Rogue Crit Chance: " + modPlayer.critStats[3] + "%\n" +
-								"Rogue Velocity Boost: " + rogueVelocity + "% | Rogue Weapon Consumption Chance: " + rogueConsumption + "%\n\n";
-			string defaultString = "";
-			string statStrings = "Defense: " + defense + " | DR: " + DR + "%\n" +
-								"Life Regen: " + lifeRegen + " | Armor Penetration: " + armorPenetration + "\n" +
-								"Wing Flight Time: " + wingFlightTime + " | Movement Speed Boost: " + moveSpeed + "%\n\n";
-			string abyssStrings = "Abyss Stats\n" +
-								"Light Level: " + lightLevel + "\n" +
-								"Breath Lost Per Tick:\n" +
-								"Layer 1: " + modPlayer.abyssBreathLossStats[0] + " | Layer 2: " + modPlayer.abyssBreathLossStats[1] + "\n" +
-								"Layer 3: " + modPlayer.abyssBreathLossStats[2] + " | Layer 4: " + modPlayer.abyssBreathLossStats[3] + "\n" +
-								"Breath Loss Rate: " + breathLossRate + "\n" +
-								"Life Lost Per Tick At Zero Breath:\n" +
-								"Layer 1: " + modPlayer.abyssLifeLostAtZeroBreathStats[0] + " | Layer 2: " + modPlayer.abyssLifeLostAtZeroBreathStats[1] + "\n" +
-								"Layer 3: " + modPlayer.abyssLifeLostAtZeroBreathStats[2] + " | Layer 4: " + modPlayer.abyssLifeLostAtZeroBreathStats[3];
+			// The notice about held item mattering is always displayed first.
+			StringBuilder sb = new StringBuilder("Offensive stats displayed vary with held item\n\n", 1024);
 
+			// Only append rippers stats in Rev+, if rippers are enabled.
 			if (CalamityWorld.revenge && CalamityMod.CalamityConfig.AdrenalineAndRage)
 			{
-				int adrenalineChargeTime = modPlayer.adrenalineChargeStat;
-				int rageDamage = modPlayer.rageDamageStat;
-				string ripperString = "Adrenaline Charge Time: " + adrenalineChargeTime + " seconds | Rage Damage Boost: " + rageDamage + "%\n\n";
+				sb.Append("Adrenaline Charge Time: ").Append(modPlayer.adrenalineChargeStat)
+					.Append(" seconds | Rage Damage Boost: ").Append(modPlayer.rageDamageStat)
+					.Append("%\n\n");
+			}
 
-				if (!noItem)
-				{
-					foreach (TooltipLine line2 in list)
-					{
-						if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
-						{
-							line2.text = "Offensive stats displayed vary with held item\n\n" +
-								ripperString +
-								(melee ? meleeString : (ranged ? rangedString : (magic ? magicString : (summon ? summonString : (rogue ? rogueString : defaultString))))) +
-								statStrings +
-								abyssStrings;
-						}
-					}
-				}
-				else
-				{
-					foreach (TooltipLine line2 in list)
-					{
-						if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
-						{
-							line2.text = "Offensive stats displayed vary with held item\n\n" +
-								ripperString +
-								statStrings +
-								abyssStrings;
-						}
-					}
-				}
-			}
-			else
+			// Append item stats only if the held item isn't null, and base it off of the item's damage type.
+			if(heldItem != null)
 			{
-				if (!noItem)
+				if(heldItem.melee)
 				{
-					foreach (TooltipLine line2 in list)
-					{
-						if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
-						{
-							line2.text = "Offensive stats displayed vary with held item\n\n" +
-								(melee ? meleeString : (ranged ? rangedString : (magic ? magicString : (summon ? summonString : (rogue ? rogueString : defaultString))))) +
-								statStrings +
-								abyssStrings;
-						}
-					}
+					sb.Append("Melee Damage: ").Append(modPlayer.damageStats[0])
+						.Append("% | Melee Crit Chance: ").Append(modPlayer.critStats[0])
+						.Append("%\nMeleeSpeed Boost: ").Append(meleeSpeed).Append("%\n\n");
 				}
-				else
+				else if(heldItem.ranged)
 				{
-					foreach (TooltipLine line2 in list)
-					{
-						if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
-						{
-							line2.text = "Offensive stats displayed vary with held item\n\n" +
-								statStrings +
-								abyssStrings;
-						}
-					}
+					sb.Append("Ranged Damage: ").Append(modPlayer.damageStats[1])
+						.Append("% | Ranged Crit Chance: ").Append(modPlayer.critStats[1])
+						.Append("%\nAmmo Consumption Chance: ").Append(ammoConsumption).Append("%\n\n");
+				}
+				else if(heldItem.magic)
+				{
+					sb.Append("Magic Damage: ").Append(modPlayer.damageStats[2])
+						.Append("% | Magic Crit Chance: ").Append(modPlayer.critStats[2])
+						.Append("%\nMana Usage: ").Append(manaCost)
+						.Append("% | Mana Regen").Append(manaRegen).Append("\n\n");
+				}
+				else if(heldItem.summon)
+				{
+					sb.Append("Minion Damage: ").Append(modPlayer.damageStats[3])
+						.Append("% | Minion Slots: ").Append(minionSlots).Append("\n\n");
+				}
+				else if(heldItem.Calamity().rogue)
+				{
+					sb.Append("Rogue Damage: ").Append(modPlayer.damageStats[4])
+						.Append("% | Rogue Crit Chance: ").Append(modPlayer.critStats[3])
+						.Append("%\nRogue Velocity Boost: ").Append(rogueVelocity)
+						.Append("% | Rogue Weapon Consumption Chance: ").Append(rogueConsumption).Append("%\n\n");
 				}
 			}
+
+			// Generic stats always render.
+			sb.Append("Defense: ").Append(defense);
+			sb.Append(" | DR: ").Append(DR).Append("%\n");
+			sb.Append("Life Regen: ").Append(lifeRegen);
+			sb.Append(" | Armor Penetration: ").Append(armorPenetration).Append("\n");
+			sb.Append("Wing Flight Time: ").Append(wingFlightTime);
+			sb.Append(" | Movement Speed Boost: ").Append(moveSpeed).Append("%\n\n");
+
+			// Abyss stats always render.
+			sb.Append(CalamityWorld.death ? "Abyss/Cave Light Strength: " : "Abyss Light Strength: ").Append(lightLevel).Append("\n");
+			sb.Append("Breath Lost Per Tick:\nLayer 1: ").Append(modPlayer.abyssBreathLossStats[0]);
+			sb.Append(" | Layer 2: ").Append(modPlayer.abyssBreathLossStats[1]).Append("\n");
+			sb.Append("Layer 3: ").Append(modPlayer.abyssBreathLossStats[2]);
+			sb.Append(" | Layer 4: ").Append(modPlayer.abyssBreathLossStats[3]).Append("\n");
+			sb.Append("Breath Loss Rate: ").Append(breathLossRate).Append("\n");
+			sb.Append("Life Lost Per Tick at Zero Breath:\nLayer 1: ").Append(modPlayer.abyssLifeLostAtZeroBreathStats[0]);
+			sb.Append(" | Layer 2: ").Append(modPlayer.abyssLifeLostAtZeroBreathStats[1]).Append("\n");
+			sb.Append("Layer 3: ").Append(modPlayer.abyssLifeLostAtZeroBreathStats[2]);
+			sb.Append(" | Layer 4: ").Append(modPlayer.abyssLifeLostAtZeroBreathStats[3]);
+
+			return sb.ToString();
 		}
 	}
 }
