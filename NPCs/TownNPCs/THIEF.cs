@@ -209,7 +209,6 @@ namespace CalamityMod.NPCs.TownNPCs
         {
             if (firstButton)
             {
-                
                 shop = true;
             }
             else
@@ -343,7 +342,7 @@ namespace CalamityMod.NPCs.TownNPCs
 
         public override void TownNPCAttackProj(ref int projType, ref int attackDelay)
         {
-            projType = ModContent.ProjectileType<CinquedeaProj>(); //affected by nanotech. I'd look into this
+            projType = ModContent.ProjectileType<CinquedeaProj>();
             attackDelay = 1;
         }
 
