@@ -258,6 +258,11 @@ namespace CalamityMod.NPCs.TownNPCs
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<LatcherMine>());
 				nextSlot++;
             }
+			if (CalamityWorld.downedCalamitas)
+			{
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<DeepWounder>());
+				nextSlot++;
+			}
             if (NPC.downedPlantBoss)
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<MonkeyDarts>());
@@ -266,8 +271,6 @@ namespace CalamityMod.NPCs.TownNPCs
                 nextSlot++;
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<GloveOfRecklessness>());
                 nextSlot++;
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<DeepWounder>());
-				nextSlot++;
             }
             if (NPC.downedGolemBoss)
 			{
