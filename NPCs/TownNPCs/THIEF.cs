@@ -233,6 +233,11 @@ namespace CalamityMod.NPCs.TownNPCs
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<OldDie>());
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 40, 0, 0);
             nextSlot++;
+            if (CalamityWorld.downedSlimeGod)
+            {
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<GelDart>());
+                nextSlot++;
+            }
             if (Main.hardMode)
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<SlickCane>());

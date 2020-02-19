@@ -28,20 +28,11 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.autoReuse = true;
             item.height = 28;
             item.maxStack = 999;
-            item.value = 1000;
+            item.value = Item.buyPrice(0, 0, 2, 50);
             item.rare = 4;
             item.shoot = ModContent.ProjectileType<GelDartProjectile>();
             item.shootSpeed = 14f;
             item.Calamity().rogue = true;
-        }
-
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<PurifiedGel>(), 5);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this, 150);
-            recipe.AddRecipe();
         }
     }
 }
