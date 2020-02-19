@@ -19,8 +19,8 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
+            projectile.width = 30;
+            projectile.height = 30;
             projectile.friendly = true;
             projectile.penetrate = 2;
             projectile.timeLeft = 600;
@@ -46,12 +46,12 @@ namespace CalamityMod.Projectiles.Rogue
 
             if (projectile.ai[0] == 0)
             {
-                projectile.damage = (int)(projectile.damage * 1.5f);
+                projectile.damage *= 2;
             }
             projectile.ai[0]++;
             if (projectile.ai[0] == 20)
             {
-                projectile.damage = (int)(projectile.damage * (2f/3f));
+                projectile.damage /= 2;
             }
 
             return;
