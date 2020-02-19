@@ -40,7 +40,8 @@ namespace CalamityMod.Projectiles.Rogue
             }
             else
             {
-                projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 0.785f;
+				projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
+				projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi) + MathHelper.ToRadians(45) * projectile.direction;
             }
 
             if (!projectile.Calamity().stealthStrike && projectile.timeLeft < 575)
