@@ -17,7 +17,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.height = 30;
             projectile.friendly = true;
             projectile.magic = true;
-            projectile.penetrate = 10;
+            projectile.penetrate = 10; //randomized in the item file now, penetrates 4 to 10 times
             projectile.timeLeft = 300;
             projectile.ignoreWater = true;
         }
