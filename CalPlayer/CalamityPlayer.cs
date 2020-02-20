@@ -102,6 +102,7 @@ namespace CalamityMod.CalPlayer
 		public int abyssBreathLossRateStat = 0;
 		public int abyssLifeLostAtZeroBreathStat = 0;
 		public int abyssDefenseLossStat = 0;
+		public int stealthStat = 0;
 
         // Timer and Counter
         public int bossRushImmunityFrameCurseTimer = 0;
@@ -3604,10 +3605,13 @@ namespace CalamityMod.CalPlayer
 				case ItemID.Frostbrand:
 					target.AddBuff(BuffID.Frostburn, 600);
 					break;
-
-				case ItemID.IceBlade:
+			}
+			if (item.type == ItemID.IceBlade)
+			{
+				if (Main.rand.Next(5))
 					target.AddBuff(BuffID.Frostburn, 360);
-					break;
+				else if (Main.rand.Next(3))
+					target.AddBuff(BuffID.Frostburn, 120);
 			}
 
 			if (item.melee) //prevents Deep Sea Dumbell from snagging true melee debuff memes
@@ -3826,20 +3830,24 @@ namespace CalamityMod.CalPlayer
 					target.AddBuff(BuffID.Frostburn, 480);
 					break;
 
-				case ProjectileID.IceBoomerang:
-				case ProjectileID.IceBolt:
 				case ProjectileID.Blizzard:
 				case ProjectileID.NorthPoleSnowflake:
 					target.AddBuff(BuffID.Frostburn, 240);
 					break;
-
-				case ProjectileID.FrostDaggerfish:
-					target.AddBuff(BuffID.Frostburn, 180);
-					break;
-
-				case ProjectileID.SnowBallFriendly:
+			}
+			if (proj.type == ProjectileID.SnowBallFriendly)
+			{
+				if (Main.rand.Next(10))
 					target.AddBuff(BuffID.Frostburn, 120);
-					break;
+				else if (Main.rand.Next(5))
+					target.AddBuff(BuffID.Frostburn, 60);
+			}
+			else if (proj.type == (ProjectileID.IceBoomerang | ProjectileID.IceBolt | ProjectileID.FrostDaggerfish))
+			{
+				if (Main.rand.Next(5))
+					target.AddBuff(BuffID.Frostburn, 240);
+				else if (Main.rand.Next(3))
+					target.AddBuff(BuffID.Frostburn, 120);
 			}
 
 			if (!proj.npcProj && !proj.trap)
@@ -4096,10 +4104,13 @@ namespace CalamityMod.CalPlayer
 				case ItemID.Frostbrand:
 					target.AddBuff(BuffID.Frostburn, 600);
 					break;
-
-				case ItemID.IceBlade:
+			}
+			if (item.type == ItemID.IceBlade)
+			{
+				if (Main.rand.Next(5))
 					target.AddBuff(BuffID.Frostburn, 360);
-					break;
+				else if (Main.rand.Next(3))
+					target.AddBuff(BuffID.Frostburn, 120);
 			}
 
 			if (item.melee)
@@ -4283,20 +4294,24 @@ namespace CalamityMod.CalPlayer
 					target.AddBuff(BuffID.Frostburn, 480);
 					break;
 
-				case ProjectileID.IceBoomerang:
-				case ProjectileID.IceBolt:
 				case ProjectileID.Blizzard:
 				case ProjectileID.NorthPoleSnowflake:
 					target.AddBuff(BuffID.Frostburn, 240);
 					break;
-
-				case ProjectileID.FrostDaggerfish:
-					target.AddBuff(BuffID.Frostburn, 180);
-					break;
-
-				case ProjectileID.SnowBallFriendly:
+			}
+			if (proj.type == ProjectileID.SnowBallFriendly)
+			{
+				if (Main.rand.Next(10))
 					target.AddBuff(BuffID.Frostburn, 120);
-					break;
+				else if (Main.rand.Next(5))
+					target.AddBuff(BuffID.Frostburn, 60);
+			}
+			else if (proj.type == (ProjectileID.IceBoomerang | ProjectileID.IceBolt | ProjectileID.FrostDaggerfish))
+			{
+				if (Main.rand.Next(5))
+					target.AddBuff(BuffID.Frostburn, 240);
+				else if (Main.rand.Next(3))
+					target.AddBuff(BuffID.Frostburn, 120);
 			}
 
 			if (!proj.npcProj && !proj.trap)

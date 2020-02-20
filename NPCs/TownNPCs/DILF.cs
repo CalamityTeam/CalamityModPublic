@@ -156,6 +156,8 @@ namespace CalamityMod.NPCs.TownNPCs
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<FrostyFlare>());
             nextSlot++;
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<IceStar>());
+            nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<CryogenicStaff>());
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<PermafrostsConcoction>());

@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Projectiles.Typeless;
+using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -28,7 +29,7 @@ namespace CalamityMod.Projectiles.Boss
 				Vector2 vector33 = projectile.position;
 				vector33 -= projectile.velocity * 0.25f;
 				projectile.alpha = 255;
-				int num448 = Dust.NewDust(vector33, 1, 1, 235, 0f, 0f, 0, default, 1f);
+				int num448 = Dust.NewDust(vector33, 1, 1, (int)CalamityDusts.Brimstone, 0f, 0f, 0, default, 1f);
 				Main.dust[num448].position = vector33;
 				Main.dust[num448].scale = (float)Main.rand.Next(70, 110) * 0.008f;
 				Main.dust[num448].velocity *= 0.2f;

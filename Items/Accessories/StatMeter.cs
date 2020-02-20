@@ -52,6 +52,7 @@ namespace CalamityMod.Items.Accessories
 			int minionSlots = modPlayer.minionSlotStat;
 			int ammoConsumption = modPlayer.ammoReductionRanged;
 			int rogueConsumption = modPlayer.ammoReductionRogue;
+			int rogueStealth = modPlayer.stealthStat;
 			int lifeRegen = modPlayer.lifeRegenStat;
 			int manaRegen = modPlayer.manaRegenStat;
 			int armorPenetration = modPlayer.armorPenetrationStat;
@@ -106,7 +107,8 @@ namespace CalamityMod.Items.Accessories
 					sb.Append("Rogue Damage: ").Append(modPlayer.damageStats[4])
 						.Append("% | Rogue Crit Chance: ").Append(modPlayer.critStats[3])
 						.Append("%\nRogue Velocity Boost: ").Append(rogueVelocity)
-						.Append("% | Rogue Weapon Consumption Chance: ").Append(rogueConsumption).Append("%\n\n");
+						.Append("% | Rogue Weapon Consumption Chance: ").Append(rogueConsumption)
+						.Append("%\nMax Stealth: ").Append(rogueStealth).Append("\n\n");
 				}
 			}
 

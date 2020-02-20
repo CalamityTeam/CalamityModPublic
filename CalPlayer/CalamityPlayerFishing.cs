@@ -501,7 +501,7 @@ namespace CalamityMod.CalPlayer
 					}
 				}
 
-				if (power >= 60 && player.FindBuffIndex(BuffID.Gills) > -1 && NPC.downedPlantBoss && Main.rand.NextBool(25) && power < 160)
+				if (power >= 60 && player.FindBuffIndex(BuffID.Gills) > -1 && CalamityWorld.downedCalamitas && Main.rand.NextBool(25) && power < 160)
 				{
 					caughtType = ModContent.ItemType<Floodtide>();
 				}

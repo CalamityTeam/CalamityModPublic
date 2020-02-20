@@ -1,4 +1,5 @@
-﻿using CalamityMod.Buffs.Mounts;
+﻿using CalamityMod.Dusts;
+using CalamityMod.Buffs.Mounts;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,7 +10,7 @@ namespace CalamityMod.Items.Mounts
     {
         public override void SetDefaults()
         {
-            mountData.spawnDust = 235;
+            mountData.spawnDust = (int)CalamityDusts.Brimstone;
             mountData.spawnDustNoGravity = true;
             mountData.buff = ModContent.BuffType<BrimstoneMount>();
             mountData.heightBoost = 12;

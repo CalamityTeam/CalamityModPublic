@@ -33,20 +33,11 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.autoReuse = true;
             item.height = 62;
             item.maxStack = 999;
-            item.value = Item.sellPrice(0, 0, 1, 20);
+            item.value = Item.buyPrice(0, 0, 5, 0);
             item.rare = 5;
             item.shoot = ModContent.ProjectileType<IceStarProjectile>();
             item.shootSpeed = 14f;
             item.Calamity().rogue = true;
-        }
-
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CryoBar>());
-            recipe.AddTile(TileID.IceMachine);
-            recipe.SetResult(this, 50);
-            recipe.AddRecipe();
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

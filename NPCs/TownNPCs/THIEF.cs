@@ -209,7 +209,6 @@ namespace CalamityMod.NPCs.TownNPCs
         {
             if (firstButton)
             {
-                
                 shop = true;
             }
             else
@@ -233,6 +232,11 @@ namespace CalamityMod.NPCs.TownNPCs
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<OldDie>());
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 40, 0, 0);
             nextSlot++;
+            if (CalamityWorld.downedSlimeGod)
+            {
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<GelDart>());
+                nextSlot++;
+            }
             if (Main.hardMode)
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<SlickCane>());
@@ -258,6 +262,11 @@ namespace CalamityMod.NPCs.TownNPCs
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<LatcherMine>());
 				nextSlot++;
             }
+			if (CalamityWorld.downedCalamitas)
+			{
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<DeepWounder>());
+				nextSlot++;
+			}
             if (NPC.downedPlantBoss)
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<MonkeyDarts>());
@@ -266,8 +275,6 @@ namespace CalamityMod.NPCs.TownNPCs
                 nextSlot++;
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<GloveOfRecklessness>());
                 nextSlot++;
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<DeepWounder>());
-				nextSlot++;
             }
             if (NPC.downedGolemBoss)
 			{
@@ -335,7 +342,7 @@ namespace CalamityMod.NPCs.TownNPCs
 
         public override void TownNPCAttackProj(ref int projType, ref int attackDelay)
         {
-            projType = ModContent.ProjectileType<CinquedeaProj>(); //affected by nanotech. I'd look into this
+            projType = ModContent.ProjectileType<CinquedeaProj>();
             attackDelay = 1;
         }
 

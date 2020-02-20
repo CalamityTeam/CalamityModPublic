@@ -1,3 +1,4 @@
+using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -40,7 +41,7 @@ namespace CalamityMod.Projectiles.Ranged
                     float num588 = projectile.velocity.X / 6f * (float)num587;
                     float num589 = projectile.velocity.Y / 6f * (float)num587;
                     int num590 = 6;
-                    int num591 = Dust.NewDust(new Vector2(projectile.position.X + (float)num590, projectile.position.Y + (float)num590), projectile.width - num590 * 2, projectile.height - num590 * 2, 211, 0f, 0f, 75, default, 1.2f);
+                    int num591 = Dust.NewDust(new Vector2(projectile.position.X + (float)num590, projectile.position.Y + (float)num590), projectile.width - num590 * 2, projectile.height - num590 * 2, 211, 0f, 0f, (int)CalamityDusts.SulfurousSeaAcid, default, 1.2f);
                     Dust dust;
                     if (Main.rand.NextBool(2))
                     {
@@ -74,7 +75,7 @@ namespace CalamityMod.Projectiles.Ranged
                 if (Main.rand.NextBool(4))
                 {
                     int num592 = 6;
-                    int num593 = Dust.NewDust(new Vector2(projectile.position.X + (float)num592, projectile.position.Y + (float)num592), projectile.width - num592 * 2, projectile.height - num592 * 2, 211, 0f, 0f, 75, default, 0.65f);
+                    int num593 = Dust.NewDust(new Vector2(projectile.position.X + (float)num592, projectile.position.Y + (float)num592), projectile.width - num592 * 2, projectile.height - num592 * 2, 211, 0f, 0f, (int)CalamityDusts.SulfurousSeaAcid, default, 0.65f);
                     Dust dust = Main.dust[num593];
                     dust.velocity *= 0.5f;
                     dust = Main.dust[num593];
@@ -90,7 +91,7 @@ namespace CalamityMod.Projectiles.Ranged
             int num3;
             for (int num362 = 0; num362 < 100; num362 = num3 + 1)
             {
-                int num363 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 211, 0f, 0f, 75, default, 1.2f);
+                int num363 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 211, 0f, 0f, (int)CalamityDusts.SulfurousSeaAcid, default, 1.2f);
                 Dust dust;
                 if (Main.rand.NextBool(2))
                 {

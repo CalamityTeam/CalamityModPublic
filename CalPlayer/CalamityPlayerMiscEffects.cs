@@ -3348,6 +3348,7 @@ namespace CalamityMod.CalPlayer
 			modPlayer.meleeSpeedStat = (int)((1f - player.meleeSpeed) * (100f / player.meleeSpeed));
 			modPlayer.manaCostStat = (int)(player.manaCost * 100f);
 			modPlayer.rogueVelocityStat = (int)((modPlayer.throwingVelocity - 1f) * 100f);
+			modPlayer.stealthStat = (int)(modPlayer.rogueStealthMax * 100f);
 			modPlayer.minionSlotStat = player.maxMinions;
 			modPlayer.manaRegenStat = player.manaRegen;
 			modPlayer.armorPenetrationStat = player.armorPenetration;

@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Placeables.Furniture
             player.Calamity().chaosCandle = true;
             if (Main.rand.Next(player.itemAnimation > 0 ? 10 : 20) == 0)
             {
-                Dust.NewDust(new Vector2(player.itemLocation.X + 12f * player.direction, player.itemLocation.Y - 10f * player.gravDir), 4, 4, 235);
+                Dust.NewDust(new Vector2(player.itemLocation.X + 12f * player.direction, player.itemLocation.Y - 10f * player.gravDir), 4, 4, (int)CalamityDusts.Brimstone);
             }
             player.itemLocation.Y += 8;
             Vector2 position = player.RotatedRelativePoint(new Vector2(player.itemLocation.X + 12f * player.direction + player.velocity.X, player.itemLocation.Y - 14f + player.velocity.Y), true);

@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -55,7 +56,7 @@ namespace CalamityMod.Projectiles.Typeless
                 projectile.ai[1] = 1f;
                 Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 13);
             }
-            int num199 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 235, 0f, 0f, 100, default, 1f);
+            int num199 = Dust.NewDust(projectile.position, projectile.width, projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 1f);
             Dust dust = Main.dust[num199];
             dust.position.X -= 2f;
             dust.position.Y += 2f;
@@ -64,7 +65,7 @@ namespace CalamityMod.Projectiles.Typeless
             dust.velocity.Y -= 2f;
             if (Main.rand.NextBool(2))
             {
-                int num200 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 235, 0f, 0f, 100, default, 1f);
+                int num200 = Dust.NewDust(projectile.position, projectile.width, projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 1f);
                 Dust dust2 = Main.dust[num200];
                 dust2.position.X -= 2f;
                 dust2.position.Y += 2f;

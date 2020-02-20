@@ -1,4 +1,3 @@
-using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using System;
@@ -125,15 +124,6 @@ namespace CalamityMod.Items.Weapons.Melee
                 num80 = num72 / num80;
                 Projectile.NewProjectile(vector2.X, vector2.Y, 0f, 0f, ModContent.ProjectileType<IceBombFriendly>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), num74, i, 0f, (float)Main.rand.Next(3));
             }
-        }
-
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CryoBar>(), 12);
-            recipe.AddTile(TileID.IceMachine);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

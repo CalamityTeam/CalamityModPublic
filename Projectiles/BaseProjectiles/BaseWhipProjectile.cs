@@ -42,8 +42,8 @@ namespace CalamityMod.Projectiles.BaseProjectiles
             // ai[1] = A starting rotation value. With a min of 0 and a max of pi/4
             // The larger it is, the larger the outward distance we travel.
             // It will always be compressed a bit relative to the X travel movement, however,
-            // because sin(pi/4) = 1/sqrt(2), which is less than default multiplier the X distance
-            // receievs: 1.
+            // because sin(pi/4) = 1/sqrt(2), which is less than the default multiplier the X distance
+            // receives: 1.
             velocityAdditive.Y *= (float)Math.Sin(projectile.ai[1]);
             if (projectile.ai[1] <= 0f)
             {
@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.BaseProjectiles
             {
                 projectile.Kill();
             }
-            // Adjust position that we're always sticking to the player.
+            // Adjust position so that we're always sticking to the player.
             projectile.position = player.RotatedRelativePoint(player.MountedCenter, true) - projectile.Size / 2f;
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
             projectile.spriteDirection = projectile.direction;

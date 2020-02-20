@@ -1,5 +1,6 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.NPCs;
+using CalamityMod.NPCs.AcidRain;
 using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -139,5 +140,14 @@ namespace CalamityMod.Projectiles.Typeless
 
             return minDist <= radius;
         }
+
+        public override bool? CanHitNPC(NPC target)
+		{
+			if (target.catchItem != 0 && target.type != ModContent.NPCType<Radiator>())
+			{
+				return false;
+			}
+			return null;
+		}
     }
 }

@@ -1,4 +1,3 @@
-using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using Terraria;
 using Terraria.ID;
@@ -32,15 +31,6 @@ namespace CalamityMod.Items.Weapons.Magic
             item.UseSound = SoundID.Item46;
             item.shoot = ModContent.ProjectileType<Snowflake>();
             item.shootSpeed = 7f;
-        }
-
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CryoBar>(), 6);
-            recipe.AddTile(TileID.IceMachine);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
         }
     }
 }

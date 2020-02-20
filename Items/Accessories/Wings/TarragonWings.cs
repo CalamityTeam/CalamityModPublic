@@ -1,3 +1,4 @@
+using CalamityMod.Dusts;
 using CalamityMod.Items.Armor;
 using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
@@ -60,7 +61,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 {
                     num59 = -40;
                 }
-                int num60 = Dust.NewDust(new Vector2(player.position.X + (float)(player.width / 2) + (float)num59, player.position.Y + (float)(player.height / 2) - 15f), 30, 30, 75, 0f, 0f, 100, default, 2.4f);
+                int num60 = Dust.NewDust(new Vector2(player.position.X + (float)(player.width / 2) + (float)num59, player.position.Y + (float)(player.height / 2) - 15f), 30, 30, (int)CalamityDusts.SulfurousSeaAcid, 0f, 0f, 100, default, 2.4f);
                 Main.dust[num60].noGravity = true;
                 Main.dust[num60].velocity *= 0.3f;
                 if (Main.rand.NextBool(10))

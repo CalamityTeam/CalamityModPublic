@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -47,7 +48,7 @@ namespace CalamityMod.Projectiles.Ranged
                     Vector2 vector3 = Vector2.UnitX * (float)-(float)projectile.width / 2f;
                     vector3 += -Vector2.UnitY.RotatedBy((double)((float)l * 3.14159274f / 6f), default) * new Vector2(8f, 16f);
                     vector3 = vector3.RotatedBy((double)(projectile.rotation - 1.57079637f), default);
-                    int num9 = Dust.NewDust(projectile.Center, 0, 0, 235, 0f, 0f, 160, default, 1f);
+                    int num9 = Dust.NewDust(projectile.Center, 0, 0, (int)CalamityDusts.Brimstone, 0f, 0f, 160, default, 1f);
                     Main.dust[num9].scale = 1.1f;
                     Main.dust[num9].noGravity = true;
                     Main.dust[num9].position = projectile.Center + vector3;
@@ -67,7 +68,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
             for (int num621 = 0; num621 < 5; num621++)
             {
-                int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 235, 0f, 0f, 100, default, 2f);
+                int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
                 Main.dust[num622].velocity *= 0.5f;
                 if (Main.rand.NextBool(2))
                 {

@@ -1,4 +1,5 @@
 ﻿using CalamityMod.CalPlayer;
+using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -63,7 +64,7 @@ namespace CalamityMod.Projectiles.Pets
                 projectile.position.Y = projectile.position.Y + num19;
                 for (int k = 0; k < 10; k++)
                 {
-                    Dust.NewDust(projectile.position, projectile.width, projectile.height, 235, 0, -1f, 0, default, 1f);
+                    Dust.NewDust(projectile.position, projectile.width, projectile.height, (int)CalamityDusts.Brimstone, 0, -1f, 0, default, 1f);
                 }
             }
 
