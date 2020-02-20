@@ -131,7 +131,7 @@ namespace CalamityMod.NPCs
         public int sulphurPoison = 0;
 
         // whoAmI Variables
-        public static int bobbitWormBottom = -1;
+        public static int[] bobbitWormBottom = new int[5];
         public static int hiveMind = -1;
         public static int perfHive = -1;
         public static int slimeGodPurple = -1;
@@ -158,6 +158,7 @@ namespace CalamityMod.NPCs
         public static int holyBossHealer = -1;
         public static int holyBoss = -1;
         public static int voidBoss = -1;
+		public static int signus = -1;
         public static int ghostBossClone = -1;
         public static int ghostBoss = -1;
         public static int DoGHead = -1;
@@ -313,7 +314,9 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            ResetSavedIndex(ref bobbitWormBottom);
+			for (int i = 0; i < bobbitWormBottom.Length; i++)
+				ResetSavedIndex(ref bobbitWormBottom[i]);
+
             ResetSavedIndex(ref hiveMind);
             ResetSavedIndex(ref perfHive);
             ResetSavedIndex(ref slimeGodPurple);
@@ -340,6 +343,7 @@ namespace CalamityMod.NPCs
             ResetSavedIndex(ref holyBossHealer);
             ResetSavedIndex(ref holyBoss);
             ResetSavedIndex(ref voidBoss);
+			ResetSavedIndex(ref signus);
             ResetSavedIndex(ref ghostBossClone);
             ResetSavedIndex(ref ghostBoss);
             ResetSavedIndex(ref DoGHead);

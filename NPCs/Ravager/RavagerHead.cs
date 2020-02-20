@@ -82,9 +82,9 @@ namespace CalamityMod.NPCs.Ravager
                 npc.netUpdate = true;
                 return;
             }
-            if (npc.timeLeft < 3000)
+            if (npc.timeLeft < 1800)
             {
-                npc.timeLeft = 3000;
+                npc.timeLeft = 1800;
             }
             float speed = 12f;
             Vector2 center = new Vector2(npc.Center.X, npc.Center.Y);
@@ -140,7 +140,12 @@ namespace CalamityMod.NPCs.Ravager
             }
         }
 
-        public override bool PreNPCLoot()
+		public override bool CheckActive()
+		{
+			return false;
+		}
+
+		public override bool PreNPCLoot()
         {
             return false;
         }

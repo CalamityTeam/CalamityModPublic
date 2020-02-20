@@ -26,6 +26,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.GameContent.Events;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -99,6 +100,56 @@ namespace CalamityMod.CalPlayer
 		{
 			if (CalamityWorld.revenge)
 			{
+				// Signus headcrab effect
+				if (CalamityGlobalNPC.signus != -1)
+				{
+					if (Main.npc[CalamityGlobalNPC.signus].active)
+					{
+						if (Vector2.Distance(player.Center, Main.npc[CalamityGlobalNPC.signus].Center) <= 5200f)
+						{
+							float signusLifeRatio = 1f - (Main.npc[CalamityGlobalNPC.signus].life / Main.npc[CalamityGlobalNPC.signus].lifeMax);
+
+							// Reduce the power of Signus darkness based on your light level.
+							float multiplier = 1f;
+							switch (modPlayer.GetTotalLightStrength())
+							{
+								case 0:
+									break;
+								case 1:
+								case 2:
+									multiplier = 0.75f;
+									break;
+								case 3:
+								case 4:
+									multiplier = 0.5f;
+									break;
+								case 5:
+								case 6:
+									multiplier = 0.25f;
+									break;
+								default:
+									multiplier = 0f;
+									break;
+							}
+
+							// Increased darkness in Death Mode
+							if (CalamityWorld.death)
+								multiplier += (1f - multiplier) * 0.1f;
+
+							// Total darkness
+							float signusDarkness = signusLifeRatio * multiplier;
+
+							// Headcrab effect
+							if (!modPlayer.ZoneAbyss && !player.headcovered)
+							{
+								float screenObstructionAmt = MathHelper.Clamp(signusDarkness, 0f, 0.63f);
+								float targetValue = MathHelper.Clamp(screenObstructionAmt * 0.45f, 0.1f, 0.2f);
+								ScreenObstruction.screenObstruction = MathHelper.Lerp(ScreenObstruction.screenObstruction, screenObstructionAmt, targetValue);
+							}
+						}
+					}
+				}
+
 				// Life Steal nerf
 				if (player.lifeSteal > (CalamityWorld.death ? 50f : 60f))
 					player.lifeSteal = CalamityWorld.death ? 50f : 60f;
@@ -1651,8 +1702,16 @@ namespace CalamityMod.CalPlayer
 					// Modify darkness variable
 					modPlayer.caveDarkness = darknessStrength * multiplier;
 
+					// Nebula Headcrab darkness effect
+					if (!player.headcovered)
+					{
+						float screenObstructionAmt = MathHelper.Clamp(modPlayer.caveDarkness, 0f, 0.95f);
+						float targetValue = MathHelper.Clamp(screenObstructionAmt * 0.7f, 0.1f, 0.3f);
+						ScreenObstruction.screenObstruction = MathHelper.Lerp(ScreenObstruction.screenObstruction, screenObstructionAmt, targetValue);
+					}
+
 					// Breath lost while at zero breath
-					int breathLoss = (int)(60 * depthRatio);
+					double breathLoss = 50D * depthRatio;
 
 					// Breath Loss Multiplier, depending on gear
 					double breathLossMult = 1D -
@@ -1670,13 +1729,13 @@ namespace CalamityMod.CalPlayer
 						breathLossMult = 0.05;
 
 					// Reduce breath lost while at zero breath, depending on gear
-					breathLoss = (int)(breathLoss * breathLossMult);
+					breathLoss *= breathLossMult;
 
 					// Stat Meter stat
-					modPlayer.abyssBreathLossStat = breathLoss;
+					modPlayer.abyssBreathLossStat = (int)breathLoss;
 
 					// Defense loss
-					int defenseLoss = (int)(120 * depthRatio);
+					int defenseLoss = (int)(120D * depthRatio);
 
 					// Anechoic Plating reduces defense loss by 66%
 					if (modPlayer.anechoicPlating)
@@ -1705,11 +1764,11 @@ namespace CalamityMod.CalPlayer
 					}
 
 					// Ticks (frames) until breath is deducted from the breath meter
-					int tick = (int)(12D * (1D - depthRatio));
+					double tick = 12D * (1D - depthRatio);
 
-					// Prevent awful shit from happening
-					if (tick < 1)
-						tick = 1;
+					// Prevent 0
+					if (tick < 1D)
+						tick = 1D;
 
 					// Tick (frame) multiplier, depending on gear
 					double tickMult = 1D +
@@ -1728,21 +1787,21 @@ namespace CalamityMod.CalPlayer
 						tickMult = 50D;
 
 					// Increase ticks (frames) until breath is deducted, depending on gear
-					tick = (int)(tick * tickMult);
+					tick *= tickMult;
 
 					// Stat Meter stat
-					modPlayer.abyssBreathLossRateStat = tick;
+					modPlayer.abyssBreathLossRateStat = (int)tick;
 
 					// Reduce breath over ticks (frames)
 					modPlayer.abyssBreathCD++;
-					if (modPlayer.abyssBreathCD >= tick)
+					if (modPlayer.abyssBreathCD >= (int)tick)
 					{
 						// Reset modded breath variable
 						modPlayer.abyssBreathCD = 0;
 
 						// Reduce breath
 						if (player.breath > 0)
-							player.breath -= (modPlayer.cDepth ? breathLoss + 1 : breathLoss);
+							player.breath -= (int)(modPlayer.cDepth ? breathLoss + 1D : breathLoss);
 					}
 
 					// If breath is greater than 0 and player has gills or is merfolk, balance out the effects by reducing breath
@@ -1752,35 +1811,27 @@ namespace CalamityMod.CalPlayer
 							player.breath -= 3;
 					}
 
-					// Life loss will at zero breath
-					int lifeLossAtZeroBreath = (int)(30 * depthRatio);
+					// Life loss at zero breath
+					int lifeLossAtZeroBreath = (int)(12D * depthRatio);
 
 					// Resistance to life loss at zero breath
-					int lifeLossAtZeroBreathResist = 0;
-					if (modPlayer.depthCharm)
-					{
-						lifeLossAtZeroBreathResist += 3;
-						if (modPlayer.abyssalDivingSuit)
-							lifeLossAtZeroBreathResist += 6;
-					}
+					int lifeLossAtZeroBreathResist = 0 +
+						(modPlayer.depthCharm ? 3 : 0) +
+						(modPlayer.abyssalDivingSuit ? 6 : 0);
+
+					// Reduce life loss, depending on gear
+					lifeLossAtZeroBreath -= lifeLossAtZeroBreathResist;
+
+					// Prevent negatives
+					if (lifeLossAtZeroBreath < 0)
+						lifeLossAtZeroBreath = 0;
 
 					// Stat Meter stat
-					modPlayer.abyssLifeLostAtZeroBreathStat = lifeLossAtZeroBreath - lifeLossAtZeroBreathResist;
-
-					// Can't be negative
-					if (modPlayer.abyssLifeLostAtZeroBreathStat < 0)
-						modPlayer.abyssLifeLostAtZeroBreathStat = 0;
+					modPlayer.abyssLifeLostAtZeroBreathStat = lifeLossAtZeroBreath;
 
 					// Check breath value
 					if (player.breath <= 0)
 					{
-						// Reduce life loss, depending on gear
-						lifeLossAtZeroBreath -= lifeLossAtZeroBreathResist;
-
-						// Prevent awful shit again
-						if (lifeLossAtZeroBreath < 0)
-							lifeLossAtZeroBreath = 0;
-
 						// Reduce life
 						player.statLife -= lifeLossAtZeroBreath;
 

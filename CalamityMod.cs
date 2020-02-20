@@ -82,6 +82,7 @@ using System.IO;
 using System.Reflection;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.GameContent.Events;
 using Terraria.Graphics;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
@@ -3402,16 +3403,64 @@ namespace CalamityMod
 
         #region Lighting
         const float MaxCaveDarkness = -0.3f;
+		const float MaxSignusDarkness = -0.5f;
+		const float MaxAbyssDarkness = -0.7f;
         public override void ModifyLightingBrightness(ref float scale)
         {
-			// Apply the calculated cave darkness value for the local player.
-			// It should always be zero outside of death mode, but just to be safe, make sure it doesn't apply.
+			// Apply the calculated darkness value for the local player.
 			CalamityPlayer modPlayer = Main.LocalPlayer.Calamity();
-			if (CalamityWorld.death || modPlayer.ZoneAbyss)
-            {
-                float darkRatio = MathHelper.Clamp(modPlayer.caveDarkness, 0f, 1f);
-                scale += MaxCaveDarkness * darkRatio;
-            }
+			float darkRatio = MathHelper.Clamp(modPlayer.caveDarkness, 0f, 1f);
+
+			if (modPlayer.ZoneAbyss)
+				scale += MaxAbyssDarkness * darkRatio;
+			else if (CalamityWorld.death)
+				scale += MaxCaveDarkness * darkRatio;
+
+			if (CalamityWorld.revenge)
+			{
+				if (CalamityGlobalNPC.signus != -1)
+				{
+					if (Main.npc[CalamityGlobalNPC.signus].active)
+					{
+						if (Vector2.Distance(Main.LocalPlayer.Center, Main.npc[CalamityGlobalNPC.signus].Center) <= 5200f)
+						{
+							float signusLifeRatio = 1f - (Main.npc[CalamityGlobalNPC.signus].life / Main.npc[CalamityGlobalNPC.signus].lifeMax);
+
+							// Reduce the power of Signus darkness based on your light level.
+							float multiplier = 1f;
+							switch (modPlayer.GetTotalLightStrength())
+							{
+								case 0:
+									break;
+								case 1:
+								case 2:
+									multiplier = 0.75f;
+									break;
+								case 3:
+								case 4:
+									multiplier = 0.5f;
+									break;
+								case 5:
+								case 6:
+									multiplier = 0.25f;
+									break;
+								default:
+									multiplier = 0f;
+									break;
+							}
+
+							// Increased darkness in Death Mode
+							if (CalamityWorld.death)
+								multiplier += (1f - multiplier) * 0.1f;
+
+							// Total darkness
+							float signusDarkness = signusLifeRatio * multiplier;
+							darkRatio = MathHelper.Clamp(signusDarkness, 0f, 1f);
+							scale += MaxSignusDarkness * darkRatio;
+						}
+					}
+				}
+			}
         }
         #endregion
 

@@ -45,9 +45,9 @@ namespace CalamityMod.NPCs.Ravager
                 npc.netUpdate = true;
                 return;
             }
-            if (npc.timeLeft < 3000)
+            if (npc.timeLeft < 1800)
             {
-                npc.timeLeft = 3000;
+                npc.timeLeft = 1800;
             }
             if (npc.alpha > 0)
             {
@@ -152,7 +152,12 @@ namespace CalamityMod.NPCs.Ravager
             }
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+		public override bool CheckActive()
+		{
+			return false;
+		}
+
+		public override void HitEffect(int hitDirection, double damage)
         {
             if (npc.life <= 0)
             {

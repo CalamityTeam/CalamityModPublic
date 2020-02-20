@@ -132,9 +132,9 @@ namespace CalamityMod.NPCs.CeaselessVoid
                     return;
                 }
             }
-            else if (npc.timeLeft < 2400)
+            else if (npc.timeLeft < 1800)
             {
-                npc.timeLeft = 2400;
+                npc.timeLeft = 1800;
             }
             Vector2 vector145 = new Vector2(npc.Center.X, npc.Center.Y);
             float num1258 = Main.player[npc.target].Center.X - vector145.X;
@@ -154,7 +154,12 @@ namespace CalamityMod.NPCs.CeaselessVoid
             npc.velocity.Y = (npc.velocity.Y * 100f + num1259) / 101f;
         }
 
-        public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
+		public override bool CheckActive()
+		{
+			return false;
+		}
+
+		public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
         {
             if (CalamityWorld.DoGSecondStageCountdown <= 0)
             {

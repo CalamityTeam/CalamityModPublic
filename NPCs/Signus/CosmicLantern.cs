@@ -60,6 +60,13 @@ namespace CalamityMod.NPCs.Signus
 
         public override void AI()
         {
+			if (CalamityGlobalNPC.signus < 0 || !Main.npc[CalamityGlobalNPC.signus].active)
+			{
+				npc.active = false;
+				npc.netUpdate = true;
+				return;
+			}
+
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.75f, 0.75f, 0.75f);
 
 			npc.alpha -= 3;
