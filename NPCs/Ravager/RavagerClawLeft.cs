@@ -80,9 +80,9 @@ namespace CalamityMod.NPCs.Ravager
                 return;
             }
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
-			if (npc.timeLeft < 3000)
+			if (npc.timeLeft < 1800)
             {
-                npc.timeLeft = 3000;
+                npc.timeLeft = 1800;
             }
             if (npc.alpha > 0)
             {
@@ -304,7 +304,12 @@ namespace CalamityMod.NPCs.Ravager
             return true;
         }
 
-        public override bool PreNPCLoot()
+		public override bool CheckActive()
+		{
+			return false;
+		}
+
+		public override bool PreNPCLoot()
         {
             return false;
         }

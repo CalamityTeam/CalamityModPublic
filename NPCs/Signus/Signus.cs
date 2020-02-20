@@ -112,6 +112,8 @@ namespace CalamityMod.NPCs.Signus
 
         public override void AI()
         {
+			CalamityGlobalNPC.signus = npc.whoAmI;
+
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
 			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
             bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
@@ -133,15 +135,6 @@ namespace CalamityMod.NPCs.Signus
 				npc.TargetClosest(true);
 
 			Player player = Main.player[npc.target];
-
-			int targetLightStrength = player.Calamity().GetTotalLightStrength() * 15;
-			if (revenge)
-			{
-				int fadeIn = (int)((double)lifeToAlpha * 1.5) - targetLightStrength;
-				if (fadeIn < 0)
-					fadeIn = 0;
-				Main.BlackFadeIn = fadeIn;
-			}
 
 			if (!player.active || player.dead || Vector2.Distance(player.Center, vectorCenter) > 6400f)
 			{
@@ -217,7 +210,7 @@ namespace CalamityMod.NPCs.Signus
                 {
                     npc.knockBackResist *= Main.expertKnockBack;
                 }
-                if (cosmicSpeed)
+                if (speedBoost)
                 {
                     npc.knockBackResist = 0f;
                 }

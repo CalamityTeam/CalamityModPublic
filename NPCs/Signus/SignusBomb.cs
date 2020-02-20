@@ -41,6 +41,13 @@ namespace CalamityMod.NPCs.Signus
 
         public override void AI()
         {
+			if (CalamityGlobalNPC.signus < 0 || !Main.npc[CalamityGlobalNPC.signus].active)
+			{
+				npc.active = false;
+				npc.netUpdate = true;
+				return;
+			}
+
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.7f, 0.2f, 1.1f);
 			npc.rotation = npc.velocity.X * 0.04f;
             if (npc.ai[1] == 0f)

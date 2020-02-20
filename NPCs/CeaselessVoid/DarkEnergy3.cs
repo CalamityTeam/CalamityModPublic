@@ -133,9 +133,9 @@ namespace CalamityMod.NPCs.CeaselessVoid
                     return;
                 }
             }
-            else if (npc.timeLeft < 2400)
+            else if (npc.timeLeft < 1800)
             {
-                npc.timeLeft = 2400;
+                npc.timeLeft = 1800;
             }
 
             float num1372 = expertMode ? 10f : 8f;
@@ -182,7 +182,12 @@ namespace CalamityMod.NPCs.CeaselessVoid
             }
         }
 
-        public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
+		public override bool CheckActive()
+		{
+			return false;
+		}
+
+		public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
         {
             if (CalamityWorld.DoGSecondStageCountdown <= 0)
             {

@@ -26,8 +26,8 @@ namespace CalamityMod.NPCs.Abyss
             npc.lavaImmune = true;
             npc.aiStyle = -1;
             npc.damage = 150;
-            npc.width = 80; //324
-            npc.height = 40; //216
+            npc.width = 80;
+            npc.height = 40;
             npc.defense = 50;
             npc.Calamity().RevPlusDR(0.25f);
             npc.lifeMax = 10000;
@@ -44,19 +44,20 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void AI()
         {
-            if (CalamityGlobalNPC.bobbitWormBottom < 0 || !Main.npc[CalamityGlobalNPC.bobbitWormBottom].active)
+			if (!Main.npc[(int)npc.ai[2]].active || (int)npc.ai[2] < 0)
             {
                 npc.active = false;
                 npc.netUpdate = true;
                 return;
             }
+
             if (npc.ai[0] == 0f)
             {
                 npc.noTileCollide = true;
                 float num659 = 14f;
                 Vector2 vector79 = new Vector2(npc.Center.X, npc.Center.Y);
-                float num660 = Main.npc[CalamityGlobalNPC.bobbitWormBottom].Center.X - vector79.X;
-                float num661 = Main.npc[CalamityGlobalNPC.bobbitWormBottom].Center.Y - vector79.Y;
+                float num660 = Main.npc[(int)npc.ai[2]].Center.X - vector79.X;
+                float num661 = Main.npc[(int)npc.ai[2]].Center.Y - vector79.Y;
                 float num662 = (float)Math.Sqrt((double)(num660 * num660 + num661 * num661));
                 if (num662 < 11f + num659)
                 {
@@ -129,8 +130,8 @@ namespace CalamityMod.NPCs.Abyss
                     }
                 }
                 Vector2 vector81 = new Vector2(npc.Center.X, npc.Center.Y);
-                float num667 = Main.npc[CalamityGlobalNPC.bobbitWormBottom].Center.X - vector81.X;
-                float num668 = Main.npc[CalamityGlobalNPC.bobbitWormBottom].Center.Y - vector81.Y;
+                float num667 = Main.npc[(int)npc.ai[2]].Center.X - vector81.X;
+                float num668 = Main.npc[(int)npc.ai[2]].Center.Y - vector81.Y;
                 float num669 = (float)Math.Sqrt((double)(num667 * num667 + num668 * num668));
                 if (num669 > 700f || npc.collideX || npc.collideY)
                 {
@@ -198,8 +199,8 @@ namespace CalamityMod.NPCs.Abyss
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             Vector2 center = new Vector2(npc.Center.X, npc.Center.Y);
-            float drawPositionX = Main.npc[CalamityGlobalNPC.bobbitWormBottom].Center.X - center.X;
-            float drawPositionY = Main.npc[CalamityGlobalNPC.bobbitWormBottom].Center.Y - center.Y;
+            float drawPositionX = Main.npc[(int)npc.ai[2]].Center.X - center.X;
+            float drawPositionY = Main.npc[(int)npc.ai[2]].Center.Y - center.Y;
             float rotation = (float)Math.Atan2((double)drawPositionY, (double)drawPositionX) - 1.57f;
             bool draw = true;
             while (draw)
@@ -216,8 +217,8 @@ namespace CalamityMod.NPCs.Abyss
                     drawPositionY *= totalDrawDistance;
                     center.X += drawPositionX;
                     center.Y += drawPositionY;
-                    drawPositionX = Main.npc[CalamityGlobalNPC.bobbitWormBottom].Center.X - center.X;
-                    drawPositionY = Main.npc[CalamityGlobalNPC.bobbitWormBottom].Center.Y - center.Y;
+                    drawPositionX = Main.npc[(int)npc.ai[2]].Center.X - center.X;
+                    drawPositionY = Main.npc[(int)npc.ai[2]].Center.Y - center.Y;
                     drawPositionY += 4f;
                     Color color = Lighting.GetColor((int)center.X / 16, (int)(center.Y / 16f));
                     Main.spriteBatch.Draw(ModContent.GetTexture("CalamityMod/NPCs/Abyss/BobbitWormSegment"), new Vector2(center.X - Main.screenPosition.X, center.Y - Main.screenPosition.Y),

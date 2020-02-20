@@ -78,9 +78,9 @@ namespace CalamityMod.NPCs.Ravager
                 npc.netUpdate = true;
                 return;
             }
-            if (npc.timeLeft < 3000)
+            if (npc.timeLeft < 1800)
             {
-                npc.timeLeft = 3000;
+                npc.timeLeft = 1800;
             }
             if (npc.alpha > 0)
             {
@@ -127,7 +127,12 @@ namespace CalamityMod.NPCs.Ravager
             }
         }
 
-        public override bool PreNPCLoot()
+		public override bool CheckActive()
+		{
+			return false;
+		}
+
+		public override bool PreNPCLoot()
         {
             return false;
         }

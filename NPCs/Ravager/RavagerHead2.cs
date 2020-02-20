@@ -51,9 +51,9 @@ namespace CalamityMod.NPCs.Ravager
             {
                 npc.TargetClosest(true);
             }
-            if (npc.timeLeft < 3000)
+            if (npc.timeLeft < 1800)
             {
-                npc.timeLeft = 3000;
+                npc.timeLeft = 1800;
             }
             float num = 5f;
             float num2 = 0.1f;
@@ -274,7 +274,12 @@ namespace CalamityMod.NPCs.Ravager
             }
         }
 
-        public override bool PreNPCLoot()
+		public override bool CheckActive()
+		{
+			return false;
+		}
+
+		public override bool PreNPCLoot()
         {
             return false;
         }

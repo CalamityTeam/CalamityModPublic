@@ -164,13 +164,17 @@ namespace CalamityMod.World
             CalamityGlobalNPC.energyFlame = -1;
             CalamityGlobalNPC.hiveMind = -1;
             CalamityGlobalNPC.scavenger = -1;
-            CalamityGlobalNPC.bobbitWormBottom = -1;
+
+			for (int i = 0; i < CalamityGlobalNPC.bobbitWormBottom.Length; i++)
+				CalamityGlobalNPC.bobbitWormBottom[i] = -1;
+
             CalamityGlobalNPC.DoGHead = -1;
             CalamityGlobalNPC.SCal = -1;
             CalamityGlobalNPC.ghostBoss = -1;
             CalamityGlobalNPC.laserEye = -1;
             CalamityGlobalNPC.fireEye = -1;
             CalamityGlobalNPC.brimstoneElemental = -1;
+			CalamityGlobalNPC.signus = -1;
             bossRushStage = 0;
             DoGSecondStageCountdown = 0;
             ArmoredDiggerSpawnCooldown = 0;
