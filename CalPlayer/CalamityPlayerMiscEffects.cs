@@ -331,7 +331,7 @@ namespace CalamityMod.CalPlayer
 				if (Main.expertMode && player.ZoneSnow && player.wet && !player.lavaWet && !player.honeyWet)
 				{
 					player.buffImmune[BuffID.Chilled] = true;
-					if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
+					if (player.IsUnderwater())
 					{
 						if (Main.myPlayer == player.whoAmI)
 						{
@@ -458,7 +458,7 @@ namespace CalamityMod.CalPlayer
 					// Leech bleed
 					if (player.ZoneJungle && player.wet && !player.lavaWet && !player.honeyWet)
 					{
-						if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
+						if (player.IsUnderwater())
 							player.AddBuff(BuffID.Bleeding, 300, false);
 					}
 
@@ -644,7 +644,7 @@ namespace CalamityMod.CalPlayer
 			// Increase fall speed
 			if (!player.mount.Active)
 			{
-				if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir) && modPlayer.ironBoots)
+				if (player.IsUnderwater() && modPlayer.ironBoots)
 					player.maxFallSpeed = 9f;
 				if (modPlayer.aeroSet && !player.wet)
 					player.maxFallSpeed = 15f;
@@ -960,23 +960,16 @@ namespace CalamityMod.CalPlayer
 
 				if ((double)Math.Abs(player.velocity.X) < 0.05 && (double)Math.Abs(player.velocity.Y) < 0.05 && player.itemAnimation == 0)
 					player.manaRegenBonus += 2;
-
-				//This stacks with Sea Shell
-				if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
-				{
-					player.statDefense += 2;
-					player.moveSpeed += 0.05f;
-				}
 			}
 
 			// Sea Shell bonus
 			if (modPlayer.seaShell)
 			{
-				if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
+				if (player.IsUnderwater())
 				{
-					player.statDefense += 3;
+					player.statDefense += modPlayer.absorber ? 5 : 3;
 					player.endurance += 0.05f;
-					player.moveSpeed += 0.15f;
+					player.moveSpeed += modPlayer.absorber ? 0.2f : 0.15f;
 					player.ignoreWater = true;
 				}
 			}
@@ -1063,7 +1056,7 @@ namespace CalamityMod.CalPlayer
 			}
 			if (modPlayer.dAmulet)
 			{
-				if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
+				if (player.IsUnderwater())
 				{
 					light[0] += 1.35f;
 					light[1] += 0.3f;
@@ -1290,7 +1283,7 @@ namespace CalamityMod.CalPlayer
 			}
 			if (modPlayer.leviathanAndSirenLore)
 			{
-				if (!Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
+				if (!player.IsUnderwater())
 				{
 					player.statDefense -= 8;
 					player.endurance -= 0.05f;
@@ -1351,7 +1344,7 @@ namespace CalamityMod.CalPlayer
 			}
 			if (modPlayer.dukeFishronLore)
 			{
-				if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
+				if (player.IsUnderwater())
 				{
 					player.allDamage += 0.05f;
 					modPlayer.AllCritBoost(5);
@@ -1901,7 +1894,7 @@ namespace CalamityMod.CalPlayer
 			// Aquatic Emblem bonus
 			if (modPlayer.aquaticEmblem)
 			{
-				if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir) && player.wet && !player.lavaWet && !player.honeyWet &&
+				if (player.IsUnderwater() && player.wet && !player.lavaWet && !player.honeyWet &&
 					!player.mount.Active)
 				{
 					if (modPlayer.aquaticBoost > 0f)

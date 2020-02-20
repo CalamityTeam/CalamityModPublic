@@ -140,7 +140,7 @@ namespace CalamityMod.CalPlayer
 				lifeRegenLost += 20;
             }
 
-            if (modPlayer.ZoneSulphur && Collision.DrownCollision(player.position, player.width, player.height, player.gravDir) && !modPlayer.aquaticScourgeLore)
+            if (modPlayer.ZoneSulphur && player.IsUnderwater() && !modPlayer.aquaticScourgeLore)
             {
                 player.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 2, true);
                 modPlayer.pissWaterBoost++;
@@ -485,7 +485,7 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.ZoneAbyss)
 			{
-				if (!Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
+				if (!player.IsUnderwater())
 				{
 					if (player.statLife > 100)
 					{
