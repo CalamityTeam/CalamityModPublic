@@ -111,13 +111,14 @@ namespace CalamityMod.Projectiles.Summon
                 }
             }
             Vector2 vector = player.Center - projectile.Center;
+            projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
             if (flag25)
             {
-                projectile.rotation = (vector46 - projectile.Center).ToRotation() + 3.14159274f;
+                projectile.rotation = (vector46 - projectile.Center).ToRotation() + MathHelper.Pi;
             }
 			else
 			{
-				projectile.rotation = vector.ToRotation() - 1.57f - (projectile.spriteDirection == 1 ? MathHelper.ToRadians(270) : MathHelper.ToRadians(90) * projectile.direction);
+				projectile.rotation = vector.ToRotation() - (projectile.spriteDirection == 1 ? 0f : MathHelper.ToRadians(180) * projectile.direction);
 			}
             projectile.Center = player.Center + new Vector2(80, 0).RotatedBy(rotation);
             rotation += 0.03;

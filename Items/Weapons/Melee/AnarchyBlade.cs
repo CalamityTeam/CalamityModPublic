@@ -1,5 +1,6 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.CalPlayer;
+using CalamityMod.Dusts;
 using CalamityMod.Items.Materials;
 using CalamityMod.NPCs;
 using CalamityMod.Projectiles.Melee;
