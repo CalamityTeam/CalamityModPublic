@@ -86,9 +86,9 @@ namespace CalamityMod.Projectiles.Summon
             {
                 projectile.frame = 0;
             }
-            projectile.position.X = Main.player[projectile.owner].Center.X - (float)(projectile.width / 2);
-            projectile.position.Y = Main.player[projectile.owner].Center.Y - (float)(projectile.height / 2) + Main.player[projectile.owner].gfxOffY - 60f;
-            if (Main.player[projectile.owner].gravDir == -1f)
+            projectile.position.X = player.Center.X - (float)(projectile.width / 2);
+            projectile.position.Y = player.Center.Y - (float)(projectile.height / 2) + player.gfxOffY - 60f;
+            if (player.gravDir == -1f)
             {
                 projectile.position.Y = projectile.position.Y + 120f;
                 projectile.rotation = 3.14f;
