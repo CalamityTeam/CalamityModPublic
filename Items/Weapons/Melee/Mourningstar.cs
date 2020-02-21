@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Mourningstar");
-            Tooltip.SetDefault("Launches a solar whip sword and a solar particle trail that explodes on hit");
+            Tooltip.SetDefault("Launches two solar whip swords that explode on hit");
         }
 
         public override void SetDefaults()
