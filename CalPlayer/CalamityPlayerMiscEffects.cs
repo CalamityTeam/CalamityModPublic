@@ -88,7 +88,7 @@ namespace CalamityMod.CalPlayer
 			EnduranceReductions(player, modPlayer);
 
 			// Stat Meter
-			StatMeter(player, modPlayer);
+			UpdateStatMeter(player, modPlayer);
 
 			// Rogue Mirrors
 			RogueMirrors(player, modPlayer);
@@ -3315,7 +3315,7 @@ namespace CalamityMod.CalPlayer
 		#endregion
 
 		#region Stat Meter
-		private static void StatMeter(Player player, CalamityPlayer modPlayer)
+		private static void UpdateStatMeter(Player player, CalamityPlayer modPlayer)
 		{
 			float allDamageStat = player.allDamage - 1f;
 			modPlayer.damageStats[0] = (int)((player.meleeDamage + allDamageStat - 1f) * 100f);
@@ -3341,7 +3341,15 @@ namespace CalamityMod.CalPlayer
 			modPlayer.meleeSpeedStat = (int)((1f - player.meleeSpeed) * (100f / player.meleeSpeed));
 			modPlayer.manaCostStat = (int)(player.manaCost * 100f);
 			modPlayer.rogueVelocityStat = (int)((modPlayer.throwingVelocity - 1f) * 100f);
+
+			// Max stealth 1f is actually "100 stealth", so multiply by 100 to get visual stealth number.
 			modPlayer.stealthStat = (int)(modPlayer.rogueStealthMax * 100f);
+			// Then divide by 3, because it takes 3 seconds to regen full stealth.
+			// Divide by 3 again for moving, because it recharges at 1/3 speed (so divide by 9 overall).
+			// Then multiply by stealthGen variables, which start at 1f and increase proportionally to your boosts.
+			modPlayer.standingRegenStat = (modPlayer.rogueStealthMax * 100f / 3f) * modPlayer.stealthGenStandstill;
+			modPlayer.movingRegenStat = (modPlayer.rogueStealthMax * 100f / 9f) * modPlayer.stealthGenMoving * modPlayer.stealthAcceleration;
+
 			modPlayer.minionSlotStat = player.maxMinions;
 			modPlayer.manaRegenStat = player.manaRegen;
 			modPlayer.armorPenetrationStat = player.armorPenetration;
