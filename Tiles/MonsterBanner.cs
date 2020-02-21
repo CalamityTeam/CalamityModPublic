@@ -363,6 +363,12 @@ namespace CalamityMod.Tiles
                 case 108:
                     item = "PiggyBanner";
                     break;
+                case 109:
+                    item = "FearlessGoldfishWarriorBanner";
+                    break;
+                case 110:
+                    item = "RadiatorBanner";
+                    break;
                 default:
                     return;
             }
@@ -707,6 +713,12 @@ namespace CalamityMod.Tiles
                     break;
                 case 108:
                     type = "Piggy";
+                    break;
+                case 109:
+                    type = "FearlessGoldfishWarrior";
+                    break;
+                case 110:
+                    type = "Radiator";
                     break;
                 default:
                     return;

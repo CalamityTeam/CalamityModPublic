@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Items.Placeables.Banners;
 
 namespace CalamityMod.NPCs.NormalNPCs
 {
@@ -30,8 +31,8 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.value = Item.buyPrice(0, 0, 1, 0);
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
-            //banner = npc.type;
-            //bannerItem = ModContent.ItemType<Items.OverloadedSoldierBanner>();
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<FearlessGoldfishWarriorBanner>();
         }
 
         public override void AI()
