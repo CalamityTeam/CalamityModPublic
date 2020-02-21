@@ -10,14 +10,15 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Depth Blade");
+            DisplayName.SetDefault("Depth Crusher");
             Tooltip.SetDefault("Hitting enemies will inflict the crush depth debuff\n" +
                 "The lower the enemies' defense, the more damage they take from this debuff");
         }
 
         public override void SetDefaults()
         {
-            item.width = 40;
+            item.width = 56;
+            item.height = 50;
             item.damage = 22;
             item.melee = true;
             item.useAnimation = 22;
@@ -27,9 +28,9 @@ namespace CalamityMod.Items.Weapons.Melee
             item.knockBack = 5.25f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.height = 40;
             item.value = Item.buyPrice(0, 2, 0, 0);
             item.rare = 2;
+            item.hammer = 70;
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
