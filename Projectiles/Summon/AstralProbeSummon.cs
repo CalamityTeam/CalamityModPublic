@@ -114,7 +114,8 @@ namespace CalamityMod.Projectiles.Summon
             projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
             if (flag25)
             {
-                projectile.rotation = (vector46 - projectile.Center).ToRotation() + MathHelper.Pi;
+                projectile.rotation = (vector46 - projectile.Center).ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.ToRadians(180) * projectile.direction);
+				projectile.spriteDirection *= -1;
             }
 			else
 			{

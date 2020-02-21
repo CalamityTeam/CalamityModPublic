@@ -420,17 +420,17 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     float num1052 = revenge ? 0.12f : 0.1f;
                     if ((double)npc.life < (double)npc.lifeMax * 0.8 || death)
                     {
-                        npc.velocity *= 0.9f;
+                        npc.velocity *= 0.98f;
                         num1052 += 0.05f;
                     }
                     if ((double)npc.life < (double)npc.lifeMax * 0.6 || death)
                     {
-                        npc.velocity *= 0.9f;
+                        npc.velocity *= 0.98f;
                         num1052 += 0.05f;
                     }
                     if ((double)npc.life < (double)npc.lifeMax * 0.4 || death)
                     {
-                        npc.velocity *= 0.9f;
+                        npc.velocity *= 0.98f;
                         num1052 += 0.05f;
                     }
 
@@ -852,17 +852,17 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     float num1052 = revenge ? 0.12f : 0.1f;
                     if (npc.life < npc.lifeMax / 2 || death)
                     {
-                        npc.velocity *= 0.9f;
+                        npc.velocity *= 0.98f;
                         num1052 += 0.05f;
                     }
                     if (npc.life < npc.lifeMax / 3 || death)
                     {
-                        npc.velocity *= 0.9f;
+                        npc.velocity *= 0.98f;
                         num1052 += 0.05f;
                     }
                     if (npc.life < npc.lifeMax / 5 || death)
                     {
-                        npc.velocity *= 0.9f;
+                        npc.velocity *= 0.98f;
                         num1052 += 0.05f;
                     }
 
