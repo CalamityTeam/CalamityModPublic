@@ -13,11 +13,8 @@ namespace CalamityMod.Tiles.Astral
         public override void SetDefaults()
         {
             this.SetUpChest();
-            ModTranslation name = CreateMapEntryName();
+            ModTranslation name = CreateMapEntryName("chestAstral");
             name.SetDefault("Astral Chest");
-            AddMapEntry(new Color(174, 129, 92), name, MapChestName);
-            name = CreateMapEntryName(Name + "_Locked"); // With multiple map entries, you need unique translation keys.
-            name.SetDefault("Locked Astral Chest");
             AddMapEntry(new Color(174, 129, 92), name, MapChestName);
             dustType = ModContent.DustType<AstralBasic>();
             disableSmartCursor = true;
