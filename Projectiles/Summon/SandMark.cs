@@ -23,6 +23,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.timeLeft = 900;
             projectile.ignoreWater = true;
             projectile.alpha = 255;
+			projectile.minion = true;
             projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 30 -
@@ -132,9 +133,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.localAI[1] += 1f;
             if (projectile.localAI[1] == 60f && projectile.owner == Main.myPlayer)
             {
-                int storm = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<SandTornado>(), projectile.damage, 2f, projectile.owner, 1f, 0f);
-                Main.projectile[storm].minion = true;
-                Main.projectile[storm].melee = false;
+                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<SandTornado>(), projectile.damage, 2f, projectile.owner, 0f, 0f);
             }
             if (projectile.localAI[1] >= 120f)
             {
