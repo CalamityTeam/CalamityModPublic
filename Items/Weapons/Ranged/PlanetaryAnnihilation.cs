@@ -19,12 +19,12 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 75;
+            item.damage = 65;
             item.ranged = true;
             item.width = 58;
             item.height = 102;
-            item.useTime = 22;
-            item.useAnimation = 22;
+            item.useTime = 23;
+            item.useAnimation = 23;
             item.useStyle = 5;
             item.noMelee = true;
             item.knockBack = 5.5f;
@@ -88,7 +88,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 {
                     float speedX4 = num78 + (float)Main.rand.Next(-120, 121) * 0.02f;
                     float speedY5 = num79 + (float)Main.rand.Next(-120, 121) * 0.02f;
-                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<TerraBallBow>(), damage, knockBack, player.whoAmI, 0f, (float)i);
+                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<PlanetaryAnnihilationProj>(), damage, knockBack, player.whoAmI, 0f, (float)i);
                 }
             }
             else
