@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class TerraBallBow : ModProjectile
+    public class PlanetaryAnnihilationProj : ModProjectile
     {
         private int dustType = 0;
 
@@ -25,6 +25,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.extraUpdates = 1;
             projectile.tileCollide = true;
             projectile.timeLeft = 600;
+			projectile.arrow = true;
         }
 
         public override void AI()
@@ -108,6 +109,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
+			projectile.damage /= 2;
             projectile.Damage();
             int num3;
             for (int num53 = 0; num53 < 20; num53 = num3 + 1)

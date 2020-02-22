@@ -60,6 +60,31 @@ namespace CalamityMod.NPCs
                 return false;
             }
 
+			if (CalamityWorld.death)
+			{
+				switch (npc.type)
+				{
+					case NPCID.DevourerHead:
+					case NPCID.DevourerBody:
+					case NPCID.DevourerTail:
+						return SplittingWormLoot(npc, mod, 0);
+					case NPCID.DiggerHead:
+					case NPCID.DiggerBody:
+					case NPCID.DiggerTail:
+						return SplittingWormLoot(npc, mod, 1);
+					case NPCID.SeekerHead:
+					case NPCID.SeekerBody:
+					case NPCID.SeekerTail:
+						return SplittingWormLoot(npc, mod, 2);
+					case NPCID.DuneSplicerHead:
+					case NPCID.DuneSplicerBody:
+					case NPCID.DuneSplicerTail:
+						return SplittingWormLoot(npc, mod, 3);
+					default:
+						break;
+				}
+			}
+
             if (CalamityWorld.revenge)
             {
                 if (npc.type == NPCID.Probe || npc.type == NPCID.ServantofCthulhu || npc.type == NPCID.MoonLordCore)
@@ -678,6 +703,35 @@ namespace CalamityMod.NPCs
 
             return hurtByAbyss;
         }
+		#endregion
+
+		#region Splitting Worm Loot
+		private bool SplittingWormLoot(NPC npc, Mod mod, int wormType)
+		{
+			switch (wormType)
+			{
+				case 0: return CheckSegments(NPCID.DevourerHead, NPCID.DevourerBody, NPCID.DevourerTail);
+				case 1: return CheckSegments(NPCID.DiggerHead, NPCID.DiggerBody, NPCID.DiggerTail);
+				case 2: return CheckSegments(NPCID.SeekerHead, NPCID.SeekerBody, NPCID.SeekerTail);
+				case 3: return CheckSegments(NPCID.DuneSplicerHead, NPCID.DuneSplicerBody, NPCID.DuneSplicerTail);
+				default:
+					break;
+			}
+
+			bool CheckSegments(int head, int body, int tail)
+			{
+				for (int i = 0; i < Main.maxNPCs; i++)
+				{
+					if (i != npc.whoAmI && Main.npc[i].active && (Main.npc[i].type == head || Main.npc[i].type == body || Main.npc[i].type == tail))
+					{
+						return false;
+					}
+				}
+				return true;
+			}
+
+			return true;
+		}
 		#endregion
 
 		#region NPCLoot

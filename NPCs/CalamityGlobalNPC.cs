@@ -1577,7 +1577,9 @@ namespace CalamityMod.NPCs
                     case NPCID.CultistBoss:
                     case NPCID.CultistBossClone:
                         return CalamityGlobalAI.BuffedCultistAI(npc, enraged > 0, mod);
-                    case NPCID.AncientDoom:
+					case NPCID.AncientLight:
+						return CalamityGlobalAI.BuffedAncientLightAI(npc, mod);
+					case NPCID.AncientDoom:
                         return CalamityGlobalAI.BuffedAncientDoomAI(npc, mod);
 
                     case NPCID.MoonLordCore:
@@ -1867,6 +1869,46 @@ namespace CalamityMod.NPCs
 								return CalamityGlobalAI.BuffedFlyingAI(npc, mod);
 						}
 						break;
+					case 6:
+						switch (npc.type)
+						{
+							case NPCID.DevourerHead:
+							case NPCID.DevourerBody:
+							case NPCID.DevourerTail:
+							case NPCID.GiantWormHead:
+							case NPCID.GiantWormBody:
+							case NPCID.GiantWormTail:
+							case NPCID.BoneSerpentHead:
+							case NPCID.BoneSerpentBody:
+							case NPCID.BoneSerpentTail:
+							case NPCID.WyvernHead:
+							case NPCID.WyvernLegs:
+							case NPCID.WyvernBody:
+							case NPCID.WyvernBody2:
+							case NPCID.WyvernBody3:
+							case NPCID.WyvernTail:
+							case NPCID.DiggerHead:
+							case NPCID.DiggerBody:
+							case NPCID.DiggerTail:
+							case NPCID.SeekerHead:
+							case NPCID.SeekerBody:
+							case NPCID.SeekerTail:
+							case NPCID.LeechHead:
+							case NPCID.LeechBody:
+							case NPCID.LeechTail:
+							case NPCID.TombCrawlerHead:
+							case NPCID.TombCrawlerBody:
+							case NPCID.TombCrawlerTail:
+							case NPCID.DuneSplicerHead:
+							case NPCID.DuneSplicerBody:
+							case NPCID.DuneSplicerTail:
+							case NPCID.StardustWormHead:
+							case NPCID.SolarCrawltipedeHead:
+							case NPCID.SolarCrawltipedeBody:
+							case NPCID.SolarCrawltipedeTail:
+								return CalamityGlobalAI.BuffedWormAI(npc, mod);
+						}
+						break;
 					case 8:
 						switch (npc.type)
 						{
@@ -1883,6 +1925,18 @@ namespace CalamityMod.NPCs
 							case NPCID.DesertDjinn:
 							case NPCID.GoblinSorcerer:
 								return CalamityGlobalAI.BuffedCasterAI(npc, mod);
+						}
+						break;
+					case 13:
+						switch (npc.type)
+						{
+							case NPCID.ManEater:
+							case NPCID.Snatcher:
+							case NPCID.Clinger:
+							case NPCID.AngryTrapper:
+							case NPCID.FungiBulb:
+							case NPCID.GiantFungiBulb:
+								return CalamityGlobalAI.BuffedPlantAI(npc, mod);
 						}
 						break;
 					case 14:
@@ -1938,11 +1992,41 @@ namespace CalamityMod.NPCs
 								return CalamityGlobalAI.BuffedJellyfishAI(npc, mod);
 						}
 						break;
+					case 19:
+						switch (npc.type)
+						{
+							case NPCID.Antlion:
+								return CalamityGlobalAI.BuffedAntlionAI(npc, mod);
+						}
+						break;
+					case 20:
+						switch (npc.type)
+						{
+							case NPCID.SpikeBall:
+								return CalamityGlobalAI.BuffedSpikeBallAI(npc, mod);
+						}
+						break;
 					case 21:
 						switch (npc.type)
 						{
 							case NPCID.BlazingWheel:
 								return CalamityGlobalAI.BuffedBlazingWheelAI(npc, mod);
+						}
+						break;
+					case 22:
+						switch (npc.type)
+						{
+							case NPCID.Pixie:
+							case NPCID.Wraith:
+							case NPCID.Gastropod:
+							case NPCID.IceElemental:
+							case NPCID.FloatyGross:
+							case NPCID.IchorSticker:
+							case NPCID.Ghost:
+							case NPCID.Poltergeist:
+							case NPCID.Drippler:
+							case NPCID.Reaper:
+								return CalamityGlobalAI.BuffedHoveringAI(npc, mod);
 						}
 						break;
 					case 23:
@@ -1954,6 +2038,38 @@ namespace CalamityMod.NPCs
 								return CalamityGlobalAI.BuffedFlyingWeaponAI(npc, mod);
 						}
 						break;
+					case 25:
+						switch (npc.type)
+						{
+							case NPCID.Mimic:
+							case NPCID.PresentMimic:
+								return CalamityGlobalAI.BuffedMimicAI(npc, mod);
+						}
+						break;
+					case 26:
+						switch (npc.type)
+						{
+							case NPCID.Unicorn:
+							case NPCID.Wolf:
+							case NPCID.HeadlessHorseman:
+							case NPCID.Hellhound:
+							case NPCID.StardustSpiderSmall:
+							case NPCID.NebulaBeast:
+							case NPCID.Tumbleweed:
+								return CalamityGlobalAI.BuffedUnicornAI(npc, mod);
+						}
+						break;
+					case 39:
+						switch (npc.type)
+						{
+							case NPCID.GiantTortoise:
+							case NPCID.IceTortoise:
+							case NPCID.GiantShelly:
+							case NPCID.GiantShelly2:
+							case NPCID.SolarSroller:
+								return CalamityGlobalAI.BuffedTortoiseAI(npc, mod);
+						}
+						break;
 					case 40:
 						switch (npc.type)
 						{
@@ -1963,6 +2079,14 @@ namespace CalamityMod.NPCs
 							case NPCID.BloodCrawlerWall:
 							case NPCID.DesertScorpionWall:
 								return CalamityGlobalAI.BuffedSpiderAI(npc, mod);
+						}
+						break;
+					case 41:
+						switch (npc.type)
+						{
+							case NPCID.Herpling:
+							case NPCID.Derpling:
+								return CalamityGlobalAI.BuffedHerplingAI(npc, mod);
 						}
 						break;
 					case 44:
@@ -1986,6 +2110,35 @@ namespace CalamityMod.NPCs
 							case NPCID.FungiSpore:
 							case NPCID.Spore:
 								return CalamityGlobalAI.BuffedSporeAI(npc, mod, true);
+						}
+						break;
+					case 73:
+						switch (npc.type)
+						{
+							case NPCID.MartianTurret:
+								return CalamityGlobalAI.BuffedTeslaTurretAI(npc, mod);
+						}
+						break;
+					case 74:
+						switch (npc.type)
+						{
+							case NPCID.MartianDrone:
+							case NPCID.SolarCorite:
+								return CalamityGlobalAI.BuffedCoriteAI(npc, mod);
+						}
+						break;
+					case 80:
+						switch (npc.type)
+						{
+							case NPCID.MartianProbe:
+								return CalamityGlobalAI.BuffedMartianProbeAI(npc, mod);
+						}
+						break;
+					case 89:
+						switch (npc.type)
+						{
+							case NPCID.MothronEgg:
+								return CalamityGlobalAI.BuffedMothronEggAI(npc, mod);
 						}
 						break;
 					case 91:
@@ -4022,10 +4175,36 @@ namespace CalamityMod.NPCs
                 }
             }
         }
-        #endregion
 
-        #region Get Chat
-        public override void GetChat(NPC npc, ref string chat)
+		public override bool? DrawHealthBar(NPC npc, byte hbPosition, ref float scale, ref Vector2 position)
+		{
+			if (CalamityWorld.death)
+			{
+				switch (npc.type)
+				{
+					case NPCID.DevourerHead:
+					case NPCID.DevourerBody:
+					case NPCID.DevourerTail:
+					case NPCID.DiggerHead:
+					case NPCID.DiggerBody:
+					case NPCID.DiggerTail:
+					case NPCID.SeekerHead:
+					case NPCID.SeekerBody:
+					case NPCID.SeekerTail:
+					case NPCID.DuneSplicerHead:
+					case NPCID.DuneSplicerBody:
+					case NPCID.DuneSplicerTail:
+						return true;
+					default:
+						break;
+				}
+			}
+			return null;
+		}
+		#endregion
+
+		#region Get Chat
+		public override void GetChat(NPC npc, ref string chat)
         {
             int fapsol = NPC.FindFirstNPC(ModContent.NPCType<FAP>());
             int permadong = NPC.FindFirstNPC(ModContent.NPCType<DILF>());

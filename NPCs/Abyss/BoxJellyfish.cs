@@ -6,7 +6,6 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Magic;
 
 namespace CalamityMod.NPCs.Abyss
@@ -216,7 +215,6 @@ namespace CalamityMod.NPCs.Abyss
         {
 			int abyssShockerChance = CalamityWorld.defiled ? 20 : Main.expertMode ? 40 : 50;
             DropHelper.DropItemCondition(npc, ModContent.ItemType<AbyssShocker>(), NPC.downedBoss3, abyssShockerChance, 1, 1);
-            DropHelper.DropItemChance(npc, ModContent.ItemType<DepthBlade>(), Main.expertMode ? 10 : 15);
 		}
     }
 }

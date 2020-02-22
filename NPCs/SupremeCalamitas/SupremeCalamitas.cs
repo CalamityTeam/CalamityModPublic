@@ -2272,7 +2272,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             {
                 texture = Main.npcTexture[npc.type];
             }
-            Color newColor = willCharge ? new Color(100, 0, 0, 0) : drawColor;
+            Color newColor = willCharge ? new Color(Main.DiscoR, 0, 0, 0) : drawColor;
             SpriteEffects spriteEffects = SpriteEffects.None;
             Color color24 = npc.GetAlpha(newColor);
             Color color25 = Lighting.GetColor((int)((double)npc.position.X + (double)npc.width * 0.5) / 16, (int)(((double)npc.position.Y + (double)npc.height * 0.5) / 16.0));

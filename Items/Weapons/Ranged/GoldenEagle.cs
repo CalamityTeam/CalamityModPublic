@@ -20,8 +20,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.noMelee = true;
             item.width = 46;
             item.height = 30;
-            item.useTime = 7;
-            item.useAnimation = 7;
+            item.useTime = 10;
+            item.useAnimation = 10;
             item.useStyle = 5;
             item.knockBack = 3f;
             item.value = Item.buyPrice(1, 20, 0, 0);

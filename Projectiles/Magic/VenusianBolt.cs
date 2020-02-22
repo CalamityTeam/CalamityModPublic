@@ -54,11 +54,11 @@ namespace CalamityMod.Projectiles.Magic
         {
             if (projectile.owner == Main.myPlayer)
             {
-                int explosionDamage = VenusianTrident.BaseDamage;
+                int explosionDamage = projectile.damage;
                 float explosionKB = 6f;
                 Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<VenusianExplosion>(), explosionDamage, explosionKB, projectile.owner, 0f, 0f);
 
-                int cinderDamage = (int)(VenusianTrident.BaseDamage * 0.75f);
+                int cinderDamage = (int)(projectile.damage * 0.75f);
                 float cinderKB = 0f;
                 Vector2 cinderPos = projectile.oldPosition + 0.5f * projectile.Size;
                 int numCinders = Main.rand.Next(7, 10);

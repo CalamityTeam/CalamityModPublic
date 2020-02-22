@@ -41,6 +41,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
+            Main.time = 120 * 120;
             Lighting.AddLight((int)((projectile.position.X + (float)(projectile.width / 2)) / 16f), (int)((projectile.position.Y + (float)(projectile.height / 2)) / 16f), 0.15f, 0.01f, 0.15f);
             Player player9 = Main.player[projectile.owner];
             if (dust > 0)
@@ -220,11 +221,22 @@ namespace CalamityMod.Projectiles.Summon
             spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
-
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Vector2 origin = new Vector2(21f, 25f);
             spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Summon/MechwormHeadGlow"), projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
+        }
+        /// <summary>
+        /// Determines the distance factor used in mechworm segments to make it adjust based on components of the head.
+        /// <para>However, eventually even this equation will falter in use. These conditions should never happen with the mechworm, however.</para> 
+        /// </summary>
+        /// <param name="initialDistance">The original distance factor.</param>
+        /// <param name="speed">The speed of the mechworm's head.</param>
+        /// <param name="base">The base of the exponent used in the equation.</param>
+        /// <returns></returns>
+        public static float ComputeDistance(float initialDistance, float speed, float @base = 0.98f)
+        {
+            return initialDistance * (float)Math.Pow(@base, speed);
         }
     }
 }

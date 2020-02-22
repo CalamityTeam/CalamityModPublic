@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Weapons.Melee
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<UnholyCore>(), 4);
             recipe.AddIngredient(ModContent.ItemType<EssenceofChaos>(), 3);
-            recipe.AddIngredient(ModContent.ItemType<LivingShard>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<CalamityDust>(), 5);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

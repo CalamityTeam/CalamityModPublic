@@ -2,6 +2,7 @@
 using CalamityMod.Tiles;
 using CalamityMod.Tiles.Abyss;
 using CalamityMod.Tiles.Ores;
+using CalamityMod.Tiles.SunkenSea;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -140,15 +141,21 @@ namespace CalamityMod.Items.Mounts
                             Tile tile = Framing.GetTileSafely(num824, num825);
                             if (num828 < (double)num814)
                             {
-                                if (tile != null && tile.active() && tile.type != (ushort)ModContent.TileType<AbyssGravel>() &&
-                                    tile.type != (ushort)ModContent.TileType<Voidstone>() && (tile.type != TileID.Hellstone || Main.hardMode) &&
-                                    (tile.type != TileID.LihzahrdBrick || NPC.downedGolemBoss) && (tile.type != TileID.BlueDungeonBrick || NPC.downedBoss3) &&
-                                    (tile.type != TileID.GreenDungeonBrick || NPC.downedBoss3) && (tile.type != TileID.PinkDungeonBrick || NPC.downedBoss3) && tile.type != TileID.DemonAltar &&
+                                if (tile != null && tile.active() &&
+									tile.type != (ushort)ModContent.TileType<AbyssGravel>() &&
+                                    tile.type != (ushort)ModContent.TileType<Voidstone>() &&
+									(tile.type != TileID.Hellstone || Main.hardMode) &&
+                                    (tile.type != TileID.LihzahrdBrick || NPC.downedGolemBoss) &&
+									(tile.type != (TileID.BlueDungeonBrick | TileID.GreenDungeonBrick | TileID.PinkDungeonBrick) || NPC.downedBoss3) &&
+									tile.type != TileID.DemonAltar &&
                                     (tile.type != (ushort)ModContent.TileType<AstralOre>() || CalamityWorld.downedStarGod) &&
-                                    ((tile.type != (ushort)ModContent.TileType<Tenebris>() && tile.type != (ushort)ModContent.TileType<PlantyMush>()) || NPC.downedPlantBoss || CalamityWorld.downedCalamitas) &&
-                                    (!player.Calamity().ZoneSunkenSea || CalamityWorld.downedDesertScourge) && tile.type != (ushort)ModContent.TileType<ArenaTile>() &&
+                                    (tile.type != ((ushort)ModContent.TileType<Tenebris>() | (ushort)ModContent.TileType<PlantyMush>()) || CalamityWorld.downedCalamitas) &&
+                                    (tile.type != ((ushort)ModContent.TileType<EutrophicSand>() | (ushort)ModContent.TileType<Navystone>() | (ushort)ModContent.TileType<SeaPrism>() | (ushort)ModContent.TileType<SeaPrismCrystals>()) || CalamityWorld.downedDesertScourge) &&
+									tile.type != (ushort)ModContent.TileType<ArenaTile>() &&
                                     (Main.tileValue[tile.type] < tileValueLimit || tile.type == TileID.Heart || tile.type == TileID.LifeFruit) &&
-                                    !player.noBuilding && tile.type != TileID.ElderCrystalStand && tile.type != TileID.Containers)
+                                    !player.noBuilding &&
+									tile.type != TileID.ElderCrystalStand &&
+									tile.type != TileID.Containers)
                                 {
                                     WorldGen.KillTile(num824, num825, false, false, false);
                                     if (!Main.tile[num824, num825].active() && Main.netMode != NetmodeID.SinglePlayer)

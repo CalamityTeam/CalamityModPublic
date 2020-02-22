@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Bloodflare Helmet");
+            DisplayName.SetDefault("Bloodflare Wyvern Helm");
             Tooltip.SetDefault("You can move freely through liquids and have temporary immunity to lava\n" +
                 "+3 max minions\n" +
 				"Provides heat protection in Death Mode");
