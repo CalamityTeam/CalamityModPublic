@@ -60,6 +60,7 @@ namespace CalamityMod.NPCs.Bumblebirb
             Player player = Main.player[npc.target];
             Vector2 vector = npc.Center;
             npc.damage = npc.defDamage;
+
             if (Vector2.Distance(player.Center, vector) > 5600f)
             {
                 if (npc.timeLeft > 5)
@@ -67,13 +68,15 @@ namespace CalamityMod.NPCs.Bumblebirb
                     npc.timeLeft = 5;
                 }
             }
+
             npc.noTileCollide = false;
             npc.noGravity = true;
+
             npc.rotation = (npc.rotation * 9f + npc.velocity.X * 0.05f) / 10f;
+
             if (npc.ai[0] == 0f || npc.ai[0] == 1f)
             {
-                int num;
-                for (int num1376 = 0; num1376 < 200; num1376 = num + 1)
+                for (int num1376 = 0; num1376 < 200; num1376++)
                 {
                     if (num1376 != npc.whoAmI && Main.npc[num1376].active && Main.npc[num1376].type == npc.type)
                     {
@@ -87,9 +90,9 @@ namespace CalamityMod.NPCs.Bumblebirb
                             nPC6.velocity -= value42;
                         }
                     }
-                    num = num1376;
                 }
             }
+
             if (npc.target < 0 || Main.player[npc.target].dead || !Main.player[npc.target].active)
             {
                 npc.TargetClosest(true);
@@ -107,6 +110,7 @@ namespace CalamityMod.NPCs.Bumblebirb
                     npc.ai[0] = 1f;
                 }
             }
+
             if (npc.ai[0] == -1f)
             {
                 Vector2 value43 = new Vector2(0f, -8f);
@@ -115,6 +119,7 @@ namespace CalamityMod.NPCs.Bumblebirb
                 npc.dontTakeDamage = true;
                 return;
             }
+
             if (npc.ai[0] == 0f)
             {
                 npc.TargetClosest(true);

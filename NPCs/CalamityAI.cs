@@ -3714,11 +3714,6 @@ namespace CalamityMod.NPCs
 			// Reset damage
 			npc.damage = npc.defDamage;
 
-			// Fly to target if target is too far away and not in idle or switch phase
-			Vector2 vector205 = player.Center - npc.Center;
-			if (npc.ai[0] > 1f && vector205.Length() > 3600f)
-				npc.ai[0] = 1f;
-
 			// Phase switch
 			if (npc.ai[0] == 0f)
 			{
@@ -4064,7 +4059,7 @@ namespace CalamityMod.NPCs
 										while (!WorldGen.SolidTile(num1313, num1314) && (double)num1314 < Main.worldSurface)
 											num1314++;
 
-										if ((new Vector2((float)(num1313 * 16 + 8), (float)(num1314 * 16 + 8)) - player.Center).Length() < 3600f)
+										if ((new Vector2((float)(num1313 * 16 + 8), (float)(num1314 * 16 + 8)) - player.Center).Length() < 1600f)
 										{
 											npc.ai[0] = 4.1f;
 											npc.ai[1] = (float)num1313;

@@ -56,23 +56,45 @@ namespace CalamityMod.Projectiles.Boss
             Lighting.AddLight(projectile.Center, 0.7f, 0f, 0f);
 
             projectile.ai[0] += 1f;
-            if (projectile.ai[0] >= 120f)
+            if (projectile.ai[0] > 120f)
             {
                 int num103 = (int)Player.FindClosest(projectile.Center, 1, 1);
+
                 projectile.ai[1] += 1f;
-                if (projectile.ai[1] < 120f)
+                if (projectile.ai[1] <= 120f)
                 {
-                    if (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y) < 18f)
-                    {
-                        projectile.velocity *= 1.01f;
-                    }
-                    float scaleFactor2 = projectile.velocity.Length();
-                    Vector2 vector11 = Main.player[num103].Center - projectile.Center;
-                    vector11.Normalize();
-                    vector11 *= scaleFactor2;
-                    projectile.velocity = (projectile.velocity * 15f + vector11) / 16f;
-                    projectile.velocity.Normalize();
-                    projectile.velocity *= scaleFactor2;
+					if (projectile.ai[1] == 120f)
+					{
+						Vector2 v4 = Main.player[num103].Center + Main.player[num103].velocity * 20f - projectile.Center;
+
+						if (float.IsNaN(v4.X) || float.IsNaN(v4.Y))
+							v4 = -Vector2.UnitY;
+
+						EmitDust();
+
+						projectile.velocity = Vector2.Normalize(v4) * 18f;
+					}
+					else if (projectile.ai[1] > 90f)
+					{
+						if (projectile.velocity.Length() > 2f)
+							projectile.velocity *= 0.9f;
+					}
+					else
+					{
+						if (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y) < 18f)
+						{
+							projectile.velocity *= 1.02f;
+						}
+
+						float scaleFactor2 = projectile.velocity.Length();
+						Vector2 vector11 = Main.player[num103].Center - projectile.Center;
+						vector11.Normalize();
+						vector11 *= scaleFactor2;
+
+						projectile.velocity = (projectile.velocity * 15f + vector11) / 16f;
+						projectile.velocity.Normalize();
+						projectile.velocity *= scaleFactor2;
+					}
                 }
                 else
                     projectile.tileCollide = true;
@@ -87,26 +109,31 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 21, 1f, 0f);
             projectile.position = projectile.Center;
             projectile.width = projectile.height = 64;
             projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-            for (int num193 = 0; num193 < 6; num193++)
-            {
-                Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 60, 0f, 0f, 100, default, 1.5f);
-            }
-            for (int num194 = 0; num194 < 10; num194++)
-            {
-                int num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 60, 0f, 0f, 0, default, 2.5f);
-                Main.dust[num195].noGravity = true;
-                Main.dust[num195].velocity *= 3f;
-                num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 60, 0f, 0f, 100, default, 1.5f);
-                Main.dust[num195].velocity *= 2f;
-                Main.dust[num195].noGravity = true;
-            }
+			EmitDust();
             projectile.Damage();
         }
+
+		private void EmitDust()
+		{
+			Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 109, 1f, 0f);
+			for (int num193 = 0; num193 < 6; num193++)
+			{
+				Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 60, 0f, 0f, 100, default, 1.5f);
+			}
+			for (int num194 = 0; num194 < 10; num194++)
+			{
+				int num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 60, 0f, 0f, 0, default, 2.5f);
+				Main.dust[num195].noGravity = true;
+				Main.dust[num195].velocity *= 3f;
+				num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 60, 0f, 0f, 100, default, 1.5f);
+				Main.dust[num195].velocity *= 2f;
+				Main.dust[num195].noGravity = true;
+			}
+		}
 
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
         {

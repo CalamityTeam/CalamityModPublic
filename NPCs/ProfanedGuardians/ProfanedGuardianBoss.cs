@@ -191,7 +191,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             }
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-				float shootBoost = death ? 2f : 2f * (1f - lifeRatio);
+				float shootBoost = 2f * (1f - lifeRatio);
                 npc.localAI[0] += 1f + shootBoost;
                 if (npc.localAI[0] >= (CalamityWorld.bossRushActive ? 210f : 240f))
                 {

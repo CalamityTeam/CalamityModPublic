@@ -13582,7 +13582,7 @@ namespace CalamityMod.NPCs
                                         while (!WorldGen.SolidTile(num1361, num1362) && (double)num1362 < Main.worldSurface)
                                             num1362++;
 
-                                        if ((new Vector2((float)(num1361 * 16 + 8), (float)(num1362 * 16 + 8)) - Main.player[npc.target].Center).Length() < 5600f)
+                                        if ((new Vector2((float)(num1361 * 16 + 8), (float)(num1362 * 16 + 8)) - Main.player[npc.target].Center).Length() < 1600f)
                                         {
                                             npc.ai[0] = 4.1f;
                                             npc.ai[1] = (float)num1361;
