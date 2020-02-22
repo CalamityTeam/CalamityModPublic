@@ -234,7 +234,7 @@ namespace CalamityMod.Projectiles.Summon
         /// <param name="speed">The speed of the mechworm's head.</param>
         /// <param name="base">The base of the exponent used in the equation.</param>
         /// <returns></returns>
-        public static float ComputeDistance(float initialDistance, float speed, float @base = 0.9625f)
+        public static float ComputeDistance(float initialDistance, float speed, float @base = 0.98f)
         {
             return initialDistance * (float)Math.Pow(@base, speed);
         }
