@@ -234,8 +234,12 @@ namespace CalamityMod.Projectiles.Summon
                         value19.Normalize();
                         value19 *= scaleFactor3;
                         int num659 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value19.X, value19.Y, num658, projectile.damage, 0f, Main.myPlayer, 0f, 0f);
-                        Main.projectile[num659].timeLeft = 200;
-                        Main.projectile[num659].Calamity().forceMinion = true;
+                        // protection against projectile cap
+                        if (num659 < Main.maxProjectiles)
+                        {
+                            Main.projectile[num659].timeLeft = 200;
+                            Main.projectile[num659].Calamity().forceMinion = true;
+                        }
                         projectile.netUpdate = true;
                     }
                 }
