@@ -98,10 +98,20 @@ namespace CalamityMod.Projectiles.Summon
                     }
                 }
                 value68 = Main.projectile[chase].Center;
-                Vector2 arg_2DE6A_0 = Main.projectile[chase].velocity;
                 num1064 = Main.projectile[chase].rotation;
                 scaleFactor18 = MathHelper.Clamp(Main.projectile[chase].scale, 0f, 50f);
-                scaleFactor17 = 16f;
+
+                // Calculations have a safeguard against division by 0.
+                float speed = 0f;
+                for (int i = 0; i < Main.projectile.Length; i++)
+                {
+                    if (Main.projectile[i].active && Main.projectile[i].owner == projectile.owner && Main.projectile[i].type == ModContent.ProjectileType<MechwormHead>())
+                    {
+                        speed = Main.projectile[i].velocity.Length();
+                        break;
+                    }
+                }
+                scaleFactor17 = MechwormHead.ComputeDistance(16f, speed);
                 Main.projectile[chase].localAI[0] = projectile.localAI[0] + 1f;
             }
             else
