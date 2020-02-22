@@ -17,12 +17,12 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 55;
+            item.damage = 50;
             item.ranged = true;
             item.width = 66;
             item.height = 24;
-            item.useTime = 21;
-            item.useAnimation = 21;
+            item.useTime = 23;
+            item.useAnimation = 23;
             item.useStyle = 5;
             item.noMelee = true;
             item.knockBack = 4.5f;
@@ -50,6 +50,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
+			//shotgun spread
             int num6 = Main.rand.Next(4, 6);
             for (int index = 0; index < num6; ++index)
             {
@@ -75,7 +76,10 @@ namespace CalamityMod.Items.Weapons.Ranged
             {
                 num80 = num72 / num80;
             }
+
+			//bullets from above
             int num107 = Main.rand.Next(4, 6);
+			int bulletDamage = (int)(damage * 0.7f);
             for (int num108 = 0; num108 < num107; num108++)
             {
                 vector2 = new Vector2(player.position.X + (float)player.width * 0.5f + (float)(Main.rand.Next(51) * -(float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
@@ -97,10 +101,11 @@ namespace CalamityMod.Items.Weapons.Ranged
                 num79 *= num80;
                 float speedX4 = num78 + (float)Main.rand.Next(-30, 31) * 0.02f;
                 float speedY5 = num79 + (float)Main.rand.Next(-30, 31) * 0.02f;
-                int bullet = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+                int bullet = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, type, bulletDamage, knockBack, player.whoAmI, 0.0f, 0.0f);
                 Main.projectile[bullet].extraUpdates += 1;
                 Main.projectile[bullet].tileCollide = false;
 
+				//bullets from below
                 vector2 = new Vector2(player.position.X + (float)player.width * 0.5f + (float)(Main.rand.Next(51) * -(float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - /* - */ player.position.X), player.MountedCenter.Y + 600f); //-
                 vector2.X = (vector2.X + player.Center.X) / 2f + (float)Main.rand.Next(-50, 51); //200
                 vector2.Y += (float)(100 * num108); //-=
@@ -120,7 +125,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 num79 *= num80;
                 float speedX6 = num78 + (float)Main.rand.Next(-30, 31) * 0.02f;
                 float speedY7 = num79 + (float)Main.rand.Next(-30, 31) * 0.02f;
-                int bullet2 = Projectile.NewProjectile(vector2.X, vector2.Y, speedX6, -speedY7, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+                int bullet2 = Projectile.NewProjectile(vector2.X, vector2.Y, speedX6, -speedY7, type, bulletDamage, knockBack, player.whoAmI, 0.0f, 0.0f);
                 Main.projectile[bullet2].extraUpdates += 1;
                 Main.projectile[bullet2].tileCollide = false;
             }

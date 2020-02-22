@@ -19,13 +19,13 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 28;
+            item.damage = 25;
             item.ranged = true;
             item.width = 56;
             item.height = 24;
-            item.useTime = 3;
-            item.reuseDelay = 10;
-            item.useAnimation = 24;
+            item.useTime = 4;
+            item.reuseDelay = 12;
+            item.useAnimation = 32;
             item.useStyle = 5;
             item.noMelee = true;
             item.knockBack = 1.5f;
@@ -81,8 +81,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5);
             recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<ChargedDartRifle>());
             recipe.AddIngredient(ItemID.LunarBar, 5);
+            recipe.AddIngredient(ModContent.ItemType<ChargedDartRifle>());
             recipe.AddIngredient(ItemID.ClockworkAssaultRifle);
             recipe.AddIngredient(ItemID.Shotgun);
             recipe.AddTile(TileID.LunarCraftingStation);
