@@ -1270,8 +1270,10 @@ namespace CalamityMod.World
                 {
                     if (Main.rand.NextBool(50000))
                     {
-                        if (!NPC.downedBoss1 && bossType == 0) // Only set countdown and boss type if conditions are met
-                            if (!Main.dayTime && (player.ZoneOverworldHeight || player.ZoneSkyHeight))
+						// Only set countdown and boss type if conditions are met
+						// Night time bosses set message only before 11pm. Day time bosses only before 2pm.
+                        if (!NPC.downedBoss1 && bossType == 0)
+                            if (!Main.dayTime && (player.ZoneOverworldHeight || player.ZoneSkyHeight) && Main.time < 12600)
                             {
                                 BossText();
                                 bossType = NPCID.EyeofCthulhu;
@@ -1337,7 +1339,7 @@ namespace CalamityMod.World
                         if (Main.hardMode)
                         {
                             if (!NPC.downedMechBoss1 && bossType == 0)
-                                if (!Main.dayTime && (player.ZoneOverworldHeight || player.ZoneSkyHeight))
+                                if (!Main.dayTime && (player.ZoneOverworldHeight || player.ZoneSkyHeight) && Main.time < 12600)
                                 {
                                     BossText();
                                     bossType = NPCID.TheDestroyer;
@@ -1345,7 +1347,7 @@ namespace CalamityMod.World
                                 }
 
                             if (!NPC.downedMechBoss2 && bossType == 0)
-                                if (!Main.dayTime && (player.ZoneOverworldHeight || player.ZoneSkyHeight))
+                                if (!Main.dayTime && (player.ZoneOverworldHeight || player.ZoneSkyHeight) && Main.time < 12600)
                                 {
                                     BossText();
                                     bossType = NPCID.Spazmatism;
@@ -1353,7 +1355,7 @@ namespace CalamityMod.World
                                 }
 
                             if (!NPC.downedMechBoss3 && bossType == 0)
-                                if (!Main.dayTime && (player.ZoneOverworldHeight || player.ZoneSkyHeight))
+                                if (!Main.dayTime && (player.ZoneOverworldHeight || player.ZoneSkyHeight) && Main.time < 12600)
                                 {
                                     BossText();
                                     bossType = NPCID.SkeletronPrime;
@@ -1385,7 +1387,7 @@ namespace CalamityMod.World
                                 }
 
                             if (!downedCalamitas && bossType == 0)
-                                if (!Main.dayTime && player.ZoneOverworldHeight)
+                                if (!Main.dayTime && player.ZoneOverworldHeight && Main.time < 12600)
                                 {
                                     BossText();
                                     bossType = ModContent.NPCType<Calamitas>();
@@ -1413,7 +1415,7 @@ namespace CalamityMod.World
                             {
                                 if (!downedGuardians && bossType == 0)
                                     if (Main.dayTime && (player.ZoneUnderworldHeight ||
-                                        (player.ZoneHoly && player.ZoneOverworldHeight)))
+                                        (player.ZoneHoly && player.ZoneOverworldHeight)) && Main.time < 34200) //only before 2pm
                                     {
                                         BossText();
                                         bossType = ModContent.NPCType<ProfanedGuardianBoss>();
@@ -1462,7 +1464,7 @@ namespace CalamityMod.World
                         switch (bossType)
                         {
                             case NPCID.EyeofCthulhu:
-                                if (Main.dayTime || (!player.ZoneOverworldHeight && !player.ZoneSkyHeight))
+                                if (Main.dayTime || (!player.ZoneOverworldHeight && !player.ZoneSkyHeight) || Main.time > 16200)
                                     canSpawn = false;
                                 break;
                             case NPCID.EaterofWorldsHead:
@@ -1478,15 +1480,15 @@ namespace CalamityMod.World
                                     canSpawn = false;
                                 break;
                             case NPCID.TheDestroyer:
-                                if (Main.dayTime || (!player.ZoneOverworldHeight && !player.ZoneSkyHeight))
+                                if (Main.dayTime || (!player.ZoneOverworldHeight && !player.ZoneSkyHeight) || Main.time > 16200)
                                     canSpawn = false;
                                 break;
                             case NPCID.Spazmatism:
-                                if (Main.dayTime || (!player.ZoneOverworldHeight && !player.ZoneSkyHeight))
+                                if (Main.dayTime || (!player.ZoneOverworldHeight && !player.ZoneSkyHeight) || Main.time > 16200)
                                     canSpawn = false;
                                 break;
                             case NPCID.SkeletronPrime:
-                                if (Main.dayTime || (!player.ZoneOverworldHeight && !player.ZoneSkyHeight))
+                                if (Main.dayTime || (!player.ZoneOverworldHeight && !player.ZoneSkyHeight) || Main.time > 16200)
                                     canSpawn = false;
                                 break;
                             case NPCID.Plantera:
@@ -1526,7 +1528,7 @@ namespace CalamityMod.World
                         }
                         else if (bossType == ModContent.NPCType<Calamitas>())
                         {
-                            if (Main.dayTime || !player.ZoneOverworldHeight)
+                            if (Main.dayTime || !player.ZoneOverworldHeight || Main.time > 16200)
                                 canSpawn = false;
                         }
                         else if (bossType == ModContent.NPCType<AstrumAureus>())
@@ -1543,7 +1545,7 @@ namespace CalamityMod.World
                         else if (bossType == ModContent.NPCType<ProfanedGuardianBoss>())
                         {
                             if (!Main.dayTime || (!player.ZoneUnderworldHeight &&
-                                        (!player.ZoneHoly || !player.ZoneOverworldHeight)))
+                                        (!player.ZoneHoly || !player.ZoneOverworldHeight)) || Main.time > 37800)
                                 canSpawn = false;
                         }
                         else if (bossType == ModContent.NPCType<Bumblefuck>())

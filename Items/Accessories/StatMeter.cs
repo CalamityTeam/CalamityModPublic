@@ -1,11 +1,10 @@
 ﻿using CalamityMod.CalPlayer;
 using CalamityMod.World;
+using System;
 using System.Collections.Generic;
+using System.Text;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
-using CalamityMod;
-using System.Text;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -14,8 +13,7 @@ namespace CalamityMod.Items.Accessories
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Stat Meter");
-			Tooltip.SetDefault("Displays info about most of your stats\n" +
-			"Offensive stats displayed vary with held item");
+			Tooltip.SetDefault("Displays almost all player stats");
 		}
 
 		public override void SetDefaults()
@@ -34,12 +32,18 @@ namespace CalamityMod.Items.Accessories
 			CalamityPlayer modPlayer = player.Calamity();
 
 			Item heldItem = null;
-			if (player.selectedItem >= 0 && player.selectedItem < player.inventory.Length)
+			if (player.selectedItem >= 0 && player.selectedItem < Main.maxInventory)
 				heldItem = player.inventory[player.selectedItem];
 
-			foreach (TooltipLine line2 in list)
-				if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
-					line2.text = CreateStatMeterTooltip(player, modPlayer, heldItem);
+			// Replace the vanilla tooltip with a full stat readout
+			foreach (TooltipLine l in list)
+			{
+				if (l.mod == "Terraria" && l.Name == "Tooltip0")
+					l.text = CreateStatMeterTooltip(player, modPlayer, heldItem);
+			}
+
+			// To save screen space, favorited tooltips do not exist for the Stat Meter
+			list.RemoveAll(l => l.mod == "Terraria" && (l.Name == "Favorite" || l.Name == "FavoriteDesc"));
 		}
 
 		private string CreateStatMeterTooltip(Player player, CalamityPlayer modPlayer, Item heldItem)
@@ -53,6 +57,9 @@ namespace CalamityMod.Items.Accessories
 			int ammoConsumption = modPlayer.ammoReductionRanged;
 			int rogueConsumption = modPlayer.ammoReductionRogue;
 			int rogueStealth = modPlayer.stealthStat;
+			// Format the stealth regen statistics to be accurate to 2 decimal places.
+			string standingRegen = modPlayer.standingRegenStat.ToString("n2");
+			string movingRegen = modPlayer.movingRegenStat.ToString("n2");
 			int lifeRegen = modPlayer.lifeRegenStat;
 			int manaRegen = modPlayer.manaRegenStat;
 			int armorPenetration = modPlayer.armorPenetrationStat;
@@ -65,7 +72,7 @@ namespace CalamityMod.Items.Accessories
 			int defenseLoss = modPlayer.abyssDefenseLossStat;
 
 			// The notice about held item mattering is always displayed first.
-			StringBuilder sb = new StringBuilder("Offensive stats displayed vary with held item\n\n", 1024);
+			StringBuilder sb = new StringBuilder("Displays almost all player stats\nOffensive stats displayed vary with held item\n\n", 1024);
 
 			// Only append rippers stats in Rev+, if rippers are enabled.
 			if (CalamityWorld.revenge && CalamityMod.CalamityConfig.AdrenalineAndRage)
@@ -76,13 +83,13 @@ namespace CalamityMod.Items.Accessories
 			}
 
 			// Append item stats only if the held item isn't null, and base it off of the item's damage type.
-			if (heldItem != null)
+			if (heldItem != null && !heldItem.IsAir)
 			{
 				if (heldItem.melee)
 				{
 					sb.Append("Melee Damage: ").Append(modPlayer.damageStats[0])
 						.Append("% | Melee Crit Chance: ").Append(modPlayer.critStats[0])
-						.Append("%\nMeleeSpeed Boost: ").Append(meleeSpeed).Append("%\n\n");
+						.Append("%\nMelee Speed Boost: ").Append(meleeSpeed).Append("%\n\n");
 				}
 				else if (heldItem.ranged)
 				{
@@ -95,20 +102,23 @@ namespace CalamityMod.Items.Accessories
 					sb.Append("Magic Damage: ").Append(modPlayer.damageStats[2])
 						.Append("% | Magic Crit Chance: ").Append(modPlayer.critStats[2])
 						.Append("%\nMana Usage: ").Append(manaCost)
-						.Append("% | Mana Regen").Append(manaRegen).Append("\n\n");
+						.Append("% | Mana Regen: ").Append(manaRegen).Append("\n\n");
 				}
 				else if (heldItem.summon)
 				{
 					sb.Append("Minion Damage: ").Append(modPlayer.damageStats[3])
 						.Append("% | Minion Slots: ").Append(minionSlots).Append("\n\n");
 				}
-				else if (heldItem.Calamity().rogue)
+				else if (heldItem.Calamity()?.rogue ?? false)
 				{
 					sb.Append("Rogue Damage: ").Append(modPlayer.damageStats[4])
 						.Append("% | Rogue Crit Chance: ").Append(modPlayer.critStats[3])
 						.Append("%\nRogue Velocity Boost: ").Append(rogueVelocity)
 						.Append("% | Rogue Weapon Consumption Chance: ").Append(rogueConsumption)
-						.Append("%\nMax Stealth: ").Append(rogueStealth).Append("\n\n");
+						.Append("%\nMax Stealth: ").Append(rogueStealth)
+						.Append(" | Standing Regen: ").Append(standingRegen).Append(" / sec")
+						.Append(" | Moving Regen: ").Append(movingRegen).Append(" / sec")
+						.Append("\n\n");
 				}
 			}
 
@@ -121,19 +131,17 @@ namespace CalamityMod.Items.Accessories
 			sb.Append(" | Movement Speed Boost: ").Append(moveSpeed).Append("%\n\n");
 			sb.Append(CalamityWorld.death ? "Abyss/Cave Light Strength: " : "Abyss Light Strength: ").Append(lightLevel).Append("\n\n");
 
-			// Abyss stats always render.
-			sb.Append("Other Abyss Stats:").Append("\n");
+			// Abyss stats only render if the player is in the Abyss.
 			if (modPlayer.ZoneAbyss)
 			{
+				sb.Append("Other Abyss Stats:").Append("\n");
 				sb.Append("Breath Lost Per Tick: ").Append(breathLoss);
 				sb.Append(" | Breath Loss Rate: ").Append(breathLossRate).Append("\n");
 				sb.Append("Life Lost Per Tick at Zero Breath: ").Append(lifeLostAtZeroBreath).Append("\n");
 				sb.Append("Defense Lost: ").Append(defenseLoss);
 			}
 			else
-			{
-				sb.Append("Only displayed while in the Abyss");
-			}
+				sb.Append("Abyss stats only displayed while in the Abyss");
 
 			return sb.ToString();
 		}

@@ -19,6 +19,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.penetrate = 1;
             projectile.light = 1f;
             projectile.timeLeft = 300;
+			projectile.minion = true;
         }
 
         public override void AI()

@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.Banners
 {
-    public class PiggyBanner : ModItem
+    public class RadiatorBanner : ModItem
     {
         public override void SetDefaults()
         {
@@ -17,10 +17,9 @@ namespace CalamityMod.Items.Placeables.Banners
             item.useStyle = 1;
             item.consumable = true;
             item.rare = 1;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = ModContent.TileType<MonsterBanner>();
-            item.placeStyle = 108;
+            item.placeStyle = 110;
         }
     }
 }

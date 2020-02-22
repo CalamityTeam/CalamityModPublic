@@ -44,11 +44,18 @@ namespace CalamityMod.Projectiles.Magic
                 double offsetRotation = Math.Atan2(-38, 48) + (double)projectile.rotation;
                 double offsetX = offsetHyp * Math.Cos(offsetRotation);
                 double offsetY = offsetHyp * Math.Sin(offsetRotation);
-                Projectile.NewProjectile(projectile.Center.X + (float)offsetX, projectile.Center.Y + (float)offsetY, projectile.velocity.X, projectile.velocity.Y, ModContent.ProjectileType<ApothJaws>(), projectile.damage, projectile.knockBack, Main.myPlayer, projectile.rotation, 0f);
+                if (projectile.owner == Main.myPlayer)
+                {
+                    Projectile.NewProjectile(projectile.Center.X + (float)offsetX, projectile.Center.Y + (float)offsetY, projectile.velocity.X, projectile.velocity.Y, ModContent.ProjectileType<ApothJaws>(), projectile.damage, projectile.knockBack, Main.myPlayer, projectile.rotation, 0f);
+                }
                 offsetRotation = Math.Atan2(38, 48) + (double)projectile.rotation;
                 offsetX = offsetHyp * Math.Cos(offsetRotation);
                 offsetY = offsetHyp * Math.Sin(offsetRotation);
-                Projectile.NewProjectile(projectile.position.X + projectile.width / 2 + (float)offsetX, projectile.position.Y + projectile.height / 2 + (float)offsetY, projectile.velocity.X, projectile.velocity.Y, ModContent.ProjectileType<ApothJaws>(), projectile.damage, projectile.knockBack, Main.myPlayer, projectile.rotation, 1f);
+
+                if (projectile.owner == Main.myPlayer)
+                {
+                    Projectile.NewProjectile(projectile.position.X + projectile.width / 2 + (float)offsetX, projectile.position.Y + projectile.height / 2 + (float)offsetY, projectile.velocity.X, projectile.velocity.Y, ModContent.ProjectileType<ApothJaws>(), projectile.damage, projectile.knockBack, Main.myPlayer, projectile.rotation, 1f);
+                }
             }
         }
 

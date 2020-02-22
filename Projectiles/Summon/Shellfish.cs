@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
+using CalamityMod.Projectiles;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -46,10 +47,11 @@ namespace CalamityMod.Projectiles.Summon
         {
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
+			CalamityGlobalProjectile modProj = projectile.Calamity();
             if (spawnDust)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = (player.allDamage + player.minionDamage - 1f);
-                projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
+                modProj.spawnedPlayerMinionDamageValue = (player.allDamage + player.minionDamage - 1f);
+                modProj.spawnedPlayerMinionProjectileDamageValue = projectile.damage;
                 int num501 = 20;
                 for (int num502 = 0; num502 < num501; num502++)
                 {
@@ -84,18 +86,16 @@ namespace CalamityMod.Projectiles.Summon
             }
             if (projectile.ai[0] == 0f)
             {
-                projectile.damage = 70;
+				//lineColor == 1 means it is spawned from Mollusk Armor rather than the weapon
+                projectile.damage = (int)((modProj.lineColor == 1 ? 1500f : 70f) * (player.allDamage + player.minionDamage - 1f));
                 if ((player.allDamage + player.minionDamage - 1f) != projectile.Calamity().spawnedPlayerMinionDamageValue)
                 {
-                    int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                        projectile.Calamity().spawnedPlayerMinionDamageValue *
+                    int damage2 = (int)((float)modProj.spawnedPlayerMinionProjectileDamageValue /
+                        modProj.spawnedPlayerMinionDamageValue *
                         (player.allDamage + player.minionDamage - 1f));
                     projectile.damage = damage2;
                 }
-                float[] var0 = projectile.ai;
-                int var1 = 1;
-                float num73 = var0[var1];
-                var0[var1] = num73 + 1f;
+                projectile.ai[1] += 1f;
                 Vector2 vector46 = projectile.position;
                 if (!fly)
                 {
@@ -125,21 +125,39 @@ namespace CalamityMod.Projectiles.Summon
                     float num633 = 1000f;
                     bool chaseNPC = false;
                     float npcPositionX = 0f;
-                    for (int num645 = 0; num645 < 200; num645++)
-                    {
-                        NPC npcTarget = Main.npc[num645];
-                        if (npcTarget.CanBeChasedBy(projectile, false))
-                        {
-                            float num646 = Vector2.Distance(npcTarget.Center, projectile.Center);
-                            if ((Vector2.Distance(projectile.Center, vector46) > num646 && num646 < num633) || !chaseNPC)
-                            {
-                                num633 = num646;
-                                vector46 = npcTarget.Center;
-                                npcPositionX = npcTarget.position.X;
-                                chaseNPC = true;
-                            }
-                        }
-                    }
+					if (player.HasMinionAttackTargetNPC)
+					{
+						NPC npc = Main.npc[player.MinionAttackTargetNPC];
+						if (npc.CanBeChasedBy(projectile, false))
+						{
+							float num646 = Vector2.Distance(npc.Center, projectile.Center);
+							if ((Vector2.Distance(projectile.Center, vector46) > num646 && num646 < num633) || !chaseNPC)
+							{
+								num633 = num646;
+								vector46 = npc.Center;
+								npcPositionX = npc.position.X;
+								chaseNPC = true;
+							}
+						}
+					}
+					else
+					{
+						for (int num645 = 0; num645 < 200; num645++)
+						{
+							NPC npcTarget = Main.npc[num645];
+							if (npcTarget.CanBeChasedBy(projectile, false))
+							{
+								float num646 = Vector2.Distance(npcTarget.Center, projectile.Center);
+								if ((Vector2.Distance(projectile.Center, vector46) > num646 && num646 < num633) || !chaseNPC)
+								{
+									num633 = num646;
+									vector46 = npcTarget.Center;
+									npcPositionX = npcTarget.position.X;
+									chaseNPC = true;
+								}
+							}
+						}
+					}
                     if (chaseNPC)
                     {
                         if (npcPositionX - projectile.position.X > 0f)
@@ -295,8 +313,8 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.rotation = projectile.velocity.X * 0.03f;
                     if (playerDistance > 1500f)
                     {
-                        projectile.position.X = Main.player[projectile.owner].Center.X - (float)(projectile.width / 2);
-                        projectile.position.Y = Main.player[projectile.owner].Center.Y - (float)(projectile.height / 2);
+                        projectile.position.X = player.Center.X - (float)(projectile.width / 2);
+                        projectile.position.Y = player.Center.Y - (float)(projectile.height / 2);
                         projectile.netUpdate = true;
                     }
                     if (playerDistance < 100f)
@@ -335,10 +353,7 @@ namespace CalamityMod.Projectiles.Summon
                 int num988 = 10;
                 bool flag54 = false;
                 bool flag55 = false;
-                float[] var0 = projectile.localAI;
-                int var1 = 0;
-                float num73 = var0[var1];
-                var0[var1] = num73 + 1f;
+                projectile.localAI[0] += 1f;
                 if (projectile.localAI[0] % 30f == 0f)
                 {
                     flag55 = true;
@@ -418,7 +433,7 @@ namespace CalamityMod.Projectiles.Summon
                                 int num28 = 10;
                                 Point[] array2 = new Point[num28];
                                 int num29 = 0;
-                                for (int l = 0; l < 1000; l++)
+                                for (int l = 0; l < Main.projectile.Length; l++)
                                 {
                                     if (l != projectile.whoAmI && Main.projectile[l].active && Main.projectile[l].owner == Main.myPlayer && Main.projectile[l].type == projectile.type && Main.projectile[l].ai[0] == 1f && Main.projectile[l].ai[1] == (float)i)
                                     {

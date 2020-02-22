@@ -40,8 +40,8 @@ namespace CalamityMod.NPCs.AcidRain
             npc.DeathSound = SoundID.NPCDeath1;
 			aiType = NPCID.GlowingSnail;
 			//animationType = NPCID.GlowingSnail;
-            //banner = npc.type;
-            //bannerItem = ModContent.ItemType<RadiatorBanner>();
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<RadiatorBanner>();
         }
 
         public override void AI()

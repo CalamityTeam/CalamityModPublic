@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.Banners
 {
-    public class PiggyBanner : ModItem
+    public class FearlessGoldfishWarriorBanner : ModItem
     {
         public override void SetDefaults()
         {
@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Placeables.Banners
             item.Calamity().customRarity = CalamityRarity.Dedicated;
             item.value = Item.buyPrice(0, 0, 10, 0);
             item.createTile = ModContent.TileType<MonsterBanner>();
-            item.placeStyle = 108;
+            item.placeStyle = 109;
         }
     }
 }
