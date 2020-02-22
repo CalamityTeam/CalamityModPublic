@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.rare = 10;
             item.UseSound = SoundID.Item75;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<TerraBallBow>();
+            item.shoot = ModContent.ProjectileType<PlanetaryAnnihilationProj>();
             item.shootSpeed = 12f;
             item.useAmmo = 40;
             item.Calamity().customRarity = CalamityRarity.Turquoise;
