@@ -41,20 +41,24 @@ namespace CalamityMod.Tiles.Astral
 
         public string MapChestName(string name, int i, int j)
         {
+            // Bounds check
+            if (i < 0 || i >= Main.maxTilesX || j < 0 || j >= Main.maxTilesY)
+                return name;
+
+            // Tile null check
+            Tile tile = Main.tile[i, j];
+            if (tile is null)
+                return name;
+
             int left = i;
             int top = j;
-            Tile tile = Main.tile[i, j];
-
             if (tile.frameX % 36 != 0)
                 left--;
             if (tile.frameY != 0)
                 top--;
 
             int chest = Chest.FindChest(left, top);
-            if (Main.chest[chest].name == "")
-                return name;
-            else
-                return name + ": " + Main.chest[chest].name;
+            return name + (Main.chest[chest].name != "" ? ": " + Main.chest[chest].name : "");
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)
