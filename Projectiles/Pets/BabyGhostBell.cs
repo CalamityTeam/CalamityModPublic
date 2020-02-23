@@ -59,16 +59,16 @@ namespace CalamityMod.Projectiles.Pets
             projectile.tileCollide = false;
             int num17 = 100;
             Vector2 vector3 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
-            float num18 = Main.player[projectile.owner].position.X + (float)(Main.player[projectile.owner].width / 2) - vector3.X;
-            float num19 = Main.player[projectile.owner].position.Y + (float)(Main.player[projectile.owner].height / 2) - vector3.Y;
+            float num18 = player.position.X + (float)(player.width / 2) - vector3.X;
+            float num19 = player.position.Y + (float)(player.height / 2) - vector3.Y;
             num19 += (float)Main.rand.Next(-10, 21);
             num18 += (float)Main.rand.Next(-10, 21);
-            num18 += (float)(60 * -(float)Main.player[projectile.owner].direction);
+            num18 += (float)(60 * -(float)player.direction);
             num19 -= 60f;
             float num20 = (float)Math.Sqrt((double)(num18 * num18 + num19 * num19));
             float num21 = 18f;
             if (num20 < (float)num17 && Main.player[projectile.owner].velocity.Y == 0f &&
-                projectile.position.Y + (float)projectile.height <= Main.player[projectile.owner].position.Y + (float)Main.player[projectile.owner].height &&
+                projectile.position.Y + (float)projectile.height <= player.position.Y + (float)player.height &&
                 !Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
             {
                 projectile.ai[0] = 0f;
@@ -79,8 +79,8 @@ namespace CalamityMod.Projectiles.Pets
             }
             if (num20 > 2000f)
             {
-                projectile.position.X = Main.player[projectile.owner].Center.X - (float)(projectile.width / 2);
-                projectile.position.Y = Main.player[projectile.owner].Center.Y - (float)(projectile.height / 2);
+                projectile.position.X = player.Center.X - (float)(projectile.width / 2);
+                projectile.position.Y = player.Center.Y - (float)(projectile.height / 2);
                 projectile.netUpdate = true;
             }
             if (num20 < 50f)
