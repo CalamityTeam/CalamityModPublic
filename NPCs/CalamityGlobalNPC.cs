@@ -1456,16 +1456,6 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            // Always prevent true eye of cthulhu appearance in rev+
-            if (CalamityWorld.revenge || CalamityWorld.bossRushActive)
-            {
-                if (npc.type == NPCID.MoonLordFreeEye)
-                {
-                    npc.active = false;
-                    npc.netUpdate = true;
-                }
-            }
-
             if (CalamityWorld.bossRushActive && !npc.friendly && !npc.townNPC)
             {
                 BossRushForceDespawnOtherNPCs(npc, mod);
@@ -1585,10 +1575,12 @@ namespace CalamityMod.NPCs
                     case NPCID.MoonLordCore:
                     case NPCID.MoonLordHand:
                     case NPCID.MoonLordHead:
-                    case NPCID.MoonLordLeechBlob:
+					case NPCID.MoonLordFreeEye:
+					case NPCID.MoonLordLeechBlob:
                         return CalamityGlobalAI.BuffedMoonLordAI(npc, enraged > 0, mod);
 
-                    default:
+
+					default:
                         break;
                 }
             }
@@ -2644,7 +2636,7 @@ namespace CalamityMod.NPCs
 
                 case 28:
                     if (npc.type != NPCID.MoonLordCore && npc.type != NPCID.MoonLordHead && npc.type != NPCID.MoonLordHand &&
-                        npc.type != NPCID.MoonLordLeechBlob)
+                        npc.type != NPCID.MoonLordLeechBlob && npc.type != NPCID.MoonLordFreeEye)
                     {
                         npc.active = false;
                         npc.netUpdate = true;

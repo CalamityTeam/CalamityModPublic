@@ -41,7 +41,7 @@ namespace CalamityMod.NPCs.Providence
         private int frameUsed = 0;
         private int healTimer = 0;
 
-        public static float normalDR = 0.25f;
+        public static float normalDR = 0.35f;
         public static float cocoonDR = 0.9f;
 
         public override void SetStaticDefaults()
