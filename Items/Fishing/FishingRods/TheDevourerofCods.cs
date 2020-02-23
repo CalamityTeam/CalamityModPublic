@@ -40,11 +40,10 @@ namespace CalamityMod.Items.Fishing.FishingRods
             {
                 float SpeedX = speedX + (float)Main.rand.Next(-75, 76) * 0.05f;
                 float SpeedY = speedY + (float)Main.rand.Next(-75, 76) * 0.05f;
-                int linecolor = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, 0, 0f, player.whoAmI, 0.0f, 0.0f);
-				if (Main.rand.NextBool(2)) //randomizing line color
-				{
-					Main.projectile[linecolor].Calamity().lineColor = 1;
-				}
+                int line = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, 0, 0f, player.whoAmI, 0.0f, 0.0f);
+                // Protection against projectile cap
+				if (Main.rand.NextBool() && line < Main.maxProjectiles) // randomizing line color
+					Main.projectile[line].Calamity().lineColor = 1;
             }
             return false;
         }

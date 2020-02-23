@@ -1714,7 +1714,6 @@ namespace CalamityMod
 			revengeanceLifeStealExceptionList = new List<int>()
             {
                 NPCID.Probe,
-                NPCID.MoonLordFreeEye,
                 NPCID.CultistDragonHead,
                 NPCID.CultistDragonBody1,
                 NPCID.CultistDragonBody2,
@@ -2715,7 +2714,6 @@ namespace CalamityMod
                 { NPCID.MartianWalker, 0.35f },
                 { NPCID.Mimic, 0.3f },
                 { NPCID.MoonLordCore, 0.05f },
-                { NPCID.MoonLordFreeEye, 0.05f },
                 { NPCID.MoonLordHand, 0.05f },
                 { NPCID.MoonLordHead, 0.05f },
                 { NPCID.Mothron, 0.2f },

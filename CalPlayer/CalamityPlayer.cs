@@ -4995,7 +4995,7 @@ namespace CalamityMod.CalPlayer
 
             #region MultiplicativeReductions
             // Forbidden and Fearmonger armor makes you immune to the summoner cross-class nerf
-			bool forbidden = player.head == 200 && player.body == 198 && player.legs == 142;
+			bool forbidden = player.head == ArmorIDs.Head.AncientBattleArmor && player.body == ArmorIDs.Body.AncientBattleArmor && player.legs == ArmorIDs.Legs.AncientBattleArmor;
             if (isSummon && !fearmongerSet && !forbidden)
             {
                 if (heldItem.type > 0)
