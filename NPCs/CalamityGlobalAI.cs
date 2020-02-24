@@ -4291,7 +4291,7 @@ namespace CalamityMod.NPCs
 			bool targetFloatingUp = player.gravDir == -1f;
 
 			// Phase for flying at the player
-			bool flyAtTarget = calamityGlobalNPC.newAI[3] >= 1200f && (lifeRatio < 0.5f || death);
+			bool flyAtTarget = calamityGlobalNPC.newAI[3] >= 900f && (lifeRatio < 0.5f || death);
 
 			// Velocity
 			npc.velocity.Length();
@@ -4591,9 +4591,6 @@ namespace CalamityMod.NPCs
 			float speed = 0.1f + speedBoost;
             float turnSpeed = 0.15f + turnSpeedBoost;
 
-			if (flyAtTarget)
-				speed += 11f;
-
             if (CalamityWorld.bossRushActive)
             {
                 speed *= 1.5f;
@@ -4685,41 +4682,47 @@ namespace CalamityMod.NPCs
                 num21 *= num27;
 
 				bool flag6 = false;
-				if (((npc.velocity.X > 0f && num20 < 0f) || (npc.velocity.X < 0f && num20 > 0f) || (npc.velocity.Y > 0f && num21 < 0f) || (npc.velocity.Y < 0f && num21 > 0f)) && Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y) > turnSpeed / 2f && num22 < 400f)
+				if (flyAtTarget)
 				{
-					flag6 = true;
-
-					if (Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y) < fallSpeed)
-						npc.velocity *= 1.1f;
-				}
-
-				if (npc.position.Y > player.position.Y)
-				{
-					flag6 = true;
-
-					if (Math.Abs(npc.velocity.X) < fallSpeed / 2f)
+					if (((npc.velocity.X > 0f && num20 < 0f) || (npc.velocity.X < 0f && num20 > 0f) || (npc.velocity.Y > 0f && num21 < 0f) || (npc.velocity.Y < 0f && num21 > 0f)) && Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y) > speed / 2f && num22 < 400f)
 					{
-						if (npc.velocity.X == 0f)
-							npc.velocity.X -= (float)npc.direction;
+						flag6 = true;
 
-						npc.velocity.X *= 1.1f;
+						if (Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y) < fallSpeed)
+							npc.velocity *= 1.1f;
 					}
-					else if (npc.velocity.Y > -fallSpeed)
-						npc.velocity.Y -= turnSpeed;
+
+					if (npc.position.Y > player.position.Y)
+					{
+						flag6 = true;
+
+						if (Math.Abs(npc.velocity.X) < fallSpeed / 2f)
+						{
+							if (npc.velocity.X == 0f)
+								npc.velocity.X -= (float)npc.direction;
+
+							npc.velocity.X *= 1.1f;
+						}
+						else if (npc.velocity.Y > -fallSpeed)
+							npc.velocity.Y -= speed;
+					}
 				}
 
 				if (!flag6)
 				{
-					if (((npc.velocity.X > 0f && num20 > 0f) || (npc.velocity.X < 0f && num20 < 0f)) && ((npc.velocity.Y > 0f && num21 > 0f) || (npc.velocity.Y < 0f && num21 < 0f)))
+					if (!flyAtTarget)
 					{
-						if (npc.velocity.X < num20)
-							npc.velocity.X += turnSpeed;
-						else if (npc.velocity.X > num20)
-							npc.velocity.X -= turnSpeed;
-						if (npc.velocity.Y < num21)
-							npc.velocity.Y += turnSpeed;
-						else if (npc.velocity.Y > num21)
-							npc.velocity.Y -= turnSpeed;
+						if (((npc.velocity.X > 0f && num20 > 0f) || (npc.velocity.X < 0f && num20 < 0f)) && ((npc.velocity.Y > 0f && num21 > 0f) || (npc.velocity.Y < 0f && num21 < 0f)))
+						{
+							if (npc.velocity.X < num20)
+								npc.velocity.X += turnSpeed;
+							else if (npc.velocity.X > num20)
+								npc.velocity.X -= turnSpeed;
+							if (npc.velocity.Y < num21)
+								npc.velocity.Y += turnSpeed;
+							else if (npc.velocity.Y > num21)
+								npc.velocity.Y -= turnSpeed;
+						}
 					}
 
 					if ((npc.velocity.X > 0f && num20 > 0f) || (npc.velocity.X < 0f && num20 < 0f) || (npc.velocity.Y > 0f && num21 > 0f) || (npc.velocity.Y < 0f && num21 < 0f))
