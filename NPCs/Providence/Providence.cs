@@ -165,11 +165,11 @@ namespace CalamityMod.NPCs.Providence
             float lifeRatio = (float)npc.life / (float)npc.lifeMax;
 
             // Phases
-            bool ignoreGuardianAmt = lifeRatio < (death ? 0.25f : 0.15f);
+            bool ignoreGuardianAmt = lifeRatio < (death ? 0.2f : 0.15f);
             bool phase2 = lifeRatio < 0.75f || death;
 
             // Projectile fire rate multiplier
-            double attackRateMult = 1.0;
+            double attackRateMult = 1D;
 
             // Distance X needed from target in order to fire holy or molten blasts
             float distanceNeededToShoot = revenge ? 360f : 420f;
@@ -218,7 +218,7 @@ namespace CalamityMod.NPCs.Providence
                             attackRateMult = 1.5;
                             break;
                         case 3:
-                            attackRateMult = 2.0;
+                            attackRateMult = 2D;
                             break;
                         default:
                             break;
@@ -326,7 +326,7 @@ namespace CalamityMod.NPCs.Providence
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    int num660 = (int)((double)npc.lifeMax * 0.66);
+                    int num660 = (int)(npc.lifeMax * 0.66);
                     if ((float)(npc.life + num660) < bossLife)
                     {
                         bossLife = (float)npc.life;
@@ -653,7 +653,7 @@ namespace CalamityMod.NPCs.Providence
 					if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
 						num856 = 20;
 
-					num856 = (int)((double)num856 * attackRateMult);
+					num856 = (int)(num856 * attackRateMult);
 
 					if (npc.ai[3] >= (float)num856)
 						npc.ai[3] = (float)-(float)num856;
@@ -704,7 +704,7 @@ namespace CalamityMod.NPCs.Providence
 					if (CalamityWorld.bossRushActive)
 						num864 = 31;
 
-					num864 = (int)((double)num864 * attackRateMult);
+					num864 = (int)(num864 * attackRateMult);
 
 					if (npc.ai[3] >= (float)num864)
 					{
@@ -751,14 +751,20 @@ namespace CalamityMod.NPCs.Providence
 				vector114.X += num866 * 32f;
 				vector114.Y += num867 * 32f;
 
+				if (Vector2.Distance(player.Center, vector) < 32f)
+				{
+					num866 *= -1f;
+					num867 *= -1f;
+				}
+
 				npc.ai[3] += 1f;
 
-				int shootBoost = death ? 3 : (int)(4f * (1f - lifeRatio));
-				int num870 = (expertMode ? 3 : 4) - shootBoost;
-				num870 = (int)((double)num870 * attackRateMult);
+				int shootBoost = (int)(4f * (1f - lifeRatio));
 
-				if (CalamityWorld.bossRushActive)
-					num870 /= 2;
+				int num870 = (expertMode ? 3 : 4) - shootBoost;
+
+				if (attackRateMult > 1D)
+					num870 += (int)Math.Ceiling(attackRateMult * 1.6);
 
 				if (npc.ai[3] >= (float)num870)
 				{
@@ -861,7 +867,7 @@ namespace CalamityMod.NPCs.Providence
 					if (CalamityWorld.bossRushActive)
 						num856 = 20;
 
-					num856 = (int)((double)num856 * attackRateMult);
+					num856 = (int)(num856 * attackRateMult);
 
 					if (npc.ai[3] >= (float)num856)
 						npc.ai[3] = (float)-(float)num856;
@@ -912,7 +918,7 @@ namespace CalamityMod.NPCs.Providence
 					if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
 						num864 = 63;
 
-					num864 = (int)((double)num864 * attackRateMult);
+					num864 = (int)(num864 * attackRateMult);
 
 					if (npc.ai[3] >= (float)num864)
 					{

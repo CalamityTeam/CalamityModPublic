@@ -445,7 +445,7 @@ namespace CalamityMod.NPCs
 
 				if (calamityGlobalNPC.newAI[0] != 1f)
 				{
-					for (int num51 = 0; num51 < 200; num51++)
+					for (int num51 = 0; num51 < Main.maxNPCs; num51++)
 					{
 						if (Main.npc[num51].active && Main.npc[num51].type == npc.type && num51 != npc.whoAmI)
 						{
@@ -462,7 +462,7 @@ namespace CalamityMod.NPCs
 				}
 				else
 				{
-					for (int num52 = 0; num52 < 200; num52++)
+					for (int num52 = 0; num52 < Main.maxNPCs; num52++)
 					{
 						if (Main.npc[num52].active && Main.npc[num52].type == npc.type && num52 != npc.whoAmI)
 						{
@@ -2719,7 +2719,7 @@ namespace CalamityMod.NPCs
 
 				if ((double)npc.position.Y < Main.topWorld + 16f)
 				{
-					for (int num957 = 0; num957 < 200; num957++)
+					for (int num957 = 0; num957 < Main.maxNPCs; num957++)
 					{
 						if (Main.npc[num957].aiStyle == npc.aiStyle || Main.npc[num957].type == ModContent.NPCType<AstrumDeusHeadSpectral>() ||
 							Main.npc[num957].type == ModContent.NPCType<AstrumDeusBodySpectral>() || Main.npc[num957].type == ModContent.NPCType<AstrumDeusTailSpectral>())
@@ -2800,7 +2800,7 @@ namespace CalamityMod.NPCs
 					double mainDeusHPRatio = (double)npc.life / (double)npc.lifeMax;
 					if (calamityGlobalNPC.newAI[0] == 1f)
 					{
-						for (int i = 0; i < 200; i++)
+						for (int i = 0; i < Main.maxNPCs; i++)
 						{
 							if (Main.npc[i].type == ModContent.NPCType<AstrumDeusHead>())
 							{
@@ -2891,7 +2891,7 @@ namespace CalamityMod.NPCs
 						}
 					}
 
-					for (int num52 = 0; num52 < 200; num52++)
+					for (int num52 = 0; num52 < Main.maxNPCs; num52++)
 					{
 						if (Main.npc[num52].active && Main.npc[num52].type == npc.type && num52 != npc.whoAmI)
 						{

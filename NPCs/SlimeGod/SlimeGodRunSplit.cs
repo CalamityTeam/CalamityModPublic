@@ -316,7 +316,7 @@ namespace CalamityMod.NPCs.SlimeGod
                     vector272.Normalize();
                     vector272 *= CalamityWorld.bossRushActive ? 14f : 10f;
                     npc.velocity = (npc.velocity * 4f + vector272) / 5f;
-                    if (npc.ai[1] > 6f)
+                    if (npc.ai[1] > 12f)
                     {
                         npc.ai[1] = 0f;
                         npc.ai[0] = 3.1f;
@@ -339,11 +339,12 @@ namespace CalamityMod.NPCs.SlimeGod
             }
             else if (npc.ai[0] == 3.1f)
             {
-                if (npc.ai[2] == 0f && Collision.CanHit(vector, 1, 1, player.Center, 1, 1) && !Collision.SolidCollision(npc.position, npc.width, npc.height))
+				bool atTargetPosition = npc.position.Y + (float)npc.height >= player.position.Y;
+				if (npc.ai[2] == 0f && (atTargetPosition || npc.localAI[1] == 0f) && Collision.CanHit(vector, 1, 1, player.Center, 1, 1) && !Collision.SolidCollision(npc.position, npc.width, npc.height))
                 {
                     npc.ai[2] = 1f;
                 }
-                if (npc.position.Y + (float)npc.height >= player.position.Y || npc.velocity.Y <= 0f)
+                if (atTargetPosition || npc.velocity.Y <= 0f)
                 {
                     npc.ai[1] += 1f;
                     if (npc.ai[1] > 10f)

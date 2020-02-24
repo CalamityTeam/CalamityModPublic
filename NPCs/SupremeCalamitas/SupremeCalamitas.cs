@@ -882,7 +882,16 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 }
                 if (!gettingTired5 && ((double)npc.life <= (double)npc.lifeMax * 0.01))
                 {
-                    string key = "Mods.CalamityMod.SupremeBossText24";
+					for (int x = 0; x < Main.maxProjectiles; x++)
+					{
+						Projectile projectile = Main.projectile[x];
+						if (projectile.active && projectile.type == ModContent.ProjectileType<BrimstoneMonster>())
+						{
+							projectile.Kill();
+						}
+					}
+
+					string key = "Mods.CalamityMod.SupremeBossText24";
                     Color messageColor = Color.Orange;
                     if (Main.netMode == NetmodeID.SinglePlayer)
                     {
