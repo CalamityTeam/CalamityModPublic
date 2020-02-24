@@ -100,6 +100,8 @@ namespace CalamityMod.NPCs.SlimeGod
 			npc.TargetClosest(true);
 			Player player = Main.player[npc.target];
 
+			Vector2 vectorCenter = npc.Center;
+
 			// Emit dust
             int randomDust = Main.rand.NextBool(2) ? 173 : 260;
             int num658 = Dust.NewDust(npc.position, npc.width, npc.height, randomDust, npc.velocity.X, npc.velocity.Y, 255, new Color(0, 80, 255, 80), npc.scale * 1.5f);
@@ -115,6 +117,8 @@ namespace CalamityMod.NPCs.SlimeGod
 			bool flag100 = false;
 			bool hyperMode = true;
 			bool purpleSlimeAlive = false;
+			bool redSlimeAlive = false;
+
 			if (CalamityGlobalNPC.slimeGodPurple != -1)
 			{
 				if (Main.npc[CalamityGlobalNPC.slimeGodPurple].active)
@@ -130,10 +134,9 @@ namespace CalamityMod.NPCs.SlimeGod
 					purpleSlimeAlive = true;
 					flag100 = lifeRatio >= 0.5f;
 					hyperMode = false;
-					if (death)
-						npc.dontTakeDamage = true;
 				}
 			}
+
 			if (CalamityGlobalNPC.slimeGodRed != -1)
 			{
 				if (Main.npc[CalamityGlobalNPC.slimeGodRed].active)
@@ -146,10 +149,9 @@ namespace CalamityMod.NPCs.SlimeGod
 					npc.localAI[2] = Main.npc[CalamityGlobalNPC.slimeGodRed].Center.X;
 					npc.localAI[3] = Main.npc[CalamityGlobalNPC.slimeGodRed].Center.Y;
 
+					redSlimeAlive = true;
 					flag100 = lifeRatio >= 0.5f;
 					hyperMode = false;
-					if (death)
-						npc.dontTakeDamage = true;
 				}
 			}
 
@@ -222,31 +224,20 @@ namespace CalamityMod.NPCs.SlimeGod
 
 					npc.rotation = npc.velocity.X * 0.1f;
 
-					// Velocity and acceleration
-					float num700 = 12f;
-					buffedSlime = 2;
-					float goToPositionX = npc.localAI[2] - npc.Center.X;
-					float goToPositionY = npc.localAI[3] - npc.Center.Y;
-					if (purpleSlimeAlive)
+					if (buffedSlime == 0)
 					{
-						buffedSlime = 1;
-						goToPositionX = npc.Calamity().newAI[0] - npc.Center.X;
-						goToPositionY = npc.Calamity().newAI[1] - npc.Center.Y;
+						if (purpleSlimeAlive && redSlimeAlive)
+							buffedSlime = Main.rand.Next(2) + 1;
+						else if (purpleSlimeAlive)
+							buffedSlime = 1;
+						else if (redSlimeAlive)
+							buffedSlime = 2;
 					}
-					float num703 = npc.localAI[3] - npc.Center.Y;
-					float num704 = (float)Math.Sqrt((double)(goToPositionX * goToPositionX + goToPositionY * goToPositionY));
 
-					if (num704 < num700)
-					{
-						npc.velocity.X = goToPositionX;
-						npc.velocity.Y = goToPositionY;
-					}
-					else
-					{
-						num704 = num700 / num704;
-						npc.velocity.X = goToPositionX * num704;
-						npc.velocity.Y = goToPositionY * num704;
-					}
+					Vector2 purpleSlimeVector = new Vector2(npc.Calamity().newAI[0], npc.Calamity().newAI[1]);
+					Vector2 redSlimeVector = new Vector2(npc.localAI[2], npc.localAI[3]);
+					Vector2 goToPosition = (buffedSlime == 1 ? purpleSlimeVector : redSlimeVector) - vectorCenter;
+					npc.velocity = Vector2.Normalize(goToPosition) * 12f;
 
 					npc.ai[2] += 1f;
 					if (npc.ai[2] >= 600f)
@@ -309,7 +300,7 @@ namespace CalamityMod.NPCs.SlimeGod
 							if (npc.alpha < 55)
 							{
 								npc.alpha = 55;
-								npc.localAI[0] = (npc.Center.X - player.Center.X < 0 ? 1f : -1f);
+								npc.localAI[0] = (vectorCenter.X - player.Center.X < 0 ? 1f : -1f);
 								npc.localAI[1] = 2f;
 							}
 							npc.netUpdate = true;
@@ -342,13 +333,13 @@ namespace CalamityMod.NPCs.SlimeGod
 								npc.localAI[0] = 0f;
 								npc.localAI[1] = 0f;
 								float chargeVelocity = death ? 12f : 8f;
-								npc.velocity = Vector2.Normalize(player.Center - npc.Center) * chargeVelocity;
+								npc.velocity = Vector2.Normalize(player.Center - vectorCenter) * chargeVelocity;
 								return;
 							}
 
 							if (Main.netMode != NetmodeID.MultiplayerClient)
 							{
-								if (npc.ai[1] % 20f == 0f && Vector2.Distance(player.Center, npc.Center) > 160f)
+								if (npc.ai[1] % 20f == 0f && Vector2.Distance(player.Center, vectorCenter) > 160f)
 								{
 									if (expertMode && Main.rand.NextBool(2))
 									{
@@ -428,7 +419,7 @@ namespace CalamityMod.NPCs.SlimeGod
 				}
 				else
 				{
-					if (Main.netMode != NetmodeID.MultiplayerClient && Vector2.Distance(player.Center, npc.Center) > 160f)
+					if (Main.netMode != NetmodeID.MultiplayerClient && Vector2.Distance(player.Center, vectorCenter) > 160f)
 					{
 						if (npc.ai[1] % 20f == 0f)
 						{
@@ -511,6 +502,7 @@ namespace CalamityMod.NPCs.SlimeGod
 					}
 				}
             }
+
             float num1372 = 6f;
             if (!flag100 || death)
             {
@@ -528,13 +520,15 @@ namespace CalamityMod.NPCs.SlimeGod
             {
                 num1372 += 8f;
             }
-            Vector2 vector167 = new Vector2(npc.Center.X + (float)(npc.direction * 20), npc.Center.Y + 6f);
+
+            Vector2 vector167 = new Vector2(vectorCenter.X + (float)(npc.direction * 20), vectorCenter.Y + 6f);
             float num1373 = player.position.X + (float)player.width * 0.5f - vector167.X;
             float num1374 = player.Center.Y - vector167.Y;
             float num1375 = (float)Math.Sqrt((double)(num1373 * num1373 + num1374 * num1374));
             float num1376 = num1372 / num1375;
             num1373 *= num1376;
             num1374 *= num1376;
+
             npc.ai[0] -= 1f;
             if (num1375 < 200f || npc.ai[0] > 0f)
             {
@@ -553,6 +547,7 @@ namespace CalamityMod.NPCs.SlimeGod
 				npc.rotation += (float)npc.direction * 0.3f;
 				return;
             }
+
             npc.velocity.X = (npc.velocity.X * 50f + num1373) / 51f;
             npc.velocity.Y = (npc.velocity.Y * 50f + num1374) / 51f;
             if (num1375 < 350f)

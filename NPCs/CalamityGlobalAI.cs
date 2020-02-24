@@ -11930,7 +11930,7 @@ namespace CalamityMod.NPCs
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
 
 			int aggressionLevel = 4;
-			if (npc.type == NPCID.MoonLordCore || npc.type == NPCID.MoonLordHand)
+			if (npc.type == NPCID.MoonLordCore || npc.type == NPCID.MoonLordHand || npc.type == NPCID.MoonLordHead)
 			{
 				switch (NPC.CountNPCS(NPCID.MoonLordFreeEye))
 				{
@@ -12048,8 +12048,26 @@ namespace CalamityMod.NPCs
                     }
                 }
 
-                // Fly near target, don't take damage
-                if (npc.ai[0] == 0f)
+				int trueEyesThatShouldBeActive = 0;
+				if (Main.npc[(int)npc.localAI[0]].Calamity().newAI[0] == 1f)
+					trueEyesThatShouldBeActive++;
+				if (Main.npc[(int)npc.localAI[1]].Calamity().newAI[0] == 1f)
+					trueEyesThatShouldBeActive++;
+				if (Main.npc[(int)npc.localAI[2]].Calamity().newAI[0] == 1f)
+					trueEyesThatShouldBeActive++;
+
+				if (NPC.CountNPCS(NPCID.MoonLordFreeEye) < trueEyesThatShouldBeActive)
+				{
+					if (Main.netMode != NetmodeID.MultiplayerClient)
+					{
+						int num = NPC.NewNPC((int)Main.npc[(int)npc.localAI[2]].Center.X, (int)Main.npc[(int)npc.localAI[2]].Center.Y, NPCID.MoonLordFreeEye, 0, 0f, 0f, 0f, 0f, 255);
+						Main.npc[num].ai[3] = (float)npc.whoAmI;
+						Main.npc[num].netUpdate = true;
+					}
+				}
+
+				// Fly near target, don't take damage
+				if (npc.ai[0] == 0f)
                 {
                     npc.dontTakeDamage = true;
                     npc.TargetClosest(false);
@@ -12058,8 +12076,24 @@ namespace CalamityMod.NPCs
                     if (value4.Length() > 20f)
                     {
                         float velocity = CalamityWorld.bossRushActive ? 14f : 10f;
-                        if (Main.npc[(int)npc.localAI[2]].ai[0] == 1f)
-                            velocity = 8f;
+						switch (aggressionLevel)
+						{
+							case 4:
+								break;
+							case 3:
+								velocity -= 0.5f;
+								break;
+							case 2:
+								velocity -= 1f;
+								break;
+							case 1:
+								velocity -= 1.5f;
+								break;
+							default:
+								break;
+						}
+						if (Main.npc[(int)npc.localAI[2]].ai[0] == 1f)
+                            velocity -= 2f;
 
                         Vector2 desiredVelocity = Vector2.Normalize(value4 - npc.velocity) * velocity;
                         Vector2 velocity2 = npc.velocity;
@@ -12115,8 +12149,24 @@ namespace CalamityMod.NPCs
                     if (value5.Length() > 20f)
                     {
                         float velocity = CalamityWorld.bossRushActive ? 14f : 10f;
-                        if (Main.npc[(int)npc.localAI[2]].ai[0] == 1f)
-                            velocity = 8f;
+						switch (aggressionLevel)
+						{
+							case 4:
+								break;
+							case 3:
+								velocity -= 0.5f;
+								break;
+							case 2:
+								velocity -= 1f;
+								break;
+							case 1:
+								velocity -= 1.5f;
+								break;
+							default:
+								break;
+						}
+						if (Main.npc[(int)npc.localAI[2]].ai[0] == 1f)
+                            velocity -= 2f;
 
 						Vector2 desiredVelocity2 = Vector2.Normalize(value5 - npc.velocity) * velocity;
                         Vector2 velocity3 = npc.velocity;
@@ -12750,8 +12800,26 @@ namespace CalamityMod.NPCs
 					if ((shootFirstBolt || shootSecondBolt || shootThirdBolt) && Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         Vector2 vector203 = Utils.Vector2FromElipse(npc.localAI[0].ToRotationVector2(), value19 * npc.localAI[1]);
+
                         float velocity = CalamityWorld.bossRushActive ? 9f : 6.75f;
-                        Vector2 vector204 = Vector2.Normalize(v4) * velocity;
+						switch (aggressionLevel)
+						{
+							case 4:
+								break;
+							case 3:
+								velocity -= 0.25f;
+								break;
+							case 2:
+								velocity -= 0.5f;
+								break;
+							case 1:
+								velocity -= 0.75f;
+								break;
+							default:
+								break;
+						}
+
+						Vector2 vector204 = Vector2.Normalize(v4) * velocity;
                         Projectile.NewProjectile(npc.Center.X + vector203.X, npc.Center.Y + vector203.Y, vector204.X, vector204.Y, ProjectileID.PhantasmalBolt, damage, 0f, Main.myPlayer, 0f, 0f);
                     }
                 }
@@ -12879,8 +12947,26 @@ namespace CalamityMod.NPCs
                     if (vector167.Length() > 20f)
                     {
                         vector167.Normalize();
+
                         float velocity = CalamityWorld.bossRushActive ? 10.5f : 7.5f;
-                        vector167 *= velocity;
+						switch (aggressionLevel)
+						{
+							case 4:
+								break;
+							case 3:
+								velocity -= 0.4f;
+								break;
+							case 2:
+								velocity -= 0.8f;
+								break;
+							case 1:
+								velocity -= 1.2f;
+								break;
+							default:
+								break;
+						}
+
+						vector167 *= velocity;
                         Vector2 velocity5 = npc.velocity;
 
                         if (vector167 != Vector2.Zero)
@@ -12939,8 +13025,26 @@ namespace CalamityMod.NPCs
                             Vector2 value11 = new Vector2(1f * -num1177, 3f);
                             Vector2 vector168 = Utils.Vector2FromElipse(npc.localAI[0].ToRotationVector2(), vector165 * npc.localAI[1]);
                             Vector2 vector169 = npc.Center + Vector2.Normalize(vector168) * vector165.Length() * 0.4f + value11;
+
                             float velocity = CalamityWorld.bossRushActive ? 12f : 9f;
-                            Vector2 vector170 = Vector2.Normalize(vector168) * velocity;
+							switch (aggressionLevel)
+							{
+								case 4:
+									break;
+								case 3:
+									velocity -= 0.25f;
+									break;
+								case 2:
+									velocity -= 0.5f;
+									break;
+								case 1:
+									velocity -= 0.75f;
+									break;
+								default:
+									break;
+							}
+
+							Vector2 vector170 = Vector2.Normalize(vector168) * velocity;
                             float ai = (6.28318548f * (float)Main.rand.NextDouble() - 3.14159274f) / 30f + 0.0174532924f * num1177;
                             Projectile.NewProjectile(vector169.X, vector169.Y, vector170.X, vector170.Y, ProjectileID.PhantasmalEye, damage, 0f, Main.myPlayer, 0f, ai);
                         }
@@ -12969,15 +13073,50 @@ namespace CalamityMod.NPCs
                     Vector2 value13 = new Vector2(400f * num1177, -60f);
 
                     float velocityMultiplier = CalamityWorld.bossRushActive ? 0.87f : 0.885f;
-                    if (num1178 < 30f)
+					switch (aggressionLevel)
+					{
+						case 4:
+							break;
+						case 3:
+							velocityMultiplier += 0.004f;
+							break;
+						case 2:
+							velocityMultiplier += 0.008f;
+							break;
+						case 1:
+							velocityMultiplier += 0.012f;
+							break;
+						default:
+							break;
+					}
+
+					if (num1178 < 30f)
                     {
                         Vector2 vector171 = value12 - npc.Center;
                         if (vector171 != Vector2.Zero)
                         {
                             Vector2 vector172 = vector171;
                             vector172.Normalize();
+
                             float velocity = CalamityWorld.bossRushActive ? 14f : 10f;
-                            npc.velocity = Vector2.SmoothStep(npc.velocity, vector172 * Math.Min(velocity, vector171.Length()), 0.2f);
+							switch (aggressionLevel)
+							{
+								case 4:
+									break;
+								case 3:
+									velocity -= 0.5f;
+									break;
+								case 2:
+									velocity -= 1f;
+									break;
+								case 1:
+									velocity -= 1.5f;
+									break;
+								default:
+									break;
+							}
+
+							npc.velocity = Vector2.SmoothStep(npc.velocity, vector172 * Math.Min(velocity, vector171.Length()), 0.2f);
                         }
                     }
                     else if (num1178 < 210f)
@@ -13022,8 +13161,26 @@ namespace CalamityMod.NPCs
                         {
                             Vector2 vector175 = vector174;
                             vector175.Normalize();
-                            float velocity = CalamityWorld.bossRushActive ? 35f : 25f;
-                            npc.velocity = Vector2.Lerp(npc.velocity, vector175 * Math.Min(velocity, vector174.Length()), 0.5f);
+
+                            float velocity = CalamityWorld.bossRushActive ? 32f : 24f;
+							switch (aggressionLevel)
+							{
+								case 4:
+									break;
+								case 3:
+									velocity -= 1f;
+									break;
+								case 2:
+									velocity -= 2f;
+									break;
+								case 1:
+									velocity -= 3f;
+									break;
+								default:
+									break;
+							}
+
+							npc.velocity = Vector2.Lerp(npc.velocity, vector175 * Math.Min(velocity, vector174.Length()), 0.5f);
                         }
                     }
                     else if (num1178 < 282f)
@@ -13053,7 +13210,24 @@ namespace CalamityMod.NPCs
                                 vector176 = Vector2.UnitY;
 
                             float velocity = CalamityWorld.bossRushActive ? 18f : 14f;
-                            vector176 *= velocity;
+							switch (aggressionLevel)
+							{
+								case 4:
+									break;
+								case 3:
+									velocity -= 0.5f;
+									break;
+								case 2:
+									velocity -= 1f;
+									break;
+								case 1:
+									velocity -= 1.5f;
+									break;
+								default:
+									break;
+							}
+
+							vector176 *= velocity;
                             for (int num1194 = 0; num1194 < 1000; num1194++)
                             {
                                 Projectile projectile3 = Main.projectile[num1194];
@@ -13071,8 +13245,26 @@ namespace CalamityMod.NPCs
                         {
                             Vector2 vector178 = vector177;
                             vector178.Normalize();
+
                             float velocity = CalamityWorld.bossRushActive ? 24.5f : 17.5f;
-                            npc.velocity = Vector2.Lerp(npc.velocity, vector178 * Math.Min(velocity, vector177.Length()), 0.1f);
+							switch (aggressionLevel)
+							{
+								case 4:
+									break;
+								case 3:
+									velocity -= 1f;
+									break;
+								case 2:
+									velocity -= 2f;
+									break;
+								case 1:
+									velocity -= 3f;
+									break;
+								default:
+									break;
+							}
+
+							npc.velocity = Vector2.Lerp(npc.velocity, vector178 * Math.Min(velocity, vector177.Length()), 0.1f);
                         }
                     }
                     else
@@ -13084,8 +13276,26 @@ namespace CalamityMod.NPCs
                         {
                             Vector2 vector180 = vector179;
                             vector180.Normalize();
+
                             float velocity = CalamityWorld.bossRushActive ? 14f : 10f;
-                            npc.velocity = Vector2.SmoothStep(npc.velocity, vector180 * Math.Min(velocity, vector179.Length()), 0.2f);
+							switch (aggressionLevel)
+							{
+								case 4:
+									break;
+								case 3:
+									velocity -= 0.5f;
+									break;
+								case 2:
+									velocity -= 1f;
+									break;
+								case 1:
+									velocity -= 1.5f;
+									break;
+								default:
+									break;
+							}
+
+							npc.velocity = Vector2.SmoothStep(npc.velocity, vector180 * Math.Min(velocity, vector179.Length()), 0.2f);
                         }
                     }
                 }
@@ -13139,8 +13349,26 @@ namespace CalamityMod.NPCs
 					if ((shootFirstBolt || shootSecondBolt || shootThirdBolt) && Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         Vector2 vector181 = Utils.Vector2FromElipse(npc.localAI[0].ToRotationVector2(), vector165 * npc.localAI[1]);
+
                         float velocity = CalamityWorld.bossRushActive ? 9f : 6.75f;
-                        Vector2 vector182 = Vector2.Normalize(v) * velocity;
+						switch (aggressionLevel)
+						{
+							case 4:
+								break;
+							case 3:
+								velocity -= 0.25f;
+								break;
+							case 2:
+								velocity -= 0.5f;
+								break;
+							case 1:
+								velocity -= 0.75f;
+								break;
+							default:
+								break;
+						}
+
+						Vector2 vector182 = Vector2.Normalize(v) * velocity;
                         Projectile.NewProjectile(npc.Center.X + vector181.X, npc.Center.Y + vector181.Y, vector182.X, vector182.Y, ProjectileID.PhantasmalBolt, damage, 0f, Main.myPlayer, 0f, 0f);
                     }
                 }
