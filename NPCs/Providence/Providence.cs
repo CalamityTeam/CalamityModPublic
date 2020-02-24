@@ -751,6 +751,12 @@ namespace CalamityMod.NPCs.Providence
 				vector114.X += num866 * 32f;
 				vector114.Y += num867 * 32f;
 
+				if (Vector2.Distance(player.Center, vector) < 32f)
+				{
+					num866 *= -1f;
+					num867 *= -1f;
+				}
+
 				npc.ai[3] += 1f;
 
 				int shootBoost = (int)(4f * (1f - lifeRatio));

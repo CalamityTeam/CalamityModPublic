@@ -4265,15 +4265,17 @@ namespace CalamityMod.NPCs
 			if (calamityGlobalNPC.newAI[1] < 480f)
                 calamityGlobalNPC.newAI[1] += 1f;
 
-            // Enrage variable if player is flying upside down
-            bool targetFloatingUp = Main.player[npc.target].gravDir == -1f;
-
             // Percent life remaining
             float lifeRatio = (float)npc.life / (float)npc.lifeMax;
 
             // Phases based on life percentage
             bool phase2 = lifeRatio < 0.66f || death;
             bool phase3 = lifeRatio < 0.33f || death;
+
+			// Flight timer
+			calamityGlobalNPC.newAI[3] += 1f;
+			if (calamityGlobalNPC.newAI[3] >= 1800f)
+				calamityGlobalNPC.newAI[3] = 0f;
 
             // Set worm variable for worms
             if (npc.ai[3] > 0f)
@@ -4283,8 +4285,16 @@ namespace CalamityMod.NPCs
             if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
                 npc.TargetClosest(true);
 
-            // Velocity
-            npc.velocity.Length();
+			Player player = Main.player[npc.target];
+
+			// Enrage variable if player is flying upside down
+			bool targetFloatingUp = player.gravDir == -1f;
+
+			// Phase for flying at the player
+			bool flyAtTarget = calamityGlobalNPC.newAI[3] >= 1200f && (lifeRatio < 0.5f || death);
+
+			// Velocity
+			npc.velocity.Length();
 
             // Dust on spawn and alpha effects
             if (npc.type == NPCID.TheDestroyer || (npc.type != NPCID.TheDestroyer && Main.npc[(int)npc.ai[1]].alpha < 128))
@@ -4327,6 +4337,7 @@ namespace CalamityMod.NPCs
                     npc.active = false;
                 }
             }
+
             if (npc.type == NPCID.TheDestroyerBody)
             {
                 // Gain more defense as health lowers with a max of 30, lose defense if probe has been launched
@@ -4392,12 +4403,12 @@ namespace CalamityMod.NPCs
                     {
                         calamityGlobalNPC.newAI[0] = 0f;
                         npc.TargetClosest(true);
-                        if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
+                        if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
                         {
                             // Base laser speed on player movement speed
-                            float laserSpeedBoost = Math.Abs(Main.player[npc.target].velocity.X);
-                            if (Math.Abs(Main.player[npc.target].velocity.X) < Math.Abs(Main.player[npc.target].velocity.Y))
-                                laserSpeedBoost = Math.Abs(Main.player[npc.target].velocity.Y);
+                            float laserSpeedBoost = Math.Abs(player.velocity.X);
+                            if (Math.Abs(player.velocity.X) < Math.Abs(player.velocity.Y))
+                                laserSpeedBoost = Math.Abs(player.velocity.Y);
 
                             // Put limits on laser speed
                             float projectileSpeed = 2f + laserSpeedBoost;
@@ -4454,8 +4465,8 @@ namespace CalamityMod.NPCs
 
 							// Get target vector
 							Vector2 vector = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)(npc.height / 2));
-                            float num6 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector.X;
-                            float num7 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector.Y;
+                            float num6 = player.position.X + (float)player.width * 0.5f - vector.X;
+                            float num7 = player.position.Y + (float)player.height * 0.5f - vector.Y;
                             float num8 = (float)Math.Sqrt((double)(num6 * num6 + num7 * num7));
                             num8 = projectileSpeed / num8;
                             num6 *= num8;
@@ -4489,7 +4500,7 @@ namespace CalamityMod.NPCs
                 num15 = Main.maxTilesY;
 
             // Fly or not
-            bool flag2 = false;
+            bool flag2 = flyAtTarget;
             if (!flag2)
             {
                 for (int k = num12; k < num13; k++)
@@ -4527,7 +4538,7 @@ namespace CalamityMod.NPCs
                     int height = 2000 - heightReduction;
                     bool flag3 = true;
 
-                    if (npc.position.Y > Main.player[npc.target].position.Y)
+                    if (npc.position.Y > player.position.Y)
                     {
                         for (int m = 0; m < 255; m++)
                         {
@@ -4551,7 +4562,7 @@ namespace CalamityMod.NPCs
 
             // Despawn
             float fallSpeed = 16f;
-            if (Main.dayTime || Main.player[npc.target].dead)
+            if (Main.dayTime || player.dead)
             {
                 flag2 = false;
                 npc.velocity.Y += 1f;
@@ -4579,6 +4590,10 @@ namespace CalamityMod.NPCs
 			float turnSpeedBoost = death ? (targetFloatingUp ? 0.3f : 0.15f) : ((targetFloatingUp ? 0.3f : 0.15f) * (1f - lifeRatio));
 			float speed = 0.1f + speedBoost;
             float turnSpeed = 0.15f + turnSpeedBoost;
+
+			if (flyAtTarget)
+				speed += 11f;
+
             if (CalamityWorld.bossRushActive)
             {
                 speed *= 1.5f;
@@ -4586,8 +4601,8 @@ namespace CalamityMod.NPCs
             }
 
             Vector2 vector3 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-            float num20 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2);
-            float num21 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2);
+            float num20 = player.position.X + (float)(player.width / 2);
+            float num21 = player.position.Y + (float)(player.height / 2);
             num20 = (float)((int)(num20 / 16f) * 16);
             num21 = (float)((int)(num21 / 16f) * 16);
             vector3.X = (float)((int)(vector3.X / 16f) * 16);
@@ -4669,74 +4684,101 @@ namespace CalamityMod.NPCs
                 num20 *= num27;
                 num21 *= num27;
 
-                if (((npc.velocity.X > 0f && num20 > 0f) || (npc.velocity.X < 0f && num20 < 0f)) && ((npc.velocity.Y > 0f && num21 > 0f) || (npc.velocity.Y < 0f && num21 < 0f)))
-                {
-                    if (npc.velocity.X < num20)
-                        npc.velocity.X += turnSpeed;
-                    else if (npc.velocity.X > num20)
-                        npc.velocity.X -= turnSpeed;
-                    if (npc.velocity.Y < num21)
-                        npc.velocity.Y += turnSpeed;
-                    else if (npc.velocity.Y > num21)
-                        npc.velocity.Y -= turnSpeed;
-                }
+				bool flag6 = false;
+				if (((npc.velocity.X > 0f && num20 < 0f) || (npc.velocity.X < 0f && num20 > 0f) || (npc.velocity.Y > 0f && num21 < 0f) || (npc.velocity.Y < 0f && num21 > 0f)) && Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y) > turnSpeed / 2f && num22 < 400f)
+				{
+					flag6 = true;
 
-                if ((npc.velocity.X > 0f && num20 > 0f) || (npc.velocity.X < 0f && num20 < 0f) || (npc.velocity.Y > 0f && num21 > 0f) || (npc.velocity.Y < 0f && num21 < 0f))
-                {
-                    if (npc.velocity.X < num20)
-                        npc.velocity.X += speed;
-                    else if (npc.velocity.X > num20)
-                        npc.velocity.X -= speed;
-                    if (npc.velocity.Y < num21)
-                        npc.velocity.Y += speed;
-                    else if (npc.velocity.Y > num21)
-                        npc.velocity.Y -= speed;
+					if (Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y) < fallSpeed)
+						npc.velocity *= 1.1f;
+				}
 
-                    if ((double)Math.Abs(num21) < (double)fallSpeed * 0.2 && ((npc.velocity.X > 0f && num20 < 0f) || (npc.velocity.X < 0f && num20 > 0f)))
-                    {
-                        if (npc.velocity.Y > 0f)
-                            npc.velocity.Y += speed * 2f;
-                        else
-                            npc.velocity.Y -= speed * 2f;
-                    }
-                    if ((double)Math.Abs(num20) < (double)fallSpeed * 0.2 && ((npc.velocity.Y > 0f && num21 < 0f) || (npc.velocity.Y < 0f && num21 > 0f)))
-                    {
-                        if (npc.velocity.X > 0f)
-                            npc.velocity.X += speed * 2f;
-                        else
-                            npc.velocity.X -= speed * 2f;
-                    }
-                }
-                else if (num25 > num26)
-                {
-                    if (npc.velocity.X < num20)
-                        npc.velocity.X += speed * 1.1f;
-                    else if (npc.velocity.X > num20)
-                        npc.velocity.X -= speed * 1.1f;
+				if (npc.position.Y > player.position.Y)
+				{
+					flag6 = true;
 
-                    if ((double)(Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y)) < (double)fallSpeed * 0.5)
-                    {
-                        if (npc.velocity.Y > 0f)
-                            npc.velocity.Y += speed;
-                        else
-                            npc.velocity.Y -= speed;
-                    }
-                }
-                else
-                {
-                    if (npc.velocity.Y < num21)
-                        npc.velocity.Y += speed * 1.1f;
-                    else if (npc.velocity.Y > num21)
-                        npc.velocity.Y -= speed * 1.1f;
+					if (Math.Abs(npc.velocity.X) < fallSpeed / 2f)
+					{
+						if (npc.velocity.X == 0f)
+							npc.velocity.X -= (float)npc.direction;
 
-                    if ((double)(Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y)) < (double)fallSpeed * 0.5)
-                    {
-                        if (npc.velocity.X > 0f)
-                            npc.velocity.X += speed;
-                        else
-                            npc.velocity.X -= speed;
-                    }
-                }
+						npc.velocity.X *= 1.1f;
+					}
+					else if (npc.velocity.Y > -fallSpeed)
+						npc.velocity.Y -= turnSpeed;
+				}
+
+				if (!flag6)
+				{
+					if (((npc.velocity.X > 0f && num20 > 0f) || (npc.velocity.X < 0f && num20 < 0f)) && ((npc.velocity.Y > 0f && num21 > 0f) || (npc.velocity.Y < 0f && num21 < 0f)))
+					{
+						if (npc.velocity.X < num20)
+							npc.velocity.X += turnSpeed;
+						else if (npc.velocity.X > num20)
+							npc.velocity.X -= turnSpeed;
+						if (npc.velocity.Y < num21)
+							npc.velocity.Y += turnSpeed;
+						else if (npc.velocity.Y > num21)
+							npc.velocity.Y -= turnSpeed;
+					}
+
+					if ((npc.velocity.X > 0f && num20 > 0f) || (npc.velocity.X < 0f && num20 < 0f) || (npc.velocity.Y > 0f && num21 > 0f) || (npc.velocity.Y < 0f && num21 < 0f))
+					{
+						if (npc.velocity.X < num20)
+							npc.velocity.X += speed;
+						else if (npc.velocity.X > num20)
+							npc.velocity.X -= speed;
+						if (npc.velocity.Y < num21)
+							npc.velocity.Y += speed;
+						else if (npc.velocity.Y > num21)
+							npc.velocity.Y -= speed;
+
+						if ((double)Math.Abs(num21) < (double)fallSpeed * 0.2 && ((npc.velocity.X > 0f && num20 < 0f) || (npc.velocity.X < 0f && num20 > 0f)))
+						{
+							if (npc.velocity.Y > 0f)
+								npc.velocity.Y += speed * 2f;
+							else
+								npc.velocity.Y -= speed * 2f;
+						}
+						if ((double)Math.Abs(num20) < (double)fallSpeed * 0.2 && ((npc.velocity.Y > 0f && num21 < 0f) || (npc.velocity.Y < 0f && num21 > 0f)))
+						{
+							if (npc.velocity.X > 0f)
+								npc.velocity.X += speed * 2f;
+							else
+								npc.velocity.X -= speed * 2f;
+						}
+					}
+					else if (num25 > num26)
+					{
+						if (npc.velocity.X < num20)
+							npc.velocity.X += speed * 1.1f;
+						else if (npc.velocity.X > num20)
+							npc.velocity.X -= speed * 1.1f;
+
+						if ((double)(Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y)) < (double)fallSpeed * 0.5)
+						{
+							if (npc.velocity.Y > 0f)
+								npc.velocity.Y += speed;
+							else
+								npc.velocity.Y -= speed;
+						}
+					}
+					else
+					{
+						if (npc.velocity.Y < num21)
+							npc.velocity.Y += speed * 1.1f;
+						else if (npc.velocity.Y > num21)
+							npc.velocity.Y -= speed * 1.1f;
+
+						if ((double)(Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y)) < (double)fallSpeed * 0.5)
+						{
+							if (npc.velocity.X > 0f)
+								npc.velocity.X += speed;
+							else
+								npc.velocity.X -= speed;
+						}
+					}
+				}
             }
 
             npc.rotation = (float)Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X) + 1.57f;
@@ -20093,7 +20135,7 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (!flag2 && (npc.type == NPCID.DevourerHead || npc.type == NPCID.GiantWormHead || npc.type == NPCID.BoneSerpentHead || npc.type == NPCID.DiggerHead || npc.type == NPCID.SeekerHead || npc.type == NPCID.LeechHead || npc.type == NPCID.DuneSplicerHead || npc.type == NPCID.TombCrawlerHead))
+            if (!flag2 && (isSplittingNPCHead || npc.type == NPCID.GiantWormHead || npc.type == NPCID.BoneSerpentHead || npc.type == NPCID.LeechHead || npc.type == NPCID.TombCrawlerHead))
             {
                 Rectangle rectangle = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
                 int num35 = 1000;
@@ -20233,6 +20275,7 @@ namespace CalamityMod.NPCs
             Vector2 vector2 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
             float num39 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2);
             float num40 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2);
+
             if (npc.type == NPCID.SolarCrawltipedeHead)
             {
                 num37 = 12f;
@@ -20331,6 +20374,7 @@ namespace CalamityMod.NPCs
                     }
                 }
             }
+
             num39 = (float)((int)(num39 / 16f) * 16);
             num40 = (float)((int)(num40 / 16f) * 16);
             vector2.X = (float)((int)(vector2.X / 16f) * 16);
@@ -20338,6 +20382,7 @@ namespace CalamityMod.NPCs
             num39 -= vector2.X;
             num40 -= vector2.Y;
             float num52 = (float)Math.Sqrt((double)(num39 * num39 + num40 * num40));
+
             if (npc.ai[1] > 0f && npc.ai[1] < (float)Main.npc.Length)
             {
                 try
@@ -20438,12 +20483,14 @@ namespace CalamityMod.NPCs
                         npc.soundDelay = (int)num54;
                         Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 1, 1f, 0f);
                     }
+
                     num52 = (float)Math.Sqrt((double)(num39 * num39 + num40 * num40));
                     float num55 = Math.Abs(num39);
                     float num56 = Math.Abs(num40);
                     float num57 = num37 / num52;
                     num39 *= num57;
                     num40 *= num57;
+
                     bool flag4 = false;
                     if (npc.type == NPCID.DevourerHead && ((!Main.player[npc.target].ZoneCorrupt && !Main.player[npc.target].ZoneCrimson) || Main.player[npc.target].dead))
                     {
@@ -20493,142 +20540,113 @@ namespace CalamityMod.NPCs
                             num40 = num37;
                         }
                     }
+
                     bool flag6 = false;
-                    if (npc.type == NPCID.WyvernHead)
-                    {
-                        if (((npc.velocity.X > 0f && num39 < 0f) || (npc.velocity.X < 0f && num39 > 0f) || (npc.velocity.Y > 0f && num40 < 0f) || (npc.velocity.Y < 0f && num40 > 0f)) && Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y) > num38 / 2f && num52 < 300f)
-                        {
-                            flag6 = true;
-                            if (Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y) < num37)
-                            {
-                                npc.velocity *= 1.1f;
-                            }
-                        }
-                        if (npc.position.Y > Main.player[npc.target].position.Y || (double)(Main.player[npc.target].position.Y / 16f) > Main.worldSurface || Main.player[npc.target].dead)
-                        {
-                            flag6 = true;
-                            if (Math.Abs(npc.velocity.X) < num37 / 2f)
-                            {
-                                if (npc.velocity.X == 0f)
-                                {
-                                    npc.velocity.X = npc.velocity.X - (float)npc.direction;
-                                }
-                                npc.velocity.X = npc.velocity.X * 1.1f;
-                            }
-                            else if (npc.velocity.Y > -num37)
-                            {
-                                npc.velocity.Y = npc.velocity.Y - num38;
-                            }
-                        }
-                    }
-                    if (!flag6)
-                    {
-                        if ((npc.velocity.X > 0f && num39 > 0f) || (npc.velocity.X < 0f && num39 < 0f) || (npc.velocity.Y > 0f && num40 > 0f) || (npc.velocity.Y < 0f && num40 < 0f))
-                        {
-                            if (npc.velocity.X < num39)
-                            {
-                                npc.velocity.X = npc.velocity.X + num38;
-                            }
-                            else if (npc.velocity.X > num39)
-                            {
-                                npc.velocity.X = npc.velocity.X - num38;
-                            }
-                            if (npc.velocity.Y < num40)
-                            {
-                                npc.velocity.Y = npc.velocity.Y + num38;
-                            }
-                            else if (npc.velocity.Y > num40)
-                            {
-                                npc.velocity.Y = npc.velocity.Y - num38;
-                            }
-                            if ((double)Math.Abs(num40) < (double)num37 * 0.2 && ((npc.velocity.X > 0f && num39 < 0f) || (npc.velocity.X < 0f && num39 > 0f)))
-                            {
-                                if (npc.velocity.Y > 0f)
-                                {
-                                    npc.velocity.Y = npc.velocity.Y + num38 * 2f;
-                                }
-                                else
-                                {
-                                    npc.velocity.Y = npc.velocity.Y - num38 * 2f;
-                                }
-                            }
-                            if ((double)Math.Abs(num39) < (double)num37 * 0.2 && ((npc.velocity.Y > 0f && num40 < 0f) || (npc.velocity.Y < 0f && num40 > 0f)))
-                            {
-                                if (npc.velocity.X > 0f)
-                                {
-                                    npc.velocity.X = npc.velocity.X + num38 * 2f;
-                                }
-                                else
-                                {
-                                    npc.velocity.X = npc.velocity.X - num38 * 2f;
-                                }
-                            }
-                        }
-                        else if (num55 > num56)
-                        {
-                            if (npc.velocity.X < num39)
-                            {
-                                npc.velocity.X = npc.velocity.X + num38 * 1.1f;
-                            }
-                            else if (npc.velocity.X > num39)
-                            {
-                                npc.velocity.X = npc.velocity.X - num38 * 1.1f;
-                            }
-                            if ((double)(Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y)) < (double)num37 * 0.5)
-                            {
-                                if (npc.velocity.Y > 0f)
-                                {
-                                    npc.velocity.Y = npc.velocity.Y + num38;
-                                }
-                                else
-                                {
-                                    npc.velocity.Y = npc.velocity.Y - num38;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            if (npc.velocity.Y < num40)
-                            {
-                                npc.velocity.Y = npc.velocity.Y + num38 * 1.1f;
-                            }
-                            else if (npc.velocity.Y > num40)
-                            {
-                                npc.velocity.Y = npc.velocity.Y - num38 * 1.1f;
-                            }
-                            if ((double)(Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y)) < (double)num37 * 0.5)
-                            {
-                                if (npc.velocity.X > 0f)
-                                {
-                                    npc.velocity.X = npc.velocity.X + num38;
-                                }
-                                else
-                                {
-                                    npc.velocity.X = npc.velocity.X - num38;
-                                }
-                            }
-                        }
-                    }
+					if (npc.type == NPCID.WyvernHead)
+					{
+						if (((npc.velocity.X > 0f && num39 < 0f) || (npc.velocity.X < 0f && num39 > 0f) || (npc.velocity.Y > 0f && num40 < 0f) || (npc.velocity.Y < 0f && num40 > 0f)) && Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y) > num38 / 2f && num52 < 300f)
+						{
+							flag6 = true;
+
+							if (Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y) < num37)
+								npc.velocity *= 1.1f;
+						}
+						if (npc.position.Y > Main.player[npc.target].position.Y || (double)(Main.player[npc.target].position.Y / 16f) > Main.worldSurface || Main.player[npc.target].dead)
+						{
+							flag6 = true;
+
+							if (Math.Abs(npc.velocity.X) < num37 / 2f)
+							{
+								if (npc.velocity.X == 0f)
+									npc.velocity.X = npc.velocity.X - (float)npc.direction;
+
+								npc.velocity.X = npc.velocity.X * 1.1f;
+							}
+							else if (npc.velocity.Y > -num37)
+								npc.velocity.Y = npc.velocity.Y - num38;
+						}
+					}
+					if (!flag6)
+					{
+						if ((npc.velocity.X > 0f && num39 > 0f) || (npc.velocity.X < 0f && num39 < 0f) || (npc.velocity.Y > 0f && num40 > 0f) || (npc.velocity.Y < 0f && num40 < 0f))
+						{
+							if (npc.velocity.X < num39)
+								npc.velocity.X = npc.velocity.X + num38;
+							else if (npc.velocity.X > num39)
+								npc.velocity.X = npc.velocity.X - num38;
+
+							if (npc.velocity.Y < num40)
+								npc.velocity.Y = npc.velocity.Y + num38;
+							else if (npc.velocity.Y > num40)
+								npc.velocity.Y = npc.velocity.Y - num38;
+
+							if ((double)Math.Abs(num40) < (double)num37 * 0.2 && ((npc.velocity.X > 0f && num39 < 0f) || (npc.velocity.X < 0f && num39 > 0f)))
+							{
+								if (npc.velocity.Y > 0f)
+									npc.velocity.Y = npc.velocity.Y + num38 * 2f;
+								else
+									npc.velocity.Y = npc.velocity.Y - num38 * 2f;
+							}
+
+							if ((double)Math.Abs(num39) < (double)num37 * 0.2 && ((npc.velocity.Y > 0f && num40 < 0f) || (npc.velocity.Y < 0f && num40 > 0f)))
+							{
+								if (npc.velocity.X > 0f)
+									npc.velocity.X = npc.velocity.X + num38 * 2f;
+								else
+									npc.velocity.X = npc.velocity.X - num38 * 2f;
+							}
+						}
+						else if (num55 > num56)
+						{
+							if (npc.velocity.X < num39)
+								npc.velocity.X = npc.velocity.X + num38 * 1.1f;
+							else if (npc.velocity.X > num39)
+								npc.velocity.X = npc.velocity.X - num38 * 1.1f;
+
+							if ((double)(Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y)) < (double)num37 * 0.5)
+							{
+								if (npc.velocity.Y > 0f)
+									npc.velocity.Y = npc.velocity.Y + num38;
+								else
+									npc.velocity.Y = npc.velocity.Y - num38;
+							}
+						}
+						else
+						{
+							if (npc.velocity.Y < num40)
+								npc.velocity.Y = npc.velocity.Y + num38 * 1.1f;
+							else if (npc.velocity.Y > num40)
+								npc.velocity.Y = npc.velocity.Y - num38 * 1.1f;
+
+							if ((double)(Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y)) < (double)num37 * 0.5)
+							{
+								if (npc.velocity.X > 0f)
+									npc.velocity.X = npc.velocity.X + num38;
+								else
+									npc.velocity.X = npc.velocity.X - num38;
+							}
+						}
+					}
                 }
+
                 npc.rotation = (float)Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X) + 1.57f;
                 if (npc.type == NPCID.DevourerHead || npc.type == NPCID.GiantWormHead || npc.type == NPCID.BoneSerpentHead || npc.type == NPCID.DiggerHead || npc.type == NPCID.SeekerHead || npc.type == NPCID.LeechHead || npc.type == NPCID.DuneSplicerHead || npc.type == NPCID.TombCrawlerHead)
                 {
                     if (flag2)
                     {
                         if (npc.localAI[0] != 1f)
-                        {
                             npc.netUpdate = true;
-                        }
+
                         npc.localAI[0] = 1f;
                     }
                     else
                     {
                         if (npc.localAI[0] != 0f)
-                        {
                             npc.netUpdate = true;
-                        }
+
                         npc.localAI[0] = 0f;
                     }
+
                     if (((npc.velocity.X > 0f && npc.oldVelocity.X < 0f) || (npc.velocity.X < 0f && npc.oldVelocity.X > 0f) || (npc.velocity.Y > 0f && npc.oldVelocity.Y < 0f) || (npc.velocity.Y < 0f && npc.oldVelocity.Y > 0f)) && !npc.justHit)
                     {
                         npc.netUpdate = true;
