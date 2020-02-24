@@ -530,7 +530,7 @@ namespace CalamityMod.NPCs
                             Main.npc[num255].ai[0] = (float)(-1000 * Main.rand.Next(3));
                             Main.npc[num255].ai[1] = 0f;
 
-                            if (Main.netMode == NetmodeID.Server && num255 < 200)
+                            if (Main.netMode == NetmodeID.Server && num255 < Main.maxNPCs)
                                 NetMessage.SendData(23, -1, -1, null, num255, 0f, 0f, 0f, 0, 0, 0);
 
                             num = num253;
@@ -710,7 +710,7 @@ namespace CalamityMod.NPCs
                                 Main.npc[num23].velocity.X = vector3.X;
                                 Main.npc[num23].velocity.Y = vector3.Y;
 
-                                if (Main.netMode == NetmodeID.Server && num23 < 200)
+                                if (Main.netMode == NetmodeID.Server && num23 < Main.maxNPCs)
                                     NetMessage.SendData(23, -1, -1, null, num23, 0f, 0f, 0f, 0, 0, 0);
                             }
 
@@ -828,7 +828,7 @@ namespace CalamityMod.NPCs
                         Main.npc[num34].velocity.X = vector7.X;
                         Main.npc[num34].velocity.Y = vector7.Y;
 
-                        if (Main.netMode == NetmodeID.Server && num34 < 200)
+                        if (Main.netMode == NetmodeID.Server && num34 < Main.maxNPCs)
                             NetMessage.SendData(23, -1, -1, null, num34, 0f, 0f, 0f, 0, 0, 0);
                     }
 
@@ -1246,7 +1246,7 @@ namespace CalamityMod.NPCs
                             Main.npc[num23].velocity.X = vector3.X;
                             Main.npc[num23].velocity.Y = vector3.Y;
 
-                            if (Main.netMode == NetmodeID.Server && num23 < 200)
+                            if (Main.netMode == NetmodeID.Server && num23 < Main.maxNPCs)
                                 NetMessage.SendData(23, -1, -1, null, num23, 0f, 0f, 0f, 0, 0, 0);
                         }
 
@@ -1743,7 +1743,7 @@ namespace CalamityMod.NPCs
                                 npc.active = false;
                                 int num59 = (int)npc.ai[0];
 
-                                while (num59 > 0 && num59 < 200 && Main.npc[num59].active && Main.npc[num59].aiStyle == npc.aiStyle)
+                                while (num59 > 0 && num59 < Main.maxNPCs && Main.npc[num59].active && Main.npc[num59].aiStyle == npc.aiStyle)
                                 {
                                     int arg_2853_0 = (int)Main.npc[num59].ai[0];
                                     Main.npc[num59].active = false;
@@ -3169,7 +3169,7 @@ namespace CalamityMod.NPCs
 
             // Hand immunity
             int num156 = 0;
-            for (int num157 = 0; num157 < 200; num157++)
+            for (int num157 = 0; num157 < Main.maxNPCs; num157++)
             {
                 if (Main.npc[num157].active && Main.npc[num157].type == npc.type + 1)
                     num156++;
@@ -4048,41 +4048,37 @@ namespace CalamityMod.NPCs
                 {
                     int num346 = 0;
                     float[] array = new float[10];
-                    int num;
-                    for (int num347 = 0; num347 < 200; num347 = num + 1)
+                    for (int num347 = 0; num347 < Main.maxNPCs; num347++)
                     {
                         if (num346 < 10 && Main.npc[num347].active && Main.npc[num347].type == NPCID.TheHungry)
                         {
                             array[num346] = Main.npc[num347].ai[0];
                             num346++;
                         }
-                        num = num347;
                     }
 
                     int maxValue = 1 + num346 * 2;
                     if (num346 < 10 && Main.rand.Next(maxValue) <= 1)
                     {
                         int num348 = -1;
-                        for (int num349 = 0; num349 < 1000; num349 = num + 1)
+                        for (int num349 = 0; num349 < 1000; num349++)
                         {
                             int num350 = Main.rand.Next(10);
                             float num351 = (float)num350 * 0.1f - 0.05f;
                             bool flag29 = true;
-                            for (int num352 = 0; num352 < num346; num352 = num + 1)
+                            for (int num352 = 0; num352 < num346; num352++)
                             {
                                 if (num351 == array[num352])
                                 {
                                     flag29 = false;
                                     break;
                                 }
-                                num = num352;
                             }
                             if (flag29)
                             {
                                 num348 = num350;
                                 break;
                             }
-                            num = num349;
                         }
                         if (num348 >= 0)
                         {
@@ -4568,7 +4564,7 @@ namespace CalamityMod.NPCs
 
                 if ((double)npc.position.Y > Main.rockLayer * 16.0)
                 {
-                    for (int n = 0; n < 200; n++)
+                    for (int n = 0; n < Main.maxNPCs; n++)
                     {
                         if (Main.npc[n].aiStyle == npc.aiStyle)
                             Main.npc[n].active = false;
@@ -4843,13 +4839,11 @@ namespace CalamityMod.NPCs
 
             if (Main.netMode != NetmodeID.MultiplayerClient && !Main.dayTime && !Main.player[npc.target].dead && npc.timeLeft < 10)
             {
-                int num;
-                for (int num381 = 0; num381 < 200; num381 = num + 1)
+                for (int num381 = 0; num381 < Main.maxNPCs; num381++)
                 {
                     if (num381 != npc.whoAmI && Main.npc[num381].active && (Main.npc[num381].type == NPCID.Retinazer || Main.npc[num381].type == NPCID.Spazmatism) && Main.npc[num381].timeLeft - 1 > npc.timeLeft)
                         npc.timeLeft = Main.npc[num381].timeLeft - 1;
 
-                    num = num381;
                 }
             }
 
@@ -5535,13 +5529,11 @@ namespace CalamityMod.NPCs
             // Despawn Twins at the same time
             if (Main.netMode != NetmodeID.MultiplayerClient && !Main.dayTime && !Main.player[npc.target].dead && npc.timeLeft < 10)
             {
-                int num;
-                for (int num423 = 0; num423 < 200; num423 = num + 1)
+                for (int num423 = 0; num423 < Main.maxNPCs; num423++)
                 {
                     if (num423 != npc.whoAmI && Main.npc[num423].active && (Main.npc[num423].type == NPCID.Retinazer || Main.npc[num423].type == NPCID.Spazmatism) && Main.npc[num423].timeLeft - 1 > npc.timeLeft)
                         npc.timeLeft = Main.npc[num423].timeLeft - 1;
 
-                    num = num423;
                 }
             }
 
@@ -7983,8 +7975,7 @@ namespace CalamityMod.NPCs
             float num730 = 0f;
             float num731 = 0f;
             int num732 = 0;
-            int num;
-            for (int num733 = 0; num733 < 200; num733 = num + 1)
+            for (int num733 = 0; num733 < Main.maxNPCs; num733++)
             {
                 if (Main.npc[num733].active && Main.npc[num733].aiStyle == 52)
                 {
@@ -7996,7 +7987,6 @@ namespace CalamityMod.NPCs
                     if (num732 > 2)
                         break;
                 }
-                num = num733;
             }
             num730 /= (float)num732;
             num731 /= (float)num732;
@@ -8280,10 +8270,9 @@ namespace CalamityMod.NPCs
                     if (npc.localAI[0] == 1f)
                     {
                         npc.localAI[0] = 2f;
-                        for (int num749 = 0; num749 < 8; num749 = num + 1)
+                        for (int num749 = 0; num749 < 8; num749++)
                         {
                             int num750 = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCID.PlanterasTentacle, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
-                            num = num749;
                         }
                     }
                 }
@@ -8534,7 +8523,7 @@ namespace CalamityMod.NPCs
                 // Set timer to new amount if a different hook is currently moving
                 if (!despawn && npc.localAI[0] <= 0f && npc.ai[0] != 0f)
                 {
-                    for (int num763 = 0; num763 < 200; num763++)
+                    for (int num763 = 0; num763 < Main.maxNPCs; num763++)
                     {
                         if (num763 != npc.whoAmI && Main.npc[num763].active && Main.npc[num763].type == npc.type && (Main.npc[num763].velocity.X != 0f || Main.npc[num763].velocity.Y != 0f))
                             npc.localAI[0] = (float)Main.rand.Next(60, 301);
@@ -10841,7 +10830,7 @@ namespace CalamityMod.NPCs
                     NetMessage.SendData(28, -1, -1, null, npc.whoAmI, -1f, 0f, 0f, 0, 0, 0);
                 }
                 new List<int>().Add(npc.whoAmI);
-                for (int j = 0; j < 200; j++)
+                for (int j = 0; j < Main.maxNPCs; j++)
                 {
                     if (Main.npc[j].active && Main.npc[j].type == 440 && Main.npc[j].ai[3] == (float)npc.whoAmI)
                     {
@@ -11053,7 +11042,7 @@ namespace CalamityMod.NPCs
                         List<int> list2 = new List<int>();
                         int num17 = 0;
                         list2.Add(npc.whoAmI);
-                        for (int k = 0; k < 200; k++)
+                        for (int k = 0; k < Main.maxNPCs; k++)
                         {
                             if (Main.npc[k].active && Main.npc[k].type == NPCID.CultistBossClone && Main.npc[k].ai[3] == (float)npc.whoAmI)
                             {
@@ -11159,7 +11148,7 @@ namespace CalamityMod.NPCs
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         List<int> list3 = new List<int>();
-                        for (int l = 0; l < 200; l++)
+                        for (int l = 0; l < Main.maxNPCs; l++)
                         {
                             if (Main.npc[l].active && Main.npc[l].type == NPCID.CultistBossClone && Main.npc[l].ai[3] == (float)npc.whoAmI)
                             {
@@ -11223,7 +11212,7 @@ namespace CalamityMod.NPCs
                     if ((int)(npc.ai[1] - 4f) / fireballFireRate == 2)
                     {
                         List<int> list4 = new List<int>();
-                        for (int num20 = 0; num20 < 200; num20++)
+                        for (int num20 = 0; num20 < Main.maxNPCs; num20++)
                         {
                             if (Main.npc[num20].active && Main.npc[num20].type == NPCID.CultistBossClone && Main.npc[num20].ai[3] == (float)npc.whoAmI)
                             {
@@ -11296,7 +11285,7 @@ namespace CalamityMod.NPCs
                 if ((npc.ai[1] == 20f & isCultist) && Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     List<int> list5 = new List<int>();
-                    for (int num25 = 0; num25 < 200; num25++)
+                    for (int num25 = 0; num25 < Main.maxNPCs; num25++)
                     {
                         if (Main.npc[num25].active && Main.npc[num25].type == NPCID.CultistBossClone && Main.npc[num25].ai[3] == (float)npc.whoAmI)
                         {
@@ -11356,7 +11345,7 @@ namespace CalamityMod.NPCs
                         npc.localAI[1] += 1f;
                         Vector2 spinningpoint = new Vector2(180f, 0f);
                         List<int> list6 = new List<int>();
-                        for (int num29 = 0; num29 < 200; num29++)
+                        for (int num29 = 0; num29 < Main.maxNPCs; num29++)
                         {
                             if (Main.npc[num29].active && Main.npc[num29].type == NPCID.CultistBossClone && Main.npc[num29].ai[3] == (float)npc.whoAmI)
                             {
@@ -11577,7 +11566,7 @@ namespace CalamityMod.NPCs
                     if ((int)(npc.ai[1] - 4f) / ancientLightSpawnRate == 2)
                     {
                         List<int> list7 = new List<int>();
-                        for (int num44 = 0; num44 < 200; num44++)
+                        for (int num44 = 0; num44 < Main.maxNPCs; num44++)
                         {
                             if (Main.npc[num44].active && Main.npc[num44].type == NPCID.CultistBossClone && Main.npc[num44].ai[3] == (float)npc.whoAmI)
                             {
@@ -11660,7 +11649,7 @@ namespace CalamityMod.NPCs
                 if ((npc.ai[1] >= 4f & isCultist) && (int)(npc.ai[1] - 4f) % 20 == 0)
                 {
                     List<int> list8 = new List<int>();
-                    for (int num51 = 0; num51 < 200; num51++)
+                    for (int num51 = 0; num51 < Main.maxNPCs; num51++)
                     {
                         if (Main.npc[num51].active && Main.npc[num51].type == NPCID.CultistBossClone && Main.npc[num51].ai[3] == (float)npc.whoAmI)
                         {
@@ -12198,7 +12187,7 @@ namespace CalamityMod.NPCs
                                 projectile.Kill();
                         }
 
-						for (int num1162 = 0; num1162 < 200; num1162++)
+						for (int num1162 = 0; num1162 < Main.maxNPCs; num1162++)
 						{
 							NPC nPC3 = Main.npc[num1162];
 							if (nPC3.active && nPC3.type == NPCID.MoonLordFreeEye)
@@ -12321,7 +12310,7 @@ namespace CalamityMod.NPCs
 						if (!CalamityWorld.bossRushActive)
 							MoonLordLoot(npc);
 
-						for (int num1174 = 0; num1174 < 200; num1174++)
+						for (int num1174 = 0; num1174 < Main.maxNPCs; num1174++)
 						{
 							NPC nPC5 = Main.npc[num1174];
 							if (nPC5.active && (nPC5.type == NPCID.MoonLordHand || nPC5.type == NPCID.MoonLordHead))
@@ -12366,7 +12355,7 @@ namespace CalamityMod.NPCs
                             }
                         }
 
-						for (int num1172 = 0; num1172 < 200; num1172++)
+						for (int num1172 = 0; num1172 < Main.maxNPCs; num1172++)
 						{
 							NPC nPC4 = Main.npc[num1172];
 							if (nPC4.active && nPC4.type == NPCID.MoonLordFreeEye)
@@ -12387,7 +12376,7 @@ namespace CalamityMod.NPCs
 
                     if (npc.ai[1] >= 60f)
                     {
-                        for (int num1174 = 0; num1174 < 200; num1174++)
+                        for (int num1174 = 0; num1174 < Main.maxNPCs; num1174++)
                         {
                             NPC nPC5 = Main.npc[num1174];
                             if (nPC5.active && (nPC5.type == NPCID.MoonLordFreeEye || nPC5.type == NPCID.MoonLordHand || nPC5.type == NPCID.MoonLordHead))
@@ -12480,7 +12469,7 @@ namespace CalamityMod.NPCs
                         Main.npc[(int)npc.localAI[2]].netUpdate = true;
                     }
 
-					for (int num1176 = 0; num1176 < 200; num1176++)
+					for (int num1176 = 0; num1176 < Main.maxNPCs; num1176++)
 					{
 						NPC nPC7 = Main.npc[num1176];
 						if (nPC7.active && nPC7.type == NPCID.MoonLordFreeEye)
@@ -13516,7 +13505,7 @@ namespace CalamityMod.NPCs
 
 					// Fly towards Moon Lord Head and stay away from other True Eyes
 					float num1247 = 0.6f;
-					for (int num1248 = 0; num1248 < 200; num1248++)
+					for (int num1248 = 0; num1248 < Main.maxNPCs; num1248++)
 					{
 						if (Main.npc[num1248].active)
 						{
@@ -13918,7 +13907,7 @@ namespace CalamityMod.NPCs
                         int num1270 = -1;
                         int num1271 = num1266;
 
-                        for (int num1272 = 0; num1272 < 200; num1272++)
+                        for (int num1272 = 0; num1272 < Main.maxNPCs; num1272++)
                         {
                             if (Main.npc[num1272].active && Main.npc[num1272].ai[3] == (float)num1268)
                             {
