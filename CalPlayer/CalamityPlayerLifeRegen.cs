@@ -650,6 +650,10 @@ namespace CalamityMod.CalPlayer
             {
                 player.lifeRegen += 2;
             }
+            if (modPlayer.handWarmer && modPlayer.eskimoSet)
+            {
+                player.lifeRegen += 2;
+            }
 
 			if (modPlayer.bloodflareSummon)
 			{

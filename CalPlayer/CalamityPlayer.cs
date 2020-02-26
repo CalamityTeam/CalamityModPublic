@@ -384,6 +384,7 @@ namespace CalamityMod.CalPlayer
         public bool fabledTortoise = false;
         public bool manaOverloader = false;
         public bool royalGel = false;
+        public bool handWarmer = false;
         public bool oldDie = false;
         public bool ursaSergeant = false;
         public bool thiefsDime = false;
@@ -432,6 +433,7 @@ namespace CalamityMod.CalPlayer
         public bool camper = false;
 
         // Armor Set
+        public bool eskimoSet = false; //vanilla armor
         public bool victideSet = false;
         public bool sulfurSet = false;
         public bool aeroSet = false;
@@ -1197,6 +1199,7 @@ namespace CalamityMod.CalPlayer
             fabledTortoise = false;
             manaOverloader = false;
             royalGel = false;
+            handWarmer = false;
             lol = false;
             raiderTalisman = false;
             gSabaton = false;
@@ -1240,6 +1243,8 @@ namespace CalamityMod.CalPlayer
             aquaticEmblem = false;
 
             astralStarRain = false;
+
+            eskimoSet = false; //vanilla armor
 
             victideSet = false;
 
@@ -1752,6 +1757,7 @@ namespace CalamityMod.CalPlayer
             ataxiaFire = false;
             ataxiaVolley = false;
             ataxiaBlaze = false;
+            eskimoSet = false; //vanilla armor
             victideSet = false;
             aeroSet = false;
             statigelSet = false;
@@ -3321,11 +3327,15 @@ namespace CalamityMod.CalPlayer
             {
                 damageSource = PlayerDeathReason.ByCustomReason(player.name + " vaporized into thin air.");
             }
+            if (everclear && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
+            {
+                damageSource = PlayerDeathReason.ByCustomReason(player.name + " succumbed to alcohol sickness.");
+            }
             if (manaOverloader && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
             {
                 damageSource = PlayerDeathReason.ByCustomReason(player.name + "'s life was completely converted into mana.");
             }
-            if ((bloodyMary || everclear || evergreenGin || fireball || margarita || moonshine || moscowMule || redWine || screwdriver || starBeamRye || tequila || tequilaSunrise || vodka || whiteWine)
+            if ((bloodyMary || evergreenGin || fireball || margarita || moonshine || moscowMule || redWine || screwdriver || starBeamRye || tequila || tequilaSunrise || vodka || whiteWine)
                 && damage == 10.0 && hitDirection == 0 && damageSource.SourceOtherIndex == 8)
             {
                 damageSource = PlayerDeathReason.ByCustomReason(player.name + " succumbed to alcohol sickness.");
@@ -3418,6 +3428,10 @@ namespace CalamityMod.CalPlayer
                 add += 0.15f;
             }
             if (fireball && CalamityMod.fireWeaponList.Contains(item.type))
+            {
+                add += 0.1f;
+            }
+            if (eskimoSet && CalamityMod.iceWeaponList.Contains(item.type))
             {
                 add += 0.1f;
             }
