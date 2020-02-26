@@ -757,6 +757,12 @@ namespace CalamityMod.NPCs.Signus
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<SignusTrophy>(), 10);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<SignusMask>(), 7);
+				if (Main.rand.NextBool(20))
+				{
+					DropHelper.DropItem(npc, ModContent.ItemType<AncientGodSlayerHelm>());
+					DropHelper.DropItem(npc, ModContent.ItemType<AncientGodSlayerChestplate>());
+					DropHelper.DropItem(npc, ModContent.ItemType<AncientGodSlayerLeggings>());
+				}
 
                 // Other
                 bool lastSentinelKilled = CalamityWorld.downedSentinel1 && CalamityWorld.downedSentinel2 && !CalamityWorld.downedSentinel3;
