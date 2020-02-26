@@ -34,14 +34,14 @@ namespace CalamityMod.Items.Armor
             player.setBonus = "Increased life regen and rogue damage while submerged in liquid\n" +
                 "When using any weapon you have a 10% chance to throw a returning seashell projectile\n" +
                 "This seashell does true damage and does not benefit from any damage class\n" +
-                "Slightly reduces breath loss in the abyss\n" +
-                "Rogue stealth builds while not attacking and not moving, up to a max of 100\n" +
+                "Provides increased underwater mobility and slightly reduces breath loss in the abyss\n" +
+                "Rogue stealth builds while not attacking and not moving, up to a max of 90\n" +
                 "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
                 "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
                 "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.victideSet = true;
-            modPlayer.rogueStealthMax += 1f;
+            modPlayer.rogueStealthMax += 0.9f;
             modPlayer.wearingRogueArmor = true;
             player.ignoreWater = true;
             if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))

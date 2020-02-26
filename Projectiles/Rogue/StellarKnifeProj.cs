@@ -32,6 +32,11 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
+			//synthesized timeLeft
+			projectile.localAI[1]++;
+			if (projectile.localAI[1] > 600f)
+				projectile.Kill();
+
             if (projectile.ai[0] == 1f)
             {
                 projectile.ai[0] = 0f;
@@ -52,39 +57,41 @@ namespace CalamityMod.Projectiles.Rogue
                 {
                     projectile.rotation -= 1.57f;
                 }
-                float centerX = projectile.Center.X;
-                float centerY = projectile.Center.Y;
-                float num474 = 600f;
-                bool homeIn = false;
-                for (int i = 0; i < 200; i++)
-                {
-                    if (Main.npc[i].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1))
-                    {
-                        float num476 = Main.npc[i].position.X + (float)(Main.npc[i].width / 2);
-                        float num477 = Main.npc[i].position.Y + (float)(Main.npc[i].height / 2);
-                        float num478 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num476) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num477);
-                        if (num478 < num474)
-                        {
-                            num474 = num478;
-                            centerX = num476;
-                            centerY = num477;
-                            homeIn = true;
-                        }
-                    }
-                }
-                if (homeIn)
-                {
-                    float num483 = 30f;
-                    Vector2 vector35 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
-                    float num484 = centerX - vector35.X;
-                    float num485 = centerY - vector35.Y;
-                    float num486 = (float)Math.Sqrt((double)(num484 * num484 + num485 * num485));
-                    num486 = num483 / num486;
-                    num484 *= num486;
-                    num485 *= num486;
-                    projectile.velocity.X = (projectile.velocity.X * 10f + num484) / 11f;
-                    projectile.velocity.Y = (projectile.velocity.Y * 10f + num485) / 11f;
-                }
+				projectile.localAI[0]++;
+
+				Vector2 center = projectile.Center;
+				float maxDistance = 600f;
+				bool homeIn = false;
+
+				if (projectile.localAI[0] >= 20f && !homeIn) //shorten knife lifespan if it hasn't found a target
+					if (projectile.timeLeft >= 60)
+						projectile.timeLeft = 60;
+
+				for (int i = 0; i < Main.maxNPCs; i++)
+				{
+					if (Main.npc[i].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1))
+					{
+						float extraDistance = (float)(Main.npc[i].width / 2) + (float)(Main.npc[i].height / 2);
+
+						if (Vector2.Distance(Main.npc[i].Center, projectile.Center) < (maxDistance + extraDistance))
+						{
+							center = Main.npc[i].Center;
+							homeIn = true;
+							break;
+						}
+					}
+				}
+
+				if (homeIn)
+				{
+					projectile.timeLeft = 600; //when homing in, the projectile cannot run out of timeLeft, but synthesized timeLeft still runs
+
+					Vector2 homeInVector = projectile.DirectionTo(center);
+					if (homeInVector.HasNaNs())
+						homeInVector = Vector2.UnitY;
+
+					projectile.velocity = (projectile.velocity * 10f + homeInVector * 30f) / (10f + 1f);
+				}
                 else
                 {
                     projectile.velocity.X *= 0.92f;

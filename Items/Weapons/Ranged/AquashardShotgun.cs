@@ -17,13 +17,13 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 12;
+            item.damage = 11;
             item.ranged = true;
             item.width = 62;
             item.height = 26;
             item.crit += 6;
-            item.useTime = 25;
-            item.useAnimation = 25;
+            item.useTime = 26;
+            item.useAnimation = 26;
             item.useStyle = 5;
             item.noMelee = true;
             item.knockBack = 5.5f;
