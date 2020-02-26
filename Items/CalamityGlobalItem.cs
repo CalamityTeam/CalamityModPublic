@@ -1440,9 +1440,8 @@ Provides heat and cold protection in Death Mode";
                             "Average vertical speed\n" +
                             "Flight time: 140\n" +
                             "At night or during an eclipse, you will gain the following boosts:\n" +
-							"10% increased movement speed and 100% increased jump speed\n" +
-                            "+20 defense, 15% increased damage, 7% increased critical strike chance\n" +
-                            "and 10% increased movement speed";
+							"10% increased movement speed, 100% increased jump speed,\n" +
+                            "+15 defense, 10% increased damage, and 5% increased critical strike chance";
                     }
                 }
             }
@@ -2377,14 +2376,13 @@ Provides heat and cold protection in Death Mode";
             }
             else if (item.type == ItemID.BatWings) // Stronger at night
             {
-                player.moveSpeed += 0.1f;
-                player.jumpSpeedBoost += 1.0f;
                 player.noFallDmg = true;
                 if (!Main.dayTime || Main.eclipse)
                 {
-                    player.statDefense += 20;
-                    player.allDamage += 0.15f;
-                    modPlayer.AllCritBoost(7);
+					player.jumpSpeedBoost += 1.0f;
+                    player.statDefense += 15;
+                    player.allDamage += 0.1f;
+                    modPlayer.AllCritBoost(5);
                     player.moveSpeed += 0.1f;
                 }
             }
