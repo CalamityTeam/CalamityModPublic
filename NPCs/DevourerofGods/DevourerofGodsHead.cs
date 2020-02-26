@@ -90,6 +90,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             // Variables
             Vector2 vector = npc.Center;
             bool flies = npc.ai[2] == 0f;
+			bool expertMode = Main.expertMode;
 			bool revenge = CalamityWorld.revenge;
 			bool death = CalamityWorld.death;
 
@@ -247,16 +248,27 @@ namespace CalamityMod.NPCs.DevourerofGods
                 }
 
                 // Flying movement
-                phaseSwitch += 1 + (int)(9f * (1f - lifeRatio));
                 npc.localAI[1] = 0f;
 
-                float speed = death ? 20f : 15f + (3f * (1f - lifeRatio));
-                float turnSpeed = death ? 0.38f : 0.3f + (0.06f * (1f - lifeRatio));
-                float homingSpeed = death ? 29f : 18f + (9f * (1f - lifeRatio));
-                float homingTurnSpeed = death ? 0.5f : 0.33f + (0.15f * (1f - lifeRatio));
+				phaseSwitch += 1;
 
-                // Go to ground phase sooner
-                if (Vector2.Distance(player.Center, vector) > 5600f)
+				float speed = death ? 16.5f : 15f;
+				float turnSpeed = death ? 0.33f : 0.3f;
+				float homingSpeed = death ? 22.5f : 18f;
+				float homingTurnSpeed = death ? 0.405f : 0.33f;
+
+				if (expertMode)
+				{
+					phaseSwitch += (int)(9f * (1f - lifeRatio));
+
+					speed += 3f * (1f - lifeRatio);
+					turnSpeed += 0.06f * (1f - lifeRatio);
+					homingSpeed += 9f * (1f - lifeRatio);
+					homingTurnSpeed += 0.15f * (1f - lifeRatio);
+				}
+
+				// Go to ground phase sooner
+				if (Vector2.Distance(player.Center, vector) > 5600f)
                     phaseSwitch += 10;
 
                 float num188 = speed;
@@ -458,9 +470,17 @@ namespace CalamityMod.NPCs.DevourerofGods
 
                 phaseSwitch += 1;
 
-                float fallSpeed = 16f + (death ? 3.7f : 3.5f * (1f - lifeRatio));
-                float speed = death ? 0.28f : 0.18f + (0.08f * (1f - lifeRatio));
-                float turnSpeed = death ? 0.26f : 0.12f + (0.12f * (1f - lifeRatio));
+                float fallSpeed = death ? 17.75f : 16f;
+                float speed = death ? 0.22f : 0.18f;
+                float turnSpeed = death ? 0.18f : 0.12f;
+
+				if (expertMode)
+				{
+					fallSpeed += 3.5f * (1f - lifeRatio);
+					speed += 0.08f * (1f - lifeRatio);
+					turnSpeed += 0.12f * (1f - lifeRatio);
+				}
+
                 bool increaseSpeed = Vector2.Distance(player.Center, vector) > 3200f;
 
                 // Enrage
@@ -566,8 +586,21 @@ namespace CalamityMod.NPCs.DevourerofGods
                 }
                 else
                 {
-                    double maximumSpeed1 = (increaseSpeed ? 1.2 : 0.4) + (double)(death ? 0.1f : 0.08f * (1f - lifeRatio));
-                    double maximumSpeed2 = (increaseSpeed ? 3.0 : 1.0) + (double)(death ? 0.18f : 0.16f * (1f - lifeRatio));
+
+					double maximumSpeed1 = death ? 0.44 : 0.4;
+					double maximumSpeed2 = death ? 1.08 : 1D;
+
+					if (increaseSpeed)
+					{
+						maximumSpeed1 += 0.8;
+						maximumSpeed2 += 2D;
+					}
+
+					if (expertMode)
+					{
+						maximumSpeed1 += (double)(0.08f * (1f - lifeRatio));
+						maximumSpeed2 += (double)(0.16f * (1f - lifeRatio));
+					}
 
                     num22 = (float)Math.Sqrt((double)(num20 * num20 + num21 * num21));
                     float num25 = Math.Abs(num20);

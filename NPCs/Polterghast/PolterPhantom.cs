@@ -53,6 +53,7 @@ namespace CalamityMod.NPCs.Polterghast
             npc.noTileCollide = true;
             npc.netAlways = true;
             npc.canGhostHeal = false;
+			npc.dontTakeDamage = true;
             npc.HitSound = SoundID.NPCHit36;
             npc.DeathSound = SoundID.NPCDeath39;
         }

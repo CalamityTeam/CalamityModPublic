@@ -39,79 +39,42 @@ namespace CalamityMod.Projectiles.Boss
             projectile.localAI[0] = reader.ReadSingle();
         }
 
-        public override void AI()
-        {
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 4)
-            {
-                projectile.frame++;
-                projectile.frameCounter = 0;
-            }
-            if (projectile.frame > 3)
-            {
-                projectile.frame = 0;
-            }
-            if (projectile.ai[1] > 0f)
-            {
-                int num625 = (int)projectile.ai[1] - 1;
-                if (num625 < 255)
-                {
-                    projectile.localAI[0] += 1f;
-                    if (projectile.localAI[0] > 10f)
-                    {
-                        int num626 = 6;
-                        for (int num627 = 0; num627 < num626; num627++)
-                        {
-                            Vector2 vector45 = Vector2.Normalize(projectile.velocity) * new Vector2((float)projectile.width / 2f, (float)projectile.height) * 0.75f;
-                            vector45 = vector45.RotatedBy((double)(num627 - (num626 / 2 - 1)) * 3.1415926535897931 / (double)(float)num626, default) + projectile.Center;
-                            Vector2 value15 = ((float)(Main.rand.NextDouble() * 3.1415927410125732) - 1.57079637f).ToRotationVector2() * (float)Main.rand.Next(3, 8);
-                            int num628 = Dust.NewDust(vector45 + value15, 0, 0, 244, value15.X * 2f, value15.Y * 2f, 100, default, 1.4f);
-                            Main.dust[num628].noGravity = true;
-                            Main.dust[num628].noLight = true;
-                            Main.dust[num628].velocity /= 4f;
-                            Main.dust[num628].velocity -= projectile.velocity;
-                        }
-                        projectile.alpha -= 5;
-                        if (projectile.alpha < 100)
-                        {
-                            projectile.alpha = 100;
-                        }
-                    }
-                    Vector2 value16 = Main.player[num625].Center - projectile.Center;
-                    float num629 = 4f;
-                    num629 += projectile.localAI[0] / 20f;
-                    projectile.velocity = Vector2.Normalize(value16) * num629;
-                    if (value16.Length() < 50f)
-                    {
-                        projectile.Kill();
-                    }
-                }
-            }
-            else
-            {
-                float num630 = 0.209439516f;
-                float num631 = 4f;
-                float num632 = (float)(Math.Cos((double)(num630 * projectile.ai[0])) - 0.5) * num631;
-                projectile.velocity.Y = projectile.velocity.Y - num632;
-                projectile.ai[0] += 1f;
-                num632 = (float)(Math.Cos((double)(num630 * projectile.ai[0])) - 0.5) * num631;
-                projectile.velocity.Y = projectile.velocity.Y + num632;
-                projectile.localAI[0] += 1f;
-                if (projectile.localAI[0] > 10f)
-                {
-                    projectile.alpha -= 5;
-                    if (projectile.alpha < 100)
-                    {
-                        projectile.alpha = 100;
-                    }
-                }
-            }
-            if (projectile.wet)
-            {
-                projectile.position.Y = projectile.position.Y - 16f;
-                projectile.Kill();
-            }
-        }
+		public override void AI()
+		{
+			projectile.frameCounter++;
+			if (projectile.frameCounter > 4)
+			{
+				projectile.frame++;
+				projectile.frameCounter = 0;
+			}
+			if (projectile.frame > 3)
+			{
+				projectile.frame = 0;
+			}
+
+			float num630 = 0.209439516f;
+			float num631 = 4f;
+			float num632 = (float)(Math.Cos((double)(num630 * projectile.ai[0])) - 0.5) * num631;
+			projectile.velocity.Y = projectile.velocity.Y - num632;
+			projectile.ai[0] += 1f;
+			num632 = (float)(Math.Cos((double)(num630 * projectile.ai[0])) - 0.5) * num631;
+			projectile.velocity.Y = projectile.velocity.Y + num632;
+			projectile.localAI[0] += 1f;
+			if (projectile.localAI[0] > 10f)
+			{
+				projectile.alpha -= 5;
+				if (projectile.alpha < 100)
+				{
+					projectile.alpha = 100;
+				}
+			}
+
+			if (projectile.wet)
+			{
+				projectile.position.Y = projectile.position.Y - 16f;
+				projectile.Kill();
+			}
+		}
 
         public override Color? GetAlpha(Color lightColor)
         {
@@ -169,7 +132,7 @@ namespace CalamityMod.Projectiles.Boss
                         break;
                     }
                 }
-                int num236 = Projectile.NewProjectile((float)(num232 * 16 + 8), (float)(num231 * 16 - 24), 0f, 0f, ModContent.ProjectileType<Flarenado>(), 0, 4f, Main.myPlayer, 11f, 8f + (revenge ? 2f : 0f));
+                int num236 = Projectile.NewProjectile((float)(num232 * 16 + 8), (float)(num231 * 16 - 24), 0f, 0f, ModContent.ProjectileType<Flarenado>(), 0, 4f, Main.myPlayer, 11f, 10f + (revenge ? 1f : 0f));
                 Main.projectile[num236].netUpdate = true;
             }
         }

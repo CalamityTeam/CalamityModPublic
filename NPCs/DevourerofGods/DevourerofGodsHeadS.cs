@@ -274,7 +274,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 int projectileDamage = expertMode ? 69 : 80;
 
                 // Fireballs
-                if (npc.alpha <= 0 && distanceFromTarget > 500f && expertMode)
+                if (npc.alpha <= 0 && distanceFromTarget > 500f)
                 {
                     calamityGlobalNPC.newAI[0] += 1f;
                     if (calamityGlobalNPC.newAI[0] >= 150f && calamityGlobalNPC.newAI[0] % (breathFireMore ? 60f : 120f) == 0f)
@@ -360,8 +360,12 @@ namespace CalamityMod.NPCs.DevourerofGods
             if (!NPC.AnyNPCs(ModContent.NPCType<DevourerofGodsTailS>()))
                 npc.active = false;
 
-            float fallSpeed = 16f;
-            if (player.dead)
+            float fallSpeed = death ? 17.75f : 16f;
+
+			if (expertMode)
+				fallSpeed += 3.5f * (1f - lifeRatio);
+
+			if (player.dead)
             {
 				npc.TargetClosest(false);
 				flies = true;
@@ -380,10 +384,9 @@ namespace CalamityMod.NPCs.DevourerofGods
                     }
                 }
             }
-            fallSpeed += death ? 3.7f : 3.5f * (1f - lifeRatio);
 
-            // Movement
-            int num180 = (int)(npc.position.X / 16f) - 1;
+			// Movement
+			int num180 = (int)(npc.position.X / 16f) - 1;
             int num181 = (int)((npc.position.X + (float)npc.width) / 16f) + 2;
             int num182 = (int)(npc.position.Y / 16f) - 1;
             int num183 = (int)((npc.position.Y + (float)npc.height) / 16f) + 2;
@@ -413,14 +416,26 @@ namespace CalamityMod.NPCs.DevourerofGods
 
                 phaseSwitch += 1;
 
-                int phaseLimit = death ? 180 : 900 / (1 + (int)(5f * (1f - lifeRatio)));
-
                 npc.localAI[1] = 0f;
 
-                float speed = death ? 20f : 15f + (3f * (1f - lifeRatio));
-                float turnSpeed = death ? 0.38f : 0.3f + (0.06f * (1f - lifeRatio));
-                float homingSpeed = death ? 38f : 24f + (12f * (1f - lifeRatio));
-                float homingTurnSpeed = death ? 0.5f : 0.33f + (0.15f * (1f - lifeRatio));
+				int phaseLimit = death ? 600 : 900;
+				float speed = death ? 16.5f : 15f;
+                float turnSpeed = death ? 0.33f : 0.3f;
+                float homingSpeed = death ? 30f : 24f;
+                float homingTurnSpeed = death ? 0.405f : 0.33f;
+
+				if (expertMode)
+				{
+					phaseLimit /= (1 + (int)(5f * (1f - lifeRatio)));
+
+					if (phaseLimit < 180)
+						phaseLimit = 180;
+
+					speed += 3f * (1f - lifeRatio);
+					turnSpeed += 0.06f * (1f - lifeRatio);
+					homingSpeed += 12f * (1f - lifeRatio);
+					homingTurnSpeed += 0.15f * (1f - lifeRatio);
+				}
 
 				// Go to ground phase sooner
 				if (tooFarAway)
@@ -639,7 +654,11 @@ namespace CalamityMod.NPCs.DevourerofGods
 
                 phaseSwitch += 1;
 
-                float turnSpeed = 0.18f + (death ? 0.14f : 0.12f * (1f - lifeRatio));
+                float turnSpeed = death ? 0.24f : 0.18f;
+
+				if (expertMode)
+					turnSpeed += 0.12f * (1f - lifeRatio);
+
                 bool increaseSpeed = distanceFromTarget > 3200f;
 
 				// Enrage
@@ -679,11 +698,16 @@ namespace CalamityMod.NPCs.DevourerofGods
                     npc.localAI[1] = 1f;
 
                     Rectangle rectangle12 = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
-                    int num954 = 1200;
+
+                    int num954 = death ? 1125 : 1200;
                     if (lifeRatio < 0.8f && lifeRatio > 0.2f && !death)
                         num954 = 1400;
 
-                    num954 -= death ? 150 : (int)(150f * (1f - lifeRatio));
+					if (expertMode)
+						num954 -= (int)(150f * (1f - lifeRatio));
+
+					if (num954 < 1050)
+						num954 = 1050;
 
                     bool flag95 = true;
                     if (npc.position.Y > player.position.Y)
@@ -751,8 +775,20 @@ namespace CalamityMod.NPCs.DevourerofGods
                 }
                 else
                 {
-                    double maximumSpeed1 = (increaseSpeed ? 1.2 : 0.4) + (double)(death ? 0.14f : 0.12f * (1f - lifeRatio));
-                    double maximumSpeed2 = (increaseSpeed ? 3.0 : 1.0) + (double)(death ? 0.27f : 0.25f * (1f - lifeRatio));
+                    double maximumSpeed1 = death ? 0.46 : 0.4;
+                    double maximumSpeed2 = death ? 1.125 : 1D;
+
+					if (increaseSpeed)
+					{
+						maximumSpeed1 += 0.8;
+						maximumSpeed2 += 2D;
+					}
+
+					if (expertMode)
+					{
+						maximumSpeed1 += (double)(0.12f * (1f - lifeRatio));
+						maximumSpeed2 += (double)(0.25f * (1f - lifeRatio));
+					}
 
                     num193 = (float)Math.Sqrt((double)(num191 * num191 + num192 * num192));
                     float num25 = Math.Abs(num191);

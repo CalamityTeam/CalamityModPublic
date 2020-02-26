@@ -1461,7 +1461,8 @@ namespace CalamityMod.NPCs
                 BossRushForceDespawnOtherNPCs(npc, mod);
             }
 
-            if (CalamityWorld.revenge || CalamityWorld.bossRushActive)
+			Mod chaos = ModLoader.GetMod("ChaosMod");
+			if ((CalamityWorld.revenge && chaos == null) || CalamityWorld.bossRushActive)
             {
                 switch (npc.type)
                 {
@@ -2151,7 +2152,7 @@ namespace CalamityMod.NPCs
 						break;
 				}
 			}
-			else if (Main.expertMode)
+			else if (Main.expertMode && chaos == null)
 			{
 				if (npc.type == NPCID.FungiSpore || npc.type == NPCID.Spore)
 					return CalamityGlobalAI.BuffedSporeAI(npc, mod, false);

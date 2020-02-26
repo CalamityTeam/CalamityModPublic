@@ -39,15 +39,17 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-            int num613 = 10;
-            int num614 = 15;
-            float num615 = 1.5f;
+            int num613 = 12;
+            int num614 = 12;
+            float num615 = 1f;
             int num616 = 320;
             int num617 = 88;
+
             if (projectile.velocity.X != 0f)
             {
                 projectile.direction = projectile.spriteDirection = -Math.Sign(projectile.velocity.X);
             }
+
             projectile.frameCounter++;
             if (projectile.frameCounter > 2)
             {
@@ -58,11 +60,7 @@ namespace CalamityMod.Projectiles.Boss
             {
                 projectile.frame = 0;
             }
-            if (projectile.timeLeft < 300)
-            {
-                projectile.velocity.X = (projectile.ai[1] % 2 == 0) ? 10f : -10f;
-                return;
-            }
+
             if (projectile.localAI[0] == 0f)
             {
                 projectile.localAI[0] = 1f;
@@ -75,12 +73,14 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
                 projectile.netUpdate = true;
             }
+
             if (projectile.ai[1] != -1f)
             {
                 projectile.scale = ((float)(num613 + num614) - projectile.ai[1]) * num615 / (float)(num614 + num613);
                 projectile.width = (int)((float)num616 * projectile.scale);
                 projectile.height = (int)((float)num617 * projectile.scale);
             }
+
             if (!Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
             {
                 projectile.alpha -= 30;
@@ -97,10 +97,12 @@ namespace CalamityMod.Projectiles.Boss
                     projectile.alpha = 150;
                 }
             }
+
             if (projectile.ai[0] > 0f)
             {
                 projectile.ai[0] -= 1f;
             }
+
             if (projectile.ai[0] == 1f && projectile.ai[1] > 0f && projectile.owner == Main.myPlayer)
             {
                 projectile.netUpdate = true;
@@ -111,6 +113,7 @@ namespace CalamityMod.Projectiles.Boss
                 center.Y += 2f;
                 Projectile.NewProjectile(center.X, center.Y, projectile.velocity.X, projectile.velocity.Y, projectile.type, projectile.damage, projectile.knockBack, projectile.owner, 11f, projectile.ai[1] - 1f);
             }
+
             if (projectile.ai[0] <= 0f)
             {
                 float num622 = 0.104719758f;
@@ -121,6 +124,7 @@ namespace CalamityMod.Projectiles.Boss
                 num624 = (float)(Math.Cos((double)(num622 * -(double)projectile.ai[0])) - 0.5) * num623;
                 projectile.position.X = projectile.position.X + num624 * (float)-(float)projectile.direction;
             }
+
             int damage = Main.expertMode ? 85 : 100;
 			if (projectile.timeLeft == 480)
 				projectile.damage = damage;

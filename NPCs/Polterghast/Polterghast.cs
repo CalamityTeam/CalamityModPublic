@@ -29,11 +29,9 @@ namespace CalamityMod.NPCs.Polterghast
     {
         private int despawnTimer = 600;
         private bool spawnGhost = false;
-        private bool boostDR = false;
         public static float phase1DR = 0.1f;
         public static float phase2DR = 0.15f;
         public static float phase3DR = 0.2f;
-        public static float cloneDRBoost = 0.6f;
 
         public override void SetStaticDefaults()
         {
@@ -91,14 +89,12 @@ namespace CalamityMod.NPCs.Polterghast
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(spawnGhost);
-            writer.Write(boostDR);
             writer.Write(despawnTimer);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             spawnGhost = reader.ReadBoolean();
-            boostDR = reader.ReadBoolean();
             despawnTimer = reader.ReadInt32();
         }
 
@@ -228,85 +224,41 @@ namespace CalamityMod.NPCs.Polterghast
 				}
 			}
 			else
-            {
-                if (cloneAlive)
-                {
-                    boostDR = true;
+			{
+				if (charging)
+				{
+					num734 += phase5 ? 14.5f : 10.5f;
+					num735 += phase5 ? 0.085f : 0.055f;
+				}
+				else
+				{
+					if (phase5)
+					{
+						num734 += 1.5f;
+						num735 += 0.015f;
+					}
+					else if (phase4)
+					{
+						num734 += 1f;
+						num735 += 0.01f;
+					}
+					else
+					{
+						num734 += 0.5f;
+						num735 += 0.005f;
+					}
+				}
 
-                    if (charging)
-                    {
-                        num734 += phase5 ? 14.5f : 10.5f;
-                        num735 += phase5 ? 0.085f : 0.055f;
-                    }
-                    else
-                    {
-                        if (phase5)
-                        {
-                            num734 += 1.5f;
-                            num735 += 0.015f;
-                        }
-                        else if (phase4)
-                        {
-                            num734 += 1f;
-                            num735 += 0.01f;
-                        }
-                        else
-                        {
-                            num734 += 0.5f;
-                            num735 += 0.005f;
-                        }
-                    }
+				npc.ai[2] += 1f;
+				if (reset)
+				{
+					npc.ai[2] = 0f;
+					npc.netUpdate = true;
+				}
+			}
 
-                    npc.ai[2] += 1f;
-                    if (reset)
-                    {
-                        npc.ai[2] = 0f;
-                        npc.netUpdate = true;
-                    }
-                }
-                else
-                {
-                    boostDR = false;
-                    num734 += phase5 ? 18.5f : 14.5f;
-                    num735 += phase5 ? 0.115f : 0.085f;
-
-                    npc.localAI[2] += 1f;
-                    if (npc.localAI[2] >= 600f)
-                    {
-                        npc.localAI[2] = 0f;
-
-                        if (Main.netMode != NetmodeID.MultiplayerClient)
-                            NPC.NewNPC((int)vector.X, (int)vector.Y, ModContent.NPCType<PolterPhantom>(), 0, 0f, 0f, 0f, 0f, 255);
-
-                        Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 122);
-
-                        for (int num621 = 0; num621 < 10; num621++)
-                        {
-                            int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 2f);
-                            Main.dust[num622].velocity *= 3f;
-                            Main.dust[num622].noGravity = true;
-                            if (Main.rand.NextBool(2))
-                            {
-                                Main.dust[num622].scale = 0.5f;
-                                Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
-                            }
-                        }
-                        for (int num623 = 0; num623 < 30; num623++)
-                        {
-                            int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 3f);
-                            Main.dust[num624].noGravity = true;
-                            Main.dust[num624].velocity *= 5f;
-                            num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 180, 0f, 0f, 100, default, 2f);
-                            Main.dust[num624].velocity *= 2f;
-                        }
-                    }
-                }
-            }
-
-            // Set DR based on phase and boostDR variable
+            // Set DR based on phase
             float dr = phase3 ? phase3DR : phase2 ? phase2DR : phase1DR;
-            if (boostDR)
-                dr += cloneDRBoost;
             npc.Calamity().DR = dr;
 
             if (expertMode)

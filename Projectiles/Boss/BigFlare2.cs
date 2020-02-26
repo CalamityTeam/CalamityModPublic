@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.World;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
@@ -26,6 +27,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.alpha = 255;
             projectile.penetrate = -1;
             projectile.timeLeft = 600;
+			projectile.scale = 1.5f;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -50,6 +52,7 @@ namespace CalamityMod.Projectiles.Boss
             {
                 projectile.frame = 0;
             }
+
             if (projectile.ai[1] > 0f)
             {
                 int num625 = (int)projectile.ai[1] - 1;
@@ -76,35 +79,18 @@ namespace CalamityMod.Projectiles.Boss
                             projectile.alpha = 100;
                         }
                     }
+
                     Vector2 value16 = Main.player[num625].Center - projectile.Center;
                     float num629 = 4f;
-                    num629 += projectile.localAI[0] / 20f;
+                    num629 += projectile.localAI[0] / 60f;
                     projectile.velocity = Vector2.Normalize(value16) * num629;
-                    if (value16.Length() < 50f)
+                    if (value16.Length() < 64f)
                     {
                         projectile.Kill();
                     }
                 }
             }
-            else
-            {
-                float num630 = 0.209439516f;
-                float num631 = 4f;
-                float num632 = (float)(Math.Cos((double)(num630 * projectile.ai[0])) - 0.5) * num631;
-                projectile.velocity.Y = projectile.velocity.Y - num632;
-                projectile.ai[0] += 1f;
-                num632 = (float)(Math.Cos((double)(num630 * projectile.ai[0])) - 0.5) * num631;
-                projectile.velocity.Y = projectile.velocity.Y + num632;
-                projectile.localAI[0] += 1f;
-                if (projectile.localAI[0] > 10f)
-                {
-                    projectile.alpha -= 5;
-                    if (projectile.alpha < 100)
-                    {
-                        projectile.alpha = 100;
-                    }
-                }
-            }
+
             if (projectile.wet)
             {
                 projectile.position.Y = projectile.position.Y - 16f;
@@ -125,7 +111,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 20);
+			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
+			Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 20);
             int num226 = 36;
             for (int num227 = 0; num227 < num226; num227++)
             {
@@ -168,7 +155,7 @@ namespace CalamityMod.Projectiles.Boss
                         break;
                     }
                 }
-                int num236 = Projectile.NewProjectile((float)(num232 * 16 + 8), (float)(num231 * 16 - 24), 0f, 0f, ModContent.ProjectileType<Infernado2>(), 0, 4f, Main.myPlayer, 11f, 30f);
+                int num236 = Projectile.NewProjectile((float)(num232 * 16 + 8), (float)(num231 * 16 - 24), 0f, 0f, ModContent.ProjectileType<Infernado2>(), 0, 4f, Main.myPlayer, 11f, 24f + (revenge ? 2f : 0f));
                 Main.projectile[num236].netUpdate = true;
             }
         }

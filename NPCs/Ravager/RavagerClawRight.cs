@@ -92,8 +92,8 @@ namespace CalamityMod.NPCs.Ravager
                 {
                     npc.alpha = 0;
                 }
-                npc.ai[1] = 0f;
-            }
+				npc.ai[1] = -90f;
+			}
             if (npc.ai[0] == 0f)
             {
                 npc.noTileCollide = true;

@@ -3975,11 +3975,13 @@ namespace CalamityMod.NPCs
                 speedMult += 0.7f;
 
 			// NOTE: Max velocity is 8 in expert mode
-			float velocityBoost = death ? 3.5f : 4f * (1f - lifeRatio);
-            float velocityX = 2f + velocityBoost;
+
+			float velocityBoost = 4f * (1f - lifeRatio);
+            float velocityX = (death ? 3.5f : 2f) + velocityBoost;
             velocityX *= speedMult;
             if (CalamityWorld.bossRushActive)
                 velocityX *= 1.5f;
+
             // NOTE: Values below are based on Rev Mode only!
             // Max velocity without enrage is 12
             // Min velocity is 1.5
@@ -4389,7 +4391,7 @@ namespace CalamityMod.NPCs
                 }
 
                 // Fire lasers
-                if (npc.type == NPCID.TheDestroyerBody)
+                if (npc.type == NPCID.TheDestroyerBody && Vector2.Distance(player.Center, npc.Center) > (flyAtTarget ? 320f : 80f))
                 {
                     // Laser rate of fire
                     int shootTime = 1 + (int)Math.Ceiling(((enraged || configBossRushBoost) ? 7D : 3D) * (double)lifeRatio);
@@ -4476,7 +4478,10 @@ namespace CalamityMod.NPCs
 
                             // Shoot projectile and set timeLeft if not a homing laser/metal scrap so lasers don't last for too long
                             int proj = Projectile.NewProjectile(vector.X, vector.Y, num6, num7, projectileType, damage, 0f, Main.myPlayer, 0f, 0f);
-                            if (projectileType != ModContent.ProjectileType<DestroyerHomingLaser>() && projectileType != ProjectileID.SaucerScrap)
+
+							if (projectileType == ProjectileID.SaucerScrap)
+								Main.projectile[proj].timeLeft = 1080;
+							else if (projectileType != ModContent.ProjectileType<DestroyerHomingLaser>())
                                 Main.projectile[proj].timeLeft = 300;
 
                             npc.netUpdate = true;
@@ -9136,7 +9141,7 @@ namespace CalamityMod.NPCs
             npc.dontTakeDamage = flag41 || flag42;
 
             // Stay in position on top of body
-            float num650 = 12f;
+            float num650 = 16f;
             Vector2 vector80 = new Vector2(npc.Center.X, npc.Center.Y);
             float num651 = Main.npc[NPC.golemBoss].Center.X - vector80.X;
             float num652 = Main.npc[NPC.golemBoss].Center.Y - vector80.Y;
@@ -13617,7 +13622,7 @@ namespace CalamityMod.NPCs
 					if ((num1245 == num1241 - 14f || num1245 == num1241 - 7f || num1245 == num1241) && Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						Vector2 vector214 = Utils.Vector2FromElipse(npc.localAI[0].ToRotationVector2(), value22 * npc.localAI[1]);
-						Vector2 vector215 = Vector2.Normalize(v8) * 10f;
+						Vector2 vector215 = Vector2.Normalize(v8) * 8f;
 						Projectile.NewProjectile(npc.Center.X + vector214.X, npc.Center.Y + vector214.Y, vector215.X, vector215.Y, ProjectileID.PhantasmalBolt, 35, 0f, Main.myPlayer, 0f, 0f);
 					}
 				}
@@ -13691,8 +13696,8 @@ namespace CalamityMod.NPCs
 							if (vector217.HasNaNs())
 								vector217 = Vector2.UnitY * -1f;
 
-							vector217 *= 6f;
-							Projectile.NewProjectile(npc.Center.X + vector216.X, npc.Center.Y + vector216.Y, vector217.X, vector217.Y, ProjectileID.PhantasmalSphere, 55, 0f, Main.myPlayer, 30f, (float)npc.whoAmI);
+							vector217 *= 16f;
+							Projectile.NewProjectile(npc.Center.X + vector216.X, npc.Center.Y + vector216.Y, vector217.X, vector217.Y, ProjectileID.PhantasmalSphere, 0, 0f, Main.myPlayer, 30f, (float)npc.whoAmI);
 						}
 					}
 					else
@@ -13739,7 +13744,7 @@ namespace CalamityMod.NPCs
 							if (num1245 == 105f)
 								npc.netUpdate = true;
 
-							float velocity = CalamityWorld.bossRushActive ? 18f : 14f;
+							float velocity = CalamityWorld.bossRushActive ? 16f : 12f;
 							Vector2 velocity6 = (npc.ai[2] - 1.57079637f).ToRotationVector2() * velocity;
 							npc.velocity = velocity6 * 2f;
 
@@ -13749,6 +13754,7 @@ namespace CalamityMod.NPCs
 								if (projectile9.active && projectile9.type == ProjectileID.PhantasmalSphere && projectile9.ai[1] == (float)npc.whoAmI && projectile9.ai[0] != -1f)
 								{
 									projectile9.ai[0] = -1f;
+									projectile9.damage = 55;
 									projectile9.velocity = velocity6;
 									projectile9.netUpdate = true;
 								}
@@ -13823,7 +13829,7 @@ namespace CalamityMod.NPCs
 						if ((num1245 - 15f - 30f) % 10f == 0f && Main.netMode != NetmodeID.MultiplayerClient)
 						{
 							Vector2 vector219 = npc.Center + Vector2.Normalize(vector218) * value22.Length() * 0.4f;
-							float velocity = CalamityWorld.bossRushActive ? 12f : 9f;
+							float velocity = CalamityWorld.bossRushActive ? 14f : 10f;
 							Vector2 vector220 = Vector2.Normalize(vector218) * velocity;
 							float ai3 = (6.28318548f * (float)Main.rand.NextDouble() - 3.14159274f) / 30f + 0.0174532924f * npc.ai[2];
 							Projectile.NewProjectile(vector219.X, vector219.Y, vector220.X, vector220.Y, ProjectileID.PhantasmalEye, 35, 0f, Main.myPlayer, 0f, ai3);
