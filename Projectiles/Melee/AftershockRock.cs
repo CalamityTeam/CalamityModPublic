@@ -18,6 +18,8 @@ namespace CalamityMod.Projectiles.Melee
             projectile.melee = true;
             projectile.ignoreWater = true;
             aiType = 261;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 10;
         }
     }
 }

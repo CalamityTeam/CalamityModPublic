@@ -23,6 +23,7 @@ namespace CalamityMod.Items.Tools
             item.useAnimation = 15;
             item.useTurn = true;
             item.pick = 200;
+            item.tileBoost += 1;
             item.useStyle = 1;
             item.knockBack = 4.5f;
             item.value = Item.buyPrice(0, 60, 0, 0);

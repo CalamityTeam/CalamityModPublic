@@ -1,5 +1,7 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
+using Terraria.DataStructures;
 
 namespace CalamityMod.Items.Materials
 {
@@ -9,6 +11,7 @@ namespace CalamityMod.Items.Materials
         {
             DisplayName.SetDefault("Endothermic Energy");
             Tooltip.SetDefault("Great for preventing heat stroke");
+            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 6));
         }
 
         public override void Update(ref float gravity, ref float maxFallSpeed)

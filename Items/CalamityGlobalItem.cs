@@ -1,4 +1,5 @@
 using CalamityMod.Buffs.Potions;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.DifficultyItems;
@@ -1167,6 +1168,17 @@ Provides heat and cold protection in Death Mode";
                     }
                 }
             }
+            if (item.type == ItemID.HandWarmer)
+            {
+                foreach (TooltipLine line2 in tooltips)
+                {
+                    if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
+                    {
+                        line2.text = "Provides immunity to chilling and freezing effects\n" +
+							"Provides a regeneration boost while wearing the Eskimo armor";
+                    }
+                }
+            }
             if (item.type == ItemID.AngelWings)
             {
                 foreach (TooltipLine line2 in tooltips)
@@ -1427,9 +1439,9 @@ Provides heat and cold protection in Death Mode";
                             "Acceleration multiplier: 0\n" +
                             "Average vertical speed\n" +
                             "Flight time: 140\n" +
-                            "10% increased movement speed and 100% increased jump speed\n" +
-                            "+20 defense, 15% increased damage, 7% increased critical strike chance\n" +
-                            "and 10% increased movement speed at night";
+                            "At night or during an eclipse, you will gain the following boosts:\n" +
+							"10% increased movement speed, 100% increased jump speed,\n" +
+                            "+15 defense, 10% increased damage, and 5% increased critical strike chance";
                     }
                 }
             }
@@ -2186,13 +2198,15 @@ Provides heat and cold protection in Death Mode";
                 return "Obsidian";
             if (head.type == ItemID.MoltenHelmet && body.type == ItemID.MoltenBreastplate && legs.type == ItemID.MoltenGreaves)
                 return "Molten";
-            if (head.type == (ItemID.EskimoHood | ItemID.PinkEskimoHood) && body.type == (ItemID.EskimoCoat | ItemID.PinkEskimoCoat) && legs.type == (ItemID.EskimoPants | ItemID.PinkEskimoPants))
+			// Normal and Pink Eskimo set can be mixed and matched
+            if ((head.type == ItemID.EskimoHood || head.type == ItemID.PinkEskimoHood) && (body.type == ItemID.EskimoCoat || body.type == ItemID.PinkEskimoCoat) && (legs.type == ItemID.EskimoPants || legs.type == ItemID.PinkEskimoPants))
                 return "Eskimo";
             return "";
         }
 
         public override void UpdateArmorSet(Player player, string set)
         {
+            CalamityPlayer modPlayer = player.Calamity();
             if (set == "Copper")
                 player.pickSpeed -= 0.15f;
             else if (set == "Tin")
@@ -2211,7 +2225,6 @@ Provides heat and cold protection in Death Mode";
                 player.pickSpeed -= 0.4f;
             else if (set == "Gladiator")
             {
-                CalamityPlayer modPlayer = player.Calamity();
                 modPlayer.rogueStealthMax += 0.7f;
                 modPlayer.wearingRogueArmor = true;
                 player.Calamity().throwingDamage += 0.05f;
@@ -2226,7 +2239,6 @@ Provides heat and cold protection in Death Mode";
             }
             else if (set == "Obsidian")
             {
-                CalamityPlayer modPlayer = player.Calamity();
                 modPlayer.rogueStealthMax += 0.8f;
                 modPlayer.wearingRogueArmor = true;
                 player.Calamity().throwingDamage += 0.05f;
@@ -2248,9 +2260,15 @@ Provides heat and cold protection in Death Mode";
                 player.fireWalk = true;
                 player.lavaMax += 300;
             }
-            else if (set == "Eskimo" && CalamityWorld.death)
+            else if (set == "Eskimo")
             {
-                player.setBonus = "Provides cold immunity in Death Mode";
+				modPlayer.eskimoSet = true;
+				player.buffImmune[BuffID.Frostburn] = true;
+				player.buffImmune[ModContent.BuffType<GlacialState>()] = true;
+                player.setBonus = "All ice-themed weapons receive a 10% damage bonus\n" +
+				"Cold enemies will deal reduced contact damage to the player\n" +
+				"Provides immunity to the Frostburn and Glacial State debuffs\n" +
+				"Provides cold immunity in Death Mode";
             }
         }
         #endregion
@@ -2258,21 +2276,15 @@ Provides heat and cold protection in Death Mode";
         #region Equip Changes
         public override void UpdateEquip(Item item, Player player)
         {
-            if (item.type == ItemID.FireGauntlet)
-            {
-                player.meleeDamage += 0.04f;
-                player.meleeSpeed += 0.04f;
-            }
-
             #region Head
             if (item.type == ItemID.SpectreHood)
                 player.magicDamage += 0.2f;
-            else if (item.type == ItemID.GladiatorHelmet || item.type == ItemID.ObsidianHelm)
+            else if (item.type == (ItemID.GladiatorHelmet | ItemID.ObsidianHelm))
                 player.Calamity().throwingDamage += 0.03f;
             #endregion
 
             #region Body
-            if (item.type == ItemID.GladiatorBreastplate || item.type == ItemID.ObsidianShirt)
+            if (item.type == (ItemID.GladiatorBreastplate | ItemID.ObsidianShirt))
                 player.Calamity().throwingCrit += 3;
             else if (item.type == ItemID.PalladiumBreastplate)
                 player.Calamity().throwingCrit += 2;
@@ -2291,7 +2303,7 @@ Provides heat and cold protection in Death Mode";
             #endregion
 
             #region Legs
-            if (item.type == ItemID.GladiatorLeggings || item.type == ItemID.ObsidianPants)
+            if (item.type == (ItemID.GladiatorLeggings | ItemID.ObsidianPants))
                 player.Calamity().throwingVelocity += 0.03f;
             else if (item.type == ItemID.PalladiumLeggings)
                 player.Calamity().throwingCrit += 1;
@@ -2311,6 +2323,12 @@ Provides heat and cold protection in Death Mode";
         public override void UpdateAccessory(Item item, Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
+
+            if (item.type == ItemID.FireGauntlet)
+            {
+                player.meleeDamage += 0.04f;
+                player.meleeSpeed += 0.04f;
+            }
 
             if (item.type == ItemID.AngelWings) // Boost to max life, defense, and life regen
             {
@@ -2358,14 +2376,13 @@ Provides heat and cold protection in Death Mode";
             }
             else if (item.type == ItemID.BatWings) // Stronger at night
             {
-                player.moveSpeed += 0.1f;
-                player.jumpSpeedBoost += 1.0f;
                 player.noFallDmg = true;
                 if (!Main.dayTime || Main.eclipse)
                 {
-                    player.statDefense += 20;
-                    player.allDamage += 0.15f;
-                    modPlayer.AllCritBoost(7);
+					player.jumpSpeedBoost += 1.0f;
+                    player.statDefense += 15;
+                    player.allDamage += 0.1f;
+                    modPlayer.AllCritBoost(5);
                     player.moveSpeed += 0.1f;
                 }
             }
@@ -2514,16 +2531,13 @@ Provides heat and cold protection in Death Mode";
                     player.minionDamage += 0.05f;
                 }
             }
-            else if (item.type == ItemID.FishronWings || item.type == ItemID.BetsyWings || item.type == ItemID.Yoraiz0rWings ||
-				item.type == ItemID.JimsWings || item.type == ItemID.SkiphsWings || item.type == ItemID.LokisWings ||
-				item.type == ItemID.ArkhalisWings || item.type == ItemID.LeinforsWings || item.type == ItemID.BejeweledValkyrieWing ||
-				item.type == ItemID.RedsWings || item.type == ItemID.DTownsWings || item.type == ItemID.WillsWings ||
-				item.type == ItemID.CrownosWings || item.type == ItemID.CenxsWings || item.type == ItemID.Hoverboard || item.type == ItemID.LeafWings)
+            else if (item.type == (ItemID.FishronWings | ItemID.BetsyWings | ItemID.Yoraiz0rWings | ItemID.JimsWings | ItemID.SkiphsWings | 
+			ItemID.LokisWings | ItemID.ArkhalisWings | ItemID.LeinforsWings | ItemID.BejeweledValkyrieWing | ItemID.RedsWings | ItemID.DTownsWings | 
+			ItemID.WillsWings | ItemID.CrownosWings | ItemID.CenxsWings | ItemID.Hoverboard | ItemID.LeafWings))
             {
                 player.noFallDmg = true;
             }
 
-            // Arctic Diving Gear counts as a Jellyfish Necklace in code, but overrides its abyss light level because it's an upgrade.
             if (item.type == ItemID.JellyfishNecklace || item.type == ItemID.JellyfishDivingGear || item.type == ItemID.ArcticDivingGear)
                 modPlayer.jellyfishNecklace = true;
 
@@ -2532,6 +2546,9 @@ Provides heat and cold protection in Death Mode";
 
             if (item.type == ItemID.RoyalGel)
                 modPlayer.royalGel = true;
+
+            if (item.type == ItemID.HandWarmer)
+                modPlayer.handWarmer = true;
 
             if (item.type == ItemID.CelestialStone || item.type == ItemID.CelestialShell || (item.type == ItemID.MoonStone && !Main.dayTime) ||
                 (item.type == ItemID.SunStone && Main.dayTime))
@@ -2546,7 +2563,7 @@ Provides heat and cold protection in Death Mode";
                 player.Calamity().throwingCrit += 5;
 
 			// Hard / Guarding / Armored / Warding give 0.25% / 0.5% / 0.75% / 1% DR
-			if (item.prefix == 62)
+			if (item.prefix == PrefixID.Hard)
 			{
 				if (NPC.downedMoonlord)
 					player.statDefense += 2;
@@ -2555,7 +2572,7 @@ Provides heat and cold protection in Death Mode";
 
 				player.endurance += 0.0025f;
 			}
-			if (item.prefix == 63)
+			if (item.prefix == PrefixID.Guarding)
 			{
 				if (NPC.downedMoonlord)
 					player.statDefense += 2;
@@ -2564,7 +2581,7 @@ Provides heat and cold protection in Death Mode";
 
 				player.endurance += 0.005f;
 			}
-			if (item.prefix == 64)
+			if (item.prefix == PrefixID.Armored)
 			{
 				if (NPC.downedMoonlord)
 					player.statDefense += 3;
@@ -2573,7 +2590,7 @@ Provides heat and cold protection in Death Mode";
 
 				player.endurance += 0.0075f;
 			}
-			if (item.prefix == 65)
+			if (item.prefix == PrefixID.Warding)
 			{
 				if (NPC.downedMoonlord)
 					player.statDefense += 4;
@@ -2584,13 +2601,13 @@ Provides heat and cold protection in Death Mode";
 			}
 
             // Precise only gives 1% crit and Lucky only gives 3% crit
-            if (item.prefix == 67 || item.prefix == 68)
+            if (item.prefix == (PrefixID.Precise | PrefixID.Lucky))
             {
                 player.meleeCrit -= 1;
                 player.rangedCrit -= 1;
                 player.magicCrit -= 1;
                 player.thrownCrit -= 1;
-                player.Calamity().throwingCrit += item.prefix == 68 ? 3 : 1;
+                player.Calamity().throwingCrit += item.prefix == PrefixID.Lucky ? 3 : 1;
             }
         }
         #endregion

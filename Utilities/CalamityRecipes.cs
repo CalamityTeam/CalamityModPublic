@@ -35,6 +35,7 @@ namespace CalamityMod
             AddProgressionRecipes();
             AddEarlyGameWeaponRecipes();
             AddEarlyGameAccessoryRecipes();
+            AddArmorRecipes();
             AddAnkhShieldRecipes();
             AddAlternateHardmodeRecipes();
 
@@ -609,8 +610,48 @@ namespace CalamityMod
             r.AddTile(TileID.MythrilAnvil);
             r.SetResult(ItemID.MetalDetector);
             r.AddRecipe();
+
+            // Hand Warmer
+            r = GetNewRecipe();
+            r.AddIngredient(ItemID.Silk, 5);
+            r.AddIngredient(ItemID.Shiverthorn);
+            r.AddRecipeGroup("AnySnowBlock", 10);
+            r.AddTile(TileID.Loom);
+            r.SetResult(ItemID.HandWarmer);
+            r.AddRecipe();
         }
         #endregion
+
+        #region Armor
+        // Rare uncraftable armors like Eskimo armor
+        private static void AddArmorRecipes()
+        {
+            // Eskimo armor
+            ModRecipe r = GetNewRecipe();
+            r.AddIngredient(ItemID.Silk, 4);
+            r.AddIngredient(ItemID.Leather);
+            r.AddIngredient(ItemID.BorealWood, 12);
+            r.AddTile(TileID.Loom);
+            r.SetResult(ItemID.EskimoHood);
+            r.AddRecipe();
+
+            r = GetNewRecipe();
+            r.AddIngredient(ItemID.Silk, 8);
+            r.AddIngredient(ItemID.Leather);
+            r.AddIngredient(ItemID.BorealWood, 18);
+            r.AddTile(TileID.Loom);
+            r.SetResult(ItemID.EskimoCoat);
+            r.AddRecipe();
+
+            r = GetNewRecipe();
+            r.AddIngredient(ItemID.Silk, 6);
+            r.AddIngredient(ItemID.Leather);
+            r.AddIngredient(ItemID.BorealWood, 15);
+            r.AddTile(TileID.Loom);
+            r.SetResult(ItemID.EskimoPants);
+            r.AddRecipe();
+		}
+		#endregion
 
         #region AnkhShield
         // Every base component for the Ankh Shield

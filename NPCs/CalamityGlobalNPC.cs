@@ -1221,16 +1221,25 @@ namespace CalamityMod.NPCs
         #region Modify Hit Player
         public override void ModifyHitPlayer(NPC npc, Player target, ref int damage, ref bool crit)
         {
+			CalamityPlayer modTarget = target.Calamity();
             if (tSad > 0)
             {
                 damage /= 2;
             }
 
-            if (target.Calamity().beeResist)
+            if (modTarget.beeResist)
             {
                 if (CalamityMod.beeEnemyList.Contains(npc.type))
                 {
                     damage = (int)(damage * 0.75);
+                }
+            }
+
+            if (modTarget.eskimoSet)
+            {
+                if (npc.coldDamage)
+                {
+                    damage = (int)(damage * 0.9);
                 }
             }
         }

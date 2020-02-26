@@ -22,13 +22,15 @@ namespace CalamityMod.Projectiles.Magic
 
 		// The actual distance is stored in the ai0 field
 		// By making a property to handle this it makes our life easier, and the accessibility more readable
-		public float Distance {
+		public float Distance
+		{
 			get => projectile.ai[0];
 			set => projectile.ai[0] = value;
 		}
 
 		// The actual charge value is stored in the localAI0 field
-		public float Charge {
+		public float Charge
+		{
 			get => projectile.localAI[0];
 			set => projectile.localAI[0] = value;
 		}
@@ -107,7 +109,8 @@ namespace CalamityMod.Projectiles.Magic
         {
             if (target.life <= 0)
             {
-				int shardDamage = SparklingEmpress.BaseDamage / 5;
+				Player player = Main.player[projectile.owner];
+				int shardDamage = (int)((SparklingEmpress.BaseDamage / 5) * (player.allDamage + player.magicDamage - 1f));
 				int num251 = Main.rand.Next(2, 4);
                 if (projectile.owner == Main.myPlayer)
                 {
