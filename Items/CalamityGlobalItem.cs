@@ -1424,7 +1424,9 @@ Provides heat and cold protection in Death Mode";
                             "Horizontal speed: 6.75\n" +
                             "Acceleration multiplier: 1\n" +
                             "Average vertical speed\n" +
-                            "Flight time: 160";
+                            "Flight time: 160\n" +
+                            "+10 defense, 10% increased damage reduction,\n" +
+							"and the Dryad's permanent blessing while wearing the Tiki Armor";
                     }
                 }
             }
@@ -1488,7 +1490,7 @@ Provides heat and cold protection in Death Mode";
                             "Acceleration multiplier: 1\n" +
                             "Average vertical speed\n" +
                             "Flight time: 180\n" +
-                            "+1 max minion and 10% increased minion damage while wearing the Spooky Armor";
+                            "+1 max minion and 5% increased minion damage while wearing the Spooky Armor";
                     }
                 }
             }
@@ -1499,10 +1501,13 @@ Provides heat and cold protection in Death Mode";
                     if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
                     {
                         line2.text = "Allows flight and slow fall\n" +
+							"Hold DOWN and JUMP to hover\n" +
                             "Horizontal speed: 6.25\n" +
                             "Acceleration multiplier: 1\n" +
                             "Average vertical speed\n" +
-                            "Flight time: 170";
+                            "Flight time: 170\n" +
+                            "10% increased damage to bows, guns, rocket launchers, and flamethrowers while wearing the Shroomite Armor\n" +
+							"Boosted weapon type depends on the Shroomite Helmet worn";
                     }
                 }
             }
@@ -1576,6 +1581,7 @@ Provides heat and cold protection in Death Mode";
                     if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
                     {
                         line2.text = "Allows flight and slow fall\n" +
+							"Hold DOWN and JUMP to hover\n" +
                             "Horizontal speed: 6.5\n" +
                             "Acceleration multiplier: 1.5\n" +
                             "Good vertical speed\n" +
@@ -1592,6 +1598,7 @@ Provides heat and cold protection in Death Mode";
                     if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
                     {
                         line2.text = "Allows flight and slow fall\n" +
+							"Hold DOWN and JUMP to hover\n" +
                             "Horizontal speed: 6.5\n" +
                             "Acceleration multiplier: 1.5\n" +
                             "Good vertical speed\n" +
@@ -1609,6 +1616,7 @@ Provides heat and cold protection in Death Mode";
                     {
                         line2.text = "Equipable\n" +
                             "Allows flight and slow fall\n" +
+							"Hold DOWN and JUMP to hover\n" +
                             "Horizontal speed: 6\n" +
                             "Acceleration multiplier: 2.5\n" +
                             "Good vertical speed\n" +
@@ -2279,12 +2287,12 @@ Provides heat and cold protection in Death Mode";
             #region Head
             if (item.type == ItemID.SpectreHood)
                 player.magicDamage += 0.2f;
-            else if (item.type == (ItemID.GladiatorHelmet | ItemID.ObsidianHelm))
+            else if (item.type == ItemID.GladiatorHelmet || item.type == ItemID.ObsidianHelm)
                 player.Calamity().throwingDamage += 0.03f;
             #endregion
 
             #region Body
-            if (item.type == (ItemID.GladiatorBreastplate | ItemID.ObsidianShirt))
+            if (item.type == ItemID.GladiatorBreastplate || item.type == ItemID.ObsidianShirt)
                 player.Calamity().throwingCrit += 3;
             else if (item.type == ItemID.PalladiumBreastplate)
                 player.Calamity().throwingCrit += 2;
@@ -2303,7 +2311,7 @@ Provides heat and cold protection in Death Mode";
             #endregion
 
             #region Legs
-            if (item.type == (ItemID.GladiatorLeggings | ItemID.ObsidianPants))
+            if (item.type == ItemID.GladiatorLeggings || item.type == ItemID.ObsidianPants)
                 player.Calamity().throwingVelocity += 0.03f;
             else if (item.type == ItemID.PalladiumLeggings)
                 player.Calamity().throwingCrit += 1;
@@ -2465,6 +2473,39 @@ Provides heat and cold protection in Death Mode";
                     }
                 }
             }
+            else if (item.type == ItemID.Hoverboard) // Boosted ranged stats while wearing shroomite armor
+            {
+                player.noFallDmg = true;
+                if (player.body == ArmorIDs.Body.ShroomiteBreastplate && player.legs == ArmorIDs.Legs.ShroomiteLeggings)
+                {
+                    if (player.head == ArmorIDs.Head.ShroomiteHeadgear) //arrows
+                    {
+                        player.arrowDamage += 0.05f;
+                    }
+                    else if (player.head == ArmorIDs.Head.ShroomiteMask) //bullets
+                    {
+                        player.bulletDamage += 0.05f;
+                    }
+                    else if (player.head == ArmorIDs.Head.ShroomiteHelmet) //rockets
+                    {
+                        player.rocketDamage += 0.05f;
+                    }
+					else if (player.Calamity().flamethrowerBoost) //flamethrowers
+					{
+						player.Calamity().hoverboardBoost = true;
+					}
+                }
+            }
+            else if (item.type == ItemID.LeafWings) // Bonus to defensive stats while wearing tiki armor
+            {
+                player.noFallDmg = true;
+                if (player.head == ArmorIDs.Head.TikiMask && player.body == ArmorIDs.Body.TikiShirt && player.legs == ArmorIDs.Legs.TikiPants)
+                {
+					player.statDefense += 10;
+                    player.endurance += 0.1f;
+					player.AddBuff(BuffID.DryadsWard, 5, true); // Dryad's Blessing
+                }
+            }
             else if (item.type == ItemID.FestiveWings) // Drop powerful homing christmas tree bulbs while in flight
             {
                 player.noFallDmg = true;
@@ -2476,7 +2517,7 @@ Provides heat and cold protection in Death Mode";
                 if (player.head == ArmorIDs.Head.SpookyHelmet && player.body == ArmorIDs.Body.SpookyBreastplate && player.legs == ArmorIDs.Legs.SpookyLeggings)
                 {
                     player.maxMinions++;
-                    player.minionDamage += 0.1f;
+                    player.minionDamage += 0.05f;
                 }
             }
             else if (item.type == ItemID.TatteredFairyWings)
@@ -2531,9 +2572,11 @@ Provides heat and cold protection in Death Mode";
                     player.minionDamage += 0.05f;
                 }
             }
-            else if (item.type == (ItemID.FishronWings | ItemID.BetsyWings | ItemID.Yoraiz0rWings | ItemID.JimsWings | ItemID.SkiphsWings | 
-			ItemID.LokisWings | ItemID.ArkhalisWings | ItemID.LeinforsWings | ItemID.BejeweledValkyrieWing | ItemID.RedsWings | ItemID.DTownsWings | 
-			ItemID.WillsWings | ItemID.CrownosWings | ItemID.CenxsWings | ItemID.Hoverboard | ItemID.LeafWings))
+            else if (item.type == ItemID.FishronWings || item.type == ItemID.BetsyWings || item.type == ItemID.Yoraiz0rWings ||
+				item.type == ItemID.JimsWings || item.type == ItemID.SkiphsWings || item.type == ItemID.LokisWings ||
+				item.type == ItemID.ArkhalisWings || item.type == ItemID.LeinforsWings || item.type == ItemID.BejeweledValkyrieWing ||
+				item.type == ItemID.RedsWings || item.type == ItemID.DTownsWings || item.type == ItemID.WillsWings ||
+				item.type == ItemID.CrownosWings || item.type == ItemID.CenxsWings)
             {
                 player.noFallDmg = true;
             }

@@ -2459,7 +2459,7 @@ namespace CalamityMod.CalPlayer
 				}
 
 				if (player.ZoneJungle && CalamityMod.natureWeaponList.Contains(player.inventory[player.selectedItem].type))
-					player.AddBuff(165, 5, true); // Dryad's Blessing
+					player.AddBuff(BuffID.DryadsWard, 5, true); // Dryad's Blessing
 
 				if (modPlayer.ZoneAbyss)
 				{
