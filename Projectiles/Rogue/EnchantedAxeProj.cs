@@ -104,7 +104,7 @@ namespace CalamityMod.Projectiles.Rogue
                 if (projectile.timeLeft % 7 == 1 && projectile.Calamity().stealthStrike)
                 {
                     float axeSpeed = 15f;
-                    int axeDamage = 25;
+                    int axeDamage = projectile.damage / 2;
                     Projectile.NewProjectile(projectile.position, new Vector2(1f, 0f) * axeSpeed, ModContent.ProjectileType<EnchantedAxe2>(), axeDamage, 2, projectile.owner, 0, 0);
                     Projectile.NewProjectile(projectile.position, new Vector2(0f, 1f) * axeSpeed, ModContent.ProjectileType<EnchantedAxe2>(), axeDamage, 2, projectile.owner, 0, 0);
                     Projectile.NewProjectile(projectile.position, new Vector2(-1f, 0f) * axeSpeed, ModContent.ProjectileType<EnchantedAxe2>(), axeDamage, 2, projectile.owner, 0, 0);

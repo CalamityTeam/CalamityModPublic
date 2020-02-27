@@ -61,37 +61,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         private void HomingAI()
         {
-            // Find the closest NPC within range.
-            int targetIdx = -1;
-            float maxHomingRange = 400f;
-            bool hasHomingTarget = false;
-            for (int i = 0; i < Main.npc.Length; ++i)
-            {
-                NPC npc = Main.npc[i];
-                if (npc == null || !npc.active)
-                    continue;
-
-                // Won't home in through walls and won't chase invulnerable targets.
-                if (npc.CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, npc.Center, 1, 1))
-                {
-                    float dist = (projectile.Center - npc.Center).Length();
-                    if (dist < maxHomingRange)
-                    {
-                        targetIdx = i;
-                        maxHomingRange = dist;
-                        hasHomingTarget = true;
-                    }
-                }
-            }
-
-            // Home in on said closest NPC.
-            if (hasHomingTarget)
-            {
-                NPC target = Main.npc[targetIdx];
-                Vector2 homingVector = (target.Center - projectile.Center).SafeNormalize(Vector2.Zero) * (Penumbra.ShootSpeed * 1.5f);
-                float homingRatio = 35f;
-                projectile.velocity = (projectile.velocity * homingRatio + homingVector) / (homingRatio + 1f);
-            }
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 400f, (Penumbra.ShootSpeed * 1.5f), 35f);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

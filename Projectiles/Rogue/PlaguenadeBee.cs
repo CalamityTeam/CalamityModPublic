@@ -55,8 +55,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (projectile.ai[0] > 30f)
             {
                 projectile.ai[0] = 30f;
-                int num3;
-                for (int num376 = 0; num376 < 200; num376 = num3 + 1)
+                for (int num376 = 0; num376 < Main.maxNPCs; num376++)
                 {
                     if (Main.npc[num376].CanBeChasedBy(projectile, false) && (!Main.npc[num376].wet || projectile.type == 307))
                     {
@@ -71,7 +70,6 @@ namespace CalamityMod.Projectiles.Rogue
                             flag10 = true;
                         }
                     }
-                    num3 = num376;
                 }
             }
             if (!flag10)

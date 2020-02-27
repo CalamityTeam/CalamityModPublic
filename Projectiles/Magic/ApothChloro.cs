@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Magic
             float num2 = (float)(projectile.position.Y - projectile.velocity.Y / 10.0 * 9.0);
             float num3 = (float)Math.Sqrt((double)(projectile.velocity.X * projectile.velocity.X + projectile.velocity.Y * projectile.velocity.Y));
             float num4 = projectile.localAI[0];
-            if ((double)num4 == 0.0)
+            if (num4 == 0f)
             {
                 projectile.localAI[0] = num3;
                 num4 = num3;
@@ -57,9 +57,9 @@ namespace CalamityMod.Projectiles.Magic
             bool flag2 = false;
             int num8 = 0;
             float num9;
-            if ((double)projectile.ai[1] == 0.0)
+            if (projectile.ai[1] == 0f)
             {
-                for (int index = 0; index < 200; ++index)
+                for (int index = 0; index < Main.maxNPCs; ++index)
                 {
                     if (Main.npc[index].CanBeChasedBy((object)this, false) && ((double)projectile.ai[1] == 0.0 || (double)projectile.ai[1] == (double)(index + 1)))
                     {
@@ -80,7 +80,7 @@ namespace CalamityMod.Projectiles.Magic
                     projectile.ai[1] = (float)(num8 + 1);
                 flag2 = false;
             }
-            if ((double)projectile.ai[1] > 0.0)
+            if (projectile.ai[1] > 0f)
             {
                 int index = (int)((double)projectile.ai[1] - 1.0);
                 if (Main.npc[index].active && Main.npc[index].CanBeChasedBy((object)this, true) && !Main.npc[index].dontTakeDamage)
