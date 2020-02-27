@@ -1,9 +1,7 @@
 using CalamityMod.Items.Materials;
-using CalamityMod.Items.Placeables.Ores;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -25,9 +23,9 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 550;
+            item.damage = 515;
             item.magic = true;
-            item.mana = 69;
+            item.mana = 42;
             item.width = 90;
             item.height = 112;
             item.useAnimation = 20;
