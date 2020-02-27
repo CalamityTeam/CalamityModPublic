@@ -259,8 +259,7 @@ namespace CalamityMod.UI
                 ModContent.NPCType<SupremeCatastrophe>(),
                 ModContent.NPCType<ProvSpawnDefense>(),
                 ModContent.NPCType<ProvSpawnOffense>(),
-                ModContent.NPCType<ProvSpawnHealer>(),
-                ModContent.NPCType<PolterPhantom>()
+                ModContent.NPCType<ProvSpawnHealer>()
             };
         }
 

@@ -334,7 +334,14 @@ namespace CalamityMod
                 case "death mode":
                     return CalamityWorld.death;
 
-                case "defiled":
+				case "br":
+				case "bossrush":
+				case "boss rush":
+				case "bossrushactive":
+				case "boss rush active":
+					return CalamityWorld.bossRushActive;
+
+				case "defiled":
                 case "defiledrune":
                 case "defiled rune":
                 case "defiledmode":
@@ -383,7 +390,14 @@ namespace CalamityMod
                 case "death mode":
                     return CalamityWorld.death = enabled;
 
-                case "defiled":
+				case "br":
+				case "bossrush":
+				case "boss rush":
+				case "bossrushactive":
+				case "boss rush active":
+					return CalamityWorld.bossRushActive = enabled;
+
+				case "defiled":
                 case "defiledrune":
                 case "defiled rune":
                 case "defiledmode":

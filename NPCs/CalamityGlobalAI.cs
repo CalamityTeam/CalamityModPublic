@@ -12694,13 +12694,13 @@ namespace CalamityMod.NPCs
 							case 4:
 								break;
 							case 3:
-								rotation += 60f;
-								break;
-							case 2:
 								rotation += 120f;
 								break;
+							case 2:
+								rotation += 240f;
+								break;
 							case 1:
-								rotation += 180f;
+								rotation += 360f;
 								break;
 							default:
 								break;
@@ -13544,22 +13544,21 @@ namespace CalamityMod.NPCs
 
 					float velocity = CalamityWorld.bossRushActive ? 38f : 30f;
 					Vector2 center23 = npc.Center;
-					Vector2 center24 = Main.player[npc.target].Center;
+					Vector2 center24 = Main.npc[(int)Main.npc[(int)npc.ai[3]].localAI[2]].Center;
 					Vector2 value24 = center24 - center23;
-					Vector2 vector213 = value24 - Vector2.UnitY * 200f;
-					vector213 = Vector2.Normalize(vector213) * velocity;
+					value24 = Vector2.Normalize(value24) * velocity;
 
 					int num1246 = 30;
-					npc.velocity.X = (npc.velocity.X * (float)(num1246 - 1) + vector213.X) / (float)num1246;
-					npc.velocity.Y = (npc.velocity.Y * (float)(num1246 - 1) + vector213.Y) / (float)num1246;
+					npc.velocity.X = (npc.velocity.X * (float)(num1246 - 1) + value24.X) / (float)num1246;
+					npc.velocity.Y = (npc.velocity.Y * (float)(num1246 - 1) + value24.Y) / (float)num1246;
 
 					// Fly towards Moon Lord Head and stay away from other True Eyes
-					float num1247 = 0.6f;
+					float num1247 = 0.5f;
 					for (int num1248 = 0; num1248 < Main.maxNPCs; num1248++)
 					{
 						if (Main.npc[num1248].active)
 						{
-							if (Main.npc[num1248].type == NPCID.MoonLordHead && Vector2.Distance(npc.Center, Main.npc[num1248].Center) > 480f)
+							if (Main.npc[num1248].type == NPCID.MoonLordHead && Vector2.Distance(npc.Center, Main.npc[num1248].Center) > 600f)
 							{
 								if (npc.position.X < Main.npc[num1248].position.X)
 									npc.velocity.X = npc.velocity.X - num1247;
@@ -13696,7 +13695,7 @@ namespace CalamityMod.NPCs
 							if (vector217.HasNaNs())
 								vector217 = Vector2.UnitY * -1f;
 
-							vector217 *= 16f;
+							vector217 *= 4f;
 							Projectile.NewProjectile(npc.Center.X + vector216.X, npc.Center.Y + vector216.Y, vector217.X, vector217.Y, ProjectileID.PhantasmalSphere, 0, 0f, Main.myPlayer, 30f, (float)npc.whoAmI);
 						}
 					}

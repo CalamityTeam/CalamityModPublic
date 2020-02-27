@@ -41,7 +41,7 @@ namespace CalamityMod.NPCs.SlimeGod
             npc.width = 44;
             npc.height = 44;
             npc.defense = 6;
-            npc.LifeMaxNERB(5000, 6250, 2500000);
+            npc.LifeMaxNERB(4000, 5000, 2500000);
             double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             NPCID.Sets.TrailCacheLength[npc.type] = 8;
@@ -199,7 +199,7 @@ namespace CalamityMod.NPCs.SlimeGod
             else if (npc.timeLeft < 1800)
                 npc.timeLeft = 1800;
 
-			float ai1 = hyperMode ? 210f : 300f;
+			float ai1 = hyperMode ? 270f : 360f;
 
 			// Hide inside large slime
 			if (!hyperMode && npc.ai[1] < ai1)
@@ -236,8 +236,10 @@ namespace CalamityMod.NPCs.SlimeGod
 
 					Vector2 purpleSlimeVector = new Vector2(npc.Calamity().newAI[0], npc.Calamity().newAI[1]);
 					Vector2 redSlimeVector = new Vector2(npc.localAI[2], npc.localAI[3]);
-					Vector2 goToPosition = (buffedSlime == 1 ? purpleSlimeVector : redSlimeVector) - vectorCenter;
-					npc.velocity = Vector2.Normalize(goToPosition) * 12f;
+					Vector2 goToVector = buffedSlime == 1 ? purpleSlimeVector : redSlimeVector;
+
+					Vector2 goToPosition = goToVector - vectorCenter;
+					npc.velocity = Vector2.Normalize(goToPosition) * (CalamityWorld.bossRushActive ? 24f : 16f);
 
 					npc.ai[2] += 1f;
 					if (npc.ai[2] >= 600f)

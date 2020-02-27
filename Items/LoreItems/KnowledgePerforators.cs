@@ -10,7 +10,6 @@ namespace CalamityMod.Items.LoreItems
         {
             DisplayName.SetDefault("The Perforators and their Hive");
             Tooltip.SetDefault("An abomination of comingled flesh, bone, and organ, infested primarily by blood-slurping worms.\n" +
-                "The chunks left over from the brain must have been absorbed by the crimson and reconstituted into it.\n" +
                 "Place in your inventory for all of your projectiles to inflict ichor when in the crimson.\n" +
 				"However, enemy spawn rates will be greatly increased while in the crimson due to your body excreting a sweet-smelling pus.");
         }

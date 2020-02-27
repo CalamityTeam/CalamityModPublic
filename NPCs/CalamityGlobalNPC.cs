@@ -306,51 +306,64 @@ namespace CalamityMod.NPCs
         #region Reset Effects
         public override void ResetEffects(NPC npc)
         {
-            void ResetSavedIndex(ref int type)
+            void ResetSavedIndex(ref int type, int type1, int type2 = -1)
             {
-                if (type >= 0 && !Main.npc[type].active)
+                if (type >= 0)
                 {
-                    type = -1;
+					if (!Main.npc[type].active)
+					{
+						type = -1;
+					}
+					else if (type2 == -1)
+					{
+						if (Main.npc[type].type != type1)
+							type = -1;
+					}
+					else
+					{
+						if (Main.npc[type].type != type1 && Main.npc[type].type != type2)
+							type = -1;
+					}
                 }
             }
 
 			for (int i = 0; i < bobbitWormBottom.Length; i++)
-				ResetSavedIndex(ref bobbitWormBottom[i]);
+				ResetSavedIndex(ref bobbitWormBottom[i], ModContent.NPCType<BobbitWormSegment>());
 
-            ResetSavedIndex(ref hiveMind);
-            ResetSavedIndex(ref perfHive);
-            ResetSavedIndex(ref slimeGodPurple);
-            ResetSavedIndex(ref slimeGodRed);
-            ResetSavedIndex(ref slimeGod);
-            ResetSavedIndex(ref laserEye);
-            ResetSavedIndex(ref fireEye);
-            ResetSavedIndex(ref primeLaser);
-            ResetSavedIndex(ref primeCannon);
-            ResetSavedIndex(ref primeVice);
-            ResetSavedIndex(ref primeSaw);
-            ResetSavedIndex(ref brimstoneElemental);
-            ResetSavedIndex(ref cataclysm);
-            ResetSavedIndex(ref catastrophe);
-            ResetSavedIndex(ref calamitas);
-            ResetSavedIndex(ref leviathan);
-            ResetSavedIndex(ref siren);
-            ResetSavedIndex(ref scavenger);
-            ResetSavedIndex(ref astrumDeusHeadMain);
-            ResetSavedIndex(ref energyFlame);
-            ResetSavedIndex(ref doughnutBoss);
-            ResetSavedIndex(ref holyBossAttacker);
-            ResetSavedIndex(ref holyBossDefender);
-            ResetSavedIndex(ref holyBossHealer);
-            ResetSavedIndex(ref holyBoss);
-            ResetSavedIndex(ref voidBoss);
-			ResetSavedIndex(ref signus);
-            ResetSavedIndex(ref ghostBossClone);
-            ResetSavedIndex(ref ghostBoss);
-            ResetSavedIndex(ref DoGHead);
-            ResetSavedIndex(ref SCalCataclysm);
-            ResetSavedIndex(ref SCalCatastrophe);
-            ResetSavedIndex(ref SCal);
-            ResetSavedIndex(ref SCalWorm);
+            ResetSavedIndex(ref hiveMind, ModContent.NPCType<HiveMind.HiveMind>(), ModContent.NPCType<HiveMindP2>());
+            ResetSavedIndex(ref perfHive, ModContent.NPCType<PerforatorHive>());
+            ResetSavedIndex(ref slimeGodPurple, ModContent.NPCType<SlimeGod.SlimeGod>(), ModContent.NPCType<SlimeGodSplit>());
+            ResetSavedIndex(ref slimeGodRed, ModContent.NPCType<SlimeGodRun>(), ModContent.NPCType<SlimeGodRunSplit>());
+            ResetSavedIndex(ref slimeGod, ModContent.NPCType<SlimeGodCore>());
+            ResetSavedIndex(ref laserEye, NPCID.Retinazer);
+            ResetSavedIndex(ref fireEye, NPCID.Spazmatism);
+            ResetSavedIndex(ref primeLaser, NPCID.PrimeLaser);
+            ResetSavedIndex(ref primeCannon, NPCID.PrimeCannon);
+            ResetSavedIndex(ref primeVice, NPCID.PrimeVice);
+            ResetSavedIndex(ref primeSaw, NPCID.PrimeSaw);
+            ResetSavedIndex(ref brimstoneElemental, ModContent.NPCType<BrimstoneElemental.BrimstoneElemental>());
+            ResetSavedIndex(ref cataclysm, ModContent.NPCType<CalamitasRun>());
+            ResetSavedIndex(ref catastrophe, ModContent.NPCType<CalamitasRun2>());
+            ResetSavedIndex(ref calamitas, ModContent.NPCType<CalamitasRun3>());
+            ResetSavedIndex(ref leviathan, ModContent.NPCType<Leviathan.Leviathan>());
+            ResetSavedIndex(ref siren, ModContent.NPCType<Siren>());
+            ResetSavedIndex(ref scavenger, ModContent.NPCType<RavagerBody>());
+            ResetSavedIndex(ref astrumDeusHeadMain, ModContent.NPCType<AstrumDeusHeadSpectral>());
+            ResetSavedIndex(ref energyFlame, ModContent.NPCType<ProfanedEnergyBody>());
+            ResetSavedIndex(ref doughnutBoss, ModContent.NPCType<ProfanedGuardianBoss>());
+            ResetSavedIndex(ref holyBossAttacker, ModContent.NPCType<ProvSpawnOffense>());
+            ResetSavedIndex(ref holyBossDefender, ModContent.NPCType<ProvSpawnDefense>());
+            ResetSavedIndex(ref holyBossHealer, ModContent.NPCType<ProvSpawnHealer>());
+            ResetSavedIndex(ref holyBoss, ModContent.NPCType<Providence.Providence>());
+            ResetSavedIndex(ref voidBoss, ModContent.NPCType<CeaselessVoid.CeaselessVoid>());
+			ResetSavedIndex(ref signus, ModContent.NPCType<Signus.Signus>());
+            ResetSavedIndex(ref ghostBossClone, ModContent.NPCType<PolterPhantom>());
+            ResetSavedIndex(ref ghostBoss, ModContent.NPCType<Polterghast.Polterghast>());
+            ResetSavedIndex(ref DoGHead, ModContent.NPCType<DevourerofGodsHead>(), ModContent.NPCType<DevourerofGodsHeadS>());
+            ResetSavedIndex(ref SCalCataclysm, ModContent.NPCType<SupremeCataclysm>());
+            ResetSavedIndex(ref SCalCatastrophe, ModContent.NPCType<SupremeCatastrophe>());
+            ResetSavedIndex(ref SCal, ModContent.NPCType<SupremeCalamitas.SupremeCalamitas>());
+            ResetSavedIndex(ref SCalWorm, ModContent.NPCType<SCalWormHead>());
         }
         #endregion
 
@@ -1248,13 +1261,17 @@ namespace CalamityMod.NPCs
         #region Strike NPC
         public override bool StrikeNPC(NPC npc, ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
         {
-            if (DestroyerIDs.Contains(npc.type))
-            {
-                if ((newAI[1] < 480f || newAI[2] > 0f) && (CalamityWorld.revenge || CalamityWorld.bossRushActive))
-                {
-                    damage *= 0.01;
-                }
-            }
+			Mod chaos = ModLoader.GetMod("ChaosMod");
+			if ((CalamityWorld.revenge && chaos == null) || CalamityWorld.bossRushActive)
+			{
+				if (DestroyerIDs.Contains(npc.type))
+				{
+					if (newAI[1] < 480f || newAI[2] > 0f)
+					{
+						damage *= 0.01;
+					}
+				}
+			}
 
             // Override hand/head eye 'death' code and use custom 'death' code instead, this is here just in case the AI code fails
             if (CalamityWorld.revenge || CalamityWorld.bossRushActive)
