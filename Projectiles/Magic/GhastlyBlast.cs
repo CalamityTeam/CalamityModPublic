@@ -33,10 +33,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-            float[] var_2_2DDF8_cp_0 = projectile.ai;
-            int var_2_2DDF8_cp_1 = 0;
-            float num73 = var_2_2DDF8_cp_0[var_2_2DDF8_cp_1];
-            var_2_2DDF8_cp_0[var_2_2DDF8_cp_1] = num73 + 1f;
+            projectile.ai[0] += 1f;
             int num1013 = 0;
             if (projectile.velocity.Length() <= 8f) //4
             {
@@ -109,7 +106,6 @@ namespace CalamityMod.Projectiles.Magic
                         dust30.fadeIn = 0.5f;
                         dust30.customData = projectile;
                         vector142 = Vector2.UnitY.RotatedByRandom(6.2831854820251465);
-                        dust30 = Main.dust[Dust.NewDust(projectile.Center - vector142 * 30f, 0, 0, 60, 0f, 0f, 0, default, 1f)];
                         dust30.noGravity = true;
                         dust30.position = projectile.Center - vector142 * (float)Main.rand.Next(10, 21);
                         dust30.velocity = vector142.RotatedBy(1.5707963705062866, default) * 6f;
@@ -142,7 +138,7 @@ namespace CalamityMod.Projectiles.Magic
                 int num1016 = 0;
                 if (projectile.ai[1] == 0f)
                 {
-                    for (int num1017 = 0; num1017 < 200; num1017 = num3 + 1)
+                    for (int num1017 = 0; num1017 < Main.maxNPCs; num1017 = num3 + 1)
                     {
                         if (Main.npc[num1017].CanBeChasedBy(projectile, false))
                         {
@@ -229,56 +225,50 @@ namespace CalamityMod.Projectiles.Magic
             projectile.penetrate = -1;
             projectile.Damage();
             Main.PlaySound(SoundID.Item14, projectile.position);
-            int num3;
-            for (int num95 = 0; num95 < 4; num95 = num3 + 1)
+
+            for (int num95 = 0; num95 < 4; num95++)
             {
                 int num96 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 60, 0f, 0f, 100, default, 1.5f);
                 Main.dust[num96].position = projectile.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * (float)projectile.width / 2f;
-                num3 = num95;
             }
-            for (int num97 = 0; num97 < 30; num97 = num3 + 1)
+            for (int num97 = 0; num97 < 30; num97++)
             {
                 int num98 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 60, 0f, 0f, 200, default, 3.7f);
-                Main.dust[num98].position = projectile.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * (float)projectile.width / 2f;
-                Main.dust[num98].noGravity = true;
                 Dust dust = Main.dust[num98];
+				dust.position = projectile.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * (float)projectile.width / 2f;
+                dust.noGravity = true;
                 dust.velocity *= 3f;
                 num98 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 60, 0f, 0f, 100, default, 1.5f);
-                Main.dust[num98].position = projectile.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * (float)projectile.width / 2f;
-                dust = Main.dust[num98];
+                dust.position = projectile.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * (float)projectile.width / 2f;
                 dust.velocity *= 2f;
-                Main.dust[num98].noGravity = true;
-                Main.dust[num98].fadeIn = 1f;
-                Main.dust[num98].color = Color.Crimson * 0.5f;
-                num3 = num97;
+                dust.noGravity = true;
+                dust.fadeIn = 1f;
+                dust.color = Color.Crimson * 0.5f;
             }
-            for (int num99 = 0; num99 < 10; num99 = num3 + 1)
+            for (int num99 = 0; num99 < 10; num99++)
             {
                 int num100 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 60, 0f, 0f, 0, default, 2.7f);
-                Main.dust[num100].position = projectile.Center + Vector2.UnitX.RotatedByRandom(3.1415927410125732).RotatedBy((double)projectile.velocity.ToRotation(), default) * (float)projectile.width / 2f;
-                Main.dust[num100].noGravity = true;
                 Dust dust = Main.dust[num100];
+                dust.position = projectile.Center + Vector2.UnitX.RotatedByRandom(3.1415927410125732).RotatedBy((double)projectile.velocity.ToRotation(), default) * (float)projectile.width / 2f;
+                dust.noGravity = true;
                 dust.velocity *= 3f;
-                num3 = num99;
             }
-            for (int num101 = 0; num101 < 10; num101 = num3 + 1)
+            for (int num101 = 0; num101 < 10; num101++)
             {
                 int num102 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 60, 0f, 0f, 0, default, 1.5f);
-                Main.dust[num102].position = projectile.Center + Vector2.UnitX.RotatedByRandom(3.1415927410125732).RotatedBy((double)projectile.velocity.ToRotation(), default) * (float)projectile.width / 2f;
-                Main.dust[num102].noGravity = true;
                 Dust dust = Main.dust[num102];
+                dust.position = projectile.Center + Vector2.UnitX.RotatedByRandom(3.1415927410125732).RotatedBy((double)projectile.velocity.ToRotation(), default) * (float)projectile.width / 2f;
+                dust.noGravity = true;
                 dust.velocity *= 3f;
-                num3 = num101;
             }
             if (Main.myPlayer == projectile.owner)
             {
-                for (int num105 = 0; num105 < 1000; num105 = num3 + 1)
+                for (int num105 = 0; num105 < Main.maxProjectiles; num105++)
                 {
                     if (Main.projectile[num105].active && Main.projectile[num105].type == ModContent.ProjectileType<GhastlySubBlast>() && Main.projectile[num105].ai[1] == (float)projectile.whoAmI)
                     {
                         Main.projectile[num105].Kill();
                     }
-                    num3 = num105;
                 }
                 int num106 = Main.rand.Next(5, 9);
                 int num107 = Main.rand.Next(5, 9);
@@ -288,7 +278,7 @@ namespace CalamityMod.Projectiles.Magic
                     180
                 });
                 int num109 = (num108 == 60) ? 180 : 60;
-                for (int num110 = 0; num110 < num106; num110 = num3 + 1)
+                for (int num110 = 0; num110 < num106; num110++)
                 {
                     Vector2 vector4 = projectile.Center + Utils.RandomVector2(Main.rand, -30f, 30f);
                     Vector2 vector5 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
@@ -303,9 +293,8 @@ namespace CalamityMod.Projectiles.Magic
                     }
                     vector5 *= (float)Main.rand.Next(70, 101) * 0.1f;
                     Projectile.NewProjectile(vector4.X, vector4.Y, vector5.X, vector5.Y, ModContent.ProjectileType<GhastlyExplosionShard>(), (int)((double)projectile.damage * 0.8), projectile.knockBack * 0.8f, projectile.owner, (float)num108, 0f);
-                    num3 = num110;
                 }
-                for (int num111 = 0; num111 < num107; num111 = num3 + 1)
+                for (int num111 = 0; num111 < num107; num111++)
                 {
                     Vector2 vector6 = projectile.Center + Utils.RandomVector2(Main.rand, -30f, 30f);
                     Vector2 vector7 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
@@ -320,7 +309,6 @@ namespace CalamityMod.Projectiles.Magic
                     }
                     vector7 *= (float)Main.rand.Next(40, 81) * 0.1f;
                     Projectile.NewProjectile(vector6.X, vector6.Y, vector7.X, vector7.Y, ModContent.ProjectileType<GhastlyExplosion>(), (int)((double)projectile.damage * 0.8), projectile.knockBack * 0.8f, projectile.owner, (float)num109, 0f);
-                    num3 = num111;
                 }
             }
         }

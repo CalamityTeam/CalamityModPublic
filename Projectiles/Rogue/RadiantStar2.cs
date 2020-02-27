@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Rogue
                 float num473 = projectile.Center.Y;
                 float num474 = projectile.Calamity().stealthStrike ? 1800f : 600f;
                 float homingSpeed = 0.25f;
-                for (int num475 = 0; num475 < 200; num475++)
+                for (int num475 = 0; num475 < Main.maxNPCs; num475++)
                 {
                     if (Main.npc[num475].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[num475].Center, 1, 1) && !CalamityPlayer.areThereAnyDamnBosses)
                     {
@@ -73,39 +73,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
             else
             {
-                float centerX = projectile.Center.X;
-                float centerY = projectile.Center.Y;
-                float num474 = projectile.Calamity().stealthStrike ? 1800f : 600f;
-                bool homeIn = false;
-                for (int i = 0; i < 200; i++)
-                {
-                    if (Main.npc[i].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1))
-                    {
-                        float num476 = Main.npc[i].position.X + (float)(Main.npc[i].width / 2);
-                        float num477 = Main.npc[i].position.Y + (float)(Main.npc[i].height / 2);
-                        float num478 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num476) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num477);
-                        if (num478 < num474)
-                        {
-                            num474 = num478;
-                            centerX = num476;
-                            centerY = num477;
-                            homeIn = true;
-                        }
-                    }
-                }
-                if (homeIn)
-                {
-                    float num483 = 24f;
-                    Vector2 vector35 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
-                    float num484 = centerX - vector35.X;
-                    float num485 = centerY - vector35.Y;
-                    float num486 = (float)Math.Sqrt((double)(num484 * num484 + num485 * num485));
-                    num486 = num483 / num486;
-                    num484 *= num486;
-                    num485 *= num486;
-                    projectile.velocity.X = (projectile.velocity.X * 20f + num484) / 21f;
-                    projectile.velocity.Y = (projectile.velocity.Y * 20f + num485) / 21f;
-                }
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, projectile.Calamity().stealthStrike ? 1800f : 600f, 24f, 20f);
             }
         }
 

@@ -44,8 +44,9 @@ namespace CalamityMod.Projectiles.Magic
             bool target = false;
             NPC npc = null;
             bool pastNPC = false;
-            if (projectile.timeLeft < 18) { 
-                for (int k = 0; k < 200; k++)
+            if (projectile.timeLeft < 18)
+			{ 
+                for (int k = 0; k < Main.maxNPCs; k++)
                 {
                     if (Main.npc[k].active && !Main.npc[k].dontTakeDamage && !Main.npc[k].friendly && Main.npc[k].lifeMax > 5 && !shockedbefore.Contains(Main.npc[k]))
                     {
@@ -62,7 +63,7 @@ namespace CalamityMod.Projectiles.Magic
                     }
                 }
             }
-            //if not found, lokk thru npcs that have been shocked before
+            //if not found, look through npcs that have been shocked before
             if (!target) {
                 foreach (NPC pastnpc in shockedbefore) {
                     Vector2 newMove = pastnpc.Center -(projectile.velocity + projectile.Center);
@@ -140,7 +141,8 @@ namespace CalamityMod.Projectiles.Magic
             projectile.timeLeft -= 12;
             return false;
         }
-            private void AdjustMagnitude(ref Vector2 vector)
+
+		private void AdjustMagnitude(ref Vector2 vector)
         {
             float magnitude = (float)Math.Sqrt(vector.X * vector.X + vector.Y * vector.Y);
             if (magnitude > 6f)

@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             item.width = 38;
             item.height = 34;
-            item.damage = 165;
+            item.damage = 145;
             item.crit += 20;
             item.noMelee = true;
             item.noUseGraphic = true;
@@ -46,7 +46,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             }
 			else
 			{
-				Projectile.NewProjectile(position.X, position.Y, 0f, -10f, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+				Projectile.NewProjectile(position.X, position.Y, 0f, -10f, type, damage, knockBack, player.whoAmI, 0f, 0f);
 			}	
             return false;
         }

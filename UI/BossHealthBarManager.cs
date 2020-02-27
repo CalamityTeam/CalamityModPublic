@@ -136,23 +136,11 @@ namespace CalamityMod.UI
             OneToMany[ModContent.NPCType<AstrumDeusHeadSpectral>()] = StarWorm;
             OneToMany[ModContent.NPCType<AstrumDeusHead>()] = StarWorm;
 
-            int[] Cal = new int[] { ModContent.NPCType<CalamitasRun3>(), ModContent.NPCType<CalamitasRun>(), ModContent.NPCType<CalamitasRun2>() };
-            OneToMany[ModContent.NPCType<CalamitasRun3>()] = Cal;
-            OneToMany[ModContent.NPCType<CalamitasRun>()] = Cal;
-            OneToMany[ModContent.NPCType<CalamitasRun2>()] = Cal;
-
             int[] Void = new int[] { ModContent.NPCType<CeaselessVoid>(), ModContent.NPCType<DarkEnergy>(), ModContent.NPCType<DarkEnergy2>(), ModContent.NPCType<DarkEnergy3>() };
             OneToMany[ModContent.NPCType<CeaselessVoid>()] = Void;
             OneToMany[ModContent.NPCType<DarkEnergy>()] = Void;
             OneToMany[ModContent.NPCType<DarkEnergy2>()] = Void;
             OneToMany[ModContent.NPCType<DarkEnergy3>()] = Void;
-
-            int[] Perfs = new int[] { ModContent.NPCType<PerforatorHive>(), ModContent.NPCType<PerforatorHeadSmall>(), ModContent.NPCType<PerforatorHeadMedium>(),
-                ModContent.NPCType<PerforatorHeadLarge>() };
-            OneToMany[ModContent.NPCType<PerforatorHive>()] = Perfs;
-            OneToMany[ModContent.NPCType<PerforatorHeadSmall>()] = Perfs;
-            OneToMany[ModContent.NPCType<PerforatorHeadMedium>()] = Perfs;
-            OneToMany[ModContent.NPCType<PerforatorHeadLarge>()] = Perfs;
 
             int[] Rav = new int[] { ModContent.NPCType<RavagerBody>(), ModContent.NPCType<RavagerClawRight>(), ModContent.NPCType<RavagerClawLeft>(),
                 ModContent.NPCType<RavagerLegRight>(), ModContent.NPCType<RavagerLegLeft>(), ModContent.NPCType<RavagerHead>() };
@@ -243,6 +231,9 @@ namespace CalamityMod.UI
 
                 //Prehardmode
                 ModContent.NPCType<GiantClam>(),
+                ModContent.NPCType<PerforatorHeadSmall>(),
+                ModContent.NPCType<PerforatorHeadMedium>(),
+                ModContent.NPCType<PerforatorHeadLarge>(),
 
                 //Hardmode
                 ModContent.NPCType<ThiccWaifu>(),
@@ -250,6 +241,8 @@ namespace CalamityMod.UI
                 ModContent.NPCType<GreatSandShark>(),
                 ModContent.NPCType<PlaguebringerShade>(),
                 ModContent.NPCType<ArmoredDiggerHead>(),
+                ModContent.NPCType<CalamitasRun>(), //Clone's brothers
+                ModContent.NPCType<CalamitasRun2>(),
 
                 //Abyss
                 ModContent.NPCType<EidolonWyrmHeadHuge>(),
@@ -452,9 +445,7 @@ namespace CalamityMod.UI
             enum SpecialType2 : byte
             {
                 None,
-                Calam,
                 Ceaseless,
-                Perforator,
                 Ravage,
                 SlimeCore
             }
@@ -493,17 +484,9 @@ namespace CalamityMod.UI
                 {
                     _special2 = SpecialType2.Ravage;
                 }
-                else if (type == ModContent.NPCType<PerforatorHive>())
-                {
-                    _special2 = SpecialType2.Perforator;
-                }
                 else if (type == ModContent.NPCType<CeaselessVoid>())
                 {
                     _special2 = SpecialType2.Ceaseless;
-                }
-                else if (type == ModContent.NPCType<CalamitasRun3>())
-                {
-                    _special2 = SpecialType2.Calam;
                 }
                 else if (type == ModContent.NPCType<AstrumDeusHeadSpectral>())
                 {
@@ -699,37 +682,26 @@ namespace CalamityMod.UI
                 {
                     default:
                         break;
-                    case SpecialType2.Calam:
-                        int count = NPC.CountNPCS(ModContent.NPCType<CalamitasRun>()) +
-                            NPC.CountNPCS(ModContent.NPCType<CalamitasRun2>());
-                        _specialData2[0] = count;
-                        break;
                     case SpecialType2.Ceaseless:
-                        int count2 = NPC.CountNPCS(ModContent.NPCType<DarkEnergy>()) +
+                        int count = NPC.CountNPCS(ModContent.NPCType<DarkEnergy>()) +
                             NPC.CountNPCS(ModContent.NPCType<DarkEnergy2>()) +
                             NPC.CountNPCS(ModContent.NPCType<DarkEnergy3>());
-                        _specialData2[1] = count2;
-                        break;
-                    case SpecialType2.Perforator:
-                        int count3 = NPC.CountNPCS(ModContent.NPCType<PerforatorHeadSmall>()) +
-                            NPC.CountNPCS(ModContent.NPCType<PerforatorHeadMedium>()) +
-                            NPC.CountNPCS(ModContent.NPCType<PerforatorHeadLarge>());
-                        _specialData2[2] = count3;
+                        _specialData2[0] = count;
                         break;
                     case SpecialType2.Ravage:
-                        int count4 = NPC.CountNPCS(ModContent.NPCType<RavagerClawRight>()) +
+                        int count2 = NPC.CountNPCS(ModContent.NPCType<RavagerClawRight>()) +
                             NPC.CountNPCS(ModContent.NPCType<RavagerClawLeft>()) +
                             NPC.CountNPCS(ModContent.NPCType<RavagerLegRight>()) +
                             NPC.CountNPCS(ModContent.NPCType<RavagerLegLeft>()) +
                             NPC.CountNPCS(ModContent.NPCType<RavagerHead>());
-                        _specialData2[3] = count4;
+                        _specialData2[1] = count2;
                         break;
                     case SpecialType2.SlimeCore:
-                        int count5 = NPC.CountNPCS(ModContent.NPCType<SlimeGod>()) +
+                        int count3 = NPC.CountNPCS(ModContent.NPCType<SlimeGod>()) +
                             NPC.CountNPCS(ModContent.NPCType<SlimeGodSplit>()) +
                             NPC.CountNPCS(ModContent.NPCType<SlimeGodRun>()) +
                             NPC.CountNPCS(ModContent.NPCType<SlimeGodRunSplit>());
-                        _specialData2[4] = count5;
+                        _specialData2[2] = count3;
                         break;
                 }
             }
@@ -841,32 +813,20 @@ namespace CalamityMod.UI
                     {
                         default:
                             break;
-                        case SpecialType2.Calam:
-                            string count = "(Brothers left: " + _specialData2[0] + ")";
-                            Vector2 countSize = Main.fontItemStack.MeasureString(count) * textScale;
-                            float countX = Math.Max(x, x + mainBarWidth - countSize.X);
-                            DrawBorderStringEightWay(sb, Main.fontItemStack, count, new Vector2(countX, y + MainBarYOffset + 17), Color.White, Color.Black * 0.24f, textScale);
-                            return;
                         case SpecialType2.Ceaseless:
-                            string count2 = "(Dark Energy left: " + _specialData2[1] + ")";
+                            string count2 = "(Dark Energy left: " + _specialData2[0] + ")";
                             Vector2 countSize2 = Main.fontItemStack.MeasureString(count2) * textScale;
                             float countX2 = Math.Max(x, x + mainBarWidth - countSize2.X);
                             DrawBorderStringEightWay(sb, Main.fontItemStack, count2, new Vector2(countX2, y + MainBarYOffset + 17), Color.White, Color.Black * 0.24f, textScale);
                             return;
-                        case SpecialType2.Perforator:
-                            string count3 = "(Worms left: " + _specialData2[2] + ")";
-                            Vector2 countSize3 = Main.fontItemStack.MeasureString(count3) * textScale;
-                            float countX3 = Math.Max(x, x + mainBarWidth - countSize3.X);
-                            DrawBorderStringEightWay(sb, Main.fontItemStack, count3, new Vector2(countX3, y + MainBarYOffset + 17), Color.White, Color.Black * 0.24f, textScale);
-                            return;
                         case SpecialType2.Ravage:
-                            string count4 = "(Body Parts left: " + _specialData2[3] + ")";
+                            string count4 = "(Body Parts left: " + _specialData2[1] + ")";
                             Vector2 countSize4 = Main.fontItemStack.MeasureString(count4) * textScale;
                             float countX4 = Math.Max(x, x + mainBarWidth - countSize4.X);
                             DrawBorderStringEightWay(sb, Main.fontItemStack, count4, new Vector2(countX4, y + MainBarYOffset + 17), Color.White, Color.Black * 0.24f, textScale);
                             return;
                         case SpecialType2.SlimeCore:
-                            string count5 = "(Large Slimes left: " + _specialData2[4] + ")";
+                            string count5 = "(Large Slimes left: " + _specialData2[2] + ")";
                             Vector2 countSize5 = Main.fontItemStack.MeasureString(count5) * textScale;
                             float countX5 = Math.Max(x, x + mainBarWidth - countSize5.X);
                             DrawBorderStringEightWay(sb, Main.fontItemStack, count5, new Vector2(countX5, y + MainBarYOffset + 17), Color.White, Color.Black * 0.24f, textScale);
@@ -973,36 +933,22 @@ namespace CalamityMod.UI
                     {
                         default:
                             break;
-                        case SpecialType2.Calam:
-                            string count = "(Brothers left: " + _specialData2[0] + ")";
-                            Vector2 countSize = Main.fontItemStack.MeasureString(count) * textScale;
-                            float countX = Math.Max(x, x + mainBarWidth - countSize.X);
-                            DrawBorderStringEightWay(sb, Main.fontItemStack, count, new Vector2(countX, y + MainBarYOffset + 17), Color.White * flickerValue, Color.Black * 0.24f * flickerValue, textScale);
-                            _openAnimCounter--;
-                            return;
                         case SpecialType2.Ceaseless:
-                            string count2 = "(Dark Energy left: " + _specialData2[1] + ")";
+                            string count2 = "(Dark Energy left: " + _specialData2[0] + ")";
                             Vector2 countSize2 = Main.fontItemStack.MeasureString(count2) * textScale;
                             float countX2 = Math.Max(x, x + mainBarWidth - countSize2.X);
                             DrawBorderStringEightWay(sb, Main.fontItemStack, count2, new Vector2(countX2, y + MainBarYOffset + 17), Color.White * flickerValue, Color.Black * 0.24f * flickerValue, textScale);
                             _openAnimCounter--;
                             return;
-                        case SpecialType2.Perforator:
-                            string count3 = "(Worms left: " + _specialData2[2] + ")";
-                            Vector2 countSize3 = Main.fontItemStack.MeasureString(count3) * textScale;
-                            float countX3 = Math.Max(x, x + mainBarWidth - countSize3.X);
-                            DrawBorderStringEightWay(sb, Main.fontItemStack, count3, new Vector2(countX3, y + MainBarYOffset + 17), Color.White * flickerValue, Color.Black * 0.24f * flickerValue, textScale);
-                            _openAnimCounter--;
-                            return;
                         case SpecialType2.Ravage:
-                            string count4 = "(Body Parts left: " + _specialData2[3] + ")";
+                            string count4 = "(Body Parts left: " + _specialData2[1] + ")";
                             Vector2 countSize4 = Main.fontItemStack.MeasureString(count4) * textScale;
                             float countX4 = Math.Max(x, x + mainBarWidth - countSize4.X);
                             DrawBorderStringEightWay(sb, Main.fontItemStack, count4, new Vector2(countX4, y + MainBarYOffset + 17), Color.White * flickerValue, Color.Black * 0.24f * flickerValue, textScale);
                             _openAnimCounter--;
                             return;
                         case SpecialType2.SlimeCore:
-                            string count5 = "(Large Slimes left: " + _specialData2[4] + ")";
+                            string count5 = "(Large Slimes left: " + _specialData2[2] + ")";
                             Vector2 countSize5 = Main.fontItemStack.MeasureString(count5) * textScale;
                             float countX5 = Math.Max(x, x + mainBarWidth - countSize5.X);
                             DrawBorderStringEightWay(sb, Main.fontItemStack, count5, new Vector2(countX5, y + MainBarYOffset + 17), Color.White * flickerValue, Color.Black * 0.24f * flickerValue, textScale);

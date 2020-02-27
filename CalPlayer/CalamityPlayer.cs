@@ -482,6 +482,7 @@ namespace CalamityMod.CalPlayer
         public bool reaverSpore = false;
         public bool reaverDoubleTap = false;
         public bool flamethrowerBoost = false;
+        public bool hoverboardBoost = false; //hoverboard + shroomite visage
         public bool shadeRegen = false;
         public bool shadowSpeed = false;
         public bool dsSetBonus = false;
@@ -1091,6 +1092,7 @@ namespace CalamityMod.CalPlayer
             shadeRegen = false;
 
             flamethrowerBoost = false;
+            hoverboardBoost = false; //hoverboard + shroomite visage
 
             shadowSpeed = false;
             dsSetBonus = false;
@@ -1711,6 +1713,7 @@ namespace CalamityMod.CalPlayer
 
             #region Armorbonuses
             flamethrowerBoost = false;
+            hoverboardBoost = false; //hoverboard + shroomite visage
             shadowSpeed = false;
             godSlayer = false;
             godSlayerDamage = false;
@@ -3417,7 +3420,7 @@ namespace CalamityMod.CalPlayer
             }
             if (flamethrowerBoost && item.ranged && (item.useAmmo == 23 || item.type == ModContent.ItemType<DragoonDrizzlefish>()))
             {
-                add += 0.25f;
+                add += hoverboardBoost ? 0.35f : 0.25f;
             }
             if (cinnamonRoll && CalamityMod.fireWeaponList.Contains(item.type))
             {

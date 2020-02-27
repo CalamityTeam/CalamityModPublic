@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 
         public override void AI()
         {
-			CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 300f, 6f, 60f, 5, ModContent.ProjectileType<Seashell>(), 0.33);
+			CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 300f, 6f, 60f, 5, ModContent.ProjectileType<Seashell>(), 0.5);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

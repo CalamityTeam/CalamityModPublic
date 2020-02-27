@@ -418,7 +418,15 @@ namespace CalamityMod.CalPlayer
 						double playerUndergroundDepth = point.Y - Main.worldSurface;
 						double depthRatio = playerUndergroundDepth / totalUndergroundDepth;
 						int lightStrength = modPlayer.GetTotalLightStrength();
-						float darknessStrength = (float)depthRatio;
+
+						// In the last 50 blocks before hell, the darkness smoothly fades away.
+						float FadeAwayStart = (float)(1D - 50D / totalUndergroundDepth);
+						float darknessStrength = (float)(depthRatio / FadeAwayStart);
+						if (depthRatio > FadeAwayStart)
+						{
+							// Varies from 1.0 to 0.0 as depthRatio varies from FadeAwayStart to 1.0.
+							darknessStrength = (1f - (float)depthRatio) / (1f - FadeAwayStart);
+						}
 
 						// Reduce the power of cave darkness based on your light level. 5+ is enough to totally eliminate it.
 						switch (lightStrength)
@@ -2459,7 +2467,7 @@ namespace CalamityMod.CalPlayer
 				}
 
 				if (player.ZoneJungle && CalamityMod.natureWeaponList.Contains(player.inventory[player.selectedItem].type))
-					player.AddBuff(165, 5, true); // Dryad's Blessing
+					player.AddBuff(BuffID.DryadsWard, 5, true); // Dryad's Blessing
 
 				if (modPlayer.ZoneAbyss)
 				{

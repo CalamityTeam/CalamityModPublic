@@ -86,37 +86,35 @@ namespace CalamityMod.Projectiles.Magic
 			//homing
 			if (projectile.localAI[0] >= 100)
 			{
+				Vector2 center = projectile.Center;
 				float homingRange = 800f;
 				bool homeIn = false;
-				for (int i = 0; i < Main.npc.Length; i++)
+				float N = 30f;
+				float homingVelocity = 20f;
+
+				for (int i = 0; i < Main.maxNPCs; i++)
 				{
 					if (Main.npc[i].CanBeChasedBy(projectile, false))
 					{
-						float num476 = Main.npc[i].position.X + (float)(Main.npc[i].width / 2);
-						float num477 = Main.npc[i].position.Y + (float)(Main.npc[i].height / 2);
-						float num478 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num476) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num477);
-						if (num478 < homingRange)
+						float extraDistance = (float)(Main.npc[i].width / 2) + (float)(Main.npc[i].height / 2);
+
+						if (Vector2.Distance(Main.npc[i].Center, projectile.Center) < (homingRange + extraDistance))
 						{
-							homingRange = num478;
-							centerX = num476;
-							centerY = num477;
+							center = Main.npc[i].Center;
 							homeIn = true;
+							break;
 						}
 					}
 				}
+
 				if (homeIn)
 				{
 					projectile.extraUpdates = 1;
-					float homingStrength = 20f;
-					Vector2 vector35 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
-					float num484 = centerX - vector35.X;
-					float num485 = centerY - vector35.Y;
-					float num486 = (float)Math.Sqrt((double)(num484 * num484 + num485 * num485));
-					num486 = homingStrength / num486;
-					num484 *= num486;
-					num485 *= num486;
-					projectile.velocity.X = (projectile.velocity.X * 30f + num484) / 31f;
-					projectile.velocity.Y = (projectile.velocity.Y * 30f + num485) / 31f;
+					Vector2 homeInVector = projectile.DirectionTo(center);
+					if (homeInVector.HasNaNs())
+						homeInVector = Vector2.UnitY;
+
+					projectile.velocity = (projectile.velocity * N + homeInVector * homingVelocity) / (N + 1f);
 				}
 				else
 					projectile.extraUpdates = 0;

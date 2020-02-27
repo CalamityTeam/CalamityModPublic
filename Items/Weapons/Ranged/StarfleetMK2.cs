@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 308;
+            item.damage = 291;
             item.knockBack = 15f;
             item.shootSpeed = 16f;
             item.useStyle = 5;
@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.ranged = true;
             item.channel = true;
             item.useTurn = false;
-            item.useAmmo = 75;
+            item.useAmmo = AmmoID.FallenStar;
             item.autoReuse = true;
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }

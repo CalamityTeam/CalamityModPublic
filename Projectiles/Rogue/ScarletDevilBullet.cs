@@ -32,39 +32,37 @@ namespace CalamityMod.Projectiles.Rogue
             }
             else
             {
-                float centerX = projectile.Center.X;
-                float centerY = projectile.Center.Y;
-                float num474 = 1000f;
-                bool homeIn = false;
-                for (int i = 0; i < 200; i++)
-                {
-                    if (Main.npc[i].CanBeChasedBy(projectile, false))
-                    {
-                        float num476 = Main.npc[i].position.X + (float)(Main.npc[i].width / 2);
-                        float num477 = Main.npc[i].position.Y + (float)(Main.npc[i].height / 2);
-                        float num478 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num476) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num477);
-                        if (num478 < num474)
-                        {
-                            num474 = num478;
-                            centerX = num476;
-                            centerY = num477;
-                            homeIn = true;
-                        }
-                    }
-                }
-                if (homeIn)
-                {
-                    float num483 = 30f;
-                    Vector2 vector35 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
-                    float num484 = centerX - vector35.X;
-                    float num485 = centerY - vector35.Y;
-                    float num486 = (float)Math.Sqrt((double)(num484 * num484 + num485 * num485));
-                    num486 = num483 / num486;
-                    num484 *= num486;
-                    num485 *= num486;
-                    projectile.velocity.X = (projectile.velocity.X * 10f + num484) / 11f;
-                    projectile.velocity.Y = (projectile.velocity.Y * 10f + num485) / 11f;
-                }
+				Vector2 center = projectile.Center;
+				float maxDistance = 1000f;
+				bool homeIn = false;
+
+				for (int i = 0; i < Main.maxNPCs; i++)
+				{
+					if (Main.npc[i].CanBeChasedBy(projectile, false))
+					{
+						float extraDistance = (float)(Main.npc[i].width / 2) + (float)(Main.npc[i].height / 2);
+
+						bool canHit = true;
+						if (extraDistance < maxDistance && !ignoreTiles)
+							canHit = Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1);
+
+						if (Vector2.Distance(Main.npc[i].Center, projectile.Center) < (maxDistance + extraDistance) && canHit)
+						{
+							center = Main.npc[i].Center;
+							homeIn = true;
+							break;
+						}
+					}
+				}
+
+				if (homeIn)
+				{
+					Vector2 homeInVector = projectile.DirectionTo(center);
+					if (homeInVector.HasNaNs())
+						homeInVector = Vector2.UnitY;
+
+					projectile.velocity = (projectile.velocity * 10f + homeInVector * 30f) / (11f);
+				}
                 else
                 {
                     projectile.velocity.X = 0f;

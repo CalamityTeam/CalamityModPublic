@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Magic
             if (projectile.ai[0] > 30f)
             {
                 projectile.ai[0] = 30f;
-                for (int num376 = 0; num376 < 200; num376++)
+                for (int num376 = 0; num376 < Main.maxNPCs; num376++)
                 {
                     if (Main.npc[num376].CanBeChasedBy(projectile, false) && !Main.npc[num376].wet)
                     {

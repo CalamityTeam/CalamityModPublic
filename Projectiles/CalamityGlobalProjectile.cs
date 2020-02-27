@@ -2002,7 +2002,7 @@ namespace CalamityMod.Projectiles
 			float maxDistance = distanceRequired;
 			bool homeIn = false;
 
-			for (int i = 0; i < 200; i++)
+			for (int i = 0; i < Main.maxNPCs; i++)
 			{
 				if (Main.npc[i].CanBeChasedBy(projectile, false))
 				{
@@ -2038,7 +2038,7 @@ namespace CalamityMod.Projectiles
 			int[] targetArray = new int[maxTargets];
 			int targetArrayIndex = 0;
 
-			for (int i = 0; i < 200; i++)
+			for (int i = 0; i < Main.maxNPCs; i++)
 			{
 				if (Main.npc[i].CanBeChasedBy(projectile, false))
 				{

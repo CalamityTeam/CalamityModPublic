@@ -143,7 +143,7 @@ namespace CalamityMod.Projectiles.Rogue
             bool flag49 = false;
             Vector2 center12 = new Vector2(0f, 0f);
             float num948 = 600f;
-            for (int num949 = 0; num949 < 200; num949++)
+            for (int num949 = 0; num949 < Main.maxNPCs; num949++)
             {
                 if (Main.npc[num949].CanBeChasedBy(projectile, false))
                 {
