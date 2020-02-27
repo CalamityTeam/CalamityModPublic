@@ -1122,7 +1122,6 @@ namespace CalamityMod.NPCs.Cryogen
                 DropHelper.DropItemChance(npc, ModContent.ItemType<BittercoldStaff>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<SnowstormStaff>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Icebreaker>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<IceStar>(), 4, 100, 150);
 
                 // Equipment
                 DropHelper.DropItemChance(npc, ModContent.ItemType<CryoStone>(), 10);

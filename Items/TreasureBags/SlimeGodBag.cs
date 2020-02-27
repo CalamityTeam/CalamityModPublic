@@ -52,7 +52,6 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItemChance(player, ModContent.ItemType<EldritchTome>(), 3);
             DropHelper.DropItemChance(player, ModContent.ItemType<CorroslimeStaff>(), 3);
             DropHelper.DropItemChance(player, ModContent.ItemType<CrimslimeStaff>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<GelDart>(), 3, 100, 125);
 
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<ManaOverloader>());
