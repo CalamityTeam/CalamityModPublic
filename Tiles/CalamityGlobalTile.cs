@@ -559,5 +559,23 @@ namespace CalamityMod.Tiles
 				}
 			}
 		}
+
+        public override int[] AdjTiles (int type)
+        {
+            // Ashen, Ancient and Profaned Sinks all count as a lava source instead of a water source
+            if (type == ModContent.TileType<FurnitureAncient.AncientSink>() || 
+                type == ModContent.TileType<FurnitureAshen.AshenSink>() || 
+                type == ModContent.TileType<FurnitureProfaned.ProfanedSink>())
+            {
+                Main.LocalPlayer.adjLava = true;
+            }
+            // Botanic Sink counts as a honey source instead of a water source
+            if (type == ModContent.TileType<FurnitureBotanic.BotanicSink>())
+            {
+                Main.LocalPlayer.adjHoney = true;
+            }
+
+            return new int[0];
+        }
 	}
 }

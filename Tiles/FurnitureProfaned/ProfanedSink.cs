@@ -14,7 +14,6 @@ namespace CalamityMod.Tiles.FurnitureProfaned
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Profaned Sink");
             AddMapEntry(new Color(191, 142, 111), name);
-            adjTiles = new int[] { TileID.Sinks };
         }
 
         public override bool CreateDust(int i, int j, ref int type)
