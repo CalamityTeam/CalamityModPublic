@@ -233,7 +233,7 @@ namespace CalamityMod.UI
                 ModContent.NPCType<GiantClam>(),
                 ModContent.NPCType<PerforatorHeadSmall>(),
                 ModContent.NPCType<PerforatorHeadMedium>(),
-                ModContent.NPCType<PerforatorHeadLarge>()
+                ModContent.NPCType<PerforatorHeadLarge>(),
 
                 //Hardmode
                 ModContent.NPCType<ThiccWaifu>(),
@@ -242,7 +242,7 @@ namespace CalamityMod.UI
                 ModContent.NPCType<PlaguebringerShade>(),
                 ModContent.NPCType<ArmoredDiggerHead>(),
                 ModContent.NPCType<CalamitasRun>(), //Clone's brothers
-                ModContent.NPCType<CalamitasRun2>()
+                ModContent.NPCType<CalamitasRun2>(),
 
                 //Abyss
                 ModContent.NPCType<EidolonWyrmHeadHuge>(),
@@ -684,25 +684,25 @@ namespace CalamityMod.UI
                     default:
                         break;
                     case SpecialType2.Ceaseless:
-                        int count2 = NPC.CountNPCS(ModContent.NPCType<DarkEnergy>()) +
+                        int count = NPC.CountNPCS(ModContent.NPCType<DarkEnergy>()) +
                             NPC.CountNPCS(ModContent.NPCType<DarkEnergy2>()) +
                             NPC.CountNPCS(ModContent.NPCType<DarkEnergy3>());
                         _specialData2[0] = count;
                         break;
                     case SpecialType2.Ravage:
-                        int count4 = NPC.CountNPCS(ModContent.NPCType<RavagerClawRight>()) +
+                        int count2 = NPC.CountNPCS(ModContent.NPCType<RavagerClawRight>()) +
                             NPC.CountNPCS(ModContent.NPCType<RavagerClawLeft>()) +
                             NPC.CountNPCS(ModContent.NPCType<RavagerLegRight>()) +
                             NPC.CountNPCS(ModContent.NPCType<RavagerLegLeft>()) +
                             NPC.CountNPCS(ModContent.NPCType<RavagerHead>());
-                        _specialData2[1] = count3;
+                        _specialData2[1] = count2;
                         break;
                     case SpecialType2.SlimeCore:
-                        int count5 = NPC.CountNPCS(ModContent.NPCType<SlimeGod>()) +
+                        int count3 = NPC.CountNPCS(ModContent.NPCType<SlimeGod>()) +
                             NPC.CountNPCS(ModContent.NPCType<SlimeGodSplit>()) +
                             NPC.CountNPCS(ModContent.NPCType<SlimeGodRun>()) +
                             NPC.CountNPCS(ModContent.NPCType<SlimeGodRunSplit>());
-                        _specialData2[2] = count4;
+                        _specialData2[2] = count3;
                         break;
                 }
             }
