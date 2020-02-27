@@ -17,17 +17,17 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SafeSetDefaults()
         {
             item.width = 50;
-            item.damage = 130;
+			item.height = 48;
+            item.damage = 112;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.autoReuse = true;
-            item.useAnimation = 19;
-            item.useStyle = 1;
-            item.useTime = 19;
+			item.useStyle = 1;
+			item.useTime = 21;
+            item.useAnimation = 21;
             item.knockBack = 8.5f;
             item.UseSound = SoundID.Item1;
-            item.height = 48;
-            item.value = Item.buyPrice(0, 80, 0, 0);
+            item.value = Item.buyPrice(gold: 80);
             item.rare = 8;
             item.shoot = ModContent.ProjectileType<FlameScytheProjectile>();
             item.shootSpeed = 16f;
