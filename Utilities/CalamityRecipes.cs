@@ -237,7 +237,7 @@ namespace CalamityMod
             r.AddIngredient(ItemID.BottledWater);
             r.AddIngredient(ItemID.Daybloom);
             r.AddIngredient(ModContent.ItemType<BlightedLens>());
-            r.AddTile(TileID.Bottle);
+            r.AddTile(TileID.Bottles);
             r.SetResult(ItemID.ArcheryPotion);
             r.AddRecipe();
         }
