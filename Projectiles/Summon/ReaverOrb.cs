@@ -123,9 +123,11 @@ namespace CalamityMod.Projectiles.Summon
                         }
                         value15.Normalize();
                         value15 *= (float)Main.rand.Next(90, 121) * 0.1f;
-                        int spore = Projectile.NewProjectile(projectile.Center.X - 4f, projectile.Center.Y, value15.X, value15.Y, 569 + Main.rand.Next(3), projectile.damage, 1.5f, projectile.owner, 0f, 0f);
-                        Main.projectile[spore].minion = true;
+                        int spore = Projectile.NewProjectile(projectile.Center.X - 4f, projectile.Center.Y, value15.X, value15.Y, ProjectileID.SporeGas + Main.rand.Next(3), projectile.damage, 1.5f, projectile.owner, 0f, 0f);
                         Main.projectile[spore].minionSlots = 0f;
+						Main.projectile[spore].Calamity().forceMinion = true;
+						Main.projectile[spore].usesLocalNPCImmunity = true;
+						Main.projectile[spore].localNPCHitCooldown = 30;
                     }
                     Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 77);
                     projectile.ai[0] = 50f;

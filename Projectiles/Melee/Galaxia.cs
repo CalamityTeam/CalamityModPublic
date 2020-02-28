@@ -144,33 +144,33 @@ namespace CalamityMod.Projectiles.Melee
             {
                 target.AddBuff(ModContent.BuffType<Plague>(), 1200);
                 player.AddBuff(BuffID.Thorns, 600);
-                int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y, 206, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y, ProjectileID.Leaf, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                 Main.projectile[proj].Calamity().forceMelee = true;
             }
             else if (snow)
             {
                 target.AddBuff(ModContent.BuffType<GlacialState>(), 1200);
                 player.AddBuff(BuffID.Warmth, 600);
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y, 118, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y, ProjectileID.IceBolt, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
             }
             else if (beach)
             {
                 target.AddBuff(ModContent.BuffType<CrushDepth>(), 1200);
                 player.AddBuff(BuffID.Wet, 600);
-                int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f, 405, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f, ProjectileID.FlaironBubble, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                 Main.projectile[proj].Calamity().forceMelee = true;
             }
             else if (corrupt)
             {
                 player.AddBuff(BuffID.Wrath, 600);
-                int ball = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y, 95, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                int ball = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y, ProjectileID.CursedFlameFriendly, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                 Main.projectile[ball].Calamity().forceMelee = true;
                 Main.projectile[ball].penetrate = 1;
             }
             else if (crimson)
             {
                 player.AddBuff(BuffID.Rage, 600);
-                int ball = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y, 280, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                int ball = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y, ProjectileID.GoldenShowerFriendly, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                 Main.projectile[ball].Calamity().forceMelee = true;
                 Main.projectile[ball].penetrate = 1;
             }
@@ -178,7 +178,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 target.AddBuff(BuffID.Frostburn, 1200);
                 player.AddBuff(BuffID.Dangersense, 600);
-                int ball = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y, 27, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                int ball = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y, ProjectileID.WaterBolt, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                 Main.projectile[ball].Calamity().forceMelee = true;
                 Main.projectile[ball].penetrate = 1;
             }
@@ -186,59 +186,63 @@ namespace CalamityMod.Projectiles.Melee
             {
                 target.AddBuff(ModContent.BuffType<HolyFlames>(), 1200);
                 player.AddBuff(BuffID.Endurance, 600);
-                int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y, 661, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y, ProjectileID.BlackBolt, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                 Main.projectile[proj].Calamity().forceMelee = true;
             }
             else if (glow)
             {
                 target.AddBuff(ModContent.BuffType<TemporalSadness>(), 1200);
                 player.AddBuff(BuffID.Spelunker, 600);
-                int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y, 131, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y, ProjectileID.Mushroom, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                 Main.projectile[proj].Calamity().forceMelee = true;
             }
             else if (hell)
             {
                 target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 1200);
                 player.AddBuff(BuffID.Inferno, 600);
-                int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y, 15, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y, ProjectileID.BallofFire, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                 Main.projectile[proj].Calamity().forceMelee = true;
             }
             else if (holy)
             {
                 target.AddBuff(ModContent.BuffType<HolyFlames>(), 1200);
                 player.AddBuff(BuffID.Heartreach, 600);
-                int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y, 644, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y, ProjectileID.RainbowCrystalExplosion, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                 Main.projectile[proj].Calamity().forceMelee = true;
+				Main.projectile[proj].usesLocalNPCImmunity = true;
+				Main.projectile[proj].localNPCHitCooldown = -1;
             }
             else if (nebula)
             {
                 player.AddBuff(BuffID.MagicPower, 600);
-                int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y, 634, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y, ProjectileID.NebulaBlaze1, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                 Main.projectile[proj].Calamity().forceMelee = true;
             }
             else if (stardust)
             {
                 player.AddBuff(BuffID.Summoning, 600);
-                int ball = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y, 614, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                int ball = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y, ProjectileID.StardustCellMinionShot, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                 Main.projectile[ball].Calamity().forceMelee = true;
                 Main.projectile[ball].penetrate = 1;
             }
             else if (solar)
             {
                 player.AddBuff(BuffID.Titan, 600);
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y, 612, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y, ProjectileID.SolarWhipSwordExplosion, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
             }
             else if (vortex)
             {
                 player.AddBuff(BuffID.AmmoReservation, 600);
-                int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y, 616, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y, ProjectileID.VortexBeaterRocket, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                 Main.projectile[proj].Calamity().forceMelee = true;
+				Main.projectile[proj].usesLocalNPCImmunity = true;
+				Main.projectile[proj].localNPCHitCooldown = -1;
             }
             else
             {
                 target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 1200);
                 player.AddBuff(BuffID.DryadsWard, 600);
-                int ball = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y, 604, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                int ball = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y, ProjectileID.TerrarianBeam, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                 Main.projectile[ball].penetrate = 1;
             }
         }
