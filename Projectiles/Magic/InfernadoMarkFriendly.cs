@@ -20,6 +20,8 @@ namespace CalamityMod.Projectiles.Magic
             projectile.alpha = 255;
             projectile.penetrate = -1;
             projectile.timeLeft = 5;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = -1;
         }
 
         public override void AI()
@@ -131,7 +133,7 @@ namespace CalamityMod.Projectiles.Magic
                         break;
                     }
                 }
-                int num236 = Projectile.NewProjectile((float)(num232 * 16 + 8), (float)(num231 * 16 - 24), 0f, 0f, ModContent.ProjectileType<InfernadoFriendly>(), 390, 15f, Main.myPlayer, 16f, 16f);
+                int num236 = Projectile.NewProjectile((float)(num232 * 16 + 8), (float)(num231 * 16 - 24), 0f, 0f, ModContent.ProjectileType<InfernadoFriendly>(), projectile.damage, projectile.knockBack * 30f, Main.myPlayer, 16f, 16f);
                 Main.projectile[num236].netUpdate = true;
             }
         }

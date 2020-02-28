@@ -1,5 +1,5 @@
 using CalamityMod.Items.Materials;
-using CalamityMod.Projectiles.Typeless;
+using CalamityMod.Projectiles.Magic;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -10,6 +10,8 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class TheWand : ModItem
     {
+        public static int BaseDamage = 390;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Wand");
@@ -20,14 +22,14 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             item.width = 40;
             item.damage = 1;
-            item.mana = 500;
+            item.mana = 150;
             item.magic = true;
             item.noMelee = true;
             item.useAnimation = 20;
             item.useTime = 20;
             item.useTurn = true;
             item.useStyle = 1;
-            item.knockBack = 0f;
+            item.knockBack = 0.5f;
             item.UseSound = SoundID.Item102;
             item.autoReuse = true;
             item.height = 36;
