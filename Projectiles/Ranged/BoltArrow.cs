@@ -61,6 +61,10 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
+			if (projectile.ai[0] == 1f) //Barinade, not Barinautical
+			{
+				projectile.damage = (int)(projectile.damage * 0.6f);
+			}
             projectile.Damage();
             Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 92);
             int num212 = Main.rand.Next(10, 20);
