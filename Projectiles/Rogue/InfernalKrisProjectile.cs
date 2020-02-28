@@ -62,7 +62,8 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.OnFire, 120);
+			int debuffTime = 60 * (projectile.Calamity().stealthStrike ? Main.rand.Next(4,8) : Main.rand.Next(3,6));
+            target.AddBuff(BuffID.OnFire, debuffTime);
 
             if (projectile.Calamity().stealthStrike)
             {
@@ -75,16 +76,17 @@ namespace CalamityMod.Projectiles.Rogue
                     sparkVelocity.Normalize();
                     sparkVelocity *= 3;
 
-                    Projectile.NewProjectile(projectile.Center, sparkVelocity, ModContent.ProjectileType<InfernalKrisCinder>(), 10, 0, projectile.owner, 0, 0);
+                    Projectile.NewProjectile(projectile.Center, sparkVelocity, ModContent.ProjectileType<InfernalKrisCinder>(), (int)(projectile.damage * 0.4f), 0, projectile.owner, 0, 0);
                 }
-                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<InfernalKrisExplosion>(), 10, 0, projectile.owner, 0, 0);
+                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<InfernalKrisExplosion>(), (int)(projectile.damage * 0.4f), 0, projectile.owner, 0, 0);
                 Main.PlaySound(2, projectile.position, 74);
             }
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.OnFire, 120);
+			int debuffTime = 60 * (projectile.Calamity().stealthStrike ? Main.rand.Next(4,8) : Main.rand.Next(3,6));
+            target.AddBuff(BuffID.OnFire, debuffTime);
 
             if (projectile.Calamity().stealthStrike)
             {
@@ -97,9 +99,9 @@ namespace CalamityMod.Projectiles.Rogue
                     sparkVelocity.Normalize();
                     sparkVelocity *= 3;
 
-                    Projectile.NewProjectile(projectile.Center, sparkVelocity, ModContent.ProjectileType<InfernalKrisCinder>(), 10, 0, projectile.owner, 0, 0);
+                    Projectile.NewProjectile(projectile.Center, sparkVelocity, ModContent.ProjectileType<InfernalKrisCinder>(), (int)(projectile.damage * 0.4f), 0, projectile.owner, 0, 0);
                 }
-                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<InfernalKrisExplosion>(), 10, 0, projectile.owner, 0, 0);
+                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<InfernalKrisExplosion>(), (int)(projectile.damage * 0.4f), 0, projectile.owner, 0, 0);
                 Main.PlaySound(2, projectile.position, 74);
             }
         }
@@ -188,9 +190,9 @@ namespace CalamityMod.Projectiles.Rogue
                     sparkVelocity.Normalize();
                     sparkVelocity *= 3;
 
-                    Projectile.NewProjectile(projectile.Center, sparkVelocity, ModContent.ProjectileType<InfernalKrisCinder>(), 10, 0, projectile.owner, 0, 0);
+                    Projectile.NewProjectile(projectile.Center, sparkVelocity, ModContent.ProjectileType<InfernalKrisCinder>(), (int)(projectile.damage * 0.4f), 0, projectile.owner, 0, 0);
                 }
-                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<InfernalKrisExplosion>(), 10, 0, projectile.owner, 0, 0);
+                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<InfernalKrisExplosion>(), (int)(projectile.damage * 0.4f), 0, projectile.owner, 0, 0);
                 Main.PlaySound(2, projectile.position, 74);
             }
         }
