@@ -622,7 +622,7 @@ namespace CalamityMod
                 ModContent.ProjectileType<DarkSparkPrism>(),
                 ModContent.ProjectileType<GhastlyVisageProj>(),
 
-                ModContent.ProjectileType<FlakKraken>(),
+                ModContent.ProjectileType<Projectiles.Ranged.FlakKraken>(),
                 ModContent.ProjectileType<SylvanSlashAttack>(),
                 ModContent.ProjectileType<InfernadoFriendly>()
             };
