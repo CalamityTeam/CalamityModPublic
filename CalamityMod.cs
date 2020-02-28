@@ -133,6 +133,7 @@ namespace CalamityMod
         // Lists
         public static IList<string> donatorList;
         public static List<int> rangedProjectileExceptionList;
+        public static List<int> projectileDestroyExceptionList;
         public static List<int> projectileMinionList;
         public static List<int> enemyImmunityList;
         public static List<int> dungeonEnemyBuffList;
@@ -327,6 +328,7 @@ namespace CalamityMod
 
             donatorList = null;
             rangedProjectileExceptionList = null;
+            projectileDestroyExceptionList = null;
             projectileMinionList = null;
             enemyImmunityList = null;
             dungeonEnemyBuffList = null;
@@ -594,6 +596,35 @@ namespace CalamityMod
                 ModContent.ProjectileType<FlurrystormCannonShooting>(),
                 ModContent.ProjectileType<MagnomalyBeam>(),
                 ModContent.ProjectileType<MagnomalyAura>()
+            };
+
+            projectileDestroyExceptionList = new List<int>()
+            {
+				//holdout projectiles
+                ProjectileID.Phantasm,
+                ProjectileID.VortexBeater,
+                ProjectileID.DD2PhoenixBow,
+                ProjectileID.LastPrism,
+                ProjectileID.LaserMachinegun,
+                ProjectileID.ChargedBlasterCannon,
+                ModContent.ProjectileType<PhangasmBow>(),
+                ModContent.ProjectileType<ContagionBow>(),
+                ModContent.ProjectileType<DaemonsFlameBow>(),
+                ModContent.ProjectileType<DrataliornusBow>(),
+                ModContent.ProjectileType<FlakKrakenGun>(),
+                ModContent.ProjectileType<ButcherGun>(),
+                ModContent.ProjectileType<StarfleetMK2Gun>(),
+                ModContent.ProjectileType<NorfleetCannon>(),
+                ModContent.ProjectileType<FlurrystormCannonShooting>(),
+                ModContent.ProjectileType<PurgeProj>(),
+                ModContent.ProjectileType<T1000Proj>(),
+                ModContent.ProjectileType<YharimsCrystalPrism>(),
+                ModContent.ProjectileType<DarkSparkPrism>(),
+                ModContent.ProjectileType<GhastlyVisageProj>(),
+
+                ModContent.ProjectileType<FlakKraken>(),
+                ModContent.ProjectileType<SylvanSlashAttack>(),
+                ModContent.ProjectileType<InfernadoFriendly>()
             };
 
             projectileMinionList = new List<int>()
